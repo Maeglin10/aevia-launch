@@ -734,7 +734,9 @@ function Manifesto() {
 
 // ─── STICKY CROSSFADE ────────────────────────────────────────────────────────
 
-const CROSSFADE_CHAPTERS = [
+/* Recalculée après l'arrivée de la session : figée à l'import, elle gardait la démonstration. */
+function CROSSFADE_CHAPTERS_LIVE() {
+  return [
   {
     img: IMGS.movement,
     title: 'Le Mouvement',
@@ -753,7 +755,9 @@ const CROSSFADE_CHAPTERS = [
     subtitle: 'Six générations · Une signature',
     desc: "Fondée en 1834 par Léonard Marchetti, la maison a traversé deux siècles sans jamais délocaliser une seule opération. L\'ADN de " + (clientCity(sessionData) ?? "Genève") + " est inscrit dans chaque pivot.",
   },
-] as const;
+];
+}
+let CROSSFADE_CHAPTERS = CROSSFADE_CHAPTERS_LIVE();
 
 function StickyCrossfade() {
   const n = CROSSFADE_CHAPTERS.length;
@@ -1478,14 +1482,18 @@ function StickySpecs() {
 
 // ─── HERITAGE TIMELINE ───────────────────────────────────────────────────────
 
-const TIMELINE = [
+/* Recalculée après l'arrivée de la session : figée à l'import, elle gardait la démonstration. */
+function TIMELINE_LIVE() {
+  return [
   { year: '1834', event: 'Fondation de la maison par Léonard Marchetti à ' + (clientCity(sessionData) ?? 'Genève') + ', au cœur du quartier des Eaux-Vives.' },
   { year: '1872', event: 'Premier calibre manufacture entièrement réalisé en interne. Brevets déposés sur l\'échappement à ancre modifié.' },
   { year: '1921', event: 'Création de l\'atelier d\'émail Grand Feu. Hora Viva devient l\'une des trois dernières maisons à maîtriser cette technique.' },
   { year: '1967', event: 'Lancement de la Perpétuelle — premier calendrier perpétuel de petite complication suisse certifié COSC.' },
   { year: '2001', event: 'Ouverture de la nouvelle manufacture à Plan-les-Ouates. 4 200 m² dédiés exclusivement à l\'horlogerie mécanique.' },
   { year: '2024', event: 'Présentation du Calibre HV-190A au SIHH — 312 composants, 72h de réserve, tourbillon volant côtes de ' + (clientCity(sessionData) ?? 'Genève') + '.' },
-] as const;
+];
+}
+let TIMELINE = TIMELINE_LIVE();
 
 function Heritage() {
   return (
@@ -2384,6 +2392,8 @@ export default function HoraVivaPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TIMELINE = TIMELINE_LIVE();
+  CROSSFADE_CHAPTERS = CROSSFADE_CHAPTERS_LIVE();
   IMGS = IMGS_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 

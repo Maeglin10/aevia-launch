@@ -491,7 +491,7 @@ return (
                   <div className="relative">
                     <div className="rounded-2xl overflow-hidden aspect-[4/5]">
                       <Image
-                        src={photo(0, (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=1000&fit=crop&crop=center"))}
+                        src={photo(10, "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=1000&fit=crop&crop=center")}
                         alt="Founders at Zero to One"
                         width={800}
                         height={1000}

@@ -492,7 +492,7 @@ export default function BoulangerieNoirePage() {
           className="absolute inset-0 z-0"
         >
           <Image
-            src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=1600&auto=format&fit=crop"))}
+            src={photo(4, "https://images.unsplash.com/photo-1555507036-ab1f4038808a?q=80&w=1600&auto=format&fit=crop")}
             alt="Bakery Hero"
             fill
             className="object-cover brightness-50 contrast-125 grayscale-[0.5]"

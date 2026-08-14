@@ -1,24 +1,53 @@
 "use client";
 // @ts-nocheck
 
+/* ════════════════════════════════════════════════════════════════════════════
+   ATLANTIQUE MATÉRIELS — Location de matériel de réception · La Rochelle
+   ─────────────────────────────────────────────────────────────────────────────
+   Location de matériel, 2e variante du catalogue (la 1re est impact-359, dépôt
+   BTP, rail de chantier). Celle-ci est la réception : tentes, nappage, verrerie.
+
+   Geste signature : PushBlur — toute la composition part sur le côté, photo et
+   titre ensemble, avec un flou directionnel pendant le déplacement. Ici la
+   poussée dit exactement le métier : LA SCÈNE QUI S'INSTALLE. Une salle vide se
+   remplit d'un coup, floue, puis nette — comme le mercredi soir sous la tente.
+
+   Archétype héros : H3 — plein cadre, titre en bas. Fond de repli `C.bgDark`
+   obligatoire : sans photographie, le cadre reste une nuit d'été, pas un trou.
+
+   Fontes : P9 — Syne (titres, grotesque à large chasse) × Work Sans (texte).
+
+   Signature visuelle : le flou repris partout — cartes d'avis en verre dépoli,
+   halos radiaux, filets qui se dissolvent. Et la guirlande : une rangée de
+   points lumineux dessinée en CSS, jamais photographiée.
+   ════════════════════════════════════════════════════════════════════════════ */
+
 import React, { useState, useRef, useEffect } from "react";
-import { motion, useInView } from "framer-motion";
-import { Armchair, ArrowRight, CheckCircle, Clock, Mail, MapPin, PartyPopper, Phone, Star, Tent, UtensilsCrossed } from "lucide-react";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { ArrowRight, Clock, Mail, MapPin, PartyPopper, Phone, Tent, UtensilsCrossed } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { PushBlur } from "@/lib/templates/hero-kit-3";
 import {
+  clientAddress,
+  clientAreas,
   clientCertifications,
   clientCity,
+  clientCodePostalVille,
+  clientEmail,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -31,53 +60,427 @@ let bp: any = null;
 let sessionData: any = null;
 let brand: any = null;
 
-/* Location de matériel, 2e variante, orientée réception et événementiel. Signature : PushBlur — la carte qui passe avec un filé de vitesse. Carte CSS sans photo. */
-
+/* ── Jetons ──────────────────────────────────────────────────────────────── */
 let C: Record<string, string> = {
-  bg: "#0d1013",
-  bgSection: "#12161b",
-  bgDark: "#080a0d",
-  text: "#eef1f4",
-  textMuted: "#9ba4ae",
-  accent: "var(--brand,#4e9fd4)",
-  accentDark: "#8cc3e8",
-  accentLight: "#101820",
-  hi: "#8cc3e8",
-  white: "#141920",
+  bg: "#0f1216",
+  bgAlt: "#161b21",
+  bgDark: "#0a0d10",
+  bgDarkAlt: "#06080a",
+  bgCard: "#181e25",
+  accent: "var(--brand, #3fa8c9)",
+  accentDark: "var(--brand-light, #82cde5)",
+  accentLight: "#0e1c22",
+  ink: "#eef2f5",
+  textMuted: "#98a3ae",
+  textFaint: "#69737e",
   border: "rgba(255,255,255,0.09)",
+  white: "#ffffff",
+  /* clé métier : le lin des nappes, la seule couleur chaude du thème */
+  lin: "#d9c8a9",
 };
-const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
-const FONT_BODY = FONT;
 
-const NAV = [{"l": "Catalogue", "h": "#services"}, {"l": "Comment ça marche", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [{"k": "Mariages", "line": "La tente montée mercredi, l'esprit libre samedi.", "sub": "Tentes de réception 50 à 300 personnes."}, {"k": "Vaisselle & arts de la table", "line": "Rendue sale, relavée par nos machines.", "sub": "Assiettes, verrerie, nappage — au carton près."}, {"k": "Entreprises", "line": "Séminaires et inaugurations clé en main.", "sub": "Scène, sono, mobilier, montage compris."}];
+const DISPLAY = "'Syne', system-ui, sans-serif";
+const SANS = "'Work Sans', system-ui, -apple-system, sans-serif";
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+const EASE_CSS = "cubic-bezier(.16,1,.3,1)";
 
-const SERVICES_SOURCE = [{"titre": "Tentes & barnums", "desc": "Tentes de réception 20 à 300 m², planchers, éclairages guirlande : montées par nos équipes, ancrées selon les règles, démontées après.", "tag": "Tentes"}, {"titre": "Mobilier", "desc": "Tables rondes et rectangulaires, chaises Napoléon ou pliantes, mange-debout, salons lounge : livrés propres, housses comprises.", "tag": "Mobilier"}, {"titre": "Vaisselle & verrerie", "desc": "Assiettes, couverts, verres au modèle, nappage tissu : comptés au départ, rendus sales, relavés chez nous. Casse facturée au juste prix affiché.", "tag": "Table"}, {"titre": "Sono & lumière", "desc": "Enceintes, micros HF, pistes de danse, éclairages d'ambiance : réglés à la livraison, notice simple, hotline le soir J.", "tag": "Technique"}, {"titre": "Cuisine traiteur", "desc": "Étuves, frigos-remorques, plans de travail : l'arrière-cuisine du traiteur, posée derrière la tente.", "tag": "Traiteur"}, {"titre": "Formules clé en main", "desc": "Mariage 100 personnes, séminaire 50, anniversaire 30 : des packs éprouvés, ajustables, chiffrés en une fois.", "tag": "Packs"}];
+const FONTS_CSS = `@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap');`;
+
+const NAV = [
+  { l: "Catalogue", h: "#services" },
+  { l: "Le déroulé", h: "#methode" },
+  { l: "Tarifs", h: "#tarifs" },
+  { l: "Contact", h: "#contact" },
+];
+
+/* ── Données de démonstration ────────────────────────────────────────────── */
+
+/*
+  Les trois scènes du thème — mariage, table, entreprise — avec leurs légendes
+  d'origine. Le titre de chaque scène reprend la phrase que le thème écrivait
+  déjà : rien de nouveau, seulement une autre échelle.
+*/
+const HERO_SOURCE = [
+  {
+    k: "Mariages",
+    l1: "Tout pour recevoir,",
+    l2: "rien à stocker ensuite.",
+    line: "La tente montée mercredi, l'esprit libre samedi.",
+    sub: "Tentes de réception 50 à 300 personnes.",
+    alt: "Chapiteau dressé pour une réception",
+    /* le repli sans image : une nuit d'été sous la tente, en dégradés */
+    repli: "linear-gradient(158deg, #0a0d10 0%, #12222a 46%, #0a0d10 100%)",
+    halo: "radial-gradient(58% 52% at 26% 24%, rgba(63,168,201,0.20), transparent 66%)",
+  },
+  {
+    k: "Vaisselle & arts de la table",
+    l1: "Rendue sale,",
+    l2: "relavée par nos machines.",
+    line: "Rendue sale, relavée par nos machines.",
+    sub: "Assiettes, verrerie, nappage — au carton près.",
+    alt: "Tables dressées avant une réception",
+    repli: "linear-gradient(158deg, #0a0d10 0%, #1b1c18 48%, #0a0d10 100%)",
+    halo: "radial-gradient(56% 50% at 70% 30%, rgba(217,200,169,0.18), transparent 64%)",
+  },
+  {
+    k: "Entreprises",
+    l1: "Séminaires, inaugurations,",
+    l2: "clé en main.",
+    line: "Séminaires et inaugurations clé en main.",
+    sub: "Scène, sono, mobilier, montage compris.",
+    alt: "Salle de séminaire équipée",
+    repli: "linear-gradient(158deg, #0a0d10 0%, #131a24 50%, #0a0d10 100%)",
+    halo: "radial-gradient(60% 52% at 48% 22%, rgba(63,168,201,0.16), transparent 68%)",
+  },
+];
+let HERO = HERO_SOURCE;
+
+const SERVICES_SOURCE = [
+  { titre: "Tentes & barnums", desc: "Tentes de réception 20 à 300 m², planchers, éclairages guirlande : montées par nos équipes, ancrées selon les règles, démontées après.", tag: "Tentes" },
+  { titre: "Mobilier", desc: "Tables rondes et rectangulaires, chaises Napoléon ou pliantes, mange-debout, salons lounge : livrés propres, housses comprises.", tag: "Mobilier" },
+  { titre: "Vaisselle & verrerie", desc: "Assiettes, couverts, verres au modèle, nappage tissu : comptés au départ, rendus sales, relavés chez nous. Casse facturée au juste prix affiché.", tag: "Table" },
+  { titre: "Sono & lumière", desc: "Enceintes, micros HF, pistes de danse, éclairages d'ambiance : réglés à la livraison, notice simple, hotline le soir J.", tag: "Technique" },
+  { titre: "Cuisine traiteur", desc: "Étuves, frigos-remorques, plans de travail : l'arrière-cuisine du traiteur, posée derrière la tente.", tag: "Traiteur" },
+  { titre: "Formules clé en main", desc: "Mariage 100 personnes, séminaire 50, anniversaire 30 : des packs éprouvés, ajustables, chiffrés en une fois.", tag: "Packs" },
+];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "Devis sur plan", "d": "Envoyez le lieu, la date, le nombre d'invités : devis détaillé sous 48 h, repérage sur place pour les tentes."}, {"n": "02", "t": "Livraison à J-2", "d": "Tout arrive le mercredi ou jeudi : le temps de dresser sans courir, tentes montées par nos équipes."}, {"n": "03", "t": "Le jour J, une hotline", "d": "Un numéro qui répond le soir de l'événement — pour le fusible de la sono ou la rallonge manquante."}, {"n": "04", "t": "Reprise le lundi", "d": "Vaisselle sale dans les cartons, nappes en vrac dans les sacs : on reprend tout, on lave tout."}];
-const ENGAGEMENT_DEMO = ["Matériel de réception contrôlé et compté à chaque rotation, tentes certifiées et ancrées selon les normes", "Livraison à J-2 garantie par contrat — pas la veille au soir", "Hotline le soir de l'événement, réponse humaine jusqu'à minuit", "Casse au tarif affiché d'avance, caution levée après comptage contradictoire"];
+
+const METHODE = [
+  { n: "01", t: "Devis sur plan", d: "Envoyez le lieu, la date, le nombre d'invités : devis détaillé sous 48 h, repérage sur place pour les tentes." },
+  { n: "02", t: "Livraison à J-2", d: "Tout arrive le mercredi ou jeudi : le temps de dresser sans courir, tentes montées par nos équipes." },
+  { n: "03", t: "Le jour J, une hotline", d: "Un numéro qui répond le soir de l'événement — pour le fusible de la sono ou la rallonge manquante." },
+  { n: "04", t: "Reprise le lundi", d: "Vaisselle sale dans les cartons, nappes en vrac dans les sacs : on reprend tout, on lave tout." },
+];
+
+const ENGAGEMENT_DEMO = [
+  "Matériel de réception contrôlé et compté à chaque rotation, tentes certifiées et ancrées selon les normes",
+  "Livraison à J-2 garantie par contrat — pas la veille au soir",
+  "Hotline le soir de l'événement, réponse humaine jusqu'à minuit",
+  "Casse au tarif affiché d'avance, caution levée après comptage contradictoire",
+];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS_DEMO = [{"a": "Pack mariage 100 pers.", "p": "dès 1 890 €", "n": "Tente 150 m² montée, tables, chaises, vaisselle complète, guirlandes."}, {"a": "Vaisselle complète (par pers.)", "p": "3,90 €", "n": "Assiettes ×3, couverts, verres ×3, rendus sales."}, {"a": "Tente 50 m² montée", "p": "490 €", "n": "Week-end complet, plancher en option, ancrage compris."}, {"a": "Sono cérémonie + soirée", "p": "290 €", "n": "Enceintes, micro HF, piste de danse en option, réglée sur place."}];
+
+const TARIFS_DEMO = [
+  { a: "Pack mariage 100 pers.", p: "dès 1 890 €", n: "Tente 150 m² montée, tables, chaises, vaisselle complète, guirlandes." },
+  { a: "Vaisselle complète (par pers.)", p: "3,90 €", n: "Assiettes ×3, couverts, verres ×3, rendus sales." },
+  { a: "Tente 50 m² montée", p: "490 €", n: "Week-end complet, plancher en option, ancrage compris." },
+  { a: "Sono cérémonie + soirée", p: "290 €", n: "Enceintes, micro HF, piste de danse en option, réglée sur place." },
+];
 let TARIFS = TARIFS_DEMO;
-const AVIS_SOURCE = [{"texte": "Mariage de 140 personnes dans le jardin familial : tente montée le mercredi, plan B pluie anticipé, hotline appelée à 22h pour un fusible — réglé en dix minutes. Parfait de bout en bout.", "auteur": "Claire & Bastien", "detail": "Pack mariage"}, {"texte": "Rendre la vaisselle sale ! Celui qui a inventé ça mérite une médaille. Le lundi matin, tout était repris, le jardin était rendu aux enfants.", "auteur": "Famille Rousseau", "detail": "Anniversaire 60 pers."}, {"texte": "Séminaire de 80 collaborateurs sous tente en bord de mer : montage impeccable malgré le vent, scène et sono calées à l'heure. Re-réservé pour l'an prochain avant de partir.", "auteur": "Office manager, biotech", "detail": "Événement entreprise"}];
+
+const AVIS_SOURCE = [
+  { texte: "Mariage de 140 personnes dans le jardin familial : tente montée le mercredi, plan B pluie anticipé, hotline appelée à 22h pour un fusible — réglé en dix minutes. Parfait de bout en bout.", auteur: "Claire & Bastien", detail: "Pack mariage" },
+  { texte: "Rendre la vaisselle sale ! Celui qui a inventé ça mérite une médaille. Le lundi matin, tout était repris, le jardin était rendu aux enfants.", auteur: "Famille Rousseau", detail: "Anniversaire 60 pers." },
+  { texte: "Séminaire de 80 collaborateurs sous tente en bord de mer : montage impeccable malgré le vent, scène et sono calées à l'heure. Re-réservé pour l'an prochain avant de partir.", auteur: "Office manager, biotech", detail: "Événement entreprise" },
+];
 let AVIS_DEMO = AVIS_SOURCE;
-const STATS_DEMO = [{"value": "300", "label": "Personnes sous notre plus grande tente"}, {"value": "0", "label": "Vaisselle à relaver chez vous"}, {"value": "J-2", "label": "Livraison avant l'événement"}, {"value": "15 ans", "label": "De mariages sans pluie dedans"}];
+
+const STATS_DEMO = [
+  { value: "300", label: "Personnes sous notre plus grande tente" },
+  { value: "0", label: "Vaisselle à relaver chez vous" },
+  { value: "J-2", label: "Livraison avant l'événement" },
+  { value: "15 ans", label: "De mariages sans pluie dedans" },
+];
 let STATS = STATS_DEMO;
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+function ZONES_SOURCE_LIVE() {
+  return [clientCity(sessionData) ?? "La Rochelle", "Charente-Maritime", "30 km sans frais de livraison"];
+}
+let ZONES_SOURCE = ZONES_SOURCE_LIVE();
+let ZONES = ZONES_SOURCE;
+
+/* ── Primitives ──────────────────────────────────────────────────────────── */
+
+function Reveal({ children, delay = 0, y = 26, style }: { children: React.ReactNode; delay?: number; y?: number; style?: React.CSSProperties }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-12% 0px -10% 0px" });
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 26 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}>
+    <motion.div
+      ref={ref}
+      style={style}
+      initial={{ opacity: 0, y }}
+      animate={inView ? { opacity: 1, y: 0 } : undefined}
+      transition={{ duration: 0.86, ease: EASE, delay }}
+    >
       {children}
     </motion.div>
   );
 }
 
-function photo(i: number, fallback: string): string {
-  return fd?.photoUrls?.[i] || fallback;
+/** Le kicker du thème : filet 40×1 px, capitales filées à 0.36em. */
+function Kicker({ children, color = C.accent, align = "left" }: { children: React.ReactNode; color?: string; align?: "left" | "center" }) {
+  return (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: 14, justifyContent: align === "center" ? "center" : "flex-start" }}>
+      <span style={{ width: 40, height: 1, background: `linear-gradient(90deg, transparent, ${color})`, flexShrink: 0 }} />
+      <span style={{ fontFamily: SANS, fontSize: 10.5, fontWeight: 600, letterSpacing: "0.36em", textTransform: "uppercase", color }}>{children}</span>
+      {align === "center" && <span style={{ width: 40, height: 1, background: `linear-gradient(90deg, ${color}, transparent)`, flexShrink: 0 }} />}
+    </span>
+  );
 }
 
+/**
+ * La guirlande : douze points lumineux suspendus à un filet, dessinés en CSS.
+ * C'est le détail gratuit du thème — celui que personne ne demande et que tout
+ * le monde reconnaît sous une tente.
+ */
+function Guirlande({ points = 12, couleur = C.lin }: { points?: number; couleur?: string }) {
+  return (
+    <div aria-hidden style={{ position: "relative", height: 26, width: "100%", pointerEvents: "none", overflow: "hidden" }}>
+      <div style={{ position: "absolute", top: 5, left: 0, right: 0, height: 1, background: `linear-gradient(90deg, transparent, ${C.border} 12%, ${C.border} 88%, transparent)` }} />
+      <div style={{ position: "absolute", top: 0, left: 0, right: 0, display: "flex", justifyContent: "space-around", alignItems: "flex-start" }}>
+        {Array.from({ length: points }).map((_, n) => (
+          <span key={n} style={{ display: "block", width: 1, height: 9, background: C.border, position: "relative" }}>
+            <span
+              className="i360-anim"
+              style={{
+                position: "absolute",
+                left: -3,
+                bottom: -7,
+                width: 7,
+                height: 7,
+                borderRadius: 99,
+                background: couleur,
+                opacity: 0.24 + ((n * 7) % 5) * 0.12,
+                boxShadow: `0 0 10px 1px ${couleur}44`,
+              }}
+            />
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/** La trame de nappe : la texture de fond du thème, sans une seule image. */
+function Nappe({ opacity = 0.05, teinte = "rgba(217,200,169,0.9)" }: { opacity?: number; teinte?: string }) {
+  return (
+    <div
+      aria-hidden
+      style={{
+        position: "absolute",
+        inset: 0,
+        pointerEvents: "none",
+        opacity,
+        backgroundImage: `repeating-linear-gradient(0deg, ${teinte} 0px, ${teinte} 1px, transparent 1px, transparent 9px), repeating-linear-gradient(90deg, ${teinte} 0px, ${teinte} 1px, transparent 1px, transparent 9px)`,
+      }}
+    />
+  );
+}
+
+/** Le chiffre fantôme du thème : Syne, très large chasse, opacité 0.05. */
+function GhostNum({ children, size = "clamp(96px,13vw,196px)", right = false, color = "rgba(255,255,255,0.05)" }: { children: React.ReactNode; size?: string; right?: boolean; color?: string }) {
+  return (
+    <span
+      aria-hidden
+      style={{
+        position: "absolute",
+        top: "-0.2em",
+        left: right ? "auto" : "-0.02em",
+        right: right ? "-0.02em" : "auto",
+        fontFamily: DISPLAY,
+        fontWeight: 800,
+        fontSize: size,
+        lineHeight: 1,
+        letterSpacing: "-0.03em",
+        color,
+        pointerEvents: "none",
+        userSelect: "none",
+        zIndex: 0,
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+function NavLink({ label, href, onClick }: { label: string; href: string; onClick?: () => void }) {
+  const [h, setH] = useState(false);
+  return (
+    <a
+      href={href}
+      onClick={onClick}
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{
+        position: "relative",
+        fontFamily: SANS,
+        fontSize: 12.5,
+        fontWeight: 500,
+        letterSpacing: "0.12em",
+        textTransform: "uppercase",
+        color: h ? C.ink : C.textMuted,
+        textDecoration: "none",
+        padding: "12px 2px",
+        transition: `color .45s ${EASE_CSS}`,
+      }}
+    >
+      {label}
+      <span
+        style={{
+          position: "absolute",
+          left: 0,
+          bottom: 6,
+          height: 1,
+          width: h ? "100%" : "0%",
+          background: C.accent,
+          transition: `width .5s ${EASE_CSS}`,
+        }}
+      />
+    </a>
+  );
+}
+
+function Btn({ children, href, filled = false }: { children: React.ReactNode; href: string; filled?: boolean }) {
+  const [h, setH] = useState(false);
+  return (
+    <a
+      href={href}
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 10,
+        padding: filled ? "15px 30px" : "14px 26px",
+        fontFamily: SANS,
+        fontSize: 12,
+        fontWeight: 600,
+        letterSpacing: "0.16em",
+        textTransform: "uppercase",
+        borderRadius: 99,
+        textDecoration: "none",
+        border: `1px solid ${filled ? "transparent" : h ? C.accent : "rgba(255,255,255,0.26)"}`,
+        background: filled ? (h ? C.accentDark : C.accent) : h ? "rgba(255,255,255,0.07)" : "rgba(255,255,255,0.03)",
+        backdropFilter: "blur(6px)",
+        WebkitBackdropFilter: "blur(6px)",
+        color: filled ? "#08161c" : C.ink,
+        boxShadow: h && filled ? "0 18px 40px -20px rgba(63,168,201,0.6), 0 3px 12px -7px rgba(0,0,0,0.7)" : "0 0 0 rgba(0,0,0,0)",
+        transform: h ? "translateY(-2px)" : "none",
+        transition: `background .5s ${EASE_CSS}, box-shadow .5s ${EASE_CSS}, transform .5s ${EASE_CSS}, border-color .5s ${EASE_CSS}`,
+      }}
+    >
+      {children}
+      <ArrowRight size={14} style={{ transform: h ? "translateX(4px)" : "none", transition: `transform .5s ${EASE_CSS}` }} />
+    </a>
+  );
+}
+
+/** Un poste du catalogue : rangée éditoriale pleine largeur, numérotée. */
+function CatalogueRow({ item, i }: { item: any; i: number }) {
+  const [h, setH] = useState(false);
+  return (
+    <Reveal delay={(i % 3) * 0.05}>
+      <article
+        onMouseEnter={() => setH(true)}
+        onMouseLeave={() => setH(false)}
+        className="i360-crow"
+        style={{
+          position: "relative",
+          display: "grid",
+          gridTemplateColumns: "clamp(58px,6vw,92px) minmax(0,0.95fr) minmax(0,1.3fr)",
+          gap: "clamp(16px,3vw,44px)",
+          alignItems: "start",
+          padding: "clamp(26px,3.4vw,46px) clamp(10px,1.6vw,22px)",
+          borderTop: `1px solid ${C.border}`,
+          background: h ? C.bgCard : "transparent",
+          transform: h ? "translateX(6px)" : "none",
+          boxShadow: h
+            ? "0 30px 58px -40px rgba(0,0,0,0.9), 0 5px 16px -11px rgba(63,168,201,0.28)"
+            : "0 0 0 rgba(0,0,0,0)",
+          transition: `background .5s ${EASE_CSS}, transform .5s ${EASE_CSS}, box-shadow .5s ${EASE_CSS}`,
+        }}
+      >
+        <span
+          aria-hidden
+          style={{
+            fontFamily: DISPLAY,
+            fontWeight: 700,
+            fontSize: "clamp(26px,3vw,42px)",
+            color: h ? C.accent : "rgba(255,255,255,0.14)",
+            lineHeight: 1,
+            letterSpacing: "-0.03em",
+            transition: `color .5s ${EASE_CSS}`,
+          }}
+        >
+          {String(i + 1).padStart(2, "0")}
+        </span>
+        <div style={{ minWidth: 0 }}>
+          <h3 style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: "clamp(20px,2.3vw,30px)", color: C.ink, margin: 0, lineHeight: 1.1, letterSpacing: "-0.02em" }}>{item.titre}</h3>
+          <span
+            style={{
+              display: "inline-block",
+              marginTop: 14,
+              fontFamily: SANS,
+              fontSize: 9.5,
+              fontWeight: 600,
+              letterSpacing: "0.24em",
+              textTransform: "uppercase",
+              color: C.accent,
+              borderBottom: `1px solid ${h ? C.accent : C.border}`,
+              paddingBottom: 4,
+              transition: `border-color .5s ${EASE_CSS}`,
+            }}
+          >
+            {item.tag}
+          </span>
+        </div>
+        <p style={{ fontFamily: SANS, fontSize: "clamp(14px,1.15vw,15.5px)", fontWeight: 300, color: C.textMuted, lineHeight: 1.8, margin: 0, maxWidth: 520 }}>{item.desc}</p>
+      </article>
+    </Reveal>
+  );
+}
+
+/** Une ligne de tarif : table fine, conducteur pointillé, prix en Syne. */
+function TarifRow({ item, i }: { item: any; i: number }) {
+  const [h, setH] = useState(false);
+  return (
+    <Reveal delay={i * 0.05}>
+      <div
+        onMouseEnter={() => setH(true)}
+        onMouseLeave={() => setH(false)}
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "8px clamp(14px,2vw,28px)",
+          alignItems: "baseline",
+          padding: "clamp(20px,2.5vw,32px) clamp(6px,1.4vw,18px)",
+          borderTop: `1px solid ${C.border}`,
+          background: h ? "rgba(255,255,255,0.035)" : "transparent",
+          transform: h ? "translateY(-2px)" : "none",
+          boxShadow: h ? "0 22px 44px -36px rgba(0,0,0,0.9), 0 2px 10px -7px rgba(63,168,201,0.3)" : "0 0 0 rgba(0,0,0,0)",
+          transition: `background .5s ${EASE_CSS}, transform .5s ${EASE_CSS}, box-shadow .5s ${EASE_CSS}`,
+        }}
+      >
+        <div style={{ minWidth: 0, flex: "1 1 260px" }}>
+          <div style={{ fontFamily: DISPLAY, fontWeight: 600, fontSize: "clamp(17px,1.7vw,22px)", color: C.ink, lineHeight: 1.24, letterSpacing: "-0.015em" }}>{item.a}</div>
+          <div style={{ fontFamily: SANS, fontSize: 13.5, fontWeight: 300, color: C.textFaint, marginTop: 7, lineHeight: 1.7, maxWidth: 520 }}>{item.n}</div>
+        </div>
+        <span
+          aria-hidden
+          style={{
+            flex: "1 1 40px",
+            height: 1,
+            alignSelf: "center",
+            minWidth: 24,
+            backgroundImage: `linear-gradient(90deg, rgba(255,255,255,0.18) 50%, transparent 50%)`,
+            backgroundSize: "6px 1px",
+            opacity: h ? 1 : 0.5,
+            transition: `opacity .5s ${EASE_CSS}`,
+          }}
+        />
+        <div style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: "clamp(19px,2vw,26px)", color: h ? C.accentDark : C.accent, whiteSpace: "nowrap", letterSpacing: "-0.02em", transition: `color .5s ${EASE_CSS}` }}>{item.p}</div>
+      </div>
+    </Reveal>
+  );
+}
+
+function photo(i: number, repli: string): string {
+  return fd?.photoUrls?.[i] || clientPhotos(sessionData)[i] || repli;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   PAGE
+   ════════════════════════════════════════════════════════════════════════════ */
 export default function AtlantiqueMaterielsPage() {
   const [session, setSession] = useState<any>(null);
 
@@ -96,13 +499,17 @@ export default function AtlantiqueMaterielsPage() {
       .catch(() => {});
   }, []);
 
-
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+
+  ZONES_SOURCE = ZONES_SOURCE_LIVE();
+
+  const CLIENT_SERVICES = clientServices(sessionData);
+
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
+    CLIENT_SERVICES?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,
   );
   AVIS_DEMO = resolveList(
@@ -110,324 +517,585 @@ export default function AtlantiqueMaterielsPage() {
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    CLIENT_SERVICES?.map((s: any, i: number) => ({
+      ...TARIFS_DEMO[i % TARIFS_DEMO.length],
+      a: s.title,
+      p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p,
+      n: s.description || s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n,
+    })),
     TARIFS_DEMO,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
+  ZONES = resolveList(clientAreas(sessionData), ZONES_SOURCE);
+
+  /*
+    Les scènes du héros portent la photo du client quand il en a fourni une, à
+    son rang ; sinon la photographie du thème pour la première, et le repli
+    dessiné pour les suivantes — jamais une URL inventée.
+  */
+  HERO = HERO_SOURCE.map((row: any, n: number) => ({
+    ...row,
+    img: photo(n, n === 0 ? "https://images.pexels.com/photos/37958130/pexels-photo-37958130.jpeg?auto=compress&cs=tinysrgb&w=1400" : ""),
+  }));
+
   brand = fd?.brandColor ?? null;
-  if (brand) {
-    C = { ...C, accent: brand };
-  }
+  if (brand) C = { ...C, accent: brand };
 
   const SERVICES = resolveList(
-    clientServices(sessionData)?.map((s: any, n: number) => ({
+    CLIENT_SERVICES?.map((s: any, n: number) => ({
       titre: s.title ?? SERVICES_DEMO[n % SERVICES_DEMO.length].titre,
-      desc: s.description ?? SERVICES_DEMO[n % SERVICES_DEMO.length].desc,
+      desc: s.description ?? s.desc ?? SERVICES_DEMO[n % SERVICES_DEMO.length].desc,
       tag: SERVICES_DEMO[n % SERVICES_DEMO.length].tag,
     })),
-    SERVICES_DEMO
+    SERVICES_DEMO,
   );
   const AVIS = resolveList(
     clientReviews(sessionData)?.map((r: any, n: number) => ({
       texte: r.text ?? AVIS_DEMO[n % AVIS_DEMO.length].texte,
       auteur: r.name ?? AVIS_DEMO[n % AVIS_DEMO.length].auteur,
-      detail: r.location ?? AVIS_DEMO[n % AVIS_DEMO.length].detail,
+      detail: r.location ?? r.role ?? AVIS_DEMO[n % AVIS_DEMO.length].detail,
     })),
-    AVIS_DEMO
+    AVIS_DEMO,
   );
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const reduce = useReducedMotion();
+
+  /* Un seul index pilote tout le héros : la poussée, le titre, le compteur. */
   const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
+  /*
+    Le titre plein cadre. La première scène porte celui du client quand la
+    génération en a produit un ; les suivantes gardent les phrases du thème.
+    Syne 700 en plein cadre tient 24 signes par ligne : c'est le maxLigne.
+  */
+  /*
+    Les couvertures suivantes portaient encore la phrase du thème : « Séminaires,
+    inaugurations, clé en main. » s'affichait en grand chez un couvreur, quelques
+    secondes après son propre titre. Elles prennent donc ses prestations, et le
+    thème ne reprend la main que si le client n'en a déclaré aucune.
+  */
+  const presta = clientServices(sessionData)?.[i]?.title as string | undefined;
+  const l1 = i === 0 ? clientHeroLine(sessionData, 0, 2, 24) ?? S.l1 : presta ?? S.l1;
+  const l2 = i === 0 ? clientHeroLine(sessionData, 1, 2, 24) ?? S.l2 : presta ? "" : S.l2;
 
   useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", h);
+    const h = () => setScrolled(window.scrollY > 40);
+    h();
+    window.addEventListener("scroll", h, { passive: true });
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const phone = fd?.phone ?? "05 46 00 00 00";
-  const telHref = `tel:${fd?.phone ?? "+33546000000"}`;
-  const mail = fd?.email ?? "devis@atlantique-materiels.fr";
+  const marque = fd?.businessName ?? clientName(sessionData) ?? "Atlantique Matériels";
+  const ville = clientCity(sessionData) ?? "La Rochelle";
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "05 46 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33546000000").replace(/\s/g, "")}`;
+  const mail = clientEmail(sessionData) ?? fd?.email ?? "devis@atlantique-materiels.fr";
+  const adresse = clientAddress(sessionData);
+  const lieu = clientCodePostalVille(sessionData, "", ville).trim();
+
+  /* Le panneau des engagements : photo du client, ou tente dessinée. */
+  const imgEngagement = photo(3, "");
 
   return (
-    <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
+    <div style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip", WebkitFontSmoothing: "antialiased" }}>
+      <style>{FONTS_CSS}</style>
       <style>{`
-        @media (max-width: 900px) { #i360-nav { display: none !important; } .i360-burger { display: flex !important; } }
-        @media (max-width: 860px) {
-          .i360-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
-          .i360-card { max-width: 380px; margin: 0 auto; width: 100%; }
-          .i360-split { grid-template-columns: 1fr !important; }
-          .i360-stats { grid-template-columns: 1fr 1fr !important; row-gap: 8px; }
-          .i360-stats .i360-statcell { border-right: none !important; }
-          .i360-pad { padding-left: 24px !important; padding-right: 24px !important; }
-          .i360-herotext { padding: 0 24px 44px !important; }
+        @media (max-width: 1000px) { #i360-nav { display: none !important; } .i360-burger { display: flex !important; } }
+        @media (max-width: 900px) {
+          .i360-herotext { padding: 0 22px 44px !important; max-width: none !important; }
+          .i360-herometa { gap: 12px !important; }
+          .i360-crow { grid-template-columns: minmax(0,1fr) !important; gap: 12px !important; }
+          .i360-split { grid-template-columns: minmax(0,1fr) !important; gap: 32px !important; }
+          .i360-split > * { order: initial !important; }
+          .i360-statband { grid-template-columns: repeat(auto-fit, minmax(min(150px,100%),1fr)) !important; }
+          .i360-statcell { border-right: none !important; border-top: 1px solid rgba(255,255,255,0.08) !important; }
+          .i360-methode { grid-template-columns: minmax(0,1fr) !important; }
+          .i360-sticky { position: static !important; }
+          .i360-avis { grid-template-columns: minmax(0,1fr) !important; }
+          .i360-avis > * { margin-top: 0 !important; }
+          .i360-pad { padding-left: 22px !important; padding-right: 22px !important; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .i360-anim { transition: none !important; animation: none !important; }
         }
       `}</style>
 
       {/* ── NAV ─────────────────────────────────────────────────────────── */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 48px", background: scrolled ? C.bg : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`, transition: "all 0.4s ease" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+      <nav
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: scrolled ? "10px clamp(20px,4vw,52px)" : "20px clamp(20px,4vw,52px)",
+          background: scrolled ? "rgba(15,18,22,0.9)" : "transparent",
+          backdropFilter: scrolled ? "blur(16px) saturate(130%)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(16px) saturate(130%)" : "none",
+          borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,
+          transition: `padding .55s ${EASE_CSS}, background .55s ${EASE_CSS}, backdrop-filter .55s ${EASE_CSS}, border-color .55s ${EASE_CSS}`,
+        }}
+      >
+        <a href="#top" style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0, textDecoration: "none" }}>
           {fd?.logoBase64 ? (
-            <img src={fd.logoBase64} alt={fd?.businessName ?? "logo"} style={{ height: 30, maxWidth: 160, objectFit: "contain", display: "block" }} />
+            <img src={fd.logoBase64} alt={marque} style={{ height: 30, maxWidth: 170, objectFit: "contain", display: "block" }} />
           ) : (
             <>
-              <PartyPopper size={18} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Atlantique Matériels"))}</span>
-              <span style={{ fontSize: 10, letterSpacing: 2.2, textTransform: "uppercase", color: C.textMuted, marginLeft: 6 }}>Réception & événement</span>
+              <PartyPopper size={17} color={C.accent} style={{ flexShrink: 0 }} />
+              <span style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: 19, color: C.ink, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", letterSpacing: "-0.02em" }}>{marque}</span>
+              <span style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.28em", textTransform: "uppercase", color: C.textFaint, marginLeft: 6 }}>{clientTrade(sessionData) ?? "Réception & événement"}</span>
             </>
           )}
-        </div>
-        <div id="i360-nav" style={{ display: "flex", gap: 24, alignItems: "center" }}>
+        </a>
+        <div id="i360-nav" style={{ display: "flex", gap: "clamp(12px,1.6vw,26px)", alignItems: "center" }}>
           {NAV.map(({ l, h }) => (
-            <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
+            <NavLink key={l} label={l} href={h} />
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33546000000"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <Btn href={telHref} filled>
             Devis événement
-          </motion.a>
+          </Btn>
         </div>
-        <button className="i360-burger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu" style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}>
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        <button
+          className="i360-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
         </button>
       </nav>
       {mobileOpen && (
-        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: C.bg, borderBottom: `1px solid ${C.border}`, padding: "20px 28px", display: "flex", flexDirection: "column", gap: 4 }}>
+        <div style={{ position: "fixed", top: 62, left: 0, right: 0, zIndex: 99, background: C.bgAlt, borderBottom: `1px solid ${C.border}`, padding: "18px 26px 24px", display: "flex", flexDirection: "column", gap: 2 }}>
           {NAV.map(({ l, h }) => (
-            <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
+            <NavLink key={l} label={l} href={h} onClick={() => setMobileOpen(false)} />
           ))}
-          <a href={`tel:${fd?.phone ?? "+33546000000"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Devis événement</a>
+          <a href={telHref} style={{ background: C.accent, color: "#08161c", borderRadius: 99, padding: "14px 22px", fontFamily: SANS, fontSize: 12, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", textDecoration: "none", textAlign: "center", marginTop: 12 }}>
+            Devis événement
+          </a>
         </div>
       )}
 
-      {/* ── HERO ────────────────────────────────────────────────────────── */}
-<section className="i360-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.08fr) minmax(0,0.92fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1260, margin: "0 auto" }}>
-        <div>
-          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>
-            Matériel de réception · {clientCity(sessionData) ?? "La Rochelle"}
-          </motion.span>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 23) ?? "Tout pour recevoir,"}<br /><em style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 23) ?? "rien à stocker ensuite."}</em></>)}
-          </>)}</motion.h1>
-          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Tentes, tables, vaisselle, sono : le matériel de vos mariages, réceptions et séminaires, livré propre, monté à l'heure, repris sale — c'est notre métier de le laver."}
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-            <motion.a href={telHref} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
-              Chiffrer mon événement <ArrowRight size={16} />
-            </motion.a>
-            <motion.a href="#services" style={{ background: C.white, color: C.text, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ borderColor: C.accent }}>
-              Le catalogue
-            </motion.a>
-          </motion.div>
-          
-          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 42, flexWrap: "wrap" }}>
+      {/* ── HERO — H3 : plein cadre, titre en bas, la scène poussée ──────── */}
+      <section
+        id="top"
+        style={{
+          position: "relative",
+          minHeight: "100dvh",
+          /* fond de repli obligatoire sous toute section plein cadre */
+          background: C.bgDark,
+          overflow: "hidden",
+          display: "flex",
+        }}
+      >
+        {/*
+          Le geste : la composition entière — photographie ET titre — sort par la
+          droite avec un flou directionnel pendant que la suivante entre par la
+          gauche. C'est la scène qu'on démonte et qu'on remonte, à l'échelle 1.
+        */}
+        <PushBlur index={i} amount={18} style={{ position: "absolute", inset: 0 }}>
+          <div style={{ position: "absolute", inset: 0 }}>
+            {S.img ? (
+              <img src={S.img} alt={`${marque} — ${S.alt}`} loading="eager" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            ) : (
+              <div aria-hidden style={{ position: "absolute", inset: 0, background: S.repli }}>
+                <Nappe opacity={0.06} />
+                <div style={{ position: "absolute", inset: 0, background: S.halo }} />
+              </div>
+            )}
+            {/* scrim à quatre arrêts : le titre se lit sur n'importe quelle photo */}
+            <div
+              aria-hidden
+              style={{
+                position: "absolute",
+                inset: 0,
+                background:
+                  "linear-gradient(to top, rgba(6,8,10,0.94) 0%, rgba(6,8,10,0.74) 24%, rgba(6,8,10,0.28) 52%, rgba(6,8,10,0.06) 74%, rgba(6,8,10,0.42) 100%)",
+              }}
+            />
+
+            {/* le titre, en bas du cadre */}
+            <div
+              className="i360-herotext i360-pad"
+              style={{
+                position: "absolute",
+                left: 0,
+                right: 0,
+                bottom: 0,
+                padding: "0 clamp(22px,5vw,72px) clamp(96px,11vw,132px)",
+                maxWidth: 1340,
+                margin: "0 auto",
+              }}
+            >
+              <Kicker>{clientEyebrow(sessionData) ?? <>Matériel de réception · {ville}</>}</Kicker>
+              <h1
+                style={{
+                  fontFamily: DISPLAY,
+                  fontWeight: 700,
+                  fontSize: "clamp(36px,6.2vw,88px)",
+                  color: C.ink,
+                  lineHeight: 0.98,
+                  letterSpacing: "-0.032em",
+                  margin: "clamp(16px,2vw,26px) 0 clamp(14px,1.6vw,22px)",
+                  maxWidth: 1080,
+                  textShadow: "0 2px 30px rgba(0,0,0,0.4)",
+                }}
+              >
+                {l1}
+                <br />
+                <em style={{ fontStyle: "italic", fontWeight: 500, color: C.accentDark }}>{l2}</em>
+              </h1>
+              <p style={{ fontFamily: SANS, fontSize: "clamp(15.5px,1.25vw,17.5px)", fontWeight: 300, color: "rgba(238,242,245,0.82)", lineHeight: 1.76, maxWidth: 560, margin: 0 }}>
+                {clientHeroSubtitle(sessionData) ??
+                  clientTagline(sessionData) ??
+                  "Tentes, tables, vaisselle, sono : le matériel de vos mariages, réceptions et séminaires, livré propre, monté à l'heure, repris sale — c'est notre métier de le laver."}
+              </p>
+              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center", marginTop: "clamp(22px,2.8vw,34px)" }}>
+                <Btn href={telHref} filled>
+                  Chiffrer mon événement
+                </Btn>
+                <Btn href="#services">Le catalogue</Btn>
+              </div>
+            </div>
+          </div>
+        </PushBlur>
+
+        {/* La barre de scène : compteur, légende et flèches — hors de la poussée,
+            parce qu'un pilote qui part avec le décor n'est plus un pilote. */}
+        <div
+          className="i360-pad"
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 3,
+            padding: "0 clamp(22px,5vw,72px) clamp(22px,2.6vw,34px)",
+            maxWidth: 1340,
+            margin: "0 auto",
+          }}
+        >
+          <Guirlande points={14} />
+          <div className="i360-herometa" style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap", paddingTop: 14, borderTop: `1px solid ${C.border}` }}>
             <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textMuted} className="" />
-            <span style={{ fontSize: 13.5, color: C.textMuted }}>
-              <strong style={{ color: C.text, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.text} className="" />
+            <motion.span
+              key={`meta-${i}`}
+              initial={reduce ? { opacity: 0 } : { opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: reduce ? 0.2 : 0.55, ease: EASE }}
+              style={{ fontFamily: SANS, fontSize: 13, fontWeight: 300, color: C.textMuted, lineHeight: 1.6 }}
+            >
+              <strong style={{ color: C.ink, fontWeight: 600 }}>{S.k}</strong> — {S.sub}
+            </motion.span>
+            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" />
           </div>
-        </div>
-        <div className="i360-card">
-          <PushBlur index={i} amount={16}>
-            <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 10, overflow: "hidden", boxShadow: "0 18px 52px rgba(0,0,0,0.18)" }}>
-              <div style={{ aspectRatio: "4/3", background: C.accentLight , overflow: "hidden" }}><img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/37958130/pexels-photo-37958130.jpeg?auto=compress&cs=tinysrgb&w=1400"))} alt="Chapiteau dressé pour une réception" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div>
-              <div style={{ padding: "22px 24px 24px", borderTop: `3px solid ${C.accent}` }}>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.accent, marginBottom: 8 }}>{S.k}</div>
-                <div style={{ fontFamily: FONT, fontSize: 19, color: C.text, lineHeight: 1.35 }}>{S.line}</div>
-              </div>
-            </div>
-          </PushBlur>
         </div>
       </section>
 
-      {/* ── STATS ───────────────────────────────────────────────────────── */}
-      <section style={{ background: C.bgDark }}>
-        <div className="i360-stats i360-pad" style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
-          {STATS.map((s, idx) => (
-            <Reveal key={s.label} delay={idx * 0.08}>
-              <div className="i360-statcell" style={{ padding: "30px 8px", textAlign: "center", borderRight: idx < 3 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>
-                <div style={{ fontFamily: FONT, fontSize: 32, color: C.hi, lineHeight: 1 }}>{s.value}</div>
-                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginTop: 7 }}>{s.label}</div>
+      {/* ── RESPIRATION ─────────────────────────────────────────────────── */}
+      <section className="i360-pad" style={{ background: C.bgAlt, padding: "clamp(72px,10vw,136px) clamp(22px,8vw,150px)", textAlign: "center", position: "relative", overflow: "hidden" }}>
+        <Nappe opacity={0.035} />
+        <div style={{ position: "relative" }}>
+          <Reveal>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 28 }}>
+              <Kicker color={C.lin} align="center">La veille au soir</Kicker>
+            </div>
+          </Reveal>
+          <Reveal delay={0.09}>
+            <p style={{ fontFamily: SANS, fontStyle: "italic", fontWeight: 300, fontSize: "clamp(22px,3.1vw,42px)", lineHeight: 1.38, color: C.ink, maxWidth: 940, margin: "0 auto", letterSpacing: "-0.008em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "respiration.texte") ?? (<>
+              Une réception réussie, c'est un décor qui était déjà là mercredi — et que personne n'a vu arriver.
+            </>)}</p>
+          </Reveal>
+          <Reveal delay={0.18}>
+            <div style={{ width: 1, height: 78, background: `linear-gradient(${C.accent}, transparent)`, margin: "clamp(34px,4vw,52px) auto 0" }} />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── CATALOGUE — rangées éditoriales pleine largeur ───────────────── */}
+      <section id="services" className="i360-pad" style={{ background: C.bg, padding: "clamp(80px,11vw,150px) clamp(22px,5vw,64px)", position: "relative", overflow: "hidden" }}>
+        <div style={{ maxWidth: 1240, margin: "0 auto", position: "relative" }}>
+          <GhostNum right>{String(SERVICES.length).padStart(2, "0")}</GhostNum>
+          <Reveal>
+            <div style={{ marginBottom: "clamp(28px,3.5vw,46px)", position: "relative" }}>
+              <Kicker>Catalogue</Kicker>
+              <h2 style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: "clamp(31px,4.6vw,60px)", color: C.ink, margin: "18px 0 0", lineHeight: 1.02, letterSpacing: "-0.03em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
+                Du barnum<br /><em style={{ fontStyle: "italic", fontWeight: 500, color: C.accent }}>à la coupe à champagne.</em>
+              </>)}</h2>
+              <p style={{ fontFamily: SANS, fontSize: "clamp(14.5px,1.15vw,16px)", fontWeight: 300, color: C.textMuted, lineHeight: 1.8, maxWidth: 540, marginTop: 20 }}>
+                Six postes, un seul devis, une seule livraison. Ce qui arrive le mercredi repart le lundi — sale, et ce n'est pas votre problème.
+              </p>
+            </div>
+          </Reveal>
+          <div style={{ borderBottom: `1px solid ${C.border}` }}>
+            {SERVICES.map((s: any, idx: number) => (
+              <CatalogueRow key={s.titre + String(idx)} item={s} i={idx} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CHIFFRES — bande sombre, chiffres fantômes derrière ──────────── */}
+      <section style={{ background: C.bgDark, position: "relative", overflow: "hidden" }}>
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(68% 100% at 50% 0%, rgba(63,168,201,0.12), transparent 70%)" }} />
+        <div
+          className="i360-statband i360-pad"
+          style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", maxWidth: 1180, margin: "0 auto", padding: "0 clamp(22px,4vw,44px)", position: "relative" }}
+        >
+          {STATS.map((s: any, idx: number) => (
+            <Reveal key={s.label} delay={idx * 0.07}>
+              <div className="i360-statcell" style={{ position: "relative", padding: "clamp(36px,4.4vw,58px) 10px", textAlign: "center", borderRight: idx < STATS.length - 1 ? "1px solid rgba(255,255,255,0.08)" : "none", overflow: "hidden" }}>
+                <span aria-hidden style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: DISPLAY, fontWeight: 800, fontSize: "clamp(74px,8.6vw,128px)", color: "rgba(255,255,255,0.045)", lineHeight: 1, letterSpacing: "-0.04em", pointerEvents: "none", userSelect: "none" }}>
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
+                <div style={{ position: "relative", fontFamily: DISPLAY, fontWeight: 700, fontSize: "clamp(30px,3.5vw,45px)", color: C.accent, lineHeight: 1, letterSpacing: "-0.03em" }}>{s.value}</div>
+                <div style={{ position: "relative", fontFamily: SANS, fontSize: 11.5, letterSpacing: "0.11em", textTransform: "uppercase", color: "rgba(255,255,255,0.44)", marginTop: 13, lineHeight: 1.5 }}>{s.label}</div>
               </div>
             </Reveal>
           ))}
         </div>
       </section>
 
-
-      {/* ── SERVICES ────────────────────────────────────────────────────── */}
-      <section id="services" className="i360-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ marginBottom: 50 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Catalogue</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
-                Du barnum<br /><em>à la coupe à champagne.</em>
+      {/* ── LE DÉROULÉ — titre collant, étapes filetées ──────────────────── */}
+      <section id="methode" className="i360-pad" style={{ background: C.bgAlt, padding: "clamp(80px,11vw,152px) clamp(22px,5vw,64px)", position: "relative", overflow: "hidden" }}>
+        <Nappe opacity={0.03} />
+        <div
+          className="i360-methode"
+          style={{ maxWidth: 1180, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,0.86fr) minmax(0,1.14fr)", gap: "clamp(32px,5vw,84px)", alignItems: "start", position: "relative" }}
+        >
+          <div className="i360-sticky" style={{ position: "sticky", top: 116, alignSelf: "start" }}>
+            <Reveal>
+              <Kicker>Le déroulé</Kicker>
+              <h2 style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: "clamp(29px,4.2vw,54px)", color: C.ink, margin: "18px 0 20px", lineHeight: 1.02, letterSpacing: "-0.03em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
+                Vous recevez,<br /><em style={{ fontStyle: "italic", fontWeight: 500, color: C.accent }}>on porte le reste.</em>
               </>)}</h2>
-            </div>
-          </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18 }}>
-            {SERVICES.map((s, idx) => (
-              <Reveal key={s.titre} delay={idx * 0.06}>
-                <motion.div whileHover={{ y: -5 }} style={{ background: C.white, borderRadius: 12, padding: "26px 24px", border: `1px solid ${C.border}`, height: "100%" }}>
-                  <span style={{ background: C.accentLight, color: C.accent, borderRadius: 999, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag}</span>
-                  <h3 style={{ fontFamily: FONT, fontSize: 18.5, color: C.text, margin: "15px 0 10px" }}>{s.titre}</h3>
-                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{s.desc}</p>
-                </motion.div>
-              </Reveal>
-            ))}
+              <p style={{ fontFamily: SANS, fontSize: "clamp(14.5px,1.15vw,16px)", fontWeight: 300, color: C.textMuted, lineHeight: 1.8, maxWidth: 420 }}>
+                Quatre temps, du devis à la reprise. Le seul que vous vivrez vraiment, c'est le troisième — et il y a un numéro qui répond.
+              </p>
+              <div style={{ width: 60, height: 1, background: `linear-gradient(90deg, ${C.accent}, transparent)`, marginTop: 26 }} />
+            </Reveal>
           </div>
-        </div>
-      </section>
-
-      {/* ── MÉTHODE / INFOS ─────────────────────────────────────────────── */}
-      <section id="methode" className="i360-pad" style={{ padding: "96px 64px", background: C.bg }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ marginBottom: 50 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Comment ça marche</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
-                Vous recevez,<br /><em>on porte le reste.</em>
-              </>)}</h2>
-            </div>
-          </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: 18 }}>
+          <div>
             {METHODE.map((m, idx) => (
-              <Reveal key={m.n} delay={idx * 0.08}>
-                <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: "26px 24px", height: "100%" }}>
-                  <div style={{ fontFamily: FONT, fontSize: 28, color: C.accent, marginBottom: 12 }}>{m.n}</div>
-                  <h3 style={{ fontSize: 16.5, fontWeight: 700, color: C.text, marginBottom: 9 }}>{m.t}</h3>
-                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{m.d}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── ENGAGEMENTS ─────────────────────────────────────────────────── */}
-      <section id="engagements" className="i360-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
-        <div className="i360-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
-          <Reveal>
-            <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3", display: "flex", alignItems: "center", justifyContent: "center" }}><Tent size={80} color={C.accent} strokeWidth={1.1} /></div>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <div>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Nos engagements</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
-                Le grand jour<br /><em>n'a pas de plan B.</em>
-              </>)}</h2>
-              {ENGAGEMENT.map((e, idx) => (
-                <div key={idx} style={{ display: "flex", gap: 12, marginBottom: 14 }}>
-                  <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
-                  <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{e}</span>
-                </div>
-              ))}
-              <motion.a href={telHref} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 24, background: C.accent, color: "#101010", borderRadius: 8, padding: "14px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ scale: 1.02 }}>
-                Nous appeler <ArrowRight size={16} />
-              </motion.a>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── TARIFS ──────────────────────────────────────────────────────── */}
-      <section id="tarifs" className="i360-pad" style={{ padding: "96px 64px", background: C.bg }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 16 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Tarifs</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Au carton près, <em>livraison comprise*.</em></>)}</h2>
-              <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>*Livraison-reprise incluse dès 400 € de location dans un rayon de 30 km. Packs dégressifs au-delà de 100 invités.</p>
-            </div>
-          </Reveal>
-          <div style={{ marginTop: 38 }}>
-            {TARIFS.map((tt, idx) => (
-              <Reveal key={tt.a} delay={idx * 0.06}>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "space-between", alignItems: "baseline", background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: "20px 24px", marginBottom: 12 }}>
-                  <div style={{ minWidth: 0 }}>
-                    <div style={{ fontFamily: FONT, fontSize: 17.5, color: C.text }}>{tt.a}</div>
-                    <div style={{ fontSize: 13.5, color: C.textMuted, marginTop: 5, lineHeight: 1.6 }}>{tt.n}</div>
+              <Reveal key={m.n} delay={idx * 0.06}>
+                <div style={{ position: "relative", display: "flex", gap: "clamp(18px,2.6vw,36px)", alignItems: "flex-start", padding: "clamp(24px,3.2vw,40px) 0", borderTop: `1px solid ${C.border}` }}>
+                  <span style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: "clamp(26px,3.2vw,42px)", color: C.lin, lineHeight: 1, minWidth: 60, flexShrink: 0, letterSpacing: "-0.03em" }}>{m.n}</span>
+                  <div>
+                    <h3 style={{ fontFamily: SANS, fontSize: "clamp(15.5px,1.3vw,17.5px)", fontWeight: 600, letterSpacing: "0.01em", color: C.ink, margin: "0 0 10px" }}>{m.t}</h3>
+                    <p style={{ fontFamily: SANS, fontSize: "clamp(14px,1.1vw,15.5px)", fontWeight: 300, color: C.textMuted, lineHeight: 1.8, margin: 0, maxWidth: 500 }}>{m.d}</p>
                   </div>
-                  <div style={{ fontFamily: FONT, fontSize: 19, color: C.accent, whiteSpace: "nowrap" }}>{tt.p}</div>
                 </div>
               </Reveal>
             ))}
+            <div style={{ borderTop: `1px solid ${C.border}` }} />
           </div>
         </div>
       </section>
 
-      {/* ── AVIS ────────────────────────────────────────────────────────── */}
-      <section className="i360-pad" style={{ padding: "96px 64px", background: C.bgDark }}>
-        <Reveal>
-          <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Des fêtes <em style={{ color: C.hi }}>dont on se souvient</em>.</>)}</h2>
-          </div>
-        </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
-          {AVIS.map((a, idx) => (
-            <Reveal key={a.auteur} delay={idx * 0.1}>
-              <div style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.10)", borderRadius: 12, padding: "26px 24px", height: "100%" }}>
-                <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>
-                  {[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.hi} color={C.hi} />)}
+      {/* ── ENGAGEMENTS — split, panneau à DROITE ────────────────────────── */}
+      <section id="engagements" className="i360-pad" style={{ background: C.bg, padding: "clamp(80px,11vw,150px) clamp(22px,5vw,64px)" }}>
+        <div className="i360-split" style={{ maxWidth: 1180, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: "clamp(34px,5vw,76px)", alignItems: "center" }}>
+          <Reveal style={{ order: 2 }}>
+            <div style={{ position: "relative", overflow: "hidden", background: C.bgDark, border: `1px solid ${C.border}`, aspectRatio: "4/3.3" }}>
+              {imgEngagement ? (
+                <img src={imgEngagement} alt="Montage d'une tente de réception" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              ) : (
+                <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(152deg, #0a0d10 0%, #13202a 50%, #06080a 100%)", display: "grid", placeItems: "center" }}>
+                  <Nappe opacity={0.06} />
+                  <div style={{ position: "absolute", inset: 0, background: "radial-gradient(58% 54% at 50% 34%, rgba(63,168,201,0.16), transparent 66%)" }} />
+                  <Tent size={92} color={C.accent} strokeWidth={1} style={{ position: "relative", opacity: 0.85 }} aria-hidden />
                 </div>
-                <p style={{ fontFamily: FONT, fontSize: 15, fontStyle: "italic", color: "rgba(255,255,255,0.82)", lineHeight: 1.7, marginBottom: 18 }}>"{a.texte}"</p>
-                <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14 }}>
-                  <div style={{ fontWeight: 700, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
-                  <div style={{ color: C.hi, fontSize: 12, marginTop: 4 }}>{a.detail}</div>
-                </div>
+              )}
+              <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(6,8,10,0.5) 0%, rgba(6,8,10,0.05) 46%, transparent 100%)" }} />
+              <div style={{ position: "absolute", left: 20, bottom: 18, fontFamily: SANS, fontSize: 10, fontWeight: 600, letterSpacing: "0.28em", textTransform: "uppercase", color: "rgba(255,255,255,0.86)" }}>
+                Montage à J-2
               </div>
-            </Reveal>
-          ))}
+            </div>
+          </Reveal>
+          <Reveal delay={0.12} style={{ order: 1 }}>
+            <div>
+              <Kicker>Nos engagements</Kicker>
+              <h2 style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: "clamp(28px,4vw,50px)", color: C.ink, margin: "18px 0 26px", lineHeight: 1.04, letterSpacing: "-0.03em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
+                Le grand jour<br /><em style={{ fontStyle: "italic", fontWeight: 500, color: C.accent }}>n'a pas de plan B.</em>
+              </>)}</h2>
+              <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
+                {ENGAGEMENT.map((e: string, idx: number) => (
+                  <li key={idx} style={{ display: "flex", gap: 16, alignItems: "flex-start", padding: "15px 0", borderTop: idx === 0 ? "none" : `1px solid ${C.border}` }}>
+                    <span aria-hidden style={{ marginTop: 10, width: 18, height: 1, background: C.accent, flexShrink: 0 }} />
+                    <span style={{ fontFamily: SANS, fontSize: "clamp(14px,1.12vw,15.5px)", fontWeight: 300, color: C.textMuted, lineHeight: 1.72 }}>{e}</span>
+                  </li>
+                ))}
+              </ul>
+              <div style={{ marginTop: 30 }}>
+                <Btn href={telHref} filled>
+                  Nous appeler
+                </Btn>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── TARIFS — table fine à conducteur pointillé ───────────────────── */}
+      <section id="tarifs" className="i360-pad" style={{ background: C.bgAlt, padding: "clamp(80px,11vw,150px) clamp(22px,5vw,64px)", position: "relative", overflow: "hidden" }}>
+        <div style={{ maxWidth: 1020, margin: "0 auto", position: "relative" }}>
+          <Reveal>
+            <div style={{ textAlign: "center" }}>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Kicker align="center">Tarifs</Kicker>
+              </div>
+              <h2 style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: "clamp(30px,4.4vw,56px)", color: C.ink, margin: "18px 0 0", lineHeight: 1.02, letterSpacing: "-0.03em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Au carton près, <em style={{ fontStyle: "italic", fontWeight: 500, color: C.accent }}>livraison comprise*.</em></>)}</h2>
+              <p style={{ fontFamily: SANS, fontSize: "clamp(14.5px,1.15vw,16px)", fontWeight: 300, color: C.textMuted, maxWidth: 580, margin: "18px auto 0", lineHeight: 1.8 }}>
+                *Livraison-reprise incluse dès 400 € de location dans un rayon de 30 km. Packs dégressifs au-delà de 100 invités.
+              </p>
+            </div>
+          </Reveal>
+          <div style={{ marginTop: "clamp(34px,4.5vw,54px)", borderBottom: `1px solid ${C.border}` }}>
+            {TARIFS.map((t: any, idx: number) => (
+              <TarifRow key={t.a + String(idx)} item={t} i={idx} />
+            ))}
+          </div>
+          <Reveal delay={0.1}>
+            <div style={{ marginTop: "clamp(24px,3vw,36px)" }}>
+              <Guirlande points={18} couleur={C.accent} />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── AVIS — verre dépoli, colonnes décalées (l'écho du flou) ──────── */}
+      <section className="i360-pad" style={{ background: C.bgDark, padding: "clamp(80px,11vw,150px) clamp(22px,5vw,64px)", position: "relative", overflow: "hidden" }}>
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(56% 56% at 50% 14%, rgba(63,168,201,0.12), transparent 70%)" }} />
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(40% 40% at 84% 78%, rgba(217,200,169,0.08), transparent 70%)" }} />
+        <div style={{ maxWidth: 1180, margin: "0 auto", position: "relative" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: "clamp(34px,4.4vw,56px)" }}>
+              <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
+                <Kicker color="rgba(255,255,255,0.44)" align="center">Après la fête</Kicker>
+              </div>
+              <h2 style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: "clamp(28px,3.8vw,48px)", color: C.ink, lineHeight: 1.04, letterSpacing: "-0.03em", margin: 0 }}>{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Des fêtes <em style={{ fontStyle: "italic", fontWeight: 500, color: C.lin }}>dont on se souvient</em>.</>)}</h2>
+            </div>
+          </Reveal>
+          <div className="i360-avis" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: "clamp(16px,2vw,26px)", alignItems: "start" }}>
+            {AVIS.map((a: any, idx: number) => (
+              <Reveal key={a.auteur + String(idx)} delay={idx * 0.08} style={{ marginTop: idx % 3 === 1 ? "clamp(0px,3.6vw,48px)" : idx % 3 === 2 ? "clamp(0px,7.2vw,96px)" : 0 }}>
+                <figure
+                  style={{
+                    margin: 0,
+                    position: "relative",
+                    background: "rgba(255,255,255,0.05)",
+                    backdropFilter: "blur(14px) saturate(120%)",
+                    WebkitBackdropFilter: "blur(14px) saturate(120%)",
+                    border: "1px solid rgba(255,255,255,0.11)",
+                    borderRadius: 6,
+                    padding: "clamp(26px,3vw,36px) clamp(22px,2.6vw,30px)",
+                    overflow: "hidden",
+                    boxShadow: "0 30px 60px -44px rgba(0,0,0,0.9)",
+                  }}
+                >
+                  <span aria-hidden style={{ position: "absolute", top: -22, right: 14, fontFamily: DISPLAY, fontWeight: 800, fontSize: 128, lineHeight: 1, color: "rgba(255,255,255,0.045)", pointerEvents: "none", userSelect: "none" }}>
+                    »
+                  </span>
+                  <blockquote style={{ margin: 0, fontFamily: SANS, fontStyle: "italic", fontWeight: 300, fontSize: "clamp(15.5px,1.35vw,18px)", color: "rgba(238,242,245,0.9)", lineHeight: 1.68 }}>
+                    « {a.texte} »
+                  </blockquote>
+                  <figcaption style={{ marginTop: 22, paddingTop: 16, borderTop: "1px solid rgba(255,255,255,0.1)" }}>
+                    <div style={{ fontFamily: SANS, fontSize: 13.5, fontWeight: 600, color: C.ink }}>{a.auteur}</div>
+                    <div style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.22em", textTransform: "uppercase", color: C.lin, marginTop: 7 }}>{a.detail}</div>
+                  </figcaption>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ── CONTACT ─────────────────────────────────────────────────────── */}
-      <section id="contact" className="i360-pad" style={{ padding: "96px 64px", background: C.accentLight, textAlign: "center" }}>
-        <Reveal>
-          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Parlons date</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
-            Votre événement a une date ?<br /><em>Bloquons le matériel.</em>
-          </>)}</h2>
-          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>Les week-ends de juin partent en janvier : devis sous 48 h, option gratuite posée 15 jours.</p>
-          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={telHref} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {phone}
-            </motion.a>
-            <motion.a href={`mailto:${mail}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "14px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ background: C.accent, color: "#fff" }}>
-              <Mail size={18} /> Nous écrire
-            </motion.a>
-          </div>
-        </Reveal>
+      <section id="contact" className="i360-pad" style={{ background: C.accentLight, padding: "clamp(80px,11vw,150px) clamp(22px,5vw,64px)", textAlign: "center", position: "relative", overflow: "hidden" }}>
+        <Nappe opacity={0.05} teinte="rgba(63,168,201,0.9)" />
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(60% 60% at 50% 0%, rgba(63,168,201,0.14), transparent 70%)" }} />
+        <div style={{ maxWidth: 820, margin: "0 auto", position: "relative" }}>
+          <Reveal>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Kicker align="center">Parlons date</Kicker>
+            </div>
+            <h2 style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: "clamp(30px,4.6vw,58px)", color: C.ink, margin: "18px 0 18px", lineHeight: 1.02, letterSpacing: "-0.03em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
+              Votre événement a une date ?<br /><em style={{ fontStyle: "italic", fontWeight: 500, color: C.accent }}>Bloquons le matériel.</em>
+            </>)}</h2>
+            <p style={{ fontFamily: SANS, fontSize: "clamp(15px,1.2vw,16.5px)", fontWeight: 300, color: C.textMuted, maxWidth: 480, margin: "0 auto clamp(28px,3.6vw,40px)", lineHeight: 1.8 }}>
+              Les week-ends de juin partent en janvier : devis sous 48 h, option gratuite posée 15 jours.
+            </p>
+            <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+              <a
+                href={telHref}
+                style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: "#08161c", borderRadius: 99, padding: "16px 32px", fontFamily: SANS, fontSize: 15, fontWeight: 600, textDecoration: "none" }}
+              >
+                <Phone size={17} /> {phone}
+              </a>
+              <a
+                href={`mailto:${mail}`}
+                style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "transparent", color: C.ink, border: `1px solid ${C.accent}`, borderRadius: 99, padding: "16px 30px", fontFamily: SANS, fontSize: 15, fontWeight: 600, textDecoration: "none" }}
+              >
+                <Mail size={17} /> Nous écrire
+              </a>
+            </div>
+            <div style={{ marginTop: 30, fontFamily: SANS, fontSize: 12.5, color: C.textFaint, lineHeight: 1.8 }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 8, flexWrap: "wrap", justifyContent: "center" }}>
+                <MapPin size={13} color={C.accent} />
+                {adresse ?? lieu} · Nous livrons : {ZONES.join(", ")}
+              </span>
+            </div>
+            <div style={{ marginTop: 26, display: "flex", justifyContent: "center", alignItems: "center", gap: 10, fontFamily: SANS, fontSize: 12, color: C.textFaint }}>
+              <UtensilsCrossed size={13} color={C.lin} aria-hidden />
+              <span>Vaisselle rendue sale : le lavage est compris, toujours.</span>
+            </div>
+          </Reveal>
+        </div>
       </section>
 
       {/* ── FOOTER ──────────────────────────────────────────────────────── */}
-      <footer className="i360-pad" style={{ background: C.bgDark, padding: "44px 64px 22px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
-            <div>
-              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Atlantique Matériels"))}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Location de matériel de réception · {clientCity(sessionData) ?? "La Rochelle"}<br />Livraison, montage et reprise sur toute la Charente-Maritime</p>
+      <footer className="i360-pad" style={{ background: C.bgDarkAlt, padding: "clamp(52px,7vw,84px) clamp(22px,5vw,64px) 26px" }}>
+        <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 32, marginBottom: 38 }}>
+            <div style={{ maxWidth: 370 }}>
+              <div style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: "clamp(20px,2.1vw,27px)", color: C.accent, marginBottom: 12, letterSpacing: "-0.025em" }}>{marque}</div>
+              <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 300, color: "rgba(255,255,255,0.4)", lineHeight: 1.8, margin: 0 }}>
+                Location de matériel de réception · {ville}
+                <br />
+                Livraison, montage et reprise sur toute la Charente-Maritime
+              </p>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "La Rochelle") + ", Charente-Maritime" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 8h30–18h · Sam 9h–12h (retraits)" }].map((item, idx) => (
-                <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
-                  <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {[
+                { icon: <MapPin size={13} />, t: adresse ?? `${lieu}, Charente-Maritime` },
+                { icon: <Phone size={13} />, t: phone },
+                { icon: <Mail size={13} />, t: mail },
+                { icon: <Clock size={13} />, t: "Lun–Ven 8h30–18h · Sam 9h–12h (retraits)" },
+              ].map((item, idx) => (
+                <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.44)", fontFamily: SANS, fontSize: 13, alignItems: "center" }}>
+                  <span style={{ color: C.accent, display: "flex" }}>{item.icon}</span>
+                  {item.t}
                 </div>
               ))}
             </div>
           </div>
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Atlantique Matériels"))} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity />
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 18, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
+            <span style={{ color: "rgba(255,255,255,0.26)", fontFamily: SANS, fontSize: 11.5, letterSpacing: "0.04em" }}>
+              © 2026 {marque} — Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" />
+              {/* VILLE_PIED */}
+              {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
-            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
+            <span style={{ color: "rgba(255,255,255,0.26)", fontFamily: SANS, fontSize: 11.5, letterSpacing: "0.04em" }}>
+              Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.
+            </span>
           </div>
         </div>
       </footer>

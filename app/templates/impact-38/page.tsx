@@ -2,6 +2,7 @@
 // @ts-nocheck
 
 import React, { useRef, useState, useEffect } from "react";
+import { clientFaq } from "@/lib/templates/clientContent";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { ArrowRight, Star, ChevronRight, Coffee, Leaf, Package, Flame, Clock, Zap, ChevronLeft, ChevronDown, Globe, Award, Heart, Users, TrendingUp, CheckCircle, Play } from "lucide-react";
 import Link from "next/link";
@@ -787,6 +788,7 @@ export default function OriginRoastPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  const FAQS_DU_CLIENT = resolveList(clientFaq(sessionData)?.map((x: any) => ({ q: x.q, a: x.a })), FAQS);
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   memoriserSession(sessionData);
   rafraichirPartage();
@@ -1286,7 +1288,7 @@ export default function OriginRoastPage() {
             </div>
           </SectionReveal>
           <div style={{ display: "flex", flexDirection: "column" }}>
-            {FAQS.map((faq, i) => (
+            {FAQS_DU_CLIENT.map((faq, i) => (
               <FAQItem key={i} faq={faq} delay={i * 0.07} />
             ))}
           </div>

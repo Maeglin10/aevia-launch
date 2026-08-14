@@ -19,6 +19,7 @@ import {
   clientText,
   memoriserSession,
 } from "@/lib/templates/clientContent";
+import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
@@ -137,6 +138,7 @@ return (
       `}</style>
       {/* ── Hero ───────────────────────────────────────────────────────── */}
       <section style={{ minHeight: "calc(100vh - 60px)", display: "flex", flexDirection: "column", justifyContent: "center", padding: "clamp(20px, 6vw, 48px)", position: "relative", overflow: "hidden" }}>
+        <TitreDeLaPage session={sessionData} />
         {/* Glow effect */}
         <motion.div
           style={{

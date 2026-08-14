@@ -14,6 +14,7 @@ import {
   clientTagline,
   clientText,
 } from "@/lib/templates/clientContent";
+import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
@@ -721,6 +722,7 @@ return (
           paddingTop: 120,
         }}
       >
+        <TitreDeLaPage session={sessionData} />
         {/* Parallax background image */}
         <motion.div
           style={{
@@ -730,7 +732,7 @@ return (
           }}
         >
           <img
-            src={photo(0, (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1800&q=85"))}
+            src={photo(9, "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1800&q=85")}
             alt="Hero"
             style={{ width: "100%", height: "110%", objectFit: "cover", display: "block" }}
           />

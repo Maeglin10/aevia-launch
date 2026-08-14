@@ -369,7 +369,7 @@ export default function AetherWellnessPage() {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
                  <Reveal>
                     <div className="relative aspect-[16/10] overflow-hidden rounded-[2.5rem]">
-                       <Image src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=80&w=1200"))} alt="Spa Detail" fill className="object-cover hover:scale-105 transition-transform duration-[2000ms]" />
+                       <Image src={photo(4, "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&q=80&w=1200")} alt="Spa Detail" fill className="object-cover hover:scale-105 transition-transform duration-[2000ms]" />
                        <div className="absolute inset-0 bg-black/5" />
                     </div>
                  </Reveal>

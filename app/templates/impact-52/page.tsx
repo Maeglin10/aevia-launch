@@ -25,6 +25,7 @@ import {
   clientText,
   memoriserSession,
 } from "@/lib/templates/clientContent";
+import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
@@ -151,6 +152,7 @@ export default function Impact52Page() {
           padding: "0 1.5rem",
         }}
       >
+        <TitreDeLaPage session={sessionData} />
         {/* Animated grid */}
         <div
           style={{

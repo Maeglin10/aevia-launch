@@ -3,6 +3,7 @@
 
 import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform } from "framer-motion"
+import { resolveList } from "@/lib/templates/resolveList";
 import Link from "next/link"
 import { Building2, Zap, ArrowRight, Star, Check, Layers } from "lucide-react"
 import {
@@ -70,6 +71,8 @@ export default function Home() {
   sessionData = session;
   memoriserSession(sessionData);
   c = session?.generatedContent;
+  const SPACE_TYPES_DU_CLIENT = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...SPACE_TYPES[i % SPACE_TYPES.length], name: s.title, desc: s.desc || SPACE_TYPES[i % SPACE_TYPES.length].desc, from: s.price ?? SPACE_TYPES[i % SPACE_TYPES.length].from })), SPACE_TYPES);
+  const TESTIMONIALS_DU_CLIENT = resolveList(clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS[i % TESTIMONIALS.length], name: r.author ?? TESTIMONIALS[i % TESTIMONIALS.length].name, text: r.text })), TESTIMONIALS);
 
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -290,7 +293,7 @@ return (
           </SectionReveal>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 28 }}>
-            {SPACE_TYPES.map((space, i) => (
+            {SPACE_TYPES_DU_CLIENT.map((space, i) => (
               <SectionReveal key={space.name} delay={i * 0.12}>
                 <div
                   style={{
@@ -479,7 +482,7 @@ return (
           </SectionReveal>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 28 }}>
-            {TESTIMONIALS.map((t, i) => (
+            {TESTIMONIALS_DU_CLIENT.map((t, i) => (
               <SectionReveal key={t.name} delay={i * 0.1}>
                 <div
                   style={{

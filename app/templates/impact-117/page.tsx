@@ -229,7 +229,7 @@ export default function VoltLogisticsPage() {
                   <div className="absolute -inset-10 bg-[var(--brand,#ffb400)]/10 blur-[100px] rounded-full" />
                   <div className="relative bg-white/5 border border-white/10 p-1 rounded-2xl overflow-hidden backdrop-blur-sm">
                     <div className="aspect-[4/3] relative">
-                      <Image src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200"))} alt="E-Mobility" fill className="object-cover opacity-70 group-hover:scale-110 transition-transform duration-700" />
+                      <Image src={photo(3, "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200")} alt="E-Mobility" fill className="object-cover opacity-70 group-hover:scale-110 transition-transform duration-700" />
                       <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
                       <div className="absolute bottom-8 left-8 right-8">
                         <div className="flex justify-between items-end">

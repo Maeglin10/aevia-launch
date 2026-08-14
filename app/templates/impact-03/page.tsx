@@ -24,6 +24,7 @@ import {
   clientTagline,
   clientText,
 } from "@/lib/templates/clientContent";
+import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -1547,6 +1548,7 @@ export default function FashionEditorialTemplate() {
           position: 'relative',
         }}
       >
+        <TitreDeLaPage session={sessionData} />
         {/* Left: editorial text */}
         <motion.div
           style={{

@@ -408,7 +408,7 @@ export default function SkylineConciergePage() {
       <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden pt-24 md:pt-0">
         <div className="absolute inset-0">
           <Image
-            src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600&q=80"))}
+            src={photo(3, "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600&q=80")}
             alt="Luxury Penthouse"
             fill
             className="object-cover opacity-50"
@@ -536,7 +536,7 @@ export default function SkylineConciergePage() {
           <Reveal delay={0.2}>
             <div className="relative aspect-video lg:aspect-[4/3] bg-neutral-900 border border-white/5">
               <Image
-                src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80"))}
+                src={photo(4, "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80")}
                 alt="Skyline Headquarter Consultation Room"
                 fill
                 className="object-cover opacity-60"
@@ -729,7 +729,7 @@ export default function SkylineConciergePage() {
           <Reveal delay={0.2}>
             <div className="relative aspect-square bg-black p-1">
               <Image
-                src={photo(2, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80"))}
+                src={photo(6, "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80")}
                 alt="Mountain View"
                 fill
                 className="object-cover opacity-80"

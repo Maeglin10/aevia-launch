@@ -1175,7 +1175,7 @@ return (
           }}
         >
           <Image
-            src={photo(0, (clientPhotos(sessionData)[16] || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1600&auto=format&fit=crop"))}
+            src={photo(16, "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1600&auto=format&fit=crop")}
             alt="Hero background"
             fill
             priority

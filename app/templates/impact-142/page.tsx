@@ -243,7 +243,7 @@ export default function VerdantImpactPage() {
         {/* ── HERO ────────── */}
         <section id="hero" className="relative h-[100dvh] min-h-[640px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
-            <Image src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=2400"))} alt="Forest" fill className="object-cover" priority />
+            <Image src={photo(3, "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=2400")} alt="Forest" fill className="object-cover" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-[#f6faf4] via-[#f6faf4]/20 to-transparent" />
           </motion.div>
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-24">
@@ -346,7 +346,7 @@ export default function VerdantImpactPage() {
         {/* ── CTA ──────────── */}
         <section className="relative h-[70vh] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
-            <Image src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=2400"))} alt="CTA" fill className="object-cover" />
+            <Image src={photo(4, "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&q=80&w=2400")} alt="CTA" fill className="object-cover" />
             <div className="absolute inset-0 bg-emerald-900/60" />
           </div>
           <div className="relative z-10 text-center text-white px-6">
@@ -367,7 +367,7 @@ export default function VerdantImpactPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
               <Reveal>
                 <div className="relative aspect-[4/3] overflow-hidden rounded-2xl">
-                  <ParallaxImg src={photo(2, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=1200"))} alt="Sustainability work" />
+                  <ParallaxImg src={photo(5, "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80&w=1200")} alt="Sustainability work" />
                 </div>
               </Reveal>
               <div>

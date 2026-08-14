@@ -870,7 +870,7 @@ export default function Impact175Page() {
           }}
         >
           <img
-            src={photo(0, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?q=80&w=1400&auto=format&fit=crop"))}
+            src={photo(1, "https://images.unsplash.com/photo-1530103862676-de8c9debad1d?q=80&w=1400&auto=format&fit=crop")}
             alt={fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Confluence Events"))}
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />

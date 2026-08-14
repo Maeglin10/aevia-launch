@@ -29,12 +29,22 @@ for (const theme of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-")))
       partir du premier faisait lire le mauvais bloc — trois cent soixante-six
       faux positifs, dont aucun n'existait.
     */
+    /*
+      TOUS les blocs, et non le premier : impact-21 importe
+      `clientCertifications` sur une ligne puis le reste dans un bloc plus bas.
+      En ne lisant que le premier, le contrôle annonçait dix fonctions
+      manquantes qui étaient toutes importées deux lignes plus loin.
+    */
     const marque = '} from "@/lib/templates/clientContent";';
-    const finBloc = src.indexOf(marque);
-    const debutBloc = finBloc < 0 ? -1 : src.lastIndexOf("import {", finBloc);
-    const importees = new Set(
-      debutBloc < 0 ? [] : src.slice(debutBloc + "import {".length, finBloc).split(",").map((x) => x.trim()),
-    );
+    const importees = new Set();
+    for (let fin = src.indexOf(marque); fin >= 0; fin = src.indexOf(marque, fin + 1)) {
+      const debut = src.lastIndexOf("import {", fin);
+      if (debut < 0) continue;
+      for (const nom of src.slice(debut + "import {".length, fin).split(",")) {
+        const n = nom.trim();
+        if (n) importees.add(n);
+      }
+    }
     const manquantes = [...employees].filter((n) => exportees.has(n) && !importees.has(n));
     if (manquantes.length) {
       fautifs++;

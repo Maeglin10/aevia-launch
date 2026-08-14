@@ -326,7 +326,8 @@ export default function Impact171Page() {
   }
 
   const specialties = clientServices(sessionData)?.length
-    ? bp.services.map((s: any, i: number) => ({
+    /* Idem : on lit ce que le contrat a résolu, carte comprise. */
+    ? (clientServices(sessionData) ?? []).map((s: any, i: number) => ({
         id: `svc-${i}`,
         label: s.name,
         icon: SPECIALTY_ICONS[i % SPECIALTY_ICONS.length],
@@ -459,7 +460,7 @@ export default function Impact171Page() {
             <Reveal delay={0.2}>
               <div className="relative h-[500px] rounded-3xl overflow-hidden shadow-2xl">
                 <motion.div style={{ y: heroY }} className="absolute inset-0">
-                  <Image src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1200&auto=format&fit=crop"))}
+                  <Image src={photo(4, "https://images.unsplash.com/photo-1579684385127-1ef15d508118?q=80&w=1200&auto=format&fit=crop")}
                     alt="Cabinet médical" fill className="object-cover" />
                 </motion.div>
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/40 to-transparent" />
@@ -544,7 +545,7 @@ export default function Impact171Page() {
                 </div>
               </div>
               <div className="relative h-64 rounded-2xl overflow-hidden">
-                <Image src={photo(1, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800&auto=format&fit=crop"))}
+                <Image src={photo(5, "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800&auto=format&fit=crop")}
                   alt={activeSpecData.label} fill className="object-cover" />
               </div>
             </motion.div>

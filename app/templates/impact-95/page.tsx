@@ -928,7 +928,7 @@ export default function LumiereCliniquePage() {
         {/* Hero */}
         <section id="hero" ref={heroRef} className="relative min-h-[calc(100vh-80px)] overflow-hidden">
           <motion.div className="absolute inset-0" style={{ y: heroY }}>
-            <Image src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1600&q=85&fit=crop"))} alt={fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Lumière Clinic"))} fill className="object-cover" loading="lazy" />
+            <Image src={photo(3, "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=1600&q=85&fit=crop")} alt={fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Lumière Clinic"))} fill className="object-cover" loading="lazy" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#FAFAF8]/95 via-[#FAFAF8]/70 to-[#FAFAF8]/20" />
           </motion.div>
           <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-24 pb-24 min-h-[calc(100vh-80px)] flex flex-col justify-center">

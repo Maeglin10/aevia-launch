@@ -363,7 +363,7 @@ export default function NovaSpacesPage() {
       <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden pt-24 md:pt-0">
         <div className="absolute inset-0">
           <Image
-            src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1600&q=80"))}
+            src={photo(3, "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1600&q=80")}
             alt="Architectural Minimal"
             fill
             className="object-cover opacity-80"
@@ -556,7 +556,7 @@ export default function NovaSpacesPage() {
           <Reveal>
             <div className="relative aspect-square rounded-sm overflow-hidden group border border-black/5">
               <Image
-                src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80"))}
+                src={photo(4, "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80")}
                 alt="Atelier"
                 fill
                 className="object-cover group-hover:scale-110 transition-all duration-[3s] grayscale hover:grayscale-0 transition-all duration-1000"

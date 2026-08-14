@@ -254,7 +254,7 @@ return (
           className="absolute inset-0 z-0"
         >
           <Image
-            src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1600&q=80"))}
+            src={photo(4, "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1600&q=80")}
             alt="Aether Hero"
             fill
             className="object-cover brightness-50 contrast-125 grayscale-[0.3]"

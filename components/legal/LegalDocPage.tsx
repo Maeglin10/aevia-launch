@@ -3,13 +3,14 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-type DocKey = "mentionsLegales" | "cgv" | "confidentialite" | "cgu";
+type DocKey = "mentionsLegales" | "cgv" | "confidentialite" | "cgu" | "cookies";
 
 const TITLES: Record<DocKey, string> = {
   mentionsLegales: "Mentions légales",
   cgv: "Conditions Générales de Vente",
   confidentialite: "Politique de Confidentialité",
   cgu: "Conditions Générales d'Utilisation",
+  cookies: "Politique de cookies",
 };
 
 const NAV: { key: DocKey; slug: string; label: string }[] = [
@@ -17,9 +18,10 @@ const NAV: { key: DocKey; slug: string; label: string }[] = [
   { key: "cgv", slug: "cgv", label: "CGV" },
   { key: "confidentialite", slug: "confidentialite", label: "Confidentialité" },
   { key: "cgu", slug: "cgu", label: "CGU" },
+  { key: "cookies", slug: "cookies", label: "Cookies" },
 ];
 
-// Shared renderer for a generated site's 4 legal documents. One instance per
+// Shared renderer for a generated site's 5 legal documents. One instance per
 // template (app/templates/impact-N/legal/[page]/page.tsx), parameterized by
 // `doc` and `basePath` — keeps the fetch/render logic in one place instead
 // of duplicating it across every pilot template.

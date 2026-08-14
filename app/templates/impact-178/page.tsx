@@ -392,7 +392,7 @@ export default function AltaTransactionsPage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} className="relative h-[100dvh] min-h-0 md:h-[100dvh] md:min-h-[640px] flex items-end overflow-hidden">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=85&w=2400"))} alt="Immobilier prestige Paris" fill className="object-cover" priority style={{ filter: "brightness(0.55)" }} />
+          <Image src={photo(3, "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=85&w=2400")} alt="Immobilier prestige Paris" fill className="object-cover" priority style={{ filter: "brightness(0.55)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#11182a] via-[#11182a]/35 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#11182a]/60 to-transparent" />
         </motion.div>
@@ -560,7 +560,7 @@ export default function AltaTransactionsPage() {
       {/* ── CTA ── */}
       <section id="contact" className="relative py-48 overflow-hidden">
         <div className="absolute inset-0">
-          <Image src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&q=80&w=2400"))} alt="Bien immobilier prestige" fill className="object-cover opacity-30" />
+          <Image src={photo(4, "https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&q=80&w=2400")} alt="Bien immobilier prestige" fill className="object-cover opacity-30" />
           <div className="absolute inset-0 bg-[#fefdfb]/85" />
         </div>
         <Reveal className="relative z-10 text-center px-6">

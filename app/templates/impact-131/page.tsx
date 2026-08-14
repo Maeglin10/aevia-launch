@@ -2017,7 +2017,7 @@ export default function WineryTemplate() {
               }}
             >
               <img
-                src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1560493676-04071c5f467b?w=800&q=80"))}
+                src={photo(3, "https://images.unsplash.com/photo-1560493676-04071c5f467b?w=800&q=80")}
                 alt="Jean-Pierre Valroc"
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />

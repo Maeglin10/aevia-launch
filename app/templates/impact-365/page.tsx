@@ -9,6 +9,7 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, HeldSwap, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import {
   clientCertifications,
+  clientAddress,
   clientCity,
   clientEyebrow,
   clientHeroLine,
@@ -331,7 +332,7 @@ export default function QuatreVentsPage() {
       <section id="engagements" className="i365-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
         <div className="i365-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
           <Reveal>
-            <img src={photo(3, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80"))} alt="Le jardin de la ferme en pleine saison" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(4, "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80")} alt="Le jardin de la ferme en pleine saison" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
           <Reveal delay={0.15}>
             <div>
@@ -432,7 +433,7 @@ export default function QuatreVentsPage() {
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Ferme en agriculture biologique · Cahors<br />Certifiée AB — vente directe et marchés</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: "Cahors, Lot" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Boutique ferme : Mer & Ven 16h–19h · Sam 9h–13h" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? clientCity(sessionData) ?? "Cahors, Lot" }, { icon: <Phone size={13} />, t: phone }, { icon: <Mail size={13} />, t: mail }, { icon: <Clock size={13} />, t: "Boutique ferme : Mer & Ven 16h–19h · Sam 9h–13h" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
                 </div>

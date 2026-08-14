@@ -111,11 +111,15 @@ let SERVICES_DEMO = SERVICES_SOURCE;
 // Testimonials — hoisted from an inline JSX array literal so resolveList can
 // swap in clientReviews(session) when the client provided real
 // reviews.
-const TEMOIGNAGES_DEMO = [
+/* Recalculée après l'arrivée de la session : figée à l'import, elle gardait la démonstration. */
+function TEMOIGNAGES_DEMO_LIVE() {
+  return [
   { q: "Chaudière tombée en panne un dimanche soir de janvier. Technicien présent en 3h. Pièce remplacée, chaudière repartie. Service au top.", n: "Bernard L.", l: (clientCity(sessionData) ?? "Bordeaux") + " (33)" },
   { q: "Thermotek nous a installé une PAC air-eau et géré toutes les aides MaPrimeRénov'. Économie de 60% sur notre facture de gaz. Exceptionnel.", n: "Isabelle & Marc D.", l: "Mérignac (33)" },
   { q: "Entretien annuel ponctuel, technicien sérieux et pédagogue. Le rapport de combustion est clair. On continue avec Thermotek depuis 8 ans.", n: "Sylvain A.", l: "Pessac (33)" },
-]
+];
+}
+let TEMOIGNAGES_DEMO = TEMOIGNAGES_DEMO_LIVE();
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -158,6 +162,7 @@ export default function ThermotekChauffagePage() {
 
   fd = session?.formData;
   sessionData = session;
+  TEMOIGNAGES_DEMO = TEMOIGNAGES_DEMO_LIVE();
   c = session?.generatedContent;
   ZONES_DEMO = ZONES_DEMO_LIVE();
   REALISATIONS = REALISATIONS_LIVE();

@@ -433,7 +433,7 @@ export default function FolioStudioPage() {
 
         {/* ─── FULL WIDTH IMAGE PARALLAX ─────────────────────────────────── */}
         <section className="py-20">
-          <ParallaxImg src={photo(0, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80"))} alt="Office" className="h-[60vh] md:h-[80vh] w-full" />
+          <ParallaxImg src={photo(8, "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80")} alt="Office" className="h-[60vh] md:h-[80vh] w-full" />
         </section>
 
         {/* ─── SERVICES GRID ─────────────────────────────────────────────── */}

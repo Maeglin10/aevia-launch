@@ -644,7 +644,7 @@ function HeroSection() {
         style={{
           position: 'absolute',
           inset: '-10%',
-          backgroundImage: `url(${photo(0, (clientPhotos(sessionData)[37] || "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1800&q=90"))})`,
+          backgroundImage: `url(${photo(37, "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1800&q=90")})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center 30%',
           y: bgY,
@@ -1245,7 +1245,7 @@ function DiningSection() {
           top: '5rem',
           width: '45vw',
           height: '80%',
-          backgroundImage: `url(${photo(1, (clientPhotos(sessionData)[39] || "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=85"))})`,
+          backgroundImage: `url(${photo(39, "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=85")})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           y: bgY,
@@ -1317,7 +1317,7 @@ function DiningSection() {
             <div
               style={{
                 height: '560px',
-                backgroundImage: `url(${photo(2, (clientPhotos(sessionData)[40] || "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&q=85"))})`,
+                backgroundImage: `url(${photo(40, "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&q=85")})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 position: 'relative',
@@ -1400,7 +1400,7 @@ function LocationSection() {
               <div
                 style={{
                   height: '340px',
-                  backgroundImage: `url(${photo(3, (clientPhotos(sessionData)[41] || "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1000&q=85"))})`,
+                  backgroundImage: `url(${photo(41, "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1000&q=85")})`,
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                   position: 'relative',
@@ -1539,7 +1539,7 @@ function BookingCTA() {
         style={{
           position: 'absolute',
           inset: '-15%',
-          backgroundImage: `url(${photo(4, (clientPhotos(sessionData)[42] || "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1600&q=85"))})`,
+          backgroundImage: `url(${photo(42, "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=1600&q=85")})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           y: bgY,

@@ -173,7 +173,9 @@ const seasonData: Record<
   },
 };
 
-const testimonials_SOURCE = [
+/* Recalculée après l'arrivée de la session : figée à l'import, elle gardait la démonstration. */
+function testimonials_SOURCE_LIVE() {
+  return [
   {
     name: "Marie-Claire Dubois",
     role: "Abonnée depuis 3 ans",
@@ -196,6 +198,8 @@ const testimonials_SOURCE = [
     avatar: "SP",
   },
 ];
+}
+let testimonials_SOURCE = testimonials_SOURCE_LIVE();
 let testimonials = testimonials_SOURCE;
 
 function plans_LIVE() {
@@ -643,6 +647,7 @@ export default function TerreVivantePage() {
 
   fd = session?.formData;
   sessionData = session;
+  testimonials_SOURCE = testimonials_SOURCE_LIVE();
   memoriserSession(sessionData);
   bp = session?.businessProfile;
   c = session?.generatedContent;

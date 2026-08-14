@@ -340,6 +340,41 @@ function rendreLesNomsEntiers(nom: string | undefined) {
  * on rétrécit la police. Le dessin du thème est conservé tant que le texte
  * tient ; on n'intervient qu'au-delà.
  */
+/**
+ * L'élément vit-il dans quelque chose qui bouge ou qui défile ?
+ *
+ * Un titre qui défile horizontalement déborde de son cadre par dessein : c'est
+ * le geste même. Le rétrécir revient à effacer le thème — impact-347 affichait
+ * son titre de héros en onze pixels, la taille plancher, au lieu de soixante.
+ *
+ * On remonte jusqu'au corps de page : l'animation d'un bandeau est souvent
+ * posée bien plus haut que l'élément qui porte le texte.
+ */
+function dansUnElementQuiBouge(e: Element): boolean {
+  let n: Element | null = e;
+  let niveau = 0;
+  while (n && n !== document.body) {
+    const s = getComputedStyle(n);
+    /*
+      Une animation ou un cadre qui défile protègent sur toute la chaîne : le
+      bandeau d'avis d'impact-336 porte la sienne très haut.
+    */
+    if (["auto", "scroll"].includes(s.overflowX) || ["auto", "scroll"].includes(s.overflow)) return true;
+    if (s.animationName !== "none") return true;
+    /*
+      Une transformation, en revanche, ne protège qu'à deux niveaux. Étendue à
+      toute la chaîne, un simple `scale(1.06)` décoratif posé haut dans
+      impact-160 mettait à l'abri trente et un éléments qui sortaient vraiment
+      de l'écran — dont le nom du client, en titre, à cinq cents pixels d'un
+      écran qui en fait trois cent quatre-vingt-dix.
+    */
+    if (niveau <= 1 && /matrix|translate/.test(s.transform)) return true;
+    n = n.parentElement;
+    niveau++;
+  }
+  return false;
+}
+
 function ajusterAuCadre(e: HTMLElement) {
   /*
     L'ajustement se refait quand le texte change, et seulement alors : un
@@ -357,6 +392,8 @@ function ajusterAuCadre(e: HTMLElement) {
   const r = e.getBoundingClientRect();
   const deborde = r.right > large + 4 || e.scrollWidth > e.clientWidth + 4;
   if (!deborde) return;
+  /* Ce qui défile déborde à dessein : le rétrécir efface le geste du thème. */
+  if (dansUnElementQuiBouge(e)) return;
 
   // On repart de la taille d'origine, sinon les rétrécissements s'additionnent.
   if (!e.dataset.tailleOrigine) {
@@ -382,6 +419,221 @@ function ajusterAuCadre(e: HTMLElement) {
   */
   if (encore()) e.style.maxWidth = "calc(100vw - 2rem)";
   if (encore()) retrecirJusquAuCadre(e);
+}
+
+/**
+ * Le nom au bas de la page.
+ *
+ * La passe qui rend la marque ne regarde que l'en-tête. Le pied de page, lui,
+ * garde son « © 2026 L'ÉTOILE ANNECY · ALL RIGHTS RESERVED » — le nom du
+ * restaurant de la démonstration, en bas du site d'un couvreur qui l'a payé.
+ *
+ * On ne remplace que le segment qui suit l'année, jamais la ligne entière :
+ * la mention légale, l'éditeur, l'hébergeur sont écrits ailleurs et sont justes.
+ */
+function rendreLeCopyright(nom: string | undefined) {
+  if (!nom || nom.trim().length < 2) return;
+  const propre = nom.trim();
+  const motif = /(©\s*\d{4}\s+)([^·—|\n]{2,60}?)(\s*(?:·|—|\||$))/;
+
+  for (const e of document.querySelectorAll<HTMLElement>("footer *, footer")) {
+    if (e.children.length > 0 || e.dataset.copyrightRendu) continue;
+    const t = (e.textContent ?? "").replace(/\s+/g, " ").trim();
+    if (!t.includes("©")) continue;
+    if (t.toLowerCase().includes(propre.toLowerCase())) continue;
+    const m = motif.exec(t);
+    if (!m) continue;
+
+    /*
+      On écrit dans le nœud de texte existant, jamais `textContent = …` :
+      cette affectation détruit les enfants et en crée un nouveau, alors que
+      React garde une référence sur l'ancien. Au rendu suivant il tente
+      d'insérer devant un nœud qui n'est plus là — « Failed to execute
+      insertBefore » — et la page entière disparaît. Vu en production sur
+      impact-380, après déploiement.
+    */
+    const noeud = Array.from(e.childNodes).find((n) => n.nodeType === Node.TEXT_NODE);
+    if (!noeud) continue;
+    e.dataset.copyrightRendu = "1";
+    noeud.nodeValue = (noeud.nodeValue ?? "").replace(motif, `$1${propre}$3`);
+  }
+}
+
+/**
+ * Le téléphone et le courriel du client, quand la page ne les porte nulle part.
+ *
+ * Cent soixante et onze thèmes du catalogue n'affichent ni l'un ni l'autre —
+ * pas même en lien `tel:`. Pour un site d'artisan, c'est le manque le plus
+ * coûteux qui soit : le visiteur trouve le métier, la ville, les prestations,
+ * et repart sans pouvoir appeler.
+ *
+ * On ne redessine rien : on ajoute une ligne au pied de page, dans sa couleur
+ * et sa fonte, et seulement si le numéro n'apparaît nulle part ailleurs. Un
+ * thème qui affiche déjà le contact ne bouge pas d'un pixel.
+ */
+function poserLeContact(donnees: Record<string, unknown> | undefined) {
+  const tel = typeof donnees?.phone === "string" ? donnees.phone.trim() : "";
+  const mail = typeof donnees?.email === "string" ? donnees.email.trim() : "";
+  if (!tel && !mail) return;
+
+  /*
+    Trois thèmes n'ont pas de balise `footer` du tout — impact-115, 121 et 131.
+    La ligne n'avait alors nulle part où se poser, et le client restait
+    injoignable. À défaut de pied de page, on la met en fin de document, avec un
+    filet au-dessus pour qu'elle ne paraisse pas tomber là par accident.
+  */
+  if (document.querySelector("[data-contact-pose]")) return;
+
+  /* Le besoin d'abord : sans quoi la passe, qui repasse six fois, sèmerait six
+     blocs vides sur les pages qui affichent déjà le contact. */
+  const texte = document.body.textContent ?? "";
+  const manqueTel = Boolean(tel) && !texte.includes(tel);
+  const manqueMail = Boolean(mail) && !texte.includes(mail);
+  if (!manqueTel && !manqueMail) return;
+
+  /*
+    Trois thèmes n'ont pas de balise `footer` du tout — impact-115, 121 et 131.
+    La ligne n'avait alors nulle part où se poser, et le client restait
+    injoignable. À défaut de pied de page, on la met en fin de document, avec un
+    filet au-dessus pour qu'elle ne paraisse pas tomber là par accident.
+  */
+  const pied =
+    document.querySelector<HTMLElement>("footer") ??
+    (() => {
+      const bloc = document.createElement("div");
+      bloc.style.cssText =
+        "padding:28px 6vw;border-top:1px solid currentColor;opacity:0.75;font-size:14px";
+      document.body.appendChild(bloc);
+      return bloc;
+    })();
+
+  pied.dataset.contactPose = "1";
+  const ligne = document.createElement("div");
+  ligne.style.cssText =
+    "margin-top:16px;display:flex;gap:20px;flex-wrap:wrap;align-items:center;font-size:14px;line-height:1.6;opacity:0.9";
+
+  const lien = (href: string, libelle: string) => {
+    const a = document.createElement("a");
+    a.href = href;
+    a.textContent = libelle;
+    a.style.cssText = "color:inherit;text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:1px";
+    return a;
+  };
+  if (manqueTel) ligne.appendChild(lien(`tel:${tel.replace(/[^\d+]/g, "")}`, tel));
+  if (manqueMail) ligne.appendChild(lien(`mailto:${mail}`, mail));
+  pied.appendChild(ligne);
+}
+
+/**
+ * Le fond du thème jusqu'au bas du document.
+ *
+ * impact-333 finit sur cent trente pixels blancs sous son pied de page noir.
+ * Le thème peint son fond sur sa propre enveloppe ; quand le document est plus
+ * haut qu'elle — un décor en position absolue, une ancre, un espace de fin —
+ * c'est le blanc du navigateur qui apparaît dessous.
+ *
+ * On recopie donc le fond de l'enveloppe sur `html` et `body`. Rien ne change
+ * quand le thème est clair ; sur les thèmes sombres, la bande disparaît.
+ */
+function prolongerLeFond() {
+  const corps = document.body;
+  if (!corps || corps.dataset.fondProlonge) return;
+
+  const peint = (e: Element | null): string | null => {
+    if (!e) return null;
+    const f = getComputedStyle(e).backgroundColor;
+    return f && f !== "transparent" && f !== "rgba(0, 0, 0, 0)" ? f : null;
+  };
+
+  /*
+    C'est le bas de la page qui compte : la bande apparaît sous le pied de
+    page. On prend donc sa couleur — et non celle de l'enveloppe, souvent
+    transparente parce que chaque section peint la sienne.
+  */
+  const pied = document.querySelector("footer");
+  let fond = peint(pied);
+  if (!fond && pied) {
+    for (const e of Array.from(pied.querySelectorAll("*")).slice(0, 40)) {
+      fond = peint(e);
+      if (fond) break;
+    }
+  }
+  if (!fond) {
+    for (const e of Array.from(corps.children)) {
+      fond = peint(e);
+      if (fond) break;
+    }
+  }
+  if (!fond) return;
+
+  corps.dataset.fondProlonge = "1";
+  corps.style.background = fond;
+  document.documentElement.style.background = fond;
+}
+
+/**
+ * Un mot du client coupé en deux lignes.
+ *
+ * « COUVREU / R À ANNECY » : le titre d'impact-332 casse le mot en plein
+ * milieu. Aucun garde ne le voyait, et pour une bonne raison — le texte TIENT
+ * dans son cadre. `scrollWidth` n'excède pas `clientWidth`, rien ne sort de
+ * l'écran : du point de vue de la mesure, tout va bien. C'est le repli
+ * `overflow-wrap: break-word` qui a fait son office, sur un mot plus large que
+ * la colonne.
+ *
+ * On ne peut pas deviner la largeur d'un mot depuis sa longueur : elle dépend
+ * de la fonte, de la graisse, de l'interlettrage. On la mesure donc — un
+ * `Range` posé sur le mot rend un rectangle par ligne occupée. Deux rectangles
+ * à des hauteurs différentes, c'est un mot coupé.
+ */
+function motCoupeDans(e: HTMLElement): boolean {
+  const parcours = document.createTreeWalker(e, NodeFilter.SHOW_TEXT);
+  const plage = document.createRange();
+  for (let n = parcours.nextNode(); n; n = parcours.nextNode()) {
+    const texte = n.textContent ?? "";
+    for (const m of texte.matchAll(/\S+/g)) {
+      /* « à », « de », « et » : les couper ne se voit pas, et ils ne le sont jamais. */
+      if (m[0].length < 4) continue;
+      plage.setStart(n, m.index);
+      plage.setEnd(n, m.index + m[0].length);
+      const rects = [...plage.getClientRects()].filter((r) => r.width > 0.5);
+      if (rects.length < 2) continue;
+      if (new Set(rects.map((r) => Math.round(r.top))).size > 1) return true;
+    }
+  }
+  return false;
+}
+
+/**
+ * Rendre au client ses mots entiers.
+ *
+ * On rétrécit par paliers jusqu'à ce que plus aucun mot ne soit coupé. Si même
+ * la moitié de la taille n'y suffit pas, on rend sa taille d'origine : un titre
+ * minuscule ET coupé serait deux défauts au lieu d'un.
+ */
+function rendreLesMotsEntiers() {
+  /*
+    Pas seulement les titres : le prix d'impact-321 est un `div` en corps 50,
+    et « 180 € le déplacement » s'y coupait en « déplac / ement ». On retient
+    donc tout texte assez grand pour que la coupure se voie, et on écarte les
+    conteneurs — leurs enfants sont examinés pour eux.
+  */
+  for (const e of document.querySelectorAll<HTMLElement>("h1, h2, h3, h4, p, div, span, li, td, a, strong, em, blockquote")) {
+    if (e.children.length > 0 && !/^H[1-4]$/.test(e.tagName)) continue;
+    const style = getComputedStyle(e);
+    /* Le petit texte se replie sans qu'on le remarque ; c'est l'affiche qui blesse. */
+    if (parseFloat(style.fontSize) < 24) continue;
+    if (!motCoupeDans(e)) continue;
+
+    if (!e.dataset.tailleOrigine) e.dataset.tailleOrigine = style.fontSize;
+    const depart = parseFloat(e.dataset.tailleOrigine);
+    let repare = false;
+    for (let taille = depart - 2; taille >= depart * 0.5; taille -= 2) {
+      e.style.fontSize = `${taille}px`;
+      if (!motCoupeDans(e)) { repare = true; break; }
+    }
+    if (!repare) e.style.fontSize = "";
+  }
 }
 
 /** La police rétrécit par paliers jusqu'à ce que le texte tienne, sans jamais descendre sous onze pixels. */
@@ -684,17 +936,6 @@ function capitale(x: string): string {
 function bornerLesTextesDuTheme() {
   const large = document.documentElement.clientWidth;
 
-  const defileOuAnime = (e: Element): boolean => {
-    let n: Element | null = e;
-    for (let i = 0; i < 6 && n; i++) {
-      const s = getComputedStyle(n);
-      if (["auto", "scroll"].includes(s.overflowX) || ["auto", "scroll"].includes(s.overflow)) return true;
-      if (s.animationName !== "none" || /matrix|translate/.test(s.transform)) return true;
-      n = n.parentElement;
-    }
-    return false;
-  };
-
   for (const e of document.querySelectorAll<HTMLElement>("p, span, div, li, h1, h2, h3, h4, a, td, dd, button")) {
     if (e.children.length > 0 || e.dataset.borne) continue;
     const t = (e.textContent ?? "").trim();
@@ -704,13 +945,29 @@ function bornerLesTextesDuTheme() {
     const r = e.getBoundingClientRect();
     if (r.width < 8 || r.height < 6) continue;
     if (r.right <= large + 4 && e.scrollWidth <= e.clientWidth + 4) continue;
-    if (defileOuAnime(e)) continue;
+    if (dansUnElementQuiBouge(e)) continue;
 
     e.dataset.borne = "1";
     e.style.overflowWrap = "anywhere";
     e.style.maxWidth = "calc(100vw - 1.5rem)";
-    if (s.whiteSpace.startsWith("nowrap")) e.style.whiteSpace = "normal";
-    if (e.getBoundingClientRect().right > large + 4 || e.scrollWidth > e.clientWidth + 4) retrecirJusquAuCadre(e);
+
+    const tient = () =>
+      e.getBoundingClientRect().right <= large + 4 && e.scrollWidth <= e.clientWidth + 4;
+
+    /*
+      Un `nowrap` posé par le thème est une intention, pas un oubli : le prix
+      d'impact-341 tient sur une ligne parce qu'un montant se lit d'un coup.
+      L'annuler d'emblée donnait « à partir / de 9 400 / € » sur trois lignes,
+      le symbole seul en bas — trois lignes que J'AVAIS créées.
+
+      On rétrécit donc d'abord, et on ne permet le repli que si même la plus
+      petite taille ne suffit pas.
+    */
+    if (s.whiteSpace.startsWith("nowrap")) {
+      if (!tient()) retrecirJusquAuCadre(e);
+      if (!tient()) { e.style.whiteSpace = "normal"; e.style.fontSize = ""; }
+    }
+    if (!tient()) retrecirJusquAuCadre(e);
   }
 }
 
@@ -949,6 +1206,10 @@ export function BrandColorVar() {
           rendreLesHoraires(d?.businessProfile?.openingHours);
           rendreLaMarque(d?.formData?.businessName);
           bornerLesTextesDuTheme();
+          rendreLesMotsEntiers();
+          rendreLeCopyright(d?.formData?.businessName);
+          poserLeContact(d?.formData);
+          prolongerLeFond();
         };
         requestAnimationFrame(() => requestAnimationFrame(passer));
         /*

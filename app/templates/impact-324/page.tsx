@@ -1,249 +1,330 @@
 "use client";
-import { resolveList } from "@/lib/templates/resolveList";
-import {
-  clientEmail,
-  clientAccrocheRestante,
-  clientCity,
-  clientList,
-  clientName,
-  clientPhotos,
-  clientTagline,
-  clientText,
-  clientWorks,
-} from "@/lib/templates/clientContent";
 // @ts-nocheck
+
 import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { ArrowRight, Calendar, MapPin, Mail, Phone, Star, Check } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
+import { LegalIdentity } from "../LegalIdentity";
+import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { CrossPush } from "@/lib/templates/hero-kit-3";
 import {
-  Ticket,
-  Calendar,
-  MapPin,
-  Search,
-  ShoppingCart,
-  X,
-  ChevronRight,
-  ChevronLeft,
-  Menu,
-  Star,
-  Check,
-  Music,
-  Zap,
-  Clock,
-  ArrowRight,
-  User,
-  Mail,
-  CreditCard,
-  ChevronDown
-} from "lucide-react";
+  clientHeroLine,
+  clientHeroSubtitle,
+  clientEyebrow,
+  clientTrade,
+  clientCertifications,
+  clientCity,
+  clientName,
+  clientPhone,
+  clientEmail,
+  clientAddress,
+  clientCodePostalVille,
+  clientPhotos,
+  clientReviews,
+  clientServices,
+  clientStats,
+  clientWorks,
+  clientList,
+  clientText,
+} from "@/lib/templates/clientContent";
+
+// Variables de module lues par les sections extraites en composants :
+// déclarées ici pour que tout le fichier puisse s'y référer.
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
 let sessionData: any = null;
-const Facebook = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
-const Twitter = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
-const Instagram = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 
-/**
- * ==========================================
- * IMPACT-324: LIVE TICKET (Event E-Commerce)
- * ==========================================
- * Business: Concert & Event Ticket Sales
- * Vibe: Dark, Neon, Energetic, Premium
- * Fonts: Montserrat (Headings) & Roboto (Body)
- * Colors: Neon Pink (#ec4899), Midnight Blue (#0f172a), Silver
- */
+/* ════════════════════════════════════════════════════════════════════════════
+   IMPACT-324 · LIVETICKET — billetterie live (concerts, salles en propre)
+   Réécriture premium — geste signature : CrossPush (les affiches se croisent).
+   Héros H3 plein cadre, titre en bas, fond de repli C.bgDark.
+   Fontes P12 : Bricolage Grotesque (voix display) + Figtree (corps).
+   Signature : affiches qui se croisent · tarifs en billets perforés CSS ·
+   marquee de dates. Palette sombre #0b0f1a / #ec4899.
+   ════════════════════════════════════════════════════════════════════════════ */
 
-function shadeColor(color: string, percent: number) {
-  let R = parseInt(color.substring(1, 3), 16);
-  let G = parseInt(color.substring(3, 5), 16);
-  let B = parseInt(color.substring(5, 7), 16);
+const FONTS_CSS = `@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,600;12..96,800&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');`;
 
-  R = parseInt((R * (100 + percent)) / 100 as any);
-  G = parseInt((G * (100 + percent)) / 100 as any);
-  B = parseInt((B * (100 + percent)) / 100 as any);
-
-  R = (R < 255 ? R : 255);
-  G = (G < 255 ? G : 255);
-  B = (B < 255 ? B : 255);
-
-  R = Math.round(R);
-  G = Math.round(G);
-  B = Math.round(B);
-
-  const RR = ((R.toString(16).length == 1) ? "0" + R.toString(16) : R.toString(16));
-  const GG = ((G.toString(16).length == 1) ? "0" + G.toString(16) : G.toString(16));
-  const BB = ((B.toString(16).length == 1) ? "0" + B.toString(16) : B.toString(16));
-
-  return "#" + RR + GG + BB;
-}
-
-const C = {
-  primary: "var(--brand,#ec4899)", // Neon pink
-  primaryLight: "#fbcfe8",
-  primaryDark: "var(--brand-light,#be185d)",
-  bg: "#0f172a", // Midnight blue
-  bgDeep: "#020617",
-  bgCard: "#1e293b",
-  text: "#f8fafc", // Silver / light
-  textMuted: "#94a3b8",
-  accent: "#38bdf8", // Neon blue accent
+let C: Record<string, string> = {
+  bg: "#0b0f1a",
+  bgAlt: "#0e1424",
+  bgDark: "#060a14",
+  bgDarkAlt: "#03060d",
+  bgCard: "#121a2e",
+  accent: "var(--brand,#ec4899)",
+  accentDark: "var(--brand-light,#f9a8d4)",
+  accentLight: "rgba(236,72,153,0.13)",
+  ink: "#f5f6fb",
+  textMuted: "#9aa3ba",
+  textFaint: "#5d6579",
+  border: "rgba(255,255,255,0.09)",
   white: "#ffffff",
-  black: "#000000",
-  success: "#10b981",
-  danger: "#ef4444"
+  neon: "#38bdf8", // clé métier : lumière de scène
 };
 
-const SERIF = "'Montserrat', sans-serif";
-const SANS = "'Roboto', sans-serif";
-const EASE = [0.16, 1, 0.3, 1];
+const DISPLAY = "'Bricolage Grotesque', system-ui, sans-serif";
+const SANS = "'Figtree', system-ui, sans-serif";
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
-function PHOTOS_LIVE() {
-  return {
-  hero: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/17527817/pexels-photo-17527817.jpeg?auto=compress&cs=tinysrgb&w=2000"),
-  about: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"),
-  event1: (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/27151463/pexels-photo-27151463.jpeg?auto=compress&cs=tinysrgb&w=800"),
-  event2: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
-  event3: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
-  event4: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
-  gallery: [
-    (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
-    (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
-    (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"),
-    (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80")
-  ]
-};
+/* ── Photos — URLs existantes du thème, jamais d'URL inventée ────────────── */
+const FALLBACK_PHOTOS = [
+  "https://images.pexels.com/photos/17527817/pexels-photo-17527817.jpeg?auto=compress&cs=tinysrgb&w=2000", // 0 affiche hero A
+  "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80", // 1 coulisses VIP
+  "https://images.pexels.com/photos/27151463/pexels-photo-27151463.jpeg?auto=compress&cs=tinysrgb&w=800", // 2 affiche hero B
+  "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // 3 affiche hero C
+  "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // 4 vignette date 1
+  "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // 5 vignette date 2
+  "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // 6 vignette date 3
+  "https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // 7 vignette date 4
+];
+
+function photo(i: number, repli: string): string {
+  return fd?.photoUrls?.[i] || clientPhotos(sessionData)[i] || repli;
 }
-let PHOTOS = PHOTOS_LIVE();
 
-const CustomInstagramIcon = ({ className }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-  </svg>
-);
+/* ── Données de démonstration (contenu rédactionnel conservé) ────────────── */
 
-// --- REUSABLE COMPONENTS ---
+const EVENTS_SOURCE = [
+  { id: "e1", title: "Tournée Néon de minuit", artist: "Syntax Error", d: "15", m: "août", time: "21:00", venue: "Grande Halle, Paris", price: "45 €", category: "Électro", pi: 4 },
+  { id: "e2", title: "Acoustic Sessions", artist: "Elena Rossi", d: "20", m: "août", time: "19:30", venue: "Intimate Hall, Lyon", price: "35 €", category: "Acoustic", pi: 5 },
+  { id: "e3", title: "Summer Vibes Festival", artist: "Various Artists", d: "05", m: "sept.", time: "14:00", venue: "Open Air Park, Marseille", price: "89 €", category: "Festival", pi: 6 },
+  { id: "e4", title: "Symphonie de la nuit", artist: "Orchestre de Paris", d: "12", m: "sept.", time: "20:00", venue: "Philharmonie, Paris", price: "60 €", category: "Classique", pi: 7 },
+  { id: "e5", title: "Nuit rock", artist: "Les Foudres", d: "25", m: "sept.", time: "20:30", venue: "Zénith, Lille", price: "50 €", category: "Rock", pi: 4 },
+  { id: "e6", title: "Jazz & Wine Night", artist: "Blue Note Quartet", d: "02", m: "oct.", time: "20:00", venue: "Jazz Club, Bordeaux", price: "40 €", category: "Jazz", pi: 5 },
+];
 
-function Reveal({ children, delay = 0, y = 30, className = "" }) {
+function EVENTS_LIVE() {
+  const ville = clientCity(sessionData);
+  const base = EVENTS_SOURCE.map((e) => ({
+    ...e,
+    venue: ville ? e.venue.replace(/Paris|Lille/, ville) : e.venue,
+    artist: ville ? e.artist.replace(/Paris|Lille/, ville) : e.artist,
+  }));
+  return /* REALISATIONS */ resolveList(
+    clientWorks(sessionData)?.map((o: any, i: number) => ({
+      ...base[i % base.length],
+      title: o.title ?? base[i % base.length].title,
+      artist: o.detail || base[i % base.length].artist,
+      ...(o.imageUrl ? { img: o.imageUrl } : {}),
+    })),
+    base,
+  );
+}
+let EVENTS = EVENTS_LIVE();
+
+const TICKETS_SOURCE = [
+  {
+    k: "Standard",
+    p: "35 – 89 €",
+    n: "Le prix imprimé sur l'annonce est celui payé au guichet, le soir même, pour la dernière place comme pour la première.",
+    perks: ["Toutes les soirées du calendrier", "Espèces et carte, sans frais de réservation au guichet", "Place accompagnant offerte — accès de plain-pied à tous les niveaux"],
+    featured: false,
+  },
+  {
+    k: "VIP",
+    p: "× 2",
+    n: "Le concert autrement : placement privilégié, coulisses, boisson et rencontre avec les artistes.",
+    perks: ["Entrée anticipée et accès VIP réservé", "Premier rang ou balcon", "Coffret collector", "Salon VIP et bar privé"],
+    featured: true,
+  },
+  {
+    k: "Group 10+",
+    p: "Sur devis",
+    n: "Devis écrit sous un jour ouvré, places tenues sept jours.",
+    perks: ["Places tenues sept jours", "Une seule adresse, lue par quelqu'un", "Devis sous un jour ouvré"],
+    featured: false,
+  },
+];
+
+function TICKETS_LIVE() {
+  return resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({
+      ...TICKETS_SOURCE[i % TICKETS_SOURCE.length],
+      k: s.title ?? TICKETS_SOURCE[i % TICKETS_SOURCE.length].k,
+      p: s.price ?? TICKETS_SOURCE[i % TICKETS_SOURCE.length].p,
+      n: s.description ?? s.desc ?? TICKETS_SOURCE[i % TICKETS_SOURCE.length].n,
+    })),
+    TICKETS_SOURCE,
+  );
+}
+let TICKETS = TICKETS_LIVE();
+
+const ENGAGE_SOURCE = [
+  "Aucun prix qui varie — le prix annoncé est le prix payé",
+  "Artistes payés le soir même, en loge, premières parties comprises",
+  "Quatre salles que nous exploitons — en propre ou en bail long, jamais sous-traitées",
+  "Démos bienvenues : nous répondons à toutes, tôt ou tard",
+];
+
+function ENGAGE_LIVE() {
+  return resolveList(clientCertifications(sessionData), ENGAGE_SOURCE);
+}
+let ENGAGE = ENGAGE_LIVE();
+
+const STATS_SOURCE = [
+  { v: "500K+", l: "Billets vendus" },
+  { v: "4.9/5", l: "Note des spectateurs" },
+  { v: "120+", l: "Soirées par an" },
+  { v: "100%", l: "Réservation sécurisée" },
+];
+
+function STATS_LIVE() {
+  return resolveList(
+    clientStats(sessionData)?.map((s: any) => ({ v: s.value, l: s.label })),
+    STATS_SOURCE,
+  );
+}
+let STATS = STATS_LIVE();
+
+const AVIS_SOURCE = [
+  { name: "Sophie Martin", role: "Habituée des festivals", text: "La billetterie la plus simple que j'aie connue. Rapide, sûre, et mon pass VIP sans la moindre difficulté." },
+  { name: "Lucas Dubois", role: "Mélomane", text: "Le choix des places est d'une fluidité rare, et l'accueil au téléphone à la hauteur." },
+  { name: "Emma Leroy", role: "Abonnée", text: "Je vais à plus de vingt concerts par an, et c'est de loin la billetterie que je préfère. Je n'ai jamais raté une mise en vente depuis." },
+];
+
+function AVIS_LIVE() {
+  return resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
+      ...AVIS_SOURCE[i % AVIS_SOURCE.length],
+      name: r.author ?? r.name ?? AVIS_SOURCE[i % AVIS_SOURCE.length].name,
+      role: r.location ?? r.role ?? AVIS_SOURCE[i % AVIS_SOURCE.length].role,
+      text: r.text ?? AVIS_SOURCE[i % AVIS_SOURCE.length].text,
+    })),
+    AVIS_SOURCE,
+  );
+}
+let AVIS = AVIS_LIVE();
+
+const ABOUT_SOURCE = [
+  { t: "Depuis 2011", d: "Une salle de deux cents places au-dessus d'un bar, à Lille. Les mêmes trois personnes programment encore chaque soirée." },
+  { t: "Aucun prix qui varie", d: "Le prix imprimé sur l'annonce est celui payé au guichet, le soir même, pour la dernière place comme pour la première." },
+  { t: "Artistes payés le soir même", d: "Règlement en loge, avant le démontage. Premières parties comprises, sans délai de trente jours." },
+  { t: "Des salles que nous exploitons", d: "Quatre lieux, en propre ou en bail long. Rien n'est confié à un producteur que nous ne connaissons pas de longue date." },
+];
+
+function ABOUT_LIVE() {
+  const ville = clientCity(sessionData);
+  return ABOUT_SOURCE.map((a) => ({ ...a, d: ville ? a.d.replace("Lille", ville) : a.d }));
+}
+let ABOUT = ABOUT_LIVE();
+
+const CONTACT_SOURCE = [
+  { t: "Guichet", d: "Du mercredi au samedi, 14 h — 19 h, sur place. Espèces et carte, sans frais de réservation." },
+  { t: "Groupes de dix et plus", d: "Devis écrit sous un jour ouvré, places tenues sept jours." },
+  { t: "Accessibilité", d: "Accès de plain-pied à tous les niveaux, place accompagnant offerte. Dites-le à la réservation : nous confirmons les détails propres à la salle." },
+  { t: "Presse et artistes", d: "Une seule adresse, lue par quelqu'un. Démos bienvenues : nous répondons à toutes, tôt ou tard." },
+];
+
+const NAV = [
+  { l: "Dates", h: "#dates" },
+  { l: "Billetterie", h: "#tickets" },
+  { l: "VIP", h: "#vip" },
+  { l: "La maison", h: "#about" },
+  { l: "Contact", h: "#contact" },
+];
+
+/* ── Primitives ──────────────────────────────────────────────────────────── */
+
+function Reveal({ children, delay = 0, y = 28 }: { children: React.ReactNode; delay?: number; y?: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
   return (
-    <motion.div
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.8, delay, ease: EASE }}
-      className={className}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.85, delay, ease: EASE }}>
       {children}
     </motion.div>
   );
 }
 
-function Button({ children, variant = "primary", onClick, className = "", fullWidth = false, size = "md" }) {
-  const baseStyle = {
-    fontFamily: SANS,
-    fontWeight: 600,
-    borderRadius: "4px",
-    display: "inline-flex",
-    alignItems: "center",
-    justifyContent: "center",
-    cursor: "pointer",
-    transition: "all 0.3s ease",
-    width: fullWidth ? "100%" : "auto",
-    border: "none",
-    outline: "none",
-    gap: "8px",
-    textTransform: "uppercase",
-    letterSpacing: "1px"
-  };
-
-  const sizes = {
-    sm: { padding: "8px 16px", fontSize: "12px" },
-    md: { padding: "12px 24px", fontSize: "14px" },
-    lg: { padding: "16px 32px", fontSize: "16px" }
-  };
-
-  const variants = {
-    primary: {
-      backgroundColor: C.primary,
-      color: C.white,
-      boxShadow: `0 4px 15px ${C.primary}40`,
-    },
-    outline: {
-      backgroundColor: "transparent",
-      color: C.primary,
-      border: `2px solid ${C.primary}`,
-    },
-    ghost: {
-      backgroundColor: "transparent",
-      color: C.text,
-    }
-  };
-
+function Kicker({ children, color = C.accent }: { children: React.ReactNode; color?: string }) {
   return (
-    <motion.button
-      whileHover={{ scale: 1.02, y: -2 }}
-      whileTap={{ scale: 0.98 }}
-      onClick={onClick}
-      style={{ ...baseStyle, ...sizes[size], ...variants[variant] }}
-      className={className}
-    >
-      {children}
-    </motion.button>
-  );
-}
-
-function Eyebrow({ text }) {
-  return (
-    <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}>
-      <div style={{ width: "30px", height: "2px", backgroundColor: C.primary }} />
-      <span style={{ 
-        color: C.primary, 
-        fontFamily: SANS, 
-        fontWeight: 700, 
-        textTransform: "uppercase",
-        letterSpacing: "2px",
-        fontSize: "12px"
-      }}>
-        {text}
-      </span>
+    <div style={{ display: "flex", alignItems: "center", gap: 13 }}>
+      <span aria-hidden style={{ width: 40, height: 1, background: `linear-gradient(90deg, ${color}, transparent)` }} />
+      <span style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.36em", textTransform: "uppercase", color, fontWeight: 600 }}>{children}</span>
     </div>
   );
 }
 
-// --- MOCK DATA ---
-
-// "About" and "Contact" were both in the navigation with no section behind them.
-const ABOUT_STATS = [
-  { t: "Since 2011", d: "Started as a 200-capacity room above a bar in " + (clientCity(sessionData) ?? "Lille") + ". Same three people still book every act on the calendar." },
-  { t: "No dynamic pricing", d: "The price printed on the announcement is the price at checkout, on the day, for the last seat as for the first." },
-  { t: "Artists paid on the night", d: "Settlement in the dressing room, before the load-out. Support acts included, no thirty-day terms." },
-  { t: "Rooms we run ourselves", d: "Four venues, all owned or on long leases. Nothing is subcontracted to a promoter we have not worked with for years." },
-];
-
-const CONTACT_LINES = [
-  { t: "Box office", d: "Wednesday to Saturday, 14:00 — 19:00, at the venue. Cash and card, no booking fee in person." },
-  { t: "Groups of ten or more", d: "Written quote within one working day, with a held allocation for seven days." },
-  { t: "Accessibility", d: "Step-free access to every floor, companion ticket free. Tell us at booking and we confirm the specifics for that room." },
-  { t: "Press & artist enquiries", d: "One inbox, read by a person. Demos welcome; we answer all of them, eventually." },
-];
-
-function MOCK_EVENTS_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}) })), [
-  { id: "e1", title: "Midnight Neon Tour", artist: "Syntax Error", date: "2026-08-15", time: "21:00", venue: "The Grand Arena, " + (clientCity(sessionData) ?? "Paris"), price: 45, image: PHOTOS.event1, category: "Electronic" },
-  { id: "e2", title: "Acoustic Sessions", artist: "Elena Rossi", date: "2026-08-20", time: "19:30", venue: "Intimate Hall, Lyon", price: 35, image: PHOTOS.event2, category: "Acoustic" },
-  { id: "e3", title: "Summer Vibes Festival", artist: "Various Artists", date: "2026-09-05", time: "14:00", venue: "Open Air Park, Marseille", price: 89, image: PHOTOS.event3, category: "Festival" },
-  { id: "e4", title: "Symphony of the Night", artist: "Orchestre de " + (clientCity(sessionData) ?? "Paris"), date: "2026-09-12", time: "20:00", venue: "Philharmonie, " + (clientCity(sessionData) ?? "Paris"), price: 60, image: PHOTOS.event4, category: "Classical" },
-  { id: "e5", title: "Rock Revival", artist: "The Thunders", date: "2026-09-25", time: "20:30", venue: "Zénith, " + (clientCity(sessionData) ?? "Lille"), price: 50, image: PHOTOS.gallery[0], category: "Rock" },
-  { id: "e6", title: "Jazz & Wine Night", artist: "Blue Note Quartet", date: "2026-10-02", time: "20:00", venue: "Jazz Club, Bordeaux", price: 40, image: PHOTOS.gallery[1], category: "Jazz" },
-]);
+function NavLink({ l, h }: { l: string; h: string }) {
+  const [hov, setHov] = useState(false);
+  return (
+    <a
+      href={h}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      style={{ position: "relative", color: hov ? C.ink : C.textMuted, fontFamily: SANS, fontSize: 13.5, fontWeight: 500, letterSpacing: "0.05em", textDecoration: "none", padding: "12px 2px", transition: "color 0.45s cubic-bezier(.16,1,.3,1)" }}
+    >
+      {l}
+      <span aria-hidden style={{ position: "absolute", left: 0, bottom: 6, height: 1.5, width: hov ? "100%" : "0%", background: C.accent, transition: "width 0.5s cubic-bezier(.16,1,.3,1)" }} />
+    </a>
+  );
 }
-let MOCK_EVENTS = MOCK_EVENTS_LIVE();
 
-// --- MAIN PAGE COMPONENT ---
+/* Billet perforé : encoches rondes + ligne pointillée devant le talon. */
+function TicketCard({ t, i }: { t: any; i: number }) {
+  const [hov, setHov] = useState(false);
+  return (
+    <Reveal delay={i * 0.09}>
+      <article
+        onMouseEnter={() => setHov(true)}
+        onMouseLeave={() => setHov(false)}
+        className="i324-ticket"
+        style={{
+          position: "relative",
+          display: "grid",
+          gridTemplateColumns: "minmax(0,1fr) 118px",
+          background: t.featured ? `linear-gradient(150deg, ${C.bgCard}, rgba(236,72,153,0.10))` : C.bgCard,
+          border: `1px solid ${hov ? C.accent : t.featured ? "rgba(236,72,153,0.35)" : C.border}`,
+          borderRadius: 16,
+          transform: hov ? "translateY(-7px)" : "none",
+          boxShadow: hov
+            ? `0 30px 60px -28px rgba(0,0,0,0.85), 0 8px 24px -12px ${"rgba(236,72,153,0.35)"}`
+            : "0 14px 34px -24px rgba(0,0,0,0.7)",
+          transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
+          height: "100%",
+          minHeight: 300,
+        }}
+      >
+        {/* Encoches de perforation */}
+        <span aria-hidden style={{ position: "absolute", top: -10, right: 108, width: 20, height: 20, borderRadius: "50%", background: C.bg, border: `1px solid ${hov ? C.accent : C.border}`, borderTopColor: "transparent", transition: "border-color 0.5s cubic-bezier(.16,1,.3,1)" }} />
+        <span aria-hidden style={{ position: "absolute", bottom: -10, right: 108, width: 20, height: 20, borderRadius: "50%", background: C.bg, border: `1px solid ${hov ? C.accent : C.border}`, borderBottomColor: "transparent", transition: "border-color 0.5s cubic-bezier(.16,1,.3,1)" }} />
 
-export default function Impact324TicketStore({ session: initialSession }) {
-  // Standard session loading (matches every other template): this page is
-  // never actually given a `session` prop by Next.js routing — it must fetch
-  // its own from /templates/impact-324?session=<id>, otherwise fd is always {}.
-  const [session, setSession] = useState(initialSession ?? null);
+        <div style={{ padding: "clamp(24px,3vw,34px) clamp(20px,2.6vw,30px)", display: "flex", flexDirection: "column", gap: 14 }}>
+          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10 }}>
+            <h3 style={{ fontFamily: DISPLAY, fontSize: "clamp(21px,2.2vw,27px)", fontWeight: 800, color: C.ink, margin: 0, letterSpacing: "-0.01em", lineHeight: 1.05 }}>{t.k}</h3>
+            {t.featured && (
+              <span style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: C.accent, fontWeight: 600, whiteSpace: "nowrap" }}>Most wanted</span>
+            )}
+          </div>
+          <p style={{ fontFamily: SANS, fontSize: 14, color: C.textMuted, lineHeight: 1.7, margin: 0 }}>{t.n}</p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 9, marginTop: "auto" }}>
+            {(t.perks ?? []).map((p: string, j: number) => (
+              <div key={j} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
+                <Check size={14} color={C.accent} style={{ flexShrink: 0, marginTop: 3 }} />
+                <span style={{ fontFamily: SANS, fontSize: 13, color: C.textMuted, lineHeight: 1.55 }}>{p}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Talon du billet */}
+        <div style={{ borderLeft: `1.5px dashed rgba(255,255,255,0.22)`, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 10, padding: "18px 8px" }}>
+          <span aria-hidden style={{ fontFamily: SANS, fontSize: 9, letterSpacing: "0.34em", textTransform: "uppercase", color: C.textFaint, writingMode: "vertical-rl" }}>Admit one</span>
+          <div style={{ fontFamily: DISPLAY, fontSize: "clamp(19px,1.8vw,23px)", fontWeight: 800, color: hov ? C.accent : C.ink, transition: "color 0.45s cubic-bezier(.16,1,.3,1)", textAlign: "center", lineHeight: 1.1 }}>{t.p}</div>
+          {/* code-barres CSS — le détail gratuit */}
+          <div aria-hidden style={{ width: 44, height: 26, background: `repeating-linear-gradient(90deg, ${C.textFaint} 0 2px, transparent 2px 4px, ${C.textFaint} 4px 5px, transparent 5px 8px)`, opacity: 0.55 }} />
+        </div>
+      </article>
+    </Reveal>
+  );
+}
+
+/* ── Page ────────────────────────────────────────────────────────────────── */
+
+export default function Impact324LiveTicket() {
+  const [session, setSession] = useState<any>(null);
+
   useEffect(() => {
     let id = new URLSearchParams(window.location.search).get("session");
     /* La navigation interne perd le paramètre : on retient la session par thème. */
@@ -259,513 +340,396 @@ export default function Impact324TicketStore({ session: initialSession }) {
       .catch(() => {});
   }, []);
 
-  const fd = session?.formData || {};
-
+  fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
   sessionData = session;
-  MOCK_EVENTS = MOCK_EVENTS_LIVE();
-  PHOTOS = PHOTOS_LIVE();
+  EVENTS = EVENTS_LIVE();
+  TICKETS = TICKETS_LIVE();
+  ENGAGE = ENGAGE_LIVE();
+  STATS = STATS_LIVE();
+  AVIS = AVIS_LIVE();
+  ABOUT = ABOUT_LIVE();
 
+  const businessName = fd?.businessName ?? (clientName(sessionData) ?? "LiveTicket");
+  const ville = clientCity(sessionData) ?? "Paris";
+  const mail = clientEmail(sessionData) || "hello@liveticket.example";
+  const phone = clientPhone(sessionData);
 
-  const c = session?.generatedContent || {};
-
-  // Override brand color if provided
-  if (fd.brandColor) {
-    C.primary = fd.brandColor;
-    C.primaryLight = shadeColor(fd.brandColor, 40);
-    C.primaryDark = shadeColor(fd.brandColor, -20);
-  }
-
-  const businessName = fd.businessName || "LiveTicket";
-
-  // Client-uploaded photos (uploaded in the brief) replace the stock
-  // Unsplash placeholders — hero shot and about-section image first.
-  // MOCK_EVENTS captured PHOTOS.eventN by value at module init, so its
-  // `.image` fields must also be mutated directly, not just PHOTOS itself.
-  useEffect(() => {
-    if (!fd?.photoUrls?.length) return;
-    const p = fd.photoUrls;
-    if (p[0]) { PHOTOS.hero = p[0]; if (MOCK_EVENTS[0]) MOCK_EVENTS[0].image = p[0]; }
-    if (p[1]) { PHOTOS.about = p[1]; if (MOCK_EVENTS[1]) MOCK_EVENTS[1].image = p[1]; }
-    if (p[2]) { PHOTOS.event3 = p[2]; if (MOCK_EVENTS[2]) MOCK_EVENTS[2].image = p[2]; }
-    if (p[3]) { PHOTOS.event4 = p[3]; if (MOCK_EVENTS[3]) MOCK_EVENTS[3].image = p[3]; }
-    if (p[4]) { PHOTOS.gallery[0] = p[4]; if (MOCK_EVENTS[4]) MOCK_EVENTS[4].image = p[4]; }
-    if (p[5]) { PHOTOS.gallery[1] = p[5]; if (MOCK_EVENTS[5]) MOCK_EVENTS[5].image = p[5]; }
-  }, [fd]);
-  const contactEmail = clientEmail(sessionData) || "hello@liveticket.example";
-
-  // State
-  const [cartOpen, setCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [checkoutStep, setCheckoutStep] = useState(0); // 0: none, 1: cart, 2: details, 3: success
   const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [avisIdx, setAvisIdx] = useState(0);
+  const [ctaHov, setCtaHov] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const h = () => setScrolled(window.scrollY > 60);
+    h();
+    window.addEventListener("scroll", h, { passive: true });
+    return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const categories = ["All", ...Array.from(new Set(MOCK_EVENTS.map(e => e.category)))];
+  /* Un seul index pilote tout le héros : affiches ET légende de scène. */
+  const POSTERS = [photo(0, FALLBACK_PHOTOS[0]), photo(2, FALLBACK_PHOTOS[2]), photo(3, FALLBACK_PHOTOS[3])];
+  const { i: heroIdx, next, prev } = useSlides(POSTERS.length, DWELL.normal);
+  const heroEvent = EVENTS[heroIdx % EVENTS.length];
 
-  const filteredEvents = MOCK_EVENTS.filter(e => {
-    const matchCat = activeCategory === "All" || e.category === activeCategory;
-    const matchSearch = e.title.toLowerCase().includes(searchQuery.toLowerCase()) || e.artist.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchCat && matchSearch;
-  });
+  const avis = AVIS[((avisIdx % AVIS.length) + AVIS.length) % AVIS.length];
 
-  const addToCart = (event, qty = 1, type = "Standard") => {
-    setCartItems(prev => {
-      const existing = prev.find(item => item.event.id === event.id && item.type === type);
-      if (existing) {
-        return prev.map(item => item.event.id === event.id && item.type === type ? { ...item, qty: item.qty + qty } : item);
-      }
-      return [...prev, { event, qty, type, price: type === "VIP" ? event.price * 2 : event.price }];
-    });
-    setCartOpen(true);
-    setCheckoutStep(1);
-  };
-
-  const removeFromCart = (id, type) => {
-    setCartItems(prev => prev.filter(item => !(item.event.id === id && item.type === type)));
-  };
-
-  const updateQty = (id, type, delta) => {
-    setCartItems(prev => prev.map(item => {
-      if (item.event.id === id && item.type === type) {
-        const newQty = Math.max(1, item.qty + delta);
-        return { ...item, qty: newQty };
-      }
-      return item;
-    }));
-  };
-
-  const cartTotal = cartItems.reduce((acc, item) => acc + (item.price * item.qty), 0);
-  const cartCount = cartItems.reduce((acc, item) => acc + item.qty, 0);
-
-  const handleCheckout = (e) => {
-    e.preventDefault();
-    setCheckoutStep(3); // skip to success for demo
-    setTimeout(() => {
-      setCartItems([]);
-      setCheckoutStep(0);
-      setCartOpen(false);
-    }, 4000);
-  };
+  const heroLigne1 = clientHeroLine(sessionData, 0, 2, 16);
+  const heroLigne2 = clientHeroLine(sessionData, 1, 2, 16);
 
   return (
-    <div style={{ backgroundColor: C.bgDeep, color: C.text, fontFamily: SANS, minHeight: "100vh", overflowX: "hidden" }}>
-      
-      {/* NAVIGATION */}
-      <nav style={{
-        position: "fixed",
-        top: 0, left: 0, right: 0,
-        backgroundColor: scrolled ? 'rgba(2, 6, 23, 0.95)' : 'transparent',
-        backdropFilter: scrolled ? "blur(10px)" : "none",
-        borderBottom: scrolled ? `1px solid ${C.bgCard}` : '1px solid transparent',
-        zIndex: 50,
-        transition: "all 0.3s ease",
-        padding: "16px 4%"
-      }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    <div style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip" }}>
+      <style>{`
+        ${FONTS_CSS}
+        @keyframes i324-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        .i324-marquee-track { animation: i324-marquee 38s linear infinite; }
+        .i324-marquee:hover .i324-marquee-track { animation-play-state: paused; }
+        @keyframes i324-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+        .i324-livedot { animation: i324-pulse 1.6s cubic-bezier(.16,1,.3,1) infinite; }
+        @media (prefers-reduced-motion: reduce) {
+          .i324-marquee-track { animation: none; }
+          .i324-livedot { animation: none; }
+        }
+        @media (max-width: 900px) {
+          .i324-navlinks { display: none !important; }
+          .i324-burger { display: flex !important; }
+        }
+        @media (max-width: 860px) {
+          .i324-split { grid-template-columns: 1fr !important; }
+          .i324-split > * { order: initial !important; }
+          .i324-eventrow { grid-template-columns: 64px minmax(0,1fr) !important; row-gap: 10px; }
+          .i324-eventrow .i324-eventthumb { display: none !important; }
+          .i324-eventrow .i324-eventcta { grid-column: 2; justify-self: start; }
+          .i324-heropad { padding-left: 24px !important; padding-right: 24px !important; }
+          .i324-contactgrid { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 560px) {
+          .i324-ticket { grid-template-columns: minmax(0,1fr) 92px !important; }
+          .i324-ticket > span[aria-hidden] { right: 82px !important; }
+        }
+      `}</style>
+
+      {/* ── NAV — collante, 4 propriétés en transition ──────────────────── */}
+      <nav
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: scrolled ? "10px clamp(20px,4.5vw,56px)" : "20px clamp(20px,4.5vw,56px)",
+          background: scrolled ? "rgba(6,10,20,0.92)" : "transparent",
+          backdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none",
+          borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,
+          transition: "padding 0.55s cubic-bezier(.16,1,.3,1), background 0.55s cubic-bezier(.16,1,.3,1), border-color 0.55s cubic-bezier(.16,1,.3,1), backdrop-filter 0.55s cubic-bezier(.16,1,.3,1)",
+        }}
+      >
+        <a href="#" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none", minWidth: 0 }}>
           {fd?.logoBase64 ? (
-            // Client logo (uploaded in the brief) replaces the placeholder mark —
-            // essential for the client to recognise their brand in the render.
-            <img
-              src={fd.logoBase64}
-              alt={businessName ?? 'logo'}
-              style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
-            />
+            <img src={fd.logoBase64} alt={businessName} style={{ height: 32, maxWidth: 160, objectFit: "contain", display: "block" }} />
           ) : (
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-              <Music color={C.primary} size={28} />
-              <h1 className="hero-ecran-court" style={{ fontFamily: SERIF, fontSize: "24px", fontWeight: 800, margin: 0, color: C.white }}>
-                {businessName.toUpperCase()}
-              </h1>
-            </div>
+            <>
+              <span className="i324-livedot" aria-hidden style={{ width: 8, height: 8, borderRadius: "50%", background: C.accent, boxShadow: `0 0 12px ${"rgba(236,72,153,0.8)"}`, flexShrink: 0 }} />
+              <span style={{ fontFamily: DISPLAY, fontSize: 19, fontWeight: 800, letterSpacing: "0.02em", color: C.ink, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{businessName}</span>
+              <span style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.28em", textTransform: "uppercase", color: C.textFaint, marginLeft: 4, whiteSpace: "nowrap" }}>{clientTrade(sessionData) ?? "Live tickets"}</span>
+            </>
           )}
-
-          <div style={{ display: "none", gap: "32px", alignItems: "center", '@media(minWidth: 768px)': { display: 'flex' } }}>
-            {["Events", "VIP Packages", "About", "Contact"].map((item) => (
-              <a key={item} href={`#${item.toLowerCase().replace(' ', '-')}`} style={{
-                color: C.text, textDecoration: "none", fontSize: "14px", fontWeight: 500, fontFamily: SANS, textTransform: "uppercase", letterSpacing: "1px", transition: "color 0.2s"
-              }} onMouseOver={e => e.currentTarget.style.color = C.primary} onMouseOut={e => e.currentTarget.style.color = C.text}>
-                {item}
-              </a>
-            ))}
-          </div>
-
-          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-            <button 
-              onClick={() => { setCartOpen(true); setCheckoutStep(1); }}
-              style={{
-                background: "transparent", border: "none", color: C.white, cursor: "pointer", position: "relative", padding: "8px"
-              }}
-            >
-              <ShoppingCart size={24} />
-              {cartCount > 0 && (
-                <span style={{
-                  position: "absolute", top: 0, right: 0, backgroundColor: C.primary, color: C.white,
-                  fontSize: "10px", fontWeight: "bold", width: "18px", height: "18px", borderRadius: "50%",
-                  display: "flex", alignItems: "center", justifyContent: "center"
-                }}>
-                  {cartCount}
-                </span>
-              )}
-            </button>
-            <div style={{ display: "block", '@media(minWidth: 768px)': { display: "none" } }}>
-              <Menu size={24} />
-            </div>
-          </div>
+        </a>
+        <div className="i324-navlinks" style={{ display: "flex", alignItems: "center", gap: "clamp(16px,2.2vw,30px)" }}>
+          {NAV.map((n) => (
+            <NavLink key={n.l} {...n} />
+          ))}
+          <a
+            href="#tickets"
+            onMouseEnter={() => setCtaHov(true)}
+            onMouseLeave={() => setCtaHov(false)}
+            style={{
+              fontFamily: SANS,
+              fontSize: 12,
+              fontWeight: 600,
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: ctaHov ? C.bgDark : C.ink,
+              background: ctaHov ? C.accentDark : C.accent,
+              padding: "12px 22px",
+              borderRadius: 999,
+              textDecoration: "none",
+              transform: ctaHov ? "translateY(-2px)" : "none",
+              boxShadow: ctaHov ? "0 12px 30px -10px rgba(236,72,153,0.6)" : "0 6px 18px -10px rgba(236,72,153,0.45)",
+              transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
+            }}
+          >
+            Réserver
+          </a>
         </div>
+        <button
+          className="i324-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "transform 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "opacity 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "transform 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        </button>
       </nav>
+      {mobileOpen && (
+        <div style={{ position: "fixed", top: 64, left: 0, right: 0, zIndex: 99, background: C.bgDark, borderBottom: `1px solid ${C.border}`, padding: "18px 26px 26px", display: "flex", flexDirection: "column", gap: 2 }}>
+          {NAV.map((n) => (
+            <a key={n.l} href={n.h} onClick={() => setMobileOpen(false)} style={{ color: C.ink, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "13px 0" }}>
+              {n.l}
+            </a>
+          ))}
+          <a href="#tickets" onClick={() => setMobileOpen(false)} style={{ background: C.accent, color: C.bgDark, borderRadius: 999, padding: "14px 24px", fontSize: 14, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", textDecoration: "none", textAlign: "center", marginTop: 12 }}>
+            Réserver
+          </a>
+        </div>
+      )}
 
-      {/* CART DRAWER */}
-      <AnimatePresence>
-        {cartOpen && (
-          <>
-            <motion.div 
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              onClick={() => setCartOpen(false)}
-              style={{ position: "fixed", inset: 0, backgroundColor: "rgba(0,0,0,0.7)", backdropFilter: "blur(4px)", zIndex: 99 }}
-            />
-            <motion.div 
-              initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              style={{ position: "fixed", top: 0, right: 0, bottom: 0, width: "100%", maxWidth: "450px", backgroundColor: C.bgCard, zIndex: 100, display: "flex", flexDirection: "column", borderLeft: `1px solid ${C.primary}30` }}
-            >
-              <div style={{ padding: "24px", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: `1px solid rgba(255,255,255,0.1)` }}>
-                <h2 style={{ fontFamily: SERIF, fontSize: "20px", fontWeight: 700, margin: 0, color: C.white }}>
-                  {checkoutStep === 1 ? "Your Cart" : checkoutStep === 2 ? "Checkout" : "Confirmation"}
-                </h2>
-                <button onClick={() => setCartOpen(false)} style={{ background: "transparent", border: "none", color: C.textMuted, cursor: "pointer" }}>
-                  <X size={24} />
-                </button>
-              </div>
+      {/* ── HÉROS H3 plein cadre — les affiches se croisent (CrossPush) ──── */}
+      <header style={{ position: "relative", minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "flex-end", background: C.bgDark, overflow: "hidden" }}>
+        <CrossPush images={POSTERS} index={heroIdx} overlay={0.48} />
+        {/* Scrim bas à 3 arrêts + glow scène */}
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, rgba(6,10,20,0.55) 0%, rgba(6,10,20,0.08) 38%, rgba(6,10,20,0.55) 70%, rgba(6,10,20,0.96) 100%)`, zIndex: 1 }} />
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(90% 60% at 78% 22%, rgba(236,72,153,0.12), transparent 60%)", zIndex: 1 }} />
+        {/* Chiffre fantôme : l'année de fondation de la maison */}
+        <div aria-hidden style={{ position: "absolute", top: "8%", right: "-1%", fontFamily: DISPLAY, fontWeight: 800, fontSize: "clamp(120px,22vw,320px)", lineHeight: 1, color: "transparent", WebkitTextStroke: "1px rgba(255,255,255,0.09)", zIndex: 1, pointerEvents: "none", userSelect: "none" }}>
+          2011
+        </div>
 
-              <div style={{ flex: 1, overflowY: "auto", padding: "24px" }}>
-                {checkoutStep === 1 && (
-                  cartItems.length === 0 ? (
-                    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", opacity: 0.5 }}>
-                      <ShoppingCart size={48} style={{ marginBottom: "16px" }} />
-                      <p>Your cart is empty.</p>
-                    </div>
-                  ) : (
-                    <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-                      {cartItems.map((item, idx) => (
-                        <div key={idx} style={{ display: "flex", gap: "16px", backgroundColor: C.bgDeep, padding: "12px", borderRadius: "8px" }}>
-                          <img src={item.event.image} alt={item.event.title} style={{ width: "80px", height: "80px", objectFit: "cover", borderRadius: "4px" }} />
-                          <div style={{ flex: 1 }}>
-                            <h4 style={{ margin: "0 0 4px 0", fontSize: "14px", fontFamily: SERIF, fontWeight: 700 }}>{item.event.title}</h4>
-                            <p style={{ margin: "0 0 8px 0", fontSize: "12px", color: C.textMuted }}>{item.type} Ticket • {item.event.date}</p>
-                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                              <div style={{ display: "flex", alignItems: "center", gap: "12px", backgroundColor: C.bgCard, padding: "4px 8px", borderRadius: "4px" }}>
-                                <button onClick={() => updateQty(item.event.id, item.type, -1)} style={{ background: "none", border: "none", color: C.text, cursor: "pointer" }}>-</button>
-                                <span style={{ fontSize: "14px", fontWeight: 600 }}>{item.qty}</span>
-                                <button onClick={() => updateQty(item.event.id, item.type, 1)} style={{ background: "none", border: "none", color: C.text, cursor: "pointer" }}>+</button>
-                              </div>
-                              <span style={{ fontWeight: 700, color: C.primary }}>€{item.price * item.qty}</span>
-                            </div>
-                          </div>
-                          <button onClick={() => removeFromCart(item.event.id, item.type)} style={{ background: "none", border: "none", color: C.danger, cursor: "pointer", alignSelf: "flex-start", padding: 0 }}>
-                            <X size={16} />
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  )
-                )}
+        <div className="i324-heropad" style={{ position: "relative", zIndex: 2, padding: "0 clamp(24px,6vw,88px) clamp(40px,6vw,78px)", maxWidth: 1440, width: "100%", margin: "0 auto" }}>
+          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.15 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 13, marginBottom: "clamp(14px,2vw,22px)" }}>
+              <span className="i324-livedot" aria-hidden style={{ width: 7, height: 7, borderRadius: "50%", background: C.accent, boxShadow: "0 0 10px rgba(236,72,153,0.9)" }} />
+              <span style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.38em", textTransform: "uppercase", color: C.accentDark, fontWeight: 600 }}>
+                {clientEyebrow(sessionData) ?? <>Billetterie live · {ville} — Lille</>}
+              </span>
+            </div>
+          </motion.div>
 
-                {checkoutStep === 2 && (
-                  <form onSubmit={handleCheckout} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-                    <h3 style={{ fontSize: "16px", fontFamily: SERIF, margin: 0, color: C.primary }}>Contact Information</h3>
-                    <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                      <input type="text" placeholder="Full Name" required style={{ width: "100%", padding: "12px", borderRadius: "4px", border: `1px solid ${C.textMuted}`, backgroundColor: C.bgDeep, color: C.text, fontFamily: SANS }} />
-                      <input type="email" placeholder="Email Address" required style={{ width: "100%", padding: "12px", borderRadius: "4px", border: `1px solid ${C.textMuted}`, backgroundColor: C.bgDeep, color: C.text, fontFamily: SANS }} />
-                    </div>
-
-                    <h3 style={{ fontSize: "16px", fontFamily: SERIF, margin: "16px 0 0 0", color: C.primary }}>Payment Details</h3>
-                    <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                      <div style={{ position: "relative" }}>
-                        <input type="text" placeholder="Card Number" required style={{ width: "100%", padding: "12px 12px 12px 40px", borderRadius: "4px", border: `1px solid ${C.textMuted}`, backgroundColor: C.bgDeep, color: C.text, fontFamily: SANS }} />
-                        <CreditCard size={18} style={{ position: "absolute", left: "12px", top: "50%", transform: "translateY(-50%)", color: C.textMuted }} />
-                      </div>
-                      <div style={{ display: "flex", gap: "12px" }}>
-                        <input type="text" placeholder="MM/YY" required style={{ flex: 1, padding: "12px", borderRadius: "4px", border: `1px solid ${C.textMuted}`, backgroundColor: C.bgDeep, color: C.text, fontFamily: SANS }} />
-                        <input type="text" placeholder="CVC" required style={{ flex: 1, padding: "12px", borderRadius: "4px", border: `1px solid ${C.textMuted}`, backgroundColor: C.bgDeep, color: C.text, fontFamily: SANS }} />
-                      </div>
-                    </div>
-                  </form>
-                )}
-
-                {checkoutStep === 3 && (
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%", textAlign: "center" }}>
-                    <div style={{ width: "64px", height: "64px", borderRadius: "50%", backgroundColor: `${C.success}20`, display: "flex", alignItems: "center", justifyContent: "center", marginBottom: "24px" }}>
-                      <Check size={32} color={C.success} />
-                    </div>
-                    <h2 style={{ fontFamily: SERIF, fontSize: "24px", color: C.white, margin: "0 0 16px 0" }}>Order Confirmed!</h2>
-                    <p style={{ color: C.textMuted, marginBottom: "24px" }}>Your tickets have been sent to your email. Get ready for an unforgettable experience.</p>
-                    <p style={{ fontSize: "14px", fontWeight: 600, color: C.primary }}>Order #LVT-{Math.floor(Math.random() * 10000)}</p>
-                  </div>
-                )}
-              </div>
-
-              {checkoutStep < 3 && cartItems.length > 0 && (
-                <div style={{ padding: "24px", borderTop: `1px solid rgba(255,255,255,0.1)`, backgroundColor: C.bgDeep }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "16px", fontSize: "14px", color: C.textMuted }}>
-                    <span>Subtotal</span>
-                    <span>€{cartTotal}</span>
-                  </div>
-                  <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "24px", fontSize: "18px", fontWeight: 700, fontFamily: SERIF }}>
-                    <span>Total</span>
-                    <span style={{ color: C.primary }}>€{cartTotal}</span>
-                  </div>
-                  
-                  {checkoutStep === 1 ? (
-                    <Button fullWidth onClick={() => setCheckoutStep(2)}>Proceed to Checkout</Button>
-                  ) : (
-                    <Button fullWidth onClick={handleCheckout}>Pay €{cartTotal}</Button>
-                  )}
-                </div>
-              )}
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-
-      {/* HERO SECTION */}
-      <section id="vip-packages" style={{
-        position: "relative",
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        padding: "100px 4% 60px",
-        overflow: "hidden"
-      }}>
-        {/* Background Image & Overlay */}
-        <div style={{
-          position: "absolute", inset: 0, zIndex: 0,
-          backgroundImage: `url(${PHOTOS.hero})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          filter: "brightness(0.4)"
-        }} />
-        <div style={{
-          position: "absolute", inset: 0, zIndex: 1,
-          background: `linear-gradient(to bottom, ${C.bgDeep}00 0%, ${C.bgDeep} 100%)`
-        }} />
-
-        <div style={{ position: "relative", zIndex: 2, maxWidth: 1400, margin: "0 auto", width: "100%", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
           <motion.h1
-            initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2, ease: EASE }}
-            style={{  fontFamily: SERIF, fontSize: "clamp(40px, 8vw, 90px)", fontWeight: 900, lineHeight: 1.1, margin: "0 0 24px 0", color: C.white, textTransform: "uppercase", letterSpacing: "-2px" }}
-          >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
-            Feel The <span style={{ color: C.primary, textShadow: `0 0 20px ${C.primary}80` }}>Vibe</span><br/>
-            Live The <span style={{ WebkitTextStroke: `2px ${C.white}`, color: "transparent" }}>Moment</span>
-          </>)}</motion.h1>
+            initial={{ opacity: 0, y: 42 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.15, ease: EASE, delay: 0.28 }}
+            style={{ fontFamily: DISPLAY, fontSize: "clamp(3rem,8.4vw,8.2rem)", fontWeight: 800, lineHeight: 0.94, letterSpacing: "-0.025em", textTransform: "uppercase", color: C.ink, margin: "0 0 clamp(16px,2.2vw,26px)", textShadow: "0 14px 60px rgba(0,0,0,0.6)" }}
+          >
+            {heroLigne1 ?? (
+              <>
+                Vivez le <em style={{ fontStyle: "italic", color: C.accent }}>frisson.</em>
+              </>
+            )}
+            <span style={{ display: "block" }}>
+              {heroLigne2 ?? (
+                <>
+                  Live the <span style={{ color: "transparent", WebkitTextStroke: `2px ${C.ink}` }}>moment.</span>
+                </>
+              )}
+            </span>
+          </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 0.4 }}
-            style={{ fontSize: "clamp(16px, 2vw, 20px)", color: C.textMuted, maxWidth: "600px", margin: "0 0 40px 0", lineHeight: 1.6 }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: EASE, delay: 0.48 }}
+            style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(15.5px,1.6vw,19px)", color: "rgba(245,246,251,0.82)", maxWidth: 500, lineHeight: 1.72, margin: "0 0 clamp(26px,3.4vw,44px)" }}
           >
-            {c?.heroText || "Discover the best live concerts, festivals, and exclusive events. Secure your tickets now and make memories that last a lifetime."}
+            {clientHeroSubtitle(sessionData) ?? c?.heroText ?? "Concerts, festivals et soirées rares : réservez votre place et gardez-en le souvenir longtemps."}
           </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.6 }} style={{ display: "flex", gap: "16px", flexWrap: "wrap", justifyContent: "center" }}>
-            <Button size="lg" onClick={() => { document.getElementById("events").scrollIntoView({ behavior: "smooth" }); }}>
-              Browse Events
-            </Button>
-            <Button variant="outline" size="lg">
-              VIP Packages
-            </Button>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: EASE, delay: 0.62 }} style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "clamp(16px,2.6vw,34px)" }}>
+            <a
+              href="#dates"
+              style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: C.bgDark, borderRadius: 999, padding: "16px 32px", fontFamily: SANS, fontSize: 13, fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", textDecoration: "none", boxShadow: "0 14px 40px -14px rgba(236,72,153,0.65)" }}
+            >
+              Voir les dates <ArrowRight size={15} />
+            </a>
+            {/* Légende de scène — pilotée par le même index que les affiches */}
+            <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+              <SlideIndex i={heroIdx} total={POSTERS.length} variant="fraction" color={C.textMuted} className="" />
+              <span style={{ fontFamily: SANS, fontSize: 13.5, color: C.textMuted }}>
+                <strong style={{ color: C.ink, fontWeight: 600 }}>{heroEvent?.title}</strong>
+                {" — "}
+                {heroEvent?.d} {heroEvent?.m} · {heroEvent?.venue}
+              </span>
+              <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" labels={{ prev: "Affiche précédente", next: "Affiche suivante" }} />
+            </div>
           </motion.div>
+        </div>
+      </header>
+
+      {/* ── MARQUEE DE DATES ─────────────────────────────────────────────── */}
+      <section aria-label="Upcoming dates" className="i324-marquee" style={{ background: C.bgDarkAlt, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, overflow: "hidden", padding: "clamp(14px,1.6vw,20px) 0" }}>
+        <div className="i324-marquee-track" style={{ display: "flex", whiteSpace: "nowrap", width: "max-content" }}>
+          {[0, 1].map((dup) => (
+            <div key={dup} aria-hidden={dup === 1} style={{ display: "flex" }}>
+              {EVENTS.map((e, j) => (
+                <span key={`${dup}-${e.id}-${j}`} style={{ display: "inline-flex", alignItems: "center", gap: 14, padding: "0 clamp(18px,2.4vw,34px)", fontFamily: DISPLAY, fontSize: "clamp(13px,1.3vw,16px)", fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase" }}>
+                  <span style={{ color: C.accent }}>{e.d} {e.m}</span>
+                  <span style={{ color: C.ink }}>{e.title}</span>
+                  <span style={{ color: C.textFaint, fontFamily: SANS, fontWeight: 400, textTransform: "none", letterSpacing: 0 }}>{e.venue}</span>
+                  <span aria-hidden style={{ width: 5, height: 5, borderRadius: "50%", background: C.accentLight, border: `1px solid ${C.accent}` }} />
+                </span>
+              ))}
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* EVENTS CATALOG SECTION */}
-      <section id="events" style={{ padding: "80px 4%", backgroundColor: C.bgDeep, position: "relative" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto" }}>
+      {/* ── RESPIRATION ──────────────────────────────────────────────────── */}
+      <section style={{ background: C.bg, padding: "clamp(80px,11vw,150px) clamp(24px,7vw,120px)", textAlign: "center", position: "relative" }}>
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(60% 50% at 50% 45%, rgba(236,72,153,0.07), transparent 70%)", pointerEvents: "none" }} />
+        <Reveal>
+          <p style={{ fontFamily: DISPLAY, fontStyle: "italic", fontWeight: 300, fontSize: "clamp(22px,3vw,40px)", lineHeight: 1.4, letterSpacing: "-0.005em", color: C.ink, maxWidth: 860, margin: "0 auto", position: "relative" }}>
+            {/* TEXTE_SECTION */ clientText(sessionData, "respiration.texte") ?? (<>Les mêmes trois personnes programment chaque soirée depuis le début — et le prix affiché est le prix à l'entrée.</>)}
+          </p>
+        </Reveal>
+        <Reveal delay={0.15}>
+          <div aria-hidden style={{ width: 1, height: "clamp(52px,6vw,84px)", background: `linear-gradient(${C.accent}, transparent)`, margin: "clamp(30px,4vw,50px) auto 0" }} />
+        </Reveal>
+      </section>
+
+      {/* ── PROGRAMME — rangées éditoriales numérotées ───────────────────── */}
+      <section id="dates" style={{ background: C.bgAlt, padding: "clamp(80px,10vw,140px) clamp(24px,6vw,88px)", position: "relative", overflow: "hidden" }}>
+        <div aria-hidden style={{ position: "absolute", top: "-4%", left: "-2%", fontFamily: DISPLAY, fontWeight: 800, fontSize: "clamp(140px,24vw,360px)", lineHeight: 1, color: "rgba(255,255,255,0.03)", pointerEvents: "none", userSelect: "none", textTransform: "uppercase" }}>
+          Live
+        </div>
+        <div style={{ maxWidth: 1180, margin: "0 auto", position: "relative" }}>
           <Reveal>
-            <div style={{ textAlign: "center", marginBottom: "64px" }}>
-              <Eyebrow text="Upcoming Shows" />
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 800, margin: "16px 0", color: C.white, textTransform: "uppercase" }}>{/* TEXTE_SECTION */ clientText(sessionData, "events.titre") ?? (<>
-                Secure Your Spot
-              </>)}</h2>
-            </div>
+            <Kicker>À l'affiche</Kicker>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(30px,4.6vw,58px)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.02em", color: C.ink, margin: "clamp(14px,2vw,22px) 0 clamp(34px,4.5vw,58px)" }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "events.titre") ?? (<>Réservez votre <em style={{ fontStyle: "italic", color: C.accent }}>place.</em></>)}
+            </h2>
           </Reveal>
 
-          {/* Filters */}
-          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", marginBottom: "40px", gap: "20px" }}>
-            <div style={{ display: "flex", gap: "12px", overflowX: "auto", paddingBottom: "8px", flex: 1, scrollbarWidth: "none" }}>
-              {categories.map(cat => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  style={{
-                    padding: "10px 20px", borderRadius: "30px", border: `1px solid ${activeCategory === cat ? C.primary : C.bgCard}`,
-                    backgroundColor: activeCategory === cat ? C.primary : C.bgCard, color: activeCategory === cat ? C.white : C.text,
-                    fontFamily: SANS, fontWeight: 600, fontSize: "14px", cursor: "pointer", transition: "all 0.3s ease", whiteSpace: "nowrap"
-                  }}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-            <div style={{ position: "relative", minWidth: "250px" }}>
-              <input 
-                type="text" 
-                placeholder="Search events, artists..." 
-                value={searchQuery}
-                onChange={e => setSearchQuery(e.target.value)}
-                style={{ width: "100%", padding: "12px 16px 12px 40px", borderRadius: "30px", border: `1px solid ${C.bgCard}`, backgroundColor: C.bgCard, color: C.white, fontFamily: SANS }}
-              />
-              <Search size={18} color={C.textMuted} style={{ position: "absolute", left: "16px", top: "50%", transform: "translateY(-50%)" }} />
-            </div>
+          <div>
+            {EVENTS.map((e, idx) => (
+              <EventRow key={`${e.id}-${idx}`} e={e} idx={idx} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── TARIFS — billets perforés ────────────────────────────────────── */}
+      <section id="tickets" style={{ background: C.bg, padding: "clamp(80px,10vw,140px) clamp(24px,6vw,88px)", position: "relative" }}>
+        <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+          <Reveal>
+            <Kicker>Billetterie</Kicker>
+          </Reveal>
+          <div className="i324-split" style={{ display: "grid", gridTemplateColumns: "minmax(0,1.25fr) minmax(0,0.75fr)", gap: "clamp(20px,3vw,44px)", alignItems: "end", margin: "clamp(14px,2vw,22px) 0 clamp(34px,4.5vw,56px)" }}>
+            <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(30px,4.6vw,58px)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.02em", color: C.ink, margin: 0 }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Le prix sur l'affiche<br /><em style={{ fontStyle: "italic", color: C.accent }}>est le prix payé.</em></>)}
+            </h2>
+            <p style={{ fontFamily: SANS, fontSize: 14.5, color: C.textMuted, lineHeight: 1.75, margin: 0, maxWidth: 460 }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.texte") ?? (<>Aucun prix qui varie, aucun frais de réservation au guichet. Standard, VIP ou devis de groupe : l'annonce fait foi.</>)}
+            </p>
           </div>
 
-          {/* Grid */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(320px, 100%), 1fr))", gap: "32px" }}>
-            {filteredEvents.map((event, idx) => (
-              <Reveal key={event.id} delay={idx * 0.1}>
-                <div style={{ 
-                  backgroundColor: C.bgCard, borderRadius: "12px", overflow: "hidden", border: `1px solid rgba(255,255,255,0.05)`, transition: "transform 0.3s ease",
-                  ':hover': { transform: 'translateY(-5px)' }
-                }} className="event-card">
-                  <div style={{ position: "relative", height: "200px" }}>
-                    <img src={event.image} alt={event.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                    <div style={{ position: "absolute", top: "12px", left: "12px", backgroundColor: "rgba(0,0,0,0.7)", backdropFilter: "blur(4px)", padding: "6px 12px", borderRadius: "4px", fontSize: "12px", fontWeight: 700, color: C.white }}>
-                      {event.category}
-                    </div>
-                    <div style={{ position: "absolute", top: "12px", right: "12px", backgroundColor: C.primary, padding: "6px 12px", borderRadius: "4px", fontSize: "14px", fontWeight: 800, color: C.white }}>
-                      €{event.price}
-                    </div>
-                  </div>
-                  <div style={{ padding: "24px" }}>
-                    <h3 style={{ fontFamily: SERIF, fontSize: "20px", fontWeight: 700, margin: "0 0 8px 0", color: C.white }}>{event.title}</h3>
-                    <p style={{ fontSize: "14px", color: C.primary, fontWeight: 600, margin: "0 0 16px 0" }}>{event.artist}</p>
-                    
-                    <div style={{ display: "flex", flexDirection: "column", gap: "8px", marginBottom: "24px" }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "14px", color: C.textMuted }}>
-                        <Calendar size={16} /> <span>{event.date} • {event.time}</span>
-                      </div>
-                      <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "14px", color: C.textMuted }}>
-                        <MapPin size={16} /> <span>{event.venue}</span>
-                      </div>
-                    </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px,100%),1fr))", gap: "clamp(18px,2.4vw,28px)" }}>
+            {TICKETS.map((t, idx) => (
+              <TicketCard key={`${t.k}-${idx}`} t={t} i={idx} />
+            ))}
+          </div>
 
-                    <div style={{ display: "flex", gap: "12px" }}>
-                      <Button fullWidth onClick={() => addToCart(event)}>Add to Cart</Button>
-                      <button onClick={() => addToCart(event, 1, "VIP")} style={{ width: "48px", height: "48px", borderRadius: "4px", border: `1px solid ${C.primary}`, backgroundColor: "transparent", color: C.primary, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", transition: "all 0.2s" }} title="Add VIP Ticket">
-                        <Star size={20} />
-                      </button>
-                    </div>
-                  </div>
+          {/* Engagements — filet fin sous les billets */}
+          <div style={{ marginTop: "clamp(36px,5vw,62px)", borderTop: `1px solid ${C.border}`, paddingTop: "clamp(24px,3.2vw,38px)", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px,100%),1fr))", gap: "clamp(16px,2.4vw,30px)" }}>
+            {ENGAGE.map((e, idx) => (
+              <Reveal key={idx} delay={idx * 0.07}>
+                <div style={{ display: "flex", gap: 11, alignItems: "flex-start" }}>
+                  <span aria-hidden style={{ fontFamily: DISPLAY, fontSize: 13, fontWeight: 800, color: C.accent, marginTop: 2 }}>{String(idx + 1).padStart(2, "0")}</span>
+                  <span style={{ fontFamily: SANS, fontSize: 13.5, color: C.textMuted, lineHeight: 1.65 }}>{e}</span>
                 </div>
               </Reveal>
             ))}
           </div>
-          {filteredEvents.length === 0 && (
-            <div style={{ textAlign: "center", padding: "40px", color: C.textMuted }}>
-              No events found matching your criteria.
-            </div>
-          )}
         </div>
       </section>
 
-      {/* VIP PACKAGES SECTION */}
-      <section style={{ padding: "100px 4%", backgroundColor: C.bgCard }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "60px" }}>
-          <div style={{ flex: "1 1 500px" }}>
-            <Reveal>
-              <Eyebrow text="Exclusive Access" />
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 800, margin: "16px 0 24px 0", color: C.white, textTransform: "uppercase" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
-                Upgrade to VIP Experience
-              </>)}</h2>
-              <p style={{ color: C.textMuted, fontSize: "16px", lineHeight: 1.6, marginBottom: "32px" }}>
-                Take your concert experience to the next level. Enjoy premium seating, exclusive backstage access, complimentary drinks, and meet & greet opportunities with your favorite artists.
+      {/* ── VIP — split coulisses ────────────────────────────────────────── */}
+      <section id="vip" style={{ background: C.bgDark, padding: "clamp(80px,10vw,140px) clamp(24px,6vw,88px)", position: "relative", overflow: "hidden" }}>
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(70% 70% at 12% 90%, rgba(56,189,248,0.06), transparent 60%)", pointerEvents: "none" }} />
+        <div className="i324-split" style={{ maxWidth: 1180, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1.02fr) minmax(0,0.98fr)", gap: "clamp(36px,5vw,72px)", alignItems: "center", position: "relative" }}>
+          <Reveal>
+            <div style={{ position: "relative", borderRadius: 18, overflow: "hidden", border: `1px solid ${C.border}`, background: C.bgDarkAlt, boxShadow: "0 40px 80px -40px rgba(0,0,0,0.9)" }}>
+              {photo(1, FALLBACK_PHOTOS[1]) ? (
+                <img src={photo(1, FALLBACK_PHOTOS[1])} alt={`Backstage — ${businessName}`} loading="lazy" style={{ width: "100%", height: "auto", aspectRatio: "4/3", objectFit: "cover", display: "block" }} />
+              ) : (
+                <div aria-hidden style={{ aspectRatio: "4/3", background: `linear-gradient(160deg, ${C.bgCard}, ${C.bgDarkAlt})` }} />
+              )}
+              <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(6,10,20,0.55), transparent 55%)" }} />
+              <div style={{ position: "absolute", left: 20, bottom: 18, fontFamily: SANS, fontSize: 11, letterSpacing: "0.32em", textTransform: "uppercase", color: C.accentDark, fontWeight: 600 }}>Backstage · limited availability</div>
+            </div>
+          </Reveal>
+          <Reveal delay={0.12}>
+            <div>
+              <Kicker color={C.accentDark}>Accès privilégié</Kicker>
+              <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(28px,3.8vw,50px)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.02em", color: C.ink, margin: "clamp(14px,2vw,20px) 0 clamp(16px,2vw,24px)" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Passez à l'expérience <em style={{ fontStyle: "italic", color: C.accent }}>VIP</em> experience.</>)}
+              </h2>
+              <p style={{ fontFamily: SANS, fontSize: 15, color: C.textMuted, lineHeight: 1.78, maxWidth: 500, margin: "0 0 clamp(24px,3vw,34px)" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "vip.texte") ?? (<>Le concert vu d'un autre endroit : placement privilégié, accès aux coulisses, boisson offerte et rencontre avec les artistes.</>)}
               </p>
-              
-              <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginBottom: "40px" }}>
+              <div style={{ display: "flex", flexDirection: "column", gap: 13, marginBottom: "clamp(26px,3.4vw,40px)" }}>
                 {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? [
                   "Early Entry & Dedicated VIP Entrance",
                   "Premium Front Row or Balcony Seating",
                   "Exclusive Merchandise Package",
-                  "Access to VIP Lounge & Private Bar"
-                ]).map((perk, i) => (
-                  <div key={i} style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                    <div style={{ width: "24px", height: "24px", borderRadius: "50%", backgroundColor: `${C.primary}20`, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <Check size={14} color={C.primary} />
-                    </div>
-                    <span style={{ color: C.text, fontSize: "15px" }}>{perk}</span>
+                  "Salon VIP et bar privé",
+                ]).map((perk, idx) => (
+                  <div key={idx} style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
+                    <span style={{ width: 22, height: 22, borderRadius: "50%", background: C.accentLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <Check size={12} color={C.accent} />
+                    </span>
+                    <span style={{ fontFamily: SANS, fontSize: 14.5, color: C.ink, lineHeight: 1.6 }}>{perk}</span>
                   </div>
                 ))}
               </div>
-              
-              <Button size="lg">Explore VIP Offers</Button>
-            </Reveal>
-          </div>
-          <div style={{ flex: "1 1 500px", position: "relative" }}>
-            <Reveal delay={0.2}>
-              <img src={PHOTOS.about} alt="VIP Experience" style={{ width: "100%", borderRadius: "12px", boxShadow: `0 20px 40px rgba(0,0,0,0.5)` }} />
-              <div style={{ position: "absolute", bottom: "-20px", left: "-20px", backgroundColor: C.primary, padding: "24px", borderRadius: "12px", boxShadow: "0 10px 30px rgba(0,0,0,0.5)" }}>
-                <h3 style={{ fontFamily: SERIF, fontSize: "24px", fontWeight: 800, margin: "0 0 8px 0", color: C.white }}>Limited Availability</h3>
-                <p style={{ margin: 0, color: C.white, opacity: 0.9 }}>Book now before they sell out.</p>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* WHY US / STATS */}
-      <section style={{ padding: "80px 4%", backgroundColor: C.bgDeep, borderTop: `1px solid ${C.bgCard}`, borderBottom: `1px solid ${C.bgCard}` }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "40px", textAlign: "center" }}>
-            {[
-              { icon: <Ticket size={40} />, value: "500K+", label: "Tickets Sold" },
-              { icon: <Star size={40} />, value: "4.9/5", label: "Customer Rating" },
-              { icon: <Music size={40} />, value: "120+", label: "Live Events Yearly" },
-              { icon: <Zap size={40} />, value: "100%", label: "Secure Booking" },
-            ].map((stat, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div style={{ color: C.primary, marginBottom: "16px", display: "flex", justifyContent: "center" }}>{stat.icon}</div>
-                <div style={{ fontFamily: SERIF, fontSize: "40px", fontWeight: 900, color: C.white, marginBottom: "8px" }}>{stat.value}</div>
-                <div style={{ color: C.textMuted, fontSize: "14px", textTransform: "uppercase", letterSpacing: "1px" }}>{stat.label}</div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* TESTIMONIALS */}
-      <section style={{ padding: "100px 4%", backgroundColor: C.bgDeep }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: "64px" }}>
-              <Eyebrow text="Fan Reviews" />
-              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 800, margin: "16px 0", color: C.white, textTransform: "uppercase" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
-                Hear the crowd
-              </>)}</h2>
+              <a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: 10, border: `1px solid ${C.accent}`, color: C.accentDark, borderRadius: 999, padding: "14px 28px", fontFamily: SANS, fontSize: 12.5, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", textDecoration: "none" }}>
+                Écrire au guichet <ArrowRight size={14} />
+              </a>
             </div>
           </Reveal>
+        </div>
+      </section>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: "32px" }}>
-            {[
-              { name: "Sophie Martin", role: "Festival Goer", text: "Best ticketing experience I've had. Fast, secure, and I got my VIP pass without any hassle. The event was legendary!" },
-              { name: "Lucas Dubois", role: "Music Enthusiast", text: "The seat selection process was incredibly smooth. Customer service was also top-notch when I needed help." },
-              { name: "Emma Leroy", role: "Concert Addict", text: "I attend over 20 concerts a year and this platform is by far my favorite. Never missed a drop since I started using it." }
-            ].map((t, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div style={{ backgroundColor: C.bgCard, padding: "32px", borderRadius: "12px", borderLeft: `4px solid ${C.primary}` }}>
-                  <div style={{ display: "flex", gap: "4px", color: C.primary, marginBottom: "16px" }}>
-                    {[...Array(5)].map((_, j) => <Star key={j} size={16} fill={C.primary} />)}
-                  </div>
-                  <p style={{ color: C.text, fontSize: "16px", lineHeight: 1.6, marginBottom: "24px", fontStyle: "italic" }}>"{t.text}"</p>
-                  <div>
-                    <h4 style={{ margin: "0 0 4px 0", color: C.white, fontFamily: SERIF }}>{t.name}</h4>
-                    <span style={{ color: C.textMuted, fontSize: "12px" }}>{t.role}</span>
-                  </div>
+      {/* ── CHIFFRES — bande à filets, chiffres fantômes ─────────────────── */}
+      <section style={{ background: C.bgDarkAlt, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}>
+        <div style={{ maxWidth: 1180, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(200px,100%),1fr))", padding: "0 clamp(20px,4vw,48px)" }}>
+          {STATS.map((s, idx) => (
+            <Reveal key={`${s.l}-${idx}`} delay={idx * 0.08}>
+              <div style={{ position: "relative", padding: "clamp(30px,4vw,52px) clamp(10px,1.4vw,20px)", textAlign: "center", overflow: "hidden" }}>
+                <span aria-hidden style={{ position: "absolute", top: "-12%", left: "50%", transform: "translateX(-50%)", fontFamily: DISPLAY, fontWeight: 800, fontSize: "clamp(64px,9vw,120px)", color: "rgba(255,255,255,0.04)", pointerEvents: "none", userSelect: "none", whiteSpace: "nowrap" }}>{s.v}</span>
+                <div style={{ position: "relative", fontFamily: DISPLAY, fontSize: "clamp(28px,3.4vw,44px)", fontWeight: 800, letterSpacing: "-0.02em", color: C.ink, lineHeight: 1 }}>{s.v}</div>
+                <div style={{ position: "relative", fontFamily: SANS, fontSize: 12, letterSpacing: "0.22em", textTransform: "uppercase", color: C.textFaint, marginTop: 10 }}>{s.l}</div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── LA MAISON — colonnes filetées ────────────────────────────────── */}
+      <section id="about" style={{ background: C.bg, padding: "clamp(80px,10vw,140px) clamp(24px,6vw,88px)" }}>
+        <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+          <Reveal>
+            <Kicker>La maison</Kicker>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(30px,4.4vw,54px)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.02em", color: C.ink, margin: "clamp(14px,2vw,22px) 0 clamp(30px,4vw,54px)", maxWidth: 700 }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>Qui fait les <em style={{ fontStyle: "italic", color: C.accent }}>soirées</em> on.</>)}
+            </h2>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px,100%),1fr))", gap: "clamp(22px,3vw,40px)" }}>
+            {ABOUT.map((a, idx) => (
+              <Reveal key={a.t} delay={idx * 0.08}>
+                <div style={{ borderLeft: `1px solid ${C.border}`, paddingLeft: "clamp(16px,1.8vw,24px)", height: "100%", position: "relative" }}>
+                  <span aria-hidden style={{ position: "absolute", left: -1, top: 0, width: 1, height: 44, background: `linear-gradient(${C.accent}, transparent)` }} />
+                  <h3 style={{ fontFamily: DISPLAY, fontSize: "clamp(16.5px,1.6vw,19px)", fontWeight: 600, color: C.ink, margin: "0 0 10px", lineHeight: 1.3 }}>{a.t}</h3>
+                  <p style={{ fontFamily: SANS, fontSize: 14, color: C.textMuted, lineHeight: 1.78, margin: 0 }}>{a.d}</p>
                 </div>
               </Reveal>
             ))}
@@ -773,127 +737,251 @@ export default function Impact324TicketStore({ session: initialSession }) {
         </div>
       </section>
 
-      {/* NEWSLETTER */}
-      {/* ABOUT */}
-      <section id="about" style={{ padding: "100px 4%", backgroundColor: C.bgCard }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ marginBottom: 56 }}>
-            <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.primary, marginBottom: 12 }}>About</div>
-            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px, 4vw, 48px)", fontWeight: 800, color: C.text, lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>Who puts the shows on</>)}</h2>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: 20 }}>
-            {ABOUT_STATS.map((a) => (
-              <div key={a.t} style={{ backgroundColor: C.bgDeep, border: `1px solid ${C.bgCard}`, borderRadius: 14, padding: "28px 26px", height: "100%" }}>
-                <h3 style={{ fontFamily: SERIF, fontSize: 18, fontWeight: 700, color: C.text, marginBottom: 10 }}>{a.t}</h3>
-                <p style={{ fontFamily: SANS, fontSize: 14, color: C.textMuted, lineHeight: 1.75 }}>{a.d}</p>
-              </div>
-            ))}
-          </div>
+      {/* ── AVIS — spotlight rotatif ─────────────────────────────────────── */}
+      <section style={{ background: C.bgAlt, padding: "clamp(80px,10vw,140px) clamp(24px,6vw,88px)", position: "relative", overflow: "hidden" }}>
+        <div aria-hidden style={{ position: "absolute", top: "10%", right: "-3%", fontFamily: DISPLAY, fontWeight: 800, fontSize: "clamp(120px,20vw,280px)", lineHeight: 1, color: "rgba(255,255,255,0.03)", pointerEvents: "none", userSelect: "none" }}>
+          &ldquo;
         </div>
-      </section>
-
-      {/* CONTACT */}
-      <section id="contact" style={{ padding: "100px 4%", backgroundColor: C.bgDeep }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ marginBottom: 56 }}>
-            <div style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.primary, marginBottom: 12 }}>Contact</div>
-            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px, 4vw, 48px)", fontWeight: 800, color: C.text, lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Reaching a human</>)}</h2>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: 20, marginBottom: 32 }}>
-            {CONTACT_LINES.map((c) => (
-              <div key={c.t} style={{ backgroundColor: C.bgCard, borderRadius: 14, padding: "28px 26px", height: "100%" }}>
-                <h3 style={{ fontFamily: SERIF, fontSize: 18, fontWeight: 700, color: C.text, marginBottom: 10 }}>{c.t}</h3>
-                <p style={{ fontFamily: SANS, fontSize: 14, color: C.textMuted, lineHeight: 1.75 }}>{c.d}</p>
-              </div>
-            ))}
-          </div>
-          <a href="mailto:box.office@example.com" style={{ display: "inline-flex", alignItems: "center", gap: 10, backgroundColor: C.primary, color: C.white, borderRadius: 10, padding: "14px 30px", fontFamily: SANS, fontSize: 14, fontWeight: 700, textDecoration: "none", letterSpacing: 1, textTransform: "uppercase" }}>
-            Email the box office
-          </a>
-        </div>
-      </section>
-
-      <section style={{ padding: "80px 4%", backgroundColor: C.primary, position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", inset: 0, backgroundImage: `radial-gradient(circle at center, rgba(255,255,255,0.2) 0%, transparent 70%)` }} />
-        <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center", position: "relative", zIndex: 1 }}>
+        <div style={{ maxWidth: 880, margin: "0 auto", textAlign: "center", position: "relative" }}>
           <Reveal>
-            <h2 style={{ fontFamily: SERIF, fontSize: "32px", fontWeight: 800, margin: "0 0 16px 0", color: C.white, textTransform: "uppercase" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>Never Miss a Show</>)}</h2>
-            <p style={{ color: "rgba(255,255,255,0.9)", fontSize: "16px", marginBottom: "32px" }}>Subscribe to our newsletter for pre-sale codes, exclusive drops, and VIP offers.</p>
-            <form onSubmit={e => e.preventDefault()} style={{ display: "flex", gap: "12px", maxWidth: "500px", margin: "0 auto", flexWrap: "wrap" }}>
-              <input type="email" placeholder="Enter your email" style={{ flex: "1 1 200px", padding: "16px", borderRadius: "30px", border: "none", outline: "none", fontFamily: SANS }} />
-              <Button style={{ backgroundColor: C.bgDeep, color: C.white, borderRadius: "30px", border: `2px solid ${C.bgDeep}` }}>Subscribe</Button>
+            <Kicker>Ils y étaient</Kicker>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(28px,4vw,50px)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.02em", color: C.ink, margin: "clamp(14px,2vw,22px) 0 clamp(30px,4vw,50px)" }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Écoutez la <em style={{ fontStyle: "italic", color: C.accent }}>salle.</em></>)}
+            </h2>
+          </Reveal>
+          <Reveal delay={0.14}>
+            <div style={{ display: "flex", justifyContent: "center", gap: 4, marginBottom: 22 }}>
+              {[...Array(5)].map((_, j) => (
+                <Star key={j} size={15} fill={C.accent} color={C.accent} />
+              ))}
+            </div>
+            <motion.blockquote
+              key={avisIdx}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.75, ease: EASE }}
+              style={{ fontFamily: DISPLAY, fontStyle: "italic", fontWeight: 300, fontSize: "clamp(19px,2.5vw,30px)", lineHeight: 1.5, color: C.ink, margin: "0 0 26px" }}
+            >
+              &ldquo;{avis?.text}&rdquo;
+            </motion.blockquote>
+            <div style={{ fontFamily: SANS, fontSize: 14, fontWeight: 600, color: C.ink }}>{avis?.name}</div>
+            <div style={{ fontFamily: SANS, fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase", color: C.textFaint, marginTop: 5 }}>{avis?.role}</div>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 18, marginTop: 28 }}>
+              <HairlineArrows onPrev={() => setAvisIdx(avisIdx - 1)} onNext={() => setAvisIdx(avisIdx + 1)} color={C.ink} className="" labels={{ prev: "Avis précédent", next: "Avis suivant" }} />
+              <SlideIndex i={((avisIdx % AVIS.length) + AVIS.length) % AVIS.length} total={AVIS.length} variant="flat" color={C.textFaint} className="" />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── CONTACT ──────────────────────────────────────────────────────── */}
+      <section id="contact" style={{ background: C.bg, padding: "clamp(80px,10vw,140px) clamp(24px,6vw,88px)" }}>
+        <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+          <Reveal>
+            <Kicker>Contact</Kicker>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(30px,4.4vw,54px)", fontWeight: 800, lineHeight: 1.06, letterSpacing: "-0.02em", color: C.ink, margin: "clamp(14px,2vw,22px) 0 clamp(30px,4vw,50px)", maxWidth: 680 }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Parler à quelqu'un de <em style={{ fontStyle: "italic", color: C.accent }}>vivant.</em></>)}
+            </h2>
+          </Reveal>
+          <div className="i324-contactgrid" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0,1fr))", gap: "clamp(16px,2.2vw,26px)", marginBottom: "clamp(30px,4vw,48px)" }}>
+            {CONTACT_SOURCE.map((l, idx) => (
+              <Reveal key={l.t} delay={idx * 0.07}>
+                <ContactCard l={l} />
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={0.1}>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 14, alignItems: "center" }}>
+              <a href={`mailto:${mail}`} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: C.bgDark, borderRadius: 999, padding: "16px 32px", fontFamily: SANS, fontSize: 13, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", textDecoration: "none" }}>
+                <Mail size={16} /> Écrire au guichet
+              </a>
+              {phone && (
+                <a href={`tel:${phone}`} style={{ display: "inline-flex", alignItems: "center", gap: 10, border: `1px solid ${C.border}`, color: C.ink, borderRadius: 999, padding: "15px 30px", fontFamily: SANS, fontSize: 13, fontWeight: 600, letterSpacing: "0.1em", textDecoration: "none" }}>
+                  <Phone size={16} /> {phone}
+                </a>
+              )}
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: SANS, fontSize: 13.5, color: C.textMuted }}>
+                <MapPin size={15} color={C.accent} /> {clientAddress(sessionData) ?? ville}
+              </span>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── NEWSLETTER ───────────────────────────────────────────────────── */}
+      <section style={{ background: `linear-gradient(140deg, ${C.bgDark}, ${C.bgDarkAlt})`, borderTop: `1px solid ${C.border}`, padding: "clamp(64px,8vw,110px) clamp(24px,6vw,88px)", position: "relative", overflow: "hidden" }}>
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(65% 80% at 50% 0%, rgba(236,72,153,0.1), transparent 65%)", pointerEvents: "none" }} />
+        <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center", position: "relative" }}>
+          <Reveal>
+            <h2 style={{ fontFamily: DISPLAY, fontSize: "clamp(26px,3.6vw,44px)", fontWeight: 800, letterSpacing: "-0.02em", color: C.ink, margin: "0 0 14px", lineHeight: 1.08 }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>Ne manquez plus une <em style={{ fontStyle: "italic", color: C.accent }}>soirée.</em></>)}
+            </h2>
+            <p style={{ fontFamily: SANS, fontSize: 15, color: C.textMuted, lineHeight: 1.7, margin: "0 0 30px" }}>
+              Recevez les préventes, les mises en vente et les offres VIP avant tout le monde.
+            </p>
+            <form onSubmit={(ev) => ev.preventDefault()} style={{ display: "flex", gap: 10, maxWidth: 480, margin: "0 auto", flexWrap: "wrap", justifyContent: "center" }}>
+              <input
+                type="email"
+                placeholder="Votre adresse e-mail"
+                aria-label="Adresse e-mail"
+                style={{ flex: "1 1 220px", padding: "15px 20px", borderRadius: 999, border: `1px solid ${C.border}`, outline: "none", background: C.bgCard, color: C.ink, fontFamily: SANS, fontSize: 14 }}
+              />
+              <button type="submit" style={{ background: C.accent, color: C.bgDark, borderRadius: 999, border: "none", padding: "15px 30px", fontFamily: SANS, fontSize: 12.5, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", cursor: "pointer" }}>
+                Subscribe
+              </button>
             </form>
           </Reveal>
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer style={{ backgroundColor: C.bgDeep, borderTop: `1px solid ${C.bgCard}`, padding: "80px 4% 40px" }}>
-        <div style={{ maxWidth: 1400, margin: "0 auto" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "40px", marginBottom: "60px" }}>
+      {/* ── FOOTER ───────────────────────────────────────────────────────── */}
+      <footer style={{ background: C.bgDarkAlt, borderTop: `1px solid ${C.border}`, padding: "clamp(48px,6vw,80px) clamp(24px,6vw,88px) 26px" }}>
+        <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(230px,100%),1fr))", gap: "clamp(26px,3.5vw,48px)", marginBottom: "clamp(30px,4vw,52px)" }}>
             <div>
-              <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "24px" }}>
-                <Music color={C.primary} size={28} />
-                <h2 style={{ fontFamily: SERIF, fontSize: "24px", fontWeight: 800, margin: 0, color: C.white }}>
-                  {businessName.toUpperCase()}
-                </h2>
+              <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 16 }}>
+                <span className="i324-livedot" aria-hidden style={{ width: 7, height: 7, borderRadius: "50%", background: C.accent }} />
+                <span style={{ fontFamily: DISPLAY, fontSize: 18, fontWeight: 800, color: C.ink }}>{businessName}</span>
               </div>
-              <p style={{ color: C.textMuted, fontSize: "14px", lineHeight: 1.6, marginBottom: "24px" }}>
-                Your ultimate destination for live music, concerts, and exclusive event experiences.
+              <p style={{ fontFamily: SANS, fontSize: 13.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 320, margin: 0 }}>
+                La billetterie des concerts, des festivals et des soirées qu'on n'oublie pas.
               </p>
-              <div style={{ display: "flex", gap: "16px" }}>
-                <a href="#" style={{ color: C.textMuted }}><Facebook size={20} /></a>
-                <a href="#" style={{ color: C.textMuted }}><Twitter size={20} /></a>
-                <a href="#" style={{ color: C.textMuted }}><Instagram size={20} /></a>
-              </div>
             </div>
-            
             <div>
-              <h4 style={{ fontFamily: SERIF, fontSize: "16px", fontWeight: 700, color: C.white, marginBottom: "24px" }}>Quick Links</h4>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "12px" }}>
-                <li><a href="#" style={{ color: C.textMuted, textDecoration: "none", fontSize: "14px" }}>All Events</a></li>
-                <li><a href="#" style={{ color: C.textMuted, textDecoration: "none", fontSize: "14px" }}>VIP Packages</a></li>
-                <li><a href="#" style={{ color: C.textMuted, textDecoration: "none", fontSize: "14px" }}>Gift Cards</a></li>
-                <li><a href="#" style={{ color: C.textMuted, textDecoration: "none", fontSize: "14px" }}>About Us</a></li>
+              <h4 style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.3em", textTransform: "uppercase", color: C.textFaint, margin: "0 0 18px" }}>Quick links</h4>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 11 }}>
+                {NAV.map((n) => (
+                  <li key={n.l}>
+                    <a href={n.h} style={{ color: C.textMuted, textDecoration: "none", fontFamily: SANS, fontSize: 13.5 }}>{n.l}</a>
+                  </li>
+                ))}
               </ul>
             </div>
-
             <div>
-              <h4 style={{ fontFamily: SERIF, fontSize: "16px", fontWeight: 700, color: C.white, marginBottom: "24px" }}>Support</h4>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "12px" }}>
-                <li><a href="#" style={{ color: C.textMuted, textDecoration: "none", fontSize: "14px" }}>FAQ</a></li>
-                <li><a href="#" style={{ color: C.textMuted, textDecoration: "none", fontSize: "14px" }}>Contact</a></li>
-                <li><a href="#" style={{ color: C.textMuted, textDecoration: "none", fontSize: "14px" }}>Terms of Service</a></li>
-                <li><a href="#" style={{ color: C.textMuted, textDecoration: "none", fontSize: "14px" }}>Privacy Policy</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 style={{ fontFamily: SERIF, fontSize: "16px", fontWeight: 700, color: C.white, marginBottom: "24px" }}>Contact</h4>
-              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "12px" }}>
-                <li style={{ display: "flex", alignItems: "center", gap: "8px", color: C.textMuted, fontSize: "14px" }}>
-                  <Mail size={16} /> {contactEmail}
+              <h4 style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.3em", textTransform: "uppercase", color: C.textFaint, margin: "0 0 18px" }}>Box office</h4>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 11 }}>
+                <li style={{ display: "flex", alignItems: "center", gap: 9, color: C.textMuted, fontFamily: SANS, fontSize: 13.5 }}>
+                  <Mail size={14} color={C.accent} /> {mail}
                 </li>
-                <li style={{ display: "flex", alignItems: "center", gap: "8px", color: C.textMuted, fontSize: "14px" }}>
-                  <MapPin size={16} /> 123 Live Ave, {clientCity({ formData: fd }) ?? "Paris"}, FR
+                {phone && (
+                  <li style={{ display: "flex", alignItems: "center", gap: 9, color: C.textMuted, fontFamily: SANS, fontSize: 13.5 }}>
+                    <Phone size={14} color={C.accent} /> {phone}
+                  </li>
+                )}
+                <li style={{ display: "flex", alignItems: "center", gap: 9, color: C.textMuted, fontFamily: SANS, fontSize: 13.5 }}>
+                  <MapPin size={14} color={C.accent} /> {clientCodePostalVille(sessionData, "75000", "Paris")}
+                </li>
+                <li style={{ display: "flex", alignItems: "center", gap: 9, color: C.textMuted, fontFamily: SANS, fontSize: 13.5 }}>
+                  <Calendar size={14} color={C.accent} /> Wed – Sat · 14:00 — 19:00
                 </li>
               </ul>
             </div>
           </div>
-          
-          <div style={{ borderTop: `1px solid ${C.bgCard}`, paddingTop: "24px", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: "16px" }}>
-            <p style={{ color: C.textMuted, fontSize: "14px", margin: 0 }}>&copy; 2026 {businessName}. All rights reserved.</p>
-            <div style={{ display: "flex", gap: "16px", color: C.textMuted, fontSize: "12px" }}>
-              <span>Created by Aevia</span>
-            </div>
+          <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 20, display: "flex", flexWrap: "wrap", justifyContent: "space-between", gap: 10 }}>
+            <span style={{ fontFamily: SANS, fontSize: 12, color: C.textFaint }}>
+              © 2026 {businessName}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""} — all rights reserved.
+            </span>
+            <span style={{ fontFamily: SANS, fontSize: 12, color: C.textFaint }}>
+              Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" /> · hébergement Vercel Inc.
+            </span>
           </div>
         </div>
       </footer>
-      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-324"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
-      </footer>
+    </div>
+  );
+}
+
+/* Rangée d'événement — micro-interaction 3+ propriétés, flèche qui avance. */
+function EventRow({ e, idx }: { e: any; idx: number }) {
+  const [hov, setHov] = useState(false);
+  return (
+    <Reveal delay={Math.min(idx * 0.06, 0.3)}>
+      <div
+        onMouseEnter={() => setHov(true)}
+        onMouseLeave={() => setHov(false)}
+        className="i324-eventrow"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "84px 96px minmax(0,1fr) auto",
+          gap: "clamp(14px,2vw,26px)",
+          alignItems: "center",
+          padding: "clamp(16px,2vw,24px) clamp(12px,1.6vw,22px)",
+          borderBottom: `1px solid ${C.border}`,
+          borderLeft: `2px solid ${hov ? C.accent : "transparent"}`,
+          background: hov ? "rgba(236,72,153,0.05)" : "transparent",
+          transform: hov ? "translateX(8px)" : "none",
+          transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
+          position: "relative",
+        }}
+      >
+        <div style={{ textAlign: "center" }}>
+          <div style={{ fontFamily: DISPLAY, fontSize: "clamp(26px,2.8vw,36px)", fontWeight: 800, lineHeight: 1, color: hov ? C.accent : C.ink, transition: "color 0.45s cubic-bezier(.16,1,.3,1)" }}>{e.d}</div>
+          <div style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.28em", textTransform: "uppercase", color: C.textFaint, marginTop: 4 }}>{e.m}</div>
+        </div>
+        <div className="i324-eventthumb" style={{ width: 96, height: 64, borderRadius: 10, overflow: "hidden", border: `1px solid ${C.border}`, background: C.bgCard, flexShrink: 0 }}>
+          {(e.img || photo(e.pi, FALLBACK_PHOTOS[e.pi])) ? (
+            <img
+              src={e.img || photo(e.pi, FALLBACK_PHOTOS[e.pi])}
+              alt={e.title}
+              loading="lazy"
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transform: hov ? "scale(1.07)" : "scale(1)", transition: "transform 0.6s cubic-bezier(.16,1,.3,1)" }}
+            />
+          ) : (
+            <div aria-hidden style={{ width: "100%", height: "100%", background: `linear-gradient(140deg, ${C.bgCard}, rgba(236,72,153,0.15))` }} />
+          )}
+        </div>
+        <div style={{ minWidth: 0 }}>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
+            <h3 style={{ fontFamily: DISPLAY, fontSize: "clamp(17px,1.9vw,23px)", fontWeight: 600, color: C.ink, margin: 0, lineHeight: 1.2 }}>{e.title}</h3>
+            <span style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.24em", textTransform: "uppercase", color: C.accentDark, fontWeight: 600 }}>{e.category}</span>
+          </div>
+          <div style={{ fontFamily: SANS, fontSize: 13.5, color: C.textMuted, marginTop: 6, display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+            <span style={{ color: C.ink, fontWeight: 500 }}>{e.artist}</span>
+            <span aria-hidden style={{ width: 3, height: 3, borderRadius: "50%", background: C.textFaint }} />
+            <span>{e.venue}</span>
+            <span aria-hidden style={{ width: 3, height: 3, borderRadius: "50%", background: C.textFaint }} />
+            <span>{e.time}</span>
+          </div>
+        </div>
+        <div className="i324-eventcta" style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <span style={{ fontFamily: DISPLAY, fontSize: "clamp(16px,1.7vw,21px)", fontWeight: 800, color: hov ? C.accent : C.ink, whiteSpace: "nowrap", transition: "color 0.45s cubic-bezier(.16,1,.3,1)" }}>{e.price}</span>
+          <a
+            href="#tickets"
+            aria-label={`Tickets — ${e.title}`}
+            style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: SANS, fontSize: 11.5, fontWeight: 600, letterSpacing: "0.18em", textTransform: "uppercase", color: hov ? C.accentDark : C.textMuted, textDecoration: "none", padding: "12px 4px", transition: "color 0.45s cubic-bezier(.16,1,.3,1)" }}
+          >
+            Réserver
+            <ArrowRight size={14} style={{ transform: hov ? "translateX(5px)" : "none", transition: "transform 0.5s cubic-bezier(.16,1,.3,1)" }} />
+          </a>
+        </div>
+      </div>
+    </Reveal>
+  );
+}
+
+function ContactCard({ l }: { l: any }) {
+  const [hov, setHov] = useState(false);
+  return (
+    <div
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      style={{
+        background: hov ? C.bgCard : C.bgAlt,
+        border: `1px solid ${hov ? "rgba(236,72,153,0.35)" : C.border}`,
+        borderRadius: 14,
+        padding: "clamp(20px,2.6vw,30px) clamp(18px,2.2vw,26px)",
+        height: "100%",
+        transform: hov ? "translateY(-5px)" : "none",
+        boxShadow: hov ? "0 26px 50px -30px rgba(0,0,0,0.85), 0 6px 20px -12px rgba(236,72,153,0.3)" : "none",
+        transition: "all 0.5s cubic-bezier(.16,1,.3,1)",
+      }}
+    >
+      <h3 style={{ fontFamily: DISPLAY, fontSize: 16.5, fontWeight: 600, color: hov ? C.accentDark : C.ink, margin: "0 0 10px", transition: "color 0.45s cubic-bezier(.16,1,.3,1)" }}>{l.t}</h3>
+      <p style={{ fontFamily: SANS, fontSize: 13.5, color: C.textMuted, lineHeight: 1.75, margin: 0 }}>{l.d}</p>
     </div>
   );
 }

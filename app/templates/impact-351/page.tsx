@@ -12,6 +12,7 @@ import {
   clientHeroLine,
   clientTrade,
   clientCertifications,
+  clientAddress,
   clientCity,
   clientName,
   clientPhotos,
@@ -46,7 +47,16 @@ let C: Record<string, string> = {
   white: "#12151b",
   border: "rgba(255,255,255,0.09)",
 };
-const FONT = "system-ui, -apple-system, 'Segoe UI', sans-serif";
+/*
+  La paire du plan (P9) : « Syne » porte la voix du thème,
+  « Work Sans » porte la lecture. Le thème n'avait que
+  system-ui pour tout — c'est ce qui le rendait interchangeable avec ses
+  voisins. FONT reste le corps de texte, pour ne pas mettre une serif
+  d'affiche dans les paragraphes ; FONT_TITRE ne va qu'aux titres.
+*/
+const FONTS_CSS = `@import url('https://fonts.googleapis.com/css2?family=Syne:wght@300;400;500;600;700;800&family=Work+Sans:wght@300;400;500;600;700;800&display=swap');`;
+const FONT_TITRE = "'Syne', system-ui, -apple-system, sans-serif";
+const FONT = "'Work Sans', system-ui, -apple-system, sans-serif";
 const FONT_BODY = FONT;
 
 const NAV = [{"l": "Savoir-faire", "h": "#services"}, {"l": "Le chantier", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
@@ -199,7 +209,8 @@ export default function ToitsDeLoirePage() {
 
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
-      <style>{`
+      <style>{`${FONTS_CSS}
+
         @media (max-width: 900px) { #i351-nav { display: none !important; } .i351-burger { display: flex !important; } }
         @media (max-width: 860px) {
           .i351-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
@@ -265,7 +276,7 @@ export default function ToitsDeLoirePage() {
         <HardCutRebuild index={i} stagger={0.09}>
               {[
                 <div key="k" style={{ fontSize: 13, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.accent, marginBottom: 12 }}>{S.k}</div>,
-                <h1 key="h" style={{ fontFamily: FONT, fontSize: "clamp(36px, 5.4vw, 68px)", fontWeight: 800, color: C.text, lineHeight: 1.05, margin: "0 0 14px" }}>{S.line}</h1>,
+                <h1 key="h" style={{ fontFamily: FONT_TITRE, fontSize: "clamp(36px, 5.4vw, 68px)", fontWeight: 800, color: C.text, lineHeight: 1.05, margin: "0 0 14px" }}>{S.line}</h1>,
                 <p key="d" style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 540, margin: 0 }}>{S.sub}</p>,
               ]}
             </HardCutRebuild>
@@ -328,7 +339,7 @@ export default function ToitsDeLoirePage() {
           <Reveal>
             <div style={{ marginBottom: 50 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Savoir-faire</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
+              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
                 Du faîtage<br /><em>à la gouttière.</em>
               </>)}</h2>
             </div>
@@ -338,7 +349,7 @@ export default function ToitsDeLoirePage() {
               <Reveal key={s.titre} delay={idx * 0.06}>
                 <motion.div whileHover={{ y: -5 }} style={{ background: C.white, borderRadius: 12, padding: "26px 24px", border: `1px solid ${C.border}`, height: "100%" }}>
                   <span style={{ background: C.accentLight, color: C.accent, borderRadius: 999, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag}</span>
-                  <h3 style={{ fontFamily: FONT, fontSize: 18.5, color: C.text, margin: "15px 0 10px" }}>{s.titre}</h3>
+                  <h3 style={{ fontFamily: FONT_TITRE, fontSize: 18.5, color: C.text, margin: "15px 0 10px" }}>{s.titre}</h3>
                   <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{s.desc}</p>
                 </motion.div>
               </Reveal>
@@ -353,7 +364,7 @@ export default function ToitsDeLoirePage() {
           <Reveal>
             <div style={{ marginBottom: 50 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Le chantier</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
+              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
                 Une toiture se refait<br /><em>dans l'ordre, ou pas du tout.</em>
               </>)}</h2>
             </div>
@@ -381,7 +392,7 @@ export default function ToitsDeLoirePage() {
           <Reveal delay={0.15}>
             <div>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Nos engagements</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
+              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
                 Couvreurs,<br /><em>et assurés pour l'être.</em>
               </>)}</h2>
               {ENGAGEMENT.map((e, idx) => (
@@ -404,7 +415,7 @@ export default function ToitsDeLoirePage() {
           <Reveal>
             <div style={{ textAlign: "center", marginBottom: 16 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Tarifs</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Des repères <em>honnêtes.</em></>)}</h2>
+              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Des repères <em>honnêtes.</em></>)}</h2>
               <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>Chaque toit est unique : ces fourchettes situent le budget, le devis après visite fait foi. Aides MaPrimeRénov' déduites quand l'isolation s'y prête.</p>
             </div>
           </Reveal>
@@ -428,7 +439,7 @@ export default function ToitsDeLoirePage() {
       <section className="i351-pad" style={{ padding: "96px 64px", background: C.bgDark }}>
         <Reveal>
           <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Des toits <em style={{ color: C.hi }}>qui tiennent</em>.</>)}</h2>
+            <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Des toits <em style={{ color: C.hi }}>qui tiennent</em>.</>)}</h2>
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
@@ -453,7 +464,7 @@ export default function ToitsDeLoirePage() {
       <section id="contact" className="i351-pad" style={{ padding: "96px 64px", background: C.accentLight, textAlign: "center" }}>
         <Reveal>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Devis gratuit</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
+          <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             Faites regarder votre toit<br /><em>avant qu'il ne se rappelle à vous.</em>
           </>)}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>Visite et diagnostic gratuits dans tout le Maine-et-Loire. Urgence bâchage : on répond aussi la nuit.</p>
@@ -477,7 +488,7 @@ export default function ToitsDeLoirePage() {
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Couverture · Zinguerie · {clientCity(sessionData) ?? "Angers"} et Maine-et-Loire<br />Garantie décennale, Qualibat 3212</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Angers") + ", Maine-et-Loire" }, { icon: <Phone size={13} />, t: phone }, { icon: <Clock size={13} />, t: "Lun–Ven 7h30–18h · Urgence bâchage 7j/7" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: (clientAddress(sessionData) ?? ((clientCity(sessionData) ?? "Angers") + ", Maine-et-Loire")) }, { icon: <Phone size={13} />, t: phone }, { icon: <Mail size={13} />, t: mail }, { icon: <Clock size={13} />, t: "Lun–Ven 7h30–18h · Urgence bâchage 7j/7" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
                 </div>

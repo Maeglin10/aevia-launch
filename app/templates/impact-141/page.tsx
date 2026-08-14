@@ -579,7 +579,7 @@ export default function SonicPlayerPage() {
             {/* Main Artist */}
             <Reveal className="md:col-span-2 relative rounded-2xl overflow-hidden group">
               <Image
-                src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=1200&auto=format&fit=crop"))}
+                src={photo(3, "https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=1200&auto=format&fit=crop")}
                 alt="Artist"
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-700"
@@ -599,7 +599,7 @@ export default function SonicPlayerPage() {
               className="relative rounded-2xl overflow-hidden group"
             >
               <Image
-                src={photo(1, (clientPhotos(sessionData)[4] || "https://images.pexels.com/photos/37269693/pexels-photo-37269693.jpeg?auto=compress&cs=tinysrgb&w=800"))}
+                src={photo(4, "https://images.pexels.com/photos/37269693/pexels-photo-37269693.jpeg?auto=compress&cs=tinysrgb&w=800")}
                 alt="Artist"
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-700"
@@ -637,7 +637,7 @@ export default function SonicPlayerPage() {
               className="md:col-span-2 relative rounded-2xl overflow-hidden group"
             >
               <Image
-                src={photo(2, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1200&auto=format&fit=crop"))}
+                src={photo(5, "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1200&auto=format&fit=crop")}
                 alt="Artist"
                 fill
                 className="object-cover group-hover:scale-105 transition-transform duration-700"
