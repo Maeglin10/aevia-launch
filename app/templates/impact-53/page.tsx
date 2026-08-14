@@ -32,6 +32,7 @@ import {
   clientText,
   memoriserSession,
 } from "@/lib/templates/clientContent";
+import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
@@ -213,6 +214,7 @@ return (
           padding: "0 2.5rem",
         }}
       >
+        <TitreDeLaPage session={sessionData} />
         <motion.div
           className="i53-hero-grid"
           style={{ y: heroY, opacity: heroOpacity, textAlign: "left", zIndex: 10, width: "100%", maxWidth: "1280px", display: "grid", gridTemplateColumns: "minmax(0,1.2fr) minmax(0,1fr)", gap: "clamp(2rem,5vw,5rem)", alignItems: "center" }}

@@ -37,8 +37,8 @@ let fd: any = null;
 // le client pouvait les saisir, le thème ne les lisait pas.
 function AVIS_INLINE_SOURCE_LIVE() {
   return [
-  { name: "Dieter Klaus", role: "Master Luthier & Cabinetist", text: "Wood is a living resonator. We treat our speaker enclosures like cellos—carefully aged, meticulously tensioned, and finished with organic oils to preserve the wood's natural breath.", img: photo(3, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80")) },
-                { name: "Elena Volkov", role: "Senior Analog Engineer", text: "Silicon has its place, but for pure emotional transmission, vacuum tubes remain the gold standard. We design circuits that respect the soul of the signal while pushing the limits of modern stability.", img: photo(4, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80")) }
+  { name: "Dieter Klaus", role: "Master Luthier & Cabinetist", text: "Wood is a living resonator. We treat our speaker enclosures like cellos—carefully aged, meticulously tensioned, and finished with organic oils to preserve the wood's natural breath.", img: photo(0, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80") },
+                { name: "Elena Volkov", role: "Senior Analog Engineer", text: "Silicon has its place, but for pure emotional transmission, vacuum tubes remain the gold standard. We design circuits that respect the soul of the signal while pushing the limits of modern stability.", img: photo(1, "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80") }
 ];
 }
 let AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
@@ -311,7 +311,7 @@ export default function AetherSoundPage() {
       {/* ── HERO ── */}
       <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden pt-24 md:pt-0">
         <div className="absolute inset-0">
-          <Image src={photo(0, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=1600&q=80"))} alt="Audio Studio" fill className="object-cover opacity-40 mix-blend-luminosity grayscale contrast-150" priority />
+          <Image src={photo(5, "https://images.unsplash.com/photo-1545454675-3531b543be5d?w=1600&q=80")} alt="Audio Studio" fill className="object-cover opacity-40 mix-blend-luminosity grayscale contrast-150" priority />
           <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent" />
         </div>
 
@@ -451,7 +451,7 @@ export default function AetherSoundPage() {
          <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
             <Reveal>
                <div className="relative aspect-square rounded-sm overflow-hidden group border border-white/5">
-                  <Image src={photo(1, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=1200&auto=format&fit=crop"))} alt="Audio Engineering" fill className="object-cover group-hover:scale-110 transition-all duration-[3s] grayscale hover:grayscale-0 opacity-60" />
+                  <Image src={photo(6, "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=1200&auto=format&fit=crop")} alt="Audio Engineering" fill className="object-cover group-hover:scale-110 transition-all duration-[3s] grayscale hover:grayscale-0 opacity-60" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
                   <div className="absolute bottom-16 left-16 text-white">
                      <span className="text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block text-[var(--brand,#c9a84c)]">The Atelier</span>
@@ -518,7 +518,7 @@ export default function AetherSoundPage() {
                </Reveal>
                <Reveal delay={0.2}>
                   <div className="relative aspect-square grayscale opacity-50 hover:opacity-100 transition-opacity duration-1000 border border-white/5">
-                     <Image src={photo(2, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=1200&auto=format&fit=crop"))} alt="Vintage Audio" fill className="object-cover" />
+                     <Image src={photo(7, "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=1200&auto=format&fit=crop")} alt="Vintage Audio" fill className="object-cover" />
                   </div>
                </Reveal>
             </div>

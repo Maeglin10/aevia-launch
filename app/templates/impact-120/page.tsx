@@ -884,7 +884,7 @@ export default function EclatLuxuryPage() {
         {/* ─── CTA BANNER ────────────────────────────────────────────────── */}
         <section id="contact" className="py-40 relative overflow-hidden">
           <div className="absolute inset-0 bg-fuchsia-950/20" />
-          <div className="absolute inset-0 bg-[url(photo(1, (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1598634222670-87c5f558119c?w=1600&q=80')))] bg-cover bg-center opacity-20 mix-blend-luminosity" />
+          <div className="absolute inset-0 bg-[url(photo(2, 'https://images.unsplash.com/photo-1598634222670-87c5f558119c?w=1600&q=80'))] bg-cover bg-center opacity-20 mix-blend-luminosity" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#050308] via-transparent to-[#050308]" />
           
           <div className="max-w-[1200px] mx-auto px-6 relative z-10 text-center">

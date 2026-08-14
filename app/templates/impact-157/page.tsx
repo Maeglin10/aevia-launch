@@ -715,7 +715,7 @@ return (
             style={{
               position: "absolute",
               inset: 0,
-              background: `url(${photo(0, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=900&q=80"))}) center/cover no-repeat`,
+              background: `url(${photo(6, "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=900&q=80")}) center/cover no-repeat`,
             }}
           />
           <div
@@ -1933,7 +1933,7 @@ return (
           style={{
             position: "absolute",
             inset: 0,
-            background: `url(${photo(1, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1600&q=80"))}) center/cover no-repeat`,
+            background: `url(${photo(7, "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1600&q=80")}) center/cover no-repeat`,
             opacity: 0.08,
           }}
         />

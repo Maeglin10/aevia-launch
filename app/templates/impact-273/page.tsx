@@ -611,7 +611,7 @@ function Hero() {
         }}
       >
         <img
-          src={photo(0, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2000&auto=format&fit=crop"))}
+          src={photo(6, "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2000&auto=format&fit=crop")}
           alt="Cabinet dentaire Rosenfeld Strasbourg"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1370,7 +1370,7 @@ function TechPanel() {
             }}
           >
             <img
-              src={photo(1, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?q=80&w=900&auto=format&fit=crop"))}
+              src={photo(8, "https://images.unsplash.com/photo-1609840114035-3c981b782dfe?q=80&w=900&auto=format&fit=crop")}
               alt="Technologies de pointe Cabinet Rosenfeld"
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -1659,7 +1659,7 @@ function AppointmentForm() {
     <section style={sec} id="contact">
       {/* Fond photo fantôme */}
       <img
-        src={photo(2, (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1600&auto=format&fit=crop"))}
+        src={photo(9, "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=1600&auto=format&fit=crop")}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"

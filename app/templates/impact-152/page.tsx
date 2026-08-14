@@ -93,12 +93,16 @@ const NAV = [
   { l: "Atelier", h: "#atelier" },
   { l: "Contact", h: "#contact" },
 ];
-const ATELIER = [
+/* Recalculée après l'arrivée de la session : figée à l'import, elle gardait la démonstration. */
+function ATELIER_LIVE() {
+  return [
   { t: "Le lieu", d: "Un ancien atelier de serrurerie de 180 m² rue de la Villette, à " + (clientCity(sessionData) ?? "Lyon") + ", gardé tel quel : verrière d'origine, sol béton, murs blanchis. On y dessine, on y maquette, et on y reçoit." },
   { t: "La maquette avant l'écran", d: "Chaque projet passe par du carton plume et du contreplaqué à l'échelle. On voit en trois minutes ce qu'un rendu 3D met trois jours à cacher." },
   { t: "Les matériaux sous la main", d: "Une murothèque de 400 échantillons : chêne, laiton, terrazzo, lin, zellige. Vous touchez avant de choisir, on ne travaille pas sur nuancier imprimé." },
   { t: "Les artisans qu'on appelle", d: "Six ateliers partenaires en Île-de-France, les mêmes depuis six ans. Ébéniste, métallier, tapissier, staffeur. Aucun appel d'offres au moins-disant." },
 ];
+}
+let ATELIER = ATELIER_LIVE();
 
 const SERVICES_SOURCE = [
   { titre: "Conseil & Conception", desc: "De l'esquisse au dossier complet : plan, élévations, matériaux, mobilier. Chaque détail est pensé avant la première vis.", emoji: "✏️" },
@@ -166,6 +170,7 @@ export default function StudioNomaPage() {
 
   fd = session?.formData;
   sessionData = session;
+  ATELIER = ATELIER_LIVE();
   c = session?.generatedContent;
   PROJETS_DEMO = PROJETS_DEMO_LIVE();
   TEMOIGNAGES_SOURCE = TEMOIGNAGES_SOURCE_LIVE();
@@ -289,7 +294,7 @@ export default function StudioNomaPage() {
       <style>{`@media (max-width: 640px) { #hero { height: 100dvh !important; min-height: 100dvh !important; } }`}</style>
       <section id="hero" ref={heroRef} style={{ height: "100dvh", minHeight: "640px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src={photo(0, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1920&q=80"))} alt="Intérieur Studio Noma" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(6, "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=1920&q=80")} alt="Intérieur Studio Noma" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(20,12,8,0.90) 0%, rgba(20,12,8,0.42) 45%, rgba(20,12,8,0.08) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />

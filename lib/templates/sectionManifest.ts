@@ -4,7 +4,7 @@
 // source, le type de champ à lui présenter, et un aperçu du texte d'origine qui
 // sert d'étiquette dans le panneau d'édition.
 //
-// 2235 retouches possibles sur 371 thèmes.
+// 2440 retouches possibles sur 371 thèmes.
 
 export interface RetouchePossible {
   /** La clé lue par le thème : « contact.titre ». */
@@ -463,7 +463,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? The future of computation is quantum. }"
+      "apercu": ""
     },
     {
       "cle": "section-3.titre",
@@ -532,7 +532,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? Chaque amour mérite d être raconté }"
+      "apercu": ""
     },
     {
       "cle": "prestations.titre",
@@ -1731,7 +1731,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? Bien voir le monde, avec style. }"
+      "apercu": "Bien voir le monde,"
     },
     {
       "cle": "offres.titre",
@@ -2097,7 +2097,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? Votre piscine, sans mauvaise surprise. }"
+      "apercu": "Votre piscine,"
     },
     {
       "cle": "services.titre",
@@ -2163,7 +2163,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? L'espace comme œuvre d'art. }"
+      "apercu": "œuvre d"
     },
     {
       "cle": "projets.titre",
@@ -2244,7 +2244,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? Votre bien, sa vraie valeur. }"
+      "apercu": "Votre bien,"
     },
     {
       "cle": "biens.titre",
@@ -2271,7 +2271,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? Trouver l'équilibre, en soi et dans le m"
+      "apercu": "Trouver l"
     },
     {
       "cle": "cours.titre",
@@ -2303,7 +2303,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? L'art du bijou intemporel. }"
+      "apercu": "intemporel."
     },
     {
       "cle": "section-3.titre",
@@ -2662,7 +2662,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? La chaleur comme philosophie. }"
+      "apercu": ""
     },
     {
       "cle": "section-3.titre",
@@ -2788,7 +2788,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? Rafaël Moreau }"
+      "apercu": "Rafaël"
     },
     {
       "cle": "experience.titre",
@@ -3022,7 +3022,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? Des piscines qui vous ressemblent. }"
+      "apercu": ""
     },
     {
       "cle": "section-3.titre",
@@ -3071,7 +3071,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? Votre piscine sur- mesure à . }"
+      "apercu": ""
     },
     {
       "cle": "section-2.texte",
@@ -3686,7 +3686,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? Le monde autrement. }"
+      "apercu": ""
     },
     {
       "cle": "destinations.titre",
@@ -3975,7 +3975,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? Bâtir ce qui tient debout }"
+      "apercu": "Bâtir ce qui"
     },
     {
       "cle": "services.titre",
@@ -4235,7 +4235,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "contact.liste1",
       "type": "liste",
-      "apercu": "Lyon (tous arrondissements) · Villeurbanne · Bron"
+      "apercu": "Lyon ·  (tous arrondissements) · Villeurbanne"
     },
     {
       "cle": "contact.liste2",
@@ -4624,7 +4624,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? L'art sur peau, pour toujours. }"
+      "apercu": "pour toujours."
     },
     {
       "cle": "styles.titre",
@@ -4661,7 +4661,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? L'art du soin masculin, à l'ancienne. }"
+      "apercu": "à l"
     },
     {
       "cle": "prestations.titre",
@@ -4698,7 +4698,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? PANNE ? ON ARRIVE. }"
+      "apercu": "PANNE ?"
     },
     {
       "cle": "services.titre",
@@ -4735,7 +4735,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? Révélez votre éclat, corps et âme. }"
+      "apercu": "Révélez votre éclat,"
     },
     {
       "cle": "soins.titre",
@@ -4909,7 +4909,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? Le bois massif, façonné avec âme. }"
+      "apercu": "Le bois massif,"
     },
     {
       "cle": "savoir-faire.titre",
@@ -4941,7 +4941,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? Manger juste pour vivre mieux. }"
+      "apercu": "Manger juste"
     },
     {
       "cle": "accompagnements.titre",
@@ -4963,7 +4963,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? Votre jardin, vivant et sans chimie. }"
+      "apercu": "Votre jardin,"
     },
     {
       "cle": "prestations.titre",
@@ -4990,7 +4990,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? Retrouver l'équilibre naturellement. }"
+      "apercu": ""
     },
     {
       "cle": "motifs.titre",
@@ -5584,7 +5584,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "section-2.texte",
       "type": "texte",
-      "apercu": "\"La comptabilité n est pas une contrainte. C est la carte de"
+      "apercu": "\"La comptabilité n'est pas une contrainte. C'est la carte de"
     },
     {
       "cle": "services.titre",
@@ -5611,7 +5611,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "intro.texte",
       "type": "texte",
-      "apercu": "\"Le droit n est pas un obstacle à votre développement. C est"
+      "apercu": "\"Le droit n'est pas un obstacle à votre développement. C'est"
     },
     {
       "cle": "services.titre",
@@ -5849,7 +5849,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "demarche.texte",
       "type": "texte",
-      "apercu": "\"Un jardin n est pas un décor. C est un écosystème dont vous"
+      "apercu": "\"Un jardin n'est pas un décor. C'est un écosystème dont vous"
     },
     {
       "cle": "services.titre",
@@ -7234,7 +7234,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? Votre sourire, notre passion }"
+      "apercu": "Votre sourire,"
     },
     {
       "cle": "services.titre",
@@ -7808,17 +7808,37 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-316": [
     {
+      "cle": "philosophie.texte",
+      "type": "texte",
+      "apercu": "Des locaux impeccables, des équipes stables, un interlocuteu"
+    },
+    {
       "cle": "services.titre",
       "type": "texte",
       "apercu": "Des solutions sur mesure pour chaque espace"
     },
     {
-      "cle": "section-5.titre",
+      "cle": "services.texte",
       "type": "texte",
-      "apercu": "Du premier contact à l'excellence quotidienne"
+      "apercu": "Bureaux, commerces, copropriétés ou établissements de santé "
     },
     {
-      "cle": "gallery.titre",
+      "cle": "methode.titre",
+      "type": "texte",
+      "apercu": "Du premier contact à l excellence quotidienne"
+    },
+    {
+      "cle": "engagements.titre",
+      "type": "texte",
+      "apercu": "Un partenaire de confiance pour vos locaux"
+    },
+    {
+      "cle": "engagements.texte",
+      "type": "texte",
+      "apercu": "Certifiés ISO 14001, nous utilisons des produits éco-respons"
+    },
+    {
+      "cle": "realisations.titre",
       "type": "texte",
       "apercu": "Des espaces qui inspirent confiance"
     },
@@ -7833,21 +7853,26 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Questions fréquentes"
     },
     {
-      "cle": "section-9.titre",
-      "type": "texte",
-      "apercu": "Prêt à transformer vos espaces ?"
-    },
-    {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Demandez votre devis personnalisé"
+      "apercu": "Prêt à transformer vos espaces ?"
     }
   ],
   "impact-317": [
     {
+      "cle": "respiration.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "services.titre",
       "type": "texte",
       "apercu": "Des services conçus pour briller"
+    },
+    {
+      "cle": "services.texte",
+      "type": "texte",
+      "apercu": "Que ce soit pour votre domicile ou votre entreprise, nous av"
     },
     {
       "cle": "tarifs.titre",
@@ -7860,19 +7885,19 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Une approche différente du nettoyage"
     },
     {
-      "cle": "section-6.titre",
+      "cle": "realisations.titre",
       "type": "texte",
       "apercu": "Des résultats éclatants"
     },
     {
-      "cle": "section-7.titre",
+      "cle": "avis.titre",
       "type": "texte",
-      "apercu": "Ce qu'ils disent de nous"
+      "apercu": "Ce qu ils disent de nous"
     },
     {
-      "cle": "section-8.titre",
+      "cle": "faq.titre",
       "type": "texte",
-      "apercu": "Questions Fréquentes"
+      "apercu": "Questions fréquentes"
     },
     {
       "cle": "contact.titre",
@@ -7882,14 +7907,34 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-318": [
     {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": "Là où le nettoyage classique s'arrête, notre métier commence"
+    },
+    {
       "cle": "services.titre",
       "type": "texte",
       "apercu": "Chaque situation exige un protocole adapté"
     },
     {
-      "cle": "process.titre",
+      "cle": "methode.titre",
       "type": "texte",
       "apercu": "4 étapes pour une restitution parfaite"
+    },
+    {
+      "cle": "entreprise.titre",
+      "type": "texte",
+      "apercu": "Spécialistes des situations critiques"
+    },
+    {
+      "cle": "tarifs.titre",
+      "type": "texte",
+      "apercu": "Un chiffrage net , jamais flou"
+    },
+    {
+      "cle": "tarifs.note",
+      "type": "texte",
+      "apercu": "Chaque sinistre est unique : le devis est établi sur site, e"
     },
     {
       "cle": "avis.titre",
@@ -7905,28 +7950,48 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "contact.titre",
       "type": "texte",
       "apercu": "Intervention rapide"
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": "Sinistre en cours ? Appelez-nous directement. Pour un devis "
     }
   ],
   "impact-319": [
+    {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": "La nature nous offre tout ce qu'il faut pour nettoyer, assai"
+    },
     {
       "cle": "services.titre",
       "type": "texte",
       "apercu": "Des solutions pour chaque espace"
     },
     {
-      "cle": "section-4.titre",
+      "cle": "methode.titre",
       "type": "texte",
-      "apercu": "L'alliance de l'efficacité et de l'écologie."
+      "apercu": "Du premier appel à l'air plus pur"
     },
     {
-      "cle": "section-5.titre",
+      "cle": "methode.texte",
       "type": "texte",
-      "apercu": "Avant, pendant, après."
+      "apercu": "Une méthode simple et transparente : nous venons voir, nous "
+    },
+    {
+      "cle": "section-4.titre",
+      "type": "texte",
+      "apercu": "L'alliance de l'efficacité et de l'écologie ."
     },
     {
       "cle": "section-6.titre",
       "type": "texte",
       "apercu": "Ce qu'ils disent de nous"
+    },
+    {
+      "cle": "section-5.titre",
+      "type": "texte",
+      "apercu": "Avant, pendant, après ."
     },
     {
       "cle": "section-7.titre",
@@ -7939,9 +8004,14 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Prêt pour un intérieur plus sain ?"
     },
     {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": "Discutons de vos besoins d'entretien. Remplissez le formulai"
+    },
+    {
       "cle": "bloc.liste1",
       "type": "liste",
-      "apercu": ",\n                   · ,\n                   · ,\n                  "
+      "apercu": ""
     }
   ],
   "impact-32": [
@@ -7973,108 +8043,158 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-321": [
     {
+      "cle": "respiration.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "about.titre",
       "type": "texte",
-      "apercu": "Façonner le futur de l'Intelligence Artificielle"
+      "apercu": ""
+    },
+    {
+      "cle": "about.texte",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "speakers.titre",
       "type": "texte",
-      "apercu": "Les Visionnaires"
+      "apercu": ""
     },
     {
       "cle": "agenda.titre",
       "type": "texte",
-      "apercu": "Agenda du Sommet"
+      "apercu": ""
     },
     {
       "cle": "sponsors.titre",
       "type": "texte",
-      "apercu": "Ils rendent cela possible"
+      "apercu": ""
+    },
+    {
+      "cle": "ambiance.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "tickets.titre",
       "type": "texte",
-      "apercu": "Sécurisez votre Accès"
+      "apercu": ""
     },
     {
       "cle": "section-8.titre",
       "type": "texte",
-      "apercu": "Questions Fréquentes"
+      "apercu": ""
     },
     {
       "cle": "section-9.titre",
       "type": "texte",
-      "apercu": "Prêt à façonner l'avenir ?"
+      "apercu": ""
+    },
+    {
+      "cle": "partenaires.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-322": [
     {
+      "cle": "respiration.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "about.titre",
       "type": "texte",
-      "apercu": "L'Exigence au service de l' Émotion ."
+      "apercu": ""
+    },
+    {
+      "cle": "about.texte",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Savoir-Faire Événementiel"
+      "apercu": ""
     },
     {
       "cle": "portfolio.titre",
       "type": "texte",
-      "apercu": "Nos Dernières Réalisations"
+      "apercu": ""
     },
     {
       "cle": "section-6.titre",
       "type": "texte",
-      "apercu": "L'Art de l'Excellence"
+      "apercu": ""
     },
     {
       "cle": "section-7.titre",
       "type": "texte",
-      "apercu": "Mots de nos Clients"
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Planifions votre Événement"
+      "apercu": ""
     },
     {
       "cle": "bloc.liste1",
       "type": "liste",
-      "apercu": "Chanel · LVMH · Cartier"
+      "apercu": ""
     }
   ],
   "impact-324": [
     {
+      "cle": "respiration.texte",
+      "type": "texte",
+      "apercu": "Les mêmes trois personnes programment chaque soirée depuis l"
+    },
+    {
       "cle": "events.titre",
       "type": "texte",
-      "apercu": "Secure Your Spot"
+      "apercu": "Réservez votre place."
+    },
+    {
+      "cle": "tarifs.titre",
+      "type": "texte",
+      "apercu": "Le prix sur l'affiche est le prix payé."
+    },
+    {
+      "cle": "tarifs.texte",
+      "type": "texte",
+      "apercu": "Aucun prix qui varie, aucun frais de réservation au guichet."
     },
     {
       "cle": "section-3.titre",
       "type": "texte",
-      "apercu": "Upgrade to VIP Experience"
+      "apercu": "Passez à l'expérience VIP experience."
     },
     {
-      "cle": "section-5.titre",
+      "cle": "vip.texte",
       "type": "texte",
-      "apercu": "Hear the crowd"
+      "apercu": "Le concert vu d'un autre endroit : placement privilégié, acc"
     },
     {
       "cle": "about.titre",
       "type": "texte",
-      "apercu": "Who puts the shows on"
+      "apercu": "Qui fait les soirées on."
+    },
+    {
+      "cle": "section-5.titre",
+      "type": "texte",
+      "apercu": "Écoutez la salle."
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Reaching a human"
+      "apercu": "Parler à quelqu'un de vivant."
     },
     {
       "cle": "section-8.titre",
       "type": "texte",
-      "apercu": "Never Miss a Show"
+      "apercu": "Ne manquez plus une soirée."
     },
     {
       "cle": "bloc.liste1",
@@ -8084,26 +8204,61 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-325": [
     {
+      "cle": "respiration.texte",
+      "type": "texte",
+      "apercu": "Des méthodes qui s'appliquent dès le lundi — enseignées par "
+    },
+    {
       "cle": "seminars.titre",
       "type": "texte",
-      "apercu": "Upcoming Masterclasses"
+      "apercu": "Prochaines masterclasses."
+    },
+    {
+      "cle": "tarifs.titre",
+      "type": "texte",
+      "apercu": "Une page, trois places."
+    },
+    {
+      "cle": "tarifs.texte",
+      "type": "texte",
+      "apercu": "Le tarif anticipé se ferme trente jours avant chaque session"
     },
     {
       "cle": "section-4.titre",
       "type": "texte",
-      "apercu": "Transform your leadership team"
+      "apercu": "Formez vos dirigeants ensemble."
+    },
+    {
+      "cle": "corporate.texte",
+      "type": "texte",
+      "apercu": "Nos masterclasses donnent des méthodes applicables et un cad"
+    },
+    {
+      "cle": "references.titre",
+      "type": "texte",
+      "apercu": "Led by the industry."
+    },
+    {
+      "cle": "contact.titre",
+      "type": "texte",
+      "apercu": "Réservez la prochaine place."
     },
     {
       "cle": "bloc.liste1",
       "type": "liste",
-      "apercu": "Customized curriculum alignment · Volume licensing and group discounts · Post-seminar implementation support"
+      "apercu": ""
     }
   ],
   "impact-326": [
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Un acte qui engage, un conseil qui pro"
+      "apercu": "Un acte qui engage,"
+    },
+    {
+      "cle": "respiration.texte",
+      "type": "texte",
+      "apercu": "L'acte authentique donne date certaine et force exécutoire à"
     },
     {
       "cle": "domaines.titre",
@@ -8116,9 +8271,19 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Un officier public à votre service."
     },
     {
+      "cle": "etude.texte",
+      "type": "texte",
+      "apercu": "Le notaire est nommé par l'État : ce qu'il reçoit en la form"
+    },
+    {
       "cle": "tarifs.titre",
       "type": "texte",
       "apercu": "Des émoluments réglementés."
+    },
+    {
+      "cle": "tarifs.intro",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "section-6.titre",
@@ -8129,13 +8294,28 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "contact.titre",
       "type": "texte",
       "apercu": "Votre situation mérite un conseil posé."
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": "Premier échange au téléphone sans engagement. Rendez-vous à "
     }
   ],
   "impact-327": [
     {
+      "cle": "atelier.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Du plan 3D à la pièce à vivre."
+      "apercu": "Du plan 3D"
+    },
+    {
+      "cle": "respiration.texte",
+      "type": "texte",
+      "apercu": "Le sur-mesure commence là où le catalogue s'arrête : au mill"
     },
     {
       "cle": "prestations.titre",
@@ -8158,6 +8338,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Des prix fermes."
     },
     {
+      "cle": "tarifs.intro",
+      "type": "texte",
+      "apercu": "Le prix signé est le prix payé : le devis est ferme, poste p"
+    },
+    {
       "cle": "section-7.titre",
       "type": "texte",
       "apercu": "Ils cuisinent dans nos réalisations ."
@@ -8166,18 +8351,28 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "contact.titre",
       "type": "texte",
       "apercu": "Et si on dessinait votre cuisine ?"
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": "Relevé à domicile et plans 3D offerts, déduits à la commande"
     }
   ],
   "impact-328": [
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Accompagner, avec calme et clarté."
+      "apercu": "Accompagner,"
+    },
+    {
+      "cle": "respiration.texte",
+      "type": "texte",
+      "apercu": "Tout est pris en charge. Rien ne vous est imposé."
     },
     {
       "cle": "accompagnement.titre",
       "type": "texte",
-      "apercu": "Tout est pris en charge. Rien ne vous est imposé."
+      "apercu": "À chaque étape, quelqu'un vous accompagne."
     },
     {
       "cle": "prevoyance.titre",
@@ -8185,9 +8380,19 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Ce que la loi garantit, ce que nous y ajoutons."
     },
     {
+      "cle": "prevoyance.texte",
+      "type": "texte",
+      "apercu": "Le contrat de prévoyance consigne vos volontés et les financ"
+    },
+    {
       "cle": "tarifs.titre",
       "type": "texte",
       "apercu": "Des prix annoncés avant tout."
+    },
+    {
+      "cle": "tarifs.intro",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "section-5.titre",
@@ -8198,23 +8403,43 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "contact.titre",
       "type": "texte",
       "apercu": "À toute heure, quelqu'un répond."
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": "En cas de décès, appelez-nous : nous nous déplaçons et preno"
     }
   ],
   "impact-329": [
     {
+      "cle": "respiration.texte",
+      "type": "texte",
+      "apercu": "Un déménagement réussi, c est celui dont il ne reste aucune "
+    },
+    {
       "cle": "formules.titre",
       "type": "texte",
-      "apercu": "Vous choisissez où vous vous arrêtez."
+      "apercu": "Vous choisissez où vous vous arrêtez ."
+    },
+    {
+      "cle": "formules.texte",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Tout ce qui roule, porte et protège."
+      "apercu": "Tout ce qui roule, porte et protège ."
     },
     {
       "cle": "methode.titre",
       "type": "texte",
       "apercu": "Démonté. Roulé. Remonté."
+    },
+    {
+      "cle": "methode.texte",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "section-6.titre",
@@ -8224,7 +8449,12 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "On chiffre votre volume en 45 minutes."
+      "apercu": "On chiffre votre volume en 45 minutes ."
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": ""
     }
   ],
   "impact-33": [
@@ -8263,12 +8493,27 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Votre pharmacie, au-delà du comptoir."
+      "apercu": "Votre pharmacie,"
+    },
+    {
+      "cle": "respiration.texte",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "services.titre",
       "type": "texte",
       "apercu": "Une officine qui soigne, pas seulement qui délivre."
+    },
+    {
+      "cle": "services.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "ordonnances.texte",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "ordonnances.titre",
@@ -8291,112 +8536,217 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Une question santé ? Un pharmacien répond."
     },
     {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "ordonnances.liste1",
       "type": "liste",
-      "apercu": ",  · ,  · , "
+      "apercu": ""
     }
   ],
   "impact-331": [
     {
-      "cle": "section-1.titre",
+      "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Une monture qui vous va, pas une montu"
+      "apercu": ""
+    },
+    {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Tout ce qu'un opticien doit savoir faire."
+      "apercu": ""
+    },
+    {
+      "cle": "boutique.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "boutique.texte",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Quatre étapes, zéro pression."
+      "apercu": ""
     },
     {
       "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "Le prix juste, écrit avant l'essayage."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Des prix annoncés."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "tarifs.texte",
       "type": "texte",
-      "apercu": "Ils voient la différence ."
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Passez la porte, repartez avec un avis franc."
+      "apercu": ""
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-332": [
     {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "services.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "urgence.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "urgence.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "On étudie, puis on pose."
+      "apercu": ""
     },
     {
       "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "La sécurité, sans le théâtre."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Des prix posés."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "tarifs.texte",
       "type": "texte",
-      "apercu": "Ils dorment tranquilles ."
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Votre porte mérite un avis d'expert."
+      "apercu": ""
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-333": [
     {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Le droit qui engage, expliqué avant signature."
+      "apercu": ""
+    },
+    {
+      "cle": "services.texte",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Un acte se prépare comme il s'exécute : sans surprise."
+      "apercu": ""
     },
     {
       "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "Officiers publics, et joignables."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Le barème, pas l'arbitraire."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "tarifs.texte",
       "type": "texte",
-      "apercu": "Des dossiers menés au bout ."
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Exposez votre situation, repartez avec un plan."
+      "apercu": ""
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-334": [
     {
-      "cle": "section-1.titre",
+      "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( La cuisine dessinée autour de vos mati"
+      "apercu": ""
+    },
+    {
+      "cle": "respiration.texte",
+      "type": "texte",
+      "apercu": "Une cuisine ne se choisit pas sur catalogue : elle se dessin"
+    },
+    {
+      "cle": "nuancier.titre",
+      "type": "texte",
+      "apercu": "Les matières écrites au devis, et rien d'autre."
     },
     {
       "cle": "services.titre",
@@ -8419,21 +8769,31 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Des budgets tenus."
     },
     {
-      "cle": "section-7.titre",
+      "cle": "avis.titre",
       "type": "texte",
-      "apercu": "Ils cuisinent dedans ."
+      "apercu": "Ce que la maison en dit ."
     },
     {
       "cle": "contact.titre",
       "type": "texte",
       "apercu": "Deux heures pour dessiner la cuisine de votre maison."
+    },
+    {
+      "cle": "nuancier.matieres",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-335": [
     {
-      "cle": "section-1.titre",
+      "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Ce qui compte, c'est comment on entour"
+      "apercu": ""
+    },
+    {
+      "cle": "respiration.texte",
+      "type": "texte",
+      "apercu": "Rien ne presse ici. Une famille reçue prend le temps qu'il l"
     },
     {
       "cle": "services.titre",
@@ -8446,6 +8806,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "La clarté est une forme de respect."
     },
     {
+      "cle": "salons.texte",
+      "type": "texte",
+      "apercu": "Trois jours se passent ici. Ils doivent être clairs, calmes,"
+    },
+    {
       "cle": "engagements.titre",
       "type": "texte",
       "apercu": "Ce que la loi impose, ce que nous y ajoutons."
@@ -8456,24 +8821,34 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Des prix écrits."
     },
     {
-      "cle": "section-7.titre",
+      "cle": "avis.titre",
       "type": "texte",
-      "apercu": "Des familles nous écrivent ."
+      "apercu": "Ce qu'elles ont retenu ."
     },
     {
       "cle": "contact.titre",
       "type": "texte",
       "apercu": "À toute heure, quelqu'un répond."
+    },
+    {
+      "cle": "salons.reperes",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-336": [
     {
-      "cle": "section-1.titre",
+      "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( La santé de quartier, au rythme de l'h"
+      "apercu": ""
     },
     {
-      "cle": "section-3.titre",
+      "cle": "respiration.texte",
+      "type": "texte",
+      "apercu": "Une ordonnance n'est pas une commande : elle se lit, se véri"
+    },
+    {
+      "cle": "parcours.titre",
       "type": "texte",
       "apercu": "Votre ordonnance, quatre temps, zéro attente."
     },
@@ -8483,7 +8858,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Une officine qui soigne, pas un libre-service."
     },
     {
-      "cle": "methode.titre",
+      "cle": "infos.titre",
       "type": "texte",
       "apercu": "Venir, se garer, être servi vite."
     },
@@ -8498,125 +8873,195 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Remboursé, expliqué."
     },
     {
-      "cle": "section-8.titre",
+      "cle": "avis.titre",
       "type": "texte",
-      "apercu": "Le quartier en parle ."
+      "apercu": "Ce qu'on nous dit au comptoir ."
     },
     {
       "cle": "contact.titre",
       "type": "texte",
       "apercu": "Une question santé ? Un pharmacien répond."
+    },
+    {
+      "cle": "urgences.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-337": [
     {
-      "cle": "section-1.titre",
+      "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Assuré pour ce qui compte, pas pour re"
+      "apercu": ""
+    },
+    {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Comparer vraiment, pas vendre une marque."
+      "apercu": ""
+    },
+    {
+      "cle": "services.texte",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Le devoir de conseil, pris au sérieux."
+      "apercu": ""
     },
     {
       "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "Indépendants, et réglementés."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Payé pour conseiller, pas pour placer."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "tarifs.texte",
       "type": "texte",
-      "apercu": "Assurés, et défendus ."
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Vingt minutes pour savoir ce que vous couvrez vraiment."
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-338": [
     {
-      "cle": "section-1.titre",
+      "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Votre activité continue, quoi qu'il ar"
+      "apercu": ""
+    },
+    {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Assurer l'entreprise comme un programme, pas en pièces."
+      "apercu": ""
+    },
+    {
+      "cle": "services.texte",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Place de marché, pas catalogue maison."
+      "apercu": ""
     },
     {
       "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "Réglementés, et redevables."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Une rémunération écrite d'avance."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "tarifs.texte",
       "type": "texte",
-      "apercu": "Des risques pilotés ."
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Une heure pour cartographier ce qui menace vraiment."
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-339": [
     {
-      "cle": "section-1.titre",
+      "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Réentendre les voix, pas seulement le "
+      "apercu": ""
     },
     {
-      "cle": "services.titre",
+      "cle": "respiration.phrase",
       "type": "texte",
-      "apercu": "L'audition se règle, elle ne s'achète pas."
+      "apercu": ""
     },
     {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Quatre rendez-vous pour réentendre durablement."
+      "apercu": ""
     },
     {
-      "cle": "engagements.titre",
+      "cle": "services.titre",
       "type": "texte",
-      "apercu": "La transparence, jusqu'au tympan."
+      "apercu": ""
+    },
+    {
+      "cle": "services.texte",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Le 100 % Santé, pour de vrai."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "tarifs.texte",
       "type": "texte",
-      "apercu": "Ils ont retrouvé les conversations ."
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "cabine.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Trente minutes pour savoir où en est votre audition."
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-34": [
@@ -8643,51 +9088,81 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-340": [
     {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Des appareils réglés sur vos pixels sonores."
+      "apercu": ""
     },
     {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Mesurer, essayer, prouver."
+      "apercu": ""
+    },
+    {
+      "cle": "methode.intro",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "La preuve, pas la promesse."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Chiffrés, comparés, choisis."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "avis.titre",
       "type": "texte",
-      "apercu": "Mesuré, entendu ."
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Vingt minutes de mesures, des années de conversations."
+      "apercu": ""
+    },
+    {
+      "cle": "contact.acces",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "mots.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-341": [
     {
-      "cle": "services.titre",
+      "cle": "respiration.phrase",
       "type": "texte",
-      "apercu": "Du code au permis, par étapes validées."
+      "apercu": ""
+    },
+    {
+      "cle": "minima.intro",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Le stress ne fait pas de meilleurs conducteurs."
+      "apercu": ""
     },
     {
-      "cle": "engagements.titre",
+      "cle": "methode.intro",
       "type": "texte",
-      "apercu": "Une auto-école qui affiche tout."
+      "apercu": ""
+    },
+    {
+      "cle": "services.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
@@ -8695,287 +9170,557 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Des forfaits sans piège."
     },
     {
-      "cle": "section-7.titre",
+      "cle": "engagements.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
       "type": "texte",
       "apercu": "Permis en poche, calme gardé ."
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "45 minutes pour savoir combien d'heures il VOUS faut."
+      "apercu": ""
+    },
+    {
+      "cle": "contact.acces",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "heros.reperes",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-342": [
     {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Le permis, version efficace."
+      "apercu": ""
     },
     {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Un plan d'heures, pas un compteur qui tourne."
-    },
-    {
-      "cle": "engagements.titre",
-      "type": "texte",
-      "apercu": "Tout est affiché, même ce qui fâche."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Des prix nets, paiement en 4×."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "Ils l'ont eu du premier coup ."
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Passe à l'agence, repars avec un plan."
+      "apercu": ""
+    },
+    {
+      "cle": "contact.acces",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "voies.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-343": [
     {
-      "cle": "section-1.titre",
+      "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Vos vêtements rendus mieux que confiés"
+      "apercu": ""
+    },
+    {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Chaque matière a son protocole."
+      "apercu": ""
     },
     {
-      "cle": "methode.titre",
+      "cle": "services.chapeau",
       "type": "texte",
-      "apercu": "Déposez le matin, oubliez le reste."
-    },
-    {
-      "cle": "engagements.titre",
-      "type": "texte",
-      "apercu": "Propre, dans tous les sens."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Affichés, tout compris."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "tarifs.note",
       "type": "texte",
-      "apercu": "Ils reviennent chaque semaine ."
+      "apercu": ""
+    },
+    {
+      "cle": "methode.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Déposez en passant, on s'occupe du reste."
+      "apercu": ""
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "hero.reperes",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-344": [
     {
+      "cle": "hero.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Laver mieux, jeter moins."
+      "apercu": ""
+    },
+    {
+      "cle": "services.chapeau",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Votre pressing passe devant chez vous."
-    },
-    {
-      "cle": "engagements.titre",
-      "type": "texte",
-      "apercu": "L'écologie, prouvée pièces en main."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Justes, et affichés."
+      "apercu": ""
     },
     {
-      "cle": "section-6.titre",
+      "cle": "tarifs.note",
       "type": "texte",
-      "apercu": "Le quartier a son pressing ."
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Un sac à préparer, on s'occupe du reste."
+      "apercu": ""
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "collecte.zones",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-345": [
     {
-      "cle": "section-1.titre",
+      "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( La viande d'éleveurs qu'on connaît par"
+      "apercu": ""
+    },
+    {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Peu d'élevages, mais les bons."
+      "apercu": ""
+    },
+    {
+      "cle": "services.chapeau",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Trois générations derrière le même billot."
-    },
-    {
-      "cle": "engagements.titre",
-      "type": "texte",
-      "apercu": "La traçabilité, affichée à la craie."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Le juste prix d'une bête bien élevée."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "tarifs.note",
       "type": "texte",
-      "apercu": "Les habitués des halles ."
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.texte",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Passez tôt, ou commandez la veille."
+      "apercu": ""
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "contact.reperes",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-346": [
     {
-      "cle": "section-1.titre",
+      "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Des fromages qui ont un alpage et une "
+      "apercu": ""
+    },
+    {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Chaque fromage, à son heure exacte."
+      "apercu": ""
     },
     {
-      "cle": "methode.titre",
+      "cle": "services.chapeau",
       "type": "texte",
-      "apercu": "La cave fait la moitié du goût."
-    },
-    {
-      "cle": "engagements.titre",
-      "type": "texte",
-      "apercu": "Du lait cru, et des fermes debout."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Composés, équilibrés, étiquetés."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "tarifs.note",
       "type": "texte",
-      "apercu": "La Savoie à l'heure juste ."
+      "apercu": ""
+    },
+    {
+      "cle": "methode.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "methode.chapeau",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Goûtez d'abord, choisissez ensuite."
+      "apercu": ""
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "contact.reperes",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-347": [
     {
-      "cle": "methode.titre",
+      "cle": "respiration.phrase",
       "type": "texte",
-      "apercu": "Avant, pendant, après — et à froid."
+      "apercu": ""
     },
     {
-      "cle": "engagements.titre",
+      "cle": "qualiopi.titre",
       "type": "texte",
-      "apercu": "Qualiopi, pas que le logo."
+      "apercu": ""
     },
     {
-      "cle": "tarifs.titre",
+      "cle": "qualiopi.texte",
       "type": "texte",
-      "apercu": "Souvent, ça ne vous coûte rien."
-    },
-    {
-      "cle": "section-7.titre",
-      "type": "texte",
-      "apercu": "Des compétences qui restent ."
-    },
-    {
-      "cle": "contact.titre",
-      "type": "texte",
-      "apercu": "Dix minutes pour vérifier vos droits à formation."
-    }
-  ],
-  "impact-348": [
-    {
-      "cle": "section-1.titre",
-      "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Changer de métier, avec un titre qui l"
+      "apercu": ""
     },
     {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Des métiers qui recrutent, des titres qui comptent."
+      "apercu": ""
+    },
+    {
+      "cle": "services.chapeau",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Neuf mois qui changent une vie active."
+      "apercu": ""
     },
     {
-      "cle": "engagements.titre",
+      "cle": "methode.chapeau",
       "type": "texte",
-      "apercu": "La reconversion, sans saut dans le vide."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Rarement de votre poche."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "tarifs.note",
       "type": "texte",
-      "apercu": "Ils ont changé de métier ."
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Venez voir les ateliers, parlez aux stagiaires."
+      "apercu": ""
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "contact.reperes",
+      "type": "liste",
+      "apercu": ""
+    },
+    {
+      "cle": "methode.etapes",
+      "type": "liste",
+      "apercu": ""
+    }
+  ],
+  "impact-348": [
+    {
+      "cle": "hero.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "methode.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "methode.chapeau",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "services.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "services.chapeau",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "tarifs.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "tarifs.note",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "contact.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "contact.reperes",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-349": [
     {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "services.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "services.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "45 minutes, rien de caché."
+      "apercu": ""
+    },
+    {
+      "cle": "methode.texte",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "Indépendants par la loi, et par conviction."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Affichés, identiques pour tous."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "tarifs.texte",
       "type": "texte",
-      "apercu": "Contrôlés, pas arnaqués ."
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "45 minutes, et vous êtes fixé."
+      "apercu": ""
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-35": [
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? Travaillez là où l'ambition prend vie }"
+      "apercu": ""
     },
     {
       "cle": "spaces.titre",
@@ -8995,29 +9740,59 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-350": [
     {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Venez à l'heure, repartez informé."
+      "apercu": ""
+    },
+    {
+      "cle": "services.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "services.texte",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "Un centre agréé, et accueillant."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Clairs, week-end compris."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "tarifs.texte",
       "type": "texte",
-      "apercu": "Le contrôle sans l'angoisse ."
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Deux ans de tranquillité commencent ici."
+      "apercu": ""
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-351": [
@@ -9054,83 +9829,143 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-352": [
     {
-      "cle": "section-1.titre",
+      "cle": "heros.cartouche",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Les toits anciens méritent des mains q"
+      "apercu": ""
     },
     {
-      "cle": "services.titre",
+      "cle": "respiration.texte",
       "type": "texte",
-      "apercu": "Couvrir comme à l'origine."
+      "apercu": ""
     },
     {
-      "cle": "methode.titre",
+      "cle": "manifeste.texte",
       "type": "texte",
-      "apercu": "Documenter, puis seulement toucher."
+      "apercu": ""
+    },
+    {
+      "cle": "restaurations.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "demarche.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "demarche.legende",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "Le patrimoine, c'est un métier."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Le juste prix du temps bien employé."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "tarifs.intro",
       "type": "texte",
-      "apercu": "Des maisons qui traversent ."
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Votre toit a une histoire, racontez-la nous."
+      "apercu": ""
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "demarche.etapes",
+      "type": "liste",
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-353": [
     {
-      "cle": "section-1.titre",
+      "cle": "respiration.texte",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Douze enfants, quatre adultes, un vrai"
+      "apercu": ""
     },
     {
-      "cle": "services.titre",
+      "cle": "journee.titre",
       "type": "texte",
-      "apercu": "Petit par la taille, grand par l'attention."
+      "apercu": ""
     },
     {
-      "cle": "methode.titre",
+      "cle": "chiffres.texte",
       "type": "texte",
-      "apercu": "Le rythme des enfants, pas celui d'un planning."
+      "apercu": ""
+    },
+    {
+      "cle": "projet.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "Sérieux dedans, joyeux dehors."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Moins cher qu'on ne le croit."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "tarifs.intro",
       "type": "texte",
-      "apercu": "Des parents tranquilles ."
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Venez voir le jardin, les enfants font le reste."
+      "apercu": ""
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "journee.etapes",
+      "type": "liste",
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-354": [
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Ils grandissent vite. Nous, on prend l"
+      "apercu": "Ils grandissent vite."
     },
     {
       "cle": "services.titre",
@@ -9165,115 +10000,180 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-355": [
     {
-      "cle": "section-1.titre",
+      "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Le soin qui vient jusqu'à votre porte."
+      "apercu": ""
+    },
+    {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "tournee.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Du prélèvement au long cours."
+      "apercu": ""
+    },
+    {
+      "cle": "services.intro",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Une tournée bien faite, ça se sent."
+      "apercu": ""
     },
     {
       "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "Conventionnés, et à l'heure."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Sur ordonnance, vous n'avancez rien."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "avis.titre",
       "type": "texte",
-      "apercu": "Soignés chez eux ."
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Un soin prescrit ? Appelez, on organise."
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-356": [
     {
-      "cle": "section-1.titre",
+      "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Votre traitement suit, même quand la v"
+      "apercu": ""
+    },
+    {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Techniques ou quotidiens, avec la même rigueur."
+      "apercu": ""
+    },
+    {
+      "cle": "services.intro",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Un cabinet qui tourne, des patients qui le sentent."
+      "apercu": ""
     },
     {
       "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "Organisés parce que c'est du soin."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Nomenclature, tiers payant, point."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "avis.titre",
       "type": "texte",
-      "apercu": "Des soins qui s'organisent ."
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Une ordonnance ? La tournée s'organise aujourd'hui."
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-357": [
     {
+      "cle": "hero.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Du bilan de routine au diagnostic pointu."
+      "apercu": ""
+    },
+    {
+      "cle": "services.intro",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Un prélèvement, quatre garanties."
+      "apercu": ""
+    },
+    {
+      "cle": "methode.intro",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "La rigueur, accréditée."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Tiers payant, pas de surprise."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "avis.titre",
       "type": "texte",
-      "apercu": "La confiance, tube après tube ."
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Le laboratoire d'à côté, au niveau des grands."
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-358": [
     {
-      "cle": "section-1.titre",
+      "cle": "respiration.texte",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Trois sites, une navette, zéro analyse"
+      "apercu": "Habiter à quarante minutes d'une ville ne devrait jamais vou"
+    },
+    {
+      "cle": "sites.titre",
+      "type": "texte",
+      "apercu": "Le laboratoire n'est pas un lieu : c'est un circuit."
     },
     {
       "cle": "services.titre",
@@ -9296,7 +10196,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Tiers payant partout, pour tous."
     },
     {
-      "cle": "section-7.titre",
+      "cle": "avis.titre",
       "type": "texte",
       "apercu": "La vallée se fait prélever ici ."
     },
@@ -9304,13 +10204,18 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "contact.titre",
       "type": "texte",
       "apercu": "Le laboratoire est déjà près de chez vous."
+    },
+    {
+      "cle": "sites.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-359": [
     {
-      "cle": "section-1.titre",
+      "cle": "respiration.texte",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Le bon outil, juste le temps qu'il fau"
+      "apercu": "Une machine qu'on utilise trois jours par an n'a pas à dormi"
     },
     {
       "cle": "services.titre",
@@ -9333,7 +10238,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "À la journée, dégressifs, affichés."
     },
     {
-      "cle": "section-7.titre",
+      "cle": "avis.titre",
       "type": "texte",
       "apercu": "Des chantiers finis à l'heure ."
     },
@@ -9372,9 +10277,9 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-360": [
     {
-      "cle": "section-1.titre",
+      "cle": "respiration.texte",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Tout pour recevoir, rien à stocker ens"
+      "apercu": "Une réception réussie, c'est un décor qui était déjà là merc"
     },
     {
       "cle": "services.titre",
@@ -9397,7 +10302,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Au carton près, livraison comprise*."
     },
     {
-      "cle": "section-7.titre",
+      "cle": "avis.titre",
       "type": "texte",
       "apercu": "Des fêtes dont on se souvient ."
     },
@@ -9409,78 +10314,118 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-361": [
     {
-      "cle": "section-1.titre",
+      "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( La couleur juste, posée juste."
+      "apercu": ""
+    },
+    {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Des murs qui font tout l'intérieur."
+      "apercu": ""
     },
     {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "80 % de préparation, 20 % de peinture."
+      "apercu": ""
+    },
+    {
+      "cle": "methode.intro",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "bande.phrase",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "nuancier.legende",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "Propre pendant, parfait après."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Au m², préparation comprise."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "avis.titre",
       "type": "texte",
-      "apercu": "Des intérieurs rendus vivants ."
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Vos murs ont du potentiel. Venez le voir en couleur."
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-362": [
     {
-      "cle": "services.titre",
+      "cle": "hero.titre",
       "type": "texte",
-      "apercu": "La rénovation qui rafraîchit tout."
+      "apercu": ""
+    },
+    {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Deux compagnons, un carnet de chantier."
+      "apercu": ""
     },
     {
-      "cle": "engagements.titre",
+      "cle": "services.titre",
       "type": "texte",
-      "apercu": "Le prix écrit, le délai tenu."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Simples, tout compris."
+      "apercu": ""
     },
     {
-      "cle": "section-6.titre",
+      "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "Avant, après — ils ont vu les deux ."
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Montrez-nous l'avant, on s'occupe de l'après."
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-363": [
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Vos pieds portent tout. On s'occupe d'"
+      "apercu": "Vos pieds portent tout."
     },
     {
       "cle": "services.titre",
@@ -9515,36 +10460,71 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-364": [
     {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "soins.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "soins.intro",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Un soin, pas un passage à l'usine."
+      "apercu": ""
     },
     {
       "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "Sérieuse sur l'hygiène, douce sur le reste."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Doux aussi pour le budget."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "tarifs.mention",
       "type": "texte",
-      "apercu": "Des pieds réconciliés ."
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "45 minutes pour vos pieds, des semaines de confort."
+      "apercu": ""
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
+    },
+    {
+      "cle": "methode.etapes",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-365": [
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Ce que la terre donne, la semaine où e"
+      "apercu": "Ce que la terre donne,"
     },
     {
       "cle": "services.titre",
@@ -9581,7 +10561,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Un champ, cent familles, et les saison"
+      "apercu": "Un champ, cent familles,"
     },
     {
       "cle": "services.titre",
@@ -9616,46 +10596,66 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-367": [
     {
-      "cle": "section-1.titre",
+      "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Neuf mois, une naissance, et tout ce q"
+      "apercu": ""
+    },
+    {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Une seule praticienne, toute l'histoire."
+      "apercu": ""
+    },
+    {
+      "cle": "services.texte",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Le même visage, du début à la fin."
-    },
-    {
-      "cle": "engagements.titre",
-      "type": "texte",
-      "apercu": "Conventionnée, et engagée."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "La maternité, c'est remboursé."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "tarifs.texte",
       "type": "texte",
-      "apercu": "Des débuts bien entourés ."
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Votre histoire commence, parlons-en tôt."
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-368": [
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Trois sages-femmes, des créneaux qui e"
+      "apercu": "Trois sages-femmes,"
     },
     {
       "cle": "services.titre",
@@ -9692,7 +10692,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Le lieu fait la moitié du souvenir."
+      "apercu": "{c?.heroHeadline ?? ("
     },
     {
       "cle": "services.titre",
@@ -9756,64 +10756,89 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Une usine textile, devenue machine à f"
+      "apercu": ""
+    },
+    {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Un plateau brut, une technique affûtée."
+      "apercu": ""
     },
     {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Un lieu brut ne veut pas dire brouillon."
-    },
-    {
-      "cle": "engagements.titre",
-      "type": "texte",
-      "apercu": "Une halle classée, aux normes d'aujourd'hui."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Modulaires, publiés."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "La halle a encore tourné ."
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "La halle est libre moins souvent qu'on ne croit."
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-371": [
     {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "services.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Des consignes écrites, des comptes rendus lisibles."
+      "apercu": ""
     },
     {
       "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "Réglementés, et contrôlables."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Au juste prix d'un agent déclaré."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "avis.titre",
       "type": "texte",
-      "apercu": "Des sites tenus ."
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Votre site a des failles. Autant les connaître."
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-372": [
@@ -9884,7 +10909,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Le chauffeur des jours où ça compte."
+      "apercu": "Le chauffeur des jours"
     },
     {
       "cle": "services.titre",
@@ -9921,7 +10946,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Le verre, coupé juste, posé net."
+      "apercu": "Le verre, coupé juste,"
     },
     {
       "cle": "services.titre",
@@ -9985,7 +11010,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Jouer les morceaux que vous écoutez vr"
+      "apercu": "Jouer les morceaux"
     },
     {
       "cle": "services.titre",
@@ -10022,7 +11047,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Votre patrimoine mérite une stratégie,"
+      "apercu": "Votre patrimoine mérite"
     },
     {
       "cle": "section-3.titre",
@@ -10064,7 +11089,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Une pièce unique, pensée pour durer ce"
+      "apercu": "Une pièce unique,"
     },
     {
       "cle": "services.titre",
@@ -10101,7 +11126,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? From Bean to Cup. }"
+      "apercu": ""
     },
     {
       "cle": "section-2.titre",
@@ -10148,7 +11173,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( La bière brassée ici, bue ici, aimée i"
+      "apercu": "La bière brassée ici,"
     },
     {
       "cle": "services.titre",
@@ -10185,7 +11210,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Des vins qu'on a bus avant de vous les"
+      "apercu": "Des vins qu"
     },
     {
       "cle": "services.titre",
@@ -10254,7 +11279,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ( Votre chien ressort beau. Et surtout, "
+      "apercu": "Votre chien ressort beau."
     },
     {
       "cle": "services.titre",
@@ -10291,7 +11316,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? Votre déménagement serein & bien fait }"
+      "apercu": ""
     },
     {
       "cle": "section-2.titre",
@@ -10323,7 +11348,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? De nos champs à votre table }"
+      "apercu": "De nos champs"
     },
     {
       "cle": "histoire.titre",
@@ -10355,7 +11380,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ECHO CHAMBER }"
+      "apercu": "ECHO"
     },
     {
       "cle": "section-2.titre",
@@ -10468,7 +11493,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? Le droit, à la hauteur de vos enjeux. }"
+      "apercu": ""
     },
     {
       "cle": "practice.titre",
@@ -10676,7 +11701,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "mb55-hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? La justice mérite d'être défendue avec r"
+      "apercu": "La justice mérite"
     },
     {
       "cle": "domaines.titre",
@@ -10882,7 +11907,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? Le temps comme philosophie }"
+      "apercu": "Le temps comme"
     },
     {
       "cle": "section-3.titre",
@@ -11117,7 +12142,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "mb73-hero.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? La musique s'apprend avec passion et mét"
+      "apercu": "La musique s"
     },
     {
       "cle": "cours.titre",
@@ -11545,7 +12570,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? Plus fort. Chaque jour. }"
+      "apercu": "Plus fort."
     },
     {
       "cle": "cours.titre",

@@ -1225,7 +1225,7 @@ export default function Impact167Page() {
           }}
         >
           <motion.img
-            src={photo(0, (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1400&auto=format&fit=crop"))}
+            src={photo(9, "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1400&auto=format&fit=crop")}
             alt="Paris luxury property"
             style={{
               position: "absolute",
@@ -1349,7 +1349,7 @@ export default function Impact167Page() {
           }}
         >
           <motion.img
-            src={photo(1, (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1400&auto=format&fit=crop"))}
+            src={photo(10, "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=1400&auto=format&fit=crop")}
             alt="Paris streets"
             style={{
               position: "absolute",

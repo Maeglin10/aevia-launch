@@ -450,7 +450,7 @@ export default function VelocityJetsPage() {
       <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden pt-24 md:pt-0">
         <div className="absolute inset-0">
           <Image
-            src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=1600&q=80"))}
+            src={photo(3, "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=1600&q=80")}
             alt="Private Jet"
             fill
             className="object-cover opacity-60"
@@ -576,7 +576,7 @@ export default function VelocityJetsPage() {
           <Reveal delay={0.2}>
             <div className="relative aspect-video lg:aspect-[4/3] bg-neutral-950 border border-white/5">
               <Image
-                src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=800&q=80"))}
+                src={photo(4, "https://images.unsplash.com/photo-1540962351504-03099e0a754b?w=800&q=80")}
                 alt="Velocity Jet Hangar"
                 fill
                 className="object-cover opacity-60"

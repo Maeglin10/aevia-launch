@@ -599,7 +599,7 @@ export default function AetherLabsPage() {
         </div>
         <div className="relative overflow-hidden min-h-[50vh] md:min-h-0">
           <motion.div className="absolute inset-0" style={{ y: heroY }}>
-            <Image src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1200&q=85"))} alt={fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Aether Labs"))} fill className="object-cover" />
+            <Image src={photo(4, "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1200&q=85")} alt={fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Aether Labs"))} fill className="object-cover" />
           </motion.div>
         </div>
       </section>
@@ -1044,7 +1044,8 @@ export default function AetherLabsPage() {
               {[
                 { name: "Mentions légales", path: "/templates/impact-85/legal/mentions-legales" },
                 { name: "CGU", path: "/templates/impact-85/legal/cgu" },
-                { name: "Confidentialité", path: "/templates/impact-85/legal/confidentialite" }
+                { name: "Confidentialité", path: "/templates/impact-85/legal/confidentialite" },
+                { name: "Politique de cookies", path: "/templates/impact-85/legal/cookies" }
               ].map(l => (
                 <Link key={l.name} href={l.path} className="hover:text-[#F8F6F2] transition-colors cursor-pointer">{l.name}</Link>
               ))}

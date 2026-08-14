@@ -89,6 +89,7 @@ export default function Home() {
   );
   memoriserSession(sessionData);
   c = session?.generatedContent;
+  const SERVICES_DU_CLIENT = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES[i % SERVICES.length], name: s.title, desc: s.desc || SERVICES[i % SERVICES.length].desc })), SERVICES);
 
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -387,7 +388,7 @@ return (
           </SectionReveal>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 28 }}>
-            {SERVICES.map((service, i) => (
+            {SERVICES_DU_CLIENT.map((service, i) => (
               <SectionReveal key={service.name} delay={i * 0.12}>
                 <div
                   style={{

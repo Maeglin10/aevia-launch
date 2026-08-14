@@ -1,181 +1,283 @@
 "use client";
 // @ts-nocheck
+
 /*
- * -------------------------------------------------------------------
- * BUSINESS NAME: Agence Prestige (Impact-322)
- * DESCRIPTION: Luxury corporate events agency vitrine.
- * FEEL: Gala, prestige, high-end events, dark mode.
- * PRIMARY FONT: Playfair Display
- * SECONDARY FONT: Montserrat
- * PRIMARY COLOR: Champagne Gold (#c5a880)
- * BACKGROUND: Carbon Black (#121212)
- * CREDITS: AeviaLaunch
- * -------------------------------------------------------------------
+ * ══════════════════════════════════════════════════════════════════════
+ * impact-322 — Agence Prestige · agence événementielle haut de gamme
+ * Réécriture famille I → squelette premium (plan REPRISE_316_383, lot B).
+ * Geste signature : PortalZoom (≠) — une arche découpée dans la photo
+ * laisse voir la scène suivante au travers ; à la transition, on
+ * traverse le seuil.
+ * Archétype H3 : plein cadre, titre bas, fond de repli C.bgDark.
+ * Fontes P3 : Cormorant Garamond (serif) + system-ui.
+ * Palette sombre #14100c / or champagne #c5a880 (pilotée par --brand).
+ * Signature visuelle : portail en arche, section-respiration serif,
+ * galerie mosaïque.
+ * ══════════════════════════════════════════════════════════════════════
  */
 
-import React, { useRef, useState, useEffect, FormEvent } from "react";
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
-import {
-  ArrowRight,
-  MapPin,
-  Phone,
-  Mail,
-  ChevronRight,
-  Check,
-  Menu,
-  X,
-  Star,
-  Quote,
-  ChevronDown,
-  Calendar,
-  Users,
-  Award,
-  Globe,
-  Camera,
-  Music,
-  Wine,
-  Sparkles,
-  Building,
-  GlassWater,
-  Briefcase
-} from "lucide-react";
+import React, { useRef, useState, useEffect } from "react";
+import { motion, AnimatePresence, useInView } from "framer-motion";
+import { ArrowRight, Check, Mail, MapPin, Menu, Phone, Quote, Star, X } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
+import { DWELL, useSlides, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
+import { PortalZoom } from "@/lib/templates/hero-kit-3";
 import {
-  clientAccrocheRestante,
   clientAddress,
+  clientCertifications,
   clientCity,
+  clientEmail,
+  clientEyebrow,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
+  clientStats,
   clientTagline,
-  clientTeam,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
+
+/* Variables de module lues par les sections et sous-composants :
+   même portée que dans le patron impact-351. */
+let fd: any = null;
+let c: any = null;
+let bp: any = null;
 let sessionData: any = null;
-const Instagram = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
-const Linkedin = ({ size = 24, color = 'currentColor', ...p }: any) => (<svg xmlns='http://www.w3.org/2000/svg' width={size} height={size} viewBox='0 0 24 24' fill='none' stroke={color} strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' {...p}><circle cx='12' cy='12' r='10'/></svg>);
 
-// --- HELPERS ---
-function shadeColor(color: string, percent: number) {
-  let R = parseInt(color.substring(1, 3), 16);
-  let G = parseInt(color.substring(3, 5), 16);
-  let B = parseInt(color.substring(5, 7), 16);
-
-  R = parseInt(`${(R * (100 + percent)) / 100}`);
-  G = parseInt(`${(G * (100 + percent)) / 100}`);
-  B = parseInt(`${(B * (100 + percent)) / 100}`);
-
-  R = R < 255 ? R : 255;
-  G = G < 255 ? G : 255;
-  B = B < 255 ? B : 255;
-
-  R = R > 0 ? R : 0;
-  G = G > 0 ? G : 0;
-  B = B > 0 ? B : 0;
-
-  const RR = R.toString(16).length === 1 ? "0" + R.toString(16) : R.toString(16);
-  const GG = G.toString(16).length === 1 ? "0" + G.toString(16) : G.toString(16);
-  const BB = B.toString(16).length === 1 ? "0" + B.toString(16) : B.toString(16);
-
-  return "#" + RR + GG + BB;
-}
-
-// --- CONSTANTS ---
-const SERIF = "'Playfair Display', serif";
-const SANS = "'Montserrat', sans-serif";
-const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
-
-const DEFAULT_BRAND_COLOR = "var(--brand,#c5a880)";
-
-function PHOTOS_LIVE() {
-  return {
-  hero: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&q=80&w=2070"), // Elegant venue
-  about: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&q=80&w=2070"), // Event planning
-  service1: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?auto=format&fit=crop&q=80&w=2065"), // Gala
-  service2: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=2070"), // Conference
-  service3: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&q=80&w=2098"), // Fine dining
-  gallery1: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1507504031003-b417219a0fde?auto=format&fit=crop&q=80&w=2070"),
-  gallery2: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1478146896981-b80fe463b330?auto=format&fit=crop&q=80&w=2070"),
-  gallery3: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=2070"),
-  gallery4: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&q=80&w=2070"),
-  gallery5: (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&q=80&w=2070"),
-  gallery6: (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=80&w=2069")
+/* ── Tokens ──────────────────────────────────────────────────────────── */
+const C = {
+  bg: "#14100c",
+  bgAlt: "#191410",
+  bgDark: "#0d0a07",
+  bgDarkAlt: "#171108",
+  bgCard: "#1e1812",
+  accent: "var(--brand,#c5a880)",
+  accentDark: "var(--brand-light,#dcc49e)",
+  accentLight: "rgba(197,168,128,0.13)",
+  ink: "#f3ede2",
+  textMuted: "#a2937d",
+  textFaint: "#6b5f4e",
+  border: "rgba(197,168,128,0.16)",
+  white: "#ffffff",
+  glow: "rgba(197,168,128,0.11)",
 };
+
+const SERIF = "'Cormorant Garamond', Georgia, serif";
+const SANS = "system-ui, -apple-system, 'Segoe UI', sans-serif";
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+/* Le seuil : une arche — la forme signature du thème. */
+const ARCHE = "inset(20% 36% 0% 36% round 48% 48% 0 0 / 36% 36% 0 0)";
+
+/* ── Photos : URLs existantes du thème, jamais de nouvelle URL ───────── */
+const PHOTO_FALLBACKS = [
+  "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?auto=format&fit=crop&q=80&w=2070", // 0 hero — salle d'apparat
+  "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?auto=format&fit=crop&q=80&w=2070", // 1 l'agence
+  "https://images.unsplash.com/photo-1511527661048-7fe73d85e9a4?auto=format&fit=crop&q=80&w=2065", // 2 gala
+  "https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&q=80&w=2070", // 3 conférence
+  "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&q=80&w=2098", // 4 dîner d'exception
+  "https://images.unsplash.com/photo-1507504031003-b417219a0fde?auto=format&fit=crop&q=80&w=2070", // 5 galerie
+  "https://images.unsplash.com/photo-1478146896981-b80fe463b330?auto=format&fit=crop&q=80&w=2070", // 6 galerie
+  "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&q=80&w=2070", // 7 galerie
+  "https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&q=80&w=2070", // 8 galerie
+  "https://images.unsplash.com/photo-1551632811-561732d1e306?auto=format&fit=crop&q=80&w=2070", // 9 galerie
+  "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?auto=format&fit=crop&q=80&w=2069", // 10 galerie
+];
+
+function photo(i: number, repli: string): string {
+  return fd?.photoUrls?.[i] || clientPhotos(sessionData)[i] || repli;
 }
-let PHOTOS = PHOTOS_LIVE();
 
-// --- COMPONENTS ---
+/* ── Données de démonstration (contenu rédactionnel conservé) ────────── */
 
-const Reveal = ({ children, delay = 0, y = 30, className = "" }: any) => {
+const SERVICES_SOURCE = [
+  {
+    n: "01",
+    title: "Galas & Réceptions",
+    description:
+      "Organisation sur mesure d'événements prestigieux. Du choix du lieu d'exception à la scénographie, nous créons des soirées inoubliables pour vos invités de marque.",
+  },
+  {
+    n: "02",
+    title: "Lancements de Produits",
+    description:
+      "Des mises en scène spectaculaires pour révéler vos nouveautés. Nous concevons des expériences immersives qui marquent les esprits et subliment votre marque.",
+  },
+  {
+    n: "03",
+    title: "Séminaires Haut de Gamme",
+    description:
+      "Des retraites professionnelles alliant travail et raffinement. Retrouvez cohésion et inspiration dans des cadres exclusifs et confidentiels.",
+  },
+];
+
+const TEMOIGNAGES_SOURCE = [
+  {
+    name: "Jean-Pierre Laurent",
+    role: "Directeur Général, Maison L.",
+    content: "Une exécution parfaite pour notre gala annuel. L'attention aux détails et le raffinement de l'organisation ont ébloui nos partenaires internationaux.",
+  },
+  {
+    name: "Claire Dubois",
+    role: "VP Marketing, TechLuxe",
+    content: "Le lancement de notre nouvelle collection a été un succès retentissant. Leur équipe a su capturer l'essence de notre marque avec une élégance rare.",
+  },
+  {
+    name: "Marc Antoine",
+    role: "CEO, Horizon Groupe",
+    content: "Le séminaire de direction organisé à Courchevel restera dans les annales. Un service discret, réactif et d'un professionnalisme absolu.",
+  },
+];
+
+const STATS_SOURCE = [
+  { value: "150+", label: "Événements Prestigieux" },
+  { value: "10", label: "Années d'Excellence" },
+];
+
+const ENGAGEMENTS_SOURCE = [
+  { t: "Réseau Exclusif", d: "Accès privilégié aux lieux les plus convoités et aux prestataires haut de gamme." },
+  { t: "Design Sur Mesure", d: "Scénographie et direction artistique pensées spécifiquement pour votre marque." },
+  { t: "Discrétion Absolue", d: "Confidentialité totale pour vos événements VIP et comités de direction." },
+];
+
+const MARQUES_SOURCE = ["Chanel", "LVMH", "Cartier", "Dior", "Rolex"];
+
+const GALERIE_LEGENDES = [
+  { cat: "Soirée de Gala", t: "Lancement Collection Hiver" },
+  { cat: "Soirée de Gala", t: "Lancement Collection Hiver" },
+  { cat: "Soirée de Gala", t: "Lancement Collection Hiver" },
+  { cat: "Soirée de Gala", t: "Lancement Collection Hiver" },
+  { cat: "Soirée de Gala", t: "Lancement Collection Hiver" },
+  { cat: "Soirée de Gala", t: "Lancement Collection Hiver" },
+];
+
+/* ── Fonctions LIVE : ré-appelées dans Page() après sessionData ──────── */
+
+function SERVICES_LIVE() {
+  return resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({
+      ...SERVICES_SOURCE[i % SERVICES_SOURCE.length],
+      n: String(i + 1).padStart(2, "0"),
+      title: s.title ?? SERVICES_SOURCE[i % SERVICES_SOURCE.length].title,
+      description: s.description ?? s.desc ?? SERVICES_SOURCE[i % SERVICES_SOURCE.length].description,
+      price: s.price,
+    })),
+    SERVICES_SOURCE,
+  );
+}
+
+function TEMOIGNAGES_LIVE() {
+  return resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
+      ...TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length],
+      name: r.name ?? r.author ?? TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length].name,
+      role: r.location ?? r.role ?? TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length].role,
+      content: r.text ?? r.quote ?? TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length].content,
+    })),
+    TEMOIGNAGES_SOURCE,
+  );
+}
+
+function STATS_LIVE() {
+  return resolveList(
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+      ...STATS_SOURCE[i % STATS_SOURCE.length],
+      value: s.value,
+      label: s.label,
+    })),
+    STATS_SOURCE,
+  );
+}
+
+function ENGAGEMENTS_LIVE() {
+  return resolveList(
+    clientCertifications(sessionData)?.map((e: string, i: number) => ({
+      ...ENGAGEMENTS_SOURCE[i % ENGAGEMENTS_SOURCE.length],
+      t: e,
+      d: "",
+    })),
+    ENGAGEMENTS_SOURCE,
+  );
+}
+
+/* ── Petits composants ───────────────────────────────────────────────── */
+
+function Reveal({ children, delay = 0, y = 28 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
-
+  const inView = useInView(ref, { once: true, margin: "-60px" });
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y }}
-      transition={{ duration: 1, delay, ease: EASE }}
-      className={className}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.85, delay, ease: EASE }}>
       {children}
     </motion.div>
   );
-};
+}
 
-const Button = ({ children, primary = true, onClick, className = "", style = {}, C }: any) => {
+function Kicker({ children, center = false }: { children: React.ReactNode; center?: boolean }) {
   return (
-    <motion.button
-      onClick={onClick}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      className={`px-8 py-4 uppercase tracking-widest text-xs font-semibold rounded-none transition-all duration-300 flex items-center justify-center gap-3 ${className}`}
+    <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: "clamp(14px, 2vw, 22px)", justifyContent: center ? "center" : "flex-start" }}>
+      <span aria-hidden style={{ width: 40, height: 1, background: `linear-gradient(90deg, transparent, ${C.accent})`, display: "block" }} />
+      <span style={{ fontFamily: SANS, fontSize: 10.5, fontWeight: 600, letterSpacing: "0.38em", textTransform: "uppercase", color: C.accentDark }}>
+        {children}
+      </span>
+      {center && <span aria-hidden style={{ width: 40, height: 1, background: `linear-gradient(90deg, ${C.accent}, transparent)`, display: "block" }} />}
+    </div>
+  );
+}
+
+/* Une rangée éditoriale numérotée par expertise — survol en state local. */
+function ServiceRow322({ sv }: { sv: any }) {
+  const [hover, setHover] = useState(false);
+  return (
+    <div
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      className="i322-servicerow"
       style={{
-        fontFamily: SANS,
-        backgroundColor: primary ? C.primary : 'transparent',
-        color: primary ? C.black : C.primary,
-        border: `1px solid ${primary ? C.primary : C.primary}`,
-        ...style
+        position: "relative",
+        display: "grid",
+        gridTemplateColumns: "clamp(52px, 7vw, 110px) minmax(0, 1fr) auto",
+        gap: "clamp(14px, 2.6vw, 40px)",
+        alignItems: "baseline",
+        padding: "clamp(24px, 3.4vw, 44px) clamp(10px, 1.6vw, 22px)",
+        borderTop: `1px solid ${C.border}`,
+        background: hover ? "rgba(197,168,128,0.045)" : "transparent",
+        transform: hover ? "translateY(-3px)" : "translateY(0)",
+        boxShadow: hover ? "0 22px 44px rgba(0,0,0,0.45), 0 4px 14px rgba(197,168,128,0.1)" : "none",
+        transition: "background 0.5s cubic-bezier(0.16,1,0.3,1), transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s cubic-bezier(0.16,1,0.3,1)",
       }}
     >
-      {children}
-      <ArrowRight size={14} />
-    </motion.button>
+      <span aria-hidden style={{ position: "absolute", left: 0, bottom: -1, height: 1, width: hover ? "100%" : "0%", background: `linear-gradient(90deg, ${C.accent}, transparent)`, transition: "width 0.55s cubic-bezier(0.16,1,0.3,1)" }} />
+      <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(22px, 3vw, 36px)", color: hover ? C.accentDark : C.textFaint, transition: "color 0.5s cubic-bezier(0.16,1,0.3,1)", lineHeight: 1 }}>
+        {sv.n}
+      </span>
+      <div style={{ minWidth: 0 }}>
+        <h3 style={{ fontFamily: SERIF, fontWeight: 600, fontSize: "clamp(22px, 2.8vw, 32px)", lineHeight: 1.12, color: C.ink, margin: "0 0 10px" }}>{sv.title}</h3>
+        <p style={{ fontFamily: SANS, fontSize: "clamp(14px, 1.6vw, 15.5px)", fontWeight: 300, color: C.textMuted, lineHeight: 1.75, maxWidth: 520, margin: 0 }}>{sv.description}</p>
+        {sv.price ? (
+          <span style={{ display: "inline-block", marginTop: 12, fontFamily: SANS, fontSize: 12.5, letterSpacing: "0.08em", color: C.accentDark, border: `1px solid ${C.border}`, borderRadius: 999, padding: "5px 14px" }}>
+            {sv.price}
+          </span>
+        ) : null}
+      </div>
+      <motion.span animate={{ x: hover ? 6 : 0, opacity: hover ? 1 : 0.45 }} transition={{ duration: 0.5, ease: EASE }} style={{ color: C.accentDark, display: "flex" }}>
+        <ArrowRight size={20} />
+      </motion.span>
+    </div>
   );
-};
+}
 
-const Eyebrow = ({ text, C, className = "" }: any) => (
-  <div className={`flex items-center gap-4 ${className}`}>
-    <div style={{ width: '40px', height: '1px', backgroundColor: C.primary }} />
-    <span 
-      style={{ fontFamily: SANS, color: C.primary, letterSpacing: '0.2em' }}
-      className="uppercase text-xs font-semibold"
-    >
-      {text}
-    </span>
-  </div>
-);
+/* ── Page ────────────────────────────────────────────────────────────── */
 
-// --- MAIN TEMPLATE ---
-
-export default function Impact322() {
-  const [session, setSession] = useState<{
-    formData?: any;
-    generatedContent?: any;
-    businessProfile?: any;
-  } | null>(null);
-  const [mounted, setMounted] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+export default function Impact322Page() {
+  const [session, setSession] = useState<any>(null);
   const [scrolled, setScrolled] = useState(false);
-  
-  const { scrollY } = useScroll();
+  const [menuOpen, setMenuOpen] = useState(false);
 
-  // Standard session loading (matches every other template): the wizard
-  // links here as /templates/impact-322?session=<id>, not via sessionStorage.
-  // Without this, fd.logoBase64 / fd.photoUrls / fd.businessName never
-  // receive real data outside of a same-tab sessionStorage fallback.
   useEffect(() => {
     let id = new URLSearchParams(window.location.search).get("session");
     /* La navigation interne perd le paramètre : on retient la session par thème. */
@@ -192,329 +294,288 @@ export default function Impact322() {
   }, []);
 
   useEffect(() => {
-    setMounted(true);
-    // Simulate fetching session
-    const fetchSession = () => {
-      try {
-        const stored = sessionStorage.getItem("app_session");
-        if (stored) {
-          setSession(JSON.parse(stored));
-        }
-      } catch (e) {
-        console.error("No session found");
-      }
-    };
-    fetchSession();
-
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const h = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", h);
+    return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const fd = session?.formData || {};
-
+  /* Affectations AVANT tout appel de helper. */
+  fd = session?.formData;
+  c = session?.generatedContent;
+  bp = session?.businessProfile;
   sessionData = session;
-  PHOTOS = PHOTOS_LIVE();
 
-  const c = session?.generatedContent || {};
-  const bp = session?.businessProfile || {};
+  const SERVICES = SERVICES_LIVE();
+  const TEMOIGNAGES = TEMOIGNAGES_LIVE();
+  const STATS = STATS_LIVE();
+  const ENGAGEMENTS = ENGAGEMENTS_LIVE();
 
-  const brandColor = fd?.brandColor || DEFAULT_BRAND_COLOR;
+  const businessName = clientName(sessionData) ?? "Agence Prestige";
+  const phone = clientPhone(sessionData) ?? fd?.contactPhone ?? "+33 1 74 89 65 41";
+  const mail = clientEmail(sessionData) ?? fd?.contactEmail ?? "contact@agence-prestige.com";
+  const adresse = clientAddress(sessionData) ?? fd?.location ?? "8 Avenue Montaigne, 75008 Paris";
 
-  // Client-uploaded photos (uploaded in the brief) replace the stock
-  // Unsplash placeholders — hero shot and about-section image first.
-  useEffect(() => {
-    if (!fd?.photoUrls?.length) return;
-    const p = fd.photoUrls;
-    if (p[0]) PHOTOS.hero = p[0];
-    if (p[1]) PHOTOS.about = p[1];
-    if (p[2]) PHOTOS.service1 = p[2];
-    if (p[3]) PHOTOS.service2 = p[3];
-    if (p[4]) PHOTOS.service3 = p[4];
-    if (p[5]) PHOTOS.gallery1 = p[5];
-    if (p[6]) PHOTOS.gallery2 = p[6];
-    if (p[7]) PHOTOS.gallery3 = p[7];
-    if (p[8]) PHOTOS.gallery4 = p[8];
-    if (p[9]) PHOTOS.gallery5 = p[9];
-    if (p[10]) PHOTOS.gallery6 = p[10];
-  }, [fd]);
-  
-  const C = {
-    primary: brandColor,
-    primaryLight: shadeColor(brandColor, 20),
-    primaryDark: shadeColor(brandColor, -20),
-    bg: "#121212",
-    bgDeep: "#0a0a0a",
-    bgCard: "#1a1a1a",
-    text: "#ffffff",
-    textMuted: "#a0a0a0",
-    accent: "#f4f4f4",
-    white: "#ffffff",
-    black: "#000000",
-  };
+  /* Le portail tourne sur trois scènes ; les légendes viennent des
+     expertises (celles du client quand il y en a). Un seul index pilote
+     tout le héros : images, légende, compteur. */
+  const HERO_IMAGES = [photo(0, PHOTO_FALLBACKS[0]), photo(3, PHOTO_FALLBACKS[3]), photo(4, PHOTO_FALLBACKS[4])];
+  const HERO_LABELS = [0, 1, 2].map((n) => SERVICES[n % SERVICES.length]?.title ?? SERVICES_SOURCE[n].title);
+  const { i, next, prev } = useSlides(HERO_IMAGES.length, DWELL.slow);
 
-  const services_DEMO = [
-    {
-      title: "Galas & Réceptions",
-      description: "Organisation sur mesure d'événements prestigieux. Du choix du lieu d'exception à la scénographie, nous créons des soirées inoubliables pour vos invités de marque.",
-      icon: <GlassWater size={32} />
-    },
-    {
-      title: "Lancements de Produits",
-      description: "Des mises en scène spectaculaires pour révéler vos nouveautés. Nous concevons des expériences immersives qui marquent les esprits et subliment votre marque.",
-      icon: <Sparkles size={32} />
-    },
-    {
-      title: "Séminaires Haut de Gamme",
-      description: "Des retraites professionnelles alliant travail et raffinement. Retrouvez cohésion et inspiration dans des cadres exclusifs et confidentiels.",
-      icon: <Briefcase size={32} />
-    }
+  /* Avis en pleine lumière, un à la fois. */
+  const { i: ti, next: tNext, prev: tPrev } = useSlides(TEMOIGNAGES.length, DWELL.slow);
+  const T = TEMOIGNAGES[ti % TEMOIGNAGES.length];
+
+  const L1 = clientHeroLine(sessionData, 0, 2, 22);
+  const L2 = clientHeroLine(sessionData, 1, 2, 22);
+
+  const NAV = [
+    { l: "Accueil", h: "#hero" },
+    { l: "L'Agence", h: "#about" },
+    { l: "Expertises", h: "#services" },
+    { l: "Réalisations", h: "#portfolio" },
+    { l: "Contact", h: "#contact" },
   ];
-
-  const services = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({
-      ...services_DEMO[i % services_DEMO.length],
-      title: s.title ?? services_DEMO[i % services_DEMO.length].title,
-      description: s.description ?? services_DEMO[i % services_DEMO.length].description,
-    })),
-    resolveList(clientServices(session), services_DEMO)
-  );
-
-  const testimonials_DEMO = resolveList(
-    clientTeam(session)?.map((m: any, i: number) => ({ ...([
-    {
-      name: "Jean-Pierre Laurent",
-      role: "Directeur Général, Maison L.",
-      content: "Une exécution parfaite pour notre gala annuel. L'attention aux détails et le raffinement de l'organisation ont ébloui nos partenaires internationaux."
-    },
-    {
-      name: "Claire Dubois",
-      role: "VP Marketing, TechLuxe",
-      content: "Le lancement de notre nouvelle collection a été un succès retentissant. Leur équipe a su capturer l'essence de notre marque avec une élégance rare."
-    },
-    {
-      name: "Marc Antoine",
-      role: "CEO, Horizon Groupe",
-      content: "Le séminaire de direction organisé à Courchevel restera dans les annales. Un service discret, réactif et d'un professionnalisme absolu."
-    }
-  ])[i % ([
-    {
-      name: "Jean-Pierre Laurent",
-      role: "Directeur Général, Maison L.",
-      content: "Une exécution parfaite pour notre gala annuel. L'attention aux détails et le raffinement de l'organisation ont ébloui nos partenaires internationaux."
-    },
-    {
-      name: "Claire Dubois",
-      role: "VP Marketing, TechLuxe",
-      content: "Le lancement de notre nouvelle collection a été un succès retentissant. Leur équipe a su capturer l'essence de notre marque avec une élégance rare."
-    },
-    {
-      name: "Marc Antoine",
-      role: "CEO, Horizon Groupe",
-      content: "Le séminaire de direction organisé à Courchevel restera dans les annales. Un service discret, réactif et d'un professionnalisme absolu."
-    }
-  ]).length], name: m.name, role: m.role })),
-    [
-    {
-      name: "Jean-Pierre Laurent",
-      role: "Directeur Général, Maison L.",
-      content: "Une exécution parfaite pour notre gala annuel. L'attention aux détails et le raffinement de l'organisation ont ébloui nos partenaires internationaux."
-    },
-    {
-      name: "Claire Dubois",
-      role: "VP Marketing, TechLuxe",
-      content: "Le lancement de notre nouvelle collection a été un succès retentissant. Leur équipe a su capturer l'essence de notre marque avec une élégance rare."
-    },
-    {
-      name: "Marc Antoine",
-      role: "CEO, Horizon Groupe",
-      content: "Le séminaire de direction organisé à Courchevel restera dans les annales. Un service discret, réactif et d'un professionnalisme absolu."
-    }
-  ],
-  );
-
-  const testimonials = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({
-      name: r.name ?? testimonials_DEMO[i % testimonials_DEMO.length].name,
-      role: r.location ?? testimonials_DEMO[i % testimonials_DEMO.length].role,
-      content: r.text ?? testimonials_DEMO[i % testimonials_DEMO.length].content,
-    })),
-    resolveList(clientReviews(session), testimonials_DEMO)
-  );
-
-  const navLinks = [
-    { label: "Accueil", href: "#hero" },
-    { label: "L'Agence", href: "#about" },
-    { label: "Expertises", href: "#services" },
-    { label: "Réalisations", href: "#portfolio" },
-    { label: "Contact", href: "#contact" },
-  ];
-
-  if (!mounted) return null;
 
   return (
-    <div style={{ backgroundColor: C.bg, color: C.text, fontFamily: SANS, minHeight: "100vh" }} className="overflow-x-hidden selection:bg-white selection:text-black">
-      
-      {/* HEADER */}
-      <header 
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b"
-        style={{ 
-          backgroundColor: scrolled ? 'rgba(18, 18, 18, 0.95)' : 'transparent',
-          backdropFilter: scrolled ? 'blur(10px)' : 'none',
-          borderColor: scrolled ? 'rgba(255,255,255,0.05)' : 'transparent',
-          paddingTop: scrolled ? '1rem' : '1.5rem',
-          paddingBottom: scrolled ? '1rem' : '1.5rem',
+    <div style={{ background: C.bg, color: C.ink, fontFamily: SANS, minHeight: "100vh", overflowX: "clip" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap');
+
+        html { scroll-behavior: smooth; }
+
+        .i322-navlink {
+          position: relative;
+          color: ${C.textMuted};
+          text-decoration: none;
+          font-family: ${SANS};
+          font-size: 12.5px;
+          font-weight: 500;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          padding: 12px 2px;
+          transition: color 0.45s cubic-bezier(0.16,1,0.3,1);
+        }
+        .i322-navlink::after {
+          content: '';
+          position: absolute;
+          left: 0;
+          bottom: 6px;
+          height: 1px;
+          width: 0%;
+          background: ${C.accent};
+          transition: width 0.45s cubic-bezier(0.16,1,0.3,1);
+        }
+        .i322-navlink:hover { color: ${C.ink}; }
+        .i322-navlink:hover::after { width: 100%; }
+
+        /* Marquee des références — s'arrête si le visiteur préfère l'immobile. */
+        .i322-marquee { overflow: hidden; position: relative; }
+        .i322-marquee-track {
+          display: flex;
+          width: max-content;
+          animation: i322scroll 30s linear infinite;
+        }
+        .i322-marquee-track > span { margin-right: clamp(44px, 7vw, 110px); }
+        @keyframes i322scroll {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+        .i322-marquee:hover .i322-marquee-track { animation-play-state: paused; }
+
+        .i322-about { display: grid; grid-template-columns: minmax(0,0.9fr) minmax(0,1.1fr); gap: clamp(34px, 5.6vw, 88px); align-items: center; }
+        .i322-why { display: grid; grid-template-columns: minmax(0,1.1fr) minmax(0,0.9fr); gap: clamp(34px, 5.6vw, 88px); align-items: center; }
+        .i322-contact { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: clamp(34px, 5.6vw, 80px); }
+
+        .i322-mosaic {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          grid-auto-rows: clamp(120px, 15vw, 215px);
+          gap: clamp(8px, 1.1vw, 12px);
+        }
+        .i322-mosaic > :nth-child(1) { grid-column: span 2; grid-row: span 2; }
+        .i322-mosaic > :nth-child(6) { grid-column: 1 / -1; }
+
+        @media (max-width: 900px) {
+          #i322-nav { display: none !important; }
+          .i322-burger { display: flex !important; }
+        }
+        @media (max-width: 860px) {
+          .i322-about, .i322-why, .i322-contact { grid-template-columns: 1fr; }
+          .i322-about > *, .i322-why > * { order: initial; }
+          .i322-mosaic { grid-template-columns: repeat(2, minmax(0,1fr)); }
+          .i322-mosaic > :nth-child(1) { grid-column: span 2; grid-row: span 1; }
+          .i322-mosaic > :nth-child(6) { grid-column: span 2; }
+          .i322-servicerow { grid-template-columns: clamp(40px, 10vw, 60px) minmax(0,1fr) !important; }
+          .i322-servicerow > :last-child { display: none !important; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .i322-marquee-track { animation: none; width: auto; flex-wrap: wrap; justify-content: center; row-gap: 18px; }
+          html { scroll-behavior: auto; }
+        }
+      `}</style>
+
+      {/* ── NAV ─────────────────────────────────────────────────────────── */}
+      <header
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: scrolled ? "14px clamp(20px, 4.4vw, 56px)" : "24px clamp(20px, 4.4vw, 56px)",
+          background: scrolled ? "rgba(13,10,7,0.88)" : "transparent",
+          backdropFilter: scrolled ? "blur(14px)" : "none",
+          borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,
+          transition: "padding 0.5s cubic-bezier(0.16,1,0.3,1), background 0.5s cubic-bezier(0.16,1,0.3,1), border-color 0.5s cubic-bezier(0.16,1,0.3,1)",
         }}
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
-          <div className="flex-shrink-0 z-50">
-            {fd?.logoBase64 ? (
-              // Client logo (uploaded in the brief) replaces the placeholder mark —
-              // essential for the client to recognise their brand in the render.
-              <img
-                src={fd.logoBase64}
-                alt={fd?.businessName ?? 'logo'}
-                style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
-              />
-            ) : (
-              <span style={{ fontFamily: SERIF, fontSize: '1.5rem', fontWeight: 600, color: C.white }}>
-                {fd?.businessName || "Agence Prestige"}
-              </span>
-            )}
-          </div>
-
-          <nav className="hidden md:flex items-center gap-10">
-            {navLinks.map((link, i) => (
-              <a 
-                key={i} 
-                href={link.href}
-                className="text-sm font-medium tracking-wide transition-colors uppercase"
-                style={{ color: C.text }}
-                onMouseEnter={(e) => e.currentTarget.style.color = C.primary}
-                onMouseLeave={(e) => e.currentTarget.style.color = C.text}
-              >
-                {link.label}
-              </a>
-            ))}
-            <Button onClick={() => window.location.href = '#contact'} C={C}>
-              Demander une consultation
-            </Button>
-          </nav>
-
-          <button 
-            className="md:hidden z-50 text-white"
-            onClick={() => setMenuOpen(!menuOpen)}
+        {fd?.logoBase64 ? (
+          <img src={fd.logoBase64} alt={businessName} style={{ height: 32, maxWidth: 160, objectFit: "contain", display: "block" }} />
+        ) : (
+          <span style={{ fontFamily: SERIF, fontSize: "clamp(20px, 2.2vw, 25px)", fontWeight: 600, letterSpacing: "0.02em", color: C.ink, whiteSpace: "nowrap" }}>
+            {businessName}
+          </span>
+        )}
+        <nav id="i322-nav" style={{ display: "flex", gap: "clamp(16px, 2.6vw, 36px)", alignItems: "center" }}>
+          {NAV.map(({ l, h }) => (
+            <a key={l} href={h} className="i322-navlink">{l}</a>
+          ))}
+          <a
+            href="#contact"
+            style={{ border: `1px solid ${C.accent}`, color: C.accentDark, borderRadius: 0, padding: "13px 24px", fontSize: 12, fontWeight: 600, letterSpacing: "0.16em", textTransform: "uppercase", textDecoration: "none", whiteSpace: "nowrap" }}
           >
-            {menuOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </div>
+            Consultation privée
+          </a>
+        </nav>
+        <button
+          className="i322-burger"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Menu"
+          style={{ display: "none", background: "none", border: "none", color: C.ink, cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44, alignItems: "center", justifyContent: "center" }}
+        >
+          {menuOpen ? <X size={26} /> : <Menu size={26} />}
+        </button>
       </header>
 
-      {/* MOBILE MENU */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="fixed inset-0 z-40 flex flex-col justify-center items-center gap-8"
-            style={{ backgroundColor: C.bgDeep }}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4, ease: EASE }}
+            style={{ position: "fixed", inset: 0, zIndex: 99, background: "rgba(13,10,7,0.97)", backdropFilter: "blur(16px)", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: 26 }}
           >
-            {navLinks.map((link, i) => (
-              <a 
-                key={i}
-                href={link.href}
-                onClick={() => setMenuOpen(false)}
-                className="text-2xl uppercase tracking-widest font-light"
-                style={{ fontFamily: SERIF, color: C.white }}
-              >
-                {link.label}
+            {NAV.map(({ l, h }) => (
+              <a key={l} href={h} onClick={() => setMenuOpen(false)} style={{ fontFamily: SERIF, fontSize: 28, fontWeight: 500, color: C.ink, textDecoration: "none", letterSpacing: "0.06em" }}>
+                {l}
               </a>
             ))}
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* HERO SECTION */}
-      <section id="hero" className="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden">
-        {/* Background Image with Overlay */}
-        <div className="absolute inset-0 z-0">
-          <motion.div
-            initial={{ scale: 1.1 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 3, ease: "easeOut" }}
-            className="w-full h-full"
-          >
-            <img 
-              src={PHOTOS.hero} 
-              alt="Luxury Event" 
-              className="w-full h-full object-cover"
-            />
-          </motion.div>
-          <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom, rgba(18,18,18,0.4), rgba(18,18,18,1))` }} />
-          <div className="absolute inset-0" style={{ background: `radial-gradient(circle at center, transparent 0%, ${C.bg} 100%)`, opacity: 0.8 }} />
-        </div>
+      {/* ── HÉROS — plein cadre, portail en arche, titre bas ────────────── */}
+      <section id="hero" style={{ position: "relative", minHeight: "100dvh", display: "flex", alignItems: "flex-end", background: C.bgDark, overflow: "hidden" }}>
+        {/* Fond de repli soigné : arche filaire + lueur, la page tient sans photo. */}
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at 50% 20%, ${C.glow} 0%, transparent 60%), ${C.bgDark}` }} />
+        <div aria-hidden style={{ position: "absolute", left: "50%", bottom: "-6%", transform: "translateX(-50%)", width: "min(46vw, 420px)", height: "min(64vh, 560px)", border: `1px solid ${C.border}`, borderBottom: "none", borderRadius: "50% 50% 0 0 / 36% 36% 0 0", pointerEvents: "none" }} />
 
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full text-center">
-          <Reveal delay={0.2}>
-            <h1 
-              style={{ fontFamily: SERIF, fontSize: 'clamp(40px, 8vw, 90px)', lineHeight: 1.1 }}
-              className="mb-8 font-light"
-            >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
-              Créateurs d'Événements <br />
-              <span style={{ fontStyle: 'italic', color: C.primary }}>d'Exception</span>
-            </>)}</h1>
-          </Reveal>
+        <PortalZoom images={HERO_IMAGES} index={i} portal={ARCHE} overlay={0.38} className="">
+          {/* Scrim à trois arrêts pour asseoir le titre en bas du cadre. */}
+          <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(180deg, rgba(13,10,7,0.55) 0%, rgba(13,10,7,0.12) 40%, rgba(13,10,7,0.62) 74%, rgba(13,10,7,0.96) 100%)" }} />
+        </PortalZoom>
 
-          <Reveal delay={0.4}>
-            <p 
-              className="max-w-2xl mx-auto mb-12 text-lg font-light leading-relaxed"
-              style={{ color: C.textMuted }}
-            >
-              {fd?.description || "Nous concevons et orchestrons des moments rares pour les entreprises les plus exigeantes. L'excellence dans chaque détail."}
+        <div style={{ position: "relative", zIndex: 3, width: "100%", maxWidth: 1240, margin: "0 auto", padding: "clamp(130px, 18vh, 190px) clamp(20px, 4.4vw, 56px) clamp(36px, 6.5vh, 66px)" }}>
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.2, ease: EASE }}>
+            <Kicker>{clientEyebrow(sessionData) ?? clientTrade(sessionData) ?? "Agence Événementielle Premium"}</Kicker>
+            <h1 style={{ fontFamily: SERIF, fontWeight: 600, fontSize: "clamp(34px, 6.8vw, 92px)", lineHeight: 0.98, letterSpacing: "-0.012em", margin: "0 0 clamp(16px, 2.6vh, 26px)", color: C.ink, maxWidth: 900 }}>
+              {L1 ? (
+                <>
+                  {L1}
+                  {L2 ? (
+                    <>
+                      <br />
+                      <em style={{ fontStyle: "italic", color: C.accentDark }}>{L2}</em>
+                    </>
+                  ) : null}
+                </>
+              ) : (
+                <>
+                  Créateurs d'Événements
+                  <br />
+                  <em style={{ fontStyle: "italic", color: C.accentDark }}>d'Exception</em>
+                </>
+              )}
+            </h1>
+            <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(15px, 1.8vw, 17.5px)", lineHeight: 1.78, color: C.textMuted, maxWidth: 500, margin: "0 0 clamp(22px, 3.6vh, 38px)" }}>
+              {clientHeroSubtitle(sessionData) ?? fd?.description ?? "Nous concevons et orchestrons des moments rares pour les entreprises les plus exigeantes. L'excellence dans chaque détail."}
             </p>
-          </Reveal>
-
-          <Reveal delay={0.6} className="flex flex-col sm:flex-row items-center justify-center gap-6">
-            <Button onClick={() => window.location.href = '#contact'} C={C}>
-              Nous Contacter
-            </Button>
-            <Button primary={false} onClick={() => window.location.href = '#portfolio'} C={C}>
-              Découvrir nos réalisations
-            </Button>
-          </Reveal>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 16, alignItems: "center", marginBottom: "clamp(26px, 4.2vh, 46px)" }}>
+              <motion.a
+                href="#contact"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.45, ease: EASE }}
+                style={{ background: C.accent, color: C.bgDark, padding: "16px 34px", fontWeight: 600, fontSize: 12.5, letterSpacing: "0.18em", textTransform: "uppercase", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10 }}
+              >
+                Nous contacter <ArrowRight size={15} />
+              </motion.a>
+              <motion.a
+                href="#portfolio"
+                whileHover={{ borderColor: C.accent, color: C.ink }}
+                transition={{ duration: 0.45, ease: EASE }}
+                style={{ background: "transparent", color: C.textMuted, border: `1px solid ${C.border}`, padding: "15px 30px", fontWeight: 500, fontSize: 12.5, letterSpacing: "0.18em", textTransform: "uppercase", textDecoration: "none" }}
+              >
+                Nos réalisations
+              </motion.a>
+            </div>
+            <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "clamp(14px, 2.4vw, 26px)", borderTop: `1px solid ${C.border}`, paddingTop: "clamp(14px, 2.2vh, 22px)" }}>
+              <SlideIndex i={i} total={HERO_IMAGES.length} variant="fraction" color={C.textMuted} className="" />
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={`cap-${i}`}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.6, ease: EASE }}
+                  style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(16px, 1.9vw, 19px)", color: C.ink, display: "block" }}
+                >
+                  {HERO_LABELS[i % HERO_LABELS.length]}
+                </motion.span>
+              </AnimatePresence>
+              <HairlineArrows onPrev={prev} onNext={next} color={C.textMuted} className="" labels={{ prev: "Scène précédente", next: "Scène suivante" }} />
+            </div>
+          </motion.div>
         </div>
-
-        {/* Scroll Indicator */}
-        <motion.div 
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2"
-        >
-          <span className="text-[10px] uppercase tracking-[0.2em]" style={{ color: C.textMuted }}>Scroll</span>
-          <div className="w-[1px] h-12" style={{ backgroundColor: 'rgba(255,255,255,0.2)' }}>
-            <motion.div 
-              className="w-full h-1/2" 
-              style={{ backgroundColor: C.primary }}
-              animate={{ y: [0, 24, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            />
-          </div>
-        </motion.div>
       </section>
 
-      {/* CLIENT LOGO STRIP (MARQUEE) */}
-      <section className="py-12 border-b border-t" style={{ borderColor: 'rgba(255,255,255,0.05)', backgroundColor: C.bgDeep }}>
-        <div className="max-w-7xl mx-auto px-6 overflow-hidden">
-          <p className="text-center uppercase text-[10px] tracking-[0.3em] mb-8" style={{ color: C.textMuted }}>
-            Ils nous font confiance
+      {/* ── RESPIRATION ─────────────────────────────────────────────────── */}
+      <section style={{ background: C.bg, padding: "clamp(60px, 9.5vw, 120px) clamp(20px, 4.4vw, 56px)", position: "relative", overflow: "hidden" }}>
+        <span aria-hidden style={{ position: "absolute", left: "clamp(4px, 3vw, 48px)", top: "-12%", fontFamily: SERIF, fontSize: "clamp(160px, 26vw, 360px)", lineHeight: 1, color: C.ink, opacity: 0.04, pointerEvents: "none", userSelect: "none" }}>
+          «
+        </span>
+        <Reveal>
+          <p style={{ fontFamily: SERIF, fontStyle: "italic", fontWeight: 500, fontSize: "clamp(22px, 3.2vw, 34px)", lineHeight: 1.48, color: C.textMuted, textAlign: "center", maxWidth: 720, margin: "0 auto", position: "relative", zIndex: 2 }}>
+            {/* TEXTE_SECTION */ clientText(sessionData, "respiration.texte") ?? (
+              <>Nous ne faisons pas qu'organiser un événement, nous créons <span style={{ color: C.accentDark }}>un moment suspendu dans le temps</span>.</>
+            )}
           </p>
-          <div className="flex items-center justify-center gap-12 md:gap-24 opacity-40 grayscale flex-wrap">
-            {/* Dummy Logos */}
-            {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ['Chanel', 'LVMH', 'Cartier', 'Dior', 'Rolex']).map((brand, i) => (
-              <span key={i} style={{ fontFamily: SERIF }} className="text-2xl font-bold tracking-wider">
+        </Reveal>
+      </section>
+
+      {/* ── RÉFÉRENCES — marquee ────────────────────────────────────────── */}
+      <section style={{ background: C.bgDark, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}`, padding: "clamp(34px, 5vw, 54px) 0" }}>
+        <p style={{ textAlign: "center", textTransform: "uppercase", fontSize: 10, letterSpacing: "0.34em", color: C.textFaint, margin: "0 0 clamp(22px, 3.2vw, 34px)" }}>
+          Ils nous font confiance
+        </p>
+        <div className="i322-marquee">
+          <div className="i322-marquee-track" style={{ opacity: 0.5 }}>
+            {/* LISTE_LIBELLES */ [...(clientList(sessionData, "bloc.liste1") ?? MARQUES_SOURCE), ...(clientList(sessionData, "bloc.liste1") ?? MARQUES_SOURCE)].map((brand: string, n: number) => (
+              <span key={n} style={{ fontFamily: SERIF, fontSize: "clamp(20px, 2.6vw, 28px)", fontWeight: 600, letterSpacing: "0.08em", color: C.ink, whiteSpace: "nowrap" }}>
                 {brand}
               </span>
             ))}
@@ -522,401 +583,351 @@ export default function Impact322() {
         </div>
       </section>
 
-      {/* ABOUT SECTION */}
-      <section id="about" className="py-24 md:py-32 relative">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      {/* ── L'AGENCE ────────────────────────────────────────────────────── */}
+      <section id="about" style={{ background: C.bg, padding: "clamp(72px, 10.5vw, 140px) clamp(20px, 4.4vw, 56px)", position: "relative", overflow: "hidden" }}>
+        <div aria-hidden style={{ position: "absolute", top: "24%", right: "-14%", width: "42vw", height: "42vw", borderRadius: "50%", background: `radial-gradient(circle, ${C.glow} 0%, transparent 68%)`, filter: "blur(58px)", pointerEvents: "none" }} />
+        <div className="i322-about" style={{ maxWidth: 1240, margin: "0 auto", position: "relative", zIndex: 2 }}>
+          <Reveal>
+            <div style={{ position: "relative", paddingBottom: "clamp(46px, 7vw, 84px)", paddingRight: "clamp(24px, 4vw, 60px)" }}>
+              {/* La photo principale sous une arche — l'écho du portail. */}
+              <div style={{ overflow: "hidden", borderRadius: "50% 50% 0 0 / 22% 22% 0 0", border: `1px solid ${C.border}`, background: C.bgDarkAlt, aspectRatio: "4/5" }}>
+                <img src={photo(1, PHOTO_FALLBACKS[1])} alt="L'agence à l'œuvre" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              </div>
+              <div style={{ position: "absolute", right: 0, bottom: 0, width: "56%", aspectRatio: "1", border: `1px solid ${C.border}`, background: C.bg, padding: "clamp(6px, 1vw, 10px)", boxShadow: "0 30px 60px rgba(0,0,0,0.5)" }}>
+                <img src={photo(6, PHOTO_FALLBACKS[6])} alt="Détail de scénographie" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              </div>
+            </div>
+          </Reveal>
+          <div>
             <Reveal>
-              <div className="relative">
-                <div className="aspect-[4/5] relative z-10 overflow-hidden">
-                  <img src={PHOTOS.about} alt="About Us" className="w-full h-full object-cover" />
-                </div>
-                <div 
-                  className="absolute -bottom-8 -right-8 w-2/3 aspect-square z-20 border p-2"
-                  style={{ backgroundColor: C.bg, borderColor: 'rgba(255,255,255,0.1)' }}
-                >
-                  <img src={PHOTOS.gallery2} alt="Detail" className="w-full h-full object-cover" />
-                </div>
+              <Kicker>Notre Signature</Kicker>
+              <h2 style={{ fontFamily: SERIF, fontWeight: 600, fontSize: "clamp(30px, 4.2vw, 54px)", lineHeight: 1.05, letterSpacing: "-0.01em", margin: "0 0 clamp(18px, 2.8vw, 30px)", color: C.ink }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (
+                  <>
+                    L'Exigence au service
+                    <br />
+                    de l'<em style={{ fontStyle: "italic", color: C.accentDark }}>Émotion</em>.
+                  </>
+                )}
+              </h2>
+            </Reveal>
+            <Reveal delay={0.12}>
+              <p style={{ fontSize: "clamp(15px, 1.7vw, 17px)", fontWeight: 300, color: C.textMuted, lineHeight: 1.8, maxWidth: 500, margin: "0 0 18px" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "about.texte") ?? (
+                  <>Depuis plus de 10 ans, notre agence conçoit des événements exclusifs pour les marques prestigieuses et les entreprises ambitieuses. Nous ne faisons pas qu'organiser un événement, nous créons un moment suspendu dans le temps.</>
+                )}
+              </p>
+              <p style={{ fontSize: "clamp(15px, 1.7vw, 17px)", fontWeight: 300, color: C.textMuted, lineHeight: 1.8, maxWidth: 500, margin: "0 0 clamp(26px, 3.8vw, 42px)" }}>
+                Notre approche sur mesure garantit une exécution sans faille, où la créativité rencontre la rigueur. Chaque détail est pensé, chaque instant est chorégraphié.
+              </p>
+            </Reveal>
+            <Reveal delay={0.2}>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(28px, 4.4vw, 60px)", borderTop: `1px solid ${C.border}`, paddingTop: "clamp(20px, 3vw, 32px)" }}>
+                {STATS.slice(0, 2).map((s: any, n: number) => (
+                  <div key={n}>
+                    <div style={{ fontFamily: SERIF, fontSize: "clamp(34px, 4.4vw, 54px)", fontWeight: 600, color: C.accentDark, lineHeight: 1 }}>{s.value}</div>
+                    <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.2em", color: C.textFaint, marginTop: 9 }}>{s.label}</div>
+                  </div>
+                ))}
               </div>
             </Reveal>
-
-            <div>
-              <Reveal>
-                <Eyebrow text="Notre Signature" C={C} className="mb-6" />
-                <h2 style={{ fontFamily: SERIF }} className="text-4xl md:text-5xl font-light mb-8 leading-tight">{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>
-                  L'Exigence au service <br />de l'<span style={{ fontStyle: 'italic', color: C.primary }}>Émotion</span>.
-                </>)}</h2>
-              </Reveal>
-              
-              <Reveal delay={0.2}>
-                <p className="text-lg mb-6 font-light leading-relaxed" style={{ color: C.textMuted }}>
-                  Depuis plus de 10 ans, notre agence conçoit des événements exclusifs pour les marques prestigieuses et les entreprises ambitieuses. Nous ne faisons pas qu'organiser un événement, nous créons un moment suspendu dans le temps.
-                </p>
-                <p className="text-lg mb-10 font-light leading-relaxed" style={{ color: C.textMuted }}>
-                  Notre approche sur mesure garantit une exécution sans faille, où la créativité rencontre la rigueur. Chaque détail est pensé, chaque instant est chorégraphié.
-                </p>
-              </Reveal>
-
-              <Reveal delay={0.4} className="grid grid-cols-2 gap-8 mb-10">
-                <div>
-                  <div style={{ fontFamily: SERIF, color: C.primary }} className="text-4xl mb-2">150+</div>
-                  <div className="text-xs uppercase tracking-wider" style={{ color: C.textMuted }}>Événements Prestigieux</div>
-                </div>
-                <div>
-                  <div style={{ fontFamily: SERIF, color: C.primary }} className="text-4xl mb-2">10</div>
-                  <div className="text-xs uppercase tracking-wider" style={{ color: C.textMuted }}>Années d'Excellence</div>
-                </div>
-              </Reveal>
-
-              <Reveal delay={0.5}>
-                <Button primary={false} C={C}>En savoir plus sur l'agence</Button>
-              </Reveal>
-            </div>
           </div>
         </div>
       </section>
 
-      {/* SERVICES SECTION */}
-      <section id="services" className="py-24 md:py-32" style={{ backgroundColor: C.bgCard }}>
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-            <Reveal>
-              <Eyebrow text="Nos Expertises" C={C} className="mb-6" />
-              <h2 style={{ fontFamily: SERIF }} className="text-4xl md:text-5xl font-light">{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
-                Savoir-Faire <span style={{ fontStyle: 'italic', color: C.primary }}>Événementiel</span>
-              </>)}</h2>
-            </Reveal>
-            <Reveal>
-              <p className="max-w-md font-light" style={{ color: C.textMuted }}>
+      {/* ── EXPERTISES — rangées éditoriales numérotées ─────────────────── */}
+      <section id="services" style={{ background: C.bgAlt, padding: "clamp(72px, 10.5vw, 140px) clamp(20px, 4.4vw, 56px)" }}>
+        <div style={{ maxWidth: 1080, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: 20, marginBottom: "clamp(34px, 5vw, 60px)" }}>
+              <div>
+                <Kicker>Nos Expertises</Kicker>
+                <h2 style={{ fontFamily: SERIF, fontWeight: 600, fontSize: "clamp(30px, 4.2vw, 54px)", lineHeight: 1.05, margin: 0, color: C.ink }}>
+                  {/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (
+                    <>Savoir-Faire <em style={{ fontStyle: "italic", color: C.accentDark }}>Événementiel</em></>
+                  )}
+                </h2>
+              </div>
+              <p style={{ maxWidth: 380, fontWeight: 300, fontSize: 15, color: C.textMuted, lineHeight: 1.75, margin: 0 }}>
                 Des solutions complètes pour répondre aux plus hautes exigences de nos clients corporatifs.
               </p>
+            </div>
+          </Reveal>
+          <div style={{ borderBottom: `1px solid ${C.border}` }}>
+            {SERVICES.map((sv: any, n: number) => (
+              <Reveal key={n} delay={n * 0.07}>
+                <ServiceRow322 sv={sv} />
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── RÉALISATIONS — galerie mosaïque ─────────────────────────────── */}
+      <section id="portfolio" style={{ background: C.bg, padding: "clamp(72px, 10.5vw, 140px) clamp(20px, 4.4vw, 56px)" }}>
+        <div style={{ maxWidth: 1240, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: "clamp(34px, 5vw, 60px)" }}>
+              <Kicker center>Portfolio</Kicker>
+              <h2 style={{ fontFamily: SERIF, fontWeight: 600, fontSize: "clamp(30px, 4.2vw, 54px)", lineHeight: 1.05, margin: 0, color: C.ink }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "portfolio.titre") ?? (
+                  <>Nos Dernières <em style={{ fontStyle: "italic", color: C.accentDark }}>Réalisations</em></>
+                )}
+              </h2>
+            </div>
+          </Reveal>
+          <div className="i322-mosaic">
+            {[5, 6, 7, 8, 9, 10].map((idx, n) => (
+              <Reveal key={idx} delay={n * 0.06}>
+                <div className="i322-tile" style={{ position: "relative", width: "100%", height: "100%", overflow: "hidden", background: `radial-gradient(circle at 45% 30%, ${C.glow}, transparent 70%), ${C.bgDarkAlt}`, border: `1px solid ${C.border}`, minHeight: "100%" }}>
+                  <img
+                    src={photo(idx, PHOTO_FALLBACKS[idx])}
+                    alt={GALERIE_LEGENDES[n].t}
+                    loading="lazy"
+                    className="i322-tileimg"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block", transition: "transform 0.8s cubic-bezier(0.16,1,0.3,1)" }}
+                  />
+                  <div className="i322-tilecap" style={{ position: "absolute", inset: 0, background: "rgba(13,10,7,0.68)", opacity: 0, display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", padding: 18, transition: "opacity 0.55s cubic-bezier(0.16,1,0.3,1)" }}>
+                    <span style={{ fontSize: 10.5, textTransform: "uppercase", letterSpacing: "0.26em", color: C.accentDark, marginBottom: 8 }}>{GALERIE_LEGENDES[n].cat}</span>
+                    <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(17px, 2vw, 22px)", color: C.ink }}>{GALERIE_LEGENDES[n].t}</span>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <style>{`
+            .i322-tile:hover .i322-tileimg { transform: scale(1.06); }
+            .i322-tile:hover .i322-tilecap { opacity: 1; }
+          `}</style>
+        </div>
+      </section>
+
+      {/* ── L'ART DE L'EXCELLENCE ───────────────────────────────────────── */}
+      <section style={{ background: C.bgDarkAlt, padding: "clamp(72px, 10.5vw, 140px) clamp(20px, 4.4vw, 56px)", position: "relative", overflow: "hidden" }}>
+        <div aria-hidden style={{ position: "absolute", top: "-16%", right: "-8%", width: "44vw", height: "44vw", borderRadius: "50%", background: `radial-gradient(circle, ${C.glow} 0%, transparent 66%)`, filter: "blur(70px)", pointerEvents: "none" }} />
+        <div aria-hidden style={{ position: "absolute", bottom: "-20%", left: "-10%", width: "40vw", height: "40vw", borderRadius: "50%", background: `radial-gradient(circle, rgba(197,168,128,0.07) 0%, transparent 66%)`, filter: "blur(70px)", pointerEvents: "none" }} />
+        <div className="i322-why" style={{ maxWidth: 1240, margin: "0 auto", position: "relative", zIndex: 2 }}>
+          <div>
+            <Reveal>
+              <Kicker>Pourquoi Nous</Kicker>
+              <h2 style={{ fontFamily: SERIF, fontWeight: 600, fontSize: "clamp(30px, 4.2vw, 54px)", lineHeight: 1.05, margin: "0 0 clamp(16px, 2.4vw, 24px)", color: C.ink }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (
+                  <>L'Art de <em style={{ fontStyle: "italic", color: C.accentDark }}>l'Excellence</em></>
+                )}
+              </h2>
+              <p style={{ fontSize: "clamp(15px, 1.7vw, 17px)", fontWeight: 300, color: C.textMuted, lineHeight: 1.8, maxWidth: 480, margin: "0 0 clamp(28px, 4vw, 48px)" }}>
+                Nous ne laissons rien au hasard. Chaque étape de la conception à la réalisation est gérée avec une précision chirurgicale et une vision esthétique sans compromis.
+              </p>
+            </Reveal>
+            <div style={{ display: "flex", flexDirection: "column", gap: "clamp(20px, 3vw, 32px)" }}>
+              {ENGAGEMENTS.map((item: any, n: number) => (
+                <Reveal key={n} delay={n * 0.09}>
+                  <div style={{ display: "flex", gap: 18 }}>
+                    <span aria-hidden style={{ flexShrink: 0, width: 34, height: 34, borderRadius: "50%", border: `1px solid ${C.accent}`, color: C.accentDark, display: "grid", placeItems: "center", marginTop: 2 }}>
+                      <Check size={14} />
+                    </span>
+                    <div>
+                      <h4 style={{ fontFamily: SERIF, fontWeight: 600, fontSize: "clamp(18px, 2.1vw, 22px)", color: C.ink, margin: "0 0 6px" }}>{item.t}</h4>
+                      {item.d ? <p style={{ fontWeight: 300, fontSize: 14.5, color: C.textMuted, lineHeight: 1.7, margin: 0, maxWidth: 440 }}>{item.d}</p> : null}
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+          <Reveal delay={0.15}>
+            <div style={{ position: "relative", padding: "clamp(14px, 2vw, 24px)" }}>
+              <div aria-hidden style={{ position: "absolute", inset: 0, border: `1px solid ${C.border}`, borderRadius: "50% 50% 0 0 / 18% 18% 0 0", pointerEvents: "none" }} />
+              <div style={{ overflow: "hidden", borderRadius: "50% 50% 0 0 / 20% 20% 0 0", aspectRatio: "4/5", background: C.bgDark }}>
+                <img src={photo(2, PHOTO_FALLBACKS[2])} alt="Soirée de gala orchestrée par l'agence" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── TÉMOIGNAGES — pleine lumière, un à la fois ──────────────────── */}
+      <section style={{ background: C.bg, padding: "clamp(72px, 10.5vw, 140px) clamp(20px, 4.4vw, 56px)", position: "relative", overflow: "hidden" }}>
+        <span aria-hidden style={{ position: "absolute", right: "clamp(4px, 3vw, 48px)", bottom: "-16%", fontFamily: SERIF, fontSize: "clamp(180px, 28vw, 400px)", lineHeight: 1, color: C.ink, opacity: 0.035, pointerEvents: "none", userSelect: "none" }}>
+          »
+        </span>
+        <div style={{ maxWidth: 880, margin: "0 auto", textAlign: "center", position: "relative", zIndex: 2 }}>
+          <Reveal>
+            <Kicker center>Témoignages</Kicker>
+            <h2 style={{ fontFamily: SERIF, fontWeight: 600, fontSize: "clamp(28px, 3.8vw, 48px)", lineHeight: 1.06, margin: "0 0 clamp(30px, 4.4vw, 54px)", color: C.ink }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (
+                <>Mots de nos <em style={{ fontStyle: "italic", color: C.accentDark }}>Clients</em></>
+              )}
+            </h2>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <div style={{ minHeight: "clamp(210px, 26vw, 260px)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.figure
+                  key={ti}
+                  initial={{ opacity: 0, y: 22 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -18 }}
+                  transition={{ duration: 0.7, ease: EASE }}
+                  style={{ margin: 0 }}
+                >
+                  <div style={{ display: "flex", justifyContent: "center", gap: 5, marginBottom: "clamp(16px, 2.4vw, 24px)" }}>
+                    {[...Array(5)].map((_, j) => (
+                      <Star key={j} size={14} fill="currentColor" color={C.accentDark} style={{ color: C.accentDark }} />
+                    ))}
+                  </div>
+                  <blockquote style={{ fontFamily: SERIF, fontStyle: "italic", fontWeight: 500, fontSize: "clamp(20px, 2.8vw, 30px)", lineHeight: 1.5, color: C.ink, margin: "0 0 clamp(20px, 3vw, 30px)" }}>
+                    « {T?.content} »
+                  </blockquote>
+                  <figcaption>
+                    <div style={{ fontFamily: SERIF, fontSize: "clamp(17px, 2vw, 21px)", fontWeight: 600, color: C.ink }}>{T?.name}</div>
+                    <div style={{ fontSize: 11, textTransform: "uppercase", letterSpacing: "0.22em", color: C.accentDark, marginTop: 7 }}>{T?.role}</div>
+                  </figcaption>
+                </motion.figure>
+              </AnimatePresence>
+            </div>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 22, marginTop: "clamp(18px, 2.6vw, 28px)" }}>
+              <SlideIndex i={ti} total={TEMOIGNAGES.length} variant="fraction" color={C.textFaint} className="" />
+              <HairlineArrows onPrev={tPrev} onNext={tNext} color={C.textMuted} className="" labels={{ prev: "Témoignage précédent", next: "Témoignage suivant" }} />
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── CONTACT ─────────────────────────────────────────────────────── */}
+      <section id="contact" style={{ background: C.bgDark, borderTop: `1px solid ${C.border}`, padding: "clamp(72px, 10.5vw, 140px) clamp(20px, 4.4vw, 56px)", position: "relative", overflow: "hidden" }}>
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: `radial-gradient(ellipse at 82% 10%, ${C.glow} 0%, transparent 55%)`, pointerEvents: "none" }} />
+        <div className="i322-contact" style={{ maxWidth: 1140, margin: "0 auto", position: "relative", zIndex: 2 }}>
+          <div>
+            <Reveal>
+              <Kicker>Contact</Kicker>
+              <h2 style={{ fontFamily: SERIF, fontWeight: 600, fontSize: "clamp(30px, 4.2vw, 54px)", lineHeight: 1.05, margin: "0 0 clamp(16px, 2.4vw, 26px)", color: C.ink }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (
+                  <>
+                    Planifions votre
+                    <br />
+                    <em style={{ fontStyle: "italic", color: C.accentDark }}>Événement</em>
+                  </>
+                )}
+              </h2>
+              <p style={{ fontWeight: 300, fontSize: "clamp(15px, 1.7vw, 16.5px)", color: C.textMuted, lineHeight: 1.8, maxWidth: 460, margin: "0 0 clamp(28px, 4vw, 46px)" }}>
+                Confiez-nous vos envies, nous en ferons une réalité. Notre équipe est à votre disposition pour une première consultation confidentielle.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+                <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ display: "flex", alignItems: "center", gap: 14, color: C.ink, textDecoration: "none", fontWeight: 300, fontSize: 16, padding: "4px 0" }}>
+                  <Phone size={18} color={C.accentDark} /> {phone}
+                </a>
+                <a href={`mailto:${mail}`} style={{ display: "flex", alignItems: "center", gap: 14, color: C.ink, textDecoration: "none", fontWeight: 300, fontSize: 16, padding: "4px 0" }}>
+                  <Mail size={18} color={C.accentDark} /> {mail}
+                </a>
+                <span style={{ display: "flex", alignItems: "center", gap: 14, color: C.ink, fontWeight: 300, fontSize: 16 }}>
+                  <MapPin size={18} color={C.accentDark} /> {adresse}
+                </span>
+              </div>
             </Reveal>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))" }}>
-            {services.map((service, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div 
-                  className="group relative h-full p-10 border transition-all duration-500 hover:-translate-y-2 flex flex-col"
-                  style={{ borderColor: 'rgba(255,255,255,0.05)', backgroundColor: C.bg }}
-                >
-                  <div 
-                    className="w-16 h-16 rounded-full flex items-center justify-center mb-8 transition-colors duration-500"
-                    style={{ backgroundColor: 'rgba(197, 168, 128, 0.1)', color: C.primary }}
-                  >
-                    {service.icon || <Star size={24} />}
-                  </div>
-                  
-                  <h3 style={{ fontFamily: SERIF }} className="text-2xl mb-4 group-hover:text-[var(--brand,#c5a880)] transition-colors">
-                    {service.title}
-                  </h3>
-                  
-                  <p className="font-light mb-8 flex-grow" style={{ color: C.textMuted }}>
-                    {service.description}
-                  </p>
-                  
-                  <div className="mt-auto flex items-center gap-4 text-xs uppercase tracking-widest font-semibold" style={{ color: C.text }}>
-                    <span className="transition-transform group-hover:translate-x-2">Découvrir</span>
-                    <ArrowRight size={14} style={{ color: C.primary }} />
-                  </div>
-
-                  {/* Hover Accent Line */}
-                  <div 
-                    className="absolute bottom-0 left-0 h-1 w-0 group-hover:w-full transition-all duration-500"
-                    style={{ backgroundColor: C.primary }}
-                  />
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* PORTFOLIO / GALLERY */}
-      <section id="portfolio" className="py-24 md:py-32">
-        <div className="max-w-7xl mx-auto px-6 md:px-12 mb-16 text-center">
-          <Reveal>
-            <Eyebrow text="Portfolio" C={C} className="mb-6 justify-center" />
-            <h2 style={{ fontFamily: SERIF }} className="text-4xl md:text-5xl font-light">{/* TEXTE_SECTION */ clientText(sessionData, "portfolio.titre") ?? (<>
-              Nos Dernières <span style={{ fontStyle: 'italic', color: C.primary }}>Réalisations</span>
-            </>)}</h2>
-          </Reveal>
-        </div>
-
-        <div className="w-full">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-            {[PHOTOS.gallery1, PHOTOS.gallery2, PHOTOS.gallery3, PHOTOS.gallery4, PHOTOS.gallery5, PHOTOS.gallery6].map((img, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div className="group relative aspect-[4/3] overflow-hidden">
-                  <img 
-                    src={img} 
-                    alt={`Gallery ${i}`} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-center items-center text-center p-6">
-                    <span className="text-xs uppercase tracking-[0.2em] mb-2" style={{ color: C.primary }}>Soirée de Gala</span>
-                    <h3 style={{ fontFamily: SERIF }} className="text-2xl text-white">Lancement Collection Hiver</h3>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-        
-        <div className="mt-16 flex justify-center">
-          <Button primary={false} C={C}>Voir tout le portfolio</Button>
-        </div>
-      </section>
-
-      {/* WHY US */}
-      <section className="py-24 md:py-32 relative overflow-hidden" style={{ backgroundColor: C.bgDeep }}>
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full blur-[120px]" style={{ backgroundColor: C.primary }} />
-          <div className="absolute -bottom-[20%] -left-[10%] w-[50%] h-[50%] rounded-full blur-[120px]" style={{ backgroundColor: C.primaryDark }} />
-        </div>
-
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            <div>
-              <Reveal>
-                <Eyebrow text="Pourquoi Nous" C={C} className="mb-6" />
-                <h2 style={{ fontFamily: SERIF }} className="text-4xl md:text-5xl font-light mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
-                  L'Art de <span style={{ fontStyle: 'italic', color: C.primary }}>l'Excellence</span>
-                </>)}</h2>
-                <p className="text-lg font-light mb-12" style={{ color: C.textMuted }}>
-                  Nous ne laissons rien au hasard. Chaque étape de la conception à la réalisation est gérée avec une précision chirurgicale et une vision esthétique sans compromis.
-                </p>
-              </Reveal>
-
-              <div className="space-y-8">
-                {[
-                  { title: "Réseau Exclusif", desc: "Accès privilégié aux lieux les plus convoités et aux prestataires haut de gamme." },
-                  { title: "Design Sur Mesure", desc: "Scénographie et direction artistique pensées spécifiquement pour votre marque." },
-                  { title: "Discrétion Absolue", desc: "Confidentialité totale pour vos événements VIP et comités de direction." }
-                ].map((item, i) => (
-                  <Reveal key={i} delay={i * 0.1} className="flex gap-6">
-                    <div className="mt-1">
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center border" style={{ borderColor: C.primary, color: C.primary }}>
-                        <Check size={14} />
-                      </div>
-                    </div>
-                    <div>
-                      <h4 style={{ fontFamily: SERIF }} className="text-xl mb-2">{item.title}</h4>
-                      <p className="font-light" style={{ color: C.textMuted }}>{item.desc}</p>
-                    </div>
-                  </Reveal>
-                ))}
+          <Reveal delay={0.15}>
+            <form onSubmit={(e) => e.preventDefault()} style={{ border: `1px solid ${C.border}`, background: "rgba(20,16,12,0.7)", backdropFilter: "blur(6px)", padding: "clamp(24px, 3.6vw, 46px)", display: "flex", flexDirection: "column", gap: 22 }}>
+              <div>
+                <label style={{ display: "block", fontSize: 10.5, textTransform: "uppercase", letterSpacing: "0.26em", color: C.textFaint, marginBottom: 9 }}>Nom complet</label>
+                <input
+                  type="text"
+                  placeholder="Jean Dupont"
+                  style={{ width: "100%", minHeight: 44, boxSizing: "border-box", background: "transparent", border: "none", borderBottom: `1px solid ${C.border}`, padding: "10px 0", color: C.ink, fontFamily: SANS, fontSize: 15, outline: "none", borderRadius: 0 }}
+                />
               </div>
-            </div>
-
-            <div className="relative">
-              <Reveal>
-                <div className="aspect-square relative overflow-hidden">
-                  <img src={PHOTOS.service1} alt="Excellence" className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 border-[20px]" style={{ borderColor: C.bgDeep }} />
-                </div>
-              </Reveal>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* TESTIMONIALS */}
-      <section className="py-24 md:py-32" style={{ backgroundColor: C.bg }}>
-        <div className="max-w-7xl mx-auto px-6 md:px-12 text-center mb-16">
-          <Reveal>
-            <Eyebrow text="Témoignages" C={C} className="mb-6 justify-center" />
-            <h2 style={{ fontFamily: SERIF }} className="text-4xl md:text-5xl font-light">{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
-              Mots de nos <span style={{ fontStyle: 'italic', color: C.primary }}>Clients</span>
-            </>)}</h2>
+              <div>
+                <label style={{ display: "block", fontSize: 10.5, textTransform: "uppercase", letterSpacing: "0.26em", color: C.textFaint, marginBottom: 9 }}>Entreprise</label>
+                <input
+                  type="text"
+                  placeholder="Votre Société"
+                  style={{ width: "100%", minHeight: 44, boxSizing: "border-box", background: "transparent", border: "none", borderBottom: `1px solid ${C.border}`, padding: "10px 0", color: C.ink, fontFamily: SANS, fontSize: 15, outline: "none", borderRadius: 0 }}
+                />
+              </div>
+              <div>
+                <label style={{ display: "block", fontSize: 10.5, textTransform: "uppercase", letterSpacing: "0.26em", color: C.textFaint, marginBottom: 9 }}>Email professionnel</label>
+                <input
+                  type="email"
+                  placeholder="jean@societe.com"
+                  style={{ width: "100%", minHeight: 44, boxSizing: "border-box", background: "transparent", border: "none", borderBottom: `1px solid ${C.border}`, padding: "10px 0", color: C.ink, fontFamily: SANS, fontSize: 15, outline: "none", borderRadius: 0 }}
+                />
+              </div>
+              <div>
+                <label style={{ display: "block", fontSize: 10.5, textTransform: "uppercase", letterSpacing: "0.26em", color: C.textFaint, marginBottom: 9 }}>Type d'événement</label>
+                <select style={{ width: "100%", minHeight: 44, boxSizing: "border-box", background: "transparent", border: "none", borderBottom: `1px solid ${C.border}`, padding: "10px 0", color: C.textMuted, fontFamily: SANS, fontSize: 15, outline: "none", appearance: "none", borderRadius: 0, cursor: "pointer" }}>
+                  <option style={{ background: C.bg, color: C.ink }}>Gala / Soirée</option>
+                  <option style={{ background: C.bg, color: C.ink }}>Lancement de produit</option>
+                  <option style={{ background: C.bg, color: C.ink }}>Séminaire / Congrès</option>
+                  <option style={{ background: C.bg, color: C.ink }}>Autre</option>
+                </select>
+              </div>
+              <button
+                type="submit"
+                style={{ marginTop: 8, minHeight: 50, background: C.accent, color: C.bgDark, border: "none", fontFamily: SANS, fontSize: 12.5, fontWeight: 600, letterSpacing: "0.2em", textTransform: "uppercase", cursor: "pointer", display: "inline-flex", alignItems: "center", justifyContent: "center", gap: 10 }}
+              >
+                Envoyer la demande <ArrowRight size={15} />
+              </button>
+            </form>
           </Reveal>
         </div>
-
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))" }}>
-            {testimonials.map((testi, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <div 
-                  className="p-10 relative flex flex-col h-full"
-                  style={{ backgroundColor: C.bgCard }}
-                >
-                  <Quote size={40} className="absolute top-6 right-6 opacity-10" style={{ color: C.primary }} />
-                  
-                  <div className="flex text-yellow-500 mb-6 gap-1">
-                    {[...Array(5)].map((_, j) => <Star key={j} size={14} fill="currentColor" />)}
-                  </div>
-                  
-                  <p className="font-light italic text-lg leading-relaxed mb-8 flex-grow" style={{ color: C.textMuted }}>
-                    "{testi.content}"
-                  </p>
-                  
-                  <div className="mt-auto">
-                    <p style={{ fontFamily: SERIF }} className="text-xl font-medium">{testi.name}</p>
-                    <p className="text-xs uppercase tracking-wider mt-1" style={{ color: C.primary }}>
-                      {testi.role}
-                    </p>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
       </section>
 
-      {/* CONTACT / CTA */}
-      <section id="contact" className="py-24 md:py-32 relative">
-        <div className="absolute inset-0 z-0">
-          <img src={PHOTOS.service3} alt="Contact Background" className="w-full h-full object-cover opacity-20 grayscale" />
-          <div className="absolute inset-0 bg-black/80" />
-        </div>
-        
-        <div className="relative z-10 max-w-5xl mx-auto px-6 md:px-12">
-          <div className="border p-10 md:p-16 flex flex-col md:flex-row gap-16 backdrop-blur-sm" style={{ borderColor: 'rgba(255,255,255,0.1)', backgroundColor: 'rgba(18,18,18,0.7)' }}>
-            
-            <div className="flex-1">
-              <Reveal>
-                <Eyebrow text="Contact" C={C} className="mb-6" />
-                <h2 style={{ fontFamily: SERIF }} className="text-4xl md:text-5xl font-light mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
-                  Planifions votre <br />
-                  <span style={{ fontStyle: 'italic', color: C.primary }}>Événement</span>
-                </>)}</h2>
-                <p className="font-light mb-12" style={{ color: C.textMuted }}>
-                  Confiez-nous vos envies, nous en ferons une réalité. Notre équipe est à votre disposition pour une première consultation confidentielle.
-                </p>
-
-                <div className="space-y-6">
-                  <div className="flex items-center gap-4">
-                    <Phone style={{ color: C.primary }} size={20} />
-                    <span className="font-light">{fd?.contactPhone || "+33 1 74 89 65 41"}</span>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <Mail style={{ color: C.primary }} size={20} />
-                    <span className="font-light">{fd?.contactEmail || "contact@agence-prestige.com"}</span>
-                  </div>
-                  <div className="flex items-center gap-4">
-                    <MapPin style={{ color: C.primary }} size={20} />
-                    <span className="font-light">{fd?.location || (clientAddress(sessionData) ?? "8 Avenue Montaigne, 75008 Paris")}</span>
-                  </div>
-                </div>
-              </Reveal>
-            </div>
-
-            <div className="flex-1">
-              <Reveal delay={0.2}>
-                <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                  <div>
-                    <label className="block text-xs uppercase tracking-widest mb-2" style={{ color: C.textMuted }}>Nom complet</label>
-                    <input 
-                      type="text" 
-                      className="w-full bg-transparent border-b py-3 px-0 focus:outline-none focus:border-white transition-colors rounded-none"
-                      style={{ borderColor: 'rgba(255,255,255,0.2)', color: C.white }}
-                      placeholder="Jean Dupont"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs uppercase tracking-widest mb-2" style={{ color: C.textMuted }}>Entreprise</label>
-                    <input 
-                      type="text" 
-                      className="w-full bg-transparent border-b py-3 px-0 focus:outline-none focus:border-white transition-colors rounded-none"
-                      style={{ borderColor: 'rgba(255,255,255,0.2)', color: C.white }}
-                      placeholder="Votre Société"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs uppercase tracking-widest mb-2" style={{ color: C.textMuted }}>Email professionnel</label>
-                    <input 
-                      type="email" 
-                      className="w-full bg-transparent border-b py-3 px-0 focus:outline-none focus:border-white transition-colors rounded-none"
-                      style={{ borderColor: 'rgba(255,255,255,0.2)', color: C.white }}
-                      placeholder="jean@societe.com"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs uppercase tracking-widest mb-2" style={{ color: C.textMuted }}>Type d'événement</label>
-                    <select className="w-full bg-transparent border-b py-3 px-0 focus:outline-none focus:border-white transition-colors appearance-none rounded-none" style={{ borderColor: 'rgba(255,255,255,0.2)', color: C.textMuted }}>
-                      <option className="bg-[#121212] text-white">Gala / Soirée</option>
-                      <option className="bg-[#121212] text-white">Lancement de produit</option>
-                      <option className="bg-[#121212] text-white">Séminaire / Congrès</option>
-                      <option className="bg-[#121212] text-white">Autre</option>
-                    </select>
-                  </div>
-                  <Button className="w-full mt-8" C={C}>
-                    Envoyer la demande
-                  </Button>
-                </form>
-              </Reveal>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="pt-24 pb-12 border-t" style={{ backgroundColor: C.bgDeep, borderColor: 'rgba(255,255,255,0.05)' }}>
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-            
-            <div className="md:col-span-2">
-              <span style={{ fontFamily: SERIF, fontSize: '2rem', fontWeight: 600, color: C.white }} className="block mb-6">
-                {fd?.businessName || "Agence Prestige"}
+      {/* ── FOOTER ──────────────────────────────────────────────────────── */}
+      <footer style={{ background: C.bgDark, borderTop: `1px solid ${C.border}`, padding: "clamp(48px, 7vw, 84px) clamp(20px, 4.4vw, 56px) clamp(22px, 3vw, 38px)" }}>
+        <div style={{ maxWidth: 1240, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(230px, 100%), 1fr))", gap: "clamp(30px, 4.4vw, 56px)", marginBottom: "clamp(34px, 4.8vw, 60px)" }}>
+          <div>
+            {fd?.logoBase64 ? (
+              <img src={fd.logoBase64} alt={businessName} style={{ height: 32, maxWidth: 160, objectFit: "contain", display: "block", marginBottom: 18 }} />
+            ) : (
+              <span style={{ fontFamily: SERIF, fontSize: "clamp(22px, 2.6vw, 28px)", fontWeight: 600, color: C.ink, display: "block", marginBottom: 16 }}>
+                {businessName}
               </span>
-              <p className="max-w-sm font-light mb-8 leading-relaxed" style={{ color: C.textMuted }}>
-                Créateurs d'événements d'exception pour entreprises prestigieuses. L'art de recevoir à la française.
-              </p>
-              <div className="flex gap-4">
-                <a href="#" className="w-10 h-10 rounded-full border flex items-center justify-center transition-colors hover:bg-white hover:text-black" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
-                  <Instagram size={18} />
-                </a>
-                <a href="#" className="w-10 h-10 rounded-full border flex items-center justify-center transition-colors hover:bg-white hover:text-black" style={{ borderColor: 'rgba(255,255,255,0.1)' }}>
-                  <Linkedin size={18} />
-                </a>
-              </div>
-            </div>
-
-            <div>
-              <h4 className="uppercase tracking-widest text-xs font-semibold mb-6" style={{ color: C.primary }}>Navigation</h4>
-              <ul className="space-y-4">
-                {navLinks.map((link, i) => (
-                  <li key={i}>
-                    <a href={link.href} className="font-light hover:text-white transition-colors" style={{ color: C.textMuted }}>
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="uppercase tracking-widest text-xs font-semibold mb-6" style={{ color: C.primary }}>Légal</h4>
-              <ul className="space-y-4">
-                <li><a href="#" className="font-light hover:text-white transition-colors" style={{ color: C.textMuted }}>Mentions Légales</a></li>
-                <li><a href="#" className="font-light hover:text-white transition-colors" style={{ color: C.textMuted }}>Politique de confidentialité</a></li>
-                <li><a href="#" className="font-light hover:text-white transition-colors" style={{ color: C.textMuted }}>CGV</a></li>
-              </ul>
-            </div>
-            
+            )}
+            <p style={{ maxWidth: 320, fontWeight: 300, fontSize: 14, color: C.textMuted, lineHeight: 1.75, margin: 0 }}>
+              {clientTagline(sessionData) ?? "Créateurs d'événements d'exception pour entreprises prestigieuses. L'art de recevoir à la française."}
+            </p>
           </div>
-
-          <div className="pt-8 border-t flex flex-col md:flex-row justify-between items-center gap-4" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
-            <p className="text-xs font-light" style={{ color: C.textMuted }}>
-              © {new Date().getFullYear()} {fd?.businessName || "Agence Prestige"}. Tous droits réservés.
-            </p>
-            <p className="text-xs font-light" style={{ color: C.textMuted }}>
-              Design by AeviaLaunch
-            </p>
+          <div>
+            <h4 style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.26em", color: C.accentDark, margin: "0 0 20px" }}>Navigation</h4>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 12 }}>
+              {NAV.map(({ l, h }) => (
+                <li key={l}>
+                  <a href={h} style={{ color: C.textMuted, textDecoration: "none", fontWeight: 300, fontSize: 14.5, padding: "4px 0", display: "inline-block" }}>{l}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h4 style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.26em", color: C.accentDark, margin: "0 0 20px" }}>Légal</h4>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 12 }}>
+              <li><a href="#" style={{ color: C.textMuted, textDecoration: "none", fontWeight: 300, fontSize: 14.5, padding: "4px 0", display: "inline-block" }}>Mentions Légales</a></li>
+              <li><a href="#" style={{ color: C.textMuted, textDecoration: "none", fontWeight: 300, fontSize: 14.5, padding: "4px 0", display: "inline-block" }}>Politique de confidentialité</a></li>
+              <li><a href="#" style={{ color: C.textMuted, textDecoration: "none", fontWeight: 300, fontSize: 14.5, padding: "4px 0", display: "inline-block" }}>CGV</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 style={{ fontSize: 11, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.26em", color: C.accentDark, margin: "0 0 20px" }}>Contact</h4>
+            <div style={{ display: "flex", flexDirection: "column", gap: 12, color: C.textMuted, fontWeight: 300, fontSize: 14.5 }}>
+              <a href={`tel:${phone.replace(/\s/g, "")}`} style={{ display: "flex", alignItems: "center", gap: 10, color: C.textMuted, textDecoration: "none", padding: "4px 0" }}>
+                <Phone size={14} color={C.accentDark} /> {phone}
+              </a>
+              <a href={`mailto:${mail}`} style={{ display: "flex", alignItems: "center", gap: 10, color: C.textMuted, textDecoration: "none", padding: "4px 0" }}>
+                <Mail size={14} color={C.accentDark} /> {mail}
+              </a>
+              <span style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
+                <MapPin size={14} color={C.accentDark} style={{ marginTop: 3, flexShrink: 0 }} /> {adresse}
+              </span>
+            </div>
           </div>
         </div>
+        <div style={{ maxWidth: 1240, margin: "0 auto", borderTop: `1px solid ${C.border}`, paddingTop: "clamp(16px, 2.2vw, 26px)", display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
+          <span style={{ color: C.textFaint, fontSize: 12.5, fontWeight: 300 }}>
+            © {new Date().getFullYear()} {businessName}
+            {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""} — Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" />
+          </span>
+          <span style={{ color: C.textFaint, fontSize: 12.5, fontWeight: 300 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
+        </div>
       </footer>
-
-      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-
-        {clientName({ formData: fd }) ?? "impact-322"}
-
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
-
-      </footer>
-
     </div>
   );
 }

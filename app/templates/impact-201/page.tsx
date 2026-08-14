@@ -1113,7 +1113,7 @@ return (
           }}
         >
           <img
-            src={photo(0, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1400&auto=format&fit=crop"))}
+            src={photo(1, "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1400&auto=format&fit=crop")}
             alt="Gastronomie"
             style={{
               width: "100%",
@@ -1392,7 +1392,7 @@ return (
             }}
           >
             <img
-              src={photo(1, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1551218808-94e220e084d2?q=80&w=800&auto=format&fit=crop"))}
+              src={photo(2, "https://images.unsplash.com/photo-1551218808-94e220e084d2?q=80&w=800&auto=format&fit=crop")}
               alt="Chef Antoine Lefèvre"
               style={{
                 width: "100%",

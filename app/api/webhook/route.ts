@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { rattacherAuProjet } from "@/lib/domains/vercel";
 import Stripe from "stripe";
 import { Resend } from "resend";
 import { put } from "@vercel/blob";
@@ -430,7 +431,17 @@ async function handleDesiredDomain(rawDomain: string, siteName: string): Promise
         const dns = j.dnsConfigured
           ? ", DNS→Vercel OK"
           : `, ⚠️ DNS à finir${j.dnsError ? `: ${j.dnsError}` : ""}`;
-        return `✅ Domaine ${domain} ENREGISTRÉ (${availLine})${dns}. Reste : ajouter ${domain} au projet Vercel aevia-launch.`;
+        /*
+          Dernière étape jusqu'ici laissée à la main : rattacher le domaine au
+          projet. Tant que personne ne le faisait, le client avait payé un nom
+          qui ne menait nulle part. Elle ne doit jamais faire échouer la
+          commande — d'où le message, et non l'exception.
+        */
+        const rattachement = await rattacherAuProjet(domain);
+        const detailDns = rattachement.dns?.length
+          ? ` DNS à poser : ${rattachement.dns.map((d) => `${d.type} ${d.nom} → ${d.valeur}`).join(" ; ")}.`
+          : "";
+        return `✅ Domaine ${domain} ENREGISTRÉ (${availLine})${dns}. ${rattachement.message}${detailDns}`;
       }
       return `⚠️ Enregistrement ${domain} ÉCHOUÉ (HTTP ${r.status}${j.message ? `: ${j.message}` : ""}) — ${availLine}. À traiter manuellement.`;
     } catch (e) {
@@ -647,6 +658,15 @@ export async function POST(req: NextRequest) {
         ?? `${String(rawBrief.phone ?? "")} | ${String(rawBrief.email ?? "")} | ${String(rawBrief.address ?? "")}`;
       const briefSocials = (rawBrief.socials as string | undefined)
         ?? `IG:${String(rawBrief.instagram ?? "")} LI:${String(rawBrief.linkedin ?? "")} WEB:${String(rawBrief.website ?? "")}`;
+      /*
+        L'adresse saisie à l'étape 3 du wizard n'était lue nulle part : le
+        client la remplissait, et son site affichait la ville de la
+        démonstration — « Couvreur à Nice » pour une entreprise de Voiron. On
+        la reprend, et on en tire la ville quand elle suit un code postal.
+      */
+      const briefAddress = String(rawBrief.address ?? "").trim();
+      const villeDuBrief = /\b\d{5}\s+(.+)$/.exec(briefAddress)?.[1]?.trim() ?? "";
+
       const briefServicesStr = typeof rawBrief.services === "string"
         ? rawBrief.services
         : JSON.stringify(rawBrief.services ?? []);
@@ -677,7 +697,7 @@ export async function POST(req: NextRequest) {
         businessName:   briefCompany   ?? siteName,
         businessType:   siteType,
         tagline:        briefTagline   ?? "",
-        city:           "",
+        city:           villeDuBrief,
         mainService:    briefDescription ?? "",
         benefits:       ["", "", ""],
         priceRange:     "",
@@ -817,6 +837,14 @@ Retourne uniquement du JSON valide, sans markdown.`;
           id: previewSessionId,
           formData,
           generatedContent,
+          /*
+            `clientAddress` lit le profil, jamais le formulaire : sans ce bloc,
+            l'adresse du client n'apparaissait sur aucun thème — ni dans le pied
+            de page, ni dans les mentions légales.
+          */
+          ...(briefAddress
+            ? { businessProfile: { legal: { companyAddress: briefAddress }, geo: { address: briefAddress } } }
+            : {}),
           createdAt: new Date(),
         });
       } catch (err) {

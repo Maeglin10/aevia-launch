@@ -98,6 +98,7 @@ export default function Home() {
   sessionData = session;
   memoriserSession(sessionData);
   c = session?.generatedContent;
+  const FEATURES_DU_CLIENT = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...FEATURES[i % FEATURES.length], title: s.title, desc: s.desc || FEATURES[i % FEATURES.length].desc })), FEATURES);
 
   STATS_INLINE = resolveList(
 
@@ -270,7 +271,7 @@ return (
           </Reveal>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {FEATURES.map((feature, i) => {
+            {FEATURES_DU_CLIENT.map((feature, i) => {
               const IconComponent = feature.icon
               return (
                 <Reveal key={feature.title} delay={i * 0.08}>

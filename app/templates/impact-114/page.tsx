@@ -42,6 +42,7 @@ import {
   clientText,
   clientWorks,
 } from "@/lib/templates/clientContent";
+import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
@@ -813,6 +814,7 @@ export default function Impact114Page() {
           3. COLLECTIONS
           ================================================================ */}
       <section id="collections" className="py-28 px-6 md:px-12 max-w-[1400px] mx-auto">
+        <TitreDeLaPage session={sessionData} />
         <Reveal>
           <div className="max-w-2xl mb-16">
             <span
@@ -1091,7 +1093,7 @@ export default function Impact114Page() {
                 style={{ top: "-60px", bottom: "-60px", left: 0, right: 0, y: aboutImgY }}
               >
                 <Image
-                  src={photo(0, (clientPhotos(sessionData)[11] || "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=900&q=85&auto=format&fit=crop"))}
+                  src={photo(11, "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=900&q=85&auto=format&fit=crop")}
                   alt="Julien Moreau photographe"
                   fill
                   className="object-cover"

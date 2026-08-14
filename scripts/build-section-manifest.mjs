@@ -22,13 +22,25 @@ function apercu(src, apres) {
   // Le texte d'origine suit le `??` : `?? (<>Nos engagements</>)`.
   const m = /\?\?\s*\(<>([\s\S]{0,200}?)<\/>\)/.exec(src.slice(apres, apres + 900));
   if (!m) return "";
-  return m[1]
+  const nettoye = m[1]
     .replace(/\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}/g, " ")
     .replace(/<[^>]*>/g, " ")
     .replace(/&[a-z]+;/g, " ")
     .replace(/\s+/g, " ")
     .trim()
     .slice(0, 60);
+  /* Une étiquette faite d'accolades et d'espaces ne dit rien : elle vaut vide. */
+  if (/[\p{L}\p{N}]/u.test(nettoye)) return nettoye;
+  /*
+    Certains thèmes n'écrivent pas le texte en clair mais une expression :
+    `{c?.heroHeadline ?? "Votre piscine, sans mauvaise surprise."}`. Retirer les
+    accolades ne laisse alors rien, et le client voyait « hero.titre » comme
+    étiquette. On va chercher la chaîne de repli à l'intérieur — c'est elle que
+    la page affiche quand le client n'a rien rempli, donc c'est bien elle qu'il
+    reconnaîtra.
+  */
+  const litteral = /\?\?\s*["']([^"']{2,80})["']/.exec(m[1]);
+  return litteral ? litteral[1].trim().slice(0, 60) : "";
 }
 
 function apercuListe(src, apres) {

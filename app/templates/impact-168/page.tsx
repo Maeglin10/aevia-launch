@@ -37,6 +37,7 @@ let brand: any = null;
 const NAV_HREF: Record<string, string> = {
   "Mentions": "/templates/impact-168/legal/mentions-legales",
   "mentions": "/templates/impact-168/legal/mentions-legales",
+  "Politique de cookies": "/templates/impact-168/legal/cookies",
 };
 const navHref = (label: unknown) =>
   (typeof label === "string" && NAV_HREF[label]) || "/templates/impact-168";

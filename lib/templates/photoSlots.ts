@@ -2299,239 +2299,225 @@ export const THEME_PHOTOS: Record<string, PhotoSlots> = {
   ]
  },
  "impact-316": {
-  n: 7,
-  total: 7,
+  n: 5,
+  total: 5,
   labels: [
-   null,
-   null,
-   null,
+   "Nos équipes en intervention",
    null,
    null,
    null,
    null
-  ]
+  ],
  },
  "impact-317": {
-  n: 8,
-  total: 9,
+  n: 6,
+  total: 6,
   labels: [
    null,
-   null,
-   null,
-   null,
+   "Notre équipe à l'œuvre",
    null,
    null,
    null,
    null
-  ]
+  ],
  },
  "impact-318": {
-  n: 7,
-  total: 7,
+  n: 1,
+  total: 1,
   labels: [
-   null,
-   null,
-   null,
-   null,
-   null,
-   null,
-   null
-  ]
+   "Équipe d'intervention en décontamination"
+  ],
  },
  "impact-319": {
-  n: 8,
-  total: 8,
+  n: 1,
+  total: 1,
   labels: [
-   null,
-   null,
-   null,
-   null,
-   null,
-   null,
-   null,
-   null
-  ]
+   "Produits d'entretien naturels"
+  ],
  },
  "impact-321": {
-  n: 8,
-  total: 12,
-  labels: [
-   null,
-   null,
-   null,
-   null,
-   null,
-   null,
-   null,
-   null
-  ]
- },
- "impact-322": {
-  n: 8,
-  total: 11,
-  labels: [
-   null,
-   null,
-   null,
-   null,
-   null,
-   null,
-   null,
-   null
-  ]
- },
- "impact-324": {
-  n: 8,
-  total: 9,
-  labels: [
-   null,
-   null,
-   null,
-   null,
-   null,
-   null,
-   null,
-   null
-  ]
- },
- "impact-325": {
-  n: 8,
-  total: 8,
-  labels: [
-   null,
-   null,
-   null,
-   null,
-   null,
-   null,
-   null,
-   null
-  ]
- },
- "impact-326": {
-  n: 4,
-  total: 4,
-  labels: [
-   null,
-   null,
-   "Immobilier",
-   "Notaire associé de l"
-  ]
- },
- "impact-327": {
-  n: 3,
-  total: 3,
-  labels: [
-   null,
-   null,
-   "Cuisine sur mesure"
-  ]
- },
- "impact-328": {
-  n: 4,
-  total: 4,
-  labels: [
-   null,
-   null,
-   "Organisation d",
-   "Horizon paisible au petit matin"
-  ]
- },
- "impact-331": {
-  n: 3,
-  total: 3,
-  labels: [
-   null,
-   null,
-   null
-  ]
- },
- "impact-332": {
-  n: 1,
-  total: 1,
-  labels: [
-   "Serrure de porte en gros plan"
-  ]
- },
- "impact-333": {
-  n: 1,
-  total: 1,
-  labels: [
-   "Signature d"
-  ]
- },
- "impact-334": {
-  n: 3,
-  total: 3,
-  labels: [
-   null,
-   null,
-   null
-  ]
- },
- "impact-335": {
   n: 2,
   total: 2,
   labels: [
-   "Lys blancs déposés sur la pierre",
-   "Horizon marin au matin"
-  ]
+   null,
+   "Le sommet en salle plénière"
+  ],
+ },
+ "impact-322": {
+  n: 7,
+  total: 7,
+  labels: [
+   null,
+   "L'agence à l'œuvre",
+   "Soirée de gala orchestrée par l'agence",
+   null,
+   null,
+   null,
+   "Détail de scénographie"
+  ],
+ },
+ "impact-324": {
+  n: 4,
+  total: 4,
+  labels: [
+   null,
+   null,
+   null,
+   null
+  ],
+ },
+ "impact-325": {
+  n: 5,
+  total: 5,
+  labels: [
+   null,
+   null,
+   null,
+   null,
+   null
+  ],
+ },
+ "impact-326": {
+  n: 5,
+  total: 5,
+  labels: [
+   null,
+   null,
+   null,
+   null,
+   "Notaire associé de l'étude"
+  ],
+ },
+ "impact-327": {
+  n: 6,
+  total: 6,
+  labels: [
+   null,
+   null,
+   null,
+   null,
+   "Menuisier ajustant une façade à l'atelier",
+   null
+  ],
+ },
+ "impact-328": {
+  n: 5,
+  total: 5,
+  labels: [
+   null,
+   null,
+   null,
+   null,
+   "Horizon paisible au petit matin"
+  ],
+ },
+ "impact-331": {
+  n: 1,
+  total: 1,
+  labels: [
+   null
+  ],
+ },
+ "impact-332": {
+  n: 2,
+  total: 2,
+  labels: [
+   "Serrure de porte en gros plan",
+   "Pose d'un bloc-porte blindé"
+  ],
+ },
+ "impact-333": {
+  n: 2,
+  total: 2,
+  labels: [
+   "Signature d'un acte à l'étude",
+   "Salle de signature de l'étude"
+  ],
+ },
+ "impact-334": {
+  n: 4,
+  total: 4,
+  labels: [
+   null,
+   null,
+   null,
+   "Contrôle d'un caisson à l'atelier"
+  ],
+ },
+ "impact-335": {
+  n: 3,
+  total: 3,
+  labels: [
+   null,
+   "Horizon marin au matin",
+   null
+  ],
  },
  "impact-336": {
-  n: 1,
-  total: 1,
+  n: 2,
+  total: 2,
   labels: [
-   "Comptoir de la pharmacie"
-  ]
+   "Comptoir de la pharmacie",
+   null
+  ],
  },
  "impact-337": {
-  n: 1,
-  total: 1,
+  n: 2,
+  total: 2,
   labels: [
-   "Rendez-vous conseil avec un client"
-  ]
+   "Rendez-vous conseil avec un client",
+   "Étude comparative remise au client"
+  ],
  },
  "impact-338": {
-  n: 1,
-  total: 1,
+  n: 2,
+  total: 2,
   labels: [
-   "Poignée de main en fin de rendez-vous"
-  ]
+   "Poignée de main en fin de rendez-vous",
+   null
+  ],
  },
  "impact-339": {
-  n: 1,
-  total: 1,
+  n: 2,
+  total: 2,
   labels: [
-   "Examen de l"
-  ]
+   "Examen de l'oreille à l'otoscope",
+   null
+  ],
  },
  "impact-340": {
-  n: 1,
-  total: 1,
+  n: 2,
+  total: 2,
   labels: [
-   "Réglage d"
-  ]
+   null,
+   null
+  ],
  },
  "impact-341": {
-  n: 1,
-  total: 1,
+  n: 2,
+  total: 2,
   labels: [
-   "Véhicule d"
-  ]
+   null,
+   null
+  ],
  },
  "impact-342": {
-  n: 1,
-  total: 1,
+  n: 4,
+  total: 4,
   labels: [
-   "Élève au volant en conduite urbaine"
-  ]
+   null,
+   null,
+   null,
+   null
+  ],
  },
  "impact-343": {
-  n: 1,
-  total: 1,
+  n: 2,
+  total: 2,
   labels: [
-   "Atelier de pressing en activité"
-  ]
+   null,
+   "Linge plié et prêt à être rendu"
+  ],
  },
  "impact-344": {
   n: 1,
@@ -2541,46 +2527,56 @@ export const THEME_PHOTOS: Record<string, PhotoSlots> = {
   ]
  },
  "impact-345": {
-  n: 1,
-  total: 1,
+  n: 2,
+  total: 2,
   labels: [
-   "Vitrine de la boucherie"
-  ]
+   null,
+   "Origine des viandes affichée à l'étal"
+  ],
  },
  "impact-346": {
-  n: 1,
-  total: 1,
+  n: 3,
+  total: 3,
   labels: [
-   "Comptoir de la fromagerie"
-  ]
+   "Comptoir de la fromagerie",
+   "Cave d'affinage voûtée",
+   "Plateau de fromages composé"
+  ],
  },
  "impact-347": {
-  n: 1,
-  total: 1,
+  n: 2,
+  total: 2,
   labels: [
-   "Session de formation en salle"
-  ]
+   "Session de formation en salle",
+   "Attestation de certification affichée au centre"
+  ],
  },
  "impact-348": {
-  n: 1,
-  total: 1,
+  n: 3,
+  total: 3,
   labels: [
-   "Travaux pratiques en atelier"
-  ]
+   "Travaux pratiques en atelier",
+   "Atelier de l'école pendant une session",
+   "Réunion d'information mensuelle"
+  ],
  },
  "impact-349": {
-  n: 1,
-  total: 1,
+  n: 3,
+  total: 3,
   labels: [
-   "Véhicule sur le pont de contrôle"
-  ]
+   "Véhicule sur le pont de contrôle",
+   "Ligne de contrôle vue depuis la baie vitrée",
+   "Salle d'attente du centre"
+  ],
  },
  "impact-350": {
-  n: 1,
-  total: 1,
+  n: 3,
+  total: 3,
   labels: [
-   "Inspection sous le véhicule"
-  ]
+   "Inspection sous le véhicule",
+   "Espace d'attente et coin enfants",
+   "Façade et accueil du centre"
+  ],
  },
  "impact-351": {
   n: 1,
@@ -2590,18 +2586,21 @@ export const THEME_PHOTOS: Record<string, PhotoSlots> = {
   ]
  },
  "impact-352": {
-  n: 1,
-  total: 1,
+  n: 3,
+  total: 3,
   labels: [
-   "Flèche en ardoise restaurée"
-  ]
+   null,
+   null,
+   null
+  ],
  },
  "impact-353": {
-  n: 1,
-  total: 1,
+  n: 2,
+  total: 2,
   labels: [
-   "Temps de jeu à la micro-crèche"
-  ]
+   null,
+   null
+  ],
  },
  "impact-354": {
   n: 1,
@@ -2611,60 +2610,71 @@ export const THEME_PHOTOS: Record<string, PhotoSlots> = {
   ]
  },
  "impact-355": {
-  n: 1,
-  total: 1,
+  n: 2,
+  total: 2,
   labels: [
-   "Soins à domicile auprès d"
-  ]
+   null,
+   null
+  ],
  },
  "impact-356": {
-  n: 1,
-  total: 1,
+  n: 2,
+  total: 2,
   labels: [
-   "Visite infirmière au domicile"
-  ]
+   null,
+   null
+  ],
  },
  "impact-357": {
-  n: 1,
-  total: 1,
+  n: 2,
+  total: 2,
   labels: [
-   "Technicienne au laboratoire"
-  ]
+   null,
+   null
+  ],
  },
  "impact-358": {
-  n: 1,
-  total: 1,
+  n: 2,
+  total: 2,
   labels: [
+   null,
    "Tubes de prélèvement au laboratoire"
-  ]
+  ],
  },
  "impact-359": {
-  n: 1,
-  total: 1,
+  n: 2,
+  total: 2,
   labels: [
-   "Grue mobile disponible à la location"
-  ]
+   "Grue mobile disponible à la location",
+   null
+  ],
  },
  "impact-360": {
-  n: 1,
-  total: 1,
+  n: 4,
+  total: 4,
   labels: [
-   "Chapiteau dressé pour une réception"
-  ]
+   null,
+   null,
+   null,
+   null
+  ],
  },
  "impact-361": {
-  n: 1,
-  total: 1,
+  n: 3,
+  total: 3,
   labels: [
-   "Application du rouleau sur le mur"
-  ]
+   null,
+   null,
+   null
+  ],
  },
  "impact-362": {
-  n: 1,
-  total: 1,
+  n: 2,
+  total: 2,
   labels: [
-   "Duo de peintres en chantier"
-  ]
+   null,
+   null
+  ],
  },
  "impact-363": {
   n: 1,
@@ -2681,23 +2691,26 @@ export const THEME_PHOTOS: Record<string, PhotoSlots> = {
   ]
  },
  "impact-365": {
-  n: 3,
-  total: 3,
+  n: 5,
+  total: 5,
   labels: [
    null,
    null,
-   null
-  ]
+   null,
+   null,
+   "Le jardin de la ferme en pleine saison"
+  ],
  },
  "impact-366": {
-  n: 4,
-  total: 4,
+  n: 5,
+  total: 5,
   labels: [
+   null,
    null,
    null,
    null,
    "Les rangs du potager en été"
-  ]
+  ],
  },
  "impact-367": {
   n: 1,
@@ -2714,14 +2727,15 @@ export const THEME_PHOTOS: Record<string, PhotoSlots> = {
   ]
  },
  "impact-369": {
-  n: 4,
-  total: 4,
+  n: 5,
+  total: 5,
   labels: [
    null,
    null,
    null,
+   null,
    "Cérémonie dans le parc du domaine"
-  ]
+  ],
  },
  "impact-37": {
   n: 5,
@@ -2745,11 +2759,12 @@ export const THEME_PHOTOS: Record<string, PhotoSlots> = {
   ]
  },
  "impact-371": {
-  n: 1,
-  total: 1,
+  n: 2,
+  total: 2,
   labels: [
-   "Agent de sécurité en poste"
-  ]
+   null,
+   null
+  ],
  },
  "impact-372": {
   n: 1,
@@ -2801,13 +2816,15 @@ export const THEME_PHOTOS: Record<string, PhotoSlots> = {
   ]
  },
  "impact-379": {
-  n: 3,
-  total: 3,
+  n: 5,
+  total: 5,
   labels: [
    null,
    null,
-   null
-  ]
+   null,
+   null,
+   "L'établi de l'ébéniste"
+  ],
  },
  "impact-380": {
   n: 1,
@@ -3282,7 +3299,67 @@ export const THEME_PHOTOS: Record<string, PhotoSlots> = {
    "The Ember Cellar Selection",
    "Fire & Smoke"
   ]
- }
+ },
+
+  /*
+    Cinquante-deux thèmes ne portent aucune photographie : ils composent avec
+    de la typographie, des aplats et des dégradés. Absents de cette table, ils
+    héritaient du réglage par défaut — une photo réclamée au client — qui ne
+    s'affichait alors nulle part. Déclarés à zéro, le formulaire cesse de la
+    demander et le dit franchement.
+  */
+  "impact-102": { n: 0, total: 0, labels: [] },
+  "impact-11": { n: 0, total: 0, labels: [] },
+  "impact-113": { n: 0, total: 0, labels: [] },
+  "impact-135": { n: 0, total: 0, labels: [] },
+  "impact-153": { n: 0, total: 0, labels: [] },
+  "impact-164": { n: 0, total: 0, labels: [] },
+  "impact-168": { n: 0, total: 0, labels: [] },
+  "impact-212": { n: 0, total: 0, labels: [] },
+  "impact-216": { n: 0, total: 0, labels: [] },
+  "impact-22": { n: 0, total: 0, labels: [] },
+  "impact-31": { n: 0, total: 0, labels: [] },
+  "impact-39": { n: 0, total: 0, labels: [] },
+  "impact-51": { n: 0, total: 0, labels: [] },
+  "impact-129": { n: 0, total: 0, labels: [] },
+  "impact-150": { n: 0, total: 0, labels: [] },
+  "impact-161": { n: 0, total: 0, labels: [] },
+  "impact-165": { n: 0, total: 0, labels: [] },
+  "impact-169": { n: 0, total: 0, labels: [] },
+  "impact-18": { n: 0, total: 0, labels: [] },
+  "impact-213": { n: 0, total: 0, labels: [] },
+  "impact-330": { n: 0, total: 0, labels: [] },
+  "impact-36": { n: 0, total: 0, labels: [] },
+  "impact-40": { n: 0, total: 0, labels: [] },
+  "impact-44": { n: 0, total: 0, labels: [] },
+  "impact-48": { n: 0, total: 0, labels: [] },
+  "impact-52": { n: 0, total: 0, labels: [] },
+  "impact-64": { n: 0, total: 0, labels: [] },
+  "impact-68": { n: 0, total: 0, labels: [] },
+  "impact-72": { n: 0, total: 0, labels: [] },
+  "impact-96": { n: 0, total: 0, labels: [] },
+  "impact-03": { n: 0, total: 0, labels: [] },
+  "impact-133": { n: 0, total: 0, labels: [] },
+  "impact-159": { n: 0, total: 0, labels: [] },
+  "impact-173": { n: 0, total: 0, labels: [] },
+  "impact-207": { n: 0, total: 0, labels: [] },
+  "impact-214": { n: 0, total: 0, labels: [] },
+  "impact-35": { n: 0, total: 0, labels: [] },
+  "impact-41": { n: 0, total: 0, labels: [] },
+  "impact-49": { n: 0, total: 0, labels: [] },
+  "impact-53": { n: 0, total: 0, labels: [] },
+  "impact-69": { n: 0, total: 0, labels: [] },
+  "impact-101": { n: 0, total: 0, labels: [] },
+  "impact-112": { n: 0, total: 0, labels: [] },
+  "impact-170": { n: 0, total: 0, labels: [] },
+  "impact-211": { n: 0, total: 0, labels: [] },
+  "impact-215": { n: 0, total: 0, labels: [] },
+  "impact-32": { n: 0, total: 0, labels: [] },
+  "impact-329": { n: 0, total: 0, labels: [] },
+  "impact-34": { n: 0, total: 0, labels: [] },
+  "impact-42": { n: 0, total: 0, labels: [] },
+  "impact-54": { n: 0, total: 0, labels: [] },
+  "impact-58": { n: 0, total: 0, labels: [] },
 };
 
 /** Les emplacements du thème choisi. Un thème inconnu n'en demande qu'une. */

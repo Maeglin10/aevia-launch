@@ -55,7 +55,9 @@ function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: nu
   )
 }
 
-const MENU_ITEMS: Record<string, { name: string; desc: string; price: string; tag?: string; allergens?: string }[]> = {
+/* Recalculée après l'arrivée de la session : figée à l'import, elle gardait la démonstration. */
+function MENU_ITEMS_LIVE() {
+  return {
   starters: [
     { name: "Burrata Pugliese", desc: "Creamy burrata, heirloom tomatoes from Marmande, aged 12-year balsamic reduction, Ligurian basil oil, fleur de sel", price: "24", tag: "Chef's Pick", allergens: "Dairy" },
     { name: "Tartare de Saumon Écossais", desc: "Hand-cut Scottish salmon, avocado mousse, yuzu gel, crispy shallots, Oscietra caviar", price: "32", tag: "New", allergens: "Fish" },
@@ -84,7 +86,9 @@ const MENU_ITEMS: Record<string, { name: string; desc: string; price: string; ta
     { name: "Dom Pérignon Rosé", desc: "Vintage Champagne · Épernay, France · 2013 — Raspberry, toast, exceptional mousse", price: "390", tag: "Prestige", allergens: "Sulfites" },
     { name: "Pétrus", desc: "Pomerol AOC · " + (clientCity(sessionData) ?? "Bordeaux") + ", France · 2015 — Truffles, dark plum, iron — the pinnacle", price: "980", allergens: "Sulfites" },
   ],
+};
 }
+let MENU_ITEMS: Record<string, { name: string; desc: string; price: string; tag?: string; allergens?: string }[]> = MENU_ITEMS_LIVE();
 
 // Real menu from the client's wizard input (c?.menuItems) takes priority over
 // the demo dishes above. Categories are derived from the items' `category`
@@ -261,6 +265,7 @@ export default function LEtoileRestaurant() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  MENU_ITEMS = MENU_ITEMS_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
 
@@ -395,7 +400,7 @@ return (
       {/* ── HERO ── */}
       <section ref={heroRef} id="hero" className="relative h-dvh overflow-hidden flex [align-items:safe_center] justify-center pt-28 pb-12 sm:pt-32">
         <motion.div style={{ y: heroImgY }} className="absolute inset-0 z-0">
-          <Image src={photo(0, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80"))} fill className="object-cover" alt="L'Étoile dining room" priority />
+          <Image src={photo(5, "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80")} fill className="object-cover" alt="L'Étoile dining room" priority />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0c0a08] via-[#0c0a08]/50 to-[#0c0a08]/20" />
           <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 40%, rgba(12,10,8,0.85) 100%)" }} />
         </motion.div>
@@ -559,12 +564,12 @@ return (
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2 px-2 md:px-6">
           {[
-            photo(1, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80")),
-            photo(2, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80")),
-            photo(3, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&q=80")),
-            photo(4, (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80")),
-            photo(5, (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=800&q=80")),
-            photo(6, (clientPhotos(sessionData)[11] || "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80")),
+            photo(6, "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80"),
+            photo(7, "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80"),
+            photo(8, "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&q=80"),
+            photo(9, "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80"),
+            photo(10, "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=800&q=80"),
+            photo(11, "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80"),
           ].map((img, i) => (
             <Reveal key={i} delay={i * 0.07}>
               <div className={`relative overflow-hidden group cursor-pointer ${i === 0 || i === 5 ? "row-span-2 aspect-[3/4]" : "aspect-square"}`}>
@@ -582,7 +587,7 @@ return (
           <Reveal>
             <div className="relative">
               <div className="relative aspect-[4/5] overflow-hidden rounded-3xl">
-                <Image src={photo(7, (clientPhotos(sessionData)[12] || "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=800&q=80"))} alt="Chef Antoine Beaumont" fill className="object-cover" />
+                <Image src={photo(12, "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=800&q=80")} alt="Chef Antoine Beaumont" fill className="object-cover" />
               </div>
               <motion.div animate={{ y: [0, -8, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }} className="absolute -bottom-6 -right-6 bg-amber-700 text-white p-6 rounded-2xl shadow-2xl">
                 <div className="text-3xl font-light mb-1">★★</div>

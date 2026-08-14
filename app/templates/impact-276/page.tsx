@@ -69,6 +69,7 @@ const NAV_HREF: Record<string, string> = {
   "Cookies": "/templates/impact-276/legal/confidentialite",
   "Mentions légales": "/templates/impact-276/legal/mentions-legales",
   "Politique de confidentialité": "/templates/impact-276/legal/confidentialite",
+  "Politique de cookies": "/templates/impact-276/legal/cookies",
 };
 const navHref = (label: unknown) =>
   (typeof label === "string" && NAV_HREF[label]) || "/templates/impact-276";

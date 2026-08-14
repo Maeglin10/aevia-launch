@@ -689,7 +689,7 @@ export default function Impact199Page() {
         {/* Parallax Image */}
         <motion.div className="absolute inset-0 z-0" style={{ y: heroY, opacity: heroOpacity }}>
           <Image
-            src={photo(0, (clientPhotos(sessionData)[18] || "https://images.pexels.com/photos/4125522/pexels-photo-4125522.jpeg?auto=compress&cs=tinysrgb&w=1920"))}
+            src={photo(18, "https://images.pexels.com/photos/4125522/pexels-photo-4125522.jpeg?auto=compress&cs=tinysrgb&w=1920")}
             alt="Studio Encre & Âme"
             fill
             className="object-cover"

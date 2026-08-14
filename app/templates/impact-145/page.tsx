@@ -213,7 +213,7 @@ export default function ArcaneRealtyPage() {
         {/* ── HERO ──────────────────── */}
         <section id="hero" className="relative h-dvh flex items-center justify-center overflow-hidden pt-24 md:pt-0">
           <div className="absolute inset-0">
-             <Image src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=2400"))} alt="Luxury Property" fill className="object-cover opacity-50 scale-105" priority />
+             <Image src={photo(3, "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=2400")} alt="Luxury Property" fill className="object-cover opacity-50 scale-105" priority />
              <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
              <div className="absolute inset-0 bg-black/30" />
           </div>
@@ -316,7 +316,7 @@ export default function ArcaneRealtyPage() {
                </div>
                <Reveal delay={0.2}>
                   <div className="relative aspect-square grayscale hover:grayscale-0 transition-all duration-1000 p-2 bg-white/[0.02]">
-                     <ParallaxImg src={photo(1, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200"))} alt="Estate Interior" />
+                     <ParallaxImg src={photo(4, "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200")} alt="Estate Interior" />
                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[1px] bg-white/10 rotate-45" />
                   </div>
                </Reveal>

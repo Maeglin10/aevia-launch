@@ -451,7 +451,7 @@ export default function Impact26() {
           <section id="hero" className="min-h-dvh flex items-end relative overflow-hidden pt-20">
         <motion.div style={{ y: heroY, opacity: heroOpacity }} className="absolute inset-0">
           <Image
-            src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1590736704728-f4730bb30770?w=1600&h=900&fit=crop&crop=center"))}
+            src={photo(4, "https://images.unsplash.com/photo-1590736704728-f4730bb30770?w=1600&h=900&fit=crop&crop=center")}
             alt="Éther Parfums"
             fill
             className="object-cover opacity-40"
@@ -630,7 +630,7 @@ export default function Impact26() {
               <div className="relative">
                 <div className="aspect-[4/5] overflow-hidden rounded-sm">
                   <Image
-                    src={photo(1, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=750&fit=crop&crop=center"))}
+                    src={photo(5, "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=600&h=750&fit=crop&crop=center")}
                     alt="Atelier Éther"
                     width={600}
                     height={750}

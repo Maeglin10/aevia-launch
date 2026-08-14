@@ -303,7 +303,7 @@ export default function HorologsLuxePage() {
       >
         <motion.div style={{ y: heroY }} className="absolute inset-0 z-0">
           <Image
-            src={photo(0, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1547996160-81dfa63595aa?q=85&w=2400&auto=format&fit=crop"))}
+            src={photo(8, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?q=85&w=2400&auto=format&fit=crop")}
             alt="Horologs — Luxury Photography Studio"
             fill
             className="object-cover brightness-[0.45] grayscale-[0.3]"
@@ -448,7 +448,7 @@ export default function HorologsLuxePage() {
             <Reveal>
               <div className="relative aspect-[3/4] overflow-hidden">
                 <Image
-                  src={photo(1, (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1504257432389-52343af06ae3?q=80&w=800&auto=format&fit=crop"))}
+                  src={photo(9, "https://images.unsplash.com/photo-1504257432389-52343af06ae3?q=80&w=800&auto=format&fit=crop")}
                   alt="Photographer portrait"
                   fill
                   className="object-cover grayscale-[0.4] brightness-70"

@@ -555,7 +555,7 @@ export default function WanderlustPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <Reveal className="relative aspect-[4/5] rounded-2xl overflow-hidden order-2 lg:order-1">
               <Image
-                src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?q=80&w=1200&auto=format&fit=crop"))}
+                src={photo(4, "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?q=80&w=1200&auto=format&fit=crop")}
                 alt="Safari"
                 fill
                 className="object-cover hover:scale-105 transition-transform duration-[2s]"

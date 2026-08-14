@@ -618,7 +618,7 @@ function Hero() {
         }}
       >
         <img
-          src={photo(0, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2000&auto=format&fit=crop"))}
+          src={photo(4, "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2000&auto=format&fit=crop")}
           alt="Cabinet expert-comptable Marchand & Partners Nantes"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1429,7 +1429,7 @@ function ExpertisePanel() {
               }}
             >
               <img
-                src={photo(1, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=900&auto=format&fit=crop"))}
+                src={photo(6, "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=900&auto=format&fit=crop")}
                 alt="Cabinet Marchand & Partners — expertise et proximité"
                 loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}

@@ -307,7 +307,7 @@ return (
             {/* Hero */}
             <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden">
               <motion.div className="absolute inset-0" style={{ y: heroY }}>
-                <Image src={photo(0, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=1600&q=85"))} alt="Kéops Architecture" fill className="object-cover" priority />
+                <Image src={photo(6, "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=1600&q=85")} alt="Kéops Architecture" fill className="object-cover" priority />
                 <div className="absolute inset-0 bg-gradient-to-b from-[#1A1510]/50 to-[#F5F2ED]/80" />
               </motion.div>
               <motion.div className="relative z-10 h-full flex items-end pb-20 px-6" style={{ opacity: heroOpacity }}>
@@ -601,7 +601,7 @@ function AgencePage() {
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center mb-20">
           <div className="lg:col-span-5 relative aspect-[4/3] rounded-2xl overflow-hidden shadow-sm">
-            <Image src={photo(1, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80"))} alt="Kéops Agence" fill className="object-cover" />
+            <Image src={photo(7, "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80")} alt="Kéops Agence" fill className="object-cover" />
           </div>
           <div className="lg:col-span-7">
             <span className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4 block">Notre histoire</span>

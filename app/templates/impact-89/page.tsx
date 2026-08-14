@@ -450,7 +450,7 @@ function AboutSection() {
             <div style={{
               width: "100%",
               aspectRatio: "3/4",
-              backgroundImage: `url(${photo(0, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80"))})`,
+              backgroundImage: `url(${photo(8, "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80")})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
               border: `1px solid ${C.borderAccent}`,
@@ -847,7 +847,7 @@ return (
           style={{
             position: "absolute",
             inset: 0,
-            backgroundImage: `url(photo(0, (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=1600&q=60")))`,
+            backgroundImage: `url(photo(9, "https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=1600&q=60"))`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             scale: heroScale,
@@ -1974,7 +1974,8 @@ return (
               {[
                 { name: "Mentions légales", path: "/templates/impact-89/legal/mentions-legales" },
                 { name: "Confidentialité", path: "/templates/impact-89/legal/confidentialite" },
-                { name: "CGU", path: "/templates/impact-89/legal/cgu" }
+                { name: "CGU", path: "/templates/impact-89/legal/cgu" },
+                { name: "Politique de cookies", path: "/templates/impact-89/legal/cookies" }
               ].map((item) => (
                 <Link key={item.name} href={item.path} style={{ fontFamily: FONT_MONO, fontSize: 10, color: C.textDim, textDecoration: "none", letterSpacing: 2, textTransform: "uppercase" }}>
                   {item.name}

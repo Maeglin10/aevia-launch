@@ -1304,7 +1304,7 @@ export default function Impact198Page() {
           }}
         >
           <img
-            src={photo(0, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=1400&auto=format&fit=crop"))}
+            src={photo(1, "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=1400&auto=format&fit=crop")}
             alt="Lumière Beauty salon"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />

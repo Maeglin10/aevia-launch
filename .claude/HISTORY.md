@@ -328,3 +328,58 @@ les photos »* → d'où le balayage images bloquées.
   faible, global et préexistant sur les 315 templates. À traiter une fois.
 - Sujets des images réutilisées à contrôler en prod (proxy bloquant ici).
 - Déploiement Vercel manuel puis curl de vérification.
+
+---
+
+## 2026-08-12 — Session #10 : reprise des thèmes 316-383 (49/66 faits)
+
+**Fait :** `3ceeba63` `534918e6` `04ef6fae` + correctifs et lot 3 partiel
+- Plan de différenciation des 66 thèmes : `docs/REPRISE_316_383_PLAN.md`
+  (geste + archétype de héros + paire de fontes + palette, ligne par ligne).
+- 49 thèmes réécrits : 316-319, 321-322, 324-350, 352-353, 355-362, 364,
+  367, 370-371.
+- Harnais de contrôle `scripts/qa-reprise.mjs` et aligneur
+  `scripts/aligner-capabilites.mjs`.
+- Reste à faire consigné : `docs/REPRISE_316_383_RESTE_A_FAIRE.md`.
+
+**Comment :**
+- Trois analyses préalables : structure réelle des 66 thèmes, thèmes de
+  référence premium (245, 247, 83) et leur check-list, pattern de câblage des
+  derniers jours. Puis un plan écrit avant toute ligne de code.
+- Exécution par agents parallèles, trois thèmes chacun, sur une consigne
+  commune ; contrôle systématique après chaque lot (4 scripts de contrat,
+  comptage des URLs d'images avant/après, geste conforme au plan).
+
+**Pourquoi :** les 66 thèmes étaient ultra-similaires — 58 sur un squelette
+unique, 16 palettes recyclées à l'identique, trois paires de jumeaux stricts
+(336/378, 339/367, 344/362) — et le câblage était creux là où il compte :
+`clientHours`, `clientSiret`, `clientAreas`, `clientCodePostalVille` à zéro
+usage sur les 66, `clientPhone` employé une fois.
+
+**Erreurs commises / découvertes :**
+- **L'instrument a menti avant le produit.** `innerText` rend le texte peint :
+  une section en `text-transform: uppercase` renvoie « ZINGUERIE », pas
+  « Zinguerie ». Le harnais comparait à la casse près et a compté trois thèmes
+  « sans prestations ni avis » alors qu'ils les affichaient. Vérifié en
+  listant le contenu réel des sections de 318 avant de corriger quoi que ce
+  soit. Même famille que les cinq pannes de mesure du 7 août.
+- **Ville écrite deux fois** sur 318 et 319 : `clientEyebrow` rend déjà
+  « Métier · Ville » et le thème rajoutait la ville. Vu sur la capture, pas
+  dans le code.
+- **Blocs affichés mais jamais demandés** : 324 et 325 peignaient prestations,
+  avis, chiffres, engagements, réalisations et tarifs sans qu'aucun ne soit
+  déclaré dans `capabilities.ts` — ces sections restaient donc en
+  démonstration sur un site livré. 27 blocs ajoutés sur 10 thèmes.
+- **Prix du client jamais employés** là où le thème en affiche (317, 329). Sur
+  317 le taux horaire n'est repris que s'il est vraiment horaire : un forfait
+  multiplié par des heures donnerait une estimation absurde.
+- **`pkill -f "next start"` a tué mon propre shell** — la commande contenait
+  la chaîne cherchée.
+- **Le plan peut contredire le contenu.** Sur 332 il prévoyait une bande
+  « urgence 24 h » alors que le texte du thème dit qu'il n'y a pas de
+  dépannage nocturne. Le contenu gagne, et on le signale.
+
+**Restes à faire :** 17 thèmes (351, 354, 363, 365-366, 368-369, 372,
+373-383), balayage visuel de 331-371, `capabilities.ts` au-delà de 330,
+`photoSlots.ts`, `build-section-manifest.mjs`, déploiement Vercel. Détail
+complet dans `docs/REPRISE_316_383_RESTE_A_FAIRE.md`.

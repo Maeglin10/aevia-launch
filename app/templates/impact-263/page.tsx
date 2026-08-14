@@ -589,7 +589,7 @@ function Hero() {
         }}
       >
         <img
-          src={photo(0, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2000&auto=format&fit=crop"))}
+          src={photo(5, "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2000&auto=format&fit=crop")}
           alt="Jardin paysager réalisé par Jardins Vivants à Bordeaux"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="high"
@@ -1407,7 +1407,7 @@ function EcoPanel() {
             }}
           >
             <img
-              src={photo(1, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=900&auto=format&fit=crop"))}
+              src={photo(7, "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=900&auto=format&fit=crop")}
               alt="Jardin écologique conçu selon les principes de la permaculture"
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
@@ -1668,7 +1668,7 @@ function QuoteForm() {
     <section style={sec} id="devis">
       {/* Image de fond subtile */}
       <img
-        src={photo(2, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1600&auto=format&fit=crop"))}
+        src={photo(8, "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1600&auto=format&fit=crop")}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"

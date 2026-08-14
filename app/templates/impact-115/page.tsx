@@ -929,7 +929,7 @@ export default function Impact115Page() {
             position: "absolute",
             inset: 0,
             backgroundImage:
-              `url(${photo(0, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2000&auto=format&fit=crop"))})`,
+              `url(${photo(7, "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=2000&auto=format&fit=crop")})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             opacity: 0.32,

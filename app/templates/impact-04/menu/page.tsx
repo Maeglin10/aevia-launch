@@ -11,7 +11,9 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Separator } from "@/components/ui/separator"
 import { Menu as MenuIcon, Globe, Mail, ArrowRight } from "lucide-react"
 
-const MENU_ITEMS = {
+/* Recalculée après l'arrivée de la session : figée à l'import, elle gardait la démonstration. */
+function MENU_ITEMS_LIVE() {
+  return {
   starters: [
     { name: "Burrata Pugliese", desc: "Creamy burrata, heirloom tomatoes from Marmande, aged 12-year balsamic reduction, Ligurian basil oil, fleur de sel", price: "24", tag: "Chef's Pick", allergens: "Dairy" },
     { name: "Tartare de Saumon Écossais", desc: "Hand-cut Scottish salmon, avocado mousse, yuzu gel, crispy shallots, Oscietra caviar", price: "32", tag: "New", allergens: "Fish" },
@@ -40,7 +42,9 @@ const MENU_ITEMS = {
     { name: "Dom Pérignon Rosé", desc: "Vintage Champagne · Épernay, France · 2013 — Raspberry, toast, exceptional mousse", price: "390", tag: "Prestige", allergens: "Sulfites" },
     { name: "Pétrus", desc: "Pomerol AOC · " + (clientCity(sessionData) ?? "Bordeaux") + ", France · 2015 — Truffles, dark plum, iron — the pinnacle", price: "980", allergens: "Sulfites" },
   ],
+};
 }
+let MENU_ITEMS = MENU_ITEMS_LIVE();
 
 // Real menu from the client's wizard input (c?.menuItems) takes priority over
 // the demo dishes above. Categories are derived from the items' `category`
@@ -175,6 +179,7 @@ export default function MenuPage() {
   const c = session?.generatedContent;
 
   sessionData = session;
+  MENU_ITEMS = MENU_ITEMS_LIVE();
   // Real client menu (from the wizard) or template demo dishes.
   const realMenuItems = c?.menuItems && c.menuItems.length > 0 ? c.menuItems : null;
   const menuData = realMenuItems ? buildMenuRecord(realMenuItems) : MENU_ITEMS;

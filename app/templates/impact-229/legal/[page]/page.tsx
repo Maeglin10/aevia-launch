@@ -5,6 +5,7 @@ const SLUG_TO_DOC = {
   "cgv": "cgv",
   "confidentialite": "confidentialite",
   "cgu": "cgu",
+  "cookies": "cookies",
 } as const;
 
 export default async function Page({ params }: { params: Promise<{ page: string }> }) {

@@ -244,7 +244,7 @@ export default function AstrumReachPage() {
                  <div className="relative">
                     <div className="absolute -inset-10 bg-[var(--brand,#06b6d4)]/5 blur-[120px] rounded-full" />
                     <div className="relative aspect-square border border-white/5 p-2 bg-white/[0.02] rounded-full overflow-hidden">
-                       <Image src={photo(0, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=1200"))} alt="Orbital View" fill className="object-cover opacity-60 rounded-full" />
+                       <Image src={photo(3, "https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=1200")} alt="Orbital View" fill className="object-cover opacity-60 rounded-full" />
                        <div className="absolute inset-0 bg-gradient-to-t from-[#02040a] via-transparent to-transparent opacity-80" />
                        {/* Overlay HUD */}
                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">

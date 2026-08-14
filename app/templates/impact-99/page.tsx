@@ -757,7 +757,7 @@ function AboutPage({ goTo }: { goTo: (p: EmberPage) => void }) {
           <Reveal>
             <div className="relative aspect-square rounded-sm overflow-hidden group border border-white/5">
               <Image
-                src={photo(0, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=1200&q=80"))}
+                src={photo(6, "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=1200&q=80")}
                 alt="Le Chef au feu"
                 fill
                 className="object-cover group-hover:scale-110 transition-all duration-[2s] contrast-125 grayscale hover:grayscale-0"
@@ -1284,7 +1284,7 @@ export default function EmberGrillPage() {
           <section id="about" className="relative h-[100svh] flex items-center overflow-hidden">
             <div className="absolute inset-0">
               <Image
-                src={photo(0, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1544025162-d76694265947?w=1600&q=80"))}
+                src={photo(7, "https://images.unsplash.com/photo-1544025162-d76694265947?w=1600&q=80")}
                 alt="Fire & Smoke"
                 fill
                 className="object-cover opacity-50 contrast-125"
@@ -1480,7 +1480,7 @@ export default function EmberGrillPage() {
               <Reveal>
                 <div className="relative aspect-square rounded-sm overflow-hidden group border border-white/5">
                   <Image
-                    src={photo(1, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1200&q=80"))}
+                    src={photo(8, "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1200&q=80")}
                     alt="Wine Cellar"
                     fill
                     className="object-cover group-hover:scale-110 transition-all duration-[2s] contrast-125 grayscale hover:grayscale-0"
