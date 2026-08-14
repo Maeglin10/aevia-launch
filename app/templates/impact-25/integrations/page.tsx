@@ -2,6 +2,15 @@
 
 import { Globe } from "lucide-react"
 import { useEffect, useState } from "react";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientCity,
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+  clientTrade,
+} from "@/lib/templates/clientContent";
 import { motion } from "framer-motion"
 import { Reveal, integrations } from "../shared"
 
@@ -36,6 +45,7 @@ export default function IntegrationsPage() {
 
   return (
     <div className="relative w-full overflow-hidden pb-24">
+      <EnteteAnnexe session={sessionData} repli="Nexus" accueil="/templates/impact-25" />
       <section className="pt-32 pb-16 px-6">
         <div className="max-w-6xl mx-auto text-center">
           <Reveal>
@@ -51,7 +61,7 @@ export default function IntegrationsPage() {
           </Reveal>
           <Reveal delay={0.2}>
             <p className="text-xl text-white/55 max-w-2xl mx-auto leading-relaxed">
-              Prism connects natively to your warehouse, CRM, payments processor, and advertising channels. No custom API integrations required.
+              {/* TEXTE_SECTION */ clientText(sessionData, "integrations.texte") ?? clientTagline(sessionData) ?? "Prism connects natively to your warehouse, CRM, payments processor, and advertising channels. No custom API integrations required."}
             </p>
           </Reveal>
         </div>

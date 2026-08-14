@@ -1,7 +1,10 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientFaq, clientServices } from "@/lib/templates/clientContent";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientFaq,
+  clientName,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";

@@ -2211,9 +2211,7 @@ export default function HorizonMaritimePage() {
                   <Anchor size={14} style={{ color: "#c9a84c", transform: "rotate(-45deg)" }} />
                 </div>
                 <div>
-                  <p style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "1.2rem", color: "#f0ece0", letterSpacing: 2, textTransform: "uppercase" }}>
-                    Horizon Maritime
-                  </p>
+                  <p style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "1.2rem", color: "#f0ece0", letterSpacing: 2, textTransform: "uppercase" }}>{clientName(sessionData) ?? (clientName(sessionData) ?? "Horizon Maritime")}</p>
                 </div>
               </div>
               <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 12, fontWeight: 300, color: "rgba(240,236,224,0.4)", lineHeight: 1.8, maxWidth: 280 }}>

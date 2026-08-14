@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
 
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -36,6 +37,7 @@ export default function StatusPage() {
 
   return (
     <div className="bg-[#09090b] text-white min-h-dvh selection:bg-violet-500 font-sans">
+      <EnteteAnnexe session={sessionData} repli="Nexus" accueil="/templates/impact-05" />
       {/* Navbar */}
       <nav className="fixed top-0 left-0 w-full z-50 bg-[#09090b]/80 backdrop-blur-xl border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-4 flex justify-between items-center">

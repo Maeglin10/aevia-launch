@@ -1,6 +1,12 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientProducts } from "@/lib/templates/clientContent";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientName,
+  clientProducts,
+  clientTagline,
+  clientText,
+} from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
@@ -103,6 +109,7 @@ export default function CollectionsPage() {
         padding: "120px 24px",
       }}
     >
+      <EnteteAnnexe session={sessionData} repli="Maison Élara" accueil="/templates/impact-20" />
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <Link 
           href="/templates/impact-20"
@@ -135,9 +142,7 @@ export default function CollectionsPage() {
               textTransform: "uppercase",
               marginBottom: 16,
             }}
-          >
-            Maison Élara
-          </p>
+          >{clientName(sessionData) ?? (clientName(sessionData) ?? "Maison Élara")}</p>
           <h1
             style={{
               color: "#f0ece0",
@@ -148,11 +153,10 @@ export default function CollectionsPage() {
               lineHeight: 1.1,
             }}
           >
-            La Collection Élence
+            {/* TEXTE_SECTION */ clientText(sessionData, "collections.titre") ?? "La Collection Élence"}
           </h1>
           <p style={{ color: "rgba(240,236,224,0.7)", fontSize: 16, maxWidth: 640, lineHeight: 1.8 }}>
-            Explorez nos créations d'exception façonnées en or 18 carats et platine, 
-            ornées de diamants sélectionnés avec une rigueur absolue.
+            {/* TEXTE_SECTION */ clientText(sessionData, "collections.texte") ?? clientTagline(sessionData) ?? "Explorez nos créations d'exception façonnées en or 18 carats et platine,              ornées de diamants sélectionnés avec une rigueur absolue."}
           </p>
         </motion.div>
 

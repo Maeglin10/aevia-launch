@@ -1,10 +1,12 @@
 "use client"
-import { clientCertifications } from "@/lib/templates/clientContent";
+import {
+  clientCertifications,
+  clientCity,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientTeam } from "@/lib/templates/clientContent";
 
 import { useEffect, useState } from "react";
-import { clientCity } from "@/lib/templates/clientContent";
 import { motion } from "framer-motion"
 import { Reveal, gridOverlay, monoStyle, Label } from "../shared"
 import {

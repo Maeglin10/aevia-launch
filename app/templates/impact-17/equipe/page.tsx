@@ -1,8 +1,8 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientTeam } from "@/lib/templates/clientContent";
 import {
   clientCity,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence } from "framer-motion";

@@ -2,7 +2,19 @@
 // @ts-nocheck
 
 import React, { useRef, useState, useEffect } from "react";
-import { clientFaq } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
+  clientName,
+  clientPhotos,
+  clientReviews,
+  clientServices,
+  clientStats,
+  clientText,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { ArrowRight, Star, ChevronRight, Coffee, Leaf, Package, Flame, Clock, Zap, ChevronLeft, ChevronDown, Globe, Award, Heart, Users, TrendingUp, CheckCircle, Play } from "lucide-react";
 import Link from "next/link";
@@ -23,18 +35,6 @@ import {
   rafraichirPartage,
 } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
-import {
-  clientPhotos,
-  clientCity,
-  clientHeroLine,
-  clientHeroSubtitle,
-  clientName,
-  clientReviews,
-  clientServices,
-  clientStats,
-  clientText,
-  memoriserSession,
-} from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.

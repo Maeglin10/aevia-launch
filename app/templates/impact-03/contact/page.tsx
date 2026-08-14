@@ -1,6 +1,15 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientCity,
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+  clientTrade,
+} from "@/lib/templates/clientContent";
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import React, { useEffect, useState } from "react";
@@ -46,6 +55,7 @@ export default function ContactPage() {
         paddingTop: 80,
       }}
     >
+      <EnteteAnnexe session={sessionData} repli="Atelier NOIR" accueil="/templates/impact-03" />
       <div style={{ padding: '40px 64px 100px', maxWidth: 600, margin: '0 auto', fontFamily: 'system-ui, sans-serif' }}>
         <Link
           href="/templates/impact-03"

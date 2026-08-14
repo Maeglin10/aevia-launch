@@ -1,6 +1,15 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientCity,
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+  clientTrade,
+} from "@/lib/templates/clientContent";
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
 import React, { useEffect, useState } from "react";
@@ -73,6 +82,7 @@ export default function BlogPage() {
         paddingTop: 80,
       }}
     >
+      <EnteteAnnexe session={sessionData} repli="Atelier NOIR" accueil="/templates/impact-03" />
       {selectedPost ? (
         <div style={{ padding: '40px 64px 100px', maxWidth: 800, margin: '0 auto', fontFamily: 'system-ui, sans-serif' }}>
           <button
@@ -115,7 +125,7 @@ export default function BlogPage() {
                 lineHeight: 1.2,
               }}
             >
-              {selectedPost.title}
+             {/* TEXTE_SECTION */ clientText(sessionData, "blog.titre") ?? "{selectedPost.title}"}
             </h1>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
@@ -224,8 +234,7 @@ export default function BlogPage() {
                     {post.title}
                   </h2>
                   <p style={{ fontFamily: 'system-ui, sans-serif', fontSize: 13, lineHeight: 1.7, color: 'rgba(10,10,10,0.5)', marginBottom: 20 }}>
-                    {post.excerpt}
-                  </p>
+            {/* TEXTE_SECTION */ clientText(sessionData, "blog.texte") ?? clientTagline(sessionData) ?? "{post.excerpt}"}</p>
                   <span style={{ fontFamily: 'system-ui, sans-serif', fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#0a0a0a', display: 'flex', alignItems: 'center', gap: 6 }}>
                     Read notebook
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">

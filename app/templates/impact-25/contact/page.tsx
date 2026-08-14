@@ -1,6 +1,15 @@
 "use client"
 
 import { useEffect, useState } from "react";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientCity,
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+  clientTrade,
+} from "@/lib/templates/clientContent";
 import { Mail, MessageSquare, Zap } from "lucide-react"
 import { Reveal } from "../shared"
 
@@ -37,6 +46,7 @@ export default function ContactPage() {
 
   return (
     <div className="relative w-full overflow-hidden pb-24">
+      <EnteteAnnexe session={sessionData} repli="Nexus" accueil="/templates/impact-25" />
       {/* Glow effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[#6C47FF]/10 rounded-full blur-3xl" />
@@ -60,7 +70,7 @@ export default function ContactPage() {
               
               <Reveal delay={0.1}>
                 <p className="text-lg text-white/55 leading-relaxed">
-                  Have questions about analytics, custom pricing, or how Prism fits into your current stack? Drop us a line.
+                  {/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? clientTagline(sessionData) ?? "Have questions about analytics, custom pricing, or how Prism fits into your current stack? Drop us a line."}
                 </p>
               </Reveal>
 

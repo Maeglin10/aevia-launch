@@ -1,15 +1,8 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientCertifications } from "@/lib/templates/clientContent";
-import { LegalIdentity } from "@/app/templates/LegalIdentity";
-// @ts-nocheck
-
-import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import { Menu, X, ArrowRight, Layers, Cpu, Package, Eye, ChevronRight, Globe, Award, Users, Mail, Clock, Send, Calendar, CheckCircle, Star, Lightbulb, Target, Heart, Palette, Ruler, Cog, BookOpen } from "lucide-react";
 import {
   clientAddress,
+  clientCertifications,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -21,6 +14,13 @@ import {
   clientText,
   clientWorks,
 } from "@/lib/templates/clientContent";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
+// @ts-nocheck
+
+import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { Menu, X, ArrowRight, Layers, Cpu, Package, Eye, ChevronRight, Globe, Award, Users, Mail, Clock, Send, Calendar, CheckCircle, Star, Lightbulb, Target, Heart, Palette, Ruler, Cog, BookOpen } from "lucide-react";
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :

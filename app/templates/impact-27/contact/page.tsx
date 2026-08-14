@@ -1,9 +1,11 @@
 "use client"
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientFaq } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientFaq,
+} from "@/lib/templates/clientContent";
 
 import { useCallback, useEffect, useState } from "react";
-import { clientCity } from "@/lib/templates/clientContent";
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import { Reveal, gridOverlay, monoStyle, Label } from "../shared"

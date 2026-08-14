@@ -2,6 +2,15 @@
 
 import Image from "next/image"
 import { useEffect, useState } from "react";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientCity,
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+  clientTrade,
+} from "@/lib/templates/clientContent";
 import { Activity, CheckCircle } from "lucide-react"
 import { Reveal } from "../shared"
 
@@ -36,6 +45,7 @@ export default function FeaturesPage() {
 
   return (
     <div className="relative w-full overflow-hidden pb-24">
+      <EnteteAnnexe session={sessionData} repli="Nexus" accueil="/templates/impact-25" />
       <section className="pt-32 pb-16 px-6">
         <div className="max-w-6xl mx-auto">
           <Reveal>
@@ -51,7 +61,7 @@ export default function FeaturesPage() {
           </Reveal>
           <Reveal delay={0.2}>
             <p className="text-xl text-white/55 max-w-2xl leading-relaxed">
-              Prism provides a complete suite of analytics tools. Track user behavior, build retention cohorts, analyze conversion funnels, and use AI to extract meaning automatically.
+              {/* TEXTE_SECTION */ clientText(sessionData, "fonctionnalites.texte") ?? clientTagline(sessionData) ?? "Prism provides a complete suite of analytics tools. Track user behavior, build retention cohorts, analyze conversion funnels, and use AI to extract meaning automatically."}
             </p>
           </Reveal>
         </div>

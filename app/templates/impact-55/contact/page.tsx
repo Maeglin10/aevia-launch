@@ -1,6 +1,17 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientAddress,
+  clientCity,
+  clientEmail,
+  clientName,
+  clientPhone,
+  clientTagline,
+  clientText,
+  clientTrade,
+} from "@/lib/templates/clientContent";
 import { TerminalWindow } from "../shared";
 
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
@@ -45,13 +56,13 @@ export default function ContactPage() {
 
   return (
     <section style={{ padding: "80px 40px", minHeight: "calc(100vh - 104px)" }}>
+      <EnteteAnnexe session={sessionData} repli="Ghost Shell" accueil="/templates/impact-55" />
       <div style={{ maxWidth: "700px", margin: "0 auto" }}>
         <div style={{ color: "#008F11", fontSize: "11px", letterSpacing: "0.2em", marginBottom: "8px" }}>
           ■ SECTION_06 // PING
         </div>
         <h2 style={{ color: "#00FF41", fontSize: "clamp(22px, 3vw, 36px)", marginBottom: "48px", letterSpacing: "0.08em", fontWeight: "normal" }}>
-          PING
-        </h2>
+          {/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? "PING"}        </h2>
 
         <TerminalWindow title="ping.sh — establish connection">
           <div style={{ marginBottom: "28px", fontSize: "13px", color: "#008F11", letterSpacing: "0.06em" }}>

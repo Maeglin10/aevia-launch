@@ -1,5 +1,11 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+  clientTagline,
+  clientText,
+} from "@/lib/templates/clientContent";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
@@ -44,6 +50,7 @@ export default function LumiereDoreeContactPage() {
   return (
       
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, minHeight: "100dvh" }}>
+      <EnteteAnnexe session={sessionData} repli="Lumière Dorée" accueil="/templates/impact-104" />
       <style>{CSS_VARIABLES}</style>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600;700&display=swap');
@@ -93,7 +100,7 @@ export default function LumiereDoreeContactPage() {
             lineHeight: 1.1,
           }}
         >
-          Parlons de votre projet
+          {/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? "Parlons de votre projet"}
         </h1>
       </div>
 
@@ -138,7 +145,7 @@ export default function LumiereDoreeContactPage() {
                 Message reçu !
               </h3>
               <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 15, color: C.textMuted, lineHeight: 1.7 }}>
-                Je vous recontacte sous 48h pour discuter de votre projet et vérifier la disponibilité de votre date.
+                {/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? clientTagline(sessionData) ?? "Je vous recontacte sous 48h pour discuter de votre projet et vérifier la disponibilité de votre date."}
               </p>
             </div>
           ) : (

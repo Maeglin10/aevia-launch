@@ -1,5 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientCity,
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+  clientTrade,
+} from "@/lib/templates/clientContent";
 
 import React from "react";
 import { motion } from "framer-motion";
@@ -71,6 +80,7 @@ export default function BlogPage() {
 
   return (
     <div style={{ minHeight: "100dvh", backgroundColor: T.bg, color: T.text, fontFamily: FONT_BODY }}>
+      <EnteteAnnexe session={sessionData} repli="IMPACT" accueil="/templates/impact-01" />
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "80px 24px" }}>
         <Link href="/templates/impact-01" style={{ display: "inline-flex", alignItems: "center", gap: 8, color: T.muted, textDecoration: "none", marginBottom: 60, fontSize: "0.9rem", transition: "color 0.2s" }} onMouseOver={(e) => (e.currentTarget.style.color = T.text)} onMouseOut={(e) => (e.currentTarget.style.color = T.muted)}>
           <ArrowLeft size={16} />
@@ -82,7 +92,7 @@ export default function BlogPage() {
             Our <span style={{ color: T.accent }}>Insights.</span>
           </h1>
           <p style={{ color: T.muted, fontSize: "1.125rem", maxWidth: 600, lineHeight: 1.6, margin: "0 0 60px 0" }}>
-            Thoughts, frameworks, and strategies from our team on design, engineering, and digital growth.
+            {/* TEXTE_SECTION */ clientText(sessionData, "blog.texte") ?? clientTagline(sessionData) ?? "Thoughts, frameworks, and strategies from our team on design, engineering, and digital growth."}
           </p>
         </motion.div>
 

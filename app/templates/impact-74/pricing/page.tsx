@@ -1,5 +1,6 @@
 "use client";
-import { clientServices } from "@/lib/templates/clientContent";
+import { clientCity, clientName, clientServices, clientTagline, clientText, clientTrade } from "@/lib/templates/clientContent";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
 import { resolveList } from "@/lib/templates/resolveList";
 import { useEffect, useState } from "react";
 // @ts-nocheck
@@ -39,13 +40,14 @@ export default function PricingPage() {
 
   return (
     <div className="py-20 bg-[#05060a]">
+      <EnteteAnnexe session={sessionData} repli="Aevia Kitchen" accueil="/templates/impact-74" />
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <Reveal className="text-center mb-24 max-w-2xl mx-auto">
           <span className="text-[10px] uppercase tracking-[0.5em] font-black text-emerald-500 mb-6 block">
             Infrastructure Tiers
           </span>
           <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic text-white leading-[1.15] pb-4">
-            Tier_Select.
+            {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? "Tier_Select."}
           </h2>
         </Reveal>
 
@@ -98,8 +100,7 @@ export default function PricingPage() {
                   {tier.title}
                 </h4>
                 <p className="text-[11px] text-white/20 leading-relaxed font-bold uppercase tracking-widest italic mb-10 flex-1">
-                  {tier.desc}
-                </p>
+     {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.texte") ?? clientTagline(sessionData) ?? "{tier.desc}"}</p>
                 <ul className="space-y-4 mb-12">
                   {tier.features.map((f, j) => (
                     <li

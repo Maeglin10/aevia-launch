@@ -1,7 +1,9 @@
 "use client";
-import { clientFaq } from "@/lib/templates/clientContent";
 import {
-  clientName, clientServices } from "@/lib/templates/clientContent";
+  clientFaq,
+  clientName,
+  clientServices,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";

@@ -1,5 +1,11 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+  clientTagline,
+  clientText,
+} from "@/lib/templates/clientContent";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
@@ -43,6 +49,7 @@ export default function LedgerContactPage() {
 
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, minHeight: "100dvh" }}>
+      <EnteteAnnexe session={sessionData} repli="Ledger & Associés" accueil="/templates/impact-108" />
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Lato:wght@300;400;700&display=swap');
         * { box-sizing: border-box; }
@@ -90,10 +97,10 @@ export default function LedgerContactPage() {
             lineHeight: 1.1,
           }}
         >
-          Nous contacter
+          {/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? "Nous contacter"}
         </h1>
         <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 18, color: "rgba(255,255,255,0.65)", marginTop: 14 }}>
-          Premier rendez-vous offert et sans engagement.
+          {/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? clientTagline(sessionData) ?? "Premier rendez-vous offert et sans engagement."}
         </p>
       </div>
 

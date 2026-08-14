@@ -1,8 +1,9 @@
 "use client";
-import { clientTeam, clientFaq } from "@/lib/templates/clientContent";
 import {
   clientCity,
+  clientFaq,
   clientHours,
+  clientTeam,
 } from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 

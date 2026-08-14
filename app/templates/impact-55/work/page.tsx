@@ -1,5 +1,16 @@
 "use client";
 import { useEffect, useState } from "react";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientAddress,
+  clientCity,
+  clientEmail,
+  clientName,
+  clientPhone,
+  clientTagline,
+  clientText,
+  clientTrade,
+} from "@/lib/templates/clientContent";
 
 import React from "react";
 import { TerminalWindow, MODULES, OPERATIONS } from "../shared";
@@ -35,6 +46,7 @@ export default function WorkPage() {
 
   return (
     <div style={{ minHeight: "calc(100vh - 104px)" }}>
+      <EnteteAnnexe session={sessionData} repli="Ghost Shell" accueil="/templates/impact-55" />
       {/* ── MODULES ────────────────────────────────────────────────────── */}
       <section style={{ padding: "80px 40px" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
@@ -42,7 +54,7 @@ export default function WorkPage() {
             ■ SECTION_03 // MODULES
           </div>
           <h2 style={{ color: "#00FF41", fontSize: "clamp(22px, 3vw, 36px)", marginBottom: "12px", letterSpacing: "0.08em", fontWeight: "normal" }}>
-            MODULES
+            {/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? "MODULES"}
           </h2>
           <div style={{ color: "#008F11", fontSize: "12px", marginBottom: "48px", letterSpacing: "0.08em" }}>
             $ ls -1 /etc/ghost_shell/modules/

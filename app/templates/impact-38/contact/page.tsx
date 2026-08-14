@@ -1,10 +1,11 @@
 "use client";
-import { clientFaq, clientServices } from "@/lib/templates/clientContent";
-import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientFaq,
   clientHours,
   clientName,
+  clientServices,
 } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useEffect, useState } from "react";

@@ -1,5 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
+import {
+  clientCity,
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+  clientTrade,
+} from "@/lib/templates/clientContent";
 
 import React from "react";
 import Link from "next/link";
@@ -60,13 +68,13 @@ export default function Page() {
 
         <div style={{ marginBottom: 60 }}>
           <span style={{ color: C.gold, fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", display: "block", marginBottom: 16 }}>
-            Lumière Dorée · Photographie
+            {clientName(sessionData) ?? (clientName(sessionData) ?? "Lumière Dorée")} · Photographie
           </span>
           <h1 style={{ fontSize: "clamp(36px, 5vw, 64px)", fontFamily: FONT, color: C.text, marginBottom: 24, fontStyle: "italic" }}>
-            Portraits & Studio
+            {/* TEXTE_SECTION */ clientText(sessionData, "portraits.titre") ?? "Portraits & Studio"}
           </h1>
           <p style={{ color: C.muted, fontSize: 16, maxWidth: 640, lineHeight: 1.8 }}>
-            Des portraits authentiques et raffinés capturant votre essence naturelle sous une lumière douce et travaillée.
+            {/* TEXTE_SECTION */ clientText(sessionData, "portraits.texte") ?? clientTagline(sessionData) ?? "Des portraits authentiques et raffinés capturant votre essence naturelle sous une lumière douce et travaillée."}
           </p>
         </div>
 
