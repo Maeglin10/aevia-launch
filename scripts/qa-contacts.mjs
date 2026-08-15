@@ -88,9 +88,27 @@ async function travailleur() {
       const url = `${BASE}/templates/${theme}${annexe ? "/" + annexe : ""}?session=${sid}`;
       await page.goto(url, { waitUntil: "domcontentloaded", timeout: 40000 });
       await page.waitForTimeout(2400);
-      await page
-        .waitForFunction(() => (document.body.textContent ?? "").includes("Ateliers Vidal"), { timeout: 6000 })
-        .catch(() => {});
+      /*
+         Attendre que la session soit posée — vraiment.
+
+         Six secondes suffisaient à un seul onglet ; à six en parallèle, le
+         serveur répond plus tard et l'on lisait l'écran d'avant. impact-118
+         affichait « CHRONOS HOROLOGY SA. GENÈVE » à une seconde et le nom du
+         client à trois : la page était juste, la mesure fausse. On attend donc
+         vingt secondes, et si le nom n'arrive pas, on le dit au lieu
+         d'accuser le thème.
+      */
+      const chargee = await page
+        .waitForFunction(() => (document.body.innerText ?? "").includes("Ateliers Vidal"), { timeout: 20000 })
+        .then(() => true)
+        .catch(() => false);
+      if (!chargee) {
+        fuites.push("session non chargée — mesure non concluante");
+        await page.close();
+        fiches.push({ page: `${theme}${annexe ? "/" + annexe : ""}`, fuites });
+        console.log(`${String(fiches.length).padStart(4)}/${PAGES.length} ${theme}${annexe ? "/" + annexe : ""} ⏳ session non chargée`);
+        continue;
+      }
       /* Descente progressive : les sections `whileInView` se démontent dès qu'on
          les dépasse, il faut lire le texte pendant la descente, pas après. */
       const vus = await page.evaluate(async () => {
