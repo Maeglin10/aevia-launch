@@ -18,11 +18,13 @@ import {
   clientCity,
   clientHeroLine,
   clientName,
+  clientNameOr,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 
@@ -282,7 +284,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   },
   {
     quote:
-      "Nous avons organisé un brunch d'entreprise pour 40 personnes. Zéro stress, qualité incroyable, équipe aux petits soins. Le Fournil a géré tout le buffet, de la viennoiserie au gâteau.",
+      "Nous avons organisé un brunch d'entreprise pour 40 personnes. Zéro stress, qualité incroyable, équipe aux petits soins. " + clientNameOr("Le Fournil") + " a géré tout le buffet, de la viennoiserie au gâteau.",
     name: 'Thomas K.',
     role: 'Directeur associé · Cabinet RH ' + (clientCity(sessionData) ?? 'Strasbourg'),
   },
@@ -435,7 +437,7 @@ function Nav() {
   }, []);
 
   const links = [
-    { label: 'Le Fournil', href: '#intro' },
+    { label: clientNameOr('Le Fournil'), href: '#intro' },
     { label: 'Créations', href: '#creations' },
     { label: 'La Carte', href: '#menu' },
     { label: 'Nos Sources', href: '#sourcing' },
@@ -2238,6 +2240,7 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  memoriserSession(session);
   CREATIONS = CREATIONS_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   SOURCING = SOURCING_LIVE();
