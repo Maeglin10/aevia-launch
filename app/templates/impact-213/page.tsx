@@ -2176,7 +2176,7 @@ function FAQ() {
     {
       question: 'Êtes-vous couverts par une assurance décennale ?',
       answer:
-        "Oui, Bâtisseurs Durand est assurée en responsabilité décennale (garantie de 10 ans sur les ouvrages réalisés) et en responsabilité civile professionnelle. Nous sommes également qualifiés Qualibat RGE pour les travaux d'isolation thermique par l'extérieur, ce qui vous permet de bénéficier des aides MaPrimeRénov' et de l'Éco-PTZ.",
+        `Oui, ${clientName(sessionData) ?? "Bâtisseurs Durand"} est assurée en responsabilité décennale (garantie de 10 ans sur les ouvrages réalisés) et en responsabilité civile professionnelle. Nous sommes également qualifiés Qualibat RGE pour les travaux d'isolation thermique par l'extérieur, ce qui vous permet de bénéficier des aides MaPrimeRénov' et de l'Éco-PTZ.`,
     },
     {
       question: 'Faut-il un permis de construire pour mon projet ?',

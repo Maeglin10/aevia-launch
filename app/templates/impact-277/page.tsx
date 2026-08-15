@@ -329,7 +329,7 @@ function Nav() {
         ) : (
           <>
             <Zap size={22} color={C.yellow} strokeWidth={2} />
-            Électricité&nbsp;Dumont
+            {clientName(sessionData) ?? "Électricité Dumont"}
           </>
         )}
       </div>

@@ -1371,7 +1371,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     quote:
-      "Je suis artisan plombier depuis 18 ans. Schreiber & Associés ont restructuré ma comptabilité en 3 mois. Aujourd'hui, je comprends mes chiffres et j'ai récupéré 6 800 € de trop-perçu fiscal sur les deux dernières années.",
+      `Je suis artisan plombier depuis 18 ans. ${clientName(sessionData) ?? "Schreiber & Associés"} ont restructuré ma comptabilité en 3 mois. Aujourd'hui, je comprends mes chiffres et j'ai récupéré 6 800 € de trop-perçu fiscal sur les deux dernières années.`,
     name: 'Patrick Heiss',
     role: 'Artisan plombier chauffagiste — Auto-entrepreneur',
     saving: '6 800 € récupérés',

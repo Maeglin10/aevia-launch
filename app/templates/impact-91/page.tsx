@@ -178,7 +178,7 @@ let STATS = STATS_DEMO;
 function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
-    quote: "Aurelia a créé la bague de fiançailles de mes rêves. Chaque détail dépasse ce que j'avais imaginé. Une maison d'exception.",
+    quote: `${clientName(sessionData) ?? "AURELIA"} a créé la bague de fiançailles de mes rêves. Chaque détail dépasse ce que j'avais imaginé. Une maison d'exception.`,
     author: "Isabelle M.",
     occasion: "Fiançailles",
     location: (clientCity(sessionData) ?? "Paris"),
@@ -192,7 +192,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     rating: 5,
   },
   {
-    quote: "Collectionneur de longue date, je n'ai jamais trouvé une telle précision de sertissage. Aurelia est dans une catégorie à part.",
+    quote: `Collectionneur de longue date, je n'ai jamais trouvé une telle précision de sertissage. ${clientName(sessionData) ?? "AURELIA"} est dans une catégorie à part.`,
     author: "Jean-François D.",
     occasion: "Collection privée",
     location: "Genève",
@@ -216,9 +216,9 @@ function PRESS_DEMO_LIVE() {
   return [
   { name: "Vogue Bijoux", issue: "Numéro Collector 2024", quote: "La maison parisienne qui réinvente l'orfèvrerie contemporaine." },
   { name: "Le Figaro", issue: "Arts & Styles", quote: `${clientName(sessionData) ?? "AURELIA"}, gardienne vivante du savoir-faire artisanal français.` },
-  { name: "L'Express Styles", issue: "Luxe & Création", quote: "Quand l'or devient sculpture : les pièces uniques d'Aurelia." },
+  { name: "L'Express Styles", issue: "Luxe & Création", quote: `Quand l'or devient sculpture : les pièces uniques d'${clientName(sessionData) ?? "AURELIA"}.` },
   { name: "Elle France", issue: "Spécial Bijoux", quote: "Le bespoke à la française par excellence, place Vendôme." },
-  { name: "Harper's Bazaar", issue: "Fine Jewelry Edit", quote: "Aurelia's atelier produces heirlooms, not merely jewellery." },
+  { name: "Harper's Bazaar", issue: "Fine Jewelry Edit", quote: `${clientName(sessionData) ?? "AURELIA"}'s atelier produces heirlooms, not merely jewellery.` },
 ];
 }
 let PRESS_DEMO = PRESS_DEMO_LIVE();

@@ -845,11 +845,11 @@ function Gallery() {
    ════════════════════════════════════════════════════════════════════════════ */
 function TESTIMONIALS_SOURCE_LIVE() {
   return [
-  { quote: '"Je prends le Lumyx PRO tous les matins pour aller au bureau. 22 km aller-retour sans recharge depuis 6 mois. Je n\'ai plus touché ma voiture."', name: 'Camille D.', city: 'Lyon, 69', stars: 5 },
+  { quote: `"Je prends le ${clientName(sessionData) ?? "Lumyx"} PRO tous les matins pour aller au bureau. 22 km aller-retour sans recharge depuis 6 mois. Je n\'ai plus touché ma voiture."`, name: 'Camille D.', city: 'Lyon, 69', stars: 5 },
   { quote: '"Le design est dingue. Mes collègues pensaient que c\'était une moto italienne de luxe. Et l\'autonomie est réelle — pas juste sur papier."',  name: 'Thomas M.', city: 'Paris, 75', stars: 5 },
   { quote: '"J\'habite en banlieue de ' + (clientCity(sessionData) ?? 'Bordeaux') + ' et le Lumyx ONE couvre mes 18 km de trajet chaque jour sans sourciller. La charge rapide le soir en 3h30, c\'est parfait pour mon rythme."', name: 'Sophie L.', city: (clientCity(sessionData) ?? 'Bordeaux') + ', 33', stars: 5 },
   { quote: '"La qualité de fabrication est bluffante. Cadre aluminium, finitions impeccables. On sent que c\'est fait pour durer. Je recommande sans hésitation."', name: 'Antoine R.', city: 'Strasbourg, 67', stars: 5 },
-  { quote: '"Passée du vélo classique au Lumyx GT et je ne reviendrai jamais en arrière. La montée du Vieux-' + (clientCity(sessionData) ?? 'Nantes') + ', les 45 km/h en palier — la liberté absolue."', name: 'Lucie B.', city: (clientCity(sessionData) ?? 'Nantes') + ', 44', stars: 5 },
+  { quote: `"Passée du vélo classique au ${clientName(sessionData) ?? "Lumyx"} GT et je ne reviendrai jamais en arrière. La montée du Vieux-` + (clientCity(sessionData) ?? 'Nantes') + ', les 45 km/h en palier — la liberté absolue."', name: 'Lucie B.', city: (clientCity(sessionData) ?? 'Nantes') + ', 44', stars: 5 },
   { quote: '"Le GPS intégré et l\'app sont vraiment bien foutus. Suivi temps réel, historique de trajets, verrouillage à distance. J\'ai même retrouvé mon scoot après une fausse alerte vol."', name: 'Maxime P.', city: 'Rennes, 35', stars: 5 },
 ];
 }
@@ -972,10 +972,10 @@ function ReserveForm() {
         </div>
 
         <h2 style={{ fontSize: fl(2, 4), fontWeight: 900, textTransform: 'uppercase' as const, letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '1.25rem' }}>{/* TEXTE_SECTION */ clientText(sessionData, "reserve.titre") ?? (<>
-          Réservez votre<br /><span style={{ color: C.blue, textShadow: `0 0 30px ${C.blueGlow}` }}>Lumyx maintenant</span>
+          Réservez votre<br /><span style={{ color: C.blue, textShadow: `0 0 30px ${C.blueGlow}` }}>{clientName(sessionData) ?? "Lumyx"} maintenant</span>
         </>)}</h2>
         <p style={{ color: C.whiteOff, fontSize: fl(0.95, 1.1), lineHeight: 1.65, marginBottom: '2.5rem' }}>
-          Réservez avec 0 € d'engagement. Livraison en septembre 2026. Vous serez parmi les premiers à rouler Lumyx en France.
+          Réservez avec 0 € d'engagement. Livraison en septembre 2026. Vous serez parmi les premiers à rouler {clientName(sessionData) ?? "Lumyx"} en France.
         </p>
 
         <AnimatePresence mode="wait">

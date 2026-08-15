@@ -341,7 +341,7 @@ function Nav() {
         ) : (
           <>
             <span style={dot} />
-            Cabinet&nbsp;Soler
+            {clientName(sessionData) ?? "Cabinet Soler"}
           </>
         )}
       </div>

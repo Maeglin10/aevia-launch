@@ -144,7 +144,10 @@ const SCIENCE_SOURCE = [
 ]
 let SCIENCE = SCIENCE_SOURCE;
 
-const TESTIMONIALS_SOURCE = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     name: "Marie-Laure D.",
     age: 52,
@@ -163,7 +166,7 @@ const TESTIMONIALS_SOURCE = [
     name: "Isabelle V.",
     age: 61,
     result: "Tension artérielle stabilisée, arrêt d'un médicament",
-    quote: "Vitalité Médical m'a offert une approche que je n'avais jamais connue : la médecine préventive vraiment appliquée.",
+    quote: `${clientName(sessionData) ?? "VITALITÉ"} Médical m'a offert une approche que je n'avais jamais connue : la médecine préventive vraiment appliquée.`,
     stars: 5,
   },
   {
@@ -173,7 +176,9 @@ const TESTIMONIALS_SOURCE = [
     quote: "En une consultation et un bilan complet, ils ont identifié ce que personne n'avait vu. Je leur dois ma qualité de vie.",
     stars: 5,
   },
-]
+];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const MARQUEE_ITEMS = [
@@ -268,6 +273,7 @@ export default function Impact171Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   navLinks = navLinks_LIVE();
   DOCTORS_DEMO = DOCTORS_DEMO_LIVE();
 
