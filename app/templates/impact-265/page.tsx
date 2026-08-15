@@ -18,11 +18,13 @@ import {
   clientCity,
   clientHeroLine,
   clientName,
+  clientNameOr,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -227,7 +229,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     quote:
-      "Je chante à l'Opéra de " + (clientCity(sessionData) ?? "Lyon") + " depuis dix ans, et L'Atelier Soie habille tous mes rôles. Leurs costumes vibrent avec ma voix — la soie suit le souffle, le bustier tient sans jamais contraindre. Ce sont des artisanes qui comprennent le corps en mouvement.",
+      "Je chante à l'Opéra de " + (clientCity(sessionData) ?? "Lyon") + " depuis dix ans, et " + clientNameOr("L'Atelier Soie") + " habille tous mes rôles. Leurs costumes vibrent avec ma voix — la soie suit le souffle, le bustier tient sans jamais contraindre. Ce sont des artisanes qui comprennent le corps en mouvement.",
     name: 'Isabelle Carron',
     role: 'Soprano · Opéra de ' + (clientCity(sessionData) ?? 'Lyon'),
   },
@@ -2117,6 +2119,7 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  memoriserSession(session);
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   CREATIONS_DEMO = CREATIONS_DEMO_LIVE();

@@ -17,12 +17,14 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientNameOr,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
   clientTrade,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -244,7 +246,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   },
   {
     quote:
-      "J\'avais besoin d\'une terrasse qui évoque l\'Alsace pour mes clients. Jardins d\'Alsace a créé un véritable écrin végétal avec géraniums, vignes vierges et buis sculptés. Notre terrasse est désormais dans plusieurs guides touristiques de la région.",
+      "J\'avais besoin d\'une terrasse qui évoque l\'Alsace pour mes clients. " + clientNameOr("Jardins d'Alsace") + " a créé un véritable écrin végétal avec géraniums, vignes vierges et buis sculptés. Notre terrasse est désormais dans plusieurs guides touristiques de la région.",
     name: 'Christophe Wagner',
     role: 'Restaurateur · ' + (clientCity(sessionData) ?? 'Strasbourg'),
   },
@@ -2177,6 +2179,7 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  memoriserSession(session);
   EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
   PHASES_DEMO = PHASES_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
