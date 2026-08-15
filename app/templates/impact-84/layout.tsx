@@ -128,7 +128,7 @@ export default function CypherClinicLayout({
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div className="md:col-span-2">
-              <div className="text-[#F0EBE0] font-light text-2xl mb-2" style={{ fontFamily: "'Bodoni Moda', serif" }}>Cypher Clinic</div>
+              <div className="text-[#F0EBE0] font-light text-2xl mb-2" style={{ fontFamily: "'Bodoni Moda', serif" }}>{clientName(__layoutSession) ?? "Cypher Clinic"}</div>
               <div className="text-xs text-[#C9A86C] tracking-widest uppercase mb-4">Institut de Médecine Esthétique de Précision</div>
               <p className="text-sm text-[#5A5248] leading-relaxed max-w-sm">Une expertise médicale rigoureuse pour des résultats naturels et durables. Bilan morphologique personnalisé.</p>
             </div>

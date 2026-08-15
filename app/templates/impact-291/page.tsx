@@ -2346,7 +2346,7 @@ function PracticalSection() {
 
 /* ════════════════════════════════════════════════════════════════════════════
    10 · FooterSection
-   Logo Ostéopathie Alsace, registre ADELI, mentions, lien RDV
+   Logo {clientName(sessionData) ?? "Ostéopathie Alsace"}, registre ADELI, mentions, lien RDV
    ════════════════════════════════════════════════════════════════════════════ */
 function FooterSection() {
   const cols: { title: string; items: { label: string; href: string }[] }[] = [

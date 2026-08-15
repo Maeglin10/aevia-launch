@@ -108,7 +108,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   BRISE DE PROPRETÉ — Ménage à domicile, repassage, vitres. Quicksand, mint / blanc.
+   {clientName(sessionData) ?? "Brise de Propreté"} — Ménage à domicile, repassage, vitres. Quicksand, mint / blanc.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 

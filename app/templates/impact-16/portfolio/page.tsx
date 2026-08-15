@@ -1,5 +1,8 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+} from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 import { motion, useScroll, AnimatePresence } from "framer-motion"
@@ -74,7 +77,7 @@ export default function PortfolioPage() {
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div className="max-w-6xl mx-auto bg-[#0A0806]/90 backdrop-blur-md border border-[#C9A86C]/15 rounded-2xl px-6 py-4 flex items-center justify-between shadow-xl">
           <Link href="/templates/impact-16" className="text-[#C9A86C] tracking-widest cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.2rem" }}>
-            Obscura
+            {clientName(sessionData) ?? "Obscura"}
           </Link>
           <div className="hidden md:flex items-center gap-8 text-white/40 text-sm">
             {[
@@ -98,7 +101,7 @@ export default function PortfolioPage() {
             <SheetTrigger className="md:hidden text-white cursor-pointer"><Menu className="w-5 h-5" /></SheetTrigger>
             <SheetContent side="right" className="bg-[#0A0806] border-[#C9A86C]/10 text-white p-8">
                <div className="flex items-center justify-between mb-12">
-                  <span className="text-[#C9A86C] text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Obscura</span>
+                  <span className="text-[#C9A86C] text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{clientName(sessionData) ?? "Obscura"}</span>
                </div>
                <div className="flex flex-col gap-6 font-medium">
                   {[
@@ -178,7 +181,7 @@ export default function PortfolioPage() {
       {/* Footer */}
       <footer className="bg-[#060402] border-t border-white/5 py-12 px-6 mt-12">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-white/20 font-mono">
-          <span className="text-[#C9A86C]" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>Obscura · Photographe {clientCity(sessionData) ?? "Paris"}</span>
+          <span className="text-[#C9A86C]" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{clientName(sessionData) ?? "Obscura"} · Photographe {clientCity(sessionData) ?? "Paris"}</span>
           <div className="flex gap-6">
             <Link href="/templates/impact-16/legal" className="hover:text-[#C9A86C] transition-colors">Mentions légales</Link>
             <Link href="/templates/impact-16/legal" className="hover:text-[#C9A86C] transition-colors">Politique de Confidentialité</Link>

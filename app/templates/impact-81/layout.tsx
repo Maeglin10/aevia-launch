@@ -132,7 +132,7 @@ export default function VogueNoireLayout({
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-10 mb-12">
             <div className="md:col-span-2">
-              <div className="text-2xl font-light mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Vogue Noire</div>
+              <div className="text-2xl font-light mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{clientName(__layoutSession) ?? "Vogue Noire"}</div>
               <p className="text-sm text-[#6A6058] leading-relaxed max-w-xs">Magazine de mode, culture et création. Depuis 1998, la voix de la mode contemporaine.</p>
             </div>
             <div>

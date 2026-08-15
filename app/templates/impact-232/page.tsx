@@ -363,7 +363,7 @@ export default function VertNaturePage() {
       <footer style={{ background: C.bgDark, padding: "44px 80px 22px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 32 }}>
           <div>
-            <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: C.sand, marginBottom: 8 }}>Vert Nature</div>
+            <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: C.sand, marginBottom: 8 }}>{clientName(sessionData) ?? "Vert"} Nature</div>
             <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>{clientTrade(sessionData) ?? "Paysagiste"} · Jardinier · Gironde<br />Certifié agriculture biologique · SIRET</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -375,7 +375,7 @@ export default function VertNaturePage() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-          <span style={{ color: "rgba(255,255,255,0.18)", fontSize: 12 }}>© 2026 Vert Nature — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.18)", fontSize: 12 }}>© 2026 {clientName(sessionData) ?? "Vert"} Nature — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="#contact" style={{ color: "rgba(255,255,255,0.18)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

@@ -371,7 +371,7 @@ return (
 }
 
 /* ==========================================================================
-   SUB-PAGE COMPONENTS (SUMMIT CAPITAL GOLD & DARK STYLE)
+   SUB-PAGE COMPONENTS ({clientName(sessionData) ?? "Summit Capital"} GOLD & DARK STYLE)
    ========================================================================= */
 
 function ThesesPage() {

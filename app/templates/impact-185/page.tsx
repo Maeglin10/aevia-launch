@@ -413,7 +413,7 @@ export default function GentlemansCutPage() {
           <p className="text-xl md:text-2xl text-[#f5f0e8]/25 italic leading-relaxed">
             "Un homme bien coiffé n'a pas besoin de se justifier."
           </p>
-          <div className="mt-4 text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a84c)]/40" style={{ fontFamily: "'DM Mono', monospace" }}>— L'esprit Gentleman's Cut</div>
+          <div className="mt-4 text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a84c)]/40" style={{ fontFamily: "'DM Mono', monospace" }}>— L'esprit {clientName(sessionData) ?? "Gentleman's Cut"}</div>
         </div>
       </div>
 

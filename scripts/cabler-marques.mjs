@@ -136,45 +136,65 @@ for (const p of parcourir(RACINE)) {
   /*
      1. Le texte d'un élément.
 
-     Un motif `>…<` ne suffisait pas : il exigeait un texte sans accolade et
-     laissait donc intact tout paragraphe dont l'élément appelle une fonction
-     plus loin — « QBit Labs is an independent quantum computing research
-     institute » tenait sur trois lignes dans un <p> qui lisait clientText.
+     Trois écritures successives ont été nécessaires. Un motif `>…<` exigeait un
+     texte sans accolade et manquait tout paragraphe dont l'élément appelle une
+     fonction plus loin. Un automate suivant les guillemets prenait l'apostrophe
+     de « l'atelier » pour une ouverture de chaîne et se désynchronisait pour le
+     reste du fichier — « Obscura » restait affiché sur les quatre pages du
+     thème sans que rien ne le signale.
 
-     On suit donc l'état du fichier caractère par caractère. Trois écueils, tous
-     rencontrés : une accolade ouvre une expression, dont le contenu n'est pas
-     du texte ; un `>` peut appartenir à une flèche `=>` ou à une comparaison ;
-     et un guillemet droit dans ce qu'on croit être du texte signale qu'on lit
-     en réalité du code — l'apostrophe, elle, est française et reste du texte.
+     Celui-ci suit les balises. On n'entre dans un texte qu'en sortant d'une
+     balise ouvrante, et l'apostrophe y redevient ce qu'elle est : une lettre.
+     Les guillemets ne comptent que dans une balise ou dans une expression,
+     là où ils délimitent vraiment une chaîne.
   */
   {
     const morceaux = [];
-    let i = 0, debutTexte = -1, profondeur = 0, guillemet = null;
+    const DEHORS = 0, BALISE = 1, TEXTE = 2;
+    let etat = DEHORS, i = 0, debutTexte = -1, guillemet = null, profondeur = 0;
     while (i < src.length) {
       const c = src[i];
-      if (debutTexte >= 0) {
-        if (c === "<") { morceaux.push([debutTexte, i]); debutTexte = -1; }
-        else if (c === "{") { morceaux.push([debutTexte, i]); debutTexte = -1; profondeur = 1; }
-        else if (c === '"' || c === "`") { debutTexte = -1; }
+      if (etat === BALISE) {
+        if (guillemet) {
+          if (c === "\\") i++;
+          else if (c === guillemet) guillemet = null;
+        } else if (c === '"' || c === "'" || c === "`") guillemet = c;
+        else if (c === "{") profondeur++;
+        else if (c === "}") profondeur--;
+        else if (c === ">" && profondeur === 0) {
+          etat = src[i - 1] === "/" ? DEHORS : TEXTE;
+          debutTexte = i + 1;
+        }
         i++; continue;
       }
-      if (guillemet) {
-        if (c === "\\") i++;
-        else if (c === guillemet) guillemet = null;
+      if (etat === TEXTE) {
+        if (c === "<") {
+          morceaux.push([debutTexte, i]);
+          etat = BALISE; guillemet = null; profondeur = 0;
+        } else if (c === "{") {
+          morceaux.push([debutTexte, i]);
+          /* Sauter l'expression, guillemets compris. */
+          let p = 1; i++;
+          while (i < src.length && p > 0) {
+            const d = src[i];
+            if (guillemet) {
+              if (d === "\\") i++;
+              else if (d === guillemet) guillemet = null;
+            } else if (d === '"' || d === "'" || d === "`") guillemet = d;
+            else if (d === "{") p++;
+            else if (d === "}") p--;
+            i++;
+          }
+          debutTexte = i; continue;
+        }
         i++; continue;
       }
-      if (c === '"' || c === "'" || c === "`") { guillemet = c; i++; continue; }
-      if (profondeur > 0) {
-        if (c === "{") profondeur++;
-        else if (c === "}") { profondeur--; if (profondeur === 0) debutTexte = i + 1; }
-        i++; continue;
-      }
-      if (c === ">" && src[i - 1] !== "=") debutTexte = i + 1;
+      if (c === "<" && /[A-Za-z/]/.test(src[i + 1] ?? "")) { etat = BALISE; guillemet = null; profondeur = 0; }
       i++;
     }
     let sortie = "", curseur = 0;
     for (const [a, b] of morceaux) {
-      if (a < curseur) continue;
+      if (a < curseur || b <= a) continue;
       const texte = src.slice(a, b);
       re.lastIndex = 0;
       if (!re.test(texte)) continue;
