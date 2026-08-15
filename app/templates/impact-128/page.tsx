@@ -175,7 +175,7 @@ export default function HavenEstatesPage() {
             ) : (
               <>
                 <Home className="w-5 h-5 text-[var(--brand,#b8860b)]" />
-                <span className="text-xl font-light tracking-[0.15em] uppercase" style={{ fontFamily: "Georgia, serif" }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>Haven <span className="font-bold text-[var(--brand,#b8860b)]">Estates</span></>)}</span>
+                <span className="text-xl font-light tracking-[0.15em] uppercase" style={{ fontFamily: "Georgia, serif" }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>{(clientName(sessionData) ?? "HAVEN ESTATES").split(" ").slice(0, 1).join(" ")} <span className="font-bold text-[var(--brand,#b8860b)]">{(clientName(sessionData) ?? "HAVEN ESTATES").split(" ").slice(1).join(" ")}</span></>)}</span>
               </>
             )}
           </Link>
@@ -386,7 +386,7 @@ export default function HavenEstatesPage() {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <Home className="w-5 h-5 text-[var(--brand,#b8860b)]" />
-              <span className="text-xl font-light tracking-[0.15em] uppercase" style={{ fontFamily: "Georgia, serif" }}>Haven <span className="font-bold text-[var(--brand,#b8860b)]">Estates</span></span>
+              <span className="text-xl font-light tracking-[0.15em] uppercase" style={{ fontFamily: "Georgia, serif" }}>{(clientName(sessionData) ?? "HAVEN ESTATES").split(" ").slice(0, 1).join(" ")} <span className="font-bold text-[var(--brand,#b8860b)]">{(clientName(sessionData) ?? "HAVEN ESTATES").split(" ").slice(1).join(" ")}</span></span>
             </div>
             <p className="text-sm text-white/30 leading-relaxed">Discreet luxury real estate advisory for the world's most exceptional properties.</p>
           </div>

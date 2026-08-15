@@ -230,7 +230,7 @@ export default function IronClubPage() {
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 40 }}>
               <span style={{ fontFamily: FONT, fontWeight: 900, fontSize: 22, color: C.white }}>
-                IRON <span style={{ color: C.accent }}>CLUB</span>
+                {(clientName(sessionData) ?? "Iron Club").split(" ").slice(0, 1).join(" ")} <span style={{ color: C.accent }}>{(clientName(sessionData) ?? "Iron Club").split(" ").slice(1).join(" ")}</span>
               </span>
               <button onClick={() => setMenuOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: C.white }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -796,7 +796,7 @@ export default function IronClubPage() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 48, marginBottom: 48 }}>
             <div>
               <div style={{ fontFamily: FONT, fontWeight: 900, fontSize: 22, color: C.white, marginBottom: 16 }}>
-                IRON <span style={{ color: C.accent }}>CLUB</span>
+                {(clientName(sessionData) ?? "Iron Club").split(" ").slice(0, 1).join(" ")} <span style={{ color: C.accent }}>{(clientName(sessionData) ?? "Iron Club").split(" ").slice(1).join(" ")}</span>
               </div>
               <p style={{ fontFamily: FONT_BODY, fontSize: 14, lineHeight: 1.65 }}>
                 Salle de sport & CrossFit certifiée.<br />
