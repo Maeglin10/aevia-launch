@@ -272,7 +272,7 @@ return (
       {/* Hero */}
       <section id="hero" ref={heroRef} className="relative min-h-dvh overflow-hidden flex items-end">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
-          <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1600&q=85"))} alt="Le Matin Doré" fill className="object-cover" />
+          <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1600&q=85"))} alt={`${clientName(sessionData) ?? "Le Matin Doré"}`} fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1A0E05]/90 via-[#1A0E05]/30 to-transparent" />
         </motion.div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pb-24 pt-32 w-full">
