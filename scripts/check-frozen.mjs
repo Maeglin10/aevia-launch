@@ -20,8 +20,15 @@ import fs from "node:fs";
 import path from "node:path";
 
 const ROOT = path.join(process.cwd(), "app/templates");
+/*
+  Ce qui rend une donnée dépendante de la session : un lecteur du contrat, mais
+  aussi les variables que les thèmes en tirent. `const channels = [{ value:
+  fd?.email ?? "contact@exemple.fr" }]` est figé à l'import exactement comme un
+  appel au contrat — et impact-29/contact affichait l'adresse de la
+  démonstration pour cette seule raison, sans que rien ne le signale.
+*/
 const CONTRAT =
-  /client(?:Services|Reviews|Stats|Faq|Team|Areas|Certifications|Name|City|Tagline|Address|Photos)\s*\(/;
+  /client[A-Z]\w*\s*\(|\b(?:fd|bp|sessionData)\s*\?\./;
 
 // Une ligne de tête : ce qui commence en colonne zéro et ouvre quelque chose.
 const TETE = /^(?:export\s+)?(?:default\s+)?(?:async\s+)?(?:function|class|const|let|var)\s+(\w+)/;

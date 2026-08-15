@@ -230,7 +230,10 @@ function EXTRA_TESTIMONIALS_SOURCE_LIVE() {
 let EXTRA_TESTIMONIALS_SOURCE = EXTRA_TESTIMONIALS_SOURCE_LIVE();
 let EXTRA_TESTIMONIALS = EXTRA_TESTIMONIALS_SOURCE;
 
-const FAQS_DEMO = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function FAQS_DEMO_LIVE() {
+  return [
   {
     q: 'Quels sont les délais de livraison ?',
     a: 'Nous livrons en 48h ouvrées en France métropolitaine pour la majorité de nos produits en stock. Pour les commandes sur mesure ou les produits en précommande, comptez 2 à 3 semaines. Un email de suivi vous est envoyé dès l\'expédition.'
@@ -260,6 +263,8 @@ const FAQS_DEMO = [
     a: 'Oui ! Les appareils labellisés Flamme Verte 5 étoiles et plus ouvrent droit à MaPrimeRénov\'. Pour la campagne 2025, les montants d\'aide peuvent atteindre 2 000 à 3 000€ selon votre tranche de revenu et le type d\'appareil. Nous vous fournirons tous les documents nécessaires à votre demande.'
   },
 ];
+}
+let FAQS_DEMO = FAQS_DEMO_LIVE();
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 function fmt(n: number): string {
@@ -1844,6 +1849,7 @@ export default function FlammeEtCoPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  FAQS_DEMO = FAQS_DEMO_LIVE();
   EXTRA_TESTIMONIALS_SOURCE = EXTRA_TESTIMONIALS_SOURCE_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 

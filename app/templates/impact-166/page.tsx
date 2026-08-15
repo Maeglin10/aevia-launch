@@ -77,7 +77,10 @@ let C: Record<string, string> = {
 };
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
-const SERIES_DEMO = /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function SERIES_DEMO_LIVE() {
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     title: "Lumière Naturelle",
     count: "24 clichés",
@@ -127,6 +130,8 @@ const SERIES_DEMO = /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map
     dims: "Portrait 4:5",
   },
 ]);
+}
+let SERIES_DEMO = SERIES_DEMO_LIVE();
 
 const SERVICES_DEMO = [
   {
@@ -849,6 +854,7 @@ export default function Impact166Page() {
 
   fd = session?.formData;
   sessionData = session;
+  SERIES_DEMO = SERIES_DEMO_LIVE();
   bp = session?.businessProfile;
   c = session?.generatedContent;
 

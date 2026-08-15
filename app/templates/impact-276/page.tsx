@@ -2289,7 +2289,10 @@ type ScheduleItem = {
   sessions: { time: string; label: string; duration: string }[];
 };
 
-const SCHEDULE: ScheduleItem[] = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, time: h.hours })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function SCHEDULE_LIVE(): ScheduleItem[] {
+  return /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, time: h.hours })), [
   {
     day: 'Lundi',
     type: 'individuel',
@@ -2343,6 +2346,8 @@ const SCHEDULE: ScheduleItem[] = /* HORAIRES */ resolveList(clientHours(sessionD
     ],
   },
 ]);
+}
+let SCHEDULE: ScheduleItem[] = SCHEDULE_LIVE();
 
 const TYPE_COLORS = {
   individuel: C.orange,
@@ -3191,6 +3196,7 @@ function Impact276Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SCHEDULE = SCHEDULE_LIVE();
   SLIDES = SLIDES_LIVE();
   PHOTO = PHOTO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();

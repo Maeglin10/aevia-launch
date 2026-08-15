@@ -484,7 +484,10 @@ function Hero() {
 }
 
 // ─── Class Schedule ────────────────────────────────────────────────────────────
-const CLASSES = /* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ day: h.day, time: h.hours })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function CLASSES_LIVE() {
+  return /* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ day: h.day, time: h.hours })), [
   { day: "Lundi", time: "07h00", name: "Hatha Flow", level: "Débutant", teacher: "Emma D.", spots: 8, icon: <Sunrise size={18} color="var(--brand-light,#c0614a)" /> },
   { day: "Lundi", time: "19h00", name: "Vinyasa Power", level: "Intermédiaire", teacher: "Lucas R.", spots: 4, icon: <Wind size={18} color="var(--brand,#6b8f6b)" /> },
   { day: "Mercredi", time: "09h30", name: "Yin & Méditation", level: "Tous niveaux", teacher: "Sophie M.", spots: 12, icon: <Heart size={18} color="var(--brand-light,#c0614a)" /> },
@@ -492,6 +495,8 @@ const CLASSES = /* HORAIRES */ resolveList(clientHours({ formData: fd, businessP
   { day: "Samedi", time: "10h00", name: "Yoga Nidra", level: "Tous niveaux", teacher: "Emma D.", spots: 14, icon: <Leaf size={18} color="var(--brand-light,#c0614a)" /> },
   { day: "Dimanche", time: "09h00", name: "Kundalini", level: "Intermédiaire", teacher: "Amara B.", spots: 2, icon: <Sunrise size={18} color="var(--brand,#6b8f6b)" /> },
 ]);
+}
+let CLASSES = CLASSES_LIVE();
 
 type ClassInfo = { day: string; time: string; name: string; level: string; teacher: string };
 
@@ -1046,6 +1051,7 @@ export default function Impact31() {
 
   fd = session?.formData;
   sessionData = session;
+  CLASSES = CLASSES_LIVE();
   memoriserSession(sessionData);
   rafraichirPartage();
   bp = session?.businessProfile;

@@ -95,7 +95,10 @@ const TARIFS_DEMO = [
 ];
 let TARIFS = TARIFS_DEMO;
 
-const COURS_DEMO = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ nom: h.day, horaire: h.hours })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function COURS_DEMO_LIVE() {
+  return /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ nom: h.day, horaire: h.hours })), [
   { nom: "Vinyasa Flow", niveau: "Tous niveaux", duree: "60 min", horaire: "Lun · Mar · Jeu 7h30", desc: "Enchaînement fluide de postures synchronisées avec la respiration. Renforce et libère.", icon: <Sun size={20} color={C.accent} /> },
   { nom: "Yin Yoga", niveau: "Tous niveaux", duree: "75 min", horaire: "Mer · Ven 18h30", desc: "Postures tenues en profondeur pour relâcher les fascias et cultiver l'introspection.", icon: <Moon size={20} color={C.accent} /> },
   { nom: "Yoga Prénatal", niveau: "Gestantes", duree: "60 min", horaire: "Mar · Jeu 10h00", desc: "Pratique douce et sécurisée pour accompagner chaque étape de la grossesse avec sérénité.", icon: <Heart size={20} color={C.warm} /> },
@@ -110,6 +113,8 @@ const APPROCHE_SOURCE = [
   { titre: "Petits groupes", desc: "Maximum 12 élèves par cours pour un suivi individualisé et des ajustements personnalisés à chaque pratique." },
 ]
 let APPROCHE = APPROCHE_SOURCE;
+}
+let COURS_DEMO = COURS_DEMO_LIVE();
 
 const TEMOIGNAGES_SOURCE = [
   { texte: "Depuis que j'ai rejoint Lumière Yoga, ma relation avec mon corps a complètement changé. Les cours de Sophie sont à la fois exigeants et bienveillants. Un équilibre rare.", auteur: "Camille R.", detail: "Pratiquante depuis 2 ans, Vinyasa & Yin" },
@@ -173,6 +178,7 @@ export default function LumiereYogaPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  COURS_DEMO = COURS_DEMO_LIVE();
   APPROCHE = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...APPROCHE_SOURCE[i % APPROCHE_SOURCE.length], titre: s.title, desc: s.desc || "" || "" })),
     APPROCHE_SOURCE,

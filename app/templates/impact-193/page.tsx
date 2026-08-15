@@ -71,7 +71,10 @@ function TARIFS_DEMO_LIVE() {
 let TARIFS_DEMO = TARIFS_DEMO_LIVE();;
 let TARIFS = TARIFS_DEMO;
 
-const AGENDA = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ j: h.day, h: h.hours })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function AGENDA_LIVE() {
+  return /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ j: h.day, h: h.hours })), [
   { j: "Lundi", h: "9h — 19h" },
   { j: "Mardi", h: "9h — 19h" },
   { j: "Mercredi", h: "9h — 13h" },
@@ -79,6 +82,8 @@ const AGENDA = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any)
   { j: "Vendredi", h: "9h — 18h" },
   { j: "Samedi", h: "9h — 13h, un samedi sur deux" },
 ]);
+}
+let AGENDA = AGENDA_LIVE();
 
 const PRISES_EN_CHARGE_DEMO = [
   { icon: Wind, title: "Douleurs du dos & lombalgies", desc: "Cervicalgie, dorsalgie, lombalgie, sciatique. Traitement manuel des restrictions de mobilité articulaire et musculaire. Soins adaptés aux douleurs chroniques et aiguës." },
@@ -141,6 +146,7 @@ export default function OsteoGaiaPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  AGENDA = AGENDA_LIVE();
   TARIFS_DEMO = TARIFS_DEMO_LIVE();
   AVIS_DEMO = AVIS_DEMO_LIVE();
 

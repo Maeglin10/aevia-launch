@@ -2171,7 +2171,10 @@ type ClassItem = {
   icon: React.ReactNode;
 };
 
-const WEEKLY_CLASSES: ClassItem[] = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, time: h.hours })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function WEEKLY_CLASSES_LIVE(): ClassItem[] {
+  return /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, time: h.hours })), [
   {
     day: 'Lundi',
     dayShort: 'LUN',
@@ -2218,6 +2221,8 @@ const WEEKLY_CLASSES: ClassItem[] = /* HORAIRES */ resolveList(clientHours(sessi
     icon: <Mountain size={20} color={C.azure} strokeWidth={2} />,
   },
 ]);
+}
+let WEEKLY_CLASSES: ClassItem[] = WEEKLY_CLASSES_LIVE();
 
 function PlanningSection() {
   const sec: React.CSSProperties = {
@@ -3179,6 +3184,7 @@ export default function Impact287Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  WEEKLY_CLASSES = WEEKLY_CLASSES_LIVE();
   PHOTO = PHOTO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   PROGRAMS_DEMO = PROGRAMS_DEMO_LIVE();

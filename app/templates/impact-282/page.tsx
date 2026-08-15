@@ -2197,7 +2197,10 @@ function AgriculteurSection() {
    ════════════════════════════════════════════════════════════════════════════ */
 type JourHoraire = { jour: string; heures: string; ferme?: boolean };
 
-const HORAIRES: JourHoraire[] = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ jour: h.day, heures: h.hours })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function HORAIRES_LIVE(): JourHoraire[] {
+  return /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ jour: h.day, heures: h.hours })), [
   { jour: 'Lundi', heures: 'Fermé', ferme: true },
   { jour: 'Mardi', heures: '7h00 – 19h30' },
   { jour: 'Mercredi', heures: '7h00 – 19h30' },
@@ -2206,6 +2209,8 @@ const HORAIRES: JourHoraire[] = /* HORAIRES */ resolveList(clientHours(sessionDa
   { jour: 'Samedi', heures: '7h00 – 20h00' },
   { jour: 'Dimanche', heures: '7h30 – 13h00' },
 ]);
+}
+let HORAIRES: JourHoraire[] = HORAIRES_LIVE();
 
 function HorairesSection() {
   const sec: React.CSSProperties = {
@@ -2812,6 +2817,7 @@ export default function Impact282Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HORAIRES = HORAIRES_LIVE();
   PHOTO = PHOTO_LIVE();
 
   PRODUCTEURS = resolveList(

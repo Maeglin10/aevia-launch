@@ -124,7 +124,10 @@ const NAV_LINKS = ["Concept", "Portfolio", "Services", "Artistes", "FAQ", "Conta
 
 const PORTFOLIO_FILTERS = ["Tout", "Gel", "Nail Art", "French", "Extensions", "Seasonal"]
 
-const PORTFOLIO_ITEMS = /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function PORTFOLIO_ITEMS_LIVE() {
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   { id: 1, category: "Nail Art", title: "Fleurs de Cerisier", desc: "Aquarelle sur base nude rosée", accent: "#FBCFE8", img: "photo-1604654894610-df63bc536371" },
   { id: 2, category: "Gel",      title: "Rose Velours",       desc: "Gel couleur longue tenue",      accent: "var(--brand,#ec4899)", img: "photo-1522337360788-8b13dee7a37e" },
   { id: 3, category: "French",   title: "French Classique",   desc: "Pointe blanche parfaite",       accent: "#FDF4FF", img: "photo-1604654894610-df63bc536371" },
@@ -145,6 +148,8 @@ const SERVICES_SOURCE = [
   { id: 6, name: "Dépose + Soin",       price: "40€",  duration: "45 min",  desc: "Dépose soignée du produit + bain nourrissant + évaluation santé de l'ongle." },
 ]
 let SERVICES_DEMO = SERVICES_SOURCE;
+}
+let PORTFOLIO_ITEMS = PORTFOLIO_ITEMS_LIVE();
 
 const ARTISTS_DEMO = [
   {
@@ -1900,6 +1905,7 @@ export default function Impact88Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  PORTFOLIO_ITEMS = PORTFOLIO_ITEMS_LIVE();
   BOOKING_STEPS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...BOOKING_STEPS_SOURCE[i % BOOKING_STEPS_SOURCE.length], label: s.title, desc: s.desc || "" || "" })),
     BOOKING_STEPS_SOURCE,

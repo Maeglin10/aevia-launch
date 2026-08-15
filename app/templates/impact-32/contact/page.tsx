@@ -168,12 +168,17 @@ function CONTACT_INFO_LIVE() {
 }
 let CONTACT_INFO = CONTACT_INFO_LIVE();
 
-const HOURS = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, hours: h.hours })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function HOURS_LIVE() {
+  return /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, hours: h.hours })), [
   { day: "Lundi – Vendredi", hours: "8h00 – 20h00", open: true },
   { day: "Samedi", hours: "8h00 – 18h00", open: true },
   { day: "Dimanche & Jours fériés", hours: "Sur urgence uniquement", open: false },
   { day: "Urgences", hours: "24h/24 — 7j/7", open: true, urgent: true },
 ]);
+}
+let HOURS = HOURS_LIVE();
 
 // ─── Contact Hero ─────────────────────────────────────────────────────────────
 function ContactHero() {
@@ -1295,6 +1300,8 @@ export default function ContactPage() {
   }, []);
 
   sessionData = __session;
+
+  HOURS = HOURS_LIVE();
   memoriserSession(__session);
 
   fd = __session?.formData;
