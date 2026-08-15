@@ -48,7 +48,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ==========================================================================
-   THE AETHELGARD DATASET (PREMIUM DENSITY)
+   THE {clientName(sessionData) ?? "AETHELGARD"} DATASET (PREMIUM DENSITY)
    ========================================================================== */
 
 function VINTAGES_DEMO_LIVE() {
@@ -344,7 +344,7 @@ return (
                  <div className="space-y-12">
                     <Reveal delay={0.3}>
                        <p className="text-2xl font-light text-white/60 leading-relaxed italic">{c?.aboutText ?? <>
-                          "Notre sol de calcaire jurassique insuffle à nos vins une tension minérale unique, signature indélébile de l'Aethelgard."
+                          "Notre sol de calcaire jurassique insuffle à nos vins une tension minérale unique, signature indélébile de l'{clientName(sessionData) ?? "AETHELGARD"}."
                        </>}</p>
                        <div className="h-px w-32 bg-[var(--brand,#c4a661)] my-12" />
                        <div className="space-y-8">
@@ -506,7 +506,7 @@ return (
                     <span className="text-3xl font-light tracking-[0.4em] uppercase">{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "AETHELGARD"))}</span>
                  </div>
                  <p className="text-white/20 text-[10px] font-black uppercase tracking-[0.4em] leading-loose max-w-sm mb-16 italic">
-                    "Le temps n'est pas un luxe, c'est notre ingrédient secret." — Domaine Aethelgard V.4
+                    "Le temps n'est pas un luxe, c'est notre ingrédient secret." — Domaine {clientName(sessionData) ?? "AETHELGARD"} V.4
                  </p>
                  <div className="flex gap-12">
                     {["Camera", "Vogue", "Decanter", "Forbes"].map(s => (

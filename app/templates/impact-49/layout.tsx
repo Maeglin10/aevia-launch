@@ -74,7 +74,7 @@ export default function Impact49Layout({
               <BookOpen className="w-4 h-4 text-white" />
             </div>
             <span className="text-lg font-extrabold text-[#1E1B4B]">{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
-              SKILLBRIDGE
+              {clientName(__layoutSession) ?? "Skillbridge"}
             </>)}</span>
           </>
           )}</Link>

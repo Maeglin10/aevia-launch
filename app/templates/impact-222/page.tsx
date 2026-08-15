@@ -48,7 +48,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   SOLIS IMMOBILIER — Immobilier & architecture de prestige (France)
+   {clientName(sessionData) ?? "Solis"} IMMOBILIER — Immobilier & architecture de prestige (France)
    Reference-grade scroll choreography with real photography.
    Palette : blanc chaud / bleu nuit profond / champagne doré.
    Self-contained client component. Only react / framer-motion / lucide-react.
@@ -612,7 +612,7 @@ const Hero: React.FC = () => {
                 fontWeight: 400,
               }}
             >
-              Solis accompagne une clientèle exigeante dans l&apos;acquisition et
+              {clientName(sessionData) ?? "Solis"} accompagne une clientèle exigeante dans l&apos;acquisition et
               la valorisation de biens d&apos;exception, de la Provence aux plus
               belles adresses parisiennes.
             </span>

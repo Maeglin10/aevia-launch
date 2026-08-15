@@ -675,7 +675,7 @@ return (
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  Caliente Tacos apporte les saveurs de Oaxaca à {clientCity(sessionData) ?? "Bordeaux"}. Maïs nixtamalisé, chile ancho, avocats Hass premium. Nos recettes sont transmises de génération en génération.
+                  {clientName(sessionData) ?? "Caliente Tacos"} apporte les saveurs de Oaxaca à {clientCity(sessionData) ?? "Bordeaux"}. Maïs nixtamalisé, chile ancho, avocats Hass premium. Nos recettes sont transmises de génération en génération.
                 </>}</p>
                 <p style={{
                   fontSize: 15,

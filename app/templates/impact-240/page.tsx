@@ -40,7 +40,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   STUDIO ATHLETIC — {clientTrade(sessionData) ?? "Coach sportif"} personnel · {clientCity(sessionData) ?? "Lyon"}
+   {clientName(sessionData) ?? "STUDIO ATHLETIC"} — {clientTrade(sessionData) ?? "Coach sportif"} personnel · {clientCity(sessionData) ?? "Lyon"}
    Photographie réelle + chorégraphie de défilement éditoriale (athletic ×
    performance × coaching premium). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */

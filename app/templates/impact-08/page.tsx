@@ -56,7 +56,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ==========================================================================
-   VULCAN MOTOR GROUP DATASET (ULTRA DENSITY)
+   {clientName(sessionData) ?? "VULCAN"} MOTOR GROUP DATASET (ULTRA DENSITY)
    ========================================================================= */
 
 function FLEET_DEMO_SOURCE_LIVE() {
@@ -639,7 +639,7 @@ return (
                            Tailored <br/> <span className="opacity-20">Velocity.</span>
                         </>)}</h2>
                         <p className="text-lg font-light italic text-white/40 leading-relaxed uppercase tracking-[0.1em] mb-16">
-                           Votre Vulcan est unique. Notre programme de personnalisation permet de choisir chaque détail, des textures de carbone aux coutures intérieures, pour refléter votre vision de la performance.
+                           Votre {clientName(sessionData) ?? "VULCAN"} est unique. Notre programme de personnalisation permet de choisir chaque détail, des textures de carbone aux coutures intérieures, pour refléter votre vision de la performance.
                         </p>
                         <div className="flex gap-12">
                            <div className="flex flex-col gap-4">
@@ -837,7 +837,7 @@ function EngineeringPage() {
             Advanced <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Science.</span>
           </>)}</h1>
           <p className="max-w-xl mx-auto text-sm text-white/40 uppercase font-light italic leading-relaxed">
-            Chez Vulcan, la physique n'est pas une limite, c'est notre matière première. Découvrez les innovations qui séparent nos unités du reste de la production mondiale.
+            Chez {clientName(sessionData) ?? "VULCAN"}, la physique n'est pas une limite, c'est notre matière première. Découvrez les innovations qui séparent nos unités du reste de la production mondiale.
           </p>
         </div>
 
@@ -895,7 +895,7 @@ function AtelierPage() {
             The <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Atelier.</span>
           </>)}</h1>
           <p className="max-w-xl mx-auto text-sm text-white/40 uppercase font-light italic leading-relaxed">
-            Chaque Vulcan est construite sur mesure à Modena. Notre programme de personnalisation totale vous permet de concevoir une œuvre d'art aérodynamique unique au monde.
+            Chaque {clientName(sessionData) ?? "VULCAN"} est construite sur mesure à Modena. Notre programme de personnalisation totale vous permet de concevoir une œuvre d'art aérodynamique unique au monde.
           </p>
         </div>
 
@@ -1005,7 +1005,7 @@ function LegalPage() {
           <div>
              <div className="text-white/30 text-[10px] font-black uppercase mb-2">PROPRIETE INTELLECTUELLE</div>
              <p className="text-white/50 font-medium uppercase leading-relaxed">
-                Toutes les marques, images, logos, structures de code et fichiers multimédias présents sur ce site sont la propriété exclusive de Vulcan Motor Group Modena ou de ses représentants autorisés. Toute reproduction sans accord écrit préalable fera l'objet de poursuites pénales.
+                Toutes les marques, images, logos, structures de code et fichiers multimédias présents sur ce site sont la propriété exclusive de {clientName(sessionData) ?? "VULCAN"} Motor Group Modena ou de ses représentants autorisés. Toute reproduction sans accord écrit préalable fera l'objet de poursuites pénales.
              </p>
           </div>
         </div>

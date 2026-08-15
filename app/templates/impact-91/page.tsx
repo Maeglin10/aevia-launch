@@ -62,7 +62,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ==========================================================================
-   AURELIA JEWELS — Design Tokens
+   {clientName(sessionData) ?? "AURELIA"} JEWELS — Design Tokens
    ========================================================================== */
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -402,7 +402,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
                 className="text-[26px] tracking-[0.12em] italic"
                 style={{ fontFamily: "'Cormorant Garamond', serif", color: C.cream, fontWeight: 600 }}
               >
-                AURELIA
+                {clientName(sessionData) ?? "AURELIA"}
               </span>
               <button onClick={() => setOpen(false)} className="p-2 text-[#A8A29E] hover:text-white transition-colors">
                 <X size={22} />
@@ -939,7 +939,7 @@ function SavoirFaireSection() {
                 className="text-[14px] leading-[2] mb-8 max-w-[440px]"
                 style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 300, color: `${C.cream}75` }}
               >
-                Fondée dans les ateliers du Marais, Aurelia perpétue les techniques de l'orfèvrerie française transmises de maître en apprenti depuis cinq générations. Chaque pièce est le fruit d'un minimum de 200 heures de travail à la main.
+                Fondée dans les ateliers du Marais, {clientName(sessionData) ?? "AURELIA"} perpétue les techniques de l'orfèvrerie française transmises de maître en apprenti depuis cinq générations. Chaque pièce est le fruit d'un minimum de 200 heures de travail à la main.
               </p>
               <div className="flex flex-wrap gap-6">
                 {/* LISTE_LIBELLES */ (clientList(sessionData, "savoir-faire.liste1") ?? ["Certification Hallmark 18K", "Membre du Comité Vendôme", "Label Entreprise du Patrimoine Vivant"]).map((badge) => (
@@ -1072,7 +1072,7 @@ function AteliersSection() {
                     color: C.navyDeep,
                   }}
                 >
-                  "Chaque pièce naît du dialogue entre la flamme, le métal et les mains de l'artisan. C'est là que réside la vraie magie d'Aurelia."
+                  "Chaque pièce naît du dialogue entre la flamme, le métal et les mains de l'artisan. C'est là que réside la vraie magie d'{clientName(sessionData) ?? "AURELIA"}."
                 </p>
                 <footer
                   className="mt-3 text-[11px] tracking-[0.12em] uppercase"

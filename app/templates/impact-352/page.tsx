@@ -29,7 +29,7 @@ import {
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ZINC & ARDOISE — Couverture patrimoniale · Rouen
+   {clientName(sessionData) ?? "Zinc & Ardoise"} — Couverture patrimoniale · Rouen
 
    Archétype H7 « magazine » : méta-rangée en tête, titre serif géant, bandeau
    média en bas de cadre. Geste de signature UNIQUE : ScrollGrow — le titre

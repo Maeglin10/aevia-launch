@@ -75,7 +75,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   KINÉSITHÉRAPIE DU LANGUEDOC — Cabinet kiné & rééducation · {clientCity(sessionData) ?? "Montpellier"} Antigone
+   {clientName(sessionData) ?? "Kinésithérapie du Languedoc"} — Cabinet kiné & rééducation · {clientCity(sessionData) ?? "Montpellier"} Antigone
    Palette méditerranéenne · Typographie Merriweather + Inter · Autonome.
    ════════════════════════════════════════════════════════════════════════════ */
 

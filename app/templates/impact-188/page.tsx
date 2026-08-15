@@ -35,7 +35,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   CLINIQUE DU BOIS VERT — {clientTrade(sessionData) ?? "Vétérinaire"} ({clientCity(sessionData) ?? "Toulouse"})
+   {clientName(sessionData) ?? "Clinique du Bois Vert"} — {clientTrade(sessionData) ?? "Vétérinaire"} ({clientCity(sessionData) ?? "Toulouse"})
    Palette : blanc chaud #fdfaf6 / vert nature #3a7d44 / vert clair #e8f5eb / brun doux #4a3728
    Fonts : Lora (serif chaleureux titres) + Source Sans 3 (corps)
    Style : chaleureux, naturel, confiance, bienveillant

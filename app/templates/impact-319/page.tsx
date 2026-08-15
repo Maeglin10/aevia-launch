@@ -52,7 +52,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ÉCO-CLEAN HABITAT — nettoyage écologique, Montpellier.
+   {clientName(sessionData) ?? "Éco-Clean Habitat"} — nettoyage écologique, Montpellier.
    Réécriture premium (reprise 316–383, famille I).
    Geste signature : ParticleOrb — une sphère de particules vertes respire
    derrière le titre ; au défilement le titre monte, l'orbe reste (séparation

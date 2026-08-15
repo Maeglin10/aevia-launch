@@ -58,7 +58,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ÉLECTRICITÉ DUMONT — {clientTrade(sessionData) ?? "Électricien"} certifié · {clientCity(sessionData) ?? "Paris"}
+   {clientName(sessionData) ?? "Électricité Dumont"} — {clientTrade(sessionData) ?? "Électricien"} certifié · {clientCity(sessionData) ?? "Paris"}
    Photographie réelle + chorégraphie de défilement éditoriale (style Impact ×
    fiabilité artisanale × urgence). Fichier entièrement autonome. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */

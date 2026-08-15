@@ -39,7 +39,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   MAISON NUPTIALE — Organisateur de Mariage & Événements · {clientCity(sessionData) ?? "Bordeaux"}
+   {clientName(sessionData) ?? "Maison Nuptiale"} — Organisateur de Mariage & Événements · {clientCity(sessionData) ?? "Bordeaux"}
    Chorégraphie de défilement éditoriale · Crossfade chapitré · Panneau collant
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */

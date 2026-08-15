@@ -40,7 +40,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   PERMIS CAP SUD — auto-école urbaine · Montpellier
+   {clientName(sessionData) ?? "Permis Cap Sud"} — auto-école urbaine · Montpellier
 
    Archétype héros H3 : plein cadre, titre en bas. Paire de fontes P6 (Archivo
    / Inter — la voix impact, sans serif, deux graisses et deux rôles opposés :

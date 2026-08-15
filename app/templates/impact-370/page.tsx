@@ -37,7 +37,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   HALLE 1897 — halle de réception en usine textile · Roubaix
+   {clientName(sessionData) ?? "Halle 1897"} — halle de réception en usine textile · Roubaix
 
    Archétype H8 (bento, tuiles inégales) · paire P9 (Syne + Work Sans) ·
    palette sombre #14130f / laiton #c9a35e · signature « poutrelles » : des

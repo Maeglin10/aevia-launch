@@ -151,47 +151,61 @@ for (const p of parcourir(RACINE)) {
   {
     const morceaux = [];
     const DEHORS = 0, BALISE = 1, TEXTE = 2;
-    let etat = DEHORS, i = 0, debutTexte = -1, guillemet = null, profondeur = 0;
+    let etat = DEHORS, i = 0, debutTexte = -1, guillemet = null, profTag = 0, profExpr = 0;
+
+    const chaine = (c) => {
+      if (guillemet) {
+        if (c === "\\") { i++; return true; }
+        if (c === guillemet) guillemet = null;
+        return true;
+      }
+      if (c === '"' || c === "'" || c === "`") { guillemet = c; return true; }
+      return false;
+    };
+
     while (i < src.length) {
       const c = src[i];
+
       if (etat === BALISE) {
-        if (guillemet) {
-          if (c === "\\") i++;
-          else if (c === guillemet) guillemet = null;
-        } else if (c === '"' || c === "'" || c === "`") guillemet = c;
-        else if (c === "{") profondeur++;
-        else if (c === "}") profondeur--;
-        else if (c === ">" && profondeur === 0) {
-          etat = src[i - 1] === "/" ? DEHORS : TEXTE;
-          debutTexte = i + 1;
-        }
-        i++; continue;
-      }
-      if (etat === TEXTE) {
-        if (c === "<") {
-          morceaux.push([debutTexte, i]);
-          etat = BALISE; guillemet = null; profondeur = 0;
-        } else if (c === "{") {
-          morceaux.push([debutTexte, i]);
-          /* Sauter l'expression, guillemets compris. */
-          let p = 1; i++;
-          while (i < src.length && p > 0) {
-            const d = src[i];
-            if (guillemet) {
-              if (d === "\\") i++;
-              else if (d === guillemet) guillemet = null;
-            } else if (d === '"' || d === "'" || d === "`") guillemet = d;
-            else if (d === "{") p++;
-            else if (d === "}") p--;
-            i++;
+        if (!chaine(c)) {
+          if (c === "{") profTag++;
+          else if (c === "}") profTag--;
+          else if (c === ">" && profTag === 0) {
+            etat = src[i - 1] === "/" ? DEHORS : TEXTE;
+            debutTexte = i + 1;
           }
-          debutTexte = i; continue;
         }
         i++; continue;
       }
-      if (c === "<" && /[A-Za-z/]/.test(src[i + 1] ?? "")) { etat = BALISE; guillemet = null; profondeur = 0; }
+
+      if (etat === TEXTE) {
+        if (c === "<") { morceaux.push([debutTexte, i]); etat = BALISE; guillemet = null; profTag = 0; }
+        else if (c === "{") { morceaux.push([debutTexte, i]); etat = DEHORS; profExpr++; }
+        else if (c === "}" && profExpr > 0) { morceaux.push([debutTexte, i]); profExpr--; debutTexte = i + 1; }
+        i++; continue;
+      }
+
+      /* DEHORS : du code. On y compte les accolades pour savoir quand une
+         expression se referme, et l'on y guette la balise suivante — car le
+         JSX vit à l'intérieur des expressions (`{cond && (<p>…</p>)}`), et les
+         sauter en bloc laissait « Votre Vulcan est unique » intact sur cinq
+         pages. */
+      if (!chaine(c)) {
+        if (c === "{") profExpr++;
+        else if (c === "}") { profExpr--; if (profExpr === 0) { etat = TEXTE; debutTexte = i + 1; } }
+        /*
+           Deux formes se ressemblent et n'ont rien à voir : `<Look>` ouvre une
+           balise, `useState<Look[]>` ouvre un type. La première suit un espace,
+           une parenthèse ou une accolade ; la seconde colle à un identifiant.
+           Et `<>` ouvre un fragment.
+        */
+        else if (c === "<" && /[A-Za-z/>]/.test(src[i + 1] ?? "") && !/[\w$]/.test(src[i - 1] ?? " ")) {
+          etat = BALISE; guillemet = null; profTag = 0;
+        }
+      }
       i++;
     }
+
     let sortie = "", curseur = 0;
     for (const [a, b] of morceaux) {
       if (a < curseur || b <= a) continue;

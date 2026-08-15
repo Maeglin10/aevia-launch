@@ -37,7 +37,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   OSTÉO ATLANTIQUE — Cabinet d'Ostéopathie & Thérapies Manuelles · {clientCity(sessionData) ?? "Nantes"}
+   {clientName(sessionData) ?? "Ostéo Atlantique"} — Cabinet d'Ostéopathie & Thérapies Manuelles · {clientCity(sessionData) ?? "Nantes"}
    Chorégraphie de défilement éditoriale. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
 

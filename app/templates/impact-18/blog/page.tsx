@@ -84,7 +84,7 @@ export default function BlogPage() {
         {mobileOpen && (
           <motion.div className="fixed inset-0 z-[100] bg-[#0D1117] flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
             <div className="flex items-center justify-between mb-12">
-              <span className="text-white font-bold text-xl">Streamline</span>
+              <span className="text-white font-bold text-xl">{clientName(sessionData) ?? "Streamline"}</span>
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
             <Link href="/templates/impact-18" className="block text-white text-2xl font-bold mb-6">Accueil</Link>

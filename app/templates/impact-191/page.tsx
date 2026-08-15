@@ -31,7 +31,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   JARDINS VIVANTS — {clientTrade(sessionData) ?? "Paysagiste"} & entretien espaces verts ({clientCity({ formData: fd }) ?? "Annecy"})
+   {clientName(sessionData) ?? "Jardins Vivants"} — {clientTrade(sessionData) ?? "Paysagiste"} & entretien espaces verts ({clientCity({ formData: fd }) ?? "Annecy"})
    Palette : blanc naturel #fafaf7 / vert profond #2d5a27 / vert clair #a8d5a0 / terre #6b4226
    Fonts : Cardo (titres serif organique) + Source Sans 3
    Style : vivant, naturel, organique, expertise végétale

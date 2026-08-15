@@ -28,7 +28,7 @@ import {
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
-   REGARD NORD — Opticiens · Lille centre
+   {clientName(sessionData) ?? "Regard Nord"} — Opticiens · Lille centre
 
    Archétype H4 : éditorial décalé. Le titre XXL déborde sur un panneau clair
    posé plus bas à droite ; la monture pivote au creux de ce recouvrement.

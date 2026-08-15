@@ -39,7 +39,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   MAISON BRÛLOT — Boulangerie-Pâtisserie Artisanale · {clientCity(sessionData) ?? "Lyon"}
+   {clientName(sessionData) ?? "Maison Brûlot"} — Boulangerie-Pâtisserie Artisanale · {clientCity(sessionData) ?? "Lyon"}
    Photographie Unsplash + chorégraphie de défilement éditoriale
    (style boulangerie premium × typographie chapitrée). Auto-suffisant.
    ════════════════════════════════════════════════════════════════════════════ */

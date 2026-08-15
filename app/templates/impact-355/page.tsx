@@ -47,7 +47,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET DES TILLEULS — Infirmiers libéraux · Limoges
+   {clientName(sessionData) ?? "Cabinet des Tilleuls"} — Infirmiers libéraux · Limoges
 
    Geste signature : PanelRise. Le bandeau sombre de la tournée monte par-dessus
    le héros au défilement, comme un volet qu'on relève sur la journée qui

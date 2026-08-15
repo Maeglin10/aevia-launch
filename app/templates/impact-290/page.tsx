@@ -80,7 +80,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   EAU & HABITAT BRETAGNE — Plombier-chauffagiste {clientCity(sessionData) ?? "Rennes"} & agglo
+   {clientName(sessionData) ?? "Eau & Habitat Bretagne"} — Plombier-chauffagiste {clientCity(sessionData) ?? "Rennes"} & agglo
    Template premium autonome. 'use client'. Framer Motion + Lucide React.
    ════════════════════════════════════════════════════════════════════════════ */
 

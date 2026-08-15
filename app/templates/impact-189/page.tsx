@@ -34,7 +34,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   ATELIER LÉONIE — Salon de coiffure premium femmes ({clientCity(sessionData) ?? "Paris"})
+   {clientName(sessionData) ?? "ATELIER LÉONIE"} — Salon de coiffure premium femmes ({clientCity(sessionData) ?? "Paris"})
    Palette : crème #faf6f1 / vieux rose #c97b7b / or rosé #d4a5a5 / encre #1a1218
    Fonts : Bodoni Moda (titres élégants) + Lato (corps épuré)
    Style : luxe accessible, féminin, chaud, boudoir élégant
@@ -605,7 +605,7 @@ export default function AtelierLeoniePage() {
       <footer className="bg-[#110c10] pt-20 pb-10 px-6 border-t border-white/5">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="font-bold text-white mb-1 text-sm" style={{ fontFamily: "'Bodoni Moda', serif" }}>Atelier Léonie</div>
+            <div className="font-bold text-white mb-1 text-sm" style={{ fontFamily: "'Bodoni Moda', serif" }}>{clientName(sessionData) ?? "ATELIER LÉONIE"}</div>
             <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#c97b7b)]/40 mb-5">Salon · {clientCity(sessionData) ?? "Paris"}</div>
             <p className="text-white/20 text-sm leading-relaxed">Salon de coiffure premium. Coupe, couleur, soins, extensions, coiffure de mariée. Produits Kérastase & Olaplex.</p>
           </div>

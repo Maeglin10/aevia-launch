@@ -51,7 +51,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   SPARKLE HOME / MÉNAGE DYNAMIQUE — Nettoyage résidentiel.
+   SPARKLE HOME / {clientName(sessionData) ?? "Ménage Dynamique"} — Nettoyage résidentiel.
    Réécriture premium : héros H1 split média droite, geste PanelDrop
    (le panneau descend comme un rideau vertical pendant que la photo change),
    services en bento, avis en marquee, calculateur d'estimation conservé.

@@ -40,7 +40,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   MAISON SOLAL — Couture & Mode Sur-Mesure · {clientCity(sessionData) ?? "Marseille"}
+   {clientName(sessionData) ?? "Maison Solal"} — Couture & Mode Sur-Mesure · {clientCity(sessionData) ?? "Marseille"}
    Photographie réelle + chorégraphie de défilement éditoriale (style Maison
    de couture × élégance méditerranéenne). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -2070,7 +2070,7 @@ function Footer() {
           color: 'rgba(232,220,200,0.42)',
         }}
       >
-        <span>© 2012–2026 Maison Solal. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2012–2026 {clientName(sessionData) ?? "Maison Solal"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

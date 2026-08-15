@@ -44,7 +44,7 @@ import {
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
-   BORÉAL COURTAGE — Courtage de risques d'entreprise & flottes · Lyon
+   {clientName(sessionData) ?? "Boréal Courtage"} — Courtage de risques d'entreprise & flottes · Lyon
    Geste signature : BentoCascade (hero-kit-2). Les tuiles inégales du héros se
    vident en cascade verticale puis se remplissent dans le même ordre : à
    mi-transition la grille est presque nue, et le programme d'assurance se

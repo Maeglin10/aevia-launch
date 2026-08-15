@@ -46,7 +46,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DOMAINE MIROIR — Domaine viticole français · vente par allocation
+   {clientName(sessionData) ?? "Domaine Miroir"} — Domaine viticole français · vente par allocation
    Photographie réelle + chorégraphie de défilement éditoriale (style Grand Cru
    × élégance chapitrée). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -607,7 +607,7 @@ function Manifesto() {
             color: C.ink,
           }}
         >{/* TEXTE_SECTION */ clientText(sessionData, "domaine.texte") ?? (<>
-          Au cœur d&apos;un coteau exposé plein sud, le Domaine Miroir cultive{' '}
+          Au cœur d&apos;un coteau exposé plein sud, le {clientName(sessionData) ?? "Domaine Miroir"} cultive{' '}
           <span style={{ fontStyle: 'italic', color: C.burgundy }}>
             douze hectares
           </span>{' '}
@@ -2122,7 +2122,7 @@ function Footer() {
         }}
       >
         <span>
-          © 1834–2026 Domaine Miroir. L&apos;abus d&apos;alcool est dangereux pour
+          © 1834–2026 {clientName(sessionData) ?? "Domaine Miroir"}. L&apos;abus d&apos;alcool est dangereux pour
           la santé. À consommer avec modération.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>

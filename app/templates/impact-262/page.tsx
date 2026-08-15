@@ -41,7 +41,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   STUDIO NOIR ABSOLU — Tatouage Fine Art & Illustration · {clientCity(sessionData) ?? "Paris"} Marais
+   {clientName(sessionData) ?? "Studio Noir Absolu"} — Tatouage Fine Art & Illustration · {clientCity(sessionData) ?? "Paris"} Marais
    Chorégraphie de défilement éditoriale : crossfade 320vh + panneau collant
    hygiènes + formulaire de réservation artistique. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */

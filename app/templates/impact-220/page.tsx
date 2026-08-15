@@ -57,7 +57,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   HORA VIVA — Manufacture Horlogère Suisse, {clientCity(sessionData) ?? "Genève"}
+   {clientName(sessionData) ?? "HORA VIVA"} — Manufacture Horlogère Suisse, {clientCity(sessionData) ?? "Genève"}
    Luxury Swiss watchmaking · Fondée en 1834
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -654,7 +654,7 @@ function Manifesto() {
             letterSpacing: '-0.01em',
           }}
         >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.texte") ?? (<>
-          "Une montre Hora Viva n'est pas un objet que l'on porte.
+          "Une montre {clientName(sessionData) ?? "HORA VIVA"} n'est pas un objet que l'on porte.
           <br />
           C'est un héritage que l'on transmet."
         </>)}</blockquote>
@@ -1650,7 +1650,7 @@ function Testimonials() {
                 marginTop: '16px',
               }}
             >{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>
-              Ils portent Hora Viva
+              Ils portent {clientName(sessionData) ?? "HORA VIVA"}
             </>)}</h2>
           </div>
         </FadeUp>

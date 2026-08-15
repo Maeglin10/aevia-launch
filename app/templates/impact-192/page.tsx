@@ -31,7 +31,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   SÉC'URFAST — Serrurier urgence & sécurité ({clientCity(sessionData) ?? "Strasbourg"})
+   {clientName(sessionData) ?? "SÉC'URFAST"} — Serrurier urgence & sécurité ({clientCity(sessionData) ?? "Strasbourg"})
    Palette : nuit #0d1524 / acier #1e3a5f / bleu électrique #2563eb / blanc froid #f0f4ff
    Fonts : Exo 2 (moderne, tech, lisible) + Inter
    Style : disponible 24/7, fiable, urgent, bleu nuit professionnel

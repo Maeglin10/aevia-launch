@@ -58,7 +58,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   AMPÈRE & FILS — {clientTrade(sessionData) ?? "Électricien"} artisan · {clientCity(sessionData) ?? "Nantes"} & Loire-Atlantique
+   {clientName(sessionData) ?? "Ampère & Fils"} — {clientTrade(sessionData) ?? "Électricien"} artisan · {clientCity(sessionData) ?? "Nantes"} & Loire-Atlantique
    Template premium calqué sur impact-218. Auto-suffisant. 'use client'.
    10 sous-composants : Hero · Crossfade · Services · Process · Testimonials
                         DevisForm · IRVE · Solaire · Certif · Footer
@@ -2674,7 +2674,7 @@ function CertifSection() {
               lineHeight: 1.7,
             }}
           >
-            Ampère & Fils détient toutes les certifications nécessaires pour
+            {clientName(sessionData) ?? "Ampère & Fils"} détient toutes les certifications nécessaires pour
             vous ouvrir l'accès aux aides et subventions de l'État. Vous êtes
             entre de bonnes mains.
           </p>
@@ -2763,7 +2763,7 @@ function CertifSection() {
 
 /* ════════════════════════════════════════════════════════════════════════════
    10 · FOOTER SECTION
-   Logo Ampère & Fils, zones Loire-Atlantique, mentions RGE/IRVE, SIRET
+   Logo {clientName(sessionData) ?? "Ampère & Fils"}, zones Loire-Atlantique, mentions RGE/IRVE, SIRET
    ════════════════════════════════════════════════════════════════════════════ */
 function ZONES_LIVE() {
   return [
@@ -2861,7 +2861,7 @@ function FooterSection() {
                     lineHeight: 1,
                   }}
                 >
-                  Ampère & Fils
+                  {clientName(sessionData) ?? "Ampère & Fils"}
                 </div>
                 <div
                   style={{

@@ -50,7 +50,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   SOINS DE L'ESTUAIRE — Cabinet infirmier côtier · Saint-Nazaire
+   {clientName(sessionData) ?? "Soins de l'Estuaire"} — Cabinet infirmier côtier · Saint-Nazaire
 
    Geste signature : ComposeIn. La tournée du jour ne défile pas, elle SE
    COMPOSE — un carton entre par la gauche, un deuxième par la droite, le

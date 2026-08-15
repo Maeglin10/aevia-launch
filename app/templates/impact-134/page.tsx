@@ -55,7 +55,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ==========================================================================
-   LUMIÈRE BEAUTY — Design Tokens
+   {clientName(sessionData) ?? "Lumière Beauty"} — Design Tokens
    ========================================================================== */
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive primaryLight/primaryDark from the client's brand color.

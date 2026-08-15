@@ -99,7 +99,7 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
                 <Scale size={18} color={C.accent} />
               </div>
               <div>
-                <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 17, fontWeight: 700, color: C.white, letterSpacing: "0.04em" }}>Dumont & Associés</div>
+                <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 17, fontWeight: 700, color: C.white, letterSpacing: "0.04em" }}>{clientName(__layoutSession) ?? "Dumont & Associés"}</div>
                 <div style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 10, color: C.accent, letterSpacing: "0.16em", textTransform: "uppercase" as const }}>Avocats au Barreau de {clientCity(__layoutSession) ?? "Paris"}</div>
               </div>
             </>)}</div></>

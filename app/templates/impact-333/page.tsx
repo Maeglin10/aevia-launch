@@ -29,7 +29,7 @@ import {
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ÉTUDE DU CANAL — Notaires · Rennes
+   {clientName(sessionData) ?? "Étude du Canal"} — Notaires · Rennes
 
    Notaire, 2e variante (la 1re est impact-326, luxe ivoire). Celle-ci est
    urbaine et sombre : une revue de droit plutôt qu'une plaque de cuivre.

@@ -36,7 +36,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   IMPACT-325 · EXECUTIVEHUB — séminaires corporate (masterclasses B2B)
+   IMPACT-325 · {clientName(sessionData) ?? "ExecutiveHub"} — séminaires corporate (masterclasses B2B)
    Réécriture premium — geste signature : ExpandFrame (le cadre qui s'ouvre).
    Héros H7 magazine : méta-rangée filée, titre serif géant, bandeau média bas.
    Fontes P2 : Playfair Display (serif) + Space Grotesk (sans).

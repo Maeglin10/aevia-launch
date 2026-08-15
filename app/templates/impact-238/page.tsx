@@ -44,7 +44,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CENTRE KINÉ ATLANTIQUE — Cabinet de kinésithérapie · {clientCity(sessionData) ?? "Rennes"}
+   {clientName(sessionData) ?? "Centre Kiné Atlantique"} — Cabinet de kinésithérapie · {clientCity(sessionData) ?? "Rennes"}
    Template premium, scroll chorégraphié, composants décomposés.
    'use client' · Auto-suffisant · Polices Nunito + Merriweather.
    ════════════════════════════════════════════════════════════════════════════ */

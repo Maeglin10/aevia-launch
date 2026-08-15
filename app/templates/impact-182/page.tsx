@@ -33,7 +33,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   BÂTIR SOLIDE — Maçon & Gros Œuvre ({clientCity(sessionData) ?? "Marseille"})
+   {clientName(sessionData) ?? "Bâtir"} SOLIDE — Maçon & Gros Œuvre ({clientCity(sessionData) ?? "Marseille"})
    Palette : sable chaud #d4a96a / brun terre #5c3317 / blanc cassé / ardoise
    Fonts : Barlow (titres condensed bold) + Source Sans (corps)
    Style : puissant, artisanal, solide, méditerranéen

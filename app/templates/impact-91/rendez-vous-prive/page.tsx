@@ -14,7 +14,7 @@ let bp: any = null;
 let c: any = null;
 
 /* ==========================================================================
-   AURELIA JEWELS — Design Tokens
+   {clientName(sessionData) ?? "AURELIA"} JEWELS — Design Tokens
    ========================================================================== */
 const C = {
   cream:     "#FAFAF9",
@@ -126,7 +126,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
                 className="text-[26px] tracking-[0.12em] italic"
                 style={{ fontFamily: "'Cormorant Garamond', serif", color: C.cream, fontWeight: 600 }}
               >
-                AURELIA
+                {clientName(sessionData) ?? "AURELIA"}
               </span>
               <button onClick={() => setOpen(false)} className="p-2 text-[#A8A29E] hover:text-white transition-colors">
                 <X size={22} />
@@ -323,7 +323,7 @@ export default function AnnexPage() {
               className="text-[10px] tracking-[0.30em] uppercase mb-4"
               style={{ color: C.gold, fontWeight: 500 }}
             >
-              AURELIA
+              {clientName(sessionData) ?? "AURELIA"}
             </p>
             <h1
               className="mb-6"
@@ -353,7 +353,7 @@ export default function AnnexPage() {
               Notre maison s'engage à vous fournir toutes les informations nécessaires dans les plus brefs délais.
             </p>
             <p className="mb-6">
-              Depuis 1977, Aurelia Joaillerie perpétue les techniques de l'orfèvrerie française transmises de maître en apprenti.
+              Depuis 1977, {clientName(sessionData) ?? "AURELIA"} Joaillerie perpétue les techniques de l'orfèvrerie française transmises de maître en apprenti.
               Chaque création est le fruit d'un travail minutieux et d'une passion inébranlable pour l'excellence.
             </p>
             <div className="p-8 my-10 text-center border" style={{ borderColor: C.goldBorder, backgroundColor: `${C.gold}08` }}>

@@ -32,7 +32,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   VOLTPRO ÉLECTRICITÉ — Électricien professionnel (France)
+   {clientName(sessionData) ?? "VoltPro Électricité"} — Électricien professionnel (France)
    Palette : noir profond / jaune électrique / blanc
    Fonts : Syne (titles) + Space Mono (accents)
    Style : dark industrial, high-contrast, Tailwind Reveal

@@ -30,7 +30,7 @@ import {
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CONTRÔLE RHODANIEN — Centre de contrôle technique agréé · Valence
+   {clientName(sessionData) ?? "Contrôle Rhodanien"} — Centre de contrôle technique agréé · Valence
 
    Contrôle technique, 1re variante (la 2e est impact-350, claire et familiale).
    Celle-ci vend l'atelier : le banc, la ligne, l'instrument. Ton d'atelier,

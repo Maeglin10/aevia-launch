@@ -40,7 +40,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   AXIS BIO — Laboratoire de biologie médicale · Metz
+   {clientName(sessionData) ?? "Axis Bio"} — Laboratoire de biologie médicale · Metz
 
    Geste signature : TrackingCollapse. Le dernier mot du titre arrive très
    espacé puis se resserre — un résultat qui se précise sous les yeux. Un seul

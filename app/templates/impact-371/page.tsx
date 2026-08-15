@@ -38,7 +38,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   SENTINELLE SUD — sécurité privée · Marseille
+   {clientName(sessionData) ?? "Sentinelle Sud"} — sécurité privée · Marseille
 
    Archétype H3 (plein cadre, titre en bas, fond de repli C.bgDark
    OBLIGATOIRE) · paire P6 (Archivo + Inter) · palette nuit #0b0f12 / bleu de

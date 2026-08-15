@@ -188,7 +188,7 @@ export default function EchoChamberLayout({ children }: { children: React.ReactN
                 <div style={{ width: 36, height: 36, borderRadius: "8px", backgroundColor: C.accent, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 0 14px ${C.accentGlow}` }}>
                   <Mic2 size={18} color={C.white} />
                 </div>
-                <span style={{ fontFamily: C.headingFont, fontSize: "1.4rem", color: C.white, letterSpacing: "0.06em" }}>ECHO CHAMBER</span>
+                <span style={{ fontFamily: C.headingFont, fontSize: "1.4rem", color: C.white, letterSpacing: "0.06em" }}>{clientName(__layoutSession) ?? "Echo Chamber"}</span>
               </Link>
               <p style={{ fontFamily: C.bodyFont, fontSize: "0.86rem", color: C.textMuted, lineHeight: 1.8, maxWidth: 290 }}>
                 Studio d'enregistrement professionnel. SSL, Neve, Pro Tools HDX. Ouvert 7j/7, 10h–23h.

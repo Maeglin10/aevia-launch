@@ -52,7 +52,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DR. ÉLODIE BEAUMONT — Cabinet médecine générale & préventive · {clientCity(sessionData) ?? "Strasbourg"}
+   {clientName(sessionData) ?? "Dr. Élodie Beaumont"} — Cabinet médecine générale & préventive · {clientCity(sessionData) ?? "Strasbourg"}
    Chorégraphie de défilement éditoriale, design calme et médical.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */

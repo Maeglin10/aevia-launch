@@ -146,7 +146,7 @@ export default function SupportPage() {
       
       <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-8 py-6 border-b border-white/5 bg-black/80 backdrop-blur-md">
          <Link href="/templates/impact-08" className="flex flex-col cursor-pointer">
-            <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">Vulcan</span>
+            <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">{clientName(sessionData) ?? "VULCAN"}</span>
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-blue-500 -mt-1 ml-1">Motor Group Modena</span>
          </Link>
          <div className="hidden md:flex gap-10 text-[10px] font-black uppercase tracking-widest text-white/40">
@@ -248,7 +248,7 @@ export default function SupportPage() {
                <div className="lg:col-span-7">
                   <Reveal>
                      <Link href="/templates/impact-08" className="flex flex-col mb-16 cursor-pointer inline-block">
-                        <span className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase leading-[0.7] italic">Vulcan</span>
+                        <span className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase leading-[0.7] italic">{clientName(sessionData) ?? "VULCAN"}</span>
                         <span className="text-[12px] font-bold uppercase tracking-[0.8em] text-blue-500 ml-2">Motor Group Modena</span>
                      </Link>
                      <p className="text-white/20 max-w-md mb-20 text-sm font-light uppercase tracking-widest leading-loose italic">
@@ -299,7 +299,7 @@ export default function SupportPage() {
 
             <div className="pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.4em] text-white/10 italic">
                <div className="flex flex-wrap gap-8">
-                  <span>©2026 VULCAN MOTOR GROUP MODENA.</span>
+                  <span>©2026 {clientName(sessionData) ?? "VULCAN"} MOTOR GROUP MODENA.</span>
                   <span className="hidden md:inline">//</span>
                   <Link href="/templates/impact-08/legal" className="hover:text-blue-500 transition-colors">MENTIONS LEGALES</Link>
                </div>

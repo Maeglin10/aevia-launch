@@ -31,7 +31,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   GENTLEMAN'S CUT — Barbier premium ({clientCity(sessionData) ?? "Bordeaux"})
+   {clientName(sessionData) ?? "Gentleman's Cut"} — Barbier premium ({clientCity(sessionData) ?? "Bordeaux"})
    Palette : noir encre #0a0908 / or vintage #c9a84c / ivoire #f5f0e8 / charcoal #1e1c1a
    Fonts : Playfair Display (titres) + DM Mono (labels)
    Style : éditorial masculin, premium, brasserie chic, contrasté
@@ -617,7 +617,7 @@ export default function GentlemansCutPage() {
       <footer className="bg-[#050403] pt-16 pb-8 px-6 border-t border-[var(--brand,#c9a84c)]/8">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="flex items-center gap-2.5 mb-5"><Scissors className="w-4 h-4 text-[var(--brand,#c9a84c)]" /><span className="font-bold text-[#f5f0e8] text-sm">Gentleman's Cut</span></div>
+            <div className="flex items-center gap-2.5 mb-5"><Scissors className="w-4 h-4 text-[var(--brand,#c9a84c)]" /><span className="font-bold text-[#f5f0e8] text-sm">{clientName(sessionData) ?? "Gentleman's Cut"}</span></div>
             <p className="text-[#f5f0e8]/15 text-sm leading-relaxed" style={{ fontFamily: "'DM Mono', monospace" }}>{clientTrade(sessionData) ?? "Barbier"} traditionnel à {clientCity({ formData: fd }) ?? "Bordeaux"}. Coupe, rasage, barbe. Depuis 2011.</p>
           </div>
           {[

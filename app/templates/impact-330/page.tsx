@@ -38,7 +38,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   PHARMACIE DU PARC — pharmacie · Lille. Archétype H1 : split, média à droite.
+   {clientName(sessionData) ?? "Pharmacie du Parc"} — pharmacie · Lille. Archétype H1 : split, média à droite.
    Paire P5 : DM Serif Display (titres, l'autorité douce d'une officine) contre
    DM Sans (prose). Clair #f7faf8, accent #1a7a52.
 

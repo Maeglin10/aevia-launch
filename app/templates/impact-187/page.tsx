@@ -29,7 +29,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   MAX PERFORMANCE — {clientTrade(sessionData) ?? "Coach sportif"} personnel ({clientCity({ formData: fd }) ?? "Paris"})
+   {clientName(sessionData) ?? "Max Performance"} — {clientTrade(sessionData) ?? "Coach sportif"} personnel ({clientCity({ formData: fd }) ?? "Paris"})
    Palette : noir #0a0a0a / orange électrique #f97316 / gris foncé #1a1a1a / blanc cassé #f8f5f0
    Fonts : Anton (titres impact) + Geist (corps)
    Style : énergie, impact, transformation, résultats

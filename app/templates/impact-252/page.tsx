@@ -37,7 +37,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   SMILE & CO — Cabinet Dentaire Esthétique · {clientCity(sessionData) ?? "Lyon"}
+   {clientName(sessionData) ?? "Smile & Co"} — Cabinet Dentaire Esthétique · {clientCity(sessionData) ?? "Lyon"}
    Chorégraphie de défilement premium, crossfade sticky 320vh, panneau tech
    collant, formulaire de RDV. 'use client'. Auto-suffisant.
    ════════════════════════════════════════════════════════════════════════════ */

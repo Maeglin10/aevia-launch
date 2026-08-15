@@ -817,7 +817,7 @@ return (
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  Encre Délicate est un studio féminin spécialisé dans le tatouage fineline et aquarelle. Chaque pièce est dessinée sur mesure, adaptée à votre anatomie et à votre sensibilité.
+                  {clientName(sessionData) ?? "Encre Délicate"} est un studio féminin spécialisé dans le tatouage fineline et aquarelle. Chaque pièce est dessinée sur mesure, adaptée à votre anatomie et à votre sensibilité.
                 </>}</p>
                 <p style={{
                   fontSize: 15,

@@ -658,7 +658,7 @@ export default function AuraWellnessPage() {
         </Reveal>
         <Reveal delay={0.15}>
           <p className="text-[#6B5E52] text-base max-w-2xl mx-auto leading-relaxed">{c?.aboutText ?? <>
-            Fondé en 2014, Aura Wellness propose des soins conçus à partir d'ingrédients botaniques traçables, administrés par des thérapeutes formés aux traditions ayurvédiques, taoïstes et méditerranéennes.
+            Fondé en 2014, {clientName(sessionData) ?? "Aura Wellness"} propose des soins conçus à partir d'ingrédients botaniques traçables, administrés par des thérapeutes formés aux traditions ayurvédiques, taoïstes et méditerranéennes.
           </>}</p>
         </Reveal>
       </section>
@@ -1103,7 +1103,7 @@ export default function AuraWellnessPage() {
             <div className="bg-[#EDE9E2] rounded-3xl border border-[#D8D0C4] p-8 md:p-10 h-full">
               <p className="text-[var(--brand,#7C9E87)] text-xs tracking-widest uppercase mb-3">Coordonnées</p>
               <h3 className="text-[#2C2820] text-2xl mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
-                Aura Wellness — {clientCity({ formData: fd }) ?? "Bordeaux"}
+                {clientName(sessionData) ?? "Aura Wellness"} — {clientCity({ formData: fd }) ?? "Bordeaux"}
               </>)}</h3>
               <ul className="space-y-5 text-sm text-[#6B5E52]">
                 <li className="flex items-start gap-3">

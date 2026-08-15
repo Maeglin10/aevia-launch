@@ -37,7 +37,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   LE FOURNIL DU PARLEMENT — Boulangerie-Café Bistronomique · {clientCity(sessionData) ?? "Strasbourg"}
+   {clientName(sessionData) ?? "Le Fournil du Parlement"} — Boulangerie-Café Bistronomique · {clientCity(sessionData) ?? "Strasbourg"}
    Chorégraphie scroll éditoriale : crossfade artisan 320vh, panneau sourcing
    collant, formulaire de réservation interactif. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -2163,7 +2163,7 @@ function Footer() {
           color: 'rgba(240,221,184,0.40)',
         }}
       >
-        <span>© 2009–2026 Le Fournil du Parlement · {clientCity(sessionData) ?? "Strasbourg"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2009–2026 {clientName(sessionData) ?? "Le Fournil du Parlement"} · {clientCity(sessionData) ?? "Strasbourg"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#reservation" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

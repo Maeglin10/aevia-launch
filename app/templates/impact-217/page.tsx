@@ -55,7 +55,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   AirForge — Premium Sneaker / Streetwear E-commerce
+   {clientName(sessionData) ?? "AirForge"} — Premium Sneaker / Streetwear E-commerce
    Real photography + reference-grade scroll choreography
    (Nike SNKRS × rideradian.com × Apple product pages)
    ════════════════════════════════════════════════════════════════════════════ */

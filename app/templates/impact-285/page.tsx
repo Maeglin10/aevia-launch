@@ -63,7 +63,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DR. MARC LECOMTE — Médecin généraliste & médecine du voyage · {clientCity(sessionData) ?? "Nantes"} Centre
+   {clientName(sessionData) ?? "Dr. Marc Lecomte"} — Médecin généraliste & médecine du voyage · {clientCity(sessionData) ?? "Nantes"} Centre
    Chorégraphie de défilement éditoriale. Fichier entièrement autonome.
    'use client'. Aucun import externe sauf react, framer-motion, lucide-react.
    ════════════════════════════════════════════════════════════════════════════ */

@@ -1263,7 +1263,7 @@ export default function LuxuryJewelryTemplate() {
                       letterSpacing: "0.18em",
                     }}
                   >
-                    MAISON ÉLARA
+                    {clientName(sessionData) ?? "MAISON ÉLARA"}
                   </span>
                 )}
               </span>
@@ -3205,7 +3205,7 @@ function AtelierPage() {
 
       <div style={{ display: "flex", flexDirection: "column", gap: 48, fontSize: 16, lineHeight: 1.9, color: "rgba(240,236,224,0.75)" }}>
         <p style={{ fontStyle: "italic" }}>
-          Depuis sa fondation en 1947, la Maison Élara s'est imposée comme le gardien d'un savoir-faire d'exception.
+          Depuis sa fondation en 1947, la {clientName(sessionData) ?? "MAISON ÉLARA"} s'est imposée comme le gardien d'un savoir-faire d'exception.
           Installé dans un hôtel particulier historique à quelques pas de la Place Vendôme, notre atelier réunit
           douze maîtres joailliers dévoués à l'excellence.
         </p>
@@ -3828,7 +3828,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
           <div>
             <h3 style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>1. Objet</h3>
             <p>
-              Les présentes Conditions Générales de Vente régissent les relations contractuelles pour toute demande ou commande effectuée auprès de la Maison Élara.
+              Les présentes Conditions Générales de Vente régissent les relations contractuelles pour toute demande ou commande effectuée auprès de la {clientName(sessionData) ?? "MAISON ÉLARA"}.
             </p>
           </div>
           <div>
@@ -3873,7 +3873,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
         <div>
           <h3 style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Collecte des données</h3>
           <p>
-            Les données recueillies via nos formulaires de contact ou d'inscription (nom, e-mail) sont destinées exclusivement au traitement de vos demandes d'informations et au suivi de vos relations avec la Maison Élara.
+            Les données recueillies via nos formulaires de contact ou d'inscription (nom, e-mail) sont destinées exclusivement au traitement de vos demandes d'informations et au suivi de vos relations avec la {clientName(sessionData) ?? "MAISON ÉLARA"}.
           </p>
         </div>
         <div>
