@@ -1993,7 +1993,7 @@ function Footer() {
 
   const cols: { title: string; items: { label: string; href: string }[] }[] = [
     {
-      title: 'Le Fournil',
+      title: clientNameOr('Le Fournil'),
       items: [
         { label: 'Notre histoire', href: '#intro' },
         { label: "L'équipe", href: '#intro' },
@@ -2047,7 +2047,7 @@ function Footer() {
               lineHeight: 1.3,
             }}
           >
-            Le Fournil
+            {(clientName(sessionData) ?? "Le Fournil du Parlement").split(" ").slice(0, 2).join(" ")}
             <br />
             <span style={{ fontStyle: 'italic', color: C.accentLight, fontSize: '0.82em' }}>
               du Parlement

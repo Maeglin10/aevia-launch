@@ -1472,7 +1472,7 @@ function MethodSection() {
           {/* Colonne droite : étapes */}
           <div className="r276-method-steps">
             <Reveal>
-              <Eyebrow>La méthode Thomas Lebrun</Eyebrow>
+              <Eyebrow>La méthode {clientName(sessionData) ?? "Thomas Lebrun"}</Eyebrow>
             </Reveal>
             <Reveal delay={0.1}>
               <h2

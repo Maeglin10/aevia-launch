@@ -984,7 +984,7 @@ export default function Page() {
             </Reveal>
             <Reveal delay={0.14}>
               <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(0.95rem,1.4vw,1.08rem)", lineHeight: 1.78, color: C.textMuted, maxWidth: 500, margin: "0 0 14px" }}>
-                {c?.aboutText ?? "Pro-Nettoyage Services accompagne les entreprises, syndics et collectivités dans l'entretien de leurs espaces. Notre engagement : des locaux impeccables, des équipes stables et un interlocuteur unique."}
+                {c?.aboutText ?? ((clientName(sessionData) ?? "Pro-Nettoyage") + " Services accompagne les entreprises, syndics et collectivités dans l'entretien de leurs espaces. Notre engagement : des locaux impeccables, des équipes stables et un interlocuteur unique.")}
               </p>
               <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(0.95rem,1.4vw,1.08rem)", lineHeight: 1.78, color: C.textMuted, maxWidth: 500, margin: "0 0 30px" }}>
                 {/* TEXTE_SECTION */ clientText(sessionData, "engagements.texte") ?? (<>
