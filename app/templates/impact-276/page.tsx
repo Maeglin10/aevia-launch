@@ -1422,7 +1422,7 @@ function MethodSection() {
             <motion.div style={{ position: 'absolute', inset: '-8% 0', y: imgY }}>
               <img
                 src={fd?.photoUrls?.[1] || PHOTO.coach}
-                alt="Thomas Lebrun coach en action Bordeaux"
+                alt={`${clientName(sessionData) ?? "Thomas Lebrun"} coach en action ${clientCity(sessionData) ?? "Bordeaux"}`}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             </motion.div>

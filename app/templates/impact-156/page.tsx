@@ -105,7 +105,9 @@ function COURS_DEMO_LIVE() {
   { nom: "Ashtanga", niveau: "Intermédiaire", duree: "90 min", horaire: "Lun · Mer 6h30", desc: "Série codifiée de postures pratiquée dans un ordre précis. Discipline, force et endurance.", icon: <Sun size={20} color={C.warm} /> },
   { nom: "Méditation guidée", niveau: "Tous niveaux", duree: "45 min", horaire: "Mar · Jeu · Sam 12h30", desc: "Techniques de pleine conscience, respiration pranayama et relaxation profonde Yoga Nidra.", icon: <Moon size={20} color={C.accent} /> },
   { nom: "Yoga Restauratif", niveau: "Débutant / Récup", duree: "60 min", horaire: "Sam 11h00 · Dim 10h00", desc: "Postures soutenues par des accessoires pour une récupération active et un système nerveux apaisé.", icon: <Heart size={20} color={C.accent} /> },
-])
+]);
+}
+let COURS_DEMO = COURS_DEMO_LIVE();
 
 const APPROCHE_SOURCE = [
   { titre: "Pratique authentique", desc: "Transmis dans la lignée de l'Ashtanga traditionnel, chaque cours s'adapte pourtant au corps et au rythme de chacun." },
@@ -113,8 +115,6 @@ const APPROCHE_SOURCE = [
   { titre: "Petits groupes", desc: "Maximum 12 élèves par cours pour un suivi individualisé et des ajustements personnalisés à chaque pratique." },
 ]
 let APPROCHE = APPROCHE_SOURCE;
-}
-let COURS_DEMO = COURS_DEMO_LIVE();
 
 const TEMOIGNAGES_SOURCE = [
   { texte: "Depuis que j'ai rejoint Lumière Yoga, ma relation avec mon corps a complètement changé. Les cours de Sophie sont à la fois exigeants et bienveillants. Un équilibre rare.", auteur: "Camille R.", detail: "Pratiquante depuis 2 ans, Vinyasa & Yin" },
