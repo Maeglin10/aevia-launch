@@ -734,6 +734,8 @@ function HeroSection() {
    2 · SCROLL CROSSFADE — 3 visuels en sticky + progress dots
    ════════════════════════════════════════════════════════════════════════════ */
 function ScrollCrossfade() {
+  const n = 3;
+  const progress = useMotionValue(0.5 / n);
   const [active, setActive] = useState(0);
   const goTo = (i: number) => {
     setActive(i);
