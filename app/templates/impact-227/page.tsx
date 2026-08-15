@@ -461,7 +461,7 @@ return (
           </>}</>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            Coupes, rasages au blaireau, soins barbe et cuir chevelu — Le Barber Club est l'adresse des hommes qui ne veulent pas choisir entre style et tradition.
+            Coupes, rasages au blaireau, soins barbe et cuir chevelu — {clientName(sessionData) ?? "Le Barber Club"} est l'adresse des hommes qui ne veulent pas choisir entre style et tradition.
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
             <motion.button onClick={() => openBooking(null)} style={{ background: C.accent, color: C.white, border: "none", borderRadius: 6, padding: "15px 32px", fontWeight: 600, fontSize: 15, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}44`, minHeight: 44 }} whileHover={{ scale: 1.03 }}>

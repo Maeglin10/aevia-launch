@@ -2137,7 +2137,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.38)',
         }}
       >
-        <span>© 2006–2026 Jardins Vivants · Paysagiste-Concepteur · {clientCity(sessionData) ?? "Bordeaux"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2006–2026 {clientName(sessionData) ?? "Jardins Vivants"} · Paysagiste-Concepteur · {clientCity(sessionData) ?? "Bordeaux"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#demarche" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

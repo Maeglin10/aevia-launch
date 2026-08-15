@@ -667,7 +667,7 @@ return (
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  Dr. Estelle Blanc vous reçoit dans un cabinet moderne et apaisant. Implantologie, orthodontie adulte et blanchiment professionnel avec les dernières technologies.
+                  {clientName(sessionData) ?? "Dr. Estelle Blanc"} vous reçoit dans un cabinet moderne et apaisant. Implantologie, orthodontie adulte et blanchiment professionnel avec les dernières technologies.
                 </>}</p>
                 <p style={{
                   fontSize: 15,
@@ -1287,7 +1287,7 @@ return (
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable de publication: Dr. Estelle Blanc<br />
+                Responsable de publication: {clientName(sessionData) ?? "Dr. Estelle Blanc"}<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>

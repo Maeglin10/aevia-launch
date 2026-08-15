@@ -301,7 +301,7 @@ function BlueprintHero() {
           <Rise beat="first" style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
             <span style={{ width: 40, height: 2, background: C.yellow, display: "block" }} />
             <span style={{ fontFamily: FONT_BODY, fontSize: 11, letterSpacing: "0.3em", textTransform: "uppercase", color: C.yellow, fontWeight: 700 }}>
-              Ferretti Construction · Depuis 1986
+              {clientName(sessionData) ?? "Ferretti Construction"} · Depuis 1986
             </span>
           </Rise>
 

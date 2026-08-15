@@ -2644,7 +2644,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2009–2026 Électricité Dumont. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2009–2026 {clientName(sessionData) ?? "Électricité Dumont"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
           <span

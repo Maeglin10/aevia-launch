@@ -705,7 +705,7 @@ return (
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  Depuis 2018, BurgerCo sourcie ses ingrédients auprès de producteurs locaux parisiens. Chaque burger est assemblé à la commande.
+                  Depuis 2018, {clientName(sessionData) ?? "BurgerCo"} sourcie ses ingrédients auprès de producteurs locaux parisiens. Chaque burger est assemblé à la commande.
                 </>}</p>
                 <p style={{
                   fontSize: 15,

@@ -1732,7 +1732,7 @@ function Footer() {
               className="text-[28px] tracking-[0.12em] italic block mb-5"
               style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, color: C.cream }}
             >
-              AURELIA
+              {clientName(sessionData) ?? "AURELIA"}
             </span>
             <p
               className="text-[13px] leading-[2] mb-6 max-w-[320px]"

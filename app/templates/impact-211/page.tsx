@@ -1804,7 +1804,7 @@ export default function Impact211Page() {
                 opacity: 0.4,
                 letterSpacing: "0.15em",
               }}>
-                Maison Éclat · {clientCity({ formData: fd }) ?? "Paris"}
+                {clientName(sessionData) ?? "Maison Éclat"} · {clientCity({ formData: fd }) ?? "Paris"}
               </span>
             </div>
           </div>

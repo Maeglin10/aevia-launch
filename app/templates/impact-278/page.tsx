@@ -1122,7 +1122,7 @@ function ServicesSection() {
               margin: '0 auto',
             }}
           >
-            Plomberie Garonne intervient sur l&apos;ensemble des corps de métier
+            {clientName(sessionData) ?? "Plomberie Garonne"} intervient sur l&apos;ensemble des corps de métier
             liés à l&apos;eau et au chauffage, du dépannage d&apos;urgence à la
             rénovation complète.
           </p>

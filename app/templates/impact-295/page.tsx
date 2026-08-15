@@ -672,7 +672,7 @@ return (
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  Chez Wok Master, tout est préparé le matin même : bouillons mijotés 8h, sauces maison, poisson livré chaque jour de Rungis. Le goût d'Asie, la rapidité du fast-food.
+                  Chez {clientName(sessionData) ?? "Wok Master"}, tout est préparé le matin même : bouillons mijotés 8h, sauces maison, poisson livré chaque jour de Rungis. Le goût d'Asie, la rapidité du fast-food.
                 </>}</p>
                 <p style={{
                   fontSize: 15,

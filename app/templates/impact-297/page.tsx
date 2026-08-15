@@ -668,7 +668,7 @@ return (
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  Dr. Camille Faure exerce la médecine générale avec une spécialisation en médecine sportive. Suivi personnalisé, prévention et téléconsultation pour vos soins du quotidien.
+                  {clientName(sessionData) ?? "Dr. Camille Faure"} exerce la médecine générale avec une spécialisation en médecine sportive. Suivi personnalisé, prévention et téléconsultation pour vos soins du quotidien.
                 </>}</p>
                 <p style={{
                   fontSize: 15,
@@ -1288,7 +1288,7 @@ return (
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable de publication: Dr. Camille Faure<br />
+                Responsable de publication: {clientName(sessionData) ?? "Dr. Camille Faure"}<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>

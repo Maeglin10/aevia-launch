@@ -307,7 +307,7 @@ export default function LegrandPage() {
           </Reveal>
           <Reveal delay={0.2}>
             <p className="text-[#C8B89A] text-lg max-w-lg mb-12 font-light leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-              Cabinet d&apos;avocats d&apos;affaires indépendant, Legrand & Associés conseille les entreprises et les institutions dans leurs opérations les plus complexes depuis plus de trente ans.
+              Cabinet d&apos;avocats d&apos;affaires indépendant, {clientName(sessionData) ?? "Legrand & Associés"} conseille les entreprises et les institutions dans leurs opérations les plus complexes depuis plus de trente ans.
             </>}</p>
           </Reveal>
           <Reveal delay={0.3}>
