@@ -85,7 +85,21 @@ function chaineTechnique(t) {
 */
 function motif(marque) {
   const titre = marque.toLowerCase().replace(/(^|[\s'’-])(\p{L})/gu, (_, a, b) => a + b.toUpperCase());
-  const formes = [...new Set([marque, titre, marque.toUpperCase()])]
+  /*
+     Et leurs écritures échappées. Le JSX veut `&amp;` pour une esperluette et
+     `&apos;` pour une apostrophe : « Ampère &amp; Fils » ne ressemblait à
+     « Ampère & Fils » pour aucun motif. Neuf marques du catalogue portent une
+     esperluette, six une apostrophe.
+  */
+  const echappees = (f) => [
+    f,
+    f.replace(/&/g, "&amp;"),
+    f.replace(/'/g, "&apos;"),
+    f.replace(/'/g, "&#39;"),
+    f.replace(/'/g, "’"),
+    f.replace(/&/g, "&amp;").replace(/'/g, "&apos;"),
+  ];
+  const formes = [...new Set([marque, titre, marque.toUpperCase()].flatMap(echappees))]
     .sort((a, b) => b.length - a.length)
     .map((f) => f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
   return new RegExp(`(?<![\\w])(?:${formes.join("|")})(?![\\w])`, "g");

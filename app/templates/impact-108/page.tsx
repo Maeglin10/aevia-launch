@@ -255,7 +255,7 @@ export default function LedgerPage() {
             }}
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 48 }}>
-              <span style={{ fontFamily: FONT, fontWeight: 700, fontSize: 18, color: C.white }}>Ledger &amp; Associés</span>
+              <span style={{ fontFamily: FONT, fontWeight: 700, fontSize: 18, color: C.white }}>{clientName(sessionData) ?? "Ledger & Associés"}</span>
               <button onClick={() => setMenuOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: C.white }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <line x1="18" y1="6" x2="6" y2="18" />
@@ -815,7 +815,7 @@ export default function LedgerPage() {
           <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr", gap: 48, marginBottom: 48 }}>
             <div>
               <div style={{ fontFamily: FONT, fontWeight: 700, fontSize: 20, color: C.white, marginBottom: 16 }}>
-                Ledger &amp; Associés
+                {clientName(sessionData) ?? "Ledger & Associés"}
               </div>
               <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 1.8 }}>
                 Cabinet d&apos;expertise comptable<br />

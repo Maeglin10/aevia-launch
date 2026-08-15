@@ -1924,7 +1924,7 @@ function Footer() {
               marginBottom: 18,
             }}
           >
-            Vaillant &amp; Associés
+            {clientName(sessionData) ?? "Vaillant & Associés"}
           </div>
           <p
             style={{
@@ -2030,7 +2030,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.36)',
         }}
       >
-        <span>© 1990–2026 Vaillant &amp; Associés. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 1990–2026 {clientName(sessionData) ?? "Vaillant & Associés"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>Mentions légales</a>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>Politique de confidentialité</a>

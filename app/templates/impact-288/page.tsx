@@ -1183,7 +1183,7 @@ function ServicesSection() {
               lineHeight: 1.7,
             }}
           >
-            De la mise aux normes à l'installation solaire, Ampère &amp; Fils
+            De la mise aux normes à l'installation solaire, {clientName(sessionData) ?? "Ampère & Fils"}
             couvre l'ensemble de vos besoins électriques à {clientCity(sessionData) ?? "Nantes"} et en
             Loire-Atlantique.
           </p>
@@ -1433,7 +1433,7 @@ function ProcessSection() {
                   lineHeight: 1.2,
                 }}
               >
-                Ampère &amp; Fils
+                {clientName(sessionData) ?? "Ampère & Fils"}
               </div>
               <div
                 style={{
@@ -1877,7 +1877,7 @@ function DevisFormSection() {
               >
                 Merci {form.prenom} ! Nous avons bien reçu votre demande de devis
                 pour <strong style={{ color: C.green }}>{form.projet || 'votre projet'}</strong>.
-                Un technicien Ampère &amp; Fils vous contactera sous 48h ouvrées.
+                Un technicien {clientName(sessionData) ?? "Ampère & Fils"} vous contactera sous 48h ouvrées.
               </p>
               <div style={{ marginTop: 8, display: 'flex', gap: 12, alignItems: 'center' }}>
                 <Phone size={16} color={C.green} />
@@ -2111,7 +2111,7 @@ function IrveSection() {
                   marginBottom: 28,
                 }}
               >
-                Ampère &amp; Fils est agréé <strong style={{ color: C.navy }}>IRVE P1/P2/P3</strong> par l'INERIS.
+                {clientName(sessionData) ?? "Ampère & Fils"} est agréé <strong style={{ color: C.navy }}>IRVE P1/P2/P3</strong> par l'INERIS.
                 Nous installons des bornes de recharge pour tous types de véhicules
                 électriques et hybrides rechargeables — chez le particulier, en
                 copropriété et pour les flottes d'entreprise.
@@ -2155,7 +2155,7 @@ function IrveSection() {
                     }}
                   >
                     Le programme ADVENIR finance jusqu'à 50 % du coût de votre borne
-                    en copropriété ou en entreprise. Ampère &amp; Fils constitue le
+                    en copropriété ou en entreprise. {clientName(sessionData) ?? "Ampère & Fils"} constitue le
                     dossier pour vous, gratuitement.
                   </p>
                 </div>
