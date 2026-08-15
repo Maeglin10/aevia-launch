@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -989,7 +990,7 @@ function LegalSubPage() {
             <h3 className="text-black font-semibold text-base mb-2">Éditeur du site</h3>
             <p>
               Le site {clientName(sessionData) ?? "Atelier Mécanique"} est édité par :<br />
-              <strong>Aevia WS — Valentin Milliand</strong><br />
+              <strong><EditeurDuSite /></strong><br />
               Entrepreneur individuel — SIREN : <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
               <strong>Contact :</strong>{fd?.email ?? "contact@exemple.fr"}<br />
               <strong>Adresse physique :</strong> communiquée sur demande.

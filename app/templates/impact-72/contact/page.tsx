@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -63,7 +64,7 @@ export default function ContactPage() {
             </div>
             <p style={{ fontSize: "0.85rem", color: C.textMuted, lineHeight: 1.6 }}>
               Email : <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} style={{ color: C.text, textDecoration: "none" }}>{fd?.email ?? "contact@exemple.fr"}</a><br />
-              HQ : Bourg-en-Bresse, France<br />
+              HQ : <EditeurDuSite quoi="ville" />, France<br />
               SPI N° <LegalIdentity />
             </p>
           </div>

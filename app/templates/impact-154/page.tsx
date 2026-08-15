@@ -1,5 +1,6 @@
 
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
@@ -1464,7 +1465,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
            <div className="max-w-[820px] mx-auto px-8 md:px-12">
               <Heading>Éditeur</Heading>
               <Para><Strong>Aevia WS</Strong> — entrepreneur individuel (auto-entrepreneur).</Para>
-              <Para>Directeur de la publication : <Strong>Valentin Milliand</Strong>.</Para>
+              <Para>Directeur de la publication : <Strong><EditeurDuSite /></Strong>.</Para>
               <Para>SIREN : <Strong><LegalIdentity /></Strong> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}.</Para>
               <Para>Contact : <Strong>{fd?.email ?? "contact@exemple.fr"}</Strong></Para>
               <Para>Adresse du siège social communiquée sur demande à {fd?.email ?? "contact@exemple.fr"}.</Para>

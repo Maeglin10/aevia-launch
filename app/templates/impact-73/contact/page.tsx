@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 // @ts-nocheck
 
 import { useEffect, useState } from "react";
@@ -76,7 +77,7 @@ export default function ContactPage() {
                 <MapPin className="w-5 h-5 text-rose-500" />
                 <div>
                   <h4 className="text-white/60 mb-1">HQ Address</h4>
-                  <span className="text-white">Bourg-en-Bresse, France</span>
+                  <span className="text-white"><EditeurDuSite quoi="ville" />, France</span>
                 </div>
               </div>
               <div className="flex items-center gap-4 p-4 bg-white/[0.01] border border-white/5 rounded-xl">

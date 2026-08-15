@@ -1,5 +1,6 @@
 
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { tr } from "@/lib/templates/uiStrings";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
@@ -1113,7 +1114,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
             <div>
               <h2 style={{ fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 300, color: 'rgb(217, 119, 6)', marginBottom: 12 }} className="text-amber-500">Éditeur</h2>
               <p>
-                Aevia WS — Valentin Milliand<br />
+                <EditeurDuSite /><br />
                 Entrepreneur individuel<br />
                 SIREN <LegalIdentity /><br />
                 {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />{fd?.email ?? "contact@exemple.fr"}</p>

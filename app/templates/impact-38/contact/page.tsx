@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import {
   clientFaq,
   clientHours,
@@ -292,7 +293,7 @@ export default function ContactPage() {
                   <h3 style={{ fontFamily: SERIF, fontSize: 16, fontWeight: 700, color: C.espresso, margin: 0 }}>Torréfaction & Showroom</h3>
                 </div>
                 <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.75, fontWeight: 300, marginBottom: 10 }}>
-                  Valentin Milliand, SIREN <LegalIdentity /><br />
+                  <EditeurDuSite />, SIREN <LegalIdentity /><br />
                   {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
                   Adresse communiquée sur rendez-vous.
                 </p>

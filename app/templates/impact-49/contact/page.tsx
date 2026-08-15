@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 
 import React, { useEffect, useState } from "react";
 import { Mail, Phone, MapPin } from "lucide-react";
@@ -99,7 +100,7 @@ export default function ContactPage() {
               <div>
                 <h4 className="font-bold text-[#1E1B4B] mb-1">Siège social</h4>
                 <p className="text-sm text-[#6B7280] font-medium">
-                  Bourg-en-Bresse, France
+                  <EditeurDuSite quoi="ville" />, France
                 </p>
               </div>
             </div>

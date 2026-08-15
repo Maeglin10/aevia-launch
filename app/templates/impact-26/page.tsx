@@ -1,5 +1,6 @@
 
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
@@ -1614,7 +1615,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
           <div>
             <h3 style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Éditeur du site</h3>
             <p>
-              Aevia WS — Valentin Milliand<br />
+              <EditeurDuSite /><br />
               Entrepreneur individuel<br />
               SIREN : <LegalIdentity /><br />
               {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}<br />

@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { tr } from "@/lib/templates/uiStrings";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
@@ -986,7 +987,7 @@ export default function StudioPelikanPage() {
           <section id="contact" className="py-20 px-6 bg-[#150F09]">
             <div className="max-w-4xl mx-auto space-y-12">
               {[
-                { title: "Éditeur du site", content: "Aevia WS — Valentin Milliand, entrepreneur individuel.\nSIREN : <LegalIdentity /> — RCS Bourg-en-Bresse." },
+                { title: "Éditeur du site", content: (<><EditeurDuSite />, entrepreneur individuel.<br />SIREN : <LegalIdentity /> — RCS <EditeurDuSite quoi="ville" />.</>) },
                 { title: "Contact", content: (fd?.email ?? "contact@exemple.fr") },
                 { title: "Hébergement", content: "Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA." },
                 { title: "Propriété intellectuelle", content: "L'ensemble des contenus (textes, images, code, design) est protégé. Toute reproduction non autorisée est interdite." },

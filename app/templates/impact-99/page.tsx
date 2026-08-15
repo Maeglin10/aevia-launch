@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
@@ -989,7 +990,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
                 Aevia WS — entrepreneur individuel (auto-entrepreneur)
               </LegalBlock>
               <LegalBlock title="Directeur de la publication">
-                Valentin Milliand
+                <EditeurDuSite />
               </LegalBlock>
               <LegalBlock title="Immatriculation">
                 SIREN <LegalIdentity /> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}
@@ -1008,7 +1009,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
           ) : (
             <>
               <LegalBlock title="Responsable du traitement">
-                Aevia WS, représentée par Valentin Milliand, est responsable du
+                <EditeurDuSite />, est responsable du
                 traitement des données collectées sur ce site. Contact :
                 {fd?.email ?? "contact@exemple.fr"}.
               </LegalBlock>

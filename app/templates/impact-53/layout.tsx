@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import {
   clientName,
 } from "@/lib/templates/clientContent";
@@ -309,7 +310,7 @@ export default function Impact53Layout({
                 lineHeight: 1.4,
               }}
             >
-              Bourg-en-Bresse, <br /> France
+              <EditeurDuSite quoi="ville" />, <br /> France
             </span>
           </div>
 
