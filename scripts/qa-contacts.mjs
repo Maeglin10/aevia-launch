@@ -145,6 +145,18 @@ async function travailleur() {
         morceaux.push(document.body.innerText ?? "");
         return morceaux.join(" ").replace(/\s+/g, " ");
       });
+      /*
+         Le client est-il visible sur cette page ?
+
+         Sans cette question, la mesure accuse une page qu'elle a lue trop tôt :
+         à quatre onglets, six thèmes sur neuf cents étaient signalés une fois
+         sur deux et jamais reproductibles seuls. Une page qui ne montre ni le
+         nom, ni la ville, ni l'adresse du client n'a pas encore reçu sa session
+         — ou n'affiche rien de lui par dessein. Dans les deux cas, on ne peut
+         rien conclure sur la marque : on le dit, on n'accuse pas.
+      */
+      const clientVisible = /Ateliers Vidal|Annecy|contact@ateliers-vidal\.fr/i.test(vus);
+
       const sien = COURRIEL.toLowerCase();
       for (const m of new Set(vus.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/gi) ?? [])) {
         if (m.toLowerCase() !== sien) fuites.push(`courriel étranger : ${m}`);
@@ -169,7 +181,8 @@ async function travailleur() {
          vraiment un nom — telle quelle, en capitales, en Capitales Initiales —
          et l'on exige un mot entier.
       */
-      const marque = MARQUES[theme];
+      const marque = clientVisible ? MARQUES[theme] : null;
+      if (!clientVisible) fuites.push("client invisible — mesure non concluante");
       if (marque) {
         const titre = marque.toLowerCase().replace(/(^|[\s'’-])(\p{L})/gu, (_, a, b) => a + b.toUpperCase());
         const formes = [...new Set([marque, titre, marque.toUpperCase()])]
