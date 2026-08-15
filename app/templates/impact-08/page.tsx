@@ -201,7 +201,7 @@ function HUD_Telemetry() {
   return (
     <div className="fixed top-24 right-12 z-40 hidden xl:flex flex-col gap-8 items-end pointer-events-none">
        <div className="flex flex-col items-end border-r-2 border-[var(--brand,#3b82f6)]/30 pr-6 py-2">
-          <div className="text-[10px] font-black tracking-widest text-[var(--brand,#3b82f6)] uppercase mb-2">Vulcan_System_V4.2</div>
+          <div className="text-[10px] font-black tracking-widest text-[var(--brand,#3b82f6)] uppercase mb-2">{clientName(sessionData) ?? "Vulcan"}_System_V4.2</div>
           <div className="text-2xl font-mono text-white tracking-tighter">44.12.08</div>
           <div className="text-[10px] font-bold text-white/30 uppercase mt-1">Modena // Italy</div>
        </div>
@@ -536,7 +536,7 @@ return (
             <section className="py-48 px-8 md:px-24 bg-[#0a0a0a] relative overflow-hidden">
                <div className="max-w-7xl mx-auto mb-24 flex justify-between items-end">
                   <Reveal>
-                     <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] mb-8">Vulcan_Registry</div>
+                     <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] mb-8">{clientName(sessionData) ?? "Vulcan"}_Registry</div>
                      <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.85] italic">{c?.aboutTitle ?? fd?.businessName ?? <>
                         The <br/> <span className="text-white/10">Arsenal.</span>
                      </>}</h2>
@@ -976,7 +976,7 @@ function LegalPage() {
     <section id="contact" className="py-32 px-8 md:px-24 bg-[#050505] text-[#f0f0f0] border-t border-white/5 font-mono text-xs">
       <div className="max-w-3xl mx-auto space-y-16">
         <div>
-          <span className="text-[10px] font-black text-[var(--brand,#3b82f6)] uppercase tracking-widest mb-4 block">Vulcan_Compliance</span>
+          <span className="text-[10px] font-black text-[var(--brand,#3b82f6)] uppercase tracking-widest mb-4 block">{clientName(sessionData) ?? "Vulcan"}_Compliance</span>
           <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-12">{c?.heroHeadline ?? "Mentions Légales"}</h1>
         </div>
 

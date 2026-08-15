@@ -25,16 +25,20 @@ import {
   clientText,
 } from "@/lib/templates/clientContent";
 
+
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+/* La session, posée avant tout dégel : une donnée recalculée à l'import la lit.
+   Déclarée plus bas, elle rendait la page blanche sans un mot du build. */
 let fd: any = null;
+let sessionData: any = null;
+let brand: any = null;
+
 let c: any = null;
 let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
 // que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
    {clientName(sessionData) ?? "Le Fournil du Parlement"} — Boulangerie-Café Bistronomique · {clientCity(sessionData) ?? "Strasbourg"}
@@ -124,6 +128,9 @@ interface SourcingStep {
   origin: string;
   detail: string;
 }
+
+const photo = (id: string) =>
+  ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[5] || `https://images.unsplash.com/photo-${id}&q=80&w=1600&auto=format&fit=crop`));
 
 /* ════════════════════════════════════════════════════════════════════════════
    Données
@@ -285,8 +292,6 @@ let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ── Utilitaire photo ────────────────────────────────────────────────────── */
-const photo = (id: string) =>
-  ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[5] || `https://images.unsplash.com/photo-${id}&q=80&w=1600&auto=format&fit=crop`));
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives

@@ -104,7 +104,7 @@ function HUD_Telemetry() {
   return (
     <div className="fixed top-24 right-12 z-40 hidden xl:flex flex-col gap-8 items-end pointer-events-none">
        <div className="flex flex-col items-end border-r-2 border-blue-500/30 pr-6 py-2">
-          <div className="text-[10px] font-black tracking-widest text-blue-500 uppercase mb-2">Vulcan_System_V4.2</div>
+          <div className="text-[10px] font-black tracking-widest text-blue-500 uppercase mb-2">{clientName(sessionData) ?? "Vulcan"}_System_V4.2</div>
           <div className="text-2xl font-mono text-white tracking-tighter">44.12.08</div>
           <div className="text-[10px] font-bold text-white/30 uppercase mt-1">Modena // Italy</div>
        </div>

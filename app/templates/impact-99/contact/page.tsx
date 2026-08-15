@@ -44,6 +44,11 @@ import "../../premium.css";
    every page. No new styling is introduced — only the theme's own tokens.
    ========================================================================= */
 
+/* La session, posée avant tout dégel : une donnée recalculée à l'import la lit.
+   Déclarée plus bas, elle rendait la page blanche sans un mot du build. */
+let sessionData: any = null;
+let fd: any = null;
+
 type EmberPage =
   | "home"
   | "carte"
@@ -1083,9 +1088,8 @@ function LegalBlock({
 
 import { useRouter } from "next/navigation";
 
+
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
-let sessionData: any = null;
-let fd: any = null;
 let bp: any = null;
 let c: any = null;
 

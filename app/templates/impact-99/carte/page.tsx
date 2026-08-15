@@ -45,6 +45,10 @@ import "../../premium.css";
    every page. No new styling is introduced — only the theme's own tokens.
    ========================================================================= */
 
+/* La session, posée avant tout dégel : une donnée recalculée à l'import la lit.
+   Déclarée plus bas, elle rendait la page blanche sans un mot du build. */
+let sessionData: any = null;
+
 type EmberPage =
   | "home"
   | "carte"
@@ -1093,6 +1097,7 @@ function LegalBlock({
 
 import { useRouter } from "next/navigation";
 
+
 // Global state variable for CartePage() compatibility (menu wiring only)
 let c: any = null;
 /*
@@ -1100,7 +1105,6 @@ let c: any = null;
   `generatedContent`, et `clientName(sessionData)` y référençait une variable
   qui n'existait pas — la page entière disparaissait.
 */
-let sessionData: any = null;
 /*
   Le profil du client, où vit sa carte. Cette page ne gardait que
   `generatedContent` : `bp?.menu` y désignait une variable inexistante et la
