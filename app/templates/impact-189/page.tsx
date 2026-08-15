@@ -102,7 +102,7 @@ let PRESTATIONS = PRESTATIONS_DEMO;
 function TESTIMONIALS_DEMO_LIVE() {
   return [
   { q: "Léonie a transformé mes cheveux abîmés en quelque chose de sublime. Le balayage est naturel, la couleur exactement ce que je voulais. Enfin une vraie experte.", n: "Sophie M.", l: (clientCity(sessionData) ?? "Paris") },
-  { q: "Coiffure de mariée parfaite le jour J. L'essai en amont m'a permis d'ajuster chaque détail. On s'est senti chouchouté du début à la fin. Merci Atelier Léonie !", n: "Clémence R.", l: (clientCity(sessionData) ?? "Paris") + " 75" },
+  { q: `Coiffure de mariée parfaite le jour J. L'essai en amont m'a permis d'ajuster chaque détail. On s'est senti chouchouté du début à la fin. Merci ${clientName(sessionData) ?? "ATELIER LÉONIE"} !`, n: "Clémence R.", l: (clientCity(sessionData) ?? "Paris") + " 75" },
   { q: "Lissage brésilien impeccable. Résultat qui dure 4 mois, aucun problème aux repousses. Pour moi c'est devenu un rituel bi-annuel incontournable.", n: "Aïcha D.", l: "Neuilly-sur-Seine" },
 ];
 }

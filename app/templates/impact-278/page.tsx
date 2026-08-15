@@ -338,7 +338,7 @@ function Nav() {
         ) : (
           <>
             <Droplets size={22} color={C.brick} strokeWidth={2} />
-            Plomberie&nbsp;Garonne
+            {clientName(sessionData) ?? "Plomberie Garonne"}
           </>
         )}
       </a>

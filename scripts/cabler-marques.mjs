@@ -98,6 +98,11 @@ function motif(marque) {
     f.replace(/'/g, "&#39;"),
     f.replace(/'/g, "’"),
     f.replace(/&/g, "&amp;").replace(/'/g, "&apos;"),
+    /* L'espace insécable, écrite en entité : « Ampère&nbsp;&amp;&nbsp;Fils ». */
+    f.replace(/ & /g, "&nbsp;&amp;&nbsp;"),
+    f.replace(/ /g, "&nbsp;"),
+    /* Et l'esperluette dite en toutes lettres, dans les descriptions d'image. */
+    f.replace(/ & /g, " et "),
   ];
   const formes = [...new Set([marque, titre, marque.toUpperCase()].flatMap(echappees))]
     .sort((a, b) => b.length - a.length)
@@ -156,7 +161,15 @@ for (const p of parcourir(RACINE)) {
     /* Les deux sortes de guillemets, échappements compris : impact-10 écrivait
        ses textes en apostrophes (`long: 'Nestled around the inner garden…'`) et
        échappait celles du texte — le motif s'arrêtait au premier antislash. */
-    return ligne.replace(/(^\s*|.?[:(,[=]\s*)(["'])((?:[^"'\\\n`]|\\.)*)\2/g, (tout, avant, guillemet, corps, position) => {
+    /*
+       Une chaîne peut contenir l'autre guillemet. Le motif interdisait les deux
+       à l'intérieur : « "J'avais évité les dentistes… Smile & Co a tout
+       changé" » lui échappait entièrement, et c'est la forme qu'ont tous les
+       témoignages français du catalogue.
+    */
+    return ligne.replace(/(^\s*|.?[:(,[=]\s*)(?:"((?:[^"\\\n`]|\\.)*)"|'((?:[^'\\\n`]|\\.)*)')/g, (tout, avant, double, simple, position) => {
+      const guillemet = double !== undefined ? '"' : "'";
+      const corps = double !== undefined ? double : simple;
       re.lastIndex = 0;
       if (!re.test(corps) || corps.includes("${") || chaineTechnique(corps)) return tout;
       /*

@@ -258,20 +258,25 @@ const PROCESS: ProcessStep[] = [
   },
 ];
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function TESTIMONIALS_SOURCE_LIVE(): Testimonial[] {
+  return [
   {
     quote:
-      "Notre mariage dans un château du Médoc, 120 invités, a été d'une fluidité absolue. L'équipe de Maison Nuptiale a tout géré avec une élégance et un calme remarquables. Chaque détail était exactement comme nous l'avions rêvé — souvent mieux.",
+      `Notre mariage dans un château du Médoc, 120 invités, a été d'une fluidité absolue. L'équipe de ${clientName(sessionData) ?? "Maison Nuptiale"} a tout géré avec une élégance et un calme remarquables. Chaque détail était exactement comme nous l'avions rêvé — souvent mieux.`,
     name: 'Camille & Julien Ferraud',
     role: 'Château du Médoc · 120 invités',
   },
   {
     quote:
-      "On voulait quelque chose d'intime : 20 personnes dans un jardin, une cérémonie civile sans chichis. Maison Nuptiale a transformé notre simplicité en quelque chose de magique. Une journée que nous n'oublierons jamais.",
+      `On voulait quelque chose d'intime : 20 personnes dans un jardin, une cérémonie civile sans chichis. ${clientName(sessionData) ?? "Maison Nuptiale"} a transformé notre simplicité en quelque chose de magique. Une journée que nous n'oublierons jamais.`,
     name: 'Sophie & Antoine Martel',
     role: 'Réception jardin · 20 invités',
   },
 ];
+}
+let TESTIMONIALS_SOURCE: Testimonial[] = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 // Live arrays — reassigned from the client's BusinessProfile in Page(), read by
@@ -2225,6 +2230,7 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   CHAPTERS = CHAPTERS_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();

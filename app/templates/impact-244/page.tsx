@@ -262,13 +262,13 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     quote:
-      "Atelier Céleste a transformé notre mariage au Château de Vaux-le-Vicomte en quelque chose d'absolument magique. Leur obsession du détail — chaque fleur, chaque bougie, chaque ruban — était visible. Nous vivions pleinement notre journée pendant qu'ils veillaient sur tout.",
+      `${clientName(sessionData) ?? "Atelier Céleste"} a transformé notre mariage au Château de Vaux-le-Vicomte en quelque chose d'absolument magique. Leur obsession du détail — chaque fleur, chaque bougie, chaque ruban — était visible. Nous vivions pleinement notre journée pendant qu'ils veillaient sur tout.`,
     name: 'Sophie & Alexandre M.',
     role: 'Mariés à Vaux-le-Vicomte · ' + (clientCity(sessionData) ?? 'Paris'),
   },
   {
     quote:
-      "Nous étions à Lyon et voulions un mariage en destination sur la Côte d'Azur. La coordination à distance d'Atelier Céleste a été sans faille. Les retours étaient toujours rapides, précis et rassurants. Le jour J a dépassé tout ce que nous imaginions.",
+      `Nous étions à Lyon et voulions un mariage en destination sur la Côte d'Azur. La coordination à distance d'${clientName(sessionData) ?? "Atelier Céleste"} a été sans faille. Les retours étaient toujours rapides, précis et rassurants. Le jour J a dépassé tout ce que nous imaginions.`,
     name: 'Camille & Thomas R.',
     role: "Mariage en destination · Côte d'Azur",
   },

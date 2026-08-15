@@ -298,7 +298,7 @@ function Nav() {
         ) : (
           <>
             <Grape size={20} color={C.gold} strokeWidth={1.4} />
-            Domaine&nbsp;Miroir
+            {clientName(sessionData) ?? "Domaine Miroir"}
           </>
         )}
       </div>

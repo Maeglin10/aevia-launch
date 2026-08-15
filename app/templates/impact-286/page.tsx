@@ -307,7 +307,7 @@ function Nav() {
         ) : (
           <>
             <Scale size={18} color={C.gold} strokeWidth={1.4} />
-            Cabinet&nbsp;Vidal
+            {clientName(sessionData) ?? "Cabinet Vidal"}
           </>
         )}
       </div>

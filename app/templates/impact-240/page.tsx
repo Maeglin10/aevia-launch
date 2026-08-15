@@ -1399,7 +1399,7 @@ function MethodPanel() {
           <div style={{ overflow: 'hidden', aspectRatio: '4 / 5' }}>
             <img
               src={`${PHOTO_BASE}1571019613454-1cb2f99b2d8b?q=80&w=900&auto=format&fit=crop`}
-              alt="Coach Studio Athletic Lyon — méthode d'entraînement"
+              alt={`Coach ${clientName(sessionData) ?? "STUDIO ATHLETIC"} Lyon — méthode d'entraînement`}
               loading="lazy"
               style={{
                 width: '100%',

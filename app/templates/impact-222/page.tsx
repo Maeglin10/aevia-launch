@@ -1735,20 +1735,25 @@ type Testimonial = {
   role: string;
 };
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function TESTIMONIALS_SOURCE_LIVE(): Testimonial[] {
+  return [
   {
     quote:
-      "Solis a compris en un rendez-vous ce que d'autres n'avaient pas saisi en six mois. L'acquisition de notre résidence à Saint-Rémy s'est faite avec une fluidité et une discrétion remarquables.",
+      `${clientName(sessionData) ?? "Solis"} a compris en un rendez-vous ce que d'autres n'avaient pas saisi en six mois. L'acquisition de notre résidence à Saint-Rémy s'est faite avec une fluidité et une discrétion remarquables.`,
     name: 'Édouard Vasseur',
     role: 'Directeur financier, groupe coté',
   },
   {
     quote:
-      "En tant qu'architecte, je suis exigeant sur la lecture d'un lieu. L'équipe de Solis parle le même langage : celui de la lumière, des proportions et de l'usage. Une collaboration d'une rare intelligence.",
+      `En tant qu'architecte, je suis exigeant sur la lecture d'un lieu. L'équipe de ${clientName(sessionData) ?? "Solis"} parle le même langage : celui de la lumière, des proportions et de l'usage. Une collaboration d'une rare intelligence.`,
     name: 'Camille Théron',
     role: 'Architecte DPLG, Atelier Théron',
   },
 ];
+}
+let TESTIMONIALS_SOURCE: Testimonial[] = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const Testimonials: React.FC = () => (
@@ -2544,6 +2549,7 @@ export default function ImpactTemplate(): React.ReactElement {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   ROWS = ROWS_LIVE();
   SHOWCASE_FEATURES = SHOWCASE_FEATURES_LIVE();
   PROPERTIES_DEMO_SOURCE = PROPERTIES_DEMO_SOURCE_LIVE();

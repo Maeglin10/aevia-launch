@@ -286,7 +286,7 @@ function BLOG_POSTS_LIVE() {
     body: [
       `Vingt années passées à apprivoiser la flamme. Notre chef exécutif a forgé sa maîtrise dans les plus grandes maisons avant de fonder ${clientName(sessionData) ?? "Ember"}, avec une obsession : rendre au feu sa noblesse première.`,
       "Le laboratoire du feu, comme il l'appelle, repose sur trois bois — hickory, cerisier et chêne — combinés pour composer un profil de fumée unique à chaque cuisson. Rien n'y est laissé au hasard : la densité de la braise, la distance à la flamme, le repos après la saisie.",
-      "Sa philosophie tient en une phrase : « Le feu ne se commande pas, il se comprend. » C'est cette compréhension, patiemment acquise, qui a valu à Ember sa seconde étoile.",
+      `Sa philosophie tient en une phrase : « Le feu ne se commande pas, il se comprend. » C'est cette compréhension, patiemment acquise, qui a valu à ${clientName(sessionData) ?? "Ember"} sa seconde étoile.`,
     ],
   },
 ];

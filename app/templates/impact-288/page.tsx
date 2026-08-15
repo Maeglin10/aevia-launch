@@ -328,7 +328,7 @@ function Nav() {
         ) : (
           <>
             <Zap size={20} color={C.green} strokeWidth={2.5} />
-            Ampère&nbsp;&amp;&nbsp;Fils
+            {clientName(sessionData) ?? "Ampère & Fils"}
           </>
         )}
       </a>
@@ -488,7 +488,7 @@ function HeroSection() {
       >
         <img
           src={PHOTO.tableau}
-          alt="Tableau de distribution électrique Ampère et Fils"
+          alt={`Tableau de distribution électrique ${clientName(sessionData) ?? "Ampère & Fils"}`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="true"
         />
@@ -715,10 +715,13 @@ type CrossfadeSlide = {
   sub: string;
 };
 
-const SLIDES: CrossfadeSlide[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function SLIDES_LIVE(): CrossfadeSlide[] {
+  return [
   {
     src: PHOTO.tableau,
-    alt: 'Installation tableau électrique Ampère et Fils',
+    alt: `Installation tableau électrique ${clientName(sessionData) ?? "Ampère & Fils"}`,
     index: '01',
     title: 'Installation & rénovation',
     sub: 'Mise aux normes NF C 15-100, tableaux modulaires, câblage neuf ou rénovation complète.',
@@ -738,6 +741,8 @@ const SLIDES: CrossfadeSlide[] = [
     sub: "Poses de panneaux photovoltaïques, autoconsommation, revente EDF, aides MaPrimeRénov'.",
   },
 ];
+}
+let SLIDES: CrossfadeSlide[] = SLIDES_LIVE();
 
 function SlideImage({
   slide,
@@ -1404,7 +1409,7 @@ function ProcessSection() {
           >
             <img
               src={PHOTO.technicien}
-              alt="Électricien Ampère et Fils au travail"
+              alt={`Électricien ${clientName(sessionData) ?? "Ampère & Fils"} au travail`}
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
@@ -2223,7 +2228,7 @@ function IrveSection() {
             >
               <img
                 src={PHOTO.borne}
-                alt="Borne de recharge véhicule électrique installée par Ampère et Fils"
+                alt={`Borne de recharge véhicule électrique installée par ${clientName(sessionData) ?? "Ampère & Fils"}`}
                 loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
@@ -2310,7 +2315,7 @@ function SolaireSection() {
             >
               <img
                 src={PHOTO.solaire}
-                alt="Panneaux solaires photovoltaïques posés par Ampère et Fils Loire-Atlantique"
+                alt={`Panneaux solaires photovoltaïques posés par ${clientName(sessionData) ?? "Ampère & Fils"} Loire-Atlantique`}
                 loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
@@ -3152,6 +3157,7 @@ export default function Impact288Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SLIDES = SLIDES_LIVE();
   STEPS = STEPS_LIVE();
   PHOTO = PHOTO_LIVE();
   ZONES = ZONES_LIVE();

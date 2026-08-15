@@ -217,7 +217,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     quote:
-      "J'avais évité les dentistes pendant dix ans à cause d'une phobie intense. Smile & Co a tout changé — une équipe d'une patience et d'une douceur rares. Aujourd'hui je souris sans me cacher. Je ne pensais pas que c'était encore possible.",
+      `J'avais évité les dentistes pendant dix ans à cause d'une phobie intense. ${clientName(sessionData) ?? "Smile & Co"} a tout changé — une équipe d'une patience et d'une douceur rares. Aujourd'hui je souris sans me cacher. Je ne pensais pas que c'était encore possible.`,
     name: 'Camille D.',
     role: 'Patiente · ' + (clientCity(sessionData) ?? 'Lyon'),
   },

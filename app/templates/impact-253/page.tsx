@@ -224,7 +224,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     quote:
-      "Coureur amateur avec des douleurs récurrentes au genou, j'avais presque renoncé à courir. Après 8 séances chez KinéSport Élite, j'ai repris l'entraînement marathon. Leur approche biomécanique a tout changé.",
+      `Coureur amateur avec des douleurs récurrentes au genou, j'avais presque renoncé à courir. Après 8 séances chez ${clientName(sessionData) ?? "KinéSport Élite"}, j'ai repris l'entraînement marathon. Leur approche biomécanique a tout changé.`,
     name: 'Thomas R.',
     role: 'Coureur amateur · ' + (clientCity(sessionData) ?? 'Paris'),
   },
