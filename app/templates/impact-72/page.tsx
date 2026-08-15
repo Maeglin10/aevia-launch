@@ -8,16 +8,15 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { C, TextReveal, MagneticButton, Marquee, StackedCards, FILMS, ServiceCard, SERVICES, PRESS } from "./shared";
 import {
-  clientHeroPrestations,
   clientAccrocheRestante,
   clientCity,
+  clientHeroPrestations,
   clientHeroSubtitle,
   clientName,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 let sessionData: any = null;

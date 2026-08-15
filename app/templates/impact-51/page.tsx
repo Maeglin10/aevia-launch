@@ -7,16 +7,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Mail, Check, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import {
-  T,
-  Reveal,
-  AnimatedCounter,
-  IntegrationMarquee,
-  DashboardMockup,
-  StickyFeatureSection,
-  STATS,
-  TESTIMONIALS,
-} from "./shared";
-import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -24,7 +14,6 @@ import {
   clientReviews,
   clientServices,
   clientText,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

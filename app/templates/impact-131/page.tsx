@@ -1,8 +1,8 @@
 "use client";
 import {
-  clientHeroLine,
   clientAddress,
   clientCity,
+  clientHeroLine,
   clientList,
   clientName,
   clientPhotos,
@@ -1276,7 +1276,7 @@ export default function WineryTemplate() {
                 lineHeight: 1,
               }}
             >
-              Château de Valroc
+              {clientName(sessionData) ?? "Château"} de Valroc
             </span>
           </div>
         )}
@@ -2563,7 +2563,7 @@ export default function WineryTemplate() {
                   letterSpacing: "0.04em",
                 }}
               >
-                Château de Valroc
+                {clientName(sessionData) ?? "Château"} de Valroc
               </span>
             </div>
             <p

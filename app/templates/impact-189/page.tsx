@@ -8,16 +8,16 @@ import { Scissors, Star, Phone, MapPin, Clock, Calendar, Sparkles, Heart, ArrowR
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
-  clientSiret,
   clientAddress,
-  clientCodePostalVille,
   clientCity,
+  clientCodePostalVille,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientTeam,
   clientText,
 } from "@/lib/templates/clientContent";

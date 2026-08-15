@@ -6,39 +6,18 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
-  Star,
-  Clock,
-  MapPin,
-  Phone,
-  Mail,
-  ChevronDown,
-  ChevronRight,
-  Heart,
-  Award,
-  Users,
-  Leaf,
-  CheckCircle,
-  ShoppingBag,
-  Calendar,
-  Menu,
-  X,
-} from "lucide-react";
-import { TemplateIcon } from '@/components/TemplateIcon';
-import { resolveList } from "@/lib/templates/resolveList";
-import {
-  clientPhotos,
   clientCity,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
   clientTagline,
   clientText,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :

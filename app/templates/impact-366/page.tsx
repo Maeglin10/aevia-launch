@@ -9,8 +9,8 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { CrossPush } from "@/lib/templates/hero-kit-3";
 import {
-  clientCertifications,
   clientAddress,
+  clientCertifications,
   clientCity,
   clientEyebrow,
   clientHeroLine,

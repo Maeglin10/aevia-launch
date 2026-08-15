@@ -1,7 +1,8 @@
 
 "use client";
 import {
-  clientName } from "@/lib/templates/clientContent";
+  clientName,
+} from "@/lib/templates/clientContent";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -576,7 +577,7 @@ export default function AstrumReachPremiumEngineering() {
 
             <div className="pt-24 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.5em] text-white/10 italic">
                <div className="flex flex-wrap gap-8 font-mono">
-                  <span>©2026 ASTRUM REACH ORBITAL.</span>
+                  <span>©2026 {clientName(sessionData) ?? "ASTRUM REACH ORBITAL"}.</span>
                   <span className="hidden md:inline">//</span>
                   <a href="/templates/impact-09" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-indigo-400 transition-colors">MENTIONS LEGALES</a>
                </div>

@@ -10,17 +10,8 @@ import React, {
   useCallback,
 } from "react";
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  useMotionValue,
-  useSpring,
-  AnimatePresence,
-} from "framer-motion";
-import {
-  clientHeroLine,
   clientCity,
+  clientHeroLine,
   clientList,
   clientName,
   clientPhotos,

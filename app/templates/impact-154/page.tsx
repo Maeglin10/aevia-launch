@@ -6,30 +6,8 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 
 import React, { useState, useEffect, useRef } from "react"
 import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useTransform,
-  useInView,
-  useSpring
-} from "framer-motion"
-import Image from "next/image"
-import Link from "next/link"
-import {
-  History, Landmark, Award, Star,
-  ArrowRight, Menu, X, Plus,
-  Maximize2, Share2, Download, ExternalLink,
-  Archive, Search, Clock, Hash,
-  Layers, Frame, Eye, Lock, Crosshair,
-  ShieldCheck, MapPin, ChevronRight, ChevronLeft, Play,
-  BookOpen, PenTool, Radio, Activity,
-  Database, Microscope, Fingerprint, Scan,
-  Palette, Camera, Shield, FileText,
-  UserCheck, Globe2, AlertCircle, Mail, Check
-} from "lucide-react"
-import {
-  clientHeroLine,
   clientCity,
+  clientHeroLine,
   clientHours,
   clientList,
   clientName,

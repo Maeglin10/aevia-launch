@@ -17,8 +17,8 @@ import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { Menu, X, ArrowRight, Play, Bookmark, Share2, Clock, Calendar, Search, Newspaper, Globe, Sparkles } from "lucide-react"
 import {
-  clientHeroLine,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,

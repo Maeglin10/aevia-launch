@@ -4,19 +4,6 @@ import { tr } from "@/lib/templates/uiStrings";
 
 import { useRef, useState, useEffect } from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  AnimatePresence,
-  useSpring,
-  useMotionValue,
-} from 'framer-motion';
-import { TemplateIcon } from '@/components/TemplateIcon';
-import { Flame } from 'lucide-react';
-import { resolveList } from "@/lib/templates/resolveList";
-import {
-  clientSiret,
   clientCity,
   clientFaq,
   clientHeroLine,
@@ -25,6 +12,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientSiret,
   clientStats,
   clientTeam,
   clientText,

@@ -1,8 +1,8 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientHeroLine,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientServices,

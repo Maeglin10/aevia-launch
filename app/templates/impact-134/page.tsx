@@ -4,38 +4,9 @@ import { resolveList } from "@/lib/templates/resolveList";
 
 import React, { useState, useEffect, useRef, useCallback } from "react"
 import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useTransform,
-  useInView,
-} from "framer-motion"
-import Image from "next/image"
-import Link from "next/link"
-import {
-
-  Sparkles,
-  Droplets,
-  Leaf,
-  Heart,
-  Star,
-  ShoppingBag,
-  Package,
-  ArrowRight,
-  ChevronRight,
-  Menu,
-  X,
-  Phone,
-  Mail,
-  Award,
-  Clock,
-  Sun,
-  Moon,
-} from "lucide-react"
-import {
-  clientHeroPrestations,
   clientAccrocheRestante,
   clientCity,
+  clientHeroPrestations,
   clientHeroSubtitle,
   clientList,
   clientName,

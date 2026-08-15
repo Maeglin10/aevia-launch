@@ -6,17 +6,16 @@ import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { C, FONT, FONT_BODY, STATS, COURS, AVIS, Reveal } from "./shared";
 import {
-  clientPhone,
   clientAddress,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientText,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

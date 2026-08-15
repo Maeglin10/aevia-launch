@@ -7,19 +7,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Phone, Shield, Zap, Star, Check, CheckCircle, Calendar, MapPin, Truck, Users, Clock } from "lucide-react";
 import Link from "next/link";
 import {
-  C,
-  SERVICES_DATA,
-  STATS,
-  PRICING_CARDS,
-  TESTIMONIALS,
-  FAQS,
-  SectionReveal,
-  FAQItem,
-  StepTimeline,
-  StatCard,
-  TruckSVG,
-} from "./shared";
-import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -28,7 +15,6 @@ import {
   clientServices,
   clientStats,
   clientText,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

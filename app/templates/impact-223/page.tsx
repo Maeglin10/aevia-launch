@@ -8,8 +8,6 @@ import { Zap, ShieldCheck, Phone, Clock, Star, MapPin, ArrowRight, CheckCircle, 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
-  clientTrade,
-  clientSiret,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -17,7 +15,9 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -609,7 +609,7 @@ export default function VoltProPage() {
               <div className="w-7 h-7 bg-[#facc15] flex items-center justify-center flex-shrink-0">
                 <Zap className="w-3.5 h-3.5 text-black fill-black" />
               </div>
-              <span className="font-extrabold tracking-[0.15em] uppercase">VoltPro Électricité</span>
+              <span className="font-extrabold tracking-[0.15em] uppercase">{clientName(sessionData) ?? "VoltPro Électricité"}</span>
             </div>
             <p className="text-sm text-white/25 leading-relaxed mb-6">{clientTrade(sessionData) ?? "Électricien"} qualifié RGE · Île-de-France. Installation, conformité, domotique, dépannage urgent.</p>
             <div className="flex items-center gap-2 text-[#facc15] text-sm font-bold">

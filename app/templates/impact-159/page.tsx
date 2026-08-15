@@ -10,19 +10,9 @@ import React, {
   MouseEvent as ReactMouseEvent,
 } from "react"
 import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useTransform,
-  useInView,
-  useSpring,
-  useMotionValue,
-  MotionValue,
-} from "framer-motion"
-import {
-  clientHeroPrestations,
   clientAccrocheRestante,
   clientCity,
+  clientHeroPrestations,
   clientHeroSubtitle,
   clientList,
   clientReviews,

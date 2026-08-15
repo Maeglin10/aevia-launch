@@ -9,12 +9,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Mail } from "lucide-react";
 import {
-  Counter,
-  MagneticBtn,
-  Reveal,
-  rafraichirPartage,
-} from "./shared";
-import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -26,7 +20,6 @@ import {
   clientTeam,
   clientText,
   clientWorks,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

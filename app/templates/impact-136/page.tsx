@@ -5,19 +5,6 @@ import { resolveList } from "@/lib/templates/resolveList";
 
 import React, { useState, useEffect, useRef } from "react";
 import {
-  motion,
-  useScroll,
-  useTransform,
-  AnimatePresence,
-  useSpring,
-  useInView,
-} from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Play, Maximize, X, Globe, ArrowDown, Sparkles, Command, Eye, Code } from "lucide-react";
-
-import "../premium.css";
-import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,

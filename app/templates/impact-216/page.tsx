@@ -4,24 +4,16 @@ import { resolveList } from "@/lib/templates/resolveList";
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  AnimatePresence,
-} from 'framer-motion';
-import { TemplateIcon } from '@/components/TemplateIcon';
-import {
-  clientSiret,
-  clientName,
-  clientHeroPrestations,
   clientAccrocheRestante,
   clientCity,
   clientFaq,
+  clientHeroPrestations,
   clientHeroSubtitle,
   clientHours,
+  clientName,
   clientReviews,
   clientServices,
+  clientSiret,
   clientStats,
   clientTagline,
 } from "@/lib/templates/clientContent";

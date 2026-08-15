@@ -4,45 +4,13 @@ import { resolveList } from "@/lib/templates/resolveList";
 
 import { useRef, useState, useEffect } from "react";
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  AnimatePresence,
-  useMotionValue,
-  useSpring,
-} from "framer-motion";
-import Link from "next/link";
-import {
-  ArrowRight,
-  Star,
-  Check,
-  Menu,
-  X,
-  Phone,
-  Mail,
-  MapPin,
-  Clock,
-  ChevronDown,
-  Award,
-  MessageSquare,
-  Camera,
-  Scissors,
-  Shield,
-  Zap,
-  Users2,
-  Calendar,
-  Eye,
-  Pen,
-} from "lucide-react";
-import {
-  clientPhone,
   clientAccrocheRestante,
   clientCity,
   clientFaq,
   clientHeroLine,
   clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -880,7 +848,7 @@ return (
               marginBottom: 8,
             }}
           >{c?.heroHeadline ?? <>{clientHeroLine(sessionData, 0, 2, 6) ?? (<>
-            INK
+            {clientName(sessionData) ?? "INK"}
           </>)}</>}</motion.h1>
           <motion.div
             initial={{ opacity: 0, scaleX: 0 }}

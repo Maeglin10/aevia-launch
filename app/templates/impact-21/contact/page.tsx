@@ -2,6 +2,7 @@
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientName,
   clientServices,
 } from "@/lib/templates/clientContent";
 
@@ -105,7 +106,7 @@ export default function ContactPage() {
         <div className="max-w-6xl mx-auto bg-white/92 backdrop-blur-md border border-gray-200 shadow-sm rounded-2xl px-6 py-4 flex items-center justify-between">
           <Link href="/templates/impact-21" className="flex items-center gap-2 cursor-pointer">
             <div className="w-7 h-7 bg-[#F97316] rounded-lg" />
-            <span className="text-gray-900 font-bold text-lg tracking-tight">Forme Studio</span>
+            <span className="text-gray-900 font-bold text-lg tracking-tight">{clientName(sessionData) ?? "Forme Studio"}</span>
           </Link>
           <div className="hidden md:flex items-center gap-8 text-gray-500 text-sm font-medium">
             {Object.entries(navMap).map(([label, target]) => (
@@ -125,7 +126,7 @@ export default function ContactPage() {
         {mobileOpen && (
           <motion.div className="fixed inset-0 z-[100] bg-white flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
             <div className="flex items-center justify-between mb-12">
-              <span className="text-gray-900 font-bold text-xl">Forme Studio</span>
+              <span className="text-gray-900 font-bold text-xl">{clientName(sessionData) ?? "Forme Studio"}</span>
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6" /></button>
             </div>
             {Object.entries(navMap).map(([label, target], i) => (
@@ -289,12 +290,12 @@ export default function ContactPage() {
       {/* Footer */}
       <footer className="bg-gray-900 py-12 px-6 border-t border-gray-800">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
-          <Link href="/templates/impact-21" className="flex items-center gap-2 cursor-pointer bg-transparent border-none p-0"><div className="w-5 h-5 bg-[#F97316] rounded" /><span className="text-white font-bold">Forme Studio</span></Link>
+          <Link href="/templates/impact-21" className="flex items-center gap-2 cursor-pointer bg-transparent border-none p-0"><div className="w-5 h-5 bg-[#F97316] rounded" /><span className="text-white font-bold">{clientName(sessionData) ?? "Forme Studio"}</span></Link>
           <div className="flex gap-8">
             <Link href="/templates/impact-21/legal" className="hover:text-[#F97316] transition-colors cursor-pointer bg-transparent border-none p-0 text-xs text-gray-500">Politique de conf.</Link>
             <Link href="/templates/impact-21/legal" className="hover:text-[#F97316] transition-colors cursor-pointer bg-transparent border-none p-0 text-xs text-gray-500">Mentions légales</Link>
           </div>
-          <span>© 2026 Forme Studio. Tous droits réservés.</span>
+          <span>© 2026 {clientName(sessionData) ?? "Forme Studio"}. Tous droits réservés.</span>
         </div>
       </footer>
     </div>

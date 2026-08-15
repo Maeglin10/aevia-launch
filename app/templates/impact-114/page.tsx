@@ -4,34 +4,6 @@ import { resolveList } from "@/lib/templates/resolveList";
 
 import React, { useState, useEffect, useRef, useCallback } from "react"
 import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useTransform,
-  useInView,
-  useSpring,
-} from "framer-motion"
-import Image from "next/image"
-import Link from "next/link"
-import {
-
-  Camera,
-  Mountain,
-  Leaf,
-  Wind,
-  Sun,
-  MapPin,
-  ChevronRight,
-  ChevronLeft,
-  ArrowRight,
-  Menu,
-  X,
-  Download,
-  Mail,
-  Globe,
-  Star,
-} from "lucide-react"
-import {
   clientCity,
   clientName,
   clientPhotos,
@@ -1372,7 +1344,7 @@ export default function Impact114Page() {
             >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
               Rejoignez la
               <br />
-              <span style={{ fontStyle: "italic" }}>Communauté Terra</span>
+              <span style={{ fontStyle: "italic" }}>Communauté {clientName(sessionData) ?? "Terra"}</span>
             </>)}</h2>
             <p
               className="text-[#8b7355] text-base leading-relaxed mb-10 max-w-md mx-auto"
@@ -1421,7 +1393,7 @@ export default function Impact114Page() {
                     className="text-[#3d5a3e] font-semibold text-lg"
                     style={{ fontFamily: "'Playfair Display', serif" }}
                   >
-                    Bienvenue dans la communauté Terra.
+                    Bienvenue dans la communauté {clientName(sessionData) ?? "Terra"}.
                   </p>
                   <p
                     className="text-[#8b7355] text-sm"
@@ -1468,7 +1440,7 @@ export default function Impact114Page() {
               className="text-[#8b7355] text-base leading-relaxed mb-12 max-w-md"
               style={{ fontFamily: "'Source Serif 4', serif" }}
             >
-              Pour les demandes de presse, d'exposition, de collaboration éditoriale ou d'acquisition de collections complètes — contactez l'atelier Terra directement.
+              Pour les demandes de presse, d'exposition, de collaboration éditoriale ou d'acquisition de collections complètes — contactez l'atelier {clientName(sessionData) ?? "Terra"} directement.
             </p>
 
             <div className="space-y-5">

@@ -1,7 +1,7 @@
 "use client";
 import {
-  clientName,
   clientInstagram,
+  clientName,
 } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
@@ -100,7 +100,7 @@ export default function VogueNoireLayout({
           <motion.div className="fixed inset-0 z-[200] bg-[#0A0A08] flex flex-col"
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <div className="flex items-center justify-between px-6 py-5 border-b border-[#2A2A20]">
-              <span className="text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Vogue Noire</span>
+              <span className="text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{clientName(__layoutSession) ?? "Vogue Noire"}</span>
               <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
             <div className="flex flex-col gap-10 p-10">
@@ -132,7 +132,7 @@ export default function VogueNoireLayout({
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-10 mb-12">
             <div className="md:col-span-2">
-              <div className="text-2xl font-light mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Vogue Noire</div>
+              <div className="text-2xl font-light mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{clientName(__layoutSession) ?? "Vogue Noire"}</div>
               <p className="text-sm text-[#6A6058] leading-relaxed max-w-xs">Magazine de mode, culture et création. Depuis 1998, la voix de la mode contemporaine.</p>
             </div>
             <div>

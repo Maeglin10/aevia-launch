@@ -3,31 +3,6 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  MotionValue,
-  useMotionValue,
-} from 'framer-motion';
-import {
-  ArrowRight,
-  Heart,
-  MapPin,
-  Quote,
-  Phone,
-  Mail,
-} from 'lucide-react';
-import { resolveList } from "@/lib/templates/resolveList";
-import {
-  DWELL,
-  useSlides,
-  BlurThrough,
-  HairlineArrows,
-} from '@/lib/templates/hero-kit-2';
-import { PortalZoom } from '@/lib/templates/hero-kit-3';
-import {
-  clientTrade,
   clientAccrocheRestante,
   clientAddress,
   clientCity,
@@ -38,6 +13,7 @@ import {
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -839,7 +815,7 @@ function Intro() {
             letterSpacing: '0.08em',
           }}
         >
-          — Dr. Élodie Beaumont, médecin généraliste
+          — {clientName(sessionData) ?? "Dr. Élodie Beaumont"}, médecin généraliste
         </p>
       </Reveal>
       <Reveal delay={0.24}>

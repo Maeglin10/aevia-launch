@@ -4,22 +4,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import {
-  ArrowRight,
-  CheckCircle,
-  ChefHat,
-  Clock,
-  Compass,
-  Hammer,
-  Laptop,
-  Mail,
-  MapPin,
-  Phone,
-  Star,
-} from "lucide-react";
-import { resolveList } from "@/lib/templates/resolveList";
-import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { BentoCascade, DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
-import {
   clientAddress,
   clientCertifications,
   clientCity,

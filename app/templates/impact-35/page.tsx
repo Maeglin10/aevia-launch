@@ -7,15 +7,6 @@ import { resolveList } from "@/lib/templates/resolveList";
 import Link from "next/link"
 import { Building2, Zap, ArrowRight, Star, Check, Layers } from "lucide-react"
 import {
-  C,
-  SPACE_TYPES,
-  AMENITIES,
-  TESTIMONIALS,
-  STATS,
-  SectionReveal,
-  FloorPlan,
-} from "./shared"
-import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -23,7 +14,6 @@ import {
   clientReviews,
   clientServices,
   clientText,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

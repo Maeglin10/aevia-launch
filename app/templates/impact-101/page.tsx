@@ -3,21 +3,6 @@ import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
 
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  AnimatePresence,
-  useMotionValue,
-  useSpring,
-} from "framer-motion";
-import { useState, useRef, useEffect, useCallback } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { Terminal, Cpu, Zap, Shield, Layers, Search, Menu, X, ArrowRight, ChevronRight, Code2, Database, Globe, Activity, Lock, Box, Binary, GitBranch, Terminal as TerminalIcon, Server, Cloud } from "lucide-react";
-
-import "../premium.css";
-import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,

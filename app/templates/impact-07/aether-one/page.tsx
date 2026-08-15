@@ -67,7 +67,7 @@ export default function AetherOnePage() {
                 Archive // AETHER ONE
              </div>
              <h1 className="text-6xl md:text-[8rem] font-black leading-[0.75] tracking-tighter mb-12 uppercase text-white italic">
-               Aether One <br/>
+               {clientName(sessionData) ?? "Aether"} One <br/>
                <span className="text-[#c9a84c] not-italic">Archive.</span>
              </h1>
              <p className="max-w-xl text-xl text-white/30 leading-relaxed font-light mb-12 uppercase tracking-widest italic">

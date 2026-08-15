@@ -3,31 +3,13 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  MotionValue,
-  useMotionValue,
-} from 'framer-motion';
-import {
-  ArrowRight,
-  ChevronDown,
-  MapPin,
-  Quote,
-  Ruler,
-  Scissors,
-  Star,
-} from 'lucide-react';
-import { resolveList } from "@/lib/templates/resolveList";
-import {
-  clientBookingUrl,
-  clientPhone,
-  clientEmail,
   clientAccrocheRestante,
+  clientBookingUrl,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,

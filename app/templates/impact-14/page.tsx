@@ -5,51 +5,6 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
 import {
-  motion,
-  useScroll,
-  useTransform,
-  AnimatePresence,
-  useInView,
-  useSpring,
-} from "framer-motion";
-import { useEffect, useRef, useState, useCallback } from "react";
-import Link from "next/link";
-
-// Nav and footer links all pointed at the template root regardless of their
-// label, leaving the pages below unreachable. Labels come from .map() vars, so
-// they resolve through this table; anything unmapped stays on the homepage.
-const NAV_HREF: Record<string, string> = {
-  "Contact": "/templates/impact-14/contact",
-  "Destinations": "/templates/impact-14/destinations",
-  "Experience": "/templates/impact-14/experience",
-  "Fleet": "/templates/impact-14/fleet",
-  "Legal Mentions": "/templates/impact-14/legal",
-  "Our Fleet": "/templates/impact-14/fleet",
-  "Preferred Destination": "/templates/impact-14/destinations",
-  "Private Destinations": "/templates/impact-14/destinations",
-  "contact": "/templates/impact-14/contact",
-  "destinations": "/templates/impact-14/destinations",
-  "experience": "/templates/impact-14/experience",
-  "fleet": "/templates/impact-14/fleet",
-};
-const navHref = (label: unknown) =>
-  (typeof label === "string" && NAV_HREF[label]) || "/templates/impact-14";
-
-
-
-import {
-  Menu,
-  X,
-  ArrowRight,
-  Anchor,
-  MapPin,
-  Phone,
-  Mail,
-  ChevronDown,
-  Star,
-  Wind,
-} from "lucide-react";
-import {
   clientAddress,
   clientCity,
   clientEyebrow,

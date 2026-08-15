@@ -6,7 +6,6 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Zap, Phone, Mail, MapPin, Clock, CheckCircle, Star, ArrowRight, Shield, Wrench, Lightbulb } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
-  clientTrade,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -15,6 +14,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

@@ -5,20 +5,12 @@ import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Link from 'next/link';
 import {
-  SCENES,
-  SVGMonogram,
-  ScrollWord,
-  FabricSection,
-  PressSection,
-} from './shared';
-import {
-  clientEyebrow,
   clientCity,
+  clientEyebrow,
   clientName,
   clientReviews,
   clientServices,
   clientTagline,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 let sessionData: any = null;

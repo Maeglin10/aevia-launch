@@ -10,8 +10,8 @@ import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/he
 import { LineScroll } from "@/lib/templates/hero-kit-3";
 import {
   clientAccrocheRestante,
-  clientCertifications,
   clientAddress,
+  clientCertifications,
   clientCity,
   clientHeroLine,
   clientName,

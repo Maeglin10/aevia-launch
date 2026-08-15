@@ -3,48 +3,6 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  AnimatePresence,
-} from 'framer-motion';
-import {
-  Activity,
-  ArrowRight,
-  Award,
-  Calendar,
-  Check,
-  CheckCircle,
-  ChevronDown,
-  Clock,
-  Coffee,
-  Compass,
-  DollarSign,
-  Euro,
-  FileText,
-  Flame,
-  Heart,
-  Info,
-  Mail,
-  MapPin,
-  Menu,
-  Phone,
-  Quote,
-  Scissors,
-  Shield,
-  ShoppingBag,
-  Star,
-  Sun,
-  TrendingUp,
-  Utensils,
-  Wrench,
-  X,
-  Zap,
-} from 'lucide-react';
-import { resolveList } from "@/lib/templates/resolveList";
-import {
-  clientTrade,
   clientCity,
   clientFaq,
   clientHeroLine,
@@ -54,6 +12,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -672,7 +631,7 @@ return (
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  Nexus Compta accompagne les nouvelles formes d'entrepreneuriat : influenceurs, e-commerçants, freelances et micro-entrepreneurs. Dématérialisation complète, reporting mensuel clair.
+                  {clientName(sessionData) ?? "Nexus Compta"} accompagne les nouvelles formes d'entrepreneuriat : influenceurs, e-commerçants, freelances et micro-entrepreneurs. Dématérialisation complète, reporting mensuel clair.
                 </>}</p>
                 <p style={{
                   fontSize: 15,
@@ -1290,7 +1249,7 @@ return (
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable de publication: Nexus Compta<br />
+                Responsable de publication: {clientName(sessionData) ?? "Nexus Compta"}<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>

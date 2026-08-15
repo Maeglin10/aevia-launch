@@ -7,25 +7,6 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
-  Star,
-  Clock,
-  MapPin,
-  Mail,
-  Phone,
-  ChevronDown,
-  ChevronRight,
-  CheckCircle,
-  Calendar,
-  Menu,
-  X,
-  Users,
-  Heart,
-  Sunrise,
-  Wind,
-  Award,
-  Leaf,
-} from "lucide-react";
-import {
   clientAccrocheRestante,
   clientCity,
   clientFaq,
@@ -37,7 +18,6 @@ import {
   clientTagline,
   clientTeam,
   clientText,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

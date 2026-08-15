@@ -4,51 +4,21 @@ import { resolveList } from "@/lib/templates/resolveList";
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  MotionValue,
-  useMotionValue,
-} from 'framer-motion';
-import {
-  ArrowRight,
-  ChevronDown,
-  Stethoscope,
-  Globe,
-  Heart,
-  MapPin,
-  Quote,
-  Star,
-  Phone,
-  Clock,
-  CreditCard,
-  Shield,
-  Video,
-  Syringe,
-  Pill,
-  AlertTriangle,
-  CheckCircle,
-  Calendar,
-  User,
-  Users,
-} from 'lucide-react';
-import {
-  clientTrade,
-  clientBookingUrl,
-  clientPhone,
   clientAccrocheRestante,
   clientAddress,
+  clientBookingUrl,
   clientCity,
   clientHeroLine,
   clientHours,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientTeam,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :

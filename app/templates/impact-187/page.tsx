@@ -8,13 +8,13 @@ import Link from "next/link"
 import { Zap, Target, TrendingUp, Timer, Users, Star, Phone, MapPin, ArrowRight, CheckCircle, Dumbbell, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
-  clientHeroLine,
-  clientSiret,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientText,
   clientTrade,
 } from "@/lib/templates/clientContent";

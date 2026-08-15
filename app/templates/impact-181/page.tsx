@@ -7,17 +7,17 @@ import Link from "next/link"
 import { Home, ShieldCheck, Phone, Clock, Star, MapPin, ArrowRight, CheckCircle, Wrench, AlertTriangle, Wind, Menu } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
-  clientTrade,
-  clientSiret,
-  clientName,
   clientAreas,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 let sessionData: any = null;

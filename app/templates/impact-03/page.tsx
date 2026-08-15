@@ -4,20 +4,8 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
 import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useTransform,
-  useInView,
-  useMotionValue,
-  useSpring,
-  useMotionTemplate,
-} from 'framer-motion';
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { resolveList } from "@/lib/templates/resolveList";
-import {
-  clientHeroLine,
   clientCity,
+  clientHeroLine,
   clientList,
   clientName,
   clientServices,

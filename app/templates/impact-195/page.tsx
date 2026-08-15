@@ -8,7 +8,6 @@ import Link from "next/link"
 import { Heart, Star, Phone, MapPin, Calendar, Sparkles, Music, Camera, Flower, Gift, ChevronRight, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
-  clientSiret,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -16,6 +15,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientTeam,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -418,7 +418,7 @@ export default function MaisonElisePage() {
       <footer className="bg-[#100b0f] pt-20 pb-10 px-6 border-t border-white/5">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="font-bold text-[#fdfaf7] text-sm tracking-[0.18em] mb-1 uppercase" style={{ fontFamily: "'Lora', serif" }}>Maison Élise</div>
+            <div className="font-bold text-[#fdfaf7] text-sm tracking-[0.18em] mb-1 uppercase" style={{ fontFamily: "'Lora', serif" }}>{clientName(sessionData) ?? "Maison Élise"}</div>
             <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#c4a06a)]/40 mb-5">Wedding Planner · {clientCity({ formData: fd }) ?? "Nice"}</div>
             <p className="text-[#fdfaf7]/15 text-sm leading-relaxed">Organisation mariages et événements sur la Côte d'Azur. Coordination, clé en main, floral, corporate.</p>
           </div>

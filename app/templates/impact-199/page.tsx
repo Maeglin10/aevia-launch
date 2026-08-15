@@ -3,44 +3,15 @@ import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import React, { useState, useEffect, useRef } from "react"
 import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useTransform,
-  useInView,
-  useSpring,
-  useMotionValue,
-} from "framer-motion"
-import Image from "next/image"
-import Link from "next/link"
-import {
-
-  Pen,
-  Scissors,
-  Star,
-  Clock,
-  MapPin,
-  Phone,
-  Mail,
-  ChevronRight,
-  ArrowRight,
-  Menu,
-  X,
-  Award,
-  Users,
-  Heart,
-} from "lucide-react"
-import { resolveList } from "@/lib/templates/resolveList"
-import {
-  clientBookingUrl,
-  clientPhone,
   clientAddress,
+  clientBookingUrl,
   clientCity,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,

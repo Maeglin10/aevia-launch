@@ -3,33 +3,18 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  MotionValue,
-  useMotionValue,
-} from 'framer-motion';
-import {
-  ArrowRight,
-  BarChart2,
-  ChevronDown,
-  Quote,
-} from 'lucide-react';
-import { resolveList } from "@/lib/templates/resolveList";
-import {
-  clientTrade,
-  clientAddress,
-  clientPhone,
   clientAccrocheRestante,
+  clientAddress,
   clientCity,
   clientHeroLine,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -716,7 +701,7 @@ function Hero() {
           style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}
         >
           <a href="#contact" style={{ textDecoration: 'none' }}>
-            <BlueButton filled>Première consultation offerte</BlueButton>
+            <BlueButton filled>{clientName(sessionData) ?? "Première consultation offerte"}</BlueButton>
           </a>
           <a href="#services" style={{ textDecoration: 'none' }}>
             <BlueButton filled={false}>Nos services</BlueButton>
@@ -1792,7 +1777,7 @@ function ContactForm() {
         <Reveal>
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 26 }}>
             <Eyebrow color={C.accent} align="center">
-              Première consultation offerte
+              {clientName(sessionData) ?? "Première consultation offerte"}
             </Eyebrow>
           </div>
         </Reveal>

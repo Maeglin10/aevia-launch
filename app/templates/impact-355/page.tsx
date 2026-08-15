@@ -4,19 +4,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import {
-  ArrowLeft,
-  ArrowRight,
-  Check,
-  Clock,
-  Mail,
-  MapPin,
-  Phone,
-  Stethoscope,
-} from "lucide-react";
-import { resolveList } from "@/lib/templates/resolveList";
-import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { PanelRise } from "@/lib/templates/hero-kit-3";
-import {
   clientAddress,
   clientCertifications,
   clientCity,

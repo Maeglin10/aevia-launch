@@ -8,25 +8,13 @@ import { motion } from "framer-motion"
 import Link from "next/link"
 import { ArrowRight, Star, Target, Briefcase, Award, Globe, CheckCircle } from "lucide-react"
 import {
-  C,
-  SERVICES,
-  SECTORS,
-  CASE_STUDIES,
-  TESTIMONIALS,
-  STATS,
-  SectionReveal,
-  Counter,
-  MatchScore,
-} from "./shared"
-import {
-  clientHeroLine,
-  clientWorks,
   clientCity,
+  clientHeroLine,
   clientName,
   clientReviews,
   clientServices,
   clientText,
-  memoriserSession,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

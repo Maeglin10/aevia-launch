@@ -3,39 +3,11 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import {
-  Wrench,
-  Shield,
-  Clock,
-  Star,
-  Phone,
-  Mail,
-  MapPin,
-  ChevronRight,
-  CheckCircle2,
-  ArrowRight,
-  Menu,
-  X,
-  Settings,
-  PenTool,
-  Layers,
-  Zap,
-  Info,
-  MessageSquare,
-  Briefcase,
-  Users,
-  Heart,
-  Camera,
-  Globe,
-  Search,
-  Award
-} from "lucide-react";
-import { resolveList } from "@/lib/templates/resolveList";
-import {
-  clientHeroPrestations,
   clientAccrocheRestante,
   clientAddress,
   clientCity,
   clientFaq,
+  clientHeroPrestations,
   clientHeroSubtitle,
   clientName,
   clientPhotos,

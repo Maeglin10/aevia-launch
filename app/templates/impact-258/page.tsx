@@ -3,16 +3,6 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  MotionValue,
-  useMotionValue,
-} from 'framer-motion';
-import { ArrowRight, ChevronDown, Heart, MapPin } from 'lucide-react';
-import { resolveList } from "@/lib/templates/resolveList";
-import {
   clientBookingUrl,
   clientCity,
   clientHeroLine,

@@ -115,6 +115,24 @@ for (const p of parcourir(RACINE)) {
     });
   }).join("\n");
 
+  /*
+     1. Le texte d'un élément, entre `>` et `<`. Elle passe après les chaînes :
+     dans l'autre sens, la règle 2 retrouvait le repli que la règle 1 venait
+     d'insérer et l'enveloppait une seconde fois.
+
+     Cette règle avait disparu du script lors d'un remaniement — seules les
+     chaînes étaient traitées. « Pétales & Co » restait donc écrit en clair
+     dans l'en-tête et le pied de page du thème, sur ses sept pages, alors que
+     le balayage annonçait le contraire.
+  */
+  src = src.replace(/>([^<>{}]*)</g, (tout, texte) => {
+    re.lastIndex = 0;
+    if (!re.test(texte)) return tout;
+    re.lastIndex = 0;
+    faits += (texte.match(re) ?? []).length;
+    return ">" + texte.replace(re, `{${lecture}}`) + "<";
+  });
+
   src = src.replace(/\u0000(\d+)\u0000/g, (_, i) => caches[Number(i)]);
 
   if (!faits) continue;

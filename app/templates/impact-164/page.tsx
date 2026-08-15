@@ -7,12 +7,12 @@ import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import { ArrowRight, ArrowUpRight, X, Menu, Check } from "lucide-react";
 import {
-  clientHeroLine,
-  clientPhone,
   clientCity,
   clientFaq,
+  clientHeroLine,
   clientList,
   clientName,
+  clientPhone,
   clientReviews,
   clientServices,
   clientStats,

@@ -10,23 +10,12 @@ import React, {
   useMemo,
 } from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useMotionValue,
-  useSpring,
-  useInView,
-  AnimatePresence,
-  useMotionTemplate,
-} from 'framer-motion';
-import { TemplateIcon } from '@/components/TemplateIcon';
-import {
   clientBookingUrl,
-  clientPhotos,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,

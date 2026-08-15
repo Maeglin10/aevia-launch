@@ -8,7 +8,6 @@ import {
   clientServices,
   clientText,
   clientWorks,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 

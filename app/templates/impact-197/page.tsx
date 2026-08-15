@@ -11,12 +11,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import {
-  clientPhone,
   clientCity,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -1335,7 +1335,7 @@ function ConceptPage({ goTo }: { goTo: (p: ActivePage) => void }) {
               Notre Engagement Qualité
             </h3>
             <p>
-              Depuis 2006, Évasion Dorée crée des expériences de voyage d'exception pour une clientèle exigeante. Nous ne proposons pas de circuits standardisés. Chaque voyageur se voit attribuer un créateur de voyage dédié qui étudie ses préférences pour façonner un itinéraire sur mesure.
+              Depuis 2006, {clientName(sessionData) ?? "Évasion Dorée"} crée des expériences de voyage d'exception pour une clientèle exigeante. Nous ne proposons pas de circuits standardisés. Chaque voyageur se voit attribuer un créateur de voyage dédié qui étudie ses préférences pour façonner un itinéraire sur mesure.
             </p>
           </div>
 
@@ -1534,14 +1534,14 @@ function LegalPage() {
           <div>
             <h4 style={{ fontSize: 16, color: C.marine, marginBottom: 8, fontFamily: "'Cormorant Garamond', Georgia, serif" }}>Propriété Intellectuelle</h4>
             <p>
-              L'intégralité du site Évasion Dorée (textes, images, codes source, structure générale) est protégée par le droit d'auteur. Toute reproduction totale ou partielle sans accord préalable écrit de l'éditeur est strictement interdite.
+              L'intégralité du site {clientName(sessionData) ?? "Évasion Dorée"} (textes, images, codes source, structure générale) est protégée par le droit d'auteur. Toute reproduction totale ou partielle sans accord préalable écrit de l'éditeur est strictement interdite.
             </p>
           </div>
 
           <div>
             <h4 style={{ fontSize: 16, color: C.marine, marginBottom: 8, fontFamily: "'Cormorant Garamond', Georgia, serif" }}>Protection des Données Personnelles</h4>
             <p>
-              Les données personnelles transmises via notre formulaire de contact sont uniquement traitées par Évasion Dorée pour la gestion de votre projet de voyage. Conformément à la réglementation RGPD, vous disposez d'un droit d'accès, de modification et de suppression de vos données sur simple demande par email.
+              Les données personnelles transmises via notre formulaire de contact sont uniquement traitées par {clientName(sessionData) ?? "Évasion Dorée"} pour la gestion de votre projet de voyage. Conformément à la réglementation RGPD, vous disposez d'un droit d'accès, de modification et de suppression de vos données sur simple demande par email.
             </p>
           </div>
         </div>

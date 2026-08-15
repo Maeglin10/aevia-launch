@@ -5,20 +5,8 @@ import { tr } from "@/lib/templates/uiStrings";
 
 import React, { useState, useEffect, useRef } from "react";
 import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useTransform,
-  useInView,
-} from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
-import { Play, Pause, SkipBack, SkipForward, Volume2, Heart, Share2, Disc3, Mic2, Radio, Music2, Maximize2, Headphones, Shuffle, Repeat } from "lucide-react";
-
-import "../premium.css";
-import {
-  clientHeroLine,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,

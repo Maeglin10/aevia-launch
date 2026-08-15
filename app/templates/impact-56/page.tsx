@@ -12,14 +12,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import {
-  FAQS,
-  FEATURES,
-  Reveal,
-  STATS,
-  TESTIMONIALS,
-  rafraichirPartage,
-} from "./shared";
-import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -28,7 +20,6 @@ import {
   clientReviews,
   clientServices,
   clientText,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

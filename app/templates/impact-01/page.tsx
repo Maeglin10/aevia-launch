@@ -5,39 +5,13 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  useMotionValue,
-  useSpring,
-  AnimatePresence,
-  animate,
-} from "framer-motion";
-import React, { useState, useRef, useEffect, useCallback } from "react";
-import Image from "next/image";
-import {
-  ArrowRight,
-  ArrowUpRight,
-  Menu,
-  X,
-  Monitor,
-  Palette,
-  Code2,
-  Layers,
-  Mail,
-  MapPin,
-  Phone,
-  ChevronDown,
-} from "lucide-react";
-import {
-  clientPhone,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
   clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,

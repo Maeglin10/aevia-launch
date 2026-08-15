@@ -940,7 +940,7 @@ export default function LumiereCliniquePage() {
             </Reveal>
             <Reveal delay={0.2}>
               <p className="text-[#6B6560] text-lg leading-relaxed max-w-lg mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-                Lumière Clinic allie rigueur médicale et approche esthétique personnalisée. Chaque protocole est co-construit avec le patient, fondé sur des preuves scientifiques et exécuté avec précision.
+                {clientName(sessionData) ?? "Lumière Clinic"} allie rigueur médicale et approche esthétique personnalisée. Chaque protocole est co-construit avec le patient, fondé sur des preuves scientifiques et exécuté avec précision.
               </>}</p>
             </Reveal>
             <Reveal delay={0.3}>

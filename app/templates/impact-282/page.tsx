@@ -3,42 +3,13 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  MotionValue,
-  useMotionValue,
-} from 'framer-motion';
-import {
-  ArrowRight,
-  ChevronDown,
-  Wheat,
-  MapPin,
-  Quote,
-  Star,
-  Clock,
-  Flame,
-  Leaf,
-  Award,
-  ShoppingBag,
-  Phone,
-  Mail,
-  Truck,
-  Calendar,
-  ChefHat,
-  Sun,
-  Heart,
-} from 'lucide-react';
-import { resolveList } from "@/lib/templates/resolveList";
-import {
-  clientPhone,
   clientAddress,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,

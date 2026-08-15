@@ -1,7 +1,5 @@
 "use client";
 import {
-  clientTrade,
-  clientSiret,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -9,7 +7,9 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientText,
+  clientTrade,
   clientWorks,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck

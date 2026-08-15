@@ -4,25 +4,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import {
-  ArrowRight,
-  Bike,
-  CheckCircle,
-  Clock,
-  Droplets,
-  Leaf,
-  Mail,
-  MapPin,
-  Package,
-  Phone,
-  Recycle,
-  Shirt,
-  Star,
-  Wind,
-} from "lucide-react";
-import { resolveList } from "@/lib/templates/resolveList";
-import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { InvertSweep } from "@/lib/templates/hero-kit-3";
-import {
   clientAddress,
   clientAreas,
   clientCertifications,

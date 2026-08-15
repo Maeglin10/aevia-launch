@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 import React, { useCallback, useEffect, useState } from "react";
@@ -76,7 +77,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
                 color: scrolled ? C.navyDeep : C.cream,
               }}
             >
-              AURELIA
+              {clientName(sessionData) ?? "AURELIA"}
             </span>
           </Link>
 
@@ -125,7 +126,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
                 className="text-[26px] tracking-[0.12em] italic"
                 style={{ fontFamily: "'Cormorant Garamond', serif", color: C.cream, fontWeight: 600 }}
               >
-                AURELIA
+                {clientName(sessionData) ?? "AURELIA"}
               </span>
               <button onClick={() => setOpen(false)} className="p-2 text-[#A8A29E] hover:text-white transition-colors">
                 <X size={22} />
@@ -168,7 +169,7 @@ function Footer() {
               className="text-[28px] tracking-[0.12em] italic block mb-5"
               style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, color: C.cream }}
             >
-              AURELIA
+              {clientName(sessionData) ?? "AURELIA"}
             </span>
             <p
               className="text-[13px] leading-[2] mb-6 max-w-[320px]"
@@ -322,7 +323,7 @@ export default function AnnexPage() {
               className="text-[10px] tracking-[0.30em] uppercase mb-4"
               style={{ color: C.gold, fontWeight: 500 }}
             >
-              AURELIA
+              {clientName(sessionData) ?? "AURELIA"}
             </p>
             <h1
               className="mb-6"

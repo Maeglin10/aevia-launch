@@ -10,20 +10,10 @@ import React, {
   useCallback,
 } from "react"
 import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useTransform,
-  useInView,
-  useMotionValue,
-  useSpring,
-} from "framer-motion"
-import Link from "next/link"
-import {
-  clientBookingUrl,
-  clientHeroPrestations,
   clientAccrocheRestante,
+  clientBookingUrl,
   clientCity,
+  clientHeroPrestations,
   clientHeroSubtitle,
   clientReviews,
   clientServices,

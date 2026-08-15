@@ -5,22 +5,6 @@ import React, {useRef, useState, useEffect} from 'react';
 import Link from "next/link";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import {
-  AWARDS,
-  C,
-  COLLECTIONS,
-  HERITAGE,
-  OrbitalComplication,
-  PRESS,
-  SectionLabel,
-  StatNumber,
-  rafraichirPartage,
-} from "./shared";
-import { AnimatePresence } from "framer-motion";
-import {
-  useHeroSelector, GhostMark, Rise, SelectorRail,
-  heroSectionStyle, railResponsiveCSS, alpha, EASE_3, EASE_4, BEAT,
-} from "@/lib/templates/hero-kit";
-import {
   clientCity,
   clientEyebrow,
   clientHeroLine,
@@ -29,7 +13,6 @@ import {
   clientReviews,
   clientServices,
   clientText,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

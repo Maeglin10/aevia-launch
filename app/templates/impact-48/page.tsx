@@ -3,18 +3,6 @@
 
 import { useRef, useState, useEffect, useCallback } from "react";
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  useSpring,
-  AnimatePresence,
-  LayoutGroup,
-} from "framer-motion";
-import Link from "next/link";
-import { C, F, projects, teamMembers, processSteps } from "./shared";
-import { resolveList } from "@/lib/templates/resolveList";
-import {
   clientAccrocheRestante,
   clientCity,
   clientHeroLine,
@@ -24,7 +12,6 @@ import {
   clientTagline,
   clientTeam,
   clientText,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :

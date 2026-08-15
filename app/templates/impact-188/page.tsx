@@ -8,7 +8,6 @@ import { Heart, Phone, Star, MapPin, Clock, CheckCircle, Stethoscope, Scissors, 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
-  clientSiret,
   clientAddress,
   clientCity,
   clientHeroLine,
@@ -18,6 +17,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientTeam,
   clientText,
   clientTrade,
@@ -519,7 +519,7 @@ export default function CliniqueBoisVertPage() {
           <div>
             <div className="flex items-center gap-2.5 mb-5">
               <div className="w-7 h-7 bg-[var(--brand,#3a7d44)] rounded-full flex items-center justify-center"><Heart className="w-3.5 h-3.5 text-white" /></div>
-              <span className="font-bold text-white text-sm" style={{ fontFamily: "'Lora', serif" }}>Clinique du Bois Vert</span>
+              <span className="font-bold text-white text-sm" style={{ fontFamily: "'Lora', serif" }}>{clientName(sessionData) ?? "Clinique du Bois Vert"}</span>
             </div>
             <p className="text-white/20 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Vétérinaire"} à {clientCity(sessionData) ?? "Toulouse"}. Consultations, chirurgie, urgences 7j/7. Chats, chiens, NAC.</p>
           </div>

@@ -8,16 +8,16 @@ import { Droplets, ShieldCheck, Phone, Clock, Star, MapPin, ArrowRight, CheckCir
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
-  clientTrade,
-  clientSiret,
-  clientName,
-  clientHeroLine,
   clientAreas,
   clientCity,
+  clientHeroLine,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

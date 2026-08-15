@@ -19,16 +19,15 @@ const HERO_CRAFTS = [
 ];
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientHeroLine,
   clientCity,
   clientEyebrow,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
   clientText,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :

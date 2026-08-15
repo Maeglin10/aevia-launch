@@ -8,9 +8,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, HeldSwap, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import {
-  clientTrade,
-  clientCertifications,
   clientAddress,
+  clientCertifications,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -20,6 +19,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :

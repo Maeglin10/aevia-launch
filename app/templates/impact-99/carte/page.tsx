@@ -786,13 +786,13 @@ function AboutPage({ goTo }: { goTo: (p: EmberPage) => void }) {
           <Reveal delay={0.2}>
             <div className="space-y-8 text-white/40 text-lg leading-relaxed font-light italic">
               <p>
-                Ember est né d'une obsession : rendre au feu sa noblesse première.
+                {clientName(sessionData) ?? "Ember"} est né d'une obsession : rendre au feu sa noblesse première.
                 Là où la cuisine moderne multiplie les techniques, nous revenons à
                 l'élément le plus ancien — le bois, la flamme, la braise.
               </p>
               <p>
                 Notre chef exécutif a forgé sa maîtrise pendant vingt ans dans les
-                plus grandes maisons avant de fonder Ember. Son laboratoire du feu
+                plus grandes maisons avant de fonder {clientName(sessionData) ?? "Ember"}. Son laboratoire du feu
                 combine trois bois — hickory, cerisier et chêne — pour composer un
                 profil de fumée unique à chaque cuisson.
               </p>

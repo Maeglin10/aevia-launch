@@ -8,12 +8,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import {
-  Instagram,
-  Reveal,
-  Twitter,
-  rafraichirPartage,
-} from "./shared";
-import {
   clientCity,
   clientEyebrow,
   clientHeroLine,
@@ -23,7 +17,6 @@ import {
   clientReviews,
   clientServices,
   clientText,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

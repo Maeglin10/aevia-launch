@@ -9,24 +9,24 @@ import { LegalIdentity } from "../LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { CrossPush } from "@/lib/templates/hero-kit-3";
 import {
-  clientHeroLine,
-  clientHeroSubtitle,
-  clientEyebrow,
-  clientTrade,
+  clientAddress,
   clientCertifications,
   clientCity,
+  clientCodePostalVille,
+  clientEmail,
+  clientEyebrow,
+  clientHeroLine,
+  clientHeroSubtitle,
+  clientList,
   clientName,
   clientPhone,
-  clientEmail,
-  clientAddress,
-  clientCodePostalVille,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
-  clientWorks,
-  clientList,
   clientText,
+  clientTrade,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :

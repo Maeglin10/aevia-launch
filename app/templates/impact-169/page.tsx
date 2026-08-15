@@ -6,9 +6,9 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import { Search, User, ArrowRight, BookOpen, Clock, MessageSquare, Check, Link2, Camera, Bookmark, ChevronLeft, ChevronRight, Play } from "lucide-react";
 import {
-  clientHeroLine,
   clientCity,
   clientFaq,
+  clientHeroLine,
   clientName,
   clientReviews,
   clientServices,

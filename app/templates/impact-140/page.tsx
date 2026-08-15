@@ -4,21 +4,8 @@ import { tr } from "@/lib/templates/uiStrings";
 
 import React, { useState, useEffect, useRef } from "react";
 import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useTransform,
-  useInView,
-} from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight, MapPin, Compass, Calendar, Users, Star, ArrowLeft, Globe, Sun, Cloud, Wind, Search, Menu, X, Plane, Coffee, Camera } from "lucide-react";
-
-import "../premium.css";
-import { resolveList } from "@/lib/templates/resolveList";
-import {
-  clientHeroLine,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,

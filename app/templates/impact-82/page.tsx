@@ -19,7 +19,6 @@ import {
   clientTeam,
   clientText,
   clientWorks,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :

@@ -4,24 +4,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
-  ArrowRight,
-  Building2,
-  Check,
-  CheckCircle,
-  ChevronDown,
-  ClipboardCheck,
-  Globe,
-  Layers,
-  Mail,
-  MapPin,
-  Phone,
-  ShieldCheck,
-  Sparkles,
-} from "lucide-react";
-import { resolveList } from "@/lib/templates/resolveList";
-import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DifferentialExit } from "@/lib/templates/hero-kit-3";
-import {
   clientAddress,
   clientCertifications,
   clientCity,

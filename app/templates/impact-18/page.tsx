@@ -320,7 +320,7 @@ return (
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.2} className="text-center">
-                  <p className="text-gray-400 text-base sm:text-xl max-w-2xl mx-auto mb-6 md:mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>Projets, équipes, analytics, intégrations. Streamline centralise votre stack de productivité et automatise ce qui peut l'être.</>}</p>
+                  <p className="text-gray-400 text-base sm:text-xl max-w-2xl mx-auto mb-6 md:mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>Projets, équipes, analytics, intégrations. {clientName(sessionData) ?? "Streamline"} centralise votre stack de productivité et automatise ce qui peut l'être.</>}</p>
                 </Reveal>
                 <Reveal delay={0.3} className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4">
                   <button onClick={() => goTo("tarifs")} className="bg-[var(--brand,#3B82F6)] text-white font-bold px-8 py-4 rounded-xl hover:bg-[#2563EB] transition-colors cursor-pointer flex items-center justify-center gap-2">
@@ -708,7 +708,7 @@ function LegalPage() {
           <div>
             <div className="text-[var(--brand,#3B82F6)] text-[10px] font-bold uppercase mb-2">PROPRIÉTÉ INTELLECTUELLE</div>
             <p className="leading-relaxed font-sans text-xs text-gray-500">
-              Le logiciel Streamline, les icônes, les marques ainsi que les codes de style présents sur cette plateforme sont la propriété exclusive d'Aevia WS ou de ses concédants de licence. Toute reproduction est soumise à approbation écrite.
+              Le logiciel {clientName(sessionData) ?? "Streamline"}, les icônes, les marques ainsi que les codes de style présents sur cette plateforme sont la propriété exclusive d'Aevia WS ou de ses concédants de licence. Toute reproduction est soumise à approbation écrite.
             </p>
           </div>
         </div>
