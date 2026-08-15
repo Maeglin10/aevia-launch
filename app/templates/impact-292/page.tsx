@@ -1407,7 +1407,7 @@ return (
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable de publication: BurgerCo<br />
+                Responsable de publication: {clientName(sessionData) ?? "BurgerCo"}<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>

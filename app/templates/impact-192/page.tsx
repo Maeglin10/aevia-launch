@@ -460,7 +460,7 @@ export default function SecurFastPage() {
       <footer className="bg-[#070d18] pt-16 pb-8 px-6 border-t border-[var(--brand,#2563eb)]/8">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="flex items-center gap-2.5 mb-5"><Lock className="w-4 h-4 text-[var(--brand,#2563eb)]" /><span className="font-bold text-[#f0f4ff] text-sm">SÉC'URFAST</span></div>
+            <div className="flex items-center gap-2.5 mb-5"><Lock className="w-4 h-4 text-[var(--brand,#2563eb)]" /><span className="font-bold text-[#f0f4ff] text-sm">{clientName(sessionData) ?? "SÉC'URFAST"}</span></div>
             <p className="text-[#f0f4ff]/15 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Serrurier"} urgence {clientCity({ formData: fd }) ?? "Strasbourg"}. Disponible 24h/24. Ouverture porte, serrures, porte blindée, contrôle d'accès.</p>
           </div>
           {[
