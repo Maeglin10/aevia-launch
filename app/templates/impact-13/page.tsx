@@ -276,7 +276,7 @@ return (
           {/* Hero */}
           <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden">
             <motion.div className="absolute inset-0" style={{ y: heroY }}>
-              <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=1600&q=85"))} alt="Atelier Mécanique — Horlogerie de prestige" fill className="object-cover" priority />
+              <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=1600&q=85"))} alt={`${clientName(sessionData) ?? "Atelier Mécanique"} — Horlogerie de prestige`} fill className="object-cover" priority />
               <div className="absolute inset-0 bg-gradient-to-r from-[#0C0B09]/90 via-[#0C0B09]/50 to-transparent" />
             </motion.div>
             <motion.div className="relative z-10 h-full flex items-center px-6" style={{ opacity: heroOpacity }}>

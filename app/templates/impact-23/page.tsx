@@ -827,7 +827,7 @@ export default function StudioPelikanPage() {
               </Reveal>
               <Reveal delay={0.2}>
                 <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
-                  <Image src={photo(15, "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=600&q=80")} alt="Studio Pelikan Paris" fill className="object-cover" />
+                  <Image src={photo(15, "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=600&q=80")} alt={`${clientName(sessionData) ?? "Studio Pelikan"} Paris`} fill className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#150F09]/80 to-transparent" />
                 </div>
               </Reveal>

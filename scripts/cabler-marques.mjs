@@ -49,7 +49,28 @@ function variableSession(s) {
   return null;
 }
 
-const INTERDIT = /className|href=|src=|import |require\(|\.css|https?:\/\/|style=|font-family|@media|aria-|data-|key=/;
+/* Ce qui interdit toute la ligne : on n'y touche jamais. */
+const LIGNE_INTERDITE = /^\s*(?:import |export .*from )|require\(/;
+
+/*
+   Ce qui interdit une chaîne, elle seule.
+
+   Le filtre portait sur la ligne entière : un nom de projet écrit à côté d'une
+   URL d'illustration (« name: "Ateliers Kéops", … src: "https://…" ») ou d'une
+   classe CSS était donc épargné, alors qu'il s'affiche en toutes lettres. Six
+   pages d'impact-17 et cinq d'impact-18 le montraient encore.
+*/
+function chaineTechnique(t) {
+  if (/^(?:https?:|\/|\.\/|#|data:|mailto:|tel:)/.test(t)) return true;
+  if (/:\/\//.test(t)) return true;
+  if (/\.(css|js|png|jpe?g|svg|webp|woff2?)$/i.test(t)) return true;
+  /* Une liste de classes utilitaires : plusieurs mots à tirets, aucun espace
+     porteur de sens. */
+  if (/(?:^|\s)(?:text|bg|border|flex|grid|px|py|mt|mb|w|h|max|min|rounded|font|tracking|leading|absolute|relative|hover:|md:|lg:)-?[\w./[\]%-]*/.test(t)
+      && /-/.test(t) && !/[.!?,;]/.test(t)) return true;
+  if (/font-family|serif|sans-serif|monospace/i.test(t)) return true;
+  return false;
+}
 
 /*
   Les trois écritures d'une même marque.
@@ -117,13 +138,22 @@ for (const p of parcourir(RACINE)) {
      alors plus qu'un caractère comme un autre.
   */
   src = src.split("\n").map((ligne) => {
-    if (INTERDIT.test(ligne)) return ligne;
+    if (LIGNE_INTERDITE.test(ligne)) return ligne;
     /* Les deux sortes de guillemets, échappements compris : impact-10 écrivait
        ses textes en apostrophes (`long: 'Nestled around the inner garden…'`) et
        échappait celles du texte — le motif s'arrêtait au premier antislash. */
-    return ligne.replace(/(^\s*|.?[:(,[=]\s*)(["'])((?:[^"'\\\n`]|\\.)*)\2/g, (tout, avant, guillemet, corps) => {
+    return ligne.replace(/(^\s*|.?[:(,[=]\s*)(["'])((?:[^"'\\\n`]|\\.)*)\2/g, (tout, avant, guillemet, corps, position) => {
       re.lastIndex = 0;
-      if (!re.test(corps) || corps.includes("${")) return tout;
+      if (!re.test(corps) || corps.includes("${") || chaineTechnique(corps)) return tout;
+      /*
+         Une marque d'un seul mot est souvent un mot ordinaire : « Atelier »,
+         « Cabinet », « Table », « Encre ». Dans une description d'image
+         (`alt="Atelier menuisier ébéniste Bordeaux"`, `alt="Table
+         gastronomique"`), c'est le mot commun qui est employé, pas le nom de
+         l'entreprise — et le remplacer donnait « Ateliers Vidal & Fils
+         menuisier ébéniste ». On laisse donc ces descriptions tranquilles.
+      */
+      if (!marque.includes(" ") && /(?:alt|title|aria-label|placeholder)=\s*$/.test(ligne.slice(0, position + avant.length))) return tout;
       re.lastIndex = 0;
       faits += (corps.match(re) ?? []).length;
       const chaine = "`" + corps.replace(re, `\${${lecture}}`) + "`";
