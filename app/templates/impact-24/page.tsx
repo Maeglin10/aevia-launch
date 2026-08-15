@@ -420,7 +420,7 @@ return (
             <div className="max-w-6xl mx-auto">
               <Reveal className="text-center mb-16">
                 <p className="text-[#A3E635] text-sm font-semibold tracking-widest uppercase mb-4">The Program</p>
-                <h2 className="text-4xl md:text-5xl font-bold mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "program.titre") ?? (<>12 weeks. Zero fluff.</>)}</h2>
+                <h2 className="text-4xl md:text-5xl font-bold mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "program.titre") ?? (<>12 weeks. {clientName(sessionData) ?? "Zero"} fluff.</>)}</h2>
                 <p className="text-white/50 text-lg max-w-2xl mx-auto">A structured sprint from idea validation to Series A readiness. Every week has a purpose.</p>
               </Reveal>
 

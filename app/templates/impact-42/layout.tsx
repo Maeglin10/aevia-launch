@@ -93,7 +93,7 @@ export default function EchoChamberLayout({ children }: { children: React.ReactN
           <div style={{ width: 36, height: 36, borderRadius: "8px", backgroundColor: C.accent, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 0 16px ${C.accentGlow}` }}>
             <Mic2 size={18} color={C.white} />
           </div>
-          <span style={{ fontFamily: C.headingFont, fontSize: "1.6rem", letterSpacing: "0.08em", color: C.white }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>ECHO CHAMBER</>)}</span>
+          <span style={{ fontFamily: C.headingFont, fontSize: "1.6rem", letterSpacing: "0.08em", color: C.white }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>{clientName(__layoutSession) ?? "Echo Chamber"}</>)}</span>
             </>
           )}
         </Link>

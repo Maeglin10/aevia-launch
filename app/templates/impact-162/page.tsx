@@ -216,7 +216,7 @@ return (
             ) : (
               <>
                 <Coffee className="w-5 h-5 text-[var(--brand,#8B5E3C)]" />
-                <span className="text-xl font-normal" style={{ fontFamily: "'Playfair Display', serif" }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>Le Matin Doré</>)}</span>
+                <span className="text-xl font-normal" style={{ fontFamily: "'Playfair Display', serif" }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>{clientName(sessionData) ?? "Le Matin Doré"}</>)}</span>
               </>
             )}
           </Link>

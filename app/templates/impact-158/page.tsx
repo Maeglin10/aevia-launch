@@ -264,7 +264,7 @@ export default function AtlasPage() {
             ) : (
               <>
                 <Globe className="w-5 h-5 text-[var(--brand,#C0392B)]" />
-                <span className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Atlas</>)}</span>
+                <span className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>{clientName(sessionData) ?? "Atlas"}</>)}</span>
               </>
             )}
           </Link>
