@@ -507,16 +507,16 @@ function BlogPage() {
     clientServices({ formData: fd, businessProfile: bp })?.map((s: any, i: number) => ({ ...([
     { title: "L'essor des infrastructures d'IA souveraines en Europe", desc: "Analyse trimestrielle du fonds sur la souveraineté technologique et les nouvelles architectures LLM locales.", date: "6 juin 2026" },
     { title: "Comment réussir son expansion commerciale aux USA", desc: "Conseils pratiques de notre pôle opérations pour les startups européennes en Série A.", date: "24 mai 2026" },
-    { title: "Summit Capital IV : 500M€ pour la Deep Tech", desc: "Annonce officielle du bouclage de notre quatrième fonds d'investissement à focus IA et infrastructure.", date: "10 mai 2026" }
+    { title: `${clientName(sessionData) ?? "Summit Capital"} IV : 500M€ pour la Deep Tech`, desc: "Annonce officielle du bouclage de notre quatrième fonds d'investissement à focus IA et infrastructure.", date: "10 mai 2026" }
   ])[i % ([
     { title: "L'essor des infrastructures d'IA souveraines en Europe", desc: "Analyse trimestrielle du fonds sur la souveraineté technologique et les nouvelles architectures LLM locales.", date: "6 juin 2026" },
     { title: "Comment réussir son expansion commerciale aux USA", desc: "Conseils pratiques de notre pôle opérations pour les startups européennes en Série A.", date: "24 mai 2026" },
-    { title: "Summit Capital IV : 500M€ pour la Deep Tech", desc: "Annonce officielle du bouclage de notre quatrième fonds d'investissement à focus IA et infrastructure.", date: "10 mai 2026" }
+    { title: `${clientName(sessionData) ?? "Summit Capital"} IV : 500M€ pour la Deep Tech`, desc: "Annonce officielle du bouclage de notre quatrième fonds d'investissement à focus IA et infrastructure.", date: "10 mai 2026" }
   ]).length], title: s.title, desc: s.desc || "" })),
     [
     { title: "L'essor des infrastructures d'IA souveraines en Europe", desc: "Analyse trimestrielle du fonds sur la souveraineté technologique et les nouvelles architectures LLM locales.", date: "6 juin 2026" },
     { title: "Comment réussir son expansion commerciale aux USA", desc: "Conseils pratiques de notre pôle opérations pour les startups européennes en Série A.", date: "24 mai 2026" },
-    { title: "Summit Capital IV : 500M€ pour la Deep Tech", desc: "Annonce officielle du bouclage de notre quatrième fonds d'investissement à focus IA et infrastructure.", date: "10 mai 2026" }
+    { title: `${clientName(sessionData) ?? "Summit Capital"} IV : 500M€ pour la Deep Tech`, desc: "Annonce officielle du bouclage de notre quatrième fonds d'investissement à focus IA et infrastructure.", date: "10 mai 2026" }
   ],
   );
 

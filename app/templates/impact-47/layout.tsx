@@ -2,6 +2,7 @@
 import {
   clientCity,
   clientName,
+  clientInstagram,
 } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
@@ -231,7 +232,7 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
               <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.7, maxWidth: 260, marginBottom: 20 }}>Hand-crafted floral arrangements, seasonal subscriptions, and wedding floral direction. {clientCity(__layoutSession) ?? "Paris"}, France.</p>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <MessageSquare size={14} color={C.rose} />
-                <span style={{ fontFamily: "'Poppins', system-ui", fontSize: 13, color: "rgba(255,255,255,0.4)" }}>@petalesandco</span>
+                <span style={{ fontFamily: "'Poppins', system-ui", fontSize: 13, color: "rgba(255,255,255,0.4)" }}>@{clientInstagram(__layoutSession) ?? "petalesandco"}</span>
               </div>
             </div>
 

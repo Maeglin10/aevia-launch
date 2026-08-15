@@ -412,7 +412,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "section-11.texte",
       "type": "texte",
-      "apercu": "Written by the editorial team of the Grand Palais. The Journ"
+      "apercu": "Written by the editorial team of the . The Journal of the pa"
     },
     {
       "cle": "section-13.titre",

@@ -44,7 +44,7 @@ export default function IronClubContactPage() {
 
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, minHeight: "100dvh" }}>
-      <EnteteAnnexe session={sessionData} repli="Iron Club" accueil="/templates/impact-87" />
+      <EnteteAnnexe session={sessionData} repli={`${clientName(sessionData) ?? "Iron Club"}`} accueil="/templates/impact-87" />
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap');
         * { box-sizing: border-box; }

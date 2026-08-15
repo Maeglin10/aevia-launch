@@ -18,6 +18,7 @@ import {
   clientPhotos,
   clientReviews,
   clientText,
+  clientInstagram,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -416,7 +417,7 @@ return (
             <div className="flex items-center justify-between mb-10">
               <h2 className="text-3xl font-light" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "galerie.titre") ?? (<>L&apos;ambiance du lieu</>)}</h2>
               <Link href="#galerie" className="flex items-center gap-2 text-sm text-[var(--brand,#8B5E3C)] cursor-pointer hover:gap-3 transition-all duration-200">
-                <Instagram className="w-4 h-4" /> @lematindore
+                <Instagram className="w-4 h-4" /> @{clientInstagram(sessionData) ?? "lematindore"}
               </Link>
             </div>
           </Reveal>
@@ -647,7 +648,7 @@ return (
               <p className="text-sm mb-2">{clientAddress(sessionData) ?? "34 rue de la Roquette"}</p>
               <p className="text-sm mb-2">75011 {clientCity(sessionData) ?? "Paris"}</p>
               <p className="text-sm mb-4">{fd?.phone ?? "+33 1 43 48 22 10"}</p>
-              <Link href="#contact" className="flex items-center gap-2 text-sm hover:text-[#C9A86C] transition-colors cursor-pointer"><Instagram className="w-4 h-4" /> @lematindore</Link>
+              <Link href="#contact" className="flex items-center gap-2 text-sm hover:text-[#C9A86C] transition-colors cursor-pointer"><Instagram className="w-4 h-4" /> @{clientInstagram(sessionData) ?? "lematindore"}</Link>
             </div>
           </div>
           <div className="pt-8 border-t border-[#4A3520] flex flex-col md:flex-row justify-between gap-4 text-xs">

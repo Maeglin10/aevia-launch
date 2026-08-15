@@ -3,6 +3,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientTeam,
+  clientName,
 } from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -27,11 +28,16 @@ const useFonts = () => {
   }, []);
 };
 
-const team_DEMO_ANNEXE = [
-  { name: "Nadia Kéops", role: "Architecte Fondatrice", years: "22 ans", citation: "L'architecture n'est pas seulement esthétique, c'est l'art d'habiter le monde avec respect." },
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function team_DEMO_ANNEXE_LIVE() {
+  return [
+  { name: `Nadia ${clientName(sessionData) ?? "Kéops"}`, role: "Architecte Fondatrice", years: "22 ans", citation: "L'architecture n'est pas seulement esthétique, c'est l'art d'habiter le monde avec respect." },
   { name: "Luc Ferrand", role: "Associé — Construction", years: "16 ans", citation: "Chaque pierre posée doit avoir une fonction, chaque espace une raison d'être." },
   { name: "Amina Belkacem", role: "Architecte DPLG", years: "9 ans", citation: "Concevoir des lieux de rencontre fluides qui s'intègrent organiquement dans la ville." },
 ];
+}
+let team_DEMO_ANNEXE = team_DEMO_ANNEXE_LIVE();
 function team_LIVE() {
   return resolveList(clientTeam(sessionData)?.map((m: any, i: number) => ({ ...team_DEMO_ANNEXE[i % team_DEMO_ANNEXE.length], name: m.name, role: m.role ?? team_DEMO_ANNEXE[i % team_DEMO_ANNEXE.length].role })), team_DEMO_ANNEXE);
 }
@@ -57,6 +63,8 @@ export default function EquipePage() {
   }, []);
 
   sessionData = __session;
+
+  team_DEMO_ANNEXE = team_DEMO_ANNEXE_LIVE();
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

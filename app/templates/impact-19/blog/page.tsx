@@ -1,6 +1,9 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientServices } from "@/lib/templates/clientContent";
+import {
+  clientName,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -181,7 +184,7 @@ export default function Page() {
               {[
                 { title: "L'essor des infrastructures d'IA souveraines en Europe", desc: "Analyse trimestrielle du fonds sur la souveraineté technologique et les nouvelles architectures LLM locales.", date: "6 juin 2026" },
                 { title: "Comment réussir son expansion commerciale aux USA", desc: "Conseils pratiques de notre pôle opérations pour les startups européennes en Série A.", date: "24 mai 2026" },
-                { title: "Summit Capital IV : 500M€ pour la Deep Tech", desc: "Annonce officielle du bouclage de notre quatrième fonds d'investissement à focus IA et infrastructure.", date: "10 mai 2026" }
+                { title: `${clientName(sessionData) ?? "Summit Capital"} IV : 500M€ pour la Deep Tech`, desc: "Annonce officielle du bouclage de notre quatrième fonds d'investissement à focus IA et infrastructure.", date: "10 mai 2026" }
               ].map((n, idx) => (
                 <div key={idx} className="bg-[#141416] border border-white/5 rounded-2xl p-8 hover:border-[#C9A86C]/20 transition-all cursor-pointer">
                   <span className="text-xs text-[#C9A86C] font-mono">{n.date}</span>

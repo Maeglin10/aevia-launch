@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientName,
 } from "@/lib/templates/clientContent";
 
 import { motion, useScroll, AnimatePresence, useInView } from "framer-motion";
@@ -67,7 +68,7 @@ function filmsCatalogue_LIVE() {
     src: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&q=80",
     synopsis: "Pendant trois ans, la réalisatrice a suivi des bergers transhumants dans les Alpes du Sud. Entre solitudes immenses et rituels ancestraux, le film capture la beauté radicale d'un mode de vie en voie de disparition. Sans voix off ni musique additionnelle, le documentaire fait entendre le silence comme un langage à part entière — celui des bêtes, du vent, de la montagne.",
     cast: ["Jean-Marc Barthélémy — berger, vallée du Champsaur", "Marie-Louise Autran — bergère, col de Vars", "Pierre Magnan — vétérinaire itinérant"],
-    crew: "Réalisé par Sophie Letourneur · Image : Tom Harari · Son : Xavier Thibault · Production : Studio Pelikan & Les Films du Worso",
+    crew: `Réalisé par Sophie Letourneur · Image : Tom Harari · Son : Xavier Thibault · Production : ${clientName(sessionData) ?? "Studio Pelikan"} & Les Films du Worso`,
     festivals: ["IDFA Amsterdam 2024 — Best Feature-Length Documentary", "Visions du Réel, Nyon 2024 — Grand Prix", "CPH:DOX Copenhague 2024 — Sélection Officielle", "Festival du Film de Montagne de Banff 2024 — Prix du Jury"],
   },
   {

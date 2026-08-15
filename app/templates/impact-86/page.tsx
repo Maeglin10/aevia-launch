@@ -601,7 +601,7 @@ export default function AuraWellnessPage() {
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image
             src={photo(4, "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=1600&q=85")}
-            alt="Aura Wellness sanctuary"
+            alt={`${clientName(sessionData) ?? "Aura Wellness"} sanctuary`}
             fill
             className="object-cover"
             priority
@@ -793,7 +793,7 @@ export default function AuraWellnessPage() {
         >
           <Image
             src={photo(6, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1400&q=80")}
-            alt="Aura Wellness thermal pools"
+            alt={`${clientName(sessionData) ?? "Aura Wellness"} thermal pools`}
             fill
             className="object-cover"
           />

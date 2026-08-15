@@ -24,6 +24,14 @@
 import fs from "node:fs";
 import path from "node:path";
 
+/*
+  La marque telle qu'elle s'affiche sur l'accueil du thème. Une page annexe ne
+  porte pas toujours son propre repli `clientName(…) ?? "X"` : elle écrit la
+  marque en clair, et le codemod passait à côté. Cent quatre-vingt-dix-neuf
+  pages la montraient encore après le premier passage.
+*/
+const MARQUES = JSON.parse(fs.readFileSync("/tmp/marques.json", "utf8"));
+
 const ECRIRE = process.argv.includes("--ecrire");
 const CIBLES = process.argv.slice(2).filter((a) => a.startsWith("impact-"));
 const RACINE = "app/templates";
@@ -52,8 +60,14 @@ for (const p of parcourir(RACINE)) {
   const theme = p.slice(RACINE.length + 1).split("/")[0];
   if (CIBLES.length && !CIBLES.includes(theme)) continue;
   let src = fs.readFileSync(p, "utf8");
-  const marque = marqueDe(src);
-  if (!marque) continue;
+  /*
+     La marque de l'accueil fait foi. Lire le premier repli venu dans le fichier
+     donnait « Artisan Florist » pour impact-47 — un métier, pas un nom — et le
+     codemod remplaçait le mauvais mot tout en laissant « Pétales & Co » sur les
+     sept pages du thème.
+  */
+  const marque = MARQUES[theme] ?? marqueDe(src);
+  if (!marque || /^impact-\d+$/.test(marque)) continue;
   const v = variableSession(src);
   if (!v) continue;
   const lecture = `clientName(${v}) ?? "${marque}"`;
