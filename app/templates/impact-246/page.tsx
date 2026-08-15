@@ -232,7 +232,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
     eyebrow: 'Notre engagement',
     numeral: 'I',
     src: PHOTO.plumberMd,
-    alt: "Plombier ThermoFix Pro à l'œuvre",
+    alt: `Plombier ThermoFix ${clientName(sessionData) ?? "Pro"} à l'œuvre`,
     title: (
       <>
         Urgence /{' '}
@@ -246,7 +246,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
     eyebrow: "Zone d'intervention",
     numeral: 'II',
     src: PHOTO.heatingMd,
-    alt: "Zone d'intervention ThermoFix Pro Marseille et alentours",
+    alt: `Zone d'intervention ThermoFix ${clientName(sessionData) ?? "Pro"} Marseille et alentours`,
     title: (
       <>
         {clientCity(sessionData) ?? "Marseille"} /{' '}
@@ -694,7 +694,7 @@ function Hero() {
       >
         <img
           src={PHOTO.plumber}
-          alt="Plombier-chauffagiste ThermoFix Pro en intervention à Marseille"
+          alt={`Plombier-chauffagiste ThermoFix ${clientName(sessionData) ?? "Pro"} en intervention à Marseille`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="true"
         />
@@ -1508,7 +1508,7 @@ function TechPanel() {
           >
             <img
               src={PHOTO.acMd}
-              alt="Technicien certifié ThermoFix Pro"
+              alt={`Technicien certifié ThermoFix ${clientName(sessionData) ?? "Pro"}`}
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />

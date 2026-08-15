@@ -147,7 +147,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     origin: "Lyon",
     trip: "Maldives Privées, 10 nuits",
     rating: 5,
-    text: "Évasion Dorée a transformé notre voyage de noces en quelque chose d'absolument irréel. La villa sur pilotis, le dîner privé sur le lagon au coucher du soleil, la plongée avec les raies mantas… chaque détail était parfait.",
+    text: `${clientName(sessionData) ?? "Évasion Dorée"} a transformé notre voyage de noces en quelque chose d'absolument irréel. La villa sur pilotis, le dîner privé sur le lagon au coucher du soleil, la plongée avec les raies mantas… chaque détail était parfait.`,
     avatar: "HF",
   },
   {
@@ -171,7 +171,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     origin: (clientCity(sessionData) ?? "Genève"),
     trip: "Grèce des Cyclades, 8 nuits",
     rating: 5,
-    text: "Le voilier privatisé était une idée absolument parfaite. Santorin sans les foules à l'aube, Folegandros que personne ne connaît, une baie secrète à Amorgos… Évasion Dorée connaît vraiment la Grèce.",
+    text: `Le voilier privatisé était une idée absolument parfaite. Santorin sans les foules à l'aube, Folegandros que personne ne connaît, une baie secrète à Amorgos… ${clientName(sessionData) ?? "Évasion Dorée"} connaît vraiment la Grèce.`,
     avatar: "MD",
   },
   {
@@ -187,7 +187,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     origin: "Nantes",
     trip: "Patagonie, 14 nuits",
     rating: 5,
-    text: "Patagonie avec lodge privatisé, randonnées guidées dans Torres del Paine au lever du soleil, et le glacier Perito Moreno en bateau privé. Évasion Dorée m'a envoyé au bout du monde avec une organisation sans faille.",
+    text: `Patagonie avec lodge privatisé, randonnées guidées dans Torres del Paine au lever du soleil, et le glacier Perito Moreno en bateau privé. ${clientName(sessionData) ?? "Évasion Dorée"} m'a envoyé au bout du monde avec une organisation sans faille.`,
     avatar: "AR",
   },
 ];

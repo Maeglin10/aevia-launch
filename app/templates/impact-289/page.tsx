@@ -1209,7 +1209,7 @@ function ProcessSection() {
           >
             <img
               src={PHOTO.expert}
-              alt="Expert-comptable Schreiber & Associés en consultation"
+              alt={`Expert-comptable ${clientName(sessionData) ?? "Schreiber & Associés"} en consultation`}
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />

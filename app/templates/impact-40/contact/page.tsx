@@ -63,10 +63,10 @@ export default function ContactPage() {
                   {
                     icon: <MapPin size={18} />,
                     label: "Adresse",
-                    value: "Valentin Milliand, SIREN <LegalIdentity />, RCS Bourg-en-Bresse (adresse communiquée sur demande à " + (fd?.email ?? "valentinmilliand@aevia.services") + ") — Beaujolais, France"
+                    value: "Valentin Milliand, SIREN <LegalIdentity />, RCS Bourg-en-Bresse (adresse communiquée sur demande à " + (fd?.email ?? "contact@exemple.fr") + ") — Beaujolais, France"
                   },
                   { icon: <Phone size={18} />, label: "Téléphone", value: "+33 4 74 XX XX XX" },
-                  { icon: <Mail size={18} />, label: "Email", value: (fd?.email ?? "valentinmilliand@aevia.services") },
+                  { icon: <Mail size={18} />, label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
                 ].map((item, i) => (
                   <div key={i} style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
                     <div

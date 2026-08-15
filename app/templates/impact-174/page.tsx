@@ -38,14 +38,19 @@ let brand: any = null;
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
-const PROGRAMS_DEMO = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function PROGRAMS_DEMO_LIVE() {
+  return [
   { title: "HIIT Circuit", intensity: "MAX", duration: "45 min", desc: "Intervalles haute intensité conçus pour brûler le maximum de calories et booster votre métabolisme 24h après la séance.", tag: "Bestseller" },
   { title: "Force Brute", intensity: "HIGH", duration: "60 min", desc: "Programme de musculation progressif orienté hypertrophie et développement de la force fonctionnelle.", tag: "Force" },
-  { title: "CrossFit FORGE", intensity: "MAX", duration: "50 min", desc: "WODs variés combinant haltérophilie, cardio et mouvements gymnastics. La définition de l'effort total.", tag: "Signature" },
+  { title: `CrossFit ${clientName(sessionData) ?? "FORGE"}`, intensity: "MAX", duration: "50 min", desc: "WODs variés combinant haltérophilie, cardio et mouvements gymnastics. La définition de l'effort total.", tag: "Signature" },
   { title: "Yoga Power", intensity: "MED", duration: "60 min", desc: "Yoga dynamique fusion flow et strength. Flexibilité, équilibre et mental de fer.", tag: "Récupération" },
   { title: "Cardio Boost", intensity: "HIGH", duration: "40 min", desc: "Entraînement cardiovasculaire mixte : vélo, tapis, rameur et corde à sauter en circuit non-stop.", tag: "Cardio" },
   { title: "Récup Active", intensity: "LOW", duration: "45 min", desc: "Stretching profond, mobilité articulaire et techniques de récupération musculaire accélérée.", tag: "Recovery" },
-]
+];
+}
+let PROGRAMS_DEMO = PROGRAMS_DEMO_LIVE();
 
 function COACHES_DEMO_LIVE() {
   return [
@@ -74,15 +79,20 @@ function COACHES_DEMO_LIVE() {
 }
 let COACHES_DEMO = COACHES_DEMO_LIVE();
 
-const SCHEDULE = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, time: h.hours })), [
-  { day: "Lun", classes: [{ time: "6h30", name: "HIIT Circuit" }, { time: "12h00", name: "Force Brute" }, { time: "19h00", name: "CrossFit FORGE" }] },
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function SCHEDULE_LIVE() {
+  return [
+  { day: "Lun", classes: [{ time: "6h30", name: "HIIT Circuit" }, { time: "12h00", name: "Force Brute" }, { time: "19h00", name: `CrossFit ${clientName(sessionData) ?? "FORGE"}` }] },
   { day: "Mar", classes: [{ time: "7h00", name: "Yoga Power" }, { time: "12h30", name: "Cardio Boost" }, { time: "18h30", name: "Force Brute" }] },
-  { day: "Mer", classes: [{ time: "6h30", name: "CrossFit FORGE" }, { time: "12h00", name: "HIIT Circuit" }, { time: "19h00", name: "Récup Active" }] },
+  { day: "Mer", classes: [{ time: "6h30", name: `CrossFit ${clientName(sessionData) ?? "FORGE"}` }, { time: "12h00", name: "HIIT Circuit" }, { time: "19h00", name: "Récup Active" }] },
   { day: "Jeu", classes: [{ time: "7h00", name: "Force Brute" }, { time: "12h30", name: "Yoga Power" }, { time: "18h30", name: "HIIT Circuit" }] },
-  { day: "Ven", classes: [{ time: "6h30", name: "Cardio Boost" }, { time: "12h00", name: "CrossFit FORGE" }, { time: "19h00", name: "Force Brute" }] },
+  { day: "Ven", classes: [{ time: "6h30", name: "Cardio Boost" }, { time: "12h00", name: `CrossFit ${clientName(sessionData) ?? "FORGE"}` }, { time: "19h00", name: "Force Brute" }] },
   { day: "Sam", classes: [{ time: "9h00", name: "HIIT Circuit" }, { time: "10h30", name: "Yoga Power" }, { time: "12h00", name: "Récup Active" }] },
-  { day: "Dim", classes: [{ time: "10h00", name: "CrossFit FORGE" }, { time: "11h30", name: "Récup Active" }] },
-])
+  { day: "Dim", classes: [{ time: "10h00", name: `CrossFit ${clientName(sessionData) ?? "FORGE"}` }, { time: "11h30", name: "Récup Active" }] },
+];
+}
+let SCHEDULE = SCHEDULE_LIVE();
 
 function MEMBERSHIPS_SOURCE_LIVE() {
   return [
@@ -190,6 +200,8 @@ export default function Impact174Page() {
 
   bp = session?.businessProfile;
   sessionData = session;
+  SCHEDULE = SCHEDULE_LIVE();
+  PROGRAMS_DEMO = PROGRAMS_DEMO_LIVE();
   c = session?.generatedContent;
   COACHES_DEMO = COACHES_DEMO_LIVE();
   MEMBERSHIPS_SOURCE = MEMBERSHIPS_SOURCE_LIVE();

@@ -501,7 +501,7 @@ return (
         }}>
           <img 
             src={PHOTO.hero} 
-            alt="Hero image showing Studio Peak Performance core business" 
+            alt={`Hero image showing ${clientName(sessionData) ?? "Studio Peak Performance"} core business`} 
             style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
           />
           <div style={{

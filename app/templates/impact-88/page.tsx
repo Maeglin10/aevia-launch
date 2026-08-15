@@ -1642,7 +1642,7 @@ function AboutSection() {
             <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden shadow-[0_4px_30px_rgba(236,72,153,0.1)]">
               <Image
                 src={photo(3, "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80")}
-                alt="Velvet Nails concept"
+                alt={`${clientName(sessionData) ?? "Velvet Nails"} concept`}
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"

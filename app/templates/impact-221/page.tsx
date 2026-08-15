@@ -301,7 +301,7 @@ function Hero() {
       <motion.div style={{ position: 'absolute', inset: '-12%', scale: imgScale, y: imgY }}>
         <img
           src={IMG.hero}
-          alt="Lumyx — scooter électrique premium en ville"
+          alt={`${clientName(sessionData) ?? "Lumyx"} — scooter électrique premium en ville`}
           loading="eager"
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
         />
@@ -626,7 +626,10 @@ function Models() {
 /* ════════════════════════════════════════════════════════════════════════════
    TECH EDITORIAL
    ════════════════════════════════════════════════════════════════════════════ */
-const EDITORIAL_SOURCE = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function EDITORIAL_SOURCE_LIVE() {
+  return [
   {
     eyebrow: 'Ingénierie',
     title:   'Batterie longue portée Samsung 21700',
@@ -638,12 +641,14 @@ const EDITORIAL_SOURCE = [
   {
     eyebrow: 'Design',
     title:   'Cadre aluminium 6061-T6 brossé',
-    body:    "Chaque ligne du châssis Lumyx est le résultat de 18 mois de conception aérodynamique. Rigidité structurelle maximale pour un poids de 19,5 kg seulement.",
+    body:    `Chaque ligne du châssis ${clientName(sessionData) ?? "Lumyx"} est le résultat de 18 mois de conception aérodynamique. Rigidité structurelle maximale pour un poids de 19,5 kg seulement.`,
     img:     IMG.city,
     pills:   ['IP67 waterproof', 'Poids 19,5 kg', 'CNC usiné'],
     reverse: true,
   },
 ];
+}
+let EDITORIAL_SOURCE = EDITORIAL_SOURCE_LIVE();
 let EDITORIAL = EDITORIAL_SOURCE;
 
 type EditorialRowType = typeof EDITORIAL[0];
@@ -1209,6 +1214,7 @@ export default function LumyxPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  EDITORIAL_SOURCE = EDITORIAL_SOURCE_LIVE();
   IMG = IMG_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 

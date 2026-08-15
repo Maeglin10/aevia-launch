@@ -561,7 +561,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || IMG.hero}
-          alt="AirForge sneaker hero"
+          alt={`${clientName(sessionData) ?? "AirForge"} sneaker hero`}
           loading="eager"
           style={{
             width: '100%',
@@ -1455,7 +1455,7 @@ function SpecShowcase() {
           <div style={{ position: 'relative', overflow: 'hidden', aspectRatio: '3 / 4' }}>
             <img
               src={IMG.spec}
-              alt="AirForge construction detail"
+              alt={`${clientName(sessionData) ?? "AirForge"} construction detail`}
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
@@ -1814,7 +1814,7 @@ function FinalCTA() {
       >
         <img
           src={IMG.cta}
-          alt="AirForge lifestyle"
+          alt={`${clientName(sessionData) ?? "AirForge"} lifestyle`}
           loading="lazy"
           style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
         />

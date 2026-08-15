@@ -316,7 +316,7 @@ function HeroSection() {
       >
         <img
           src={PHOTO.bathroom}
-          alt="Salle de bain rénovée par Eau & Habitat Bretagne"
+          alt={`Salle de bain rénovée par ${clientName(sessionData) ?? "Eau & Habitat Bretagne"}`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1170,7 +1170,7 @@ function ProcessSection() {
               >
                 <img
                   src={PHOTO.artisan}
-                  alt="Technicien Eau & Habitat Bretagne en intervention"
+                  alt={`Technicien ${clientName(sessionData) ?? "Eau & Habitat Bretagne"} en intervention`}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
                 {/* Badge flottant */}

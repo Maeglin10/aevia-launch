@@ -360,7 +360,7 @@ export default function ContactPage() {
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   <div>
                     <div style={{ fontSize: 11, fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>Email</div>
-                    <a href={`mailto:${fd?.email ?? "contact@originroast.co"}`} style={{ fontSize: 14, color: C.caramel, fontWeight: 600, textDecoration: "none" }}>contact@originroast.co</a>
+                    <a href={`mailto:${fd?.email ?? "contact@originroast.co"}`} style={{ fontSize: 14, color: C.caramel, fontWeight: 600, textDecoration: "none" }}>{fd?.email ?? "contact@originroast.co"}</a>
                   </div>
                   <div>
                     <div style={{ fontSize: 11, fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>B2B uniquement</div>

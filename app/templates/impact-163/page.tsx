@@ -219,7 +219,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     name: "Julien Brard",
     role: "CTO, Scalar",
     rating: 5,
-    text: "Je lis peu de médias business. L'Essentiel est l'exception. Chaque article m'apprend quelque chose que je n'aurais pas trouvé ailleurs.",
+    text: `Je lis peu de médias business. ${clientName(sessionData) ?? "L'Essentiel"} est l'exception. Chaque article m'apprend quelque chose que je n'aurais pas trouvé ailleurs.`,
     avatar: "JB",
   },
 ];

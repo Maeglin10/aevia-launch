@@ -2095,7 +2095,7 @@ function ServicesPage({ goTo }: { goTo: (p: HotelPage) => void }) {
       <SubPageHero
         eyebrow="The Experience"
         title="Services & Experiences"
-        subtitle="Spa, gastronomy, concierge: every service at the Grand Palais is designed so that everything feels simple and natural."
+        subtitle={`Spa, gastronomy, concierge: every service at the ${clientName(sessionData) ?? "Grand Palais"} is designed so that everything feels simple and natural.`}
         img={clientPhotos(sessionData)[44] || "https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1800&q=85"}
       />
       <section style={{ background: DARK, padding: '7rem 0' }}>

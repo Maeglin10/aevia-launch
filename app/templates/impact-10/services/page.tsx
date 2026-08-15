@@ -2044,7 +2044,7 @@ function ServicesPage({ goTo }: { goTo: (p: HotelPage) => void }) {
       <SubPageHero
         eyebrow="The Experience"
         title="Services & Experiences"
-        subtitle="Spa, gastronomy, concierge: every service at the Grand Palais is designed so that everything feels simple and natural."
+        subtitle={`Spa, gastronomy, concierge: every service at the ${clientName(sessionData) ?? "Grand Palais"} is designed so that everything feels simple and natural.`}
         img="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1800&q=85"
       />
       <section style={{ background: DARK, padding: '7rem 0' }}>
@@ -2322,8 +2322,8 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
             <p style={para}><span style={strong}>Aevia WS</span> — sole trader (auto-entrepreneur).</p>
             <p style={para}>Publication director: <span style={strong}>Valentin Milliand</span>.</p>
             <p style={para}>SIREN: <span style={strong}><LegalIdentity /></span> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}.</p>
-            <p style={para}>Contact: <span style={strong}>{fd?.email ?? "valentinmilliand@aevia.services"}</span></p>
-            <p style={para}>Registered office address provided on request at {fd?.email ?? "valentinmilliand@aevia.services"}.</p>
+            <p style={para}>Contact: <span style={strong}>{fd?.email ?? "contact@exemple.fr"}</span></p>
+            <p style={para}>Registered office address provided on request at {fd?.email ?? "contact@exemple.fr"}.</p>
 
             <h2 style={sectionTitle}>VAT</h2>
             <p style={para}>VAT not applicable, art. 293 B of the French Tax Code (CGI).</p>
@@ -2362,7 +2362,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
           <h2 style={{ ...sectionTitle, marginTop: '1.5rem' }}>Data controller</h2>
           <p style={para}>
             The controller of personal data is <span style={strong}>Aevia WS</span>, publisher of the site. For any
-            question, write to <span style={strong}>{fd?.email ?? "valentinmilliand@aevia.services"}</span>.
+            question, write to <span style={strong}>{fd?.email ?? "contact@exemple.fr"}</span>.
           </p>
 
           <h2 style={sectionTitle}>Data collected</h2>

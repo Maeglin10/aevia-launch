@@ -1415,7 +1415,7 @@ function SafetyPanel() {
           >
             <img
               src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[12] || `https://images.pexels.com/photos/6593369/pexels-photo-6593369.jpeg?auto=compress&cs=tinysrgb&w=900`)}
-              alt="Poste de travail stérilisé — Atelier Encre Vivante"
+              alt={`Poste de travail stérilisé — ${clientName(sessionData) ?? "Atelier Encre Vivante"}`}
               loading="lazy"
               style={{
                 width: '100%',

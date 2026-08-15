@@ -51,7 +51,7 @@ export default function AtelierPage() {
         padding: "120px 40px",
       }}
     >
-      <EnteteAnnexe session={sessionData} repli="Maison Élara" accueil="/templates/impact-20" />
+      <EnteteAnnexe session={sessionData} repli={`${clientName(sessionData) ?? "Maison Élara"}`} accueil="/templates/impact-20" />
       <div style={{ maxWidth: 800, margin: "0 auto" }}>
         <Link 
           href="/templates/impact-20"

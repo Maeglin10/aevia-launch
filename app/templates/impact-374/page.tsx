@@ -76,7 +76,12 @@ function TARIFS_DEMO_LIVE() {
 }
 let TARIFS_DEMO = TARIFS_DEMO_LIVE();;
 let TARIFS = TARIFS_DEMO;
-const AVIS_SOURCE = [{"texte": "Trois dialyses par semaine depuis un an : toujours à l'heure, toujours le même chauffeur, la prescription gérée avec la CPAM sans que je m'en occupe. Ce service tient ma semaine debout.", "auteur": "Gérard L., 71 ans", "detail": "Transport médical TAP"}, {"texte": "Ma fille va au conservatoire le mercredi avec Cap Chauffeur depuis deux ans. SMS au départ, SMS à l'arrivée : je travaille tranquille, elle est autonome en sécurité.", "auteur": "Maman de Jeanne, 11 ans", "detail": "Abonnement famille"}, {"texte": "TGV de 6h38 tous les lundis : le chauffeur sonne à 6h05, le café est encore chaud à Montparnasse. La régularité parfaite, sans y penser.", "auteur": "Consultant rennais", "detail": "Abonnement gare"}];
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function AVIS_SOURCE_LIVE() {
+  return [{"texte": "Trois dialyses par semaine depuis un an : toujours à l'heure, toujours le même chauffeur, la prescription gérée avec la CPAM sans que je m'en occupe. Ce service tient ma semaine debout.", "auteur": "Gérard L., 71 ans", "detail": "Transport médical TAP"}, {"texte": `Ma fille va au conservatoire le mercredi avec ${clientName(sessionData) ?? "Cap Chauffeur"} depuis deux ans. SMS au départ, SMS à l'arrivée : je travaille tranquille, elle est autonome en sécurité.`, "auteur": "Maman de Jeanne, 11 ans", "detail": "Abonnement famille"}, {"texte": "TGV de 6h38 tous les lundis : le chauffeur sonne à 6h05, le café est encore chaud à Montparnasse. La régularité parfaite, sans y penser.", "auteur": "Consultant rennais", "detail": "Abonnement gare"}];
+}
+let AVIS_SOURCE = AVIS_SOURCE_LIVE();
 let AVIS_DEMO = AVIS_SOURCE;
 const STATS_DEMO = [{"value": "TAP", "label": "Transport médical assis conventionné"}, {"value": "6h", "label": "Premières prises en charge"}, {"value": "180+", "label": "Abonnés réguliers"}, {"value": "100 %", "label": "De courses confirmées la veille"}];
 let STATS = STATS_DEMO;
@@ -118,6 +123,7 @@ export default function CapChauffeurPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   TARIFS_DEMO = TARIFS_DEMO_LIVE();
 

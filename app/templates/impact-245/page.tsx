@@ -511,7 +511,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || unsplash((clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/7447286/pexels-photo-7447286.jpeg?auto=compress&cs=tinysrgb&w=1600'), 2000)}
-          alt="Boulanger pétrissant la pâte à la Maison Brûlot"
+          alt={`Boulanger pétrissant la pâte à la ${clientName(sessionData) ?? "Maison Brûlot"}`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1330,7 +1330,7 @@ function ProcessPanel() {
           >
             <img
               src={unsplash('1558618666-fcd25c85cd64', 900)}
-              alt="Pain en cuisson dans le four à sole de la Maison Brûlot"
+              alt={`Pain en cuisson dans le four à sole de la ${clientName(sessionData) ?? "Maison Brûlot"}`}
               loading="lazy"
               style={{
                 width: '100%',

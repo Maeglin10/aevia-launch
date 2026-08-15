@@ -203,13 +203,16 @@ const SPECIALTIES_DEMO: Specialty[] = [
   },
 ];
 
-const EDIT_ROWS_SOURCE: EditRow[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function EDIT_ROWS_SOURCE_LIVE(): EditRow[] {
+  return [
   {
     eyebrow: 'Notre approche',
     img: PHOTO.approach,
     alt: 'Kinésithérapeute en consultation au cabinet',
     title: 'Traiter la cause, /pas le symptôme.',
-    body: "Chez Centre Kiné Atlantique, chaque prise en charge commence par un bilan postural complet. Nous analysons la biomécanique globale — pas uniquement la zone douloureuse — afin de corriger les déséquilibres à l'origine de la douleur. Résultat : moins de rechutes, des progrès durables.",
+    body: `Chez ${clientName(sessionData) ?? "Centre Kiné Atlantique"}, chaque prise en charge commence par un bilan postural complet. Nous analysons la biomécanique globale — pas uniquement la zone douloureuse — afin de corriger les déséquilibres à l'origine de la douleur. Résultat : moins de rechutes, des progrès durables.`,
     reverse: false,
     outline: '01',
   },
@@ -223,6 +226,8 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     outline: '02',
   },
 ];
+}
+let EDIT_ROWS_SOURCE: EditRow[] = EDIT_ROWS_SOURCE_LIVE();
 let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 const METHOD_ITEMS: Spec[] = [
@@ -628,7 +633,7 @@ function Hero() {
       >
         <img
           src={PHOTO.hero}
-          alt="Cabinet de kinésithérapie Centre Kiné Atlantique Rennes"
+          alt={`Cabinet de kinésithérapie ${clientName(sessionData) ?? "Centre Kiné Atlantique"} Rennes`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-hint="high"
         />
@@ -2260,6 +2265,7 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   PHOTO = PHOTO_LIVE();
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),

@@ -109,7 +109,7 @@ export default function CollectionsPage() {
         padding: "120px 24px",
       }}
     >
-      <EnteteAnnexe session={sessionData} repli="Maison Élara" accueil="/templates/impact-20" />
+      <EnteteAnnexe session={sessionData} repli={`${clientName(sessionData) ?? "Maison Élara"}`} accueil="/templates/impact-20" />
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <Link 
           href="/templates/impact-20"

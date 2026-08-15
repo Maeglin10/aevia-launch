@@ -510,7 +510,7 @@ return (
         }}>
           <img 
             src={PHOTO.hero} 
-            alt="Hero image showing Rapido Plomberie Paris core business" 
+            alt={`Hero image showing ${clientName(sessionData) ?? "Rapido Plomberie Paris"} core business`} 
             style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
           />
           <div style={{

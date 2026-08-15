@@ -590,7 +590,7 @@ function Hero() {
       >
         <img
           src={photo(5, "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2000&auto=format&fit=crop")}
-          alt="Jardin paysager réalisé par Jardins Vivants à Bordeaux"
+          alt={`Jardin paysager réalisé par ${clientName(sessionData) ?? "Jardins Vivants"} à Bordeaux`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="high"
         />

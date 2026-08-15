@@ -590,7 +590,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/29821815/pexels-photo-29821815.jpeg?auto=compress&cs=tinysrgb&w=2000')}
-          alt="Jardin formel conçu par Atelier Terra à Nantes"
+          alt={`Jardin formel conçu par ${clientName(sessionData) ?? "Atelier Terra"} à Nantes`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1313,7 +1313,7 @@ function PhilosophyPanel() {
           >
             <img
               src={photo('1578662996442-48f60103fc96', 900)}
-              alt="Terrasse aménagée par Atelier Terra"
+              alt={`Terrasse aménagée par ${clientName(sessionData) ?? "Atelier Terra"}`}
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />

@@ -1,6 +1,7 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientEmail,
   clientName,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -68,7 +69,10 @@ const NAV_PAGES: { key: EmberPage; label: string }[] = [
    DATA STRUCTURES
    ========================================================================= */
 
-const MENU_HIGHLIGHTS = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function MENU_HIGHLIGHTS_LIVE() {
+  return [
   {
     id: 1,
     name: "Dry-Aged Wagyu",
@@ -79,7 +83,7 @@ const MENU_HIGHLIGHTS = [
   },
   {
     id: 2,
-    name: "Smoked Ember Octopus",
+    name: `Smoked ${clientName(sessionData) ?? "Ember"} Octopus`,
     category: "Appetizer",
     price: "$34",
     desc: "Wood-fired octopus tentacle with chorizo emulsion, squid ink tuile, and pickled mustard seeds.",
@@ -87,13 +91,15 @@ const MENU_HIGHLIGHTS = [
   },
   {
     id: 3,
-    name: "The Ember Cellar Selection",
+    name: `The ${clientName(sessionData) ?? "Ember"} Cellar Selection`,
     category: "Pairing",
     price: "$95",
     desc: "A curated flight of rare vintage reds, hand-selected to complement the intensity of wood-fired smoke.",
     img: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1200&q=80",
   },
 ];
+}
+let MENU_HIGHLIGHTS = MENU_HIGHLIGHTS_LIVE();
 
 /*
   Les plats mis en avant : ceux du client quand il a rempli sa carte, ceux de
@@ -151,7 +157,10 @@ const STATS = [
 
 /* ── CARTE (full menu) — theme-native FR data ───────────────────────────── */
 
-const CARTE_SECTIONS = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function CARTE_SECTIONS_LIVE() {
+  return [
   {
     id: "entrees",
     label: "Entrées",
@@ -197,10 +206,12 @@ const CARTE_SECTIONS = [
       { name: "Châteauneuf-du-Pape Rouge", price: "24 € / verre", desc: "Grenache puissant, notes de garrigue et de cuir, accord idéal avec les pièces maturées." },
       { name: "Hermitage Rouge — Grand Cru", price: "180 € / btl", desc: "Syrah septentrionale, profondeur épicée taillée pour la fumée du bois de chêne." },
       { name: "Meursault Premier Cru Blanc", price: "32 € / verre", desc: "Chardonnay beurré et minéral, compagnon des poissons flambés au cerisier." },
-      { name: "Flight de la Cave Ember", price: "95 €", desc: "Sélection de trois grands crus rares, accordés à l'intensité de la flamme." },
+      { name: `Flight de la Cave ${clientName(sessionData) ?? "Ember"}`, price: "95 €", desc: "Sélection de trois grands crus rares, accordés à l'intensité de la flamme." },
     ],
   },
 ];
+}
+let CARTE_SECTIONS = CARTE_SECTIONS_LIVE();
 
 // Real menu from the client's wizard input (c?.menuItems) takes priority over
 // the demo CARTE_SECTIONS above. Categories are derived from the items'
@@ -620,7 +631,7 @@ function ReservationPage() {
                   <Phone className="w-5 h-5 text-[#ff4d00]" /> 01 23 45 67 89
                 </div>
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
-                  <Mail className="w-5 h-5 text-[#ff4d00]" /> contact@exemple.fr
+                  <Mail className="w-5 h-5 text-[#ff4d00]" /> {clientEmail(sessionData) ?? "contact@exemple.fr"}
                 </div>
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
                   <MapPin className="w-5 h-5 text-[#ff4d00]" /> Adresse communiquée
@@ -696,7 +707,7 @@ function BlogPage({
     <section className="pt-44 pb-32 px-6 md:px-12 min-h-dvh">
       <div className="max-w-[1600px] mx-auto">
         <PageHeader
-          kicker="Le Journal Ember"
+          kicker={`Le Journal ${clientName(sessionData) ?? "Ember"}`}
           title="Le"
           accent="Feu."
           sub="Récits de gastronomie, de vin et de flamme. Les coulisses du laboratoire du feu."
@@ -891,7 +902,7 @@ function ContactPage() {
                     </span>
                   </div>
                   <p className="text-sm text-white/40 font-light uppercase tracking-widest italic">
-                    contact@exemple.fr
+                    {clientEmail(sessionData) ?? "contact@exemple.fr"}
                   </p>
                 </div>
               </div>
@@ -1003,9 +1014,9 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               <LegalBlock title="Immatriculation">
                 SIREN <LegalIdentity /> — RCS Bourg-en-Bresse
               </LegalBlock>
-              <LegalBlock title="Contact">valentinmilliand@aevia.services</LegalBlock>
+              <LegalBlock title="Contact">{clientEmail(sessionData) ?? "contact@exemple.fr"}</LegalBlock>
               <LegalBlock title="Siège social">
-                Adresse du siège social communiquée sur demande à valentinmilliand@aevia.services
+                Adresse du siège social communiquée sur demande à contact@exemple.fr
               </LegalBlock>
               <LegalBlock title="TVA">
                 TVA non applicable, art. 293 B du CGI
@@ -1019,7 +1030,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               <LegalBlock title="Responsable du traitement">
                 Aevia WS, représentée par Valentin Milliand, est responsable du
                 traitement des données collectées sur ce site. Contact :
-                valentinmilliand@aevia.services.
+                contact@exemple.fr.
               </LegalBlock>
               <LegalBlock title="Données collectées">
                 Les informations transmises via les formulaires de réservation et de
@@ -1118,6 +1129,8 @@ export default function EmberGrillPage() {
 
   c = session?.generatedContent;
   sessionData = session;
+  CARTE_SECTIONS = CARTE_SECTIONS_LIVE();
+  MENU_HIGHLIGHTS = MENU_HIGHLIGHTS_LIVE();
   bp = session?.businessProfile;
   PHILOSOPHY = PHILOSOPHY_LIVE();
 

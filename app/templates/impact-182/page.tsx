@@ -202,7 +202,7 @@ export default function BatirSolidePage() {
     })),
     [
       { q: "Extension de 40 m² réalisée en 3 mois top chrono. Qualité béton irréprochable, finitions soignées, aucun dépassement budget. Chapeau.", n: "Jean-Pierre M.", l: (clientCity(sessionData) ?? "Marseille") + " 12ème" },
-      { q: "Suppression d'un mur porteur de 6m avec IPN. Bâtir Solide a géré l'étude de structure et les travaux. Parfait, aucune fissure, résultat propre.", n: "Nathalie & Frédéric D.", l: "Aix-en-Provence" },
+      { q: `Suppression d'un mur porteur de 6m avec IPN. ${clientName(sessionData) ?? "Bâtir"} Solide a géré l'étude de structure et les travaux. Parfait, aucune fissure, résultat propre.`, n: "Nathalie & Frédéric D.", l: "Aix-en-Provence" },
       { q: "Ravalement ITE de notre immeuble 6 logements. Dossier MaPrimeRénov' entièrement géré par l'équipe. Économies énergétiques bluffantes.", n: "Syndicat copropriété Les Pins", l: "Aubagne (13)" },
     ]
   );

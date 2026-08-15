@@ -603,7 +603,7 @@ function Hero() {
       >
         <img
           src={PHOTO.heroWide}
-          alt="Artiste tatoueur au travail, Dermis Studio Montpellier"
+          alt={`Artiste tatoueur au travail, ${clientName(sessionData) ?? "Dermis Studio"} Montpellier`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1409,7 +1409,7 @@ function SafetyPanel() {
           >
             <img
               src={PHOTO.safetyLeft}
-              alt="Matériel stérile et préparation au Dermis Studio"
+              alt={`Matériel stérile et préparation au ${clientName(sessionData) ?? "Dermis Studio"}`}
               loading="lazy"
               style={{
                 width: '100%',

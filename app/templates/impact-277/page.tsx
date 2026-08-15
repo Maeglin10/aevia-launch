@@ -483,7 +483,7 @@ function HeroSection() {
       >
         <img
           src={PHOTO.panel}
-          alt="Tableau électrique — Électricité Dumont Paris"
+          alt={`Tableau électrique — ${clientName(sessionData) ?? "Électricité Dumont"} Paris`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>

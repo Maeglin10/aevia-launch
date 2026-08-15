@@ -502,7 +502,7 @@ export default function Page() {
         }}>
           <img 
             src={PHOTO.hero} 
-            alt="Hero image showing Re-Thread Studio core business" 
+            alt={`Hero image showing ${clientName(sessionData) ?? "Re-Thread Studio"} core business`} 
             style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
           />
           <div style={{

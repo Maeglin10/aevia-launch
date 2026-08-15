@@ -608,7 +608,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/1190903/pexels-photo-1190903.jpeg?auto=compress&cs=tinysrgb&w=2000')}
-          alt="Jardin contemporain Vert Horizon Île-de-France"
+          alt={`Jardin contemporain ${clientName(sessionData) ?? "Vert Horizon"} Île-de-France`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1321,7 +1321,7 @@ function DesignPanel() {
           >
             <img
               src={fd?.photoUrls?.[1] || photo('1578662996442-48f60103fc96', 900)}
-              alt="Terrasse végétalisée Vert Horizon"
+              alt={`Terrasse végétalisée ${clientName(sessionData) ?? "Vert Horizon"}`}
               loading="lazy"
               style={{
                 width: '100%',

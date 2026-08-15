@@ -444,7 +444,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || PHOTO.electricalHero}
-          alt="Tableau électrique professionnel Volt & Lux Toulouse"
+          alt={`Tableau électrique professionnel ${clientName(sessionData) ?? "Volt & Lux"} Toulouse`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="high"
         />

@@ -593,7 +593,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[7] || `https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=2000&auto=format&fit=crop`)}
-          alt="Détail de couture — Maison Solal Marseille"
+          alt={`Détail de couture — ${clientName(sessionData) ?? "Maison Solal"} Marseille`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1343,7 +1343,7 @@ function AtélierPanel() {
           >
             <img
               src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[8] || `https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=900&auto=format&fit=crop`)}
-              alt="L'atelier Maison Solal — Le Panier, Marseille"
+              alt={`L'atelier ${clientName(sessionData) ?? "Maison Solal"} — Le Panier, Marseille`}
               loading="lazy"
               style={{
                 width: '100%',

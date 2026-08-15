@@ -113,7 +113,7 @@ function filmsCatalogue_LIVE() {
     src: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&q=80"),
     synopsis: "Pendant trois ans, la réalisatrice a suivi des bergers transhumants dans les Alpes du Sud. Entre solitudes immenses et rituels ancestraux, le film capture la beauté radicale d'un mode de vie en voie de disparition. Sans voix off ni musique additionnelle, le documentaire fait entendre le silence comme un langage à part entière — celui des bêtes, du vent, de la montagne.",
     cast: ["Jean-Marc Barthélémy — berger, vallée du Champsaur", "Marie-Louise Autran — bergère, col de Vars", "Pierre Magnan — vétérinaire itinérant"],
-    crew: "Réalisé par Sophie Letourneur · Image : Tom Harari · Son : Xavier Thibault · Production : Studio Pelikan & Les Films du Worso",
+    crew: `Réalisé par Sophie Letourneur · Image : Tom Harari · Son : Xavier Thibault · Production : ${clientName(sessionData) ?? "Studio Pelikan"} & Les Films du Worso`,
     festivals: ["IDFA Amsterdam 2024 — Best Feature-Length Documentary", "Visions du Réel, Nyon 2024 — Grand Prix", "CPH:DOX Copenhague 2024 — Sélection Officielle", "Festival du Film de Montagne de Banff 2024 — Prix du Jury"],
   },
   {
@@ -931,9 +931,9 @@ export default function StudioPelikanPage() {
               </Reveal>
               <div className="space-y-6">
                 {[
-                  { quote: "Studio Pelikan incarne le meilleur du cinéma indépendant français : exigeant, sensible, universel.", source: "Les Cahiers du Cinéma", date: "Mars 2025" },
+                  { quote: `${clientName(sessionData) ?? "Studio Pelikan"} incarne le meilleur du cinéma indépendant français : exigeant, sensible, universel.`, source: "Les Cahiers du Cinéma", date: "Mars 2025" },
                   { quote: "Avec Poussière de Lumière, le studio confirme sa capacité à révéler de nouveaux talents tout en maintenant une qualité de production exceptionnelle.", source: "Télérama", date: "Janvier 2025" },
-                  { quote: "L'Écho du Silence est un chef-d'œuvre de patience et d'écoute. Studio Pelikan prouve que le documentaire peut être aussi puissant que la fiction.", source: "Le Monde", date: "Novembre 2024" },
+                  { quote: `L'Écho du Silence est un chef-d'œuvre de patience et d'écoute. ${clientName(sessionData) ?? "Studio Pelikan"} prouve que le documentaire peut être aussi puissant que la fiction.`, source: "Le Monde", date: "Novembre 2024" },
                   { quote: "Mémoire Vive est la série française la plus ambitieuse de la décennie. Une production qui rivalise avec les meilleures séries internationales.", source: "Première", date: "Septembre 2023" },
                 ].map((press, i) => (
                   <Reveal key={press.source} delay={i * 0.08}>

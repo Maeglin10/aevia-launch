@@ -504,7 +504,7 @@ return (
         }}>
           <img 
             src={PHOTO.hero} 
-            alt="Hero image showing Ostéo Périnatal Nice core business" 
+            alt={`Hero image showing ${clientName(sessionData) ?? "Ostéo Périnatal Nice"} core business`} 
             style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
           />
           <div style={{
@@ -1124,7 +1124,7 @@ return (
                     </div>
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Adresse E-mail</div>
-                      <a href={`mailto:${fd?.email ?? "contact@mysite.com"}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>contact@ostéopérinatalnice.com</a>
+                      <a href={`mailto:${fd?.email ?? "contact@mysite.com"}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>{fd?.email ?? "contact@ostéopérinatalnice.com"}</a>
                     </div>
                   </div>
 
