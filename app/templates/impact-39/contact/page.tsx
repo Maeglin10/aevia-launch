@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { clientCity } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
@@ -65,7 +66,7 @@ export default function ContactPage() {
                 {
                   icon: MapPin,
                   title: "Zone d'intervention",
-                  content: "Île-de-France + France entière\nValentin Milliand, SIREN <LegalIdentity />, RCS Bourg-en-Bresse\n(adresse communiquée sur demande à " + (fd?.email ?? "contact@exemple.fr") + ")"
+                  content: (<>{clientCity(sessionData) ? `${clientCity(sessionData)} et alentours` : "Île-de-France + France entière"}<br /><EditeurDuSite />, SIREN <LegalIdentity />, RCS <EditeurDuSite quoi="ville" /><br />(adresse communiquée sur demande à {fd?.email ?? "contact@exemple.fr"})</>)
                 },
                 { icon: Phone, title: "Téléphone", content: "+33 1 XX XX XX XX" },
                 { icon: Mail, title: "Email", content: (fd?.email ?? "contact@exemple.fr") },

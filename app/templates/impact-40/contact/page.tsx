@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { clientHours } from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 import { useEffect, useState } from "react";
@@ -63,7 +64,7 @@ export default function ContactPage() {
                   {
                     icon: <MapPin size={18} />,
                     label: "Adresse",
-                    value: "Valentin Milliand, SIREN <LegalIdentity />, RCS Bourg-en-Bresse (adresse communiquée sur demande à " + (fd?.email ?? "contact@exemple.fr") + ") — Beaujolais, France"
+                    value: (<><EditeurDuSite />, SIREN <LegalIdentity />, RCS <EditeurDuSite quoi="ville" /> (adresse communiquée sur demande à {fd?.email ?? "contact@exemple.fr"}) — {clientCity(sessionData) ?? "Beaujolais"}, France</>)
                   },
                   { icon: <Phone size={18} />, label: "Téléphone", value: "+33 4 74 XX XX XX" },
                   { icon: <Mail size={18} />, label: "Email", value: (fd?.email ?? "contact@exemple.fr") },

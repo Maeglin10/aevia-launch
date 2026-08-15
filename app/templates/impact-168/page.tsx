@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -3328,7 +3329,7 @@ function LegalPage({ variant }: { variant: "cgv" | "mentions" }) {
             <p style={para}>
               <strong style={{ color: C.cream }}>Aevia WS</strong> — entrepreneur individuel (auto-entrepreneur).
             </p>
-            <p style={para}>Directeur de la publication : <strong style={{ color: C.cream }}>Valentin Milliand</strong>.</p>
+            <p style={para}>Directeur de la publication : <strong style={{ color: C.cream }}><EditeurDuSite /></strong>.</p>
             <p style={para}>SIREN : <strong style={{ color: C.cream }}><LegalIdentity /></strong> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}.</p>
             <p style={para}>Contact : <strong style={{ color: C.cream }}>{fd?.email ?? "contact@exemple.fr"}</strong></p>
             <p style={para}>Adresse du siège social communiquée sur demande à {fd?.email ?? "contact@exemple.fr"}.</p>

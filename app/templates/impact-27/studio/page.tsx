@@ -1,4 +1,5 @@
 "use client"
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import {
   clientCertifications,
   clientCity,
@@ -359,7 +360,7 @@ export default function StudioPage() {
                 <div className="w-8 h-8 rounded-full bg-[#9B5CF6] flex items-center justify-center">
                   <Star className="w-4 h-4 text-white fill-white" />
                 </div>
-                <span className="text-white/50 text-sm">Valentin Milliand, Founder</span>
+                <span className="text-white/50 text-sm"><EditeurDuSite />, Founder</span>
               </div>
             </div>
           </div>

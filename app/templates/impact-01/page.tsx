@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { tr } from "@/lib/templates/uiStrings";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
@@ -4227,7 +4228,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               <span style={strong}>Aevia WS</span> — sole proprietor (auto-entrepreneur).
             </p>
             <p style={para}>
-              Publication director: <span style={strong}>Valentin Milliand</span>.
+              Publication director: <span style={strong}><EditeurDuSite /></span>.
             </p>
             <p style={para}>
               SIREN: <span style={strong}><LegalIdentity /></span> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}.

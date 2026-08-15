@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import {
   clientCity,
   clientName,
@@ -188,7 +189,7 @@ export default function SkewLayout({
         </div>
         <div style={{ maxWidth: "1300px", margin: "2.5rem auto 0", paddingTop: "2rem", borderTop: `1px solid ${C.border}`, display: "flex", justifyContent: "space-between" }} className="flex flex-col md:row items-center gap-4 text-center">
           <div style={{ fontFamily: "'Syne Mono', monospace", fontSize: "0.55rem", color: C.textDim }}>
-            © 2025 {/* NOM_PIED */ clientName(__layoutSession) ?? "SKEW STUDIO"} — Valentin Milliand. ALL RIGHTS RESERVED.
+            © 2025 {/* NOM_PIED */ clientName(__layoutSession) ?? "SKEW STUDIO"} — <EditeurDuSite />. ALL RIGHTS RESERVED.
           </div>
           <div style={{ fontFamily: "'Syne Mono', monospace", fontSize: "0.55rem", color: C.textDim }}>
             {clientCity(__layoutSession) ?? "PARIS"} · MOTION · FILM

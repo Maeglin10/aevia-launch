@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { tr } from "@/lib/templates/uiStrings";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
@@ -2371,7 +2372,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
           <div style={{ maxWidth: '44rem', margin: '0 auto', padding: '0 1.75rem' }}>
             <h2 style={{ ...sectionTitle, marginTop: 0 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-14.titre") ?? (<>Site publisher</>)}</h2>
             <p style={para}><span style={strong}>Aevia WS</span> — sole trader (auto-entrepreneur).</p>
-            <p style={para}>Publication director: <span style={strong}>Valentin Milliand</span>.</p>
+            <p style={para}>Publication director: <span style={strong}><EditeurDuSite /></span>.</p>
             <p style={para}>SIREN: <span style={strong}><LegalIdentity /></span> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}.</p>
             <p style={para}>Contact: <span style={strong}>{fd?.email ?? "contact@exemple.fr"}</span></p>
             <p style={para}>Registered office address provided on request at {fd?.email ?? "contact@exemple.fr"}.</p>

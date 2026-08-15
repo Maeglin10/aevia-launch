@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
@@ -1113,7 +1114,7 @@ return (
                   <div className="bg-gray-50 rounded-2xl p-8 border border-gray-100">
                     <h3 className="text-gray-900 text-lg font-bold mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Éditeur du site</>)}</h3>
                     <p className="text-gray-600 leading-relaxed">
-                      Aevia WS — Valentin Milliand, entrepreneur individuel.<br />
+                      <EditeurDuSite />, entrepreneur individuel.<br />
                       SIREN : <LegalIdentity /> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}.<br />
                       Contact : <span className="text-[var(--brand,#F97316)]">{fd?.email ?? "contact@exemple.fr"}</span>
                     </p>

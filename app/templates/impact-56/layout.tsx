@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import {
   clientEmail,
   clientName,
@@ -257,7 +258,7 @@ export default function ChateauVestigeLayout({
           </div>
 
           <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-xs font-bold uppercase tracking-widest">
-            <p>&copy; 2026 Château Vestige — Valentin Milliand. L'abus d'alcool est dangereux pour la santé.</p>
+            <p>&copy; 2026 Château Vestige — <EditeurDuSite />. L'abus d'alcool est dangereux pour la santé.</p>
             <div className="flex gap-8">
               <Link
                 href="/templates/impact-56/legal"
