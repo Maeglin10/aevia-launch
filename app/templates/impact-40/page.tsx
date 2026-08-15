@@ -748,7 +748,7 @@ export default function TerreVivantePage() {
               >
                 <Leaf size={18} color={C.accent} />
               </div>
-              <span style={{ fontFamily: C.headingFont, fontSize: "1.4rem", fontWeight: 700, color: scrolled ? C.bgDark : C.bg }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Terre Vivante"))}</span>
+              <span style={{ fontFamily: C.headingFont, fontSize: "1.4rem", fontWeight: 700, color: scrolled ? C.bgDark : C.bg }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Terre Vivante"))}</span>
             </>
           )}
         </div>
@@ -1438,7 +1438,7 @@ export default function TerreVivantePage() {
                 >
                   <Leaf size={18} color={C.accent} />
                 </div>
-                <span style={{ fontFamily: C.headingFont, fontSize: "1.25rem", color: C.bg, fontWeight: 700 }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Terre Vivante"))}</span>
+                <span style={{ fontFamily: C.headingFont, fontSize: "1.25rem", color: C.bg, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Terre Vivante"))}</span>
               </div>
               <p style={{ fontFamily: C.bodyFont, fontSize: "0.86rem", color: "rgba(253,249,238,0.5)", lineHeight: 1.8, maxWidth: 290 }}>
                 Ferme biologique familiale dans le Beaujolais depuis 1998. Nous cultivons la terre avec amour et la partageons avec notre communauté.
@@ -1494,7 +1494,7 @@ export default function TerreVivantePage() {
             }}
           >
             <p style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", color: "rgba(253,249,238,0.3)" }}>
-              © 2026 {fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Terre Vivante"))} SARL. Tous droits réservés.{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " SIRET 422 890 123 00034"}.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Terre Vivante"))} SARL. Tous droits réservés.{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " SIRET 422 890 123 00034"}.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: "flex", gap: "1.75rem" }}>
               {["Mentions légales", "Confidentialité", "CGV"].map((l) => (

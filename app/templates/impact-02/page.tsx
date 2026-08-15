@@ -105,7 +105,7 @@ let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function FAQS_DEMO_LIVE() {
   return [
-  { question: "Are you available for international travel?", answer: "Yes. While based between " + (clientCity({ formData: fd }) ?? "Paris") + " and Tokyo, I frequently travel globally for campaigns and editorial assignments. Travel fees are calculated based on the project scope." },
+  { question: "Are you available for international travel?", answer: "Yes. While based between " + (clientCity(sessionData) ?? "Paris") + " and Tokyo, I frequently travel globally for campaigns and editorial assignments. Travel fees are calculated based on the project scope." },
   { question: "What is your typical turnaround time?", answer: "For editorial and commercial projects, the standard turnaround time for the first contact sheet is 48 hours. Final retouched assets are typically delivered within 2-3 weeks post-shoot." },
   { question: "Do you handle full production?", answer: "Absolutely. I work with a dedicated team of producers who can handle everything from location scouting and casting to permits and catering, offering a turnkey solution." },
   { question: "What camera systems do you use?", answer: "I primarily shoot on Hasselblad medium format digital systems for unparalleled detail and color depth, complemented by Leica systems for documentary and street work." },
@@ -332,7 +332,7 @@ export default function CreativePortfolioSPA() {
               />
             ) : (
               <>
-            <span className="text-lg font-light tracking-[0.3em] uppercase transition-colors group-hover:text-amber-400">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
+            <span className="text-lg font-light tracking-[0.3em] uppercase transition-colors group-hover:text-amber-400">{/* NOM_LOGO */ clientName(sessionData) ?? (<>
               Elena<span className="font-black">Korr</span>
             </>)}</span>
               </>
@@ -512,7 +512,7 @@ export default function CreativePortfolioSPA() {
           <Reveal className="lg:col-span-5">
             <div className="relative">
               <div className="relative aspect-[3/4] rounded-3xl overflow-hidden bg-white/5">
-                <Image src={photo(13, "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800&auto=format&fit=crop")} alt={fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Elena Korr Portfolio"))} fill className="object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
+                <Image src={photo(13, "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800&auto=format&fit=crop")} alt={fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Elena Korr Portfolio"))} fill className="object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
               </div>
               <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="absolute -bottom-8 -right-8 w-32 h-32 rounded-full bg-amber-400 text-black flex items-center justify-center text-center shadow-[0_0_40px_rgba(251,191,36,0.3)] backdrop-blur-md">
                 <div>
@@ -530,7 +530,7 @@ export default function CreativePortfolioSPA() {
               <span className="font-black italic">frames of light<span className="text-amber-400">.</span></span>
             </>)}</h2>
             <p className="text-white/60 text-xl leading-relaxed mb-8 font-light">
-              Based between {clientCity({ formData: fd }) ?? "Paris"} and Tokyo, I specialize in capturing moments that transcend the ordinary. My work has been featured in National Geographic, Vogue, and BBC Earth — but the images I am most proud of are the ones that make strangers feel something they cannot quite name.
+              Based between {clientCity(sessionData) ?? "Paris"} and Tokyo, I specialize in capturing moments that transcend the ordinary. My work has been featured in National Geographic, Vogue, and BBC Earth — but the images I am most proud of are the ones that make strangers feel something they cannot quite name.
             </p>
             <p className="text-white/40 text-lg leading-relaxed mb-12 font-light">
               With a background in fine arts from École des Beaux-Arts, I bring a deeply personal yet universally resonant perspective. Whether documenting street life in Shinjuku or creating haute couture editorials, I seek the same truth wrapped in beauty.
@@ -720,7 +720,7 @@ export default function CreativePortfolioSPA() {
             <div>
               <h4 className="text-white font-medium mb-6 uppercase tracking-wider text-xs">Studio</h4>
               <ul className="space-y-4 text-white/50 text-sm">
-                <li><a href="#contact" className="hover:text-amber-400 transition-colors">{clientAddress({ businessProfile: bp }) ?? `12 Rue de Paradis, ${clientCity({ formData: fd }) ?? "Paris"}`}</a></li>
+                <li><a href="#contact" className="hover:text-amber-400 transition-colors">{clientAddress({ businessProfile: bp }) ?? `12 Rue de Paradis, ${clientCity(sessionData) ?? "Paris"}`}</a></li>
                 <li><a href="#contact" className="hover:text-amber-400 transition-colors">Aoyama, Minato City, Tokyo</a></li>
                 <li><a href={`tel:${fd?.phone ?? "+33145678900"}`} className="hover:text-amber-400 transition-colors">+33 (0) 1 45 67 89 00</a></li>
               </ul>

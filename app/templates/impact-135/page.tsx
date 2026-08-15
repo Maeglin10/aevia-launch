@@ -1207,7 +1207,7 @@ export default function Impact135Page() {
                   color: C.text,
                   letterSpacing: "0.05em",
                 }}
-              >{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
+              >{/* NOM_LOGO */ clientName(sessionData) ?? (<>
                 TRADE<span style={{ color: C.accent }}>OS</span>
               </>)}</span>
             </>
@@ -2183,7 +2183,7 @@ export default function Impact135Page() {
               color: C.subdued,
             }}
           >
-            © 2026 {clientName(sessionData) ?? "TradeOS Inc."} · All rights reserved · SOC 2 Type II{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2026 {clientName(sessionData) ?? "TradeOS Inc."} · All rights reserved · SOC 2 Type II{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <span
             style={{

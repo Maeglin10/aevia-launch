@@ -246,7 +246,7 @@ export default function LuminaLawPage() {
                 <div className="w-10 h-10 bg-[var(--brand,#1a365d)] flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
                   <Scale className="w-5 h-5 text-white" />
                 </div>
-                <span className="text-2xl font-bold tracking-tighter text-[var(--brand,#1a365d)]">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Lumina<span className="font-light">Law</span></>)}</span>
+                <span className="text-2xl font-bold tracking-tighter text-[var(--brand,#1a365d)]">{/* NOM_LOGO */ clientName(sessionData) ?? (<>Lumina<span className="font-light">Law</span></>)}</span>
               </>
             )}
           </Link>
@@ -588,7 +588,7 @@ export default function LuminaLawPage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-black/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-black/10">
-          <span>© 2026 {clientName(sessionData) ?? "LUMINA LAW GLOBAL PARTNERSHIP."} STRENGTH IN TRUTH.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "LUMINA LAW GLOBAL PARTNERSHIP."} STRENGTH IN TRUTH.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-12">
              <Link href="#contact" className="hover:text-black transition-colors flex items-center gap-2"><Globe className="w-3 h-3" /> LONDON · NEW YORK · SINGAPORE</Link>
              <Link href="#contact" className="hover:text-black transition-colors flex items-center gap-2"><FileText className="w-3 h-3" /> LEGAL TERMS</Link>

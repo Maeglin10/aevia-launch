@@ -237,7 +237,7 @@ return (
             ) : (
               <>
                 <div className="w-8 h-8 bg-gradient-to-br from-[var(--brand,#3B82F6)] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Layers className="w-4 h-4 text-white" /></div>
-                <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Streamline"))}</span>
+                <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Streamline"))}</span>
               </>
             )}
           </div>
@@ -278,7 +278,7 @@ return (
                   style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-white font-bold text-xl">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Streamline"))}</span>
+                <span className="text-white font-bold text-xl">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Streamline"))}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
@@ -440,7 +440,7 @@ return (
           <div className="md:col-span-2">
             <div onClick={() => goTo("home")} className="flex items-center gap-2 mb-4 cursor-pointer">
               <div className="w-8 h-8 bg-gradient-to-br from-[var(--brand,#3B82F6)] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Layers className="w-4 h-4 text-white" /></div>
-              <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Streamline"))}</span>
+              <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Streamline"))}</span>
             </div>
             <p className="text-gray-500 text-sm leading-relaxed">La plateforme de productivité pour les équipes modernes. Gérez tout votre travail en un seul endroit.</p>
           </div>
@@ -468,7 +468,7 @@ return (
           ))}
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex justify-between text-xs text-gray-600">
-          <span>© 2026 {clientName(sessionData) ?? "Streamline."} Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Streamline."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span>Made in 🇫🇷 {clientCity(sessionData) ?? "Paris"}</span>
         </div>
       </footer>
@@ -691,7 +691,7 @@ function LegalPage() {
               <strong><EditeurDuSite /></strong><br />
               Entrepreneur individuel<br />
               SIREN : <LegalIdentity /><br />
-              {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}<br />
+              {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
               Email : {fd?.email ?? "contact@exemple.fr"}<br />
               Adresse : Communiquée sur demande
             </p>

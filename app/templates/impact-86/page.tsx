@@ -526,7 +526,7 @@ export default function AuraWellnessPage() {
             ) : (
               <>
                 <Leaf className="w-5 h-5 text-[var(--brand,#7C9E87)]" />
-                <span className="text-[#2C2820] tracking-widest text-sm uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Aura Wellness"))}</span>
+                <span className="text-[#2C2820] tracking-widest text-sm uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Aura Wellness"))}</span>
               </>
             )}
           </Link>
@@ -574,7 +574,7 @@ export default function AuraWellnessPage() {
                   style={{ height: 28, maxWidth: 140, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-[#2C2820] tracking-widest text-sm uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Aura Wellness"))}</span>
+                <span className="text-[#2C2820] tracking-widest text-sm uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Aura Wellness"))}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="text-[#2C2820] cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
@@ -799,7 +799,7 @@ export default function AuraWellnessPage() {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#2C2820]/30 to-transparent" />
           <div className="absolute bottom-8 left-8">
-            <p className="text-white text-xs tracking-widest uppercase mb-1">{clientCity({ formData: fd }) ?? "Bordeaux"}, France</p>
+            <p className="text-white text-xs tracking-widest uppercase mb-1">{clientCity(sessionData) ?? "Bordeaux"}, France</p>
             <p
               className="text-white text-2xl"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
@@ -1103,12 +1103,12 @@ export default function AuraWellnessPage() {
             <div className="bg-[#EDE9E2] rounded-3xl border border-[#D8D0C4] p-8 md:p-10 h-full">
               <p className="text-[var(--brand,#7C9E87)] text-xs tracking-widest uppercase mb-3">Coordonnées</p>
               <h3 className="text-[#2C2820] text-2xl mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
-                {clientName(sessionData) ?? "Aura Wellness"} — {clientCity({ formData: fd }) ?? "Bordeaux"}
+                {clientName(sessionData) ?? "Aura Wellness"} — {clientCity(sessionData) ?? "Bordeaux"}
               </>)}</h3>
               <ul className="space-y-5 text-sm text-[#6B5E52]">
                 <li className="flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-[var(--brand,#7C9E87)] shrink-0 mt-0.5" />
-                  <span>Adresse communiquée sur demande<br /><span className="text-[#2C2820]/50 text-xs">{clientCity({ formData: fd }) ?? "Bordeaux"}, France</span></span>
+                  <span>Adresse communiquée sur demande<br /><span className="text-[#2C2820]/50 text-xs">{clientCity(sessionData) ?? "Bordeaux"}, France</span></span>
                 </li>
                 <li className="flex items-center gap-3">
                   <Phone className="w-5 h-5 text-[var(--brand,#7C9E87)] shrink-0" /> {fd?.phone ?? "+33 5 56 00 00 00"}
@@ -1178,10 +1178,10 @@ export default function AuraWellnessPage() {
               <span
                 className="text-[#2C2820] text-lg"
                 style={{ fontFamily: "'Cormorant Garamond', serif" }}
-              >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Aura Wellness"))}</span>
+              >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Aura Wellness"))}</span>
             </div>
             <p className="text-[#6B5E52] text-sm leading-relaxed mb-4">
-              Sanctuary de soins botaniques & rituels holistiques. {clientCity({ formData: fd }) ?? "Bordeaux"}, France.
+              Sanctuary de soins botaniques & rituels holistiques. {clientCity(sessionData) ?? "Bordeaux"}, France.
             </p>
             <div className="space-y-1 text-xs text-[#6B5E52]">
               <div className="flex items-center gap-2"><MapPin className="w-3 h-3" /> Adresse communiquée sur demande</div>
@@ -1209,7 +1209,7 @@ export default function AuraWellnessPage() {
           ))}
         </div>
         <div className="max-w-6xl mx-auto border-t border-[#D8D0C4] mt-10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-[#6B5E52]">
-          <span>© 2026 {clientName(sessionData) ?? "Aura Wellness."} Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Aura Wellness."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-6">
             <Link href="/templates/impact-86/mentions-legales" className="hover:text-[var(--brand,#7C9E87)] transition-colors cursor-pointer">Mentions légales</Link>
             <Link href="/templates/impact-86/cgu" className="hover:text-[var(--brand,#7C9E87)] transition-colors cursor-pointer">CGU</Link>

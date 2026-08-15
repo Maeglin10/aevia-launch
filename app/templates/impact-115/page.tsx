@@ -778,7 +778,7 @@ export default function Impact115Page() {
               <line x1="11" y1="17" x2="7" y2="14" stroke={C.bg} strokeWidth="0.8" />
               <line x1="11" y1="13" x2="15" y2="10" stroke={C.bg} strokeWidth="0.8" />
             </svg>
-            {/* NOM_LOGO */ clientName({ formData: fd }) ?? "Rostova Studio"}
+            {/* NOM_LOGO */ clientName(sessionData) ?? "Rostova Studio"}
           </div>
         )}
 
@@ -2115,7 +2115,7 @@ export default function Impact115Page() {
                 letterSpacing: "0.06em",
               }}
             >
-              © {new Date().getFullYear()} {clientName(sessionData) ?? "Rostova Architecture Studio."} All rights reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © {new Date().getFullYear()} {clientName(sessionData) ?? "Rostova Architecture Studio."} All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
             <div style={{ display: "flex", gap: 28 }}>
               {["Privacy", "Terms", "Cookies"].map((item) => (

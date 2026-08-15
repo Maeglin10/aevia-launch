@@ -31,7 +31,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   {clientName(sessionData) ?? "Jardins Vivants"} — {clientTrade(sessionData) ?? "Paysagiste"} & entretien espaces verts ({clientCity({ formData: fd }) ?? "Annecy"})
+   {clientName(sessionData) ?? "Jardins Vivants"} — {clientTrade(sessionData) ?? "Paysagiste"} & entretien espaces verts ({clientCity(sessionData) ?? "Annecy"})
    Palette : blanc naturel #fafaf7 / vert profond #2d5a27 / vert clair #a8d5a0 / terre #6b4226
    Fonts : Cardo (titres serif organique) + Source Sans 3
    Style : vivant, naturel, organique, expertise végétale
@@ -83,8 +83,8 @@ const DEVIS_ETAPES = [
 
 function ZONES_DEMO_LIVE() {
   return [
-  { v: (clientCity({ formData: fd }) ?? "Annecy"), d: "Et communes du lac : Veyrier, Menthon, Talloires, Sévrier" },
-  { v: (clientCity({ formData: fd }) ?? "Annecy") + "-le-Vieux · Cran-Gevrier", d: "Entretien hebdomadaire et création" },
+  { v: (clientCity(sessionData) ?? "Annecy"), d: "Et communes du lac : Veyrier, Menthon, Talloires, Sévrier" },
+  { v: (clientCity(sessionData) ?? "Annecy") + "-le-Vieux · Cran-Gevrier", d: "Entretien hebdomadaire et création" },
   { v: "La Roche-sur-Foron", d: "Création et élagage, sur planning" },
   { v: "Rumilly · Alby", d: "Déplacement compris dans le devis" },
   { v: "Thônes · Vallée de Manigod", d: "Terrains en pente, accès étudié au cas par cas" },
@@ -106,7 +106,7 @@ let PRESTATIONS_DEMO = PRESTATIONS_SOURCE;
 
 function TEMOIGNAGES_DEMO_LIVE() {
   return [
-  { q: "Notre terrain en friche transformé en jardin à la française en 3 semaines. Plan proposé en 48h, devis clair, exécution irréprochable. On est bluffés.", n: "Marie-Claire & Paul G.", l: (clientCity({ formData: fd }) ?? "Annecy") + "-le-Vieux" },
+  { q: "Notre terrain en friche transformé en jardin à la française en 3 semaines. Plan proposé en 48h, devis clair, exécution irréprochable. On est bluffés.", n: "Marie-Claire & Paul G.", l: (clientCity(sessionData) ?? "Annecy") + "-le-Vieux" },
   { q: "Élagage d'un grand chêne de 20m de haut réalisé en sécurité totale. Pas une fleur touchée dans le jardin. Équipe pro, rapide, nettoyage parfait.", n: "Hervé T.", l: "Thônes (74)" },
   { q: "Suivi entretien mensuel depuis 2 ans. Le jardin est toujours magnifique, même en mon absence. Ponctualité parfaite, conseils précieux sur les plantations.", n: "Charlotte S.", l: "Megève (74)" },
 ];
@@ -208,8 +208,8 @@ export default function JardinsVivantsPage() {
               <>
                 <Leaf className="w-5 h-5 text-[var(--brand,#2d5a27)]" />
                 <div>
-                  <div className="font-bold text-[#1e2a1c] text-sm leading-tight" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Cardo', Georgia, serif" }}>{clientName({ formData: fd }) ?? "Jardins Vivants"}</div>
-                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2d5a27)]/50">{clientTrade(sessionData) ?? "Paysagiste"} · {clientCity({ formData: fd }) ?? "Annecy"}</div>
+                  <div className="font-bold text-[#1e2a1c] text-sm leading-tight" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Cardo', Georgia, serif" }}>{clientName(sessionData) ?? "Jardins Vivants"}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2d5a27)]/50">{clientTrade(sessionData) ?? "Paysagiste"} · {clientCity(sessionData) ?? "Annecy"}</div>
                 </div>
               </>
             )}
@@ -251,7 +251,7 @@ export default function JardinsVivantsPage() {
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-8">
               <div className="w-8 h-[1px] bg-[#a8d5a0]/60" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#a8d5a0]">{clientTrade(sessionData) ?? "Paysagiste"} & espaces verts · {clientCity({ formData: fd }) ?? "Annecy"} & Haute-Savoie</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#a8d5a0]">{clientTrade(sessionData) ?? "Paysagiste"} & espaces verts · {clientCity(sessionData) ?? "Annecy"} & Haute-Savoie</span>
             </div>
           </motion.div>
 
@@ -432,7 +432,7 @@ export default function JardinsVivantsPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Cardo', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Et si votre jardin<br /><span className="italic">devenait vivant ?</span>
             </>)}</h2>
-            <p className="text-white/50 mb-10 text-sm">Devis gratuit sous 48h · {clientCity({ formData: fd }) ?? "Annecy"} & Haute-Savoie · {clientTrade(sessionData) ?? "Paysagiste"} qualifié RGE</p>
+            <p className="text-white/50 mb-10 text-sm">Devis gratuit sous 48h · {clientCity(sessionData) ?? "Annecy"} & Haute-Savoie · {clientTrade(sessionData) ?? "Paysagiste"} qualifié RGE</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-white text-[var(--brand,#2d5a27)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0f7f0] transition-colors rounded-lg shadow-lg">
                 Demander un devis
@@ -455,7 +455,7 @@ export default function JardinsVivantsPage() {
           {[
             { t: "Prestations", ls: ["Création jardin", "Entretien régulier", "Élagage & abattage", "Potager & verger", "Arrosage automatique"] },
             { t: "Infos", ls: ["Qui sommes-nous", "Portfolio réalisations", "Zone d'intervention", "Tarifs", "Blog jardinage"] },
-            { t: "Contact", ls: [(fd?.phone ?? "04 50 12 34 56"), (fd?.email ?? "contact@jardins-vivants.fr"), (clientCity({ formData: fd }) ?? "Annecy") + " & Haute-Savoie", "Lun-Sam 7h30-18h", "Devis gratuit 48h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "04 50 12 34 56"), (fd?.email ?? "contact@jardins-vivants.fr"), (clientCity(sessionData) ?? "Annecy") + " & Haute-Savoie", "Lun-Sam 7h30-18h", "Devis gratuit 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2d5a27)]/60 mb-5">{col.t}</h4>
@@ -466,7 +466,7 @@ export default function JardinsVivantsPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 {clientName(sessionData) ?? "Jardins Vivants"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 456 789 012 00033"} · {clientTrade(sessionData) ?? "Paysagiste"} qualifié · {clientCity(sessionData) ?? "Annecy"} (74){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Jardins Vivants"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 456 789 012 00033"} · {clientTrade(sessionData) ?? "Paysagiste"} qualifié · {clientCity(sessionData) ?? "Annecy"} (74){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#2d5a27)]/25">{clientTrade(sessionData) ?? "Paysagiste"} · Haute-Savoie</span>
         </div>
       </footer>

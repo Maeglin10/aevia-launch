@@ -198,7 +198,7 @@ return (
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <span className="text-[var(--brand,#C9A86C)] tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.15rem" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Summit Capital"))}</span>
+              <span className="text-[var(--brand,#C9A86C)] tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.15rem" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Summit Capital"))}</span>
             )}
           </div>
           <div className="hidden md:flex items-center gap-8 text-white/50 text-sm font-medium">
@@ -237,7 +237,7 @@ return (
                   style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-[var(--brand,#C9A86C)] text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Summit Capital"))}</span>
+                <span className="text-[var(--brand,#C9A86C)] text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Summit Capital"))}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
@@ -276,12 +276,12 @@ return (
                 of clipping, and the h1 is now sized to actually fit. */}
             <section id="hero" ref={heroRef} className="relative min-h-dvh overflow-hidden flex items-center py-24 md:py-0">
               <motion.div className="absolute inset-0 pointer-events-none" style={{ y: heroY }}>
-                <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=85"))} alt={fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Summit Capital"))} fill className="object-cover opacity-30" priority />
+                <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=85"))} alt={fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Summit Capital"))} fill className="object-cover opacity-30" priority />
                 <div className="absolute inset-0 bg-gradient-to-br from-[#09090B] via-[#09090B]/80 to-[#09090B]" />
               </motion.div>
               <motion.div className="relative z-10 max-w-6xl mx-auto px-6 w-full" style={{ opacity: heroOpacity }}>
                 <Reveal>
-                  <p className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-6">Venture Capital — {clientCity({ formData: fd }) ?? "Paris"} · Berlin · Dubai</p>
+                  <p className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-6">Venture Capital — {clientCity(sessionData) ?? "Paris"} · Berlin · Dubai</p>
                 </Reveal>
                 <Reveal delay={0.1}>
                   <h1 className="text-white text-4xl sm:text-5xl md:text-8xl leading-tight md:leading-none mb-4 md:mb-8 break-words" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{<>{clientHeroLine(sessionData, 0, 4, 12) ?? "Financer les"}<br /><em>{clientHeroLine(sessionData, 1, 4, 12) ?? "champions"}</em>{" "}{clientHeroLine(sessionData, 2, 4, 12) ?? "de"}<br />{clientHeroLine(sessionData, 3, 4, 12) ?? "demain"}</>}</h1>
@@ -358,13 +358,13 @@ return (
       {/* Footer */}
       <footer className="bg-[#09090B] border-t border-white/5 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-white/20">
-          <div onClick={() => goTo("home")} className="text-[var(--brand,#C9A86C)] text-lg cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Summit Capital"))}</div>
+          <div onClick={() => goTo("home")} className="text-[var(--brand,#C9A86C)] text-lg cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Summit Capital"))}</div>
           <div className="flex gap-8">
             <a href="/templates/impact-19" onClick={(e) => { e.preventDefault(); goTo("portefeuille"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Portefeuille</a>
             <a href="/templates/impact-19" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Mentions légales</a>
             <a href="/templates/impact-19" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Confidentialité</a>
           </div>
-          <span>© 2026 {clientName(sessionData) ?? "Summit Capital."} Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Summit Capital."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         </div>
       </footer>
     </div>
@@ -564,7 +564,7 @@ function ContactPage() {
             <div className="space-y-4">
               <div className="flex items-center gap-3 text-sm text-white/50">
                 <Building2 className="w-4 h-4 text-[var(--brand,#C9A86C)] shrink-0" />
-                <span>{clientCity({ formData: fd }) ?? "Paris"} (Showroom), Berlin, Dubaï</span>
+                <span>{clientCity(sessionData) ?? "Paris"} (Showroom), Berlin, Dubaï</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-white/50">
                 <Mail className="w-4 h-4 text-[var(--brand,#C9A86C)] shrink-0" />
@@ -614,7 +614,7 @@ function LegalPage() {
               <strong><EditeurDuSite /></strong><br />
               Entrepreneur individuel<br />
               SIREN : <LegalIdentity /><br />
-              {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}<br />
+              {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
               Email : {fd?.email ?? "contact@exemple.fr"}<br />
               Adresse : Communiquée sur demande
             </p>

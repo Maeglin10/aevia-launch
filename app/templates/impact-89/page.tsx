@@ -197,7 +197,7 @@ function ARTISTS_LIVE() {
     name: "Viktor Rein",
     role: "Directeur artistique & Réalisme",
     exp: "14 ans",
-    city: (clientCity({ formData: fd }) ?? "Paris") + " — Ancien de Mumbai & Berlin",
+    city: (clientCity(sessionData) ?? "Paris") + " — Ancien de Mumbai & Berlin",
     bio: "Viktor travaille à la frontière entre l'hyperréalisme photographique et l'art noir. Ses portraits sont reconnaissables pour leur profondeur de noir et leurs dégradés impossible à distinguer d'une photo.",
     styles: ["Réaliste", "Japonais", "Blackwork"],
     wait: "12–16 semaines",
@@ -209,7 +209,7 @@ function ARTISTS_LIVE() {
     name: "Léa Morel",
     role: "Fine Line & Architecture géométrique",
     exp: "8 ans",
-    city: (clientCity({ formData: fd }) ?? "Paris") + " — Formation à Amsterdam",
+    city: (clientCity(sessionData) ?? "Paris") + " — Formation à Amsterdam",
     bio: "Léa pousse la précision du trait jusqu'aux limites physiques de l'aiguille. Ses compositions géométriques suivent des règles mathématiques propres, créant des pièces qui semblent générées par algorithme.",
     styles: ["Fine Line", "Géométrique", "Botanique"],
     wait: "8–10 semaines",
@@ -221,7 +221,7 @@ function ARTISTS_LIVE() {
     name: "James Wolfe",
     role: "Old School & Japonais traditionnel",
     exp: "11 ans",
-    city: (clientCity({ formData: fd }) ?? "Paris") + " — Apprentissage à San Francisco",
+    city: (clientCity(sessionData) ?? "Paris") + " — Apprentissage à San Francisco",
     bio: "James maîtrise le vocabulaire iconographique du tatouage traditionnel américain et japonais. Ses couleurs saturées et ses outlines épais sont la définition de l'old school à son meilleur.",
     styles: ["Old School", "Japonais", "Neo-Traditional"],
     wait: "6–8 semaines",
@@ -340,14 +340,14 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     name: "Maxime L.",
-    city: (clientCity({ formData: fd }) ?? "Paris"),
+    city: (clientCity(sessionData) ?? "Paris"),
     rating: 5,
     artist: "Viktor Rein",
     text: "Viktor a fait mon portrait de chien sur l'avant-bras. Les poils sont tellement fins qu'on croirait une photo. Trois ans plus tard, c'est encore parfait. Le studio est d'une propreté chirurgicale.",
   },
   {
     name: "Anais D.",
-    city: (clientCity({ formData: fd }) ?? "Paris"),
+    city: (clientCity(sessionData) ?? "Paris"),
     rating: 5,
     artist: "Léa Morel",
     text: "Ma géométrie sternal par Léa est une œuvre d'art. Elle a passé 2 semaines à concevoir le design avant de poser la moindre aiguille. Ce niveau de sérieux, ça se paie, et ça en vaut absolument la peine.",
@@ -368,7 +368,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   },
   {
     name: "Romain F.",
-    city: (clientCity({ formData: fd }) ?? "Paris"),
+    city: (clientCity(sessionData) ?? "Paris"),
     rating: 5,
     artist: "Viktor Rein",
     text: "Full back blackwork avec Viktor sur 3 sessions de 8h. Le noir est d'une saturation absolue, les zones détaillées sont nettes comme des gravures. C'est de la haute couture portée sur la peau.",
@@ -736,7 +736,7 @@ return (
               }}>
                 <span style={{ fontFamily: FONT_HEADING, fontSize: 14, color: C.white, letterSpacing: 1 }}>I</span>
               </div>
-              <span style={{ fontFamily: FONT_HEADING, fontSize: 20, letterSpacing: 4, color: C.white }}>{clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "INK & IRON"))}</span>
+              <span style={{ fontFamily: FONT_HEADING, fontSize: 20, letterSpacing: 4, color: C.white }}>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "INK & IRON"))}</span>
             </div>
           )}
         </Link>
@@ -930,7 +930,7 @@ return (
               fontWeight: 300,
             }}
           >{clientAccrocheRestante(sessionData, 2, 6) ?? c?.heroSubline ?? <>
-            Tatouage luxury à {clientCity({ formData: fd }) ?? "Paris"}. Trois artistes. Un standard absolu d'excellence — de la consultation à la cicatrisation.
+            Tatouage luxury à {clientCity(sessionData) ?? "Paris"}. Trois artistes. Un standard absolu d'excellence — de la consultation à la cicatrisation.
           </>}</motion.p>
 
           <motion.div
@@ -1897,10 +1897,10 @@ return (
           <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 60, marginBottom: 64 }}>
             <div>
               <div style={{ fontFamily: FONT_HEADING, fontSize: 28, color: C.text, letterSpacing: 4, marginBottom: 20 }}>
-                {clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "INK & IRON"))}
+                {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "INK & IRON"))}
               </div>
               <p style={{ fontFamily: FONT_BODY, fontSize: 14, color: C.textMuted, lineHeight: 1.7, marginBottom: 24, maxWidth: 280 }}>
-                Studio de tatouage luxury à {clientCity({ formData: fd }) ?? "Paris"} depuis 2010. Trois artistes, un standard absolu. Rue de la Roquette, {clientCity({ formData: fd }) ?? "Paris"} 11e.
+                Studio de tatouage luxury à {clientCity(sessionData) ?? "Paris"} depuis 2010. Trois artistes, un standard absolu. Rue de la Roquette, {clientCity(sessionData) ?? "Paris"} 11e.
               </p>
               <div style={{ display: "flex", gap: 12 }}>
                 {[Camera, MessageSquare, Users2].map((Icon, i) => (
@@ -1975,7 +1975,7 @@ return (
             gap: 16,
           }}>
             <span style={{ fontFamily: FONT_MONO, fontSize: 11, color: C.textDim, letterSpacing: 2 }}>
-              © 2025 {clientName(sessionData) ?? "INK"} & IRON STUDIO — {clientCity(sessionData) ?? "PARIS"} 11E{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2025 {clientName(sessionData) ?? "INK"} & IRON STUDIO — {clientCity(sessionData) ?? "PARIS"} 11E{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
             <div style={{ display: "flex", gap: 24 }}>
               {[

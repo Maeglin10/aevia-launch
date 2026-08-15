@@ -123,7 +123,7 @@ function HERO_VIEWS_DEMO_LIVE() {
   return [
   {
     k: "Le cabinet",
-    d: "Une pièce calme au coeur de " + (clientCity({ formData: fd }) ?? "Montpellier") + ", pensée pour que la parole puisse se poser.",
+    d: "Une pièce calme au coeur de " + (clientCity(sessionData) ?? "Montpellier") + ", pensée pour que la parole puisse se poser.",
     img: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/4672717/pexels-photo-4672717.jpeg?auto=compress&cs=tinysrgb&w=1920"),
   },
   {
@@ -257,7 +257,7 @@ export default function CabinetMoreauPage() {
             style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
         ) : (
-          <div>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
+          <div>{/* NOM_LOGO */ clientName(sessionData) ?? (<>
             <span style={{ fontFamily: FONT_SERIF, fontSize: 17, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>Laurence Moreau</span>
             <span style={{ fontSize: 13, color: scrolled ? C.textMuted : "rgba(255,255,255,0.65)", marginLeft: 8 }}>Psychologue clinicienne</span>
           </>)}</div>
@@ -325,7 +325,7 @@ export default function CabinetMoreauPage() {
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            {clientTrade(sessionData) ?? "Psychologue"} clinicienne à {clientCity({ formData: fd }) ?? "Montpellier"}, je vous accompagne face aux difficultés émotionnelles, relationnelles et professionnelles avec bienveillance et méthodes fondées sur les preuves.
+            {clientTrade(sessionData) ?? "Psychologue"} clinicienne à {clientCity(sessionData) ?? "Montpellier"}, je vous accompagne face aux difficultés émotionnelles, relationnelles et professionnelles avec bienveillance et méthodes fondées sur les preuves.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -479,7 +479,7 @@ export default function CabinetMoreauPage() {
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.warm }}>Prendre rendez-vous</span>
           <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, margin: "14px 0 16px" }}>{c?.aboutTitle ?? fd?.businessName ?? <>Le premier pas<br /><em>est souvent le plus difficile.</em></>}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>{c?.aboutText ?? <>
-            Premier rendez-vous disponible sous 48h. Consultation en présentiel à {clientCity({ formData: fd }) ?? "Montpellier"} ou en visioconférence.
+            Premier rendez-vous disponible sous 48h. Consultation en présentiel à {clientCity(sessionData) ?? "Montpellier"} ou en visioconférence.
           </>}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <motion.a href={`tel:${fd?.phone ?? "+33434000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
@@ -497,10 +497,10 @@ export default function CabinetMoreauPage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
             <div style={{fontFamily: FONT_SERIF, fontSize: 18, fontStyle: "italic", color: brand ?? 'var(--brand,#9fd4c9)', marginBottom: 8 }}>Laurence Moreau</div>
-            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>{clientTrade(sessionData) ?? "Psychologue"} clinicienne · {clientCity({ formData: fd }) ?? "Montpellier"}<br />Lun–Ven 9h–19h | Sam 9h–13h</p>
+            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>{clientTrade(sessionData) ?? "Psychologue"} clinicienne · {clientCity(sessionData) ?? "Montpellier"}<br />Lun–Ven 9h–19h | Sam 9h–13h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Montpellier") + ", Hérault" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 34 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–19h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Montpellier") + ", Hérault" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 34 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–19h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
                 <span style={{color: brand ?? 'var(--brand,#9fd4c9)' }}>{item.icon}</span>{item.t}
               </div>
@@ -508,7 +508,7 @@ export default function CabinetMoreauPage() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-          <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 Cabinet Laurence Moreau — Site par Aevia WS{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 Cabinet Laurence Moreau — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="/templates/impact-50/legal" style={{ color: "rgba(255,255,255,0.20)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

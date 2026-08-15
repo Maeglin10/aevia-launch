@@ -55,22 +55,22 @@ function HERO_CUVEES_LIVE() {
   {
     left: `${clientName(sessionData) ?? "Château"}`,
     right: "DE VALROC",
-    name: (clientName({ formData: fd }) ?? "Cuvée Prestige"),
-    meta: "AOC " + (clientCity({ formData: fd }) ?? "Bordeaux") + " Grand Cru · 2020",
+    name: (clientName(sessionData) ?? "Cuvée Prestige"),
+    meta: "AOC " + (clientCity(sessionData) ?? "Bordeaux") + " Grand Cru · 2020",
     bottle: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1545608508-78f351665a1c?auto=format&fit=crop&q=85&w=620&h=1240"),
   },
   {
     left: `${clientName(sessionData) ?? "Château"}`,
     right: "DE VALROC",
     name: "Cuvée Réserve",
-    meta: "AOC " + (clientCity({ formData: fd }) ?? "Bordeaux") + " · 2021",
+    meta: "AOC " + (clientCity(sessionData) ?? "Bordeaux") + " · 2021",
     bottle: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1598866971869-22782ffd918e?auto=format&fit=crop&q=85&w=620&h=1240"),
   },
   {
     left: `${clientName(sessionData) ?? "Château"}`,
     right: "DE VALROC",
     name: "Blanc de Grâce",
-    meta: (clientCity({ formData: fd }) ?? "Bordeaux") + " Blanc · 2022",
+    meta: (clientCity(sessionData) ?? "Bordeaux") + " Blanc · 2022",
     bottle: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1714377676631-bef738815d62?auto=format&fit=crop&q=85&w=620&h=1240"),
   },
 ];
@@ -128,9 +128,9 @@ function WINES_DEMO_LIVE() {
   return [
   {
     id: "prestige",
-    name: (clientName({ formData: fd }) ?? "Cuvée Prestige"),
+    name: (clientName(sessionData) ?? "Cuvée Prestige"),
     vintage: "2020",
-    appellation: "AOC " + (clientCity({ formData: fd }) ?? "Bordeaux") + " Grand Cru",
+    appellation: "AOC " + (clientCity(sessionData) ?? "Bordeaux") + " Grand Cru",
     price: "€240",
     desc: "Le pinacle de notre domaine. Une robe pourpre intense aux reflets violines, un nez de fruits noirs confits, de cèdre et de réglisse. En bouche, la structure tannique est d'une finesse absolue.",
     notes: ["Cassis", "Cèdre", "Truffe"],
@@ -141,7 +141,7 @@ function WINES_DEMO_LIVE() {
     id: "reserve",
     name: "Cuvée Réserve",
     vintage: "2021",
-    appellation: "AOC " + (clientCity({ formData: fd }) ?? "Bordeaux"),
+    appellation: "AOC " + (clientCity(sessionData) ?? "Bordeaux"),
     price: "€95",
     desc: "L'expression la plus pure de notre terroir argilo-calcaire. Un vin de gastronomie, d'une élégance discrète et d'une persistance aromatique remarquable.",
     notes: ["Mûre", "Violette", "Épices"],
@@ -152,7 +152,7 @@ function WINES_DEMO_LIVE() {
     id: "blanc",
     name: "Blanc de Grâce",
     vintage: "2022",
-    appellation: (clientCity({ formData: fd }) ?? "Bordeaux") + " Blanc",
+    appellation: (clientCity(sessionData) ?? "Bordeaux") + " Blanc",
     price: "€68",
     desc: "Notre blanc de caractère issu de vieilles vignes de Sémillon et Sauvignon Blanc. Rond, généreux, avec une minéralité ciselée qui signe l'identité du domaine.",
     notes: ["Agrumes", "Fleur blanche", "Miel"],
@@ -163,7 +163,7 @@ function WINES_DEMO_LIVE() {
     id: "rose",
     name: "Rosé d'Une Nuit",
     vintage: "2023",
-    appellation: (clientCity({ formData: fd }) ?? "Bordeaux") + " Rosé",
+    appellation: (clientCity(sessionData) ?? "Bordeaux") + " Rosé",
     price: "€38",
     desc: "Macération pelliculaire de 18 heures sur Cabernet Franc et Merlot. Une robe saumonée, un nez de fraise des bois et de grenade, une bouche vive et saline.",
     notes: ["Fraise", "Grenade", "Pivoine"],
@@ -2576,7 +2576,7 @@ export default function WineryTemplate() {
                 textTransform: "uppercase",
               }}
             >
-              © 2024 {clientName(sessionData) ?? "Château"} de Valroc — Tous droits réservés — L'abus d'alcool est dangereux pour la santé{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2024 {clientName(sessionData) ?? "Château"} de Valroc — Tous droits réservés — L'abus d'alcool est dangereux pour la santé{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: "flex", gap: 24 }}>
               {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? ["Instagram", "LinkedIn", "Newsletter"]).map((s) => (

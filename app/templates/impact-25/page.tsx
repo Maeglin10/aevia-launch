@@ -94,7 +94,7 @@ let SERVICES = SERVICES_DEMO;
 
 function REALISATIONS_DEMO_LIVE() {
   return [
-  { client: "MaisonDéco " + (clientCity({ formData: fd }) ?? "Paris"), sector: "E-commerce", desc: "Refonte UX + boutique Shopify. +68% de taux de conversion en 3 mois.", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&q=80") },
+  { client: "MaisonDéco " + (clientCity(sessionData) ?? "Paris"), sector: "E-commerce", desc: "Refonte UX + boutique Shopify. +68% de taux de conversion en 3 mois.", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&q=80") },
   { client: "Cabinet Forêt & Associés", sector: "Juridique", desc: "Site vitrine + SEO local. Page 1 sur 8 requêtes cibles en 4 mois.", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&q=80") },
   { client: "Startup Finly", sector: "FinTech", desc: "MVP SaaS de 0 à prod en 6 semaines. Levée de fonds facilités par la démo.", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80") },
 ];
@@ -271,7 +271,7 @@ export default function PixelRepublicPage() {
               <div style={{ width: 32, height: 32, background: `linear-gradient(135deg, ${C.accent}, ${C.violet2})`, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <Code2 size={16} color="#fff" />
               </div>
-              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontSize: 18, fontWeight: 700, color: scrolled ? C.text : "#fff" }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Pixel<span style={{ color: C.accent }}>Republic</span></>)}</span>
+              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontSize: 18, fontWeight: 700, color: scrolled ? C.text : "#fff" }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>Pixel<span style={{ color: C.accent }}>Republic</span></>)}</span>
             </>
           )}
         </div>
@@ -520,10 +520,10 @@ export default function PixelRepublicPage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
             <div style={{ fontFamily: FONT, fontSize: 20, fontWeight: 700, color: C.accent, marginBottom: 8 }}>PixelRepublic</div>
-            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Agence digitale · {clientCity({ formData: fd }) ?? "Paris"}<br />Lun–Ven 9h–18h30</p>
+            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Agence digitale · {clientCity(sessionData) ?? "Paris"}<br />Lun–Ven 9h–18h30</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Paris") + ", Île-de-France" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "01 44 00 00 00") }, { icon: <Mail size={13} />, t: (fd?.email ?? "hello@pixelrepublic.fr") }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Paris") + ", Île-de-France" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "01 44 00 00 00") }, { icon: <Mail size={13} />, t: (fd?.email ?? "hello@pixelrepublic.fr") }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>
@@ -531,7 +531,7 @@ export default function PixelRepublicPage() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-          <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 Pixel Republic — Site par Aevia WS{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 Pixel Republic — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="/templates/impact-25/legal" style={{ color: "rgba(255,255,255,0.20)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

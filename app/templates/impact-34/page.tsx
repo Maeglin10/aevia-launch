@@ -446,7 +446,7 @@ return (
                 Success Stories
               </span>
               <h2 className="text-4xl md:text-5xl font-black tracking-tight mb-4">
-                Creators who chose {fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "WaveForm"))}
+                Creators who chose {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "WaveForm"))}
               </h2>
               <p className="text-lg text-[#64748B] max-w-xl mx-auto">
                 Real results from real podcasters — not marketing copy.
@@ -575,8 +575,8 @@ return (
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-34"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "impact-34"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>
   )

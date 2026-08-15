@@ -29,7 +29,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   {clientName(sessionData) ?? "Max Performance"} — {clientTrade(sessionData) ?? "Coach sportif"} personnel ({clientCity({ formData: fd }) ?? "Paris"})
+   {clientName(sessionData) ?? "Max Performance"} — {clientTrade(sessionData) ?? "Coach sportif"} personnel ({clientCity(sessionData) ?? "Paris"})
    Palette : noir #0a0a0a / orange électrique #f97316 / gris foncé #1a1a1a / blanc cassé #f8f5f0
    Fonts : Anton (titres impact) + Geist (corps)
    Style : énergie, impact, transformation, résultats
@@ -154,7 +154,7 @@ export default function MaxPerformancePage() {
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <span className="font-black text-[#f8f5f0] tracking-widest text-sm uppercase" style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: "'Anton', impact, sans-serif" }}>{clientName({ formData: fd }) ?? "MAX"}<span className="text-[var(--brand,#f97316)]">.</span>PERF</span>
+              <span className="font-black text-[#f8f5f0] tracking-widest text-sm uppercase" style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: "'Anton', impact, sans-serif" }}>{clientName(sessionData) ?? "MAX"}<span className="text-[var(--brand,#f97316)]">.</span>PERF</span>
             )}
           </div>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.25em] text-[#f8f5f0]/25">
@@ -204,7 +204,7 @@ export default function MaxPerformancePage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-8">
               <div className="w-10 h-[2px] bg-[var(--brand,#f97316)]" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#f97316)]/70">{clientTrade(sessionData) ?? "Coach sportif"} certifié · {clientCity({ formData: fd }) ?? "Paris"} & Online</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#f97316)]/70">{clientTrade(sessionData) ?? "Coach sportif"} certifié · {clientCity(sessionData) ?? "Paris"} & Online</span>
             </div>
           </motion.div>
 
@@ -222,7 +222,7 @@ export default function MaxPerformancePage() {
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
             className="max-w-sm text-sm text-[#f8f5f0]/30 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
-            Coaching sportif personnalisé à {clientCity({ formData: fd }) ?? "Paris"}. Perte de poids, prise de masse, prépa trail/triathlon. 1ère séance offerte. Résultats visibles en 4 semaines ou remboursement.
+            Coaching sportif personnalisé à {clientCity(sessionData) ?? "Paris"}. Perte de poids, prise de masse, prépa trail/triathlon. 1ère séance offerte. Résultats visibles en 4 semaines ou remboursement.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-4">
@@ -400,12 +400,12 @@ export default function MaxPerformancePage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="font-black uppercase text-[#f8f5f0] text-sm mb-5" style={{ fontFamily: "'Anton', sans-serif" }}>MAX<span className="text-[var(--brand,#f97316)]">.</span>PERF</div>
-            <p className="text-[#f8f5f0]/15 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Coach sportif"} certifié BPJEPS. {clientCity({ formData: fd }) ?? "Paris"} & online worldwide. Coaching privé, bootcamp, prépa compétition.</p>
+            <p className="text-[#f8f5f0]/15 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Coach sportif"} certifié BPJEPS. {clientCity(sessionData) ?? "Paris"} & online worldwide. Coaching privé, bootcamp, prépa compétition.</p>
           </div>
           {[
             { t: "Programmes", ls: ["Coaching privatif", "Bootcamp", "Prépa compétition", "Coaching en ligne", "Nutrition & récup"] },
             { t: "Infos", ls: ["Méthode MAX", "Mon parcours", "Certifications", "Avis clients", "FAQ"] },
-            { t: "Contact", ls: [(fd?.phone ?? "06 23 72 22 65"), (fd?.email ?? "max@maxperf.fr"), (clientCity({ formData: fd }) ?? "Paris"), "Online worldwide", "1ère séance offerte"] },
+            { t: "Contact", ls: [(fd?.phone ?? "06 23 72 22 65"), (fd?.email ?? "max@maxperf.fr"), (clientCity(sessionData) ?? "Paris"), "Online worldwide", "1ère séance offerte"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#f97316)]/40 mb-5">{col.t}</h4>
@@ -416,7 +416,7 @@ export default function MaxPerformancePage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-6 border-t border-[var(--brand,#f97316)]/6 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f8f5f0]/8">
-          <span>© 2026 {clientName(sessionData) ?? "Max Performance"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 123 456 789 00100"} · BPJEPS AF · {clientCity({ formData: fd }) ?? "Paris"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Max Performance"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 123 456 789 00100"} · BPJEPS AF · {clientCity(sessionData) ?? "Paris"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#f97316)]/20">Stop Waiting. Start Performing.</span>
         </div>
       </footer>

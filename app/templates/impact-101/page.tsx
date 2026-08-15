@@ -662,7 +662,7 @@ export default function BlockBasePage() {
               <div className="w-8 h-8 bg-white text-black rounded flex items-center justify-center">
                 <Box className="w-5 h-5" />
               </div>
-              <span>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "BLOCK // BASE"))}</span>
+              <span>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "BLOCK // BASE"))}</span>
             </Link>
             <p className="text-[10px] text-white/20 uppercase tracking-[0.2em] max-w-sm leading-relaxed mb-12">
               Engineering the foundation of high-performance decentralized systems. Built for the next billion users.
@@ -710,8 +710,8 @@ export default function BlockBasePage() {
       </footer>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-101"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "impact-101"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>
   );

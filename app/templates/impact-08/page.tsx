@@ -399,8 +399,8 @@ return (
                 alt={fd?.businessName ?? 'logo'}
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
-            ) : (/* NOM_LOGO */ clientName({ formData: fd }) ? (
-              <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">{clientName({ formData: fd })}</span>
+            ) : (/* NOM_LOGO */ clientName(sessionData) ? (
+              <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">{clientName(sessionData)}</span>
             ) : (<>
               <>
             <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">{clientName(sessionData) ?? "VULCAN"}</span>
@@ -738,7 +738,7 @@ return (
 
             <div className="pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.4em] text-white/10 italic">
                <div className="flex flex-wrap gap-8">
-                  <span>©2026 {clientName(sessionData) ?? "VULCAN MOTOR GROUP MODENA."}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+                  <span>©2026 {clientName(sessionData) ?? "VULCAN MOTOR GROUP MODENA."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
                   <span className="hidden md:inline">//</span>
                   <a href="#aero-grad" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#3b82f6)] transition-colors">MENTIONS LEGALES</a>
                </div>
@@ -984,10 +984,10 @@ function LegalPage() {
           <div className="border-b border-white/10 pb-4">
              <div className="text-white/30 text-[10px] font-black uppercase mb-2">EDITEUR</div>
              <p className="text-white font-medium uppercase">
-                {clientName({ formData: fd }) ?? "Aevia WS — Valentin Milliand"}<br />
-                {clientName({ formData: fd }) ? "" : "Entrepreneur Individuel"}<br />
+                {clientName(sessionData) ?? "Aevia WS — Valentin Milliand"}<br />
+                {clientName(sessionData) ? "" : "Entrepreneur Individuel"}<br />
                 SIREN : <LegalIdentity /><br />
-                {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}<br />
+                {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
                 Email : {fd?.email ?? "contact@exemple.fr"}<br />
                 Adresse : Communiquée sur demande
              </p>

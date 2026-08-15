@@ -30,7 +30,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   BRILLO NET — Entreprise de ménage & nettoyage professionnel ({clientCity({ formData: fd }) ?? "Lyon"})
+   BRILLO NET — Entreprise de ménage & nettoyage professionnel ({clientCity(sessionData) ?? "Lyon"})
    Palette : blanc pur / turquoise frais #0d9488 / fond doux #f0fafa / charbon #1c2b2b
    Fonts : Plus Jakarta Sans (titres) + Inter (corps)
    Style : ultra propre, aéré, confiance, professionnel
@@ -65,7 +65,7 @@ let TARIFS = TARIFS_DEMO;
 
 function ZONES_DEMO_LIVE() {
   return [
-  { v: (clientCity({ formData: fd }) ?? "Lyon") + " — 9e", d: "Tous arrondissements, sans supplément" },
+  { v: (clientCity(sessionData) ?? "Lyon") + " — 9e", d: "Tous arrondissements, sans supplément" },
   { v: (clientCity(sessionData) ?? "Villeurbanne"), d: "Sans supplément" },
   { v: "Caluire · Rillieux", d: "Sans supplément" },
   { v: "Écully · Tassin · Sainte-Foy", d: "Sans supplément" },
@@ -82,7 +82,7 @@ function SERVICES_SOURCE_LIVE() {
   { icon: Building, title: "Nettoyage bureaux", desc: "Locaux professionnels, open spaces, salles de réunion, sanitaires. Intervention en soirée ou week-end pour ne pas perturber l'activité." },
   { icon: Sparkles, title: "Nettoyage fin de chantier", desc: "Déblayage et nettoyage complet post-travaux. Vitres, plinthes, enduits, carrelage. Rendu prêt à emménager en 1 intervention." },
   { icon: Leaf, title: "Ménage écologique", desc: "Produits certifiés Ecocert / Ecolabel uniquement. Zéro toxique, zéro résidu chimique. Idéal familles avec enfants en bas âge ou allergiques." },
-  { icon: Clock, title: "Ménage express & ponctuel", desc: "Avant/après emménagement, avant une réception, entre deux locataires Airbnb. Intervention rapide sous 24h sur " + (clientCity({ formData: fd }) ?? "Lyon") + " Métropole." },
+  { icon: Clock, title: "Ménage express & ponctuel", desc: "Avant/après emménagement, avant une réception, entre deux locataires Airbnb. Intervention rapide sous 24h sur " + (clientCity(sessionData) ?? "Lyon") + " Métropole." },
   { icon: Shield, title: "Vitres & surfaces vitrées", desc: "Lavage de vitres intérieures et extérieures jusqu'au 3ème étage. Velux, baies, vérandas. Sans traces garanties, finition cristal." },
 ];
 }
@@ -183,7 +183,7 @@ export default function BrilloNetPage() {
             ) : (
               <>
                 <Sparkles className="w-4 h-4 text-[var(--brand,#0d9488)]" />
-                <span className={`font-bold ${scrolled ? "text-[#1c2b2b]" : "text-white"} tracking-tight text-sm`}>{clientName({ formData: fd }) ?? "Brillo"}<span className="text-[var(--brand,#0d9488)]">Net</span></span>
+                <span className={`font-bold ${scrolled ? "text-[#1c2b2b]" : "text-white"} tracking-tight text-sm`}>{clientName(sessionData) ?? "Brillo"}<span className="text-[var(--brand,#0d9488)]">Net</span></span>
               </>
             )}
           </div>
@@ -229,7 +229,7 @@ export default function BrilloNetPage() {
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-3 mb-8">
               <div className="w-6 h-[1px] bg-[var(--brand,#0d9488)]" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#2dd4bf]">Ménage & Nettoyage Pro · {clientCity({ formData: fd }) ?? "Lyon"} Métropole</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#2dd4bf]">Ménage & Nettoyage Pro · {clientCity(sessionData) ?? "Lyon"} Métropole</span>
             </div>
           </motion.div>
 
@@ -238,7 +238,7 @@ export default function BrilloNetPage() {
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
             className="max-w-md text-sm text-white/38 leading-relaxed mb-10" style={{ fontFamily: "'Inter', sans-serif" }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            Entreprise de ménage et nettoyage sur {clientCity({ formData: fd }) ?? "Lyon"}. Domicile, bureaux, fin de chantier. Intervenantes formées, assurées, ponctualité garantie. Premier passage sans engagement.
+            Entreprise de ménage et nettoyage sur {clientCity(sessionData) ?? "Lyon"}. Domicile, bureaux, fin de chantier. Intervenantes formées, assurées, ponctualité garantie. Premier passage sans engagement.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-3 mb-8">
@@ -404,9 +404,9 @@ export default function BrilloNetPage() {
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
-              { q: "Intervenante ponctuelle, souriante, impeccable. Notre appartement n'a jamais été aussi propre. On renouvelle chaque semaine sans hésitation.", n: "Claire & Thomas M.", l: (clientCity({ formData: fd }) ?? "Lyon") },
+              { q: "Intervenante ponctuelle, souriante, impeccable. Notre appartement n'a jamais été aussi propre. On renouvelle chaque semaine sans hésitation.", n: "Claire & Thomas M.", l: (clientCity(sessionData) ?? "Lyon") },
               { q: "Nettoyage fin de chantier parfait. La cuisine et les vitres étincelaient. Équipe rapide, pro et avec les bons produits. Vraiment recommandé.", n: "Mathieu V.", l: (clientCity(sessionData) ?? "Villeurbanne") },
-              { q: "Nos bureaux sont nettoyés 3 fois par semaine. Zéro problème depuis 2 ans, intervenantes discrètes, travail remarquable. C'est pas donné à tout le monde.", n: "Agence ARBO", l: (clientCity({ formData: fd }) ?? "Lyon") },
+              { q: "Nos bureaux sont nettoyés 3 fois par semaine. Zéro problème depuis 2 ans, intervenantes discrètes, travail remarquable. C'est pas donné à tout le monde.", n: "Agence ARBO", l: (clientCity(sessionData) ?? "Lyon") },
             ].map((t, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="p-8 rounded-2xl bg-[#f0fafa] border border-[var(--brand,#0d9488)]/10 h-full flex flex-col">
@@ -432,7 +432,7 @@ export default function BrilloNetPage() {
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/45 mb-6">Premier passage</div>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Sans engagement,<br />sans contrat forcé.</>)}</h2>
             <p className="text-white/55 mb-10 text-sm leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>
-              Devis gratuit en 2h · Premier passage sur {clientCity({ formData: fd }) ?? "Lyon"} Métropole · Résiliation libre à tout moment
+              Devis gratuit en 2h · Premier passage sur {clientCity(sessionData) ?? "Lyon"} Métropole · Résiliation libre à tout moment
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-white text-[var(--brand,#0d9488)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0fafa] transition-colors rounded-full shadow-lg">
@@ -451,12 +451,12 @@ export default function BrilloNetPage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="flex items-center gap-2 mb-5"><Sparkles className="w-4 h-4 text-[var(--brand,#0d9488)]" /><span className="font-bold text-white text-sm">{clientName(sessionData) ?? "BrilloNet"}</span></div>
-            <p className="text-white/20 text-sm leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>Ménage & nettoyage professionnel sur {clientCity({ formData: fd }) ?? "Lyon"}. Particuliers et professionnels. Produits éco certifiés.</p>
+            <p className="text-white/20 text-sm leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>Ménage & nettoyage professionnel sur {clientCity(sessionData) ?? "Lyon"}. Particuliers et professionnels. Produits éco certifiés.</p>
           </div>
           {[
             { t: "Services", ls: ["Ménage domicile", "Nettoyage bureaux", "Fin de chantier", "Nettoyage écologique", "Vitres & surfaces"] },
             { t: "Infos", ls: ["Qui sommes-nous", "Zone d'intervention", "Tarifs indicatifs", "Avis clients", "Blog nettoyage"] },
-            { t: "Contact", ls: [(fd?.phone ?? "04 78 12 34 56"), (fd?.email ?? "contact@brillonet.fr"), (clientCity({ formData: fd }) ?? "Lyon") + " Métropole", "7j/7 8h-20h", "Devis gratuit en 2h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "04 78 12 34 56"), (fd?.email ?? "contact@brillonet.fr"), (clientCity(sessionData) ?? "Lyon") + " Métropole", "7j/7 8h-20h", "Devis gratuit en 2h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#0d9488)] mb-5">{col.t}</h4>
@@ -467,8 +467,8 @@ export default function BrilloNetPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 {clientName(sessionData) ?? "BrilloNet"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 789 012 345 00067"} · RC Pro · Assurance décennale{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
-          <span className="text-[var(--brand,#0d9488)]/30">Ménage professionnel · {clientCity({ formData: fd }) ?? "Lyon"}</span>
+          <span>© 2026 {clientName(sessionData) ?? "BrilloNet"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 789 012 345 00067"} · RC Pro · Assurance décennale{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span className="text-[var(--brand,#0d9488)]/30">Ménage professionnel · {clientCity(sessionData) ?? "Lyon"}</span>
         </div>
       </footer>
     </div>

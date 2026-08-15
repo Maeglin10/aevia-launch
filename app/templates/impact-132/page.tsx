@@ -625,7 +625,7 @@ return (
                 letterSpacing: "-0.02em",
                 lineHeight: 1,
               }}>
-                {clientName({ formData: fd }) ?? "The Review"}
+                {clientName(sessionData) ?? "The Review"}
               </span>
               <span style={{
                 fontFamily: C.sans,
@@ -1493,7 +1493,7 @@ return (
               fontSize: 12,
               color: "rgba(255,255,255,0.2)",
             }}>
-              © 2026 {clientName(sessionData) ?? "The Review Magazine."} All rights reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2026 {clientName(sessionData) ?? "The Review Magazine."} All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
             <div style={{ display: "flex", gap: 24 }}>
               {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? ["Privacy Policy", "Terms of Use", "Accessibility"]).map(item => (

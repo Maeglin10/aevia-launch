@@ -154,7 +154,7 @@ function AUTHORS_SOURCE_LIVE() {
   {
     name: "Théo Marchand",
     role: "Économiste & Journaliste",
-    bio: "Chercheur associé à Sciences Po " + (clientCity({ formData: fd }) ?? "Paris") + ". Couvre les mutations du travail, l'économie comportementale.",
+    bio: "Chercheur associé à Sciences Po " + (clientCity(sessionData) ?? "Paris") + ". Couvre les mutations du travail, l'économie comportementale.",
     articles: 78,
     initials: "TM",
     color: "var(--brand,#1D4ED8)",
@@ -185,7 +185,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   {
     quote: `${clientName(sessionData) ?? "Fréquence"} est la seule newsletter que j'ouvre en premier le lundi matin. Pas de superflu, des idées qui tiennent et qui transforment ma manière de penser le business.`,
     name: "Alexandre M.",
-    role: "Directeur Produit, Scale-up " + (clientCity({ formData: fd }) ?? "Paris"),
+    role: "Directeur Produit, Scale-up " + (clientCity(sessionData) ?? "Paris"),
     stars: 5,
   },
   {
@@ -197,7 +197,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   {
     quote: "Enfin du contenu qui respecte l'intelligence du lecteur. Pas de listes de 10 conseils inutiles. Des analyses, des chiffres, des nuances.",
     name: "Romain L.",
-    role: `VC Partner, ${clientCity({ formData: fd }) ?? "Paris"}`,
+    role: `VC Partner, ${clientCity(sessionData) ?? "Paris"}`,
     stars: 5,
   },
   {
@@ -637,7 +637,7 @@ export default function ImpactFrequencePage() {
                   color: C.red,
                   lineHeight: 1,
                 }}
-              >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Fréquence"))}</span>
+              >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Fréquence"))}</span>
             )}
           </motion.div>
 
@@ -1902,7 +1902,7 @@ export default function ImpactFrequencePage() {
                 marginBottom: 16,
                 letterSpacing: -0.5,
               }}
-            >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Fréquence"))}</div>
+            >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Fréquence"))}</div>
             <p
               style={{
                 fontFamily: C.sans,
@@ -1989,7 +1989,7 @@ export default function ImpactFrequencePage() {
             letterSpacing: 1,
           }}
         >
-          <span>© 2025 {clientName(sessionData) ?? "Fréquence"} · HEBDOMADAIRE · INDÉPENDANT · DEPUIS 2019{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2025 {clientName(sessionData) ?? "Fréquence"} · HEBDOMADAIRE · INDÉPENDANT · DEPUIS 2019{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span>Confidentialité · Mentions légales · CGU</span>
         </div>
       </footer>

@@ -229,7 +229,7 @@ export default function WaveFXPage() {
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--brand,#6366f1)] to-blue-500 flex items-center justify-center">
                   <Code2 className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-xl font-black tracking-tight">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Wave<span className="text-[var(--brand,#818cf8)]">FX</span></>)}</span>
+                <span className="text-xl font-black tracking-tight">{/* NOM_LOGO */ clientName(sessionData) ?? (<>Wave<span className="text-[var(--brand,#818cf8)]">FX</span></>)}</span>
               </>
             )}
           </Link>
@@ -461,7 +461,7 @@ export default function WaveFXPage() {
           ))}
         </div>
         <div className="max-w-[1000px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
-          <span>© 2026 {clientName(sessionData) ?? "WAVEFX LABS."}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "WAVEFX LABS."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span>MIT LICENSE · OPEN SOURCE</span>
         </div>
       </footer>

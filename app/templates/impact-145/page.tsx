@@ -184,7 +184,7 @@ export default function ArcaneRealtyPage() {
             <div className="w-10 h-10 border border-white/20 flex items-center justify-center group-hover:border-white transition-all duration-700">
               <Building2 className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold tracking-[0.2em] uppercase">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Arcane <span className="font-light text-white/40">Realty</span></>)}</span>
+            <span className="text-xl font-bold tracking-[0.2em] uppercase">{/* NOM_LOGO */ clientName(sessionData) ?? (<>Arcane <span className="font-light text-white/40">Realty</span></>)}</span>
           </>
             )}</Link>
           <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
@@ -446,7 +446,7 @@ export default function ArcaneRealtyPage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 {clientName(sessionData) ?? "ARCANE REALTY GLOBAL HOLDINGS."} BUILT FOR THE INFINITE.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "ARCANE REALTY GLOBAL HOLDINGS."} BUILT FOR THE INFINITE.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-12 italic">
              <Link href="#contact" className="hover:text-white transition-colors">Privacy Circle</Link>
              <Link href="#contact" className="hover:text-white transition-colors">Listing Verification</Link>

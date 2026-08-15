@@ -208,8 +208,8 @@ export default function CabinetKinePage() {
               alt={fd?.businessName ?? 'logo'}
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
-          ) : (/* NOM_LOGO */ clientName({ formData: fd }) ? (
-              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontSize: 18, fontWeight: 800, color: scrolled ? C.accent : "#fff" }}>{clientName({ formData: fd })}</span>
+          ) : (/* NOM_LOGO */ clientName(sessionData) ? (
+              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontSize: 18, fontWeight: 800, color: scrolled ? C.accent : "#fff" }}>{clientName(sessionData)}</span>
             ) : (<>
             <>
               <span style={{ fontSize: 18, fontWeight: 800, color: scrolled ? C.accent : "#fff" }}>Kiné</span>
@@ -401,10 +401,10 @@ export default function CabinetKinePage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 40 }}>
           <div>
             <div style={{ fontSize: 20, fontWeight: 800, color: C.accentLight, marginBottom: 10 }}>Kiné Mouvement</div>
-            <p style={{ color: "rgba(255,255,255,0.42)", fontSize: 14, lineHeight: 1.6, maxWidth: 250 }}>Cabinet de kinésithérapie à {clientCity({ formData: fd }) ?? "Nantes"}. Lun–Sam 8h–20h.</p>
+            <p style={{ color: "rgba(255,255,255,0.42)", fontSize: 14, lineHeight: 1.6, maxWidth: 250 }}>Cabinet de kinésithérapie à {clientCity(sessionData) ?? "Nantes"}. Lun–Sam 8h–20h.</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Nantes") + ", Loire-Atlantique" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "02 40 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Ven 8h–20h | Sam 8h–13h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Nantes") + ", Loire-Atlantique" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "02 40 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Ven 8h–20h | Sam 8h–13h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.48)", fontSize: 13 }}>
                 <span style={{ color: C.accentLight }}>{item.icon}</span>{item.t}
               </div>
@@ -412,7 +412,7 @@ export default function CabinetKinePage() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 18, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-          <span style={{ color: "rgba(255,255,255,0.24)", fontSize: 12 }}>© 2026 Kiné Mouvement — Site réalisé par Aevia WS{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.24)", fontSize: 12 }}>© 2026 Kiné Mouvement — Site réalisé par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="#contact" style={{ color: "rgba(255,255,255,0.24)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

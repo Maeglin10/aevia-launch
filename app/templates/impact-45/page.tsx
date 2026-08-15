@@ -377,8 +377,8 @@ return (
           opacity: 0.55,
         }}
       >
-        {clientName({ formData: fd }) ?? "impact-45"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "impact-45"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </main>
   );

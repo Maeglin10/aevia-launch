@@ -143,7 +143,7 @@ function TEAM_DEMO_LIVE() {
   {
     name: "Camille Rousseau",
     role: "Fondatrice & Esthéticienne",
-    bio: "15 ans d'expérience, formée à " + (clientCity({ formData: fd }) ?? "Paris") + " et Tokyo. Spécialiste des soins visage et techniques de drainage lymphatique. Camille a révolutionné l'approche holistique du soin chez Lumière.",
+    bio: "15 ans d'expérience, formée à " + (clientCity(sessionData) ?? "Paris") + " et Tokyo. Spécialiste des soins visage et techniques de drainage lymphatique. Camille a révolutionné l'approche holistique du soin chez Lumière.",
     img: "photo-1487412947147-5cebf100ffc2",
     specialties: ["Soins visage", "Drainage", "Anti-âge"],
   },
@@ -1132,7 +1132,7 @@ export default function Impact198Page() {
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Lumière Beauty"))}</>
+            <>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Lumière Beauty"))}</>
           )}</div>
 
         {/* Desktop links */}
@@ -1339,7 +1339,7 @@ export default function Impact198Page() {
               fontWeight: 500,
             }}
           >
-            Institut de Beauté · {clientCity({ formData: fd }) ?? "Paris"} 7ème
+            Institut de Beauté · {clientCity(sessionData) ?? "Paris"} 7ème
           </motion.div>
 
           <TextReveal immediate delay={0.3}>
@@ -2054,7 +2054,7 @@ export default function Impact198Page() {
             fontSize: 18,
             color: "rgba(255,255,255,0.8)",
           }}
-        >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Lumière Beauty"))}</div>
+        >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Lumière Beauty"))}</div>
         <div
           style={{
             fontFamily: C.fontSans,
@@ -2062,7 +2062,7 @@ export default function Impact198Page() {
             letterSpacing: "0.05em",
           }}
         >
-          © 2025 {clientName(sessionData) ?? "Lumière Beauty"} · 12 Rue de Grenelle, {clientCity(sessionData) ?? "Paris"} 7ème · Institut certifié bio{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+          © 2025 {clientName(sessionData) ?? "Lumière Beauty"} · 12 Rue de Grenelle, {clientCity(sessionData) ?? "Paris"} 7ème · Institut certifié bio{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </div>
       </footer>
 

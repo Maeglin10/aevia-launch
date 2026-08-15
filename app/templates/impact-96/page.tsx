@@ -120,7 +120,7 @@ function PROJECTS_DEMO_LIVE() {
     client: "Arte France",
     title: "Les Heures Grises",
     format: "Long-métrage 100min — Festival Berlin",
-    desc: "Drame intime sur les espaces interstitiels de " + (clientCity({ formData: fd }) ?? "Paris") + ". Tournage sur pellicule 16mm.",
+    desc: "Drame intime sur les espaces interstitiels de " + (clientCity(sessionData) ?? "Paris") + ". Tournage sur pellicule 16mm.",
     accent: "#8FA89C",
   },
   {
@@ -194,7 +194,7 @@ function SERVICES_DEMO_LIVE() {
     icon: Award,
     title: "Post-Production",
     sub: "Étalonnage, son, VFX",
-    desc: "Studio intégré à " + (clientCity({ formData: fd }) ?? "Paris") + " : étalonnage 4K HDR Dolby Vision, mixage Atmos 7.1.4, VFX Unreal Engine, sous-titrage 28 langues. Prestation externe acceptée.",
+    desc: "Studio intégré à " + (clientCity(sessionData) ?? "Paris") + " : étalonnage 4K HDR Dolby Vision, mixage Atmos 7.1.4, VFX Unreal Engine, sous-titrage 28 langues. Prestation externe acceptée.",
     items: ["Étalonnage DCI 4K", "Mixage Dolby Atmos", "VFX Unreal Engine", "Localisation 28 langues"],
   },
 ];
@@ -203,7 +203,7 @@ let SERVICES_DEMO = SERVICES_DEMO_LIVE();;
 
 function STATS_DEMO_LIVE() {
   return [
-  { val: "2009", label: "Fondé à " + (clientCity({ formData: fd }) ?? "Paris") },
+  { val: "2009", label: "Fondé à " + (clientCity(sessionData) ?? "Paris") },
   { val: "280+", label: "Productions livrées" },
   { val: "22", label: "Festivals internationaux" },
   { val: "94%", label: "Clients fidèles" },
@@ -681,7 +681,7 @@ return (
                     marginTop: 2,
                   }}
                 >
-                  Studio Cinéma · {clientCity({ formData: fd }) ?? "Paris"}
+                  Studio Cinéma · {clientCity(sessionData) ?? "Paris"}
                 </div>
               </div>
             </div>
@@ -895,7 +895,7 @@ return (
             whiteSpace: "nowrap",
           }}
         >
-          Urban Pulse Studio · Fondé 2009 · {clientCity({ formData: fd }) ?? "Paris"}, France
+          Urban Pulse Studio · Fondé 2009 · {clientCity(sessionData) ?? "Paris"}, France
         </div>
 
         <motion.div
@@ -2408,7 +2408,7 @@ return (
               }}
             >
               {[
-                { icon: MapPin, label: (clientAddress(sessionData) ?? `12 rue Oberkampf, 75011 ${clientCity({ formData: fd }) ?? "Paris"}`) },
+                { icon: MapPin, label: (clientAddress(sessionData) ?? `12 rue Oberkampf, 75011 ${clientCity(sessionData) ?? "Paris"}`) },
                 { icon: Phone, label: (clientPhone(sessionData) ?? "+33 1 48 34 49 49") },
                 { icon: Mail, label: (fd?.email ?? "contact@urbanpulse.fr") },
               ].map(({ icon: Icon, label }) => (
@@ -2501,7 +2501,7 @@ return (
                       textTransform: "uppercase",
                     }}
                   >
-                    Studio Cinéma · {clientCity({ formData: fd }) ?? "Paris"}
+                    Studio Cinéma · {clientCity(sessionData) ?? "Paris"}
                   </div>
                 </div>
               </div>
@@ -2516,7 +2516,7 @@ return (
                 }}
               >
                 Maison de production cinéma, publicité et contenu de marque.
-                {clientCity({ formData: fd }) ?? "Paris"}, depuis 2009.
+                {clientCity(sessionData) ?? "Paris"}, depuis 2009.
               </p>
 
               <div style={{ display: "flex", gap: 10 }}>
@@ -2644,7 +2644,7 @@ return (
             }}
           >
             <div style={{ fontSize: "0.73rem", color: C.muted }}>
-              © 2026 {clientName(sessionData) ?? "Urban Pulse SAS"} · 12 rue Oberkampf, 75011 {clientCity(sessionData) ?? "Paris"} · SIRET 512 XXX XXX 00024{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2026 {clientName(sessionData) ?? "Urban Pulse SAS"} · 12 rue Oberkampf, 75011 {clientCity(sessionData) ?? "Paris"} · SIRET 512 XXX XXX 00024{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </div>
             <div style={{ display: "flex", gap: 24 }}>
               {[

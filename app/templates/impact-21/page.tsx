@@ -164,7 +164,7 @@ let projectDetails = projectDetails_SOURCE;
 
 function timeline_LIVE() {
   return [
-  { year: "2014", title: "Fondation", desc: `Création de ${clientName(sessionData) ?? "Forme Studio"} à ` + (clientCity({ formData: fd }) ?? "Paris") + " par deux designers industriels passionnés par le design durable." },
+  { year: "2014", title: "Fondation", desc: `Création de ${clientName(sessionData) ?? "Forme Studio"} à ` + (clientCity(sessionData) ?? "Paris") + " par deux designers industriels passionnés par le design durable." },
   { year: "2016", title: "Premier prix", desc: "Red Dot Design Award pour le projet « Aéro » — ventilateur sans pale en bambou." },
   { year: "2017", title: "Expansion", desc: "Ouverture de l'atelier de prototypage dans le 11ᵉ arrondissement, équipé d'imprimantes 3D industrielles." },
   { year: "2019", title: "International", desc: "Premiers projets export avec Cassina (Italie) et Sony Design (Japon). Équipe de 6 designers." },
@@ -352,7 +352,7 @@ return (
             ) : (
               <>
                 <div className="w-7 h-7 bg-[var(--brand,#F97316)] rounded-lg" />
-                <span className="text-gray-900 font-bold text-lg tracking-tight">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Forme Studio"))}</span>
+                <span className="text-gray-900 font-bold text-lg tracking-tight">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Forme Studio"))}</span>
               </>
             )}
           </button>
@@ -381,7 +381,7 @@ return (
                   style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-gray-900 font-bold text-xl">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Forme Studio"))}</span>
+                <span className="text-gray-900 font-bold text-xl">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Forme Studio"))}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6" /></button>
             </div>
@@ -1042,7 +1042,7 @@ return (
                           <Globe className="w-5 h-5 text-[var(--brand,#F97316)]" />
                           <h4 className="text-gray-900 font-bold">Studio</h4>
                         </div>
-                        <p className="text-gray-500 text-sm">{clientAddress({ businessProfile: bp }) ?? "42 rue Oberkampf"}<br />75011 {clientCity({ formData: fd }) ?? "Paris"}, France</p>
+                        <p className="text-gray-500 text-sm">{clientAddress({ businessProfile: bp }) ?? "42 rue Oberkampf"}<br />75011 {clientCity(sessionData) ?? "Paris"}, France</p>
                       </div>
                       <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
                         <div className="flex items-center gap-3 mb-3">
@@ -1115,7 +1115,7 @@ return (
                     <h3 className="text-gray-900 text-lg font-bold mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Éditeur du site</>)}</h3>
                     <p className="text-gray-600 leading-relaxed">
                       <EditeurDuSite />, entrepreneur individuel.<br />
-                      SIREN : <LegalIdentity /> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}.<br />
+                      SIREN : <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}.<br />
                       Contact : <span className="text-[var(--brand,#F97316)]">{fd?.email ?? "contact@exemple.fr"}</span>
                     </p>
                   </div>
@@ -1149,12 +1149,12 @@ return (
       {/* Footer — always visible */}
       <footer className="bg-gray-900 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
-          <button onClick={() => goTo("home")} className="flex items-center gap-2 cursor-pointer bg-transparent border-none p-0"><div className="w-5 h-5 bg-[var(--brand,#F97316)] rounded" /><span className="text-white font-bold">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Forme Studio"))}</span></button>
+          <button onClick={() => goTo("home")} className="flex items-center gap-2 cursor-pointer bg-transparent border-none p-0"><div className="w-5 h-5 bg-[var(--brand,#F97316)] rounded" /><span className="text-white font-bold">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Forme Studio"))}</span></button>
           <div className="flex gap-8">
             <button onClick={() => goTo("legal")} className="hover:text-[var(--brand,#F97316)] transition-colors cursor-pointer bg-transparent border-none p-0 text-xs text-gray-500">Politique de conf.</button>
             <button onClick={() => goTo("legal")} className="hover:text-[var(--brand,#F97316)] transition-colors cursor-pointer bg-transparent border-none p-0 text-xs text-gray-500">Mentions légales</button>
           </div>
-          <span>© 2026 {clientName(sessionData) ?? "Forme Studio."} Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Forme Studio."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         </div>
       </footer>
     </div>

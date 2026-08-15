@@ -1305,7 +1305,7 @@ export default function Impact176Page() {
                   color: C.text,
                   letterSpacing: "-0.3px",
                 }}
-              >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Metric"))}</span>
+              >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Metric"))}</span>
             </>
           )}
         </div>
@@ -2155,7 +2155,7 @@ export default function Impact176Page() {
                   fontSize: 17,
                   color: C.accent,
                 }}
-              >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Metric"))}</span>
+              >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Metric"))}</span>
             </div>
             <p
               style={{
@@ -2225,7 +2225,7 @@ export default function Impact176Page() {
               color: C.subdued,
             }}
           >
-            © 2026 {clientName(sessionData) ?? "Metric Analytics"} · All rights reserved · GDPR · Privacy Policy{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2026 {clientName(sessionData) ?? "Metric Analytics"} · All rights reserved · GDPR · Privacy Policy{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
             <div

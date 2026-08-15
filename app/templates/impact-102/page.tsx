@@ -1584,7 +1584,7 @@ export default function QBitLabsPage() {
                   color: "#525252",
                   letterSpacing: "0.06em",
                 }}
-              >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "QUANTUM // COMPUTE"))}</p>
+              >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "QUANTUM // COMPUTE"))}</p>
             </div>
 
             {/* Link columns */}
@@ -1666,7 +1666,7 @@ export default function QBitLabsPage() {
             }}
           >
             <span style={{ fontSize: 12, color: "#525252" }}>
-              © 2026 {clientName(sessionData) ?? "QBit Labs."} All rights reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2026 {clientName(sessionData) ?? "QBit Labs."} All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
             <div style={{ display: "flex", gap: 24 }}>
               {["Privacy Policy", "Terms of Use", "Accessibility"].map((l) => (

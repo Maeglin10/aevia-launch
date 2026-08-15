@@ -214,7 +214,7 @@ export default function VerdantImpactPage() {
             <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center">
               <Leaf className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold tracking-tight">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Verdant</>)}</span>
+            <span className="text-xl font-bold tracking-tight">{/* NOM_LOGO */ clientName(sessionData) ?? (<>Verdant</>)}</span>
           </>
             )}</Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#1a2e1a)]/40">
@@ -477,7 +477,7 @@ export default function VerdantImpactPage() {
           ))}
         </div>
         <div className="max-w-[1200px] mx-auto pt-8 border-t border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/20 flex flex-col sm:flex-row justify-between gap-4">
-          <span>© 2026 {clientName(sessionData) ?? "VERDANT IMPACT. B-CORP CERTIFIED"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "VERDANT IMPACT. B-CORP CERTIFIED"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-6">
             <Link href="#contact" className="hover:text-white transition-colors">Mentions légales</Link>
             <Link href="#contact" className="hover:text-white transition-colors">Confidentialité</Link>

@@ -193,7 +193,7 @@ export default function TorrefieCoffeePage() {
             ) : (
               <>
                 <Coffee className="w-6 h-6 text-[var(--brand,#6b3a24)]" />
-                <span className="text-xl tracking-tight" style={{ fontFamily: "Georgia, serif" }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
+                <span className="text-xl tracking-tight" style={{ fontFamily: "Georgia, serif" }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>
                   <span className="font-light">Torré</span><span className="font-bold text-[var(--brand,#6b3a24)]">fié</span>
                 </>)}</span>
               </>
@@ -337,7 +337,7 @@ export default function TorrefieCoffeePage() {
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
-                { quote: "The Ethiopian Yirgacheffe changed the way I think about coffee. I've tried every specialty roaster in " + (clientCity({ formData: fd }) ?? "Paris") + " — Torréfié is in a class of its own.", name: "Hélène Duval", location: (clientCity({ formData: fd }) ?? "Paris") + ", FR", origin: "Ethiopian Yirgacheffe" },
+                { quote: "The Ethiopian Yirgacheffe changed the way I think about coffee. I've tried every specialty roaster in " + (clientCity(sessionData) ?? "Paris") + " — Torréfié is in a class of its own.", name: "Hélène Duval", location: (clientCity(sessionData) ?? "Paris") + ", FR", origin: "Ethiopian Yirgacheffe" },
                 { quote: "Freshness is unreal. Roasted Tuesday, on my desk Thursday. The Kenyan Nyeri AA is extraordinary — the blackcurrant notes are no marketing gimmick.", name: "James Whitfield", location: "London, UK", origin: "Kenyan Nyeri AA" },
                 { quote: "Finally a subscription that actually rotates origins intelligently. My palate has evolved more in three months than in three years.", name: "Rafael Soto", location: "Barcelona, ES", origin: "Colombian Huila" },
               ].map((t, i) => (
@@ -447,8 +447,8 @@ export default function TorrefieCoffeePage() {
           ))}
         </div>
         <div className="max-w-[1400px] mx-auto pt-8 border-t border-[#f5f0ea]/10 text-[10px] font-bold uppercase tracking-widest text-[#f5f0ea]/20 flex justify-between">
-          <span>© 2026 {clientName(sessionData) ?? "TORRÉFIÉ ROASTERS."}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
-          <span>{(clientCity({ formData: fd }) ?? "Bordeaux").toUpperCase()}, FRANCE</span>
+          <span>© 2026 {clientName(sessionData) ?? "TORRÉFIÉ ROASTERS."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>{(clientCity(sessionData) ?? "Bordeaux").toUpperCase()}, FRANCE</span>
         </div>
       </footer>
     </div>

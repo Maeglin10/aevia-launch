@@ -738,7 +738,7 @@ export default function Impact114Page() {
                 <span
                   className="text-lg md:text-2xl tracking-[0.15em] text-[var(--brand,#2d1b0e)]"
                   style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 500 }}
-                >{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
+                >{/* NOM_LOGO */ clientName(sessionData) ?? (<>
                   {clientName(sessionData) ?? "Terra"}
                 </>)}</span>
               </>
@@ -1626,7 +1626,7 @@ export default function Impact114Page() {
             className="text-xs text-[#8b7355]/40"
             style={{ fontFamily: "'Source Serif 4', serif" }}
           >
-            © 2026 {clientName(sessionData) ?? "Terra"} · Julien Moreau Photography. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2026 {clientName(sessionData) ?? "Terra"} · Julien Moreau Photography. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
         </div>
       </footer>

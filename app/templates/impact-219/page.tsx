@@ -185,7 +185,7 @@ function Nav() {
               >
                 <Sparkles size={17} />
               </div>
-              <span style={{ fontWeight: 800, fontSize: 19, letterSpacing: '-0.02em' }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? "NovaSaaS")}</span>
+              <span style={{ fontWeight: 800, fontSize: 19, letterSpacing: '-0.02em' }}>{fd?.businessName ?? (clientName(sessionData) ?? "NovaSaaS")}</span>
             </>
           )}
         </div>
@@ -1201,7 +1201,7 @@ function Footer() {
               >
                 <Sparkles size={15} />
               </div>
-              <span style={{ fontWeight: 800, fontSize: 18 }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? "NovaSaaS")}</span>
+              <span style={{ fontWeight: 800, fontSize: 18 }}>{fd?.businessName ?? (clientName(sessionData) ?? "NovaSaaS")}</span>
             </div>
             <p style={{ fontSize: 14, color: C.muted, lineHeight: 1.6, maxWidth: 230 }}>
               La plateforme d&apos;analytics et d&apos;automatisation pour les équipes qui avancent vite.
@@ -1235,7 +1235,7 @@ function Footer() {
             color: C.muted,
           }}
         >
-          <span>© 2026 {clientName(sessionData) ?? "NovaSaaS SAS."} Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "NovaSaaS SAS."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span>Fait avec soin à {clientCity(sessionData) ?? "Lyon"}, France.</span>
         </div>
       </div>

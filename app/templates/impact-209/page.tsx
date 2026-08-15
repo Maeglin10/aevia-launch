@@ -151,7 +151,7 @@ function STYLISTS_LIVE() {
     title: 'Directrice Artistique',
     specialty: 'Balayage & Colorimétrie',
     color: 'var(--brand-light,#c9a0a0)',
-    bio: "Formée à l\'École Nationale Supérieure de Coiffure, Camille a perfectionné son art chez Dessange à " + (clientCity({ formData: fd }) ?? "Paris") + " avant de fonder L\'Atelier. Sa signature : des couleurs qui semblent nées du soleil.",
+    bio: "Formée à l\'École Nationale Supérieure de Coiffure, Camille a perfectionné son art chez Dessange à " + (clientCity(sessionData) ?? "Paris") + " avant de fonder L\'Atelier. Sa signature : des couleurs qui semblent nées du soleil.",
     years: 15,
   },
   {
@@ -1166,7 +1166,7 @@ export default function Page() {
         {fd?.logoBase64 ? (
           <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
         ) : (
-        <div>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
+        <div>{/* NOM_LOGO */ clientName(sessionData) ?? (<>
           <span style={{ ...headingFont, fontSize: '20px', color: DARK, letterSpacing: '0.06em' }}>
             L'Atelier
           </span>
@@ -1443,7 +1443,7 @@ export default function Page() {
           <span style={{ ...headingFont, fontSize: '36px', color: GOLD, display: 'block' }}>15</span>
           <span style={{ ...bodyFont, fontSize: '10px', color: GRAY_MID, letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block' }}>Ans d'Excellence</span>
           <div style={{ width: '30px', height: '1px', background: GOLD, margin: '8px auto' }} />
-          <span style={{ ...bodyFont, fontSize: '10px', color: GRAY_MID, letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block' }}>{clientCity({ formData: fd }) ?? "Paris"} VII</span>
+          <span style={{ ...bodyFont, fontSize: '10px', color: GRAY_MID, letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block' }}>{clientCity(sessionData) ?? "Paris"} VII</span>
         </motion.div>
       </section>
 
@@ -1762,7 +1762,7 @@ export default function Page() {
           <div>
             <span style={{ ...headingFont, fontSize: '22px', color: '#fff' }}>L'Atelier</span>
             <p style={{ ...bodyFont, fontSize: '11px', color: GRAY_MID, margin: '4px 0 0', letterSpacing: '0.1em' }}>
-              Coiffure & Beauté · {clientCity({ formData: fd }) ?? "Paris"} VII
+              Coiffure & Beauté · {clientCity(sessionData) ?? "Paris"} VII
             </p>
           </div>
           <div style={{ display: 'flex', gap: '24px' }}>
@@ -1785,7 +1785,7 @@ export default function Page() {
             ))}
           </div>
           <p style={{ ...bodyFont, fontSize: '11px', color: GRAY_MID, margin: 0 }}>
-            © 2024 {clientName(sessionData) ?? "L'Atelier Coiffure"} · Mentions légales · Politique de confidentialité{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2024 {clientName(sessionData) ?? "L'Atelier Coiffure"} · Mentions légales · Politique de confidentialité{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </p>
         </div>
       </footer>

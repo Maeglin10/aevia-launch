@@ -70,7 +70,7 @@ const NAV = [
 
 function REALISATIONS_LIVE() {
   return [
-  { t: `Copropriété · 84 lots, ${clientCity({ formData: fd }) ?? "Villeurbanne"}`, n: "Chaufferie gaz condensation", d: "Remplacement de deux chaudières de 1998 par une cascade de trois modules. Coupure de trois jours, en juin, avec production d'eau chaude maintenue." },
+  { t: `Copropriété · 84 lots, ${clientCity(sessionData) ?? "Villeurbanne"}`, n: "Chaufferie gaz condensation", d: "Remplacement de deux chaudières de 1998 par une cascade de trois modules. Coupure de trois jours, en juin, avec production d'eau chaude maintenue." },
   { t: "Maison 1962 · Sainte-Foy", n: "Pompe à chaleur air/eau", d: "Dépose d'une chaudière fioul, PAC 11 kW et remplacement de six radiateurs. Facture de chauffage divisée par 2,4 sur la première saison." },
   { t: "Restaurant · " + (clientCity(sessionData) ?? "Lyon") + " 2e", n: "Production ECS renforcée", d: "Ballon 500 L et bouclage sanitaire pour un service en continu. Posé de nuit pour ne pas fermer la salle." },
   { t: "Atelier · Corbas", n: "Aérothermes gaz", d: "800 m² à chauffer sans reprendre le réseau existant. Quatre aérothermes suspendus, régulation par zone." },
@@ -87,7 +87,7 @@ const CONTRATS = [
 
 function ZONES_DEMO_LIVE() {
   return [
-  { v: "Lyon et " + (clientCity({ formData: fd }) ?? "Villeurbanne"), d: "Entretien et dépannage, sous 24 h en hiver" },
+  { v: "Lyon et " + (clientCity(sessionData) ?? "Villeurbanne"), d: "Entretien et dépannage, sous 24 h en hiver" },
   { v: "Ouest lyonnais", d: "Écully, Tassin, Craponne, Francheville" },
   { v: "Est lyonnais", d: "Bron, Vénissieux, Saint-Priest, Décines" },
   { v: "Nord", d: "Caluire, Rillieux, Neuville, Genay" },
@@ -216,7 +216,7 @@ export default function ThermotekChauffagePage() {
             ) : (
               <>
                 <Flame className="w-6 h-6 text-[var(--brand,#ea580c)] fill-[var(--brand,#ea580c)]/20" />
-                <span className="font-bold text-lg tracking-tight" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)" }}>{clientName({ formData: fd }) ?? "Thermo"}<span className="text-[var(--brand,#ea580c)]">tek</span></span>
+                <span className="font-bold text-lg tracking-tight" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)" }}>{clientName(sessionData) ?? "Thermo"}<span className="text-[var(--brand,#ea580c)]">tek</span></span>
               </>
             )}
           </div>
@@ -479,8 +479,8 @@ export default function ThermotekChauffagePage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
-          <span>© 2026 {clientName(sessionData) ?? "Thermotek Chauffage"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 345 678 901 00034"} · RGE Qualibat · QualiPAC · Assurance Décennale{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
-          <span className="text-[var(--brand,#ea580c)]/30">{clientTrade(sessionData) ?? "Chauffagiste"} certifié · {clientCity({ formData: fd }) ?? "Bordeaux"}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Thermotek Chauffage"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 345 678 901 00034"} · RGE Qualibat · QualiPAC · Assurance Décennale{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span className="text-[var(--brand,#ea580c)]/30">{clientTrade(sessionData) ?? "Chauffagiste"} certifié · {clientCity(sessionData) ?? "Bordeaux"}</span>
         </div>
       </footer>
     </div>

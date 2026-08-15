@@ -71,7 +71,7 @@ let TARIFS = TARIFS_DEMO;
 
 function ZONES_DEMO_LIVE() {
   return [
-  { v: (clientCity({ formData: fd }) ?? "Strasbourg"), d: "Centre, Neudorf, Krutenau, Robertsau — 20 min" },
+  { v: (clientCity(sessionData) ?? "Strasbourg"), d: "Centre, Neudorf, Krutenau, Robertsau — 20 min" },
   { v: "Schiltigheim · Bischheim", d: "25 min en moyenne" },
   { v: "Illkirch · Ostwald", d: "25 min en moyenne" },
   { v: "Haguenau · Saverne", d: "45 min, majoration déplacement 25 €" },
@@ -84,7 +84,7 @@ let ZONES = ZONES_DEMO;
 
 function SERVICES_SOURCE_LIVE() {
   return [
-  { icon: AlertTriangle, title: "Urgence & dépannage 24h/24", desc: "Porte claquée, serrure bloquée, intrusion. Intervention sous 30 min sur " + (clientCity({ formData: fd }) ?? "Strasbourg") + ". Astreinte 7j/7 nuits et jours fériés inclus." },
+  { icon: AlertTriangle, title: "Urgence & dépannage 24h/24", desc: "Porte claquée, serrure bloquée, intrusion. Intervention sous 30 min sur " + (clientCity(sessionData) ?? "Strasbourg") + ". Astreinte 7j/7 nuits et jours fériés inclus." },
   { icon: Lock, title: "Changement & installation serrure", desc: "Pose serrure 3 points, blindée, connectée. Toutes marques : Vachette, Fichet, Mul-T-Lock, Abus. Devis transparent avant travaux." },
   { icon: Home, title: "Porte blindée & renforcée", desc: "Fourniture et pose de portes blindées Fichet, Mottura, Fichet Bauche. Conforme norme NF A2P. Financement disponible." },
   { icon: Shield, title: "Contrôle d'accès & visiophonie", desc: "Digicode, badge, lecteur biométrique, interphone vidéo. Système géré par smartphone. Idéal copropriétés et locaux pro." },
@@ -97,7 +97,7 @@ let SERVICES_DEMO = SERVICES_SOURCE;
 
 function TEMOIGNAGES_DEMO_LIVE() {
   return [
-  { q: "Porte claquée à 23h30 avec mes clés à l'intérieur. Arrivée en 25 minutes, ouverture en 10 minutes, porte intacte, facture correcte. Merci pour ce service pro et rapide.", n: "Émilie T.", l: (clientCity({ formData: fd }) ?? "Strasbourg") + " Hautepierre" },
+  { q: "Porte claquée à 23h30 avec mes clés à l'intérieur. Arrivée en 25 minutes, ouverture en 10 minutes, porte intacte, facture correcte. Merci pour ce service pro et rapide.", n: "Émilie T.", l: (clientCity(sessionData) ?? "Strasbourg") + " Hautepierre" },
   { q: "Changement serrure 3 points après perte de clés. Devis donné par téléphone avant tout. Travail propre, serrurier ponctuel et de bon conseil pour la sécurité.", n: "Fabrice M.", l: "Schiltigheim (67)" },
   { q: "Porte blindée installée en 3 heures. Très beau travail, finitions parfaites, prise en charge partielle par mon assurance. L'investissement valait vraiment le coup.", n: "Sandra et Marc O.", l: "Illkirch-Graffenstaden" },
 ];
@@ -204,7 +204,7 @@ export default function SecurFastPage() {
             ) : (
               <>
                 <Lock className="w-5 h-5 text-[var(--brand,#2563eb)]" />
-                <span className="font-bold text-[#f0f4ff] tracking-wide text-sm">{clientName({ formData: fd }) ?? "SÉC'UR"}<span className="text-[var(--brand,#2563eb)]">FAST</span></span>
+                <span className="font-bold text-[#f0f4ff] tracking-wide text-sm">{clientName(sessionData) ?? "SÉC'UR"}<span className="text-[var(--brand,#2563eb)]">FAST</span></span>
               </>
             )}
           </div>
@@ -237,7 +237,7 @@ export default function SecurFastPage() {
       <div className="pt-0 fixed top-0 left-0 right-0 z-40 translate-y-[72px]">
         <div className="bg-[var(--brand,#2563eb)] py-2.5 text-center text-[10px] font-bold uppercase tracking-[0.3em] text-white flex items-center justify-center gap-4">
           <Zap className="w-3.5 h-3.5" />
-          Disponible 24h/24 — 7j/7 — Intervention sous 30 min à {clientCity({ formData: fd }) ?? "Strasbourg"}
+          Disponible 24h/24 — 7j/7 — Intervention sous 30 min à {clientCity(sessionData) ?? "Strasbourg"}
           <a href={`tel:${fd?.phone ?? "0388234567"}`} className="underline ml-2">{fd?.phone ?? "03 88 23 45 67"}</a>
         </div>
       </div>
@@ -260,7 +260,7 @@ export default function SecurFastPage() {
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
             className="max-w-md text-sm text-[#f0f4ff]/28 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            {clientTrade(sessionData) ?? "Serrurier"} professionnel à {clientCity({ formData: fd }) ?? "Strasbourg"}. Urgences 24h/24, 7j/7. Ouverture de porte, changement de serrure, porte blindée. Intervention sous 30 min. Devis avant intervention.
+            {clientTrade(sessionData) ?? "Serrurier"} professionnel à {clientCity(sessionData) ?? "Strasbourg"}. Urgences 24h/24, 7j/7. Ouverture de porte, changement de serrure, porte blindée. Intervention sous 30 min. Devis avant intervention.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-4 mb-8">
@@ -343,7 +343,7 @@ export default function SecurFastPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
             {[
               { t: "Appelez, ne forcez pas", d: "Une porte forcée coûte le double : cylindre, garniture, parfois le bloc. Deux minutes au téléphone évitent ça." },
-              { t: "30 minutes sur " + (clientCity({ formData: fd }) ?? "Strasbourg"), d: "Un serrurier de garde, pas un centre d'appel. Vous savez qui vient et en combien de temps avant de raccrocher." },
+              { t: "30 minutes sur " + (clientCity(sessionData) ?? "Strasbourg"), d: "Un serrurier de garde, pas un centre d'appel. Vous savez qui vient et en combien de temps avant de raccrocher." },
               { t: "Le prix avant l'outil", d: "Le montant est annoncé sur place, à la porte, avant la première manipulation. Vous pouvez dire non." },
             ].map((c, i) => (
               <Reveal key={c.t} delay={i * 0.08}>
@@ -443,7 +443,7 @@ export default function SecurFastPage() {
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-5">Urgence · 24h/24 · 7j/7</div>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-5">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Un appel suffit.<br />On s'occupe du reste.</>)}</h2>
-            <p className="text-white/55 mb-10 text-sm">Intervention sous 30 min · {clientCity({ formData: fd }) ?? "Strasbourg"} & Bas-Rhin · Devis avant travaux</p>
+            <p className="text-white/55 mb-10 text-sm">Intervention sous 30 min · {clientCity(sessionData) ?? "Strasbourg"} & Bas-Rhin · Devis avant travaux</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <a href={`tel:${fd?.phone ?? "0388234567"}`} className="flex items-center gap-3 px-10 py-4 bg-white text-[var(--brand,#2563eb)] font-bold text-sm hover:bg-[#f0f4ff] transition-colors shadow-lg">
                 <Phone className="w-5 h-5" /> {fd?.phone ?? "03 88 23 45 67"}
@@ -461,12 +461,12 @@ export default function SecurFastPage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="flex items-center gap-2.5 mb-5"><Lock className="w-4 h-4 text-[var(--brand,#2563eb)]" /><span className="font-bold text-[#f0f4ff] text-sm">{clientName(sessionData) ?? "SÉC'URFAST"}</span></div>
-            <p className="text-[#f0f4ff]/15 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Serrurier"} urgence {clientCity({ formData: fd }) ?? "Strasbourg"}. Disponible 24h/24. Ouverture porte, serrures, porte blindée, contrôle d'accès.</p>
+            <p className="text-[#f0f4ff]/15 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Serrurier"} urgence {clientCity(sessionData) ?? "Strasbourg"}. Disponible 24h/24. Ouverture porte, serrures, porte blindée, contrôle d'accès.</p>
           </div>
           {[
             { t: "Services", ls: ["Urgence 24h/24", "Changement serrure", "Porte blindée", "Contrôle d'accès", "Coffre-fort"] },
             { t: "Infos", ls: ["Agréments & certifications", "Zone d'intervention", "Tarifs & devis", "Avis clients", "FAQ"] },
-            { t: "Contact", ls: [(fd?.phone ?? "03 88 23 45 67"), (fd?.email ?? "contact@securfast.fr"), (clientCity({ formData: fd }) ?? "Strasbourg") + " & 67", "24h/24 — 7j/7", "Devis gratuit"] },
+            { t: "Contact", ls: [(fd?.phone ?? "03 88 23 45 67"), (fd?.email ?? "contact@securfast.fr"), (clientCity(sessionData) ?? "Strasbourg") + " & 67", "24h/24 — 7j/7", "Devis gratuit"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2563eb)]/40 mb-5">{col.t}</h4>
@@ -477,7 +477,7 @@ export default function SecurFastPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-6 border-t border-[#f0f4ff]/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f0f4ff]/8">
-          <span>© 2026 {clientName(sessionData) ?? "SÉC'URFAST"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 567 890 123 00044"} · Agréé assurances · {clientCity(sessionData) ?? "Strasbourg"} (67){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "SÉC'URFAST"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 567 890 123 00044"} · Agréé assurances · {clientCity(sessionData) ?? "Strasbourg"} (67){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#2563eb)]/20">{clientTrade(sessionData) ?? "Serrurier"} urgence · 24h/24</span>
         </div>
       </footer>

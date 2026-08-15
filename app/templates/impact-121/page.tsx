@@ -298,7 +298,7 @@ export default function FolioStudioPage() {
             ) : (
               <>
                 <div className="w-6 h-6 bg-zinc-900 rounded-sm group-hover:rotate-45 transition-transform duration-500" />
-                {/* NOM_LOGO */ clientName({ formData: fd }) ?? "FOLIO"}
+                {/* NOM_LOGO */ clientName(sessionData) ?? "FOLIO"}
               </>
             )}
           </Link>
@@ -682,7 +682,7 @@ export default function FolioStudioPage() {
             </div>
 
             <div className="mt-24 flex flex-col md:flex-row items-center justify-between text-zinc-500 font-medium">
-              <div>© 2026 {clientName(sessionData) ?? "Folio Studio."} All rights reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</div>
+              <div>© 2026 {clientName(sessionData) ?? "Folio Studio."} All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</div>
               <div className="flex gap-6 mt-4 md:mt-0">
                 <Link href="#contact" className="hover:text-white transition-colors">Privacy</Link>
                 <Link href="#contact" className="hover:text-white transition-colors">{tr({ formData: fd }, "Terms")}</Link>

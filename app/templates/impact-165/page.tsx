@@ -667,7 +667,7 @@ export default function PulseAppPage() {
             ))}
           </div>
           <div className="pt-8 border-t border-[#1a1740] flex flex-col md:flex-row justify-between gap-4 text-xs">
-            <span>© 2024 {fd?.businessName ?? "Pulse"} · Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+            <span>© 2024 {fd?.businessName ?? "Pulse"} · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
             <div className="flex gap-6">
               {[{ l: "Confidentialité", h: "/templates/impact-165/legal" }, { l: "CGU", h: "/templates/impact-165/legal" }, { l: "Cookies", h: "/templates/impact-165/legal" }].map(({ l, h }) => <Link key={l} href={h} className="hover:text-white transition-colors cursor-pointer">{l}</Link>)}
             </div>
