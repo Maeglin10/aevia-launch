@@ -325,7 +325,7 @@ export default function GentlemansCutPage() {
             ) : (
               <>
                 <Scissors className="w-4 h-4 text-[var(--brand,#c9a84c)]" />
-                <span className="font-bold text-[#f5f0e8] tracking-wide text-sm">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Gentleman's <span className="text-[var(--brand,#c9a84c)]">Cut</span></>)}</span>
+                <span className="font-bold text-[#f5f0e8] tracking-wide text-sm">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>{(clientName(sessionData) ?? "Gentleman's Cut").split(" ").slice(0, 1).join(" ")} <span className="text-[var(--brand,#c9a84c)]">{(clientName(sessionData) ?? "Gentleman's Cut").split(" ").slice(1).join(" ")}</span></>)}</span>
               </>
             )}
           </div>

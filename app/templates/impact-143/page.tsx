@@ -429,7 +429,7 @@ export default function AtelierInteriorPage() {
       <footer className="bg-[#2a2520] text-[#f5f0eb] pt-24 pb-12 px-6">
         <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
           <div>
-            <span className="text-xl tracking-[0.2em] uppercase mb-6 block" style={{ fontFamily: "Georgia, serif" }}>Atelier <span className="font-bold text-[#c4a882]">Interior</span></span>
+            <span className="text-xl tracking-[0.2em] uppercase mb-6 block" style={{ fontFamily: "Georgia, serif" }}>{(clientName(sessionData) ?? "ATELIER INTERIOR").split(" ").slice(0, 1).join(" ")} <span className="font-bold text-[#c4a882]">{(clientName(sessionData) ?? "ATELIER INTERIOR").split(" ").slice(1).join(" ")}</span></span>
             <p className="text-sm text-[#f5f0eb]/30 leading-relaxed">Bespoke interiors crafted with intention and care.</p>
           </div>
           {[

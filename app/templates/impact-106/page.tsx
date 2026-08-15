@@ -250,7 +250,7 @@ export default function StudioVersaPage() {
                 <div className="w-10 h-10 rounded-full bg-[var(--brand,#f97316)] flex items-center justify-center">
                   <PenTool className="w-5 h-5 text-white" />
                 </div>
-                <span className="text-xl font-light tracking-[0.15em] uppercase">{/* NOM_LOGO */ clientName(sessionData) ?? (<>Studio <span className="font-black text-[var(--brand,#f97316)]">Versa</span></>)}</span>
+                <span className="text-xl font-light tracking-[0.15em] uppercase">{/* NOM_LOGO */ clientName(sessionData) ?? (<>{(clientName(sessionData) ?? "STUDIO VERSA").split(" ").slice(0, 1).join(" ")} <span className="font-black text-[var(--brand,#f97316)]">{(clientName(sessionData) ?? "STUDIO VERSA").split(" ").slice(1).join(" ")}</span></>)}</span>
               </>
             )}
           </Link>
@@ -570,7 +570,7 @@ export default function StudioVersaPage() {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <div className="w-8 h-8 rounded-full bg-[var(--brand,#f97316)] flex items-center justify-center"><PenTool className="w-4 h-4 text-white" /></div>
-              <span className="font-light tracking-[0.15em] uppercase">Studio <span className="font-black text-[var(--brand,#fb923c)]">Versa</span></span>
+              <span className="font-light tracking-[0.15em] uppercase">{(clientName(sessionData) ?? "STUDIO VERSA").split(" ").slice(0, 1).join(" ")} <span className="font-black text-[var(--brand,#fb923c)]">{(clientName(sessionData) ?? "STUDIO VERSA").split(" ").slice(1).join(" ")}</span></span>
             </div>
             <p className="text-sm text-white/30 leading-relaxed">Multidisciplinary creative studio for ambitious brands.</p>
           </div>

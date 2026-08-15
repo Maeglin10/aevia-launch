@@ -1821,7 +1821,7 @@ function Footer() {
             color: C.cream,
             marginBottom: 6,
           }}>
-            {fd?.businessName ? fd.businessName : <>FERRETTI <span style={{ color: C.yellow }}>CONSTRUCTION</span></>}
+            {fd?.businessName ? fd.businessName : <>{(clientName(sessionData) ?? "Ferretti Construction").split(" ").slice(0, 1).join(" ")} <span style={{ color: C.yellow }}>{(clientName(sessionData) ?? "Ferretti Construction").split(" ").slice(1).join(" ")}</span></>}
           </div>
           <div style={{
             fontFamily: 'monospace',

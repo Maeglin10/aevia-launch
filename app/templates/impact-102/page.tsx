@@ -349,7 +349,7 @@ export default function QBitLabsPage() {
                     letterSpacing: "-0.01em",
                   }}
                 >
-                  QBit <span style={{ color: "var(--brand,#0f62fe)" }}>Labs</span>
+                  {(clientName(sessionData) ?? "QBit Labs").split(" ").slice(0, 1).join(" ")} <span style={{ color: "var(--brand,#0f62fe)" }}>{(clientName(sessionData) ?? "QBit Labs").split(" ").slice(1).join(" ")}</span>
                 </span>
               </>
             )}
@@ -1562,7 +1562,7 @@ export default function QBitLabsPage() {
                     color: "#f4f4f4",
                   }}
                 >
-                  QBit <span style={{ color: "#78a9ff" }}>Labs</span>
+                  {(clientName(sessionData) ?? "QBit Labs").split(" ").slice(0, 1).join(" ")} <span style={{ color: "#78a9ff" }}>{(clientName(sessionData) ?? "QBit Labs").split(" ").slice(1).join(" ")}</span>
                 </span>
               </div>
               <p

@@ -94,7 +94,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Smile size={22} color={C.white} />
           </div>
           <span style={{ fontWeight: 800, fontSize: 20, color: C.text, letterSpacing: -0.5 }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
-            Smile<span style={{ color: C.accent }}>Studio</span>
+            {(clientName(__layoutSession) ?? "Smile Studio").split(" ").slice(0, 1).join(" ")}<span style={{ color: C.accent }}>{(clientName(__layoutSession) ?? "Smile Studio").split(" ").slice(1).join(" ")}</span>
           </>)}</span>
         </>
           )}</Link>
