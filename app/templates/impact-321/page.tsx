@@ -3,7 +3,7 @@
 
 /*
  * ══════════════════════════════════════════════════════════════════════
- * impact-321 — AI Horizons '26 · sommet conférences & salons, Station F
+ * impact-321 — {clientName(sessionData) ?? "AI Horizons '26"} · sommet conférences & salons, Station F
  * Réécriture famille I → squelette premium (plan REPRISE_316_383, lot B).
  * Geste signature : LineScroll (≠) — les lignes du titre monumental
  * roulent sous masque, entrent par la droite, sortent par la gauche.

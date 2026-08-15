@@ -981,7 +981,7 @@ export default function Impact211Page() {
               Fondée en 1978 par le chef Jean-Pierre Mercier dans le 7ème arrondissement de {clientCity({ formData: fd }) ?? "Paris"}, la Maison Éclat incarne quatre décennies d\'excellence gastronomique. Nichée à deux pas du Musée d\'Orsay, notre maison cultive une philosophie singulière : honorer les produits d\'exception en leur donnant la parole.
             </>}</p>
             <p style={bodyStyle}>
-              Aujourd\'hui portée par Adrien Mercier, fils du fondateur et formé chez Robuchon et Pierre Gagnaire, la Maison Éclat reçoit deux étoiles Michelin depuis 2019. Chaque assiette est une conversation entre la mémoire familiale et l\'audace contemporaine.
+              Aujourd'hui portée par Adrien Mercier, fils du fondateur et formé chez Robuchon et Pierre Gagnaire, la {clientName(sessionData) ?? "Maison Éclat"} reçoit deux étoiles Michelin depuis 2019. Chaque assiette est une conversation entre la mémoire familiale et l'audace contemporaine.
             </p>
 
             <motion.div
@@ -1100,7 +1100,7 @@ export default function Impact211Page() {
               transition={{ duration: 0.8, delay: 0.2 }}
               style={{ ...bodyStyle, maxWidth: 520, margin: "0 auto 2rem", textAlign: "center" }}
             >
-              Un voyage en sept actes, composé selon les arrivages du marché et l\'inspiration du moment. Allergènes et régimes spéciaux sur demande.
+              Un voyage en sept actes, composé selon les arrivages du marché et l'inspiration du moment. Allergènes et régimes spéciaux sur demande.
             </motion.p>
 
             {!hasRealMenu && (
@@ -1156,10 +1156,10 @@ export default function Impact211Page() {
               </>)}</h2>
               <GoldLine />
               <p style={{ ...bodyStyle, marginBottom: "2rem" }}>
-                Chaque ingrédient porte en lui une histoire, un lieu, un homme. Nous travaillons en direct avec nos producteurs depuis plus de vingt ans, construisant des relations fondées sur la confiance, le respect du vivant et l\'excellence partagée.
+                Chaque ingrédient porte en lui une histoire, un lieu, un homme. Nous travaillons en direct avec nos producteurs depuis plus de vingt ans, construisant des relations fondées sur la confiance, le respect du vivant et l'excellence partagée.
               </p>
               <p style={bodyStyle}>
-                Cliquez sur les points pour découvrir nos partenaires producteurs et les ingrédients d\'exception qu\'ils nous confient.
+                Cliquez sur les points pour découvrir nos partenaires producteurs et les ingrédients d'exception qu'ils nous confient.
               </p>
 
               {/* Active dot info */}
@@ -1411,11 +1411,11 @@ export default function Impact211Page() {
                 Né dans les cuisines de la Maison Éclat, Adrien Mercier a grandi entre les odeurs du beurre noisette et les discussions animées de son père avec les producteurs. À vingt-deux ans, il quitte {clientCity({ formData: fd }) ?? "Paris"} pour parfaire son art auprès des plus grands noms de la gastronomie mondiale.
               </p>
               <p style={{ ...bodyStyle, marginBottom: "1.5rem" }}>
-                Son retour en 2017 marque un tournant : il impose sa propre lecture de la gastronomie française, plus introspective, nourrie de voyages et d\'une obsession pour le terroir. En 2019, la Maison Éclat décroche sa deuxième étoile Michelin.
+                Son retour en 2017 marque un tournant : il impose sa propre lecture de la gastronomie française, plus introspective, nourrie de voyages et d'une obsession pour le terroir. En 2019, la {clientName(sessionData) ?? "Maison Éclat"} décroche sa deuxième étoile Michelin.
               </p>
               <p style={bodyStyle}>
                 <em style={{ fontFamily: font.serif, fontSize: "1.05rem", fontStyle: "italic", color: C.cream }}>
-                  &ldquo;Je ne cuisine pas pour épater, je cuisine pour émouvoir. Un repas réussi, c\'est celui dont on se souvient un an plus tard.&rdquo;
+                  &ldquo;Je ne cuisine pas pour épater, je cuisine pour émouvoir. Un repas réussi, c'est celui dont on se souvient un an plus tard.&rdquo;
                 </em>
               </p>
 
@@ -1548,7 +1548,7 @@ export default function Impact211Page() {
               transition={{ duration: 0.7, delay: 0.2 }}
               style={{ ...bodyStyle, maxWidth: 480, margin: "0 auto" }}
             >
-              La Maison Éclat reçoit douze couverts par service. Nous vous invitons à réserver au minimum 21 jours à l\'avance. Toute réservation est confirmée par notre équipe dans les 24 heures.
+              La {clientName(sessionData) ?? "Maison Éclat"} reçoit douze couverts par service. Nous vous invitons à réserver au minimum 21 jours à l'avance. Toute réservation est confirmée par notre équipe dans les 24 heures.
             </motion.p>
           </div>
 

@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 /* ════════════════════════════════════════════════════════════════════════════
-   IMPACT-361 — L'ATELIER DES TEINTES · Peintre décorateur, Nîmes
+   IMPACT-361 — {clientName(sessionData) ?? "L'Atelier des Teintes"} · Peintre décorateur, Nîmes
 
    Geste signature   : WipeReveal — le panneau du héros se dévoile de gauche à
                        droite, exactement comme une passe de rouleau. Un seul
