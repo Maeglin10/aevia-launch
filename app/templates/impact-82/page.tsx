@@ -107,6 +107,9 @@ export default function BlueprintPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
+  PROGRAMMES_DEMO = PROGRAMMES_DEMO_LIVE();
+  EQUIPE_DEMO = EQUIPE_DEMO_LIVE();
   memoriserSession(sessionData);
   rafraichirPartage();
 
@@ -117,9 +120,6 @@ export default function BlueprintPage() {
     AVIS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  AVIS_SOURCE = AVIS_SOURCE_LIVE();
-  PROGRAMMES_DEMO = PROGRAMMES_DEMO_LIVE();
-  EQUIPE_DEMO = EQUIPE_DEMO_LIVE();
 
   const heroRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] })

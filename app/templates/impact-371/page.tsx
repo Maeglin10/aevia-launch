@@ -394,8 +394,8 @@ export default function SentinellePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-
   STATS_DEMO = STATS_DEMO_LIVE();
+
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...SERVICES_SOURCE[i % SERVICES_SOURCE.length],

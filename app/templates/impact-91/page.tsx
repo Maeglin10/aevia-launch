@@ -1886,6 +1886,8 @@ export default function Impact91Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  PRESS_DEMO = PRESS_DEMO_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
@@ -1897,8 +1899,6 @@ export default function Impact91Page() {
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
-  PRESS_DEMO = PRESS_DEMO_LIVE();
 
   if (brand) {
     C = {

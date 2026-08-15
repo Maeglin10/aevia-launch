@@ -438,10 +438,10 @@ export default function BlancNetPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO = HERO_LIVE();
 
   /* Les blocs vivants sont recalculés à chaque rendu, une fois la session
      affectée : évalués au niveau module, ils resteraient ceux de la démo. */
-  HERO = HERO_LIVE();
   STATS = resolveList(clientStats(sessionData), STATS_LIVE());
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_SOURCE);
   REPERES = resolveList(clientList(sessionData, "hero.reperes"), REPERES_SOURCE);

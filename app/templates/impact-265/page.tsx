@@ -2119,6 +2119,9 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  CREATIONS_DEMO = CREATIONS_DEMO_LIVE();
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   memoriserSession(session);
 
 
@@ -2132,9 +2135,6 @@ export default function Page() {
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  CREATIONS_DEMO = CREATIONS_DEMO_LIVE();
-  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   if (brand) {
     C = { ...C, silk: brand };
   }

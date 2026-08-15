@@ -88,6 +88,7 @@ export default function VogueNoirePage() {
   fd = session?.formData;
 
   sessionData = session;
+  AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
   memoriserSession(sessionData);
   rafraichirPartage();
   c = session?.generatedContent;
@@ -107,7 +108,6 @@ export default function VogueNoirePage() {
 
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
 
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress: heroScroll } = useScroll({ target: heroRef, offset: ["start start", "end start"] });

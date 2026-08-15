@@ -156,8 +156,8 @@ export default function SummitCapitalPage() {
   );
 
   bp = (session as any)?.businessProfile;
-  brand = fd?.brandColor ?? null; // null = keep template's original color
   team = team_LIVE();
+  brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts();
   const [page, setPage] = useState<ActivePage>("home");

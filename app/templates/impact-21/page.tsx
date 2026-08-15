@@ -255,11 +255,11 @@ export default function FormeStudioPage() {
 
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  const awards_DU_CLIENT = resolveList(clientCertifications(sessionData)?.map((x: any, i: number) => ({ ...awards[i % awards.length], name: typeof x === "string" ? x : (x.name ?? x.title) })), awards);
   projectDetails_SOURCE = projectDetails_SOURCE_LIVE();
   projects = projects_LIVE();
   timeline = timeline_LIVE();
   pricingTiers = pricingTiers_LIVE();
+  const awards_DU_CLIENT = resolveList(clientCertifications(sessionData)?.map((x: any, i: number) => ({ ...awards[i % awards.length], name: typeof x === "string" ? x : (x.name ?? x.title) })), awards);
 
 
 

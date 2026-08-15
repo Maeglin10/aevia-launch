@@ -114,6 +114,7 @@ export default function BrasserieHoublonPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  TARIFS_DEMO = TARIFS_DEMO_LIVE();
 
 
   SERVICES_DEMO = resolveList(
@@ -131,7 +132,6 @@ export default function BrasserieHoublonPage() {
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
-  TARIFS_DEMO = TARIFS_DEMO_LIVE();
   if (brand) {
     C = { ...C, accent: brand };
   }

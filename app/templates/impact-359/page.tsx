@@ -477,9 +477,9 @@ export default function LocamatPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   ZONES_SOURCE = ZONES_SOURCE_LIVE();
+
   HERO = HERO_SOURCE;
 
   const CLIENT_SERVICES = clientServices(sessionData);

@@ -308,11 +308,11 @@ export default function EclatLuxuryPage() {
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+  MANIFEST = MANIFEST_LIVE();
 
 
 
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  MANIFEST = MANIFEST_LIVE();
 
   const [scrolled, setScrolled] = useState(false);
 

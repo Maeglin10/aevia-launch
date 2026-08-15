@@ -123,6 +123,9 @@ export default function CapChauffeurPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  TARIFS_DEMO = TARIFS_DEMO_LIVE();
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
+  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
 
 
 
@@ -142,9 +145,6 @@ export default function CapChauffeurPage() {
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
-  TARIFS_DEMO = TARIFS_DEMO_LIVE();
-  AVIS_SOURCE = AVIS_SOURCE_LIVE();
-  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   if (brand) {
     C = { ...C, accent: brand };
   }

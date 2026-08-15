@@ -185,6 +185,7 @@ export default function ChronicleEditorialPage() {
 
   sessionData = session;
   c = session?.generatedContent;
+  MANIFEST = MANIFEST_LIVE();
 
 
   useEffect(() => {
@@ -205,7 +206,6 @@ export default function ChronicleEditorialPage() {
     });
   });
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  MANIFEST = MANIFEST_LIVE();
 
   const [scrolled, setScrolled] = useState(false)
   const { scrollYProgress } = useScroll()

@@ -168,10 +168,10 @@ export default function PixelRepublicPage() {
 
   fd = session?.formData;
   sessionData = session;
+  REALISATIONS_DEMO = REALISATIONS_DEMO_LIVE();
   memoriserSession(sessionData);
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  REALISATIONS_DEMO = REALISATIONS_DEMO_LIVE();
   OFFRES = OFFRES_LIVE();
 
 

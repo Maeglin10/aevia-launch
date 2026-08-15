@@ -166,6 +166,8 @@ export default function StreamlinePage() {
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
+  plans = plans_LIVE();
+  testimonials = testimonials_LIVE();
 
 
 
@@ -175,8 +177,6 @@ export default function StreamlinePage() {
     features_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  plans = plans_LIVE();
-  testimonials = testimonials_LIVE();
 
   useFonts();
   const [page, setPage] = useState<ActivePage>("home");

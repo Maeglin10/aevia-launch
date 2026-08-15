@@ -128,6 +128,8 @@ export default function HavenEstatesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PROPERTIES_DEMO = PROPERTIES_DEMO_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,
@@ -141,8 +143,6 @@ export default function HavenEstatesPage() {
     SERVICES_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  PROPERTIES_DEMO = PROPERTIES_DEMO_LIVE();
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   const [scrolled, setScrolled] = useState(false)
 

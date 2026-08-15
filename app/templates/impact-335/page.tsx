@@ -312,10 +312,10 @@ export default function RivesBlanchesPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   STATS_SOURCE = STATS_SOURCE_LIVE();
   ZONES_SOURCE = ZONES_SOURCE_LIVE();
+
 
   const CLIENT_SERVICES = clientServices(sessionData);
 

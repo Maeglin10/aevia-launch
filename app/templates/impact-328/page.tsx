@@ -326,6 +326,7 @@ export default function MaisonEstevePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO_TEMPS_DEMO = HERO_TEMPS_DEMO_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,
@@ -344,7 +345,6 @@ export default function MaisonEstevePage() {
   );
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
-  HERO_TEMPS_DEMO = HERO_TEMPS_DEMO_LIVE();
   if (brand) {
     C = { ...C, accent: brand };
   }

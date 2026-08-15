@@ -3252,6 +3252,7 @@ function Impact275Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  PHOTO = PHOTO_LIVE();
 
   STATS_INLINE = resolveList(
 
@@ -3269,7 +3270,6 @@ function Impact275Page() {
 
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  PHOTO = PHOTO_LIVE();
   if (brand) {
     C = { ...C, gold: brand, goldLight: shadeColor(brand, 25) };
   }

@@ -121,12 +121,12 @@ export default function ServicesPage() {
   }, []);
 
   sessionData = __session;
+  SERVICES_DATA = SERVICES_DATA_LIVE();
   memoriserSession(__session);
 
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
-  SERVICES_DATA = SERVICES_DATA_LIVE();
 
   return (
     <div style={{ padding: "60px 5%", background: C.bg, minHeight: "100dvh" }}>

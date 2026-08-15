@@ -549,6 +549,7 @@ export default function ClosDuSoirPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  WINES_DEMO = WINES_DEMO_LIVE();
   memoriserSession(sessionData);
 
   STATS_INLINE = resolveList(
@@ -567,7 +568,6 @@ export default function ClosDuSoirPage() {
 
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  WINES_DEMO = WINES_DEMO_LIVE();
 
   // Wine regions ← bp.menu grouped by category (real business menu) else demo
   const WINE_REGIONS = resolveList(

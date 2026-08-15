@@ -1257,11 +1257,11 @@ export default function ZincEtArdoisePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   brand = fd?.brandColor ?? null;
   if (brand) C = { ...C, accent: brand };
 
   /* Les blocs vivants, ré-évalués à chaque rendu. */
-  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...SERVICES_SOURCE[i % SERVICES_SOURCE.length],

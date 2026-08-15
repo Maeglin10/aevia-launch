@@ -92,6 +92,7 @@ export default function LedgerPage() {
   fd = session?.formData;
 
   sessionData = session;
+  HERO_MISSIONS_DEMO = HERO_MISSIONS_DEMO_LIVE();
 
   memoriserSession(sessionData);
   bp = session?.businessProfile;
@@ -105,7 +106,6 @@ export default function LedgerPage() {
     img: clientPhotos(session)[0 + i] || row.img,
   }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  HERO_MISSIONS_DEMO = HERO_MISSIONS_DEMO_LIVE();
 
   const heroRef = useRef<HTMLElement>(null);
   const [scrolled, setScrolled] = useState(false);

@@ -2179,6 +2179,9 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  PHASES_DEMO = PHASES_DEMO_LIVE();
+  EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
   memoriserSession(session);
 
   EDIT_ROWS_DEMO = resolveList(
@@ -2198,9 +2201,6 @@ export default function Page() {
     img: clientPhotos(sessionData)[0 + i] || row.img,
   }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
-  PHASES_DEMO = PHASES_DEMO_LIVE();
-  EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
 
   if (brand) {
     C = {

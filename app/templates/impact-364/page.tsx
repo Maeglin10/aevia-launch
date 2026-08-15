@@ -418,13 +418,13 @@ export default function AllureAppuiPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TARIFS_SOURCE = TARIFS_SOURCE_LIVE();
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };
   }
 
   /* ── Blocs de données rejoués à chaque rendu ──────────────────────────── */
-  TARIFS_SOURCE = TARIFS_SOURCE_LIVE();
 
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({

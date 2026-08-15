@@ -420,9 +420,9 @@ export default function Halle1897Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO_SOURCE = HERO_SOURCE_LIVE();
 
   /* Les blocs vivants sont recalculés ici, session en main. */
-  HERO_SOURCE = HERO_SOURCE_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...SERVICES_SOURCE[i % SERVICES_SOURCE.length],

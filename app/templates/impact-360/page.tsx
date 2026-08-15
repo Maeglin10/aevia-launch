@@ -503,8 +503,8 @@ export default function AtlantiqueMaterielsPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-
   ZONES_SOURCE = ZONES_SOURCE_LIVE();
+
 
   const CLIENT_SERVICES = clientServices(sessionData);
 

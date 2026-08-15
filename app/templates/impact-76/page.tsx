@@ -179,6 +179,8 @@ export default function StructuraArchPage() {
 
 
   sessionData = session;
+  TEAM_DEMO = TEAM_DEMO_LIVE();
+  ARCHIVE_PROJECTS_DEMO = ARCHIVE_PROJECTS_DEMO_LIVE();
 
 
   memoriserSession(sessionData);
@@ -186,8 +188,6 @@ export default function StructuraArchPage() {
 
   rafraichirPartage();
   c = session?.generatedContent;
-  TEAM_DEMO = TEAM_DEMO_LIVE();
-  ARCHIVE_PROJECTS_DEMO = ARCHIVE_PROJECTS_DEMO_LIVE();
 
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),

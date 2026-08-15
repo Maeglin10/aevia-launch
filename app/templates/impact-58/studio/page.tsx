@@ -214,12 +214,12 @@ export default function StudioPage() {
   }, []);
 
   sessionData = __session;
+  TEAM = TEAM_LIVE();
   memoriserSession(__session);
 
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
-  TEAM = TEAM_LIVE();
 
   return (
     <>

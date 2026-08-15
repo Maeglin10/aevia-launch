@@ -315,12 +315,12 @@ export default function PermisCapSudPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };
   }
 
-  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
 
   /*
     Le titre du plein cadre est en capitales serrées : il ne tient qu'une

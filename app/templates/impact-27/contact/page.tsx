@@ -555,11 +555,11 @@ export default function ContactPage() {
   }, []);
 
   sessionData = __session;
+  FAQ = FAQ_LIVE();
   memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
-  FAQ = FAQ_LIVE();
 
   return (
     <div className="relative min-h-dvh">

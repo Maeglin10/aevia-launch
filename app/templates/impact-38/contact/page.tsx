@@ -215,16 +215,16 @@ export default function ContactPage() {
   }, []);
 
   sessionData = __session;
+  HOURS = HOURS_LIVE();
+  SUBSCRIPTION_FAQ = SUBSCRIPTION_FAQ_LIVE();
+  WORKSHOP_CONTACT_OPTIONS = WORKSHOP_CONTACT_OPTIONS_LIVE();
 
 
   memoriserSession(__session);
   fd = __session?.formData;
+  SUBSCRIPTION_FAQ_DEMO_ANNEXE = SUBSCRIPTION_FAQ_DEMO_ANNEXE_LIVE();
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
-  HOURS = HOURS_LIVE();
-  SUBSCRIPTION_FAQ_DEMO_ANNEXE = SUBSCRIPTION_FAQ_DEMO_ANNEXE_LIVE();
-  SUBSCRIPTION_FAQ = SUBSCRIPTION_FAQ_LIVE();
-  WORKSHOP_CONTACT_OPTIONS = WORKSHOP_CONTACT_OPTIONS_LIVE();
 
   const [submitted, setSubmitted] = useState(false);
   const [activeTab, setActiveTab] = useState<"general" | "b2b" | "workshop">("general");

@@ -1028,6 +1028,8 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  TESTIMONIALS_90_DEMO = TESTIMONIALS_90_DEMO_LIVE();
+  HERO_BREADS_DEMO_SOURCE = HERO_BREADS_DEMO_SOURCE_LIVE();
 
   HERO_BREADS_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...HERO_BREADS_DEMO_SOURCE[i % HERO_BREADS_DEMO_SOURCE.length], name: s.title, price: s.price ?? HERO_BREADS_DEMO_SOURCE[i % HERO_BREADS_DEMO_SOURCE.length].price })),
@@ -1042,8 +1044,6 @@ export default function Page() {
     img: clientPhotos(sessionData)[0 + i] || row.img,
   }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  TESTIMONIALS_90_DEMO = TESTIMONIALS_90_DEMO_LIVE();
-  HERO_BREADS_DEMO_SOURCE = HERO_BREADS_DEMO_SOURCE_LIVE();
   if (brand) {
     C = { ...C, brown: brand };
   }
