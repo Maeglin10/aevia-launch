@@ -1,4 +1,5 @@
 "use client";
+import { memoriserSession } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 // The nav and footer both link "Nos Tartes" here, but the route never existed
@@ -35,6 +36,7 @@ export default function TartesPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

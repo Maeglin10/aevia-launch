@@ -10,6 +10,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
@@ -42,6 +43,7 @@ export default function BrowsePage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

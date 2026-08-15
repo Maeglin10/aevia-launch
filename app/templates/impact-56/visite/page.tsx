@@ -1,6 +1,9 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientServices } from "@/lib/templates/clientContent";
+import {
+  clientServices,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
@@ -32,6 +35,7 @@ export default function VisitePage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

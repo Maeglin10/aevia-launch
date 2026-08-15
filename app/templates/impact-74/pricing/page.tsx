@@ -1,5 +1,13 @@
 "use client";
-import { clientCity, clientName, clientServices, clientTagline, clientText, clientTrade } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+  clientTrade,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
 import { resolveList } from "@/lib/templates/resolveList";
 import { useEffect, useState } from "react";
@@ -34,6 +42,7 @@ export default function PricingPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

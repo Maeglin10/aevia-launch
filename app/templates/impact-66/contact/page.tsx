@@ -1,5 +1,8 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
@@ -30,6 +33,7 @@ export default function ContactPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

@@ -10,6 +10,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 import { Activity, CheckCircle } from "lucide-react"
 import { Reveal } from "../shared"
@@ -39,6 +40,7 @@ export default function FeaturesPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

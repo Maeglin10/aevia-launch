@@ -4,6 +4,7 @@ import {
   clientName,
   clientTagline,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
 
@@ -36,6 +37,7 @@ export default function LumiereDoreeContactPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

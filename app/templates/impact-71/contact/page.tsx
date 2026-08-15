@@ -1,4 +1,5 @@
 "use client";
+import { memoriserSession } from "@/lib/templates/clientContent";
 import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 // @ts-nocheck
 
@@ -32,6 +33,7 @@ export default function ContactPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

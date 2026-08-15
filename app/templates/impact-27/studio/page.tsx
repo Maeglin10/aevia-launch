@@ -4,6 +4,7 @@ import {
   clientCertifications,
   clientCity,
   clientTeam,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 
@@ -323,6 +324,7 @@ export default function StudioPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
 
   fd = __session?.formData;
   bp = __session?.businessProfile;

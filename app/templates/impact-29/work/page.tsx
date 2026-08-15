@@ -1,4 +1,5 @@
 "use client"
+import { memoriserSession } from "@/lib/templates/clientContent";
 
 import { Reveal, projects } from "../shared"
 import { useEffect, useState } from "react";
@@ -29,6 +30,7 @@ export default function WorkPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

@@ -4,6 +4,7 @@ import {
   clientCity,
   clientHours,
   clientName,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 import { useEffect, useState } from "react";
@@ -39,6 +40,7 @@ export default function ContactPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

@@ -1,7 +1,10 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { RefreshCw } from "lucide-react"
 
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
@@ -29,6 +32,7 @@ export default function SkillsPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

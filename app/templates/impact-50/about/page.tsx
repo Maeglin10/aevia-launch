@@ -10,6 +10,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
@@ -37,6 +38,7 @@ export default function AboutPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

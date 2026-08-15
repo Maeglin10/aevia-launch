@@ -3,6 +3,7 @@ import {
   clientReviews,
   clientServices,
   clientTeam,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 
@@ -110,6 +111,7 @@ export default function CommunityPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

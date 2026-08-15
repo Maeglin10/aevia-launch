@@ -1,5 +1,8 @@
 "use client";
-import { clientServices } from "@/lib/templates/clientContent";
+import {
+  clientServices,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 
 import { useEffect, useState } from "react";
@@ -32,6 +35,7 @@ export default function PricingPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

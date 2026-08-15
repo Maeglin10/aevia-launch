@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion"
 import {
   clientCity,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 import Link from "next/link"
@@ -127,6 +128,7 @@ export default function ContactPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
 
   fd = __session?.formData;
   bp = __session?.businessProfile;

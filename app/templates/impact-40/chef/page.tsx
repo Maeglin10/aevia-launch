@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
@@ -34,6 +35,7 @@ export default function ChefPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

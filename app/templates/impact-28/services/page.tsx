@@ -1,7 +1,10 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { clientServices } from "@/lib/templates/clientContent";
+import {
+  clientServices,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 import { Reveal } from "../shared"
 
@@ -30,6 +33,7 @@ export default function ServicesPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

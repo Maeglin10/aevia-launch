@@ -1,4 +1,5 @@
 "use client"
+import { memoriserSession } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion"
@@ -42,6 +43,7 @@ export default function PricingPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
