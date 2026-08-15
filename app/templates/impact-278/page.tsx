@@ -57,7 +57,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   PLOMBERIE GARONNE — Plombier-chauffagiste certifié · {clientCity(sessionData) ?? "Toulouse"} & agglo
+   {clientName(sessionData) ?? "Plomberie Garonne"} — Plombier-chauffagiste certifié · {clientCity(sessionData) ?? "Toulouse"} & agglo
    Photographie réelle + architecture éditoriale 10 sections.
    Fichier autonome : 'use client', pas d'imports externes sauf react,
    framer-motion, lucide-react.

@@ -708,7 +708,7 @@ function LegalPage() {
           <div>
             <div className="text-[var(--brand,#3B82F6)] text-[10px] font-bold uppercase mb-2">PROPRIÉTÉ INTELLECTUELLE</div>
             <p className="leading-relaxed font-sans text-xs text-gray-500">
-              Le logiciel Streamline, les icônes, les marques ainsi que les codes de style présents sur cette plateforme sont la propriété exclusive d'Aevia WS ou de ses concédants de licence. Toute reproduction est soumise à approbation écrite.
+              Le logiciel {clientName(sessionData) ?? "Streamline"}, les icônes, les marques ainsi que les codes de style présents sur cette plateforme sont la propriété exclusive d'Aevia WS ou de ses concédants de licence. Toute reproduction est soumise à approbation écrite.
             </p>
           </div>
         </div>

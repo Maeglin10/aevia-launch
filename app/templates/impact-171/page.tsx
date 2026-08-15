@@ -909,7 +909,7 @@ export default function Impact171Page() {
             <div className="md:col-span-2">
               <div className="flex items-center gap-2 mb-4">
                 <Heart className="w-5 h-5 text-[#22C55E]" />
-                <span className="text-xl font-bold" style={{ fontFamily: "'Figtree', sans-serif" }}>VITALITÉ Médical</span>
+                <span className="text-xl font-bold" style={{ fontFamily: "'Figtree', sans-serif" }}>{clientName(sessionData) ?? "VITALITÉ"} Médical</span>
               </div>
               <p className="text-white/60 text-sm leading-relaxed max-w-xs">
                 Médecine evidence-based et suivi personnalisé pour une santé optimale. {clientCity(sessionData) ?? "Paris"} 4ème.

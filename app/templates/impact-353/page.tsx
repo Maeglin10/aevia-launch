@@ -29,7 +29,7 @@ import {
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
-   LES PETITS CAIRNS — Micro-crèche · Grenoble
+   {clientName(sessionData) ?? "Les Petits Cairns"} — Micro-crèche · Grenoble
 
    Archétype H2 : split avec le média À GAUCHE. Geste de signature UNIQUE :
    ComposeIn — la scène commence vide, puis les éléments arrivent un par un,

@@ -70,7 +70,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ==========================================================================
-   CÉRÉMONIE — Wedding Planner (impact-200)
+   {clientName(sessionData) ?? "Cérémonie"} — Wedding Planner (impact-200)
    Design: blush pink #FDF2F8, primary #DB2777, gold #CA8A04, text #831843
    Fonts: Great Vibes (script) + Cormorant Infant (serif) + Playfair Display
    ========================================================================== */

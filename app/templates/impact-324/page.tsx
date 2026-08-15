@@ -37,7 +37,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   IMPACT-324 · LIVETICKET — billetterie live (concerts, salles en propre)
+   IMPACT-324 · {clientName(sessionData) ?? "LiveTicket"} — billetterie live (concerts, salles en propre)
    Réécriture premium — geste signature : CrossPush (les affiches se croisent).
    Héros H3 plein cadre, titre en bas, fond de repli C.bgDark.
    Fontes P12 : Bricolage Grotesque (voix display) + Figtree (corps).

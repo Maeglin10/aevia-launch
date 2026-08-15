@@ -170,7 +170,7 @@ export default function Page() {
             <div>
               <h3 className="text-2xl font-bold mb-2">Financer votre formation</h3>
               <p className="text-gray-600 text-sm max-w-xl">
-                EduPath est un organisme certifié Qualiopi. Toutes nos formations longues sont éligibles aux financements CPF, Pôle Emploi, et OPCO.
+                {clientName(sessionData) ?? "EduPath"} est un organisme certifié Qualiopi. Toutes nos formations longues sont éligibles aux financements CPF, Pôle Emploi, et OPCO.
               </p>
             </div>
             <Link href="/templates/impact-11/tarifs" className="bg-[#7C3AED] hover:bg-[#6D28D9] text-white px-8 py-4 rounded-xl text-sm font-semibold transition-colors whitespace-nowrap shadow-md shadow-[#7C3AED]/10 inline-block">

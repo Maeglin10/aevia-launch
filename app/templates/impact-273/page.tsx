@@ -49,7 +49,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET DENTAIRE ROSENFELD — Dentisterie & Implantologie · {clientCity(sessionData) ?? "Strasbourg"}
+   {clientName(sessionData) ?? "Cabinet Dentaire Rosenfeld"} — Dentisterie & Implantologie · {clientCity(sessionData) ?? "Strasbourg"}
    Premium editorial template · 'use client' · auto-suffisant.
    ════════════════════════════════════════════════════════════════════════════ */
 

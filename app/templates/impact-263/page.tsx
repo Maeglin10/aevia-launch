@@ -36,7 +36,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   JARDINS VIVANTS — Paysagiste-Concepteur & Permaculture · {clientCity(sessionData) ?? "Bordeaux"}
+   {clientName(sessionData) ?? "Jardins Vivants"} — Paysagiste-Concepteur & Permaculture · {clientCity(sessionData) ?? "Bordeaux"}
    Chorégraphie de défilement éditoriale : crossfade collant 320vh, panneau
    écologique sticky, formulaire de devis interactif. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */

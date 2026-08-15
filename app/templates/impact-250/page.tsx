@@ -37,7 +37,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ATELIER TERRA — {clientTrade(sessionData) ?? "Paysagiste"} & Aménagement Extérieur · {clientCity(sessionData) ?? "Nantes"}
+   {clientName(sessionData) ?? "Atelier Terra"} — {clientTrade(sessionData) ?? "Paysagiste"} & Aménagement Extérieur · {clientCity(sessionData) ?? "Nantes"}
    Chorégraphie de défilement éditoriale, fond clair/sombre, sticky parallax.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */

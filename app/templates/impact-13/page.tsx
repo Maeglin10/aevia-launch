@@ -988,7 +988,7 @@ function LegalSubPage() {
           <div>
             <h3 className="text-black font-semibold text-base mb-2">Éditeur du site</h3>
             <p>
-              Le site Atelier Mécanique est édité par :<br />
+              Le site {clientName(sessionData) ?? "Atelier Mécanique"} est édité par :<br />
               <strong>Aevia WS — Valentin Milliand</strong><br />
               Entrepreneur individuel — SIREN : <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
               <strong>Contact :</strong>{fd?.email ?? "contact@exemple.fr"}<br />

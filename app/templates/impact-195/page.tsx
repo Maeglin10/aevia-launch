@@ -29,7 +29,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   MAISON ÉLISE — Wedding planner & organisatrice événements ({clientCity({ formData: fd }) ?? "Nice"})
+   {clientName(sessionData) ?? "Maison Élise"} — Wedding planner & organisatrice événements ({clientCity({ formData: fd }) ?? "Nice"})
    Palette : blanc ivoire #fdfaf7 / blush poudré #e8c5c5 / or rosé #c4a06a / nuit #1a1018
    Fonts : Didact Gothic (élégant, géométrique) + Lora (serif romantique)
    Style : romantique luxe, délicat, élégance intemporelle

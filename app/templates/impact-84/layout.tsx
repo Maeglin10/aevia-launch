@@ -69,7 +69,7 @@ export default function CypherClinicLayout({
             ) : (<>
               <>
             <span className="text-xl font-light tracking-[0.25em] uppercase" style={{ fontFamily: "'Bodoni Moda', serif" }}>
-              Cypher Clinic
+              {clientName(__layoutSession) ?? "Cypher Clinic"}
             </span>
             <span className="text-[10px] tracking-[0.4em] uppercase text-[#C9A86C] mt-0.5">Médecine Esthétique & Lasers</span>
           </>
@@ -103,7 +103,7 @@ export default function CypherClinicLayout({
           <motion.div className="fixed inset-0 z-[200] bg-[#0C0C0A] flex flex-col"
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <div className="flex items-center justify-between px-6 py-5 border-b border-[#2A2520]">
-              <span className="text-xl" style={{ fontFamily: "'Bodoni Moda', serif" }}>Cypher Clinic</span>
+              <span className="text-xl" style={{ fontFamily: "'Bodoni Moda', serif" }}>{clientName(__layoutSession) ?? "Cypher Clinic"}</span>
               <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5 text-white" /></button>
             </div>
             <div className="flex flex-col gap-10 p-10">

@@ -37,7 +37,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   L'ATELIER SOIE — Couture & Broderie sur-mesure · {clientCity(sessionData) ?? "Lyon"} 2e
+   {clientName(sessionData) ?? "L'Atelier Soie"} — Couture & Broderie sur-mesure · {clientCity(sessionData) ?? "Lyon"} 2e
    Photographie réelle + chorégraphie de défilement éditoriale (style maison
    de couture × patrimoine lyonnais × soie). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */

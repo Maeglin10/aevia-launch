@@ -40,7 +40,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET NAISSANCES — Sage-femme libérale · Aix-en-Provence
+   {clientName(sessionData) ?? "Cabinet Naissances"} — Sage-femme libérale · Aix-en-Provence
    Réécriture premium (reprise 316–383, famille II).
 
    Geste signature : ParticleOrb (hero-kit-3), lu comme un BERCEAU de points —

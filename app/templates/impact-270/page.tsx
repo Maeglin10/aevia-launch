@@ -41,7 +41,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   PEAU & PLUME — Atelier de Tatouage & Illustration · {clientCity(sessionData) ?? "Lille"}
+   {clientName(sessionData) ?? "Peau & Plume"} — Atelier de Tatouage & Illustration · {clientCity(sessionData) ?? "Lille"}
    Scroll choreography éditoriale : crossfade 320vh · sticky SafetyPanel ·
    formulaire interactif · 10 sous-composants nommés. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */

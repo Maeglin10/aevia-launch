@@ -738,7 +738,7 @@ export default function Impact114Page() {
                   className="text-lg md:text-2xl tracking-[0.15em] text-[var(--brand,#2d1b0e)]"
                   style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 500 }}
                 >{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
-                  TERRA
+                  {clientName(sessionData) ?? "Terra"}
                 </>)}</span>
               </>
             )}
@@ -1372,7 +1372,7 @@ export default function Impact114Page() {
             >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
               Rejoignez la
               <br />
-              <span style={{ fontStyle: "italic" }}>Communauté Terra</span>
+              <span style={{ fontStyle: "italic" }}>Communauté {clientName(sessionData) ?? "Terra"}</span>
             </>)}</h2>
             <p
               className="text-[#8b7355] text-base leading-relaxed mb-10 max-w-md mx-auto"
@@ -1421,7 +1421,7 @@ export default function Impact114Page() {
                     className="text-[#3d5a3e] font-semibold text-lg"
                     style={{ fontFamily: "'Playfair Display', serif" }}
                   >
-                    Bienvenue dans la communauté Terra.
+                    Bienvenue dans la communauté {clientName(sessionData) ?? "Terra"}.
                   </p>
                   <p
                     className="text-[#8b7355] text-sm"
@@ -1468,7 +1468,7 @@ export default function Impact114Page() {
               className="text-[#8b7355] text-base leading-relaxed mb-12 max-w-md"
               style={{ fontFamily: "'Source Serif 4', serif" }}
             >
-              Pour les demandes de presse, d'exposition, de collaboration éditoriale ou d'acquisition de collections complètes — contactez l'atelier Terra directement.
+              Pour les demandes de presse, d'exposition, de collaboration éditoriale ou d'acquisition de collections complètes — contactez l'atelier {clientName(sessionData) ?? "Terra"} directement.
             </p>
 
             <div className="space-y-5">
@@ -1605,7 +1605,7 @@ export default function Impact114Page() {
               className="text-xl tracking-[0.15em] text-[var(--brand,#2d1b0e)]/50"
               style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}
             >
-              TERRA
+              {clientName(sessionData) ?? "Terra"}
             </span>
           </div>
 

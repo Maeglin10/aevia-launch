@@ -56,7 +56,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   NETTOYAGE EXTRÊME — après sinistre, fin de chantier, désinfection. Lille.
+   {clientName(sessionData) ?? "Nettoyage Extrême"} — après sinistre, fin de chantier, désinfection. Lille.
    Réécriture premium (reprise 316–383, famille I).
    Geste signature : InvertSweep — TOUTE la page du héros bascule du sombre au
    clair pendant le défilement : l'avant (le sinistre) devient l'après (le

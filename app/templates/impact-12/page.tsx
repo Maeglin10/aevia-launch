@@ -1145,7 +1145,7 @@ function AtelierSubPage({ goTo }: { goTo: (p: any) => void }) {
               L'Art du Sur-Mesure
             </h2>
             <p className="text-black/60 text-sm leading-relaxed">
-              Fondée en 1998, Noir Couture perpétue la haute tradition tailleur parisienne. Chaque silhouette sur-mesure nécessite plus de 120 heures de travail manuel. Nous collaborons directement avec les tisseurs les plus prestigieux de Lyon et d'Italie du Nord pour créer des toiles et des étoffes exclusives.
+              Fondée en 1998, {clientName(sessionData) ?? "Noir Couture"} perpétue la haute tradition tailleur parisienne. Chaque silhouette sur-mesure nécessite plus de 120 heures de travail manuel. Nous collaborons directement avec les tisseurs les plus prestigieux de Lyon et d'Italie du Nord pour créer des toiles et des étoffes exclusives.
             </p>
             <div className="border-l-2 border-black/20 pl-4 space-y-2 text-xs text-black/50">
               <p><strong>Bâtissage :</strong> Réalisé entièrement au fil de coton naturel pour ajuster les volumes sur le mannequin d'atelier.</p>
@@ -1164,7 +1164,7 @@ function AtelierSubPage({ goTo }: { goTo: (p: any) => void }) {
           <div>
             <h3 className="text-xl font-light mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>La Coupe Rigoureuse</h3>
             <p className="text-black/60 text-xs leading-relaxed">
-              Le patronage d'une veste Noir Couture respecte des règles géométriques très strictes. L'asymétrie est calculée pour équilibrer parfaitement les épaules et affiner la silhouette.
+              Le patronage d'une veste {clientName(sessionData) ?? "Noir Couture"} respecte des règles géométriques très strictes. L'asymétrie est calculée pour équilibrer parfaitement les épaules et affiner la silhouette.
             </p>
           </div>
           <div>
@@ -1316,7 +1316,7 @@ function LegalSubPage() {
           <div>
             <h3 className="text-black font-semibold text-base mb-2">Éditeur du site</h3>
             <p>
-              Le site Noir Couture est édité par :<br />
+              Le site {clientName(sessionData) ?? "Noir Couture"} est édité par :<br />
               <strong>Aevia WS — Valentin Milliand</strong><br />
               Entrepreneur individuel — SIREN : <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
               <strong>Contact :</strong>{fd?.email ?? "contact@exemple.fr"}<br />

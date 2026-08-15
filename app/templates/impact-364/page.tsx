@@ -30,7 +30,7 @@ import {
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ALLURE & APPUI — Pédicure-podologue, cabinet bien-être · Pau
+   {clientName(sessionData) ?? "Allure & Appui"} — Pédicure-podologue, cabinet bien-être · Pau
 
    Archétype héros H4 — éditorial décalé : le titre XXL déborde sur un panneau
    posé à droite, qui porte le rail de chiffres. Serif dominant (Cormorant

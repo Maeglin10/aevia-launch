@@ -39,7 +39,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CAP DÉMÉNAGEMENTS — déménageur · Nantes. Archétype H5 : rail latéral fixe
+   {clientName(sessionData) ?? "Cap Déménagements"} — déménageur · Nantes. Archétype H5 : rail latéral fixe
    + titre monumental. Paire P6 : Archivo (voix impact, capitales serrées)
    contre Inter (prose). Sombre #0b0d11, accent #f2760a.
 

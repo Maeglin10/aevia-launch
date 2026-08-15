@@ -32,7 +32,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   ALTA TRANSACTIONS — Agence immobilière premium ({clientCity(sessionData) ?? "Paris"})
+   {clientName(sessionData) ?? "Alta Transactions"} — Agence immobilière premium ({clientCity(sessionData) ?? "Paris"})
    Palette : bleu nuit profond / or champagne / blanc chaud
    Fonts : Libre Baskerville (titres) + Inter (corps) — Tailwind Reveal style
    ═══════════════════════════════════════════════════════════════════════════ */

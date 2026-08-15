@@ -37,7 +37,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   FORCE BRUTE — Coach Sportif Personnel & Remise en Forme · {clientCity(sessionData) ?? "Marseille"}
+   {clientName(sessionData) ?? "FORCE"} BRUTE — Coach Sportif Personnel & Remise en Forme · {clientCity(sessionData) ?? "Marseille"}
    Chorégraphie de défilement premium × typographie éditoriale sportive.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */

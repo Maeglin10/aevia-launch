@@ -37,7 +37,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   VERT HORIZON — Paysagiste & Architecture de Jardin · Île-de-France
+   {clientName(sessionData) ?? "Vert Horizon"} — Paysagiste & Architecture de Jardin · Île-de-France
    Chorégraphie de défilement éditoriale, crossfade chapitré 320vh,
    panneau de méthodologie collant, formulaire de devis interactif.
    Auto-suffisant. 'use client'.

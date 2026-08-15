@@ -690,7 +690,7 @@ return (
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  La Miette Heureuse travaille uniquement des farines biologiques Label Rouge avec un levain naturel de 8 ans. Chaque pain est façonné à la main, chaque viennoiserie est feuilletée au beurre AOP.
+                  {clientName(sessionData) ?? "La Miette Heureuse"} travaille uniquement des farines biologiques Label Rouge avec un levain naturel de 8 ans. Chaque pain est façonné à la main, chaque viennoiserie est feuilletée au beurre AOP.
                 </>}</p>
                 <p style={{
                   fontSize: 15,

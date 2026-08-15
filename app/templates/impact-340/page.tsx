@@ -39,7 +39,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   OCTAVE AUDITION — audioprothésiste urbain · Nantes
+   {clientName(sessionData) ?? "Octave Audition"} — audioprothésiste urbain · Nantes
 
    Archétype héros H1 : split, média à droite. Paire de fontes P8
    (Newsreader / Manrope). Palette sable #f8f6f1 et ambre #b45309.

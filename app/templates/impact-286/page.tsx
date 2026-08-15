@@ -50,7 +50,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET VIDAL — Maître Clara Vidal · Avocate droit social & travail{" "}
+   {clientName(sessionData) ?? "Cabinet Vidal"} — Maître Clara Vidal · Avocate droit social & travail{" "}
    {clientCity(sessionData) ?? "Lyon"} Confluence · Design éditorial premium style Grand Palais × Barreau.
    Auto-suffisant. 'use client'. Pas d'imports externes sauf react/framer/lucide.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -2171,7 +2171,7 @@ function PracticalSection() {
       lignes: [
         <span key="a1" style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
           <MapPin size={16} color={C.gold} strokeWidth={1.5} style={{ flexShrink: 0, marginTop: 2 }} />
-          <span>Cabinet Vidal — Droit Social<br />{clientAddress(sessionData) ?? "14, quai Perrache"}<br />69002 {clientCity(sessionData) ?? "Lyon"} Confluence</span>
+          <span>{clientName(sessionData) ?? "Cabinet Vidal"} — Droit Social<br />{clientAddress(sessionData) ?? "14, quai Perrache"}<br />69002 {clientCity(sessionData) ?? "Lyon"} Confluence</span>
         </span>,
         <span key="a2" style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 12 }}>
           <Phone size={16} color={C.gold} strokeWidth={1.5} style={{ flexShrink: 0 }} />

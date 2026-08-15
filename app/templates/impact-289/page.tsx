@@ -52,7 +52,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   SCHREIBER & ASSOCIÉS — Expert-comptable & commissaires aux comptes{" "}
+   {clientName(sessionData) ?? "Schreiber & Associés"} — Expert-comptable & commissaires aux comptes{" "}
    {clientCity(sessionData) ?? "Strasbourg"} Neudorf · Alsace-Moselle
    Page premium auto-suffisante. 'use client'. Framer Motion + Lucide React.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -2569,7 +2569,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 1997–2026 Schreiber & Associés — Cabinet d&apos;expertise comptable
+          © 1997–2026 {clientName(sessionData) ?? "Schreiber & Associés"} — Cabinet d&apos;expertise comptable
           agréé. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>

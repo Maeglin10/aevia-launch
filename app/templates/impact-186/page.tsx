@@ -33,7 +33,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   DR. LÉA FONTAINE — Cabinet dentaire moderne ({clientCity(sessionData) ?? "Nantes"})
+   {clientName(sessionData) ?? "Dr. Léa Fontaine"} — Cabinet dentaire moderne ({clientCity(sessionData) ?? "Nantes"})
    Palette : blanc pur / bleu confiance #1d6fa4 / bleu clair #e8f4fd / anthracite #1a2332
    Fonts : Nunito (moderne, humain, arrondi) + Inter
    Style : médical moderne, rassurant, lumineux, accessible

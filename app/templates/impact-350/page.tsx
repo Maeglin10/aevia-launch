@@ -29,7 +29,7 @@ import {
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CT DE LA LUMIÈRE — Centre de contrôle technique agréé · Lyon
+   {clientName(sessionData) ?? "CT de la Lumière"} — Centre de contrôle technique agréé · Lyon
 
    Contrôle technique, 2e variante (la 1re est impact-349, atelier sombre).
    Celle-ci s'adresse aux familles : créneaux du soir, coin enfants, rapport

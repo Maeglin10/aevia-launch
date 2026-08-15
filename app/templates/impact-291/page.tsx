@@ -54,7 +54,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   OSTÉOPATHIE ALSACE — {clientTrade(sessionData) ?? "Ostéopathe"} D.O., {clientCity(sessionData) ?? "Strasbourg"} Orangerie
+   {clientName(sessionData) ?? "Ostéopathie Alsace"} — {clientTrade(sessionData) ?? "Ostéopathe"} D.O., {clientCity(sessionData) ?? "Strasbourg"} Orangerie
    Template premium Skylaunch impact-291
    Auto-suffisant · 'use client' · framer-motion + lucide-react uniquement.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -2521,7 +2521,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2024–2026 Ostéopathie Alsace — {clientCity(sessionData) ?? "Strasbourg"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2024–2026 {clientName(sessionData) ?? "Ostéopathie Alsace"} — {clientCity(sessionData) ?? "Strasbourg"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#cabinet" style={{ color: 'inherit', textDecoration: 'none' }}>

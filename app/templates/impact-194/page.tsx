@@ -30,7 +30,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   TABLE D'EXCEPTION — Traiteur premium & buffets événementiels ({clientCity(sessionData) ?? "Lyon"})
+   {clientName(sessionData) ?? "Table"} D'EXCEPTION — Traiteur premium & buffets événementiels ({clientCity(sessionData) ?? "Lyon"})
    Palette : blanc chaud #fefcf8 / champagne #d4a853 / bordeaux #7c2d3e / anthracite #1f1d1a
    Fonts : Playfair Display (titres gastronomiques) + Source Sans 3
    Style : gastronomique, festif, chaleur, prestige accessible
@@ -426,7 +426,7 @@ export default function TableExceptionPage() {
       <footer className="bg-[#140f0a] pt-20 pb-10 px-6">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="font-bold text-[#fefcf8] mb-1 text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>Table d'Exception</div>
+            <div className="font-bold text-[#fefcf8] mb-1 text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>{clientName(sessionData) ?? "Table"} d'Exception</div>
             <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/40 mb-5">{clientTrade(sessionData) ?? "Traiteur"} · {clientCity({ formData: fd }) ?? "Lyon"}</div>
             <p className="text-[#fefcf8]/15 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Traiteur"} haut de gamme à {clientCity({ formData: fd }) ?? "Lyon"}. Mariages, corporate, cocktails, plateaux. Chef et équipe sur place.</p>
           </div>

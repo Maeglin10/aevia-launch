@@ -68,7 +68,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CÔTE D'AZUR COACHING — Coach bien-être & remise en forme · {clientCity(sessionData) ?? "Nice"} Promenade
+   {clientName(sessionData) ?? "Côte d'Azur Coaching"} — Coach bien-être & remise en forme · {clientCity(sessionData) ?? "Nice"} Promenade
    Photographies plein cadre + chorégraphie de défilement méditerranéenne
    (style Riviera × énergie outdoor). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */

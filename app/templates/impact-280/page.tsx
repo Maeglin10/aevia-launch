@@ -571,7 +571,7 @@ function HeroSection() {
           style={{ marginTop: 46, display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}
         >
           <a href="#contact" style={{ textDecoration: 'none' }}>
-            <RoseButton filled>Consultation gratuite</RoseButton>
+            <RoseButton filled>{clientName(sessionData) ?? "Consultation gratuite"}</RoseButton>
           </a>
           <a href="#services" style={{ textDecoration: 'none' }}>
             <RoseButton>Nos formules</RoseButton>

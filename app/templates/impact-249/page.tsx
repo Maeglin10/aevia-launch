@@ -39,7 +39,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DERMIS STUDIO — Tatouage & Piercing · {clientCity(sessionData) ?? "Montpellier"}
+   {clientName(sessionData) ?? "Dermis Studio"} — Tatouage & Piercing · {clientCity(sessionData) ?? "Montpellier"}
    Chorégraphie de défilement éditoriale. 'use client'. Auto-suffisant.
    ════════════════════════════════════════════════════════════════════════════ */
 

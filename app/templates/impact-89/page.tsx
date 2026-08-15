@@ -476,7 +476,7 @@ function AboutSection() {
               L'ART DANS<br /><span style={{ color: C.accent }}>LA PEAU.</span>
             </>)}</h2>
             <p style={{ fontFamily: FONT_BODY, fontSize: 16, color: C.textMuted, lineHeight: 1.8, fontWeight: 300, marginBottom: 24 }}>
-              Ink & Iron n'est pas un simple salon de tatouage ; c'est un sanctuaire d'expression artistique et de rigueur technique. Situé au cœur du 11e arrondissement de {clientCity(sessionData) ?? "Paris"}, notre atelier réunit trois artistes résidents de renommée internationale.
+              {clientName(sessionData) ?? "INK"} & Iron n'est pas un simple salon de tatouage ; c'est un sanctuaire d'expression artistique et de rigueur technique. Situé au cœur du 11e arrondissement de {clientCity(sessionData) ?? "Paris"}, notre atelier réunit trois artistes résidents de renommée internationale.
             </p>
             <p style={{ fontFamily: FONT_BODY, fontSize: 16, color: C.textMuted, lineHeight: 1.8, fontWeight: 300, marginBottom: 32 }}>
               Chaque pièce est une création sur-mesure unique, dessinée en étroite collaboration avec vous. Nous appliquons les standards d'hygiène les plus stricts de l'industrie (matériel à usage unique, stérilisation médicale) pour vous offrir une expérience d'exception en toute sécurité.

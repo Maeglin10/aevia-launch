@@ -203,7 +203,7 @@ export default function EquipePage() {
           ))}
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between text-xs text-white/20 gap-4">
-          <span>© 2026 Kéops Architecture. Tous droits réservés.</span>
+          <span>© 2026 {clientName(sessionData) ?? "Kéops"} Architecture. Tous droits réservés.</span>
           <div className="flex gap-6">
             <Link href="/templates/impact-17/legal" className="hover:text-[#C46A3E] transition-colors">Mentions légales</Link>
             <Link href="/templates/impact-17/legal" className="hover:text-[#C46A3E] transition-colors">Confidentialité</Link>

@@ -43,7 +43,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   OSTÉO RÉPUBLIQUE — Cabinet d'Ostéopathie · {clientCity(sessionData) ?? "Paris"} 11e
+   {clientName(sessionData) ?? "Ostéo République"} — Cabinet d'Ostéopathie · {clientCity(sessionData) ?? "Paris"} 11e
    Chorégraphie éditoriale premium : crossfade sticky 320vh, panneau principe
    collant, formulaire RDV interactif. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */

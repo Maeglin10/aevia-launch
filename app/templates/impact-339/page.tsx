@@ -31,7 +31,7 @@ import {
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
-   MAISON DE L'AUDITION — Audioprothésistes D.E. · Tours
+   {clientName(sessionData) ?? "Maison de l'Audition"} — Audioprothésistes D.E. · Tours
    Geste signature : ParticleOrb (hero-kit-3), mais lu comme une ONDE et non
    comme une planète : l'orbe est posé à droite, à hauteur d'oreille, et des
    anneaux CSS s'en échappent — la source, puis la propagation. Rien n'est

@@ -36,7 +36,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   AXIOM CONSEIL — Expert-Comptable & Conseil en Gestion · {clientCity(sessionData) ?? "Bordeaux"}
+   {clientName(sessionData) ?? "Axiom Conseil"} — Expert-Comptable & Conseil en Gestion · {clientCity(sessionData) ?? "Bordeaux"}
    Photographie réelle + chorégraphie de défilement éditoriale.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -1354,7 +1354,7 @@ function PillarPanel() {
                 fontWeight: 500,
               }}
             >
-              Axiom Conseil · {clientCity(sessionData) ?? "Bordeaux"}
+              {clientName(sessionData) ?? "Axiom Conseil"} · {clientCity(sessionData) ?? "Bordeaux"}
             </div>
             <div
               style={{
@@ -2087,7 +2087,7 @@ function Footer() {
           color: 'rgba(200,224,208,0.38)',
         }}
       >
-        <span>© 2015–2026 Axiom Conseil. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2015–2026 {clientName(sessionData) ?? "Axiom Conseil"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

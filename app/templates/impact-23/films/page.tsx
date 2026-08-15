@@ -159,7 +159,7 @@ export default function Impact23FilmsPage() {
         {mobileOpen && (
           <motion.div className="fixed inset-0 z-[100] bg-[#100D08] flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
             <div className="flex items-center justify-between mb-12">
-              <Link href="/templates/impact-23" className="text-[#C9A05A] text-xl cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Studio Pelikan</Link>
+              <Link href="/templates/impact-23" className="text-[#C9A05A] text-xl cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{clientName(sessionData) ?? "Studio Pelikan"}</Link>
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
             {navItems.map((item, i) => (
@@ -180,7 +180,7 @@ export default function Impact23FilmsPage() {
                   Nos <em>Films</em>
                 </h1>
                 <p className="text-white/40 text-lg max-w-2xl leading-relaxed">
-                  Depuis 2012, Studio Pelikan développe, produit et accompagne des œuvres cinématographiques
+                  Depuis 2012, {clientName(sessionData) ?? "Studio Pelikan"} développe, produit et accompagne des œuvres cinématographiques
                   exigeantes. Chaque film est une aventure humaine, artistique et technique unique.
                 </p>
               </Reveal>
@@ -265,12 +265,12 @@ export default function Impact23FilmsPage() {
 
       <footer className="bg-[#090704] border-t border-white/5 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/20">
-          <Link href="/templates/impact-23" className="text-[#C9A05A] text-lg cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Studio Pelikan · Paris</Link>
+          <Link href="/templates/impact-23" className="text-[#C9A05A] text-lg cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{clientName(sessionData) ?? "Studio Pelikan"} · Paris</Link>
           <div className="flex gap-8">
             <Link href="/templates/impact-23/films" className="hover:text-[#C9A05A] transition-colors cursor-pointer">Films</Link>
             <Link href="/templates/impact-23/legal" className="hover:text-[#C9A05A] transition-colors cursor-pointer">Mentions légales</Link>
           </div>
-          <span>© 2026 Studio Pelikan. Tous droits réservés.</span>
+          <span>© 2026 {clientName(sessionData) ?? "Studio Pelikan"}. Tous droits réservés.</span>
         </div>
       </footer>
     </div>

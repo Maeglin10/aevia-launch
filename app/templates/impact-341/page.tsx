@@ -40,7 +40,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CONDUITE ZÉRO STRESS — auto-école anti-stress · Toulouse
+   {clientName(sessionData) ?? "Conduite Zéro Stress"} — auto-école anti-stress · Toulouse
 
    Archétype héros H6 : typographique, sans photographie. La seule matière du
    héros est du texte et deux textures CSS — un marquage au sol en pointillés

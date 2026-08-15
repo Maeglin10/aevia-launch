@@ -39,7 +39,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ATELIER ENCRE VIVANTE — Tatouage Contemporain & Art Corporel · {clientCity(sessionData) ?? "Lyon"}
+   {clientName(sessionData) ?? "Atelier Encre Vivante"} — Tatouage Contemporain & Art Corporel · {clientCity(sessionData) ?? "Lyon"}
    Chorégraphie de défilement éditoriale : crossfade 320vh, panneau latéral
    collant, formulaire de réservation. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -2128,7 +2128,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2024–2026 Atelier Encre Vivante — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2024–2026 {clientName(sessionData) ?? "Atelier Encre Vivante"} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#hygiene" style={{ color: 'inherit', textDecoration: 'none' }}>

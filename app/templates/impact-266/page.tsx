@@ -38,7 +38,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   VILLA ÉMERAUDE EVENTS — Wedding Planner & Événements Luxe · {clientCity(sessionData) ?? "Nice"} & Côte d'Azur
+   {clientName(sessionData) ?? "Villa Émeraude Events"} — Wedding Planner & Événements Luxe · {clientCity(sessionData) ?? "Nice"} & Côte d'Azur
    Chorégraphie de défilement éditoriale premium. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
 

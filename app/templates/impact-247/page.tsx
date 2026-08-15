@@ -37,7 +37,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   VOLT & LUX — {clientTrade(sessionData) ?? "Électricien"} Certifié & Domotique · {clientCity(sessionData) ?? "Toulouse"}
+   {clientName(sessionData) ?? "Volt & Lux"} — {clientTrade(sessionData) ?? "Électricien"} Certifié & Domotique · {clientCity(sessionData) ?? "Toulouse"}
    Photographie réelle + chorégraphie de défilement éditoriale. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
 

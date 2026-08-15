@@ -1504,7 +1504,7 @@ return (
                 fontWeight: 800, color: C.white, lineHeight: 1.1, marginBottom: 16,
               }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Parlons de<br /><span style={{ color: C.accent }}>Votre Projet</span></>)}</h2>
               <p style={{ color: C.textMuted, fontSize: 'clamp(14px, 1.8vw, 15.5px)', lineHeight: 1.75, marginBottom: '2.5rem' }}>
-                Remplissez ce formulaire et un conseiller Therma Pro vous rappelle sous 24h pour un diagnostic gratuit à domicile.
+                Remplissez ce formulaire et un conseiller {clientName(sessionData) ?? "THERMA PRO"} vous rappelle sous 24h pour un diagnostic gratuit à domicile.
               </p>
 
               <div className="contact-info-cards" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
@@ -1682,7 +1682,7 @@ return (
                       </button>
 
                       <p style={{ color: C.textMuted, fontSize: 11.5, textAlign: 'center', lineHeight: 1.6 }}>
-                        En soumettant ce formulaire, vous acceptez d'être recontacté par Therma Pro. Aucun démarchage, aucun spam.
+                        En soumettant ce formulaire, vous acceptez d'être recontacté par {clientName(sessionData) ?? "THERMA PRO"}. Aucun démarchage, aucun spam.
                       </p>
                     </motion.form>
                   )}

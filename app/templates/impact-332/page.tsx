@@ -29,7 +29,7 @@ import {
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
-   FAUBOURG SERRURES — Serrurerie de sécurité · Marseille
+   {clientName(sessionData) ?? "Faubourg Serrures"} — Serrurerie de sécurité · Marseille
 
    Serrurier, 2e variante (la 1re est impact-192, urgence). Celle-ci vend la
    serrurerie posée à froid : blindage, A2P, coffres.

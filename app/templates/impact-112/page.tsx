@@ -1234,7 +1234,7 @@ return (
                     lineHeight: 1,
                   }}
                 >
-                  Terre & Geste
+                  {clientName(sessionData) ?? "Terre"} & Geste
                 </div>
                 <div
                   style={{

@@ -37,7 +37,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   BOULANGERIE DES CHARTRONS — Boulangerie-Pâtisserie & Café · {clientCity(sessionData) ?? "Bordeaux"}
+   {clientName(sessionData) ?? "Boulangerie des Chartrons"} — Boulangerie-Pâtisserie & Café · {clientCity(sessionData) ?? "Bordeaux"}
    Photographie réelle + chorégraphie de défilement éditoriale.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */

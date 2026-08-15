@@ -48,7 +48,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   THERMOFIX PRO — Plombier-Chauffagiste & Climatisation · {clientCity(sessionData) ?? "Marseille"}
+   {clientName(sessionData) ?? "ThermoFix Pro"} — Plombier-Chauffagiste & Climatisation · {clientCity(sessionData) ?? "Marseille"}
    Photographie réelle + chorégraphie de défilement éditoriale (urgence pro
    × sérieux technique). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -893,7 +893,7 @@ function Intro() {
       <Reveal>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 30 }}>
           <Eyebrow color={C.accent} align="center">
-            ThermoFix Pro — {clientCity(sessionData) ?? "Marseille"}
+            {clientName(sessionData) ?? "ThermoFix Pro"} — {clientCity(sessionData) ?? "Marseille"}
           </Eyebrow>
         </div>
       </Reveal>

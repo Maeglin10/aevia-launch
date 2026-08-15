@@ -2073,7 +2073,7 @@ export default function WineryTemplate() {
                 marginBottom: 24,
               }}
             >
-              Quatrième génération du domaine, Jean-Pierre a étudié l'oenologie à {clientCity(sessionData) ?? "Bordeaux"} et fait ses armes dans la vallée du Rhône avant de reprendre Château de Valroc en 2005. Sa philosophie : laisser parler le terroir, intervenir le moins possible.
+              Quatrième génération du domaine, Jean-Pierre a étudié l'oenologie à {clientCity(sessionData) ?? "Bordeaux"} et fait ses armes dans la vallée du Rhône avant de reprendre {clientName(sessionData) ?? "Château"} de Valroc en 2005. Sa philosophie : laisser parler le terroir, intervenir le moins possible.
             </p>
             <p
               style={{
@@ -2563,7 +2563,7 @@ export default function WineryTemplate() {
                   letterSpacing: "0.04em",
                 }}
               >
-                Château de Valroc
+                {clientName(sessionData) ?? "Château"} de Valroc
               </span>
             </div>
             <p

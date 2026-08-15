@@ -40,7 +40,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ATELIER CÉLESTE — Wedding Planner & Design Floral · {clientCity(sessionData) ?? "Paris"}
+   {clientName(sessionData) ?? "Atelier Céleste"} — Wedding Planner & Design Floral · {clientCity(sessionData) ?? "Paris"}
    Chorégraphie de défilement éditoriale · Palettes rosées & terracotta.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -903,7 +903,7 @@ function PhaseCaption({
           fontWeight: 500,
         }}
       >
-        Atelier Céleste · {phase.caption}
+        {clientName(sessionData) ?? "Atelier Céleste"} · {phase.caption}
       </div>
 
       {/* Roman numeral ghost */}

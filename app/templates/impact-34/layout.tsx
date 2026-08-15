@@ -77,7 +77,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <>
             <div className="relative flex items-center gap-1.5">{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
               <Radio className="w-5 h-5 text-[#F97316]" />
-              <span className="text-lg font-black tracking-tight text-white">WAVEFORM</span>
+              <span className="text-lg font-black tracking-tight text-white">{clientName(__layoutSession) ?? "WaveForm"}</span>
               {/* Pulse dot */}
               <span className="relative flex h-2 w-2 ml-0.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F97316] opacity-75" />

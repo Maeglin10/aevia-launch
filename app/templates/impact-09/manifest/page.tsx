@@ -49,7 +49,7 @@ let bp: any = null;
 let c: any = null;
 
 /* ==========================================================================
-   ASTRUM REACH ORBITAL DATASET (ULTRA DENSITY)
+   {clientName(sessionData) ?? "ASTRUM REACH ORBITAL"} DATASET (ULTRA DENSITY)
    ========================================================================== */
 
 const MISSIONS_DEMO_ANNEXE = [
@@ -585,7 +585,7 @@ export default function AstrumReachPremiumManifest() {
 
             <div className="pt-24 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.5em] text-white/10 italic">
                <div className="flex flex-wrap gap-8 font-mono">
-                  <span>©2026 ASTRUM REACH ORBITAL.</span>
+                  <span>©2026 {clientName(sessionData) ?? "ASTRUM REACH ORBITAL"}.</span>
                   <span className="hidden md:inline">//</span>
                   <a href="/templates/impact-09" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-indigo-400 transition-colors">MENTIONS LEGALES</a>
                </div>
@@ -839,7 +839,7 @@ function LegalPage() {
           <div>
              <div className="text-white/30 text-[10px] font-black uppercase mb-2">PROPRIETE INTELLECTUELLE</div>
              <p className="text-white/50 font-medium uppercase leading-relaxed font-sans">
-                Toutes les marques, images, logos, structures de code et fichiers multimédias présents sur ce site sont la propriété exclusive d'Astrum Reach Orbital Group ou de ses représentants autorisés. Toute reproduction sans accord écrit préalable fera l'objet de poursuites pénales.
+                Toutes les marques, images, logos, structures de code et fichiers multimédias présents sur ce site sont la propriété exclusive d'{clientName(sessionData) ?? "ASTRUM REACH ORBITAL"} Group ou de ses représentants autorisés. Toute reproduction sans accord écrit préalable fera l'objet de poursuites pénales.
              </p>
           </div>
         </div>

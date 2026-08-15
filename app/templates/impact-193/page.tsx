@@ -34,7 +34,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   OSTÉO GAÏA — {clientTrade(sessionData) ?? "Ostéopathe"} D.O. ({clientCity(sessionData) ?? "Montpellier"})
+   {clientName(sessionData) ?? "Ostéo Gaïa"} — {clientTrade(sessionData) ?? "Ostéopathe"} D.O. ({clientCity(sessionData) ?? "Montpellier"})
    Palette : sable doux #f5f0e8 / terracotta #c26b4c / brun chaud #5a3825 / beige foncé #3a2e28
    Fonts : Libre Baskerville (titres humanistes) + Lato
    Style : bien-être, corps, soin, chaleureux, corporel, confiance

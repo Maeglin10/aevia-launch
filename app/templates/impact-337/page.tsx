@@ -48,7 +48,7 @@ import {
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CAP ASSURANCES — Courtier en assurances · Brest
+   {clientName(sessionData) ?? "Cap Assurances"} — Courtier en assurances · Brest
    Geste signature : ComposeIn (hero-kit-3). La scène du hero part vide, puis
    les garanties arrivent une par une, chacune depuis son bord — c'est la
    couverture qui se compose devant l'assuré, pas un diaporama qui défile.

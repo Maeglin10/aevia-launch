@@ -132,7 +132,7 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
                 </svg>
               </div>
               <div>
-                <div style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: 17, fontWeight: 700, color: C.accent, letterSpacing: "0.02em" }}>Pétales & Co</div>
+                <div style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: 17, fontWeight: 700, color: C.accent, letterSpacing: "0.02em" }}>{clientName(__layoutSession) ?? "Pétales & Co"}</div>
                 <div style={{ fontFamily: "'Poppins', system-ui", fontSize: 10, color: C.sage, letterSpacing: "0.18em", textTransform: "uppercase" as const }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? "Artisan Florist"}</div>
               </div>
             </div></>

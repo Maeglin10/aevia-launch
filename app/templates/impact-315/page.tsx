@@ -726,7 +726,7 @@ export default function Page() {
                   color: C.textMuted,
                   marginBottom: 20,
                 }}>{c?.aboutText ?? <>
-                  Brise de Propreté intervient chez les particuliers pour un ménage régulier, un grand nettoyage ou du repassage à domicile. Chaque intervenant·e est formé·e, déclaré·e et assuré·e. Votre satisfaction est notre priorité absolue.
+                  {clientName(sessionData) ?? "Brise de Propreté"} intervient chez les particuliers pour un ménage régulier, un grand nettoyage ou du repassage à domicile. Chaque intervenant·e est formé·e, déclaré·e et assuré·e. Votre satisfaction est notre priorité absolue.
                 </>}</p>
                 <p style={{
                   fontSize: 15,
