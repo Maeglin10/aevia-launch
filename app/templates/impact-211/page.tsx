@@ -974,11 +974,11 @@ export default function Impact211Page() {
           >
             <span style={eyebrowStyle}>Notre histoire</span>
             <h2 style={sectionTitleStyle}>{c?.aboutTitle ?? fd?.businessName ?? <>
-              L\'art de<br />la table française
+              L'art de<br />la table française
             </>}</h2>
             <GoldLine delay={0.2} />
             <p style={{ ...bodyStyle, marginBottom: "1.5rem" }}>{c?.aboutText ?? <>
-              Fondée en 1978 par le chef Jean-Pierre Mercier dans le 7ème arrondissement de {clientCity({ formData: fd }) ?? "Paris"}, la Maison Éclat incarne quatre décennies d\'excellence gastronomique. Nichée à deux pas du Musée d\'Orsay, notre maison cultive une philosophie singulière : honorer les produits d\'exception en leur donnant la parole.
+              Fondée en 1978 par le chef Jean-Pierre Mercier dans le 7ème arrondissement de {clientCity({ formData: fd }) ?? "Paris"}, la {clientName(sessionData) ?? "Maison Éclat"} incarne quatre décennies d\'excellence gastronomique. Nichée à deux pas du Musée d\'Orsay, notre maison cultive une philosophie singulière : honorer les produits d\'exception en leur donnant la parole.
             </>}</p>
             <p style={bodyStyle}>
               Aujourd'hui portée par Adrien Mercier, fils du fondateur et formé chez Robuchon et Pierre Gagnaire, la {clientName(sessionData) ?? "Maison Éclat"} reçoit deux étoiles Michelin depuis 2019. Chaque assiette est une conversation entre la mémoire familiale et l'audace contemporaine.
@@ -1408,7 +1408,7 @@ export default function Impact211Page() {
               <GoldLine />
 
               <p style={{ ...bodyStyle, marginBottom: "1.5rem" }}>
-                Né dans les cuisines de la Maison Éclat, Adrien Mercier a grandi entre les odeurs du beurre noisette et les discussions animées de son père avec les producteurs. À vingt-deux ans, il quitte {clientCity({ formData: fd }) ?? "Paris"} pour parfaire son art auprès des plus grands noms de la gastronomie mondiale.
+                Né dans les cuisines de la {clientName(sessionData) ?? "Maison Éclat"}, Adrien Mercier a grandi entre les odeurs du beurre noisette et les discussions animées de son père avec les producteurs. À vingt-deux ans, il quitte {clientCity({ formData: fd }) ?? "Paris"} pour parfaire son art auprès des plus grands noms de la gastronomie mondiale.
               </p>
               <p style={{ ...bodyStyle, marginBottom: "1.5rem" }}>
                 Son retour en 2017 marque un tournant : il impose sa propre lecture de la gastronomie française, plus introspective, nourrie de voyages et d'une obsession pour le terroir. En 2019, la {clientName(sessionData) ?? "Maison Éclat"} décroche sa deuxième étoile Michelin.

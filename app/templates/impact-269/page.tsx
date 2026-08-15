@@ -2150,7 +2150,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2007–2026 Boulangerie des Chartrons. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2007–2026 {clientName(sessionData) ?? "Boulangerie des Chartrons"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#commander" style={{ color: 'inherit', textDecoration: 'none' }}>

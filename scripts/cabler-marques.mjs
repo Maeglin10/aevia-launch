@@ -306,16 +306,18 @@ for (const p of parcourir(RACINE)) {
   }
 
   /*
-     3. La ligne de prose pure.
+     3. Le texte d'une ligne, lu ligne par ligne.
 
-     Le balayage à états reste faillible : sur trois thèmes il perd le fil au
-     milieu du fichier, et « Rejoindre FORGE », « la Maison Éclat incarne quatre
-     décennies » ou « Ledger & Associés nous accompagne depuis 10 ans »
-     survivaient à tout le reste.
+     Le balayage à états est juste sur la plupart des fichiers, mais il lui
+     arrive de perdre le fil au milieu d'un thème — et tout ce qui suit lui
+     échappe alors, y compris « la Maison Éclat incarne quatre décennies »
+     posé en clair entre deux expressions.
 
-     Une ligne sans balise, sans accolade, sans guillemet et sans signe égal ne
-     peut être que du texte. On vérifie seulement qu'elle ne se trouve pas à
-     l'intérieur d'un gabarit à accents graves, où il faudrait interpoler.
+     Cette passe-ci ne dépend d'aucun état antérieur : sur chaque ligne, elle
+     écarte ce qui est entre chevrons (une balise), entre accolades (une
+     expression) et entre guillemets (une chaîne), puis remplace dans ce qui
+     reste. Une ligne à l'intérieur d'un gabarit à accents graves est laissée
+     de côté : il y faudrait une interpolation.
   */
   {
     const lignes = src.split("\n");
@@ -325,19 +327,52 @@ for (const p of parcourir(RACINE)) {
       const dansGabarit = gravesAvant % 2 === 1;
       gravesAvant += (l.match(/`/g) ?? []).length;
       if (dansGabarit) continue;
-      /*
-         L'apostrophe est admise : elle est française, pas délimitante. Les
-         thèmes l'échappent parfois — « Aujourd\'hui portée par Adrien
-         Mercier » — et ce contre-oblique s'affiche tel quel à l'écran ; on le
-         retire au passage.
-      */
-      if (/[<>{}"=]/.test(l)) continue;
-      if (/\\'/.test(l)) { l = l.replace(/\\'/g, "'"); lignes[k] = l; }
+
+      /* Le contre-oblique d'une apostrophe échappée s'affiche tel quel. */
+      if (/\\'/.test(l) && !/["`]/.test(l) && !/(^|[^\\])'/.test(l)) {
+        l = l.replace(/\\'/g, "'");
+        lignes[k] = l;
+      }
+
       re.lastIndex = 0;
       if (!re.test(l)) continue;
-      re.lastIndex = 0;
-      faits += (l.match(re) ?? []).length;
-      lignes[k] = l.replace(re, `{${lecture}}`);
+
+      /* Les zones hors balise, hors expression, hors chaîne. */
+      const dehors = [];
+      let profChevron = 0, profAccolade = 0, guillemet = null, debut = 0;
+      for (let i = 0; i < l.length; i++) {
+        const c = l[i];
+        if (guillemet) {
+          if (c === "\\") i++;
+          else if (c === guillemet) { guillemet = null; debut = i + 1; }
+          continue;
+        }
+        if (c === '"' || c === "'" || c === "`") {
+          if (profChevron === 0 && profAccolade === 0) { dehors.push([debut, i]); }
+          guillemet = c;
+          continue;
+        }
+        if (c === "<") { if (profChevron === 0 && profAccolade === 0) dehors.push([debut, i]); profChevron++; continue; }
+        if (c === ">") { if (profChevron > 0) profChevron--; if (profChevron === 0 && profAccolade === 0) debut = i + 1; continue; }
+        if (c === "{") { if (profChevron === 0 && profAccolade === 0) dehors.push([debut, i]); profAccolade++; continue; }
+        if (c === "}") { if (profAccolade > 0) profAccolade--; if (profChevron === 0 && profAccolade === 0) debut = i + 1; continue; }
+      }
+      if (profChevron === 0 && profAccolade === 0 && !guillemet) dehors.push([debut, l.length]);
+
+      let sortie = "", curseur = 0, touche = 0;
+      for (const [a, b] of dehors) {
+        if (a < curseur || b <= a) continue;
+        const morceau = l.slice(a, b);
+        /* Du code, pas du texte : une affectation, un point-virgule. */
+        if (/[=;+()]/.test(morceau)) continue;
+        re.lastIndex = 0;
+        if (!re.test(morceau)) continue;
+        re.lastIndex = 0;
+        touche += (morceau.match(re) ?? []).length;
+        sortie += l.slice(curseur, a) + morceau.replace(re, `{${lecture}}`);
+        curseur = b;
+      }
+      if (touche) { faits += touche; lignes[k] = sortie + l.slice(curseur); }
     }
     src = lignes.join("\n");
   }

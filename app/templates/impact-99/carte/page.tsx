@@ -1652,7 +1652,7 @@ export default function EmberGrillPage() {
         <div className="max-w-[1600px] mx-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10">
           <div className="flex items-center gap-12">
             <span>
-              &copy; {new Date().getFullYear()} EMBER GRILL & CELLAR GROUP.
+              &copy; {new Date().getFullYear()} {clientName(sessionData) ?? "Ember"} GRILL & CELLAR GROUP.
             </span>
             <div className="flex gap-8">
               <span>USDA_PRIME_CERTIFIED</span>

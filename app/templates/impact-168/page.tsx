@@ -2846,7 +2846,7 @@ function ProductDetail({
             )}
           </div>
           <p style={{ fontSize: 15, color: C.creamDim, lineHeight: 1.8, marginBottom: 32, fontWeight: 300, fontFamily: C.sans, maxWidth: 460 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-12.texte") ?? (<>
-            Confectionnée en {p.material.toLowerCase()}, la pièce {p.name} incarne l'élégance intemporelle d'Éclat.
+            Confectionnée en {p.material.toLowerCase()}, la pièce {p.name} incarne l'élégance intemporelle d'{clientName(sessionData) ?? "Éclat"}.
             Coupe étudiée, finitions soignées et matière certifiée pour traverser les saisons sans jamais se démoder.
           </>)}</p>
 

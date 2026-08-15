@@ -148,7 +148,7 @@ function InquiryModal({
                     Demande envoyée
                   </h3>
                   <p className="text-sm text-[#11182a]/50 leading-relaxed">
-                    Merci {name || ""}. Un conseiller Alta Transactions vous recontactera sous 24h{subject ? ` au sujet de « ${subject} »` : ""}.
+                    Merci {name || ""}. Un conseiller {clientName(sessionData) ?? "Alta Transactions"} vous recontactera sous 24h{subject ? ` au sujet de « ${subject} »` : ""}.
                   </p>
                 </div>
               ) : (

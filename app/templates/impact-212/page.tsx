@@ -1571,7 +1571,7 @@ return (
                         fontSize: 28, fontWeight: 800, color: C.white, marginBottom: 12,
                       }}>Demande envoyée !</h3>
                       <p style={{ color: C.textMuted, fontSize: 15, lineHeight: 1.7 }}>
-                        Merci {formData.name.split(' ')[0] || ''} ! Un conseiller Therma Pro vous contactera dans les 24h pour organiser votre diagnostic gratuit.
+                        Merci {formData.name.split(' ')[0] || ''} ! Un conseiller {clientName(sessionData) ?? "THERMA PRO"} vous contactera dans les 24h pour organiser votre diagnostic gratuit.
                       </p>
                     </motion.div>
                   ) : (

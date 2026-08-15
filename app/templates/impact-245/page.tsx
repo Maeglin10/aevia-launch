@@ -2096,7 +2096,7 @@ function Footer() {
           color: 'rgba(250,245,238,0.42)',
         }}
       >
-        <span>© 2011–2026 Maison Brûlot. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2011–2026 {clientName(sessionData) ?? "Maison Brûlot"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

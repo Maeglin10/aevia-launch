@@ -2165,7 +2165,7 @@ const Contact: React.FC = () => {
                     margin: '0 auto',
                   }}
                 >
-                  Merci {form.nom || ''}. Un conseiller Solis vous recontactera
+                  Merci {form.nom || ''}. Un conseiller {clientName(sessionData) ?? "Solis"} vous recontactera
                   sous 24 heures.
                 </p>
               </div>

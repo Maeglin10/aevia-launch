@@ -1976,7 +1976,7 @@ function Footer() {
           color: 'rgba(200,223,196,0.44)',
         }}
       >
-        <span>© 2010–2026 Atelier Terra. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2010–2026 {clientName(sessionData) ?? "Atelier Terra"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#at-type" style={{ color: 'inherit', textDecoration: 'none' }}>Mentions légales</a>
           <a href="#at-type" style={{ color: 'inherit', textDecoration: 'none' }}>Confidentialité</a>

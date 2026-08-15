@@ -2156,7 +2156,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2024–2026 Ostéo République · {clientCity(sessionData) ?? "Paris"} 11e. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2024–2026 {clientName(sessionData) ?? "Ostéo République"} · {clientCity(sessionData) ?? "Paris"} 11e. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
