@@ -424,9 +424,9 @@ export default function PrismeFormationPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO = HERO_LIVE();
 
   /* Blocs vivants : recalculés à chaque rendu, une fois la session affectée. */
-  HERO = HERO_LIVE();
   STATS = resolveList(clientStats(sessionData), STATS_SOURCE);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_SOURCE);
   REPERES = resolveList(clientList(sessionData, "contact.reperes"), REPERES_SOURCE);

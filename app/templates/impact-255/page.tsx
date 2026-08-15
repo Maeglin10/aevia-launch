@@ -2107,6 +2107,8 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
 
 
   EDIT_ROWS = resolveList(
@@ -2122,8 +2124,6 @@ export default function Page() {
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
-  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
 
   if (brand) {
     C = {

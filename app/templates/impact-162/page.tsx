@@ -142,12 +142,12 @@ export default function EssentialCafePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  MENU_ITEMS_DEMO = MENU_ITEMS_DEMO_LIVE();
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  MENU_ITEMS_DEMO = MENU_ITEMS_DEMO_LIVE();
 
   useFonts()
   const [menuOpen, setMenuOpen] = useState(false)

@@ -290,9 +290,9 @@ export default function DuoPeinturesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
 
   /* Blocs vivants : recalculés à chaque rendu, une fois la session affectée. */
-  AVIS_SOURCE = AVIS_SOURCE_LIVE();
   STATS = resolveList(clientStats(sessionData), STATS_SOURCE);
   ENGAGEMENT = resolveList(clientCertifications(sessionData) ?? clientList(sessionData, "engagements.liste"), ENGAGEMENT_SOURCE);
   SERVICES_DEMO = resolveList(

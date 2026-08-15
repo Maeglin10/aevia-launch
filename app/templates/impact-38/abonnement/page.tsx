@@ -196,11 +196,11 @@ export default function AbonnementPage() {
   }, []);
 
   sessionData = __session;
+  REVIEW_HIGHLIGHTS = REVIEW_HIGHLIGHTS_LIVE();
   memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
-  REVIEW_HIGHLIGHTS = REVIEW_HIGHLIGHTS_LIVE();
 
   const [billing, setBilling] = useState<"mensuel" | "bimestriel">("mensuel");
   const [submitted, setSubmitted] = useState(false);

@@ -3196,6 +3196,10 @@ function Impact276Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  PHOTO = PHOTO_LIVE();
+  SLIDES = SLIDES_LIVE();
+  SCHEDULE = SCHEDULE_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
@@ -3203,10 +3207,6 @@ function Impact276Page() {
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
-  PHOTO = PHOTO_LIVE();
-  SLIDES = SLIDES_LIVE();
-  SCHEDULE = SCHEDULE_LIVE();
   if (brand) {
     C = { ...C, orange: brand };
   }

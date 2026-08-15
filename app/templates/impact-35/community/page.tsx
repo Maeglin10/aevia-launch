@@ -111,13 +111,13 @@ export default function CommunityPage() {
   }, []);
 
   sessionData = __session;
+  MEMBERS_DATA = MEMBERS_DATA_LIVE();
+  EVENTS_DATA = EVENTS_DATA_LIVE();
+  TESTIMONIALS_DATA = TESTIMONIALS_DATA_LIVE();
   memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
-  MEMBERS_DATA = MEMBERS_DATA_LIVE();
-  EVENTS_DATA = EVENTS_DATA_LIVE();
-  TESTIMONIALS_DATA = TESTIMONIALS_DATA_LIVE();
 
   return (
     <div style={{ padding: "60px 5%", background: C.bg, minHeight: "100dvh" }}>

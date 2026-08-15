@@ -685,6 +685,11 @@ export default function OrbitAIPage() {
 
 
   sessionData = session;
+  FAQ_INLINE_SOURCE = FAQ_INLINE_SOURCE_LIVE();
+  BESTSELLERS_DEMO_SOURCE = BESTSELLERS_DEMO_SOURCE_LIVE();
+  MATERIALS_DEMO_SOURCE = MATERIALS_DEMO_SOURCE_LIVE();
+  PRODUCTS_SOURCE = PRODUCTS_SOURCE_LIVE();
+  HERO_PRODUCTS_DEMO_SOURCE = HERO_PRODUCTS_DEMO_SOURCE_LIVE();
 
 
 
@@ -695,11 +700,6 @@ export default function OrbitAIPage() {
 
   memoriserSession(sessionData);
   c = session?.generatedContent;
-  FAQ_INLINE_SOURCE = FAQ_INLINE_SOURCE_LIVE();
-  BESTSELLERS_DEMO_SOURCE = BESTSELLERS_DEMO_SOURCE_LIVE();
-  MATERIALS_DEMO_SOURCE = MATERIALS_DEMO_SOURCE_LIVE();
-  PRODUCTS_SOURCE = PRODUCTS_SOURCE_LIVE();
-  HERO_PRODUCTS_DEMO_SOURCE = HERO_PRODUCTS_DEMO_SOURCE_LIVE();
 
   HERO_PRODUCTS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...HERO_PRODUCTS_DEMO_SOURCE[i % HERO_PRODUCTS_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? HERO_PRODUCTS_DEMO_SOURCE[i % HERO_PRODUCTS_DEMO_SOURCE.length].price })),

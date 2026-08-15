@@ -167,6 +167,7 @@ export default function ConservatoireAccordPage() {
 
   fd = session?.formData;
   sessionData = session;
+  PROFESSEURS = PROFESSEURS_LIVE();
   memoriserSession(sessionData);
   rafraichirPartage();
   c = session?.generatedContent;
@@ -186,7 +187,6 @@ export default function ConservatoireAccordPage() {
     TEMOIGNAGES_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  PROFESSEURS = PROFESSEURS_LIVE();
   if (brand) {
     C = { ...C, amber: brand };
   }

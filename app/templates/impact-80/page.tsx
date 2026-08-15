@@ -221,6 +221,8 @@ export default function SymmetryStudioPage() {
 
 
   sessionData = session;
+  TEAM_DEMO = TEAM_DEMO_LIVE();
+  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 
 
   memoriserSession(sessionData);
@@ -228,8 +230,6 @@ export default function SymmetryStudioPage() {
 
   rafraichirPartage();
   c = session?.generatedContent;
-  TEAM_DEMO = TEAM_DEMO_LIVE();
-  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 
 
   PRESTATIONS_INLINE = resolveList(

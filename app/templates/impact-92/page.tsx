@@ -280,6 +280,7 @@ export default function SkylineConciergePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  LISTINGS_DEMO = LISTINGS_DEMO_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,
@@ -294,7 +295,6 @@ export default function SkylineConciergePage() {
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  LISTINGS_DEMO = LISTINGS_DEMO_LIVE();
 
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);

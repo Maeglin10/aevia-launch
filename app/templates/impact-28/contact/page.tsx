@@ -112,9 +112,9 @@ export default function ContactPage() {
   memoriserSession(__session);
 
   fd = __session?.formData;
+  offices = offices_LIVE();
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
-  offices = offices_LIVE();
 
   const [activeOffice, setActiveOffice] = useState(0)
   const [formState, setFormState] = useState<FormState>({

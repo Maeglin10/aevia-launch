@@ -2147,6 +2147,9 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHASES_DEMO = PHASES_DEMO_LIVE();
+  EDIT_ROWS = EDIT_ROWS_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
 
 
@@ -2159,9 +2162,6 @@ export default function Page() {
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  PHASES_DEMO = PHASES_DEMO_LIVE();
-  EDIT_ROWS = EDIT_ROWS_LIVE();
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
   }

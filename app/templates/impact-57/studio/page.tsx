@@ -254,11 +254,11 @@ export default function StudioPage() {
   }, []);
 
   sessionData = __session;
+  AWARDS = AWARDS_LIVE();
   memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
-  AWARDS = AWARDS_LIVE();
 
   return (
     <div style={{ background: C.bg, minHeight: '100dvh' }}>

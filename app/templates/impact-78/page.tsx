@@ -185,12 +185,12 @@ export default function AetherRoasteryPage() {
   fd = session?.formData;
 
   sessionData = session;
+  WORK_REEL_DEMO = WORK_REEL_DEMO_LIVE();
 
   memoriserSession(sessionData);
 
   rafraichirPartage();
   c = session?.generatedContent;
-  WORK_REEL_DEMO = WORK_REEL_DEMO_LIVE();
 
   EXPERTISE = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...EXPERTISE_SOURCE[i % EXPERTISE_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),

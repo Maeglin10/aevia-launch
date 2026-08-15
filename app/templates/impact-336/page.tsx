@@ -410,8 +410,8 @@ export default function PharmacieHorlogePage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-
   ZONES_SOURCE = ZONES_SOURCE_LIVE();
+
 
   const CLIENT_SERVICES = clientServices(sessionData);
 

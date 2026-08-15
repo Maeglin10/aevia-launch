@@ -2217,6 +2217,10 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
+  STYLES_DEMO = STYLES_DEMO_LIVE();
+  ARTISTS_DEMO = ARTISTS_DEMO_LIVE();
+  PHOTO_BASE = PHOTO_BASE_LIVE();
 
   EDIT_ROWS_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_DEMO_SOURCE[i % EDIT_ROWS_DEMO_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
@@ -2231,10 +2235,6 @@ export default function Page() {
     img: clientPhotos(sessionData)[0 + i] || row.img,
   }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
-  STYLES_DEMO = STYLES_DEMO_LIVE();
-  ARTISTS_DEMO = ARTISTS_DEMO_LIVE();
-  PHOTO_BASE = PHOTO_BASE_LIVE();
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
   }

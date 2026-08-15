@@ -2825,6 +2825,9 @@ function Impact285Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  TEAM_DEMO = TEAM_DEMO_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  PHOTO = PHOTO_LIVE();
 
 
   TESTIMONIALS_DEMO = resolveList(
@@ -2832,9 +2835,6 @@ function Impact285Page() {
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  TEAM_DEMO = TEAM_DEMO_LIVE();
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
-  PHOTO = PHOTO_LIVE();
   if (brand) {
     C = { ...C, salmon: brand, salmonLight: shadeColor(brand, 25) };
   }

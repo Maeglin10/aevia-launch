@@ -213,12 +213,12 @@ export default function VanguardLegalPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HERO_CASES_DEMO = HERO_CASES_DEMO_LIVE();
   HERO_CASES = HERO_CASES_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(sessionData)[0 + i] || row.img,
   }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  HERO_CASES_DEMO = HERO_CASES_DEMO_LIVE();
 
   const [scrolled, setScrolled] = useState(false)
 

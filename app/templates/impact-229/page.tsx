@@ -185,6 +185,7 @@ export default function EclatSpaPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  FORFAITS = FORFAITS_LIVE();
 
 
 
@@ -198,7 +199,6 @@ export default function EclatSpaPage() {
   );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  FORFAITS = FORFAITS_LIVE();
   if (brand) {
     C = { ...C, accent: brand };
   }

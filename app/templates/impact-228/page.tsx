@@ -158,6 +158,8 @@ export default function AquaThermPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  URGENCE = URGENCE_LIVE();
+  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
 
 
   ENTRETIEN = resolveList(
@@ -175,8 +177,6 @@ export default function AquaThermPage() {
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   GARANTIES = resolveList(clientCertifications(sessionData), GARANTIES_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  URGENCE = URGENCE_LIVE();
-  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   if (brand) {
     C = { ...C, accent: brand };
   }

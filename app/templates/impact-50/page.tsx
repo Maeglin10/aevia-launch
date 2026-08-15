@@ -186,6 +186,7 @@ export default function CabinetMoreauPage() {
 
   fd = session?.formData;
   sessionData = session;
+  HERO_VIEWS_DEMO = HERO_VIEWS_DEMO_LIVE();
   memoriserSession(sessionData);
   c = session?.generatedContent;
 
@@ -208,7 +209,6 @@ export default function CabinetMoreauPage() {
     AVIS_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  HERO_VIEWS_DEMO = HERO_VIEWS_DEMO_LIVE();
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
   }

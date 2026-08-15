@@ -896,13 +896,13 @@ export default function ServicesPage() {
   }, []);
 
   sessionData = __session;
+  SPECIALTIES_DETAIL = SPECIALTIES_DETAIL_LIVE();
+  PROCESS_STEPS = PROCESS_STEPS_LIVE();
   memoriserSession(__session);
 
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
-  SPECIALTIES_DETAIL = SPECIALTIES_DETAIL_LIVE();
-  PROCESS_STEPS = PROCESS_STEPS_LIVE();
 
   return (
     <>

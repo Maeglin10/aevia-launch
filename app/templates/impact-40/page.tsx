@@ -647,10 +647,10 @@ export default function TerreVivantePage() {
 
   fd = session?.formData;
   sessionData = session;
+  testimonials_SOURCE = testimonials_SOURCE_LIVE();
   memoriserSession(sessionData);
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  testimonials_SOURCE = testimonials_SOURCE_LIVE();
   plans = plans_LIVE();
 
   STATS_INLINE = resolveList(

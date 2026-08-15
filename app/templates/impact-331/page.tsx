@@ -387,9 +387,9 @@ export default function RegardNordPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  FOCALES = FOCALES_LIVE();
   brand = fd?.brandColor ?? null;
 
-  FOCALES = FOCALES_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...SERVICES_SOURCE[i % SERVICES_SOURCE.length],

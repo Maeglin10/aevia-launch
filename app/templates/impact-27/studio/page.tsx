@@ -324,15 +324,15 @@ export default function StudioPage() {
   }, []);
 
   sessionData = __session;
+  awards = awards_LIVE();
+  crew = crew_LIVE();
+  techStack = techStack_LIVE();
+  timeline = timeline_LIVE();
   memoriserSession(__session);
 
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
-  awards = awards_LIVE();
-  crew = crew_LIVE();
-  techStack = techStack_LIVE();
-  timeline = timeline_LIVE();
 
   return (
     <div className="relative min-h-dvh">

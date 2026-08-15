@@ -873,13 +873,13 @@ export default function Home() {
   fd = session?.formData;
 
   sessionData = session;
+  testimonials_SOURCE = testimonials_SOURCE_LIVE();
 
   memoriserSession(sessionData);
 
   rafraichirPartage();
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  testimonials_SOURCE = testimonials_SOURCE_LIVE();
 
 
   testimonials = resolveList(

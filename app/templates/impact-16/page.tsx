@@ -147,6 +147,7 @@ export default function ObscuraPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  WORKS_DEMO = WORKS_DEMO_LIVE();
 
 
   useEffect(() => {
@@ -172,7 +173,6 @@ export default function ObscuraPage() {
     SERVICES_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  WORKS_DEMO = WORKS_DEMO_LIVE();
 
   useFonts()
   const [page, setPage] = useState<ActivePage>("home")

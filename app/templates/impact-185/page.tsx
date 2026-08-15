@@ -275,6 +275,7 @@ export default function GentlemansCutPage() {
   fd = session?.formData;
   sessionData = session;
   c = session?.generatedContent;
+  TEMOIGNAGES = TEMOIGNAGES_LIVE();
 
 
   SERVICES_DEMO = resolveList(clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title , ...(s.price ? { price: s.price } : {})})), SERVICES_SOURCE);
@@ -287,7 +288,6 @@ export default function GentlemansCutPage() {
     SERVICES_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  TEMOIGNAGES = TEMOIGNAGES_LIVE();
 
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)

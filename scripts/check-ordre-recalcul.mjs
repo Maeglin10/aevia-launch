@@ -43,11 +43,39 @@ for (const p of parcourir("app/templates")) {
     if (AFFECTATION.test(lignes[i]) && !/_LIVE\(\)/.test(lignes[i])) derniere = i;
   }
   if (derniere < 0) continue;
+  const src = lignes.join("\n");
+
+  /* Ce que lit le corps d'une fonction `X_LIVE`. */
+  function litQuoi(nom) {
+    const debut = src.indexOf(`function ${nom}_LIVE(`);
+    if (debut < 0) return new Set();
+    let i = src.indexOf("{", debut), prof = 0, fin = i;
+    while (fin < src.length) {
+      if (src[fin] === "{") prof++;
+      else if (src[fin] === "}") { prof--; if (prof === 0) break; }
+      fin++;
+    }
+    const corps = src.slice(i, fin);
+    return new Set(["sessionData", "fd", "bp", "c"].filter((v) => new RegExp(`\\b${v}\\b`).test(corps)));
+  }
+
   for (let i = 0; i < lignes.length; i++) {
     const m = lignes[i].match(/^\s+([A-Za-z_$][\w$]*)\s*=\s*\1_LIVE\(\);/);
-    /* Et seulement si l'affectation est du même bloc : à portée de vingt lignes. */
-    if (m && i < derniere && derniere - i <= 20) {
-      fautes.push(`${p.slice("app/templates/".length)}:${i + 1}  ${m[1]} recalculé avant la ligne ${derniere + 1}`);
+    if (!m) continue;
+    const lues = litQuoi(m[1]);
+    if (!lues.size) continue;
+    /*
+       On n'accuse que si la variable que la fonction lit vraiment est affectée
+       plus bas. Sans cette vérification, soixante-quatre recalculs
+       parfaitement placés étaient signalés parce qu'une autre variable de
+       session, qu'ils n'emploient pas, se trouvait plus loin.
+    */
+    for (let j = i + 1; j < Math.min(i + 21, lignes.length); j++) {
+      const a = lignes[j].match(/^\s+(sessionData|fd|bp|c)\s*=\s*[^=]/);
+      if (a && lues.has(a[1]) && !/_LIVE\(\)/.test(lignes[j])) {
+        fautes.push(`${p.slice("app/templates/".length)}:${i + 1}  ${m[1]} lit ${a[1]}, affectée ligne ${j + 1}`);
+        break;
+      }
     }
   }
 }

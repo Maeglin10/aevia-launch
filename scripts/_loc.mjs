@@ -1,14 +1,28 @@
 /* Où la marque s'affiche-t-elle vraiment ? (outil de travail) */
 import { chromium } from "playwright";
 const B = "http://127.0.0.1:3000";
+const COURRIEL = "contact@ateliers-vidal.fr";
+const COMPTE = "ateliersvidal";
+const FORM = {
+  businessName: "Ateliers Vidal & Fils", businessType: "couvreur",
+  tagline: "Zinc, ardoise et tuile plate depuis 1974", city: "Annecy",
+  brandColor: "#7c3aed", email: COURRIEL, phone: "04 50 71 82 93",
+  instagram: `@${COMPTE}`,
+};
+const PROFIL = {
+  services: [{ name: "Réfection complète de toiture", price: "à partir de 9 400 €", description: "Dépose, charpente vérifiée." }],
+  menu: [{ name: "Réfection complète de toiture", price: "9 400 €", category: "Toiture" }],
+  legal: { companyAddress: "14 route des Creuses, 74000 Annecy", companyName: "Ateliers Vidal & Fils" },
+  contacts: { general: { email: COURRIEL, phone: "04 50 71 82 93" } },
+};
 const nav = await chromium.launch();
 const ctx = await nav.newContext({ viewport: { width: 1440, height: 900 } });
 for (const arg of process.argv.slice(2)) {
   const [page_, marque] = arg.split("|");
   const theme = page_.split("/")[0];
-  const r = await fetch(`${B}/api/sessions`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ formData: { businessName: "Ateliers Vidal & Fils", businessType: "couvreur", city: "Annecy", email: "contact@ateliers-vidal.fr", instagram: "@ateliersvidal", template: theme } }) });
+  const r = await fetch(`${B}/api/sessions`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ formData: { ...FORM, template: theme } }) });
   const { sessionId } = await r.json();
-  await fetch(`${B}/api/sessions?id=${sessionId}`, { method: "PATCH", headers: { "content-type": "application/json" }, body: JSON.stringify({ businessProfile: { services: [{ name: "Réfection complète de toiture", price: "à partir de 9 400 €", description: "Dépose, charpente vérifiée." }], menu: [{ name: "Réfection complète de toiture", price: "9 400 €", category: "Toiture" }], legal: { companyAddress: "14 route des Creuses, 74000 Annecy", companyName: "Ateliers Vidal & Fils" }, contacts: { general: { email: "contact@ateliers-vidal.fr", phone: "04 50 71 82 93" } } } }) });
+  await fetch(`${B}/api/sessions?id=${sessionId}`, { method: "PATCH", headers: { "content-type": "application/json" }, body: JSON.stringify({ businessProfile: PROFIL }) });
   const p = await ctx.newPage();
   const att = p.waitForResponse((x) => x.url().includes("/api/sessions"), { timeout: 25000 }).catch(() => null);
   await p.goto(`${B}/templates/${page_}?session=${sessionId}`, { waitUntil: "domcontentloaded" });

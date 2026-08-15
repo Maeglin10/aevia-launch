@@ -104,11 +104,11 @@ export default function SectorsPage() {
   }, []);
 
   sessionData = __session;
+  SECTORS_DETAIL = SECTORS_DETAIL_LIVE();
   memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
-  SECTORS_DETAIL = SECTORS_DETAIL_LIVE();
 
   return (
     <div style={{ padding: "60px 5%", background: C.bg, minHeight: "100dvh" }}>

@@ -423,10 +423,10 @@ export default function TilleulsIdelPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  ENGAGEMENT_DEMO = ENGAGEMENT_DEMO_LIVE();
 
   /* Les blocs qui lisent la session sont recalculés ici, après affectation :
      évalués à l'import, ils resteraient ceux de la démonstration pour toujours. */
-  ENGAGEMENT_DEMO = ENGAGEMENT_DEMO_LIVE();
 
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),

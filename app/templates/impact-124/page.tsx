@@ -175,6 +175,7 @@ export default function MorphStudioPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  MANIFEST = MANIFEST_LIVE();
 
 
   useEffect(() => {
@@ -195,7 +196,6 @@ export default function MorphStudioPage() {
     });
   });
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  MANIFEST = MANIFEST_LIVE();
 
   // Client services drive the capability cards; demo id/icon cycle through.
   const SERVICES = resolveList(

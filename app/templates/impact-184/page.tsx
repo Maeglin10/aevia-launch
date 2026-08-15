@@ -131,6 +131,8 @@ export default function BrilloNetPage() {
   fd = session?.formData;
   sessionData = session;
   c = session?.generatedContent;
+  ZONES_DEMO = ZONES_DEMO_LIVE();
+  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
 
 
 
@@ -151,8 +153,6 @@ export default function BrilloNetPage() {
     ZONES_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  ZONES_DEMO = ZONES_DEMO_LIVE();
-  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
 
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)

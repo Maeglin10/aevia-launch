@@ -583,11 +583,11 @@ export default function BioValleePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-
   HERO_SOURCE = HERO_SOURCE_LIVE();
   SITES_SOURCE = SITES_SOURCE_LIVE();
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   ZONES_SOURCE = ZONES_SOURCE_LIVE();
+
 
   const CLIENT_SERVICES = clientServices(sessionData);
 

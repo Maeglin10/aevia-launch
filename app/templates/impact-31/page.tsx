@@ -1054,8 +1054,8 @@ export default function Impact31() {
   memoriserSession(sessionData);
   rafraichirPartage();
   bp = session?.businessProfile;
-  c = session?.generatedContent;
   CLASSES = CLASSES_LIVE();
+  c = session?.generatedContent;
 
 
   TEACHERS = resolveList(

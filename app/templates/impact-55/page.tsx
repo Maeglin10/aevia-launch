@@ -162,10 +162,10 @@ export default function CabinetRenardPage() {
 
   fd = session?.formData;
   sessionData = session;
-  memoriserSession(sessionData);
-  c = session?.generatedContent;
   EQUIPE_DEMO = EQUIPE_DEMO_LIVE();
   ENGAGEMENTS_DEMO = ENGAGEMENTS_DEMO_LIVE();
+  memoriserSession(sessionData);
+  c = session?.generatedContent;
 
 
 

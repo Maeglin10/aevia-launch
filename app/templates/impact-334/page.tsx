@@ -518,10 +518,10 @@ export default function StudioCulinaPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-
   HERO_SOURCE = HERO_SOURCE_LIVE();
   AVIS_SOURCE = AVIS_SOURCE_LIVE();
   ZONES_SOURCE = ZONES_SOURCE_LIVE();
+
 
   const CLIENT_SERVICES = clientServices(sessionData);
 

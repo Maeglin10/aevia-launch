@@ -224,9 +224,9 @@ export default function SkewOSHome() {
   fd = session?.formData;
 
   sessionData = session;
+  EQUIPE_INLINE_SOURCE = EQUIPE_INLINE_SOURCE_LIVE();
   memoriserSession(sessionData);
   c = session?.generatedContent;
-  EQUIPE_INLINE_SOURCE = EQUIPE_INLINE_SOURCE_LIVE();
 
   STATS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...STATS_SOURCE[i % STATS_SOURCE.length], label: s.title, n: s.desc || "" || "" })),

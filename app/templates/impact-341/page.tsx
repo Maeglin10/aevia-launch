@@ -277,12 +277,12 @@ export default function ConduiteZeroStressPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  METHODE = METHODE_LIVE();
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };
   }
 
-  METHODE = METHODE_LIVE();
 
   /*
     Le mot animé appartient au titre : sans lui, un plombier finissait la

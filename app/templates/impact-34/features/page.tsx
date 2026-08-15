@@ -129,11 +129,11 @@ export default function FeaturesPage() {
   }, []);
 
   sessionData = __session;
+  DETAIL_FEATURES = DETAIL_FEATURES_LIVE();
   memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
-  DETAIL_FEATURES = DETAIL_FEATURES_LIVE();
 
   return (
     <div className="py-20 px-6 max-w-7xl mx-auto">

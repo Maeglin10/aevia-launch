@@ -2591,6 +2591,7 @@ export default function Impact286Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PHOTO = PHOTO_LIVE();
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -2611,7 +2612,6 @@ export default function Impact286Page() {
   });
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
-  PHOTO = PHOTO_LIVE();
   if (brand) {
     C = { ...C, gold: brand, goldLight: shadeColor(brand, 25) };
   }

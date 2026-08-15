@@ -219,14 +219,14 @@ export default function HorologsLuxePage() {
   fd = session?.formData;
 
   sessionData = session;
+  GRID_PHOTOS_DEMO = GRID_PHOTOS_DEMO_LIVE();
+  AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
 
   memoriserSession(sessionData);
 
   rafraichirPartage();
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  GRID_PHOTOS_DEMO = GRID_PHOTOS_DEMO_LIVE();
-  AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
 
 
 

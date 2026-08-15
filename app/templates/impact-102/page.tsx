@@ -257,8 +257,8 @@ export default function QBitLabsPage() {
   );
 
   bp = (session as any)?.businessProfile;
-  brand = fd?.brandColor ?? null; // null = keep template's original color
   TEAM = TEAM_LIVE();
+  brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)

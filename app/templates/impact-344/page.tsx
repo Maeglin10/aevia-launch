@@ -405,9 +405,9 @@ export default function AquaVertPressingPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  METHODE = METHODE_LIVE();
 
   /* Blocs vivants : recalculés à chaque rendu, une fois la session affectée. */
-  METHODE = METHODE_LIVE();
   STATS = resolveList(clientStats(sessionData), STATS_SOURCE);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_SOURCE);
   ZONES = resolveList(clientAreas(sessionData) ?? clientList(sessionData, "collecte.zones"), ZONES_SOURCE);

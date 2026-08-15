@@ -99,11 +99,11 @@ export default function SpacesPage() {
   }, []);
 
   sessionData = __session;
+  SPACES_DATA = SPACES_DATA_LIVE();
   memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
-  SPACES_DATA = SPACES_DATA_LIVE();
 
   return (
     <div style={{ padding: "60px 5%", background: C.bg, minHeight: "100dvh" }}>
