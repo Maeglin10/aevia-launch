@@ -26,6 +26,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientSlug,
   clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -645,7 +646,7 @@ export default function NexusSaaSPage() {
               <div className="p-6 overflow-x-auto text-white/70">
                 <div className="text-pink-400">import</div> {"{ Nexus }"}{" "}
                 <div className="text-pink-400">from</div>{" "}
-                <div className="text-green-400">'@nexus/core'</div>;
+                <div className="text-green-400">'@' + (clientSlug(sessionData) ?? 'nexus') + '/core'</div>;
                 <br />
                 <br />
                 <div className="text-pink-400">export default</div>{" "}

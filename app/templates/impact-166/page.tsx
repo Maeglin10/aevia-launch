@@ -3,6 +3,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientInstagram,
   clientList,
   clientName,
   clientPhotos,
@@ -1818,7 +1819,7 @@ return (
                 { label: "Email", value: (fd?.email ?? "iris@iris-studio.fr") },
                 { label: "Téléphone", value: "+33 6 20 51 13 32" },
                 { label: "Studio", value: (clientCity({ formData: fd }) ?? "Paris") + ", sur rendez-vous" },
-                { label: "Instagram", value: "@iris.studio." + (clientCity(sessionData) ?? "Paris") },
+                { label: "Instagram", value: "@" + (clientInstagram(sessionData) ?? "iris.studio.") + (clientCity(sessionData) ?? "Paris") },
               ].map((item) => (
                 <div
                   key={item.label}

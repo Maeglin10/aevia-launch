@@ -786,6 +786,26 @@ export function clientWebsite(s: SessionLike | null | undefined): string | undef
   return /^https?:\/\//i.test(brut) ? brut : `https://${brut}`;
 }
 
+/*
+  Le nom du client réduit à un identifiant.
+
+  Les thèmes de produits techniques affichent des commandes : `npm install
+  @blockbase/sdk`, `npm install -g @noctua/core`. Le nom du paquet est celui de
+  la démonstration, et le client qui achète ce thème vend le produit d'un autre
+  dans son propre bloc de code.
+*/
+export function clientSlug(s: SessionLike | null | undefined): string | undefined {
+  const nom = clientName(s);
+  if (!nom) return undefined;
+  const slug = nom
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+  return slug || undefined;
+}
+
 /** Le lien de réservation, quand le client en a un. */
 export function clientBookingUrl(s: SessionLike | null | undefined): string | undefined {
   return trimmed(s?.businessProfile?.bookingSystem?.url) || undefined;
@@ -858,6 +878,11 @@ export function clientTaglineOr(repli: string): string {
 /** Le nom du client, ou celui de la démonstration. Pour les modules partagés. */
 export function clientNameOr(repli: string): string {
   return clientName(sessionCourante) ?? repli;
+}
+
+/** L'identifiant du client, ou celui de la démonstration. Modules partagés. */
+export function clientSlugOu(repli: string): string {
+  return clientSlug(sessionCourante) ?? repli;
 }
 
 /** L'adresse e-mail du client, ou celle de la démonstration. Modules partagés. */
