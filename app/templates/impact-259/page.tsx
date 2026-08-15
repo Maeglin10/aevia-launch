@@ -2242,9 +2242,9 @@ export default function Page() {
   sessionData = session;
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   SOURCING = SOURCING_LIVE();
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   CREATIONS = CREATIONS_LIVE();
   memoriserSession(session);
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
 
 

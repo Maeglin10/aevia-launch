@@ -188,7 +188,10 @@ async function travailleur() {
         const formes = [...new Set([marque, titre, marque.toUpperCase()])]
           .sort((a, b) => b.length - a.length)
           .map((f) => f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
-        if (new RegExp(`(?<![\\w])(?:${formes.join("|")})(?![\\w])`).test(vus)) fuites.push(`marque : ${marque}`);
+        const trouve = new RegExp(`(?<![\\w])(?:${formes.join("|")})(?![\\w])`).exec(vus);
+        /* Le texte autour : sans lui, on sait qu'une marque s'affiche mais pas
+           où, et cinq thèmes ont résisté à six reproductions isolées. */
+        if (trouve) fuites.push(`marque : ${marque} — « …${vus.slice(Math.max(0, trouve.index - 60), trouve.index + 70)}… »`);
       }
       await page.close();
     } catch (e) {

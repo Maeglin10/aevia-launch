@@ -208,7 +208,7 @@ function Nav() {
                 <Zap size={16} color={C.bg} fill={C.bg} />
               </div>
               <span style={{ fontWeight: 900, fontSize: '1.4rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, color: C.white }}>
-                LU<span style={{ color: C.blue }}>M</span>YX
+                {clientName(sessionData) ?? <>LU<span style={{ color: C.blue }}>M</span>YX</>}
               </span>
             </>
           )}
@@ -1121,7 +1121,7 @@ function Footer() {
                 <Zap size={16} color={C.bg} fill={C.bg} />
               </div>
               <span style={{ fontWeight: 900, fontSize: '1.4rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const }}>
-                LU<span style={{ color: C.blue }}>M</span>YX
+                {clientName(sessionData) ?? <>LU<span style={{ color: C.blue }}>M</span>YX</>}
               </span>
             </div>
             <p style={{ color: C.muted, fontSize: '0.9rem', lineHeight: 1.7, maxWidth: '280px', marginBottom: '1.5rem' }}>
