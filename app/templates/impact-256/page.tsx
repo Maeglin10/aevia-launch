@@ -2062,7 +2062,7 @@ function Footer() {
             }}
           >
             <Dumbbell size={22} color={C.accent} strokeWidth={2} />
-            FORCE<span style={{ color: C.accent }}>&nbsp;BRUTE</span>
+            {(clientName(sessionData) ?? "FORCE BRUTE").split(" ")[0]}<span style={{ color: C.accent }}>&nbsp;{(clientName(sessionData) ?? "FORCE BRUTE").split(" ").slice(1).join(" ") || "BRUTE"}</span>
           </div>
           <p
             style={{

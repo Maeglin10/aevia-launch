@@ -442,7 +442,12 @@ function rendreLeCopyright(nom: string | undefined) {
   */
   const motif = /(©\s*\d{4}(?:\s*[–—\-\/]\s*\d{4})?\s+)([^·—|\n]{2,60}?)(\s*(?:·|—|\||\.|$))/;
 
-  for (const e of document.querySelectorAll<HTMLElement>("footer *, footer")) {
+  /*
+     Tout ce qui porte un « © », et pas seulement ce qui vit dans un <footer>.
+     Beaucoup de thèmes composent leur bas de page avec un <div> ou une <section>
+     — « © 2026 Le Barber Club — Site par Aevia WS » n'était donc jamais réécrit.
+  */
+  for (const e of document.querySelectorAll<HTMLElement>("body *")) {
     if (e.children.length > 0 || e.dataset.copyrightRendu) continue;
     const t = (e.textContent ?? "").replace(/\s+/g, " ").trim();
     if (!t.includes("©")) continue;
