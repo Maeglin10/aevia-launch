@@ -788,7 +788,7 @@ export default function EtudeNotarialePage() {
           <div aria-hidden style={{ height: 1, background: "linear-gradient(90deg, transparent, rgba(207,179,122,0.30), transparent)" }} />
           <div style={{ paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ fontFamily: SANS, fontWeight: 300, color: "rgba(255,255,255,0.24)", fontSize: 12, letterSpacing: "0.04em" }}>
-              © 2026 {fd?.businessName ?? "Vasseur & Delmas"} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity fallback="852 546 225" kind="siren" />
+              © 2026 {fd?.businessName ?? "Vasseur & Delmas"} — Site réalisé par {clientName(sessionData) ?? "Aevia WS"} · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity fallback="852 546 225" kind="siren" />
             </span>
             <span style={{ fontFamily: SANS, fontWeight: 300, color: "rgba(255,255,255,0.24)", fontSize: 12, letterSpacing: "0.04em" }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>

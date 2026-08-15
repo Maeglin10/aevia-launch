@@ -406,7 +406,7 @@ export default function CabinetOsteopathiePage() {
           <div style={{ textAlign: "center", marginBottom: 48 }}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Prise de RDV</span>
             <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Votre prochaine séance<br /><em>disponible sous 48h.</em></>)}</h2>
-            <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 420, margin: "0 auto", lineHeight: 1.7 }}>Cabinet {clientCity(sessionData) ?? "Lyon"}. Tarif : 65€ la séance. Remboursement partiel selon votre mutuelle.</p>
+            <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 420, margin: "0 auto", lineHeight: 1.7 }}>{clientName(sessionData) ?? "Cabinet"} {clientCity(sessionData) ?? "Lyon"}. Tarif : 65€ la séance. Remboursement partiel selon votre mutuelle.</p>
           </div>
 
           <div style={{ maxWidth: 560, margin: "0 auto", background: C.white, borderRadius: 14, border: `1px solid ${C.border}`, boxShadow: C.shadowLg, padding: "40px 36px" }}>
@@ -510,7 +510,7 @@ export default function CabinetOsteopathiePage() {
       <footer style={{ background: C.bgDark, padding: "44px 80px 22px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 32 }}>
           <div>
-            <div style={{fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: brand ?? 'var(--brand,#7ec8e0)', marginBottom: 8 }}>Cabinet Équilibre</div>
+            <div style={{fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: brand ?? 'var(--brand,#7ec8e0)', marginBottom: 8 }}>{clientName(sessionData) ?? "Cabinet"} Équilibre</div>
             <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Lucas Martin · Ostéopathe D.O.<br />Diplômé IFSO · ADELI N°xxxxxxx</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -522,7 +522,7 @@ export default function CabinetOsteopathiePage() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-          <span style={{ color: "rgba(255,255,255,0.18)", fontSize: 12 }}>© 2026 Cabinet Équilibre · Lucas Martin — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.18)", fontSize: 12 }}>© 2026 {clientName(sessionData) ?? "Cabinet"} Équilibre · Lucas Martin — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="#contact" style={{ color: "rgba(255,255,255,0.18)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

@@ -2057,7 +2057,7 @@ function ConsultationFormSection() {
                   textTransform: 'uppercase',
                 }}
               >
-                Cabinet Faure · {clientCity(sessionData) ?? "Marseille"}
+                {clientName(sessionData) ?? "Cabinet Faure"} · {clientCity(sessionData) ?? "Marseille"}
               </div>
             </motion.div>
           ) : (
