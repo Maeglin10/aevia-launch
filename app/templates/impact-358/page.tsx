@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 /* ════════════════════════════════════════════════════════════════════════════
-   BIOVALLÉE ANALYSES — Laboratoire de biologie médicale rural · Avignon
+   {clientName(sessionData) ?? "BioVallée Analyses"} — Laboratoire de biologie médicale rural · Avignon
    ─────────────────────────────────────────────────────────────────────────────
    Laboratoire, 2e variante du catalogue (la 1re est impact-357, TrackingCollapse
    et rail de chiffres, ton urbain). Celle-ci est la biologie de la vallée :

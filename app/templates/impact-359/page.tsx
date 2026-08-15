@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 /* ════════════════════════════════════════════════════════════════════════════
-   LOCAMAT — Location de matériel BTP & espaces verts · Nancy
+   {clientName(sessionData) ?? "Locamat"} — Location de matériel BTP & espaces verts · Nancy
    ─────────────────────────────────────────────────────────────────────────────
    Location de matériel, 1re variante du catalogue (la 2e est impact-360, orientée
    réception). Celle-ci est le dépôt de chantier : acier, gasoil, VGP à jour.

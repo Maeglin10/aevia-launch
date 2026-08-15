@@ -572,7 +572,7 @@ export default function Impact174Page() {
                     ))}
                   </ul>
                   <button className={`w-full py-4 font-bold uppercase tracking-widest text-sm cursor-pointer transition-all ${m.highlight ? "bg-[var(--brand,#84cc16)] text-[#0a0a0a] hover:bg-[#a3e635]" : "border border-[#f5f5f5]/20 text-[#f5f5f5]/60 hover:border-[var(--brand,#84cc16)] hover:text-[var(--brand,#84cc16)]"}`} style={{ fontFamily: "'Oswald', sans-serif" }}>
-                    Rejoindre FORGE
+                    Rejoindre {clientName(sessionData) ?? "FORGE"}
                   </button>
                 </div>
               </Reveal>

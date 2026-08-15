@@ -2818,7 +2818,7 @@ return (
                       letterSpacing: "-0.01em",
                     }}
                   >
-                    Terre & Geste
+                    {clientName(sessionData) ?? "Terre"} & Geste
                   </div>
                   <div
                     style={{

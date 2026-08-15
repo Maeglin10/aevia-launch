@@ -46,7 +46,7 @@ export default function CyberSecurityLayout({
 
       {/* ==========================================
           7. FOOTER — rebranded from the orphaned "AEVIACYBER" security-SaaS
-          copy (see note above) to match the actual Aevia Kitchen restaurant.
+          copy (see note above) to match the actual {clientName(__layoutSession) ?? "Aevia Kitchen"} restaurant.
           ========================================== */}
       <footer className="bg-[#0a0c14] pt-32 pb-12 px-6 md:px-12 border-t border-white/5 relative overflow-hidden">
         <div className="max-w-[1600px] mx-auto relative z-10">

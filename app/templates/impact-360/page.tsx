@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ATLANTIQUE MATÉRIELS — Location de matériel de réception · La Rochelle
+   {clientName(sessionData) ?? "Atlantique Matériels"} — Location de matériel de réception · La Rochelle
    ─────────────────────────────────────────────────────────────────────────────
    Location de matériel, 2e variante du catalogue (la 1re est impact-359, dépôt
    BTP, rail de chantier). Celle-ci est la réception : tentes, nappage, verrerie.
