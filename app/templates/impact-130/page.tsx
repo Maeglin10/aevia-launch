@@ -252,7 +252,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   {
     name: "Mathieu Rosset",
     role: "CEO, Folio Maison",
-    city: (clientCity({ formData: fd }) ?? "Genève"),
+    city: (clientCity(sessionData) ?? "Genève"),
     avatar: "MR",
     rating: 5,
     text: "Verso a transformé notre marque centenaire en identité contemporaine sans trahir notre héritage. Un travail d'orfèvre, une écoute exceptionnelle.",
@@ -292,7 +292,7 @@ function TEAM_DEMO_LIVE() {
   {
     name: "Lucas Berger",
     role: "Creative Director & Fondateur",
-    bio: "15 ans de direction artistique entre Paris, Berlin et " + (clientCity({ formData: fd }) ?? "Genève") + ". Ex-Pentagram, ex-BBDO.",
+    bio: "15 ans de direction artistique entre Paris, Berlin et " + (clientCity(sessionData) ?? "Genève") + ". Ex-Pentagram, ex-BBDO.",
     initials: "LB",
   },
   {
@@ -322,7 +322,7 @@ function FAQS_DEMO_LIVE() {
   return [
   {
     q: "Travaillez-vous uniquement avec des entreprises suisses ?",
-    a: "Non — notre portfolio s'étend à la France, l'Allemagne et le Royaume-Uni. Nous travaillons à distance avec une aisance totale. Les ateliers de brief peuvent se tenir en présentiel à " + (clientCity({ formData: fd }) ?? "Genève") + " ou via Zoom.",
+    a: "Non — notre portfolio s'étend à la France, l'Allemagne et le Royaume-Uni. Nous travaillons à distance avec une aisance totale. Les ateliers de brief peuvent se tenir en présentiel à " + (clientCity(sessionData) ?? "Genève") + " ou via Zoom.",
   },
   {
     q: "Quelle est votre disponibilité actuelle ?",
@@ -789,7 +789,7 @@ return (
               <div style={{ width: 28, height: 28, background: C.emeraldGlow, borderRadius: 4, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <div style={{ width: 12, height: 12, background: C.bg, borderRadius: 1 }} />
               </div>
-              <span style={{ fontSize: 18, fontWeight: 700, color: C.text, letterSpacing: "-0.02em" }}>{clientName({ formData: fd }) ?? "Verso"}</span>
+              <span style={{ fontSize: 18, fontWeight: 700, color: C.text, letterSpacing: "-0.02em" }}>{clientName(sessionData) ?? "Verso"}</span>
             </div>
           )}
         </a>
@@ -1295,7 +1295,7 @@ return (
               </motion.a>
             </div>
             <div style={{ display: "flex", justifyContent: "center", gap: 32, marginTop: 48, paddingTop: 40, borderTop: `1px solid ${C.borderLight}` }}>
-              {[{ icon: <MapPin size={15} />, text: "Rue du Rhône 24, 1204 " + (clientCity({ formData: fd }) ?? "Genève") }, { icon: <Clock size={15} />, text: "Lun–Ven 9h–18h" }].map((item, i) => (
+              {[{ icon: <MapPin size={15} />, text: "Rue du Rhône 24, 1204 " + (clientCity(sessionData) ?? "Genève") }, { icon: <Clock size={15} />, text: "Lun–Ven 9h–18h" }].map((item, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, color: C.textMuted, fontSize: 14 }}>
                   <span style={{ color: C.emeraldGlow }}>{item.icon}</span>
                   {item.text}
@@ -1317,7 +1317,7 @@ return (
                 </div>
                 <span style={{ fontSize: 16, fontWeight: 700, color: C.text }}>Verso</span>
               </div>
-              <p style={{ color: C.textMuted, fontSize: 14, lineHeight: 1.6, maxWidth: 220 }}>Studio de design basé à {clientCity({ formData: fd }) ?? "Genève"}. Identités visuelles, digital, direction artistique.</p>
+              <p style={{ color: C.textMuted, fontSize: 14, lineHeight: 1.6, maxWidth: 220 }}>Studio de design basé à {clientCity(sessionData) ?? "Genève"}. Identités visuelles, digital, direction artistique.</p>
             </div>
             {[
               { title: "Studio", links: ["À propos", "L'équipe", "Méthode", "Clients"] },
@@ -1340,7 +1340,7 @@ return (
             ))}
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: `1px solid ${C.border}`, paddingTop: 32 }}>
-            <p style={{ color: C.textDim, fontSize: 13 }}>© 2025 {clientName(sessionData) ?? "Verso Studio SA"}, {clientCity(sessionData) ?? "Genève"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</p>
+            <p style={{ color: C.textDim, fontSize: 13 }}>© 2025 {clientName(sessionData) ?? "Verso Studio SA"}, {clientCity(sessionData) ?? "Genève"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
             <div style={{ display: "flex", gap: 20 }}>
               {[{ icon: <MessageSquare size={16} />, label: "Twitter" }, { icon: <Camera size={16} />, label: "Instagram" }, { icon: <Link2 size={16} />, label: "LinkedIn" }].map((s, i) => (
                 <a key={i} href="#stats" style={{ color: C.textDim, transition: "color 0.2s" }}

@@ -167,7 +167,7 @@ export default function VoltLogisticsPage() {
                 <div className="w-10 h-10 bg-[var(--brand,#ffb400)] flex items-center justify-center -skew-x-12">
                   <Zap className="w-6 h-6 text-black fill-black" />
                 </div>
-                <span className="text-lg sm:text-2xl font-black tracking-tighter uppercase italic whitespace-nowrap">{clientName({ formData: fd }) ?? "Volt"}<span className="text-[var(--brand,#ffb400)]">Logistics</span></span>
+                <span className="text-lg sm:text-2xl font-black tracking-tighter uppercase italic whitespace-nowrap">{clientName(sessionData) ?? "Volt"}<span className="text-[var(--brand,#ffb400)]">Logistics</span></span>
               </>
             )}
           </Link>
@@ -431,7 +431,7 @@ export default function VoltLogisticsPage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/20">
-          <span>© 2026 {clientName(sessionData) ?? "VOLT LOGISTICS GLOBAL. ALL"} SYSTEMS ACTIVE.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "VOLT LOGISTICS GLOBAL. ALL"} SYSTEMS ACTIVE.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-10">
              <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-2"><MapPin className="w-3 h-3" /> NYC HQ</Link>
              <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-2"><Globe className="w-3 h-3" /> GLOBAL NETWORK</Link>

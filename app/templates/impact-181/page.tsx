@@ -31,7 +31,7 @@ let bp: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   TOIT & PIERRE PISCINES — Pisciniste / Constructeur de piscines ({clientCity({ formData: fd }) ?? "Nantes"})
+   TOIT & PIERRE PISCINES — Pisciniste / Constructeur de piscines ({clientCity(sessionData) ?? "Nantes"})
    Palette : blanc cassé / ardoise profonde #374151 / rouge tuile #b91c1c
    Fonts : Raleway (titres) + Inter (corps)
    Style : artisanal premium, solide, fiable
@@ -80,7 +80,7 @@ const MATERIAUX = [
 
 function ZONES_DEMO_LIVE() {
   return [
-  { v: (clientCity({ formData: fd }) ?? "Nantes") + " et périphérie", d: "Création, rénovation et entretien" },
+  { v: (clientCity(sessionData) ?? "Nantes") + " et périphérie", d: "Création, rénovation et entretien" },
   { v: "Saint-Nazaire · La Baule", d: "Chantiers côtiers, contraintes de vent étudiées" },
   { v: "Angers · Cholet", d: "Création et rénovation, hors entretien hebdomadaire" },
   { v: "Vannes · Redon", d: "Sur étude, à partir d'un bassin complet" },
@@ -160,7 +160,7 @@ export default function ToitPierrePiscinesPage() {
       s: r.stars ?? r.rating ?? 5,
     })),
     [
-      { q: "Notre piscine béton a été livrée en respectant chaque délai. Chantier propre, équipe à l'écoute, finitions impeccables. Un vrai savoir-faire d'artisan.", n: "Sandrine M.", l: (clientCity({ formData: fd }) ?? "Nantes"), s: 5 },
+      { q: "Notre piscine béton a été livrée en respectant chaque délai. Chantier propre, équipe à l'écoute, finitions impeccables. Un vrai savoir-faire d'artisan.", n: "Sandrine M.", l: (clientCity(sessionData) ?? "Nantes"), s: 5 },
       { q: "Rénovation complète de notre bassin : liner, margelles et filtration. Le résultat dépasse nos attentes. On profite enfin de notre piscine.", n: "Patrick & Aurélie F.", l: "Saint-Herblain", s: 5 },
       { q: "Installation d'un volet immergé et mise aux normes de sécurité. Travail soigné, conseils précieux. Je recommande sans hésiter.", n: "Luc B.", l: "Rezé", s: 5 },
     ]
@@ -505,7 +505,7 @@ export default function ToitPierrePiscinesPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
-          <span>© 2026 {fd?.businessName ?? "Toit & Pierre Piscines"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 456 789 012 00067"} · Garantie Décennale · Assurance RC Pro{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {fd?.businessName ?? "Toit & Pierre Piscines"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 456 789 012 00067"} · Garantie Décennale · Assurance RC Pro{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#b91c1c)]/30">{clientTrade(sessionData) ?? "Pisciniste"} certifié · Pays de la Loire</span>
         </div>
       </footer>

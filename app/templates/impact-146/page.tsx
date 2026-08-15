@@ -340,7 +340,7 @@ export default function KuroOmakasePage() {
               </Reveal>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                  {[
-                    { tier: (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Kuro Omakase")), courses: "12 courses", price: "¥88,000", note: "Chef's full progression. 3.5 hours. Seasonal kaiseki opening.", incl: ["House sake pairing", "Tea ceremony close", "Signed menu card"] },
+                    { tier: (clientName(sessionData) ?? (clientName(sessionData) ?? "Kuro Omakase")), courses: "12 courses", price: "¥88,000", note: "Chef's full progression. 3.5 hours. Seasonal kaiseki opening.", incl: ["House sake pairing", "Tea ceremony close", "Signed menu card"] },
                     { tier: "Umi Course", courses: "8 courses", price: "¥52,000", note: "Ocean-focused tasting, emphasising sashimi and shellfish.", incl: ["Wine pairing available", "À la carte additions", "Private dining option"] },
                     { tier: "Tsuki Dinner", courses: "5 courses", price: "¥32,000", note: "An introduction to the Kuro kitchen. Ideal for first visits.", incl: ["Non-alcoholic pairing", "Allergen-conscious menu", "Counter seating"] },
                  ].map((m, i) => (
@@ -395,7 +395,7 @@ export default function KuroOmakasePage() {
                 <div className="w-8 h-8 bg-white flex items-center justify-center">
                   <span className="text-black font-black text-sm uppercase">K</span>
                 </div>
-                <span className="text-xl font-light tracking-[0.4em] uppercase text-white">{clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Kuro Omakase"))}</span>
+                <span className="text-xl font-light tracking-[0.4em] uppercase text-white">{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Kuro Omakase"))}</span>
               </Link>
               <p className="text-white/20 max-w-sm leading-relaxed mb-12 text-sm font-light italic">
                  "In the silence of the room, the only story told is that of the season." Ginza, Tokyo.
@@ -425,7 +425,7 @@ export default function KuroOmakasePage() {
            ))}
         </div>
         <div className="max-w-[1400px] mx-auto flex flex-col md:row justify-between items-center gap-8 border-t border-white/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
-           <span>© 2026 {clientName(sessionData) ?? "KURO OMAKASE GROUP. SILENCE"} IS FLAVOR.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+           <span>© 2026 {clientName(sessionData) ?? "KURO OMAKASE GROUP. SILENCE"} IS FLAVOR.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
            <div className="flex gap-12">
               <Link href="#contact" className="hover:text-white transition-all">KYOTO</Link>
               <Link href="#contact" className="hover:text-white transition-all">TOKYO</Link>

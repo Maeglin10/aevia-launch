@@ -304,7 +304,7 @@ function testimonials_LIVE() {
   },
   {
     name: "Édouard de Villeneuve",
-    title: `Family Charter, ${clientCity({ formData: fd }) ?? "Paris"}`,
+    title: `Family Charter, ${clientCity(sessionData) ?? "Paris"}`,
     text: "We have chartered through three agencies over twenty years. Horizon Maritime is categorically different — a concierge service that happens to include the most beautiful vessel we have ever stepped aboard.",
     yacht: "S/Y Ariel — 42m",
     stars: 5,
@@ -326,7 +326,7 @@ function testimonials_LIVE() {
   },
   {
     name: "Édouard de Villeneuve",
-    title: `Family Charter, ${clientCity({ formData: fd }) ?? "Paris"}`,
+    title: `Family Charter, ${clientCity(sessionData) ?? "Paris"}`,
     text: "We have chartered through three agencies over twenty years. Horizon Maritime is categorically different — a concierge service that happens to include the most beautiful vessel we have ever stepped aboard.",
     yacht: "S/Y Ariel — 42m",
     stars: 5,
@@ -348,7 +348,7 @@ function testimonials_LIVE() {
   },
   {
     name: "Édouard de Villeneuve",
-    title: `Family Charter, ${clientCity({ formData: fd }) ?? "Paris"}`,
+    title: `Family Charter, ${clientCity(sessionData) ?? "Paris"}`,
     text: "We have chartered through three agencies over twenty years. Horizon Maritime is categorically different — a concierge service that happens to include the most beautiful vessel we have ever stepped aboard.",
     yacht: "S/Y Ariel — 42m",
     stars: 5,
@@ -1094,7 +1094,7 @@ export default function HorizonMaritimePage() {
                       lineHeight: 1,
                     }}
                   >
-                    {clientName({ formData: fd }) ?? "Horizon"}
+                    {clientName(sessionData) ?? "Horizon"}
                   </p>
                   <p
                     style={{fontFamily: "Montserrat, sans-serif",
@@ -2492,7 +2492,7 @@ export default function HorizonMaritimePage() {
             }}
           >
             <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.25)", letterSpacing: 1 }}>
-              © 2026 {clientName(sessionData) ?? "Horizon Maritime Group S.A.M."} · All rights reserved · Monaco{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2026 {clientName(sessionData) ?? "Horizon Maritime Group S.A.M."} · All rights reserved · Monaco{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: "flex", gap: "2rem" }}>
               {["Privacy Policy", "Terms of Charter", "Cookie Policy", "Legal Mentions"].map((l) => (
@@ -3260,8 +3260,8 @@ function LegalPage() {
               Publisher & Host Information
             </h3>
             <p style={{ margin: 0 }}>
-              <strong>Publisher:</strong> {clientName({ formData: fd }) ?? "Aevia WS — Valentin Milliand"}<br />
-              Sole Proprietorship — SIREN <LegalIdentity /> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}<br />
+              <strong>Publisher:</strong> {clientName(sessionData) ?? "Aevia WS — Valentin Milliand"}<br />
+              Sole Proprietorship — SIREN <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
               <strong>Contact Email:</strong>{fd?.email ?? "contact@exemple.fr"}<br />
               <strong>Address:</strong> communicated upon request<br />
               <strong>Host:</strong> Vercel Inc.

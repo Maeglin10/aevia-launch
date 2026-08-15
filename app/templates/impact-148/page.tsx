@@ -198,7 +198,7 @@ export default function NeonPulsePage() {
             <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 via-pink-500 to-[var(--brand,#22d3ee)] flex items-center justify-center group-hover:rotate-[360deg] transition-transform duration-1000 shadow-[0_0_20px_rgba(147,51,234,0.5)]">
               <Zap className="w-5 h-5 text-white fill-current" />
             </div>
-            <span className="text-lg sm:text-2xl font-black tracking-tighter uppercase italic whitespace-nowrap">{clientName({ formData: fd }) ?? "Neon"}<span className="text-[var(--brand,#22d3ee)]">Pulse</span></span>
+            <span className="text-lg sm:text-2xl font-black tracking-tighter uppercase italic whitespace-nowrap">{clientName(sessionData) ?? "Neon"}<span className="text-[var(--brand,#22d3ee)]">Pulse</span></span>
           </>
             )}</Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
@@ -541,7 +541,7 @@ export default function NeonPulsePage() {
            ))}
         </div>
         <div className="max-w-[1400px] mx-auto flex flex-col md:row justify-between items-center gap-8 border-t border-white/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
-           <span>© 2026 {clientName(sessionData) ?? "NEON PULSE PROTOCOL. OWN"} THE VOID.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+           <span>© 2026 {clientName(sessionData) ?? "NEON PULSE PROTOCOL. OWN"} THE VOID.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
            <div className="flex gap-12">
               <Link href="#contact" className="hover:text-[var(--brand,#22d3ee)] transition-all">SYSTEM: ONLINE</Link>
               <Link href="#contact" className="hover:text-[var(--brand,#22d3ee)] transition-all">PULSE: STABLE</Link>

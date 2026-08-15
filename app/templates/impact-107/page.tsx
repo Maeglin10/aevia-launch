@@ -199,7 +199,7 @@ export default function MeridianJourneyPage() {
             ) : (
               <>
                 <Compass className="w-6 h-6 text-[var(--brand,#2dd4bf)]" />
-                <span className="text-xl font-bold tracking-[0.2em] uppercase">{clientName({ formData: fd }) ?? "Meridian"}</span>
+                <span className="text-xl font-bold tracking-[0.2em] uppercase">{clientName(sessionData) ?? "Meridian"}</span>
               </>
             )}
           </Link>
@@ -461,7 +461,7 @@ export default function MeridianJourneyPage() {
           ))}
         </div>
         <div className="max-w-[1400px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
-          <span>© 2026 {clientName(sessionData) ?? "MERIDIAN EXPEDITIONS."}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "MERIDIAN EXPEDITIONS."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span>INTO THE UNKNOWN.</span>
         </div>
       </footer>

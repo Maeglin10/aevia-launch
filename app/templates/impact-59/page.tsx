@@ -426,7 +426,7 @@ return (
               {
                 quote: "Luminal m'a rendu à moi-même après 15 ans de performance intense. Je suis rentrée différente — pas reposée, transformée.",
                 name: "Caroline V.",
-                role: `CEO, ${clientCity({ formData: fd }) ?? "Paris"}`,
+                role: `CEO, ${clientCity(sessionData) ?? "Paris"}`,
               },
               {
                 quote: "Rien de comparable à Sonoran. Le silence comme je ne l'avais jamais entendu. Une expérience qui redéfinit ce que signifie être présent.",
@@ -442,7 +442,7 @@ return (
               {
                 quote: "Luminal m'a rendu à moi-même après 15 ans de performance intense. Je suis rentrée différente — pas reposée, transformée.",
                 name: "Caroline V.",
-                role: `CEO, ${clientCity({ formData: fd }) ?? "Paris"}`,
+                role: `CEO, ${clientCity(sessionData) ?? "Paris"}`,
               },
               {
                 quote: "Rien de comparable à Sonoran. Le silence comme je ne l'avais jamais entendu. Une expérience qui redéfinit ce que signifie être présent.",
@@ -458,7 +458,7 @@ return (
               {
                 quote: "Luminal m'a rendu à moi-même après 15 ans de performance intense. Je suis rentrée différente — pas reposée, transformée.",
                 name: "Caroline V.",
-                role: `CEO, ${clientCity({ formData: fd }) ?? "Paris"}`,
+                role: `CEO, ${clientCity(sessionData) ?? "Paris"}`,
               },
               {
                 quote: "Rien de comparable à Sonoran. Le silence comme je ne l'avais jamais entendu. Une expérience qui redéfinit ce que signifie être présent.",

@@ -475,7 +475,7 @@ function TEAM_DEMO_LIVE() {
     name: "Léa Fontaine",
     role: "Creative Director",
     focus: "Art direction, Branding",
-    bio: "Léa drives the studio's creative vision. Fifteen years of experience between " + (clientCity({ formData: fd }) ?? "Paris") + " and London, serving brands that want to leave a mark.",
+    bio: "Léa drives the studio's creative vision. Fifteen years of experience between " + (clientCity(sessionData) ?? "Paris") + " and London, serving brands that want to leave a mark.",
   },
   {
     name: "Thomas Reyes",
@@ -2069,7 +2069,7 @@ return (
               {[
                 { icon: <Mail size={14} />, value: (fd?.email ?? "hello@impact.studio") },
                 { icon: <Phone size={14} />, value: (clientPhone(sessionData) ?? "+33 1 42 86 00 00") },
-                { icon: <MapPin size={14} />, value: (clientCity({ formData: fd }) ?? "Paris") + ", France" },
+                { icon: <MapPin size={14} />, value: (clientCity(sessionData) ?? "Paris") + ", France" },
               ].map((item, i) => (
                 <div
                   key={i}
@@ -3995,7 +3995,7 @@ function ContactPage() {
           <div>
             {/* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ label: h.day, value: h.hours })), [
               { icon: <Mail size={18} />, label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
-              { icon: <MapPin size={18} />, label: "Studio", value: (clientCity({ formData: fd }) ?? "Paris") + ", France" },
+              { icon: <MapPin size={18} />, label: "Studio", value: (clientCity(sessionData) ?? "Paris") + ", France" },
               {
                 icon: <Phone size={18} />,
                 label: "Hours",
@@ -4231,7 +4231,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               Publication director: <span style={strong}><EditeurDuSite /></span>.
             </p>
             <p style={para}>
-              SIREN: <span style={strong}><LegalIdentity /></span> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}.
+              SIREN: <span style={strong}><LegalIdentity /></span> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}.
             </p>
             <p style={para}>
               Contact: <span style={strong}>{fd?.email ?? "contact@exemple.fr"}</span>
@@ -4319,8 +4319,8 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-01"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "impact-01"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>
   );

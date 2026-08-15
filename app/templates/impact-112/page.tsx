@@ -208,25 +208,25 @@ function TESTIMONIALS_LIVE() {
   {
     q: "La tasse à thé que j'ai reçue est d'une finesse incroyable. Je ne pensais pas qu'on pouvait expédier de la porcelaine aussi bien protégée. Elle est parfaite depuis six mois d'usage quotidien.",
     name: "Mathilde Rousseau",
-    role: `Cliente, ${clientCity({ formData: fd }) ?? "Lyon"}`,
+    role: `Cliente, ${clientCity(sessionData) ?? "Lyon"}`,
     stars: 5,
   },
   {
     q: "J'ai commandé le plat à partager pour un cadeau de mariage. Les mariés m'ont écrit une lettre de remerciements à part — la pièce était si belle qu'ils ont voulu savoir qui la faisait. C'est dire.",
     name: "Arnaud Lefèvre",
-    role: `Client, ${clientCity({ formData: fd }) ?? "Bordeaux"}`,
+    role: `Client, ${clientCity(sessionData) ?? "Bordeaux"}`,
     stars: 5,
   },
   {
     q: "Le vase colonne trône dans mon salon depuis quatre mois avec des branches séchées. Il s'impose sans dominer — exactement ce que je cherchais. Le service client était impeccable aussi.",
     name: "Sophie Marchand",
-    role: `Cliente, ${clientCity({ formData: fd }) ?? "Paris"}`,
+    role: `Cliente, ${clientCity(sessionData) ?? "Paris"}`,
     stars: 5,
   },
   {
     q: "Impossible de choisir une seule pièce, j'ai commandé trois fois en deux mois. La régularité qualitative est impressionnante pour du fait-main. L'atelier a une vraie philosophie visible dans chaque objet.",
     name: "Pierre-Antoine Vidal",
-    role: `Client, ${clientCity({ formData: fd }) ?? "Nantes"}`,
+    role: `Client, ${clientCity(sessionData) ?? "Nantes"}`,
     stars: 5,
   },
 ];
@@ -1223,7 +1223,7 @@ return (
                   }}
                 />
               </div>
-              <div>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
+              <div>{/* NOM_LOGO */ clientName(sessionData) ?? (<>
                 <div
                   style={{
                     fontFamily: FONT,
@@ -2952,7 +2952,7 @@ return (
             }}
           >
             <div style={{ fontSize: "0.73rem", color: C.muted }}>
-              © 2026 {clientName(sessionData) ?? "Terre"} & Geste · Atelier de céramique · Beaune, Bourgogne · Micro-entreprise{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2026 {clientName(sessionData) ?? "Terre"} & Geste · Atelier de céramique · Beaune, Bourgogne · Micro-entreprise{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </div>
             <div style={{ display: "flex", gap: 24 }}>
               {["Mentions légales", "Confidentialité", "CGV"].map((link) => (

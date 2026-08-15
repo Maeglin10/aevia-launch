@@ -29,7 +29,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   {clientName(sessionData) ?? "Maison Élise"} — Wedding planner & organisatrice événements ({clientCity({ formData: fd }) ?? "Nice"})
+   {clientName(sessionData) ?? "Maison Élise"} — Wedding planner & organisatrice événements ({clientCity(sessionData) ?? "Nice"})
    Palette : blanc ivoire #fdfaf7 / blush poudré #e8c5c5 / or rosé #c4a06a / nuit #1a1018
    Fonts : Didact Gothic (élégant, géométrique) + Lora (serif romantique)
    Style : romantique luxe, délicat, élégance intemporelle
@@ -171,8 +171,8 @@ export default function MaisonElisePage() {
               />
             ) : (
               <>
-                <div className="font-bold tracking-[0.2em] text-[#1a1018] text-sm uppercase" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Lora', Georgia, serif" }}>{clientName({ formData: fd }) ?? "Maison Élise"}</div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4a06a)]/60">Wedding Planner · {clientCity({ formData: fd }) ?? "Nice"} & Riviera</div>
+                <div className="font-bold tracking-[0.2em] text-[#1a1018] text-sm uppercase" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Lora', Georgia, serif" }}>{clientName(sessionData) ?? "Maison Élise"}</div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4a06a)]/60">Wedding Planner · {clientCity(sessionData) ?? "Nice"} & Riviera</div>
               </>
             )}
           </div>
@@ -213,7 +213,7 @@ export default function MaisonElisePage() {
         {/* Elegant vertical text */}
         <div className="absolute right-8 top-1/2 -translate-y-1/2 z-10 hidden xl:block">
           <div className="text-[10px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#c4a06a)]/25 writing-vertical" style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}>
-            {clientCity({ formData: fd }) ?? "Nice"} · Cannes · Monaco · Riviera
+            {clientCity(sessionData) ?? "Nice"} · Cannes · Monaco · Riviera
           </div>
         </div>
 
@@ -401,7 +401,7 @@ export default function MaisonElisePage() {
             <h2 className="text-4xl md:text-5xl font-bold text-[#fdfaf7] mb-5" style={{ fontFamily: "'Lora', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Votre histoire<br /><span className="italic text-[var(--brand,#c4a06a)]">commence ici.</span>
             </>)}</h2>
-            <p className="text-[#fdfaf7]/28 mb-10 text-sm">Consultation gratuite · {clientCity({ formData: fd }) ?? "Nice"} & Côte d'Azur · Déplacements France entière & étranger</p>
+            <p className="text-[#fdfaf7]/28 mb-10 text-sm">Consultation gratuite · {clientCity(sessionData) ?? "Nice"} & Côte d'Azur · Déplacements France entière & étranger</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-[var(--brand,#c4a06a)] text-white font-bold text-[10px] uppercase tracking-[0.28em] hover:bg-[#a88550] transition-colors">
                 Consultation gratuite
@@ -419,13 +419,13 @@ export default function MaisonElisePage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="font-bold text-[#fdfaf7] text-sm tracking-[0.18em] mb-1 uppercase" style={{ fontFamily: "'Lora', serif" }}>{clientName(sessionData) ?? "Maison Élise"}</div>
-            <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#c4a06a)]/40 mb-5">Wedding Planner · {clientCity({ formData: fd }) ?? "Nice"}</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#c4a06a)]/40 mb-5">Wedding Planner · {clientCity(sessionData) ?? "Nice"}</div>
             <p className="text-[#fdfaf7]/15 text-sm leading-relaxed">Organisation mariages et événements sur la Côte d'Azur. Coordination, clé en main, floral, corporate.</p>
           </div>
           {[
             { t: "Formules", ls: ["Coordination jour J", "Clé en main", "Conception florale", "Mise en scène & styling", "Événements corporate"] },
             { t: "Infos", ls: ["L'équipe", "Notre philosophie", "Portfolio", "Blog mariages", "FAQ"] },
-            { t: "Contact", ls: [(fd?.phone ?? "04 93 56 78 90"), (fd?.email ?? "hello@maison-elise.fr"), (clientCity({ formData: fd }) ?? "Nice") + " & Riviera", "France entière & étranger", "Consultation gratuite"] },
+            { t: "Contact", ls: [(fd?.phone ?? "04 93 56 78 90"), (fd?.email ?? "hello@maison-elise.fr"), (clientCity(sessionData) ?? "Nice") + " & Riviera", "France entière & étranger", "Consultation gratuite"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c4a06a)]/35 mb-5">{col.t}</h4>
@@ -436,7 +436,7 @@ export default function MaisonElisePage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#fdfaf7]/8">
-          <span>© 2026 {clientName(sessionData) ?? "Maison Élise"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 678 901 234 00055"} · {clientCity(sessionData) ?? "Nice"} (06){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Maison Élise"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 678 901 234 00055"} · {clientCity(sessionData) ?? "Nice"} (06){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#c4a06a)]/18">Wedding Planner · Côte d'Azur</span>
         </div>
       </footer>

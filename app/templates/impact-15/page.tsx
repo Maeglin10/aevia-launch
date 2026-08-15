@@ -68,7 +68,7 @@ function CHANTIERS_LIVE() {
   { t: "Couloir de nage 12 m", v: "Castanet-Tolosan", d: "Nage à contre-courant, volet immergé, chauffage par pompe à chaleur. Terrain en pente, soutènement inclus." },
   { t: "Piscine familiale 8 × 4 m", v: "Tournefeuille", d: "Escalier d'angle, plage en pierre reconstituée, abri bas télescopique. Le chantier le plus fréquent." },
   { t: "Spa de nage encastré", v: "Ramonville", d: "Installation sur dalle existante, raccordement électrique dédié, mise en service et formation à l'entretien." },
-  { t: "Sécurisation & mise aux normes", v: (clientCity({ formData: fd }) ?? "Toulouse") + " Nord", d: "Barrière NF P90-306 et alarme immergée sur un bassin hérité. Attestation de conformité remise au propriétaire." },
+  { t: "Sécurisation & mise aux normes", v: (clientCity(sessionData) ?? "Toulouse") + " Nord", d: "Barrière NF P90-306 et alarme immergée sur un bassin hérité. Attestation de conformité remise au propriétaire." },
 ];
 }
 let CHANTIERS = CHANTIERS_LIVE();;
@@ -110,7 +110,7 @@ const ATOUTS = [
 
 function AVIS_SOURCE_LIVE() {
   return [
-  { texte: "Construction de notre piscine béton livrée dans les délais, chantier propre et équipe à l'écoute. Le résultat dépasse toutes nos attentes. Un vrai savoir-faire.", auteur: "Marc D.", detail: `Construction, ${clientCity({ formData: fd }) ?? "Toulouse"}` },
+  { texte: "Construction de notre piscine béton livrée dans les délais, chantier propre et équipe à l'écoute. Le résultat dépasse toutes nos attentes. Un vrai savoir-faire.", auteur: "Marc D.", detail: `Construction, ${clientCity(sessionData) ?? "Toulouse"}` },
   { texte: "Rénovation complète de notre bassin des années 90 : nouveau liner, margelles et filtration au sel. On profite enfin d'une eau parfaite. Bravo !", auteur: "Christine M.", detail: "Rénovation, Colomiers" },
   { texte: "Local technique refait avec régulation automatique et éclairage LED. Conseils pertinents, finitions impeccables, délai tenu à la journée près.", auteur: "Famille Aubert", detail: "Local technique, Blagnac" },
 ];
@@ -316,7 +316,7 @@ return (
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            Construction, rénovation, sécurité et entretien de piscines à {clientCity({ formData: fd }) ?? "Toulouse"} et agglomération. Du bassin béton sur-mesure au contrat d'entretien — devis gratuit sous 48h.
+            Construction, rénovation, sécurité et entretien de piscines à {clientCity(sessionData) ?? "Toulouse"} et agglomération. Du bassin béton sur-mesure au contrat d'entretien — devis gratuit sous 48h.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -505,10 +505,10 @@ return (
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
             <div style={{ fontSize: 20, fontWeight: 800, color: C.accent, marginBottom: 8 }}>{fd?.businessName ?? "Volt Piscines"}</div>
-            <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.6, maxWidth: 220 }}>{clientTrade(sessionData) ?? "Pisciniste"} certifié FPP<br />{clientCity({ formData: fd }) ?? "Toulouse"} & agglomération</p>
+            <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.6, maxWidth: 220 }}>{clientTrade(sessionData) ?? "Pisciniste"} certifié FPP<br />{clientCity(sessionData) ?? "Toulouse"} & agglomération</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Toulouse") + ", Haute-Garonne" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "05 61 00 00 00") }, { icon: <Clock size={13} />, t: "Urgences 7j/7 · 24h/24" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Toulouse") + ", Haute-Garonne" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "05 61 00 00 00") }, { icon: <Clock size={13} />, t: "Urgences 7j/7 · 24h/24" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>
@@ -516,7 +516,7 @@ return (
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-          <span style={{ color: "rgba(255,255,255,0.22)", fontSize: 12 }}>© 2026 {fd?.businessName ?? "Volt Piscines"} — Site réalisé par Aevia WS{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.22)", fontSize: 12 }}>© 2026 {fd?.businessName ?? "Volt Piscines"} — Site réalisé par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="/templates/impact-15/mentions-legales" style={{ color: "rgba(255,255,255,0.22)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

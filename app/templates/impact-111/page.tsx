@@ -192,7 +192,7 @@ export default function TerraArchitecturePage() {
                 <div className="w-10 h-10 bg-[#3d3a35] flex items-center justify-center group-hover:rotate-90 transition-transform duration-700">
                   <Ruler className="w-5 h-5 text-[#f2f0eb]" />
                 </div>
-                <span className="text-xl font-bold tracking-[0.1em] uppercase">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Terra <span className="font-light italic text-[#3d3a35]/60">Studio</span></>)}</span>
+                <span className="text-xl font-bold tracking-[0.1em] uppercase">{/* NOM_LOGO */ clientName(sessionData) ?? (<>Terra <span className="font-light italic text-[#3d3a35]/60">Studio</span></>)}</span>
               </>
             )}
           </Link>
@@ -434,7 +434,7 @@ export default function TerraArchitecturePage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-[#3d3a35]/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-[#3d3a35]/30">
-          <span>© 2026 {clientName(sessionData) ?? "TERRA ARCHITECTURE STUDIO. BUILT"} WITH EARTH.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "TERRA ARCHITECTURE STUDIO. BUILT"} WITH EARTH.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-10">
              <Link href="#contact" className="hover:text-[#3d3a35] transition-colors flex items-center gap-2"><Globe className="w-3 h-3" /> BASED IN COPENHAGEN</Link>
              <Link href="#contact" className="hover:text-[#3d3a35] transition-colors flex items-center gap-2"><MapPin className="w-3 h-3" /> PARIS · TOKYO</Link>

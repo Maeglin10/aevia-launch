@@ -568,7 +568,7 @@ return (
             <div className="text-[#00F5D4] text-xs mb-4"><span className="text-[#475569]">// </span>get_in_touch</div>
             <h2 className="font-bold text-4xl md:text-5xl mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Let's build something great.</>)}</h2>
             <p className="text-[#94A3B8] text-lg mb-10 leading-relaxed">
-              Available for staff/principal engineering contracts, technical advisory, and open source. Based in {clientCity({ formData: fd }) ?? "Paris"}, remote-first.
+              Available for staff/principal engineering contracts, technical advisory, and open source. Based in {clientCity(sessionData) ?? "Paris"}, remote-first.
             </p>
             <div className="space-y-4">
               <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} className="block w-full bg-[#00F5D4] text-[#0A0E1A] font-bold text-sm py-4 hover:bg-[#00E5C4] transition-colors cursor-pointer text-center">
@@ -588,8 +588,8 @@ return (
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-29"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "impact-29"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>
   )

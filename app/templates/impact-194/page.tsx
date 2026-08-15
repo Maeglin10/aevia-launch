@@ -74,7 +74,7 @@ function PRESTATIONS_SOURCE_LIVE() {
   { icon: Users, title: "Cocktails & réceptions", desc: "Cocktail dînatoire, standing, mariage, gala. Buffets chauds et froids, bouchées minute, animations culinaires. De 20 à 800 personnes." },
   { icon: ChefHat, title: "Repas assis & gastronomique", desc: "Menu 3 ou 5 services, carte personnalisée, régimes spéciaux. Chef à domicile ou en salle. Vaisselle premium, personnel de service inclus." },
   { icon: Gift, title: "Plateaux repas entreprise", desc: "Plateaux livrés sous 24h. Formule midi, buffet réunion, petit-déjeuner d'équipe. Conditionnements individuels ou collectifs certifiés HACCP." },
-  { icon: Truck, title: "Livraison & installation", desc: "Livraison sur " + (clientCity({ formData: fd }) ?? "Lyon") + " Métropole, montage des buffets, décoration de table. Équipe complète sur place selon formule. Reprise du matériel incluse." },
+  { icon: Truck, title: "Livraison & installation", desc: "Livraison sur " + (clientCity(sessionData) ?? "Lyon") + " Métropole, montage des buffets, décoration de table. Équipe complète sur place selon formule. Reprise du matériel incluse." },
   { icon: Wine, title: "Accord mets & vins", desc: "Sélection vins de la Vallée du Rhône, champagnes, cocktails sans alcool maison. Bar à eaux premium, infusions fraîches. Sommelier sur demande." },
   { icon: Utensils, title: "Cuisine du monde & thème", desc: "Cuisine lyonnaise, méditerranéenne, asiatique, sud-américaine. Plancha, wok, live cooking, atelier dégustation. Décor de table thématique inclus." },
 ];
@@ -165,8 +165,8 @@ export default function TableExceptionPage() {
               />
             ) : (
               <>
-                <div className="font-bold tracking-wide text-[#1f1d1a] text-sm" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Playfair Display', Georgia, serif" }}>{clientName({ formData: fd }) ?? "Table d'Exception"}</div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/60">{clientTrade(sessionData) ?? "Traiteur"} · {clientCity({ formData: fd }) ?? "Lyon"} & Rhône-Alpes</div>
+                <div className="font-bold tracking-wide text-[#1f1d1a] text-sm" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Playfair Display', Georgia, serif" }}>{clientName(sessionData) ?? "Table d'Exception"}</div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/60">{clientTrade(sessionData) ?? "Traiteur"} · {clientCity(sessionData) ?? "Lyon"} & Rhône-Alpes</div>
               </>
             )}
           </div>
@@ -207,7 +207,7 @@ export default function TableExceptionPage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-8">
               <div className="w-10 h-[1px] bg-[var(--brand,#d4a853)]/60" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4a853)]/65">{clientTrade(sessionData) ?? "Traiteur"} haut de gamme · {clientCity({ formData: fd }) ?? "Lyon"} & Rhône-Alpes</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4a853)]/65">{clientTrade(sessionData) ?? "Traiteur"} haut de gamme · {clientCity(sessionData) ?? "Lyon"} & Rhône-Alpes</span>
             </div>
           </motion.div>
 
@@ -220,7 +220,7 @@ export default function TableExceptionPage() {
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
             className="max-w-md text-sm text-[#fefcf8]/28 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            {clientTrade(sessionData) ?? "Traiteur"} événementiel à {clientCity({ formData: fd }) ?? "Lyon"}. Mariages, séminaires, cocktails, repas gastronomiques. Chef et équipe complète. Devis personnalisé sous 24h.
+            {clientTrade(sessionData) ?? "Traiteur"} événementiel à {clientCity(sessionData) ?? "Lyon"}. Mariages, séminaires, cocktails, repas gastronomiques. Chef et équipe complète. Devis personnalisé sous 24h.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-4 mb-8">
@@ -381,7 +381,7 @@ export default function TableExceptionPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
               { q: `Cocktail mariage pour 220 personnes, tout était parfait. La présentation des buffets épatante, les bouchées délicieuses, le service discret et rapide. Merci ${clientName(sessionData) ?? "Table"} d'Exception !`, n: "Anaïs & Pierre R.", l: "Mariage à Lyon · Mai 2025" },
-              { q: "Séminaire corporate avec repas assis 80 couverts. Menu sur mesure, chef présent, accords vins impeccables. Nos partenaires ont demandé le contact du traiteur dès le dessert.", n: "Directrice Générale · " + (clientCity({ formData: fd }) ?? "Lyon"), l: "Groupe Solia · 60M€ CA" },
+              { q: "Séminaire corporate avec repas assis 80 couverts. Menu sur mesure, chef présent, accords vins impeccables. Nos partenaires ont demandé le contact du traiteur dès le dessert.", n: "Directrice Générale · " + (clientCity(sessionData) ?? "Lyon"), l: "Groupe Solia · 60M€ CA" },
               { q: "Plateaux repas récurrents pour nos 40 collaborateurs. Qualité constante, livraison à l'heure, variété impressionnante. C'est devenu un rituel d'équipe incontournable.", n: "Thomas V.", l: "RH · Startup Lyonnaise" },
             ].map((t, i) => (
               <Reveal key={i} delay={i * 0.1}>
@@ -409,7 +409,7 @@ export default function TableExceptionPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Ensemble, créons<br /><span className="italic">l'exception.</span>
             </>)}</h2>
-            <p className="text-white/45 mb-10 text-sm">Devis personnalisé sous 24h · {clientCity({ formData: fd }) ?? "Lyon"} & Rhône-Alpes · Chef & équipe inclus</p>
+            <p className="text-white/45 mb-10 text-sm">Devis personnalisé sous 24h · {clientCity(sessionData) ?? "Lyon"} & Rhône-Alpes · Chef & équipe inclus</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-white text-[#7c2d3e] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#fefcf8] transition-colors shadow-lg">
                 Demander un devis
@@ -427,13 +427,13 @@ export default function TableExceptionPage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="font-bold text-[#fefcf8] mb-1 text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>{clientName(sessionData) ?? "Table"} d'Exception</div>
-            <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/40 mb-5">{clientTrade(sessionData) ?? "Traiteur"} · {clientCity({ formData: fd }) ?? "Lyon"}</div>
-            <p className="text-[#fefcf8]/15 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Traiteur"} haut de gamme à {clientCity({ formData: fd }) ?? "Lyon"}. Mariages, corporate, cocktails, plateaux. Chef et équipe sur place.</p>
+            <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/40 mb-5">{clientTrade(sessionData) ?? "Traiteur"} · {clientCity(sessionData) ?? "Lyon"}</div>
+            <p className="text-[#fefcf8]/15 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Traiteur"} haut de gamme à {clientCity(sessionData) ?? "Lyon"}. Mariages, corporate, cocktails, plateaux. Chef et équipe sur place.</p>
           </div>
           {[
             { t: "Formules", ls: ["Cocktails & réceptions", "Repas assis", "Plateaux repas", "Livraison & installation", "Cuisine du monde"] },
             { t: "Infos", ls: ["Notre chef", "Portfolio", "Zone d'intervention", "Tarifs", "FAQ"] },
-            { t: "Contact", ls: [(fd?.phone ?? "04 78 34 56 78"), (fd?.email ?? "contact@table-exception.fr"), (clientCity({ formData: fd }) ?? "Lyon") + " & Rhône-Alpes", "Lun-Sam 8h-19h", "Devis sous 24h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "04 78 34 56 78"), (fd?.email ?? "contact@table-exception.fr"), (clientCity(sessionData) ?? "Lyon") + " & Rhône-Alpes", "Lun-Sam 8h-19h", "Devis sous 24h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4a853)]/35 mb-5">{col.t}</h4>
@@ -444,7 +444,7 @@ export default function TableExceptionPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#fefcf8]/8">
-          <span>© 2026 {clientName(sessionData) ?? "Table"} d'Exception{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 789 012 345 00066"} · Traiteur agréé · {clientCity(sessionData) ?? "Lyon"} (69){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Table"} d'Exception{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 789 012 345 00066"} · Traiteur agréé · {clientCity(sessionData) ?? "Lyon"} (69){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#d4a853)]/15">L'art de recevoir</span>
         </div>
       </footer>

@@ -184,7 +184,7 @@ export default function LedgerPage() {
               letterSpacing: -0.3,
               color: scrolled ? C.accent : C.white,
             }}
-          >{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
+          >{/* NOM_LOGO */ clientName(sessionData) ?? (<>
             Ledger <span style={{ fontWeight: 400, opacity: 0.7 }}>&amp; Associés</span>
           </>)}</div>
         )}
@@ -382,7 +382,7 @@ export default function LedgerPage() {
               maxWidth: 520,
             }}
           >{fd?.tagline ?? c?.heroSubline ?? <>
-            Cabinet d&apos;expertise comptable à {clientCity({ formData: fd }) ?? "Bordeaux"} depuis 25 ans. Nous transformons vos obligations comptables en leviers de décision pour votre entreprise.
+            Cabinet d&apos;expertise comptable à {clientCity(sessionData) ?? "Bordeaux"} depuis 25 ans. Nous transformons vos obligations comptables en leviers de décision pour votre entreprise.
           </>}</motion.p>
           <motion.div
             initial={{ opacity: 0, y: 28 }}
@@ -819,7 +819,7 @@ export default function LedgerPage() {
               </div>
               <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 1.8 }}>
                 Cabinet d&apos;expertise comptable<br />
-                {clientCity({ formData: fd }) ?? "Bordeaux"} · Depuis 1999
+                {clientCity(sessionData) ?? "Bordeaux"} · Depuis 1999
               </p>
               <div
                 style={{
@@ -848,7 +848,7 @@ export default function LedgerPage() {
               </p>
               <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 2 }}>
                 {clientAddress({ businessProfile: bp }) ?? "14 allée de Tourny"}<br />
-                33000 {clientCity({ formData: fd }) ?? "Bordeaux"}<br />
+                33000 {clientCity(sessionData) ?? "Bordeaux"}<br />
                 <a href={`tel:${fd?.phone ?? "+33556000000"}`} style={{color: brand ?? 'var(--brand,#93c5fd)', textDecoration: "none" }}>{clientPhone(sessionData) ?? "05 56 76 23 23"}</a><br />
                 <a href={`mailto:${fd?.email ?? "contact@ledger-associes.fr"}`} style={{color: brand ?? 'var(--brand,#93c5fd)', textDecoration: "none" }}>{fd?.email ?? "contact@ledger-associes.fr"}</a>
               </p>
@@ -876,7 +876,7 @@ export default function LedgerPage() {
               fontWeight: 300,
             }}
           >
-            <span>© 2025 {clientName(sessionData) ?? "Ledger & Associés"} — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+            <span>© 2025 {clientName(sessionData) ?? "Ledger & Associés"} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
             <div style={{ display: "flex", gap: 24 }}>
               <a href="/templates/impact-108/legal" style={{ color: "inherit", textDecoration: "none" }}>Mentions légales</a>
               <a href="/templates/impact-108/legal" style={{ color: "inherit", textDecoration: "none" }}>Confidentialité</a>

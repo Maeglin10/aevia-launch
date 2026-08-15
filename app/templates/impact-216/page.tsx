@@ -612,9 +612,9 @@ function SHIPMENTS_LIVE() {
     steps: ['Enlèvement', 'Tri CDG', 'En route', 'Livraison'], currentStep: 2,
   },
   {
-    id: 'MF-2406-4437', from: (clientCity({ formData: fd }) ?? 'Bordeaux'), to: (clientCity(sessionData) ?? 'Lille') + ' Métropole',
+    id: 'MF-2406-4437', from: (clientCity(sessionData) ?? 'Bordeaux'), to: (clientCity(sessionData) ?? 'Lille') + ' Métropole',
     status: 'En cours de tri', progress: 34, eta: 'Demain 10h00',
-    steps: ['Enlèvement', 'Tri ' + (clientCity({ formData: fd }) ?? 'Bordeaux'), 'En route', 'Livraison'], currentStep: 1,
+    steps: ['Enlèvement', 'Tri ' + (clientCity(sessionData) ?? 'Bordeaux'), 'En route', 'Livraison'], currentStep: 1,
   },
   {
     id: 'MF-2406-9904', from: (clientCity(sessionData) ?? 'Strasbourg'), to: (clientCity(sessionData) ?? 'Marseille'),
@@ -1047,7 +1047,7 @@ function AGENCIES_LIVE() {
   { name: (clientCity(sessionData) ?? 'Paris'),      cx: 370, cy: 210, main: true },
   { name: (clientCity(sessionData) ?? 'Lyon'),       cx: 420, cy: 345, main: true },
   { name: (clientCity(sessionData) ?? 'Marseille'),  cx: 415, cy: 455, main: true },
-  { name: (clientCity({ formData: fd }) ?? 'Bordeaux'),   cx: 235, cy: 390, main: false },
+  { name: (clientCity(sessionData) ?? 'Bordeaux'),   cx: 235, cy: 390, main: false },
   { name: (clientCity(sessionData) ?? 'Lille'),      cx: 355, cy: 130, main: false },
   { name: (clientCity(sessionData) ?? 'Strasbourg'), cx: 525, cy: 195, main: false },
   { name: 'Nantes',     cx: 210, cy: 290, main: false },
@@ -1694,7 +1694,7 @@ function Footer() {
             display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 14,
           }}>
             <p style={{ fontFamily: C.fontBody, fontSize: 12, color: C.textMuted }}>
-              © 2024 Meridian Freight SAS · RCS Paris 841 234 567{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 84123456700014"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2024 Meridian Freight SAS · RCS Paris 841 234 567{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 84123456700014"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
               {['Mentions légales', 'CGV', 'Confidentialité', 'Cookies'].map((l) => (

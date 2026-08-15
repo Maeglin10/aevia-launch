@@ -73,7 +73,7 @@ const NAV = [
 ];
 function PROFESSEURS_LIVE() {
   return [
-  { n: "Marta Oliveira", r: "Piano · Direction pédagogique", d: "Prix du CNSMD de " + (clientCity({ formData: fd }) ?? "Lyon") + ". Enseigne aux débutants comme aux candidats au concours d'entrée." },
+  { n: "Marta Oliveira", r: "Piano · Direction pédagogique", d: "Prix du CNSMD de " + (clientCity(sessionData) ?? "Lyon") + ". Enseigne aux débutants comme aux candidats au concours d'entrée." },
   { n: "Youssef Benhima", r: "Guitare classique & flamenco", d: "Formé à Séville. Cours en français, espagnol et arabe. Prépare aussi les examens de fin de cycle." },
   { n: "Élisabeth Fournel", r: "Violon · Formation musicale", d: "Trente ans d'orchestre. Méthode Suzuki pour les plus jeunes, lecture à vue à partir du deuxième cycle." },
   { n: "Damien Roux", r: "Batterie & percussions", d: "Studio et scène. Travaille au métronome dès la première séance, et personne n'en est jamais mort." },
@@ -234,7 +234,7 @@ export default function ConservatoireAccordPage() {
             style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
         ) : (
-          <div style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  display: "flex", alignItems: "center", gap: 10 }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
+          <div style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  display: "flex", alignItems: "center", gap: 10 }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>
             <Music size={20} color={scrolled ? C.amber : "#fff"} />
             <span style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: scrolled ? C.text : "#fff" }}>Conservatoire<span style={{ color: C.amber }}> Accord</span></span>
           </>)}</div>
@@ -295,7 +295,7 @@ export default function ConservatoireAccordPage() {
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            Conservatoire Accord forme les musiciens de 4 à 99 ans à {clientCity({ formData: fd }) ?? "Lyon"} depuis 18 ans. Piano, guitare, chant, batterie, solfège — cours individuels ou en groupe, enfants et adultes.
+            Conservatoire Accord forme les musiciens de 4 à 99 ans à {clientCity(sessionData) ?? "Lyon"} depuis 18 ans. Piano, guitare, chant, batterie, solfège — cours individuels ou en groupe, enfants et adultes.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -481,10 +481,10 @@ export default function ConservatoireAccordPage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
             <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", fontWeight: 300, color: C.amber, marginBottom: 8 }}>Conservatoire Accord</div>
-            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>École de musique · {clientCity({ formData: fd }) ?? "Lyon"} 6e<br />Lun–Sam 10h–20h</p>
+            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>École de musique · {clientCity(sessionData) ?? "Lyon"} 6e<br />Lun–Sam 10h–20h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Lyon") + ", Rhône" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 78 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 10h–20h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Lyon") + ", Rhône" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 78 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 10h–20h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
                 <span style={{ color: C.amber }}>{item.icon}</span>{item.t}
               </div>
@@ -492,7 +492,7 @@ export default function ConservatoireAccordPage() {
           </div>
         </div>
         <div style={{ borderTop: `1px solid ${C.amber}20`, paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-          <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 Conservatoire Accord — Site par Aevia WS{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 Conservatoire Accord — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="/templates/impact-73/legal" style={{ color: "rgba(255,255,255,0.20)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

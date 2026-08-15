@@ -32,7 +32,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   AUTO EXPERT — Garage & carrosserie automobile ({clientCity({ formData: fd }) ?? "Rennes"})
+   AUTO EXPERT — Garage & carrosserie automobile ({clientCity(sessionData) ?? "Rennes"})
    Palette : acier sombre #0e1117 / rouge précision #dc2626 / gris métal #3a3f4a / blanc tech #f1f3f5
    Fonts : Space Grotesk (titres tech) + Inter
    Style : industriel premium, précis, performance, confiance mécanique
@@ -178,7 +178,7 @@ export default function AutoExpertPage() {
                 <div className="w-7 h-7 bg-[var(--brand,#dc2626)] flex items-center justify-center">
                   <Wrench className="w-4 h-4 text-white" />
                 </div>
-                <span className="font-bold text-[#f1f3f5] tracking-wide text-sm" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)" }}>{clientName({ formData: fd }) ?? "AUTO"}<span className="text-[var(--brand,#dc2626)]">EXPERT</span></span>
+                <span className="font-bold text-[#f1f3f5] tracking-wide text-sm" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)" }}>{clientName(sessionData) ?? "AUTO"}<span className="text-[var(--brand,#dc2626)]">EXPERT</span></span>
               </>
             )}
           </div>
@@ -221,7 +221,7 @@ export default function AutoExpertPage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-8">
               <div className="w-8 h-[2px] bg-[var(--brand,#dc2626)]" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#dc2626)]/70">Garage & carrosserie · {clientCity({ formData: fd }) ?? "Rennes"}</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#dc2626)]/70">Garage & carrosserie · {clientCity(sessionData) ?? "Rennes"}</span>
             </div>
           </motion.div>
 
@@ -232,7 +232,7 @@ export default function AutoExpertPage() {
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
             className="max-w-md text-sm text-[#f1f3f5]/30 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            Garage multimarque à {clientCity({ formData: fd }) ?? "Rennes"}. Entretien, carrosserie, diagnostic électronique, VE & hybrides. Devis gratuit sous 30 min. Prise en charge assurance directe.
+            Garage multimarque à {clientCity(sessionData) ?? "Rennes"}. Entretien, carrosserie, diagnostic électronique, VE & hybrides. Devis gratuit sous 30 min. Prise en charge assurance directe.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-4 mb-8">
@@ -399,7 +399,7 @@ export default function AutoExpertPage() {
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
-              { q: "Devis transparent, délai respecté à la journée. Ma Megane 4 révisée + plaquettes changées en une journée. Propre, professionnel, prix juste. Je reviens.", n: "Sébastien P.", l: (clientCity({ formData: fd }) ?? "Rennes") + " Villejean" },
+              { q: "Devis transparent, délai respecté à la journée. Ma Megane 4 révisée + plaquettes changées en une journée. Propre, professionnel, prix juste. Je reviens.", n: "Sébastien P.", l: (clientCity(sessionData) ?? "Rennes") + " Villejean" },
               { q: "Carrosserie après accrochage prise en charge à 100% par mon assurance. Voiture comme neuve en 4 jours. La couleur est identique, on ne voit rien. Merci !", n: "Nathalie L.", l: "Cesson-Sévigné (35)" },
               { q: "Seul garage du coin qui accepte les Tesla Model 3. Diagnostic précis, pièces d'origine, et personnel vraiment compétent sur les EV. Une adresse à garder.", n: "Kevin T.", l: "Saint-Grégoire (35)" },
             ].map((t, i) => (
@@ -428,7 +428,7 @@ export default function AutoExpertPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-[#f1f3f5] mb-5">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Un problème<br /><span className="text-[var(--brand,#dc2626)]">avec votre auto ?</span>
             </>)}</h2>
-            <p className="text-[#f1f3f5]/25 mb-10 text-sm">Devis gratuit 30 min · Dépannage 7j/7 · {clientCity({ formData: fd }) ?? "Rennes"} & agglomération</p>
+            <p className="text-[#f1f3f5]/25 mb-10 text-sm">Devis gratuit 30 min · Dépannage 7j/7 · {clientCity(sessionData) ?? "Rennes"} & agglomération</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-[var(--brand,#dc2626)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#c01f1f] transition-colors">
                 Devis gratuit maintenant
@@ -449,7 +449,7 @@ export default function AutoExpertPage() {
               <div className="w-6 h-6 bg-[var(--brand,#dc2626)] flex items-center justify-center"><Wrench className="w-3.5 h-3.5 text-white" /></div>
               <span className="font-bold text-[#f1f3f5] text-sm">{clientName(sessionData) ?? "AutoExpert"}</span>
             </div>
-            <p className="text-[#f1f3f5]/15 text-sm leading-relaxed">Garage multimarque à {clientCity({ formData: fd }) ?? "Rennes"}. Entretien, carrosserie, VE & hybrides. Agréé constructeur.</p>
+            <p className="text-[#f1f3f5]/15 text-sm leading-relaxed">Garage multimarque à {clientCity(sessionData) ?? "Rennes"}. Entretien, carrosserie, VE & hybrides. Agréé constructeur.</p>
           </div>
           {[
             { t: "Services", ls: ["Entretien & révision", "Carrosserie & peinture", "Diagnostic électronique", "Véhicules électriques", "Dépannage 7j/7"] },
@@ -465,8 +465,8 @@ export default function AutoExpertPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-6 border-t border-[#f1f3f5]/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f1f3f5]/8">
-          <span>© 2026 {clientName(sessionData) ?? "AutoExpert"} {clientCity(sessionData) ?? "Rennes"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 345 678 901 00022"} · FCA · {clientCity(sessionData) ?? "Rennes"} (35){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
-          <span className="text-[var(--brand,#dc2626)]/15">Garage multimarque {clientCity({ formData: fd }) ?? "Rennes"}</span>
+          <span>© 2026 {clientName(sessionData) ?? "AutoExpert"} {clientCity(sessionData) ?? "Rennes"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 345 678 901 00022"} · FCA · {clientCity(sessionData) ?? "Rennes"} (35){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span className="text-[var(--brand,#dc2626)]/15">Garage multimarque {clientCity(sessionData) ?? "Rennes"}</span>
         </div>
       </footer>
     </div>

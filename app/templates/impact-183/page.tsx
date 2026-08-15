@@ -31,7 +31,7 @@ let bp: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   COULEURS & CO PISCINES — Pisciniste / Constructeur de piscines ({clientCity({ formData: fd }) ?? "Lille"})
+   COULEURS & CO PISCINES — Pisciniste / Constructeur de piscines ({clientCity(sessionData) ?? "Lille"})
    Palette : blanc pur / vert sauge #4d7c5f / gris perle #e8e8e4 / encre #1a1a2e
    Fonts : Montserrat (titres) + Nunito (corps)
    Style : frais, propre, coloré, artisanal premium
@@ -90,7 +90,7 @@ const CHANTIERS = [
 
 function ZONES_DEMO_LIVE() {
   return [
-  { ville: (clientCity({ formData: fd }) ?? "Lille"), detail: "Métropole et première couronne" },
+  { ville: (clientCity(sessionData) ?? "Lille"), detail: "Métropole et première couronne" },
   { ville: "Roubaix · Tourcoing", detail: "Intervention sous 48 h" },
   { ville: "Villeneuve-d'Ascq", detail: "Entretien hebdomadaire possible" },
   { ville: "Armentières", detail: "Devis déplacement offert" },
@@ -148,7 +148,7 @@ export default function CouleursCOPiscinesPage() {
       l: r.location ?? r.context ?? "",
     })),
     [
-      { q: "Notre piscine béton avec liner bleu lagon est une réussite totale. Conseils précieux sur les finitions, chantier propre, délais tenus. Bluffés.", n: "Amélie B.", l: (clientCity({ formData: fd }) ?? "Lille") + " (59)" },
+      { q: "Notre piscine béton avec liner bleu lagon est une réussite totale. Conseils précieux sur les finitions, chantier propre, délais tenus. Bluffés.", n: "Amélie B.", l: (clientCity(sessionData) ?? "Lille") + " (59)" },
       { q: "Rénovation complète : nouveau liner, margelles et filtration au sel. La piscine a retrouvé une seconde jeunesse. Rapport qualité-prix excellent.", n: "Paul & Martine G.", l: "Roubaix (59)" },
       { q: "Construction d'un couloir de nage avec plage immergée et éclairage LED. Résultat magnifique, livré dans les temps. Très pro et à l'écoute.", n: "Karim D.", l: "Tourcoing (59)" },
     ]
@@ -451,7 +451,7 @@ return (
           {[
             { t: "Services", ls: ["Construction sur-mesure", "Revêtement & finitions", "Rénovation de bassin", "Aménagement extérieur", "Entretien & hivernage"] },
             { t: "Infos", ls: ["Qui sommes-nous", "Nos réalisations", "Zone d'intervention", "Avis clients", "Conseils piscine"] },
-            { t: "Contact", ls: [(fd?.phone ?? "03 20 45 67 89"), (fd?.email ?? "contact@couleurs-co.fr"), (clientCity({ formData: fd }) ?? "Lille") + " Métropole", "Lundi-Vendredi 8h-18h", "Devis gratuit 24h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "03 20 45 67 89"), (fd?.email ?? "contact@couleurs-co.fr"), (clientCity(sessionData) ?? "Lille") + " Métropole", "Lundi-Vendredi 8h-18h", "Devis gratuit 24h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#4d7c5f)] mb-5">{col.t}</h4>
@@ -462,7 +462,7 @@ return (
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
-          <span>© 2026 {fd?.businessName ?? "Couleurs & Co Piscines"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 678 901 234 00056"} · Garantie Décennale · Artisan pisciniste{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {fd?.businessName ?? "Couleurs & Co Piscines"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 678 901 234 00056"} · Garantie Décennale · Artisan pisciniste{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#4d7c5f)]/40">{clientTrade(sessionData) ?? "Pisciniste"} qualifié · Nord-Pas-de-Calais</span>
         </div>
       </footer>

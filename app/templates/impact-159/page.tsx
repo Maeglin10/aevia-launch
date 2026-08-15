@@ -129,7 +129,7 @@ function MATERIALS_LIVE(): Material[] {
     palette: ["var(--brand,#c084fc)","#a855f7","#7c3aed","#5b21b6","#3b0764","#1a0331"],
     applications: ["Athletic Biometrics","Military Comms","Medical Wearables","AR Interface Fabric"],
     weight: "38 g/m²",
-    origin: (clientCity({ formData: fd }) ?? "Paris") + " Synthesis Lab · 2025",
+    origin: (clientCity(sessionData) ?? "Paris") + " Synthesis Lab · 2025",
   },
   {
     id: "BM-88-LVX",
@@ -202,7 +202,7 @@ function MATERIALS_LIVE(): Material[] {
     palette: ["var(--brand,#c084fc)","#a855f7","#7c3aed","#5b21b6","#3b0764","#1a0331"],
     applications: ["Athletic Biometrics","Military Comms","Medical Wearables","AR Interface Fabric"],
     weight: "38 g/m²",
-    origin: (clientCity({ formData: fd }) ?? "Paris") + " Synthesis Lab · 2025",
+    origin: (clientCity(sessionData) ?? "Paris") + " Synthesis Lab · 2025",
   },
   {
     id: "BM-88-LVX",
@@ -277,7 +277,7 @@ function MATERIALS_LIVE(): Material[] {
     palette: ["var(--brand,#c084fc)","#a855f7","#7c3aed","#5b21b6","#3b0764","#1a0331"],
     applications: ["Athletic Biometrics","Military Comms","Medical Wearables","AR Interface Fabric"],
     weight: "38 g/m²",
-    origin: (clientCity({ formData: fd }) ?? "Paris") + " Synthesis Lab · 2025",
+    origin: (clientCity(sessionData) ?? "Paris") + " Synthesis Lab · 2025",
   },
   {
     id: "BM-88-LVX",
@@ -1954,7 +1954,7 @@ function CTASection() {
             letterSpacing: "0.2em",
           }}
         >
-          By submitting you accept our Material NDA Terms. Samples shipped from {clientCity({ formData: fd }) ?? "Paris"}.
+          By submitting you accept our Material NDA Terms. Samples shipped from {clientCity(sessionData) ?? "Paris"}.
         </p>
       </div>
     </section>
@@ -2098,7 +2098,7 @@ function Footer() {
               letterSpacing: "0.2em",
             }}
           >
-            © 2026 Aevia Materials AG · All rights reserved · Paris / Tokyo / Zürich{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2026 Aevia Materials AG · All rights reserved · Paris / Tokyo / Zürich{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: "flex", gap: 32 }}>
             {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste2") ?? ["STATUS: NOMINAL","REGISTRY v4.2.1","ISO 10993 CERTIFIED"]).map(s => (

@@ -263,7 +263,7 @@ export default function NeuralisPage() {
                <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
              ) : (
                <>
-                 <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Neuralis"))}</span>
+                 <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Neuralis"))}</span>
                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#00f2ff] -mt-1 ml-1">Augmentation Lab</span>
                </>
              )}
@@ -764,7 +764,7 @@ export default function NeuralisPage() {
            <div className="lg:col-span-6">
               <Reveal>
                  <div className="flex flex-col mb-12">
-                    <span className="text-4xl font-black tracking-[-0.05em] uppercase leading-none">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Neuralis"))}</span>
+                    <span className="text-4xl font-black tracking-[-0.05em] uppercase leading-none">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Neuralis"))}</span>
                     <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#00f2ff] -mt-1 ml-1">Augmentation Lab</span>
                  </div>
                  <p className="text-white/20 max-w-md mb-16 text-[11px] font-bold uppercase tracking-[0.2em] leading-loose italic">
@@ -832,8 +832,8 @@ export default function NeuralisPage() {
       `}</style>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-06"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "impact-06"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>
   );

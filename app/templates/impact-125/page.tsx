@@ -181,7 +181,7 @@ export default function AstrumReachPage() {
                 <div className="w-10 h-10 rounded-full bg-[var(--brand,#06b6d4)]/10 border border-[var(--brand,#06b6d4)]/30 flex items-center justify-center group-hover:bg-[var(--brand,#06b6d4)] transition-all duration-500">
                   <Rocket className="w-5 h-5 text-[var(--brand,#22d3ee)] group-hover:text-black" />
                 </div>
-                <span className="text-base sm:text-xl font-light tracking-[0.15em] sm:tracking-[0.4em] uppercase whitespace-nowrap">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Astrum <span className="text-[var(--brand,#06b6d4)] font-bold">Reach</span></>)}</span>
+                <span className="text-base sm:text-xl font-light tracking-[0.15em] sm:tracking-[0.4em] uppercase whitespace-nowrap">{/* NOM_LOGO */ clientName(sessionData) ?? (<>Astrum <span className="text-[var(--brand,#06b6d4)] font-bold">Reach</span></>)}</span>
               </>
             )}
           </Link>
@@ -456,7 +456,7 @@ export default function AstrumReachPage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 {clientName(sessionData) ?? "ASTRUM REACH AEROSPACE. ALL"} STAGES NOMINAL.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "ASTRUM REACH AEROSPACE. ALL"} STAGES NOMINAL.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-10">
              <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-2">CAPE CANAVERAL, FL</Link>
              <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-2">STARBASE, TX</Link>

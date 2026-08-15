@@ -262,7 +262,7 @@ export default function ChronicleEditorialPage() {
               />
             ) : (
               <>
-                <h1 className="hero-ecran-court text-3xl md:text-5xl font-black uppercase tracking-tighter" style={{  fontFamily: "Georgia, serif" }}>{clientName({ formData: fd }) ?? clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>
+                <h1 className="hero-ecran-court text-3xl md:text-5xl font-black uppercase tracking-tighter" style={{  fontFamily: "Georgia, serif" }}>{clientName(sessionData) ?? clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>
                   Chronicle.
                 </>}</h1>
                 {!scrolled && <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#1a1814]/50 mt-1">Est. 1924</span>}
@@ -613,7 +613,7 @@ export default function ChronicleEditorialPage() {
         </div>
 
         <div className="max-w-[1400px] mx-auto border-t border-[#fcfaf7]/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] font-bold uppercase tracking-widest">
-          <div>© 2026 {clientName(sessionData) ?? "The Chronicle Media Group."}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</div>
+          <div>© 2026 {clientName(sessionData) ?? "The Chronicle Media Group."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</div>
           <div className="flex flex-wrap justify-center gap-6">
             <Link href="#subscribe" className="hover:text-white transition-colors">Terms of Service</Link>
             <Link href="#subscribe" className="hover:text-white transition-colors">{tr({ formData: fd }, "Privacy Policy")}</Link>

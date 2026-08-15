@@ -511,7 +511,7 @@ export default function AetherLabsPage() {
               />
             ) : (
               <>
-                <span className="text-xl font-light tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.15em" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Aether Labs"))}</span>
+                <span className="text-xl font-light tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.15em" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Aether Labs"))}</span>
                 <span className="text-[10px] tracking-[0.2em] uppercase text-[var(--brand,#8B7355)]">Cosmétique scientifique</span>
               </>
             )}
@@ -544,7 +544,7 @@ export default function AetherLabsPage() {
                   style={{ height: 28, maxWidth: 140, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span style={{ fontFamily: "'Cormorant Garamond', serif" }} className="text-xl">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Aether Labs"))}</span>
+                <span style={{ fontFamily: "'Cormorant Garamond', serif" }} className="text-xl">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Aether Labs"))}</span>
               )}
               <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
@@ -599,7 +599,7 @@ export default function AetherLabsPage() {
         </div>
         <div className="relative overflow-hidden min-h-[50vh] md:min-h-0">
           <motion.div className="absolute inset-0" style={{ y: heroY }}>
-            <Image src={photo(4, "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1200&q=85")} alt={fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Aether Labs"))} fill className="object-cover" />
+            <Image src={photo(4, "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1200&q=85")} alt={fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Aether Labs"))} fill className="object-cover" />
           </motion.div>
         </div>
       </section>
@@ -1021,7 +1021,7 @@ export default function AetherLabsPage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-10 mb-10">
             <div className="md:col-span-2">
-              <div className="text-[#F8F6F2] text-xl font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Aether Labs"))}</div>
+              <div className="text-[#F8F6F2] text-xl font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Aether Labs"))}</div>
               <div className="text-xs text-[var(--brand,#8B7355)] tracking-widests uppercase mb-4">Cosmétique scientifique · Grasse</div>
               <p className="text-sm leading-relaxed max-w-xs">Laboratoire fondé en 2012. Chaque formule est développée en interne, testée sous contrôle dermatologique et sourcée de façon éthique.</p>
             </div>
@@ -1039,7 +1039,7 @@ export default function AetherLabsPage() {
             </div>
           </div>
           <div className="pt-8 border-t border-[#1C1814] flex flex-col md:flex-row justify-between gap-4 text-xs">
-            <span>© 2024 {clientName(sessionData) ?? "Aether Labs"} — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+            <span>© 2024 {clientName(sessionData) ?? "Aether Labs"} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
             <div className="flex gap-6">
               {[
                 { name: "Mentions légales", path: "/templates/impact-85/legal/mentions-legales" },

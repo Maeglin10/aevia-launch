@@ -196,7 +196,7 @@ export default function KineticMarqueePage() {
               />
             ) : (
               <>
-            KIN<span className="text-[var(--brand,#f97316)]">{/* NOM_LOGO */ clientName({ formData: fd }) ?? "ETIC"}</span>
+            KIN<span className="text-[var(--brand,#f97316)]">{/* NOM_LOGO */ clientName(sessionData) ?? "ETIC"}</span>
           </>
             )}</Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
@@ -538,7 +538,7 @@ export default function KineticMarqueePage() {
           ))}
         </div>
         <div className="max-w-[1200px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex flex-col md:flex-row justify-between gap-4">
-          <span>© 2026 {clientName(sessionData) ?? "KINETIC. BRANDS IN MOTION."}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "KINETIC. BRANDS IN MOTION."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-6">
             <Link href="#contact" className="hover:text-white transition-colors">Mentions légales</Link>
             <Link href="#contact" className="hover:text-white transition-colors">Confidentialité</Link>

@@ -1002,7 +1002,7 @@ return (
                 letterSpacing: "0.08em",
                 color: C.text,
               }}
-            >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Iris Studio"))}</span>
+            >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Iris Studio"))}</span>
           )}
         </div>
 
@@ -1220,7 +1220,7 @@ return (
               marginBottom: 32,
             }}
           >
-            {clientCity({ formData: fd }) ?? "Paris"} — Photography Studio — Depuis 2018
+            {clientCity(sessionData) ?? "Paris"} — Photography Studio — Depuis 2018
           </motion.div>
 
           <TextReveal immediate delay={0.5}>
@@ -1258,7 +1258,7 @@ return (
               margin: "32px auto 48px",
             }}
           >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            {clientTrade(sessionData) ?? "Photographe"} documentaire et commerciale basée à {clientCity({ formData: fd }) ?? "Paris"}. Je photographie
+            {clientTrade(sessionData) ?? "Photographe"} documentaire et commerciale basée à {clientCity(sessionData) ?? "Paris"}. Je photographie
             ce qui mérite d'être vu — pour l'éditorial, la mode, le mariage et
             l'architecture.
           </>}</motion.p>
@@ -1465,7 +1465,7 @@ return (
                 marginBottom: 24,
               }}
             >{c?.aboutText ?? <>
-              Iris Beaumont. {clientTrade(sessionData) ?? "Photographe"} documentaire et commerciale, basée à {clientCity({ formData: fd }) ?? "Paris"}
+              Iris Beaumont. {clientTrade(sessionData) ?? "Photographe"} documentaire et commerciale, basée à {clientCity(sessionData) ?? "Paris"}
               depuis 2018. Formée à l'École Nationale Supérieure de la Photographie
               d'Arles, j'ai collaboré avec Vogue France, Le Monde, LVMH et des
               dizaines de petites maisons indépendantes.
@@ -1818,7 +1818,7 @@ return (
               {[
                 { label: "Email", value: (fd?.email ?? "iris@iris-studio.fr") },
                 { label: "Téléphone", value: "+33 6 20 51 13 32" },
-                { label: "Studio", value: (clientCity({ formData: fd }) ?? "Paris") + ", sur rendez-vous" },
+                { label: "Studio", value: (clientCity(sessionData) ?? "Paris") + ", sur rendez-vous" },
                 { label: "Instagram", value: "@" + (clientInstagram(sessionData) ?? "iris.studio.") + (clientCity(sessionData) ?? "Paris") },
               ].map((item) => (
                 <div
@@ -2033,7 +2033,7 @@ return (
               letterSpacing: "0.06em",
               color: C.text,
             }}
-          >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Iris Studio"))}</div>
+          >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Iris Studio"))}</div>
 
           <div
             style={{
@@ -2071,7 +2071,7 @@ return (
               letterSpacing: "0.05em",
             }}
           >
-            © 2025 {clientName(sessionData) ?? "Iris Studio."} Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2025 {clientName(sessionData) ?? "Iris Studio."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

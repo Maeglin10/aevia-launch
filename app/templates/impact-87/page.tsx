@@ -156,7 +156,7 @@ export default function IronClubPage() {
           />
         ) : (
           <div style={{ fontFamily: FONT, fontWeight: 900, fontSize: 24, letterSpacing: 1, color: scrolled ? C.text : C.white }}>
-            {clientName({ formData: fd }) ?? "IRON"}<span style={{ color: C.accent }}>CLUB</span>
+            {clientName(sessionData) ?? "IRON"}<span style={{ color: C.accent }}>CLUB</span>
           </div>
         )}
         <div style={{ display: "flex", alignItems: "center", gap: 32 }} className="nav-links-desktop">
@@ -362,7 +362,7 @@ export default function IronClubPage() {
               maxWidth: 520,
             }}
           >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            La salle de sport et CrossFit de référence à {clientCity({ formData: fd }) ?? "Lyon"}. Une communauté soudée, des coachs certifiés, des résultats qui parlent d&apos;eux-mêmes.
+            La salle de sport et CrossFit de référence à {clientCity(sessionData) ?? "Lyon"}. Une communauté soudée, des coachs certifiés, des résultats qui parlent d&apos;eux-mêmes.
           </>}</motion.p>
           <motion.div
             className="i87-hero-cta"
@@ -800,7 +800,7 @@ export default function IronClubPage() {
               </div>
               <p style={{ fontFamily: FONT_BODY, fontSize: 14, lineHeight: 1.65 }}>
                 Salle de sport & CrossFit certifiée.<br />
-                {clientCity({ formData: fd }) ?? "Lyon"} 7e · Depuis 2019.
+                {clientCity(sessionData) ?? "Lyon"} 7e · Depuis 2019.
               </p>
             </div>
             <div>
@@ -809,7 +809,7 @@ export default function IronClubPage() {
               </p>
               <p style={{ fontFamily: FONT_BODY, fontSize: 14, lineHeight: 2 }}>{c?.aboutText ?? <>
                 {clientAddress({ businessProfile: bp }) ?? "12 rue de la Guillotière"}<br />
-                69007 {clientCity({ formData: fd }) ?? "Lyon"}<br />
+                69007 {clientCity(sessionData) ?? "Lyon"}<br />
                 {clientPhone(sessionData) ?? "04 78 34 49 49"}<br />{fd?.email ?? "contact@ironclub-lyon.fr"}</>}</p>
             </div>
             <div>
@@ -835,7 +835,7 @@ export default function IronClubPage() {
               fontFamily: FONT_BODY,
             }}
           >
-            <span>© 2025 {clientName(sessionData) ?? "Iron Club"} — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+            <span>© 2025 {clientName(sessionData) ?? "Iron Club"} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
             <div style={{ display: "flex", gap: 24 }}>
               <a href="/templates/impact-87/legal" style={{ color: "inherit", textDecoration: "none" }}>Mentions légales</a>
               <a href="/templates/impact-87/legal" style={{ color: "inherit", textDecoration: "none" }}>Politique de confidentialité</a>

@@ -99,7 +99,7 @@ let mentors = mentors_SOURCE;
 function faqs_SOURCE_LIVE() {
   return [
   { q: "How much equity do you take?", a: "We take 7% equity in exchange for $500K and access to our full accelerator program." },
-  { q: "Is the program remote or in-person?", a: "The 12-week program is primarily in-person in " + (clientCity({ formData: fd }) ?? "Paris") + ", with optional remote tracks for select cohorts." },
+  { q: "Is the program remote or in-person?", a: "The 12-week program is primarily in-person in " + (clientCity(sessionData) ?? "Paris") + ", with optional remote tracks for select cohorts." },
   { q: "What stage do you invest at?", a: "We invest pre-seed and seed — ideally you have an MVP and first users, but exceptional teams can apply earlier." },
   { q: "When is the next application deadline?", a: "Applications for Cohort W24 close November 15th, 2026. We accept ~20 companies per cohort." },
 ];
@@ -254,7 +254,7 @@ return (
                 <div className="w-8 h-8 bg-[#A3E635] rounded-lg flex items-center justify-center">
                   <Rocket className="w-4 h-4 text-[#060A0F]" />
                 </div>
-                <span className="font-semibold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Zero to One"))}</span>
+                <span className="font-semibold text-lg">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Zero to One"))}</span>
               </>
             )}
           </button>
@@ -506,7 +506,7 @@ return (
                         </div>
                         <div>
                           <div className="font-semibold text-sm">Next Demo Day</div>
-                          <div className="text-[#A3E635] text-xs">March 14, 2027 · {clientCity({ formData: fd }) ?? "Paris"}</div>
+                          <div className="text-[#A3E635] text-xs">March 14, 2027 · {clientCity(sessionData) ?? "Paris"}</div>
                         </div>
                         <div className="ml-auto text-xs text-white/40">500 attendees</div>
                       </div>
@@ -688,7 +688,7 @@ return (
                   teamSize: 72,
                   growth: "$8M ARR, doubling annually",
                   founded: "2021",
-                  hq: (clientCity({ formData: fd }) ?? "Paris") + ", France",
+                  hq: (clientCity(sessionData) ?? "Paris") + ", France",
                   investors: `Lowercarbon Capital, Breakthrough Energy, ${clientName(sessionData) ?? "Zero"} to One`,
                 },
                 {
@@ -772,7 +772,7 @@ return (
                   { icon: <Globe className="w-5 h-5" />, label: "€500K", sub: "Direct investment" },
                   { icon: <Users className="w-5 h-5" />, label: "120+", sub: "Mentors & advisors" },
                   { icon: <Calendar className="w-5 h-5" />, label: "48", sub: "Workshops & sessions" },
-                  { icon: <MapPin className="w-5 h-5" />, label: (clientCity({ formData: fd }) ?? "Paris"), sub: "In-person program" },
+                  { icon: <MapPin className="w-5 h-5" />, label: (clientCity(sessionData) ?? "Paris"), sub: "In-person program" },
                 ].map(({ icon, label, sub }) => (
                   <div key={label} className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
                     <div className="w-10 h-10 bg-[#A3E635]/10 text-[#A3E635] rounded-xl flex items-center justify-center mx-auto mb-3">{icon}</div>
@@ -1206,7 +1206,7 @@ return (
                   <h2 className="text-2xl font-bold mb-6 text-[#A3E635]">Site Publisher</h2>
                   <div className="space-y-3 text-white/60 text-sm leading-relaxed">
                     <p><strong className="text-white">Publisher:</strong> <EditeurDuSite />, sole proprietor.</p>
-                    <p><strong className="text-white">SIREN:</strong> <LegalIdentity /> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}, France.</p>
+                    <p><strong className="text-white">SIREN:</strong> <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}, France.</p>
                     <p><strong className="text-white">Contact:</strong> <span className="text-[#A3E635]">{fd?.email ?? "contact@exemple.fr"}</span></p>
                   </div>
                 </div>
@@ -1262,7 +1262,7 @@ return (
             <div className="w-7 h-7 bg-[#A3E635] rounded-lg flex items-center justify-center">
               <Rocket className="w-3.5 h-3.5 text-[#060A0F]" />
             </div>
-            <span className="font-semibold text-white">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Zero to One"))}</span>
+            <span className="font-semibold text-white">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Zero to One"))}</span>
           </button>
           <div className="flex gap-8 text-sm text-white/40">
             <button onClick={() => goTo("portfolio")} className="hover:text-white transition-colors cursor-pointer bg-transparent border-none text-sm text-white/40">Portfolio</button>
@@ -1272,7 +1272,7 @@ return (
           </div>
           <div className="flex items-center gap-4">
             <button onClick={() => goTo("legal")} className="text-white/30 text-sm hover:text-white/60 transition-colors cursor-pointer bg-transparent border-none">Legal</button>
-            <p className="text-white/30 text-sm">© 2026 {clientName(sessionData) ?? "Zero"} to One Ventures{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</p>
+            <p className="text-white/30 text-sm">© 2026 {clientName(sessionData) ?? "Zero"} to One Ventures{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
           </div>
         </div>
       </footer>
