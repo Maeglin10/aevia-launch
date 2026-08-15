@@ -3036,7 +3036,7 @@ function FooterSection() {
         { label: 'Organisation complète', href: '#services' },
         { label: 'Coordination Jour J', href: '#services' },
         { label: 'Décoration & Fleurs', href: '#services' },
-        { label: 'Consultation gratuite', href: '#contact' },
+        { label: `${clientName(sessionData) ?? "Consultation gratuite"}`, href: '#contact' },
       ],
     },
     {

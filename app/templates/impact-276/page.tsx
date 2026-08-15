@@ -723,7 +723,7 @@ function SLIDES_LIVE(): CrossfadeSlide[] {
   },
   {
     src: PHOTO.nutrition,
-    alt: 'Plan nutrition personnalisé Thomas Lebrun Coach',
+    alt: `Plan nutrition personnalisé ${clientName(sessionData) ?? "Thomas Lebrun Coach"}`,
     num: '02',
     tag: 'Nutrition',
     title: 'MANGER\nPOUR PERFORMER',

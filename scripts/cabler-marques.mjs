@@ -81,7 +81,7 @@ for (const p of parcourir(RACINE)) {
      fragment JSX (`?? (<>Atlas</>)`) était réécrit au milieu d'une balise.
   */
   const caches = [];
-  src = src.replace(/\?\?\s*(?:\(<>)?[^\n]{0,20}/g, (t) => {
+  src = src.replace(/\?\?\s*(?:"[^"\n]*"|'[^'\n]*'|\(<>[^\n]{0,60})/g, (t) => {
     if (!motif(marque).test(t)) return t;
     caches.push(t);
     return `\u0000${caches.length - 1}\u0000`;
@@ -103,7 +103,10 @@ for (const p of parcourir(RACINE)) {
   */
   src = src.split("\n").map((ligne) => {
     if (INTERDIT.test(ligne)) return ligne;
-    return ligne.replace(/(.?[:(,[=]\s*)"([^"\\\n`]*)"/g, (tout, avant, corps) => {
+    /* Les deux sortes de guillemets, échappements compris : impact-10 écrivait
+       ses textes en apostrophes (`long: 'Nestled around the inner garden…'`) et
+       échappait celles du texte — le motif s'arrêtait au premier antislash. */
+    return ligne.replace(/(^\s*|.?[:(,[=]\s*)(["'])((?:[^"'\\\n`]|\\.)*)\2/g, (tout, avant, guillemet, corps) => {
       re.lastIndex = 0;
       if (!re.test(corps) || corps.includes("${")) return tout;
       re.lastIndex = 0;
@@ -116,29 +119,67 @@ for (const p of parcourir(RACINE)) {
   }).join("\n");
 
   /*
-     1. Le texte d'un élément, entre `>` et `<`. Elle passe après les chaînes :
-     dans l'autre sens, la règle 2 retrouvait le repli que la règle 1 venait
-     d'insérer et l'enveloppait une seconde fois.
+     1. Le texte d'un élément.
 
-     Cette règle avait disparu du script lors d'un remaniement — seules les
-     chaînes étaient traitées. « Pétales & Co » restait donc écrit en clair
-     dans l'en-tête et le pied de page du thème, sur ses sept pages, alors que
-     le balayage annonçait le contraire.
+     Un motif `>…<` ne suffisait pas : il exigeait un texte sans accolade et
+     laissait donc intact tout paragraphe dont l'élément appelle une fonction
+     plus loin — « QBit Labs is an independent quantum computing research
+     institute » tenait sur trois lignes dans un <p> qui lisait clientText.
+
+     On suit donc l'état du fichier caractère par caractère. Trois écueils, tous
+     rencontrés : une accolade ouvre une expression, dont le contenu n'est pas
+     du texte ; un `>` peut appartenir à une flèche `=>` ou à une comparaison ;
+     et un guillemet droit dans ce qu'on croit être du texte signale qu'on lit
+     en réalité du code — l'apostrophe, elle, est française et reste du texte.
   */
-  src = src.replace(/>([^<>{}]*)</g, (tout, texte) => {
-    re.lastIndex = 0;
-    if (!re.test(texte)) return tout;
-    re.lastIndex = 0;
-    faits += (texte.match(re) ?? []).length;
-    return ">" + texte.replace(re, `{${lecture}}`) + "<";
-  });
+  {
+    const morceaux = [];
+    let i = 0, debutTexte = -1, profondeur = 0, guillemet = null;
+    while (i < src.length) {
+      const c = src[i];
+      if (debutTexte >= 0) {
+        if (c === "<") { morceaux.push([debutTexte, i]); debutTexte = -1; }
+        else if (c === "{") { morceaux.push([debutTexte, i]); debutTexte = -1; profondeur = 1; }
+        else if (c === '"' || c === "`") { debutTexte = -1; }
+        i++; continue;
+      }
+      if (guillemet) {
+        if (c === "\\") i++;
+        else if (c === guillemet) guillemet = null;
+        i++; continue;
+      }
+      if (c === '"' || c === "'" || c === "`") { guillemet = c; i++; continue; }
+      if (profondeur > 0) {
+        if (c === "{") profondeur++;
+        else if (c === "}") { profondeur--; if (profondeur === 0) debutTexte = i + 1; }
+        i++; continue;
+      }
+      if (c === ">" && src[i - 1] !== "=") debutTexte = i + 1;
+      i++;
+    }
+    let sortie = "", curseur = 0;
+    for (const [a, b] of morceaux) {
+      if (a < curseur) continue;
+      const texte = src.slice(a, b);
+      re.lastIndex = 0;
+      if (!re.test(texte)) continue;
+      re.lastIndex = 0;
+      faits += (texte.match(re) ?? []).length;
+      sortie += src.slice(curseur, a) + texte.replace(re, `{${lecture}}`);
+      curseur = b;
+    }
+    src = sortie + src.slice(curseur);
+  }
 
   src = src.replace(/\u0000(\d+)\u0000/g, (_, i) => caches[Number(i)]);
 
   if (!faits) continue;
   if (!/import\s*\{[^}]*\bclientName\b/.test(src)) {
-    const m = src.match(/\} from "@\/lib\/templates\/clientContent";/);
-    if (m) src = src.replace(m[0], `  clientName,\n${m[0]}`);
+    const bloc = src.match(/import \{([^}]*)\} from "@\/lib\/templates\/clientContent";/);
+    if (bloc) {
+      const noms = [...new Set([...bloc[1].matchAll(/client[A-Za-z]+/g)].map((x) => x[0]).concat("clientName"))].sort();
+      src = src.replace(bloc[0], `import {\n${noms.map((n) => `  ${n},\n`).join("")}} from "@/lib/templates/clientContent";`);
+    }
     else {
       const j = src.indexOf("\n", src.indexOf('"use client";'));
       src = src.slice(0, j + 1) + 'import { clientName } from "@/lib/templates/clientContent";\n' + src.slice(j + 1);

@@ -231,7 +231,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   },
   {
     quote:
-      "Je confie ma garde-robe de travail exclusivement à Maison Solal depuis quatre ans. La coupe a changé ma façon d\'entrer dans une pièce. C\'est un investissement dans qui l\'on veut être.",
+      `Je confie ma garde-robe de travail exclusivement à ${clientName(sessionData) ?? "Maison Solal"} depuis quatre ans. La coupe a changé ma façon d\'entrer dans une pièce. C\'est un investissement dans qui l\'on veut être.`,
     name: 'Isabelle M.',
     role: 'Directrice générale · Aix-en-Provence',
   },

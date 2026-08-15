@@ -496,7 +496,7 @@ export default function ApexFitnessPage() {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <div className="w-8 h-8 rounded-lg bg-[var(--brand,#84cc16)] flex items-center justify-center -skew-x-6"><Dumbbell className="w-4 h-4 text-black" /></div>
-              <span className="font-black tracking-tight uppercase">Apex</span>
+              <span className="font-black tracking-tight uppercase">{clientName(sessionData) ?? "Apex"}</span>
             </div>
             <p className="text-sm text-white/30 leading-relaxed">Performance training studio for serious athletes.</p>
           </div>

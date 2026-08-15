@@ -514,11 +514,16 @@ function StickyCrossfade() {
 /* ════════════════════════════════════════════════════════════════════════════
    MODELS
    ════════════════════════════════════════════════════════════════════════════ */
-const MODELS_SOURCE = [
-  { name: 'Lumyx ONE', tagline: "L'essentiel réinventé",      price: '2 490', range: '120 km', speed: '35 km/h', charge: '3.5 h', img: IMG.bike,     badge: 'Bestseller',      accent: C.blue },
-  { name: 'Lumyx PRO', tagline: 'Pour ceux qui vont plus loin',price: '3 890', range: '180 km', speed: '45 km/h', charge: '2.5 h', img: IMG.ride,     badge: 'Recommandé',      accent: '#7c3aed' },
-  { name: 'Lumyx GT',  tagline: 'La performance absolue',     price: '5 490', range: '230 km', speed: '45 km/h', charge: '1.8 h', img: IMG.hero,     badge: 'Édition limitée', accent: brand ?? 'var(--brand,#f59e0b)' },
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function MODELS_SOURCE_LIVE() {
+  return [
+  { name: `${clientName(sessionData) ?? "Lumyx"} ONE`, tagline: "L'essentiel réinventé",      price: '2 490', range: '120 km', speed: '35 km/h', charge: '3.5 h', img: IMG.bike,     badge: 'Bestseller',      accent: C.blue },
+  { name: `${clientName(sessionData) ?? "Lumyx"} PRO`, tagline: 'Pour ceux qui vont plus loin',price: '3 890', range: '180 km', speed: '45 km/h', charge: '2.5 h', img: IMG.ride,     badge: 'Recommandé',      accent: '#7c3aed' },
+  { name: `${clientName(sessionData) ?? "Lumyx"} GT`,  tagline: 'La performance absolue',     price: '5 490', range: '230 km', speed: '45 km/h', charge: '1.8 h', img: IMG.hero,     badge: 'Édition limitée', accent: brand ?? 'var(--brand,#f59e0b)' },
 ];
+}
+let MODELS_SOURCE = MODELS_SOURCE_LIVE();
 let MODELS = MODELS_SOURCE;
 
 type ModelType = typeof MODELS[0];
@@ -709,14 +714,19 @@ function TechEditorial() {
 /* ════════════════════════════════════════════════════════════════════════════
    STICKY SPEC
    ════════════════════════════════════════════════════════════════════════════ */
-const SPEC_BULLETS_SOURCE = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function SPEC_BULLETS_SOURCE_LIVE() {
+  return [
   { icon: <Battery size={20} />, title: 'Autonomie 230 km',   desc: 'Batterie 52V 25Ah — la plus longue autonomie du segment.' },
   { icon: <Gauge size={20} />,   title: '45 km/h en pointe',  desc: 'Moteur brushless 750W avec couple de démarrage instantané.' },
   { icon: <Zap size={20} />,     title: 'Charge rapide 1.8h', desc: 'Chargeur GaN 65W inclus. Compatible Fast Charge DC en option.' },
   { icon: <Shield size={20} />,  title: 'IP67 certifié',      desc: 'Résistant à la pluie battante. Traversez la ville en toute saison.' },
   { icon: <Leaf size={20} />,    title: 'Zéro émission',      desc: 'Bilan carbone neutre sur 3 ans vs voiture thermique équivalente.' },
-  { icon: <Globe size={20} />,   title: 'App connectée',      desc: 'GPS temps réel, diagnostics live, verrouillage à distance via app Lumyx.' },
+  { icon: <Globe size={20} />,   title: 'App connectée',      desc: `GPS temps réel, diagnostics live, verrouillage à distance via app ${clientName(sessionData) ?? "Lumyx"}.` },
 ];
+}
+let SPEC_BULLETS_SOURCE = SPEC_BULLETS_SOURCE_LIVE();
 let SPEC_BULLETS = SPEC_BULLETS_SOURCE;
 
 function SpecBullet({ bullet, index }: { bullet: typeof SPEC_BULLETS[0]; index: number }) {
@@ -1092,7 +1102,7 @@ function ReserveForm() {
    ════════════════════════════════════════════════════════════════════════════ */
 function Footer() {
   const cols = [
-    { title: 'Produits',   links: ['Lumyx ONE', 'Lumyx PRO', 'Lumyx GT', 'Accessoires', 'App Lumyx'] },
+    { title: 'Produits',   links: [`${clientName(sessionData) ?? "Lumyx"} ONE`, `${clientName(sessionData) ?? "Lumyx"} PRO`, `${clientName(sessionData) ?? "Lumyx"} GT`, 'Accessoires', `App ${clientName(sessionData) ?? "Lumyx"}`] },
     { title: 'Entreprise', links: ["Notre vision", 'Presse', 'Partenaires', 'Carrières', 'Contact'] },
     { title: 'Support',    links: ['FAQ', 'Manuel utilisateur', 'Garantie', 'Réparation', 'Stations de charge'] },
   ];
@@ -1214,6 +1224,8 @@ export default function LumyxPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SPEC_BULLETS_SOURCE = SPEC_BULLETS_SOURCE_LIVE();
+  MODELS_SOURCE = MODELS_SOURCE_LIVE();
   EDITORIAL_SOURCE = EDITORIAL_SOURCE_LIVE();
   IMG = IMG_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();

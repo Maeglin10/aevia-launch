@@ -161,7 +161,10 @@ function CHAPTERS_LIVE() {
 }
 let CHAPTERS = CHAPTERS_LIVE();
 
-const SERVICES_SOURCE: Service[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function SERVICES_SOURCE_LIVE(): Service[] {
+  return [
   {
     title: 'Organisation complète',
     desc: 'De la première esquisse à la dernière danse — nous orchestrons chaque détail pour vous.',
@@ -174,7 +177,7 @@ const SERVICES_SOURCE: Service[] = [
   },
   {
     title: 'Décoration & scénographie',
-    desc: 'Un univers visuel cohérent, de la cérémonie à la salle de réception, signé Maison Nuptiale.',
+    desc: `Un univers visuel cohérent, de la cérémonie à la salle de réception, signé ${clientName(sessionData) ?? "Maison Nuptiale"}.`,
     icon: '✦',
   },
   {
@@ -193,6 +196,8 @@ const SERVICES_SOURCE: Service[] = [
     icon: '✦',
   },
 ];
+}
+let SERVICES_SOURCE: Service[] = SERVICES_SOURCE_LIVE();
 let SERVICES_DEMO = SERVICES_SOURCE;
 
 function EDIT_ROWS_SOURCE_LIVE() {
@@ -208,7 +213,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
     ),
     body: 'Chaque couple reçoit un wedding planner dédié, disponible 7j/7. Nous ne fabriquons pas des mariages en série — nous créons votre mariage. Maximum 12 couples par an, pour que chaque histoire reste unique.',
     img: PH((clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/29040997/pexels-photo-29040997.jpeg?auto=compress&cs=tinysrgb&w=1600'), 800),
-    alt: 'Cérémonie de mariage — Maison Nuptiale',
+    alt: `Cérémonie de mariage — ${clientName(sessionData) ?? "Maison Nuptiale"}`,
     reverse: false,
   },
   {
@@ -2220,6 +2225,7 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   CHAPTERS = CHAPTERS_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
 

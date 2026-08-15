@@ -812,7 +812,7 @@ return (
               </Reveal>
               <Reveal delay={0.2}>
                 <p className="text-gray-500 text-xl max-w-2xl leading-relaxed">
-                  Fondé en 2014, Forme Studio est un collectif de designers industriels, ingénieurs et artisans qui croient que le beau objet est aussi l'objet utile.
+                  Fondé en 2014, {clientName(sessionData) ?? "Forme Studio"} est un collectif de designers industriels, ingénieurs et artisans qui croient que le beau objet est aussi l'objet utile.
                 </p>
               </Reveal>
             </div>
@@ -927,7 +927,7 @@ return (
                 </div>
                 <h2 className="text-gray-900 text-4xl font-bold mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "section-17.titre") ?? (<>Design durable</>)}</h2>
                 <p className="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed mb-10">
-                  Depuis 2021, Forme Studio est certifié B Corp. Nous avons réduit de 40% l'empreinte carbone de nos processus de prototypage en adoptant des matériaux biosourcés et des filières de recyclage locales. Chaque projet intègre une analyse de cycle de vie dès la phase de concept.
+                  Depuis 2021, {clientName(sessionData) ?? "Forme Studio"} est certifié B Corp. Nous avons réduit de 40% l'empreinte carbone de nos processus de prototypage en adoptant des matériaux biosourcés et des filières de recyclage locales. Chaque projet intègre une analyse de cycle de vie dès la phase de concept.
                 </p>
               </Reveal>
               <Reveal delay={0.2}>

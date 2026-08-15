@@ -146,7 +146,7 @@ export default function LuminalLayout({
                   <div className="w-6 h-6 rounded-full bg-[#3d7a5e] flex items-center justify-center text-white">
                     <Leaf className="w-3 h-3" />
                   </div>
-                  LUMINAL
+                  {clientName(__layoutSession) ?? "LUMINAL"}
                 </div>
                 <p className="text-black/40 max-w-sm mb-12 uppercase tracking-widest text-[11px] leading-relaxed italic">
                   Immersive retreat experiences in the world&apos;s most

@@ -177,13 +177,16 @@ function PORTFOLIO_DEMO_LIVE() {
 }
 let PORTFOLIO_DEMO = PORTFOLIO_DEMO_LIVE();;
 
-const TEAM_DEMO = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function TEAM_DEMO_LIVE() {
+  return [
   {
     name: 'Karim Aziz',
     role: 'Fondateur & Maître Plombier',
     exp: '15 ans',
     certs: ['CAP Plomberie', 'Qualibat RGE', 'Certifié Grohe Pro'],
-    bio: "Passionné de plomberie depuis son apprentissage à l\'âge de 17 ans, Karim a fondé Aqua Prestige en 2010 avec l\'ambition de proposer des services haut de gamme à prix juste.",
+    bio: `Passionné de plomberie depuis son apprentissage à l\'âge de 17 ans, Karim a fondé ${clientName(sessionData) ?? "Aqua Prestige"} en 2010 avec l\'ambition de proposer des services haut de gamme à prix juste.`,
     emoji: '👨‍🔧',
     color: C.accent,
   },
@@ -206,6 +209,8 @@ const TEAM_DEMO = [
     color: '#4ecdc4',
   },
 ];
+}
+let TEAM_DEMO = TEAM_DEMO_LIVE();
 
 function TESTIMONIALS_SOURCE_LIVE() {
   return [
@@ -213,7 +218,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     name: 'Isabelle M.',
     city: (clientCity(sessionData) ?? 'Paris'),
     rating: 5,
-    text: "Fuite sous l\'évier un dimanche soir — Karim était là en 25 minutes ! Travail impeccable, prix honnête. Je recommande vivement Aqua Prestige.",
+    text: `Fuite sous l\'évier un dimanche soir — Karim était là en 25 minutes ! Travail impeccable, prix honnête. Je recommande vivement ${clientName(sessionData) ?? "Aqua Prestige"}.`,
     service: 'Dépannage fuite',
   },
   {
@@ -227,7 +232,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     name: 'Chantal & Pierre D.',
     city: 'Neuilly',
     rating: 5,
-    text: 'Devis transparent, équipe ponctuelle, chantier propre. Notre nouvelle salle de bains en marbre est un rêve. Merci Aqua Prestige !',
+    text: `Devis transparent, équipe ponctuelle, chantier propre. Notre nouvelle salle de bains en marbre est un rêve. Merci ${clientName(sessionData) ?? "Aqua Prestige"} !`,
     service: 'Installation premium',
   },
   {
@@ -1139,6 +1144,7 @@ export default function AquaPrestigePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TEAM_DEMO = TEAM_DEMO_LIVE();
   FAQ_ITEMS_DEMO = FAQ_ITEMS_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   PORTFOLIO_DEMO = PORTFOLIO_DEMO_LIVE();

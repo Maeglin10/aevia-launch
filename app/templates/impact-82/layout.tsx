@@ -147,7 +147,7 @@ export default function BlueprintLayout({ children }: { children: React.ReactNod
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-10 mb-10">
             <div className="md:col-span-2">
-              <div className="text-[#F7F5F2] font-normal text-xl mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>Blueprint Developments</div>
+              <div className="text-[#F7F5F2] font-normal text-xl mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>{clientName(__layoutSession) ?? "Blueprint Developments"}</div>
               <div className="text-xs text-[#C9A86C] tracking-widest uppercase mb-4">Promoteur Immobilier depuis 1989</div>
               <p className="text-sm leading-relaxed max-w-xs">Conception, réalisation et valorisation de programmes immobiliers d&apos;exception en France et en Europe.</p>
             </div>

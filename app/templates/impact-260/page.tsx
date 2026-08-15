@@ -182,7 +182,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   {
     eyebrow: 'Notre engagement',
     img: ph((clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600')),
-    alt: 'Plombier Aqua Confort Lyon au travail',
+    alt: `Plombier ${clientName(sessionData) ?? "Aqua Confort Lyon"} au travail`,
     title: (
       <>
         Réactif{' '}
@@ -198,7 +198,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   {
     eyebrow: "Aides de l'État",
     img: ph('1621905252507-b35492cc74b4') + '&w=800',
-    alt: 'Pompe à chaleur installée par Aqua Confort Lyon',
+    alt: `Pompe à chaleur installée par ${clientName(sessionData) ?? "Aqua Confort Lyon"}`,
     title: (
       <>
         MaPrimeRénov&apos;{' '}
