@@ -16,11 +16,26 @@ const exportees = new Set(
   [...contrat.matchAll(/^export function (client\w+)/gm)].map((m) => m[1]),
 );
 
+/*
+  Tous les fichiers du thème, pages annexes et layouts compris.
+
+  Le contrôle ne lisait que `page.tsx` et `shared.tsx` du dossier racine. Or
+  c'est dans `impact-39/layout.tsx` qu'un `clientEmail` sans import a servi une
+  page d'erreur sur les sept pages du thème — pendant que ce même contrôle
+  annonçait « tout ce qui est employé est importé ».
+*/
+function* fichiersDuTheme(dossier) {
+  for (const e of fs.readdirSync(dossier, { withFileTypes: true })) {
+    const c = path.join(dossier, e.name);
+    if (e.isDirectory()) yield* fichiersDuTheme(c);
+    else if (e.name.endsWith(".tsx")) yield c;
+  }
+}
+
 let fautifs = 0;
 for (const theme of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-"))) {
-  for (const fichier of ["page.tsx", "shared.tsx"]) {
-    const f = path.join(ROOT, theme, fichier);
-    if (!fs.existsSync(f)) continue;
+  for (const f of fichiersDuTheme(path.join(ROOT, theme))) {
+    {
     const src = fs.readFileSync(f, "utf8");
     const employees = new Set([...src.matchAll(/\b(client[A-Z]\w*)\s*\(/g)].map((m) => m[1]));
     /*
@@ -48,7 +63,8 @@ for (const theme of fs.readdirSync(ROOT).filter((d) => d.startsWith("impact-")))
     const manquantes = [...employees].filter((n) => exportees.has(n) && !importees.has(n));
     if (manquantes.length) {
       fautifs++;
-      console.log(`${theme}/${fichier} : ${manquantes.join(", ")}`);
+      console.log(`${f.slice(ROOT.length + 1)} : ${manquantes.join(", ")}`);
+    }
     }
   }
 }
