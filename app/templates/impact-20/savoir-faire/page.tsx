@@ -105,7 +105,7 @@ export default function SavoirFairePage() {
             <p>
               Chaque pierre est sertie avec une précision chirurgicale, et chaque métal est poli 
               jusqu'à obtenir un éclat absolu. C'est cet engagement envers l'excellence qui définit 
-              le savoir-faire de la Maison Élara.
+              le savoir-faire de la {clientName(sessionData) ?? "MAISON ÉLARA"}.
             </p>
           </div>
         </motion.div>

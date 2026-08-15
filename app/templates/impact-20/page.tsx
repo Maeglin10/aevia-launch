@@ -2615,7 +2615,7 @@ export default function LuxuryJewelryTemplate() {
                   marginBottom: 12,
                 }}
               >
-                Maison Élara
+                {clientName(sessionData) ?? "MAISON ÉLARA"}
               </div>
               <p
                 style={{

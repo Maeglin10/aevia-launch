@@ -64,14 +64,14 @@ export default function AetherOnePage() {
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}>
              <div className="bg-[#c9a84c]/10 text-[#c9a84c] border border-[#c9a84c]/30 text-[10px] font-bold uppercase tracking-[0.5em] mb-10 px-4 py-1.5 rounded-full inline-block">
-                Archive // AETHER ONE
+                Archive // {clientName(sessionData) ?? "Aether"} ONE
              </div>
              <h1 className="text-6xl md:text-[8rem] font-black leading-[0.75] tracking-tighter mb-12 uppercase text-white italic">
                {clientName(sessionData) ?? "Aether"} One <br/>
                <span className="text-[#c9a84c] not-italic">Archive.</span>
              </h1>
              <p className="max-w-xl text-xl text-white/30 leading-relaxed font-light mb-12 uppercase tracking-widest italic">
-               This section explores the acoustic details and engineering philosophy behind our AETHER ONE initiatives. 
+               This section explores the acoustic details and engineering philosophy behind our {clientName(sessionData) ?? "Aether"} ONE initiatives. 
              </p>
           </motion.div>
         </div>

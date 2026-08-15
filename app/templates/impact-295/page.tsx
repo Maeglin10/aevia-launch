@@ -89,7 +89,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   WOK MASTER — Asian fast-food {clientCity(sessionData) ?? "Paris"} — wok, sushi, ramen. Noto Serif JP, rouge laque / or.
+   {clientName(sessionData) ?? "Wok Master"} — Asian fast-food {clientCity(sessionData) ?? "Paris"} — wok, sushi, ramen. Noto Serif JP, rouge laque / or.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 

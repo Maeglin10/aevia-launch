@@ -86,7 +86,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   BURGERCO — Burger artisanal {clientCity(sessionData) ?? "Paris"} — steaks homemade, frites fraîches, livraison. Bebas Neue, noir / jaune moutarde.
+   {clientName(sessionData) ?? "BurgerCo"} — Burger artisanal {clientCity(sessionData) ?? "Paris"} — steaks homemade, frites fraîches, livraison. Bebas Neue, noir / jaune moutarde.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 

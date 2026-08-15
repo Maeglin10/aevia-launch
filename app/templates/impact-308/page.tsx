@@ -90,7 +90,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   RE-THREAD STUDIO — Mode upcycling {clientCity(sessionData) ?? "Bordeaux"} — collections éco, ateliers DIY, pièces uniques. Josefin Sans, noir / terracotta.
+   {clientName(sessionData) ?? "Re-Thread Studio"} — Mode upcycling {clientCity(sessionData) ?? "Bordeaux"} — collections éco, ateliers DIY, pièces uniques. Josefin Sans, noir / terracotta.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 

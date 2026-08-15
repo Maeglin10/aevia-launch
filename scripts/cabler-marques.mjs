@@ -51,8 +51,23 @@ function variableSession(s) {
 
 const INTERDIT = /className|href=|src=|import |require\(|\.css|https?:\/\/|style=|font-family|@media|aria-|data-|key=/;
 
+/*
+  Les trois écritures d'une même marque.
+
+  Le catalogue relève ce qui s'affiche : impact-08 montre « VULCAN », mais c'est
+  la feuille de style qui met en capitales — la source, elle, écrit « Vulcan ».
+  Un motif à la casse exacte manquait donc les cinq pages du thème.
+
+  On ne descend pas jusqu'aux minuscules : « Terre » et « Table » sont des
+  marques du catalogue autant que des mots ordinaires, et « la terre choisie »
+  doit rester intact.
+*/
 function motif(marque) {
-  return new RegExp(`(?<![\\w])${marque.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?![\\w])`, "g");
+  const titre = marque.toLowerCase().replace(/(^|[\s'’-])(\p{L})/gu, (_, a, b) => a + b.toUpperCase());
+  const formes = [...new Set([marque, titre, marque.toUpperCase()])]
+    .sort((a, b) => b.length - a.length)
+    .map((f) => f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+  return new RegExp(`(?<![\\w])(?:${formes.join("|")})(?![\\w])`, "g");
 }
 
 const rapport = [];

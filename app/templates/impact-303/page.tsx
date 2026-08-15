@@ -88,7 +88,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   STUDIO PEAK PERFORMANCE — {clientTrade(sessionData) ?? "Coach sportif"} {clientCity(sessionData) ?? "Paris"} Est — transformation physique, nutrition, suivi app. Poppins, noir / vert néon.
+   {clientName(sessionData) ?? "Studio Peak Performance"} — {clientTrade(sessionData) ?? "Coach sportif"} {clientCity(sessionData) ?? "Paris"} Est — transformation physique, nutrition, suivi app. Poppins, noir / vert néon.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 

@@ -905,10 +905,10 @@ export default function ThermaProPage() {
   const testimonials_DEMO = [
     { name: 'Pierre M.',       city: (clientCity(sessionData) ?? 'Lyon') + ' 3e',           text: 'Intervention ultra rapide un dimanche soir pour une panne de chaudière. Technicien très compétent, prix honnête, chaudière réparée en 1h. Je recommande chaudement !',                                service: 'Urgence'      },
     { name: 'Nathalie B.',     city: (clientCity(sessionData) ?? "Villeurbanne"),      text: 'Installation d\'une PAC air/eau complète avec plancher chauffant. Chantier propre et dans les délais annoncés. Les économies sont au rendez-vous : −40% sur ma facture de gaz.',                     service: 'PAC'          },
-    { name: 'François T.',     city: 'Bron',              text: 'Therma Pro a géré l\'intégralité des démarches MaPrimeRénov\' pour moi. Simple, rapide, et l\'équipe est vraiment professionnelle. Je n\'ai eu qu\'à signer. Merci !',                             service: 'Financement'  },
+    { name: 'François T.',     city: 'Bron',              text: `${clientName(sessionData) ?? "THERMA PRO"} a géré l\'intégralité des démarches MaPrimeRénov\' pour moi. Simple, rapide, et l\'équipe est vraiment professionnelle. Je n\'ai eu qu\'à signer. Merci !`,                             service: 'Financement'  },
     { name: 'Isabelle C.',     city: 'Caluire-et-Cuire',  text: 'Devis clair et honnête, pas de mauvaise surprise à la facture. L\'installation de la clim réversible est parfaite, vraiment silencieuse, et économique. Top service !',                             service: 'Climatisation'},
     { name: 'Julien R.',       city: 'Écully',            text: 'Remplacement de ma vieille chaudière fuel par une PAC. Marc a été transparent sur tout depuis le début. Le résultat est bluffant — maison bien chaude et économies immédiates.',                     service: 'Rénovation'   },
-    { name: 'Marie-Anne D.',   city: 'Décines-Charpieu',  text: 'Contrat d\'entretien annuel depuis 3 ans, toujours ponctuel, toujours professionnel. On sent que ce sont des gens qui aiment leur métier. Bravo à toute l\'équipe de Therma Pro.',                   service: 'Entretien'    },
+    { name: 'Marie-Anne D.',   city: 'Décines-Charpieu',  text: `Contrat d\'entretien annuel depuis 3 ans, toujours ponctuel, toujours professionnel. On sent que ce sont des gens qui aiment leur métier. Bravo à toute l\'équipe de ${clientName(sessionData) ?? "THERMA PRO"}.`,                   service: 'Entretien'    },
   ];
 
   const faqs_DEMO = [

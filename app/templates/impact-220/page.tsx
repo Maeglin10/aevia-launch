@@ -435,7 +435,7 @@ function Hero() {
       >
         <img
           src={IMGS.hero}
-          alt="Montre Hora Viva — manufacture suisse"
+          alt={`Montre ${clientName(sessionData) ?? "HORA VIVA"} — manufacture suisse`}
           loading="eager"
           style={{
             width: '100%',
@@ -1487,7 +1487,7 @@ function TIMELINE_LIVE() {
   return [
   { year: '1834', event: 'Fondation de la maison par Léonard Marchetti à ' + (clientCity(sessionData) ?? 'Genève') + ', au cœur du quartier des Eaux-Vives.' },
   { year: '1872', event: 'Premier calibre manufacture entièrement réalisé en interne. Brevets déposés sur l\'échappement à ancre modifié.' },
-  { year: '1921', event: 'Création de l\'atelier d\'émail Grand Feu. Hora Viva devient l\'une des trois dernières maisons à maîtriser cette technique.' },
+  { year: '1921', event: `Création de l\'atelier d\'émail Grand Feu. ${clientName(sessionData) ?? "HORA VIVA"} devient l\'une des trois dernières maisons à maîtriser cette technique.` },
   { year: '1967', event: 'Lancement de la Perpétuelle — premier calendrier perpétuel de petite complication suisse certifié COSC.' },
   { year: '2001', event: 'Ouverture de la nouvelle manufacture à Plan-les-Ouates. 4 200 m² dédiés exclusivement à l\'horlogerie mécanique.' },
   { year: '2024', event: 'Présentation du Calibre HV-190A au SIHH — 312 composants, 72h de réserve, tourbillon volant côtes de ' + (clientCity(sessionData) ?? 'Genève') + '.' },
@@ -1604,13 +1604,13 @@ function Heritage() {
 function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
-    quote: "Ma Perpétuelle Hora Viva accompagne chaque décision importante de ma vie depuis vingt-deux ans. Ce n\'est pas une montre — c\'est un compagnon silencieux et fidèle.",
+    quote: `Ma Perpétuelle ${clientName(sessionData) ?? "HORA VIVA"} accompagne chaque décision importante de ma vie depuis vingt-deux ans. Ce n\'est pas une montre — c\'est un compagnon silencieux et fidèle.`,
     author: 'Henri de Vauclaire',
     role: `Collectionneur, ${clientCity(sessionData) ?? "Paris"}`,
     stars: 5,
   },
   {
-    quote: "J\'ai visité quarante manufactures dans ma vie. Chez Hora Viva, on sent immédiatement que rien n\'est fait pour l\'apparence. Tout est fait pour durer deux siècles.",
+    quote: `J\'ai visité quarante manufactures dans ma vie. Chez ${clientName(sessionData) ?? "HORA VIVA"}, on sent immédiatement que rien n\'est fait pour l\'apparence. Tout est fait pour durer deux siècles.`,
     author: 'Kenji Watanabe',
     role: 'Chronobiologiste & Horloger amateur, Tokyo',
     stars: 5,

@@ -73,7 +73,7 @@ function VINTAGES_DEMO_LIVE() {
   },
   {
     id: "s-spirit",
-    name: "Aethelgard 12yr Single Malt",
+    name: `${clientName(sessionData) ?? "AETHELGARD"} 12yr Single Malt`,
     type: "Small Batch Whisky",
     notes: ["Peat Smoke", "Sea Salt", "Dark Toffee"],
     score: "Platinum",
@@ -422,7 +422,7 @@ return (
               <div className="grid lg:grid-cols-2 gap-32 items-center">
                  <div className="order-2 lg:order-1">
                     <Reveal>
-                       <SectionTitle subtitle="Chapitre III // L'Alchimie" title="Spirits of Aethelgard." alignment="left" />
+                       <SectionTitle subtitle="Chapitre III // L'Alchimie" title={`Spirits of ${clientName(sessionData) ?? "AETHELGARD"}.`} alignment="left" />
                        <p className="text-xl font-light text-white/40 leading-relaxed italic mb-16 uppercase tracking-widest">{/* TEXTE_SECTION */ clientText(sessionData, "alchemist.texte") ?? (<>
                           Le temps n'est pas un ennemi, c'est notre principal allié. Nos spiritueux sont élevés en fûts de chêne séculaires, capturant l'essence même de la patience.
                        </>)}</p>
