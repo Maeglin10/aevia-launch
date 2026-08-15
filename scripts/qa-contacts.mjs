@@ -115,7 +115,23 @@ async function travailleur() {
         console.log(`${String(fiches.length).padStart(4)}/${PAGES.length} ${nom0} ⏳ session jamais demandée`);
         continue;
       }
-      await page.waitForTimeout(1200);
+      /*
+         Attendre que la page se taise.
+
+         Un délai fixe après la réponse ne suffit pas : à quatre onglets, le
+         rendu qui suit arrive parfois plus tard, et l'on juge l'image d'avant.
+         Le compte variait de treize à vingt-quatre d'un balayage à l'autre sans
+         qu'une ligne de code ait bougé — c'était la mesure qui tremblait, pas
+         le produit. On lit donc jusqu'à ce que deux lectures consécutives
+         soient identiques.
+      */
+      let precedent = null;
+      for (let essai = 0; essai < 12; essai++) {
+        await page.waitForTimeout(500);
+        const maintenant = await page.evaluate(() => (document.body.innerText ?? "").length);
+        if (maintenant === precedent && maintenant > 0) break;
+        precedent = maintenant;
+      }
 
       /* Descente progressive : les sections `whileInView` se démontent dès qu'on
          les dépasse, il faut lire le texte pendant la descente, pas après. */
