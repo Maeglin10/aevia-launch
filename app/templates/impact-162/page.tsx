@@ -30,6 +30,13 @@ let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
 // que fd/c/bp, pour les sous-composants qui n'ont pas de props.
 let sessionData: any = null;
+
+const TESTIMONIALS_SOURCE = [
+  { name: "Élise M.", text: "Le café idéal pour travailler le matin. La lumière, la musique, le café... Tout est parfait.", rating: 5 },
+  { name: "Thomas B.", text: "La brioche aux agrumes est un chef-d'œuvre. Je fais un détour de 20 minutes pour en avoir une le week-end.", rating: 5 },
+  { name: "Pauline R.", text: "Accueil chaleureux, cadre magnifique. On s'y sent comme à la maison, mais en beaucoup mieux.", rating: 5 },
+]
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let brand: any = null;
 
 const Instagram = ({ className = "w-4 h-4" }: { className?: string }) => (

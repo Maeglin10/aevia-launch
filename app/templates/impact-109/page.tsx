@@ -20,15 +20,20 @@ import {
   clientText,
   clientWorks,
 } from "@/lib/templates/clientContent";
-let sessionData: any = null;
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
-let fd: any = null;
 
 // Les avis, jusqu'ici écrit(e) dans le rendu :
 // le client pouvait les saisir, le thème ne les lisait pas.
+/* La session, posée avant tout dégel : une donnée recalculée à l'import la lit.
+   Déclarée plus bas, elle rendait la page blanche sans un mot du build. */
+let sessionData: any = null;
+let fd: any = null;
+let brand: any = null;
+
 function AVIS_INLINE_SOURCE_LIVE() {
   return [
   { quote: "We installed the Studio Array in our film scoring stage. The first session, the composer wept. The clarity revealed things we had been missing for a decade.", name: "J. Wren", origin: "London · Scoring Stage B" },
@@ -40,7 +45,6 @@ let AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
 let AVIS_INLINE = AVIS_INLINE_SOURCE;
 
 let c: any = null;
-let brand: any = null;
 
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
