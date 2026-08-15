@@ -472,7 +472,7 @@ export default function Impact174Page() {
             ))}
           </div>
           <Reveal delay={0.3}>
-            <p className="text-center text-xs text-[#f5f5f5]/30 mt-6 uppercase tracking-widest">Planning complet disponible sur l'app FORGE · Inscription requise</p>
+            <p className="text-center text-xs text-[#f5f5f5]/30 mt-6 uppercase tracking-widest">Planning complet disponible sur l'app {clientName(sessionData) ?? "FORGE"} · Inscription requise</p>
           </Reveal>
         </div>
       </section>

@@ -425,7 +425,7 @@ export default function Impact171Page() {
             <Reveal delay={0.2}>
               <p className="text-lg text-[#134E4A]/70 leading-relaxed mb-8 max-w-lg">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
                 Médecine evidence-based, suivi personnalisé et technologies de diagnostic avancées.
-                Vitalité Médical place la prévention au cœur de votre santé.
+                {clientName(sessionData) ?? "VITALITÉ"} Médical place la prévention au cœur de votre santé.
               </>}</p>
             </Reveal>
             <Reveal delay={0.3}>

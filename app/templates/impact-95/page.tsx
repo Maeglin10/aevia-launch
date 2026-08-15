@@ -940,7 +940,7 @@ export default function LumiereCliniquePage() {
             </Reveal>
             <Reveal delay={0.2}>
               <p className="text-[#6B6560] text-lg leading-relaxed max-w-lg mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-                Lumière Clinic allie rigueur médicale et approche esthétique personnalisée. Chaque protocole est co-construit avec le patient, fondé sur des preuves scientifiques et exécuté avec précision.
+                {clientName(sessionData) ?? "Lumière Clinic"} allie rigueur médicale et approche esthétique personnalisée. Chaque protocole est co-construit avec le patient, fondé sur des preuves scientifiques et exécuté avec précision.
               </>}</p>
             </Reveal>
             <Reveal delay={0.3}>
@@ -1027,7 +1027,7 @@ export default function LumiereCliniquePage() {
             </div>
           </div>
           <div className="pt-8 border-t border-[#2A1E12] flex flex-col md:flex-row justify-between gap-4 text-xs">
-            <span>© 2025 Lumière Clinic — Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity /> · Ordre National des Médecins</span>
+            <span>© 2025 {clientName(sessionData) ?? "Lumière Clinic"} — Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity /> · Ordre National des Médecins</span>
             <div className="flex gap-6">
               <Link href="#contact" className="hover:text-[#FAFAF8] transition-colors cursor-pointer">Mentions légales</Link>
               <Link href="#contact" className="hover:text-[#FAFAF8] transition-colors cursor-pointer">Confidentialité</Link>

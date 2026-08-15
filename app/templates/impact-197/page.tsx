@@ -1541,7 +1541,7 @@ function LegalPage() {
           <div>
             <h4 style={{ fontSize: 16, color: C.marine, marginBottom: 8, fontFamily: "'Cormorant Garamond', Georgia, serif" }}>Protection des Données Personnelles</h4>
             <p>
-              Les données personnelles transmises via notre formulaire de contact sont uniquement traitées par Évasion Dorée pour la gestion de votre projet de voyage. Conformément à la réglementation RGPD, vous disposez d'un droit d'accès, de modification et de suppression de vos données sur simple demande par email.
+              Les données personnelles transmises via notre formulaire de contact sont uniquement traitées par {clientName(sessionData) ?? "Évasion Dorée"} pour la gestion de votre projet de voyage. Conformément à la réglementation RGPD, vous disposez d'un droit d'accès, de modification et de suppression de vos données sur simple demande par email.
             </p>
           </div>
         </div>

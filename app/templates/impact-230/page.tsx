@@ -257,7 +257,7 @@ export default function AtelierDuBoisPage() {
           </>}</>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            Atelier du Bois crée vos meubles sur mesure à {clientCity(sessionData) ?? "Bordeaux"} depuis 20 ans. Mobilier, cuisine, escaliers, restauration — 100% bois massif PEFC, 0% aggloméré.
+            {clientName(sessionData) ?? "Atelier"} du Bois crée vos meubles sur mesure à {clientCity(sessionData) ?? "Bordeaux"} depuis 20 ans. Mobilier, cuisine, escaliers, restauration — 100% bois massif PEFC, 0% aggloméré.
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
             <motion.a href={`tel:${fd?.phone ?? "+33556000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}44` }} whileHover={{ scale: 1.03 }}>

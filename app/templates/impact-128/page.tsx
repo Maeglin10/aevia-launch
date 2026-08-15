@@ -339,7 +339,7 @@ export default function HavenEstatesPage() {
                   The Haven <em className="text-[var(--brand,#b8860b)]">Advantage.</em>
                 </>}</h2>
                 <p className="text-lg text-white/40 font-light leading-relaxed max-w-md">{c?.aboutText ?? <>
-                  Founded by former principals at Sotheby&apos;s Realty and Christie&apos;s International, Haven Estates brings institutional expertise to private hands — with complete discretion.
+                  Founded by former principals at Sotheby&apos;s Realty and Christie&apos;s International, {clientName(sessionData) ?? "HAVEN ESTATES"} brings institutional expertise to private hands — with complete discretion.
                 </>}</p>
               </Reveal>
               <Reveal delay={0.15}>

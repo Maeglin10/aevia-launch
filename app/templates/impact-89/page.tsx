@@ -887,7 +887,7 @@ return (
               marginBottom: 8,
             }}
           >{c?.heroHeadline ?? <>{clientHeroLine(sessionData, 0, 2, 6) ?? (<>
-            INK
+            {clientName(sessionData) ?? "INK"}
           </>)}</>}</motion.h1>
           <motion.div
             initial={{ opacity: 0, scaleX: 0 }}

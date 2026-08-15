@@ -696,7 +696,7 @@ export default function Page() {
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  Dubois & Partenaires conseille les entrepreneurs, startups et PME bordelaises sur leurs enjeux juridiques. Droit des sociétés, M&A, financement et conformité RGPD depuis 2012.
+                  {clientName(sessionData) ?? "Dubois & Partenaires"} conseille les entrepreneurs, startups et PME bordelaises sur leurs enjeux juridiques. Droit des sociétés, M&A, financement et conformité RGPD depuis 2012.
                 </>}</p>
                 <p style={{
                   fontSize: 15,

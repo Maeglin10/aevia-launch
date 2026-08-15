@@ -403,7 +403,7 @@ return (
               <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">{clientName({ formData: fd })}</span>
             ) : (<>
               <>
-            <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">Vulcan</span>
+            <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">{clientName(sessionData) ?? "VULCAN"}</span>
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] -mt-1 ml-1">Motor Group Modena</span>
               </>
             </>))}

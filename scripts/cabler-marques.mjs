@@ -153,6 +153,20 @@ for (const p of parcourir(RACINE)) {
     const DEHORS = 0, BALISE = 1, TEXTE = 2;
     let etat = DEHORS, i = 0, debutTexte = -1, guillemet = null, profTag = 0, profExpr = 0;
 
+    /*
+       Les commentaires, sautés avant tout le reste. Les miens sont en français :
+       « n'affiche pas », « l'import » — chaque apostrophe y ouvrait une chaîne
+       qui ne se refermait jamais, et le balayage perdait le fil du fichier dès
+       les premières lignes. Trente-sept segments relevés là où il y en a des
+       centaines, et « QBit Labs is an independent research institute » restait
+       affiché.
+    */
+    const commentaire = () => {
+      if (src[i] === "/" && src[i + 1] === "/") { while (i < src.length && src[i] !== "\n") i++; return true; }
+      if (src[i] === "/" && src[i + 1] === "*") { i += 2; while (i < src.length && !(src[i] === "*" && src[i + 1] === "/")) i++; i += 2; return true; }
+      return false;
+    };
+
     const chaine = (c) => {
       if (guillemet) {
         if (c === "\\") { i++; return true; }
@@ -167,6 +181,7 @@ for (const p of parcourir(RACINE)) {
       const c = src[i];
 
       if (etat === BALISE) {
+        if (!guillemet && commentaire()) continue;
         if (!chaine(c)) {
           if (c === "{") profTag++;
           else if (c === "}") profTag--;
@@ -194,6 +209,7 @@ for (const p of parcourir(RACINE)) {
          JSX vit à l'intérieur des expressions (`{cond && (<p>…</p>)}`), et les
          sauter en bloc laissait « Votre Vulcan est unique » intact sur cinq
          pages. */
+      if (!guillemet && commentaire()) continue;
       if (!chaine(c)) {
         if (c === "{") profExpr++;
         else if (c === "}") { profExpr--; if (profExpr === 0) { etat = TEXTE; debutTexte = i + 1; } }

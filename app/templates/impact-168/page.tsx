@@ -1758,7 +1758,7 @@ export default function ImpactEclatPage() {
               marginBottom: 16,
             }}
           >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
-            Éclat Fidélité
+            {clientName(sessionData) ?? "Éclat"} Fidélité
           </>)}</h2>
           <p style={{ fontSize: 16, color: C.creamDim, maxWidth: 520, margin: "0 auto", lineHeight: 1.7 }}>
             Plus vous achetez, plus vous accédez à des avantages exclusifs. Trois niveaux,

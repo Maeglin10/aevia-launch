@@ -315,7 +315,7 @@ return (
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="text-xl text-white/60 max-w-2xl mb-10 leading-relaxed"
               >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-                Zero to One is a 12-week accelerator for pre-seed founders. We invest €500K, open our network, and help you build the company you imagined.
+                {clientName(sessionData) ?? "Zero"} to One is a 12-week accelerator for pre-seed founders. We invest €500K, open our network, and help you build the company you imagined.
               </>}</motion.p>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -472,7 +472,7 @@ return (
                   <p className="text-[#A3E635] text-sm font-semibold tracking-widest uppercase mb-4">What you get</p>
                   <h2 className="text-4xl md:text-5xl font-bold mb-6">{c?.aboutTitle ?? fd?.businessName ?? <>More than capital.</>}</h2>
                   <p className="text-white/50 text-lg mb-10 leading-relaxed">{c?.aboutText ?? <>
-                    We built Zero to One because we know what founders actually need. Not just money — but the right introductions, the hard feedback, and the community that keeps you going.
+                    We built {clientName(sessionData) ?? "Zero"} to One because we know what founders actually need. Not just money — but the right introductions, the hard feedback, and the community that keeps you going.
                   </>}</p>
                   <div className="space-y-4">
                     {PRESTATIONS_INLINE.map(({ icon, label, desc }) => (
@@ -1135,7 +1135,7 @@ return (
               </div>
               <h1 className="text-4xl md:text-5xl font-bold mb-4">{c?.heroHeadline ?? "Start your application"}</h1>
               <p className="text-white/50 text-sm max-w-md mx-auto">
-                Apply to the Zero to One 12-week accelerator. We invest €500K and help you scale. Takes ~15 minutes to complete.
+                Apply to the {clientName(sessionData) ?? "Zero"} to One 12-week accelerator. We invest €500K and help you scale. Takes ~15 minutes to complete.
               </p>
             </div>
 

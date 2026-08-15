@@ -1110,7 +1110,7 @@ export default function LuxuryJewelryTemplate() {
                   animation: "shimmer 4s linear infinite",
                 }}
               >{/* NOM_LOGO */ clientName(sessionData) ?? (<>
-                MAISON ÉLARA
+                {clientName(sessionData) ?? "MAISON ÉLARA"}
               </>)}</span>
             )}
           </div>

@@ -672,7 +672,7 @@ return (
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  Nexus Compta accompagne les nouvelles formes d'entrepreneuriat : influenceurs, e-commerçants, freelances et micro-entrepreneurs. Dématérialisation complète, reporting mensuel clair.
+                  {clientName(sessionData) ?? "Nexus Compta"} accompagne les nouvelles formes d'entrepreneuriat : influenceurs, e-commerçants, freelances et micro-entrepreneurs. Dématérialisation complète, reporting mensuel clair.
                 </>}</p>
                 <p style={{
                   fontSize: 15,

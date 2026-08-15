@@ -2073,7 +2073,7 @@ return (
                   fontWeight: 300,
                 }}
               >
-                Chez Maison Saveur, rien n&apos;est laissé au hasard. Du choix
+                Chez {clientName(sessionData) ?? "Maison Saveur"}, rien n&apos;est laissé au hasard. Du choix
                 des producteurs à la mise en place finale, chaque détail est
                 pensé pour que vous et vos convives viviez un moment
                 d&apos;exception.
