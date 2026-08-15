@@ -143,8 +143,24 @@ async function travailleur() {
       }
       if (erreurs.length) fuites.push(`erreur JS : ${erreurs[0]}`);
       if (vus.length < 300) fuites.push("page vide ou en erreur");
+      /*
+         La marque, mot entier et casse respectée.
+
+         Chercher la sous-chaîne en minuscules accusait « De la terre à
+         l'objet » pour un thème nommé « Terre », et « Table gastronomique »
+         pour un thème nommé « Table » : dix-sept marques du catalogue sont des
+         mots français ordinaires. On retient les trois écritures qui font
+         vraiment un nom — telle quelle, en capitales, en Capitales Initiales —
+         et l'on exige un mot entier.
+      */
       const marque = MARQUES[theme];
-      if (marque && vus.toLowerCase().includes(marque.toLowerCase())) fuites.push(`marque : ${marque}`);
+      if (marque) {
+        const titre = marque.toLowerCase().replace(/(^|[\s'’-])(\p{L})/gu, (_, a, b) => a + b.toUpperCase());
+        const formes = [...new Set([marque, titre, marque.toUpperCase()])]
+          .sort((a, b) => b.length - a.length)
+          .map((f) => f.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+        if (new RegExp(`(?<![\\w])(?:${formes.join("|")})(?![\\w])`).test(vus)) fuites.push(`marque : ${marque}`);
+      }
       await page.close();
     } catch (e) {
       fuites.push(`plantage: ${String(e).slice(0, 70)}`);
