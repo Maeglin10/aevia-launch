@@ -270,7 +270,7 @@ function NavBar() {
     { label: 'Techniques', href: '#techniques' },
     { label: 'Équipe', href: '#equipe' },
     { label: 'Témoignages', href: '#temoignages' },
-    { label: `${clientName(sessionData) ?? "Bilan gratuit"}`, href: '#bilan' },
+    { label: 'Bilan gratuit', href: '#bilan' },
   ];
 
   const bar: React.CSSProperties = {
@@ -332,7 +332,7 @@ function NavBar() {
       </div>
       <div className="r284-navcta">
         <a href="#bilan" style={{ textDecoration: 'none' }}>
-          <GoldButton small filled>{clientName(sessionData) ?? "Bilan gratuit"}</GoldButton>
+          <GoldButton small filled>Bilan gratuit</GoldButton>
         </a>
       </div>
       
@@ -2501,7 +2501,7 @@ function FooterSection() {
     {
       title: 'Informations',
       items: [
-        { label: `${clientName(sessionData) ?? "Bilan gratuit"}`, href: '#bilan' },
+        { label: 'Bilan gratuit', href: '#bilan' },
         { label: 'Prendre rendez-vous', href: '#bilan' },
         { label: 'Mentions légales', href: '#hero' },
         { label: 'Politique de confidentialité', href: '#hero' },

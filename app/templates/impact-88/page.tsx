@@ -137,7 +137,9 @@ function PORTFOLIO_ITEMS_LIVE() {
   { id: 7, category: "Gel",      title: "Bordeaux Intense",   desc: "Gel semi-permanent vibrant",   accent: "#BE185D", img: "photo-1604654894610-df63bc536371" },
   { id: 8, category: "French",   title: "French Ombré",       desc: "Fondu rose à ivoire",          accent: "#F0ABFC", img: "photo-1522337360788-8b13dee7a37e" },
   { id: 9, category: "Seasonal", title: "Hiver Nacré",        desc: "Nacre & paillettes fines",     accent: "#C084FC", img: "photo-1604654894610-df63bc536371" },
-])
+]);
+}
+let PORTFOLIO_ITEMS = PORTFOLIO_ITEMS_LIVE();
 
 const SERVICES_SOURCE = [
   { id: 1, name: "Pose Gel Couleur",    price: "45€",  duration: "60 min",  desc: "Application longue tenue avec finition brillante ou mate. Tient 3 semaines sans éclats." },
@@ -148,8 +150,6 @@ const SERVICES_SOURCE = [
   { id: 6, name: "Dépose + Soin",       price: "40€",  duration: "45 min",  desc: "Dépose soignée du produit + bain nourrissant + évaluation santé de l'ongle." },
 ]
 let SERVICES_DEMO = SERVICES_SOURCE;
-}
-let PORTFOLIO_ITEMS = PORTFOLIO_ITEMS_LIVE();
 
 const ARTISTS_DEMO = [
   {

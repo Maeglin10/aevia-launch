@@ -334,7 +334,7 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.55 }}
           style={{ fontSize: fl(1, 1.25), color: C.whiteOff, maxWidth: '480px', lineHeight: 1.65, marginBottom: '2.5rem' }}
-        >{clientHeroSubtitle(sessionData) ?? "Lumyx repense la mobilité électrique avec une ingénierie de précision et un design qui impose le respect."}</motion.p>
+        >{clientHeroSubtitle(sessionData) ?? ((clientName(sessionData) ?? "Lumyx") + " repense la mobilité électrique avec une ingénierie de précision et un design qui impose le respect.")}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -763,7 +763,7 @@ function StickySpec() {
         {/* Sticky vehicle photo */}
         <div style={{ flex: '0 0 45%', position: 'sticky', top: '15vh', overflow: 'hidden', borderRadius: '4px' }}>
           <motion.div style={{ y: imgY }}>
-            <img src={IMG.detail} alt="Lumyx GT — détail technique" loading="lazy" style={{ width: '100%', height: '70vh', objectFit: 'cover', display: 'block', borderRadius: '4px' }} />
+            <img src={IMG.detail} alt={`${clientName(sessionData) ?? "Lumyx"} GT — détail technique`} loading="lazy" style={{ width: '100%', height: '70vh', objectFit: 'cover', display: 'block', borderRadius: '4px' }} />
           </motion.div>
           <div style={{ position: 'absolute', bottom: '1.5rem', left: '1.5rem', background: 'rgba(6,8,13,0.88)', backdropFilter: 'blur(12px)', border: `1px solid ${C.border}`, padding: '1rem 1.5rem', borderRadius: '2px' }}>
             <div style={{ color: C.blue, fontSize: '0.68rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase' as const, marginBottom: '0.3rem' }}>{clientName(sessionData) ?? "Lumyx"} GT</div>
@@ -829,7 +829,7 @@ function Gallery() {
             >
               <img
                 src={p.img}
-                alt={`Lumyx — galerie urbaine ${i + 1}`}
+                alt={`${clientName(sessionData) ?? "Lumyx"} — galerie urbaine ${i + 1}`}
                 loading="lazy"
                 style={{ width: '100%', height: `${p.h}px`, objectFit: 'cover', display: 'block', transition: 'transform 0.5s ease' }}
               />
