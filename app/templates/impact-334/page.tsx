@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 /* ════════════════════════════════════════════════════════════════════════════
-   STUDIO CULINA — Cuisiniste de montagne · Annecy
+   {clientName(sessionData) ?? "Studio Culina"} — Cuisiniste de montagne · Annecy
    ─────────────────────────────────────────────────────────────────────────────
    Cuisiniste, 2e variante du catalogue (la 1re est impact-327, ExpandFrame).
    Celle-ci est un studio-showroom de montagne.

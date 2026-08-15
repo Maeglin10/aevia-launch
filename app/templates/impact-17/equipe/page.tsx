@@ -107,7 +107,7 @@ export default function EquipePage() {
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div className="max-w-6xl mx-auto bg-[#F5F2ED]/92 backdrop-blur-md border border-[#C46A3E]/20 rounded-2xl px-6 py-4 flex items-center justify-between shadow-sm">
           <Link href="/templates/impact-17" className="text-[#1A1510] tracking-wide text-lg font-medium cursor-pointer" style={{ fontFamily: "'Libre Baskerville', serif" }}>
-            Kéops
+            {clientName(sessionData) ?? "Kéops"}
           </Link>
           <div className="hidden md:flex items-center gap-8 text-[#1A1510]/60 text-sm font-medium">
             {[

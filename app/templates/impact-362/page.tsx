@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 /* ════════════════════════════════════════════════════════════════════════════
-   IMPACT-362 — DUO PEINTURES · Père & fille, peinture et rénovation, Orléans
+   IMPACT-362 — {clientName(sessionData) ?? "Duo Peintures"} · Père & fille, peinture et rénovation, Orléans
 
    Geste signature   : InvertSweep — la page bascule du sombre au clair au fil
                        du défilement. Ici la bascule N'EST PAS décorative :

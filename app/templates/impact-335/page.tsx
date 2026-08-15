@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 /* ════════════════════════════════════════════════════════════════════════════
-   RIVES BLANCHES — Pompes funèbres · Nice
+   {clientName(sessionData) ?? "Rives Blanches"} — Pompes funèbres · Nice
    ─────────────────────────────────────────────────────────────────────────────
    Pompes funèbres, 2e variante (la 1re est impact-328, HeldSwap lent).
    Celle-ci est côtière et lumineuse.

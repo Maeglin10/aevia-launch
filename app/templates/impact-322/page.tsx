@@ -3,7 +3,7 @@
 
 /*
  * ══════════════════════════════════════════════════════════════════════
- * impact-322 — Agence Prestige · agence événementielle haut de gamme
+ * impact-322 — {clientName(sessionData) ?? "Agence Prestige"} · agence événementielle haut de gamme
  * Réécriture famille I → squelette premium (plan REPRISE_316_383, lot B).
  * Geste signature : PortalZoom (≠) — une arche découpée dans la photo
  * laisse voir la scène suivante au travers ; à la transition, on

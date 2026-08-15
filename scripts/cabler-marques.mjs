@@ -305,6 +305,36 @@ for (const p of parcourir(RACINE)) {
     src = sortie + src.slice(curseur);
   }
 
+  /*
+     3. La ligne de prose pure.
+
+     Le balayage à états reste faillible : sur trois thèmes il perd le fil au
+     milieu du fichier, et « Rejoindre FORGE », « la Maison Éclat incarne quatre
+     décennies » ou « Ledger & Associés nous accompagne depuis 10 ans »
+     survivaient à tout le reste.
+
+     Une ligne sans balise, sans accolade, sans guillemet et sans signe égal ne
+     peut être que du texte. On vérifie seulement qu'elle ne se trouve pas à
+     l'intérieur d'un gabarit à accents graves, où il faudrait interpoler.
+  */
+  {
+    const lignes = src.split("\n");
+    let gravesAvant = 0;
+    for (let k = 0; k < lignes.length; k++) {
+      const l = lignes[k];
+      const dansGabarit = gravesAvant % 2 === 1;
+      gravesAvant += (l.match(/`/g) ?? []).length;
+      if (dansGabarit) continue;
+      if (/[<>{}"'=]/.test(l)) continue;
+      re.lastIndex = 0;
+      if (!re.test(l)) continue;
+      re.lastIndex = 0;
+      faits += (l.match(re) ?? []).length;
+      lignes[k] = l.replace(re, `{${lecture}}`);
+    }
+    src = lignes.join("\n");
+  }
+
   src = src.replace(/\u0000(\d+)\u0000/g, (_, i) => caches[Number(i)]);
 
   if (!faits) continue;
