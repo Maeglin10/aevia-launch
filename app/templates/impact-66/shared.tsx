@@ -68,17 +68,17 @@ export const REVIEWS = [
   {
     author: "Elena V.",
     text: "The most clinical yet calming environment I've ever experienced. My nails have never been this healthy.",
-    role: clientCityOr("Paris"),
+    get role() { return clientCityOr("Paris"); },
   },
   {
     author: "Sophie L.",
     text: "L'Atelier is more like a laboratory than a salon. The precision is unmatched.",
-    role: clientCityOr("Lyon"),
+    get role() { return clientCityOr("Lyon"); },
   },
   {
     author: "Marc A.",
     text: "The facial ritual is a total sensory reset. My skin feels architectural.",
-    role: clientCityOr("Bordeaux"),
+    get role() { return clientCityOr("Bordeaux"); },
   },
 ];
 

@@ -104,7 +104,7 @@ export const projects = [
     id: 'p2',
     title: 'Tour Silhouette',
     category: 'Mixed-Use Tower',
-    location: clientCityOr('Paris') + ' 13e, FR',
+    get location() { return clientCityOr('Paris') + ' 13e, FR'; },
     year: '2023',
     area: '18 400 m²',
     color: '#0d1a2a',
@@ -184,7 +184,7 @@ export const teamMembers = [
   {
     name: 'Sadia Rahman',
     title: 'Associate — Research',
-    credentials: 'MArch Cambridge · PhD ENSA ' + clientCityOr('Paris'),
+    get credentials() { return 'MArch Cambridge · PhD ENSA ' + clientCityOr('Paris'); },
     focus: 'Housing typology, post-occupancy evaluation, urban strategy',
     bio: 'Sadia directs the studio\'s research agenda and manages relationships with academic institutions. Her doctoral work on the social life of corridors has influenced the studio\'s approach to circulation as collective space.',
     projects: '19 built',

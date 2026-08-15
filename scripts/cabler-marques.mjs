@@ -181,7 +181,7 @@ for (const p of parcourir(RACINE)) {
        changé" » lui échappait entièrement, et c'est la forme qu'ont tous les
        témoignages français du catalogue.
     */
-    return ligne.replace(/(^\s*|.?[:(,[=]\s*)(?:"((?:[^"\\\n`]|\\.)*)"|'((?:[^'\\\n`]|\\.)*)')/g, (tout, avant, double, simple, position) => {
+    return ligne.replace(/(^\s*|.?[:(,[=+]\s*)(?:"((?:[^"\\\n`]|\\.)*)"|'((?:[^'\\\n`]|\\.)*)')/g, (tout, avant, double, simple, position) => {
       const guillemet = double !== undefined ? '"' : "'";
       const corps = double !== undefined ? double : simple;
       re.lastIndex = 0;

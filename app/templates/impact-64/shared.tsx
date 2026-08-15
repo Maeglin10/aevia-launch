@@ -231,7 +231,7 @@ export const FAQ = [
   },
   {
     q: "Vos équipes accèdent-elles à nos données ?",
-    a: "Nos analystes SOC voient uniquement les logs et métadonnées réseau nécessaires à la détection. Aucun accès aux données métier. Tout est contractualisé via DPA RGPD, accord de confidentialité NDA, et les données restent hébergées en France (datacenters Tier IV à Lyon et " + clientCityOr("Paris") + ").",
+    get a() { return "Nos analystes SOC voient uniquement les logs et métadonnées réseau nécessaires à la détection. Aucun accès aux données métier. Tout est contractualisé via DPA RGPD, accord de confidentialité NDA, et les données restent hébergées en France (datacenters Tier IV à Lyon et " + clientCityOr("Paris") + ")."; },
   },
   {
     q: "Comment fonctionne le Red Team / pentest ?",

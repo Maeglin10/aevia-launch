@@ -38,7 +38,7 @@ export const SANS = "'Lato', system-ui, sans-serif";
 // ─── Datasets ─────────────────────────────────────────────────────────────────
 export const WINE_REGIONS = [
   {
-    region: clientCityOr("Bordeaux"),
+    get region() { return clientCityOr("Bordeaux"); },
     flag: "FR",
     description: "Left Bank Cabernet-forward blends with profound structure and cellaring potential.",
     selections: [
@@ -82,7 +82,7 @@ export const WINE_REGIONS = [
 export const EVENTS = [
   {
     date: "15 Jun",
-    title: clientCityOr("Bordeaux") + " Grands Crus Evening",
+    get title() { return clientCityOr("Bordeaux") + " Grands Crus Evening"; },
     desc: "6 wines including two 2016 first growths, guided by Maison Bourgeois.",
     spots: 14,
     price: "145",
@@ -172,7 +172,7 @@ export const TESTIMONIALS = [
     name: "Helene Beaumont",
     role: "Grand Cru Member",
     avatar: "HB",
-    text: `${clientNameOr("Clos du Soir")} is where I celebrate everything that matters. The sommelier team's knowledge and warmth make every visit feel like coming home — only with better wine.`,
+    get text() { return `${clientNameOr("Clos du Soir")} is where I celebrate everything that matters. The sommelier team's knowledge and warmth make every visit feel like coming home — only with better wine.`; },
     rating: 5,
   },
   {
@@ -194,7 +194,7 @@ export const TESTIMONIALS = [
 export const FAQS = [
   {
     q: "Do I need wine knowledge to visit or join?",
-    a: `Absolutely not. ${clientNameOr("Clos du Soir")} welcomes everyone from curious newcomers to seasoned collectors. Our team adapts to your level — we speak wine, not jargon.`,
+    get a() { return `Absolutely not. ${clientNameOr("Clos du Soir")} welcomes everyone from curious newcomers to seasoned collectors. Our team adapts to your level — we speak wine, not jargon.`; },
   },
   {
     q: "Can I purchase bottles to take home?",

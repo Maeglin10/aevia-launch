@@ -68,7 +68,7 @@ export const PRESTATIONS = [
   },
   {
     titre: "Studio book perso",
-    description: "Mettez en valeur votre personnalité avec un book professionnel ou artistique en studio à " + clientCityOr("Paris") + ".",
+    get description() { return "Mettez en valeur votre personnalité avec un book professionnel ou artistique en studio à " + clientCityOr("Paris") + "."; },
     icon: "📸",
   },
   {
@@ -99,7 +99,7 @@ export const TEMOIGNAGES = [
   {
     couple: "Amira & Karim",
     texte: "De la love session à notre mariage, Léa nous a accompagnés avec bienveillance. Elle a su mettre en valeur notre culture et nos traditions. Merci du fond du cœur.",
-    mariage: clientCityOr("Paris") + " 16e · Avril 2024",
+    get mariage() { return clientCityOr("Paris") + " 16e · Avril 2024"; },
     note: 5,
   },
 ];
