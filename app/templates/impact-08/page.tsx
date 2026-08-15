@@ -475,7 +475,7 @@ return (
                 style={{ y: bgTextY }}
                 className="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-[0.03] pointer-events-none select-none z-0"
               >
-                 <h2 className="text-[35vw] font-black uppercase tracking-tighter leading-none italic">{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? clientName(sessionData) ?? (<>VULCAN</>)}</h2>
+                 <h2 className="text-[35vw] font-black uppercase tracking-tighter leading-none italic">{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? clientName(sessionData) ?? (<>{clientName(sessionData) ?? "VULCAN"}</>)}</h2>
               </motion.div>
 
               <div className="relative z-10 w-full max-w-7xl">

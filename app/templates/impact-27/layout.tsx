@@ -48,7 +48,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div className="w-8 h-8 bg-[#9B5CF6] rounded-xl flex items-center justify-center">
               <Box className="w-4 h-4 text-white" />
             </div>
-            <span className="font-bold text-lg tracking-tight">{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>Vertex Studio</>)}</span>
+            <span className="font-bold text-lg tracking-tight">{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>{clientName(__layoutSession) ?? "Vertex Studio"}</>)}</span>
           </>
           )}</Link>
           <div className="hidden md:flex items-center gap-8 text-sm text-white/55">

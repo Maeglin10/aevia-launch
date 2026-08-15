@@ -135,9 +135,17 @@ for (const p of parcourir(RACINE)) {
      `clientName(s) ?? \`${clientName(s) ?? "Atlas"}\``, et le repli d'un
      fragment JSX (`?? (<>Atlas</>)`) était réécrit au milieu d'une balise.
   */
+  /*
+     Masquer les replis d'identité — et eux seuls.
+
+     Le masque couvrait aussi les replis écrits en fragment
+     (`?? (<>Why <span>Apex?</span></>)`), qui sont pourtant du texte de
+     démonstration affiché au client dès qu'il ne remplit pas la section. On ne
+     protège donc que la forme `?? "Marque"`, celle qui se mordrait la queue.
+  */
   const caches = [];
-  src = src.replace(/\?\?\s*(?:"[^"\n]*"|'[^'\n]*'|\(<>[^\n]{0,60})/g, (t) => {
-    if (!motif(marque).test(t)) return t;
+  const masque = new RegExp(`\\?\\?\\s*(["'])(?:${re.source.replace(/^\(\?<!\[\\w\]\)|\(\?!\[\\w\]\)$/g, "")})\\1`, "g");
+  src = src.replace(masque, (t) => {
     caches.push(t);
     return `\u0000${caches.length - 1}\u0000`;
   });
