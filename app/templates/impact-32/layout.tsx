@@ -213,7 +213,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <div style={{ width: 38, height: 38, background: C.accent, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <TemplateIcon emoji="🐾" size={20} color="#fff" />
               </div>
-              <span style={{ fontWeight: 800, fontSize: 20, color: C.white }}>PawCare Clinic</span>
+              <span style={{ fontWeight: 800, fontSize: 20, color: C.white }}>{clientName(__layoutSession) ?? "PawCare Clinic"}</span>
             </Link>
             <p style={{ color: "rgba(255,255,255,0.58)", fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
               Clinique vétérinaire bienveillante à {clientCity(__layoutSession) ?? "Bordeaux"}. Parce que votre animal mérite les mêmes soins d'excellence que vous.

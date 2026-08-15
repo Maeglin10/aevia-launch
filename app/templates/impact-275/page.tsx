@@ -734,9 +734,6 @@ function HeroSection() {
    2 · SCROLL CROSSFADE — 3 visuels en sticky + progress dots
    ════════════════════════════════════════════════════════════════════════════ */
 function ScrollCrossfade() {
-  
-const n = 3;
-  const progress = useMotionValue(0.5 / n);
   const [active, setActive] = useState(0);
   const goTo = (i: number) => {
     setActive(i);
@@ -767,7 +764,7 @@ const n = 3;
     },
     {
       photo: PHOTO.bureau,
-      alt: 'Bureau de l\'avocat, Cabinet Faure Marseille',
+      alt: `Bureau de l\'avocat, ${clientName(sessionData) ?? "Cabinet Faure"} Marseille`,
       eyebrow: 'Conseil',
       title: 'Un cabinet à votre écoute',
       text: 'Dans le cadre feutré du cabinet, votre situation est analysée avec précision. Chaque dossier est unique — nous prenons le temps de comprendre vos enjeux humains autant que juridiques.',
@@ -776,7 +773,7 @@ const n = 3;
     },
     {
       photo: PHOTO.reunion,
-      alt: 'Réunion avec le client, Cabinet Faure',
+      alt: `Réunion avec le client, ${clientName(sessionData) ?? "Cabinet Faure"}`,
       eyebrow: 'Accompagnement',
       title: 'La réunion client',
       text: 'La stratégie se construit ensemble. Maître Faure vous explique chaque étape, clarifie les options et vous accompagne dans chaque décision — sans jargon, avec transparence.',
@@ -3253,6 +3250,7 @@ function Impact275Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  n = n_LIVE();
   PHOTO = PHOTO_LIVE();
 
   STATS_INLINE = resolveList(

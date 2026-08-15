@@ -198,10 +198,13 @@ function SERVICES_DEMO_LIVE() {
 let SERVICES_DEMO = SERVICES_DEMO_LIVE();;
 
 /* ── Interventions (crossfade) ───────────────────────────────────────────── */
-const INTERVENTIONS: Intervention[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function INTERVENTIONS_LIVE(): Intervention[] {
+  return [
   {
     src: PHOTO.plumber,
-    alt: 'Intervention plomberie ThermoFix Pro',
+    alt: `Intervention plomberie ${clientName(sessionData) ?? "ThermoFix Pro"}`,
     index: 'I',
     label: 'Plomberie',
     title: 'PLOMBERIE',
@@ -209,7 +212,7 @@ const INTERVENTIONS: Intervention[] = [
   },
   {
     src: PHOTO.heating,
-    alt: 'Installation chauffage ThermoFix Pro',
+    alt: `Installation chauffage ${clientName(sessionData) ?? "ThermoFix Pro"}`,
     index: 'II',
     label: 'Chauffage',
     title: 'CHAUFFAGE',
@@ -217,13 +220,15 @@ const INTERVENTIONS: Intervention[] = [
   },
   {
     src: PHOTO.ac,
-    alt: 'Climatisation réversible ThermoFix Pro',
+    alt: `Climatisation réversible ${clientName(sessionData) ?? "ThermoFix Pro"}`,
     index: 'III',
     label: 'Climatisation',
     title: 'CLIMATISATION',
     sub: 'Climatisation réversible, pompes à chaleur — devis gratuit, pose certifiée RGE.',
   },
 ];
+}
+let INTERVENTIONS: Intervention[] = INTERVENTIONS_LIVE();
 
 /* ── Lignes éditoriales ──────────────────────────────────────────────────── */
 function EDIT_ROWS_SOURCE_LIVE() {
@@ -2402,6 +2407,7 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  INTERVENTIONS = INTERVENTIONS_LIVE();
   PHOTO = PHOTO_LIVE();
   SERVICES_DEMO = SERVICES_DEMO_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();

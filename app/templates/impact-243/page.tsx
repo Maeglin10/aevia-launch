@@ -839,7 +839,7 @@ function Intro() {
             letterSpacing: '0.08em',
           }}
         >
-          — Dr. Élodie Beaumont, médecin généraliste
+          — {clientName(sessionData) ?? "Dr. Élodie Beaumont"}, médecin généraliste
         </p>
       </Reveal>
       <Reveal delay={0.24}>

@@ -1481,7 +1481,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   },
   {
     quote:
-      "Panne électrique totale un vendredi soir dans notre restaurant — intervention en moins de 2h. Le lendemain, Volt & Lux revenait pour l\'upgrade LED de toute la salle. Professionnels, propres, efficaces.",
+      `Panne électrique totale un vendredi soir dans notre restaurant — intervention en moins de 2h. Le lendemain, ${clientName(sessionData) ?? "Volt & Lux"} revenait pour l\'upgrade LED de toute la salle. Professionnels, propres, efficaces.`,
     name: 'David Anselmi',
     role: `Gérant · Brasserie Le Capitole, ${clientCity(sessionData) ?? "Toulouse"}`,
     detail: 'Dépannage urgence + LED',

@@ -136,7 +136,7 @@ function PROJECTS_DEMO_LIVE() {
   return [
   {
     img: (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/29821815/pexels-photo-29821815.jpeg?auto=compress&cs=tinysrgb&w=1600'),
-    alt: 'Conception de jardin à la française — Atelier Terra',
+    alt: `Conception de jardin à la française — ${clientName(sessionData) ?? "Atelier Terra"}`,
     index: 'I',
     label: 'CONCEPTION',
     caption: 'Conception',
@@ -144,7 +144,7 @@ function PROJECTS_DEMO_LIVE() {
   },
   {
     img: (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/37144291/pexels-photo-37144291.jpeg?auto=compress&cs=tinysrgb&w=1600'),
-    alt: 'Plantation naturaliste à Nantes — Atelier Terra',
+    alt: `Plantation naturaliste à Nantes — ${clientName(sessionData) ?? "Atelier Terra"}`,
     index: 'II',
     label: 'PLANTATION',
     caption: 'Plantation',
@@ -152,7 +152,7 @@ function PROJECTS_DEMO_LIVE() {
   },
   {
     img: photo('1578662996442-48f60103fc96'),
-    alt: 'Aménagement terrasse extérieure — Atelier Terra',
+    alt: `Aménagement terrasse extérieure — ${clientName(sessionData) ?? "Atelier Terra"}`,
     index: 'III',
     label: 'AMÉNAGEMENT',
     caption: 'Aménagement',
@@ -177,7 +177,7 @@ function EDIT_ROWS_DEMO_SOURCE_LIVE() {
   {
     eyebrow: 'Notre démarche',
     img: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/29821815/pexels-photo-29821815.jpeg?auto=compress&cs=tinysrgb&w=800'),
-    alt: 'Jardin écologique conçu par Atelier Terra',
+    alt: `Jardin écologique conçu par ${clientName(sessionData) ?? "Atelier Terra"}`,
     title: (
       <>
         Le vivant{' '}
@@ -234,7 +234,7 @@ const PHILOSOPHY: PhilosophyItem[] = [
 function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
-    quote: "En trois mois, Atelier Terra a transformé 800 m² de béton nu en un jardin luxuriant que je n\'aurais jamais osé imaginer. Leur patience et leur vision ont été remarquables du premier plan jusqu\'à la dernière plante.",
+    quote: `En trois mois, ${clientName(sessionData) ?? "Atelier Terra"} a transformé 800 m² de béton nu en un jardin luxuriant que je n\'aurais jamais osé imaginer. Leur patience et leur vision ont été remarquables du premier plan jusqu\'à la dernière plante.`,
     name: 'Isabelle Moreau',
     role: 'Propriétaire · Saint-Herblain',
   },

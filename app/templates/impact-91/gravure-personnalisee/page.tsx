@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 import React, { useCallback, useEffect, useState } from "react";
@@ -76,7 +77,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
                 color: scrolled ? C.navyDeep : C.cream,
               }}
             >
-              AURELIA
+              {clientName(sessionData) ?? "AURELIA"}
             </span>
           </Link>
 

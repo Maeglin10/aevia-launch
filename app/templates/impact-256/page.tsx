@@ -145,11 +145,14 @@ interface Testimonial {
    Data
    ════════════════════════════════════════════════════════════════════════════ */
 
-const PROGRAMS_DEMO: Program[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function PROGRAMS_DEMO_LIVE(): Program[] {
+  return [
   {
     id: 'force',
     romanNumeral: 'I',
-    label: 'FORCE & MUSCULATION',
+    label: `${clientName(sessionData) ?? "FORCE"} & MUSCULATION`,
     title: 'Force & Musculation',
     body: 'Prise de masse, définition musculaire, powerlifting — des programmes périodisés sur mesure.',
     img: PHOTO.weights,
@@ -171,6 +174,8 @@ const PROGRAMS_DEMO: Program[] = [
     img: PHOTO.outdoor,
   },
 ];
+}
+let PROGRAMS_DEMO: Program[] = PROGRAMS_DEMO_LIVE();
 
 const OFFERS_DEMO: Offer[] = [
   {
@@ -2225,6 +2230,7 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PROGRAMS_DEMO = PROGRAMS_DEMO_LIVE();
   PHOTO = PHOTO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();

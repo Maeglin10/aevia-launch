@@ -186,7 +186,7 @@ function ROOMS_FULL_DEMO_LIVE() {
     price: '€480',
     tag: 'Most Requested',
     desc: 'A sanctuary of refined calm. Hand-stitched linen, aged oak flooring and a private terrace overlooking the sculpted garden.',
-    long: 'Nestled around the inner garden, the Prestige Room captures the art of living of the Grand Palais in its most essential form. Every material was chosen for touch as much as for the eye: hand-embroidered house linen, oak flooring softened by time, veined marble in the bathroom. A private terrace opens onto the sculpted garden — a refuge of silence at the heart of the city.',
+    long: `Nestled around the inner garden, the Prestige Room captures the art of living of the ${clientName(sessionData) ?? "Grand Palais"} in its most essential form. Every material was chosen for touch as much as for the eye: hand-embroidered house linen, oak flooring softened by time, veined marble in the bathroom. A private terrace opens onto the sculpted garden — a refuge of silence at the heart of the city.`,
     img: (clientPhotos(sessionData)[11] || 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1200&q=85'),
     gallery: [
       (clientPhotos(sessionData)[12] || 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1200&q=85'),
@@ -237,7 +237,7 @@ function ROOMS_FULL_DEMO_LIVE() {
     price: '€2,800',
     tag: 'Exceptional',
     desc: 'The ultimate expression of the stay. Two bedrooms, a library, a grand piano and a suspended garden terrace.',
-    long: 'On the top floor of the Grand Palais, the Presidential Suite extends across one hundred and eighty square metres of absolute elegance. Two principal bedrooms, a panelled library, a grand piano tuned each week and a suspended garden terrace offering a 360° view compose the setting of a stay without equal. A private chef, a chauffeured car and a personal concierge complete the experience.',
+    long: `On the top floor of the ${clientName(sessionData) ?? "Grand Palais"}, the Presidential Suite extends across one hundred and eighty square metres of absolute elegance. Two principal bedrooms, a panelled library, a grand piano tuned each week and a suspended garden terrace offering a 360° view compose the setting of a stay without equal. A private chef, a chauffeured car and a personal concierge complete the experience.`,
     img: (clientPhotos(sessionData)[23] || 'https://images.unsplash.com/photo-1591088398332-8a7791972843?w=1200&q=85'),
     gallery: [
       (clientPhotos(sessionData)[24] || 'https://images.unsplash.com/photo-1591088398332-8a7791972843?w=1200&q=85'),
@@ -315,12 +315,12 @@ function BLOG_POSTS_DEMO_LIVE() {
     date: '5 June 2026',
     category: 'Art of Living',
     excerpt:
-      'From the fold of the cloth to the choice of crystal, the French table is a silent choreography. A look inside a craft the Grand Palais perpetuates every evening.',
+      `From the fold of the cloth to the choice of crystal, the French table is a silent choreography. A look inside a craft the ${clientName(sessionData) ?? "Grand Palais"} perpetuates every evening.`,
     img: (clientPhotos(sessionData)[33] || 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=85'),
     body: [
       'Setting a table is not a utilitarian gesture: it is a form of courtesy addressed to the one you receive. In the French manner, the arrangement obeys a precise grammar, inherited from the great houses and passed down from generation to generation.',
       'Everything begins with the cloth, whose central fold must run perfectly down the middle of the table. The cutlery is laid from the outside in, in the order of service; the glasses align on a diagonal, from largest to smallest, above the tip of the knife.',
-      "At the Grand Palais, our maîtres d\'hôtel uphold these codes without nostalgia. Cut crystal sits alongside contemporary porcelain, and every dinner becomes a discreet staging in which the comfort of the guest always prevails over display.",
+      `At the ${clientName(sessionData) ?? "Grand Palais"}, our maîtres d\'hôtel uphold these codes without nostalgia. Cut crystal sits alongside contemporary porcelain, and every dinner becomes a discreet staging in which the comfort of the guest always prevails over display.`,
       'For true luxury, at the table as elsewhere, is not ostentation: it is that acquired ease which makes everything appear simple, obvious, natural.',
     ],
   },
@@ -333,7 +333,7 @@ function BLOG_POSTS_DEMO_LIVE() {
       'Two hours from the palace, the châteaux of the Loire reveal formal gardens and troglodyte cellars. Our concierge composes the ideal day-long itinerary.',
     img: (clientPhotos(sessionData)[34] || 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1200&q=85'),
     body: [
-      'When the longing for the horizon makes itself felt, the Loire Valley offers an enchanted interlude. Barely two hours from the Grand Palais, it unrolls its Renaissance châteaux along a royal river, listed as a World Heritage site.',
+      `When the longing for the horizon makes itself felt, the Loire Valley offers an enchanted interlude. Barely two hours from the ${clientName(sessionData) ?? "Grand Palais"}, it unrolls its Renaissance châteaux along a royal river, listed as a World Heritage site.`,
       'Our concierge composes a bespoke day for you: a private château visit at opening, before the groups arrive, lunch in a guest house, then a tasting in a troglodyte cellar carved straight into the tufa.',
       "Garden lovers will not miss the formal parterres, drawn with a string line, where the gardener\'s art rivals the architect\'s. History enthusiasts, for their part, will linger on the double-helix staircases attributed to Leonardo da Vinci.",
       'When evening comes, the car returns you to the palace, where a light dinner awaits. The Loire is the French art of travel: neither hurried nor demonstrative — simply right.',
@@ -345,10 +345,10 @@ function BLOG_POSTS_DEMO_LIVE() {
     date: '8 May 2026',
     category: 'Gastronomy',
     excerpt:
-      "Two stars, a kitchen garden fifty metres from the stoves and a philosophy of the season. A meeting with the chef of L\'Atelier, at the Grand Palais.",
+      `Two stars, a kitchen garden fifty metres from the stoves and a philosophy of the season. A meeting with the chef of L\'Atelier, at the ${clientName(sessionData) ?? "Grand Palais"}.`,
     img: (clientPhotos(sessionData)[35] || 'https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=1200&q=85'),
     body: [
-      "\"A menu is, first of all, a season you listen to.\" So speaks Margaux Vernet, the two-star chef of L\'Atelier, the restaurant of the Grand Palais. In her world, the menu is never fixed: it breathes to the rhythm of the kitchen garden.",
+      `\"A menu is, first of all, a season you listen to.\" So speaks Margaux Vernet, the two-star chef of L\'Atelier, the restaurant of the ${clientName(sessionData) ?? "Grand Palais"}. In her world, the menu is never fixed: it breathes to the rhythm of the kitchen garden.`,
       'Fifty metres separate the stoves from the growing beds. That proximity changes everything: the herbs are picked at the last minute, the vegetables harvested at perfect ripeness, and waste tends towards zero. "The shortest distance between the earth and the plate," she sums up.',
       'Her cooking revisits the French canon with rare restraint. No flourishes, no technical excess: a sauce reduced with patience, an exact cooking time, a millimetric seasoning. The emotion is born of precision, never of demonstration.',
       'When asked for her definition of luxury, she smiles: "It is being able to offer a guest a tomato that tastes of a tomato. The rest is only décor."',
@@ -1435,7 +1435,7 @@ function LocationSection() {
 function TESTIMONIALS_SOURCE_LIVE() {
   return [
   { name: 'Sophie R.', origin: (clientCity(sessionData) ?? 'Paris'), text: 'An experience that redefined our expectations of hospitality. Every detail, every gesture — flawless.', stars: 5 },
-  { name: 'James W.', origin: 'London', text: 'The Grand Palais is beyond comparison. The suite views, the silence, the staff — we return every autumn.', stars: 5 },
+  { name: 'James W.', origin: 'London', text: `The ${clientName(sessionData) ?? "Grand Palais"} is beyond comparison. The suite views, the silence, the staff — we return every autumn.`, stars: 5 },
   { name: 'Hana T.', origin: 'Tokyo', text: 'The most extraordinary stay of our lives. Nothing prepares you for the quiet perfection of this place.', stars: 5 },
 ];
 }

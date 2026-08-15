@@ -881,7 +881,7 @@ export default function LignesEtBoisPage() {
           <div aria-hidden style={{ height: 1, background: "linear-gradient(90deg, transparent, rgba(201,159,106,0.28), transparent)" }} />
           <div style={{ paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ fontFamily: SANS, fontWeight: 300, color: "rgba(255,255,255,0.22)", fontSize: 12, letterSpacing: "0.04em" }}>
-              © 2026 {fd?.businessName ?? "Lignes & Bois"} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity fallback="852 546 225" kind="siren" />
+              © 2026 {fd?.businessName ?? "Lignes & Bois"} — Site réalisé par {clientName(sessionData) ?? "Aevia WS"} · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity fallback="852 546 225" kind="siren" />
             </span>
             <span style={{ fontFamily: SANS, fontWeight: 300, color: "rgba(255,255,255,0.22)", fontSize: 12, letterSpacing: "0.04em" }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>

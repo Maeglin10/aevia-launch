@@ -189,7 +189,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   {
     eyebrow: 'Le cabinet',
     img: photo('1507679799987-c73779587ccf', 800),
-    alt: 'Équipe Vaillant & Associés — Paris 8e',
+    alt: `Équipe ${clientName(sessionData) ?? "Vaillant & Associés"} — Paris 8e`,
     title: (
       <>
         {clientCity(sessionData) ?? "Paris"},{' '}

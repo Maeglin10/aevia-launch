@@ -2,6 +2,7 @@
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientName,
   clientTeam,
 } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
@@ -97,7 +98,7 @@ export default function TeamPage() {
         <div style={{ borderBottom: `2px solid ${C.border}`, paddingBottom: 32, marginBottom: 48 }}>
           <span style={{ color: C.accent, fontWeight: 700, textTransform: "uppercase", fontSize: 13, letterSpacing: 1, display: "block", marginBottom: 8 }}>Découvrez nos Experts</span>
           <h1 style={{ fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 800, color: C.text, letterSpacing: -1.5, lineHeight: 1.1 }}>
-            L'Équipe Médicale Smile Studio
+            L'Équipe Médicale {clientName(sessionData) ?? "Smile Studio"}
           </h1>
           <p style={{ color: C.textMuted, fontSize: 16, marginTop: 12, maxWidth: 620 }}>
             Nos dentistes et orthodontistes sont diplômés des plus grandes universités et se forment continuellement aux protocoles médicaux les plus avancés.

@@ -215,7 +215,7 @@ const DESIGN_STEPS: DesignStep[] = [
 function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
-    quote: "J\'avais une cour bétonnée de 40 m² à Neuilly — un no man\'s land gris. Vert Horizon l\'a transformée en jardin japonais luxuriant. Les voisins me demandent leur contact sans arrêt.",
+    quote: `J\'avais une cour bétonnée de 40 m² à Neuilly — un no man\'s land gris. ${clientName(sessionData) ?? "Vert Horizon"} l\'a transformée en jardin japonais luxuriant. Les voisins me demandent leur contact sans arrêt.`,
     name: 'Sophie M.',
     role: 'Propriétaire, Neuilly-sur-Seine',
   },

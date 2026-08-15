@@ -1335,7 +1335,7 @@ function ConceptPage({ goTo }: { goTo: (p: ActivePage) => void }) {
               Notre Engagement Qualité
             </h3>
             <p>
-              Depuis 2006, Évasion Dorée crée des expériences de voyage d'exception pour une clientèle exigeante. Nous ne proposons pas de circuits standardisés. Chaque voyageur se voit attribuer un créateur de voyage dédié qui étudie ses préférences pour façonner un itinéraire sur mesure.
+              Depuis 2006, {clientName(sessionData) ?? "Évasion Dorée"} crée des expériences de voyage d'exception pour une clientèle exigeante. Nous ne proposons pas de circuits standardisés. Chaque voyageur se voit attribuer un créateur de voyage dédié qui étudie ses préférences pour façonner un itinéraire sur mesure.
             </p>
           </div>
 

@@ -1299,7 +1299,7 @@ return (
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable de publication: Pizza Napoli Express<br />
+                Responsable de publication: {clientName(sessionData) ?? "Pizza Napoli Express"}<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>

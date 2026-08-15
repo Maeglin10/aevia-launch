@@ -1,4 +1,5 @@
 "use client"
+import { clientName } from "@/lib/templates/clientContent";
 
 import React from "react"
 import { useEffect, useState } from "react";
@@ -47,7 +48,7 @@ export default function InvestisseursPage() {
               Valoriser votre capital<br />dans l&apos;immobilier <em>d&apos;exception</em>
             </h1>
             <p className="text-[#6B5A40] text-lg mt-6 font-light leading-relaxed">
-              Blueprint Developments offre aux investisseurs institutionnels, banques de gestion privée et family offices des opportunités d&apos;investissement de premier plan. Nos projets ciblent des actifs stratégiques à forte valeur ajoutée.
+              {clientName(sessionData) ?? "Blueprint Developments"} offre aux investisseurs institutionnels, banques de gestion privée et family offices des opportunités d&apos;investissement de premier plan. Nos projets ciblent des actifs stratégiques à forte valeur ajoutée.
             </p>
             <p className="text-[#6B5A40] text-base mt-4 font-light leading-relaxed">
               Grâce à notre rigueur opérationnelle et notre notation financière de référence, nous offrons une structure de risques hautement maîtrisée.

@@ -428,16 +428,21 @@ const PARTNERS = [
   "Mas Provençal",
 ]
 
-const MARQUEE_ITEMS = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function MARQUEE_ITEMS_LIVE() {
+  return [
   "Mariage",
   "Fiançailles",
   "Anniversaire de Noces",
   "Vœux de Mariage",
-  "Cérémonie Laïque",
+  `${clientName(sessionData) ?? "Cérémonie"} Laïque`,
   "Renouvellement",
   "Mariage Civil",
   "Réception de Gala",
-]
+];
+}
+let MARQUEE_ITEMS = MARQUEE_ITEMS_LIVE();
 
 /* ==========================================================================
    MAIN PAGE
@@ -488,6 +493,7 @@ export default function Impact200Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  MARQUEE_ITEMS = MARQUEE_ITEMS_LIVE();
   TESTIMONIALS_DEMO = TESTIMONIALS_DEMO_LIVE();
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   GALLERY_ITEMS_DEMO = GALLERY_ITEMS_DEMO_LIVE();

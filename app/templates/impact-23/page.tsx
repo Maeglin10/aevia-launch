@@ -1018,7 +1018,7 @@ export default function StudioPelikanPage() {
       {/* Footer */}
       <footer className="bg-[#090704] border-t border-white/5 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/20">
-          <button onClick={() => goTo("home")} className="text-[var(--brand,#C9A05A)] text-lg cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Studio Pelikan · {clientCity(sessionData) ?? "Paris"}</button>
+          <button onClick={() => goTo("home")} className="text-[var(--brand,#C9A05A)] text-lg cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{clientName(sessionData) ?? "Studio Pelikan"} · {clientCity(sessionData) ?? "Paris"}</button>
           <div className="flex gap-8">
             <button onClick={() => goTo("films")} className="hover:text-[var(--brand,#C9A05A)] transition-colors cursor-pointer">Films</button>
             <button onClick={() => goTo("legal")} className="hover:text-[var(--brand,#C9A05A)] transition-colors cursor-pointer">Mentions légales</button>

@@ -675,10 +675,13 @@ type CrossfadeSlide = {
   sub: string;
 };
 
-const CROSSFADE_SLIDES: CrossfadeSlide[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function CROSSFADE_SLIDES_LIVE(): CrossfadeSlide[] {
+  return [
   {
     src: PHOTO.chaudiere,
-    alt: 'Installation de chaudière à condensation par Plomberie Garonne',
+    alt: `Installation de chaudière à condensation par ${clientName(sessionData) ?? "Plomberie Garonne"}`,
     index: '01',
     caption: 'Chauffage',
     sub: 'Chaudière à condensation, pompe à chaleur, plancher chauffant — votre confort thermique entre de bonnes mains.',
@@ -692,12 +695,14 @@ const CROSSFADE_SLIDES: CrossfadeSlide[] = [
   },
   {
     src: PHOTO.tuyauterie,
-    alt: 'Tuyauterie cuivre installée par Plomberie Garonne',
+    alt: `Tuyauterie cuivre installée par ${clientName(sessionData) ?? "Plomberie Garonne"}`,
     index: '03',
     caption: 'Tuyauterie',
     sub: 'Remplacement de canalisations, détection de fuites, mise aux normes — une plomberie invisible et fiable.',
   },
 ];
+}
+let CROSSFADE_SLIDES: CrossfadeSlide[] = CROSSFADE_SLIDES_LIVE();
 
 function CrossfadeImage({
   slide,
@@ -1403,14 +1408,14 @@ function TESTIMONIALS278_DEMO_LIVE() {
   return [
   {
     quote:
-      'Plomberie Garonne a rénové notre salle de bain en 8 jours, exactement dans le budget prévu. Le résultat est magnifique — douche à l\'italienne, plan vasque suspendu, tout est parfait. Je recommande les yeux fermés.',
+      `${clientName(sessionData) ?? "Plomberie Garonne"} a rénové notre salle de bain en 8 jours, exactement dans le budget prévu. Le résultat est magnifique — douche à l\'italienne, plan vasque suspendu, tout est parfait. Je recommande les yeux fermés.`,
     name: 'Sophie M.',
     role: (clientCity(sessionData) ?? 'Toulouse') + ' — Quartier Saint-Aubin',
     work: 'Rénovation salle de bain complète',
   },
   {
     quote:
-      'Fuite sous l\'évier à 22h le dimanche soir. Appelé Plomberie Garonne, un technicien était chez moi 1h45 plus tard. Problème réglé en 40 minutes, tarif dimanche honnête et annoncé avant l\'intervention. Bluffant.',
+      `Fuite sous l\'évier à 22h le dimanche soir. Appelé ${clientName(sessionData) ?? "Plomberie Garonne"}, un technicien était chez moi 1h45 plus tard. Problème réglé en 40 minutes, tarif dimanche honnête et annoncé avant l\'intervention. Bluffant.`,
     name: 'Thomas R.',
     role: 'Colomiers — Quartier Plein Sud',
     work: 'Urgence fuite 7j/7',
@@ -1939,29 +1944,34 @@ type Realization = {
   tag: string;
 };
 
-const REALIZATIONS: Realization[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function REALIZATIONS_LIVE(): Realization[] {
+  return [
   {
     src: PHOTO.salleBainDesign,
-    alt: 'Rénovation salle de bain design Toulouse — Plomberie Garonne',
+    alt: `Rénovation salle de bain design Toulouse — ${clientName(sessionData) ?? "Plomberie Garonne"}`,
     title: 'Salle de bain design',
     detail: 'Douche à l\'italienne, vasque suspendue, radiateur sèche-serviettes. Rénovation complète en 10 jours.',
     tag: 'Rénovation salle de bain',
   },
   {
     src: PHOTO.chaudiere,
-    alt: 'Installation chaudière gaz condensation — Plomberie Garonne Toulouse',
+    alt: `Installation chaudière gaz condensation — ${clientName(sessionData) ?? "Plomberie Garonne"} Toulouse`,
     title: 'Chaudière gaz à condensation',
     detail: 'Remplacement d\'une ancienne chaudière fioul par une chaudière gaz haute performance. Économie estimée 35% sur la facture.',
     tag: 'Chauffage',
   },
   {
     src: PHOTO.cuisine,
-    alt: 'Plomberie cuisine aménagée Toulouse — Plomberie Garonne',
+    alt: `Plomberie cuisine aménagée Toulouse — ${clientName(sessionData) ?? "Plomberie Garonne"}`,
     title: 'Cuisine équipée',
     detail: 'Raccordement plomberie cuisine complète — évier, lave-vaisselle, machine à café encastrée, alimentation îlot central.',
     tag: 'Plomberie générale',
   },
 ];
+}
+let REALIZATIONS: Realization[] = REALIZATIONS_LIVE();
 
 function RealizationCard({ r, i }: { r: Realization; i: number }) {
   const [hover, setHover] = useState(false);
@@ -2871,6 +2881,8 @@ function Impact278Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  REALIZATIONS = REALIZATIONS_LIVE();
+  CROSSFADE_SLIDES = CROSSFADE_SLIDES_LIVE();
   PHOTO = PHOTO_LIVE();
   TESTIMONIALS278_DEMO = TESTIMONIALS278_DEMO_LIVE();
   PROCESS_STEPS = PROCESS_STEPS_LIVE();

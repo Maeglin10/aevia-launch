@@ -238,7 +238,10 @@ function buildCarteSections(items: { name: string; price: string; description?: 
 
 /* ── BLOG — mock FR articles ─────────────────────────────────────────────── */
 
-const BLOG_POSTS = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function BLOG_POSTS_LIVE() {
+  return [
   {
     slug: "art-maturation",
     title: "L'Art de la Maturation à Sec",
@@ -276,12 +279,14 @@ const BLOG_POSTS = [
       "De l'apprentissage en brigade à la double étoile, le parcours de notre chef exécutif, gardien du laboratoire du feu.",
     img: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=1200&q=80",
     body: [
-      "Vingt années passées à apprivoiser la flamme. Notre chef exécutif a forgé sa maîtrise dans les plus grandes maisons avant de fonder Ember, avec une obsession : rendre au feu sa noblesse première.",
+      `Vingt années passées à apprivoiser la flamme. Notre chef exécutif a forgé sa maîtrise dans les plus grandes maisons avant de fonder ${clientName(sessionData) ?? "Ember"}, avec une obsession : rendre au feu sa noblesse première.`,
       "Le laboratoire du feu, comme il l'appelle, repose sur trois bois — hickory, cerisier et chêne — combinés pour composer un profil de fumée unique à chaque cuisson. Rien n'y est laissé au hasard : la densité de la braise, la distance à la flamme, le repos après la saisie.",
       "Sa philosophie tient en une phrase : « Le feu ne se commande pas, il se comprend. » C'est cette compréhension, patiemment acquise, qui a valu à Ember sa seconde étoile.",
     ],
   },
 ];
+}
+let BLOG_POSTS = BLOG_POSTS_LIVE();
 
 /* ==========================================================================
    UTILITY COMPONENTS
@@ -1129,6 +1134,7 @@ export default function EmberGrillPage() {
 
   c = session?.generatedContent;
   sessionData = session;
+  BLOG_POSTS = BLOG_POSTS_LIVE();
   CARTE_SECTIONS = CARTE_SECTIONS_LIVE();
   MENU_HIGHLIGHTS = MENU_HIGHLIGHTS_LIVE();
   bp = session?.businessProfile;

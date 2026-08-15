@@ -1,5 +1,8 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -54,7 +57,7 @@ export default function DocsPage() {
         <div className="max-w-6xl mx-auto bg-[#0D1117]/90 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-4 flex items-center justify-between">
           <Link href="/templates/impact-18" className="flex items-center gap-2 cursor-pointer">
             <div className="w-8 h-8 bg-gradient-to-br from-[#3B82F6] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Layers className="w-4 h-4 text-white" /></div>
-            <span className="text-white font-bold text-lg">Streamline</span>
+            <span className="text-white font-bold text-lg">{clientName(sessionData) ?? "Streamline"}</span>
           </Link>
           <div className="hidden md:flex items-center gap-8 text-gray-400 text-sm font-medium">
             <Link href="/templates/impact-18/features" className="hover:text-white transition-colors">Fonctionnalités</Link>

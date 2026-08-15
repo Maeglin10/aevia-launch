@@ -1612,7 +1612,7 @@ export default function QBitLabsPage() {
               {
                 title: "Company",
                 links: [
-                  "About QBit Labs",
+                  `About ${clientName(sessionData) ?? "QBit Labs"}`,
                   "Leadership",
                   "Careers",
                   "Press",

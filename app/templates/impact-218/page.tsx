@@ -641,29 +641,34 @@ type Chapter = {
   sub: string;
 };
 
-const CHAPTERS: Chapter[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function CHAPTERS_LIVE(): Chapter[] {
+  return [
   {
     src: PHOTO.rows,
-    alt: 'Rangs de vigne du Domaine Miroir',
+    alt: `Rangs de vigne du ${clientName(sessionData) ?? "Domaine Miroir"}`,
     index: 'I',
     caption: 'Le Terroir',
     sub: 'Argilo-calcaire, vieilles vignes, exposition sud.',
   },
   {
     src: PHOTO.bottle,
-    alt: 'Bouteille du Domaine Miroir',
+    alt: `Bouteille du ${clientName(sessionData) ?? "Domaine Miroir"}`,
     index: 'II',
     caption: 'La Vendange',
     sub: 'Récolte manuelle, tri parcelle par parcelle.',
   },
   {
     src: PHOTO.glass,
-    alt: 'Verre de vin du Domaine Miroir',
+    alt: `Verre de vin du ${clientName(sessionData) ?? "Domaine Miroir"}`,
     index: 'III',
     caption: 'La Dégustation',
     sub: 'Un fruit profond, une trame soyeuse, une finale infinie.',
   },
 ];
+}
+let CHAPTERS: Chapter[] = CHAPTERS_LIVE();
 
 function ChapterImage({
   chapter,
@@ -1151,7 +1156,10 @@ type EditRow = {
   alt: string;
 };
 
-const EDIT_ROWS_SOURCE: EditRow[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function EDIT_ROWS_SOURCE_LIVE(): EditRow[] {
+  return [
   {
     eyebrow: 'Le Terroir',
     title: (
@@ -1161,7 +1169,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     ),
     body: 'Nos parcelles reposent sur un socle argilo-calcaire vieux de plusieurs millions d’années. Cette roche imprime aux vins leur tension et leur fraîcheur, signature inimitable du coteau du Miroir.',
     img: PHOTO.vineyardWide,
-    alt: 'Vignoble en terrasses du Domaine Miroir',
+    alt: `Vignoble en terrasses du ${clientName(sessionData) ?? "Domaine Miroir"}`,
   },
   {
     eyebrow: 'Le Geste',
@@ -1172,9 +1180,11 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     ),
     body: 'Vendanges entièrement manuelles, tri sur table, fermentations en levures indigènes. Chaque cuvée est élevée vingt-quatre mois en fûts de chêne français, dans le silence de nos caves voûtées.',
     img: PHOTO.cellar,
-    alt: 'Cave d’élevage du Domaine Miroir',
+    alt: `Cave d’élevage du ${clientName(sessionData) ?? "Domaine Miroir"}`,
   },
 ];
+}
+let EDIT_ROWS_SOURCE: EditRow[] = EDIT_ROWS_SOURCE_LIVE();
 let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 function EditorialRows() {
@@ -1601,7 +1611,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     quote:
-      'Je suis l’allocation du Domaine Miroir depuis huit ans. Aucun millésime ne ressemble au précédent, et pourtant chacun porte la même signature de droiture. C’est une cave que l’on garde.',
+      `Je suis l’allocation du ${clientName(sessionData) ?? "Domaine Miroir"} depuis huit ans. Aucun millésime ne ressemble au précédent, et pourtant chacun porte la même signature de droiture. C’est une cave que l’on garde.`,
     name: 'Hélène Vasseur',
     role: 'Collectionneuse · Genève',
   },
@@ -2181,6 +2191,8 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
+  CHAPTERS = CHAPTERS_LIVE();
   PHOTO = PHOTO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 

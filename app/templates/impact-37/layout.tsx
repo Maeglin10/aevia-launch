@@ -267,7 +267,7 @@ export default function ClosDuSoirLayout({ children }: { children: React.ReactNo
                   marginBottom: 16,
                 }}
               >
-                Clos du Soir
+                {clientName(__layoutSession) ?? "Clos du Soir"}
               </div>
               <p
                 style={{

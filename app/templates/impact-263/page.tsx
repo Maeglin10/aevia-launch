@@ -219,13 +219,13 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     quote:
-      "Nous avions une cour bétonnée sans âme. Aujourd\'hui c\'est une forêt comestible de 80 m². Dès le quatrième mois, nous récoltions herbes aromatiques, fraises et courgettes. L\'équipe de Jardins Vivants a transformé notre regard sur notre extérieur.",
+      `Nous avions une cour bétonnée sans âme. Aujourd\'hui c\'est une forêt comestible de 80 m². Dès le quatrième mois, nous récoltions herbes aromatiques, fraises et courgettes. L\'équipe de ${clientName(sessionData) ?? "Jardins Vivants"} a transformé notre regard sur notre extérieur.`,
     name: 'Laure & Pierre Moreau',
     role: 'Propriétaires · ' + (clientCity(sessionData) ?? 'Bordeaux') + ' Caudéran',
   },
   {
     quote:
-      "Nous avons confié la refonte du jardin d\'entrée de notre propriété viticole à Jardins Vivants. Le résultat est saisissant : les visiteurs photographient désormais le jardin avant même le château. L\'investissement s\'est rentabilisé en une saison touristique.",
+      `Nous avons confié la refonte du jardin d\'entrée de notre propriété viticole à ${clientName(sessionData) ?? "Jardins Vivants"}. Le résultat est saisissant : les visiteurs photographient désormais le jardin avant même le château. L\'investissement s\'est rentabilisé en une saison touristique.`,
     name: 'Antoine de Larroque',
     role: 'Propriétaire · Château viticole, Saint-Émilion',
   },

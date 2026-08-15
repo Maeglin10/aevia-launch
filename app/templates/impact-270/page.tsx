@@ -206,7 +206,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   {
     eyebrow: 'Notre univers',
     img: ph((clientPhotos(sessionData)[8] || 'https://images.pexels.com/photos/7005675/pexels-photo-7005675.jpeg?auto=compress&cs=tinysrgb&w=1600'), 800),
-    alt: 'Illustration et tatouage — Peau & Plume',
+    alt: `Illustration et tatouage — ${clientName(sessionData) ?? "Peau & Plume"}`,
     numeral: '01',
     title: (
       <>
@@ -219,7 +219,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   {
     eyebrow: (clientCity(sessionData) ?? 'Lille'),
     img: ph((clientPhotos(sessionData)[9] || 'https://images.pexels.com/photos/29547854/pexels-photo-29547854.jpeg?auto=compress&cs=tinysrgb&w=1600'), 800),
-    alt: 'Atelier lumineux Peau & Plume — Vieux-Lille',
+    alt: `Atelier lumineux ${clientName(sessionData) ?? "Peau & Plume"} — Vieux-Lille`,
     numeral: '02',
     title: (
       <>

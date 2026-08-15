@@ -127,7 +127,7 @@ function SectionTitle({ subtitle, title, alignment = "center" }: { subtitle: str
 }
 
 /* ==========================================================================
-   THE AETHELGARD ESTATE - MAIN PAGE
+   THE {clientName(sessionData) ?? "AETHELGARD"} ESTATE - MAIN PAGE
    ========================================================================== */
 
 

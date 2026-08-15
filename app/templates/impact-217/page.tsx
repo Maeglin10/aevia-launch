@@ -1311,7 +1311,7 @@ function STORY_ROWS_LIVE() {
     img: IMG.story1,
     index: '01',
     title: 'Built in the workshop, not the boardroom',
-    body: 'AirForge started in a ' + (clientCity(sessionData) ?? 'Lyon') + ' garage with a heat press and an obsession. Every silhouette is prototyped by hand, stress-tested on real streets, and refined until it earns the name.',
+    body: `${clientName(sessionData) ?? "AirForge"} started in a ` + (clientCity(sessionData) ?? 'Lyon') + ' garage with a heat press and an obsession. Every silhouette is prototyped by hand, stress-tested on real streets, and refined until it earns the name.',
   },
   {
     img: IMG.story2,

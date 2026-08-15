@@ -600,7 +600,7 @@ return (
       <footer style={{ background: "#050505", borderTop: `1px solid ${C.border}`, padding: "48px 80px 24px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
-            <div style={{ fontFamily: FONT, fontSize: 20, color: C.accent, marginBottom: 8 }}>Encre <em>Noire</em></div>
+            <div style={{ fontFamily: FONT, fontSize: 20, color: C.accent, marginBottom: 8 }}>{clientName(sessionData) ?? "Encre"} <em>Noire</em></div>
             <p style={{ color: "rgba(245,240,232,0.30)", fontSize: 13, lineHeight: 1.6 }}>Studio de tatouage · {clientCity(sessionData) ?? "Paris"}<br />Mar–Sam 10h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
@@ -612,7 +612,7 @@ return (
           </div>
         </div>
         <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-          <span style={{ color: "rgba(245,240,232,0.18)", fontSize: 12 }}>© 2026 Encre Noire Studio — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span style={{ color: "rgba(245,240,232,0.18)", fontSize: 12 }}>© 2026 {clientName(sessionData) ?? "Encre"} Noire Studio — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="#contact" style={{ color: "rgba(245,240,232,0.18)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

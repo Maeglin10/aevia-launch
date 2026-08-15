@@ -689,10 +689,13 @@ type CrossfadeChapter = {
   icon: React.ReactNode;
 };
 
-const CROSSFADE_CHAPTERS: CrossfadeChapter[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function CROSSFADE_CHAPTERS_LIVE(): CrossfadeChapter[] {
+  return [
   {
     src: PHOTO.panel,
-    alt: 'Installation de tableau électrique par Électricité Dumont',
+    alt: `Installation de tableau électrique par ${clientName(sessionData) ?? "Électricité Dumont"}`,
     index: '01',
     caption: 'Installation tableau',
     sub: 'Tableaux divisionnaires, disjoncteurs différentiels, mise en sécurité complète.',
@@ -715,6 +718,8 @@ const CROSSFADE_CHAPTERS: CrossfadeChapter[] = [
     icon: <Wifi size={28} color={C.yellow} strokeWidth={2} />,
   },
 ];
+}
+let CROSSFADE_CHAPTERS: CrossfadeChapter[] = CROSSFADE_CHAPTERS_LIVE();
 
 function CrossfadeImage({
   chapter,
@@ -2745,6 +2750,7 @@ export default function Impact277Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  CROSSFADE_CHAPTERS = CROSSFADE_CHAPTERS_LIVE();
   PHOTO = PHOTO_LIVE();
   PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();

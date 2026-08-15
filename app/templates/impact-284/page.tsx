@@ -270,7 +270,7 @@ function NavBar() {
     { label: 'Techniques', href: '#techniques' },
     { label: 'Équipe', href: '#equipe' },
     { label: 'Témoignages', href: '#temoignages' },
-    { label: 'Bilan gratuit', href: '#bilan' },
+    { label: `${clientName(sessionData) ?? "Bilan gratuit"}`, href: '#bilan' },
   ];
 
   const bar: React.CSSProperties = {
@@ -2501,7 +2501,7 @@ function FooterSection() {
     {
       title: 'Informations',
       items: [
-        { label: 'Bilan gratuit', href: '#bilan' },
+        { label: `${clientName(sessionData) ?? "Bilan gratuit"}`, href: '#bilan' },
         { label: 'Prendre rendez-vous', href: '#bilan' },
         { label: 'Mentions légales', href: '#hero' },
         { label: 'Politique de confidentialité', href: '#hero' },

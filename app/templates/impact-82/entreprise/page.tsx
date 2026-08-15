@@ -1,4 +1,5 @@
 "use client"
+import { clientName } from "@/lib/templates/clientContent";
 
 import React from "react"
 import { useEffect, useState } from "react";
@@ -46,7 +47,7 @@ export default function EntreprisePage() {
               Bâtir avec <em>ambition</em><br />et intégrité
             </h1>
             <p className="text-[#6B5A40] text-lg mt-6 font-light leading-relaxed">
-              Fondé en 1989, Blueprint Developments s&apos;est imposé comme un acteur de référence de la promotion immobilière haut de gamme et institutionnelle en France. Notre force réside dans la maîtrise de l&apos;ensemble de la chaîne de valeur.
+              Fondé en 1989, {clientName(sessionData) ?? "Blueprint Developments"} s&apos;est imposé comme un acteur de référence de la promotion immobilière haut de gamme et institutionnelle en France. Notre force réside dans la maîtrise de l&apos;ensemble de la chaîne de valeur.
             </p>
             <p className="text-[#6B5A40] text-base mt-4 font-light leading-relaxed">
               De la recherche foncière à la livraison des programmes, nous associons rigueur technique, équilibre financier et audace architecturale pour livrer des immeubles à haute valeur d&apos;usage.
