@@ -283,7 +283,10 @@ const FIELD_NOTES = [
   },
 ]
 
-const PROCESS_STEPS = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function PROCESS_STEPS_LIVE() {
+  return [
   {
     n: "01",
     title: "Planification",
@@ -306,9 +309,11 @@ const PROCESS_STEPS = [
     n: "04",
     title: "Impression",
     icon: Star,
-    desc: "Chaque tirage est produit en atelier partenaire, contrôlé à la colorimétrie calibrée. Papiers archivaux Hahnemühle, encres pigmentaires longue durée. Un tirage Terra est fait pour durer cent ans.",
+    desc: `Chaque tirage est produit en atelier partenaire, contrôlé à la colorimétrie calibrée. Papiers archivaux Hahnemühle, encres pigmentaires longue durée. Un tirage ${clientName(sessionData) ?? "Terra"} est fait pour durer cent ans.`,
   },
-]
+];
+}
+let PROCESS_STEPS = PROCESS_STEPS_LIVE();
 
 /* ==========================================================================
    COMPONENTS
@@ -601,6 +606,9 @@ export default function Impact114Page() {
 
 
   sessionData = session;
+
+
+  PROCESS_STEPS = PROCESS_STEPS_LIVE();
   c = session?.generatedContent;
   COLLECTIONS_DEMO = COLLECTIONS_DEMO_LIVE();
   SLIDES_DEMO_SOURCE = SLIDES_DEMO_SOURCE_LIVE();

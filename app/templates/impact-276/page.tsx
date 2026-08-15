@@ -506,7 +506,7 @@ function HeroSection() {
         >
           <motion.img
             src={fd?.photoUrls?.[0] || PHOTO.gym}
-            alt="Salle de sport Thomas Lebrun Coach Bordeaux"
+            alt={`Salle de sport ${clientName(sessionData) ?? "Thomas Lebrun Coach"} Bordeaux`}
             style={{
               width: '100%',
               height: '100%',
@@ -709,10 +709,13 @@ type CrossfadeSlide = {
   tag: string;
 };
 
-const SLIDES: CrossfadeSlide[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function SLIDES_LIVE(): CrossfadeSlide[] {
+  return [
   {
     src: PHOTO.training,
-    alt: "Séance d'entraînement avec Thomas Lebrun Coach",
+    alt: `Séance d'entraînement avec ${clientName(sessionData) ?? "Thomas Lebrun Coach"}`,
     num: '01',
     tag: 'Entraînement',
     title: 'CHAQUE SÉANCE\nCOMPTE',
@@ -735,6 +738,8 @@ const SLIDES: CrossfadeSlide[] = [
     sub: 'Transformations réelles, chiffres concrets. Perte de poids, prise de masse, endurance — chaque objectif atteint avec méthode.',
   },
 ];
+}
+let SLIDES: CrossfadeSlide[] = SLIDES_LIVE();
 
 function SlideImage({
   slide,
@@ -2658,7 +2663,7 @@ function NutritionSection() {
               >
                 <motion.img
                   src={PHOTO.nutrition}
-                  alt="Nutrition personnalisée Thomas Lebrun Coach Bordeaux"
+                  alt={`Nutrition personnalisée ${clientName(sessionData) ?? "Thomas Lebrun Coach"} Bordeaux`}
                   style={{
                     width: '100%',
                     height: '120%',
@@ -3186,6 +3191,7 @@ function Impact276Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SLIDES = SLIDES_LIVE();
   PHOTO = PHOTO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 

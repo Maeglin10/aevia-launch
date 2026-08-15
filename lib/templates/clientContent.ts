@@ -755,6 +755,37 @@ export function clientEmail(s: SessionLike | null | undefined): string | undefin
   );
 }
 
+/*
+  Le compte Instagram du client, sans arobase.
+
+  Le formulaire le demande depuis toujours et le webhook le recopie dans
+  `formData.instagram` — mais aucun thème ne savait le lire, faute de lecteur
+  dans le contrat. Résultat mesuré sur impact-16/propos : un couvreur d'Annecy
+  invitait ses visiteurs à suivre « @obscuraphoto », le compte du photographe
+  de la démonstration.
+
+  On accepte ce que les gens tapent réellement : « @nom », « nom »,
+  « instagram.com/nom » ou l'URL complète.
+*/
+export function clientInstagram(s: SessionLike | null | undefined): string | undefined {
+  const brut = trimmed(s?.formData?.instagram);
+  if (!brut) return undefined;
+  const nom = brut
+    .replace(/^https?:\/\/(www\.)?instagram\.com\//i, "")
+    .replace(/^instagram\.com\//i, "")
+    .replace(/^@/, "")
+    .replace(/[/?#].*$/, "")
+    .trim();
+  return nom || undefined;
+}
+
+/** Le site que le client avait déjà, quand il en déclare un. */
+export function clientWebsite(s: SessionLike | null | undefined): string | undefined {
+  const brut = trimmed(s?.formData?.website);
+  if (!brut) return undefined;
+  return /^https?:\/\//i.test(brut) ? brut : `https://${brut}`;
+}
+
 /** Le lien de réservation, quand le client en a un. */
 export function clientBookingUrl(s: SessionLike | null | undefined): string | undefined {
   return trimmed(s?.businessProfile?.bookingSystem?.url) || undefined;

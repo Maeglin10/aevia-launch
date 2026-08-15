@@ -621,7 +621,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || ph((clientPhotos(sessionData)[10] || 'https://images.pexels.com/photos/7005675/pexels-photo-7005675.jpeg?auto=compress&cs=tinysrgb&w=1600'), 2000)}
-          alt="Tatouage nature et plumes — Peau & Plume Lille"
+          alt={`Tatouage nature et plumes — ${clientName(sessionData) ?? "Peau & Plume"} Lille`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1406,7 +1406,7 @@ function SafetyPanel() {
             >
               <img
                 src={fd?.photoUrls?.[1] || ph((clientPhotos(sessionData)[11] || 'https://images.pexels.com/photos/20531496/pexels-photo-20531496.jpeg?auto=compress&cs=tinysrgb&w=1600'), 900)}
-                alt="Hygiène irréprochable — Peau & Plume"
+                alt={`Hygiène irréprochable — ${clientName(sessionData) ?? "Peau & Plume"}`}
                 loading="lazy"
                 style={{
                   width: '100%',

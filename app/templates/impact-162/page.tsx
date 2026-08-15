@@ -62,9 +62,12 @@ function Reveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; de
   )
 }
 
-const MENU_ITEMS_DEMO = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function MENU_ITEMS_DEMO_LIVE() {
+  return [
   { category: "Cafés signature", items: [
-    { name: "Le Matin Doré", desc: "Espresso, lait entier vapeur, miel de fleurs sauvages, une touche de cannelle", price: "4,80 €" },
+    { name: `${clientName(sessionData) ?? "Le Matin Doré"}`, desc: "Espresso, lait entier vapeur, miel de fleurs sauvages, une touche de cannelle", price: "4,80 €" },
     { name: "Velours Noir", desc: "Double espresso, crème de cacao, lait végétal d'avoine, poudre de fève", price: "5,20 €" },
     { name: "Cardamome & Rose", desc: "Espresso, cardamome moulue, lait entier, eau de rose, sucre de canne brut", price: "5,50 €" },
   ]},
@@ -78,14 +81,9 @@ const MENU_ITEMS_DEMO = [
     { name: "Bowl du moment", desc: "Céréales anciennes, légumineuses, légumes crus et cuits, vinaigrette maison", price: "12,00 €" },
     { name: "Œufs bénédictine", desc: "Muffin anglais maison, jambon artisanal, œufs pochés, sauce hollandaise", price: "13,50 €" },
   ]},
-]
-
-const TESTIMONIALS_SOURCE = [
-  { name: "Élise M.", text: "Le café idéal pour travailler le matin. La lumière, la musique, le café... Tout est parfait.", rating: 5 },
-  { name: "Thomas B.", text: "La brioche aux agrumes est un chef-d'œuvre. Je fais un détour de 20 minutes pour en avoir une le week-end.", rating: 5 },
-  { name: "Pauline R.", text: "Accueil chaleureux, cadre magnifique. On s'y sent comme à la maison, mais en beaucoup mieux.", rating: 5 },
-]
-let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
+];
+}
+let MENU_ITEMS_DEMO = MENU_ITEMS_DEMO_LIVE();
 
 const HOURS = [
   { days: "Lundi — Vendredi", hours: "7h00 — 19h00" },
@@ -136,6 +134,7 @@ export default function EssentialCafePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  MENU_ITEMS_DEMO = MENU_ITEMS_DEMO_LIVE();
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
     TESTIMONIALS_SOURCE,
@@ -307,7 +306,7 @@ return (
             {[
               { icon: Coffee, title: "Café de spécialité", desc: "Grains sourcés directement auprès de producteurs partenaires. Torréfaction légère pour préserver les arômes d'origine." },
               { icon: Heart, title: "Fait maison chaque jour", desc: "Toutes nos pâtisseries sont préparées chaque matin à l'aide de recettes de saison et de produits locaux de qualité." },
-              { icon: Star, title: "Un lieu vivant", desc: "Expositions temporaires, musique live le dimanche, ateliers café. Le Matin Doré est aussi un espace de culture." },
+              { icon: Star, title: "Un lieu vivant", desc: `Expositions temporaires, musique live le dimanche, ateliers café. ${clientName(sessionData) ?? "Le Matin Doré"} est aussi un espace de culture.` },
             ].map((p, i) => {
               const Icon = p.icon
               return (

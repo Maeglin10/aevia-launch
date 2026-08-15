@@ -125,7 +125,7 @@ let ENGAGEMENTS = ENGAGEMENTS_SOURCE;
 
 function AVIS_SOURCE_LIVE() {
   return [
-    { name: "Laurent P.", role: "Directeur Général, TechCorp " + (clientCity(sessionData) ?? "Paris"), text: "Pro-Nettoyage assure l'entretien de nos 2 000 m² de bureaux depuis 3 ans. Fiabilité exemplaire, équipes discrètes et résultats constants.", detail: "Bureaux · contrat 3 ans" },
+    { name: "Laurent P.", role: "Directeur Général, TechCorp " + (clientCity(sessionData) ?? "Paris"), text: `${clientName(sessionData) ?? "Pro-Nettoyage"} assure l'entretien de nos 2 000 m² de bureaux depuis 3 ans. Fiabilité exemplaire, équipes discrètes et résultats constants.`, detail: "Bureaux · contrat 3 ans" },
     { name: "Nathalie F.", role: "Syndic, Résidence Les Érables", text: "Les parties communes n'ont jamais été aussi propres. Les résidents sont unanimes. Le reporting mensuel est un vrai plus.", detail: "Copropriété" },
     { name: "Stéphane R.", role: "DRH, Cabinet Juridique Bordeaux", text: "Passage quotidien impeccable, équipe stable et professionnelle. Notre cabinet a un standing irréprochable grâce à leur travail.", detail: "Passage quotidien" },
   ];

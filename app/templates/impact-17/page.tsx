@@ -97,11 +97,16 @@ const services_DEMO = [
   { icon: <Award className="w-5 h-5" />, title: "Réhabilitation & Patrimoine", desc: "Transformation de bâtiments existants. Dialogue entre mémoire architecturale et contemporain." },
 ];
 
-const team_DEMO = [
-  { name: "Nadia Kéops", role: "Architecte Fondatrice", years: "22 ans", citation: "L'architecture n'est pas seulement esthétique, c'est l'art d'habiter le monde avec respect." },
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function team_DEMO_LIVE() {
+  return [
+  { name: `Nadia ${clientName(sessionData) ?? "Kéops"}`, role: "Architecte Fondatrice", years: "22 ans", citation: "L'architecture n'est pas seulement esthétique, c'est l'art d'habiter le monde avec respect." },
   { name: "Luc Ferrand", role: "Associé — Construction", years: "16 ans", citation: "Chaque pierre posée doit avoir une fonction, chaque espace une raison d'être." },
   { name: "Amina Belkacem", role: "Architecte DPLG", years: "9 ans", citation: "Concevoir des lieux de rencontre fluides qui s'intègrent organiquement dans la ville." },
 ];
+}
+let team_DEMO = team_DEMO_LIVE();
 
 const distinctions = [
   "Prix de l'Architecture Contemporaine 2025",
@@ -155,6 +160,7 @@ export default function KeopsPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  team_DEMO = team_DEMO_LIVE();
   projects_DEMO = projects_DEMO_LIVE();
 
 

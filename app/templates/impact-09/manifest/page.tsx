@@ -717,7 +717,7 @@ function MaisonPage({ goTo }: { goTo: (p: ActivePage) => void }) {
   const steps = [
     { name: "Centrifuge Training", details: "Soumission des futurs spationautes à des charges de 3G et 5G pour tester leur résistance cardio-vasculaire aux accélérations de poussée." },
     { name: "Tokyo Training Pool", details: "Entraînement en piscine pressurisée simulant la microgravité et permettant de répéter les sorties extra-véhiculaires (EVA)." },
-    { name: "Atmospheric Chambers", details: "Familiarisation avec les procédures de pressurisation rapide et d'utilisation des combinaisons spatiales pressurisées Astrum." }
+    { name: "Atmospheric Chambers", details: `Familiarisation avec les procédures de pressurisation rapide et d'utilisation des combinaisons spatiales pressurisées ${clientName(sessionData) ?? "Astrum."}` }
   ];
 
   return (
@@ -822,7 +822,7 @@ function LegalPage() {
                 {clientName(sessionData) ? "" : "Entrepreneur Individuel"}<br />
                 SIREN : <LegalIdentity /><br />
                 {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
-                Email : {fd?.email ?? "valentinmilliand@aevia.services"}<br />
+                Email : {fd?.email ?? "contact@exemple.fr"}<br />
                 Adresse : Communiquée sur demande
              </p>
           </div>

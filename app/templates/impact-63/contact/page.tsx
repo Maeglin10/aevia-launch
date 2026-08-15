@@ -69,7 +69,7 @@ export default function ContactPage() {
 
                 <div style={{ padding: "1.75rem", background: C.bgCard, border: `1px solid ${C.border}` }}>
                   <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.textDim, marginBottom: "0.5rem" }}>EMAIL</div>
-                  <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} style={{ fontSize: "1rem", color: C.gold, textDecoration: "none" }}>contact@exemple.fr</a>
+                  <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} style={{ fontSize: "1rem", color: C.gold, textDecoration: "none" }}>{fd?.email ?? "contact@exemple.fr"}</a>
                 </div>
 
                 <div style={{ padding: "1.75rem", background: C.bgCard, border: `1px solid ${C.border}` }}>

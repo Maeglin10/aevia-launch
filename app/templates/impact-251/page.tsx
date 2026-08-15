@@ -641,7 +641,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || PH((clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/29040997/pexels-photo-29040997.jpeg?auto=compress&cs=tinysrgb&w=1600'), 2000)}
-          alt="Mariage élégant organisé par Maison Nuptiale à Bordeaux"
+          alt={`Mariage élégant organisé par ${clientName(sessionData) ?? "Maison Nuptiale"} à Bordeaux`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="high"
         />
@@ -1444,7 +1444,7 @@ function ProcessPanel() {
           >
             <img
               src={PH('1478146896981-b80fe463b330', 900)}
-              alt="Bouquet nuptial — Maison Nuptiale"
+              alt={`Bouquet nuptial — ${clientName(sessionData) ?? "Maison Nuptiale"}`}
               loading="lazy"
               style={{
                 width: '100%',

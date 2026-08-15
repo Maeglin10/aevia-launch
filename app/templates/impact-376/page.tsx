@@ -71,7 +71,12 @@ const ENGAGEMENT_DEMO = ["Notes de calcul fournies pour chaque ouvrage structure
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Verrière d'atelier (ml)", "p": "dès 900 €", "n": "Acier fin, vitrage clair, pose et finitions comprises."}, {"a": "Garde-corps verre (ml)", "p": "dès 650 €", "n": "Feuilleté trempé calculé, profil encastré aluminium."}, {"a": "Cloison toute hauteur (m²)", "p": "dès 320 €", "n": "Vitrage 10 mm, châssis discret, porte en option."}, {"a": "Étude + modélisation 3D", "p": "490 €", "n": "Note de calcul incluse, déduite à la commande."}];
 let TARIFS = TARIFS_DEMO;
-const AVIS_SOURCE = [{"texte": "La verrière entre cuisine et séjour a doublé la lumière du rez-de-chaussée. Modélisée en 3D d'abord, posée en une journée, joints parfaits. Un travail d'orfèvre.", "auteur": "Maison particulière, Colmar", "detail": "Verrière d'atelier"}, {"texte": "En tant qu'architecte, je cherche des miroitiers qui calculent : notes de calcul propres, réservations anticipées, pose coordonnée sans friction. Verre & Lumière est sur tous mes projets.", "auteur": "Architecte DPLG, Mulhouse", "detail": "Partenariat architecte"}, {"texte": "Garde-corps de mezzanine sans un montant : le vide est apprivoisé, le séjour respire. Les visiteurs demandent toujours qui l'a fait.", "auteur": "Loft réhabilité, Sélestat", "detail": "Garde-corps verre"}];
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function AVIS_SOURCE_LIVE() {
+  return [{"texte": "La verrière entre cuisine et séjour a doublé la lumière du rez-de-chaussée. Modélisée en 3D d'abord, posée en une journée, joints parfaits. Un travail d'orfèvre.", "auteur": "Maison particulière, Colmar", "detail": "Verrière d'atelier"}, {"texte": `En tant qu'architecte, je cherche des miroitiers qui calculent : notes de calcul propres, réservations anticipées, pose coordonnée sans friction. ${clientName(sessionData) ?? "Verre & Lumière"} est sur tous mes projets.`, "auteur": "Architecte DPLG, Mulhouse", "detail": "Partenariat architecte"}, {"texte": "Garde-corps de mezzanine sans un montant : le vide est apprivoisé, le séjour respire. Les visiteurs demandent toujours qui l'a fait.", "auteur": "Loft réhabilité, Sélestat", "detail": "Garde-corps verre"}];
+}
+let AVIS_SOURCE = AVIS_SOURCE_LIVE();
 let AVIS_DEMO = AVIS_SOURCE;
 const STATS_DEMO = [{"value": "120+", "label": "Projets d'architectes livrés"}, {"value": "DTU 39", "label": "Calculs et conformité vitrage"}, {"value": "10 ans", "label": "Décennale sur les ouvrages"}, {"value": "3D", "label": "Chaque projet modélisé avant"}];
 let STATS = STATS_DEMO;
@@ -113,6 +118,7 @@ export default function VerreEtLumierePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

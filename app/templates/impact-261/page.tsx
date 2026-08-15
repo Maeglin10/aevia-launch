@@ -197,7 +197,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
         <span style={{ fontStyle: 'italic' }}>depuis 2015.</span>
       </>
     ),
-    body: "Installé dans le quartier des Chartrons, Axiom Conseil réunit 8 collaborateurs experts. Nous accompagnons 180 clients — de la startup en amorçage à l'ETI à 20 M€ de CA. Membres de l'OEC " + (clientCity(sessionData) ?? "Bordeaux") + ".",
+    body: `Installé dans le quartier des Chartrons, ${clientName(sessionData) ?? "Axiom Conseil"} réunit 8 collaborateurs experts. Nous accompagnons 180 clients — de la startup en amorçage à l'ETI à 20 M€ de CA. Membres de l'OEC ` + (clientCity(sessionData) ?? "Bordeaux") + ".",
   },
 ];
 }
@@ -606,7 +606,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || photo('1554224155-6726b3ff858f', 2000)}
-          alt="Cabinet Axiom Conseil Bordeaux"
+          alt={`Cabinet ${clientName(sessionData) ?? "Axiom Conseil"} Bordeaux`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1326,7 +1326,7 @@ function PillarPanel() {
           >
             <img
               src={fd?.photoUrls?.[1] || photo('1551135049-8a33b5883817', 900)}
-              alt="L'équipe Axiom Conseil Bordeaux"
+              alt={`L'équipe ${clientName(sessionData) ?? "Axiom Conseil"} Bordeaux`}
               loading="lazy"
               style={{
                 width: '100%',

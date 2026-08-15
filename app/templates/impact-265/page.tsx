@@ -179,7 +179,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
         </span>
       </>
     ),
-    body: "Lyon est la capitale mondiale de la soie depuis le XVIIIe siècle. L'Atelier Soie travaille en partenariat avec la Maison Prelle, fournisseur de soie grège de Croix-Rousse, pour perpétuer les techniques des canuts lyonnais — passeurs d'un savoir-faire textile sans équivalent.",
+    body: `Lyon est la capitale mondiale de la soie depuis le XVIIIe siècle. ${clientName(sessionData) ?? "L'Atelier Soie"} travaille en partenariat avec la Maison Prelle, fournisseur de soie grège de Croix-Rousse, pour perpétuer les techniques des canuts lyonnais — passeurs d'un savoir-faire textile sans équivalent.`,
     reverse: false,
   },
   {
@@ -1338,7 +1338,7 @@ function CraftPanel() {
           >
             <img
               src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[7] || 'https://images.pexels.com/photos/6358795/pexels-photo-6358795.jpeg?auto=compress&cs=tinysrgb&w=900')}
-              alt="Atelier L'Atelier Soie — savoir-faire lyonnais"
+              alt={`Atelier ${clientName(sessionData) ?? "L'Atelier Soie"} — savoir-faire lyonnais`}
               loading="lazy"
               style={{
                 width: '100%',

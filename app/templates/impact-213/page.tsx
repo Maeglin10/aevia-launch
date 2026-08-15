@@ -1949,7 +1949,7 @@ function Testimonials() {
       rating: 5,
     },
     {
-      text: "Extension de notre maison de 45 m² : fondations, murs, toiture et isolation ITE. Délai tenu à la semaine près. Les finitions sont impeccables. Nous recommandons Bâtisseurs Durand à tous nos voisins.",
+      text: `Extension de notre maison de 45 m² : fondations, murs, toiture et isolation ITE. Délai tenu à la semaine près. Les finitions sont impeccables. Nous recommandons ${clientName(sessionData) ?? "Bâtisseurs Durand"} à tous nos voisins.`,
       author: 'Thierry & Nathalie Blanc',
       role: 'Particuliers — Caluire-et-Cuire',
       rating: 5,
@@ -1961,19 +1961,19 @@ function Testimonials() {
       rating: 5,
     },
     {
-      text: "Notre restaurant avait des problèmes d'infiltration sur la toiture-terrasse depuis 3 ans. Deux entreprises n'avaient pas réussi. Bâtisseurs Durand a diagnostiqué le problème en une heure et réparé définitivement. Merci !",
+      text: `Notre restaurant avait des problèmes d'infiltration sur la toiture-terrasse depuis 3 ans. Deux entreprises n'avaient pas réussi. ${clientName(sessionData) ?? "Bâtisseurs Durand"} a diagnostiqué le problème en une heure et réparé définitivement. Merci !`,
       author: 'Aurélien Gastaud',
       role: 'Restaurateur — Vieux-' + (clientCity(sessionData) ?? 'Lyon'),
       rating: 5,
     },
     {
-      text: "Dallage industriel de notre entrepôt de 2 000 m². Délai incroyablement court (3 semaines), surface parfaitement plane vérifiée au laser. Les équipes Bâtisseurs Durand sont des professionnels du haut niveau.",
+      text: `Dallage industriel de notre entrepôt de 2 000 m². Délai incroyablement court (3 semaines), surface parfaitement plane vérifiée au laser. Les équipes ${clientName(sessionData) ?? "Bâtisseurs Durand"} sont des professionnels du haut niveau.`,
       author: 'Directeur exploitation',
       role: 'Société de logistique — Bourgoin-Jallieu',
       rating: 5,
     },
     {
-      text: "Nous avons fait appel à Bâtisseurs Durand pour la démolition et restructuration de nos bureaux en open space. Travaux réalisés le week-end pour ne pas perturber l'activité. Propre, rapide et dans les prix.",
+      text: `Nous avons fait appel à ${clientName(sessionData) ?? "Bâtisseurs Durand"} pour la démolition et restructuration de nos bureaux en open space. Travaux réalisés le week-end pour ne pas perturber l'activité. Propre, rapide et dans les prix.`,
       author: 'Marie-Claire Peyroux',
       role: 'Dirigeante PME — ' + (clientCity(sessionData) ?? 'Villeurbanne'),
       rating: 4,

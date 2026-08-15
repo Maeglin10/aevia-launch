@@ -144,7 +144,7 @@ export default function VogueNoireLayout({
             </div>
             <div>
               <p className="text-[10px] tracking-widest uppercase text-[#3A3028] mb-5">Suivez-nous</p>
-              {[["Instagram", "@vogue.noire"], ["Twitter", "@VogueNoire"], ["Pinterest", "Vogue Noire"]].map(([network, handle]) => (
+              {[["Instagram", "@vogue.noire"], ["Twitter", "@VogueNoire"], ["Pinterest", `${clientName(__layoutSession) ?? "Vogue Noire"}`]].map(([network, handle]) => (
                 <p key={network} className="text-sm text-[#6A6058] mb-3">{network} <span className="text-[#C9A86C]">{handle}</span></p>
               ))}
             </div>

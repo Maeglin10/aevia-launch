@@ -236,7 +236,7 @@ function testimonials_LIVE() {
   {
     name: "Édouard de Villeneuve",
     title: "Family Charter, " + (clientCity(sessionData) ?? "Paris"),
-    text: "We have chartered through three agencies over twenty years. Horizon Maritime is categorically different — a concierge service that happens to include the most beautiful vessel we have ever stepped aboard.",
+    text: `We have chartered through three agencies over twenty years. ${clientName(sessionData) ?? "Horizon Maritime"} is categorically different — a concierge service that happens to include the most beautiful vessel we have ever stepped aboard.`,
     yacht: "S/Y Ariel — 42m",
     stars: 5,
   },
@@ -2991,7 +2991,7 @@ function LegalPage() {
             <p style={{ margin: 0 }}>
               <strong>Publisher:</strong> {clientName(sessionData) ?? "Aevia WS — Valentin Milliand"}<br />
               Sole Proprietorship — SIREN <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
-              <strong>Contact Email:</strong> {fd?.email ?? "valentinmilliand@aevia.services"}<br />
+              <strong>Contact Email:</strong> {fd?.email ?? "contact@exemple.fr"}<br />
               <strong>Address:</strong> communicated upon request<br />
               <strong>Host:</strong> Vercel Inc.
             </p>

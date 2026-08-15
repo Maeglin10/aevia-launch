@@ -604,7 +604,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || unsplash((clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/6473194/pexels-photo-6473194.jpeg?auto=compress&cs=tinysrgb&w=1600'), 2000)}
-          alt="Cabinet dentaire Smile & Co Lyon 6e"
+          alt={`Cabinet dentaire ${clientName(sessionData) ?? "Smile & Co"} Lyon 6e`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="high"
         />
@@ -1310,7 +1310,7 @@ function TechPanel() {
           >
             <img
               src={unsplash((clientPhotos(sessionData)[7] || 'https://images.pexels.com/photos/5355863/pexels-photo-5355863.jpeg?auto=compress&cs=tinysrgb&w=1600'), 900)}
-              alt="Équipement technologique cabinet Smile & Co"
+              alt={`Équipement technologique cabinet ${clientName(sessionData) ?? "Smile & Co"}`}
               loading="lazy"
               style={{
                 width: '100%',

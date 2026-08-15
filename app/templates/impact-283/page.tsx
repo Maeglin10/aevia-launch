@@ -32,17 +32,17 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientTrade,
-  clientPayments,
-  clientBookingUrl,
-  clientPhone,
   clientAddress,
+  clientBookingUrl,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
   clientList,
   clientName,
+  clientPayments,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -50,6 +50,7 @@ import {
   clientTagline,
   clientTeam,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -2400,7 +2401,7 @@ function MaterialSection() {
           >
             <img
               src={PHOTO.reeducation}
-              alt="Salle de rééducation équipée cabinet Kinésithérapie du Languedoc"
+              alt={`Salle de rééducation équipée cabinet ${clientName(sessionData) ?? "Kinésithérapie du Languedoc"}`}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
           </div>
@@ -2989,7 +2990,7 @@ function FooterSection() {
       titre: 'Contact',
       liens: [
         { label: (clientPhone(sessionData) ?? '04 67 20 51 51'), href: 'tel:+33467000000' },
-        { label: 'cabinet@kinetherapeute-' + (clientCity(sessionData) ?? 'Montpellier') + '.fr', href: 'mailto:cabinet@kinetherapeute-' + (clientCity(sessionData) ?? 'Montpellier') + '.fr' },
+        { label: clientEmail(sessionData) ?? ('cabinet@kinetherapeute-' + (clientCity(sessionData) ?? 'Montpellier') + '.fr'), href: 'mailto:' + (clientEmail(sessionData) ?? ('cabinet@kinetherapeute-' + (clientCity(sessionData) ?? 'Montpellier') + '.fr')) },
         { label: '12 Av. de Palavas, Antigone', href: '#pratique' },
         { label: 'Urgences : Hôpital Lapeyronie', href: "/templates/impact-283" },
       ],

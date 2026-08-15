@@ -452,7 +452,7 @@ export default function Impact26() {
         <motion.div style={{ y: heroY, opacity: heroOpacity }} className="absolute inset-0">
           <Image
             src={photo(4, "https://images.unsplash.com/photo-1590736704728-f4730bb30770?w=1600&h=900&fit=crop&crop=center")}
-            alt="Éther Parfums"
+            alt={`${clientName(sessionData) ?? "Éther Parfums"}`}
             fill
             className="object-cover opacity-40"
           />

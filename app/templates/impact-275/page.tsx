@@ -536,7 +536,7 @@ function HeroSection() {
       >
         <img
           src={fd?.photoUrls?.[0] || PHOTO.tribunal}
-          alt="Bibliothèque juridique, Cabinet Faure Marseille"
+          alt={`Bibliothèque juridique, ${clientName(sessionData) ?? "Cabinet Faure"} Marseille`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           loading="eager"
         />

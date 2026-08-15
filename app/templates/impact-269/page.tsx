@@ -635,7 +635,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/31484077/pexels-photo-31484077.jpeg?auto=compress&cs=tinysrgb&w=2000')}
-          alt="Devanture de la Boulangerie des Chartrons à Bordeaux"
+          alt={`Devanture de la ${clientName(sessionData) ?? "Boulangerie des Chartrons"} à Bordeaux`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>

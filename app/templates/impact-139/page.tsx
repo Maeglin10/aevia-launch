@@ -436,7 +436,7 @@ export default function ApexFitnessPage() {
                 author: r.name ?? r.author ?? "",
                 plan: r.location ?? r.context ?? "Verified Member",
               })), [
-                { quote: "Apex completely changed my approach to fitness. The heart rate zone tracking keeps me accountable every single workout.", author: "James L.", plan: "Performance Member" },
+                { quote: `${clientName(sessionData) ?? "Apex"} completely changed my approach to fitness. The heart rate zone tracking keeps me accountable every single workout.`, author: "James L.", plan: "Performance Member" },
                 { quote: "Small class sizes mean you get personal coach attention even in a group environment. Worth every single cent.", author: "Elena R.", plan: "Elite Member" },
                 { quote: "The community is extremely supportive, and the mobility programming has cured my chronic lower back issues.", author: "Marcus D.", plan: "Essential Member" },
               ] as any[]).map((t: any, i: number) => (

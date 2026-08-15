@@ -479,7 +479,7 @@ function HeroSection() {
       >
         <img
           src={PHOTO.heroWide}
-          alt="Cabinet lumineux du Dr. Marc Lecomte, médecin généraliste à Nantes Centre"
+          alt={`Cabinet lumineux du ${clientName(sessionData) ?? "Dr. Marc Lecomte"}, médecin généraliste à Nantes Centre`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1161,7 +1161,7 @@ function ConsultationSection() {
           >
             <img
               src={PHOTO.medecin}
-              alt="Dr. Marc Lecomte en consultation"
+              alt={`${clientName(sessionData) ?? "Dr. Marc Lecomte"} en consultation`}
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />

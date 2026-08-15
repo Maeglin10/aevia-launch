@@ -62,7 +62,7 @@ export default function ContactPage() {
               COORDONNÉES
             </div>
             <p style={{ fontSize: "0.85rem", color: C.textMuted, lineHeight: 1.6 }}>
-              Email : <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} style={{ color: C.text, textDecoration: "none" }}>contact@exemple.fr</a><br />
+              Email : <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} style={{ color: C.text, textDecoration: "none" }}>{fd?.email ?? "contact@exemple.fr"}</a><br />
               HQ : Bourg-en-Bresse, France<br />
               SPI N° <LegalIdentity />
             </p>

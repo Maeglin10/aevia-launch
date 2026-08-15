@@ -380,7 +380,7 @@ export default function TableExceptionPage() {
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
-              { q: "Cocktail mariage pour 220 personnes, tout était parfait. La présentation des buffets épatante, les bouchées délicieuses, le service discret et rapide. Merci Table d'Exception !", n: "Anaïs & Pierre R.", l: "Mariage à Lyon · Mai 2025" },
+              { q: `Cocktail mariage pour 220 personnes, tout était parfait. La présentation des buffets épatante, les bouchées délicieuses, le service discret et rapide. Merci ${clientName(sessionData) ?? "Table"} d'Exception !`, n: "Anaïs & Pierre R.", l: "Mariage à Lyon · Mai 2025" },
               { q: "Séminaire corporate avec repas assis 80 couverts. Menu sur mesure, chef présent, accords vins impeccables. Nos partenaires ont demandé le contact du traiteur dès le dessert.", n: "Directrice Générale · " + (clientCity({ formData: fd }) ?? "Lyon"), l: "Groupe Solia · 60M€ CA" },
               { q: "Plateaux repas récurrents pour nos 40 collaborateurs. Qualité constante, livraison à l'heure, variété impressionnante. C'est devenu un rituel d'équipe incontournable.", n: "Thomas V.", l: "RH · Startup Lyonnaise" },
             ].map((t, i) => (

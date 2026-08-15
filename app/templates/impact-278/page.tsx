@@ -496,7 +496,7 @@ function HeroSection() {
       >
         <img
           src={PHOTO.heroWide}
-          alt="Salle de bain moderne rénovée par Plomberie Garonne à Toulouse"
+          alt={`Salle de bain moderne rénovée par ${clientName(sessionData) ?? "Plomberie Garonne"} à Toulouse`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1207,7 +1207,7 @@ function ProcessSection() {
           >
             <img
               src={PHOTO.plombier}
-              alt="Plombier Plomberie Garonne au travail à Toulouse"
+              alt={`Plombier ${clientName(sessionData) ?? "Plomberie Garonne"} au travail à Toulouse`}
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
@@ -2368,7 +2368,7 @@ function UrgencySection() {
       >
         <img
           src={PHOTO.tuyauterie}
-          alt="Intervention urgence plomberie Toulouse — Plomberie Garonne"
+          alt={`Intervention urgence plomberie Toulouse — ${clientName(sessionData) ?? "Plomberie Garonne"}`}
           loading="lazy"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />

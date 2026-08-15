@@ -416,9 +416,9 @@ export default function VulcanMotorsPage() {
                 <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic leading-none mb-12">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Born On <br /><span className="font-light not-italic text-white/20">Track.</span></>)}</h2>
                 <div className="space-y-8">
                   {[
-                    { icon: Timer, t: "Owner Track Days", d: "Quarterly invitations to Portimão, Spa, and Suzuka. Vulcan engineering crew on-site." },
+                    { icon: Timer, t: "Owner Track Days", d: `Quarterly invitations to Portimão, Spa, and Suzuka. ${clientName(sessionData) ?? "Vulcan"} engineering crew on-site.` },
                     { icon: Gauge, t: "Tailored Calibration", d: "Every car leaves the atelier pre-mapped to the owner's preferred circuit. Updates over-the-air." },
-                    { icon: Activity, t: "Telemetry Suite", d: "Real-time data transmitted to the Vulcan server farm. Lap coaching from ex-F1 engineers." },
+                    { icon: Activity, t: "Telemetry Suite", d: `Real-time data transmitted to the ${clientName(sessionData) ?? "Vulcan"} server farm. Lap coaching from ex-F1 engineers.` },
                   ].map((f, i) => (
                     <div key={i} className="flex gap-8 group">
                       <div className="w-16 h-16 shrink-0 border border-red-600/20 flex items-center justify-center group-hover:bg-red-600 group-hover:border-red-600 transition-all duration-700 -skew-x-6">

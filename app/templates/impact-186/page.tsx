@@ -474,7 +474,7 @@ export default function DrFontainePage() {
               sp: m.role ?? m.specialty ?? "",
               f: m.bio ?? m.credentials ?? m.specialty ?? "",
             })), [
-              { nom: "Dr. Léa Fontaine", sp: "Omnipratique & Esthétique", f: "Diplômée Faculté de " + (clientCity(sessionData) ?? "Nantes") + " 2006, DU Implantologie Tours 2010" },
+              { nom: `${clientName(sessionData) ?? "Dr. Léa Fontaine"}`, sp: "Omnipratique & Esthétique", f: "Diplômée Faculté de " + (clientCity(sessionData) ?? "Nantes") + " 2006, DU Implantologie Tours 2010" },
               { nom: "Dr. Antoine Merle", sp: "Orthodontie & Invisalign®", f: "Spécialiste orthodontie, formateur Invisalign® Provider certifié" },
               { nom: "Sophie C.", sp: "Assistante dentaire", f: "10 ans d'expérience, spécialisée chirurgie implantaire et accueil patient" },
             ] as any[]).map((p: any, i: number) => (

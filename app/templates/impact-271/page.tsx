@@ -613,7 +613,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[6] || `https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2000&auto=format&fit=crop`)}
-          alt="Jardin alsacien fleuri par Jardins d'Alsace"
+          alt={`Jardin alsacien fleuri par ${clientName(sessionData) ?? "Jardins d'Alsace"}`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>

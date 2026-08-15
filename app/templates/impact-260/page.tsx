@@ -653,7 +653,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || (ph((clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/29226620/pexels-photo-29226620.jpeg?auto=compress&cs=tinysrgb&w=1600')))}
-          alt="Plombier Aqua Confort Lyon en intervention"
+          alt={`Plombier ${clientName(sessionData) ?? "Aqua Confort Lyon"} en intervention`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-hint="high"
         />
@@ -1485,7 +1485,7 @@ function CertPanel() {
             >
               <img
                 src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/7859953/pexels-photo-7859953.jpeg?auto=compress&cs=tinysrgb&w=900')}
-                alt="Technicien certifié RGE Aqua Confort Lyon"
+                alt={`Technicien certifié RGE ${clientName(sessionData) ?? "Aqua Confort Lyon"}`}
                 loading="lazy"
                 style={{
                   width: '100%',

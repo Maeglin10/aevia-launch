@@ -626,7 +626,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[10] || 'https://images.pexels.com/photos/4125586/pexels-photo-4125586.jpeg?auto=compress&cs=tinysrgb&w=2000')}
-          alt="Studio Noir Absolu — Fine Art Tattoo Paris 3e"
+          alt={`${clientName(sessionData) ?? "Studio Noir Absolu"} — Fine Art Tattoo Paris 3e`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-hint="high"
         />
@@ -1449,7 +1449,7 @@ function SafetyPanel() {
           >
             <img
               src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[11] || 'https://images.pexels.com/photos/19669303/pexels-photo-19669303.jpeg?auto=compress&cs=tinysrgb&w=900')}
-              alt="Hygiène et protocoles — Studio Noir Absolu"
+              alt={`Hygiène et protocoles — ${clientName(sessionData) ?? "Studio Noir Absolu"}`}
               loading="lazy"
               style={{
                 width: '100%',

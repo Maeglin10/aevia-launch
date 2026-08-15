@@ -450,7 +450,7 @@ function Hero() {
       >
         <img
           src={PHOTO.vineyard}
-          alt="Vignoble du Domaine Miroir au crépuscule"
+          alt={`Vignoble du ${clientName(sessionData) ?? "Domaine Miroir"} au crépuscule`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1342,7 +1342,7 @@ function TastingSticky() {
           >
             <img
               src={PHOTO.glass}
-              alt="Dégustation d’un verre du Domaine Miroir"
+              alt={`Dégustation d’un verre du ${clientName(sessionData) ?? "Domaine Miroir"}`}
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
@@ -1493,7 +1493,7 @@ function CellarExperience() {
       >
         <img
           src={PHOTO.cellar}
-          alt="Le chai d’élevage voûté du Domaine Miroir"
+          alt={`Le chai d’élevage voûté du ${clientName(sessionData) ?? "Domaine Miroir"}`}
           loading="lazy"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />

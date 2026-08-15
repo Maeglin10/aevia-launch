@@ -245,7 +245,10 @@ const SAVOIR_FAIRE_DEMO = [
 ];
 let SAVOIR_FAIRE = SAVOIR_FAIRE_DEMO;
 
-const TESTIMONIALS_SOURCE = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     name: "Isabelle & Frédéric M.",
     role: "Dîner anniversaire",
@@ -261,7 +264,7 @@ const TESTIMONIALS_SOURCE = [
   {
     name: "Pierre B.",
     role: "Client fidèle — 12 dîners",
-    text: "Je fais appel à Maison Saveur pour tous mes dîners d'affaires. La présentation est digne d'un grand restaurant, et l'accord mets-vins est toujours une révélation.",
+    text: `Je fais appel à ${clientName(sessionData) ?? "Maison Saveur"} pour tous mes dîners d'affaires. La présentation est digne d'un grand restaurant, et l'accord mets-vins est toujours une révélation.`,
     initials: "PB",
   },
   {
@@ -277,6 +280,8 @@ const TESTIMONIALS_SOURCE = [
     initials: "TL",
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const FORM_FIELDS = [
@@ -757,6 +762,7 @@ export default function Impact201Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   STATS_INLINE = resolveList(
 

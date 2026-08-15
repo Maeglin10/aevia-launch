@@ -243,7 +243,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     verified: true,
   },
   {
-    quote: "Livraison le lendemain, emballage cadeau inclus et une petite note manuscrite. J'offre Éclat à toutes mes amies maintenant. La marque qui comprend le luxe accessible.",
+    quote: `Livraison le lendemain, emballage cadeau inclus et une petite note manuscrite. J'offre ${clientName(sessionData) ?? "Éclat"} à toutes mes amies maintenant. La marque qui comprend le luxe accessible.`,
     name: "Juliette D.",
     location: "Lyon",
     service: "Top Soie Côte d'Azur",
@@ -251,7 +251,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     verified: true,
   },
   {
-    quote: "Enfin une boutique qui a des tailles pour les vraies femmes. Les coupes sont d'une précision rare — le 38 d'Éclat, c'est vraiment un 38 européen.",
+    quote: `Enfin une boutique qui a des tailles pour les vraies femmes. Les coupes sont d'une précision rare — le 38 d'${clientName(sessionData) ?? "Éclat"}, c'est vraiment un 38 européen.`,
     name: "Amélie R.",
     location: "Bordeaux",
     service: "Blazer Sable",
@@ -308,7 +308,10 @@ const LOYALTY_TIERS = [
   },
 ];
 
-const FAQS_DEMO = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function FAQS_DEMO_LIVE() {
+  return [
   {
     q: "Quels sont les délais de livraison ?",
     a: "Livraison standard 2–3 jours ouvrés. Express J+1 disponible (avant 14h). Gratuit dès 150 € d'achat. International disponible vers 45 pays.",
@@ -331,9 +334,11 @@ const FAQS_DEMO = [
   },
   {
     q: "Comment fonctionne le programme fidélité ?",
-    a: "Chaque euro dépensé = 1 point Éclat. À partir de 300 points, accédez au niveau Or avec des avantages exclusifs. Le niveau Platine débute à 800 points annuels.",
+    a: `Chaque euro dépensé = 1 point ${clientName(sessionData) ?? "Éclat"}. À partir de 300 points, accédez au niveau Or avec des avantages exclusifs. Le niveau Platine débute à 800 points annuels.`,
   },
 ];
+}
+let FAQS_DEMO = FAQS_DEMO_LIVE();
 
 const STATS_DEMO = [
   { val: "4.92", label: "Note moyenne", sub: "2 840 avis vérifiés" },
@@ -820,6 +825,7 @@ export default function ImpactEclatPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  FAQS_DEMO = FAQS_DEMO_LIVE();
   BLOG_POSTS = BLOG_POSTS_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   PRODUCTS_DEMO = PRODUCTS_DEMO_LIVE();
@@ -2531,7 +2537,7 @@ function BoutiquePage({
     <div>
       <PageHero
         eyebrow="Toute la boutique"
-        title="La boutique Éclat"
+        title={`La boutique ${clientName(sessionData) ?? "Éclat"}`}
         subtitle="L'intégralité de nos collections, du lin lavé à la soie grège. Cliquez sur une pièce pour découvrir sa fiche détaillée."
       />
       <section style={{ padding: "clamp(40px, 6vw, 72px) clamp(20px, 6vw, 64px) clamp(72px, 9vw, 100px)" }}>
@@ -3022,7 +3028,7 @@ function BlogPage({
   return (
     <div>
       <PageHero
-        eyebrow="Journal Éclat"
+        eyebrow={`Journal ${clientName(sessionData) ?? "Éclat"}`}
         title="Le Blog"
         subtitle="Matières, style et coulisses. Nos réflexions sur une mode plus durable et intemporelle."
       />
@@ -3107,7 +3113,7 @@ function AboutPage({ goTo }: { goTo: (p: EclatPage) => void }) {
       <PageHero
         eyebrow="Notre histoire"
         title="L'élégance, avec intention."
-        subtitle="Éclat est née d'une conviction simple : on peut s'habiller avec goût sans compromettre la planète ni les artisans qui font nos vêtements."
+        subtitle={`${clientName(sessionData) ?? "Éclat"} est née d'une conviction simple : on peut s'habiller avec goût sans compromettre la planète ni les artisans qui font nos vêtements.`}
       />
       <section style={{ padding: "clamp(48px, 7vw, 80px) clamp(20px, 6vw, 64px)" }}>
         <div style={{ maxWidth: 720, margin: "0 auto" }}>

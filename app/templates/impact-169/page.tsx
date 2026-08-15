@@ -183,7 +183,7 @@ let AUTHORS = AUTHORS_SOURCE;
 function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
-    quote: "Fréquence est la seule newsletter que j'ouvre en premier le lundi matin. Pas de superflu, des idées qui tiennent et qui transforment ma manière de penser le business.",
+    quote: `${clientName(sessionData) ?? "Fréquence"} est la seule newsletter que j'ouvre en premier le lundi matin. Pas de superflu, des idées qui tiennent et qui transforment ma manière de penser le business.`,
     name: "Alexandre M.",
     role: "Directeur Produit, Scale-up " + (clientCity({ formData: fd }) ?? "Paris"),
     stars: 5,
@@ -265,7 +265,10 @@ const ARCHIVE_MONTHS = [
   { month: "Décembre 2024", issues: 3, highlights: ["Bilan 2024", "Tendances 2025", "Best-of articles"] },
 ];
 
-const FAQS_DEMO = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function FAQS_DEMO_LIVE() {
+  return [
   {
     q: "À quelle fréquence publiez-vous ?",
     a: "Chaque lundi — une grande analyse (2 000–3 000 mots) + 3 brèves commentées. Parfois un hors-série le jeudi sur un sujet brûlant.",
@@ -287,10 +290,12 @@ const FAQS_DEMO = [
     a: "Oui — disponible pour les abonnés Lecteur. L'éditeur commente l'édition en 20 minutes denses chaque lundi dès 7h.",
   },
   {
-    q: "Comment rejoindre la communauté Fréquence ?",
+    q: `Comment rejoindre la communauté ${clientName(sessionData) ?? "Fréquence"} ?`,
     a: "L'abonnement Lecteur donne accès à notre Discord privé (2 400 membres) et aux sessions mensuelles Q&A avec les auteurs.",
   },
 ];
+}
+let FAQS_DEMO = FAQS_DEMO_LIVE();
 let FAQS = FAQS_DEMO;
 
 const STATS_DEMO = [
@@ -477,6 +482,7 @@ export default function ImpactFrequencePage() {
 
   fd = session?.formData;
   sessionData = session;
+  FAQS_DEMO = FAQS_DEMO_LIVE();
   c = session?.generatedContent;
   AUTHORS_SOURCE = AUTHORS_SOURCE_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();

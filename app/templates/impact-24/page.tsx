@@ -492,7 +492,7 @@ return (
                     <div className="rounded-2xl overflow-hidden aspect-[4/5]">
                       <Image
                         src={photo(10, "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=1000&fit=crop&crop=center")}
-                        alt="Founders at Zero to One"
+                        alt={`Founders at ${clientName(sessionData) ?? "Zero"} to One`}
                         width={800}
                         height={1000}
                         className="w-full h-full object-cover"
@@ -652,7 +652,7 @@ return (
                   growth: "18× ARR YoY",
                   founded: "2022",
                   hq: "San Francisco, CA",
-                  investors: "Sequoia, a16z, Zero to One",
+                  investors: `Sequoia, a16z, ${clientName(sessionData) ?? "Zero"} to One`,
                 },
                 {
                   ...companies[1],
@@ -661,7 +661,7 @@ return (
                   growth: "4.2× transaction volume YoY",
                   founded: "2022",
                   hq: "Lagos & London",
-                  investors: "Stripe, Y Combinator, Zero to One",
+                  investors: `Stripe, Y Combinator, ${clientName(sessionData) ?? "Zero"} to One`,
                 },
                 {
                   ...companies[2],
@@ -670,7 +670,7 @@ return (
                   growth: "320% user growth in 12 months",
                   founded: "2023",
                   hq: "Berlin, Germany",
-                  investors: "Index Ventures, Zero to One",
+                  investors: `Index Ventures, ${clientName(sessionData) ?? "Zero"} to One`,
                 },
                 {
                   ...companies[3],
@@ -679,7 +679,7 @@ return (
                   growth: "6× clinic partnerships in 6 months",
                   founded: "2021",
                   hq: "Boston, MA",
-                  investors: "General Catalyst, Zero to One",
+                  investors: `General Catalyst, ${clientName(sessionData) ?? "Zero"} to One`,
                 },
                 {
                   ...companies[4],
@@ -688,7 +688,7 @@ return (
                   growth: "$8M ARR, doubling annually",
                   founded: "2021",
                   hq: (clientCity({ formData: fd }) ?? "Paris") + ", France",
-                  investors: "Lowercarbon Capital, Breakthrough Energy, Zero to One",
+                  investors: `Lowercarbon Capital, Breakthrough Energy, ${clientName(sessionData) ?? "Zero"} to One`,
                 },
                 {
                   ...companies[5],
@@ -697,7 +697,7 @@ return (
                   growth: "200% MoM in first 6 months post-launch",
                   founded: "2023",
                   hq: "Stockholm, Sweden",
-                  investors: "Accel, Zero to One",
+                  investors: `Accel, ${clientName(sessionData) ?? "Zero"} to One`,
                 },
               ].map((co, i) => (
                 <Reveal key={co.name} delay={i * 0.08}>

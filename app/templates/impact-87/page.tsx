@@ -300,7 +300,7 @@ export default function IronClubPage() {
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img
             src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920&q=80"))}
-            alt="Salle CrossFit Iron Club Lyon"
+            alt={`Salle CrossFit ${clientName(sessionData) ?? "Iron Club"} Lyon`}
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
         </motion.div>

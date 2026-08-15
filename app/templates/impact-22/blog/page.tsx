@@ -229,7 +229,7 @@ export default function NimbusAIBlogPage() {
                 },
                 {
                   title: "Case study : Doctolib réduit ses coûts d'inférence de 73%",
-                  excerpt: "En migrant de Azure OpenAI vers NimbusAI avec un mix Mistral Large / LLaMA 3.1 routé intelligemment, Doctolib a divisé sa facture par 3.7 tout en améliorant la qualité des réponses.",
+                  excerpt: `En migrant de Azure OpenAI vers ${clientName(sessionData) ?? "NimbusAI"} avec un mix Mistral Large / LLaMA 3.1 routé intelligemment, Doctolib a divisé sa facture par 3.7 tout en améliorant la qualité des réponses.`,
                   date: "15 mai 2026",
                   category: "Case Study",
                   categoryColor: "#10B981",

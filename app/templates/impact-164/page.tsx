@@ -203,9 +203,12 @@ const TEAM_DEMO = [
 ];
 let TEAM = TEAM_DEMO;
 
-const TESTIMONIALS_SOURCE = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
-    quote: "Bureau a transformé notre positionnement en 6 semaines. On est passés de «une agence parmi d'autres» à «la référence» dans notre secteur. Chiffres à l'appui.",
+    quote: `${clientName(sessionData) ?? "Bureau"} a transformé notre positionnement en 6 semaines. On est passés de «une agence parmi d'autres» à «la référence» dans notre secteur. Chiffres à l'appui.`,
     name: "Camille Renard",
     role: "Fondatrice, Maison Leroux",
   },
@@ -215,7 +218,7 @@ const TESTIMONIALS_SOURCE = [
     role: "CMO, Volta Energy",
   },
   {
-    quote: "Créatifs, rigoureux, et ils disent non quand c'est nécessaire. C'est rare, et c'est précieux. On a recommandé Bureau à trois de nos partenaires.",
+    quote: `Créatifs, rigoureux, et ils disent non quand c'est nécessaire. C'est rare, et c'est précieux. On a recommandé ${clientName(sessionData) ?? "Bureau"} à trois de nos partenaires.`,
     name: "Léa Fontaine-Bernard",
     role: "CEO, Nude Beauté",
   },
@@ -225,6 +228,8 @@ const TESTIMONIALS_SOURCE = [
     role: "CTO, DataFlux",
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
@@ -364,6 +369,7 @@ export default function BureauPage() {
 
   fd = session?.formData;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   c = session?.generatedContent;
 
   PLANS = resolveList(

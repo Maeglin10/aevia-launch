@@ -944,10 +944,10 @@ function SupportPage() {
 
         <Accordion type="single" collapsible className="w-full space-y-4 mb-24">
           {[
-            { q: "What is the typical wait time for a bespoke unit?", a: "Each Vulcan unit is hand-assembled in Modena. Production typically takes between 14 to 22 months from design freeze." },
+            { q: "What is the typical wait time for a bespoke unit?", a: `Each ${clientName(sessionData) ?? "Vulcan"} unit is hand-assembled in Modena. Production typically takes between 14 to 22 months from design freeze.` },
             { q: "Do you offer international delivery?", a: "Yes. Every owner is assigned a dedicated Flying Technician and global concierge who manages white-glove transport." },
             { q: "Is the Stratos E road-legal?", a: "The Stratos E is homologated for road use in the EU, UK, and USA. Track-only variants are also available." },
-            { q: "What is the maintenance cycle of a Vulcan engine?", a: "A complete diagnostic is performed every 10,000 km or annually by a certified Vulcan Flying Technician, who is dispatched to your private garage anywhere in the world." }
+            { q: `What is the maintenance cycle of a ${clientName(sessionData) ?? "Vulcan"} engine?`, a: `A complete diagnostic is performed every 10,000 km or annually by a certified ${clientName(sessionData) ?? "Vulcan"} Flying Technician, who is dispatched to your private garage anywhere in the world.` }
           ].map((item, i) => (
             <AccordionItem key={i} value={`item-${i}`} className="border-2 border-black/5 bg-black/[0.02] px-10 rounded-sm hover:border-black/20 transition-all">
                <AccordionTrigger className="text-xs font-black uppercase tracking-[0.3em] py-10 no-underline italic text-left">

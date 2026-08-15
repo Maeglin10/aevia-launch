@@ -1090,7 +1090,10 @@ type Feature = {
   body: string;
 };
 
-const SHOWCASE_FEATURES: Feature[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function SHOWCASE_FEATURES_LIVE(): Feature[] {
+  return [
   {
     num: '01',
     title: 'Une lumière pensée à chaque heure',
@@ -1104,7 +1107,7 @@ const SHOWCASE_FEATURES: Feature[] = [
   {
     num: '03',
     title: 'Performance énergétique maîtrisée',
-    body: "Géothermie, isolation renforcée et domotique discrète : chaque bien Solis allie l'exigence du confort contemporain à une empreinte environnementale réduite.",
+    body: `Géothermie, isolation renforcée et domotique discrète : chaque bien ${clientName(sessionData) ?? "Solis"} allie l'exigence du confort contemporain à une empreinte environnementale réduite.`,
   },
   {
     num: '04',
@@ -1112,6 +1115,8 @@ const SHOWCASE_FEATURES: Feature[] = [
     body: "Implantation paysagère, jardins clos et espaces de réception séparés des pièces de vie privées. Le luxe discret de se sentir chez soi, à l'abri des regards.",
   },
 ];
+}
+let SHOWCASE_FEATURES: Feature[] = SHOWCASE_FEATURES_LIVE();
 
 const StickyShowcase: React.FC = () => (
   <Section
@@ -1151,7 +1156,7 @@ const StickyShowcase: React.FC = () => (
         >
           <img
             src={PHOTO.interior}
-            alt="Intérieur d'une villa Solis baigné de lumière naturelle"
+            alt={`Intérieur d'une villa ${clientName(sessionData) ?? "Solis"} baigné de lumière naturelle`}
             loading="lazy"
             style={{
               width: '100%',
@@ -1544,7 +1549,10 @@ type Row = {
   reverse: boolean;
 };
 
-const ROWS: Row[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function ROWS_LIVE(): Row[] {
+  return [
   {
     icon: <Search size={20} />,
     step: 'Étape 01',
@@ -1565,11 +1573,13 @@ const ROWS: Row[] = [
     icon: <Handshake size={20} />,
     step: 'Étape 03',
     title: 'Accompagnement complet',
-    body: "Notaire, financement, architecte d'intérieur, conciergerie : nous orchestrons l'ensemble des intervenants jusqu'à la remise des clés et au-delà. Solis reste votre interlocuteur unique, du premier rendez-vous à l'installation dans votre nouveau lieu de vie.",
+    body: `Notaire, financement, architecte d'intérieur, conciergerie : nous orchestrons l'ensemble des intervenants jusqu'à la remise des clés et au-delà. ${clientName(sessionData) ?? "Solis"} reste votre interlocuteur unique, du premier rendez-vous à l'installation dans votre nouveau lieu de vie.`,
     img: PHOTO.pool,
     reverse: false,
   },
 ];
+}
+let ROWS: Row[] = ROWS_LIVE();
 
 const ApproachRow: React.FC<{ row: Row }> = ({ row }) => (
   <div
@@ -2534,6 +2544,8 @@ export default function ImpactTemplate(): React.ReactElement {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  ROWS = ROWS_LIVE();
+  SHOWCASE_FEATURES = SHOWCASE_FEATURES_LIVE();
   PROPERTIES_DEMO_SOURCE = PROPERTIES_DEMO_SOURCE_LIVE();
   PHOTO = PHOTO_LIVE();
   FOOTER_COLS = FOOTER_COLS_LIVE();

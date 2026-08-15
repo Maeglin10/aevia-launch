@@ -1383,7 +1383,7 @@ function MethodPanel() {
           >
             <img
               src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[7] || 'https://images.pexels.com/photos/20860616/pexels-photo-20860616.jpeg?auto=compress&cs=tinysrgb&w=900')}
-              alt="Rééducation sportive — méthode KinéSport Élite"
+              alt={`Rééducation sportive — méthode ${clientName(sessionData) ?? "KinéSport Élite"}`}
               loading="lazy"
               style={{
                 width: '100%',

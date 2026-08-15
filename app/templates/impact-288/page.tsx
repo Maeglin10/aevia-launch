@@ -1225,11 +1225,14 @@ function ServicesSection() {
    4 · PROCESS SECTION
    Left sticky photo technicien + Right scroll 4 étapes
    ════════════════════════════════════════════════════════════════════════════ */
-const STEPS = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function STEPS_LIVE() {
+  return [
   {
     num: '01',
     title: 'Visite technique',
-    desc: "Un technicien Ampère & Fils se déplace chez vous, gratuitement, pour évaluer votre installation existante et comprendre vos besoins. Diagnostic complet inclus.",
+    desc: `Un technicien ${clientName(sessionData) ?? "Ampère & Fils"} se déplace chez vous, gratuitement, pour évaluer votre installation existante et comprendre vos besoins. Diagnostic complet inclus.`,
     icon: Home,
   },
   {
@@ -1250,7 +1253,9 @@ const STEPS = [
     desc: "Nous vous accompagnons pour l'obtention de l'attestation CONSUEL et la mise en service. Votre installation est vérifiée, conforme et opérationnelle.",
     icon: Shield,
   },
-] as const;
+];
+}
+let STEPS = STEPS_LIVE();
 
 function StepBlock({ step, i }: { step: (typeof STEPS)[number]; i: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -1474,7 +1479,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     name: 'Sophie M.',
     city: (clientCity(sessionData) ?? 'Nantes') + ' (44000)',
     project: 'Rénovation électrique complète',
-    text: "Ampère & Fils a refait l'intégralité de notre installation dans une maison de 1972. Travail soigné, tableau flambant neuf, CONSUEL obtenu en une semaine. Tarif juste et équipe très pro. Je recommande sans hésitation !",
+    text: `${clientName(sessionData) ?? "Ampère & Fils"} a refait l'intégralité de notre installation dans une maison de 1972. Travail soigné, tableau flambant neuf, CONSUEL obtenu en une semaine. Tarif juste et équipe très pro. Je recommande sans hésitation !`,
     stars: 5,
   },
   {
@@ -3147,6 +3152,7 @@ export default function Impact288Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  STEPS = STEPS_LIVE();
   PHOTO = PHOTO_LIVE();
   ZONES = ZONES_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
