@@ -434,7 +434,13 @@ function ajusterAuCadre(e: HTMLElement) {
 function rendreLeCopyright(nom: string | undefined) {
   if (!nom || nom.trim().length < 2) return;
   const propre = nom.trim();
-  const motif = /(©\s*\d{4}\s+)([^·—|\n]{2,60}?)(\s*(?:·|—|\||$))/;
+  /*
+     Le millésime peut être une plage : « © 2011–2026 Maison Brûlot ». Le motif
+     ne lisait qu'une année, et douze pieds de page gardaient donc le nom de la
+     démonstration — juste sous le nom du client affiché partout ailleurs. Le
+     séparateur peut être un tiret court, long ou une barre oblique.
+  */
+  const motif = /(©\s*\d{4}(?:\s*[–—\-\/]\s*\d{4})?\s+)([^·—|\n]{2,60}?)(\s*(?:·|—|\||\.|$))/;
 
   for (const e of document.querySelectorAll<HTMLElement>("footer *, footer")) {
     if (e.children.length > 0 || e.dataset.copyrightRendu) continue;
