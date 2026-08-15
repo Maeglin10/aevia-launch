@@ -467,7 +467,7 @@ export default function NoirCouturePage() {
             <div className="max-w-2xl mx-auto text-center">
               <Reveal>
                 <h2 className="text-black text-4xl mb-4" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>L'avant-première</>)}</h2>
-                <p className="text-black/50 text-sm leading-relaxed mb-8">Soyez les premiers informés des nouvelles collections, des défilés et des événements exclusifs Noir Couture.</p>
+                <p className="text-black/50 text-sm leading-relaxed mb-8">Soyez les premiers informés des nouvelles collections, des défilés et des événements exclusifs {clientName(sessionData) ?? "Noir Couture"}.</p>
                 <div className="flex gap-3 max-w-md mx-auto">
                   <input type="email" placeholder="votre@email.com" className="flex-1 border border-black/20 px-4 py-3 text-sm outline-none focus:border-black" />
                   <button className="bg-black text-white text-xs tracking-widest uppercase px-6 py-3 hover:bg-black/80 transition-colors cursor-pointer">S'inscrire</button>

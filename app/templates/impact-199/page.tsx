@@ -104,7 +104,7 @@ const Instagram = ({ className = "w-4 h-4" }: { className?: string }) => (
 );
 
 /* ==========================================================================
-   ENCRE & ÂME — Artistic Tattoo Studio (impact-199)
+   {clientName(sessionData) ?? "ENCRE & ÂME"} — Artistic Tattoo Studio (impact-199)
    Design: OLED black, punk editorial, Bebas Neue + Space Grotesk
    ========================================================================== */
 

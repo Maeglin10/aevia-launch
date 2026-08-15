@@ -224,7 +224,7 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
                     ))}
                   </svg>
                   <div>
-                    <div style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: 17, fontWeight: 700, color: C.white }}>Pétales & Co</div>
+                    <div style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: 17, fontWeight: 700, color: C.white }}>{clientName(__layoutSession) ?? "Pétales & Co"}</div>
                     <div style={{ fontFamily: "'Poppins', system-ui", fontSize: 10, color: C.rose, letterSpacing: "0.16em", textTransform: "uppercase" as const }}>Artisan Florist</div>
                   </div>
                 </div>

@@ -94,7 +94,7 @@ let C: Record<string, string> = {
 
 const FONT = "'Nunito', system-ui, sans-serif";
 
-// ─── Animated Paw SVG ─────────────────────────────────────────────────────────
+// ─── Animated {clientName(sessionData) ?? "Paw"} SVG ─────────────────────────────────────────────────────────
 function AnimatedPaw() {
   return (
     <motion.div

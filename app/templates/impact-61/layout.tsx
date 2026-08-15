@@ -153,7 +153,7 @@ export default function SegmentLayout({
         <div style={{ maxWidth: "1300px", margin: "0 auto", display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "3rem" }}>
           <div>
             <div style={{ fontFamily: "'Archivo', sans-serif", fontSize: "1rem", fontWeight: 700, letterSpacing: "0.12em", color: C.textLight, marginBottom: "1rem" }}>
-              SEGMENT
+              {clientName(__layoutSession) ?? "SEGMENT"}
             </div>
             <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.65rem", letterSpacing: "0.2em", color: "#444", marginBottom: "1.5rem" }}>
               ARCHITECTES · {clientCity(__layoutSession) ?? "PARIS"}

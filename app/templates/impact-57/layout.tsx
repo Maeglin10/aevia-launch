@@ -167,7 +167,7 @@ export default function MaskUnitLayout({
         <div style={{ maxWidth: "1300px", margin: "0 auto", display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "3rem" }} className="grid grid-cols-1 md:grid-cols-4">
           <div>
             <Link href="/templates/impact-57" style={{ textDecoration: "none", fontFamily: "'Space Mono', monospace", fontSize: "1rem", fontWeight: 700, color: C.text, marginBottom: "0.75rem", display: "block" }}>
-              MASK<span style={{ color: C.accent }}>_</span>UNIT
+              {clientName(__layoutSession) ?? "MASK"}<span style={{ color: C.accent }}>_</span>UNIT
             </Link>
             <p style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.7rem", color: C.textDim, lineHeight: 1.8, maxWidth: "32ch" }}>
               Studio créatif indépendant. {clientCity(__layoutSession) ?? "Paris"}, France. Branding · Motion · Digital.

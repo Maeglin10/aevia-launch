@@ -2353,7 +2353,7 @@ const Footer: React.FC = () => (
                 color: C.white,
               }}
             >
-              Solis
+              {clientName(sessionData) ?? "Solis"}
             </span>
           </div>
           <p

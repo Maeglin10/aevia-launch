@@ -169,7 +169,7 @@ function Footer() {
               className="text-[28px] tracking-[0.12em] italic block mb-5"
               style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, color: C.cream }}
             >
-              AURELIA
+              {clientName(sessionData) ?? "AURELIA"}
             </span>
             <p
               className="text-[13px] leading-[2] mb-6 max-w-[320px]"
@@ -241,7 +241,7 @@ function Footer() {
             className="text-[11px] tracking-[0.08em]"
             style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 300, color: `${C.cream}40` }}
           >
-            © 2025 Aurelia Joaillerie. Tous droits réservés. Entreprise du Patrimoine Vivant.
+            © 2025 {clientName(sessionData) ?? "AURELIA"} Joaillerie. Tous droits réservés. Entreprise du Patrimoine Vivant.
           </p>
           <div className="flex gap-6">
             <Link

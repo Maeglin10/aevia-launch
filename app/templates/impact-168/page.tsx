@@ -2445,7 +2445,7 @@ export default function ImpactEclatPage() {
 
 // ════════════════════════════════════════════════════════════════════════════
 // SUB-PAGE COMPONENTS — all styled exclusively from the `C` design tokens above
-// so they render natively inside Éclat. Shared <PageHero> gives every extra page
+// so they render natively inside {clientName(sessionData) ?? "Éclat"}. Shared <PageHero> gives every extra page
 // the same editorial dark header as the home sections.
 // ════════════════════════════════════════════════════════════════════════════
 
@@ -2712,7 +2712,7 @@ function ShopCard({ p, i, onOpen }: { p: typeof PRODUCTS_DEMO[0]; i: number; onO
   );
 }
 
-// Product detail view — large visual + size selector + add-to-cart, Éclat styling.
+// Product detail view — large visual + size selector + add-to-cart, {clientName(sessionData) ?? "Éclat"} styling.
 function ProductDetail({
   p,
   onBack,

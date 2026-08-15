@@ -476,7 +476,7 @@ return (
 }
 
 /* ==========================================================================
-   SUB-PAGE COMPONENTS (STREAMLINE DARK SAAS STYLE)
+   SUB-PAGE COMPONENTS ({clientName(sessionData) ?? "Streamline"} DARK SAAS STYLE)
    ========================================================================= */
 
 function FeaturesPage() {

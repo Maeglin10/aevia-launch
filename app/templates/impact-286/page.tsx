@@ -2303,7 +2303,7 @@ function PracticalSection() {
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   10 · PIED DE PAGE — Logo Cabinet Vidal, Barreau de {clientCity(sessionData) ?? "Lyon"}, mentions légales
+   10 · PIED DE PAGE — Logo {clientName(sessionData) ?? "Cabinet Vidal"}, Barreau de {clientCity(sessionData) ?? "Lyon"}, mentions légales
    ════════════════════════════════════════════════════════════════════════════ */
 function FooterSection() {
   const cols: { titre: string; items: { label: string; href: string }[] }[] = [

@@ -78,7 +78,7 @@ const navHref = (label: unknown) =>
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   THOMAS LEBRUN COACH — {clientTrade(sessionData) ?? "Coach sportif"} & nutrition · {clientCity(sessionData) ?? "Bordeaux"} Caudéran
+   {clientName(sessionData) ?? "Thomas Lebrun Coach"} — {clientTrade(sessionData) ?? "Coach sportif"} & nutrition · {clientCity(sessionData) ?? "Bordeaux"} Caudéran
    Template Skylaunch premium · style sport/impact · 'use client' · auto-suffisant.
    Palette : noir intense / orange vif / blanc pur / gris acier
    ════════════════════════════════════════════════════════════════════════════ */
