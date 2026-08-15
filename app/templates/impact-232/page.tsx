@@ -135,8 +135,6 @@ export default function VertNaturePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  AVIS_SOURCE = AVIS_SOURCE_LIVE();
-  ENGAGEMENTS_DEMO = ENGAGEMENTS_DEMO_LIVE();
 
 
   PRESTATIONS_DEMO = resolveList(
@@ -150,6 +148,8 @@ export default function VertNaturePage() {
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENTS = resolveList(clientCertifications(sessionData), ENGAGEMENTS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  ENGAGEMENTS_DEMO = ENGAGEMENTS_DEMO_LIVE();
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
   if (brand) {
     C = { ...C, accent: brand };
   }

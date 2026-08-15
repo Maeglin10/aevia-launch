@@ -117,8 +117,6 @@ export default function CaveDesTerroirsPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  AVIS_SOURCE = AVIS_SOURCE_LIVE();
-  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
 
 
 
@@ -138,6 +136,8 @@ export default function CaveDesTerroirsPage() {
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
+  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
   if (brand) {
     C = { ...C, accent: brand };
   }

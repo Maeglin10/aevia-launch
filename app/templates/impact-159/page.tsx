@@ -2164,11 +2164,11 @@ export default function SmartTextilesPremium() {
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  MATERIALS = MATERIALS_LIVE();
 
 
 
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  MATERIALS = MATERIALS_LIVE();
 
   const containerRef = useRef<HTMLDivElement>(null)
   const [scrolled, setScrolled] = useState(false)

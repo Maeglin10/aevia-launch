@@ -64,10 +64,10 @@ export default function EquipePage() {
 
   sessionData = __session;
 
-  team_DEMO_ANNEXE = team_DEMO_ANNEXE_LIVE();
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  team_DEMO_ANNEXE = team_DEMO_ANNEXE_LIVE();
   team = team_LIVE();
 
   useFonts();

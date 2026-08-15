@@ -1201,9 +1201,9 @@ export default function FashionEditorialTemplate() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  STORES = STORES_LIVE();
 
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  STORES = STORES_LIVE();
 
   const COLLECTION = buildCollection();
   const LOOKBOOK_ITEMS = resolveList(

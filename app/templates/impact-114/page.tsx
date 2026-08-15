@@ -609,8 +609,8 @@ export default function Impact114Page() {
   sessionData = session;
 
 
-  PROCESS_STEPS = PROCESS_STEPS_LIVE();
   c = session?.generatedContent;
+  PROCESS_STEPS = PROCESS_STEPS_LIVE();
   COLLECTIONS_DEMO = COLLECTIONS_DEMO_LIVE();
   SLIDES_DEMO_SOURCE = SLIDES_DEMO_SOURCE_LIVE();
 

@@ -2327,10 +2327,6 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
-  INTERVENTIONS_DEMO = INTERVENTIONS_DEMO_LIVE();
-  SERVICES_DEMO = SERVICES_DEMO_LIVE();
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
 
 
@@ -2348,6 +2344,10 @@ export default function Page() {
     img: clientPhotos(sessionData)[0 + i] || row.img,
   }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  SERVICES_DEMO = SERVICES_DEMO_LIVE();
+  INTERVENTIONS_DEMO = INTERVENTIONS_DEMO_LIVE();
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
   }

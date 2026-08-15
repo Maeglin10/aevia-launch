@@ -142,8 +142,6 @@ export default function EduPathPage() {
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  plans = plans_LIVE();
-  courses = courses_LIVE();
 
 
 
@@ -153,6 +151,8 @@ export default function EduPathPage() {
     features_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  courses = courses_LIVE();
+  plans = plans_LIVE();
 
   useFonts();
   const [mobileOpen, setMobileOpen] = useState(false);

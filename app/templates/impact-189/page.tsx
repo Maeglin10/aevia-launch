@@ -297,7 +297,6 @@ export default function AtelierLeoniePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  TESTIMONIALS_DEMO = TESTIMONIALS_DEMO_LIVE();
 
   PRESTATIONS_DEMO = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...PRESTATIONS_SOURCE[i % PRESTATIONS_SOURCE.length], title: s.title , ...(s.price ? { price: s.price } : {})})), PRESTATIONS_SOURCE);
   PRESTATIONS = resolveList(
@@ -309,6 +308,7 @@ export default function AtelierLeoniePage() {
     EQUIPE_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  TESTIMONIALS_DEMO = TESTIMONIALS_DEMO_LIVE();
 
   const services = resolveList(clientServices(sessionData), PRESTATIONS);
   const testimonials = resolveList(clientReviews(sessionData)?.map((r: any) => ({ q: r.text, n: r.author, l: r.detail })), TESTIMONIALS_DEMO);

@@ -687,11 +687,11 @@ export default function ContactPage() {
 
   sessionData = __session;
 
-  HOURS = HOURS_LIVE();
   memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  HOURS = HOURS_LIVE();
 
   return (
     <>

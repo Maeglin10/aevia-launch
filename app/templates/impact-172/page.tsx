@@ -153,7 +153,6 @@ export default function LegrandPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  PARTNERS_DEMO = PARTNERS_DEMO_LIVE();
 
 
   useEffect(() => {
@@ -174,6 +173,7 @@ export default function LegrandPage() {
     });
   });
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  PARTNERS_DEMO = PARTNERS_DEMO_LIVE();
 
   const DOMAINS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({

@@ -406,7 +406,6 @@ export default function EtudeNotarialePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  HERO_DOMAINES_DEMO = HERO_DOMAINES_DEMO_LIVE();
   AVIS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
     AVIS_SOURCE,
@@ -422,6 +421,7 @@ export default function EtudeNotarialePage() {
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
+  HERO_DOMAINES_DEMO = HERO_DOMAINES_DEMO_LIVE();
   if (brand) {
     C = { ...C, accent: brand };
   }

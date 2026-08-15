@@ -240,7 +240,6 @@ export default function QBitLabsPage() {
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  TEAM = TEAM_LIVE();
 
 
 
@@ -259,6 +258,7 @@ export default function QBitLabsPage() {
 
   bp = (session as any)?.businessProfile;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  TEAM = TEAM_LIVE();
 
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)

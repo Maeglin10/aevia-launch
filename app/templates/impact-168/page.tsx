@@ -826,10 +826,6 @@ export default function ImpactEclatPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  FAQS_DEMO = FAQS_DEMO_LIVE();
-  BLOG_POSTS = BLOG_POSTS_LIVE();
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
-  PRODUCTS_DEMO = PRODUCTS_DEMO_LIVE();
 
 
 
@@ -843,6 +839,10 @@ export default function ImpactEclatPage() {
   );
   STATS = resolveList(clientStats(sessionData)?.map((r: any) => ({ val: r.value, label: r.label })), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  PRODUCTS_DEMO = PRODUCTS_DEMO_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  BLOG_POSTS = BLOG_POSTS_LIVE();
+  FAQS_DEMO = FAQS_DEMO_LIVE();
   if (brand) {
     C = { ...C, gold: brand, goldLight: shadeColor(brand, 25), goldDark: shadeColor(brand, -20) };
   }

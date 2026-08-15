@@ -216,13 +216,13 @@ export default function ContactPage() {
 
   sessionData = __session;
 
-  SUBSCRIPTION_FAQ_DEMO_ANNEXE = SUBSCRIPTION_FAQ_DEMO_ANNEXE_LIVE();
 
-  HOURS = HOURS_LIVE();
   memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  HOURS = HOURS_LIVE();
+  SUBSCRIPTION_FAQ_DEMO_ANNEXE = SUBSCRIPTION_FAQ_DEMO_ANNEXE_LIVE();
   SUBSCRIPTION_FAQ = SUBSCRIPTION_FAQ_LIVE();
   WORKSHOP_CONTACT_OPTIONS = WORKSHOP_CONTACT_OPTIONS_LIVE();
 

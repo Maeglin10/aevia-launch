@@ -134,12 +134,12 @@ export default function ContactPage() {
 
   sessionData = __session;
 
-  channels = channels_LIVE();
   memoriserSession(__session);
 
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  channels = channels_LIVE();
   faq = faq_LIVE();
 
   const [openFaq, setOpenFaq] = useState<number | null>(null)

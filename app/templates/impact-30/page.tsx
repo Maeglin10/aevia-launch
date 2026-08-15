@@ -1431,7 +1431,6 @@ export default function Impact30() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  FAQS_DEMO = FAQS_DEMO_LIVE();
   memoriserSession(sessionData);
   PLANS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
@@ -1439,6 +1438,7 @@ export default function Impact30() {
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  FAQS_DEMO = FAQS_DEMO_LIVE();
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
   }

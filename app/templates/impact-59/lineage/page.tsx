@@ -77,10 +77,10 @@ export default function LineagePage() {
 
   sessionData = __session;
   memoriserSession(__session);
-  GUIDE_EXTENDED = GUIDE_EXTENDED_LIVE();
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  GUIDE_EXTENDED = GUIDE_EXTENDED_LIVE();
 
   const [expandedGuide, setExpandedGuide] = useState<number | null>(null);
 

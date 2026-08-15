@@ -1301,12 +1301,12 @@ export default function ContactPage() {
 
   sessionData = __session;
 
-  HOURS = HOURS_LIVE();
   memoriserSession(__session);
 
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  HOURS = HOURS_LIVE();
   EMERGENCY_FAQ = EMERGENCY_FAQ_LIVE();
   GUARD_TEAM = GUARD_TEAM_LIVE();
   CONTACT_INFO = CONTACT_INFO_LIVE();

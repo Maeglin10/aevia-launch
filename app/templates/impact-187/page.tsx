@@ -117,7 +117,6 @@ export default function MaxPerformancePage() {
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  TARIFS = TARIFS_LIVE();
 
 
 
@@ -126,6 +125,7 @@ export default function MaxPerformancePage() {
     PROGRAMMES_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  TARIFS = TARIFS_LIVE();
 
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)

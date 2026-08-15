@@ -2222,8 +2222,6 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  PHASES = PHASES_LIVE();
-  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
 
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
@@ -2234,6 +2232,8 @@ export default function Page() {
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
+  PHASES = PHASES_LIVE();
 
   if (brand) {
     C = {

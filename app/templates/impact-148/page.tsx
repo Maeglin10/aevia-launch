@@ -94,7 +94,6 @@ export default function NeonPulsePage() {
 
   sessionData = session;
   c = session?.generatedContent;
-  DROPS_DEMO = DROPS_DEMO_LIVE();
 
 
   useEffect(() => {
@@ -115,6 +114,7 @@ export default function NeonPulsePage() {
     });
   });
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  DROPS_DEMO = DROPS_DEMO_LIVE();
 
   const [scrolled, setScrolled] = useState(false)
 

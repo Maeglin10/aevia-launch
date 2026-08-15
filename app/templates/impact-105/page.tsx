@@ -198,10 +198,6 @@ export default function AtelierBloomPage() {
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  ATOUTS = ATOUTS_LIVE();
-  ENTREPRISES = ENTREPRISES_LIVE();
-  AVIS_SOURCE = AVIS_SOURCE_LIVE();
-  CREATIONS = CREATIONS_LIVE();
 
 
 
@@ -218,6 +214,10 @@ export default function AtelierBloomPage() {
     AVIS_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  CREATIONS = CREATIONS_LIVE();
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
+  ENTREPRISES = ENTREPRISES_LIVE();
+  ATOUTS = ATOUTS_LIVE();
   if (brand) {
     C = { ...C, peach: brand, peachLight: shadeColor(brand, 25) };
   }

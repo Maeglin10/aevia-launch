@@ -1114,14 +1114,14 @@ export default function EmberGrillPage() {
 
   sessionData = __session;
 
-  BLOG_POSTS = BLOG_POSTS_LIVE();
 
-  CARTE_SECTIONS = CARTE_SECTIONS_LIVE();
 
-  MENU_HIGHLIGHTS = MENU_HIGHLIGHTS_LIVE();
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  MENU_HIGHLIGHTS = MENU_HIGHLIGHTS_LIVE();
+  CARTE_SECTIONS = CARTE_SECTIONS_LIVE();
+  BLOG_POSTS = BLOG_POSTS_LIVE();
   PHILOSOPHY = PHILOSOPHY_LIVE();
 
   const router = useRouter();

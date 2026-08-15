@@ -173,7 +173,6 @@ export default function CouleursCOPiscinesPage() {
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  ZONES_DEMO = ZONES_DEMO_LIVE();
 
 
 
@@ -187,6 +186,7 @@ export default function CouleursCOPiscinesPage() {
   );
   bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  ZONES_DEMO = ZONES_DEMO_LIVE();
 
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)

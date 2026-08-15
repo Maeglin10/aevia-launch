@@ -789,7 +789,6 @@ export default function OriginRoastPage() {
   c = session?.generatedContent;
   sessionData = session;
   const FAQS_DU_CLIENT = resolveList(clientFaq(sessionData)?.map((x: any) => ({ q: x.q, a: x.a })), FAQS);
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   memoriserSession(sessionData);
   rafraichirPartage();
   SUBSCRIPTION_HIGHLIGHTS = resolveList(
@@ -802,6 +801,7 @@ export default function OriginRoastPage() {
   );
   IMPACT_STATS = resolveList(clientStats(sessionData), IMPACT_STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   // Products ← bp.menu (real business products) else demo. Decorative fields
   // (roast, intensity, grind, flavor, badge) cycle from the demo product.

@@ -200,9 +200,9 @@ export default function Impact174Page() {
 
   bp = session?.businessProfile;
   sessionData = session;
-  SCHEDULE = SCHEDULE_LIVE();
-  PROGRAMS_DEMO = PROGRAMS_DEMO_LIVE();
   c = session?.generatedContent;
+  PROGRAMS_DEMO = PROGRAMS_DEMO_LIVE();
+  SCHEDULE = SCHEDULE_LIVE();
   COACHES_DEMO = COACHES_DEMO_LIVE();
   MEMBERSHIPS_SOURCE = MEMBERSHIPS_SOURCE_LIVE();
 

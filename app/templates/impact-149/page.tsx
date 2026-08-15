@@ -239,8 +239,6 @@ export default function AetherWellnessPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  HERO_SLIDES_DEMO = HERO_SLIDES_DEMO_LIVE();
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
@@ -251,6 +249,8 @@ export default function AetherWellnessPage() {
     img: clientPhotos(sessionData)[0 + i] || row.img,
   }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  HERO_SLIDES_DEMO = HERO_SLIDES_DEMO_LIVE();
 
   const RETREATS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({

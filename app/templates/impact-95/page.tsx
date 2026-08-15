@@ -808,7 +808,6 @@ export default function LumiereCliniquePage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  SCIENCE_SOURCE = SCIENCE_SOURCE_LIVE();
 
   SCIENCE = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SCIENCE_SOURCE[i % SCIENCE_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
@@ -819,6 +818,7 @@ export default function LumiereCliniquePage() {
     FAQ_ITEMS_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  SCIENCE_SOURCE = SCIENCE_SOURCE_LIVE();
 
   useFonts()
   const [menuOpen, setMenuOpen] = useState(false)

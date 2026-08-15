@@ -2241,10 +2241,6 @@ export default function Page() {
   c = session?.generatedContent;
   sessionData = session;
   memoriserSession(session);
-  CREATIONS = CREATIONS_LIVE();
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
-  SOURCING = SOURCING_LIVE();
-  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
 
 
 
@@ -2257,6 +2253,10 @@ export default function Page() {
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
+  SOURCING = SOURCING_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  CREATIONS = CREATIONS_LIVE();
 
   if (brand) {
     C = {

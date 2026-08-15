@@ -369,8 +369,8 @@ export default function BureauPage() {
 
   fd = session?.formData;
   sessionData = session;
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   c = session?.generatedContent;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   PLANS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),

@@ -2448,13 +2448,13 @@ export default function GrandPalaisPage() {
 
   sessionData = __session;
 
-  BLOG_POSTS = BLOG_POSTS_LIVE();
 
-  ROOMS_FULL_DEMO_ANNEXE = ROOMS_FULL_DEMO_ANNEXE_LIVE();
 
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  ROOMS_FULL_DEMO_ANNEXE = ROOMS_FULL_DEMO_ANNEXE_LIVE();
+  BLOG_POSTS = BLOG_POSTS_LIVE();
   ROOMS_FULL = ROOMS_FULL_LIVE();
   SERVICES = SERVICES_LIVE();
   EXPERIENCES = EXPERIENCES_LIVE();

@@ -146,9 +146,6 @@ export default function OsteoGaiaPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  AGENDA = AGENDA_LIVE();
-  TARIFS_DEMO = TARIFS_DEMO_LIVE();
-  AVIS_DEMO = AVIS_DEMO_LIVE();
 
 
   TARIFS = resolveList(
@@ -156,6 +153,9 @@ export default function OsteoGaiaPage() {
     TARIFS_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  AVIS_DEMO = AVIS_DEMO_LIVE();
+  TARIFS_DEMO = TARIFS_DEMO_LIVE();
+  AGENDA = AGENDA_LIVE();
 
   const PRISES_EN_CHARGE = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({

@@ -155,8 +155,6 @@ export default function JardinsVivantsPage() {
   fd = session?.formData;
   sessionData = session;
   c = session?.generatedContent;
-  TEMOIGNAGES_DEMO = TEMOIGNAGES_DEMO_LIVE();
-  ZONES_DEMO = ZONES_DEMO_LIVE();
 
 
 
@@ -169,6 +167,8 @@ export default function JardinsVivantsPage() {
     ZONES_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  ZONES_DEMO = ZONES_DEMO_LIVE();
+  TEMOIGNAGES_DEMO = TEMOIGNAGES_DEMO_LIVE();
 
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)

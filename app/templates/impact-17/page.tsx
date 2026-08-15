@@ -161,8 +161,6 @@ export default function KeopsPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  team_DEMO = team_DEMO_LIVE();
-  projects_DEMO = projects_DEMO_LIVE();
 
 
   useEffect(() => {
@@ -183,6 +181,8 @@ export default function KeopsPage() {
     });
   });
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  team_DEMO = team_DEMO_LIVE();
+  projects_DEMO = projects_DEMO_LIVE();
 
   const projects: any[] = resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({

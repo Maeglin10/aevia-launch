@@ -187,8 +187,6 @@ export default function StudioPelikanPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  films_DEMO = films_DEMO_LIVE();
-  filmsCatalogue = filmsCatalogue_LIVE();
 
 
   useEffect(() => {
@@ -209,6 +207,8 @@ export default function StudioPelikanPage() {
     });
   });
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  films_DEMO = films_DEMO_LIVE();
+  filmsCatalogue = filmsCatalogue_LIVE();
 
   // Real client services (from the brief) replace the demo list when present.
   const services = resolveList(
