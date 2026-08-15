@@ -6,6 +6,30 @@ import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
+  Leaf,
+  ShoppingBasket,
+  Sun,
+  Snowflake,
+  Flower2,
+  TreeDeciduous,
+  MapPin,
+  Phone,
+  Mail,
+  ChevronDown,
+  Check,
+  Star,
+  ArrowRight,
+  Clock,
+  Package,
+  Users,
+  Heart,
+  Menu,
+  X,
+  Loader2,
+} from "lucide-react";
+import { TemplateIcon } from '@/components/TemplateIcon';
+import {
+  clientSiret,
   clientAddress,
   clientCity,
   clientFaq,
@@ -14,9 +38,9 @@ import {
   clientName,
   clientReviews,
   clientServices,
-  clientSiret,
   clientStats,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

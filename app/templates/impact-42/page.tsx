@@ -5,6 +5,28 @@ import React, {useRef, useState, useEffect} from 'react';
 import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import {
+  ChevronDown,
+  ArrowRight,
+  Star,
+  Clock,
+  Check,
+  Calendar,
+} from "lucide-react";
+import {
+  C,
+  EQBars,
+  ArtistMarquee,
+  SectionReveal,
+  FAQItem,
+  marqueeArtists,
+  homeStudios as homeStudios_DEMO,
+  gear,
+  testimonials as testimonials_DEMO,
+  packages,
+  faqs as faqs_DEMO,
+} from "./shared";
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientCity,
   clientFaq,
   clientHeroLine,
@@ -14,6 +36,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :

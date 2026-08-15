@@ -4,6 +4,36 @@ import { tr } from "@/lib/templates/uiStrings";
 
 import React, { useState, useEffect, useRef, useCallback } from "react"
 import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+  useInView,
+  useSpring,
+} from "framer-motion"
+import Image from "next/image"
+import Link from "next/link"
+import { resolveList } from "@/lib/templates/resolveList"
+import {
+
+  Gem,
+  Star,
+  Award,
+  Crown,
+  ShoppingBag,
+  ArrowRight,
+  ChevronRight,
+  Menu,
+  X,
+  Phone,
+  Mail,
+  MapPin,
+  Heart,
+  Clock,
+  Package,
+  Sparkles,
+} from "lucide-react"
+import {
   clientAccrocheRestante,
   clientAddress,
   clientCity,
@@ -367,7 +397,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
                 className="text-[26px] tracking-[0.12em] italic"
                 style={{ fontFamily: "'Cormorant Garamond', serif", color: C.cream, fontWeight: 600 }}
               >
-                {clientName(sessionData) ?? "AURELIA"}
+                AURELIA
               </span>
               <button onClick={() => setOpen(false)} className="p-2 text-[#A8A29E] hover:text-white transition-colors">
                 <X size={22} />
@@ -1697,7 +1727,7 @@ function Footer() {
               className="text-[28px] tracking-[0.12em] italic block mb-5"
               style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, color: C.cream }}
             >
-              {clientName(sessionData) ?? "AURELIA"}
+              AURELIA
             </span>
             <p
               className="text-[13px] leading-[2] mb-6 max-w-[320px]"

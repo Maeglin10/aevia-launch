@@ -214,7 +214,7 @@ export default function NimbusAIDocsPage() {
                   <span className="w-8 h-8 bg-[#06B6D4] rounded-full text-black text-sm font-bold flex items-center justify-center">1</span>
                   <h2 className="text-white text-2xl font-bold">Installation</h2>
                 </div>
-                <p className="text-gray-400 text-sm mb-4">Installez le SDK {clientName(sessionData) ?? "NimbusAI"} via votre package manager préféré.</p>
+                <p className="text-gray-400 text-sm mb-4">Installez le SDK NimbusAI via votre package manager préféré.</p>
                 <div className="bg-[#0D1525] border border-white/5 rounded-2xl overflow-hidden">
                   <div className="flex items-center gap-2 px-4 py-2.5 border-b border-white/5">
                     <Terminal className="w-4 h-4 text-gray-500" />
@@ -418,7 +418,7 @@ app.post("/webhooks/nimbus", (req, res) => {
           ))}
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex justify-between text-xs text-gray-600">
-          <span>© 2026 {clientName(sessionData) ?? "NimbusAI"}. All rights reserved.</span>
+          <span>© 2026 NimbusAI. All rights reserved.</span>
           <span><Globe className="w-3 h-3 inline mr-1" />Cloud AI · 12 regions</span>
         </div>
       </footer>

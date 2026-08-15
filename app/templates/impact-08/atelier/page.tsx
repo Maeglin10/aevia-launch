@@ -1,5 +1,4 @@
 "use client"
-import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useRef, useState } from "react";
 import { 
@@ -309,7 +308,7 @@ export default function AtelierPage() {
 
             <div className="pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.4em] text-white/10 italic">
                <div className="flex flex-wrap gap-8">
-                  <span>©2026 {clientName(sessionData) ?? "VULCAN"} MOTOR GROUP MODENA.</span>
+                  <span>©2026 VULCAN MOTOR GROUP MODENA.</span>
                   <span className="hidden md:inline">//</span>
                   <Link href="/templates/impact-08/legal" className="hover:text-blue-500 transition-colors">MENTIONS LEGALES</Link>
                </div>

@@ -382,7 +382,7 @@ export default function AtelierDuBoisPage() {
       <footer style={{ background: C.bgDark, padding: "44px 80px 22px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 32 }}>
           <div>
-            <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: C.sand, marginBottom: 8 }}>{clientName(sessionData) ?? "Atelier"} du Bois</div>
+            <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: C.sand, marginBottom: 8 }}>Atelier du Bois</div>
             <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>{clientTrade(sessionData) ?? "Menuisier"} · Ébéniste · {clientCity(sessionData) ?? "Bordeaux"}<br />Lun–Ven 8h–18h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>

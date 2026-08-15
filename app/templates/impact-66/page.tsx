@@ -10,6 +10,15 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { ArrowRight, Heart, Search, Droplets, Zap, Flower2, Quote, Check, Star } from "lucide-react";
 import {
+  Counter,
+  MagneticBtn,
+  PROTOCOLS,
+  REVIEWS,
+  Reveal,
+  SERVICES,
+  rafraichirPartage,
+} from "./shared";
+import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -19,6 +28,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

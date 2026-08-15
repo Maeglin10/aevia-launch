@@ -7,9 +7,9 @@ import Link from "next/link";
 import { ArrowRight, ChevronDown, Star } from "lucide-react";
 import { C, stats, testimonials, NeedleAnimation, artists, portfolioItems } from "./shared";
 import {
+  clientHeroPrestations,
   clientAccrocheRestante,
   clientCity,
-  clientHeroPrestations,
   clientHeroSubtitle,
   clientName,
   clientPhotos,
@@ -17,6 +17,7 @@ import {
   clientServices,
   clientTagline,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

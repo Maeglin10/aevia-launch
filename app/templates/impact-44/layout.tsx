@@ -345,7 +345,7 @@ export default function GhostProtocolLayout({ children }: { children: React.Reac
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 48, marginBottom: 64 }}>
             <div>
               <div style={{ fontSize: 22, fontWeight: 900, color: C.green, letterSpacing: "0.12em", marginBottom: 16, textShadow: `0 0 15px ${C.green}` }}>
-                GHOST<span style={{ color: C.white }}>{clientName(__layoutSession) ?? "PROTOCOL"}</span>
+                GHOST<span style={{ color: C.white }}>PROTOCOL</span>
               </div>
               <p style={{ fontSize: 12, color: C.textDim, lineHeight: 1.7, letterSpacing: "0.05em", maxWidth: 240 }}>
                 PROFESSIONAL ESPORTS ORGANIZATION. WE COMPETE. WE WIN. WE REBUILD.

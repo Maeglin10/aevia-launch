@@ -4,6 +4,31 @@ import { tr } from "@/lib/templates/uiStrings";
 
 import React, { useRef, useState, useEffect } from 'react';
 import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+  type MotionValue,
+  type Variants,
+  useMotionValue,
+} from 'framer-motion';
+import {
+  ShoppingBag,
+  Star,
+  Truck,
+  ShieldCheck,
+  ArrowRight,
+  ArrowUpRight,
+  Plus,
+  Check,
+  Zap,
+  Camera,
+  AtSign,
+  PlayCircle,
+  ChevronDown,
+} from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,

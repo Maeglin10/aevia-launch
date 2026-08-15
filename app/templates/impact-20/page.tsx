@@ -3,6 +3,17 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
 import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+  useInView,
+  useSpring,
+} from "framer-motion";
+import { useEffect, useRef, useState, useCallback } from "react";
+import Link from "next/link";
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -1098,7 +1109,7 @@ export default function LuxuryJewelryTemplate() {
                   animation: "shimmer 4s linear infinite",
                 }}
               >{/* NOM_LOGO */ clientName(sessionData) ?? (<>
-                {clientName(sessionData) ?? "MAISON ÉLARA"}
+                MAISON ÉLARA
               </>)}</span>
             )}
           </div>
@@ -1252,7 +1263,7 @@ export default function LuxuryJewelryTemplate() {
                       letterSpacing: "0.18em",
                     }}
                   >
-                    {clientName(sessionData) ?? "MAISON ÉLARA"}
+                    MAISON ÉLARA
                   </span>
                 )}
               </span>

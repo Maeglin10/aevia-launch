@@ -8,6 +8,17 @@ import Link from 'next/link';
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import {
+  C,
+  PROJECTS,
+  SERVICES,
+  STATS,
+  MaskedTitle,
+  ProjectRow,
+  Reveal,
+  StyleInjector,
+  CustomCursor,
+} from './shared';
+import {
   clientCity,
   clientEyebrow,
   clientHeroLine,
@@ -17,6 +28,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

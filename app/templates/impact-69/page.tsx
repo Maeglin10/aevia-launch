@@ -6,6 +6,7 @@ import {
   clientName,
   clientStats,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck

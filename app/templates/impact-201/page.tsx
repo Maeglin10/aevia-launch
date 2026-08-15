@@ -3,6 +3,16 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionValue,
+  useSpring,
+  AnimatePresence,
+} from "framer-motion";
+import { TemplateIcon } from '@/components/TemplateIcon';
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientCity,
   clientEyebrow,
   clientHeroLine,
@@ -2063,7 +2073,7 @@ return (
                   fontWeight: 300,
                 }}
               >
-                Chez {clientName(sessionData) ?? "Maison Saveur"}, rien n&apos;est laissé au hasard. Du choix
+                Chez Maison Saveur, rien n&apos;est laissé au hasard. Du choix
                 des producteurs à la mise en place finale, chaque détail est
                 pensé pour que vous et vos convives viviez un moment
                 d&apos;exception.

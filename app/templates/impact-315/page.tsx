@@ -4,6 +4,42 @@ import { tr } from "@/lib/templates/uiStrings";
 
 import React, { useRef, useState, useEffect } from 'react';
 import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  AnimatePresence,
+} from 'framer-motion';
+import {
+  ArrowRight,
+  Award,
+  Calendar,
+  Check,
+  CheckCircle,
+  ChevronDown,
+  Clock,
+  Droplets,
+  Heart,
+  Home,
+  Leaf,
+  Mail,
+  MapPin,
+  Menu,
+  Phone,
+  Quote,
+  Repeat,
+  Shield,
+  ShoppingBag,
+  Sparkles,
+  Star,
+  ThumbsUp,
+  Users,
+  Wind,
+  X,
+  Zap
+} from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientBookingUrl,
   clientCertifications,
   clientCity,
@@ -690,7 +726,7 @@ export default function Page() {
                   color: C.textMuted,
                   marginBottom: 20,
                 }}>{c?.aboutText ?? <>
-                  {clientName(sessionData) ?? "Brise de Propreté"} intervient chez les particuliers pour un ménage régulier, un grand nettoyage ou du repassage à domicile. Chaque intervenant·e est formé·e, déclaré·e et assuré·e. Votre satisfaction est notre priorité absolue.
+                  Brise de Propreté intervient chez les particuliers pour un ménage régulier, un grand nettoyage ou du repassage à domicile. Chaque intervenant·e est formé·e, déclaré·e et assuré·e. Votre satisfaction est notre priorité absolue.
                 </>}</p>
                 <p style={{
                   fontSize: 15,
@@ -1422,7 +1458,7 @@ export default function Page() {
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable: {clientName(sessionData) ?? "Brise de Propreté"}<br />
+                Responsable: Brise de Propreté<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>

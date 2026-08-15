@@ -3,6 +3,16 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  MotionValue,
+  useMotionValue,
+} from 'framer-motion';
+import { ArrowRight, ChevronDown, Trophy, Dumbbell, MapPin } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -2047,7 +2057,7 @@ function Footer() {
             }}
           >
             <Dumbbell size={22} color={C.accent} strokeWidth={2} />
-            {clientName(sessionData) ?? "FORCE"}<span style={{ color: C.accent }}>&nbsp;BRUTE</span>
+            FORCE<span style={{ color: C.accent }}>&nbsp;BRUTE</span>
           </div>
           <p
             style={{

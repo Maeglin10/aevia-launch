@@ -413,7 +413,7 @@ export default function GentlemansCutPage() {
           <p className="text-xl md:text-2xl text-[#f5f0e8]/25 italic leading-relaxed">
             "Un homme bien coiffé n'a pas besoin de se justifier."
           </p>
-          <div className="mt-4 text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a84c)]/40" style={{ fontFamily: "'DM Mono', monospace" }}>— L'esprit {clientName(sessionData) ?? "Gentleman's Cut"}</div>
+          <div className="mt-4 text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a84c)]/40" style={{ fontFamily: "'DM Mono', monospace" }}>— L'esprit Gentleman's Cut</div>
         </div>
       </div>
 
@@ -617,7 +617,7 @@ export default function GentlemansCutPage() {
       <footer className="bg-[#050403] pt-16 pb-8 px-6 border-t border-[var(--brand,#c9a84c)]/8">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="flex items-center gap-2.5 mb-5"><Scissors className="w-4 h-4 text-[var(--brand,#c9a84c)]" /><span className="font-bold text-[#f5f0e8] text-sm">{clientName(sessionData) ?? "Gentleman's Cut"}</span></div>
+            <div className="flex items-center gap-2.5 mb-5"><Scissors className="w-4 h-4 text-[var(--brand,#c9a84c)]" /><span className="font-bold text-[#f5f0e8] text-sm">Gentleman's Cut</span></div>
             <p className="text-[#f5f0e8]/15 text-sm leading-relaxed" style={{ fontFamily: "'DM Mono', monospace" }}>{clientTrade(sessionData) ?? "Barbier"} traditionnel à {clientCity({ formData: fd }) ?? "Bordeaux"}. Coupe, rasage, barbe. Depuis 2011.</p>
           </div>
           {[

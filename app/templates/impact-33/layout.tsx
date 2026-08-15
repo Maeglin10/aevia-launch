@@ -78,7 +78,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <TemplateIcon emoji="🥖" size={20} color="#fff" />
             </div>
             <div>
-              <div style={{ fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 20, color: C.text, lineHeight: 1 }}>{clientName(__layoutSession) ?? "La Fournée"}</div>
+              <div style={{ fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 20, color: C.text, lineHeight: 1 }}>La Fournée</div>
               <div style={{ fontSize: 10, color: C.textMuted, letterSpacing: 1.5, textTransform: "uppercase" }}>Artisan Boulanger</div>
             </div>
           </>)}</motion.div></>
@@ -189,7 +189,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <TemplateIcon emoji="🥖" size={20} color="#fff" />
               </div>
               <div>
-                <div style={{ fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 20, color: C.white }}>{clientName(__layoutSession) ?? "La Fournée"}</div>
+                <div style={{ fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 20, color: C.white }}>La Fournée</div>
                 <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", letterSpacing: 1.5, textTransform: "uppercase" }}>Artisan Boulanger</div>
               </div>
             </div>

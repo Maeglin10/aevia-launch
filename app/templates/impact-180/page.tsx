@@ -461,7 +461,7 @@ export default function ThermotekChauffagePage() {
           <div>
             <div className="flex items-center gap-2.5 mb-5">
               <Flame className="w-5 h-5 text-[var(--brand,#ea580c)]" />
-              <span className="font-bold text-sm">{clientName(sessionData) ?? "Thermotek Chauffage"}</span>
+              <span className="font-bold text-sm">Thermotek Chauffage</span>
             </div>
             <p className="text-white/25 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Chauffagiste"} RGE · {clientCity(sessionData) ?? "Bordeaux"} Métropole. Chaudières, PAC, plancher chauffant depuis 2002.</p>
           </div>

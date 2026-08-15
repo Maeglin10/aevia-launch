@@ -5,6 +5,25 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Link from "next/link";
 import {
+  C,
+  CIRCUIT_STEPS,
+  CircuitStep,
+  EXPERIENCES as EXPERIENCES_DEMO,
+  ExperienceCard,
+  MARQUEE_ITEMS,
+  MagneticButton,
+  MarqueeStrip,
+  PACKAGES as PACKAGES_DEMO,
+  PackageCard,
+  TEAM as TEAM_DEMO,
+  TESTIMONIALS as TESTIMONIALS_DEMO,
+  TestimonialCard,
+  TextReveal,
+  TherapistCard,
+  rafraichirPartage,
+} from "./shared";
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -14,6 +33,7 @@ import {
   clientServices,
   clientTeam,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :

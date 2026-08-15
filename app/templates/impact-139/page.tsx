@@ -311,7 +311,7 @@ export default function ApexFitnessPage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
-                <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Why <span className="text-[var(--brand,#84cc16)]">{clientName(sessionData) ?? "Apex"}?</span></>)}</h2>
+                <h2 className="text-5xl md:text-6xl font-black tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Why <span className="text-[var(--brand,#84cc16)]">Apex?</span></>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -496,7 +496,7 @@ export default function ApexFitnessPage() {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <div className="w-8 h-8 rounded-lg bg-[var(--brand,#84cc16)] flex items-center justify-center -skew-x-6"><Dumbbell className="w-4 h-4 text-black" /></div>
-              <span className="font-black tracking-tight uppercase">{clientName(sessionData) ?? "Apex"}</span>
+              <span className="font-black tracking-tight uppercase">Apex</span>
             </div>
             <p className="text-sm text-white/30 leading-relaxed">Performance training studio for serious athletes.</p>
           </div>

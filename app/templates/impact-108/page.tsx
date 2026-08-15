@@ -7,16 +7,17 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { C, FONT, FONT_BODY, STATS, MISSIONS, TEMOIGNAGES, Reveal } from "./shared";
 import { DWELL, useSlides, AnchoredBackdrop, WordFlight, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import {
-  clientAddress,
-  clientBookingUrl,
-  clientCity,
   clientHeroLine,
-  clientName,
+  clientBookingUrl,
   clientPhone,
+  clientAddress,
+  clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

@@ -276,7 +276,7 @@ return (
       <section className="py-24 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <Reveal className="text-center mb-16">
-            <p className="text-[var(--brand,#7C3AED)] text-sm font-semibold mb-3">Pourquoi {clientName(sessionData) ?? "EduPath"}</p>
+            <p className="text-[var(--brand,#7C3AED)] text-sm font-semibold mb-3">Pourquoi EduPath</p>
             <h2 className="text-gray-900 text-4xl md:text-5xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>Tout ce dont vous avez besoin</>)}</h2>
           </Reveal>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">

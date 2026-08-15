@@ -4,6 +4,16 @@ import { tr } from "@/lib/templates/uiStrings";
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+  useInView,
+} from 'framer-motion';
+import { TemplateIcon } from '@/components/TemplateIcon';
+import { PartyPopper } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientCity,
   clientFaq,
   clientHeroLine,
@@ -2387,7 +2397,7 @@ export default function FlammeEtCoPage() {
           <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 2rem' }}>
             <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
               <p style={{ color: C.accentLight, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '0.65rem' }}>
-                Sélection {clientName(sessionData) ?? "Flamme & Co"}
+                Sélection Flamme & Co
               </p>
               <h2 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.7rem, 4vw, 2.5rem)', fontWeight: 800 }}>{/* TEXTE_SECTION */ clientText(sessionData, "featured.titre") ?? (<>
                 Nos produits phares
@@ -2471,7 +2481,7 @@ export default function FlammeEtCoPage() {
           <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 2rem' }}>
             <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
               <p style={{ color: C.accentLight, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '0.65rem' }}>
-                Pourquoi {clientName(sessionData) ?? "Flamme & Co"} ?
+                Pourquoi Flamme & Co ?
               </p>
               <h2 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.7rem, 4vw, 2.5rem)', fontWeight: 800 }}>{/* TEXTE_SECTION */ clientText(sessionData, "usps.titre") ?? (<>
                 L'excellence à chaque étape

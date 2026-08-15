@@ -8,6 +8,16 @@ import Link from 'next/link';
 import { motion, useInView, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Play, X, ArrowRight, Award } from 'lucide-react';
 import {
+  C,
+  PROJECTS,
+  SERVICES,
+  AWARDS_LIST,
+  SkewProjectItem,
+  DistortedTitle,
+  Reveal,
+  StyleInjector,
+} from './shared';
+import {
   clientAccrocheRestante,
   clientCity,
   clientName,
@@ -17,6 +27,7 @@ import {
   clientTagline,
   clientTeam,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 let sessionData: any = null;

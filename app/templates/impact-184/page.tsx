@@ -450,7 +450,7 @@ export default function BrilloNetPage() {
       <footer className="bg-[#1c2b2b] pt-20 pb-10 px-6">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="flex items-center gap-2 mb-5"><Sparkles className="w-4 h-4 text-[var(--brand,#0d9488)]" /><span className="font-bold text-white text-sm">{clientName(sessionData) ?? "BrilloNet"}</span></div>
+            <div className="flex items-center gap-2 mb-5"><Sparkles className="w-4 h-4 text-[var(--brand,#0d9488)]" /><span className="font-bold text-white text-sm">BrilloNet</span></div>
             <p className="text-white/20 text-sm leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>Ménage & nettoyage professionnel sur {clientCity({ formData: fd }) ?? "Lyon"}. Particuliers et professionnels. Produits éco certifiés.</p>
           </div>
           {[

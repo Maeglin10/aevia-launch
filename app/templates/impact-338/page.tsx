@@ -4,6 +4,24 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import {
+  ArrowRight,
+  Building2,
+  CheckCircle,
+  Clock,
+  Mail,
+  MapPin,
+  Phone,
+  Scale,
+  Server,
+  Shield,
+  Star,
+  Truck,
+  Users,
+} from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
+import { BentoCascade, DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import {
   clientAddress,
   clientAreas,
   clientCertifications,

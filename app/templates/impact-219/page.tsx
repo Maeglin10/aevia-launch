@@ -5,6 +5,21 @@ import { resolveList } from "@/lib/templates/resolveList";
 import React, {useRef, useState, useEffect} from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import {
+  Zap,
+  ShieldCheck,
+  BarChart3,
+  Workflow,
+  Users,
+  Globe,
+  Check,
+  ChevronDown,
+  Menu,
+  X,
+  ArrowRight,
+  Star,
+  Sparkles,
+} from 'lucide-react';
+import {
   clientAccrocheRestante,
   clientCity,
   clientFaq,

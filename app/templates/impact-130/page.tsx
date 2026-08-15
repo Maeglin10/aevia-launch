@@ -4,6 +4,40 @@ import { resolveList } from "@/lib/templates/resolveList";
 
 import { useRef, useState, useEffect } from "react";
 import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  AnimatePresence,
+  useMotionValue,
+  useSpring,
+} from "framer-motion";
+import Link from "next/link";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Check,
+  ChevronDown,
+  Award,
+  Star,
+  Mail,
+  Phone,
+  MapPin,
+  Clock,
+  MessageSquare,
+  Link2,
+  Camera,
+  Users2,
+  Layers,
+  Pen,
+  Zap,
+  Globe,
+  Target,
+  TrendingUp,
+  Eye,
+  Palette,
+} from "lucide-react";
+import {
   clientAccrocheRestante,
   clientCity,
   clientFaq,

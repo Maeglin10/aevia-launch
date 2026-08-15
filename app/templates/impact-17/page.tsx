@@ -613,7 +613,7 @@ function AgencePage() {
             <span className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4 block">Notre histoire</span>
             <h2 className="text-4xl md:text-5xl font-light leading-tight mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Bâtir l'avenir sur des fondations durables.</>)}</h2>
             <p className="text-[#1A1510]/70 text-lg leading-relaxed mb-4">
-              Fondée en 2004 par Nadia {clientName(sessionData) ?? "Kéops"}, l'agence s'est forgé une solide réputation nationale dans la conception d'architectures bioclimatiques et d'espaces durables.
+              Fondée en 2004 par Nadia Kéops, l'agence s'est forgé une solide réputation nationale dans la conception d'architectures bioclimatiques et d'espaces durables.
             </p>
             <p className="text-[#1A1510]/50 text-sm leading-relaxed mb-6">
               Nos projets privilégient les circuits courts pour l'approvisionnement en matériaux biosourcés : la pierre sèche du Gard, le bois Douglas du Morvan et la terre cuite de l'arrière-pays méditerranéen. En alliant savoir-faire artisanal traditionnel et technologies numériques passives, nous façonnons des édifices à haute efficacité thermique et à empreinte environnementale minimale.

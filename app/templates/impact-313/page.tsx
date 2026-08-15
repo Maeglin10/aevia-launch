@@ -17,6 +17,26 @@ import {
   AnimatePresence 
 } from "framer-motion";
 import {
+  PhoneCall,
+  AlertTriangle,
+  Clock,
+  Wrench,
+  Droplet,
+  ShieldCheck,
+  ChevronRight,
+  ChevronDown,
+  MapPin,
+  Mail,
+  CheckCircle2,
+  Star,
+  MessageSquare,
+  ArrowRight,
+  Menu,
+  X,
+  Plus
+} from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientCity,
   clientEmail,
   clientFaq,

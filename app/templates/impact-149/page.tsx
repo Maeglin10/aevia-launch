@@ -8,6 +8,15 @@ import { Wind, ArrowRight, Menu, Star, Heart, Sun, Waves, Flower2, Moon, Chevron
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  DWELL,
+  useSlides,
+  AnchoredBackdrop,
+  BlurThrough,
+  SlideIndex,
+  HairlineArrows,
+} from "@/lib/templates/hero-kit-2"
+import { TrackingCollapse } from "@/lib/templates/hero-kit-3"
+import {
   clientAccrocheRestante,
   clientCity,
   clientEyebrow,

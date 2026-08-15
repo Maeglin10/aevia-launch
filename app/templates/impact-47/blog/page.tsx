@@ -1,5 +1,4 @@
 "use client";
-import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
@@ -66,7 +65,7 @@ export default function Blog() {
             <p key={i} style={{ fontFamily: SANS, fontSize: 17, color: C.textMuted, lineHeight: 1.9, marginBottom: 24 }}>{paraTxt}</p>
           ))}
           <div style={{ borderTop: `1px solid ${C.border}`, marginTop: 24, paddingTop: 24, fontSize: 13, color: C.textDim, fontFamily: SERIF, fontStyle: "italic" }}>
-            Rédigé par l'équipe de {clientName(sessionData) ?? "Pétales & Co"}.
+            Rédigé par l'équipe de Pétales & Co.
           </div>
         </div>
       </section>

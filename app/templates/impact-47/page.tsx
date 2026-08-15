@@ -7,6 +7,37 @@ import React, {useRef, useState, useEffect} from 'react';
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
+  ArrowRight, Check, Leaf, Sun, Snowflake, Wind, Heart, Gift, Briefcase, Camera, ChevronDown, Star
+} from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
+import { DWELL, useSlides, HeldSwap, BlurThrough, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
+
+/* HeldSwap on the bouquet: exit, half a beat of held emptiness, entry — the
+   wine-lab swap, in a round medallion instead of an arch. Images and names
+   come from the shop's own collections (verified at the merge). */
+function HERO_BOUQUETS_DEMO_SOURCE_LIVE() {
+  return [
+  { name: "Jardin de Printemps", price: "€65", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1523693916903-027d144a2b7d?w=900&h=900&fit=crop&q=80") },
+  { name: "Blossom Drift", price: "€85", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=900&h=900&fit=crop&q=80") },
+  { name: "Dried Luxe", price: "€90", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1583228858294-6745cb25969e?w=900&h=900&fit=crop&q=80") },
+];
+}
+let HERO_BOUQUETS_DEMO_SOURCE = HERO_BOUQUETS_DEMO_SOURCE_LIVE();
+let HERO_BOUQUETS_DEMO = HERO_BOUQUETS_DEMO_SOURCE;
+let HERO_BOUQUETS = HERO_BOUQUETS_DEMO;
+import {
+  C,
+  FallingPetal,
+  faqs,
+  occasions,
+  petalPaths,
+  rafraichirPartage,
+  seasons,
+  subscriptionTiers,
+  testimonials,
+  useCart,
+} from "./shared";
+import {
   clientAddress,
   clientCity,
   clientFaq,
@@ -19,6 +50,7 @@ import {
   clientStats,
   clientTagline,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :

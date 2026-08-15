@@ -80,6 +80,11 @@ async function travailleur() {
     try {
       const sid = await sessionDe(theme);
       const page = await ctx.newPage();
+      /* Le build ne voit rien : les thèmes portent `@ts-nocheck`, et un symbole
+         inexistant ne se manifeste qu'à l'exécution. `HERO_BOUQUETS_DEMO_SOURCE_LIVE
+         is not defined` a servi une page d'erreur pendant que le build restait vert. */
+      const erreurs = [];
+      page.on("pageerror", (e) => erreurs.push(String(e).slice(0, 90)));
       const url = `${BASE}/templates/${theme}${annexe ? "/" + annexe : ""}?session=${sid}`;
       await page.goto(url, { waitUntil: "domcontentloaded", timeout: 40000 });
       await page.waitForTimeout(2400);
@@ -110,6 +115,8 @@ async function travailleur() {
         if (sien.includes(nu)) continue;
         fuites.push(`compte étranger : ${m}`);
       }
+      if (erreurs.length) fuites.push(`erreur JS : ${erreurs[0]}`);
+      if (vus.length < 300) fuites.push("page vide ou en erreur");
       const marque = MARQUES[theme];
       if (marque && vus.toLowerCase().includes(marque.toLowerCase())) fuites.push(`marque : ${marque}`);
       await page.close();

@@ -202,7 +202,7 @@ export default function NimbusAILoginPage() {
               <div className="w-12 h-12 bg-gradient-to-br from-[#06B6D4] to-[#8B5CF6] rounded-xl flex items-center justify-center mx-auto mb-4">
                 <Cloud className="w-6 h-6 text-white" />
               </div>
-              <h2 className="text-white text-2xl font-bold">Connexion à {clientName(sessionData) ?? "NimbusAI"}</h2>
+              <h2 className="text-white text-2xl font-bold">Connexion à NimbusAI</h2>
               <p className="text-gray-500 text-sm mt-2">Accédez à votre console d&apos;administration</p>
             </div>
 
@@ -273,7 +273,7 @@ export default function NimbusAILoginPage() {
           ))}
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex justify-between text-xs text-gray-600">
-          <span>© 2026 {clientName(sessionData) ?? "NimbusAI"}. All rights reserved.</span>
+          <span>© 2026 NimbusAI. All rights reserved.</span>
           <span><Globe className="w-3 h-3 inline mr-1" />Cloud AI · 12 regions</span>
         </div>
       </footer>

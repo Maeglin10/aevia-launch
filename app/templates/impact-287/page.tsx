@@ -3,6 +3,30 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  MotionValue,
+  useMotionValue,
+} from 'framer-motion';
+import {
+  Activity,
+  ArrowRight,
+  Award,
+  ChevronDown,
+  Heart,
+  Camera,
+  MapPin,
+  Mountain,
+  Quote,
+  Star,
+  Sun,
+  Sunset,
+  Wind,
+} from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientBookingUrl,
   clientCity,
   clientHeroLine,

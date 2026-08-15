@@ -4,6 +4,18 @@ import { tr } from "@/lib/templates/uiStrings";
 
 import { useRef, useState, useEffect } from 'react'
 import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  AnimatePresence,
+} from 'framer-motion'
+import { TemplateIcon } from '@/components/TemplateIcon'
+import { CheckCircle2 } from 'lucide-react'
+import { resolveList } from "@/lib/templates/resolveList";
+import { DWELL, useSlides, GhostSolid, SlideIndex, HairlineArrows } from '@/lib/templates/hero-kit-2';
+import { HardCutRebuild, FixedRail } from '@/lib/templates/hero-kit-3';
+import {
   clientAddress,
   clientCity,
   clientFaq,
@@ -1351,7 +1363,7 @@ function APropos() {
               <span style={{ color: C.accent }}>du bâti lyonnais</span>
             </>)}</h2>
             <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.8, marginBottom: 20 }}>
-              Fondée en 2002 par Marc Durand, compagnon du devoir, l'entreprise {clientName(sessionData) ?? "Bâtisseurs Durand"} s'est
+              Fondée en 2002 par Marc Durand, compagnon du devoir, l'entreprise Bâtisseurs Durand s'est
               bâtie sur un principe simple : un chantier bien fait, c'est un chantier dont le client est
               fier. Vingt-deux ans plus tard, nos équipes interviennent sur tout le bassin lyonnais, de
               Villefranche-sur-Saône à Vienne, en passant par Bourgoin-Jallieu et l'Isère.

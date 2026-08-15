@@ -1,10 +1,6 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import {
-  clientName,
-  clientServices,
-  clientTeam,
-} from "@/lib/templates/clientContent";
+import { clientServices, clientTeam } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 
@@ -162,7 +158,7 @@ export default function Page() {
             <div className="w-8 h-8 bg-[#7C3AED] rounded-lg flex items-center justify-center">
               <BookOpen className="w-4 h-4 text-white" />
             </div>
-            <span className="text-gray-900 font-bold text-lg">{clientName(sessionData) ?? "EduPath"}</span>
+            <span className="text-gray-900 font-bold text-lg">EduPath</span>
           </Link>
           <div className="hidden md:flex items-center gap-8 text-gray-600 text-sm font-medium">
 // @ts-ignore
@@ -181,7 +177,7 @@ export default function Page() {
             <SheetContent side="right" className="bg-white border-gray-100 p-8">
                <div className="flex items-center gap-2 mb-12">
                   <div className="w-8 h-8 bg-[#7C3AED] rounded-lg flex items-center justify-center"><BookOpen className="w-4 h-4 text-white" /></div>
-                  <span className="text-gray-900 font-bold text-lg">{clientName(sessionData) ?? "EduPath"}</span>
+                  <span className="text-gray-900 font-bold text-lg">EduPath</span>
                </div>
                <div className="flex flex-col gap-6 font-medium">
                   <Link href="/templates/impact-11" className="text-xl text-gray-600 hover:text-[#7C3AED] transition-colors">Accueil</Link>
@@ -209,7 +205,7 @@ export default function Page() {
           <div>
             <Link href="/templates/impact-11" className="flex items-center gap-2 mb-4 cursor-pointer">
               <div className="w-8 h-8 bg-[#7C3AED] rounded-lg flex items-center justify-center"><BookOpen className="w-4 h-4 text-white" /></div>
-              <span className="text-white font-bold text-lg">{clientName(sessionData) ?? "EduPath"}</span>
+              <span className="text-white font-bold text-lg">EduPath</span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed">La plateforme d'apprentissage en ligne pour les professionnels ambitieux.</p>
           </div>
@@ -237,7 +233,7 @@ export default function Page() {
           </div>
         </div>
         <div className="max-w-6xl mx-auto border-t border-gray-800 pt-8 flex justify-between items-center text-xs text-gray-500">
-          <span>© 2026 {clientName(sessionData) ?? "EduPath"}. Tous droits réservés.</span>
+          <span>© 2026 EduPath. Tous droits réservés.</span>
           <Link href="/templates/impact-11/legal" className="hover:text-white transition-colors">Fait avec amour par Aevia WS</Link>
         </div>
       </footer>

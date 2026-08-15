@@ -2,6 +2,42 @@
 // @ts-nocheck
 
 import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+  useInView,
+} from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import {
+  Leaf,
+  Sparkles,
+  Clock,
+  Star,
+  ChevronRight,
+  Menu,
+  X,
+  MapPin,
+  Phone,
+  Mail,
+  ArrowRight,
+  Heart,
+  Droplets,
+  Wind,
+  Sun,
+  CheckCircle,
+} from "lucide-react";
+import { TemplateIcon } from '@/components/TemplateIcon';
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientCity,
   clientFaq,
   clientHeroLine,
@@ -622,7 +658,7 @@ export default function AuraWellnessPage() {
         </Reveal>
         <Reveal delay={0.15}>
           <p className="text-[#6B5E52] text-base max-w-2xl mx-auto leading-relaxed">{c?.aboutText ?? <>
-            Fondé en 2014, {clientName(sessionData) ?? "Aura Wellness"} propose des soins conçus à partir d'ingrédients botaniques traçables, administrés par des thérapeutes formés aux traditions ayurvédiques, taoïstes et méditerranéennes.
+            Fondé en 2014, Aura Wellness propose des soins conçus à partir d'ingrédients botaniques traçables, administrés par des thérapeutes formés aux traditions ayurvédiques, taoïstes et méditerranéennes.
           </>}</p>
         </Reveal>
       </section>

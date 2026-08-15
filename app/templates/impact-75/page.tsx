@@ -7,9 +7,26 @@ import {useRef, useState, useEffect} from 'react';
 import Image from "next/image";
 import Link from "next/link";
 import {
+  Radio,
+  Star,
+  Shield,
+  RotateCcw,
+  Award,
+  Truck,
+  ChevronLeft,
+  ChevronRight,
+  Check,
+  ShoppingBag,
+  X,
+  Plus,
+  Minus,
+  Trash2,
+} from "lucide-react";
+import { Reveal, GridBackground } from "./shared";
+import {
+  clientHeroLine,
   clientCity,
   clientFaq,
-  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
@@ -17,6 +34,7 @@ import {
   clientStats,
   clientText,
   clientWorks,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

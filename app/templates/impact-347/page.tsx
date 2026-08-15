@@ -4,6 +4,23 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import {
+  ArrowRight,
+  BadgeCheck,
+  CheckCircle,
+  Clock,
+  FileCheck,
+  GraduationCap,
+  Mail,
+  MapPin,
+  Phone,
+  Star,
+  Target,
+} from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
+import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { LineScroll } from "@/lib/templates/hero-kit-3";
+import {
   clientAccrocheRestante,
   clientAddress,
   clientCertifications,

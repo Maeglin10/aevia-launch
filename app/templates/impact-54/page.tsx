@@ -8,6 +8,14 @@ import { motion, useScroll } from "framer-motion";
 import { ArrowUpRight, Check } from "lucide-react";
 import Link from "next/link";
 import {
+  FEATURES,
+  STATS,
+  Reveal,
+  ParticleField,
+  RotatingProduct,
+  TypewriterCode,
+} from "./shared";
+import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -15,6 +23,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

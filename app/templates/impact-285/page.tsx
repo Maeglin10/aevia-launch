@@ -4,6 +4,36 @@ import { resolveList } from "@/lib/templates/resolveList";
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  MotionValue,
+  useMotionValue,
+} from 'framer-motion';
+import {
+  ArrowRight,
+  ChevronDown,
+  Stethoscope,
+  Globe,
+  Heart,
+  MapPin,
+  Quote,
+  Star,
+  Phone,
+  Clock,
+  CreditCard,
+  Shield,
+  Video,
+  Syringe,
+  Pill,
+  AlertTriangle,
+  CheckCircle,
+  Calendar,
+  User,
+  Users,
+} from 'lucide-react';
+import {
   clientAccrocheRestante,
   clientAddress,
   clientBookingUrl,

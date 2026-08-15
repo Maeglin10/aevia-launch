@@ -1,15 +1,16 @@
 "use client";
 import {
+  clientTrade,
+  clientPhone,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientText,
-  clientTrade,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 

@@ -3,6 +3,47 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  AnimatePresence,
+} from 'framer-motion';
+import {
+  Activity,
+  ArrowRight,
+  Award,
+  Calendar,
+  Check,
+  CheckCircle,
+  ChevronDown,
+  Clock,
+  Coffee,
+  Compass,
+  DollarSign,
+  Euro,
+  FileText,
+  Flame,
+  Heart,
+  Info,
+  Mail,
+  MapPin,
+  Menu,
+  Phone,
+  Quote,
+  Scissors,
+  Shield,
+  ShoppingBag,
+  Star,
+  Sun,
+  TrendingUp,
+  Utensils,
+  Wrench,
+  X,
+  Zap,
+} from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientBookingUrl,
   clientCity,
   clientFaq,

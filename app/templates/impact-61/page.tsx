@@ -16,6 +16,7 @@ import {
   clientTagline,
   clientText,
   clientWorks,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 let sessionData: any = null;

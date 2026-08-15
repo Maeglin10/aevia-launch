@@ -4,6 +4,31 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import {
+  Menu,
+  X,
+  Phone,
+  Mail,
+  MapPin,
+  CheckCircle2,
+  ChevronRight,
+  Star,
+  ArrowRight,
+  Droplet,
+  Flame,
+  PenTool,
+  Home,
+  Shield,
+  Clock,
+  ThumbsUp,
+  Wrench,
+  Droplets,
+  ArrowUpRight,
+  Check,
+  Plus,
+  Minus
+} from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientAccrocheRestante,
   clientAddress,
   clientCity,

@@ -2,6 +2,30 @@
 // @ts-nocheck
 
 import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  AnimatePresence,
+  useMotionValue,
+  useSpring,
+} from "framer-motion";
+import { useState, useRef, useEffect, useCallback } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Separator } from "@/components/ui/separator";
+import { Compass, Layout, Maximize, Ruler, Sparkles, Globe, Mail, MapPin, ChevronRight, ArrowRight, X, Menu, Box, Home, Layers, PencilLine, Focus, Frame, Monitor, Share2, Lock, Search, ShoppingBag } from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,

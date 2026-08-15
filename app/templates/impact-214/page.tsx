@@ -4,6 +4,16 @@ import { tr } from "@/lib/templates/uiStrings";
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  AnimatePresence,
+} from 'framer-motion';
+import { TemplateIcon } from '@/components/TemplateIcon';
+import { Droplets, Bell } from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientAddress,
   clientCity,
   clientFaq,

@@ -3,6 +3,47 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  AnimatePresence,
+} from 'framer-motion';
+import {
+  Activity,
+  ArrowRight,
+  Award,
+  Calendar,
+  Check,
+  CheckCircle,
+  ChevronDown,
+  Clock,
+  Coffee,
+  Compass,
+  DollarSign,
+  Euro,
+  FileText,
+  Flame,
+  Heart,
+  Info,
+  Mail,
+  MapPin,
+  Menu,
+  Phone,
+  Quote,
+  Scissors,
+  Shield,
+  ShoppingBag,
+  Star,
+  Sun,
+  TrendingUp,
+  Utensils,
+  Wrench,
+  X,
+  Zap,
+} from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientCity,
   clientFaq,
   clientHeroLine,
@@ -1262,7 +1303,7 @@ return (
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable de publication: {clientName(sessionData) ?? "Studio Peak Performance"}<br />
+                Responsable de publication: Studio Peak Performance<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>

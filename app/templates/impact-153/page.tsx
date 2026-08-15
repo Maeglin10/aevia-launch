@@ -10,6 +10,16 @@ import React, {
   useCallback,
 } from "react"
 import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+  useInView,
+  useMotionValue,
+  useSpring,
+} from "framer-motion"
+import Link from "next/link"
+import {
   clientAccrocheRestante,
   clientBookingUrl,
   clientCity,
