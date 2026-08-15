@@ -321,11 +321,18 @@ for (const p of parcourir(RACINE)) {
     const lignes = src.split("\n");
     let gravesAvant = 0;
     for (let k = 0; k < lignes.length; k++) {
-      const l = lignes[k];
+      let l = lignes[k];
       const dansGabarit = gravesAvant % 2 === 1;
       gravesAvant += (l.match(/`/g) ?? []).length;
       if (dansGabarit) continue;
-      if (/[<>{}"'=]/.test(l)) continue;
+      /*
+         L'apostrophe est admise : elle est française, pas délimitante. Les
+         thèmes l'échappent parfois — « Aujourd\'hui portée par Adrien
+         Mercier » — et ce contre-oblique s'affiche tel quel à l'écran ; on le
+         retire au passage.
+      */
+      if (/[<>{}"=]/.test(l)) continue;
+      if (/\\'/.test(l)) { l = l.replace(/\\'/g, "'"); lignes[k] = l; }
       re.lastIndex = 0;
       if (!re.test(l)) continue;
       re.lastIndex = 0;

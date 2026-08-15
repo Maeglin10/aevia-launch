@@ -1534,7 +1534,7 @@ function LegalPage() {
           <div>
             <h4 style={{ fontSize: 16, color: C.marine, marginBottom: 8, fontFamily: "'Cormorant Garamond', Georgia, serif" }}>Propriété Intellectuelle</h4>
             <p>
-              L'intégralité du site Évasion Dorée (textes, images, codes source, structure générale) est protégée par le droit d'auteur. Toute reproduction totale ou partielle sans accord préalable écrit de l'éditeur est strictement interdite.
+              L'intégralité du site {clientName(sessionData) ?? "Évasion Dorée"} (textes, images, codes source, structure générale) est protégée par le droit d'auteur. Toute reproduction totale ou partielle sans accord préalable écrit de l'éditeur est strictement interdite.
             </p>
           </div>
 

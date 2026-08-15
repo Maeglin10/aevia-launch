@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 /* ════════════════════════════════════════════════════════════════════════════
-   PHARMACIE DE L'HORLOGE — Officine de centre-ville · Besançon
+   {clientName(sessionData) ?? "Pharmacie de l'Horloge"} — Officine de centre-ville · Besançon
    ─────────────────────────────────────────────────────────────────────────────
    Pharmacie, 2e variante (la 1re est impact-330, MosaicPush).
 
