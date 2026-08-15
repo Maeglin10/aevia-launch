@@ -489,7 +489,7 @@ function Nav() {
         ) : (
           fd?.businessName ?? (
           <>
-            Le Fournil<br />
+            {(clientName(sessionData) ?? "Le Fournil du Parlement").split(" ").slice(0, 2).join(" ")}<br />
             <span style={{ fontStyle: 'italic', fontSize: '0.78em', color: 'rgba(240,221,184,0.7)', letterSpacing: '0.04em' }}>
               du Parlement
             </span>
