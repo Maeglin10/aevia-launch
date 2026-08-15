@@ -41,7 +41,7 @@ const rapport = [];
 for (const p of parcourir(RACINE)) {
   const theme = p.slice(RACINE.length + 1).split("/")[0];
   const marque = MARQUES[theme];
-  if (!marque || !marque.includes(" ")) continue;
+  if (!marque) continue;
   const v = variableSession(fs.readFileSync(p, "utf8"));
   if (!v) continue;
 
@@ -61,13 +61,39 @@ for (const p of parcourir(RACINE)) {
   for (let k = 1; k < mots.length; k++) {
     const avant = mots.slice(0, k).join(" ");
     const apres = mots.slice(k).join(" ");
+    /*
+       L'élément coloré n'est pas toujours un <span> : « Le Barber <em>Club</em> »
+       et « FORCE<span>&nbsp;BRUTE</span> » sont la même figure. On accepte donc
+       les balises d'accentuation, et l'espace insécable en guise de séparation.
+    */
+    const blanc = "(?:\\s|&nbsp;)*";
     const motif = new RegExp(
-      `>(\\s*)(?:${formes(avant)})(\\s*)(<span[^>]*>)(\\s*)(?:${formes(apres)})(\\s*)(</span>)`,
+      `>(${blanc})(?:${formes(avant)})(${blanc})(<(?:span|em|strong|b|i)[^>]*>)(${blanc})(?:${formes(apres)})(${blanc})(</(?:span|em|strong|b|i)>)`,
       "g",
     );
     src = src.replace(motif, (tout, a, b, ouvre, c, d, ferme) => {
       faits++;
       return `>${a}{(${lecture}).split(" ").slice(0, ${k}).join(" ")}${b}${ouvre}${c}{(${lecture}).split(" ").slice(${k}).join(" ")}${d}${ferme}`;
+    });
+  }
+
+  /*
+     Le cas d'une marque d'un seul mot.
+
+     Le catalogue relève « FORCE » parce que le repli du thème ne porte que le
+     premier mot ; le logo, lui, écrit « FORCE<span>&nbsp;BRUTE</span> ». Sans
+     ce passage, la moitié colorée du nom restait celle de la démonstration.
+  */
+  if (!marque.includes(" ")) {
+    const inline = "(?:span|em|strong|b|i)";
+    const motifUn = new RegExp(
+      `>((?:\\s|&nbsp;)*)(?:${formes(marque)})((?:\\s|&nbsp;)*)(<${inline}[^>]*>)((?:\\s|&nbsp;)*)([\\p{L}&;'’.-]{2,24})((?:\\s|&nbsp;)*)(</${inline}>)`,
+      "gu",
+    );
+    src = src.replace(motifUn, (tout, a, b, ouvre, c, suite, d, ferme) => {
+      const entier = `${marque} ${suite.replace(/&nbsp;/g, " ").trim()}`.trim();
+      faits++;
+      return `>${a}{(clientName(${v}) ?? "${entier}").split(" ")[0]}${b}${ouvre}${c}{(clientName(${v}) ?? "${entier}").split(" ").slice(1).join(" ") || "${suite}"}${d}${ferme}`;
     });
   }
 

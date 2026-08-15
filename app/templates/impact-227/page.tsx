@@ -409,7 +409,7 @@ return (
           ) : (
             <>
               <Scissors size={18} color={scrolled ? C.accent : "#fff"} />
-              <span style={{ fontFamily: FONT, fontSize: 20, color: scrolled ? C.text : "#fff" }}>Le Barber <em>Club</em></span>
+              <span style={{ fontFamily: FONT, fontSize: 20, color: scrolled ? C.text : "#fff" }}>{(clientName(sessionData) ?? "Le Barber Club").split(" ").slice(0, 2).join(" ")} <em>{(clientName(sessionData) ?? "Le Barber Club").split(" ").slice(2).join(" ")}</em></span>
             </>
           )}
         </div>

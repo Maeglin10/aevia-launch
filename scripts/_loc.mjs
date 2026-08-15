@@ -8,6 +8,7 @@ for (const arg of process.argv.slice(2)) {
   const theme = page_.split("/")[0];
   const r = await fetch(`${B}/api/sessions`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ formData: { businessName: "Ateliers Vidal & Fils", businessType: "couvreur", city: "Annecy", email: "contact@ateliers-vidal.fr", instagram: "@ateliersvidal", template: theme } }) });
   const { sessionId } = await r.json();
+  await fetch(`${B}/api/sessions?id=${sessionId}`, { method: "PATCH", headers: { "content-type": "application/json" }, body: JSON.stringify({ businessProfile: { services: [{ name: "Réfection complète de toiture", price: "à partir de 9 400 €", description: "Dépose, charpente vérifiée." }], menu: [{ name: "Réfection complète de toiture", price: "9 400 €", category: "Toiture" }], legal: { companyAddress: "14 route des Creuses, 74000 Annecy", companyName: "Ateliers Vidal & Fils" }, contacts: { general: { email: "contact@ateliers-vidal.fr", phone: "04 50 71 82 93" } } } }) });
   const p = await ctx.newPage();
   const att = p.waitForResponse((x) => x.url().includes("/api/sessions"), { timeout: 25000 }).catch(() => null);
   await p.goto(`${B}/templates/${page_}?session=${sessionId}`, { waitUntil: "domcontentloaded" });
@@ -27,6 +28,13 @@ for (const arg of process.argv.slice(2)) {
     };
     relever();
     for (let y = 0; y < document.body.scrollHeight; y += 700) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 80)); relever(); }
+    if (!vus.length) {
+      const morceaux = [];
+      for (let y = 0; y < document.body.scrollHeight; y += 600) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 70)); morceaux.push(document.body.innerText ?? ""); }
+      const t = morceaux.join(" ").replace(/\s+/g, " ");
+      const i = t.indexOf(marque);
+      if (i >= 0) vus.push("(vu au défilement) …" + t.slice(Math.max(0, i - 60), i + 70));
+    }
     return vus.slice(0, 3);
   }, marque);
   console.log(`=== ${page_} « ${marque} »`);

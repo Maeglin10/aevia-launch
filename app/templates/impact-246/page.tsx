@@ -2206,7 +2206,7 @@ function Footer() {
             }}
           >
             <Wrench size={20} color={C.accent} strokeWidth={2} />
-            ThermoFix&nbsp;<span style={{ color: C.accent }}>Pro</span>
+            {(clientName(sessionData) ?? "ThermoFix Pro").split(" ").slice(0, 1).join(" ")}&nbsp;<span style={{ color: C.accent }}>{(clientName(sessionData) ?? "ThermoFix Pro").split(" ").slice(1).join(" ")}</span>
           </div>
           <p
             style={{
