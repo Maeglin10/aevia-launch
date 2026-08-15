@@ -53,21 +53,21 @@ let brand: any = null;
 function HERO_CUVEES_LIVE() {
   return [
   {
-    left: "CHÂTEAU",
+    left: `${clientName(sessionData) ?? "Château"}`,
     right: "DE VALROC",
     name: (clientName({ formData: fd }) ?? "Cuvée Prestige"),
     meta: "AOC " + (clientCity({ formData: fd }) ?? "Bordeaux") + " Grand Cru · 2020",
     bottle: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1545608508-78f351665a1c?auto=format&fit=crop&q=85&w=620&h=1240"),
   },
   {
-    left: "CHÂTEAU",
+    left: `${clientName(sessionData) ?? "Château"}`,
     right: "DE VALROC",
     name: "Cuvée Réserve",
     meta: "AOC " + (clientCity({ formData: fd }) ?? "Bordeaux") + " · 2021",
     bottle: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1598866971869-22782ffd918e?auto=format&fit=crop&q=85&w=620&h=1240"),
   },
   {
-    left: "CHÂTEAU",
+    left: `${clientName(sessionData) ?? "Château"}`,
     right: "DE VALROC",
     name: "Blanc de Grâce",
     meta: (clientCity({ formData: fd }) ?? "Bordeaux") + " Blanc · 2022",

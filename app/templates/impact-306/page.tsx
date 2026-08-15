@@ -89,7 +89,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   LA MIETTE HEUREUSE — Boulangerie-pâtisserie {clientCity(sessionData) ?? "Montpellier"} — pains spéciaux, brunch, commandes événements. Libre Baskerville, ocre / vert.
+   {clientName(sessionData) ?? "La Miette Heureuse"} — Boulangerie-pâtisserie {clientCity(sessionData) ?? "Montpellier"} — pains spéciaux, brunch, commandes événements. Libre Baskerville, ocre / vert.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 

@@ -88,7 +88,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DR. CAMILLE FAURE — Médecin généraliste {clientCity(sessionData) ?? "Toulouse"} Capitole — médecine sportive, prévention, téléconsultation. Spectral, violet / or.
+   {clientName(sessionData) ?? "Dr. Camille Faure"} — Médecin généraliste {clientCity(sessionData) ?? "Toulouse"} Capitole — médecine sportive, prévention, téléconsultation. Spectral, violet / or.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 

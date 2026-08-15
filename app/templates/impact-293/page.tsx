@@ -89,7 +89,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   PIZZA NAPOLI EXPRESS — Pizzeria napolitaine {clientCity(sessionData) ?? "Lyon"} Presqu'île — four à bois, pâte 72h, livraison 30 min. Cormorant Garamond, rouge / ivoire.
+   {clientName(sessionData) ?? "Pizza Napoli Express"} — Pizzeria napolitaine {clientCity(sessionData) ?? "Lyon"} Presqu'île — four à bois, pâte 72h, livraison 30 min. Cormorant Garamond, rouge / ivoire.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 

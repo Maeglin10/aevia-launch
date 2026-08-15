@@ -107,7 +107,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ENCRE DÉLICATE — Studio tatouage fineline {clientCity(sessionData) ?? "Bordeaux"} — aquarelle, fineline féminin, sur RDV. Playfair Display, blanc / rose poudré.
+   {clientName(sessionData) ?? "Encre Délicate"} — Studio tatouage fineline {clientCity(sessionData) ?? "Bordeaux"} — aquarelle, fineline féminin, sur RDV. Playfair Display, blanc / rose poudré.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 

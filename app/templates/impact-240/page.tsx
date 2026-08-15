@@ -193,7 +193,7 @@ function EDIT_ROWS_DEMO_LIVE() {
     eyebrow: 'Votre transformation',
     ghostNumber: '01',
     img: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/33846716/pexels-photo-33846716.jpeg?auto=compress&cs=tinysrgb&w=800'),
-    imgAlt: 'Séance de coaching privé au Studio Athletic ' + (clientCity(sessionData) ?? 'Lyon'),
+    imgAlt: `Séance de coaching privé au ${clientName(sessionData) ?? "STUDIO ATHLETIC"} ` + (clientCity(sessionData) ?? 'Lyon'),
     title: (
       <>
         PAS DE MIRACLE.{' '}
@@ -207,7 +207,7 @@ function EDIT_ROWS_DEMO_LIVE() {
     eyebrow: 'Le studio',
     ghostNumber: '02',
     img: `${PHOTO_BASE}1571019613454-1cb2f99b2d8b?q=80&w=800&auto=format&fit=crop`,
-    imgAlt: 'Studio Athletic ' + (clientCity(sessionData) ?? 'Lyon') + ' — équipements professionnels',
+    imgAlt: `${clientName(sessionData) ?? "STUDIO ATHLETIC"} ` + (clientCity(sessionData) ?? 'Lyon') + ' — équipements professionnels',
     title: (
       <>
         {clientCity(sessionData) ?? "LYON"} 6E,{' '}
@@ -617,7 +617,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/33846716/pexels-photo-33846716.jpeg?auto=compress&cs=tinysrgb&w=2000')}
-          alt="Séance de coaching au Studio Athletic Lyon 6e"
+          alt={`Séance de coaching au ${clientName(sessionData) ?? "STUDIO ATHLETIC"} Lyon 6e`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>

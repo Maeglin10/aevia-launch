@@ -64,11 +64,16 @@ function PROPERTIES_DEMO_LIVE() {
 }
 let PROPERTIES_DEMO = PROPERTIES_DEMO_LIVE();
 
-const TESTIMONIALS_SOURCE = [
-  { quote: "Haven Estates found our Hampstead estate entirely off-market. Their discretion and global network are simply unmatched.", name: "Lord A. Thornton", role: "London · Private Estate" },
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
+  { quote: `${clientName(sessionData) ?? "HAVEN ESTATES"} found our Hampstead estate entirely off-market. Their discretion and global network are simply unmatched.`, name: "Lord A. Thornton", role: "London · Private Estate" },
   { quote: "The team navigated our Singapore acquisition with extraordinary professionalism. We closed in under three weeks.", name: "S. Nakamura", role: "Singapore · Penthouse" },
   { quote: "Three continents, one advisor. Haven managed our entire portfolio consolidation seamlessly and discreetly.", name: "E. Volkov", role: "Geneva · Multi-Property" },
-]
+];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const SERVICES_SOURCE = [
@@ -123,6 +128,7 @@ export default function HavenEstatesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   PROPERTIES_DEMO = PROPERTIES_DEMO_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),

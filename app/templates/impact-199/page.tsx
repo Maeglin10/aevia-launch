@@ -690,7 +690,7 @@ export default function Impact199Page() {
         <motion.div className="absolute inset-0 z-0" style={{ y: heroY, opacity: heroOpacity }}>
           <Image
             src={photo(18, "https://images.pexels.com/photos/4125522/pexels-photo-4125522.jpeg?auto=compress&cs=tinysrgb&w=1920")}
-            alt="Studio Encre & Âme"
+            alt={`Studio ${clientName(sessionData) ?? "ENCRE & ÂME"}`}
             fill
             className="object-cover"
             priority

@@ -210,13 +210,18 @@ function TESTIMONIALS_SOURCE_LIVE() {
 let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
-const PRESS_DEMO = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function PRESS_DEMO_LIVE() {
+  return [
   { name: "Vogue Bijoux", issue: "Numéro Collector 2024", quote: "La maison parisienne qui réinvente l'orfèvrerie contemporaine." },
-  { name: "Le Figaro", issue: "Arts & Styles", quote: "Aurelia, gardienne vivante du savoir-faire artisanal français." },
+  { name: "Le Figaro", issue: "Arts & Styles", quote: `${clientName(sessionData) ?? "AURELIA"}, gardienne vivante du savoir-faire artisanal français.` },
   { name: "L'Express Styles", issue: "Luxe & Création", quote: "Quand l'or devient sculpture : les pièces uniques d'Aurelia." },
   { name: "Elle France", issue: "Spécial Bijoux", quote: "Le bespoke à la française par excellence, place Vendôme." },
   { name: "Harper's Bazaar", issue: "Fine Jewelry Edit", quote: "Aurelia's atelier produces heirlooms, not merely jewellery." },
-]
+];
+}
+let PRESS_DEMO = PRESS_DEMO_LIVE();
 let PRESS = PRESS_DEMO;
 
 const MARQUEE_ITEMS = [
@@ -505,7 +510,7 @@ function Hero() {
       <motion.div className="absolute inset-0 z-0" style={{ y: yImg }}>
         <Image
           src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1920&auto=format&fit=crop"))}
-          alt="Bijoux Aurelia"
+          alt={`Bijoux ${clientName(sessionData) ?? "AURELIA"}`}
           fill
           className="object-cover opacity-30"
           priority
@@ -1006,7 +1011,7 @@ function AteliersSection() {
             <div className="relative aspect-[4/5] overflow-hidden">
               <Image
                 src={photo(2, "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=800&auto=format&fit=crop")}
-                alt="Atelier Aurelia"
+                alt={`Atelier ${clientName(sessionData) ?? "AURELIA"}`}
                 fill
                 className="object-cover"
                 unoptimized
@@ -1294,7 +1299,7 @@ function FaqSection() {
     },
     {
       q: "Proposez-vous un service de restauration ou de transformation ?",
-      a: "Oui, la Maison Aurelia propose de restaurer vos bijoux anciens ou de transformer vos pièces de famille pour leur donner une nouvelle vie tout en conservant leur valeur sentimentale.",
+      a: `Oui, la Maison ${clientName(sessionData) ?? "AURELIA"} propose de restaurer vos bijoux anciens ou de transformer vos pièces de famille pour leur donner une nouvelle vie tout en conservant leur valeur sentimentale.`,
     },
     {
       q: "Vos créations sont-elles garanties ?",
@@ -1315,7 +1320,7 @@ function FaqSection() {
     },
     {
       q: "Proposez-vous un service de restauration ou de transformation ?",
-      a: "Oui, la Maison Aurelia propose de restaurer vos bijoux anciens ou de transformer vos pièces de famille pour leur donner une nouvelle vie tout en conservant leur valeur sentimentale.",
+      a: `Oui, la Maison ${clientName(sessionData) ?? "AURELIA"} propose de restaurer vos bijoux anciens ou de transformer vos pièces de famille pour leur donner une nouvelle vie tout en conservant leur valeur sentimentale.`,
     },
     {
       q: "Vos créations sont-elles garanties ?",
@@ -1337,7 +1342,7 @@ function FaqSection() {
     },
     {
       q: "Proposez-vous un service de restauration ou de transformation ?",
-      a: "Oui, la Maison Aurelia propose de restaurer vos bijoux anciens ou de transformer vos pièces de famille pour leur donner une nouvelle vie tout en conservant leur valeur sentimentale.",
+      a: `Oui, la Maison ${clientName(sessionData) ?? "AURELIA"} propose de restaurer vos bijoux anciens ou de transformer vos pièces de famille pour leur donner une nouvelle vie tout en conservant leur valeur sentimentale.`,
     },
     {
       q: "Vos créations sont-elles garanties ?",
@@ -1523,7 +1528,7 @@ function ContactSection() {
             >
               <Image
                 src={photo(3, "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=600&auto=format&fit=crop")}
-                alt="Localisation Aurelia"
+                alt={`Localisation ${clientName(sessionData) ?? "AURELIA"}`}
                 fill
                 className="object-cover opacity-50"
                 unoptimized
@@ -1881,6 +1886,7 @@ export default function Impact91Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  PRESS_DEMO = PRESS_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(

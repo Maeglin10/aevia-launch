@@ -386,9 +386,12 @@ let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
-const FAQS_DEMO = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function FAQS_DEMO_LIVE() {
+  return [
   {
-    q: "Combien coûte un tatouage chez Ink & Iron ?",
+    q: `Combien coûte un tatouage chez ${clientName(sessionData) ?? "INK"} & Iron ?`,
     a: "Nos tarifs démarrent à €180 pour les petites pièces flash. Les sessions au taux horaire : Viktor à €100/h, Léa à €90/h, James à €95/h. Les projets complexes (sleeves, full back) sont devisés en session globale après consultation.",
   },
   {
@@ -412,6 +415,8 @@ const FAQS_DEMO = [
     a: "La cicatrisation superficielle dure 2 à 3 semaines. La peau se régénère en profondeur sur 2 à 3 mois. Nous fournissons un protocole complet écrit et répondons à vos questions pendant toute la période de soin.",
   },
 ];
+}
+let FAQS_DEMO = FAQS_DEMO_LIVE();
 let FAQS = FAQS_DEMO;
 
 function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
@@ -583,6 +588,8 @@ export default function Impact89Page() {
   fd = session?.formData;
 
   sessionData = session;
+
+  FAQS_DEMO = FAQS_DEMO_LIVE();
   c = session?.generatedContent;
   PORTFOLIO_DEMO = PORTFOLIO_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();

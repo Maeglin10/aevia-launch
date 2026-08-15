@@ -88,7 +88,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DUBOIS & PARTENAIRES — {clientTrade(sessionData) ?? "Avocat"} droit des affaires {clientCity(sessionData) ?? "Bordeaux"} — M&A, startups, RGPD. Cormorant Garamond, ardoise / or.
+   {clientName(sessionData) ?? "Dubois & Partenaires"} — {clientTrade(sessionData) ?? "Avocat"} droit des affaires {clientCity(sessionData) ?? "Bordeaux"} — M&A, startups, RGPD. Cormorant Garamond, ardoise / or.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 

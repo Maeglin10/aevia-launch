@@ -469,7 +469,7 @@ return (
 }
 
 /* ==========================================================================
-   SUB-PAGE COMPONENTS (KÉOPS CRÈME & ROUILLE STYLE)
+   SUB-PAGE COMPONENTS ({clientName(sessionData) ?? "Kéops"} CRÈME & ROUILLE STYLE)
    ========================================================================= */
 
 function ProjetsPage({ activeFilter, setActiveFilter, filtered }: { activeFilter: string; setActiveFilter: (f: string) => void; filtered: any[] }) {

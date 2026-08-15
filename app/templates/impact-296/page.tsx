@@ -86,7 +86,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CALIENTE TACOS — Tacos & burritos mexicains {clientCity(sessionData) ?? "Bordeaux"} Victoire — recettes Oaxaca, sauces maison. Oswald, orange / vert avocat.
+   {clientName(sessionData) ?? "Caliente Tacos"} — Tacos & burritos mexicains {clientCity(sessionData) ?? "Bordeaux"} Victoire — recettes Oaxaca, sauces maison. Oswald, orange / vert avocat.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 

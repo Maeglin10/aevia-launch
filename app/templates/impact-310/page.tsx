@@ -88,7 +88,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   JARDINS DE L'HÉRAULT — Paysagiste méditerranéen {clientCity(sessionData) ?? "Montpellier"} — espèces locales, irrigation, terrasses. Fraunces, olive / sable.
+   {clientName(sessionData) ?? "Jardins de l'Hérault"} — Paysagiste méditerranéen {clientCity(sessionData) ?? "Montpellier"} — espèces locales, irrigation, terrasses. Fraunces, olive / sable.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 

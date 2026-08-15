@@ -190,7 +190,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div className="col-span-2">
               <div className="flex items-center gap-2.5 mb-4">
                 <Radio className="w-5 h-5 text-[#F97316]" />
-                <span className="text-lg font-black text-white">WAVEFORM</span>
+                <span className="text-lg font-black text-white">{clientName(__layoutSession) ?? "WaveForm"}</span>
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F97316] opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-[#F97316]" />

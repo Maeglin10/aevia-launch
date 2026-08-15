@@ -88,7 +88,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DR. ESTELLE BLANC — Chirurgien-dentiste {clientCity(sessionData) ?? "Montpellier"} Antigone — implantologie, orthodontie invisible. EB Garamond, turquoise / blanc.
+   {clientName(sessionData) ?? "Dr. Estelle Blanc"} — Chirurgien-dentiste {clientCity(sessionData) ?? "Montpellier"} Antigone — implantologie, orthodontie invisible. EB Garamond, turquoise / blanc.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 

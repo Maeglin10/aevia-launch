@@ -87,7 +87,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   LUMIÈRE & VŒUX LYON — Wedding planner {clientCity(sessionData) ?? "Lyon"} — mariages intimistes, cérémonies laïques, floral organique. Cinzel, champagne / eucalyptus.
+   {clientName(sessionData) ?? "Lumière & Vœux Lyon"} — Wedding planner {clientCity(sessionData) ?? "Lyon"} — mariages intimistes, cérémonies laïques, floral organique. Cinzel, champagne / eucalyptus.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 

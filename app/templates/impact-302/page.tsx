@@ -88,7 +88,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   NEXUS COMPTA — Expert-comptable {clientCity(sessionData) ?? "Toulouse"} — e-commerce, créateurs de contenu, auto-entrepreneurs. Raleway, indigo / corail.
+   {clientName(sessionData) ?? "Nexus Compta"} — Expert-comptable {clientCity(sessionData) ?? "Toulouse"} — e-commerce, créateurs de contenu, auto-entrepreneurs. Raleway, indigo / corail.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 

@@ -3250,7 +3250,6 @@ function Impact275Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  n = n_LIVE();
   PHOTO = PHOTO_LIVE();
 
   STATS_INLINE = resolveList(

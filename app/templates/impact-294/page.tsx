@@ -86,7 +86,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   SULTAN KEBAB & GRILL — Kebab & grill méditerranéen {clientCity(sessionData) ?? "Marseille"} — viande halal, mezze, click & collect. Playfair Display, cuivre / sable.
+   {clientName(sessionData) ?? "Sultan Kebab & Grill"} — Kebab & grill méditerranéen {clientCity(sessionData) ?? "Marseille"} — viande halal, mezze, click & collect. Playfair Display, cuivre / sable.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 

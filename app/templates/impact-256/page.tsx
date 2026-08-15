@@ -153,7 +153,7 @@ function PROGRAMS_DEMO_LIVE(): Program[] {
     id: 'force',
     romanNumeral: 'I',
     label: `${clientName(sessionData) ?? "FORCE"} & MUSCULATION`,
-    title: 'Force & Musculation',
+    title: `${clientName(sessionData) ?? "FORCE"} & Musculation`,
     body: 'Prise de masse, définition musculaire, powerlifting — des programmes périodisés sur mesure.',
     img: PHOTO.weights,
   },
@@ -653,7 +653,7 @@ function Hero() {
       >
         <img
           src={PHOTO.weights}
-          alt="Coach sportif Force Brute — entraînement de force à Marseille"
+          alt={`Coach sportif ${clientName(sessionData) ?? "FORCE"} Brute — entraînement de force à Marseille`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1475,7 +1475,7 @@ function PillarPanel() {
             >
               <img
                 src={PHOTO.hiitSticky}
-                alt="Méthode de coaching Force Brute"
+                alt={`Méthode de coaching ${clientName(sessionData) ?? "FORCE"} Brute`}
                 loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />
@@ -2012,7 +2012,7 @@ function Footer() {
   const cols = [
     {
       title: 'Programmes',
-      items: ['Force & Musculation', 'Cardio & HIIT', 'Bien-être & Mobilité', 'Préparation compétition'],
+      items: [`${clientName(sessionData) ?? "FORCE"} & Musculation`, 'Cardio & HIIT', 'Bien-être & Mobilité', 'Préparation compétition'],
       hrefs: ['#programmes', '#programmes', '#programmes', '#tarifs'],
     },
     {
