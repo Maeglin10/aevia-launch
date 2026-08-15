@@ -16,6 +16,14 @@ import fs from "node:fs";
 import path from "node:path";
 import { chromium } from "playwright";
 
+/*
+  La marque de chaque thème, extraite de son repli `clientName(...) ?? "X"`.
+  Vérifier que le nom du client est présent ne suffit pas : une page peut
+  porter les deux — impact-77 affichait « HOROLOGS.LUXE » en pied de page
+  alors que le nom du client figurait plus haut.
+*/
+const MARQUES = JSON.parse(fs.readFileSync("/tmp/marques.json", "utf8"));
+
 const BASE = process.env.AUDIT_BASE ?? "http://127.0.0.1:3000";
 const arg = (n, d) => { const i = process.argv.indexOf(`--${n}`); return i >= 0 ? process.argv[i + 1] : d; };
 const PARALLELE = Number(arg("parallele", 4));
@@ -71,12 +79,30 @@ async function travailleur() {
       page.on("pageerror", (e) => erreurs.push(String(e).slice(0, 100)));
       await page.goto(`${BASE}/templates/${theme}/${annexe}?session=${sid}`, { waitUntil: "domcontentloaded", timeout: 40000 });
       await page.waitForTimeout(2600);
+      /*
+        Attendre que la session soit posée avant de juger : lue trop tôt, la page
+        montre encore le repli du thème, et l'on accuse une marque qui disparaît
+        une seconde plus tard. Échéance de six secondes, puis on lit quand même.
+      */
+      await page
+        .waitForFunction(() => (document.body.textContent ?? "").includes("Ateliers Vidal"), { timeout: 6000 })
+        .catch(() => {});
       await page.evaluate(async () => {
         for (let y = 0; y < document.body.scrollHeight; y += 600) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 70)); }
       });
       const vu = await page.evaluate(() => {
+        /*
+          Deux lectures, deux usages :
+          · `textContent` pour ce qui DOIT être là — il voit le document entier,
+            y compris ce qu'une animation n'a pas encore révélé ;
+          · `innerText` pour ce qui ne doit PAS s'afficher — lui seul ignore le
+            contenu des balises <style>, où traînent des commentaires du thème
+            (« AURELIA JEWELS — Design Tokens »). Trente-quatre pages ont été
+            accusées de montrer une marque invisible à l'écran.
+        */
         const t = (document.body.textContent ?? "").replace(/\s+/g, " ");
-        return { longueur: t.length, nom: t.includes("Ateliers Vidal"),
+        const vu = (document.body.innerText ?? "").replace(/\s+/g, " ");
+        return { longueur: t.length, texte: t, visible: vu, nom: t.includes("Ateliers Vidal"),
           deCote: document.documentElement.scrollWidth > document.documentElement.clientWidth + 2,
           erreur: /couldn.t load|Application error|404|introuvable/i.test(t.slice(0, 160)) };
       });
@@ -84,6 +110,8 @@ async function travailleur() {
       if (vu.erreur || vu.longueur < 300) defauts.push("page vide ou en erreur");
       if (vu.deCote) defauts.push("défile de côté");
       if (!vu.nom && vu.longueur >= 300) defauts.push("nom du client absent");
+      const marque = MARQUES[theme];
+      if (marque && vu.visible.toLowerCase().includes(marque.toLowerCase())) defauts.push(`marque de démonstration visible : ${marque}`);
       await page.close();
     } catch (e) {
       defauts.push(`plantage: ${String(e).slice(0, 70)}`);

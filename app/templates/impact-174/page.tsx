@@ -101,7 +101,7 @@ function MEMBERSHIPS_SOURCE_LIVE() {
     price: "39 €",
     period: "/mois",
     desc: "Parfait pour démarrer",
-    features: ["Accès illimité salle", "2 cours collectifs/sem", "Accès vestiaires", "Application FORGE"],
+    features: ["Accès illimité salle", "2 cours collectifs/sem", "Accès vestiaires", `Application ${clientName(sessionData) ?? "FORGE"}`],
     highlight: false,
   },
   {
@@ -109,7 +109,7 @@ function MEMBERSHIPS_SOURCE_LIVE() {
     price: "59 €",
     period: "/mois",
     desc: "Le plus populaire",
-    features: ["Accès illimité salle", "Cours illimités", "1 coaching/mois inclus", "Programme nutrition", "Application FORGE Premium"],
+    features: ["Accès illimité salle", "Cours illimités", "1 coaching/mois inclus", "Programme nutrition", `Application ${clientName(sessionData) ?? "FORGE"} Premium`],
     highlight: true,
   },
   {
@@ -117,7 +117,7 @@ function MEMBERSHIPS_SOURCE_LIVE() {
     price: "89 €",
     period: "/mois",
     desc: "Pour aller au maximum",
-    features: ["Tout FORGE inclus", "4 coachings/mois", "Plan nutrition sur-mesure", "Accès 24h/24 7j/7", "Suivi biométrique mensuel"],
+    features: [`Tout ${clientName(sessionData) ?? "FORGE"} inclus`, "4 coachings/mois", "Plan nutrition sur-mesure", "Accès 24h/24 7j/7", "Suivi biométrique mensuel"],
     highlight: false,
   },
 ];

@@ -1187,7 +1187,7 @@ function Hero() {
       >
         <Image
           src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1200&auto=format&fit=crop"))}
-          alt="Lumière Beauty — Soins premium"
+          alt={`${clientName(sessionData) ?? "Lumière Beauty"} — Soins premium`}
           fill
           className="object-cover"
           priority
@@ -1650,7 +1650,7 @@ function AtelierSection() {
             <div className="relative aspect-[3/4] rounded-3xl overflow-hidden">
               <Image
                 src={photo(3, "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?q=80&w=800&auto=format&fit=crop")}
-                alt="Atelier Lumière Beauty"
+                alt={`Atelier ${clientName(sessionData) ?? "Lumière Beauty"}`}
                 fill
                 className="object-cover"
                 unoptimized

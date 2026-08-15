@@ -45,7 +45,7 @@ export default function SolutionsPage() {
 
   return (
     <div className="py-20 bg-[#05060a]">
-      <EnteteAnnexe session={sessionData} repli="Aevia Kitchen" accueil="/templates/impact-74" />
+      <EnteteAnnexe session={sessionData} repli={`${clientName(sessionData) ?? "Aevia Kitchen"}`} accueil="/templates/impact-74" />
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <Reveal className="mb-20 text-center">
           <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic text-white leading-[1.15] pb-4">

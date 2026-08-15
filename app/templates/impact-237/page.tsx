@@ -682,7 +682,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || P.clinic}
-          alt="Cabinet Dentaire Sorrento — Nice"
+          alt={`${clientName(sessionData) ?? "Cabinet Dentaire Sorrento"} — Nice`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-hint="high"
         />

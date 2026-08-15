@@ -163,7 +163,7 @@ let projectDetails = projectDetails_SOURCE;
 
 function timeline_LIVE() {
   return [
-  { year: "2014", title: "Fondation", desc: "Création de Forme Studio à " + (clientCity({ formData: fd }) ?? "Paris") + " par deux designers industriels passionnés par le design durable." },
+  { year: "2014", title: "Fondation", desc: `Création de ${clientName(sessionData) ?? "Forme Studio"} à ` + (clientCity({ formData: fd }) ?? "Paris") + " par deux designers industriels passionnés par le design durable." },
   { year: "2016", title: "Premier prix", desc: "Red Dot Design Award pour le projet « Aéro » — ventilateur sans pale en bambou." },
   { year: "2017", title: "Expansion", desc: "Ouverture de l'atelier de prototypage dans le 11ᵉ arrondissement, équipé d'imprimantes 3D industrielles." },
   { year: "2019", title: "International", desc: "Premiers projets export avec Cassina (Italie) et Sony Design (Japon). Équipe de 6 designers." },

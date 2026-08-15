@@ -40,6 +40,7 @@ import {
   clientStats,
   clientTagline,
   clientText,
+  clientInstagram,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -2992,7 +2993,7 @@ function FooterSection() {
             }
           >
             <Camera size={16} strokeWidth={2} />
-            @cotedazurcoaching
+            @{clientInstagram(sessionData) ?? "cotedazurcoaching"}
           </a>
 
           {/* Certifications */}

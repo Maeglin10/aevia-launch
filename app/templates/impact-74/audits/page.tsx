@@ -45,7 +45,7 @@ export default function AuditsPage() {
 
   return (
     <div className="py-20 bg-[#05060a]">
-      <EnteteAnnexe session={sessionData} repli="Aevia Kitchen" accueil="/templates/impact-74" />
+      <EnteteAnnexe session={sessionData} repli={`${clientName(sessionData) ?? "Aevia Kitchen"}`} accueil="/templates/impact-74" />
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-32 items-center">
           <div className="lg:col-span-5">

@@ -40,7 +40,7 @@ export default function PricingPage() {
 
   return (
     <div className="py-20 bg-[#05060a]">
-      <EnteteAnnexe session={sessionData} repli="Aevia Kitchen" accueil="/templates/impact-74" />
+      <EnteteAnnexe session={sessionData} repli={`${clientName(sessionData) ?? "Aevia Kitchen"}`} accueil="/templates/impact-74" />
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <Reveal className="text-center mb-24 max-w-2xl mx-auto">
           <span className="text-[10px] uppercase tracking-[0.5em] font-black text-emerald-500 mb-6 block">

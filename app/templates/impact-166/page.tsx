@@ -1176,7 +1176,7 @@ return (
         >
           <img
             src={photo(1, "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1400&auto=format&fit=crop")}
-            alt="Iris Studio hero"
+            alt={`${clientName(sessionData) ?? "Iris Studio"} hero`}
             style={{
               width: "100%",
               height: "100%",

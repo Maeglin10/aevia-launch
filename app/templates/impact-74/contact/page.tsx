@@ -47,7 +47,7 @@ export default function ContactPage() {
 
   return (
     <div className="py-20 bg-[#05060a]">
-      <EnteteAnnexe session={sessionData} repli="Aevia Kitchen" accueil="/templates/impact-74" />
+      <EnteteAnnexe session={sessionData} repli={`${clientName(sessionData) ?? "Aevia Kitchen"}`} accueil="/templates/impact-74" />
       <div className="max-w-[1000px] mx-auto px-6">
         <Reveal className="text-center mb-16">
           <span className="text-[10px] uppercase tracking-[0.5em] font-black text-emerald-500 mb-6 block">

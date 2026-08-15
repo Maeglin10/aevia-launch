@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -46,7 +47,7 @@ export default function About() {
   ];
   return (
     <div>
-      <PageHero eyebrow="Notre histoire" title="Fait main, avec amour." subtitle="Pétales & Co est née d'une conviction simple : les fleurs ne devraient jamais être un détail. Elles racontent nos moments les plus précieux." />
+      <PageHero eyebrow="Notre histoire" title="Fait main, avec amour." subtitle={`${clientName(sessionData) ?? "Pétales & Co"} est née d'une conviction simple : les fleurs ne devraient jamais être un détail. Elles racontent nos moments les plus précieux.`} />
       <section style={{ background: C.bg, padding: "72px 24px" }}>
         <div style={{ maxWidth: 720, margin: "0 auto" }}>
           {[

@@ -368,7 +368,7 @@ function ContactForm() {
                   </div>
                 </div>
                 <span style={{ fontSize: 13, color: C.textMuted, lineHeight: 1.55 }}>
-                  J'accepte que mes données soient utilisées pour traiter ma demande d'inscription et être contacté(e) par Ananda Flow. Conformément au RGPD, vous pouvez exercer vos droits à tout moment via{" "}
+                  J'accepte que mes données soient utilisées pour traiter ma demande d'inscription et être contacté(e) par {fd?.businessName ?? "Ananda Flow"}. Conformément au RGPD, vous pouvez exercer vos droits à tout moment via{" "}
                   <Link href="/templates/impact-31/legal" style={{ color: C.accent, textDecoration: "none" }}>notre politique de confidentialité</Link>. *
                 </span>
               </label>
@@ -525,7 +525,7 @@ function InfoPanel() {
           allowFullScreen
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
-          title="Localisation Ananda Flow Studio — Lyon 2e"
+          title={`Localisation ${fd?.businessName ?? "Ananda Flow Studio"} — ${fd?.city ?? "Lyon 2e"}`}
         />
       </motion.div>
 
