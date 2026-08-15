@@ -5,6 +5,18 @@ import { resolveList } from "@/lib/templates/resolveList";
 
 import React, { useState, useEffect, useRef } from "react";
 import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+  useInView,
+} from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import { ChevronRight, ArrowRight, Shield, Zap, Activity, Globe, Lock, BarChart, Settings, Users, Server, CheckCircle2, Menu, X, Play, Star } from "lucide-react";
+
+import "../premium.css";
+import {
   clientCity,
   clientEyebrow,
   clientFaq,

@@ -1,7 +1,6 @@
 "use client";
 import {
   clientCity,
-  clientName,
   clientServices,
 } from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
@@ -70,7 +69,7 @@ export default function FeaturesPage() {
         <div className="max-w-6xl mx-auto bg-[#0D1117]/90 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-4 flex items-center justify-between">
           <Link href="/templates/impact-18" className="flex items-center gap-2 cursor-pointer">
             <div className="w-8 h-8 bg-gradient-to-br from-[#3B82F6] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Layers className="w-4 h-4 text-white" /></div>
-            <span className="text-white font-bold text-lg">{clientName(sessionData) ?? "Streamline"}</span>
+            <span className="text-white font-bold text-lg">Streamline</span>
           </Link>
           <div className="hidden md:flex items-center gap-8 text-gray-400 text-sm font-medium">
             <Link href="/templates/impact-18/features" className="text-[#3B82F6] font-bold hover:text-white transition-colors">Fonctionnalités</Link>
@@ -91,7 +90,7 @@ export default function FeaturesPage() {
         {mobileOpen && (
           <motion.div className="fixed inset-0 z-[100] bg-[#0D1117] flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
             <div className="flex items-center justify-between mb-12">
-              <span className="text-white font-bold text-xl">{clientName(sessionData) ?? "Streamline"}</span>
+              <span className="text-white font-bold text-xl">Streamline</span>
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
             <Link href="/templates/impact-18" className="block text-white text-2xl font-bold mb-6">Accueil</Link>
@@ -149,7 +148,7 @@ export default function FeaturesPage() {
           <div className="md:col-span-2">
             <Link href="/templates/impact-18" className="flex items-center gap-2 mb-4 cursor-pointer">
               <div className="w-8 h-8 bg-gradient-to-br from-[#3B82F6] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Layers className="w-4 h-4 text-white" /></div>
-              <span className="text-white font-bold text-lg">{clientName(sessionData) ?? "Streamline"}</span>
+              <span className="text-white font-bold text-lg">Streamline</span>
             </Link>
             <p className="text-gray-500 text-sm leading-relaxed">La plateforme de productivité pour les équipes modernes. Gérez tout votre travail en un seul endroit.</p>
           </div>
@@ -177,7 +176,7 @@ export default function FeaturesPage() {
           </div>
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex justify-between text-xs text-gray-600">
-          <span>© 2026 {clientName(sessionData) ?? "Streamline"}. Tous droits réservés.</span>
+          <span>© 2026 Streamline. Tous droits réservés.</span>
           <span>Made in 🇫🇷 {clientCity(sessionData) ?? "Paris"}</span>
         </div>
       </footer>

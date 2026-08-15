@@ -243,7 +243,7 @@ return (
                 ) : (
                   <>
                     <Coffee className="w-5 h-5 text-[#C9A86C]" />
-                    <span style={{ fontFamily: "'Playfair Display', serif" }}>{clientName(sessionData) ?? "Le Matin Doré"}</span>
+                    <span style={{ fontFamily: "'Playfair Display', serif" }}>Le Matin Doré</span>
                   </>
                 )}
               </div>
@@ -389,7 +389,7 @@ return (
                   Un rêve de<br /><em>café parfait</em><br />devenu réalité
                 </>}</h2>
                 <p className="text-[#6B5A40] leading-relaxed mb-6">{c?.aboutText ?? <>
-                  {clientName(sessionData) ?? "Le Matin Doré"} est né de l&apos;obsession de Sarah Morin pour le café de spécialité. Après des années à voyager de plantation en plantation, elle a voulu créer un lieu où chaque tasse serait une invitation au ralentissement.
+                  Le Matin Doré est né de l&apos;obsession de Sarah Morin pour le café de spécialité. Après des années à voyager de plantation en plantation, elle a voulu créer un lieu où chaque tasse serait une invitation au ralentissement.
                 </>}</p>
                 <p className="text-[#6B5A40] leading-relaxed mb-10">
                   Nous torréfions nous-mêmes nos grains, sélectionnés auprès de producteurs engagés dans une agriculture durable et juste. Nos pâtisseries changent selon les saisons et l&apos;humeur du chef.
@@ -633,7 +633,7 @@ return (
             <div className="md:col-span-2">
               <div className="flex items-center gap-2 mb-4">
                 <Coffee className="w-5 h-5 text-[#C9A86C]" />
-                <span className="text-[#FDFAF5] text-xl font-normal" style={{ fontFamily: "'Playfair Display', serif" }}>{clientName(sessionData) ?? "Le Matin Doré"}</span>
+                <span className="text-[#FDFAF5] text-xl font-normal" style={{ fontFamily: "'Playfair Display', serif" }}>Le Matin Doré</span>
               </div>
               <p className="text-sm leading-relaxed max-w-xs">Café de spécialité, pâtisseries maison, et un accueil chaleureux. Depuis 2018 au cœur du 11e.</p>
             </div>

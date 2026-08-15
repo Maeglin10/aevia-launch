@@ -3,6 +3,29 @@
 import React, { useRef, useState, useEffect, FormEvent } from 'react';
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from 'framer-motion';
 import {
+  ArrowRight,
+  CheckCircle2,
+  ChevronRight,
+  Play,
+  Star,
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  Zap,
+  Settings,
+  Wrench,
+  Shield,
+  Award,
+  ChevronDown,
+  ChevronUp,
+  Cpu,
+  Activity,
+  BatteryCharging,
+  Gauge
+} from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientCity,
   clientFaq,
   clientHeroLine,

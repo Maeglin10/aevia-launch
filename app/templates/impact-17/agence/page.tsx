@@ -1,7 +1,6 @@
 "use client";
 import {
   clientCity,
-  clientName,
 } from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -71,7 +70,7 @@ export default function AgencePage() {
             <span className="text-[#C46A3E] text-xs tracking-widest uppercase mb-4 block">Notre histoire</span>
             <h2 className="text-4xl md:text-5xl font-light leading-tight mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>Bâtir l'avenir sur des fondations durables.</h2>
             <p className="text-[#1A1510]/70 text-lg leading-relaxed mb-4">
-              Fondée en 2004 par Nadia {clientName(sessionData) ?? "Kéops"}, l'agence s'est forgé une solide réputation nationale dans la conception d'architectures bioclimatiques et d'espaces durables.
+              Fondée en 2004 par Nadia Kéops, l'agence s'est forgé une solide réputation nationale dans la conception d'architectures bioclimatiques et d'espaces durables.
             </p>
             <p className="text-[#1A1510]/50 text-sm leading-relaxed mb-6">
               Nos projets privilégient les circuits courts pour l'approvisionnement en matériaux biosourcés : la pierre sèche du Gard, le bois Douglas du Morvan et la terre cuite de l'arrière-pays méditerranéen. En alliant savoir-faire artisanal traditionnel et technologies numériques passives, nous façonnons des édifices à haute efficacité thermique et à empreinte environnementale minimale.
@@ -114,7 +113,7 @@ export default function AgencePage() {
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div className="max-w-6xl mx-auto bg-[#F5F2ED]/92 backdrop-blur-md border border-[#C46A3E]/20 rounded-2xl px-6 py-4 flex items-center justify-between shadow-sm">
           <Link href="/templates/impact-17" className="text-[#1A1510] tracking-wide text-lg font-medium cursor-pointer" style={{ fontFamily: "'Libre Baskerville', serif" }}>
-            {clientName(sessionData) ?? "Kéops"}
+            Kéops
           </Link>
           <div className="hidden md:flex items-center gap-8 text-[#1A1510]/60 text-sm font-medium">
             {[
@@ -144,7 +143,7 @@ export default function AgencePage() {
         {mobileOpen && (
           <motion.div className="fixed inset-0 z-[100] bg-[#F5F2ED] flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
             <div className="flex items-center justify-between mb-12">
-              <span className="text-[#1A1510] text-xl font-medium" style={{ fontFamily: "'Libre Baskerville', serif" }}>{clientName(sessionData) ?? "Kéops"}</span>
+              <span className="text-[#1A1510] text-xl font-medium" style={{ fontFamily: "'Libre Baskerville', serif" }}>Kéops</span>
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-[#1A1510]" /></button>
             </div>
             {[
@@ -179,7 +178,7 @@ export default function AgencePage() {
       <footer className="bg-[#1A1510] py-16 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10 mb-12">
           <div>
-            <p className="text-white text-xl mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>{clientName(sessionData) ?? "Kéops"}</p>
+            <p className="text-white text-xl mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>Kéops</p>
             <p className="text-white/30 text-sm leading-relaxed">Agence d'architecture fondée à {clientCity(sessionData) ?? "Paris"}. Projets résidentiels, culturels et mixtes.</p>
           </div>
           {[
@@ -210,7 +209,7 @@ export default function AgencePage() {
           ))}
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between text-xs text-white/20 gap-4">
-          <span>© 2026 {clientName(sessionData) ?? "Kéops"} Architecture. Tous droits réservés.</span>
+          <span>© 2026 Kéops Architecture. Tous droits réservés.</span>
           <div className="flex gap-6">
             <Link href="/templates/impact-17/legal" className="hover:text-[#C46A3E] transition-colors">Mentions légales</Link>
             <Link href="/templates/impact-17/legal" className="hover:text-[#C46A3E] transition-colors">Confidentialité</Link>

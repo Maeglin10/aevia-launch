@@ -7,6 +7,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import {
+  Reveal,
+  rafraichirPartage,
+} from "./shared";
+import { resolveList } from "@/lib/templates/resolveList";
+import {
+  DWELL,
+  useSlides,
+  BlurThrough,
+  Retint,
+  SlideIndex,
+  HairlineArrows,
+} from "@/lib/templates/hero-kit-2";
+import { MosaicPush } from "@/lib/templates/hero-kit-3";
+import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -16,6 +30,7 @@ import {
   clientServices,
   clientTeam,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

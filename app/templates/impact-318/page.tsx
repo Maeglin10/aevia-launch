@@ -4,6 +4,29 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
+  AlertTriangle,
+  ArrowRight,
+  CheckCircle,
+  ChevronDown,
+  Droplets,
+  FileText,
+  Flame,
+  HardHat,
+  Mail,
+  MapPin,
+  Phone,
+  Shield,
+  ShieldCheck,
+  Sparkles,
+  Star,
+  Target,
+  Thermometer,
+  Wind,
+} from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
+import { InvertSweep } from "@/lib/templates/hero-kit-3";
+import {
   clientCertifications,
   clientCity,
   clientCodePostalVille,

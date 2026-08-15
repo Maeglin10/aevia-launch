@@ -3,6 +3,32 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  MotionValue,
+  useMotionValue,
+} from 'framer-motion';
+import {
+  ArrowRight,
+  ChevronDown,
+  Heart,
+  Shield,
+  Clock,
+  MapPin,
+  Phone,
+  Calendar,
+  Quote,
+  Star,
+  User,
+  FileText,
+  Video,
+  BookOpen,
+  CheckCircle,
+} from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientAccrocheRestante,
   clientAddress,
   clientBookingUrl,
@@ -2532,7 +2558,7 @@ function FooterSection() {
             }}
           >
             <Heart size={20} color="rgba(160,210,170,0.9)" strokeWidth={1.8} />
-            {clientName(sessionData) ?? "Dr. S. Renard"}
+            Dr. S. Renard
           </div>
           <p
             style={{

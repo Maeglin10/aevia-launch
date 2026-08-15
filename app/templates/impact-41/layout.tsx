@@ -215,7 +215,7 @@ export default function VMMaisonLayout({ children }: { children: React.ReactNode
                 textDecoration: 'none',
               }}
             >
-              {clientName(__layoutSession) ?? "VM Maison"}
+              VM Maison
             </Link>
             <div
               style={{

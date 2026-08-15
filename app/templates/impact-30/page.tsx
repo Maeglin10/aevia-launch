@@ -5,6 +5,29 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
+  Star,
+  Phone,
+  Mail,
+  MapPin,
+  ChevronDown,
+  ChevronRight,
+  Shield,
+  Award,
+  Heart,
+  Smile,
+  CheckCircle,
+  Calendar,
+  Menu,
+  X,
+  Users,
+  ThumbsUp,
+} from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
+import {
+  useHeroSelector, HeroStage, Rise, SelectorRail,
+  heroSectionStyle, railResponsiveCSS, EASE_3, EASE_4, BEAT,
+} from "@/lib/templates/hero-kit";
+import {
   clientCity,
   clientFaq,
   clientHeroLine,
@@ -16,6 +39,7 @@ import {
   clientStats,
   clientTeam,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :

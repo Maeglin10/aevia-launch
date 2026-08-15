@@ -4,6 +4,18 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
 import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionTemplate,
+  useInView,
+  useMotionValue,
+  useSpring,
+  AnimatePresence,
+} from 'framer-motion';
+import { useEffect, useRef, useState, useCallback } from 'react';
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientCity,
   clientEyebrow,
   clientHeroLine,
@@ -2184,7 +2196,7 @@ function BlogPage({ blogSlug, setBlogSlug }: { blogSlug: string | null; setBlogS
               </p>
             ))}
             <div style={{ borderTop: `1px solid ${GOLD}40`, marginTop: '2rem', paddingTop: '1.5rem', fontFamily: SERIF, fontStyle: 'italic', fontSize: '0.95rem', color: `${DARK}70` }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-11.texte") ?? (<>
-              Written by the editorial team of the {clientName(sessionData) ?? "Grand Palais"}. The Journal of the palace, published throughout the year.
+              Written by the editorial team of the Grand Palais. The Journal of the palace, published throughout the year.
             </>)}</div>
           </div>
         </section>

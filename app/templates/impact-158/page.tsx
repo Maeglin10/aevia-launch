@@ -295,7 +295,7 @@ export default function AtlasPage() {
                   style={{ height: 28, maxWidth: 140, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>{clientName(sessionData) ?? "Atlas"}</span>
+                <span className="text-xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>Atlas</span>
               )}
               <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
@@ -479,12 +479,12 @@ export default function AtlasPage() {
           </Reveal>
           <div>
             <Reveal delay={0.1}>
-              <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#C0392B)] mb-4">À propos d&apos;{clientName(sessionData) ?? "Atlas"}</p>
+              <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#C0392B)] mb-4">À propos d&apos;Atlas</p>
               <h2 className="text-4xl md:text-5xl font-normal leading-tight mb-6" style={{ fontFamily: "'Playfair Display', serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
                 Le voyage comme<br /><em>littérature</em>
               </>}</h2>
               <p className="text-[#6B5A40] leading-relaxed mb-5" style={{ fontFamily: "'EB Garamond', serif", fontSize: "18px" }}>{c?.aboutText ?? <>
-                {clientName(sessionData) ?? "Atlas"} est né d&apos;une conviction simple : les voyages méritent mieux que des guides pratiques. Chaque lieu a une histoire, une texture, une odeur. Chaque rencontre change quelque chose.
+                Atlas est né d&apos;une conviction simple : les voyages méritent mieux que des guides pratiques. Chaque lieu a une histoire, une texture, une odeur. Chaque rencontre change quelque chose.
               </>}</p>
               <p className="text-[#6B5A40] leading-relaxed mb-8" style={{ fontFamily: "'EB Garamond', serif", fontSize: "18px" }}>
                 Depuis 2012, nous publions des récits de voyage qui prennent le temps de raconter — l&apos;ennui du long-courrier, la chaleur du thé offert par un inconnu, le vertige du sommet. Pas des conseils, des présences.
@@ -510,7 +510,7 @@ export default function AtlasPage() {
           <Reveal>
             <Globe className="w-10 h-10 text-[var(--brand,#C0392B)] mx-auto mb-6" />
             <h2 className="text-3xl md:text-4xl font-normal mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "newsletter.titre") ?? (<>
-              La lettre d&apos;{clientName(sessionData) ?? "Atlas"}
+              La lettre d&apos;Atlas
             </>)}</h2>
             <p className="text-[#6B5A40] leading-relaxed mb-8" style={{ fontFamily: "'EB Garamond', serif", fontSize: "18px" }}>
               Chaque mois, un récit inédit, une destination à découvrir et trois choses que nous avons lues. Pas de spam, pas de publicité. Seulement le voyage.
@@ -537,7 +537,7 @@ export default function AtlasPage() {
             <div className="md:col-span-2">
               <div className="flex items-center gap-2 mb-4">
                 <Globe className="w-5 h-5 text-[var(--brand,#C0392B)]" />
-                <span className="text-[#F5F0E8] text-xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>{clientName(sessionData) ?? "Atlas"}</span>
+                <span className="text-[#F5F0E8] text-xl font-bold" style={{ fontFamily: "'Playfair Display', serif" }}>Atlas</span>
               </div>
               <p className="text-sm leading-relaxed max-w-xs" style={{ fontFamily: "'EB Garamond', serif", fontSize: "16px" }}>
                 Journal de voyage littéraire. Des récits qui prennent le temps de raconter.

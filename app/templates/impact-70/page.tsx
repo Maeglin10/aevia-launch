@@ -9,6 +9,12 @@ import { useRouter } from "next/navigation";
 import { Music, Sparkles, Disc, Heart, MapPin, Play } from "lucide-react";
 import { motion } from "framer-motion";
 import {
+  EVENTS,
+  ParallaxImg,
+  Reveal,
+  rafraichirPartage,
+} from "./shared";
+import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -19,6 +25,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

@@ -3,6 +3,29 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  useMotionValue,
+} from 'framer-motion';
+import {
+  Heart,
+  Sparkles,
+  Flower2,
+  MapPin,
+  Star,
+  ChevronDown,
+  ArrowRight,
+  Camera,
+  ExternalLink,
+  Check,
+  Phone,
+  Mail,
+  Calendar,
+} from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientAddress,
   clientCity,
   clientEmail,
@@ -548,7 +571,7 @@ function HeroSection() {
           style={{ marginTop: 46, display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}
         >
           <a href="#contact" style={{ textDecoration: 'none' }}>
-            <RoseButton filled>{clientName(sessionData) ?? "Consultation gratuite"}</RoseButton>
+            <RoseButton filled>Consultation gratuite</RoseButton>
           </a>
           <a href="#services" style={{ textDecoration: 'none' }}>
             <RoseButton>Nos formules</RoseButton>

@@ -3,6 +3,35 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  MotionValue,
+  useMotionValue,
+} from 'framer-motion';
+import {
+  ArrowRight,
+  ChevronDown,
+  Zap,
+  Shield,
+  Wifi,
+  Star,
+  Quote,
+  Phone,
+  MapPin,
+  Clock,
+  CheckCircle,
+  Award,
+  ClipboardList,
+  Wrench,
+  FileCheck,
+  Home,
+  Building2,
+  Smartphone,
+} from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientAccrocheRestante,
   clientCertifications,
   clientCity,

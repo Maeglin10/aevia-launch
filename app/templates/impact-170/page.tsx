@@ -4,6 +4,15 @@ import { resolveList } from "@/lib/templates/resolveList";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  useMotionValue,
+  useSpring,
+  AnimatePresence,
+} from "framer-motion";
+import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,

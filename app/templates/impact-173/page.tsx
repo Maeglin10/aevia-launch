@@ -5,6 +5,32 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
+  ArrowRight,
+  HardHat,
+  Building2,
+  Truck,
+  Wrench,
+  Shield,
+  Clock,
+  Users,
+  CheckCircle,
+  Phone,
+  Mail,
+  MapPin,
+  Star,
+  ChevronDown,
+  Award,
+  Layers,
+  Zap,
+  BarChart2,
+  FileText,
+  Camera,
+  MessageSquare,
+  Link2,
+  Users2,
+} from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientCity,
   clientEyebrow,
   clientFaq,

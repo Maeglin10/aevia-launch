@@ -4,6 +4,26 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import {
+  ArrowRight,
+  Calculator,
+  CheckCircle2,
+  ChevronDown,
+  Clock,
+  Droplets,
+  Home as HomeIcon,
+  Mail,
+  MapPin,
+  Phone,
+  Shield,
+  Sparkles,
+  Star,
+  User,
+} from "lucide-react";
+import { resolveList } from "@/lib/templates/resolveList";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
+import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { PanelDrop } from "@/lib/templates/hero-kit-3";
+import {
   clientAddress,
   clientCity,
   clientEmail,

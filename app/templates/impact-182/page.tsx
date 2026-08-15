@@ -469,7 +469,7 @@ export default function BatirSolidePage() {
       <footer id="contact" className="bg-[#0f0905] pt-20 pb-10 px-6 border-t border-white/5">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="flex items-center gap-2.5 mb-5"><HardHat className="w-5 h-5 text-[var(--brand,#d4a96a)]" /><span className="font-black text-white text-sm uppercase">{clientName(sessionData) ?? "Bâtir"} Solide</span></div>
+            <div className="flex items-center gap-2.5 mb-5"><HardHat className="w-5 h-5 text-[var(--brand,#d4a96a)]" /><span className="font-black text-white text-sm uppercase">Bâtir Solide</span></div>
             <p className="text-white/25 text-sm leading-relaxed">Maçon & Gros Œuvre · Région PACA. Construction, extension, ravalement depuis 1999.</p>
           </div>
           {[

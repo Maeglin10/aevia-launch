@@ -270,7 +270,7 @@ export default function Impact53Layout({
                 marginBottom: "1.5rem",
               }}
             >
-              {clientName(__layoutSession) ?? "MESH"}<span style={{ color: C.red }}>·</span>WARP
+              MESH<span style={{ color: C.red }}>·</span>WARP
             </div>
             <p
               style={{

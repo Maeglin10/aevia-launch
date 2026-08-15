@@ -6,6 +6,12 @@ import { motion, AnimatePresence, useScroll, useTransform, useInView } from "fra
 import Image from "next/image"
 import Link from "next/link"
 import {
+  Dumbbell, Zap, Target, Timer, Flame, Trophy, Star, ArrowRight,
+  ChevronRight, Menu, X, Users, Activity, Heart, Calendar,
+  CheckCircle, Clock, MapPin, Phone, Mail, Instagram
+} from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientAddress,
   clientCity,
   clientHeroLine,
@@ -466,7 +472,7 @@ export default function Impact174Page() {
             ))}
           </div>
           <Reveal delay={0.3}>
-            <p className="text-center text-xs text-[#f5f5f5]/30 mt-6 uppercase tracking-widest">Planning complet disponible sur l'app {clientName(sessionData) ?? "FORGE"} · Inscription requise</p>
+            <p className="text-center text-xs text-[#f5f5f5]/30 mt-6 uppercase tracking-widest">Planning complet disponible sur l'app FORGE · Inscription requise</p>
           </Reveal>
         </div>
       </section>
@@ -566,7 +572,7 @@ export default function Impact174Page() {
                     ))}
                   </ul>
                   <button className={`w-full py-4 font-bold uppercase tracking-widest text-sm cursor-pointer transition-all ${m.highlight ? "bg-[var(--brand,#84cc16)] text-[#0a0a0a] hover:bg-[#a3e635]" : "border border-[#f5f5f5]/20 text-[#f5f5f5]/60 hover:border-[var(--brand,#84cc16)] hover:text-[var(--brand,#84cc16)]"}`} style={{ fontFamily: "'Oswald', sans-serif" }}>
-                    Rejoindre {clientName(sessionData) ?? "FORGE"}
+                    Rejoindre FORGE
                   </button>
                 </div>
               </Reveal>

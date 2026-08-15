@@ -3,6 +3,30 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  MotionValue,
+  useMotionValue,
+} from 'framer-motion';
+import {
+  Activity,
+  Baby,
+  Zap,
+  ArrowRight,
+  ChevronDown,
+  Star,
+  Quote,
+  MapPin,
+  Phone,
+  Clock,
+  CreditCard,
+  CheckCircle,
+  ExternalLink,
+} from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientAddress,
   clientCity,
   clientCodePostalVille,
@@ -2374,7 +2398,7 @@ function FooterSection() {
                 flexShrink: 0,
               }}
             />
-            {clientName(sessionData) ?? "Cabinet Soler"} · D.O.
+            Cabinet Soler · D.O.
           </div>
           <p
             style={{

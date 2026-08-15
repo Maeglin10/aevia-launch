@@ -6,6 +6,22 @@ import { tr } from "@/lib/templates/uiStrings";
 import React, {useRef, useState, useEffect} from 'react';
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import {
+  C,
+  FONT_SYNE,
+  FONT_MONO,
+  PROJECTS,
+  STATS,
+  HeroWordReveal,
+  MarqueeBelt,
+  MagneticCTA,
+  ProjectAccordion,
+  StatCounter,
+  SectionLabel,
+  SectionHeading,
+} from "./shared";
+import { DWELL, useSlides, BentoCascade, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
+import { DifferentialExit } from "@/lib/templates/hero-kit-3";
+import {
   clientAccrocheRestante,
   clientCity,
   clientList,
@@ -14,6 +30,7 @@ import {
   clientServices,
   clientTagline,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 let sessionData: any = null;

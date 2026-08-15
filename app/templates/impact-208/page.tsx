@@ -3,6 +3,21 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import {
+  motion,
+  useScroll,
+  useTransform,
+  useSpring,
+  useInView,
+  useMotionValue,
+  AnimatePresence,
+} from 'framer-motion'
+import { TemplateIcon } from '@/components/TemplateIcon'
+import { resolveList } from "@/lib/templates/resolveList";
+import {
+  useHeroSelector, HeroStage, Scrim, GhostMark, Rise, SelectorRail,
+  heroSectionStyle, railResponsiveCSS, alpha, EASE_3, EASE_4, BEAT,
+} from "@/lib/templates/hero-kit";
+import {
   clientAddress,
   clientCity,
   clientHeroLine,
@@ -286,7 +301,7 @@ function BlueprintHero() {
           <Rise beat="first" style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
             <span style={{ width: 40, height: 2, background: C.yellow, display: "block" }} />
             <span style={{ fontFamily: FONT_BODY, fontSize: 11, letterSpacing: "0.3em", textTransform: "uppercase", color: C.yellow, fontWeight: 700 }}>
-              {clientName(sessionData) ?? "Ferretti Construction"} · Depuis 1986
+              Ferretti Construction · Depuis 1986
             </span>
           </Rise>
 

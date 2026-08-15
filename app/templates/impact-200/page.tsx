@@ -2,6 +2,38 @@
 // @ts-nocheck
 import React, { useState, useEffect, useRef } from "react"
 import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+  useInView,
+  useSpring,
+  useMotionValue,
+  useAnimationFrame,
+} from "framer-motion"
+import Image from "next/image"
+import Link from "next/link"
+import {
+  Heart,
+  Star,
+  Camera,
+  Music,
+  Flower2,
+  Calendar,
+  Clock,
+  Phone,
+  Mail,
+  MapPin,
+  Menu,
+  X,
+  ArrowRight,
+  ChevronRight,
+  Users,
+  Award,
+  Check,
+} from "lucide-react"
+import { resolveList } from "@/lib/templates/resolveList"
+import {
   clientAddress,
   clientCity,
   clientHeroLine,

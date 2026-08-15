@@ -631,7 +631,7 @@ function LegalPage() {
           <div>
             <div className="text-[var(--brand,#C9A86C)] text-[10px] font-bold uppercase mb-2">AGRÉMENTS FINANCIERS</div>
             <p className="leading-relaxed font-sans text-xs text-white/40">
-              {clientName(sessionData) ?? "Summit Capital"} est une marque détenue par Aevia WS. Ce site présente des informations indicatives et ne constitue pas une offre publique d'investissement, un conseil en gestion de patrimoine ou une sollicitation financière réglementée.
+              Summit Capital est une marque détenue par Aevia WS. Ce site présente des informations indicatives et ne constitue pas une offre publique d'investissement, un conseil en gestion de patrimoine ou une sollicitation financière réglementée.
             </p>
           </div>
         </div>

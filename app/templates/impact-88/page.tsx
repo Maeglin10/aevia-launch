@@ -7,6 +7,33 @@ import Image from "next/image"
 import Link from "next/link"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  motion,
+  AnimatePresence,
+  useScroll,
+  useTransform,
+  useInView,
+  useSpring,
+  useMotionValue,
+} from "framer-motion"
+import {
+
+  Sparkles,
+  Star,
+  Clock,
+  Calendar,
+  Phone,
+  Mail,
+  MapPin,
+  Heart,
+  ArrowRight,
+  ChevronRight,
+  Menu,
+  X,
+  Award,
+  Users,
+  Check,
+} from "lucide-react"
+import {
   clientAccrocheRestante,
   clientAddress,
   clientCity,
@@ -1641,7 +1668,7 @@ function AboutSection() {
                 className="text-[15px] text-[#9D174D] leading-[1.8] font-[300] mb-6"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
-                Chez {clientName(sessionData) ?? "Velvet Nails"}, nous croyons que la manucure est une extension de votre personnalité. Notre salon parisien a été pensé comme un havre de détente où le soin de l'ongle naturel rencontre l'excellence artistique.
+                Chez Velvet Nails, nous croyons que la manucure est une extension de votre personnalité. Notre salon parisien a été pensé comme un havre de détente où le soin de l'ongle naturel rencontre l'excellence artistique.
               </p>
               <p
                 className="text-[15px] text-[#9D174D] leading-[1.8] font-[300] mb-8"

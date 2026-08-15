@@ -6,14 +6,29 @@ import { motion, useScroll, useTransform, AnimatePresence, useReducedMotion } fr
 import { Globe, Star, Check } from "lucide-react";
 import Link from "next/link";
 import {
+  C,
+  SERIF,
+  SANS,
+  WINE_REGIONS as WINE_REGIONS_DEMO,
+  EVENTS,
+  MEMBERSHIP_TIERS,
+  TESTIMONIALS as TESTIMONIALS_DEMO,
+  FAQS as FAQS_DEMO,
+  WineBottleSVG,
+  FAQItem,
+  SectionReveal,
+} from "./shared";
+import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientHeroLine,
   clientCity,
   clientFaq,
-  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,
   clientStats,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :

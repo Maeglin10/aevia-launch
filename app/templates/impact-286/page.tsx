@@ -3,6 +3,27 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  MotionValue,
+  useMotionValue,
+} from 'framer-motion';
+import {
+  ArrowRight,
+  Briefcase,
+  ChevronDown,
+  FileText,
+  MapPin,
+  Phone,
+  Quote,
+  Scale,
+  Shield,
+  Star,
+} from 'lucide-react';
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientAddress,
   clientBookingUrl,
   clientCity,
@@ -2150,7 +2171,7 @@ function PracticalSection() {
       lignes: [
         <span key="a1" style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
           <MapPin size={16} color={C.gold} strokeWidth={1.5} style={{ flexShrink: 0, marginTop: 2 }} />
-          <span>{clientName(sessionData) ?? "Cabinet Vidal"} — Droit Social<br />{clientAddress(sessionData) ?? "14, quai Perrache"}<br />69002 {clientCity(sessionData) ?? "Lyon"} Confluence</span>
+          <span>Cabinet Vidal — Droit Social<br />{clientAddress(sessionData) ?? "14, quai Perrache"}<br />69002 {clientCity(sessionData) ?? "Lyon"} Confluence</span>
         </span>,
         <span key="a2" style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 12 }}>
           <Phone size={16} color={C.gold} strokeWidth={1.5} style={{ flexShrink: 0 }} />

@@ -609,7 +609,7 @@ export default function VoltProPage() {
               <div className="w-7 h-7 bg-[#facc15] flex items-center justify-center flex-shrink-0">
                 <Zap className="w-3.5 h-3.5 text-black fill-black" />
               </div>
-              <span className="font-extrabold tracking-[0.15em] uppercase">{clientName(sessionData) ?? "VoltPro Électricité"}</span>
+              <span className="font-extrabold tracking-[0.15em] uppercase">VoltPro Électricité</span>
             </div>
             <p className="text-sm text-white/25 leading-relaxed mb-6">{clientTrade(sessionData) ?? "Électricien"} qualifié RGE · Île-de-France. Installation, conformité, domotique, dépannage urgent.</p>
             <div className="flex items-center gap-2 text-[#facc15] text-sm font-bold">

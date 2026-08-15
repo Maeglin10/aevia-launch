@@ -476,7 +476,7 @@ export default function StudioPelikanPage() {
                   Nos <em>Films</em>
                 </>)}</h1>
                 <p className="text-white/40 text-lg max-w-2xl leading-relaxed">
-                  Depuis 2012, {clientName(sessionData) ?? "Studio Pelikan"} développe, produit et accompagne des œuvres cinématographiques
+                  Depuis 2012, Studio Pelikan développe, produit et accompagne des œuvres cinématographiques
                   exigeantes. Chaque film est une aventure humaine, artistique et technique unique.
                 </p>
               </Reveal>

@@ -1,9 +1,6 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import {
-  clientName,
-  clientProducts,
-} from "@/lib/templates/clientContent";
+import { clientProducts } from "@/lib/templates/clientContent";
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -173,7 +170,7 @@ export default function Page() {
             className="text-black tracking-[0.3em] text-sm uppercase font-light cursor-pointer"
             style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.1rem" }}
           >
-            {clientName(sessionData) ?? "Noir Couture"}
+            Noir Couture
           </Link>
           <div className="hidden md:flex items-center gap-10 text-black text-xs tracking-widest uppercase font-light">
             {[
@@ -211,7 +208,7 @@ export default function Page() {
         {mobileOpen && (
           <motion.div className="fixed inset-0 z-[100] bg-black flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
             <div className="flex items-center justify-between mb-12">
-              <span className="text-white tracking-widest text-xl" style={{ fontFamily: "'Playfair Display', serif" }}>{clientName(sessionData) ?? "Noir Couture"}</span>
+              <span className="text-white tracking-widest text-xl" style={{ fontFamily: "'Playfair Display', serif" }}>Noir Couture</span>
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
             {[
@@ -242,7 +239,7 @@ export default function Page() {
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-4 gap-10 mb-12">
             <div>
-              <p className="text-white text-xl mb-4 tracking-widest uppercase" style={{ fontFamily: "'Playfair Display', serif", fontSize: "0.9rem" }}>{clientName(sessionData) ?? "Noir Couture"}</p>
+              <p className="text-white text-xl mb-4 tracking-widest uppercase" style={{ fontFamily: "'Playfair Display', serif", fontSize: "0.9rem" }}>Noir Couture</p>
               <p className="text-white/30 text-sm leading-relaxed">Maison de couture parisienne. Fondée en 1998.</p>
             </div>
             {[
@@ -268,7 +265,7 @@ export default function Page() {
             ))}
           </div>
           <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/20">
-            <span>© 2026 {clientName(sessionData) ?? "Noir Couture"}. Tous droits réservés.</span>
+            <span>© 2026 Noir Couture. Tous droits réservés.</span>
             <div className="flex gap-6">
               <Link
                 href="/templates/impact-12/legal"

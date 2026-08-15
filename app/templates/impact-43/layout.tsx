@@ -280,7 +280,7 @@ export default function SereneRetreatLayout({ children }: { children: React.Reac
             textDecoration: "none",
           }}
         >
-          {clientName(__layoutSession) ?? "Serene Retreat"}
+          Serene Retreat
         </Link>
         <div
           style={{

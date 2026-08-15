@@ -101,7 +101,7 @@ export default function ClosDuSoirLayout({ children }: { children: React.ReactNo
                 letterSpacing: "0.04em",
               }}
             >{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
-              {clientName(__layoutSession) ?? "Clos du Soir"}
+              Clos du Soir
             </>)}</span></>
             )}
           </Link>
@@ -267,7 +267,7 @@ export default function ClosDuSoirLayout({ children }: { children: React.ReactNo
                   marginBottom: 16,
                 }}
               >
-                {clientName(__layoutSession) ?? "Clos du Soir"}
+                Clos du Soir
               </div>
               <p
                 style={{

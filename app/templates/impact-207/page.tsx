@@ -4,6 +4,17 @@ import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 import React, { useState, useEffect, useRef, useCallback } from "react"
 import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  useSpring,
+  useMotionValue,
+  AnimatePresence,
+} from "framer-motion"
+import Link from "next/link"
+import { TemplateIcon } from '@/components/TemplateIcon'
+import {
   clientAccrocheRestante,
   clientCity,
   clientHeroPrestations,

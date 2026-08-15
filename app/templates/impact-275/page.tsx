@@ -4,6 +4,42 @@ let sessionData: any = null;
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
+  motion,
+  useScroll,
+  useTransform,
+  useInView,
+  useMotionValue,
+} from 'framer-motion';
+import {
+  Scale,
+  Home,
+  Users,
+  ArrowRight,
+  Star,
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  ChevronDown,
+  BookOpen,
+  FileText,
+  Shield,
+  CheckCircle,
+  Quote,
+} from 'lucide-react';
+
+/* ════════════════════════════════════════════════════════════════════════════
+   CABINET FAURE — Maître Isabelle Faure · Avocate droit de la famille & succession{" "}
+   {clientCity(sessionData) ?? "Marseille"} · Barreau de {clientCity(sessionData) ?? "Marseille"}
+   Photographie réelle + chorégraphie de défilement éditoriale.
+   Auto-suffisant. 'use client'.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Palette ─────────────────────────────────────────────────────────────── */
+// Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
+// used to derive companion shades from the client's brand color.
+import { resolveList } from "@/lib/templates/resolveList";
+import {
   clientAddress,
   clientCity,
   clientCodePostalVille,

@@ -1276,7 +1276,7 @@ export default function WineryTemplate() {
                 lineHeight: 1,
               }}
             >
-              {clientName(sessionData) ?? "Château"} de Valroc
+              Château de Valroc
             </span>
           </div>
         )}
@@ -2563,7 +2563,7 @@ export default function WineryTemplate() {
                   letterSpacing: "0.04em",
                 }}
               >
-                {clientName(sessionData) ?? "Château"} de Valroc
+                Château de Valroc
               </span>
             </div>
             <p

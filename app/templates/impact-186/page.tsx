@@ -582,7 +582,7 @@ export default function DrFontainePage() {
       <footer className="bg-[#111827] pt-20 pb-10 px-6">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="font-bold text-white mb-1">{clientName(sessionData) ?? "Dr. Léa Fontaine"}</div>
+            <div className="font-bold text-white mb-1">Dr. Léa Fontaine</div>
             <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#1d6fa4)]/60 mb-5">{clientTrade(sessionData) ?? "Chirurgien-dentiste"} · {clientCity(sessionData) ?? "Nantes"}</div>
             <p className="text-white/20 text-sm leading-relaxed">Cabinet dentaire moderne. Omnipratique, implants, esthétique, orthodontie. Urgences tous les matins.</p>
           </div>

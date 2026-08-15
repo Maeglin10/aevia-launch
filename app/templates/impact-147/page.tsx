@@ -7,6 +7,14 @@ import { Shield, ArrowRight, Menu, Lock, Zap, Activity, Cpu, Globe, Terminal, Ch
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  DWELL,
+  useSlides,
+  WordFlight,
+  ExpandFrame,
+  SlideIndex,
+  HairlineArrows,
+} from "@/lib/templates/hero-kit-2"
+import {
   clientCity,
   clientHeroLine,
   clientName,

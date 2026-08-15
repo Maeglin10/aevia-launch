@@ -155,7 +155,7 @@ export default function SkewLayout({
         <div style={{ maxWidth: "1300px", margin: "0 auto", display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "3rem" }} className="grid grid-cols-1 md:grid-cols-4">
           <div>
             <Link href="/templates/impact-58" style={{ textDecoration: "none", fontFamily: "'Syne', sans-serif", fontSize: "1rem", fontWeight: 800, color: C.text, marginBottom: "1rem", display: "block" }}>
-              {clientName(__layoutSession) ?? "SKEW"}<span style={{ color: C.violet }}>.</span>
+              SKEW<span style={{ color: C.violet }}>.</span>
             </Link>
             <p style={{ fontFamily: "'Syne Mono', monospace", fontSize: "0.7rem", color: C.textDim, lineHeight: 1.8 }}>
               Motion design · Brand films · VFX<br />{clientCity(__layoutSession) ?? "Paris"}, France

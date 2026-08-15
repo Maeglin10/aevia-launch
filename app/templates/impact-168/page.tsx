@@ -1757,7 +1757,7 @@ export default function ImpactEclatPage() {
               marginBottom: 16,
             }}
           >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
-            {clientName(sessionData) ?? "Éclat"} Fidélité
+            Éclat Fidélité
           </>)}</h2>
           <p style={{ fontSize: 16, color: C.creamDim, maxWidth: 520, margin: "0 auto", lineHeight: 1.7 }}>
             Plus vous achetez, plus vous accédez à des avantages exclusifs. Trois niveaux,
@@ -3018,7 +3018,7 @@ function BlogPage({
             </p>
           ))}
           <div style={{ borderTop: `1px solid ${C.border}`, marginTop: 24, paddingTop: 24, fontSize: 13, color: C.muted, fontFamily: C.sans, fontStyle: "italic" }}>
-            Rédigé par l'équipe éditoriale {clientName(sessionData) ?? "Éclat"}.
+            Rédigé par l'équipe éditoriale Éclat.
           </div>
         </div>
       </section>
@@ -3368,26 +3368,26 @@ function LegalPage({ variant }: { variant: "cgv" | "mentions" }) {
 
           <h2 style={sectionTitle}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Article 1 — Objet</>)}</h2>
           <p style={para}>
-            Les présentes conditions générales de vente régissent les relations contractuelles entre {clientName(sessionData) ?? "Éclat"} et tout client
+            Les présentes conditions générales de vente régissent les relations contractuelles entre Éclat et tout client
             effectuant un achat sur le site. Toute commande implique l'acceptation sans réserve des présentes CGV.
           </p>
 
           <h2 style={sectionTitle}>Article 2 — Prix</h2>
           <p style={para}>
-            Les prix sont indiqués en euros, toutes taxes comprises. {clientName(sessionData) ?? "Éclat"} se réserve le droit de modifier ses prix à tout
+            Les prix sont indiqués en euros, toutes taxes comprises. Éclat se réserve le droit de modifier ses prix à tout
             moment ; les articles sont facturés sur la base des tarifs en vigueur au moment de la validation de la commande.
           </p>
 
           <h2 style={sectionTitle}>Article 3 — Commande</h2>
           <p style={para}>
-            La commande est validée après confirmation du paiement. Un email récapitulatif est adressé au client. {clientName(sessionData) ?? "Éclat"} se
+            La commande est validée après confirmation du paiement. Un email récapitulatif est adressé au client. Éclat se
             réserve le droit d'annuler toute commande en cas de litige de paiement ou de rupture de stock.
           </p>
 
           <h2 style={sectionTitle}>Article 4 — Paiement</h2>
           <p style={para}>
             Le règlement s'effectue par carte bancaire via un prestataire de paiement sécurisé. Aucune donnée bancaire n'est
-            conservée par {clientName(sessionData) ?? "Éclat"}.
+            conservée par Éclat.
           </p>
 
           <h2 style={sectionTitle}>Article 5 — Livraison</h2>

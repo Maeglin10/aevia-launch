@@ -7,14 +7,39 @@ import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform } from "framer-motion"
 import Link from "next/link"
 import {
-  clientCity,
+  Mic,
+  Play,
+  TrendingUp,
+  Star,
+  ChevronRight,
+  ArrowRight,
+  Headphones,
+  BarChart3,
+} from "lucide-react"
+import {
+  C,
+  FEATURES,
+  TESTIMONIALS,
+  DISTRIBUTION_PLATFORMS,
+  MARQUEE_STATS,
+  WEEKLY_DATA,
+  TOP_EPISODES,
+  Reveal,
+  GlassCard,
+  AnimatedEQ,
+  MarqueeStrip,
+  WeeklyChart,
+} from "./shared"
+import {
   clientHeroLine,
+  clientCity,
   clientList,
   clientName,
   clientReviews,
   clientServices,
   clientStats,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

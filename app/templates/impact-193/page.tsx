@@ -197,7 +197,7 @@ export default function OsteoGaiaPage() {
               <div className="font-bold text-[#3a2e28] text-sm" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Libre Baskerville', Georgia, serif" }}>{clientName(sessionData)}</div>
             ) : (<>
               <>
-                <div className="font-bold text-[#3a2e28] text-sm" style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>{clientName(sessionData) ?? "Ostéo Gaïa"}</div>
+                <div className="font-bold text-[#3a2e28] text-sm" style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>Ostéo Gaïa</div>
                 <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#c26b4c)]/60">{clientTrade(sessionData) ?? "Ostéopathe"} D.O. · {clientCity(sessionData) ?? "Montpellier"}</div>
               </>
             </>))}
@@ -463,7 +463,7 @@ export default function OsteoGaiaPage() {
       <footer className="bg-[#231a14] pt-20 pb-10 px-6">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="font-bold text-[#f5f0e8] mb-1 text-sm" style={{ fontFamily: "'Libre Baskerville', serif" }}>{clientName(sessionData) ?? "Ostéo Gaïa"}</div>
+            <div className="font-bold text-[#f5f0e8] mb-1 text-sm" style={{ fontFamily: "'Libre Baskerville', serif" }}>Ostéo Gaïa</div>
             <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c26b4c)]/50 mb-5">Emma Dubois · D.O.</div>
             <p className="text-[#f5f0e8]/20 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Ostéopathe"} diplômée D.O. à {clientCity(sessionData) ?? "Montpellier"}. Dos, nourrissons, sportifs, grossesse, viscéral, crânio-sacré.</p>
           </div>

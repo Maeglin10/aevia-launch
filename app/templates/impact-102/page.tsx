@@ -504,7 +504,7 @@ export default function QBitLabsPage() {
                     margin: "0 0 40px",
                   }}
                 >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-                  {clientName(sessionData) ?? "QBit Labs"} is an independent quantum computing research institute
+                  QBit Labs is an independent quantum computing research institute
                   advancing fault-tolerant processors, quantum algorithms, and the
                   foundational science of the post-classical era.
                 </>}</p>
@@ -1281,7 +1281,7 @@ export default function QBitLabsPage() {
                     margin: "0 0 32px",
                   }}
                 >{c?.aboutText ?? <>
-                  {clientName(sessionData) ?? "QBit Labs"} partners with universities, national labs, and industry
+                  QBit Labs partners with universities, national labs, and industry
                   researchers. Cloud access to our 127-qubit system is available via
                   our Research Gateway program.
                 </>}</p>

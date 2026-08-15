@@ -98,7 +98,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div className="w-7 h-7 bg-[#9B5CF6] rounded-xl flex items-center justify-center">
               <Box className="w-3.5 h-3.5 text-white" />
             </div>
-            <span className="font-bold">{clientName(__layoutSession) ?? "Vertex Studio"}</span>
+            <span className="font-bold">Vertex Studio</span>
           </Link>
           <div className="flex flex-wrap gap-6 text-sm text-white/30">
             <Link href="/templates/impact-27/work" className="hover:text-white transition-colors">Work</Link>
