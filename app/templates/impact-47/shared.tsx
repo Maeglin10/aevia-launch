@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCityOr,
+  clientNameOr,
   clientPhotoAt,
 } from "@/lib/templates/clientContent";
 
@@ -150,7 +151,7 @@ export const testimonials = [
     name: "Isabelle Fontaine",
     location: clientCityOr("Paris") + ", 7e",
     rating: 5,
-    text: "Pétales & Co did our entire wedding — 18 arrangements, 4 arches, bridal party bouquets. Every single piece was more beautiful than I imagined. They understood our vision perfectly.",
+    text: `${clientNameOr("Pétales & Co")} did our entire wedding — 18 arrangements, 4 arches, bridal party bouquets. Every single piece was more beautiful than I imagined. They understood our vision perfectly.`,
     occasion: "Wedding",
   },
   {
@@ -364,7 +365,7 @@ function BLOG_POSTS_LIVE() {
     coverImage: clientPhotoAt(24, "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=1200&h=600&fit=crop&q=80"),
     body: [
       "Une fleur de saison est cueillie à maturité, au plus près de sa floraison naturelle. Elle tient plus longtemps en vase, dégage un parfum plus intense et affiche des couleurs que les variétés forcées hors saison n'égalent jamais.",
-      "Travailler avec les saisons, c'est aussi soutenir les producteurs locaux et réduire l'empreinte du transport réfrigéré. Chez Pétales & Co, nous privilégions les petits cultivateurs français dès que la saison le permet.",
+      `Travailler avec les saisons, c'est aussi soutenir les producteurs locaux et réduire l'empreinte du transport réfrigéré. Chez ${clientNameOr("Pétales & Co")}, nous privilégions les petits cultivateurs français dès que la saison le permet.`,
       "Concrètement, cela signifie que nos compositions évoluent au fil de l'année : pivoines au printemps, tournesols en été, dahlias à l'automne, amaryllis en hiver. Chaque bouquet raconte le moment précis où il a été créé.",
     ],
   },

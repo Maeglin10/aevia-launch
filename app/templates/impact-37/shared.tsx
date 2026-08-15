@@ -1,5 +1,8 @@
 "use client";
-import { clientCityOr } from "@/lib/templates/clientContent";
+import {
+  clientCityOr,
+  clientNameOr,
+} from "@/lib/templates/clientContent";
 
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useTransform, useInView, MotionValue } from "framer-motion";
@@ -169,7 +172,7 @@ export const TESTIMONIALS = [
     name: "Helene Beaumont",
     role: "Grand Cru Member",
     avatar: "HB",
-    text: "Clos du Soir is where I celebrate everything that matters. The sommelier team's knowledge and warmth make every visit feel like coming home — only with better wine.",
+    text: `${clientNameOr("Clos du Soir")} is where I celebrate everything that matters. The sommelier team's knowledge and warmth make every visit feel like coming home — only with better wine.`,
     rating: 5,
   },
   {
@@ -191,7 +194,7 @@ export const TESTIMONIALS = [
 export const FAQS = [
   {
     q: "Do I need wine knowledge to visit or join?",
-    a: "Absolutely not. Clos du Soir welcomes everyone from curious newcomers to seasoned collectors. Our team adapts to your level — we speak wine, not jargon.",
+    a: `Absolutely not. ${clientNameOr("Clos du Soir")} welcomes everyone from curious newcomers to seasoned collectors. Our team adapts to your level — we speak wine, not jargon.`,
   },
   {
     q: "Can I purchase bottles to take home?",
@@ -294,7 +297,7 @@ export const BLOG_POSTS = [
     body: [
       "Le vieux dogme « viande rouge–vin rouge » a fait son temps. L'accord juste cherche l'équilibre des intensités, des textures et des saveurs, bien plus que la couleur du verre.",
       "Un Riesling sec accompagne magnifiquement une charcuterie fumée ; un Champagne blanc de blancs sublime un comté affiné mieux qu'aucun rouge. La règle d'or : que ni le plat ni le vin n'écrase l'autre.",
-      "Et puis il y a l'audace heureuse — un Sauternes sur un roquefort, un Sancerre rouge légèrement frais sur un poisson grillé. Chez Clos du Soir, nos sommeliers composent chaque accord comme une rencontre, jamais comme une formule.",
+      `Et puis il y a l'audace heureuse — un Sauternes sur un roquefort, un Sancerre rouge légèrement frais sur un poisson grillé. Chez ${clientNameOr("Clos du Soir")}, nos sommeliers composent chaque accord comme une rencontre, jamais comme une formule.`,
     ],
   },
   {

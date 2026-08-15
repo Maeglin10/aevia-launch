@@ -123,9 +123,15 @@ for (const p of parcourir(RACINE)) {
   */
   const marque = MARQUES[theme] ?? marqueDe(src);
   if (!marque || /^impact-\d+$/.test(marque)) continue;
+  /*
+     Un module partagé n'a pas de variable de session : il lit celle que la page
+     a mémorisée, par `clientNameOr`. C'est là que vivent les témoignages de
+     démonstration — « Ledger & Associés nous accompagne depuis 10 ans » était
+     dans impact-108/shared.tsx, hors de portée du codemod.
+  */
   const v = variableSession(src);
-  if (!v) continue;
-  const lecture = `clientName(${v}) ?? "${marque}"`;
+  const lecture = v ? `clientName(${v}) ?? "${marque}"` : `clientNameOr("${marque}")`;
+  const symbole = v ? "clientName" : "clientNameOr";
   const re = motif(marque);
   let faits = 0;
 
@@ -380,10 +386,10 @@ for (const p of parcourir(RACINE)) {
   src = src.replace(/\u0000(\d+)\u0000/g, (_, i) => caches[Number(i)]);
 
   if (!faits) continue;
-  if (!/import\s*\{[^}]*\bclientName\b/.test(src)) {
+  if (!new RegExp(`import\\s*\\{[^}]*\\b${symbole}\\b`).test(src)) {
     const bloc = src.match(/import \{([^}]*)\} from "@\/lib\/templates\/clientContent";/);
     if (bloc) {
-      const noms = [...new Set([...bloc[1].matchAll(/client[A-Za-z]+/g)].map((x) => x[0]).concat("clientName"))].sort();
+      const noms = [...new Set([...bloc[1].matchAll(/client[A-Za-z]+/g)].map((x) => x[0]).concat(symbole))].sort();
       src = src.replace(bloc[0], `import {\n${noms.map((n) => `  ${n},\n`).join("")}} from "@/lib/templates/clientContent";`);
     }
     else {
