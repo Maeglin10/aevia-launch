@@ -66,7 +66,7 @@ export let RETREATS = RETREATS_LIVE();
 
 export const LINEAGE = [
   {
-    name: "Dr. Clara " + clientCityOr("Metz"),
+    get name() { return "Dr. Clara " + clientCityOr("Metz"); },
     role: "Founder & Lead Clinician",
     bio: "Former neuropsychologist specialized in burnout recovery, Clara developed the Luminal Method after a decade in clinical practice.",
     avatar: "CM",

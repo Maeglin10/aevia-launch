@@ -899,7 +899,7 @@ export function PressSection({ scene }: { scene: (typeof SCENES)[number] }) {
     },
     {
       text: 'La coupe VM est la plus architecturale de sa génération.',
-      source: 'Vogue ' + clientCityOr('Paris'),
+      get source() { return 'Vogue ' + clientCityOr('Paris'); },
     },
     {
       text: 'Un vestiaire pour l\'éternité, sculpté dans la perfection.',

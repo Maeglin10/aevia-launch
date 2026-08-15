@@ -6,7 +6,7 @@ import {
 import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: `${clientNameOr("Studio Lumière Dorée")} — Photographe Mariage Paris`,
+  get title() { return `${clientNameOr("Studio Lumière Dorée")} — Photographe Mariage Paris`; },
   description:
     `${clientNameOr("Studio Lumière Dorée")}, photographe mariage & portraits à Paris. 12 ans d'expérience, 400+ mariages, 4.9★. Demandez votre devis gratuit.`,
 };

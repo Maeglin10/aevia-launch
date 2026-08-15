@@ -6,7 +6,7 @@ import {
 import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: `${clientNameOr("Ledger & Associés")} — Cabinet d'expertise comptable Bordeaux`,
+  get title() { return `${clientNameOr("Ledger & Associés")} — Cabinet d'expertise comptable Bordeaux`; },
   description:
     `${clientNameOr("Ledger & Associés")}, cabinet d'expertise comptable à Bordeaux. 25 ans d'expérience, 350 clients, 12 experts. Premier rendez-vous gratuit.`,
 };

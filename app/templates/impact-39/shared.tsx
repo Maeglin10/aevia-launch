@@ -127,7 +127,7 @@ export const PRICING_CARDS = [
 export const TESTIMONIALS = [
   {
     name: "Sophie Marchand",
-    role: "Propriétaire, " + clientCityOr("Paris") + " 11e",
+    get role() { return "Propriétaire, " + clientCityOr("Paris") + " 11e"; },
     avatar: "SM",
     rating: 5,
     text: "L'équipe a déménagé notre appartement de 4 pièces en 6 h chrono, sans aucun dommage. Professionnels, ponctuels et vraiment attentionnés. Je ne ferai plus jamais appel à quelqu'un d'autre.",
@@ -141,10 +141,10 @@ export const TESTIMONIALS = [
   },
   {
     name: "Lucie Fontaine",
-    role: "Locataire, " + clientCityOr("Lyon"),
+    get role() { return "Locataire, " + clientCityOr("Lyon"); },
     avatar: "LF",
     rating: 5,
-    text: "Déménagement " + clientCityOr("Paris") + " → Lyon en solo, j'avais peur de confier mes affaires. Suivi GPS tout au long du trajet, livraison 2 h en avance. Je recommande les yeux fermés.",
+    get text() { return "Déménagement " + clientCityOr("Paris") + " → Lyon en solo, j'avais peur de confier mes affaires. Suivi GPS tout au long du trajet, livraison 2 h en avance. Je recommande les yeux fermés."; },
   },
 ];
 

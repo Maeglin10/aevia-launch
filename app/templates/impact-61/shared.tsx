@@ -50,7 +50,7 @@ export const PROJECTS = [
     id: "S.03",
     title: "Tour Ombre",
     type: "Immeuble de bureaux",
-    location: clientCityOr("Paris") + " 13e",
+    get location() { return clientCityOr("Paris") + " 13e"; },
     year: "2023",
     area: "8 400 m²",
     status: "Réalisé",
