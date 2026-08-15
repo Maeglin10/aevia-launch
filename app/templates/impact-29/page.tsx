@@ -21,7 +21,6 @@ import {
   clientServices,
   clientText,
   clientWorks,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

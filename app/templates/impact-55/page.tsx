@@ -17,7 +17,6 @@ import {
   clientStats,
   clientTeam,
   clientText,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

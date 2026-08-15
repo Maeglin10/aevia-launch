@@ -4,35 +4,12 @@ import { resolveList } from "@/lib/templates/resolveList";
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  MotionValue,
-  useMotionValue,
-} from 'framer-motion';
-import {
-  ArrowRight,
-  ChevronDown,
-  Smile,
-  Star,
-  Sparkles,
-  MapPin,
-  Phone,
-  Clock,
-  CheckCircle,
-  Shield,
-  Zap,
-  Camera,
-  Activity,
-} from 'lucide-react';
-import {
-  clientPhone,
   clientAddress,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,

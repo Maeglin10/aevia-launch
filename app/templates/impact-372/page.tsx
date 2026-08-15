@@ -10,11 +10,11 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { TrackingCollapse } from "@/lib/templates/hero-kit-3";
 import {
-  clientHeroPrestations,
-  clientCertifications,
   clientAddress,
+  clientCertifications,
   clientCity,
   clientHeroLine,
+  clientHeroPrestations,
   clientHeroSubtitle,
   clientName,
   clientPhotos,

@@ -4,23 +4,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useInView, useScroll, useTransform, useReducedMotion, AnimatePresence } from "framer-motion";
 import {
-  ArrowRight,
-  CheckCircle2,
-  ChevronDown,
-  Leaf,
-  Mail,
-  MapPin,
-  Phone,
-  Quote,
-  ShieldCheck,
-  Sparkles,
-  Star,
-} from "lucide-react";
-import { resolveList } from "@/lib/templates/resolveList";
-import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
-import { ParticleOrb } from "@/lib/templates/hero-kit-3";
-import {
   clientAddress,
   clientCity,
   clientCodePostalVille,

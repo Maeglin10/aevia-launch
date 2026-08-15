@@ -6,15 +6,6 @@ import React, {useRef, useState, useEffect} from 'react'
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Calendar } from "lucide-react"
 import {
-  DWELL,
-  useSlides,
-  AnchoredBackdrop,
-  BlurThrough,
-  SlideIndex,
-  HairlineArrows,
-} from "@/lib/templates/hero-kit-2"
-import { PanelRise } from "@/lib/templates/hero-kit-3"
-import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -25,7 +16,6 @@ import {
   clientStats,
   clientText,
   clientTrade,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

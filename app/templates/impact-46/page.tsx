@@ -6,24 +6,6 @@ import React, {useRef, useState, useEffect} from 'react';
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
-  ArrowRight, Check, Star, ChevronDown, ChevronRight
-} from "lucide-react";
-import {
-  C,
-  practiceAreas as practiceAreas_DEMO,
-  attorneys as attorneys_DEMO,
-  caseResults,
-  testimonials as testimonials_DEMO,
-  consultationTiers,
-  faqs as faqs_DEMO,
-  ScaleSVG
-} from "./shared";
-import { resolveList } from "@/lib/templates/resolveList";
-import {
-  useHeroSelector, HeroStage, Scrim, GhostMark, Rise, SelectorRail,
-  heroSectionStyle, railResponsiveCSS, alpha, EASE_3, EASE_4, BEAT,
-} from "@/lib/templates/hero-kit";
-import {
   clientCity,
   clientFaq,
   clientHeroLine,
@@ -34,7 +16,6 @@ import {
   clientServices,
   clientTeam,
   clientText,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :

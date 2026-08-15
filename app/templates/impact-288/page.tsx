@@ -3,34 +3,6 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  MotionValue,
-  useMotionValue,
-} from 'framer-motion';
-import {
-  ArrowRight,
-  Award,
-  Battery,
-  Car,
-  CheckCircle,
-  ChevronDown,
-  Home,
-  MapPin,
-  Phone,
-  Send,
-  Shield,
-  Star,
-  Sun,
-  Wrench,
-  Zap,
-  ZapOff,
-} from 'lucide-react';
-import { resolveList } from "@/lib/templates/resolveList";
-import {
-  clientSiret,
   clientAccrocheRestante,
   clientAddress,
   clientCertifications,
@@ -41,6 +13,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientTagline,
   clientText,
   clientTrade,
@@ -2674,7 +2647,7 @@ function CertifSection() {
               lineHeight: 1.7,
             }}
           >
-            Ampère & Fils détient toutes les certifications nécessaires pour
+            {clientName(sessionData) ?? "Ampère & Fils"} détient toutes les certifications nécessaires pour
             vous ouvrir l'accès aux aides et subventions de l'État. Vous êtes
             entre de bonnes mains.
           </p>
@@ -2861,7 +2834,7 @@ function FooterSection() {
                     lineHeight: 1,
                   }}
                 >
-                  Ampère & Fils
+                  {clientName(sessionData) ?? "Ampère & Fils"}
                 </div>
                 <div
                   style={{

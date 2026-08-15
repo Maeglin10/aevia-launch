@@ -5,7 +5,6 @@ import {
   clientName,
   clientTagline,
   clientText,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 

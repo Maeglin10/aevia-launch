@@ -3,35 +3,6 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  type MotionValue,
-  useMotionValue,
-} from 'framer-motion';
-import {
-  Activity,
-  Wind,
-  Brain,
-  ArrowRight,
-  Star,
-  Phone,
-  MapPin,
-  Clock,
-  CheckCircle,
-  CreditCard,
-  FileText,
-  Droplets,
-  Zap,
-  Dumbbell,
-  PersonStanding,
-  ChevronDown,
-  Mail,
-  ExternalLink,
-} from 'lucide-react';
-import { resolveList } from "@/lib/templates/resolveList";
-import {
   clientAddress,
   clientBookingUrl,
   clientCity,

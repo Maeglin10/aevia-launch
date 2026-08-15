@@ -8,7 +8,6 @@ import { Building2, MapPin, ArrowRight, Star, Phone, Mail, Search, Bed, Bath, Sq
 import { resolveList } from "@/lib/templates/resolveList"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
-  clientSiret,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -16,6 +15,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientText,
   clientWorks,
 } from "@/lib/templates/clientContent";

@@ -4,25 +4,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import {
-  ArrowRight,
-  CheckCircle,
-  Clock,
-  Droplets,
-  Leaf,
-  Mail,
-  MapPin,
-  Phone,
-  Scissors,
-  Shirt,
-  Sparkles,
-  Star,
-  Wind,
-} from "lucide-react";
-import { resolveList } from "@/lib/templates/resolveList";
-import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
-import { WipeReveal } from "@/lib/templates/hero-kit-3";
-import {
   clientAddress,
   clientCertifications,
   clientCity,

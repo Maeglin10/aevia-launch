@@ -9,16 +9,6 @@ import React, {
 } from "react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useTransform,
-  useInView,
-  useSpring,
-  useMotionValue,
-  animate,
-} from "framer-motion"
-import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,

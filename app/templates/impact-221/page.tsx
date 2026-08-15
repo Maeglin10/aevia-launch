@@ -8,33 +8,6 @@ import React, {
   useCallback,
 } from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  AnimatePresence,
-  useMotionValue,
-} from 'framer-motion';
-import {
-  Zap,
-  Battery,
-  Gauge,
-  ArrowRight,
-  ArrowDown,
-  Check,
-  ChevronRight,
-  MapPin,
-  Clock,
-  Shield,
-  Leaf,
-  Star,
-  Send,
-  Play,
-  Menu,
-  Globe,
-} from 'lucide-react';
-import { resolveList } from "@/lib/templates/resolveList";
-import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -755,7 +728,7 @@ function StickySpec() {
             <img src={IMG.detail} alt="Lumyx GT — détail technique" loading="lazy" style={{ width: '100%', height: '70vh', objectFit: 'cover', display: 'block', borderRadius: '4px' }} />
           </motion.div>
           <div style={{ position: 'absolute', bottom: '1.5rem', left: '1.5rem', background: 'rgba(6,8,13,0.88)', backdropFilter: 'blur(12px)', border: `1px solid ${C.border}`, padding: '1rem 1.5rem', borderRadius: '2px' }}>
-            <div style={{ color: C.blue, fontSize: '0.68rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase' as const, marginBottom: '0.3rem' }}>Lumyx GT</div>
+            <div style={{ color: C.blue, fontSize: '0.68rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase' as const, marginBottom: '0.3rem' }}>{clientName(sessionData) ?? "Lumyx"} GT</div>
             <div style={{ fontSize: '1.2rem', fontWeight: 900 }}>Fiche technique complète</div>
           </div>
         </div>
@@ -796,7 +769,7 @@ function Gallery() {
         <motion.div ref={ref} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} style={{ marginBottom: '3rem', textAlign: 'center' }}>
           <div style={{ color: C.blue, fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase' as const, marginBottom: '1rem' }}>Galerie</div>
           <h2 style={{ fontSize: fl(1.8, 3.5), fontWeight: 900, textTransform: 'uppercase' as const, letterSpacing: '-0.02em' }}>{/* TEXTE_SECTION */ clientText(sessionData, "galerie.titre") ?? (<>
-            Lumyx dans la <span style={{ color: C.blue }}>vraie vie</span>
+            {clientName(sessionData) ?? "Lumyx"} dans la <span style={{ color: C.blue }}>vraie vie</span>
           </>)}</h2>
         </motion.div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
@@ -962,10 +935,10 @@ function ReserveForm() {
         </div>
 
         <h2 style={{ fontSize: fl(2, 4), fontWeight: 900, textTransform: 'uppercase' as const, letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '1.25rem' }}>{/* TEXTE_SECTION */ clientText(sessionData, "reserve.titre") ?? (<>
-          Réservez votre<br /><span style={{ color: C.blue, textShadow: `0 0 30px ${C.blueGlow}` }}>Lumyx maintenant</span>
+          Réservez votre<br /><span style={{ color: C.blue, textShadow: `0 0 30px ${C.blueGlow}` }}>{clientName(sessionData) ?? "Lumyx"} maintenant</span>
         </>)}</h2>
         <p style={{ color: C.whiteOff, fontSize: fl(0.95, 1.1), lineHeight: 1.65, marginBottom: '2.5rem' }}>
-          Réservez avec 0 € d'engagement. Livraison en septembre 2026. Vous serez parmi les premiers à rouler Lumyx en France.
+          Réservez avec 0 € d'engagement. Livraison en septembre 2026. Vous serez parmi les premiers à rouler {clientName(sessionData) ?? "Lumyx"} en France.
         </p>
 
         <AnimatePresence mode="wait">
@@ -1062,7 +1035,7 @@ function ReserveForm() {
               </div>
               <div style={{ fontSize: '1.3rem', fontWeight: 900 }}>Réservation confirmée</div>
               <div style={{ color: C.whiteOff, lineHeight: 1.6 }}>
-                Merci {name}. Votre {model} est réservée. Nous vous enverrons un email à <strong>{email}</strong>. Bienvenue dans la révolution Lumyx.
+                Merci {name}. Votre {model} est réservée. Nous vous enverrons un email à <strong>{email}</strong>. Bienvenue dans la révolution {clientName(sessionData) ?? "Lumyx"}.
               </div>
             </motion.div>
           )}

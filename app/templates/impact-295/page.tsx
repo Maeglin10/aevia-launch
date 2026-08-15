@@ -3,47 +3,6 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  AnimatePresence,
-} from 'framer-motion';
-import {
-  Activity,
-  ArrowRight,
-  Award,
-  Calendar,
-  Check,
-  CheckCircle,
-  ChevronDown,
-  Clock,
-  Coffee,
-  Compass,
-  DollarSign,
-  Euro,
-  FileText,
-  Flame,
-  Heart,
-  Info,
-  Mail,
-  MapPin,
-  Menu,
-  Phone,
-  Quote,
-  Scissors,
-  Shield,
-  ShoppingBag,
-  Star,
-  Sun,
-  TrendingUp,
-  Utensils,
-  Wrench,
-  X,
-  Zap,
-} from 'lucide-react';
-import { resolveList } from "@/lib/templates/resolveList";
-import {
   clientCity,
   clientFaq,
   clientHeroLine,
@@ -672,7 +631,7 @@ return (
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  Chez Wok Master, tout est préparé le matin même : bouillons mijotés 8h, sauces maison, poisson livré chaque jour de Rungis. Le goût d'Asie, la rapidité du fast-food.
+                  Chez {clientName(sessionData) ?? "Wok Master"}, tout est préparé le matin même : bouillons mijotés 8h, sauces maison, poisson livré chaque jour de Rungis. Le goût d'Asie, la rapidité du fast-food.
                 </>}</p>
                 <p style={{
                   fontSize: 15,
@@ -1293,7 +1252,7 @@ return (
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable de publication: Wok Master<br />
+                Responsable de publication: {clientName(sessionData) ?? "Wok Master"}<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>

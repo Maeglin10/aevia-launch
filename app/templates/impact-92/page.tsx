@@ -2,31 +2,6 @@
 // @ts-nocheck
 
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  AnimatePresence,
-  useMotionValue,
-  useSpring,
-} from "framer-motion";
-import { useState, useRef, useEffect, useCallback } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Card, CardContent } from "@/components/ui/card";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Separator } from "@/components/ui/separator";
-import { Building2, Key, ShieldCheck, Globe, Star, Mail, Phone, ChevronRight, ArrowRight, X, Menu, Gem, Briefcase, MapPin, Search, Plane, Users, Award, Calendar, Compass } from "lucide-react";
-
-import "../premium.css";
-import { resolveList } from "@/lib/templates/resolveList";
-import {
   clientCity,
   clientFaq,
   clientHeroLine,

@@ -3,45 +3,13 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  MotionValue,
-  useMotionValue,
-} from 'framer-motion';
-import {
-  ArrowRight,
-  ChevronDown,
-  Flame,
-  Dumbbell,
-  Trophy,
-  Star,
-  Check,
-  MapPin,
-  Phone,
-  Mail,
-  Camera,
-  Play,
-  Clock,
-  Award,
-  Target,
-  Users,
-  TrendingUp,
-  Zap,
-  Heart,
-  Leaf,
-  BarChart2,
-} from 'lucide-react';
-import { resolveList } from "@/lib/templates/resolveList";
-import {
-  clientPhone,
   clientAccrocheRestante,
   clientCity,
   clientHeroLine,
   clientHours,
   clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,

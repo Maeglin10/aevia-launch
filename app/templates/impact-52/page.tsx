@@ -7,23 +7,13 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight, Zap } from "lucide-react";
 import Link from "next/link";
 import {
-  C,
-  F,
-  STATS,
-  Reveal,
-  NeonDivider,
-  SectionLabel,
-  GlitchHeadline,
-} from "./shared";
-import {
-  clientHeroLine,
   clientCity,
+  clientHeroLine,
   clientName,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 let sessionData: any = null;

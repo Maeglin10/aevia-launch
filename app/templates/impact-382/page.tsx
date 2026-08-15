@@ -8,8 +8,8 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, WordFlight, useSlides } from "@/lib/templates/hero-kit-2";
 import {
-  clientCertifications,
   clientAddress,
+  clientCertifications,
   clientCity,
   clientName,
   clientPhotos,

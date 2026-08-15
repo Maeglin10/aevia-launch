@@ -3,18 +3,6 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  MotionValue,
-  useMotionValue,
-} from 'framer-motion';
-import { ArrowRight, Diamond, MapPin } from 'lucide-react';
-import { resolveList } from "@/lib/templates/resolveList";
-import { DWELL, useSlides, BlurThrough, HairlineArrows } from '@/lib/templates/hero-kit-2';
-import { PortalZoom } from '@/lib/templates/hero-kit-3';
-import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,

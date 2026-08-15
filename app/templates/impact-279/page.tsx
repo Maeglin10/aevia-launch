@@ -3,37 +3,13 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  MotionValue,
-  useMotionValue,
-} from 'framer-motion';
-import {
-  Activity,
-  Baby,
-  Zap,
-  ArrowRight,
-  ChevronDown,
-  Star,
-  Quote,
-  MapPin,
-  Phone,
-  Clock,
-  CreditCard,
-  CheckCircle,
-  ExternalLink,
-} from 'lucide-react';
-import { resolveList } from "@/lib/templates/resolveList";
-import {
-  clientCodePostalVille,
-  clientPhone,
   clientAddress,
   clientCity,
+  clientCodePostalVille,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -2398,7 +2374,7 @@ function FooterSection() {
                 flexShrink: 0,
               }}
             />
-            Cabinet Soler · D.O.
+            {clientName(sessionData) ?? "Cabinet Soler"} · D.O.
           </div>
           <p
             style={{

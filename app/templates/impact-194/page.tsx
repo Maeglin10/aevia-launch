@@ -8,7 +8,6 @@ import Link from "next/link"
 import { ChefHat, Star, Phone, MapPin, Clock, CheckCircle, Utensils, Wine, Users, Truck, Gift, Camera, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
-  clientSiret,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -17,6 +16,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientText,
   clientTrade,
 } from "@/lib/templates/clientContent";
@@ -426,7 +426,7 @@ export default function TableExceptionPage() {
       <footer className="bg-[#140f0a] pt-20 pb-10 px-6">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="font-bold text-[#fefcf8] mb-1 text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>Table d'Exception</div>
+            <div className="font-bold text-[#fefcf8] mb-1 text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>{clientName(sessionData) ?? "Table"} d'Exception</div>
             <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/40 mb-5">{clientTrade(sessionData) ?? "Traiteur"} · {clientCity({ formData: fd }) ?? "Lyon"}</div>
             <p className="text-[#fefcf8]/15 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Traiteur"} haut de gamme à {clientCity({ formData: fd }) ?? "Lyon"}. Mariages, corporate, cocktails, plateaux. Chef et équipe sur place.</p>
           </div>

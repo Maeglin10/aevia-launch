@@ -6,13 +6,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Play, Settings, Shield, Clock } from "lucide-react";
 import {
-  MODELS,
-  ParallaxImg,
-  Reveal,
-  rafraichirPartage,
-} from "./shared";
-import { resolveList } from "@/lib/templates/resolveList";
-import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -21,7 +14,6 @@ import {
   clientReviews,
   clientServices,
   clientText,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :

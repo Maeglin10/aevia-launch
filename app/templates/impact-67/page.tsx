@@ -7,14 +7,6 @@ import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { Terminal, Radio } from "lucide-react";
 import {
-  MagneticBtn,
-  Reveal,
-  rafraichirPartage,
-} from "./shared";
-import { resolveList } from "@/lib/templates/resolveList";
-
-import "../premium.css";
-import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -23,7 +15,6 @@ import {
   clientServices,
   clientStats,
   clientText,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :

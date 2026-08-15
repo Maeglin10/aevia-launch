@@ -18,22 +18,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import {
-  ArrowRight,
-  Calendar,
-  CheckCircle2,
-  ChevronDown,
-  Mail,
-  MapPin,
-  Menu,
-  Mic,
-  Phone,
-  X,
-} from "lucide-react";
-import { resolveList } from "@/lib/templates/resolveList";
-import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, useSlides, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
-import { LineScroll, FixedRail, StickyProgress } from "@/lib/templates/hero-kit-3";
-import {
+  clientAddress,
   clientCity,
   clientEmail,
   clientEyebrow,
@@ -43,7 +28,6 @@ import {
   clientList,
   clientName,
   clientPhone,
-  clientAddress,
   clientPhotos,
   clientServices,
   clientStats,

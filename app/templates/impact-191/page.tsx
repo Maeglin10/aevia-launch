@@ -8,7 +8,6 @@ import { Leaf, Sun, Trees, Flower, Phone, Star, MapPin, Clock, CheckCircle, Scis
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientSiret,
   clientAreas,
   clientCity,
   clientHeroLine,
@@ -18,6 +17,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientText,
   clientTrade,
 } from "@/lib/templates/clientContent";
@@ -449,7 +449,7 @@ export default function JardinsVivantsPage() {
       <footer className="bg-[#101a0e] pt-20 pb-10 px-6">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="flex items-center gap-2.5 mb-5"><Leaf className="w-5 h-5 text-[var(--brand,#2d5a27)]" /><span className="font-bold text-white text-sm" style={{ fontFamily: "'Cardo', serif" }}>Jardins Vivants</span></div>
+            <div className="flex items-center gap-2.5 mb-5"><Leaf className="w-5 h-5 text-[var(--brand,#2d5a27)]" /><span className="font-bold text-white text-sm" style={{ fontFamily: "'Cardo', serif" }}>{clientName(sessionData) ?? "Jardins Vivants"}</span></div>
             <p className="text-white/20 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Paysagiste"} & entretien espaces verts · Haute-Savoie. Création, entretien, élagage, arrosage automatique.</p>
           </div>
           {[

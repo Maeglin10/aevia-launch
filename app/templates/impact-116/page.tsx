@@ -17,8 +17,8 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import { Progress } from "@/components/ui/progress"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
-  clientHeroLine,
   clientCity,
+  clientHeroLine,
   clientList,
   clientName,
   clientPhotos,

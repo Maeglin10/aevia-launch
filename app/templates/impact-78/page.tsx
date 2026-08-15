@@ -8,12 +8,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, Quote } from "lucide-react";
 import {
-  Counter,
-  MagneticBtn,
-  Reveal,
-  rafraichirPartage,
-} from "./shared";
-import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -25,7 +19,6 @@ import {
   clientStats,
   clientText,
   clientWorks,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

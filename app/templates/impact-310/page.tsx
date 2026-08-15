@@ -3,47 +3,6 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  AnimatePresence,
-} from 'framer-motion';
-import {
-  Activity,
-  ArrowRight,
-  Award,
-  Calendar,
-  Check,
-  CheckCircle,
-  ChevronDown,
-  Clock,
-  Coffee,
-  Compass,
-  DollarSign,
-  Euro,
-  FileText,
-  Flame,
-  Heart,
-  Info,
-  Mail,
-  MapPin,
-  Menu,
-  Phone,
-  Quote,
-  Scissors,
-  Shield,
-  ShoppingBag,
-  Star,
-  Sun,
-  TrendingUp,
-  Utensils,
-  Wrench,
-  X,
-  Zap,
-} from 'lucide-react';
-import { resolveList } from "@/lib/templates/resolveList";
-import {
   clientCity,
   clientFaq,
   clientHeroLine,
@@ -709,7 +668,7 @@ return (
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  Jardins de l'Hérault crée des espaces extérieurs adaptés au climat méditerranéen. Espèces locales économes en eau, systèmes d'irrigation goutte-à-goutte, terrasses et allées en matériaux naturels.
+                  {clientName(sessionData) ?? "Jardins de l'Hérault"} crée des espaces extérieurs adaptés au climat méditerranéen. Espèces locales économes en eau, systèmes d'irrigation goutte-à-goutte, terrasses et allées en matériaux naturels.
                 </>}</p>
                 <p style={{
                   fontSize: 15,
@@ -1432,7 +1391,7 @@ return (
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable de publication: Jardins de l'Hérault<br />
+                Responsable de publication: {clientName(sessionData) ?? "Jardins de l'Hérault"}<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>

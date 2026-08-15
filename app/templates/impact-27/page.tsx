@@ -9,11 +9,6 @@ import { useRef, useState, useEffect, useCallback } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import {
-  ArrowRight, Play, Zap, Box, Layers, Globe, Cpu,
-  ChevronRight, ChevronLeft, Check, Star, Code2, Aperture, Triangle, Hexagon
-} from "lucide-react"
-import { Reveal, projects, gridOverlay, monoStyle, Label } from "./shared"
-import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -25,7 +20,6 @@ import {
   clientStats,
   clientTeam,
   clientText,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

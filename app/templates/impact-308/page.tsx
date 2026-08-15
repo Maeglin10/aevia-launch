@@ -3,47 +3,6 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  AnimatePresence,
-} from 'framer-motion';
-import {
-  Activity,
-  ArrowRight,
-  Award,
-  Calendar,
-  Check,
-  CheckCircle,
-  ChevronDown,
-  Clock,
-  Coffee,
-  Compass,
-  DollarSign,
-  Euro,
-  FileText,
-  Flame,
-  Heart,
-  Info,
-  Mail,
-  MapPin,
-  Menu,
-  Phone,
-  Quote,
-  Scissors,
-  Shield,
-  ShoppingBag,
-  Star,
-  Sun,
-  TrendingUp,
-  Utensils,
-  Wrench,
-  X,
-  Zap,
-} from 'lucide-react';
-import { resolveList } from "@/lib/templates/resolveList";
-import {
   clientCity,
   clientFaq,
   clientHeroLine,
@@ -674,7 +633,7 @@ export default function Page() {
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  Re-Thread Studio transforme vos vêtements oubliés en pièces uniques. Chaque collection capsule raconte une histoire de matières sauvées, de gestes soignés et de mode responsable.
+                  {clientName(sessionData) ?? "Re-Thread Studio"} transforme vos vêtements oubliés en pièces uniques. Chaque collection capsule raconte une histoire de matières sauvées, de gestes soignés et de mode responsable.
                 </>}</p>
                 <p style={{
                   fontSize: 15,
@@ -1292,7 +1251,7 @@ export default function Page() {
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable de publication: Re-Thread Studio<br />
+                Responsable de publication: {clientName(sessionData) ?? "Re-Thread Studio"}<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>

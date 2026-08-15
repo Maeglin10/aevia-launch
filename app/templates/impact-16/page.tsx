@@ -11,8 +11,8 @@ import { Menu, X, ArrowRight, Camera, Eye, Award, ChevronRight, MapPin, Mail, Ta
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
-  clientHeroLine,
   clientCity,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientServices,

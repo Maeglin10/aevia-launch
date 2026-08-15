@@ -1803,7 +1803,7 @@ function Footer({ goTo }: { goTo: (p: HotelPage) => void }) {
           }}
         >
           <span style={{ fontFamily: SANS, fontSize: '0.58rem', color: `${CREAM}35`, letterSpacing: '0.08em' }}>
-            © 2026 Grand Palais. All rights reserved.
+            © 2026 {clientName(sessionData) ?? "Grand Palais"}. All rights reserved.
           </span>
           <div style={{ display: 'flex', gap: '2rem' }}>
             {([
@@ -2161,7 +2161,7 @@ function BlogPage({ blogSlug, setBlogSlug }: { blogSlug: string | null; setBlogS
               </p>
             ))}
             <div style={{ borderTop: `1px solid ${GOLD}40`, marginTop: '2rem', paddingTop: '1.5rem', fontFamily: SERIF, fontStyle: 'italic', fontSize: '0.95rem', color: `${DARK}70` }}>
-              Written by the editorial team of the Grand Palais. The Journal of the palace, published throughout the year.
+              Written by the editorial team of the {clientName(sessionData) ?? "Grand Palais"}. The Journal of the palace, published throughout the year.
             </div>
           </div>
         </section>

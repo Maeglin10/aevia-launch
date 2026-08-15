@@ -3,38 +3,6 @@
 
 import React, { useState, useEffect, useRef } from "react"
 import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useTransform,
-  useInView,
-  useSpring,
-} from "framer-motion"
-import Image from "next/image"
-import Link from "next/link"
-import {
-
-  Flower,
-  Leaf,
-  Star,
-  ArrowRight,
-  ChevronRight,
-  Menu,
-  X,
-  Phone,
-  Mail,
-  MapPin,
-  Heart,
-  Clock,
-  Award,
-  Users,
-  Scissors,
-  Sun,
-  Sparkles,
-  CheckCircle,
-} from "lucide-react"
-import { resolveList } from "@/lib/templates/resolveList";
-import {
   clientAddress,
   clientCity,
   clientFaq,

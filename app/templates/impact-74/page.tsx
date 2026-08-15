@@ -18,7 +18,6 @@ import {
   clientServices,
   clientStats,
   clientText,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -574,7 +573,7 @@ export default function AeviaKitchenPage() {
                 <div className="space-y-4 text-white/50 leading-relaxed text-sm">
                   <p>{c?.aboutText ?? <>
                     Formé auprès de Joël Robuchon et de Pierre Gagnaire, Thomas Mercier
-                    a fondé Aevia Kitchen en 2018 après quinze ans passés dans les plus
+                    a fondé {clientName(sessionData) ?? "Aevia Kitchen"} en 2018 après quinze ans passés dans les plus
                     grandes maisons d&apos;Europe. Sa philosophie est simple : laisser le
                     produit parler.
                   </>}</p>
@@ -586,7 +585,7 @@ export default function AeviaKitchenPage() {
                   </p>
                   <p>
                     Deux étoiles Michelin obtenues dès la deuxième année d&apos;existence,
-                    Aevia Kitchen figure aujourd&apos;hui parmi les cinquante meilleures tables
+                    {clientName(sessionData) ?? "Aevia Kitchen"} figure aujourd&apos;hui parmi les cinquante meilleures tables
                     de France selon le guide Lebey.
                   </p>
                 </div>

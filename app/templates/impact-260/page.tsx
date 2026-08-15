@@ -3,25 +3,6 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  MotionValue,
-  useMotionValue,
-} from 'framer-motion';
-import {
-  ArrowRight,
-  ChevronDown,
-  Shield,
-  Phone,
-  MapPin,
-  CheckCircle2,
-  Wrench,
-} from 'lucide-react';
-import { resolveList } from "@/lib/templates/resolveList";
-import {
-  clientSiret,
   clientAccrocheRestante,
   clientCity,
   clientHeroLine,
@@ -29,6 +10,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientTagline,
   clientText,
 } from "@/lib/templates/clientContent";

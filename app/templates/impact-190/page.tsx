@@ -8,10 +8,9 @@ import Link from "next/link"
 import { Wrench, Car, Settings, Zap, Shield, Clock, Star, Phone, MapPin, CheckCircle, AlertTriangle, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
-  clientSiret,
   clientAddress,
-  clientCodePostalVille,
   clientCity,
+  clientCodePostalVille,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
@@ -19,6 +18,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientTeam,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -447,7 +447,7 @@ export default function AutoExpertPage() {
           <div>
             <div className="flex items-center gap-2.5 mb-5">
               <div className="w-6 h-6 bg-[var(--brand,#dc2626)] flex items-center justify-center"><Wrench className="w-3.5 h-3.5 text-white" /></div>
-              <span className="font-bold text-[#f1f3f5] text-sm">AutoExpert</span>
+              <span className="font-bold text-[#f1f3f5] text-sm">{clientName(sessionData) ?? "AutoExpert"}</span>
             </div>
             <p className="text-[#f1f3f5]/15 text-sm leading-relaxed">Garage multimarque à {clientCity({ formData: fd }) ?? "Rennes"}. Entretien, carrosserie, VE & hybrides. Agréé constructeur.</p>
           </div>

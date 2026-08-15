@@ -3,18 +3,8 @@
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  useMotionValue,
-  useSpring,
-  AnimatePresence,
-} from "framer-motion";
-import { resolveList } from "@/lib/templates/resolveList";
-import {
-  clientEmail,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,

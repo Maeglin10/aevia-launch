@@ -7,10 +7,10 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionV
 import Link from "next/link";
 import { ArrowRight, Search, Menu, X, Clock, BookOpen, TrendingUp, Users, Star, Check, Rss, MessageSquare, Camera, Link2, ChevronRight, Calendar } from "lucide-react";
 import {
-  clientHeroLine,
   clientCity,
   clientEyebrow,
   clientFaq,
+  clientHeroLine,
   clientName,
   clientPhotos,
   clientReviews,

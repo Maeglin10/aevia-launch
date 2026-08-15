@@ -3,32 +3,6 @@ import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  AnimatePresence,
-  useMotionValue,
-  useSpring,
-} from "framer-motion";
-import { useState, useRef, useEffect, useCallback } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Separator } from "@/components/ui/separator";
-import { Anchor, Compass, Ship, ShieldCheck, Star, Globe, Mail, MapPin, ChevronRight, ArrowRight, X, Menu, Waves, Wind, Sun, Map, Clock, Phone, Search, ShoppingBag, Maximize, Activity, Droplets } from "lucide-react";
-
-import "../premium.css";
-import { resolveList } from "@/lib/templates/resolveList";
-import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,

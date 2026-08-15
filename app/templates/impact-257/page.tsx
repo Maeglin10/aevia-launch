@@ -3,17 +3,6 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  MotionValue,
-  useMotionValue,
-} from 'framer-motion';
-import { ArrowRight, ChevronDown, Heart, Leaf, MapPin } from 'lucide-react';
-import { resolveList } from "@/lib/templates/resolveList";
-import {
-  clientTrade,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -23,6 +12,7 @@ import {
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :

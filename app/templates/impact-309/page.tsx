@@ -3,49 +3,6 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  AnimatePresence,
-} from 'framer-motion';
-import {
-  Activity,
-  ArrowRight,
-  Award,
-  Calendar,
-  Check,
-  CheckCircle,
-  ChevronDown,
-  Clock,
-  Coffee,
-  Compass,
-  DollarSign,
-  Euro,
-  FileText,
-  Flame,
-  Heart,
-  Info,
-  Mail,
-  MapPin,
-  Menu,
-  Phone,
-  Quote,
-  Scissors,
-  Shield,
-  ShoppingBag,
-  Star,
-  Sun,
-  TrendingUp,
-  Utensils,
-  Wrench,
-  X,
-  Zap,
-} from 'lucide-react';
-import { resolveList } from "@/lib/templates/resolveList";
-import { DWELL, useSlides, BlurThrough, SlideIndex, HairlineArrows } from '@/lib/templates/hero-kit-2';
-import { CrossPush } from '@/lib/templates/hero-kit-3';
-import {
   clientBookingUrl,
   clientCity,
   clientFaq,
@@ -817,7 +774,7 @@ return (
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  Encre Délicate est un studio féminin spécialisé dans le tatouage fineline et aquarelle. Chaque pièce est dessinée sur mesure, adaptée à votre anatomie et à votre sensibilité.
+                  {clientName(sessionData) ?? "Encre Délicate"} est un studio féminin spécialisé dans le tatouage fineline et aquarelle. Chaque pièce est dessinée sur mesure, adaptée à votre anatomie et à votre sensibilité.
                 </>}</p>
                 <p style={{
                   fontSize: 15,
@@ -1587,7 +1544,7 @@ return (
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable de publication: Encre Délicate<br />
+                Responsable de publication: {clientName(sessionData) ?? "Encre Délicate"}<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>

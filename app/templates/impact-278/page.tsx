@@ -3,33 +3,6 @@
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  MotionValue,
-  useMotionValue,
-} from 'framer-motion';
-import {
-  ArrowRight,
-  ChevronDown,
-  Droplets,
-  Home,
-  MapPin,
-  Phone,
-  Quote,
-  Shield,
-  Star,
-  Thermometer,
-  Wrench,
-  CheckCircle,
-  Clock,
-  Award,
-  Flame,
-} from 'lucide-react';
-import { resolveList } from "@/lib/templates/resolveList";
-import {
-  clientSiret,
   clientCertifications,
   clientCity,
   clientHeroLine,
@@ -38,6 +11,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientTagline,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -1117,7 +1091,7 @@ function ServicesSection() {
               margin: '0 auto',
             }}
           >
-            Plomberie Garonne intervient sur l&apos;ensemble des corps de métier
+            {clientName(sessionData) ?? "Plomberie Garonne"} intervient sur l&apos;ensemble des corps de métier
             liés à l&apos;eau et au chauffage, du dépannage d&apos;urgence à la
             rénovation complète.
           </p>

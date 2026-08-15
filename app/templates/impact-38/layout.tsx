@@ -70,7 +70,7 @@ export default function OriginRoastLayout({ children }: { children: React.ReactN
               <Coffee size={16} color={C.espresso} />
             </div>
             <span style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 20, color: C.cream }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
-              Origin Roast
+              {clientName(__layoutSession) ?? "Origin Roast"}
             </>)}</span>
               </>
             )}
@@ -156,7 +156,7 @@ export default function OriginRoastLayout({ children }: { children: React.ReactN
             <div>
               <Link href="/templates/impact-38" style={{ textDecoration: "none" }}>
                 <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 24, color: C.caramel, marginBottom: 16 }}>
-                  Origin Roast
+                  {clientName(__layoutSession) ?? "Origin Roast"}
                 </div>
               </Link>
               <p style={{ fontSize: 14, color: "var(--brand, #7a5c3a)", lineHeight: 1.75, maxWidth: 260, fontWeight: 300 }}>

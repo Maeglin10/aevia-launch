@@ -8,15 +8,6 @@ import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import {
-  Counter,
-  LINEAGE,
-  RETREATS,
-  Reveal,
-  SCIENTIFIC_PILLARS,
-  StyleInjector,
-  rafraichirPartage,
-} from "./shared";
-import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -25,7 +16,6 @@ import {
   clientServices,
   clientStats,
   clientText,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

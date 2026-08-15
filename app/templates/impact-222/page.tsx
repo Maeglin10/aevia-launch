@@ -5,24 +5,6 @@ import { resolveList } from "@/lib/templates/resolveList";
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import {
-  Building2,
-  MapPin,
-  ArrowRight,
-  ArrowUpRight,
-  Quote,
-  Mail,
-  Phone,
-  Clock,
-  Check,
-  Menu,
-  X,
-  Maximize2,
-  Compass,
-  Handshake,
-  Search,
-  ChevronDown,
-} from 'lucide-react';
-import {
   clientAccrocheRestante,
   clientCity,
   clientHeroLine,
@@ -612,7 +594,7 @@ const Hero: React.FC = () => {
                 fontWeight: 400,
               }}
             >
-              Solis accompagne une clientèle exigeante dans l&apos;acquisition et
+              {clientName(sessionData) ?? "Solis"} accompagne une clientèle exigeante dans l&apos;acquisition et
               la valorisation de biens d&apos;exception, de la Provence aux plus
               belles adresses parisiennes.
             </span>
@@ -2353,7 +2335,7 @@ const Footer: React.FC = () => (
                 color: C.white,
               }}
             >
-              Solis
+              {clientName(sessionData) ?? "Solis"}
             </span>
           </div>
           <p

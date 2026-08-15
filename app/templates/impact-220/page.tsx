@@ -9,29 +9,6 @@ import React, {
   useCallback,
 } from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  AnimatePresence,
-  useMotionValueEvent,
-  useMotionValue,
-} from 'framer-motion';
-import {
-  ChevronDown,
-  ArrowRight,
-  Mail,
-  MapPin,
-  Phone,
-  Check,
-  Star,
-  Clock,
-  Shield,
-  Gem,
-  ChevronRight,
-} from 'lucide-react';
-import { resolveList } from "@/lib/templates/resolveList";
-import {
   clientCity,
   clientEyebrow,
   clientHeroLine,

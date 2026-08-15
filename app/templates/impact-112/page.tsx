@@ -4,39 +4,12 @@ import { resolveList } from "@/lib/templates/resolveList";
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  AnimatePresence,
-} from "framer-motion";
-import Link from "next/link";
-import {
-  ShoppingCart,
-  ArrowRight,
-  Star,
-  ChevronLeft,
-  ChevronRight,
-  Check,
-  Camera,
-  MessageSquare,
-  Link2,
-  Users2,
-  MapPin,
-  Phone,
-  Mail,
-  Plus,
-  Minus,
-  X,
-  Trash2,
-} from "lucide-react";
-import {
-  clientPhone,
   clientCity,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientReviews,
   clientServices,
   clientStats,
@@ -1234,7 +1207,7 @@ return (
                     lineHeight: 1,
                   }}
                 >
-                  Terre & Geste
+                  {clientName(sessionData) ?? "Terre"} & Geste
                 </div>
                 <div
                   style={{
@@ -2818,7 +2791,7 @@ return (
                       letterSpacing: "-0.01em",
                     }}
                   >
-                    Terre & Geste
+                    {clientName(sessionData) ?? "Terre"} & Geste
                   </div>
                   <div
                     style={{

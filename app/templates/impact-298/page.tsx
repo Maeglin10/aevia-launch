@@ -4,47 +4,6 @@ import { resolveList } from "@/lib/templates/resolveList";
 
 import React, {useRef, useState, useEffect} from 'react';
 import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-  AnimatePresence,
-} from 'framer-motion';
-import {
-  Activity,
-  ArrowRight,
-  Award,
-  Calendar,
-  Check,
-  CheckCircle,
-  ChevronDown,
-  Clock,
-  Coffee,
-  Compass,
-  DollarSign,
-  Euro,
-  FileText,
-  Flame,
-  Heart,
-  Info,
-  Mail,
-  MapPin,
-  Menu,
-  Phone,
-  Quote,
-  Scissors,
-  Shield,
-  ShoppingBag,
-  Star,
-  Sun,
-  TrendingUp,
-  Utensils,
-  Wrench,
-  X,
-  Zap,
-} from 'lucide-react';
-import {
-  clientTrade,
   clientBookingUrl,
   clientCity,
   clientFaq,
@@ -54,6 +13,7 @@ import {
   clientPhotos,
   clientServices,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -667,7 +627,7 @@ return (
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  Dr. Estelle Blanc vous reçoit dans un cabinet moderne et apaisant. Implantologie, orthodontie adulte et blanchiment professionnel avec les dernières technologies.
+                  {clientName(sessionData) ?? "Dr. Estelle Blanc"} vous reçoit dans un cabinet moderne et apaisant. Implantologie, orthodontie adulte et blanchiment professionnel avec les dernières technologies.
                 </>}</p>
                 <p style={{
                   fontSize: 15,
@@ -1287,7 +1247,7 @@ return (
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable de publication: Dr. Estelle Blanc<br />
+                Responsable de publication: {clientName(sessionData) ?? "Dr. Estelle Blanc"}<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>

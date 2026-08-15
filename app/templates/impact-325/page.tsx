@@ -8,24 +8,24 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "../LegalIdentity";
 import { DWELL, ExpandFrame, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import {
-  clientHeroLine,
-  clientHeroSubtitle,
-  clientEyebrow,
-  clientTrade,
+  clientAddress,
   clientCertifications,
   clientCity,
+  clientCodePostalVille,
+  clientEmail,
+  clientEyebrow,
+  clientHeroLine,
+  clientHeroSubtitle,
+  clientList,
   clientName,
   clientPhone,
-  clientEmail,
-  clientAddress,
-  clientCodePostalVille,
   clientPhotos,
   clientServices,
   clientStats,
   clientTeam,
-  clientWorks,
-  clientList,
   clientText,
+  clientTrade,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :

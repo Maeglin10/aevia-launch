@@ -8,11 +8,6 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Compass, ArrowUpRight, Plus, Minus } from "lucide-react";
 import {
-  ParallaxImg,
-  Reveal,
-  rafraichirPartage,
-} from "./shared";
-import {
   clientCity,
   clientFaq,
   clientHeroLine,
@@ -25,7 +20,6 @@ import {
   clientTeam,
   clientText,
   clientWorks,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 

@@ -4,22 +4,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import {
-  Check,
-  ClipboardList,
-  Clock,
-  Clock3,
-  HeartPulse,
-  Home,
-  Mail,
-  MapPin,
-  Phone,
-  Syringe,
-} from "lucide-react";
-import { resolveList } from "@/lib/templates/resolveList";
-import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
-import { ComposeIn } from "@/lib/templates/hero-kit-3";
-import {
   clientAddress,
   clientCertifications,
   clientCity,

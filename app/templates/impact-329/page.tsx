@@ -10,8 +10,6 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import { HardCutRebuild, FixedRail } from "@/lib/templates/hero-kit-3";
 import {
-  clientHeroLine,
-  clientTrade,
   clientAccrocheRestante,
   clientAddress,
   clientCertifications,
@@ -19,6 +17,7 @@ import {
   clientCodePostalVille,
   clientEmail,
   clientEyebrow,
+  clientHeroLine,
   clientName,
   clientPhone,
   clientPhotos,
@@ -26,6 +25,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :

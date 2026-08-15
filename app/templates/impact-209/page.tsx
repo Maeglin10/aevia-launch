@@ -2,27 +2,14 @@
 // @ts-nocheck
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import {
-  motion,
-  AnimatePresence,
-  useInView,
-  useMotionValue,
-  useTransform,
-  useSpring,
-} from 'framer-motion'
-import { TemplateIcon } from '@/components/TemplateIcon'
-import { MapPin } from 'lucide-react'
-import { resolveList } from "@/lib/templates/resolveList";
-import { DWELL, useSlides, BlurThrough, Retint, SlideIndex, HairlineArrows } from '@/lib/templates/hero-kit-2';
-import { TrackingCollapse } from '@/lib/templates/hero-kit-3';
-import {
-  clientCodePostalVille,
-  clientBookingUrl,
-  clientPhotos,
   clientAddress,
+  clientBookingUrl,
   clientCity,
+  clientCodePostalVille,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,

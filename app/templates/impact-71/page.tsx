@@ -8,12 +8,6 @@ import Link from "next/link";
 import { Leaf, Sun, Wind, Activity, Sparkles } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  Counter,
-  MagneticBtn,
-  Reveal,
-  rafraichirPartage,
-} from "./shared";
-import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -23,7 +17,6 @@ import {
   clientServices,
   clientStats,
   clientText,
-  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :

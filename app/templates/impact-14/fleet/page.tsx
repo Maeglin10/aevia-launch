@@ -1,7 +1,10 @@
 "use client";
 import {
+  clientAddress,
   clientCity,
-  clientName, clientAddress, clientPhone,} from "@/lib/templates/clientContent";
+  clientName,
+  clientPhone,
+} from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import {
@@ -2346,7 +2349,7 @@ export default function HorizonMaritimePage() {
             }}
           >
             <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.25)", letterSpacing: 1 }}>
-              © 2026 Horizon Maritime Group S.A.M. · All rights reserved · Monaco
+              © 2026 {clientName(sessionData) ?? "Horizon Maritime Group S.A.M"}. · All rights reserved · Monaco
             </p>
             <div style={{ display: "flex", gap: "2rem" }}>
               {["Privacy Policy", "Terms of Charter", "Cookie Policy", "Legal Mentions"].map((l) => (

@@ -101,7 +101,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             className="font-black text-xl uppercase tracking-[0.2em] cursor-pointer hover:opacity-80" 
             style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
           >
-            BRUTCO
+            {clientName(__layoutSession) ?? "BRUTCO"}
           </Link>
           {/* six links x gap-8 with no wrap ran past the right edge on a phone */}
           <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 md:gap-8 text-xs font-bold uppercase tracking-widest text-white/40">

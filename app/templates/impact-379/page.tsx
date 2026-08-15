@@ -9,9 +9,8 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { ArcSwap } from "@/lib/templates/hero-kit-3";
 import {
-  clientTrade,
-  clientCertifications,
   clientAddress,
+  clientCertifications,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -21,6 +20,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
