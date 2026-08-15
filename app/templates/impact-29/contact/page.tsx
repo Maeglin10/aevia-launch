@@ -74,7 +74,10 @@ function faq_LIVE() {
 }
 let faq = faq_LIVE();
 
-const channels = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function channels_LIVE() {
+  return [
   {
     icon: Mail,
     label: "Email",
@@ -107,7 +110,9 @@ const channels = [
     note: "Book a 30-min intro call",
     primary: false,
   },
-]
+];
+}
+let channels = channels_LIVE();
 
 
 export default function ContactPage() {
@@ -128,6 +133,8 @@ export default function ContactPage() {
   }, []);
 
   sessionData = __session;
+
+  channels = channels_LIVE();
   memoriserSession(__session);
 
   fd = __session?.formData;

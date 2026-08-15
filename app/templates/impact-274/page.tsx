@@ -2248,7 +2248,10 @@ type BlogPost = {
   imgAlt: string;
 };
 
-const BLOG_POSTS: BlogPost[] = /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), excerpt: o.desc || "" })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function BLOG_POSTS_LIVE(): BlogPost[] {
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), excerpt: o.desc || "" })), [
   {
     category: 'Nutrition',
     title: 'Alimentation équilibrée : les 5 principes clés pour votre santé au quotidien',
@@ -2274,6 +2277,8 @@ const BLOG_POSTS: BlogPost[] = /* REALISATIONS */ resolveList(clientWorks(sessio
     imgAlt: 'Activité physique et santé',
   },
 ]);
+}
+let BLOG_POSTS: BlogPost[] = BLOG_POSTS_LIVE();
 
 function BlogSection() {
   const sec: React.CSSProperties = {
@@ -2749,6 +2754,7 @@ export default function Impact274Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  BLOG_POSTS = BLOG_POSTS_LIVE();
   PHOTO = PHOTO_LIVE();
   TEAM_MEMBERS_DEMO = TEAM_MEMBERS_DEMO_LIVE();
 

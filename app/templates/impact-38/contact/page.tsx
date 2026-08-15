@@ -35,11 +35,16 @@ const CONTACT_SUBJECTS = [
   "Autre",
 ];
 
-const HOURS = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, time: h.hours })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function HOURS_LIVE() {
+  return /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, time: h.hours })), [
   { day: "Lundi – Vendredi", time: "7h – 19h" },
   { day: "Samedi", time: "8h – 18h" },
   { day: "Dimanche", time: "9h – 14h" },
 ]);
+}
+let HOURS = HOURS_LIVE();
 
 const ROASTING_DAYS = [
   { day: "Mardi", time: "6h – 12h", lots: "Lots filtre & single origin" },
@@ -98,7 +103,10 @@ function WORKSHOP_CONTACT_OPTIONS_LIVE() {
 let WORKSHOP_CONTACT_OPTIONS = WORKSHOP_CONTACT_OPTIONS_DEMO_ANNEXE;
 
 
-const SUBSCRIPTION_FAQ_DEMO_ANNEXE = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function SUBSCRIPTION_FAQ_DEMO_ANNEXE_LIVE() {
+  return [
   {
     q: "Comment fonctionne la facturation de l'abonnement ?",
     a: "Votre abonnement est prélevé le 1er de chaque mois. Vous recevez une confirmation par email 3 jours avant chaque prélèvement. Vous pouvez modifier, suspendre ou annuler à tout moment depuis votre espace client, jusqu'à 48h avant le prélèvement.",
@@ -124,6 +132,8 @@ const SUBSCRIPTION_FAQ_DEMO_ANNEXE = [
     a: "Photographiez le colis dès réception et envoyez-nous l'email dans les 48h à " + (fd?.email ?? "contact@originroast.co") + ". Nous expédions un remplacement sous 72h sans frais supplémentaires. Les problèmes liés au transporteur sont couverts par notre assurance colis.",
   },
 ];
+}
+let SUBSCRIPTION_FAQ_DEMO_ANNEXE = SUBSCRIPTION_FAQ_DEMO_ANNEXE_LIVE();
 
 function SUBSCRIPTION_FAQ_LIVE() {
   return resolveList(clientFaq(sessionData)?.map((x: any) => ({ q: x.q, a: x.a })), SUBSCRIPTION_FAQ_DEMO_ANNEXE);
@@ -205,6 +215,10 @@ export default function ContactPage() {
   }, []);
 
   sessionData = __session;
+
+  SUBSCRIPTION_FAQ_DEMO_ANNEXE = SUBSCRIPTION_FAQ_DEMO_ANNEXE_LIVE();
+
+  HOURS = HOURS_LIVE();
   memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;

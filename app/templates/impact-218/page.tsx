@@ -915,7 +915,10 @@ type Vintage = {
   scarcity: string;
 };
 
-const VINTAGES_DEMO: Vintage[] = /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function VINTAGES_DEMO_LIVE(): Vintage[] {
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   {
     year: '2018',
     name: 'Cuvée du Miroir',
@@ -941,6 +944,8 @@ const VINTAGES_DEMO: Vintage[] = /* REALISATIONS */ resolveList(clientWorks(sess
     scarcity: '210 caisses',
   },
 ]);
+}
+let VINTAGES_DEMO: Vintage[] = VINTAGES_DEMO_LIVE();
 
 function VintageCard({ v, i }: { v: Vintage; i: number }) {
   const [hover, setHover] = useState(false);
@@ -2191,6 +2196,7 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  VINTAGES_DEMO = VINTAGES_DEMO_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   CHAPTERS = CHAPTERS_LIVE();
   PHOTO = PHOTO_LIVE();

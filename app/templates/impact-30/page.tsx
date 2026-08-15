@@ -1263,7 +1263,10 @@ function Pricing() {
 }
 
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
-const FAQS_DEMO = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function FAQS_DEMO_LIVE() {
+  return [
   {
     q: "Le blanchiment dentaire est-il remboursé par la Sécurité Sociale ?",
     a: "Non, le blanchiment esthétique n'est pas pris en charge par la Sécurité Sociale. Certaines mutuelles offrent cependant une prise en charge partielle. Nous vous fournissons un devis détaillé et proposons des solutions de financement adaptées.",
@@ -1285,6 +1288,8 @@ const FAQS_DEMO = [
     a: "Oui, nous réservons des créneaux d'urgence chaque jour. En cas de douleur aiguë ou de traumatisme, appelez-nous au " + (fd?.phone ?? "01 42 56 78 90") + " — nous vous prendrons en charge dans les plus brefs délais.",
   },
 ];
+}
+let FAQS_DEMO = FAQS_DEMO_LIVE();
 
 function FAQ() {
   const ref = useRef<HTMLElement>(null);
@@ -1426,6 +1431,7 @@ export default function Impact30() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  FAQS_DEMO = FAQS_DEMO_LIVE();
   memoriserSession(sessionData);
   PLANS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),

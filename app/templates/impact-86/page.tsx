@@ -272,7 +272,10 @@ const soinsList = [
 ];
 
 // ─── Réservation — créneaux & horaires ────────────────────────────────────────
-const horaires = /* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ day: h.day, hours: h.hours })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function horaires_LIVE() {
+  return /* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ day: h.day, hours: h.hours })), [
   { day: "Lundi", hours: "10h — 20h" },
   { day: "Mardi", hours: "10h — 20h" },
   { day: "Mercredi", hours: "10h — 21h" },
@@ -281,6 +284,8 @@ const horaires = /* HORAIRES */ resolveList(clientHours({ formData: fd, business
   { day: "Samedi", hours: "9h — 19h" },
   { day: "Dimanche", hours: "10h — 17h" },
 ]);
+}
+let horaires = horaires_LIVE();
 
 const creneaux = ["10h00", "11h30", "13h00", "14h30", "16h00", "17h30", "19h00"];
 
@@ -423,6 +428,7 @@ export default function AuraWellnessPage() {
   bp = session?.businessProfile;
   blogArticles = blogArticles_LIVE();
   sessionData = session;
+  horaires = horaires_LIVE();
   c = session?.generatedContent;
   bp = session?.businessProfile;
 
