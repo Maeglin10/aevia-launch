@@ -80,7 +80,7 @@ export default function Impact23ServicesPage() {
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div className="max-w-6xl mx-auto bg-[#100D08]/90 backdrop-blur-md border border-[#C9A05A]/15 rounded-2xl px-6 py-4 flex items-center justify-between">
           <Link href="/templates/impact-23" className="flex items-center gap-2 text-[#C9A05A] cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>
-            <Film className="w-4 h-4" /> Studio Pelikan
+            <Film className="w-4 h-4" /> {clientName(sessionData) ?? "Studio Pelikan"}
           </Link>
           <div className="hidden md:flex items-center gap-8 text-white/40 text-sm">
             {navItems.map(item => (

@@ -171,7 +171,11 @@ for (const p of parcourir(RACINE)) {
           if (c === "{") profTag++;
           else if (c === "}") profTag--;
           else if (c === ">" && profTag === 0) {
-            etat = src[i - 1] === "/" ? DEHORS : TEXTE;
+            /* Même auto-fermante, une balise laisse derrière elle le texte de
+               l'élément parent : `<br />Nous sommes l'atelier…`. En repassant
+               par le code, l'apostrophe de « l'atelier » était lue comme une
+               ouverture de chaîne et tout le reste du fichier se décalait. */
+            etat = TEXTE;
             debutTexte = i + 1;
           }
         }

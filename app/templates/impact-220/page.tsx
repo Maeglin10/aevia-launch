@@ -1889,7 +1889,7 @@ function AppointmentForm() {
                 >
                   Notre équipe vous contactera sous 48 heures.
                   <br />
-                  Nous vous remercions de votre intérêt pour Hora Viva.
+                  Nous vous remercions de votre intérêt pour {clientName(sessionData) ?? "HORA VIVA"}.
                 </p>
               </motion.div>
             ) : (

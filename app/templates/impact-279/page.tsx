@@ -2398,7 +2398,7 @@ function FooterSection() {
                 flexShrink: 0,
               }}
             />
-            Cabinet Soler · D.O.
+            {clientName(sessionData) ?? "Cabinet Soler"} · D.O.
           </div>
           <p
             style={{

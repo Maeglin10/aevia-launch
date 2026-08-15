@@ -1290,7 +1290,7 @@ return (
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable de publication: Nexus Compta<br />
+                Responsable de publication: {clientName(sessionData) ?? "Nexus Compta"}<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>

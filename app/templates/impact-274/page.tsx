@@ -2558,7 +2558,7 @@ function FooterSection() {
             }}
           >
             <Heart size={20} color="rgba(160,210,170,0.9)" strokeWidth={1.8} />
-            Dr. S. Renard
+            {clientName(sessionData) ?? "Dr. S. Renard"}
           </div>
           <p
             style={{
