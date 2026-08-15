@@ -10,6 +10,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 import React from "react";
@@ -40,6 +41,7 @@ export default function WorkPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

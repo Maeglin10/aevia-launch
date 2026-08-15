@@ -1,6 +1,9 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientMenu } from "@/lib/templates/clientContent";
+import {
+  clientMenu,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -33,6 +36,7 @@ export default function MenuPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

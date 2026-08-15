@@ -3,6 +3,7 @@ import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import {
   clientCity,
   clientName,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
@@ -35,6 +36,7 @@ export default function ContactPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

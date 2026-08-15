@@ -1,4 +1,5 @@
 "use client"
+import { memoriserSession } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion"
@@ -30,6 +31,7 @@ export default function AnalyticsPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

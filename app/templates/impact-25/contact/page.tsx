@@ -9,6 +9,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 import { Mail, MessageSquare, Zap } from "lucide-react"
 import { Reveal } from "../shared"
@@ -38,6 +39,7 @@ export default function ContactPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

@@ -5,6 +5,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHours,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link"
@@ -108,6 +109,7 @@ export default function ContactPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
 
   fd = __session?.formData;
   bp = __session?.businessProfile;

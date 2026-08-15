@@ -1,5 +1,8 @@
 "use client";
-import { clientServices } from "@/lib/templates/clientContent";
+import {
+  clientServices,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -33,6 +36,7 @@ export default function PricingPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
@@ -172,7 +176,7 @@ export default function PricingPage() {
 
               <div style={{ background: C.bgSection, borderRadius: 12, padding: "14px 18px", marginBottom: 28, display: "flex", gap: 10, alignItems: "flex-start" }}>
                 <Shield size={16} color={C.accent} style={{ marginTop: 2, flexShrink: 0 }} />
-                <p style={{ fontSize: 13, color: C.textMuted, margin: 0, lineHeight: 1.55 }}>Vos données sont utilisées uniquement pour la gestion de votre rendez-vous. Aucune donnée n'est partagée avec des tiers. Conformément au RGPD, vous pouvez exercer vos droits à contact@pawcare-bordeaux.fr</p>
+                <p style={{ fontSize: 13, color: C.textMuted, margin: 0, lineHeight: 1.55 }}>Vos données sont utilisées uniquement pour la gestion de votre rendez-vous. Aucune donnée n'est partagée avec des tiers. Conformément au RGPD, vous pouvez exercer vos droits à {fd?.email ?? "contact@pawcare-bordeaux.fr"}</p>
               </div>
 
               <motion.button type="submit"

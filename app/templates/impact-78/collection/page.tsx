@@ -1,4 +1,5 @@
 "use client";
+import { memoriserSession } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 import { useEffect, useState } from "react";
@@ -33,6 +34,7 @@ export default function CollectionPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

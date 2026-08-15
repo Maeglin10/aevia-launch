@@ -1,7 +1,10 @@
 "use client"
 
 import { Reveal } from "../shared"
-import { clientServices } from "@/lib/templates/clientContent";
+import {
+  clientServices,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 import { useEffect, useState } from "react";
 import { Box, Layers, Globe, Cpu, ArrowRight, Shield, Rocket, Check } from "lucide-react"
@@ -32,6 +35,7 @@ export default function ServicesPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

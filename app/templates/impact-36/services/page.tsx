@@ -1,4 +1,5 @@
 "use client"
+import { memoriserSession } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { Check, Target, Users, BarChart2, Briefcase, ArrowRight, UserCheck, Paperclip } from "lucide-react"
@@ -29,6 +30,7 @@ export default function ServicesPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

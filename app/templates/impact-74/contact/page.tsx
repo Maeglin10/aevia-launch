@@ -10,6 +10,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 import { ShieldCheck, Send, Terminal, Key } from "lucide-react";
 import { Reveal, MagneticBtn } from "../shared";
@@ -39,6 +40,7 @@ export default function ContactPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

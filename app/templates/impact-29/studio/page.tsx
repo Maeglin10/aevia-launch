@@ -1,4 +1,5 @@
 "use client"
+import { memoriserSession } from "@/lib/templates/clientContent";
 
 import { motion } from "framer-motion"
 import { useEffect, useState } from "react";
@@ -145,6 +146,7 @@ export default function StudioPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

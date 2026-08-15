@@ -1,4 +1,5 @@
 "use client";
+import { memoriserSession } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { C, PACKAGES, PackageCard, TextReveal } from "../shared";
@@ -28,6 +29,7 @@ export default function PackagesPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

@@ -3,6 +3,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCertifications,
   clientCity,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -253,6 +254,7 @@ export default function StudioPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

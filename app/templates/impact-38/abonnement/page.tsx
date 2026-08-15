@@ -1,6 +1,9 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientReviews } from "@/lib/templates/clientContent";
+import {
+  clientReviews,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { Check, CheckCircle, Star, ArrowRight, Coffee, Package, Truck, Shield, Heart, Award, Users, Leaf, ChevronDown } from "lucide-react";
@@ -193,6 +196,7 @@ export default function AbonnementPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

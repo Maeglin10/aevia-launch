@@ -1,5 +1,8 @@
 "use client";
-import { clientServices } from "@/lib/templates/clientContent";
+import {
+  clientServices,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 
 import React, { useEffect, useRef, useState } from "react";
@@ -893,6 +896,7 @@ export default function ServicesPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
 
   fd = __session?.formData;
   bp = __session?.businessProfile;

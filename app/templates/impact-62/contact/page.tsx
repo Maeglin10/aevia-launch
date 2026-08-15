@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
@@ -32,6 +33,7 @@ export default function ContactPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

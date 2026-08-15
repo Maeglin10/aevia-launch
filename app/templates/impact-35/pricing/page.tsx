@@ -1,7 +1,10 @@
 "use client"
 
 import React, { useEffect, useState } from "react";
-import { clientServices } from "@/lib/templates/clientContent";
+import {
+  clientServices,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 import { Check, Star, Zap, Calendar, ArrowRight, User, Mail, Shield } from "lucide-react"
 import { C, PLANS_FR, SectionReveal, FONT } from "../shared"
@@ -31,6 +34,7 @@ export default function PricingPage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

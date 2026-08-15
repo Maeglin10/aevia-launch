@@ -1,5 +1,8 @@
 "use client";
-import { clientMenu } from "@/lib/templates/clientContent";
+import {
+  clientMenu,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 import { useEffect, useState } from "react";
 
@@ -33,6 +36,7 @@ export default function CartePage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

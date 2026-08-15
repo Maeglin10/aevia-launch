@@ -1,5 +1,8 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
@@ -73,6 +76,7 @@ export default function LineagePage() {
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   GUIDE_EXTENDED = GUIDE_EXTENDED_LIVE();
   fd = __session?.formData;
   bp = __session?.businessProfile;
