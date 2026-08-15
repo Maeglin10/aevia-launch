@@ -930,7 +930,6 @@ export default function HorizonMaritimePage() {
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  testimonials = testimonials_LIVE();
 
 
 
@@ -939,6 +938,7 @@ export default function HorizonMaritimePage() {
     stats_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  testimonials = testimonials_LIVE();
 
   const [page, setPage] = useState<ActivePage>("home");
   const goTo = (p: ActivePage) => {

@@ -1139,10 +1139,10 @@ export default function EmberGrillPage() {
 
   c = session?.generatedContent;
   sessionData = session;
-  BLOG_POSTS = BLOG_POSTS_LIVE();
-  CARTE_SECTIONS = CARTE_SECTIONS_LIVE();
-  MENU_HIGHLIGHTS = MENU_HIGHLIGHTS_LIVE();
   bp = session?.businessProfile;
+  MENU_HIGHLIGHTS = MENU_HIGHLIGHTS_LIVE();
+  CARTE_SECTIONS = CARTE_SECTIONS_LIVE();
+  BLOG_POSTS = BLOG_POSTS_LIVE();
   PHILOSOPHY = PHILOSOPHY_LIVE();
 
   const [page, setPage] = useState<EmberPage>("carte");

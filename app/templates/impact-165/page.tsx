@@ -180,7 +180,6 @@ export default function PulseAppPage() {
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  PRICING_SOURCE = PRICING_SOURCE_LIVE();
 
 
 
@@ -201,6 +200,7 @@ export default function PulseAppPage() {
     TESTIMONIALS_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  PRICING_SOURCE = PRICING_SOURCE_LIVE();
 
   useFonts()
   const [menuOpen, setMenuOpen] = useState(false)

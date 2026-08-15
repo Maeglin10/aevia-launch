@@ -482,8 +482,8 @@ export default function ImpactFrequencePage() {
 
   fd = session?.formData;
   sessionData = session;
-  FAQS_DEMO = FAQS_DEMO_LIVE();
   c = session?.generatedContent;
+  FAQS_DEMO = FAQS_DEMO_LIVE();
   AUTHORS_SOURCE = AUTHORS_SOURCE_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 

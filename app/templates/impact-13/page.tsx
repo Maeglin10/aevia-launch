@@ -146,12 +146,12 @@ export default function AtelierMecaniquePage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  timeline = timeline_LIVE();
   savoirFaire = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...savoirFaire_SOURCE[i % savoirFaire_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     savoirFaire_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  timeline = timeline_LIVE();
 
   // Product collection ← client's business profile (falls back to demo).
   const models = resolveList(

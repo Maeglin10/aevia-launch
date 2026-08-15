@@ -2020,7 +2020,6 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 
   MATERIALS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...MATERIALS_SOURCE[i % MATERIALS_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
@@ -2032,6 +2031,7 @@ export default function Page() {
   );
   STATS = resolveList(clientStats(sessionData)?.map((s: any) => ({ ...s, value: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, "") })), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
   if (brand) {
     C = { ...C, yellow: brand };
   }

@@ -2180,9 +2180,6 @@ export default function Page() {
   c = session?.generatedContent;
   sessionData = session;
   memoriserSession(session);
-  EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
-  PHASES_DEMO = PHASES_DEMO_LIVE();
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   EDIT_ROWS_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_DEMO_SOURCE[i % EDIT_ROWS_DEMO_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
@@ -2201,6 +2198,9 @@ export default function Page() {
     img: clientPhotos(sessionData)[0 + i] || row.img,
   }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  PHASES_DEMO = PHASES_DEMO_LIVE();
+  EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
 
   if (brand) {
     C = {

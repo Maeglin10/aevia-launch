@@ -178,7 +178,6 @@ export default function LumiereYogaPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  COURS_DEMO = COURS_DEMO_LIVE();
   APPROCHE = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...APPROCHE_SOURCE[i % APPROCHE_SOURCE.length], titre: s.title, desc: s.desc || "" || "" })),
     APPROCHE_SOURCE,
@@ -193,6 +192,7 @@ export default function LumiereYogaPage() {
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  COURS_DEMO = COURS_DEMO_LIVE();
   if (brand) {
     C = { ...C, accent: brand };
   }

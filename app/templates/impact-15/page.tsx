@@ -190,8 +190,6 @@ export default function VoltPiscinesPage() {
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  CHANTIERS = CHANTIERS_LIVE();
-  AVIS_SOURCE = AVIS_SOURCE_LIVE();
 
 
 
@@ -211,6 +209,8 @@ export default function VoltPiscinesPage() {
   STATS = resolveList(clientStats(session), STATS_DEMO);
   bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
+  CHANTIERS = CHANTIERS_LIVE();
   if (brand) {
     C = { ...C, accent: brand };
   }

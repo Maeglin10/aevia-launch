@@ -162,10 +162,7 @@ export default function ThermotekChauffagePage() {
 
   fd = session?.formData;
   sessionData = session;
-  TEMOIGNAGES_DEMO = TEMOIGNAGES_DEMO_LIVE();
   c = session?.generatedContent;
-  ZONES_DEMO = ZONES_DEMO_LIVE();
-  REALISATIONS = REALISATIONS_LIVE();
 
 
 
@@ -178,6 +175,9 @@ export default function ThermotekChauffagePage() {
     ZONES_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  REALISATIONS = REALISATIONS_LIVE();
+  ZONES_DEMO = ZONES_DEMO_LIVE();
+  TEMOIGNAGES_DEMO = TEMOIGNAGES_DEMO_LIVE();
 
   // Real business data (resolveList) replaces demo content wholesale when
   // present — see the DEMO consts above for the shape each section falls

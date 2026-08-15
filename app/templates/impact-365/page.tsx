@@ -115,7 +115,6 @@ export default function QuatreVentsPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  HERO_DEMO = HERO_DEMO_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,
@@ -135,6 +134,7 @@ export default function QuatreVentsPage() {
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
+  HERO_DEMO = HERO_DEMO_LIVE();
   if (brand) {
     C = { ...C, accent: brand };
   }

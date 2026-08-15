@@ -426,11 +426,11 @@ export default function AuraWellnessPage() {
   fd = session?.formData;
 
   bp = session?.businessProfile;
-  blogArticles = blogArticles_LIVE();
   sessionData = session;
-  horaires = horaires_LIVE();
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  horaires = horaires_LIVE();
+  blogArticles = blogArticles_LIVE();
 
 
   amenities = resolveList(

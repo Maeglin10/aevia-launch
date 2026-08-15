@@ -138,8 +138,6 @@ export default function CypherClinicPage() {
 
   rafraichirPartage();
   c = session?.generatedContent;
-  HERO_VIEWS_DEMO = HERO_VIEWS_DEMO_LIVE();
-  MEDECINS_DEMO = MEDECINS_DEMO_LIVE();
 
 
   TEMOIGNAGES_DEMO = resolveList(
@@ -151,6 +149,8 @@ export default function CypherClinicPage() {
     img: clientPhotos(session)[0 + i] || row.img,
   }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  MEDECINS_DEMO = MEDECINS_DEMO_LIVE();
+  HERO_VIEWS_DEMO = HERO_VIEWS_DEMO_LIVE();
 
   const heroRef = useRef<HTMLDivElement>(null);
   const { i: heroI, next: heroNext, prev: heroPrev } = useSlides(HERO_VIEWS.length, DWELL.slow);

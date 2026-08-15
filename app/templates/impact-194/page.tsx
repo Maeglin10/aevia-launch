@@ -124,7 +124,6 @@ export default function TableExceptionPage() {
   fd = session?.formData;
   sessionData = session;
   c = session?.generatedContent;
-  PRESTATIONS_SOURCE = PRESTATIONS_SOURCE_LIVE();
 
 
   PRESTATIONS_DEMO = resolveList(
@@ -136,6 +135,7 @@ export default function TableExceptionPage() {
     PRESTATIONS_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  PRESTATIONS_SOURCE = PRESTATIONS_SOURCE_LIVE();
 
   const heroRef = useRef(null)
   const [scrolled, setScrolled] = useState(false)

@@ -2087,9 +2087,6 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  DOMAINS_DEMO = DOMAINS_DEMO_LIVE();
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
-  EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_LIVE();
 
 
   TESTIMONIALS_DEMO = resolveList(
@@ -2105,6 +2102,9 @@ export default function Page() {
     img: clientPhotos(sessionData)[3 + i] || row.img,
   }));
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  DOMAINS_DEMO = DOMAINS_DEMO_LIVE();
 
   if (brand) {
     C = {

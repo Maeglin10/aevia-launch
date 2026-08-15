@@ -1051,11 +1051,11 @@ export default function Impact31() {
 
   fd = session?.formData;
   sessionData = session;
-  CLASSES = CLASSES_LIVE();
   memoriserSession(sessionData);
   rafraichirPartage();
   bp = session?.businessProfile;
   c = session?.generatedContent;
+  CLASSES = CLASSES_LIVE();
 
 
   TEACHERS = resolveList(

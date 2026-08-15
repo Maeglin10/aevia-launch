@@ -170,8 +170,8 @@ export default function StudioNomaPage() {
 
   fd = session?.formData;
   sessionData = session;
-  ATELIER = ATELIER_LIVE();
   c = session?.generatedContent;
+  ATELIER = ATELIER_LIVE();
   PROJETS_DEMO = PROJETS_DEMO_LIVE();
   TEMOIGNAGES_SOURCE = TEMOIGNAGES_SOURCE_LIVE();
 

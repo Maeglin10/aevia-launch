@@ -589,8 +589,8 @@ export default function Impact89Page() {
 
   sessionData = session;
 
-  FAQS_DEMO = FAQS_DEMO_LIVE();
   c = session?.generatedContent;
+  FAQS_DEMO = FAQS_DEMO_LIVE();
   PORTFOLIO_DEMO = PORTFOLIO_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   ARTISTS = ARTISTS_LIVE();

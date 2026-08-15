@@ -1905,7 +1905,6 @@ export default function Impact88Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  PORTFOLIO_ITEMS = PORTFOLIO_ITEMS_LIVE();
   BOOKING_STEPS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...BOOKING_STEPS_SOURCE[i % BOOKING_STEPS_SOURCE.length], label: s.title, desc: s.desc || "" || "" })),
     BOOKING_STEPS_SOURCE,
@@ -1916,6 +1915,7 @@ export default function Impact88Page() {
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  PORTFOLIO_ITEMS = PORTFOLIO_ITEMS_LIVE();
   if (brand) {
     C = { ...C, primary: brand, primaryLight: shadeColor(brand, 25), primaryDark: shadeColor(brand, -20) };
   }

@@ -2881,17 +2881,17 @@ function Impact278Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  REALIZATIONS = REALIZATIONS_LIVE();
-  CROSSFADE_SLIDES = CROSSFADE_SLIDES_LIVE();
-  PHOTO = PHOTO_LIVE();
-  TESTIMONIALS278_DEMO = TESTIMONIALS278_DEMO_LIVE();
-  PROCESS_STEPS = PROCESS_STEPS_LIVE();
-  SERVICES_DEMO = SERVICES_DEMO_LIVE();
 
 
 
   CERTIFICATIONS = CERTIFICATIONS_DEMO;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  SERVICES_DEMO = SERVICES_DEMO_LIVE();
+  PROCESS_STEPS = PROCESS_STEPS_LIVE();
+  TESTIMONIALS278_DEMO = TESTIMONIALS278_DEMO_LIVE();
+  PHOTO = PHOTO_LIVE();
+  CROSSFADE_SLIDES = CROSSFADE_SLIDES_LIVE();
+  REALIZATIONS = REALIZATIONS_LIVE();
   if (brand) {
     C = { ...C, brick: brand, brickLight: shadeColor(brand, 25) };
   }

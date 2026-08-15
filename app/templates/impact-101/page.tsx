@@ -231,7 +231,6 @@ export default function BlockBasePage() {
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  BLOCK_MANIFESTS = BLOCK_MANIFESTS_LIVE();
 
 
 
@@ -250,6 +249,7 @@ export default function BlockBasePage() {
 
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  BLOCK_MANIFESTS = BLOCK_MANIFESTS_LIVE();
 
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);

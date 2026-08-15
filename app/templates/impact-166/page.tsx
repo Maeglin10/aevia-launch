@@ -854,9 +854,9 @@ export default function Impact166Page() {
 
   fd = session?.formData;
   sessionData = session;
-  SERIES_DEMO = SERIES_DEMO_LIVE();
   bp = session?.businessProfile;
   c = session?.generatedContent;
+  SERIES_DEMO = SERIES_DEMO_LIVE();
 
   STATS_INLINE = resolveList(
 

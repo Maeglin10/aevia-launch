@@ -2291,14 +2291,14 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  PHASES = PHASES_LIVE();
-  EDIT_ROWS = EDIT_ROWS_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  EDIT_ROWS = EDIT_ROWS_LIVE();
+  PHASES = PHASES_LIVE();
 
   if (brand) {
     C = {

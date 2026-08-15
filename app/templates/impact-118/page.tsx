@@ -118,7 +118,6 @@ export default function ChronosLuxuryPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  COLLECTION_DEMO = COLLECTION_DEMO_LIVE();
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -138,6 +137,7 @@ export default function ChronosLuxuryPage() {
     });
   });
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  COLLECTION_DEMO = COLLECTION_DEMO_LIVE();
 
   const COLLECTION: any[] = resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({

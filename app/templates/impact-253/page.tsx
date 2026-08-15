@@ -2214,15 +2214,15 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  EDIT_ROWS = EDIT_ROWS_LIVE();
-  PROTOCOLS = PROTOCOLS_LIVE();
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  PROTOCOLS = PROTOCOLS_LIVE();
+  EDIT_ROWS = EDIT_ROWS_LIVE();
   if (brand) {
     C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentDark: shadeColor(brand, -20) };
   }

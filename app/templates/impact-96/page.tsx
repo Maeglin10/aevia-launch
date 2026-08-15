@@ -535,9 +535,6 @@ export default function UrbanPulsePage() {
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  STATS_DEMO = STATS_DEMO_LIVE();
-  SERVICES_DEMO = SERVICES_DEMO_LIVE();
-  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 
 
 
@@ -554,6 +551,9 @@ export default function UrbanPulsePage() {
   STATS = resolveList(clientStats(session)?.map((r: any) => ({ val: r.value, label: r.label })), STATS_DEMO);
   bp = bpLocal;
   brand = fd?.brandColor ?? null; // null = keep template's original color
+  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
+  SERVICES_DEMO = SERVICES_DEMO_LIVE();
+  STATS_DEMO = STATS_DEMO_LIVE();
   if (brand) {
     C = { ...C, amber: brand };
   }

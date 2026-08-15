@@ -502,9 +502,6 @@ export default function LignesEtBoisPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  HERO_PROJETS_DEMO = HERO_PROJETS_DEMO_LIVE();
-  ATELIER_PHASES = ATELIER_PHASES_LIVE();
-  AVIS_SOURCE = AVIS_SOURCE_LIVE();
 
   PRESTATIONS_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PRESTATIONS_SOURCE[i % PRESTATIONS_SOURCE.length], titre: s.title })),
@@ -525,6 +522,9 @@ export default function LignesEtBoisPage() {
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
+  HERO_PROJETS_DEMO = HERO_PROJETS_DEMO_LIVE();
+  ATELIER_PHASES = ATELIER_PHASES_LIVE();
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
   if (brand) {
     C = { ...C, accent: brand };
   }
