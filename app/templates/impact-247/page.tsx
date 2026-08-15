@@ -1754,7 +1754,7 @@ function QuoteForm() {
                   lineHeight: 1.65,
                 }}
               >
-                Un électricien Volt &amp; Lux prendra contact avec vous à l&apos;adresse{' '}
+                Un électricien {clientName(sessionData) ?? "Volt & Lux"} prendra contact avec vous à l&apos;adresse{' '}
                 <strong style={{ color: C.accentLight, fontWeight: 500 }}>{email}</strong>{' '}
                 pour affiner votre demande.
               </p>
@@ -1953,7 +1953,7 @@ function Footer() {
             }}
           >
             <Zap size={20} color={C.yellow} fill={C.yellow} strokeWidth={0} />
-            Volt &amp; Lux
+            {clientName(sessionData) ?? "Volt & Lux"}
           </div>
           <p
             style={{
@@ -2046,7 +2046,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.38)',
         }}
       >
-        <span>© 2012–2026 Volt &amp; Lux · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2012–2026 {clientName(sessionData) ?? "Volt & Lux"} · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#vl-projet" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

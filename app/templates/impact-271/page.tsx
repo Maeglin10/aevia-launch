@@ -2109,7 +2109,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2003–2026 Jardins d&apos;Alsace · SARL Reinhardt Paysage ·
+          © 2003–2026 {clientName(sessionData) ?? "Jardins d'Alsace"} · SARL Reinhardt Paysage ·
           {clientCity(sessionData) ?? "Strasbourg"}, Bas-Rhin{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>

@@ -1565,7 +1565,7 @@ function Testimonials() {
       >
         <Reveal>
           <Eyebrow color={C.accent} align="center">
-            Ils portent Peau &amp; Plume
+            Ils portent {clientName(sessionData) ?? "Peau & Plume"}
           </Eyebrow>
         </Reveal>
         <Reveal delay={0.08}>
@@ -2018,7 +2018,7 @@ function Footer() {
             }}
           >
             <Feather size={20} color={C.accent} strokeWidth={1.5} />
-            Peau &amp; Plume
+            {clientName(sessionData) ?? "Peau & Plume"}
           </div>
           <p
             style={{
@@ -2118,7 +2118,7 @@ function Footer() {
           color: 'rgba(248,246,242,0.42)',
         }}
       >
-        <span>© 2024–2026 Peau &amp; Plume · {clientCity(sessionData) ?? "Lille"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2024–2026 {clientName(sessionData) ?? "Peau & Plume"} · {clientCity(sessionData) ?? "Lille"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#reserver" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
