@@ -1,7 +1,10 @@
 "use client"
 
 import { motion, useScroll, useTransform, useInView } from "framer-motion"
-import { clientPhotoAt } from "@/lib/templates/clientContent";
+import {
+  clientPhotoAt,
+  clientSlugOu,
+} from "@/lib/templates/clientContent";
 import { useRef, useEffect } from "react"
 import Image from "next/image"
 
@@ -50,7 +53,7 @@ function projects_LIVE() {
     stack: ["Next.js", "Rust", "WebSockets", "PostgreSQL"],
     stars: "2.1k",
     forks: "210",
-    installation: "npm install -g @noctua/core\nnoctua dev --port 4000",
+    installation: "npm install -g @" + (clientSlugOu("noctua")) + "/core\n" + clientSlugOu("noctua") + " dev --port 4000",
     img: clientPhotoAt(6, "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=500&fit=crop&crop=center"),
   },
   {
@@ -200,7 +203,7 @@ function allProjects_LIVE() {
     stack: ["Next.js", "Rust", "WebSockets", "PostgreSQL"],
     stars: "2.1k",
     forks: "210",
-    installation: "npm install -g @noctua/core\nnoctua dev --port 4000",
+    installation: "npm install -g @" + (clientSlugOu("noctua")) + "/core\n" + clientSlugOu("noctua") + " dev --port 4000",
     img: clientPhotoAt(13, "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=500&fit=crop&crop=center"),
     href: "https://github.com",
   },

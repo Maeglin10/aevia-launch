@@ -33,6 +33,7 @@ import {
 } from "lucide-react"
 import {
   clientCity,
+  clientInstagram,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1160,7 +1161,7 @@ export default function Impact114Page() {
 
               <div className="flex gap-6 flex-wrap">
                 {[
-                  { icon: Instagram, label: "@terra.moreau" },
+                  { icon: Instagram, label: "@" + (clientInstagram(sessionData) ?? "terra.moreau") },
                   { icon: Globe, label: "terra-photo.com" },
                   { icon: Mail, label: (fd?.email ?? "contact@terra-photo.com") },
                 ].map((item) => {
@@ -1474,7 +1475,7 @@ export default function Impact114Page() {
             <div className="space-y-5">
               {[
                 { icon: Mail, label: "Email", value: (fd?.email ?? "contact@terra-photo.com") },
-                { icon: Instagram, label: "Instagram", value: "@terra.moreau" },
+                { icon: Instagram, label: "Instagram", value: "@" + (clientInstagram(sessionData) ?? "terra.moreau") },
                 { icon: Globe, label: "Web", value: "terra-photo.com" },
                 { icon: MapPin, label: "Studio", value: (clientCity(sessionData) ?? "Paris") + ", France" },
               ].map((item) => {

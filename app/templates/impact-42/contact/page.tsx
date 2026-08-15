@@ -1,5 +1,8 @@
 'use client';
-import { clientHours } from "@/lib/templates/clientContent";
+import {
+  clientHours,
+  clientInstagram,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 
 import React, { useEffect, useState } from "react";
@@ -92,7 +95,7 @@ export default function ContactPage() {
             <h3 style={{ fontFamily: C.headingFont, fontSize: "1.2rem", color: C.white, letterSpacing: "0.06em", marginBottom: "1rem" }}>RÉSEAUX SOCIAUX</h3>
             <div style={{ display: "flex", gap: "1rem" }}>
               {[
-                { icon: <Share2 size={20} />, label: "Instagram", handle: "@echochamber.studio" },
+                { icon: <Share2 size={20} />, label: "Instagram", handle: "@" + (clientInstagram(sessionData) ?? "echochamber.studio") },
                 { icon: <Volume2 size={20} />, label: "SoundCloud", handle: "echochamber-studio" },
                 { icon: <Tv size={20} />, label: "YouTube", handle: "Echo Chamber Studio" },
               ].map((social) => (

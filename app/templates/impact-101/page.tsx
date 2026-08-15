@@ -24,6 +24,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientSlug,
   clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -79,7 +80,7 @@ function BLOCK_MANIFESTS_LIVE() {
       desc: "Native TypeScript framework for zero-knowledge application development.",
       icon: <Code2 className="w-5 h-5" />,
       specs: ["Type-Safe", "ZK-Proof Native", "Auto-Gas Optimization"],
-      code: "npm install @blockbase/sdk",
+      code: "npm install @" + (clientSlug(sessionData) ?? "blockbase") + "/sdk",
     },
     {
       id: "api",
