@@ -1760,7 +1760,7 @@ export default function Page() {
       <footer style={{ padding: '48px 40px', background: '#0f0a05', borderTop: `1px solid rgba(184,150,90,0.15)` }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' as const, gap: '20px' }}>
           <div>
-            <span style={{ ...headingFont, fontSize: '22px', color: '#fff' }}>L'Atelier</span>
+            <span style={{ ...headingFont, fontSize: '22px', color: '#fff' }}>{clientName(sessionData) ?? "L'Atelier"}</span>
             <p style={{ ...bodyFont, fontSize: '11px', color: GRAY_MID, margin: '4px 0 0', letterSpacing: '0.1em' }}>
               Coiffure & Beauté · {clientCity(sessionData) ?? "Paris"} VII
             </p>
