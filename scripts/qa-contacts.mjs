@@ -86,29 +86,37 @@ async function travailleur() {
       const erreurs = [];
       page.on("pageerror", (e) => erreurs.push(String(e).slice(0, 90)));
       const url = `${BASE}/templates/${theme}${annexe ? "/" + annexe : ""}?session=${sid}`;
+      /* Armé avant la navigation : la réponse peut arriver avant qu'on l'attende. */
+      const reponseSession = page
+        .waitForResponse((r) => r.url().includes("/api/sessions"), { timeout: 25000 })
+        .catch(() => null);
       await page.goto(url, { waitUntil: "domcontentloaded", timeout: 40000 });
-      await page.waitForTimeout(2400);
       /*
-         Attendre que la session soit posée — vraiment.
+         Attendre la réponse de la session, pas son affichage.
 
-         Six secondes suffisaient à un seul onglet ; à six en parallèle, le
-         serveur répond plus tard et l'on lisait l'écran d'avant. impact-118
-         affichait « CHRONOS HOROLOGY SA. GENÈVE » à une seconde et le nom du
-         client à trois : la page était juste, la mesure fausse. On attend donc
-         vingt secondes, et si le nom n'arrive pas, on le dit au lieu
-         d'accuser le thème.
+         Guetter le nom du client dans la page paraissait plus sûr : c'est plus
+         strict. Mais toutes les pages ne l'affichent pas — les mentions
+         légales, les conditions, les pages d'éthique d'impact-06 n'ont aucune
+         raison de le porter — et le balayage les déclarait toutes « session non
+         chargée ». On attend donc que `/api/sessions` ait répondu, puis un
+         souffle pour que React ait rendu.
+
+         Sans cette attente, à quatre onglets en parallèle, on lisait l'écran
+         d'avant : impact-118 montrait « CHRONOS HOROLOGY SA. GENÈVE » à une
+         seconde et le nom du client à trois. La page était juste, la mesure
+         fausse.
       */
-      const chargee = await page
-        .waitForFunction(() => (document.body.innerText ?? "").includes("Ateliers Vidal"), { timeout: 20000 })
-        .then(() => true)
-        .catch(() => false);
-      if (!chargee) {
-        fuites.push("session non chargée — mesure non concluante");
+      const repondu = await reponseSession.catch(() => null);
+      if (!repondu) {
+        fuites.push("session jamais demandée");
         await page.close();
-        fiches.push({ page: `${theme}${annexe ? "/" + annexe : ""}`, fuites });
-        console.log(`${String(fiches.length).padStart(4)}/${PAGES.length} ${theme}${annexe ? "/" + annexe : ""} ⏳ session non chargée`);
+        const nom0 = `${theme}${annexe ? "/" + annexe : ""}`;
+        fiches.push({ page: nom0, fuites });
+        console.log(`${String(fiches.length).padStart(4)}/${PAGES.length} ${nom0} ⏳ session jamais demandée`);
         continue;
       }
+      await page.waitForTimeout(1200);
+
       /* Descente progressive : les sections `whileInView` se démontent dès qu'on
          les dépasse, il faut lire le texte pendant la descente, pas après. */
       const vus = await page.evaluate(async () => {
