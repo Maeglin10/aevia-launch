@@ -56,7 +56,12 @@ for (const p of parcourir("app/templates")) {
       fin++;
     }
     const corps = src.slice(i, fin);
-    return new Set(["sessionData", "fd", "bp", "c"].filter((v) => new RegExp(`\\b${v}\\b`).test(corps)));
+    const lues = new Set(["sessionData", "fd", "bp", "c"].filter((v) => new RegExp(`\\b${v}\\b`).test(corps)));
+    /* Les lecteurs de la session mémorisée — `clientNameOr`, `clientCityOr` —
+       dépendent de `memoriserSession`, pas d'une variable. Deux témoignages en
+       vivaient, et leur recalcul passait avant la mémorisation. */
+    if (/\bclient[A-Za-z]+(?:Or|Ou)\s*\(/.test(corps)) lues.add("memoriserSession");
+    return lues;
   }
 
   for (let i = 0; i < lignes.length; i++) {
@@ -71,7 +76,8 @@ for (const p of parcourir("app/templates")) {
        session, qu'ils n'emploient pas, se trouvait plus loin.
     */
     for (let j = i + 1; j < Math.min(i + 21, lignes.length); j++) {
-      const a = lignes[j].match(/^\s+(sessionData|fd|bp|c)\s*=\s*[^=]/);
+      const a = lignes[j].match(/^\s+(sessionData|fd|bp|c)\s*=\s*[^=]/)
+        ?? lignes[j].match(/^\s+(memoriserSession)\s*\(/);
       if (a && lues.has(a[1]) && !/_LIVE\(\)/.test(lignes[j])) {
         fautes.push(`${p.slice("app/templates/".length)}:${i + 1}  ${m[1]} lit ${a[1]}, affectée ligne ${j + 1}`);
         break;

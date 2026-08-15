@@ -2890,8 +2890,8 @@ function FooterSection() {
                   marginBottom: 16,
                 }}
               >
-                Thomas<br />
-                <span style={{ color: C.orange }}>Lebrun</span>
+                {(clientName(sessionData) ?? "Thomas Lebrun").split(" ")[0]}<br />
+                <span style={{ color: C.orange }}>{(clientName(sessionData) ?? "Thomas Lebrun").split(" ").slice(1).join(" ")}</span>
                 <span style={{ color: C.muted, fontSize: 18, display: 'block', marginTop: 2 }}>
                   Coach
                 </span>

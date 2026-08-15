@@ -618,13 +618,13 @@ function Nav() {
                   className="text-[22px] font-[500] italic text-[var(--brand-light,#831843)] tracking-wide"
                   style={{ fontFamily: "'Playfair Display', serif" }}
                 >
-                  VELVET
+                  {(clientName(sessionData) ?? "Velvet Nails").split(" ")[0]}
                 </span>
                 <span
                   className="text-[10px] font-[600] uppercase tracking-[0.3em] text-[#BE185D] mt-1"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
-                  Nails
+                  {(clientName(sessionData) ?? "Velvet Nails").split(" ").slice(1).join(" ")}
                 </span>
               </>
             )}
