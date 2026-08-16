@@ -58,7 +58,7 @@ export default function CyberSecurityLayout({
                     Gastronomie.
                   </span>
                   <span className="text-2xl font-black tracking-tighter uppercase text-white">
-                    AEVIA<span className="text-emerald-500">KITCHEN.</span>
+                    {(clientName(__layoutSession) ?? "Aevia Kitchen").split(" ")[0]}<span className="text-emerald-500">{(clientName(__layoutSession) ?? "Aevia Kitchen").split(" ").slice(1).join(" ")}.</span>
                   </span>
                 </div>
                 <p className="text-white/20 max-w-sm mb-12 uppercase tracking-widest text-[10px] font-bold leading-relaxed italic">
