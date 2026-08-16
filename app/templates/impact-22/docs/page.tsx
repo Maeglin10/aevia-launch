@@ -70,12 +70,17 @@ const pipeline = [
   { step: "Réponse", code: '{\n  "completion": "...",\n  "usage": {...},\n  "latency_ms": 88\n}', desc: "Résultat structuré avec métriques" },
 ];
 
-const faqs_DEMO_ANNEXE = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function faqs_DEMO_ANNEXE_LIVE() {
+  return [
   { q: "Quelle est la différence avec Azure OpenAI ou Bedrock ?", a: `${clientName(sessionData) ?? "Nimbus"} est model-agnostic : vous pouvez swapper des modèles open-source et propriétaires via une seule API. Pas de vendor lock-in, coûts jusqu'à 80% inférieurs.` },
   { q: "Comment fonctionne la facturation ?", a: "Pay-as-you-go par token / image / seconde d'audio. Aucun engagement minimum. Volume discounts automatiques dès 10M tokens/mois." },
   { q: "Peut-on déployer nos propres modèles fine-tunés ?", a: "Oui. Upload via CLI ou S3-compatible API. Format GGUF, SafeTensors, ONNX. Votre modèle est privé et isolé dans votre namespace." },
   { q: "Quelle est la SLA uptime ?", a: "99.99% sur les endpoints production avec failover multi-région automatique. Compensations crédit si violation SLA." },
 ];
+}
+let faqs_DEMO_ANNEXE = faqs_DEMO_ANNEXE_LIVE();
 function faqs_LIVE() {
   return resolveList(clientFaq(sessionData)?.map((f: any, i: number) => ({ ...faqs_DEMO_ANNEXE[i % faqs_DEMO_ANNEXE.length], q: f.q, a: f.a })), faqs_DEMO_ANNEXE);
 }
@@ -125,6 +130,8 @@ export default function NimbusAIDocsPage() {
   }, []);
 
   sessionData = __session;
+
+  faqs_DEMO_ANNEXE = faqs_DEMO_ANNEXE_LIVE();
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
