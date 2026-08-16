@@ -38,10 +38,10 @@ export default function AnatomyPage() {
   c = __session?.generatedContent;
 
   return (
-    <div className="py-20 bg-[#050505]">
+    <div className="py-20 bg-[#050505] overflow-x-hidden">
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 md:gap-32 items-center">
-          <div className="lg:col-span-5">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-16 items-center">
+          <div className="lg:col-span-5 min-w-0">
             <Reveal>
               <span className="text-[10px] uppercase tracking-[0.4em] font-bold text-stone-600 mb-6 block">
                 Mechanical Integrity
@@ -95,7 +95,7 @@ export default function AnatomyPage() {
             </Reveal>
           </div>
 
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-7 min-w-0 relative overflow-hidden">
             <Reveal className="relative aspect-square rounded-full border border-white/5 p-12 flex items-center justify-center group overflow-hidden">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(168,162,158,0.05)_0%,transparent_70%)] animate-pulse" />
               {/* PSEUDO ANATOMY VISUAL */}

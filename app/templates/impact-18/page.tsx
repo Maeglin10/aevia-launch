@@ -17,6 +17,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientSlug,
   clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -336,7 +337,7 @@ return (
                   <div className="bg-[#161B27] border border-white/10 rounded-2xl p-6 overflow-hidden">
                     <div className="flex items-center gap-3 mb-6">
                       <div className="flex gap-1.5"><div className="w-3 h-3 rounded-full bg-red-500/70" /><div className="w-3 h-3 rounded-full bg-yellow-500/70" /><div className="w-3 h-3 rounded-full bg-green-500/70" /></div>
-                      <span className="text-gray-500 text-xs">streamline — Vue Kanban</span>
+                      <span className="text-gray-500 text-xs">{clientSlug(sessionData) ?? "streamline"} — Vue Kanban</span>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 overflow-x-auto">
                       {kanban.map(col => (
@@ -623,7 +624,7 @@ function DocsPage() {
               Requête API standard pour lister les tâches actives :
             </p>
             <pre className="bg-[#0D1117] p-4 rounded-xl text-xs text-gray-300 overflow-x-auto font-mono">
-              GET https://api.streamline.sh/v1/tasks?status=active
+              GET https://api.{clientSlug(sessionData) ?? "streamline"}.sh/v1/tasks?status=active
             </pre>
           </div>
         </div>

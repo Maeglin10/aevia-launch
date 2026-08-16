@@ -4,6 +4,7 @@ import {
   clientFaq,
   clientName,
   clientServices,
+  clientSlug,
 } from "@/lib/templates/clientContent";
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
@@ -222,9 +223,9 @@ export default function NimbusAIDocsPage() {
                   </div>
                   <div className="p-4 font-mono text-sm">
                     <p className="text-gray-500 mb-1"># npm</p>
-                    <p className="text-[#06B6D4] mb-3">npm install @nimbusai/sdk</p>
+                    <p className="text-[#06B6D4] mb-3">npm install @{clientSlug(sessionData) ?? "nimbusai"}/sdk</p>
                     <p className="text-gray-500 mb-1"># pip</p>
-                    <p className="text-[#06B6D4] mb-3">pip install nimbusai</p>
+                    <p className="text-[#06B6D4] mb-3">pip install {clientSlug(sessionData) ?? "nimbusai"}</p>
                     <p className="text-gray-500 mb-1"># curl (sans SDK)</p>
                     <p className="text-[#06B6D4]">curl -X POST https://api.nimbus.ai/v1/inference \</p>
                     <p className="text-[#06B6D4] pl-4">-H &quot;Authorization: Bearer $NIMBUS_API_KEY&quot; \</p>

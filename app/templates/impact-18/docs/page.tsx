@@ -2,6 +2,7 @@
 import {
   clientCity,
   clientName,
+  clientSlug,
 } from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -120,7 +121,7 @@ export default function DocsPage() {
                   Requête API standard pour lister les tâches actives :
                 </p>
                 <pre className="bg-[#0D1117] p-4 rounded-xl text-xs text-gray-300 overflow-x-auto font-mono">
-                  GET https://api.streamline.sh/v1/tasks?status=active
+                  GET https://api.{clientSlug(sessionData) ?? "streamline"}.sh/v1/tasks?status=active
                 </pre>
               </div>
             </div>
