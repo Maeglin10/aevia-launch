@@ -71,7 +71,7 @@ const pipeline = [
 ];
 
 const faqs_DEMO_ANNEXE = [
-  { q: "Quelle est la différence avec Azure OpenAI ou Bedrock ?", a: "Nimbus est model-agnostic : vous pouvez swapper des modèles open-source et propriétaires via une seule API. Pas de vendor lock-in, coûts jusqu'à 80% inférieurs." },
+  { q: "Quelle est la différence avec Azure OpenAI ou Bedrock ?", a: `${clientName(sessionData) ?? "Nimbus"} est model-agnostic : vous pouvez swapper des modèles open-source et propriétaires via une seule API. Pas de vendor lock-in, coûts jusqu'à 80% inférieurs.` },
   { q: "Comment fonctionne la facturation ?", a: "Pay-as-you-go par token / image / seconde d'audio. Aucun engagement minimum. Volume discounts automatiques dès 10M tokens/mois." },
   { q: "Peut-on déployer nos propres modèles fine-tunés ?", a: "Oui. Upload via CLI ou S3-compatible API. Format GGUF, SafeTensors, ONNX. Votre modèle est privé et isolé dans votre namespace." },
   { q: "Quelle est la SLA uptime ?", a: "99.99% sur les endpoints production avec failover multi-région automatique. Compensations crédit si violation SLA." },
@@ -248,9 +248,9 @@ export default function NimbusAIDocsPage() {
                     <Code className="w-4 h-4 text-gray-500" />
                     <span className="text-gray-500 text-xs font-medium">Python</span>
                   </div>
-                  <div className="p-4 font-mono text-sm text-[#06B6D4] whitespace-pre-line">{`from nimbusai import NimbusClient
+                  <div className="p-4 font-mono text-sm text-[#06B6D4] whitespace-pre-line">{`from ${clientSlug(sessionData) ?? "nimbusai"} import ${(clientName(sessionData) ?? "Nimbus").replace(/[^A-Za-zÀ-ÿ0-9]/g, "")}Client
 
-client = NimbusClient(
+client = ${(clientName(sessionData) ?? "Nimbus").replace(/[^A-Za-zÀ-ÿ0-9]/g, "")}Client(
     api_key="nb_sk_...",  # ou env NIMBUS_API_KEY
     region="eu-west-1"
 )
