@@ -78,7 +78,7 @@ export default function HorologsLayout({
                 Celestial.
               </span>
               <span className="text-xl md:text-2xl font-black tracking-tighter uppercase text-white">
-                HOROLOGS<span className="text-stone-600">.LUXE</span>
+                {(clientName(__layoutSession) ?? "HOROLOGS.LUXE").split(".")[0]}<span className="text-stone-600">{(clientName(__layoutSession) ?? "HOROLOGS.LUXE").includes(".") ? "." + (clientName(__layoutSession) ?? "HOROLOGS.LUXE").split(".").slice(1).join(".") : ""}</span>
               </span>
             </>
               </>))}</Link>
@@ -173,7 +173,7 @@ export default function HorologsLayout({
                     Celestial.
                   </span>
                   <span className="text-2xl font-black tracking-tighter uppercase text-white">
-                    HOROLOGS<span className="text-stone-600">.LUXE</span>
+                    {(clientName(__layoutSession) ?? "HOROLOGS.LUXE").split(".")[0]}<span className="text-stone-600">{(clientName(__layoutSession) ?? "HOROLOGS.LUXE").includes(".") ? "." + (clientName(__layoutSession) ?? "HOROLOGS.LUXE").split(".").slice(1).join(".") : ""}</span>
                   </span>
                 </div>
                 <p className="text-white/20 max-w-sm mb-12 uppercase tracking-widest text-[10px] font-bold leading-relaxed italic">
@@ -275,7 +275,7 @@ export default function HorologsLayout({
 
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-10 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/10">
             <div className="flex items-center gap-10">
-              <span>&copy; {new Date().getFullYear()} HOROLOGS LUXE Inc.</span>
+              <span>&copy; {new Date().getFullYear()} {clientName(__layoutSession) ?? "HOROLOGS LUXE Inc."}</span>
               <Link href="/templates/impact-77/legal" className="hover:text-white transition-colors">
                 Regulatory_Terms
               </Link>
