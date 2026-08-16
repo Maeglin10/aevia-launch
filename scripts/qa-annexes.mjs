@@ -85,7 +85,28 @@ async function travailleur() {
         une seconde plus tard. Échéance de six secondes, puis on lit quand même.
       */
       await page
-        .waitForFunction(() => (document.body.textContent ?? "").includes("Ateliers Vidal"), { timeout: 6000 })
+        /*
+          L'attente doit porter sur ce qui se voit. Le titre masqué que l'on
+          pose pour les moteurs de recherche est dans `textContent` dès le
+          premier rendu : la condition était donc satisfaite aussitôt, et la
+          lecture se faisait avant l'arrivée de la session. Soixante-sept pages
+          ont été déclarées sans le nom du client alors qu'elles l'affichaient
+          une seconde plus tard.
+        */
+        .waitForFunction(() => {
+          /* La même définition du visible que pour le verdict : sans quoi
+             l'attente réclame ce que certains thèmes n'affichent jamais, expire,
+             et la lecture se fait sur l'écran d'avant. */
+          const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+          for (let n = w.nextNode(); n; n = w.nextNode()) {
+            if (!(n.nodeValue ?? "").includes("Ateliers Vidal")) continue;
+            const e = n.parentElement;
+            if (!e || e.closest("style,script,noscript,template")) continue;
+            const r = e.getBoundingClientRect();
+            if (r.width >= 1 && r.height >= 1) return true;
+          }
+          return false;
+        }, { timeout: 20000 })
         .catch(() => {});
       await page.evaluate(async () => {
         for (let y = 0; y < document.body.scrollHeight; y += 600) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 70)); }
@@ -101,7 +122,31 @@ async function travailleur() {
             accusées de montrer une marque invisible à l'écran.
         */
         const t = (document.body.textContent ?? "").replace(/\s+/g, " ");
-        const vu = (document.body.innerText ?? "").replace(/\s+/g, " ");
+        /*
+          Ce qui se voit, mesuré à la géométrie.
+
+          `innerText` s'est révélé menteur : sur impact-28/contact il omet un
+          lien que la page peint pourtant à 285×31 pixels en haut de l'écran,
+          nom du client compris. Soixante-sept pages ont été déclarées sans
+          identité pour cette seule raison. On retient donc chaque nœud de
+          texte dont le parent occupe une surface non nulle.
+        */
+        const morceauxVus = [];
+        {
+          const marcheur = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+          for (let n = marcheur.nextNode(); n; n = marcheur.nextNode()) {
+            const texte = (n.nodeValue ?? "").trim();
+            if (!texte) continue;
+            const e = n.parentElement;
+            if (!e || e.closest("style,script,noscript,template")) continue;
+            const r = e.getBoundingClientRect();
+            if (r.width < 1 || r.height < 1) continue;
+            const st = getComputedStyle(e);
+            if (st.visibility === "hidden" || st.display === "none") continue;
+            morceauxVus.push(texte);
+          }
+        }
+        const vu = morceauxVus.join(" ").replace(/\s+/g, " ");
         /*
           Le nom doit être VU, pas seulement présent.
 
