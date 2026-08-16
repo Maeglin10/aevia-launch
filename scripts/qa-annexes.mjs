@@ -102,7 +102,16 @@ async function travailleur() {
         */
         const t = (document.body.textContent ?? "").replace(/\s+/g, " ");
         const vu = (document.body.innerText ?? "").replace(/\s+/g, " ");
-        return { longueur: t.length, texte: t, visible: vu, nom: t.includes("Ateliers Vidal"),
+        /*
+          Le nom doit être VU, pas seulement présent.
+
+          `textContent` voit tout le document, y compris le titre de page que
+          l'on pose masqué pour les moteurs de recherche. Il déclarait donc le
+          nom du client présent sur des pages où le visiteur ne lisait que la
+          marque de la démonstration — impact-77/anatomy affichait « HOROLOGS »
+          en pied de page et passait le contrôle.
+        */
+        return { longueur: t.length, texte: t, visible: vu, nom: vu.includes("Ateliers Vidal"),
           deCote: document.documentElement.scrollWidth > document.documentElement.clientWidth + 2,
           erreur: /couldn.t load|Application error|404|introuvable/i.test(t.slice(0, 160)) };
       });

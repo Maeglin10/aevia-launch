@@ -1,5 +1,8 @@
 "use client";
-import { memoriserSession } from "@/lib/templates/clientContent";
+import {
+  clientName,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 // @ts-nocheck
 
@@ -51,7 +54,7 @@ export default function AnatomyPage() {
                 <span className="text-stone-600 not-italic">Anatomy.</span>
               </h2>
               <p className="text-lg text-white/20 leading-relaxed font-bold mb-16 uppercase tracking-tight italic">
-                Every Horologs piece consists of over 420 individual components,
+                Every {clientName(sessionData) ?? "Horologs"} piece consists of over 420 individual components,
                 assembled by hand under high-resolution magnification.
               </p>
 
