@@ -1,0 +1,80 @@
+/*
+  La prose de démonstration de ce thème, dans les langues que nous proposons.
+
+  Ces phrases sont écrites en dur dans le thème : elles ne viennent d'aucun
+  champ du formulaire, et disparaissent dès que le client remplit le bloc
+  correspondant. Les traduire est ce qui tient la page tant qu'il ne l'a pas
+  fait — un site français ne montre pas de paragraphe anglais.
+
+  Chargé par BrandColorVar avec ce thème et avec lui seul.
+*/
+export const TRADUCTIONS: Record<string, Record<string, string>> = {
+  fr: {
+    "a studio that still argues about kerning, and it shows in the work.": "Un atelier qui se dispute encore sur l'approche des lettres, et cela se voit.",
+    "a wordmark that survives a favicon is a different problem from one that survives a billboard. both matter.": "Un logotype qui tient dans une favicone n'est pas le même problème qu'un logotype qui tient sur un panneau. Les deux comptent.",
+    "behind the": "Derrière",
+    "design intern — autumn": "Stage en conception — automne",
+    "design with intent.": "CONCEVOIR AVEC INTENTION.",
+    "designing for the second read": "Concevoir pour la seconde lecture",
+    "five years plus. you lead the mark, we handle the rest.": "Cinq ans et plus. Vous portez la marque, nous faisons le reste.",
+    "most identity work is judged in three seconds and lived with for three years. we build for the second one.": "Une identité se juge en trois secondes et se vit trois ans. Nous travaillons pour la seconde durée.",
+    "notes from the studio": "Notes de l'atelier",
+    "quietly one of the most disciplined practices working in europe.": "Sans bruit, l'une des agences les plus rigoureuses d'Europe.",
+    "the rebrand shipped with a third of what we designed. here is what came out and why the work is better for it.": "La refonte est partie avec un tiers de ce que nous avions dessiné. Voici ce qui est tombé, et pourquoi le travail y gagne.",
+    "their identity work reads as inevitable, which is the hardest thing to fake.": "Leurs identités semblent évidentes, ce qui est le plus difficile à feindre.",
+    "what we cut from meridian": "Ce que nous avons retiré du projet Meridian",
+    "what we shipped, what we learned, and the occasional thing we got wrong. no campaigns, no drip sequence, unsubscribe in one click.": "Ce que nous avons livré, ce que nous avons appris, et parfois ce que nous avons raté. Pas de campagne, pas de séquence, désinscription en un clic.",
+    "you have opinions about easing curves. so do we.": "Vous avez un avis sur les courbes d'accélération. Nous aussi.",
+  },
+  es: {
+    "a studio that still argues about kerning, and it shows in the work.": "Un estudio que todavía discute sobre el kerning, y se nota.",
+    "a wordmark that survives a favicon is a different problem from one that survives a billboard. both matter.": "Un logotipo que aguanta en un favicon no es el mismo problema que uno que aguanta en una valla. Ambos importan.",
+    "behind the": "Detrás de",
+    "design intern — autumn": "Prácticas de diseño — otoño",
+    "design with intent.": "DISEÑAR CON INTENCIÓN.",
+    "designing for the second read": "Diseñar para la segunda lectura",
+    "five years plus. you lead the mark, we handle the rest.": "Cinco años o más. Usted lleva la marca, nosotros hacemos el resto.",
+    "most identity work is judged in three seconds and lived with for three years. we build for the second one.": "Una identidad se juzga en tres segundos y se vive tres años. Trabajamos para la segunda duración.",
+    "notes from the studio": "Notas del estudio",
+    "quietly one of the most disciplined practices working in europe.": "Sin ruido, uno de los estudios más rigurosos de Europa.",
+    "the rebrand shipped with a third of what we designed. here is what came out and why the work is better for it.": "El rediseño salió con un tercio de lo que habíamos dibujado. Esto es lo que se cayó, y por qué el trabajo gana con ello.",
+    "their identity work reads as inevitable, which is the hardest thing to fake.": "Sus identidades parecen evidentes, que es lo más difícil de fingir.",
+    "what we cut from meridian": "Lo que quitamos del proyecto Meridian",
+    "what we shipped, what we learned, and the occasional thing we got wrong. no campaigns, no drip sequence, unsubscribe in one click.": "Lo que hemos entregado, lo que hemos aprendido y, a veces, lo que fallamos. Sin campañas, sin secuencias, baja en un clic.",
+    "you have opinions about easing curves. so do we.": "Tiene opiniones sobre las curvas de aceleración. Nosotros también.",
+  },
+  de: {
+    "a studio that still argues about kerning, and it shows in the work.": "Ein Studio, das noch über Unterschneidung streitet — man sieht es der Arbeit an.",
+    "a wordmark that survives a favicon is a different problem from one that survives a billboard. both matter.": "Eine Wortmarke, die als Favicon besteht, ist ein anderes Problem als eine, die auf einer Plakatwand besteht. Beides zählt.",
+    "behind the": "Hinter",
+    "design intern — autumn": "Praktikum Gestaltung — Herbst",
+    "design with intent.": "MIT ABSICHT GESTALTEN.",
+    "designing for the second read": "Für den zweiten Blick gestalten",
+    "five years plus. you lead the mark, we handle the rest.": "Fünf Jahre und mehr. Sie führen die Marke, wir machen den Rest.",
+    "most identity work is judged in three seconds and lived with for three years. we build for the second one.": "Eine Identität wird in drei Sekunden beurteilt und drei Jahre lang gelebt. Wir arbeiten für die zweite Dauer.",
+    "notes from the studio": "Notizen aus dem Studio",
+    "quietly one of the most disciplined practices working in europe.": "Ganz still eines der diszipliniertesten Büros Europas.",
+    "the rebrand shipped with a third of what we designed. here is what came out and why the work is better for it.": "Der Relaunch ging mit einem Drittel dessen live, was wir entworfen hatten. Hier steht, was wegfiel — und warum die Arbeit dadurch besser ist.",
+    "their identity work reads as inevitable, which is the hardest thing to fake.": "Ihre Identitäten wirken zwingend — das Schwerste, was sich vortäuschen lässt.",
+    "what we cut from meridian": "Was wir aus dem Meridian-Projekt gestrichen haben",
+    "what we shipped, what we learned, and the occasional thing we got wrong. no campaigns, no drip sequence, unsubscribe in one click.": "Was wir geliefert haben, was wir gelernt haben, und gelegentlich, was wir falsch gemacht haben. Keine Kampagnen, keine Sequenzen, Abmeldung mit einem Klick.",
+    "you have opinions about easing curves. so do we.": "Sie haben eine Meinung zu Easing-Kurven. Wir auch.",
+  },
+  pt: {
+    "a studio that still argues about kerning, and it shows in the work.": "Um atelier que ainda discute o kerning, e isso vê-se.",
+    "a wordmark that survives a favicon is a different problem from one that survives a billboard. both matter.": "Um logótipo que aguenta num favicon não é o mesmo problema que um que aguenta num outdoor. Ambos contam.",
+    "behind the": "Por trás de",
+    "design intern — autumn": "Estágio em design — outono",
+    "design with intent.": "DESENHAR COM INTENÇÃO.",
+    "designing for the second read": "Desenhar para a segunda leitura",
+    "five years plus. you lead the mark, we handle the rest.": "Cinco anos ou mais. Você lidera a marca, nós fazemos o resto.",
+    "most identity work is judged in three seconds and lived with for three years. we build for the second one.": "Uma identidade julga-se em três segundos e vive-se três anos. Trabalhamos para a segunda duração.",
+    "notes from the studio": "Notas do atelier",
+    "quietly one of the most disciplined practices working in europe.": "Sem ruído, um dos ateliers mais rigorosos da Europa.",
+    "the rebrand shipped with a third of what we designed. here is what came out and why the work is better for it.": "A reformulação saiu com um terço do que tínhamos desenhado. Eis o que caiu, e porque é que o trabalho ganha com isso.",
+    "their identity work reads as inevitable, which is the hardest thing to fake.": "As suas identidades parecem evidentes, o que é o mais difícil de fingir.",
+    "what we cut from meridian": "O que retirámos do projeto Meridian",
+    "what we shipped, what we learned, and the occasional thing we got wrong. no campaigns, no drip sequence, unsubscribe in one click.": "O que entregámos, o que aprendemos e, por vezes, o que falhámos. Sem campanhas, sem sequências, cancelamento num clique.",
+    "you have opinions about easing curves. so do we.": "Tem opiniões sobre as curvas de aceleração. Nós também.",
+  },
+};
