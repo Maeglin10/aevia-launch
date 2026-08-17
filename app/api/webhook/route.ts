@@ -10,7 +10,7 @@ import {
   type FormData as SiteFormData,
   type GeneratedContent,
 } from "@/lib/sessions";
-import { generateMockContent } from "@/lib/mockContent";
+import { contenuDepuisLeClient } from "@/lib/contenuDepuisLeClient";
 
 // IMPORTANT: configure RESEND_FROM_EMAIL with a verified domain (e.g., noreply@aevia.io)
 export const runtime = "nodejs";
@@ -806,7 +806,7 @@ Retourne uniquement du JSON valide, sans markdown.`;
           // Le repli reste, mais il est signalé : un contenu générique livré à
           // un client payant est un incident, pas un fonctionnement normal.
           console.error("[webhook] génération Gemini échouée, repli générique:", err);
-          generatedContent = generateMockContent(formData);
+          generatedContent = contenuDepuisLeClient(formData);
           if (resend) {
             void resend.emails
               .send({
@@ -820,7 +820,7 @@ Retourne uniquement du JSON valide, sans markdown.`;
         }
       } else {
         console.error("[webhook] GEMINI_API_KEY absente — contenu générique");
-        generatedContent = generateMockContent(formData);
+        generatedContent = contenuDepuisLeClient(formData);
       }
 
       const previewSessionId = crypto.randomUUID();

@@ -256,7 +256,17 @@ function buildPrompt(formData: FormData): string {
     : "";
   const rawMenu = sectorExtras?.menuItems?.trim();
 
-  return `Tu es un copywriter web expert. Génère le contenu d'un site pour ce business en français professionnel et percutant.
+  /*
+     La langue du site est celle que le visiteur a choisie au formulaire. Cette
+     consigne imposait le français : un client espagnol recevait un site
+     français, un client allemand un site français.
+  */
+  const LANGUES: Record<string, string> = {
+    fr: "français", en: "anglais", es: "espagnol", de: "allemand", pt: "portugais",
+  };
+  const langue = LANGUES[(formData.locale ?? "fr").slice(0, 2).toLowerCase()] ?? "français";
+
+  return `Tu es un copywriter web expert. Génère le contenu d'un site pour ce business en ${langue} professionnel et percutant. TOUT le contenu — accroche, à propos, prestations, avis, appel à action, méta — doit être rédigé en ${langue}, sans un mot d'une autre langue.
 - Nom: ${formData.businessName}
 - Type / métier: ${formData.businessType}
 - Thème visuel: ${formData.template ?? ""}

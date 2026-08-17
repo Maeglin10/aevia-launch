@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { saveSession, saveSessionToBlob, getSession, getSessionFromBlob, type FormData, type GeneratedContent } from "@/lib/sessions";
 import { submitToIndexNow } from "@/lib/indexnow";
-import { generateMockContent } from "@/lib/mockContent";
+import { contenuDepuisLeClient } from "@/lib/contenuDepuisLeClient";
 import { generateWithFreeProviders, extractMenuItems } from "@/lib/llmProviders";
 import { generateLegalPages } from "@/lib/legal/generateLegalPages";
 
@@ -84,10 +84,15 @@ export async function POST(req: NextRequest) {
       generatedContent = llmOutcome.content;
     } else {
       console.warn(
-        "[generate] all free LLM providers failed, using mock:",
+        "[generate] all free LLM providers failed, falling back to client-derived content:",
         JSON.stringify(llmOutcome.attempts),
       );
-      generatedContent = generateMockContent(formData);
+      /*
+        Le repli se bâtit sur ce que le client a dit, dans sa langue. L'ancien
+        jeu de phrases par métier servait « Digital experiences that convert »
+        à un plombier, et seize de ses dix-neuf jeux étaient en anglais.
+      */
+      generatedContent = contenuDepuisLeClient(formData);
     }
 
     // A pasted menu is often dropped by the big generation call (it prioritises
