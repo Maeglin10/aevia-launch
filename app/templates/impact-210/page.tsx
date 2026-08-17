@@ -32,6 +32,7 @@ import {
   clientStats,
   clientTagline,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1442,7 +1443,11 @@ function GallerySection({ accentColor }: { accentColor: string }) {
             gap: 16,
           }}
         >
-          {GALLERY_ITEMS.map((item, i) => (
+          {resolveList(
+              /* Les réalisations du client remplacent la galerie de la démonstration. */
+              clientWorks(sessionData)?.map((o: any, i: number) => ({ ...GALLERY_ITEMS[i % GALLERY_ITEMS.length], label: o.title, img: o.imageUrl })),
+              GALLERY_ITEMS,
+            ).map((item, i) => (
             <motion.div
               key={item.id}
               className="i210-gallery-item"
