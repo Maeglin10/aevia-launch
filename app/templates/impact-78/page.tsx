@@ -26,6 +26,7 @@ import {
   clientStats,
   clientText,
   clientWorks,
+  fusionnerEtapes,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -202,7 +203,7 @@ export default function AetherRoasteryPage() {
 
   PROCESS_STEPS = resolveList(
 
-    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_STEPS[i % PROCESS_STEPS.length], ...e })),
+    fusionnerEtapes(PROCESS_STEPS, clientMethode(sessionData)),
 
     PROCESS_STEPS,
 

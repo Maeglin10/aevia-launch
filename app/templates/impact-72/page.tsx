@@ -18,6 +18,7 @@ import {
   clientServices,
   clientTagline,
   clientText,
+  fusionnerEtapes,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
@@ -379,7 +380,7 @@ return (
 
           {/* Steps grid — 4 columns desktop */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: "0" }}>
-            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_STEPS[i % PROCESS_STEPS.length], ...e })), PROCESS_STEPS).map((step, i) => (
+            {resolveList(fusionnerEtapes(PROCESS_STEPS, clientMethode(sessionData)), PROCESS_STEPS).map((step, i) => (
               <motion.div
                 key={step.num}
                 initial={{ opacity: 0, y: 30 }}

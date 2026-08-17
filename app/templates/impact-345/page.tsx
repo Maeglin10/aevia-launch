@@ -40,6 +40,7 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -398,7 +399,7 @@ export default function MaisonBertinPage() {
   METHODE = METHODE_LIVE();
   /* La méthode du client remplace les étapes de la démonstration. */
   METHODE = resolveList(
-    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_SOURCE[i % METHODE_SOURCE.length], ...e })),
+    fusionnerEtapes(METHODE_SOURCE, clientMethode(sessionData)),
     METHODE_SOURCE,
   );
 

@@ -22,6 +22,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -132,7 +133,7 @@ export default function PotagerEstuairePage() {
   sessionData = session;
   /* La méthode du client remplace les étapes de la démonstration. */
   METHODE = resolveList(
-    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    fusionnerEtapes(METHODE, clientMethode(sessionData)),
     METHODE,
   );
   HERO_DEMO = HERO_DEMO_LIVE();

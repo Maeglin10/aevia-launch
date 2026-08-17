@@ -23,6 +23,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -439,7 +440,7 @@ export default function EvasionDoree() {
   sessionData = session;
   /* La méthode du client remplace les étapes de la démonstration. */
   PROCESS_STEPS = resolveList(
-    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_STEPS[i % PROCESS_STEPS.length], ...e })),
+    fusionnerEtapes(PROCESS_STEPS, clientMethode(sessionData)),
     PROCESS_STEPS,
   );
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();

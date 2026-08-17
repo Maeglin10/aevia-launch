@@ -19,6 +19,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 /* Les étapes de la démonstration, sorties du rendu pour que la méthode du
@@ -784,10 +785,9 @@ export default function AetherLabsPage() {
             </Reveal>
           </div>
           <div className="grid md:grid-cols-4 gap-px bg-[#D4C9B0]">
-            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({
-              ...METHODE_DEMO_85[i % METHODE_DEMO_85.length],
+            {resolveList(fusionnerEtapes(METHODE_DEMO_85, clientMethode(sessionData))?.map((e: any, i: number) => ({
               ...e,
-              /* Ce thème décrit le geste dans `action`, un nom qu'aucun autre
+              /* Ce thème décrit le geste dans « action », un nom qu'aucun autre
                  thème n'emploie : la description du client y va aussi. */
               action: e.desc || METHODE_DEMO_85[i % METHODE_DEMO_85.length].action,
             })), METHODE_DEMO_85).map((r, i) => (

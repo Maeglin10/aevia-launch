@@ -47,6 +47,7 @@ import {
   clientTeam,
   clientText,
   clientWorks,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 let bp: any = null;
 let sessionData: any = null;
@@ -835,7 +836,7 @@ export default function ImpactAgencyTemplate() {
   sessionData = session;
   /* La méthode du client remplace les étapes de la démonstration. */
   PROCESS_STEPS = resolveList(
-    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_STEPS[i % PROCESS_STEPS.length], ...e })),
+    fusionnerEtapes(PROCESS_STEPS, clientMethode(sessionData)),
     PROCESS_STEPS,
   );
   c = session?.generatedContent;

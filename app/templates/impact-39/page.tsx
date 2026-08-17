@@ -304,7 +304,7 @@ return (
               <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 440, margin: "0 auto", lineHeight: 1.7 }}>Quatre étapes simples. Zéro surprise. Vos affaires déplacées avec soin.</p>
             </div>
           </SectionReveal>
-          <StepTimeline />
+          <StepTimeline session={sessionData} />
         </div>
       </section>
 

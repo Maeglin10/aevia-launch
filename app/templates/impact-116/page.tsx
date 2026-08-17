@@ -27,6 +27,7 @@ import {
   clientStats,
   clientTeam,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -378,7 +379,7 @@ export default function KineticStudio() {
           {resolveList(
             /* Ce thème titre l'étape dans `step` — un nom que d'autres thèmes
                réservent au numéro d'ordre, d'où l'écriture locale. */
-            clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS[i % PROCESS.length], ...e, step: e.name })),
+            fusionnerEtapes(PROCESS, clientMethode(sessionData))?.map((e: any) => ({ ...e, step: e.name })),
             PROCESS,
           ).map((item, idx) => (
             <AccordionItem key={idx} value={`step-${idx}`} className="border-[var(--brand,#ff5500)]/20">
@@ -557,7 +558,7 @@ export default function KineticStudio() {
           {resolveList(
             /* Ce thème titre l'étape dans `step` — un nom que d'autres thèmes
                réservent au numéro d'ordre, d'où l'écriture locale. */
-            clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS[i % PROCESS.length], ...e, step: e.name })),
+            fusionnerEtapes(PROCESS, clientMethode(sessionData))?.map((e: any) => ({ ...e, step: e.name })),
             PROCESS,
           ).map((item, idx) => (
             <AccordionItem key={idx} value={`step-${idx}`} className="border-[var(--brand,#ff5500)]/20 mb-3">

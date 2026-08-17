@@ -26,6 +26,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  fusionnerEtapes,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 
@@ -633,7 +634,7 @@ return (
             <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-20" style={{ fontFamily: "Cinzel, Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>Comment ça fonctionne</>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_DEMO_59[i % METHODE_DEMO_59.length], ...e })), METHODE_DEMO_59).map((s, i) => (
+            {resolveList(fusionnerEtapes(METHODE_DEMO_59, clientMethode(sessionData)), METHODE_DEMO_59).map((s, i) => (
               <Reveal key={s.num} delay={i * 0.1}>
                 <div>
                   <div className="text-5xl font-light text-[var(--brand,#3d7a5e)]/20 mb-6" style={{ fontFamily: "Cinzel, Georgia, serif" }}>{s.num}</div>

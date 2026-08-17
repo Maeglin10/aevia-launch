@@ -25,6 +25,7 @@ import {
   clientStats,
   clientText,
   clientWorks,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1490,7 +1491,7 @@ export default function Impact175Page() {
               </>}</motion.p>
             </div>
             <div>
-              {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS[i % PROCESS.length], ...e })), PROCESS).map((step, i) => (
+              {resolveList(fusionnerEtapes(PROCESS, clientMethode(sessionData)), PROCESS).map((step, i) => (
                 <ProcessStep key={i} step={step} index={i} />
               ))}
             </div>

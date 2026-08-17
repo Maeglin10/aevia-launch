@@ -29,6 +29,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  fusionnerEtapes,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -954,7 +955,7 @@ export default function MaskUnitHome() {
   sessionData = session;
   /* La méthode du client remplace les étapes de la démonstration. */
   PROCESS_STEPS = resolveList(
-    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_STEPS[i % PROCESS_STEPS.length], ...e })),
+    fusionnerEtapes(PROCESS_STEPS, clientMethode(sessionData)),
     PROCESS_STEPS,
   );
   memoriserSession(sessionData);

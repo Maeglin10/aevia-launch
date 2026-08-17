@@ -27,6 +27,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 
@@ -432,7 +433,7 @@ export default function AllureAppuiPage() {
   sessionData = session;
   /* La méthode du client remplace les étapes de la démonstration. */
   METHODE = resolveList(
-    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_SOURCE[i % METHODE_SOURCE.length], ...e })),
+    fusionnerEtapes(METHODE_SOURCE, clientMethode(sessionData)),
     METHODE_SOURCE,
   );
   TARIFS_SOURCE = TARIFS_SOURCE_LIVE();

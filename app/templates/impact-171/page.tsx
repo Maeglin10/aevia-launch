@@ -23,6 +23,7 @@ import {
   clientServices,
   clientTeam,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 function navLinks_LIVE() {
@@ -287,7 +288,7 @@ export default function Impact171Page() {
   sessionData = session;
   /* La méthode du client remplace les étapes de la démonstration. */
   STEPS = resolveList(
-    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...STEPS[i % STEPS.length], ...e })),
+    fusionnerEtapes(STEPS, clientMethode(sessionData)),
     STEPS,
   );
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();

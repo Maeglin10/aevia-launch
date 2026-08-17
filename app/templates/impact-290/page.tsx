@@ -37,6 +37,7 @@ import {
   clientCity,
   clientHeroLine,
   clientList,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -45,7 +46,41 @@ import {
   clientStats,
   clientTagline,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
+
+/* Les étapes de la démonstration, écrites une fois. */
+const ETAPES_DEMO_290 = [
+    {
+      Icon: ClipboardList,
+      num: '01',
+      title: 'Diagnostic énergétique',
+      text:
+        'Visite sur site gratuite. Évaluation thermique de votre logement, étude de vos besoins et mesure de la performance actuelle. Rapport détaillé remis sous 48h.',
+    },
+    {
+      Icon: Euro,
+      num: '02',
+      title: 'Devis aides déduites',
+      text:
+        "Devis transparent avec MaPrimeRénov', CEE et TVA réduite déduites d'emblée. Vous ne payez que le reste à charge réel — aucune avance sur aides à faire.",
+    },
+    {
+      Icon: Wrench,
+      num: '03',
+      title: 'Pose certifiée RGE',
+      text:
+        "Installation par nos techniciens certifiés. Chantier propre, respectueux de votre habitat. Mise en service complète et formation à l'utilisation.",
+    },
+    {
+      Icon: CalendarCheck,
+      num: '04',
+      title: 'Entretien annuel',
+      text:
+        'Contrat de maintenance annuel inclus la première année. Contrôle performances, nettoyage, réglages — pour garantir votre confort et votre garantie constructeur.',
+    },
+  ];
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -1028,95 +1063,13 @@ function ServiceCard({
    ════════════════════════════════════════════════════════════════════════════ */
 function ProcessSection() {
   const steps = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
-    {
-      Icon: ClipboardList,
-      num: '01',
-      title: 'Diagnostic énergétique',
-      text:
-        'Visite sur site gratuite. Évaluation thermique de votre logement, étude de vos besoins et mesure de la performance actuelle. Rapport détaillé remis sous 48h.',
-    },
-    {
-      Icon: Euro,
-      num: '02',
-      title: 'Devis aides déduites',
-      text:
-        "Devis transparent avec MaPrimeRénov', CEE et TVA réduite déduites d'emblée. Vous ne payez que le reste à charge réel — aucune avance sur aides à faire.",
-    },
-    {
-      Icon: Wrench,
-      num: '03',
-      title: 'Pose certifiée RGE',
-      text:
-        "Installation par nos techniciens certifiés. Chantier propre, respectueux de votre habitat. Mise en service complète et formation à l'utilisation.",
-    },
-    {
-      Icon: CalendarCheck,
-      num: '04',
-      title: 'Entretien annuel',
-      text:
-        'Contrat de maintenance annuel inclus la première année. Contrôle performances, nettoyage, réglages — pour garantir votre confort et votre garantie constructeur.',
-    },
-  ])[i % ([
-    {
-      Icon: ClipboardList,
-      num: '01',
-      title: 'Diagnostic énergétique',
-      text:
-        'Visite sur site gratuite. Évaluation thermique de votre logement, étude de vos besoins et mesure de la performance actuelle. Rapport détaillé remis sous 48h.',
-    },
-    {
-      Icon: Euro,
-      num: '02',
-      title: 'Devis aides déduites',
-      text:
-        "Devis transparent avec MaPrimeRénov', CEE et TVA réduite déduites d'emblée. Vous ne payez que le reste à charge réel — aucune avance sur aides à faire.",
-    },
-    {
-      Icon: Wrench,
-      num: '03',
-      title: 'Pose certifiée RGE',
-      text:
-        "Installation par nos techniciens certifiés. Chantier propre, respectueux de votre habitat. Mise en service complète et formation à l'utilisation.",
-    },
-    {
-      Icon: CalendarCheck,
-      num: '04',
-      title: 'Entretien annuel',
-      text:
-        'Contrat de maintenance annuel inclus la première année. Contrôle performances, nettoyage, réglages — pour garantir votre confort et votre garantie constructeur.',
-    },
-  ]).length], title: s.title, text: s.desc || "" })),
-    [
-    {
-      Icon: ClipboardList,
-      num: '01',
-      title: 'Diagnostic énergétique',
-      text:
-        'Visite sur site gratuite. Évaluation thermique de votre logement, étude de vos besoins et mesure de la performance actuelle. Rapport détaillé remis sous 48h.',
-    },
-    {
-      Icon: Euro,
-      num: '02',
-      title: 'Devis aides déduites',
-      text:
-        "Devis transparent avec MaPrimeRénov', CEE et TVA réduite déduites d'emblée. Vous ne payez que le reste à charge réel — aucune avance sur aides à faire.",
-    },
-    {
-      Icon: Wrench,
-      num: '03',
-      title: 'Pose certifiée RGE',
-      text:
-        "Installation par nos techniciens certifiés. Chantier propre, respectueux de votre habitat. Mise en service complète et formation à l'utilisation.",
-    },
-    {
-      Icon: CalendarCheck,
-      num: '04',
-      title: 'Entretien annuel',
-      text:
-        'Contrat de maintenance annuel inclus la première année. Contrôle performances, nettoyage, réglages — pour garantir votre confort et votre garantie constructeur.',
-    },
-  ],
+    /* La méthode du client d'abord ; ses prestations à défaut. */
+    fusionnerEtapes(ETAPES_DEMO_290, (clientMethode(sessionData) ?? clientServices(sessionData)) as any)?.map((s: any) => ({
+      ...s,
+      title: s.title,
+      text: s.desc || "",
+    })),
+    ETAPES_DEMO_290,
   );
 
   return (

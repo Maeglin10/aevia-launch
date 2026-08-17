@@ -24,6 +24,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1534,7 +1535,7 @@ function PillarPanel() {
             </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PILLARS[i % PILLARS.length], ...e })), PILLARS).map((pillar, i) => (
+            {resolveList(fusionnerEtapes(PILLARS, clientMethode(sessionData)), PILLARS).map((pillar, i) => (
               <Reveal key={pillar.number} delay={0.06 * i}>
                 <div
                   style={{

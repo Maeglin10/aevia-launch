@@ -49,6 +49,7 @@ import {
   clientStats,
   clientTagline,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -837,7 +838,7 @@ function BespokeSection() {
 
         {/* Steps */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-0">
-          {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...BESPOKE_STEPS[i % BESPOKE_STEPS.length], ...e })), BESPOKE_STEPS).map((step, i) => (
+          {resolveList(fusionnerEtapes(BESPOKE_STEPS, clientMethode(sessionData)), BESPOKE_STEPS).map((step, i) => (
             <Reveal key={step.step} delay={i * 0.12}>
               <div className="relative px-8 py-10 group">
                 {/* Connector line */}

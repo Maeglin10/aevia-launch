@@ -37,6 +37,7 @@ import {
   clientStats,
   clientTagline,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -2605,7 +2606,7 @@ export default function Impact286Page() {
   sessionData = session;
   /* La méthode du client remplace les étapes de la démonstration. */
   ETAPES = resolveList(
-    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...ETAPES[i % ETAPES.length], ...e })),
+    fusionnerEtapes(ETAPES, clientMethode(sessionData)),
     ETAPES,
   );
   PHOTO = PHOTO_LIVE();

@@ -42,6 +42,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -434,7 +435,7 @@ export default function BorealCourtagePage() {
   sessionData = session;
   /* La méthode du client remplace les étapes de la démonstration. */
   METHODE = resolveList(
-    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_SOURCE[i % METHODE_SOURCE.length], ...e })),
+    fusionnerEtapes(METHODE_SOURCE, clientMethode(sessionData)),
     METHODE_SOURCE,
   );
   brand = fd?.brandColor ?? null;

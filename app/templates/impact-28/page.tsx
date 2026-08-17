@@ -21,6 +21,7 @@ import {
   clientServices,
   clientTeam,
   clientText,
+  fusionnerEtapes,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 
@@ -421,7 +422,7 @@ export default function Home() {
             <div className="absolute left-[calc(2.5rem+1px)] top-0 bottom-0 w-0.5 bg-white/10 hidden md:block" />
 
             <div className="space-y-0">
-              {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...processSteps[i % processSteps.length], ...e })), processSteps).map((step, i) => (
+              {resolveList(fusionnerEtapes(processSteps, clientMethode(sessionData)), processSteps).map((step, i) => (
                 <Reveal key={step.n} delay={i * 0.08}>
                   <div className="relative border-t border-white/10 group">
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-6 py-10 md:py-12">

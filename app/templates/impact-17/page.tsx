@@ -21,7 +21,17 @@ import {
   clientTeam,
   clientText,
   clientWorks,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
+
+/* Les étapes de la démonstration, écrites une fois. */
+const ETAPES_DEMO_17 = [
+    { num: "01", title: "Diagnostic & Faisabilité", desc: "Analyse du terrain, contraintes d'urbanisme, orientation solaire et étude de sol préliminaire." },
+    { num: "02", title: "Conception & Modélisation", desc: "Esquisses, plans 2D/3D détaillés et choix de matériaux durables (isolation paille, chanvre, ossature bois)." },
+    { num: "03", title: "Permis de Construire", desc: "Constitution et suivi administratif rigoureux du dossier de demande auprès des municipalités." },
+    { num: "04", title: "Suivi de Chantier", desc: "Coordination et pilotage des artisans labellisés RGE jusqu'à la réception des clés." }
+  ];
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -552,23 +562,13 @@ function ServicesPage({ goTo }: { goTo: (p: ActivePage) => void }) {
     services_DEMO
   );
   const steps = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
-    { num: "01", title: "Diagnostic & Faisabilité", desc: "Analyse du terrain, contraintes d'urbanisme, orientation solaire et étude de sol préliminaire." },
-    { num: "02", title: "Conception & Modélisation", desc: "Esquisses, plans 2D/3D détaillés et choix de matériaux durables (isolation paille, chanvre, ossature bois)." },
-    { num: "03", title: "Permis de Construire", desc: "Constitution et suivi administratif rigoureux du dossier de demande auprès des municipalités." },
-    { num: "04", title: "Suivi de Chantier", desc: "Coordination et pilotage des artisans labellisés RGE jusqu'à la réception des clés." }
-  ])[i % ([
-    { num: "01", title: "Diagnostic & Faisabilité", desc: "Analyse du terrain, contraintes d'urbanisme, orientation solaire et étude de sol préliminaire." },
-    { num: "02", title: "Conception & Modélisation", desc: "Esquisses, plans 2D/3D détaillés et choix de matériaux durables (isolation paille, chanvre, ossature bois)." },
-    { num: "03", title: "Permis de Construire", desc: "Constitution et suivi administratif rigoureux du dossier de demande auprès des municipalités." },
-    { num: "04", title: "Suivi de Chantier", desc: "Coordination et pilotage des artisans labellisés RGE jusqu'à la réception des clés." }
-  ]).length], title: s.title, desc: s.desc || "" })),
-    [
-    { num: "01", title: "Diagnostic & Faisabilité", desc: "Analyse du terrain, contraintes d'urbanisme, orientation solaire et étude de sol préliminaire." },
-    { num: "02", title: "Conception & Modélisation", desc: "Esquisses, plans 2D/3D détaillés et choix de matériaux durables (isolation paille, chanvre, ossature bois)." },
-    { num: "03", title: "Permis de Construire", desc: "Constitution et suivi administratif rigoureux du dossier de demande auprès des municipalités." },
-    { num: "04", title: "Suivi de Chantier", desc: "Coordination et pilotage des artisans labellisés RGE jusqu'à la réception des clés." }
-  ],
+    /* La méthode du client d'abord ; ses prestations à défaut. */
+    fusionnerEtapes(ETAPES_DEMO_17, (clientMethode(sessionData) ?? clientServices(sessionData)) as any)?.map((s: any) => ({
+      ...s,
+      title: s.title,
+      desc: s.desc || "",
+    })),
+    ETAPES_DEMO_17,
   );
 
   return (

@@ -47,6 +47,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -507,7 +508,7 @@ export default function Impact200Page() {
   sessionData = session;
   /* La méthode du client remplace les étapes de la démonstration. */
   STEPS = resolveList(
-    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...STEPS[i % STEPS.length], ...e })),
+    fusionnerEtapes(STEPS, clientMethode(sessionData)),
     STEPS,
   );
   MARQUEE_ITEMS = MARQUEE_ITEMS_LIVE();

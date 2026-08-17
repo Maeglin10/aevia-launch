@@ -40,6 +40,7 @@ import {
   clientFaq,
   clientHeroLine,
   clientHours,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1918,7 +1919,7 @@ export default function Impact88Page() {
   sessionData = session;
   PORTFOLIO_ITEMS = PORTFOLIO_ITEMS_LIVE();
   BOOKING_STEPS = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...BOOKING_STEPS_SOURCE[i % BOOKING_STEPS_SOURCE.length], label: s.title, desc: s.desc || "" || "" })),
+    (clientMethode(sessionData) ?? clientServices(sessionData))?.map((s: any, i: number) => ({ ...BOOKING_STEPS_SOURCE[i % BOOKING_STEPS_SOURCE.length], label: s.title, desc: s.desc || "" || "" })),
     BOOKING_STEPS_SOURCE,
   );
   SERVICES_DEMO = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], name: s.title , ...(s.price ? { price: s.price } : {})})), SERVICES_SOURCE);
