@@ -225,14 +225,24 @@ export function contenuDepuisLeClient(formData: FormData): GeneratedContent {
     accroche: propre(formData.tagline),
   };
 
+  /*
+     L'ordre compte. La prestation principale est ce que le client a écrit de
+     plus précis ; son slogan vient ensuite ; le métier ne sert qu'à défaut, et
+     jamais seul — « Couvreur zingueur, fait comme il faut » sonnait comme une
+     page non remplie, alors que la ville était là.
+  */
   const accroche = d.service
     ? `${capitale(d.service)}${d.ville ? cadre.a(d.ville) : ""}`
-    : cadre.accrocheSansService(d.metier);
+    : d.accroche
+      ? d.accroche
+      : `${capitale(d.metier)}${d.ville ? cadre.a(d.ville) : ""}`;
 
   const sousTitre = cadre.sousTitre(
-    [d.accroche, d.benefices.slice(0, 2).join(" · "), d.cible ? cadre.pour(d.cible).trim() : ""]
-      .map(propre)
-      .filter(Boolean),
+    [
+      d.accroche === accroche ? "" : d.accroche,
+      d.benefices.slice(0, 2).join(" · "),
+      d.cible ? cadre.pour(d.cible).trim() : "",
+    ].map(propre).filter(Boolean),
   ) || cadre.aPropos(d);
 
   return {
