@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef, Suspense } from "react";
 import { ChoixDomaine } from "@/components/wizard/ChoixDomaine";
-import { retenirLeParrainage, codeParrainageRetenu } from "@/lib/parrainage";
+import { retenirLeParrainage, codeParrainageRetenu, normaliserCodeParrainage } from "@/lib/parrainage";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams, useRouter } from "next/navigation";
 import { ChevronRight, ChevronLeft, ChevronDown, Upload, X, Check, Loader2, Globe, Phone, Mail, MapPin, Plus, Link } from "lucide-react";
@@ -485,6 +485,17 @@ function OnboardingContent() {
   /* Le « ?ref= » du lien du vendeur, retenu avant qu'une navigation ne l'efface. */
   useEffect(() => { retenirLeParrainage(); }, []);
 
+  /*
+    Le code de parrainage, tel que le client le tape.
+
+    Le lien du vendeur — « ?ref=DAVID2 » — couvre le cas où le client clique.
+    Il ne couvre pas celui où on le lui dicte au comptoir ou au téléphone, qui
+    est le cas le plus fréquent pour un vendeur de terrain. Le champ est
+    pré-rempli par le lien quand il y en a un, et reste modifiable.
+  */
+  const [codeParrainage, setCodeParrainage] = useState("");
+  useEffect(() => { setCodeParrainage(codeParrainageRetenu()); }, []);
+
   useEffect(() => {
     if (!sessionId) return;
     let cancelled = false;
@@ -585,8 +596,10 @@ function OnboardingContent() {
             reste une note d'intention.
           */
           domaine: data.domain ? { nom: data.domain, prix: data.domainePrix } : undefined,
-          /* Qui a amené ce client. Ne change pas le prix — voir lib/parrainage.ts. */
-          ref: codeParrainageRetenu() || undefined,
+          /* Qui a amené ce client. Ne change pas le prix — voir lib/parrainage.ts.
+             Ce que le client a tapé prime sur ce que le lien avait retenu : c'est
+             le geste le plus récent, et le plus explicite. */
+          ref: codeParrainage || codeParrainageRetenu() || undefined,
         }),
       });
       if (!res.ok) throw new Error("Erreur lors de la création du paiement");
@@ -685,6 +698,25 @@ function OnboardingContent() {
                     <span className="text-white font-bold text-lg">{formatPrice(oneTimeEur, currency)}</span>
                   </div>
                 </div>
+              </div>
+
+              <div>
+                <label htmlFor="parrainage" className="block text-xs font-semibold tracking-widest text-white/40 uppercase mb-2">
+                  Code de parrainage <span className="normal-case tracking-normal text-white/30">— facultatif</span>
+                </label>
+                <input
+                  id="parrainage"
+                  type="text"
+                  value={codeParrainage}
+                  onChange={(e) => setCodeParrainage(normaliserCodeParrainage(e.target.value))}
+                  placeholder="Ex. DAVID2"
+                  autoComplete="off"
+                  spellCheck={false}
+                  className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm uppercase tracking-widest text-white placeholder:text-white/25 placeholder:tracking-normal placeholder:normal-case focus:border-red-500/50 focus:outline-none focus:ring-1 focus:ring-red-500/30"
+                />
+                <p className="mt-2 text-xs text-white/40">
+                  Si un conseiller vous a donné un code, saisissez-le ici. Il ne change pas le prix.
+                </p>
               </div>
 
               <label className="flex items-start gap-3 cursor-pointer group">
