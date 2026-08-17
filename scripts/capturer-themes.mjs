@@ -29,6 +29,13 @@ fs.mkdirSync(SORTIE, { recursive: true });
   centaines de faux défauts : ce n'était pas le thème qui déraillait.
 */
 const SECTEURS_DU_THEME = JSON.parse(fs.readFileSync("/tmp/theme-secteurs.json", "utf8"));
+/*
+  Le contenu généré, produit par la même fonction que `/api/generate` — voir
+  scripts/contenu-genere.ts. Sans lui, chaque `c?.aboutText ?? …` du thème
+  tombait sur l'exemple de la démonstration, et l'on comptait comme « anglais
+  resté » de la prose qu'un vrai client n'aurait jamais vue.
+*/
+const CONTENU_GENERE = JSON.parse(fs.readFileSync("/tmp/contenu-genere.json", "utf8"));
 const DOMAINE_DU_SECTEUR = JSON.parse(fs.readFileSync("/tmp/secteur-domaine.json", "utf8"));
 
 function domainePour(theme) {
@@ -53,7 +60,14 @@ for (let i = debut; i < fin && i < themes.length; i++) {
     fiche.client = client.form.businessName;
     const r = await fetch(`${BASE}/api/sessions`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ formData: { ...client.form, template: theme } }) });
     const { sessionId } = await r.json();
-    await fetch(`${BASE}/api/sessions?id=${sessionId}`, { method: "PATCH", headers: { "content-type": "application/json" }, body: JSON.stringify({ businessProfile: client.profil }) });
+    await fetch(`${BASE}/api/sessions?id=${sessionId}`, {
+      method: "PATCH",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        businessProfile: client.profil,
+        generatedContent: CONTENU_GENERE[domaine ?? "Services & Artisanat"],
+      }),
+    });
 
     for (const [nom, taille] of [["ordi", { width: 1440, height: 900 }], ["tel", { width: 390, height: 844 }]]) {
       const ctx = await nav.newContext({ viewport: taille, isMobile: nom === "tel", deviceScaleFactor: 1 });
