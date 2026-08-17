@@ -992,6 +992,18 @@ export function fusionnerEtapes<T extends object>(
     return new Set(vues).size === demo.length;
   });
 
+  /*
+     Certains thèmes écrivent leurs étapes en phrases, pas en objets. Étaler une
+     chaîne produit un objet à clés numériques — { 0: "B", 1: "i", … } — que
+     React refuse de rendre : « Objects are not valid as a React child », et la
+     page entière meurt. impact-231 était dans ce cas, servi mort au client.
+
+     On rend alors ce que le thème attend : une phrase, celle du client.
+  */
+  if (typeof demo[0] === "string") {
+    return etapes.map((e) => [e.name, e.desc].filter(Boolean).join(" — ")) as unknown as T[];
+  }
+
   return etapes.map((e, i) => {
     const base = lu[i % lu.length];
     const item = { ...base, ...e } as Record<string, unknown>;
