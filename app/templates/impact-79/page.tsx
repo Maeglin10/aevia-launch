@@ -47,6 +47,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -650,7 +651,7 @@ export default function BoulangerieNoirePage() {
 
             <div className="lg:col-span-7">
               <Reveal className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {TECHNIQUE.map((t, i) => (
+                {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...TECHNIQUE[i % TECHNIQUE.length], ...e })), TECHNIQUE).map((t, i) => (
                   <div
                     key={i}
                     className="p-10 bg-white/[0.02] border border-white/5 rounded-none hover:border-stone-800 transition-all group"

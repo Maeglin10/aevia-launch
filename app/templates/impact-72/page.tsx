@@ -8,10 +8,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { C, TextReveal, MagneticButton, Marquee, StackedCards, FILMS, ServiceCard, SERVICES, PRESS } from "./shared";
 import {
-  clientHeroPrestations,
   clientAccrocheRestante,
   clientCity,
+  clientHeroPrestations,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientReviews,
   clientServices,
@@ -378,7 +379,7 @@ return (
 
           {/* Steps grid — 4 columns desktop */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: "0" }}>
-            {PROCESS_STEPS.map((step, i) => (
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_STEPS[i % PROCESS_STEPS.length], ...e })), PROCESS_STEPS).map((step, i) => (
               <motion.div
                 key={step.num}
                 initial={{ opacity: 0, y: 30 }}

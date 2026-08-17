@@ -16,6 +16,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1533,7 +1534,7 @@ function PillarPanel() {
             </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {PILLARS.map((pillar, i) => (
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PILLARS[i % PILLARS.length], ...e })), PILLARS).map((pillar, i) => (
               <Reveal key={pillar.number} delay={0.06 * i}>
                 <div
                   style={{

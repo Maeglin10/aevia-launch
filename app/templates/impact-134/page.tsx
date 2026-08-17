@@ -38,6 +38,7 @@ import {
   clientHeroPrestations,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1423,7 +1424,7 @@ function RituelsSection() {
         <div className="flex flex-col lg:flex-row gap-12 items-start">
           {/* Steps list */}
           <div className="lg:w-[45%] space-y-4">
-            {RITUELS.map((r, i) => {
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...RITUELS[i % RITUELS.length], ...e })), RITUELS).map((r, i) => {
               const Icon = r.icon
               return (
                 <Reveal key={r.step} delay={i * 0.08}>

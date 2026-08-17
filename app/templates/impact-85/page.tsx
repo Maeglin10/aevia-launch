@@ -13,12 +13,23 @@ import {
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientText,
 } from "@/lib/templates/clientContent";
+
+/* Les étapes de la démonstration, sorties du rendu pour que la méthode du
+   client puisse s'y substituer ligne à ligne. */
+const METHODE_DEMO_85 = [
+              { step: "01", time: "Matin", name: "Luminos Sérum", action: "2–3 gouttes en tapotant délicatement sur peau propre et humide" },
+              { step: "02", time: "Matin", name: "Photon SPF 50+", action: "2,5 mg/cm² en couche uniforme sur visage et cou" },
+              { step: "03", time: "Soir", name: "Cellulaire Crème", action: "Noisette en massage ascendant sur peau nettoyée" },
+              { step: "04", time: "1× / semaine", name: "Kaolin Masque", action: "Couche épaisse 15 min, rincer à l'eau fraîche" },
+            ];
+
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
@@ -773,12 +784,13 @@ export default function AetherLabsPage() {
             </Reveal>
           </div>
           <div className="grid md:grid-cols-4 gap-px bg-[#D4C9B0]">
-            {[
-              { step: "01", time: "Matin", name: "Luminos Sérum", action: "2–3 gouttes en tapotant délicatement sur peau propre et humide" },
-              { step: "02", time: "Matin", name: "Photon SPF 50+", action: "2,5 mg/cm² en couche uniforme sur visage et cou" },
-              { step: "03", time: "Soir", name: "Cellulaire Crème", action: "Noisette en massage ascendant sur peau nettoyée" },
-              { step: "04", time: "1× / semaine", name: "Kaolin Masque", action: "Couche épaisse 15 min, rincer à l'eau fraîche" },
-            ].map((r, i) => (
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({
+              ...METHODE_DEMO_85[i % METHODE_DEMO_85.length],
+              ...e,
+              /* Ce thème décrit le geste dans `action`, un nom qu'aucun autre
+                 thème n'emploie : la description du client y va aussi. */
+              action: e.desc || METHODE_DEMO_85[i % METHODE_DEMO_85.length].action,
+            })), METHODE_DEMO_85).map((r, i) => (
               <Reveal key={r.step} delay={i * 0.08}>
                 <div className="bg-[#F0EBE0] p-8 hover:bg-[#F8F6F2] transition-colors duration-300">
                   <div className="text-4xl font-light text-[#D4C9B0] mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{r.step}</div>

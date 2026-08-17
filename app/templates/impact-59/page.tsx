@@ -20,6 +20,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -27,6 +28,16 @@ import {
   clientText,
   memoriserSession,
 } from "@/lib/templates/clientContent";
+
+/* Les étapes de la démonstration, sorties du rendu pour que la méthode du
+   client puisse s'y substituer ligne à ligne. */
+const METHODE_DEMO_59 = [
+              { num: "01", title: "Candidature", desc: "Remplissez le formulaire de candidature (15 min). Aucun prérequis en méditation ou pratique contemplative — seulement une disposition sincère à ralentir." },
+              { num: "02", title: "Entretien", desc: "Un échange de 30 minutes avec l'un de nos guides pour s'assurer que la retraite sélectionnée correspond à votre moment de vie. Confidentiel, sans engagement." },
+              { num: "03", title: "Confirmation", desc: "Si la retraite vous convient, confirmation sous 48h. Un acompte de 30% réserve votre place. Le solde est dû 30 jours avant le départ." },
+              { num: "04", title: "Préparation", desc: "Deux semaines avant la retraite, vous recevez un guide de préparation : pratiques recommandées, liste de ce qu'il faut (et ne faut pas) apporter, et une lettre personnalisée de votre guide." },
+            ];
+
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
@@ -622,12 +633,7 @@ return (
             <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-20" style={{ fontFamily: "Cinzel, Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>Comment ça fonctionne</>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {[
-              { num: "01", title: "Candidature", desc: "Remplissez le formulaire de candidature (15 min). Aucun prérequis en méditation ou pratique contemplative — seulement une disposition sincère à ralentir." },
-              { num: "02", title: "Entretien", desc: "Un échange de 30 minutes avec l'un de nos guides pour s'assurer que la retraite sélectionnée correspond à votre moment de vie. Confidentiel, sans engagement." },
-              { num: "03", title: "Confirmation", desc: "Si la retraite vous convient, confirmation sous 48h. Un acompte de 30% réserve votre place. Le solde est dû 30 jours avant le départ." },
-              { num: "04", title: "Préparation", desc: "Deux semaines avant la retraite, vous recevez un guide de préparation : pratiques recommandées, liste de ce qu'il faut (et ne faut pas) apporter, et une lettre personnalisée de votre guide." },
-            ].map((s, i) => (
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_DEMO_59[i % METHODE_DEMO_59.length], ...e })), METHODE_DEMO_59).map((s, i) => (
               <Reveal key={s.num} delay={i * 0.1}>
                 <div>
                   <div className="text-5xl font-light text-[var(--brand,#3d7a5e)]/20 mb-6" style={{ fontFamily: "Cinzel, Georgia, serif" }}>{s.num}</div>

@@ -7,6 +7,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -525,7 +526,7 @@ return (
                 <h2 className="text-white text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Du brief au lancement</>)}</h2>
               </Reveal>
               <div className="grid md:grid-cols-4 gap-6">
-                {process.map((step, i) => (
+                {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...process[i % process.length], ...e })), process).map((step, i) => (
                   <Reveal key={step.n} delay={i * 0.1}>
                     <div className="relative">
                       <div className="text-5xl font-black text-white/5 mb-4 leading-none">{step.n}</div>

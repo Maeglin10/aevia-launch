@@ -21,6 +21,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientReviews,
   clientServices,
@@ -817,7 +818,7 @@ export default function ThermaProPage() {
   ];
 
   const process = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
+    (clientMethode(sessionData) ?? clientServices(sessionData))?.map((s: any, i: number) => ({ ...([
     {
       num: '01', title: 'Diagnostic gratuit à domicile',
       desc: 'Un technicien certifié RGE se déplace chez vous pour évaluer votre installation existante, vos besoins énergétiques et la configuration du logement. Devis détaillé offert sous 48h.',

@@ -18,6 +18,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -28,6 +29,18 @@ import {
   clientWorks,
   memoriserSession,
 } from "@/lib/templates/clientContent";
+
+/* Les étapes de la démonstration, sorties du rendu pour que la méthode du
+   client puisse s'y substituer ligne à ligne. */
+const METHODE_DEMO_76 = [
+              { num: "01", title: "Site_Analysis", body: "We begin with a forensic study of the site — topography, light vectors, wind exposure, subsurface conditions, and contextual syntax. No design decisions before the land speaks." },
+              { num: "02", title: "Concept_Generation", body: "Parametric models and structural simulations run concurrently with sketch exploration. We generate up to twelve volumetric proposals before selecting a direction for development." },
+              { num: "03", title: "Computational_Design", body: "Every facade panel, structural joint, and material specification is derived through generative algorithms optimized for performance and resource efficiency." },
+              { num: "04", title: "Engineering_Coordination", body: "Simultaneous BIM coordination with structural, MEP, and sustainability engineers. Clash detection at every stage. Zero site surprises." },
+              { num: "05", title: "Construction_Oversight", body: "Our architects visit the site weekly and issue formal observation reports. Material substitutions require studio approval. We do not accept shortcuts." },
+              { num: "06", title: "Post_Occupancy", body: "Six and twelve month evaluations against the original performance brief. Energy consumption, acoustic comfort, and spatial quality are all measured and documented." },
+            ];
+
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
@@ -533,14 +546,7 @@ return (
             <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Method.</>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5">
-            {[
-              { num: "01", title: "Site_Analysis", body: "We begin with a forensic study of the site — topography, light vectors, wind exposure, subsurface conditions, and contextual syntax. No design decisions before the land speaks." },
-              { num: "02", title: "Concept_Generation", body: "Parametric models and structural simulations run concurrently with sketch exploration. We generate up to twelve volumetric proposals before selecting a direction for development." },
-              { num: "03", title: "Computational_Design", body: "Every facade panel, structural joint, and material specification is derived through generative algorithms optimized for performance and resource efficiency." },
-              { num: "04", title: "Engineering_Coordination", body: "Simultaneous BIM coordination with structural, MEP, and sustainability engineers. Clash detection at every stage. Zero site surprises." },
-              { num: "05", title: "Construction_Oversight", body: "Our architects visit the site weekly and issue formal observation reports. Material substitutions require studio approval. We do not accept shortcuts." },
-              { num: "06", title: "Post_Occupancy", body: "Six and twelve month evaluations against the original performance brief. Energy consumption, acoustic comfort, and spatial quality are all measured and documented." },
-            ].map((s, i) => (
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_DEMO_76[i % METHODE_DEMO_76.length], ...e })), METHODE_DEMO_76).map((s, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div className="bg-[#0a0a0c] p-10 h-full group hover:bg-[#0e0e11] transition-colors">
                   <div className="text-6xl font-black text-stone-500/15 mb-8 group-hover:text-stone-500/30 transition-colors font-mono">{s.num}</div>

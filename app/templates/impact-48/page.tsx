@@ -19,6 +19,7 @@ import {
   clientCity,
   clientHeroLine,
   clientList,
+  clientMethode,
   clientServices,
   clientStats,
   clientTagline,
@@ -1345,7 +1346,7 @@ function FloorPlanSection() {
               paddingTop: 8,
             }}
           >
-            {processSteps.map((s, i) => (
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...processSteps[i % processSteps.length], ...e })), processSteps).map((s, i) => (
               <div
                 key={s.num}
                 style={{

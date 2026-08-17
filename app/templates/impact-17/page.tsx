@@ -13,6 +13,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
   clientHeroLine,
+  clientMethode,
   clientName,
   clientPhotos,
   clientServices,
@@ -543,7 +544,7 @@ function ProjetsPage({ activeFilter, setActiveFilter, filtered }: { activeFilter
 
 function ServicesPage({ goTo }: { goTo: (p: ActivePage) => void }) {
   const services: any[] = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({
+    (clientMethode(sessionData) ?? clientServices(sessionData))?.map((s: any, i: number) => ({
       icon: services_DEMO[i % services_DEMO.length].icon,
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,

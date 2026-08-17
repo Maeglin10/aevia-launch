@@ -22,6 +22,7 @@ import {
   clientHeroLine,
   clientHours,
   clientList,
+  clientMethode,
   clientName,
   clientReviews,
   clientServices,
@@ -1176,7 +1177,7 @@ function Process() {
           </>)}</h2>
         </div>
         <div className="grid-process">
-          {steps.map((s, i) => (
+          {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...steps[i % steps.length], ...e })), steps).map((s, i) => (
             <ProcessStep
               key={i}
               number={s.number}

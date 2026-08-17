@@ -13,6 +13,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -20,6 +21,32 @@ import {
   clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
+
+/* Les étapes de la démonstration, sorties du rendu pour que la méthode du
+   client puisse s'y substituer ligne à ligne. */
+const METHODE_DEMO_26 = [
+          {
+            num: "01",
+            title: "Le Sourcing Éthique",
+            desc: "Chaque fleur de Grasse, chaque bois d'oud précieux d'Asie et chaque résine d'Éthiopie est issu d'un approvisionnement direct et éco-responsable auprès de petits producteurs partenaires.",
+          },
+          {
+            num: "02",
+            title: "La Formulation d'Auteur",
+            desc: "Notre processus commence par une formulation libre de toute contrainte de coût ou de temps. Hélène Varenne teste des centaines d'accords pour capturer l'esprit exact d'un instant ou d'un souvenir.",
+          },
+          {
+            num: "03",
+            title: "La Macération en Cuve",
+            desc: "Les concentrés parfumés reposent dans nos cuves entre 6 et 8 semaines. Ce repos permet aux matières de fusionner et de développer leur sillage caractéristique, stable et complexe.",
+          },
+          {
+            num: "04",
+            title: "Le Flaconnage à la Main",
+            desc: "Chaque flacon est rempli, bouché et cacheté manuellement dans notre atelier parisien, scellant un produit d'artisanat français d'exception.",
+          },
+        ];
+
 let sessionData: any = null;
 
 // Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
@@ -1416,28 +1443,7 @@ function SavoirFairePage() {
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 48 }}>
-        {[
-          {
-            num: "01",
-            title: "Le Sourcing Éthique",
-            desc: "Chaque fleur de Grasse, chaque bois d'oud précieux d'Asie et chaque résine d'Éthiopie est issu d'un approvisionnement direct et éco-responsable auprès de petits producteurs partenaires.",
-          },
-          {
-            num: "02",
-            title: "La Formulation d'Auteur",
-            desc: "Notre processus commence par une formulation libre de toute contrainte de coût ou de temps. Hélène Varenne teste des centaines d'accords pour capturer l'esprit exact d'un instant ou d'un souvenir.",
-          },
-          {
-            num: "03",
-            title: "La Macération en Cuve",
-            desc: "Les concentrés parfumés reposent dans nos cuves entre 6 et 8 semaines. Ce repos permet aux matières de fusionner et de développer leur sillage caractéristique, stable et complexe.",
-          },
-          {
-            num: "04",
-            title: "Le Flaconnage à la Main",
-            desc: "Chaque flacon est rempli, bouché et cacheté manuellement dans notre atelier parisien, scellant un produit d'artisanat français d'exception.",
-          },
-        ].map((step) => (
+        {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_DEMO_26[i % METHODE_DEMO_26.length], ...e })), METHODE_DEMO_26).map((step) => (
           <div key={step.num} style={{ display: "flex", gap: 32, paddingBottom: 32, borderBottom: "1px solid rgba(201, 149, 106, 0.1)" }}>
             <span style={{fontFamily: "'Cormorant Garamond', serif", fontSize: 36, color: brand ?? 'var(--brand,#c9956a)', opacity: 0.5, lineHeight: 1 }}>
               {step.num}

@@ -13,6 +13,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -20,6 +21,16 @@ import {
   clientSiret,
   clientText,
 } from "@/lib/templates/clientContent";
+
+/* Les étapes de la démonstration, sorties du rendu pour que la méthode du
+   client puisse s'y substituer ligne à ligne. */
+const METHODE_DEMO_184 = [
+              { n: "01", t: "Devis en ligne", d: "Remplissez le formulaire ou appelez. Réponse sous 2h avec tarif et disponibilités." },
+              { n: "02", t: "On s'organise", d: "On choisit ensemble la fréquence, les horaires et les pièces à traiter." },
+              { n: "03", t: "Premier passage", d: "Une intervenante formée se présente à l'heure. Badge, blouse, matériel inclus." },
+              { n: "04", t: "Vous validez", d: "Satisfaction garantie. Retouche gratuite si quoi que ce soit ne vous convient pas." },
+            ];
+
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
@@ -388,12 +399,7 @@ export default function BrilloNetPage() {
             <h2 className="text-4xl font-bold text-[#1c2b2b]">{/* TEXTE_SECTION */ clientText(sessionData, "process.titre") ?? (<>Comment ça marche ?</>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {[
-              { n: "01", t: "Devis en ligne", d: "Remplissez le formulaire ou appelez. Réponse sous 2h avec tarif et disponibilités." },
-              { n: "02", t: "On s'organise", d: "On choisit ensemble la fréquence, les horaires et les pièces à traiter." },
-              { n: "03", t: "Premier passage", d: "Une intervenante formée se présente à l'heure. Badge, blouse, matériel inclus." },
-              { n: "04", t: "Vous validez", d: "Satisfaction garantie. Retouche gratuite si quoi que ce soit ne vous convient pas." },
-            ].map((s, i) => (
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_DEMO_184[i % METHODE_DEMO_184.length], ...e })), METHODE_DEMO_184).map((s, i) => (
               <Reveal key={i} delay={i * 0.09}>
                 <div className="bg-white rounded-2xl p-7 shadow-sm h-full">
                   <div className="text-4xl font-bold text-[var(--brand,#0d9488)]/15 mb-4 tracking-tight">{s.n}</div>
