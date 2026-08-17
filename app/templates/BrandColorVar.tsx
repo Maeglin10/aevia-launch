@@ -1761,15 +1761,62 @@ function heureCourte(h: string): string {
  * ligne condensée, une ligne par jour garde sa ligne. Sans horaires saisis,
  * rien ne bouge.
  */
+/*
+  Les jours que le client a écrits.
+
+  Le formulaire demande le jour en texte libre, et personne n'écrit un jour à la
+  fois : « Lundi au vendredi », « Lun–Ven », « Du lundi au samedi », « Lundi,
+  mardi, jeudi ». Ce passage n'acceptait qu'un nom de jour seul et rendait la
+  main sans rien écrire — les horaires du client n'arrivaient donc jamais à
+  l'écran, et le thème gardait ceux de sa démonstration. Mesuré sur impact-32 :
+  le cabinet ouvre « Lundi — vendredi 8h–19h », la page affichait « Lun–Sam
+  8h–20h », l'horaire de l'exemple.
+
+  On lit donc une plage, une énumération, ou un jour seul. Un intervalle qui
+  repart en arrière — « vendredi au lundi » — fait le tour de la semaine, comme
+  l'écrit un commerce ouvert le week-end.
+*/
+function indexDuJour(mot: string): number {
+  const propre = mot.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  const plein = JOURS.indexOf(propre);
+  if (plein >= 0) return plein;
+  return ABREGE.findIndex((a) => propre === a || propre === `${a}.`);
+}
+
+function joursDe(brut: string | undefined): number[] {
+  const texte = String(brut ?? "").trim();
+  if (!texte) return [];
+
+  const mots = texte.toLowerCase().split(/[^a-zà-ÿ.]+/).filter(Boolean);
+  const separateurRange = /\b(?:au|a|à|to|jusqu.au)\b|[-–—\/]/.test(texte);
+
+  const index = mots.map(indexDuJour).filter((i) => i >= 0);
+  if (index.length === 0) return [];
+  if (index.length === 1) return index;
+
+  if (separateurRange && index.length === 2) {
+    const [debut, fin] = index;
+    const out: number[] = [];
+    for (let i = debut; ; i = (i + 1) % 7) {
+      out.push(i);
+      if (i === fin || out.length > 7) break;
+    }
+    return out;
+  }
+  /* Une énumération : « lundi, mardi, jeudi ». */
+  return [...new Set(index)];
+}
+
 function rendreLesHoraires(horaires: Array<{ day?: string; open?: string; close?: string; closed?: boolean }> | undefined) {
   if (!Array.isArray(horaires) || horaires.length === 0) return;
 
   const parJour = new Map<number, string>();
   for (const h of horaires) {
-    const i = JOURS.indexOf(String(h?.day ?? "").trim().toLowerCase());
-    if (i < 0) continue;
+    const jours = joursDe(h?.day);
+    if (jours.length === 0) continue;
     const ferme = h?.closed || (!h?.open && !h?.close);
-    parJour.set(i, ferme ? "Fermé" : `${heureCourte(h.open ?? "")}–${heureCourte(h.close ?? "")}`);
+    const valeur = ferme ? "Fermé" : `${heureCourte(h.open ?? "")}–${heureCourte(h.close ?? "")}`;
+    for (const i of jours) parJour.set(i, valeur);
   }
   if (parJour.size === 0) return;
 
