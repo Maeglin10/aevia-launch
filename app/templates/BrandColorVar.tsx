@@ -1,5 +1,5 @@
 "use client";
-import { MARQUE_DEMO } from "@/lib/templates/marquesDemo";
+import { MARQUE_DEMO, MARQUE_DEMO_COLLEE } from "@/lib/templates/marquesDemo";
 
 import { useEffect } from "react";
 
@@ -1297,29 +1297,41 @@ function effacerLaMarqueDeDemonstration(nom: string | undefined) {
   const propre = nom.trim();
 
   const chemin = window.location.pathname.match(/\/templates\/(impact-[\w-]+)/);
-  const demo = chemin ? MARQUE_DEMO[chemin[1]] : undefined;
-  if (!demo || demo === propre) return;
+  if (!chemin) return;
+  const seul = MARQUE_DEMO[chemin[1]];
+  if (!seul || seul === propre) return;
   /* Le client s'appelle déjà comme la démonstration : rien à remplacer. */
-  if (propre.toLowerCase().includes(demo.toLowerCase())) return;
+  if (propre.toLowerCase().includes(seul.toLowerCase())) return;
+
+  /*
+     Le nom collé passe en premier : « AnandaFlow » contient « Ananda », et
+     traiter le court d'abord laisserait « Cabinet Rive-GaucheFlow ».
+  */
+  const noms = [...(MARQUE_DEMO_COLLEE[chemin[1]] ?? []), seul]
+    .sort((a, b) => b.length - a.length);
 
   const marcheur = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
   const aRefaire: Array<[Text, string]> = [];
   for (let n = marcheur.nextNode(); n; n = marcheur.nextNode()) {
-    const t = n.nodeValue ?? "";
-    if (!t.includes(demo)) continue;
     const parent = (n as Text).parentElement;
     if (!parent || parent.closest("style,script,noscript,template")) continue;
 
-    let sortie = "", reste = t, deplace = false;
-    for (let i = reste.indexOf(demo); i >= 0; i = reste.indexOf(demo)) {
-      const avant = reste[i - 1] ?? " ";
-      const apres = reste[i + demo.length] ?? " ";
-      const entier = !LETTRE_MARQUE.test(avant) && !LETTRE_MARQUE.test(apres);
-      sortie += reste.slice(0, i) + (entier ? propre : demo);
-      if (entier) deplace = true;
-      reste = reste.slice(i + demo.length);
+    let valeur = n.nodeValue ?? "";
+    let deplace = false;
+    for (const demo of noms) {
+      if (!valeur.includes(demo)) continue;
+      let sortie = "", reste = valeur;
+      for (let i = reste.indexOf(demo); i >= 0; i = reste.indexOf(demo)) {
+        const avant = reste[i - 1] ?? " ";
+        const apres = reste[i + demo.length] ?? " ";
+        const entier = !LETTRE_MARQUE.test(avant) && !LETTRE_MARQUE.test(apres);
+        sortie += reste.slice(0, i) + (entier ? propre : demo);
+        if (entier) deplace = true;
+        reste = reste.slice(i + demo.length);
+      }
+      valeur = sortie + reste;
     }
-    if (deplace) aRefaire.push([n as Text, sortie + reste]);
+    if (deplace) aRefaire.push([n as Text, valeur]);
   }
   /* On écrit après la lecture : modifier pendant le parcours le fait dérailler. */
   for (const [n, valeur] of aRefaire) n.nodeValue = valeur;
