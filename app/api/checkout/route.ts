@@ -80,7 +80,14 @@ export async function POST(req: NextRequest) {
     const stripeCcy = STRIPE_CCY[ccy];
 
     const siteInfo = SITE_PRICES[siteType] ?? SITE_PRICES["landing"];
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
+    /*
+       Sur une préversion, `NEXT_PUBLIC_BASE_URL` n'est pas défini : l'adresse
+       change à chaque déploiement. Le paiement y répondait donc 500 — personne
+       ne pouvait éprouver un achat ailleurs qu'en production, sur de l'argent
+       réel. Vercel expose l'adresse du déploiement courant ; on s'en sert.
+    */
+    const adresseVercel = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null;
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? adresseVercel ?? "http://localhost:3000";
 
     // In production, refuse to create a checkout session with a localhost
     // redirect — the customer would pay and land on a dead URL.
