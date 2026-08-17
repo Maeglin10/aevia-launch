@@ -18,6 +18,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "start your podcast": "Lancer votre balado",
     "start your podcast free": "Lancer votre balado gratuitement",
     "the podcast platform built for creators who are serious about growing their audience and monetizing their content.": "La plateforme de balados faite pour ceux qui veulent vraiment développer leur audience et en vivre.",
+    "the startup blueprint": "Le guide de la jeune pousse",
+    "the startup blueprint #42": "Le guide de la jeune pousse nº 42",
     "top episodes this week": "Les épisodes de la semaine",
   },
   es: {
@@ -29,6 +31,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "start your podcast": "Lance su pódcast",
     "start your podcast free": "Lance su pódcast gratis",
     "the podcast platform built for creators who are serious about growing their audience and monetizing their content.": "La plataforma de pódcast hecha para quienes quieren de verdad hacer crecer su audiencia y vivir de ella.",
+    "the startup blueprint": "La guía de la startup",
+    "the startup blueprint #42": "La guía de la startup n.º 42",
     "top episodes this week": "Los episodios de la semana",
   },
   de: {
@@ -40,6 +44,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "start your podcast": "Podcast starten",
     "start your podcast free": "Podcast kostenlos starten",
     "the podcast platform built for creators who are serious about growing their audience and monetizing their content.": "Die Podcast-Plattform für alle, die ihr Publikum ernsthaft ausbauen und davon leben wollen.",
+    "the startup blueprint": "Der Start-up-Leitfaden",
+    "the startup blueprint #42": "Der Start-up-Leitfaden Nr. 42",
     "top episodes this week": "Die Folgen der Woche",
   },
   pt: {
@@ -51,6 +57,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "start your podcast": "Lance o seu podcast",
     "start your podcast free": "Lance o seu podcast gratuitamente",
     "the podcast platform built for creators who are serious about growing their audience and monetizing their content.": "A plataforma de podcasts feita para quem quer mesmo fazer crescer a sua audiência e viver dela.",
+    "the startup blueprint": "O guia da startup",
+    "the startup blueprint #42": "O guia da startup n.º 42",
     "top episodes this week": "Os episódios da semana",
   },
 };

@@ -12,6 +12,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "flowers for every chapter": "Des fleurs pour chaque chapitre",
     "for every": "Pour chaque",
+    "free delivery île-de-france": "Livraison offerte en Île-de-France",
+    "free delivery nantes": "Livraison offerte à Nantes",
     "from the most joyful celebration to the most tender farewell — we're here for every occasion that matters.": "De la fête la plus joyeuse à l'adieu le plus tendre — nous sommes là pour chaque occasion qui compte.",
     "our parisian studio": "Notre atelier parisien",
     "respectful, beautiful arrangements for memorial services. we work directly with families and funeral homes with sensitivity and care.": "Des compositions belles et respectueuses pour les cérémonies. Nous travaillons directement avec les familles et les pompes funèbres, avec délicatesse.",
@@ -23,6 +25,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   es: {
     "flowers for every chapter": "Flores para cada capítulo",
     "for every": "Para cada",
+    "free delivery île-de-france": "Envío gratis en Île-de-France",
+    "free delivery nantes": "Envío gratis en Nantes",
     "from the most joyful celebration to the most tender farewell — we're here for every occasion that matters.": "De la celebración más alegre a la despedida más tierna: estamos para cada ocasión que importa.",
     "our parisian studio": "Nuestro taller parisino",
     "respectful, beautiful arrangements for memorial services. we work directly with families and funeral homes with sensitivity and care.": "Composiciones bellas y respetuosas para las ceremonias. Trabajamos directamente con las familias y las funerarias, con delicadeza.",
@@ -34,6 +38,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   de: {
     "flowers for every chapter": "Blumen für jedes Kapitel",
     "for every": "Für jeden",
+    "free delivery île-de-france": "Kostenlose Lieferung in der Île-de-France",
+    "free delivery nantes": "Kostenlose Lieferung in Nantes",
     "from the most joyful celebration to the most tender farewell — we're here for every occasion that matters.": "Von der fröhlichsten Feier bis zum zartesten Abschied — wir sind für jeden Anlass da, der zählt.",
     "our parisian studio": "Unser Pariser Atelier",
     "respectful, beautiful arrangements for memorial services. we work directly with families and funeral homes with sensitivity and care.": "Schöne, würdevolle Gestecke für Trauerfeiern. Wir arbeiten einfühlsam direkt mit Familien und Bestattern.",
@@ -45,6 +51,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   pt: {
     "flowers for every chapter": "Flores para cada capítulo",
     "for every": "Para cada",
+    "free delivery île-de-france": "Entrega grátis na Île-de-France",
+    "free delivery nantes": "Entrega grátis em Nantes",
     "from the most joyful celebration to the most tender farewell — we're here for every occasion that matters.": "Da celebração mais alegre à despedida mais terna — estamos para cada ocasião que importa.",
     "our parisian studio": "O nosso atelier parisiense",
     "respectful, beautiful arrangements for memorial services. we work directly with families and funeral homes with sensitivity and care.": "Composições belas e respeitosas para as cerimónias. Trabalhamos diretamente com as famílias e as agências funerárias, com delicadeza.",

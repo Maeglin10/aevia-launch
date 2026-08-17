@@ -18,6 +18,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "live the": "Vivez le",
     "our concierge team is available at every hour to craft a stay that is entirely, irreducibly yours.": "Notre conciergerie est joignable à toute heure pour composer un séjour qui n'appartienne qu'à vous.",
     "the city of light": "la Ville Lumière",
+    "two michelin stars. chef margaux vernet reimagines the french canon with produce grown fifty metres from the kitchen. the tasting menu changes with the moon.": "Deux étoiles au Michelin. La cheffe Margaux Vernet réinvente le répertoire français avec des produits cultivés à cinquante mètres des fourneaux. Le menu dégustation change avec la lune.",
     "unfolds at your threshold.": "s'ouvre à votre porte.",
   },
   es: {
@@ -29,6 +30,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "live the": "Viva el",
     "our concierge team is available at every hour to craft a stay that is entirely, irreducibly yours.": "Nuestra conserjería está disponible a cualquier hora para componer una estancia que sea solo suya.",
     "the city of light": "la Ciudad de la Luz",
+    "two michelin stars. chef margaux vernet reimagines the french canon with produce grown fifty metres from the kitchen. the tasting menu changes with the moon.": "Dos estrellas Michelin. La chef Margaux Vernet reinventa el repertorio francés con productos cultivados a cincuenta metros de los fogones. El menú degustación cambia con la luna.",
     "unfolds at your threshold.": "se abre a su puerta.",
   },
   de: {
@@ -40,6 +42,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "live the": "Erleben Sie das",
     "our concierge team is available at every hour to craft a stay that is entirely, irreducibly yours.": "Unser Concierge-Team ist rund um die Uhr da, um einen Aufenthalt zu gestalten, der ganz Ihnen gehört.",
     "the city of light": "der Stadt des Lichts",
+    "two michelin stars. chef margaux vernet reimagines the french canon with produce grown fifty metres from the kitchen. the tasting menu changes with the moon.": "Zwei Michelin-Sterne. Köchin Margaux Vernet erfindet das französische Repertoire neu, mit Produkten von fünfzig Metern hinter der Küche. Das Degustationsmenü wechselt mit dem Mond.",
     "unfolds at your threshold.": "beginnt vor Ihrer Tür.",
   },
   pt: {
@@ -51,6 +54,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "live the": "Viva o",
     "our concierge team is available at every hour to craft a stay that is entirely, irreducibly yours.": "A nossa portaria está disponível a qualquer hora para compor uma estadia que seja só sua.",
     "the city of light": "a Cidade Luz",
+    "two michelin stars. chef margaux vernet reimagines the french canon with produce grown fifty metres from the kitchen. the tasting menu changes with the moon.": "Duas estrelas Michelin. A chef Margaux Vernet reinventa o repertório francês com produtos cultivados a cinquenta metros dos fogões. O menu de degustação muda com a lua.",
     "unfolds at your threshold.": "abre-se à sua porta.",
   },
 };

@@ -11,6 +11,7 @@
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "\"we do not build structures.": "« Nous ne bâtissons pas des structures.",
+    "elias vorne and the post-digital built form": "Elias Vorne et la forme bâtie post-numérique",
     "embracing the natural aging of raw materials. concrete, steel, and glass in perpetual dialogue with time and climate.": "Accepter le vieillissement naturel de la matière brute. Béton, acier et verre, en dialogue constant avec le temps et le climat.",
     "in volume we trust": "Nous croyons au volume",
     "initiate_sequence // new_project": "DÉMARRER // NOUVEAU_PROJET",
@@ -22,6 +23,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   es: {
     "\"we do not build structures.": "«No construimos estructuras.",
+    "elias vorne and the post-digital built form": "Elias Vorne y la forma construida posdigital",
     "embracing the natural aging of raw materials. concrete, steel, and glass in perpetual dialogue with time and climate.": "Aceptar el envejecimiento natural de la materia bruta. Hormigón, acero y vidrio, en diálogo constante con el tiempo y el clima.",
     "in volume we trust": "Creemos en el volumen",
     "initiate_sequence // new_project": "INICIAR // NUEVO_PROYECTO",
@@ -33,6 +35,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   de: {
     "\"we do not build structures.": "„Wir bauen keine Strukturen.",
+    "elias vorne and the post-digital built form": "Elias Vorne und die postdigitale Bauform",
     "embracing the natural aging of raw materials. concrete, steel, and glass in perpetual dialogue with time and climate.": "Das natürliche Altern des Rohmaterials annehmen. Beton, Stahl und Glas im steten Dialog mit Zeit und Klima.",
     "in volume we trust": "Wir vertrauen dem Volumen",
     "initiate_sequence // new_project": "STARTEN // NEUES_PROJEKT",
@@ -44,6 +47,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   pt: {
     "\"we do not build structures.": "«Não construímos estruturas.",
+    "elias vorne and the post-digital built form": "Elias Vorne e a forma construída pós-digital",
     "embracing the natural aging of raw materials. concrete, steel, and glass in perpetual dialogue with time and climate.": "Aceitar o envelhecimento natural da matéria bruta. Betão, aço e vidro, em diálogo constante com o tempo e o clima.",
     "in volume we trust": "Acreditamos no volume",
     "initiate_sequence // new_project": "INICIAR // NOVO_PROJETO",
