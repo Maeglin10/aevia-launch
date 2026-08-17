@@ -338,6 +338,66 @@ export function ThemeBlocks({
           />
         </Section>
       )}
+
+      {/*
+         Les horaires et les réalisations : deux blocs que soixante-dix et cent
+         trente et un thèmes affichent, et que le formulaire ne demandait pas.
+         Leurs sections restaient donc sur l'exemple du thème quoi que fasse le
+         client — mesuré sur le parcours réel.
+      */}
+      {has("horaires") && (
+        <Section
+          rempli={(profile.openingHours ?? []).filter((h) => h.day?.trim()).length}
+          title={say("horaires").label!}
+          hint={say("horaires").hint}
+        >
+          <Repeater
+            rows={profile.openingHours ?? []}
+            empty={{ day: "", open: "", close: "" }}
+            onChange={(next) => patch({ openingHours: next })}
+            addLabel="Ajouter un horaire"
+            render={(h, set) => (
+              <>
+                <input
+                  className={input}
+                  value={h.day ?? ""}
+                  onChange={(e) => set({ day: e.target.value })}
+                  placeholder={say("horaires").ph?.day}
+                />
+                <input
+                  className={input}
+                  value={h.open ?? ""}
+                  onChange={(e) => set({ open: e.target.value })}
+                  placeholder={say("horaires").ph?.hours}
+                />
+              </>
+            )}
+          />
+        </Section>
+      )}
+
+      {has("realisations") && (
+        <Section
+          rempli={(profile.beforeAfter ?? []).filter((r) => r.caption?.trim()).length}
+          title={say("realisations").label!}
+          hint={say("realisations").hint}
+        >
+          <Repeater
+            rows={profile.beforeAfter ?? []}
+            empty={{ beforeUrl: "", afterUrl: "", caption: "" }}
+            onChange={(next) => patch({ beforeAfter: next })}
+            addLabel="Ajouter une réalisation"
+            render={(r, set) => (
+              <input
+                className={`${input} w-full`}
+                value={r.caption ?? ""}
+                onChange={(e) => set({ caption: e.target.value })}
+                placeholder={say("realisations").ph?.caption}
+              />
+            )}
+          />
+        </Section>
+      )}
     </div>
   );
 }

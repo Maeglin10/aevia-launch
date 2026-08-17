@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowLeft, Copy, Check, Rocket, Loader2, Globe, ChevronDown, Pencil, Sparkles, X } from "lucide-react";
-import GeneratedSite from "@/components/GeneratedSite";
 import { MissingInfo } from "@/components/preview/MissingInfo";
 import { EditPanel } from "@/components/EditPanel";
 import type { SessionData, GeneratedContent, FormData } from "@/lib/sessions";
@@ -354,7 +353,31 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
             title="Site preview"
           />
         ) : (
-          <GeneratedSite session={liveSession} />
+          /*
+            Pas de site de secours.
+
+            Quand le thème n'est pas l'un des nôtres, un générateur générique
+            fabriquait une page sans sections ni caractère. Le client croyait
+            recevoir ce qu'il avait acheté — et jugeait le produit là-dessus.
+            Mieux vaut dire qu'il y a un problème que livrer un site que nous ne
+            vendons pas.
+          */
+          <div className="mx-auto max-w-2xl px-6 py-24 text-center">
+            <p className="text-lg font-semibold text-white">
+              Votre design n&apos;a pas été enregistré.
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-zinc-400">
+              Nous préférons vous le dire plutôt que d&apos;afficher un site qui ne
+              serait pas le vôtre. Reprenez le choix du design : votre brief est
+              conservé.
+            </p>
+            <Link
+              href={`/configure?session=${sessionId}`}
+              className="mt-6 inline-flex items-center gap-2 rounded-full bg-red-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-red-500"
+            >
+              Choisir mon design
+            </Link>
+          </div>
         )}
       </div>
 
