@@ -36,6 +36,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -850,7 +851,7 @@ export default function AtelierTeintesPage() {
                 opacity: 0.45,
               }}
             />
-            {METHODE_SOURCE.map((m, idx) => (
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_SOURCE[i % METHODE_SOURCE.length], ...e })), METHODE_SOURCE).map((m, idx) => (
               <Reveal key={m.n} delay={idx * 0.055}>
                 <div style={{ display: "flex", gap: "clamp(16px, 2.4vw, 26px)", padding: "0 0 clamp(28px, 3.6vw, 42px)", position: "relative" }}>
                   <span

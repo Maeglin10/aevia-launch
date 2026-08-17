@@ -16,6 +16,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1446,7 +1447,7 @@ function MethodPanel() {
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {METHOD_ITEMS.map((item, i) => (
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHOD_ITEMS[i % METHOD_ITEMS.length], ...e })), METHOD_ITEMS).map((item, i) => (
               <Reveal key={item.number} delay={i * 0.06}>
                 <div className="imx-mobstack"
                   style={{

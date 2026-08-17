@@ -41,6 +41,7 @@ import {
   clientFaq,
   clientHeroLine,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -1554,7 +1555,7 @@ return (
             }} />
 
             <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-              {PROCESS.map((step, i) => (
+              {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS[i % PROCESS.length], ...e })), PROCESS).map((step, i) => (
                 <motion.div className="imx-mobstack"
                   key={step.step}
                   initial={{ opacity: 0, x: -30 }}

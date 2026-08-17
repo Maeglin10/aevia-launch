@@ -39,6 +39,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -629,7 +630,7 @@ export default function DuoPeinturesPage() {
           </Reveal>
 
           <div style={{ borderTop: `1px solid ${C.border}` }}>
-            {METHODE_SOURCE.map((m, idx) => (
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_SOURCE[i % METHODE_SOURCE.length], ...e })), METHODE_SOURCE).map((m, idx) => (
               <Reveal key={m.n} delay={Math.min(idx, 4) * 0.055}>
                 <div
                   className="i362-etape"

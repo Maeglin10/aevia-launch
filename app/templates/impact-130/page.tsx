@@ -43,6 +43,7 @@ import {
   clientFaq,
   clientHeroPrestations,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1084,7 +1085,7 @@ return (
             {/* Timeline line */}
             <div style={{ position: "absolute", left: 24, top: 40, bottom: 40, width: 1, background: C.border }} />
 
-            {PROCESS.map((step, i) => {
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS[i % PROCESS.length], ...e })), PROCESS).map((step, i) => {
               const ref = useRef(null);
               const inView = useInView(ref, { once: true, margin: "-80px" });
               return (

@@ -17,6 +17,7 @@ import {
   clientHeroLine,
   clientHeroPrestations,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -425,7 +426,7 @@ export default function EtudeDuCanalPage() {
 
   const SERVICES = SERVICES_DEMO;
   const AVIS = AVIS_DEMO;
-  const METHODE = METHODE_SOURCE;
+  const METHODE = resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_SOURCE[i % METHODE_SOURCE.length], ...e })), METHODE_SOURCE);
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);

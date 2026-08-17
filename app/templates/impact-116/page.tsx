@@ -20,6 +20,7 @@ import {
   clientCity,
   clientHeroLine,
   clientList,
+  clientMethode,
   clientName,
   clientPhotos,
   clientServices,
@@ -374,7 +375,12 @@ export default function KineticStudio() {
           <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>Our Process</>)}</h2>
         </Reveal>
         <Accordion type="single" collapsible className="max-w-4xl mx-auto">
-          {PROCESS.map((item, idx) => (
+          {resolveList(
+            /* Ce thème titre l'étape dans `step` — un nom que d'autres thèmes
+               réservent au numéro d'ordre, d'où l'écriture locale. */
+            clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS[i % PROCESS.length], ...e, step: e.name })),
+            PROCESS,
+          ).map((item, idx) => (
             <AccordionItem key={idx} value={`step-${idx}`} className="border-[var(--brand,#ff5500)]/20">
               <AccordionTrigger className="text-white text-lg">
                 <span className="mr-4 flex items-center"><TemplateIcon emoji={item.icon} size={24} color="var(--brand,#ff5500)" /></span>
@@ -548,7 +554,12 @@ export default function KineticStudio() {
           <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Project Workflow</>)}</h2>
         </Reveal>
         <Accordion type="single" collapsible className="max-w-4xl mx-auto">
-          {PROCESS.map((item, idx) => (
+          {resolveList(
+            /* Ce thème titre l'étape dans `step` — un nom que d'autres thèmes
+               réservent au numéro d'ordre, d'où l'écriture locale. */
+            clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS[i % PROCESS.length], ...e, step: e.name })),
+            PROCESS,
+          ).map((item, idx) => (
             <AccordionItem key={idx} value={`step-${idx}`} className="border-[var(--brand,#ff5500)]/20 mb-3">
               <AccordionTrigger className="text-white text-lg hover:text-[var(--brand,#ff5500)] transition-colors">
                 <span className="mr-4 flex items-center"><TemplateIcon emoji={item.icon} size={24} color="var(--brand,#ff5500)" /></span>

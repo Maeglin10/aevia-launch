@@ -14,6 +14,9 @@
 
 const commun = (v) => ({
   form: {
+    /* La langue du client : sans elle, la passe de traduction ne se déclenche
+       pas et l'on mesurerait des thèmes restés en anglais. */
+    locale: v.locale ?? "fr",
     businessName: v.nom,
     businessType: v.metier,
     tagline: v.accroche,
@@ -34,6 +37,7 @@ const commun = (v) => ({
     team: v.equipe,
     openingHours: v.horaires,
     beforeAfter: v.realisations,
+    methode: v.methode,
     reputation: { featuredReviews: v.avis },
     geo: { serviceAreas: v.zones },
     legal: { companyName: v.nom, companyAddress: v.adresse },
@@ -63,6 +67,7 @@ export const CLIENTS = {
     equipe: [{ name: "Dr Claire Fontaine", role: "Médecin généraliste" }, { name: "Dr Samuel Ortiz", role: "Médecin généraliste" }, { name: "Nadia Belkacem", role: "Secrétaire médicale" }],
     horaires: [{ day: "Lundi — vendredi", open: "8h", close: "19h" }, { day: "Samedi", open: "8h", close: "12h" }],
     realisations: [{ beforeUrl: "", afterUrl: "", caption: "Salle d'attente repensée en 2024 — lumière naturelle et espace enfants" }],
+    methode: [{ name: "La prise de rendez-vous", desc: "En ligne ou par téléphone, avec un créneau d'accès direct chaque matin." }, { name: "La consultation", desc: "Trente minutes : l'examen, les explications, et le temps des questions." }, { name: "Le suivi", desc: "Compte rendu au médecin traitant, rappel des dépistages, ordonnance expliquée." }],
     avis: [
       { author: "Martine L.", text: "Un médecin qui prend le temps d'expliquer. On ressort en ayant compris.", rating: 5, source: "Annecy" },
       { author: "Yannis B.", text: "Rendez-vous obtenu en deux jours, ce qui est rare aujourd'hui.", rating: 5, source: "Annecy-le-Vieux" },
@@ -93,6 +98,7 @@ export const CLIENTS = {
       { beforeUrl: "", afterUrl: "", caption: "Corps de ferme du XVIIIe, Sévrier — 320 m² d'ardoise reposés à l'identique" },
       { beforeUrl: "", afterUrl: "", caption: "Immeuble haussmannien, Annecy centre — zinc à joint debout" },
     ],
+    methode: [{ name: "Le repérage", desc: "Nous montons sur le toit et photographions chaque désordre." }, { name: "Le devis", desc: "Un chiffrage ligne par ligne, sans poste flou, sous huit jours." }, { name: "Le chantier", desc: "Une équipe dédiée, un chef de chantier joignable, un planning tenu." }, { name: "La réception", desc: "Visite commune, réserves levées, garantie décennale remise." }],
     avis: [
       { author: "Hélène Brunet", text: "Toiture refaite en huit jours, chantier laissé impeccable, devis tenu au centime près.", rating: 5, source: "Annecy" },
       { author: "Patrick Meunier", text: "Une fuite que trois entreprises n'avaient pas trouvée. Diagnostic en une heure.", rating: 5, source: "Sévrier" },
@@ -126,6 +132,7 @@ export const CLIENTS = {
     equipe: [{ name: "Élise Marchand", role: "Cheffe" }, { name: "Tom Delaunay", role: "Second de cuisine" }, { name: "Inès Fabre", role: "Cheffe de salle et sommelière" }],
     horaires: [{ day: "Mardi — samedi", open: "12h", close: "14h" }, { day: "Mardi — samedi (soir)", open: "19h30", close: "22h" }],
     realisations: [{ beforeUrl: "", afterUrl: "", caption: "La salle ouverte sur le Thiou après les travaux de l'hiver 2025" }],
+    methode: [{ name: "Le marché", desc: "Élise choisit chaque matin chez six producteurs du bassin." }, { name: "La carte", desc: "Elle change le mercredi, selon ce qui est arrivé en cuisine." }, { name: "Le service", desc: "Trente-deux couverts, une seule équipe, aucun plat qui attend." }],
     avis: [
       { author: "Guillaume P.", text: "Une cuisine précise, sans esbroufe. Le soufflé à la chartreuse vaut le détour.", rating: 5, source: "Annecy" },
       { author: "Sarah N.", text: "Accueil chaleureux et carte des vins remarquable pour une si petite salle.", rating: 5, source: "Chambéry" },
@@ -154,6 +161,7 @@ export const CLIENTS = {
     equipe: [{ name: "Maître Anne Ferrand", role: "Associée fondatrice, droit social" }, { name: "Maître Paul Rivière", role: "Associé, droit des affaires" }, { name: "Maître Léa Chen", role: "Collaboratrice" }],
     horaires: [{ day: "Lundi — vendredi", open: "9h", close: "19h" }],
     realisations: [{ beforeUrl: "", afterUrl: "", caption: "Cession d'un groupe de quatre sociétés — 14 M€, closing en onze semaines" }],
+    methode: [{ name: "Le premier rendez-vous", desc: "Trente minutes offertes pour cerner l'enjeu et le risque." }, { name: "La stratégie", desc: "Une note écrite : les options, leurs chances, leur coût." }, { name: "La procédure", desc: "Vous êtes informé à chaque acte, sans jargon." }, { name: "L'issue", desc: "Décision commentée, et suites possibles expliquées." }],
     avis: [
       { author: "Bertrand M.", text: "Une lecture du risque très claire, sans jargon. On sait où l'on va.", rating: 5, source: "Lyon" },
       { author: "Sophie D.", text: "Dossier prud'homal gagné en première instance. Préparation minutieuse.", rating: 5, source: "Villeurbanne" },
@@ -182,6 +190,7 @@ export const CLIENTS = {
     equipe: [{ name: "Nicolas Berthier", role: "Coach, fondateur" }, { name: "Amandine Sow", role: "Préparatrice physique" }, { name: "Léo Marchetti", role: "Coach mobilité" }],
     horaires: [{ day: "Lundi — vendredi", open: "6h30", close: "21h" }, { day: "Samedi", open: "9h", close: "13h" }],
     realisations: [{ beforeUrl: "", afterUrl: "", caption: "Plateau de force ouvert en 2025 — 120 m² et six postes complets" }],
+    methode: [{ name: "Le bilan", desc: "Une heure : posture, mobilité, antécédents, objectifs." }, { name: "Le plan", desc: "Douze semaines écrites, ajustées chaque quinzaine." }, { name: "Les séances", desc: "Six personnes maximum, chaque geste corrigé." }, { name: "La mesure", desc: "Test tous les mois, chiffres à l'appui." }],
     avis: [
       { author: "Claire T.", text: "Six personnes par cours, le coach corrige chaque geste. Rien à voir avec une salle classique.", rating: 5, source: "Bordeaux" },
       { author: "Mehdi A.", text: "Marathon fini en 3 h 24 après leur cycle de préparation. Plan tenu à la lettre.", rating: 5, source: "Mérignac" },
@@ -213,6 +222,7 @@ export const CLIENTS = {
       { beforeUrl: "", afterUrl: "", caption: "Service de trente-six pièces pour un restaurant étoilé de Nantes" },
       { beforeUrl: "", afterUrl: "", caption: "Suspension en grès émaillé pour le hall d'un hôtel" },
     ],
+    methode: [{ name: "Le dessin", desc: "On dessine ensemble la pièce, ses proportions, son usage." }, { name: "Le tournage", desc: "La motte est centrée, montée, tournée à la main." }, { name: "Le séchage", desc: "Trois semaines à l'air, la pièce perd son eau sans se fendre." }, { name: "Les cuissons", desc: "Biscuit à 980 °C, émail à 1 280 °C au grès." }],
     avis: [
       { author: "Anne-Laure V.", text: "Des pièces qu'on a plaisir à prendre en main tous les matins.", rating: 5, source: "Nantes" },
       { author: "Théo R.", text: "Le stage week-end est parfaitement calibré pour un débutant complet.", rating: 5, source: "Rezé" },
@@ -244,6 +254,7 @@ export const CLIENTS = {
       { beforeUrl: "", afterUrl: "", caption: "Bastide du Luberon — 140 convives, dîner sous les platanes centenaires" },
       { beforeUrl: "", afterUrl: "", caption: "Mariage franco-italien à Menton — deux cérémonies en deux langues" },
     ],
+    methode: [{ name: "La rencontre", desc: "Deux heures pour comprendre le mariage que vous voulez." }, { name: "Le repérage", desc: "Cinq lieux présélectionnés, visités avec vous." }, { name: "Les prestataires", desc: "Nous consultons, comparons, négocions et contractualisons." }, { name: "Le jour J", desc: "Nous pilotons ; vous n'avez rien à gérer." }],
     avis: [
       { author: "Camille & Antoine", text: "Le jour J, nous n'avons rien eu à gérer. C'est exactement ce qu'on venait chercher.", rating: 5, source: "Aix-en-Provence" },
       { author: "Léa & Sofiane", text: "Budget tenu, prestataires irréprochables, et une écoute rare.", rating: 5, source: "Marseille" },
@@ -272,6 +283,7 @@ export const CLIENTS = {
     equipe: [{ name: "Marion Estève", role: "Coiffeuse coloriste, fondatrice" }, { name: "Yasmine Haddad", role: "Coiffeuse" }, { name: "Paul Reynaud", role: "Barbier" }],
     horaires: [{ day: "Mardi — samedi", open: "9h30", close: "19h" }],
     realisations: [{ beforeUrl: "", afterUrl: "", caption: "Transition vers le cheveu blanc accompagnée sur onze mois" }],
+    methode: [{ name: "Le diagnostic", desc: "Dix minutes sur le cheveu et le cuir chevelu, avant tout geste." }, { name: "La proposition", desc: "Ce qui est possible, ce qui ne l'est pas, et à quel rythme." }, { name: "Le soin", desc: "Coupe, couleur ou rituel, sans précipitation." }, { name: "Le suivi", desc: "Retouche offerte sous quinze jours si besoin." }],
     avis: [
       { author: "Julie M.", text: "La première coloriste qui m'explique ce qu'elle met sur ma tête, et pourquoi.", rating: 5, source: "Toulouse" },
       { author: "Fanny D.", text: "Un salon calme, sans musique forte. On en ressort reposée.", rating: 5, source: "Blagnac" },
@@ -303,6 +315,7 @@ export const CLIENTS = {
       { beforeUrl: "", afterUrl: "", caption: "Maison 1930 à Roubaix — extension bois de 42 m² et réfection thermique" },
       { beforeUrl: "", afterUrl: "", caption: "Ancienne filature reconvertie en huit logements, Tourcoing" },
     ],
+    methode: [{ name: "La faisabilité", desc: "Ce que le terrain et le PLU autorisent vraiment, en trois semaines." }, { name: "L'esquisse", desc: "Deux ou trois partis, dessinés et chiffrés." }, { name: "Le permis", desc: "Dossier monté, déposé, suivi jusqu'à l'obtention." }, { name: "Le chantier", desc: "Consultation des entreprises, visites hebdomadaires, réception." }],
     avis: [
       { author: "Famille Lambert", text: "Un projet tenu au budget annoncé, et un chantier suivi semaine après semaine.", rating: 5, source: "Roubaix" },
       { author: "SCI Deleval", text: "Permis obtenu du premier coup sur un bâtiment classé. Rare.", rating: 5, source: "Tourcoing" },
@@ -331,6 +344,7 @@ export const CLIENTS = {
     equipe: [{ name: "Béatrice Nourrisson", role: "Hôtesse, propriétaire" }, { name: "Denis Nourrisson", role: "Vigneron, table d'hôtes" }],
     horaires: [{ day: "Arrivées", open: "16h", close: "20h" }, { day: "Départs", open: "jusqu'à 11h", close: "" }],
     realisations: [{ beforeUrl: "", afterUrl: "", caption: "Grange du XVIIIe transformée en salle de petit-déjeuner, hiver 2024" }],
+    methode: [{ name: "La réservation", desc: "Un échange direct, sans intermédiaire ni commission." }, { name: "L'arrivée", desc: "Accueil à la maison, présentation des lieux et du village." }, { name: "Le séjour", desc: "Petit-déjeuner maison, table d'hôtes sur demande, visites organisées." }],
     avis: [
       { author: "Marc & Julie", text: "La table d'hôtes vaut à elle seule le détour, et l'accueil est d'une gentillesse rare.", rating: 5, source: "Beaune" },
       { author: "Ingrid H.", text: "Chambre au calme absolu, vue sur les vignes au réveil.", rating: 5, source: "Dijon" },
