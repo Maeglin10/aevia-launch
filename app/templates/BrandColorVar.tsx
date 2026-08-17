@@ -1,4 +1,5 @@
 "use client";
+import { MARQUE_DEMO } from "@/lib/templates/marquesDemo";
 
 import { useEffect } from "react";
 
@@ -625,11 +626,8 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "home": "Accueil",
     "about": "À propos",
     "about us": "À propos",
-    "our story": "Notre histoire",
-    "the story": "L'histoire",
     "services": "Prestations",
     "our services": "Nos prestations",
-    "what we do": "Ce que nous faisons",
     "pricing": "Tarifs",
     "prices": "Tarifs",
     "plans": "Formules",
@@ -638,26 +636,21 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "the team": "L'équipe",
     "testimonials": "Avis",
     "reviews": "Avis",
-    "what our clients say": "Ce que disent nos clients",
     "gallery": "Galerie",
     "portfolio": "Réalisations",
     "work": "Réalisations",
     "our work": "Nos réalisations",
-    "selected work": "Réalisations choisies",
     "recent projects": "Réalisations récentes",
     "projects": "Projets",
     "process": "Méthode",
     "our process": "Notre méthode",
-    "how it works": "Comment ça marche",
     "features": "Ce qui est inclus",
     "questions": "Questions",
     "faq": "Questions fréquentes",
     "frequently asked questions": "Questions fréquentes",
-    "questions & answers": "Questions et réponses",
     "common questions": "Questions fréquentes",
     "contact": "Contact",
     "contact us": "Nous contacter",
-    "get in touch": "Nous écrire",
     "book now": "Réserver",
     "book": "Réserver",
     "book a call": "Prendre rendez-vous",
@@ -667,7 +660,6 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "read more": "Lire la suite",
     "view all": "Tout voir",
     "see more": "Voir plus",
-    "view case": "Voir le projet",
     "all": "Tout",
     "discover": "Découvrir",
     "explore": "Explorer",
@@ -675,7 +667,6 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "blog": "Blog",
     "news": "Actualités",
     "journal": "Journal",
-    "opening hours": "Horaires",
     "hours": "Horaires",
     "location": "Adresse",
     "find us": "Nous trouver",
@@ -685,9 +676,7 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "request a quote": "Demander un devis",
     "get a quote": "Demander un devis",
     "free quote": "Devis gratuit",
-    "trusted by": "Ils nous font confiance",
     "why choose us": "Pourquoi nous choisir",
-    "our approach": "Notre approche",
     "our values": "Nos valeurs",
     "certifications": "Certifications",
     "guarantees": "Garanties",
@@ -780,11 +769,8 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "home": "Inicio",
     "about": "Sobre nosotros",
     "about us": "Sobre nosotros",
-    "our story": "Nuestra historia",
-    "the story": "La historia",
     "services": "Servicios",
     "our services": "Nuestros servicios",
-    "what we do": "Lo que hacemos",
     "pricing": "Tarifas",
     "prices": "Tarifas",
     "plans": "Planes",
@@ -793,26 +779,21 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "the team": "El equipo",
     "testimonials": "Opiniones",
     "reviews": "Opiniones",
-    "what our clients say": "Lo que dicen nuestros clientes",
     "gallery": "Galería",
     "portfolio": "Portafolio",
     "work": "Trabajos",
     "our work": "Nuestros trabajos",
-    "selected work": "Trabajos seleccionados",
     "recent projects": "Proyectos recientes",
     "projects": "Proyectos",
     "process": "Método",
     "our process": "Nuestro método",
-    "how it works": "Cómo funciona",
     "features": "Características",
     "questions": "Preguntas",
     "faq": "Preguntas frecuentes",
     "frequently asked questions": "Preguntas frecuentes",
-    "questions & answers": "Preguntas y respuestas",
     "common questions": "Preguntas frecuentes",
     "contact": "Contacto",
     "contact us": "Contáctanos",
-    "get in touch": "Escríbenos",
     "book now": "Reservar",
     "book": "Reservar",
     "book a call": "Agendar una llamada",
@@ -822,7 +803,6 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "read more": "Leer más",
     "view all": "Ver todo",
     "see more": "Ver más",
-    "view case": "Ver el caso",
     "all": "Todo",
     "discover": "Descubrir",
     "explore": "Explorar",
@@ -830,7 +810,6 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "blog": "Blog",
     "news": "Noticias",
     "journal": "Diario",
-    "opening hours": "Horario",
     "hours": "Horario",
     "location": "Dirección",
     "find us": "Encuéntranos",
@@ -840,9 +819,7 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "request a quote": "Solicitar presupuesto",
     "get a quote": "Solicitar presupuesto",
     "free quote": "Presupuesto gratuito",
-    "trusted by": "Confían en nosotros",
     "why choose us": "Por qué elegirnos",
-    "our approach": "Nuestro enfoque",
     "our values": "Nuestros valores",
     "certifications": "Certificaciones",
     "guarantees": "Garantías",
@@ -935,11 +912,8 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "home": "Startseite",
     "about": "Über uns",
     "about us": "Über uns",
-    "our story": "Unsere Geschichte",
-    "the story": "Die Geschichte",
     "services": "Leistungen",
     "our services": "Unsere Leistungen",
-    "what we do": "Was wir tun",
     "pricing": "Preise",
     "prices": "Preise",
     "plans": "Pakete",
@@ -948,26 +922,21 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "the team": "Das Team",
     "testimonials": "Stimmen",
     "reviews": "Bewertungen",
-    "what our clients say": "Was unsere Kunden sagen",
     "gallery": "Galerie",
     "portfolio": "Portfolio",
     "work": "Arbeiten",
     "our work": "Unsere Arbeiten",
-    "selected work": "Ausgewählte Arbeiten",
     "recent projects": "Aktuelle Projekte",
     "projects": "Projekte",
     "process": "Ablauf",
     "our process": "Unser Ablauf",
-    "how it works": "So funktioniert es",
     "features": "Leistungsmerkmale",
     "questions": "Fragen",
     "faq": "Häufige Fragen",
     "frequently asked questions": "Häufige Fragen",
-    "questions & answers": "Fragen und Antworten",
     "common questions": "Häufige Fragen",
     "contact": "Kontakt",
     "contact us": "Kontakt aufnehmen",
-    "get in touch": "Schreiben Sie uns",
     "book now": "Jetzt buchen",
     "book": "Buchen",
     "book a call": "Termin vereinbaren",
@@ -977,7 +946,6 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "read more": "Weiterlesen",
     "view all": "Alle ansehen",
     "see more": "Mehr sehen",
-    "view case": "Projekt ansehen",
     "all": "Alle",
     "discover": "Entdecken",
     "explore": "Erkunden",
@@ -985,7 +953,6 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "blog": "Blog",
     "news": "Aktuelles",
     "journal": "Journal",
-    "opening hours": "Öffnungszeiten",
     "hours": "Öffnungszeiten",
     "location": "Adresse",
     "find us": "So finden Sie uns",
@@ -995,9 +962,7 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "request a quote": "Angebot anfordern",
     "get a quote": "Angebot anfordern",
     "free quote": "Kostenloses Angebot",
-    "trusted by": "Vertrauen von",
     "why choose us": "Warum wir",
-    "our approach": "Unser Ansatz",
     "our values": "Unsere Werte",
     "certifications": "Zertifizierungen",
     "guarantees": "Garantien",
@@ -1090,11 +1055,8 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "home": "Início",
     "about": "Sobre nós",
     "about us": "Sobre nós",
-    "our story": "A nossa história",
-    "the story": "A história",
     "services": "Serviços",
     "our services": "Os nossos serviços",
-    "what we do": "O que fazemos",
     "pricing": "Preços",
     "prices": "Preços",
     "plans": "Planos",
@@ -1103,26 +1065,21 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "the team": "A equipa",
     "testimonials": "Testemunhos",
     "reviews": "Avaliações",
-    "what our clients say": "O que dizem os nossos clientes",
     "gallery": "Galeria",
     "portfolio": "Portefólio",
     "work": "Trabalhos",
     "our work": "Os nossos trabalhos",
-    "selected work": "Trabalhos selecionados",
     "recent projects": "Projetos recentes",
     "projects": "Projetos",
     "process": "Método",
     "our process": "O nosso método",
-    "how it works": "Como funciona",
     "features": "Funcionalidades",
     "questions": "Perguntas",
     "faq": "Perguntas frequentes",
     "frequently asked questions": "Perguntas frequentes",
-    "questions & answers": "Perguntas e respostas",
     "common questions": "Perguntas frequentes",
     "contact": "Contacto",
     "contact us": "Contacte-nos",
-    "get in touch": "Fale connosco",
     "book now": "Reservar",
     "book": "Reservar",
     "book a call": "Marcar uma chamada",
@@ -1132,7 +1089,6 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "read more": "Ler mais",
     "view all": "Ver tudo",
     "see more": "Ver mais",
-    "view case": "Ver o caso",
     "all": "Tudo",
     "discover": "Descobrir",
     "explore": "Explorar",
@@ -1140,7 +1096,6 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "blog": "Blog",
     "news": "Notícias",
     "journal": "Jornal",
-    "opening hours": "Horário",
     "hours": "Horário",
     "location": "Morada",
     "find us": "Encontre-nos",
@@ -1150,9 +1105,7 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "request a quote": "Pedir orçamento",
     "get a quote": "Pedir orçamento",
     "free quote": "Orçamento grátis",
-    "trusted by": "Confiam em nós",
     "why choose us": "Porquê escolher-nos",
-    "our approach": "A nossa abordagem",
     "our values": "Os nossos valores",
     "certifications": "Certificações",
     "guarantees": "Garantias",
@@ -1190,6 +1143,60 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
   Marie » ne se touche pas. Sans langue connue, on ne traduit rien — traduire au
   hasard serait pire.
 */
+/*
+  Effacer le nom de la démonstration partout où il reste écrit en dur.
+
+  Les thèmes lisent le nom du client à l'endroit qui compte — l'en-tête, le
+  pied, le titre d'accueil — mais leur prose garde le leur : « At Neuralis, we
+  believe… », « Année de fondation de Terre Vivante », « now included in every
+  WaveForm plan ». Ces phrases vivent dans un témoignage, une question
+  fréquente, des conditions générales : des centaines d'endroits, dans des
+  centaines de fichiers.
+
+  Un passage sur le texte affiché les prend tous d'un coup, et prendra aussi
+  ceux qu'on écrira demain. On ne touche qu'aux nœuds de texte, jamais aux
+  attributs ni au balisage, et l'on borne le nom sur les lettres — accents
+  compris, puisque « é » n'est pas une lettre pour les bornes de mot de
+  JavaScript, si bien que « Éclat » se couperait avant son « c ».
+
+  Les noms d'un seul mot courant — « Atelier », « Table », « Terre » — sont déjà
+  écartés de la carte : les remplacer dans une phrase l'abîmerait.
+*/
+const LETTRE_MARQUE = /[A-Za-zÀ-ÖØ-öø-ÿ0-9]/;
+
+function effacerLaMarqueDeDemonstration(nom: string | undefined) {
+  if (!nom || nom.trim().length < 2) return;
+  const propre = nom.trim();
+
+  const chemin = window.location.pathname.match(/\/templates\/(impact-[\w-]+)/);
+  const demo = chemin ? MARQUE_DEMO[chemin[1]] : undefined;
+  if (!demo || demo === propre) return;
+  /* Le client s'appelle déjà comme la démonstration : rien à remplacer. */
+  if (propre.toLowerCase().includes(demo.toLowerCase())) return;
+
+  const marcheur = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const aRefaire: Array<[Text, string]> = [];
+  for (let n = marcheur.nextNode(); n; n = marcheur.nextNode()) {
+    const t = n.nodeValue ?? "";
+    if (!t.includes(demo)) continue;
+    const parent = (n as Text).parentElement;
+    if (!parent || parent.closest("style,script,noscript,template")) continue;
+
+    let sortie = "", reste = t, deplace = false;
+    for (let i = reste.indexOf(demo); i >= 0; i = reste.indexOf(demo)) {
+      const avant = reste[i - 1] ?? " ";
+      const apres = reste[i + demo.length] ?? " ";
+      const entier = !LETTRE_MARQUE.test(avant) && !LETTRE_MARQUE.test(apres);
+      sortie += reste.slice(0, i) + (entier ? propre : demo);
+      if (entier) deplace = true;
+      reste = reste.slice(i + demo.length);
+    }
+    if (deplace) aRefaire.push([n as Text, sortie + reste]);
+  }
+  /* On écrit après la lecture : modifier pendant le parcours le fait dérailler. */
+  for (const [n, valeur] of aRefaire) n.nodeValue = valeur;
+}
+
 function traduireLesLibelles(locale: string | undefined) {
   if (!locale || locale === "en") return;
   const dict = LEXIQUE_INTERFACE[locale];
@@ -1923,6 +1930,7 @@ export function BrandColorVar() {
           rendreLesMotsEntiers();
           rendreLeCopyright(d?.formData?.businessName);
           poserLeContact(d?.formData);
+          effacerLaMarqueDeDemonstration(d?.formData?.businessName);
           traduireLesLibelles(d?.formData?.locale);
           prolongerLeFond();
         };
