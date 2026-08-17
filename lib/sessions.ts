@@ -179,19 +179,72 @@ export async function saveSessionToBlob(id: string, data: SessionData): Promise<
   sessions.set(id, data); // warm the in-memory cache
 }
 
+/*
+  L'adresse publique du dépôt, déduite du jeton.
+
+  Le jeton s'écrit `vercel_blob_rw_<dépôt>_<secret>` et le dépôt donne l'hôte
+  public. On n'en lit que la partie publique ; le secret ne sort jamais d'ici.
+*/
+function hoteDuDepot(): string | null {
+  const jeton = process.env.BLOB_READ_WRITE_TOKEN ?? "";
+  const depot = jeton.split("_")[3];
+  return depot ? `https://${depot}.public.blob.vercel-storage.com` : null;
+}
+
+/*
+  Lire une session écrite à l'instant.
+
+  `list()` est cohérent à terme : entre l'écriture d'une session et son
+  apparition dans l'index, il s'écoule parfois quelques secondes. Le client
+  reçoit son lien d'aperçu par courriel dans la seconde qui suit la commande —
+  il ouvrait donc, une fois sur plusieurs, une page qui répondait « session
+  introuvable » alors que la session existait.
+
+  Trois chemins, du plus sûr au moins sûr :
+
+    1. le cache mémoire, valable dans cette instance seulement ;
+    2. l'adresse déterministe — `addRandomSuffix: false` la rend prévisible,
+       et un objet est lisible dès son écriture, avant d'être indexé ;
+    3. l'index, pour les sessions écrites avant que le nom soit fixé.
+
+  Deux nouvelles tentatives espacées couvrent le cas où l'écriture elle-même
+  n'est pas encore terminée côté dépôt.
+*/
 export async function getSessionFromBlob(id: string): Promise<SessionData | null> {
   const cached = sessions.get(id);
   if (cached) return cached;
 
-  try {
-    const { blobs } = await list({ prefix: `sessions/${id}.json` });
-    if (blobs.length === 0) return null;
-    const res = await fetch(blobs[0].url);
-    if (!res.ok) return null;
-    const data = await res.json() as SessionData;
-    sessions.set(id, data); // populate cache
-    return data;
-  } catch {
-    return null;
+  const hote = hoteDuDepot();
+  for (const attente of [0, 400, 1200]) {
+    if (attente) await new Promise((r) => setTimeout(r, attente));
+
+    if (hote) {
+      try {
+        /* Sans `no-store`, le CDN peut resservir un 404 mis en cache. */
+        const res = await fetch(`${hote}/sessions/${id}.json`, { cache: "no-store" });
+        if (res.ok) {
+          const data = await res.json() as SessionData;
+          sessions.set(id, data);
+          return data;
+        }
+      } catch {
+        /* On tente l'index. */
+      }
+    }
+
+    try {
+      const { blobs } = await list({ prefix: `sessions/${id}.json` });
+      if (blobs.length > 0) {
+        const res = await fetch(blobs[0].url, { cache: "no-store" });
+        if (res.ok) {
+          const data = await res.json() as SessionData;
+          sessions.set(id, data);
+          return data;
+        }
+      }
+    } catch {
+      /* On réessaie. */
+    }
   }
+  return null;
 }
