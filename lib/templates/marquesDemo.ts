@@ -34,6 +34,7 @@
 */
 export const MARQUE_DEMO_COLLEE: Record<string, string[]> = {
   "impact-31": ["AnandaFlow"],
+  "impact-103": ["LuminaLaw", "LUMINA LAW GLOBAL PARTNERSHIP"],
 };
 
 export const MARQUE_DEMO: Record<string, string> = {
@@ -88,7 +89,7 @@ export const MARQUE_DEMO: Record<string, string> = {
   "impact-96": "Urban Pulse SAS",
   "impact-101": "BLOCK // BASE",
   "impact-102": "QBit Labs",
-  "impact-103": "LUMINA LAW GLOBAL PARTNERSHIP",
+  "impact-103": "Lumina Law",
   "impact-104": "Studio Lumière Dorée",
   "impact-105": "Atelier Bloom",
   "impact-106": "STUDIO VERSA",
