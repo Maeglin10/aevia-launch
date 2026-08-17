@@ -946,7 +946,10 @@ export default function HorizonMaritimePage() {
 
 
   stats = resolveList(
-    clientStats(session)?.map((s: any, i: number) => ({ ...stats_SOURCE[i % stats_SOURCE.length], value: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, ""), label: s.label })),
+    clientStats(session)?.map((s: any, i: number) => ({ ...stats_SOURCE[i % stats_SOURCE.length], value: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, /* Le nombre de décimales vient de la démonstration : « 1974 » s'affichait
+           « 1 974,00 » et « 10 ans » « 10.00ans ». On le tire de la valeur du
+           client, qui n'en a presque jamais. */
+        decimals: /[.,]\d/.test(String(s.value ?? "")) ? 2 : 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, ""), label: s.label })),
     stats_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
