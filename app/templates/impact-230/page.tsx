@@ -220,7 +220,7 @@ export default function AtelierDuBoisPage() {
           ) : (
             <>
               <Hammer size={18} color={scrolled ? C.accent : "#fff"} />
-              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: FONT, fontSize: 19, color: scrolled ? C.text : "#fff" }}>{clientName(sessionData) ?? "Atelier"}<em>du Bois</em></span>
+              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: FONT, fontSize: 19, color: scrolled ? C.text : "#fff" }}>{clientName(sessionData) ?? "Atelier du Bois"}</span>
             </>
           )}
         </div>

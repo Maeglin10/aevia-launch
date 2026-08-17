@@ -747,7 +747,11 @@ return (
                 display: "flex", alignItems: "center", justifyContent: "center",
                 clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)",
               }}>
-                <span style={{ fontFamily: FONT_HEADING, fontSize: 14, color: C.white, letterSpacing: 1 }}>I</span>
+                {/* Le monogramme est l'initiale du client, pas celle de la démonstration :
+                   un « I » posé à côté d'« Atelier Céleste » ne veut plus rien dire. */}
+                <span style={{ fontFamily: FONT_HEADING, fontSize: 14, color: C.white, letterSpacing: 1 }}>
+                  {(clientName(sessionData) ?? "INK").trim().charAt(0).toUpperCase()}
+                </span>
               </div>
               <span style={{ fontFamily: FONT_HEADING, fontSize: 20, letterSpacing: 4, color: C.white }}>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "INK & IRON"))}</span>
             </div>
