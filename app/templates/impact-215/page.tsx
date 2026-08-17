@@ -2870,7 +2870,7 @@ export default function FlammeEtCoPage() {
                 ))}
               </div>
               <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem' }}>
-                © 2025 {clientName(sessionData) ?? "Flamme"} & Co · Tous droits réservés ·{' '}
+                © 2025 {clientName(sessionData) ?? "Flamme & Co"} · Tous droits réservés ·{' '}
                 {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<a href="/templates/impact-215" style={{ color: C.textMuted, textDecoration: 'underline' }}>Mentions légales</a>
                 {' · '}
                 <a href="/templates/impact-215" style={{ color: C.textMuted, textDecoration: 'underline' }}>CGV</a>

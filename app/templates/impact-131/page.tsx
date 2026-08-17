@@ -1287,7 +1287,7 @@ export default function WineryTemplate() {
                 lineHeight: 1,
               }}
             >
-              {clientName(sessionData) ?? "Château"} de Valroc
+              {clientName(sessionData) ?? "Château de Valroc"}
             </span>
           </div>
         )}
@@ -2084,7 +2084,7 @@ export default function WineryTemplate() {
                 marginBottom: 24,
               }}
             >
-              Quatrième génération du domaine, Jean-Pierre a étudié l'oenologie à {clientCity(sessionData) ?? "Bordeaux"} et fait ses armes dans la vallée du Rhône avant de reprendre {clientName(sessionData) ?? "Château"} de Valroc en 2005. Sa philosophie : laisser parler le terroir, intervenir le moins possible.
+              Quatrième génération du domaine, Jean-Pierre a étudié l'oenologie à {clientCity(sessionData) ?? "Bordeaux"} et fait ses armes dans la vallée du Rhône avant de reprendre {clientName(sessionData) ?? "Château de Valroc"} en 2005. Sa philosophie : laisser parler le terroir, intervenir le moins possible.
             </p>
             <p
               style={{
@@ -2574,7 +2574,7 @@ export default function WineryTemplate() {
                   letterSpacing: "0.04em",
                 }}
               >
-                {clientName(sessionData) ?? "Château"} de Valroc
+                {clientName(sessionData) ?? "Château de Valroc"}
               </span>
             </div>
             <p
@@ -2587,7 +2587,7 @@ export default function WineryTemplate() {
                 textTransform: "uppercase",
               }}
             >
-              © 2024 {clientName(sessionData) ?? "Château"} de Valroc — Tous droits réservés — L'abus d'alcool est dangereux pour la santé{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2024 {clientName(sessionData) ?? "Château de Valroc"} — Tous droits réservés — L'abus d'alcool est dangereux pour la santé{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: "flex", gap: 24 }}>
               {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? ["Instagram", "LinkedIn", "Newsletter"]).map((s) => (

@@ -393,7 +393,7 @@ let TESTIMONIALS = TESTIMONIALS_DEMO;
 function FAQS_DEMO_LIVE() {
   return [
   {
-    q: `Combien coûte un tatouage chez ${clientName(sessionData) ?? "INK"} & Iron ?`,
+    q: `Combien coûte un tatouage chez ${clientName(sessionData) ?? "INK & Iron"} ?`,
     a: "Nos tarifs démarrent à €180 pour les petites pièces flash. Les sessions au taux horaire : Viktor à €100/h, Léa à €90/h, James à €95/h. Les projets complexes (sleeves, full back) sont devisés en session globale après consultation.",
   },
   {
@@ -478,7 +478,7 @@ function AboutSection() {
               L'ART DANS<br /><span style={{ color: C.accent }}>LA PEAU.</span>
             </>)}</h2>
             <p style={{ fontFamily: FONT_BODY, fontSize: 16, color: C.textMuted, lineHeight: 1.8, fontWeight: 300, marginBottom: 24 }}>
-              {clientName(sessionData) ?? "INK"} & Iron n'est pas un simple salon de tatouage ; c'est un sanctuaire d'expression artistique et de rigueur technique. Situé au cœur du 11e arrondissement de {clientCity(sessionData) ?? "Paris"}, notre atelier réunit trois artistes résidents de renommée internationale.
+              {clientName(sessionData) ?? "INK & Iron"} n'est pas un simple salon de tatouage ; c'est un sanctuaire d'expression artistique et de rigueur technique. Situé au cœur du 11e arrondissement de {clientCity(sessionData) ?? "Paris"}, notre atelier réunit trois artistes résidents de renommée internationale.
             </p>
             <p style={{ fontFamily: FONT_BODY, fontSize: 16, color: C.textMuted, lineHeight: 1.8, fontWeight: 300, marginBottom: 32 }}>
               Chaque pièce est une création sur-mesure unique, dessinée en étroite collaboration avec vous. Nous appliquons les standards d'hygiène les plus stricts de l'industrie (matériel à usage unique, stérilisation médicale) pour vous offrir une expérience d'exception en toute sécurité.
@@ -1988,7 +1988,7 @@ return (
             gap: 16,
           }}>
             <span style={{ fontFamily: FONT_MONO, fontSize: 11, color: C.textDim, letterSpacing: 2 }}>
-              © 2025 {clientName(sessionData) ?? "INK"} & IRON STUDIO — {clientCity(sessionData) ?? "PARIS"} 11E{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2025 {clientName(sessionData) ?? "INK & IRON STUDIO"} — {clientCity(sessionData) ?? "PARIS"} 11E{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
             <div style={{ display: "flex", gap: 24 }}>
               {[
