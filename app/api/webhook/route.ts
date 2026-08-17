@@ -333,7 +333,17 @@ const AEVIA_BACKEND_URL =
  * this account already has an active Inbox webchat widget to auto-embed.
  * Best-effort — never throws into the caller (see .catch at call site).
  */
-async function linkPurchaseToAccount(sessionId: string, email: string, siteName: string) {
+async function linkPurchaseToAccount(
+  sessionId: string,
+  email: string,
+  siteName: string,
+  /**
+   * Le code de parrainage porté par la commande. C'est le moteur de commissions
+   * d'Inbox qui en tire les conséquences — la seule base qui connaisse les
+   * vendeurs — et il ne l'honore qu'une fois, au premier achat du compte.
+   */
+  ref?: string,
+) {
   const apiKey = process.env.AEVIA_BACKEND_API_KEY;
   if (!apiKey) {
     console.warn("[webhook] AEVIA_BACKEND_API_KEY not set, skipping account link");
@@ -343,7 +353,7 @@ async function linkPurchaseToAccount(sessionId: string, email: string, siteName:
   const res = await fetch(`${AEVIA_BACKEND_URL}/api/v1/aevia-bridge/link-launch-purchase`, {
     method: "POST",
     headers: { "Content-Type": "application/json", "x-api-key": apiKey },
-    body: JSON.stringify({ email, sessionId, siteName }),
+    body: JSON.stringify({ email, sessionId, siteName, ref: ref || undefined }),
   });
   if (!res.ok) {
     throw new Error(`link-launch-purchase failed: ${res.status} ${res.statusText}`);
@@ -579,7 +589,7 @@ export async function POST(req: NextRequest) {
         // widget and embed it — no manual snippet copy-paste required. Best
         // effort: a failure here must never block order emails from sending.
         if (clientEmail) {
-          void linkPurchaseToAccount(meta.sessionId, clientEmail, siteName).catch((err) =>
+          void linkPurchaseToAccount(meta.sessionId, clientEmail, siteName, meta.ref).catch((err) =>
             console.error("[webhook] account link failed", err),
           );
         }
@@ -902,6 +912,16 @@ Retourne uniquement du JSON valide, sans markdown.`;
       // Skip the client email if the blob save failed — sending a dead preview
       // link to a paying customer is worse than no email at all.
       const clientEmail = session.customer_details?.email ?? email;
+      /*
+        Ce chemin — celui du formulaire complet — ne liait rien : l'acheteur
+        repartait sans compte de l'écosystème, et le parrainage se perdait.
+        Un compte pour les trois produits, ce qui est acheté est ce qui s'ouvre.
+      */
+      if (clientEmail) {
+        void linkPurchaseToAccount(previewSessionId, clientEmail, siteName, meta.ref).catch((err) =>
+          console.error("[webhook] account link failed", err),
+        );
+      }
       if (clientEmail && blobSaveOk) {
         await resend.emails.send({
           from: fromAddress,
