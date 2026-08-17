@@ -27,6 +27,7 @@ import {
   clientTeam,
   clientText,
   clientWorks,
+  fusionnerEtapes,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 
@@ -546,7 +547,7 @@ return (
             <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Method.</>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5">
-            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_DEMO_76[i % METHODE_DEMO_76.length], ...e })), METHODE_DEMO_76).map((s, i) => (
+            {resolveList(fusionnerEtapes(METHODE_DEMO_76, clientMethode(sessionData)), METHODE_DEMO_76).map((s, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div className="bg-[#0a0a0c] p-10 h-full group hover:bg-[#0e0e11] transition-colors">
                   <div className="text-6xl font-black text-stone-500/15 mb-8 group-hover:text-stone-500/30 transition-colors font-mono">{s.num}</div>

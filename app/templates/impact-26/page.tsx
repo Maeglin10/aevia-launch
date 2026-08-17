@@ -20,6 +20,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 /* Les étapes de la démonstration, sorties du rendu pour que la méthode du
@@ -1443,7 +1444,7 @@ function SavoirFairePage() {
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 48 }}>
-        {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_DEMO_26[i % METHODE_DEMO_26.length], ...e })), METHODE_DEMO_26).map((step) => (
+        {resolveList(fusionnerEtapes(METHODE_DEMO_26, clientMethode(sessionData)), METHODE_DEMO_26).map((step) => (
           <div key={step.num} style={{ display: "flex", gap: 32, paddingBottom: 32, borderBottom: "1px solid rgba(201, 149, 106, 0.1)" }}>
             <span style={{fontFamily: "'Cormorant Garamond', serif", fontSize: 36, color: brand ?? 'var(--brand,#c9956a)', opacity: 0.5, lineHeight: 1 }}>
               {step.num}

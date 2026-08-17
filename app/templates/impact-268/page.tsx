@@ -24,6 +24,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1388,7 +1389,7 @@ function DesignPanel() {
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...DESIGN_STEPS[i % DESIGN_STEPS.length], ...e })), DESIGN_STEPS).map((step, i) => (
+            {resolveList(fusionnerEtapes(DESIGN_STEPS, clientMethode(sessionData)), DESIGN_STEPS).map((step, i) => (
               <Reveal key={step.num} delay={0.05 * i}>
                 <div
                   style={{

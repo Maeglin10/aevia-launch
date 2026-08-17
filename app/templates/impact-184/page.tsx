@@ -20,6 +20,7 @@ import {
   clientServices,
   clientSiret,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 /* Les étapes de la démonstration, sorties du rendu pour que la méthode du
@@ -399,7 +400,7 @@ export default function BrilloNetPage() {
             <h2 className="text-4xl font-bold text-[#1c2b2b]">{/* TEXTE_SECTION */ clientText(sessionData, "process.titre") ?? (<>Comment ça marche ?</>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_DEMO_184[i % METHODE_DEMO_184.length], ...e })), METHODE_DEMO_184).map((s, i) => (
+            {resolveList(fusionnerEtapes(METHODE_DEMO_184, clientMethode(sessionData)), METHODE_DEMO_184).map((s, i) => (
               <Reveal key={i} delay={i * 0.09}>
                 <div className="bg-white rounded-2xl p-7 shadow-sm h-full">
                   <div className="text-4xl font-bold text-[var(--brand,#0d9488)]/15 mb-4 tracking-tight">{s.n}</div>

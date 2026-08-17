@@ -22,6 +22,7 @@ import {
   clientServices,
   clientText,
   clientWorks,
+  fusionnerEtapes,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -405,7 +406,7 @@ return (
             <h2 className="font-bold text-3xl md:text-4xl">{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>Engagement Process</>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0">
-            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...process[i % process.length], ...e })), process).map((step, i) => (
+            {resolveList(fusionnerEtapes(process, clientMethode(sessionData)), process).map((step, i) => (
               <Reveal key={step.step} delay={i * 0.1}>
                 <div className="border border-[#00F5D4]/15 p-8 border-r-0 last:border-r border-b md:border-b-0 relative hover:bg-[#0D1323] transition-colors">
                   {/* Connector dot */}

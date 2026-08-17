@@ -48,6 +48,7 @@ import {
   clientStats,
   clientTeam,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -450,7 +451,7 @@ export default function Impact199Page() {
   sessionData = session;
   /* La méthode du client remplace les étapes de la démonstration. */
   STEPS = resolveList(
-    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...STEPS[i % STEPS.length], ...e })),
+    fusionnerEtapes(STEPS, clientMethode(sessionData)),
     STEPS,
   );
   GALLERY_IMAGES_DEMO = GALLERY_IMAGES_DEMO_LIVE();

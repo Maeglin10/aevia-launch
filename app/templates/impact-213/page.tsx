@@ -30,6 +30,7 @@ import {
   clientTagline,
   clientTeam,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1177,7 +1178,7 @@ function Process() {
           </>)}</h2>
         </div>
         <div className="grid-process">
-          {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...steps[i % steps.length], ...e })), steps).map((s, i) => (
+          {resolveList(fusionnerEtapes(steps, clientMethode(sessionData)), steps).map((s, i) => (
             <ProcessStep
               key={i}
               number={s.number}

@@ -24,6 +24,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1468,7 +1469,7 @@ function MethodPanel() {
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHOD_ITEMS[i % METHOD_ITEMS.length], ...e })), METHOD_ITEMS).map((item, i) => (
+            {resolveList(fusionnerEtapes(METHOD_ITEMS, clientMethode(sessionData)), METHOD_ITEMS).map((item, i) => (
               <Reveal key={item.key} delay={0.05 * i}>
                 <div
                   style={{

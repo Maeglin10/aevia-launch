@@ -23,6 +23,7 @@ import {
   clientReviews,
   clientTagline,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1392,7 +1393,7 @@ function ProcessPanel() {
             </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_STEPS[i % PROCESS_STEPS.length], ...e })), PROCESS_STEPS).map((s, i) => (
+            {resolveList(fusionnerEtapes(PROCESS_STEPS, clientMethode(sessionData)), PROCESS_STEPS).map((s, i) => (
               <Reveal key={s.num} delay={0.06 * i}>
                 <div
                   style={{

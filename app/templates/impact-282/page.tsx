@@ -45,6 +45,7 @@ import {
   clientServices,
   clientTagline,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1221,7 +1222,7 @@ function ProcessSection() {
             </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_ETAPES[i % PROCESS_ETAPES.length], ...e })), PROCESS_ETAPES).map((e, i) => (
+            {resolveList(fusionnerEtapes(PROCESS_ETAPES, clientMethode(sessionData)), PROCESS_ETAPES).map((e, i) => (
               <Reveal key={e.num} delay={0.06 * i}>
                 <div
                   style={{

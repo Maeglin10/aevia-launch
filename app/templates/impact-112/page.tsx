@@ -42,6 +42,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -1077,7 +1078,7 @@ export default function ArtisanMinimalPage() {
   sessionData = session;
   /* La méthode du client remplace les étapes de la démonstration. */
   PROCESS_STEPS = resolveList(
-    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_STEPS[i % PROCESS_STEPS.length], ...e })),
+    fusionnerEtapes(PROCESS_STEPS, clientMethode(sessionData)),
     PROCESS_STEPS,
   );
   bp = session?.businessProfile;

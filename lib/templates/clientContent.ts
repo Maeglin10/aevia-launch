@@ -958,3 +958,49 @@ export function clientPhotos(s: SessionLike | null | undefined): string[] {
   const rows = enTableau(s?.formData?.photoUrls);
   return rows.map(trimmed).filter(Boolean);
 }
+
+/*
+  Fusionner la méthode du client avec les étapes de la démonstration.
+
+  La fusion se fait par étalement, la démonstration d'abord : le client donne
+  le titre et la description, le thème garde ce que le client n'écrit pas —
+  l'icône, la durée, la photo.
+
+  Le repli sur `i % démo.length` recopie aussi le numéro d'ordre. Un client à
+  six étapes devant une démonstration qui en compte quatre reçoit alors deux
+  fois « 01 » et deux fois « 02 » ; les thèmes qui posent `key={e.num}` en
+  tirent deux enfants de même clé, et Base UI rend une page blanche. C'est ce
+  qui a mis impact-05 hors service en production.
+
+  On renumérote donc, en respectant la forme trouvée : « 03 » garde son zéro,
+  « 3 » reste nu, « Étape 03 » garde son mot.
+*/
+const ORDINAL = /^(\D{0,12}?)(0?\d{1,2})(\D{0,4})$/;
+
+export function fusionnerEtapes<T extends object>(
+  demo: readonly T[],
+  etapes: ClientEtape[] | undefined,
+): T[] | undefined {
+  if (!etapes?.length || !demo.length) return undefined;
+  const lu = demo as readonly Record<string, unknown>[];
+
+  /* Les clés dont la valeur est un rang, et qui changent d'un item à l'autre. */
+  const rangs = Object.keys(lu[0]).filter((k) => {
+    const vues = lu.map((d) => d[k]).filter((x) => typeof x === "string") as string[];
+    if (vues.length !== demo.length) return false;
+    if (!vues.every((x) => ORDINAL.test(x))) return false;
+    return new Set(vues).size === demo.length;
+  });
+
+  return etapes.map((e, i) => {
+    const base = lu[i % lu.length];
+    const item = { ...base, ...e } as Record<string, unknown>;
+    for (const k of rangs) {
+      const m = ORDINAL.exec(String(base[k]));
+      if (!m) continue;
+      const chiffre = String(i + 1);
+      item[k] = m[1] + (m[2].length > chiffre.length ? chiffre.padStart(m[2].length, "0") : chiffre) + m[3];
+    }
+    return item as T;
+  });
+}

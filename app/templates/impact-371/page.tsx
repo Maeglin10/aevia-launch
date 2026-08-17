@@ -25,6 +25,7 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 
@@ -408,7 +409,7 @@ export default function SentinellePage() {
   sessionData = session;
   /* La méthode du client remplace les étapes de la démonstration. */
   METHODE = resolveList(
-    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    fusionnerEtapes(METHODE, clientMethode(sessionData)),
     METHODE,
   );
   STATS_DEMO = STATS_DEMO_LIVE();

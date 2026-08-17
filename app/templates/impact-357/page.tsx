@@ -28,6 +28,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -800,7 +801,7 @@ export default function AxisBioPage() {
           </Reveal>
 
           <div>
-            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_SOURCE[i % METHODE_SOURCE.length], ...e })), METHODE_SOURCE).map((m, idx) => (
+            {resolveList(fusionnerEtapes(METHODE_SOURCE, clientMethode(sessionData)), METHODE_SOURCE).map((m, idx) => (
               <Reveal key={m.n} delay={idx * 0.055}>
                 <div style={{ display: "flex", gap: "clamp(16px, 2.4vw, 30px)", alignItems: "flex-start", padding: "clamp(20px, 2.6vw, 30px) 0", borderTop: `1px solid ${idx === 0 ? C.ink : C.border}` }}>
                   <span

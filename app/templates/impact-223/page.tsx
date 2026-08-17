@@ -19,6 +19,7 @@ import {
   clientSiret,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -154,7 +155,7 @@ export default function VoltProPage() {
   sessionData = session;
   /* La méthode du client remplace les étapes de la démonstration. */
   STEPS = resolveList(
-    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...STEPS[i % STEPS.length], ...e })),
+    fusionnerEtapes(STEPS, clientMethode(sessionData)),
     STEPS,
   );
   REALIZATIONS_DEMO = REALIZATIONS_DEMO_LIVE();

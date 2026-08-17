@@ -27,6 +27,7 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -397,7 +398,7 @@ export default function FaubourgSerruresPage() {
   );
   const SERVICES = SERVICES_DEMO;
   const AVIS = AVIS_DEMO;
-  const METHODE = resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_SOURCE[i % METHODE_SOURCE.length], ...e })), METHODE_SOURCE);
+  const METHODE = resolveList(fusionnerEtapes(METHODE_SOURCE, clientMethode(sessionData)), METHODE_SOURCE);
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);

@@ -38,6 +38,7 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -904,7 +905,7 @@ export default function SoinsEstuairePage() {
           </Reveal>
 
           <div className="i356-rail" style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", gap: "clamp(16px, 2.4vw, 34px)" }}>
-            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_SOURCE[i % METHODE_SOURCE.length], ...e })), METHODE_SOURCE).map((m, idx) => (
+            {resolveList(fusionnerEtapes(METHODE_SOURCE, clientMethode(sessionData)), METHODE_SOURCE).map((m, idx) => (
               <Reveal key={m.n} delay={idx * 0.055}>
                 <div style={{ borderTop: `1px solid ${C.ink}`, paddingTop: 20, height: "100%" }}>
                   <div style={{ fontFamily: SERIF, fontSize: "clamp(40px, 5vw, 60px)", lineHeight: 0.9, color: C.accentLight, marginBottom: 14 }}>{m.n}</div>

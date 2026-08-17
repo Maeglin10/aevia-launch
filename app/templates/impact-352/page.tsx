@@ -27,6 +27,7 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -1271,7 +1272,7 @@ export default function ZincEtArdoisePage() {
   sessionData = session;
   /* La méthode du client remplace les étapes de la démonstration. */
   METHODE = resolveList(
-    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_DEMO[i % METHODE_DEMO.length], ...e })),
+    fusionnerEtapes(METHODE_DEMO, clientMethode(sessionData)),
     METHODE_DEMO,
   );
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();

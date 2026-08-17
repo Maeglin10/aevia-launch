@@ -47,6 +47,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1033,7 +1034,7 @@ export default function Impact94Page() {
 
           {/* Process Steps */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#0C0A09]/10">
-            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...ATELIER_STEPS[i % ATELIER_STEPS.length], ...e })), ATELIER_STEPS).map((step, i) => {
+            {resolveList(fusionnerEtapes(ATELIER_STEPS, clientMethode(sessionData)), ATELIER_STEPS).map((step, i) => {
               const StepIcon = step.icon
               return (
                 <Reveal key={step.step} delay={i * 0.12}>

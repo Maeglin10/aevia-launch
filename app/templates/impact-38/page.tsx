@@ -14,6 +14,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  fusionnerEtapes,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
@@ -1071,7 +1072,7 @@ export default function OriginRoastPage() {
           {/* Animated Timeline */}
           <div style={{ position: "relative" }}>
             <div style={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: 2, background: `${C.caramel}30`, transform: "translateX(-50%)" }} />
-            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_TIMELINE[i % PROCESS_TIMELINE.length], ...e })), PROCESS_TIMELINE).map((step, i) => (
+            {resolveList(fusionnerEtapes(PROCESS_TIMELINE, clientMethode(sessionData)), PROCESS_TIMELINE).map((step, i) => (
               <SectionReveal key={step.step} delay={i * 0.15}>
                 <div style={{
                   display: "grid",

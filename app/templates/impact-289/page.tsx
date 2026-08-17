@@ -39,6 +39,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -2653,7 +2654,7 @@ export default function Impact289Page() {
   sessionData = session;
   /* La méthode du client remplace les étapes de la démonstration. */
   PROCESS_STEPS = resolveList(
-    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_STEPS[i % PROCESS_STEPS.length], ...e })),
+    fusionnerEtapes(PROCESS_STEPS, clientMethode(sessionData)),
     PROCESS_STEPS,
   );
   PHOTO = PHOTO_LIVE();

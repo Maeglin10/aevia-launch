@@ -54,6 +54,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientReviews,
   clientServices,
@@ -176,7 +177,7 @@ export default function Impact49Page() {
   );
 
   PARCOURS = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PARCOURS_SOURCE[i % PARCOURS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    (clientMethode(session) ?? clientServices(session))?.map((s: any, i: number) => ({ ...PARCOURS_SOURCE[i % PARCOURS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     PARCOURS_SOURCE,
   );
 

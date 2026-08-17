@@ -38,6 +38,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -426,10 +427,12 @@ export default function PharmacieHorlogePage() {
 
   const CLIENT_SERVICES = clientServices(sessionData);
 
+  /* Le parcours est d'abord la méthode du client ; à défaut, ses prestations. */
+  const ETAPES_DU_CLIENT = clientMethode(sessionData) ?? CLIENT_SERVICES;
   PARCOURS = resolveList(
-    CLIENT_SERVICES?.slice(0, 4).map((s: any, i: number) => ({
+    ETAPES_DU_CLIENT?.slice(0, 4).map((s: any, i: number) => ({
       ...PARCOURS_SOURCE[i % PARCOURS_SOURCE.length],
-      title: s.title,
+      title: s.title ?? s.name,
       body: s.description || s.desc || PARCOURS_SOURCE[i % PARCOURS_SOURCE.length].body,
     })),
     PARCOURS_SOURCE,

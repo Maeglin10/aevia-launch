@@ -24,6 +24,7 @@ import {
   clientServices,
   clientTagline,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1424,7 +1425,7 @@ function CraftPanel() {
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...CRAFT_STEPS[i % CRAFT_STEPS.length], ...e })), CRAFT_STEPS).map((step, i) => (
+            {resolveList(fusionnerEtapes(CRAFT_STEPS, clientMethode(sessionData)), CRAFT_STEPS).map((step, i) => (
               <Reveal key={step.num} delay={0.06 * i}>
                 <div
                   style={{

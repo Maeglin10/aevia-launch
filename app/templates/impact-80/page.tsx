@@ -26,6 +26,7 @@ import {
   clientTeam,
   clientText,
   clientWorks,
+  fusionnerEtapes,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -533,7 +534,7 @@ return (
             </>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-16 gap-y-20">
-            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS[i % PROCESS.length], ...e })), PROCESS).map((p, i) => (
+            {resolveList(fusionnerEtapes(PROCESS, clientMethode(sessionData)), PROCESS).map((p, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div>
                   <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/10 italic mb-6">{p.step}</div>

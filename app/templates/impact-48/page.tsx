@@ -25,6 +25,7 @@ import {
   clientTagline,
   clientTeam,
   clientText,
+  fusionnerEtapes,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 
@@ -1346,7 +1347,7 @@ function FloorPlanSection() {
               paddingTop: 8,
             }}
           >
-            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...processSteps[i % processSteps.length], ...e })), processSteps).map((s, i) => (
+            {resolveList(fusionnerEtapes(processSteps, clientMethode(sessionData)), processSteps).map((s, i) => (
               <div
                 key={s.num}
                 style={{

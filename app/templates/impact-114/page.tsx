@@ -43,6 +43,7 @@ import {
   clientTagline,
   clientText,
   clientWorks,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 let sessionData: any = null;
@@ -625,7 +626,7 @@ export default function Impact114Page() {
   PROCESS_STEPS = PROCESS_STEPS_LIVE();
   /* La méthode du client remplace les étapes de la démonstration. */
   PROCESS_STEPS = resolveList(
-    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_STEPS[i % PROCESS_STEPS.length], ...e })),
+    fusionnerEtapes(PROCESS_STEPS, clientMethode(sessionData)),
     PROCESS_STEPS,
   );
   COLLECTIONS_DEMO = COLLECTIONS_DEMO_LIVE();

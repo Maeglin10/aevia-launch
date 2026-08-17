@@ -53,6 +53,7 @@ import {
   clientTeam,
   clientText,
   clientWorks,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -1085,7 +1086,7 @@ return (
             {/* Timeline line */}
             <div style={{ position: "absolute", left: 24, top: 40, bottom: 40, width: 1, background: C.border }} />
 
-            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS[i % PROCESS.length], ...e })), PROCESS).map((step, i) => {
+            {resolveList(fusionnerEtapes(PROCESS, clientMethode(sessionData)), PROCESS).map((step, i) => {
               const ref = useRef(null);
               const inView = useInView(ref, { once: true, margin: "-80px" });
               return (

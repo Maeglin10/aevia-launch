@@ -8,6 +8,7 @@ import {
   clientPhotos,
   clientServices,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
@@ -274,7 +275,7 @@ export default function TorrefieCoffeePage() {
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS[i % PROCESS.length], ...e })), PROCESS).map((p, i) => (
+              {resolveList(fusionnerEtapes(PROCESS, clientMethode(sessionData)), PROCESS).map((p, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="text-center group">
                     <div className="text-5xl font-light text-[#c48a5a]/20 mb-4" style={{ fontFamily: "Georgia, serif" }}>{p.step}</div>
