@@ -21,6 +21,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1340,7 +1341,7 @@ export default function Page() {
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-            {PROCESS.map((step, i) => (
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS[i % PROCESS.length], ...e })), PROCESS).map((step, i) => (
               <ProcessStep key={step.step} step={step} index={i} />
             ))}
           </div>

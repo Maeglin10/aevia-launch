@@ -21,6 +21,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -650,7 +651,7 @@ export default function TextRevealPage() {
 
             <div className="lg:col-span-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
-                {PROCESS.map((p, i) => (
+                {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS[i % PROCESS.length], ...e })), PROCESS).map((p, i) => (
                   <Reveal key={i} delay={i * 0.1}>
                     <div className="border-t border-zinc-800 pt-6">
                       <h4 className="text-xl font-medium mb-4">{p.phase}</h4>

@@ -40,6 +40,7 @@ import {
   clientHeroLine,
   clientHours,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -1492,7 +1493,7 @@ function MethodSection() {
             </Reveal>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-              {METHOD_STEPS.map((step, i) => {
+              {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHOD_STEPS[i % METHOD_STEPS.length], ...e })), METHOD_STEPS).map((step, i) => {
                 const Icon = step.icon;
                 return (
                   <Reveal key={step.num} delay={0.15 + i * 0.12}>

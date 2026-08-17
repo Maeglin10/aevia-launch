@@ -16,6 +16,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1439,7 +1440,7 @@ function ApproachPanel() {
             </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {APPROACH_ITEMS.map((item, i) => (
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...APPROACH_ITEMS[i % APPROACH_ITEMS.length], ...e })), APPROACH_ITEMS).map((item, i) => (
               <Reveal key={item.num} delay={0.06 * i}>
                 <div
                   style={{

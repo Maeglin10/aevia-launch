@@ -18,6 +18,7 @@ import {
   clientHeroLine,
   clientHeroPrestations,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -799,7 +800,7 @@ export default function AxisBioPage() {
           </Reveal>
 
           <div>
-            {METHODE_SOURCE.map((m, idx) => (
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_SOURCE[i % METHODE_SOURCE.length], ...e })), METHODE_SOURCE).map((m, idx) => (
               <Reveal key={m.n} delay={idx * 0.055}>
                 <div style={{ display: "flex", gap: "clamp(16px, 2.4vw, 30px)", alignItems: "flex-start", padding: "clamp(20px, 2.6vw, 30px) 0", borderTop: `1px solid ${idx === 0 ? C.ink : C.border}` }}>
                   <span

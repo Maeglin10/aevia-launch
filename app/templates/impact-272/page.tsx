@@ -17,6 +17,7 @@ import {
   clientBookingUrl,
   clientCity,
   clientHeroLine,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1490,7 +1491,7 @@ function MethodPanel() {
             </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {METHOD_ITEMS.map((item, i) => (
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHOD_ITEMS[i % METHOD_ITEMS.length], ...e })), METHOD_ITEMS).map((item, i) => (
               <Reveal key={item.num} delay={0.06 * i}>
                 <div
                   style={{

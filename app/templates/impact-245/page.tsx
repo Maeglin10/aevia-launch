@@ -17,6 +17,7 @@ import {
   clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1391,7 +1392,7 @@ function ProcessPanel() {
             </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {PROCESS_STEPS.map((s, i) => (
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_STEPS[i % PROCESS_STEPS.length], ...e })), PROCESS_STEPS).map((s, i) => (
               <Reveal key={s.num} delay={0.06 * i}>
                 <div
                   style={{

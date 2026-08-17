@@ -825,6 +825,16 @@ export interface ClientEtape {
   text: string;
   content: string;
   d: string;
+  /*
+    Relevés sur les trente-neuf thèmes dont la méthode a été câblée : `detail`
+    porte la description dans trois d'entre eux, `sub` et `caption` dans les
+    thèmes bâtis autour d'une image légendée.
+  */
+  detail: string;
+  sub: string;
+  caption: string;
+  subtitle: string;
+  summary: string;
 }
 
 /*
@@ -838,8 +848,9 @@ export interface ClientEtape {
 export function clientMethode(s: SessionLike | null | undefined): ClientEtape[] | undefined {
   const etape = (name: string, desc: string): ClientEtape => ({
     name, desc,
-    title: name, t: name, label: name, heading: name,
+    title: name, t: name, label: name, heading: name, caption: name,
     description: desc, body: desc, text: desc, content: desc, d: desc,
+    detail: desc, sub: desc, subtitle: desc, summary: desc,
   });
 
   const duProfil = enTableau(s?.businessProfile?.methode);

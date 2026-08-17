@@ -7,6 +7,7 @@ import {
   clientFaq,
   clientHeroLine,
   clientList,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -574,7 +575,7 @@ export default function CreativePortfolioSPA() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 relative">
             <div className="hidden lg:block absolute top-12 left-0 w-full h-[1px] bg-white/10" />
             
-            {PROCESS.map((proc, i) => (
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS[i % PROCESS.length], ...e })), PROCESS).map((proc, i) => (
               <Reveal key={i} delay={i * 0.15} className="relative z-10">
                 <div className="w-24 h-24 rounded-full bg-[#111] border border-white/10 flex items-center justify-center mb-8 shadow-2xl relative">
                   <span className="text-amber-400 font-mono text-xl">{proc.phase.split(" ")[0]}</span>

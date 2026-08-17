@@ -40,6 +40,7 @@ import {
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1032,7 +1033,7 @@ export default function Impact94Page() {
 
           {/* Process Steps */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#0C0A09]/10">
-            {ATELIER_STEPS.map((step, i) => {
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...ATELIER_STEPS[i % ATELIER_STEPS.length], ...e })), ATELIER_STEPS).map((step, i) => {
               const StepIcon = step.icon
               return (
                 <Reveal key={step.step} delay={i * 0.12}>

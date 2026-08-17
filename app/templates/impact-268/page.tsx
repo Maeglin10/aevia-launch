@@ -16,6 +16,7 @@ import {
   clientAccrocheRestante,
   clientCity,
   clientHeroLine,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1387,7 +1388,7 @@ function DesignPanel() {
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {DESIGN_STEPS.map((step, i) => (
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...DESIGN_STEPS[i % DESIGN_STEPS.length], ...e })), DESIGN_STEPS).map((step, i) => (
               <Reveal key={step.num} delay={0.05 * i}>
                 <div
                   style={{

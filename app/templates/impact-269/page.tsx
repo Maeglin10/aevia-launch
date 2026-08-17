@@ -17,6 +17,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1423,7 +1424,7 @@ function CraftPanel() {
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {CRAFT_STEPS.map((step, i) => (
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...CRAFT_STEPS[i % CRAFT_STEPS.length], ...e })), CRAFT_STEPS).map((step, i) => (
               <Reveal key={step.num} delay={0.06 * i}>
                 <div
                   style={{

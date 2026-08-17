@@ -9,6 +9,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -514,7 +515,12 @@ return (
           <Reveal delay={0.15}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Notre hygiène</span>
             <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 44px)", color: C.text, margin: "12px 0 28px", lineHeight: 1.2 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Sécurité <em>absolue</em>,<br />zéro compromis.</>)}</h2>
-            {PROCESS.map((p, i) => (
+            {/* Ce thème écrit ses étapes en phrases, pas en objets : le titre
+                du client suffit, et sa description le complète s'il en a mis. */}
+            {resolveList(
+              clientMethode(sessionData)?.map((e: any) => [e.name, e.desc].filter(Boolean).join(" — ")),
+              PROCESS,
+            ).map((p, i) => (
               <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 14 }}>
                 <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
                 <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{p}</span>

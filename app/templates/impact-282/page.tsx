@@ -37,6 +37,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -1220,7 +1221,7 @@ function ProcessSection() {
             </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {PROCESS_ETAPES.map((e, i) => (
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_ETAPES[i % PROCESS_ETAPES.length], ...e })), PROCESS_ETAPES).map((e, i) => (
               <Reveal key={e.num} delay={0.06 * i}>
                 <div
                   style={{

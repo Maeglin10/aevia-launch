@@ -17,6 +17,7 @@ import {
   clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1489,7 +1490,7 @@ export default function Impact175Page() {
               </>}</motion.p>
             </div>
             <div>
-              {PROCESS.map((step, i) => (
+              {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS[i % PROCESS.length], ...e })), PROCESS).map((step, i) => (
                 <ProcessStep key={i} step={step} index={i} />
               ))}
             </div>

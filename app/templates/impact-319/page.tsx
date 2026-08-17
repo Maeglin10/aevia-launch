@@ -30,6 +30,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -536,7 +537,7 @@ export default function EcoCleanHabitatPage() {
           <div className="i319-timeline" style={{ position: "relative", paddingLeft: 38 }}>
             {/* Le fil de la timeline : filet dégradé 1 px. */}
             <span aria-hidden style={{ position: "absolute", left: 9, top: 8, bottom: 8, width: 1, background: `linear-gradient(180deg, transparent, ${C.leaf} 12%, ${C.leaf} 88%, transparent)` }} />
-            {METHODE.map((m, idx) => (
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })), METHODE).map((m, idx) => (
               <Reveal key={m.n} delay={idx * 0.1} y={20}>
                 <div style={{ position: "relative", paddingBottom: idx === METHODE.length - 1 ? 0 : "clamp(28px, 3.4vw, 44px)" }}>
                   <span aria-hidden style={{ position: "absolute", left: -34, top: 7, width: 11, height: 11, borderRadius: "50%", background: C.bg, border: `2px solid ${C.accent}`, boxShadow: `0 0 0 4px ${C.accentLight}` }} />
