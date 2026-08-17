@@ -29,7 +29,7 @@ let c: any = null;
 
 const crew_DEMO_ANNEXE = [
   {
-    name: "Valentin Milliand",
+    name: "Camille Ferrand",
     role: "Creative Director & Tech Lead",
     desc: "Architect of real-time web applications, specializing in shader optimization and WebGL graphics architectures. 8 years building spatial experiences for the open web.",
     img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
@@ -168,7 +168,7 @@ const values = [
 
 function timeline_LIVE() {
   return [
-  { year: "2016", event: "Vertex Studio founded by Valentin Milliand in " + (clientCity(sessionData) ?? "Paris") + ". First WebGL configurator shipped for a luxury watchmaker." },
+  { year: "2016", event: "Vertex Studio founded in " + (clientCity(sessionData) ?? "Paris") + ". First WebGL configurator shipped for a luxury watchmaker." },
   { year: "2018", event: "Expanded to a 4-person team. First WebAR project shipped. First Awwwards nomination." },
   { year: "2020", event: "Pandemic pivot: virtual showrooms for retail brands. Built architecture that now serves 10k concurrent users." },
   { year: "2022", event: "First medical AR project (Helio Medical). First Fortune 500 client. Expanded team to 8." },
