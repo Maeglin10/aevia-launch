@@ -32,6 +32,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1025,7 +1026,11 @@ function WorkSequence() {
         }}
       >
         {/* Images layer */}
-        {PHASES.map((p, i) => (
+        {resolveList(
+            /* Les chantiers du client remplacent ceux de la démonstration. */
+            clientWorks(sessionData)?.map((o: any, i: number) => ({ ...PHASES[i % PHASES.length], caption: o.title, img: o.imageUrl || PHASES[i % PHASES.length].img })),
+            PHASES,
+          ).map((p, i) => (
           <PhaseImage
             key={p.id}
             phase={p}
@@ -1060,7 +1065,11 @@ function WorkSequence() {
 
         {/* Captions */}
         <div style={{ position: 'absolute', inset: 0, zIndex: 2 }}>
-          {PHASES.map((p, i) => (
+          {resolveList(
+            /* Les chantiers du client remplacent ceux de la démonstration. */
+            clientWorks(sessionData)?.map((o: any, i: number) => ({ ...PHASES[i % PHASES.length], caption: o.title, img: o.imageUrl || PHASES[i % PHASES.length].img })),
+            PHASES,
+          ).map((p, i) => (
             <PhaseCaption
               key={p.id}
               phase={p}
