@@ -1252,7 +1252,7 @@ return (
                     lineHeight: 1,
                   }}
                 >
-                  {clientName(sessionData) ?? "Terre"} & Geste
+                  {clientName(sessionData) ?? "Terre & Geste"}
                 </div>
                 <div
                   style={{
@@ -2836,7 +2836,7 @@ return (
                       letterSpacing: "-0.01em",
                     }}
                   >
-                    {clientName(sessionData) ?? "Terre"} & Geste
+                    {clientName(sessionData) ?? "Terre & Geste"}
                   </div>
                   <div
                     style={{
@@ -2970,7 +2970,7 @@ return (
             }}
           >
             <div style={{ fontSize: "0.73rem", color: C.muted }}>
-              © 2026 {clientName(sessionData) ?? "Terre"} & Geste · Atelier de céramique · Beaune, Bourgogne · Micro-entreprise{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2026 {clientName(sessionData) ?? "Terre & Geste"} · Atelier de céramique · Beaune, Bourgogne · Micro-entreprise{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </div>
             <div style={{ display: "flex", gap: 24 }}>
               {["Mentions légales", "Confidentialité", "CGV"].map((link) => (

@@ -12,9 +12,15 @@
   in every WaveForm plan » à un couvreur d'Annecy.
 
   Sont écartés : les noms d'un seul mot courant (« Atelier », « Table »,
-  « Terre »), qui apparaissent dans du texte ordinaire et que remplacer abîmerait
-  la phrase ; les libellés de bouton pris pour des marques ; et notre propre
-  signature, qui est vendue avec le site.
+  « Terre », « Éclat »), qui apparaissent dans du texte ordinaire et que
+  remplacer abîmerait la phrase ; les libellés de bouton pris pour des marques ;
+  les lignes de copyright tronquées ; et notre propre signature, qui est vendue
+  avec le site.
+
+  Le nom doit être relevé ENTIER. impact-131 s'appelle « Château de Valroc » et
+  n'avait que « Château » : le passage écrivait le nom du client à la place du
+  premier mot et laissait « de Valroc » orphelin en tête de page. Un nom
+  incomplet fait plus de dégâts que pas de nom du tout.
 
   277 thèmes sur 373. Les autres n'écrivent leur nom de démonstration nulle part,
   ou le tirent du thème lui-même.
@@ -31,6 +37,9 @@ export const MARQUE_DEMO_COLLEE: Record<string, string[]> = {
 };
 
 export const MARQUE_DEMO: Record<string, string> = {
+  "impact-89": "INK & Iron",
+  "impact-230": "Atelier du Bois",
+  "impact-112": "Terre & Geste",
   "impact-02": "Elena Korr Portfolio",
   "impact-03": "Atelier NOIR",
   "impact-04": "L'Étoile Restaurant",
@@ -89,7 +98,6 @@ export const MARQUE_DEMO: Record<string, string> = {
   "impact-117": "VOLT LOGISTICS GLOBAL. ALL",
   "impact-118": "CHRONOS HOROLOGY SA. GENÈVE",
   "impact-119": "NEBULA CLOUD TECHNOLOGIES INC",
-  "impact-120": "Éclat Parfums. All Rights",
   "impact-121": "Folio Studio",
   "impact-122": "The Chronicle Media Group",
   "impact-123": "Vulcan",
@@ -100,7 +108,7 @@ export const MARQUE_DEMO: Record<string, string> = {
   "impact-128": "HAVEN ESTATES",
   "impact-129": "WAVEFX LABS",
   "impact-130": "Verso Studio SA",
-  "impact-131": "Château",
+  "impact-131": "Château de Valroc",
   "impact-132": "The Review Magazine",
   "impact-134": "Lumière Beauty",
   "impact-135": "TradeOS Inc",
@@ -114,7 +122,7 @@ export const MARQUE_DEMO: Record<string, string> = {
   "impact-148": "NEON PULSE PROTOCOL. OWN",
   "impact-149": "AETHER WELLNESS GROUP. BREATHE",
   "impact-150": "Alderton & Sterling",
-  "impact-151": "AETHELGARD",
+  "impact-151": "AETHELGARD ESTATE & SPIRITS GROUP",
   "impact-154": "THE IVORY ARCHIVE FOUNDATION",
   "impact-157": "Aurum Jewelry SAS",
   "impact-160": "THE MONOLITH",
@@ -123,7 +131,6 @@ export const MARQUE_DEMO: Record<string, string> = {
   "impact-163": "L'Essentiel",
   "impact-166": "Iris Studio",
   "impact-167": "Rive Gauche Immobilier",
-  "impact-168": "Éclat",
   "impact-169": "Fréquence",
   "impact-171": "VITALITÉ",
   "impact-172": "Legrand & Associés",
@@ -170,7 +177,6 @@ export const MARQUE_DEMO: Record<string, string> = {
   "impact-222": "Solis",
   "impact-223": "VoltPro Électricité",
   "impact-227": "Le Barber Club",
-  "impact-229": "Éclat",
   "impact-235": "Atelier Voss",
   "impact-236": "ÉlectroPro",
   "impact-237": "Cabinet Dentaire Sorrento",
@@ -240,7 +246,7 @@ export const MARQUE_DEMO: Record<string, string> = {
   "impact-304": "Rapido Plomberie Paris",
   "impact-305": "Courant Fort Bordeaux",
   "impact-306": "La Miette Heureuse",
-  "impact-307": "Lumière & Vœux Lyon",
+  "impact-307": "Lumière & Vœux",
   "impact-308": "Re-Thread Studio",
   "impact-309": "Encre Délicate",
   "impact-310": "Jardins de l'Hérault",

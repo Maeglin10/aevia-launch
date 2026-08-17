@@ -1337,6 +1337,42 @@ function effacerLaMarqueDeDemonstration(nom: string | undefined) {
   for (const [n, valeur] of aRefaire) n.nodeValue = valeur;
 }
 
+/*
+  Effacer la queue d'une marque coupée en deux.
+
+  Certains thèmes écrivent leur nom en deux éléments — « Clinique » dans le
+  premier, « du Bois Vert » dans le second — et seul le premier lit le nom du
+  client. Le visiteur voyait donc « Cabinet Rive-Gauche du Bois Vert ».
+
+  On ne touche qu'au cas non ambigu : deux éléments frères, seuls sous leur
+  parent, le premier portant exactement le nom du client, le second un fragment
+  court qui commence par un article ou une préposition — jamais une phrase.
+  Ailleurs, on laisse : un nom suivi d'un vrai texte est fréquent, et l'effacer
+  ferait disparaître du contenu.
+*/
+const QUEUE = /^(?:de|du|des|d'|d’|la|le|les|et|&)\b[^.!?]{0,22}$/i;
+
+function effacerLaQueueDeLaMarque(nom: string | undefined) {
+  if (!nom || nom.trim().length < 2) return;
+  const propre = nom.trim();
+
+  for (const e of document.querySelectorAll<HTMLElement>("body *")) {
+    if (e.dataset.queueRendue) continue;
+    if ((e.textContent ?? "").trim() !== propre) continue;
+
+    const suivant = e.nextElementSibling as HTMLElement | null;
+    if (!suivant || suivant.children.length > 0) continue;
+    /* Les deux éléments doivent être seuls sous leur parent. */
+    if (e.parentElement && e.parentElement.children.length !== 2) continue;
+
+    const queue = (suivant.textContent ?? "").trim();
+    if (!queue || queue.length > 24 || !QUEUE.test(queue)) continue;
+
+    e.dataset.queueRendue = "1";
+    suivant.style.display = "none";
+  }
+}
+
 function traduireLesLibelles(locale: string | undefined) {
   if (!locale || locale === "en") return;
   const dict = LEXIQUE_INTERFACE[locale];
@@ -2071,6 +2107,7 @@ export function BrandColorVar() {
           rendreLeCopyright(d?.formData?.businessName);
           poserLeContact(d?.formData);
           effacerLaMarqueDeDemonstration(d?.formData?.businessName);
+          effacerLaQueueDeLaMarque(d?.formData?.businessName);
           traduireLesLibelles(d?.formData?.locale);
           prolongerLeFond();
         };
