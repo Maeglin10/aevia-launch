@@ -144,8 +144,14 @@ function orderEmailHtml(params: {
   sessionId: string;
   brief?: BriefMeta;
   previewUrl?: string;
+  /*
+    Le code de parrainage porté par la commande, s'il y en a un. Il ne change
+    pas le prix : il dit qui a amené ce client, et c'est la seule trace lisible
+    tant que le calcul des commissions de Launch n'est pas branché sur Inbox.
+  */
+  parrainage?: string;
 }): string {
-  const { name, typeLabel, maintenance, total, date, sessionId, brief, previewUrl } = params;
+  const { name, typeLabel, maintenance, total, date, sessionId, brief, previewUrl, parrainage } = params;
   const basePrice = SITE_PRICES[params.type] ?? total;
   const maintenancePrice = 20;
 
@@ -305,7 +311,10 @@ function orderEmailHtml(params: {
             </td>
           </tr>
 
-        </table>
+          ${parrainage ? `<tr><td style="padding:14px 36px;border-top:1px solid #27272a;">
+          <p style="margin:0;font-size:13px;color:#a1a1aa;">Parrainage — code <strong style="color:#fafafa;">${escapeHtml(parrainage)}</strong></p>
+        </td></tr>` : ""}
+      </table>
       </td>
     </tr>
   </table>
@@ -597,6 +606,7 @@ export async function POST(req: NextRequest) {
               to: [process.env.ADMIN_EMAIL ?? "v.milliand@gmail.com"],
               subject: `[AeviaLaunch] Nouvelle commande — ${siteName} (${totalEuros}€)`,
               html: orderEmailHtml({
+                parrainage: (session.metadata ?? {}).ref,
                 name: siteName, type: siteType, typeLabel, maintenance: withMaint,
                 total: totalEuros, date, sessionId: meta.sessionId, previewUrl,
               }),
@@ -874,6 +884,7 @@ Retourne uniquement du JSON valide, sans markdown.`;
           to: "v.milliand@gmail.com",
           subject: `Nouvelle commande — ${siteName}`,
           html: orderEmailHtml({
+                parrainage: (session.metadata ?? {}).ref,
             name: siteName,
             type: siteType,
             typeLabel,
