@@ -1954,6 +1954,8 @@ const Contact: React.FC = () => {
     {
       icon: <MapPin size={18} />,
       label: 'Bureau principal',
+      /* Le chiffre est celui du client : l'unité de la démonstration ne le suit pas. */
+      suffix: "",
       value: `18 cours Mirabeau, 13100 ${clientCity(sessionData) ?? "Aix-en-Provence"}`,
     },
     {
