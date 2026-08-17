@@ -14,6 +14,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -55,7 +56,7 @@ const HERO = [{"k": "Grandir accompagné", "line": "Chaque enfant a son rythme �
 
 const SERVICES_SOURCE = [{"titre": "Gestion parentale", "desc": "La crèche est une association de parents : vous participez aux décisions, aux permanences (2 h/mois) et à la vie de la maison. C'est exigeant, et ça change tout.", "tag": "Associatif"}, {"titre": "Trois groupes d'âge", "desc": "Bébés, moyens, grands : des espaces dédiés, des passerelles douces entre groupes quand l'enfant est prêt — pas quand la date l'exige.", "tag": "Rythme"}, {"titre": "Sommeil respecté", "desc": "Chambres calmes, rituels individuels, jamais de réveil forcé. Le sommeil du tout-petit est sacré, le planning s'adapte.", "tag": "Sommeil"}, {"titre": "Repas maison", "desc": "Cuisinière salariée de l'association, produits locaux, purées du jour. Les parents goûtent au café mensuel — et redemandent la recette.", "tag": "Cuisine"}, {"titre": "Accueil de l'enfant différent", "desc": "Handicap, PAI, besoins spécifiques : accueil réfléchi en équipe avec la PMI et les familles, renforts dédiés quand il faut.", "tag": "Inclusion"}, {"titre": "Ateliers parents", "desc": "Portage, signes avec bébé, sommeil : des soirées animées par des pros, ouvertes aussi au quartier.", "tag": "Parents"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "Accueil individualisé", "d": "Dès 7 h pour les lève-tôt. Le doudou, la tétine et les habitudes de la maison sont les bienvenus."}, {"n": "02", "t": "Jeux et découvertes", "d": "Ateliers libres, jardin d'hiver, sorties au square : chaque groupe vit à son rythme."}, {"n": "03", "t": "Repas et siestes", "d": "Cuisinés sur place, siestes à la demande dans des chambres séparées des espaces de jeu."}, {"n": "04", "t": "Le soir, on se parle", "d": "Transmissions orales complètes, cahier de vie illustré chaque semaine — pas d'appli qui remplace les visages."}];
+let METHODE = [{"n": "01", "t": "Accueil individualisé", "d": "Dès 7 h pour les lève-tôt. Le doudou, la tétine et les habitudes de la maison sont les bienvenus."}, {"n": "02", "t": "Jeux et découvertes", "d": "Ateliers libres, jardin d'hiver, sorties au square : chaque groupe vit à son rythme."}, {"n": "03", "t": "Repas et siestes", "d": "Cuisinés sur place, siestes à la demande dans des chambres séparées des espaces de jeu."}, {"n": "04", "t": "Le soir, on se parle", "d": "Transmissions orales complètes, cahier de vie illustré chaque semaine — pas d'appli qui remplace les visages."}];
 const ENGAGEMENT_DEMO = ["Agrément PMI de la Marne, 20 places, contrôles réguliers", "Tarification PSU de la CAF : le prix dépend de vos revenus, pas de notre grille", "Équipe diplômée et stable — ancienneté moyenne de 9 ans", "Conseil d'administration de parents élus : les comptes sont ouverts"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Tarif horaire PSU", "p": "0,20–3,71 €/h", "n": "Selon barème CAF national, calculé à l'inscription, repas et couches inclus."}, {"a": "Adhésion association", "p": "30 €/an", "n": "Par famille — donne voix aux assemblées et aux décisions."}, {"a": "Permanences parents", "p": "2 h/mois", "n": "Bricolage, courses, comptes : la contribution qui fait tenir la maison."}, {"a": "Frais de dossier", "p": "0 €", "n": "L'inscription et l'adaptation ne se facturent pas."}];
@@ -121,6 +122,11 @@ export default function NidDouilletPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

@@ -14,6 +14,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -64,7 +65,7 @@ const HERO = [];
 
 const SERVICES_SOURCE = [{"titre": "Suivi de grossesse", "desc": "Grossesses physiologiques suivies de A à Z, monitorings au cabinet, échographies de datation en partenariat. Dossier partagé entre les trois praticiennes.", "tag": "Grossesse"}, {"titre": "Préparation — présentiel & visio", "desc": "8 séances remboursées : classiques, en piscine (partenariat), ou en visio pour les grossesses alitées. Le co-parent est toujours bienvenu.", "tag": "Préparation"}, {"titre": "Post-partum & PRADO", "desc": "Visites à domicile dès la sortie, pesées, allaitement, moral : la première semaine ne se traverse pas seule.", "tag": "Domicile"}, {"titre": "Urgences allaitement", "desc": "Engorgement, crevasses, bébé qui ne prend pas : un créneau d'urgence chaque jour, réservé le matin pour le jour même.", "tag": "Urgence"}, {"titre": "Rééducation périnéale", "desc": "Manuelle et biofeedback, 10 séances remboursées, créneaux du soir pour les reprises de travail.", "tag": "Rééducation"}, {"titre": "Gynécologie & contraception", "desc": "Frottis, pilule, DIU posés au cabinet, conseil sans jugement — de 16 à 96 ans, en bonne santé, la sage-femme suffit.", "tag": "Gynéco"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "Un dossier partagé", "d": "Vos informations suivies par les trois praticiennes : en congé ou en garde, quelqu'un qui VOUS connaît répond."}, {"n": "02", "t": "Des créneaux réels", "d": "Soirs jusqu'à 20 h, samedi matin, urgences quotidiennes : l'agenda est fait pour les gens qui travaillent."}, {"n": "03", "t": "La visio quand il faut", "d": "Alitement, distance, bébé endormi : préparation et consultations de suivi possibles en visio remboursée."}, {"n": "04", "t": "Le relais organisé", "d": "Maternités, PMI, ostéopathes, psychologues périnatales : on adresse, on suit, on ne lâche pas le fil."}];
+let METHODE = [{"n": "01", "t": "Un dossier partagé", "d": "Vos informations suivies par les trois praticiennes : en congé ou en garde, quelqu'un qui VOUS connaît répond."}, {"n": "02", "t": "Des créneaux réels", "d": "Soirs jusqu'à 20 h, samedi matin, urgences quotidiennes : l'agenda est fait pour les gens qui travaillent."}, {"n": "03", "t": "La visio quand il faut", "d": "Alitement, distance, bébé endormi : préparation et consultations de suivi possibles en visio remboursée."}, {"n": "04", "t": "Le relais organisé", "d": "Maternités, PMI, ostéopathes, psychologues périnatales : on adresse, on suit, on ne lâche pas le fil."}];
 const ENGAGEMENT_DEMO = ["Trois sages-femmes diplômées d'État, conventionnées, inscrites à l'Ordre", "Secrétariat téléphonique humain en semaine, agenda en ligne 24h/24", "Astreinte 7j/7 pour la patientèle en fin de grossesse et post-partum", "Tiers payant systématique — la maternité ne devrait rien coûter d'avance"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 function TARIFS_DEMO_LIVE() {
@@ -125,6 +126,11 @@ export default function NeufMoisPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   TARIFS_DEMO = TARIFS_DEMO_LIVE();
 
 

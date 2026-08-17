@@ -37,6 +37,7 @@ import {
   clientHeroSubtitle,
   clientHours,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -175,7 +176,7 @@ function PROJECTS_DEMO_LIVE() {
 let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 let PROJECTS = PROJECTS_DEMO;
 
-const PROCESS_STEPS = [
+let PROCESS_STEPS = [
   {
     number: "01",
     title: "Discover",
@@ -832,6 +833,11 @@ export default function ImpactAgencyTemplate() {
 
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  PROCESS_STEPS = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_STEPS[i % PROCESS_STEPS.length], ...e })),
+    PROCESS_STEPS,
+  );
   c = session?.generatedContent;
   BLOG_POSTS_DEMO = BLOG_POSTS_DEMO_LIVE();
   WORK_DETAILS_DEMO = WORK_DETAILS_DEMO_LIVE();

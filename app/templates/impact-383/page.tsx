@@ -14,6 +14,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -64,7 +65,7 @@ const HERO = [{"k": "Toilettage complet", "line": "Un seul animal à la fois, ja
 
 const SERVICES_SOURCE = [{"titre": "Toilettage complet", "desc": "Brossage, bain adapté à la peau, séchage à la main, coupe aux ciseaux ou à la tondeuse selon la race, soins des oreilles et griffes.", "tag": "Complet"}, {"titre": "Chiens anxieux ou âgés", "desc": "Rendez-vous longs, pauses autorisées, séances d'habituation gratuites : certains chiens ont besoin de trois visites avant la première coupe. C'est normal.", "tag": "Douceur"}, {"titre": "Chats", "desc": "Toilettage félin par une toiletteuse formée : démêlage, coupe sanitaire, bains médicaux. Sans contention brutale, sans sédation.", "tag": "Chats"}, {"titre": "Soins spécifiques", "desc": "Shampooings antiparasitaires ou dermatologiques sur conseil vétérinaire, épilation des races à poil dur, entretien des cordés.", "tag": "Soins"}, {"titre": "Pension familiale", "desc": "Six places dans notre maison avec jardin clos : votre animal vit avec nous, pas dans un box. Sorties quotidiennes au bord de Loire.", "tag": "Pension"}, {"titre": "Garde à la journée", "desc": "Pour les journées trop longues : accueil de 8 h à 19 h, jeux, sieste, retour fatigué et heureux.", "tag": "Journée"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "On prend le temps", "d": "Un seul animal à la fois au salon : pas d'aboiements, pas d'attente en cage, pas de stress d'ambiance."}, {"n": "02", "t": "On respecte les refus", "d": "Si un chien dit non, on s'arrête et on recommence un autre jour. Aucune contention musclée, jamais."}, {"n": "03", "t": "On adapte les produits", "d": "Peaux sensibles, allergies, animaux âgés : les shampooings sont choisis pour la peau, pas pour le parfum."}, {"n": "04", "t": "On raconte la séance", "d": "Ce qui s'est bien passé, ce qui a coincé, ce qu'il faut travailler à la maison entre deux visites."}];
+let METHODE = [{"n": "01", "t": "On prend le temps", "d": "Un seul animal à la fois au salon : pas d'aboiements, pas d'attente en cage, pas de stress d'ambiance."}, {"n": "02", "t": "On respecte les refus", "d": "Si un chien dit non, on s'arrête et on recommence un autre jour. Aucune contention musclée, jamais."}, {"n": "03", "t": "On adapte les produits", "d": "Peaux sensibles, allergies, animaux âgés : les shampooings sont choisis pour la peau, pas pour le parfum."}, {"n": "04", "t": "On raconte la séance", "d": "Ce qui s'est bien passé, ce qui a coincé, ce qu'il faut travailler à la maison entre deux visites."}];
 const ENGAGEMENT_DEMO = ["Toiletteuse diplômée (CTM toilettage canin-félin), formation continue comportement", "Pension déclarée en préfecture (DDPP), certificat de capacité animaux domestiques", "Aucune sédation, aucune contention forcée — si l'animal refuse, on arrête", "Vaccins à jour exigés pour la pension : protection de tous les pensionnaires"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Toilettage petit chien (< 10 kg)", "p": "dès 42 €", "n": "Bain, séchage main, coupe, oreilles et griffes."}, {"a": "Toilettage grand chien (> 25 kg)", "p": "dès 68 €", "n": "Comptez 2 h 30 : on ne bâcle pas les grands gabarits."}, {"a": "Toilettage chat", "p": "dès 55 €", "n": "Sans sédation, par une toiletteuse formée au félin."}, {"a": "Pension (nuitée)", "p": "24 €", "n": "Repas, sorties, photos quotidiennes. Dégressif dès 7 nuits."}];
@@ -122,6 +123,11 @@ export default function PoilsEtCompagniePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

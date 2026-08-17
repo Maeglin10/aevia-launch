@@ -19,6 +19,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -113,7 +114,7 @@ const METHODE_SOURCE = [
   { n: "03", t: "Essai d'un mois", d: "Port réel à domicile, réglages à mi-parcours. Vous ne payez qu'à l'adoption, jamais à l'essai." },
   { n: "04", t: "Suivi de long terme", d: "Réglages illimités 4 ans, remplacement des pièces d'usure, contrôle annuel de l'audition." },
 ];
-const METHODE = METHODE_SOURCE;
+let METHODE = METHODE_SOURCE;
 
 const ENGAGEMENT_SOURCE = [
   "Audioprothésistes diplômés d'État — le titre est protégé, le nôtre est affiché",
@@ -446,6 +447,11 @@ export default function MaisonAuditionPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_SOURCE[i % METHODE_SOURCE.length], ...e })),
+    METHODE_SOURCE,
+  );
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

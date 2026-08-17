@@ -11,6 +11,7 @@ import {
   clientAddress,
   clientCertifications,
   clientCity,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -63,7 +64,7 @@ let HERO = HERO_SOURCE;
 
 const SERVICES_SOURCE = [{"titre": "Recrutement cadres & techniciens", "desc": "Sourcing multicanal, approche directe, entretiens structurés : trois candidats présentés avec un rapport d'évaluation par profil.", "tag": "Cadres"}, {"titre": "Chasse de dirigeants", "desc": "Missions confidentielles, cartographie du marché, approche des candidats en poste : les meilleurs ne répondent pas aux annonces.", "tag": "Executive"}, {"titre": "Métiers industriels & techniques", "desc": "Bureau d'études, méthodes, maintenance, qualité : nos consultants viennent de l'industrie et parlent le langage de vos ateliers.", "tag": "Industrie"}, {"titre": "Évaluation & assessment", "desc": "Tests de personnalité débriefés, mises en situation, prise de références réelle : décider sur des faits, pas sur une bonne impression.", "tag": "Évaluation"}, {"titre": "Conseil RH pour PME", "desc": "Fiches de poste, grilles de rémunération, parcours d'intégration : ce qui fait qu'un bon recrutement le reste au bout d'un an.", "tag": "Conseil"}, {"titre": "Accompagnement candidats", "desc": "Gratuit et confidentiel pour les candidats : conseil de carrière, préparation d'entretien, retour argumenté même en cas de refus.", "tag": "Candidats"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "Immersion chez vous", "d": "Une demi-journée sur site : l'équipe, l'ambiance, le vrai contenu du poste. Une fiche de poste ne dit jamais tout."}, {"n": "02", "t": "Sourcing et approche directe", "d": "Annonces ciblées ET chasse : les meilleurs candidats sont en poste et ne cherchent pas."}, {"n": "03", "t": "Trois candidats, argumentés", "d": "Chacun rencontré en entretien approfondi, évalué, avec ses forces ET ses risques écrits noir sur blanc."}, {"n": "04", "t": "Suivi d'intégration", "d": "Points à 1, 3 et 6 mois avec vous et le candidat : la garantie 12 mois n'est pas qu'une clause."}];
+let METHODE = [{"n": "01", "t": "Immersion chez vous", "d": "Une demi-journée sur site : l'équipe, l'ambiance, le vrai contenu du poste. Une fiche de poste ne dit jamais tout."}, {"n": "02", "t": "Sourcing et approche directe", "d": "Annonces ciblées ET chasse : les meilleurs candidats sont en poste et ne cherchent pas."}, {"n": "03", "t": "Trois candidats, argumentés", "d": "Chacun rencontré en entretien approfondi, évalué, avec ses forces ET ses risques écrits noir sur blanc."}, {"n": "04", "t": "Suivi d'intégration", "d": "Points à 1, 3 et 6 mois avec vous et le candidat : la garantie 12 mois n'est pas qu'une clause."}];
 const ENGAGEMENT_DEMO = ["Garantie 12 mois : si le candidat part ou ne convient pas, nous recommençons sans honoraires", "Trois candidats présentés maximum — sinon c'est que nous n'avons pas fait notre travail de tri", "Chaque candidat rencontré physiquement ou en visio approfondie, jamais présenté sur dossier", "Retour argumenté à 100 % des candidats reçus, y compris les non retenus"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Recrutement cadre / technicien", "p": "18 % du salaire annuel", "n": "Garantie 12 mois incluse, trois candidats présentés."}, {"a": "Chasse de dirigeant", "p": "22 % du salaire annuel", "n": "Cartographie de marché et confidentialité renforcée comprises."}, {"a": "Évaluation seule (candidat identifié)", "p": "dès 1 200 €", "n": "Tests, entretien approfondi, prise de références, rapport écrit."}, {"a": "Conseil RH (jour)", "p": "dès 950 €", "n": "Fiches de poste, grilles de rémunération, parcours d'intégration."}];
@@ -121,6 +122,11 @@ export default function TrajectoiresRhPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
 
 
   // L'accroche du client remplace la première ligne du carrousel : c'est la

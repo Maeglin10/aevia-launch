@@ -11,6 +11,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -89,7 +90,7 @@ function REALIZATIONS_DEMO_LIVE() {
 }
 let REALIZATIONS_DEMO = REALIZATIONS_DEMO_LIVE();
 
-const STEPS = [
+let STEPS = [
   { num: "01", title: "Devis gratuit sous 24h", desc: "Prise de contact, visite technique si nécessaire, chiffrage précis et transparent. Sans engagement." },
   { num: "02", title: "Planification", desc: "Choix des matériaux, planning d'intervention, coordination avec les autres corps de métier si besoin." },
   { num: "03", title: "Exécution soignée", desc: "Travail propre, matériaux certifiés NF, respect des délais. Votre domicile remis en état après chantier." },
@@ -151,6 +152,11 @@ export default function VoltProPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  STEPS = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...STEPS[i % STEPS.length], ...e })),
+    STEPS,
+  );
   REALIZATIONS_DEMO = REALIZATIONS_DEMO_LIVE();
 
   useEffect(() => {

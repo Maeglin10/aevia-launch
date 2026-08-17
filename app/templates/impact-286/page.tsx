@@ -29,6 +29,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1038,7 +1039,7 @@ function DomainesSection() {
    ════════════════════════════════════════════════════════════════════════════ */
 type Etape = { num: string; titre: string; corps: string };
 
-const ETAPES: Etape[] = [
+let ETAPES: Etape[] = [
   {
     num: '01',
     titre: 'Analyse de situation',
@@ -2602,6 +2603,11 @@ export default function Impact286Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  ETAPES = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...ETAPES[i % ETAPES.length], ...e })),
+    ETAPES,
+  );
   PHOTO = PHOTO_LIVE();
 
   useEffect(() => {

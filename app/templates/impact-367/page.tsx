@@ -18,6 +18,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -125,7 +126,7 @@ const METHODE_SOURCE = [
   { n: "03", t: "La naissance, préparée", d: "8 séances pour arriver le jour J en connaissant son corps, ses droits et ses options." },
   { n: "04", t: "L'après, accompagné", d: "Domicile la première semaine, allaitement, rééducation, contraception : on ne disparaît pas après l'accouchement." },
 ];
-const METHODE = METHODE_SOURCE;
+let METHODE = METHODE_SOURCE;
 
 const ENGAGEMENT_SOURCE = [
   "Sage-femme diplômée d'État, inscrite à l'Ordre — n° RPPS affiché au cabinet",
@@ -485,6 +486,11 @@ export default function CabinetNaissancesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_SOURCE[i % METHODE_SOURCE.length], ...e })),
+    METHODE_SOURCE,
+  );
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

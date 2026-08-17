@@ -26,6 +26,7 @@ import {
   clientCity,
   clientEmail,
   clientHeroLine,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -2645,6 +2646,11 @@ export default function Impact281Page() {
   sessionData = session;
   MATERIALS_SOURCE = MATERIALS_SOURCE_LIVE();
   PROCESS_STEPS = PROCESS_STEPS_LIVE();
+  /* La méthode du client remplace les étapes de la démonstration. */
+  PROCESS_STEPS = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_STEPS[i % PROCESS_STEPS.length], ...e })),
+    PROCESS_STEPS,
+  );
   PHOTO = PHOTO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 

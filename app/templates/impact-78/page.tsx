@@ -18,6 +18,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -93,7 +94,7 @@ const EXPERTISE_SOURCE = [
 ];
 let EXPERTISE = EXPERTISE_SOURCE;
 
-const PROCESS_STEPS = [
+let PROCESS_STEPS = [
   {
     num: "01",
     title: "Extract",
@@ -196,6 +197,16 @@ export default function AetherRoasteryPage() {
   fd = session?.formData;
 
   sessionData = session;
+
+  /* La méthode du client remplace les étapes de la démonstration. */
+
+  PROCESS_STEPS = resolveList(
+
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_STEPS[i % PROCESS_STEPS.length], ...e })),
+
+    PROCESS_STEPS,
+
+  );
   WORK_REEL_DEMO = WORK_REEL_DEMO_LIVE();
 
   memoriserSession(sessionData);

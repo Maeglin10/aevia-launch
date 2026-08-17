@@ -17,6 +17,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -158,7 +159,7 @@ function NEIGHBORHOODS_DEMO_LIVE() {
 let NEIGHBORHOODS_DEMO = NEIGHBORHOODS_DEMO_LIVE();;
 let NEIGHBORHOODS = NEIGHBORHOODS_DEMO;
 
-const PROCESS_STEPS = [
+let PROCESS_STEPS = [
   {
     number: "01",
     title: "Écoute & Qualification",
@@ -847,6 +848,11 @@ export default function Impact167Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  PROCESS_STEPS = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_STEPS[i % PROCESS_STEPS.length], ...e })),
+    PROCESS_STEPS,
+  );
   STATS_DEMO = STATS_DEMO_LIVE();
   NEIGHBORHOODS_DEMO = NEIGHBORHOODS_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();

@@ -39,6 +39,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -146,7 +147,7 @@ const SERVICES_SOURCE = [
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const METHODE = [
+let METHODE = [
   { n: "01", t: "Atelier conception — 2 h", d: "Au studio, autour des cuisines témoins. Vos habitudes, vos appareils, votre budget réel — avant tout dessin." },
   { n: "02", t: "Relevé laser & plans", d: "Relevé millimétré chez vous, plans techniques et perspectives réalistes. Trois révisions incluses." },
   { n: "03", t: "Devis ferme signé", d: "Poste par poste, électroménager compris. Aucun avenant surprise : l'imprévu est à notre charge." },
@@ -529,6 +530,11 @@ export default function StudioCulinaPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   HERO_SOURCE = HERO_SOURCE_LIVE();
   AVIS_SOURCE = AVIS_SOURCE_LIVE();
   ZONES_SOURCE = ZONES_SOURCE_LIVE();

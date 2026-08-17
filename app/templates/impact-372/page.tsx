@@ -16,6 +16,7 @@ import {
   clientHeroLine,
   clientHeroPrestations,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -68,7 +69,7 @@ let HERO = HERO_SOURCE;
 
 const SERVICES_SOURCE = [{"titre": "Sécurité de commerce", "desc": "Prévention des vols à l'étalage, accueil-filtrage discret, accompagnement des fermetures de caisse : l'agent qui connaît vos équipes et vos horaires.", "tag": "Commerce"}, {"titre": "Résidences & copropriétés", "desc": "Rondes de nuit horodatées, gestion des accès et des entreprises, surveillance renforcée pendant les congés.", "tag": "Résidentiel"}, {"titre": "Événements privés", "desc": "Mariages, anniversaires, vernissages : filtrage des invités, gestion des abords, discrétion contractuelle — costume, pas treillis.", "tag": "Privé"}, {"titre": "Interventions sur alarme", "desc": "Levée de doute physique sous 20 minutes en agglomération toulousaine, compte rendu photo systématique.", "tag": "Alarme"}, {"titre": "Boutiques de luxe", "desc": "Agents formés aux codes du retail haut de gamme : la sécurité fait partie de l'expérience client, pas contre elle.", "tag": "Luxe"}, {"titre": "Conseil sûreté", "desc": "Audit des vulnérabilités, plan de sûreté, formation des équipes aux gestes qui évitent l'incident.", "tag": "Conseil"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "Comprendre le lieu", "d": "Chaque site a sa clientèle, ses flux, ses heures sensibles : l'audit précède le planning."}, {"n": "02", "t": "Affecter, pas remplir", "d": "L'agent est choisi pour le site — profil, présentation, langues. Et il y reste : la stabilité fait la vigilance."}, {"n": "03", "t": "Briefer par écrit", "d": "Consignes signées, interlocuteurs nommés, procédures d'escalade claires."}, {"n": "04", "t": "Rendre compte", "d": "Main courante électronique, incidents documentés sous 24 h, point mensuel avec vous."}];
+let METHODE = [{"n": "01", "t": "Comprendre le lieu", "d": "Chaque site a sa clientèle, ses flux, ses heures sensibles : l'audit précède le planning."}, {"n": "02", "t": "Affecter, pas remplir", "d": "L'agent est choisi pour le site — profil, présentation, langues. Et il y reste : la stabilité fait la vigilance."}, {"n": "03", "t": "Briefer par écrit", "d": "Consignes signées, interlocuteurs nommés, procédures d'escalade claires."}, {"n": "04", "t": "Rendre compte", "d": "Main courante électronique, incidents documentés sous 24 h, point mensuel avec vous."}];
 const ENGAGEMENT_DEMO = ["Autorisation CNAPS affichée, agents titulaires de la carte professionnelle", "Agents salariés de l'entreprise — aucune sous-traitance en cascade", "Tenues adaptées au lieu : costume en boutique, uniforme en résidence", "RC professionnelle sécurité privée, attestations jointes à chaque devis"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Agent de prévention commerce", "p": "dès 27 € HT/h", "n": "Carté, formé retail, majoration samedi incluse dans le contrat annuel."}, {"a": "Ronde de nuit résidence", "p": "dès 42 € HT", "n": "Passage horodaté + rapport photo, itinéraires variables."}, {"a": "Événement privé (soirée)", "p": "dès 240 € HT", "n": "Par agent, briefing et repérage inclus."}, {"a": "Audit sûreté", "p": "offert", "n": "Pour tout dispositif étudié — rapport remis dans tous les cas."}];
@@ -126,6 +127,11 @@ export default function HorizonProtectionPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
 
 
   // Le mot animé du hero ne peut pas porter une phrase : c'est le sous-titre

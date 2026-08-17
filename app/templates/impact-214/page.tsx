@@ -19,6 +19,7 @@ import {
   clientFaq,
   clientHeroLine,
   clientList,
+  clientMethode,
   clientName,
   clientReviews,
   clientServices,
@@ -129,7 +130,7 @@ const SERVICES_SOURCE = [
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const PROCESS_STEPS = [
+let PROCESS_STEPS = [
   {
     num: '01',
     title: 'Appel & Devis',
@@ -1155,6 +1156,11 @@ export default function AquaPrestigePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  PROCESS_STEPS = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_STEPS[i % PROCESS_STEPS.length], ...e })),
+    PROCESS_STEPS,
+  );
   TEAM_DEMO = TEAM_DEMO_LIVE();
   FAQ_ITEMS_DEMO = FAQ_ITEMS_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();

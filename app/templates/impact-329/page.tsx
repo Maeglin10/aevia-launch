@@ -18,6 +18,7 @@ import {
   clientEmail,
   clientEyebrow,
   clientHeroLine,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -118,7 +119,7 @@ const SERVICES_SOURCE = [
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const METHODE = [
+let METHODE = [
   { n: "01", t: "Visite & devis en 45 min", d: "À domicile ou en visio. Volume calculé pièce par pièce, devis ferme remis sous 24 h — c'est lui qui fait foi." },
   { n: "02", t: "Cartons livrés avant le jour J", d: "Fournitures déposées chez vous une semaine avant. En formule Standard et Clé en main, on emballe le fragile la veille." },
   { n: "03", t: "Jour J : démonté, roulé, remonté", d: "Mobilier démonté, protégé, remonté à l'identique dans le nouveau logement. Lettre de voiture signée au départ et à l'arrivée." },
@@ -393,6 +394,11 @@ export default function CapDemenagementsPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   AVIS_SOURCE = AVIS_SOURCE_LIVE();
 
   SERVICES_DEMO = resolveList(

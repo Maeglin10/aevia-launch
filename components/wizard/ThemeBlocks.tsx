@@ -376,6 +376,42 @@ export function ThemeBlocks({
         </Section>
       )}
 
+      {/*
+         La méthode : cent quarante-neuf thèmes affichent « comment ça se
+         passe » et aucun ne pouvait le remplir. La section gardait donc les
+         étapes d'une agence web sur le site d'un couvreur.
+      */}
+      {has("methode") && (
+        <Section
+          rempli={(profile.methode ?? []).filter((e) => e.name?.trim()).length}
+          title={say("methode").label!}
+          hint={say("methode").hint}
+        >
+          <Repeater
+            rows={profile.methode ?? []}
+            empty={{ name: "", desc: "" }}
+            onChange={(next) => patch({ methode: next })}
+            addLabel="Ajouter une étape"
+            render={(e, set) => (
+              <>
+                <input
+                  className={input}
+                  value={e.name ?? ""}
+                  onChange={(x) => set({ name: x.target.value })}
+                  placeholder={say("methode").ph?.name}
+                />
+                <input
+                  className={input}
+                  value={e.desc ?? ""}
+                  onChange={(x) => set({ desc: x.target.value })}
+                  placeholder={say("methode").ph?.desc}
+                />
+              </>
+            )}
+          />
+        </Section>
+      )}
+
       {has("realisations") && (
         <Section
           rempli={(profile.beforeAfter ?? []).filter((r) => r.caption?.trim()).length}

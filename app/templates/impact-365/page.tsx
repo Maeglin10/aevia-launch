@@ -14,6 +14,7 @@ import {
   clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -59,7 +60,7 @@ let HERO = HERO_DEMO;
 
 const SERVICES_SOURCE = [{"titre": "Légumes de saison", "desc": "Quarante variétés sur l'année, cueillies la veille ou le matin de la vente. La tomate d'août et le panais de janvier — jamais l'inverse.", "tag": "Maraîchage"}, {"titre": "Œufs de plein air", "desc": "250 poules sur parcours herbeux, nourries au grain local complété par ce que la ferme produit. Ramassés chaque matin.", "tag": "Œufs"}, {"titre": "Volailles fermières", "desc": "Poulets élevés 110 jours minimum, en plein air, abattus en abattoir de proximité. Sur commande, retrait le vendredi.", "tag": "Volaille"}, {"titre": "Paniers hebdomadaires", "desc": "Petit (2 pers.) ou grand (4-5 pers.) : la récolte de la semaine, une recette pour le légume oublié, sans engagement.", "tag": "Paniers"}, {"titre": "Conserves de la ferme", "desc": "Coulis, ratatouille, soupes d'hiver : l'été mis en bocaux dans notre atelier agréé, pour les mois sans.", "tag": "Bocaux"}, {"titre": "Visites & œufs de vacances", "desc": "La ferme se visite le premier samedi du mois. Les enfants ramassent les œufs, les parents comprennent les prix.", "tag": "Visites"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "Un sol vivant", "d": "Rotations longues, engrais verts, compost de la ferme : le sol est notre premier outil de travail."}, {"n": "02", "t": "Cueilli à maturité", "d": "La récolte se fait pour le lendemain, pas pour tenir une semaine de camion. Ça change le goût, vraiment."}, {"n": "03", "t": "Vendu en direct", "d": "Boutique à la ferme, marché de Cahors le samedi, paniers réservés : aucun intermédiaire, prix décidés ici."}, {"n": "04", "t": "Contrôlé chaque année", "d": "Certification AB par organisme agréé, contrôles annuels — le logo se mérite, il ne se déclare pas."}];
+let METHODE = [{"n": "01", "t": "Un sol vivant", "d": "Rotations longues, engrais verts, compost de la ferme : le sol est notre premier outil de travail."}, {"n": "02", "t": "Cueilli à maturité", "d": "La récolte se fait pour le lendemain, pas pour tenir une semaine de camion. Ça change le goût, vraiment."}, {"n": "03", "t": "Vendu en direct", "d": "Boutique à la ferme, marché de Cahors le samedi, paniers réservés : aucun intermédiaire, prix décidés ici."}, {"n": "04", "t": "Contrôlé chaque année", "d": "Certification AB par organisme agréé, contrôles annuels — le logo se mérite, il ne se déclare pas."}];
 const ENGAGEMENT_DEMO = ["Certification Agriculture Biologique (AB), contrôles annuels d'organisme agréé", "Vente directe uniquement : ce qui est sur l'étal a poussé ici, point", "Prix affichés à l'année, décidés par la ferme — pas par un cours mondial", "La ferme se visite : premier samedi du mois, et sur demande pour les écoles"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Panier petit (2 pers.)", "p": "14 €", "n": "5-6 légumes de la semaine + la recette du légume oublié."}, {"a": "Panier grand (4-5 pers.)", "p": "24 €", "n": "8-10 légumes, de quoi tenir la semaine sans supermarché."}, {"a": "Œufs plein air (×6)", "p": "2,80 €", "n": "Ramassés du matin, boîtes consignées reprises."}, {"a": "Poulet fermier (~1,8 kg)", "p": "12,90 €/kg", "n": "Sur commande avant mercredi, retrait vendredi."}];
@@ -126,6 +127,11 @@ export default function QuatreVentsPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   HERO_DEMO = HERO_DEMO_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),

@@ -37,6 +37,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -107,7 +108,7 @@ function SERVICES_SOURCE_LIVE() {
 let SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const METHODE = [
+let METHODE = [
   { n: "I", t: "Une voix, pas un standard", d: "À toute heure, quelqu'un de la maison répond, se déplace et prend le relais immédiatement." },
   { n: "II", t: "Le devis avant tout", d: "Devis-type réglementé, gratuit, distinguant l'obligatoire de l'optionnel. Vous décidez à tête reposée." },
   { n: "III", t: "Une cérémonie fidèle", d: "Textes, musiques, gestes : préparés avec la famille, à son rythme, jamais standardisés." },
@@ -323,6 +324,11 @@ export default function RivesBlanchesPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   STATS_SOURCE = STATS_SOURCE_LIVE();
   ZONES_SOURCE = ZONES_SOURCE_LIVE();

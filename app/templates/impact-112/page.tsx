@@ -35,6 +35,7 @@ import {
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhone,
   clientReviews,
@@ -180,7 +181,7 @@ let PRODUCTS = PRODUCTS_SOURCE;
 
 const COLLECTIONS = ["Tout voir", "Céramique", "Art de la table", "Jardin"];
 
-const PROCESS_STEPS = [
+let PROCESS_STEPS = [
   {
     n: "01",
     title: "La terre choisie",
@@ -1074,6 +1075,11 @@ export default function ArtisanMinimalPage() {
 
   fd = session?.formData;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  PROCESS_STEPS = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_STEPS[i % PROCESS_STEPS.length], ...e })),
+    PROCESS_STEPS,
+  );
   bp = session?.businessProfile;
   c = session?.generatedContent;
   PRODUCTS_SOURCE = PRODUCTS_SOURCE_LIVE();

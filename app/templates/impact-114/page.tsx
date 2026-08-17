@@ -34,6 +34,7 @@ import {
 import {
   clientCity,
   clientInstagram,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -622,6 +623,11 @@ export default function Impact114Page() {
 
   c = session?.generatedContent;
   PROCESS_STEPS = PROCESS_STEPS_LIVE();
+  /* La méthode du client remplace les étapes de la démonstration. */
+  PROCESS_STEPS = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_STEPS[i % PROCESS_STEPS.length], ...e })),
+    PROCESS_STEPS,
+  );
   COLLECTIONS_DEMO = COLLECTIONS_DEMO_LIVE();
   SLIDES_DEMO_SOURCE = SLIDES_DEMO_SOURCE_LIVE();
 

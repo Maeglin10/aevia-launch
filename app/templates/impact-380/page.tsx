@@ -14,6 +14,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -64,7 +65,7 @@ const HERO = [];
 
 const SERVICES_SOURCE = [{"titre": "La Blonde de Soif", "desc": "4,8 % — maltée, sèche, désaltérante. Celle qu'on sert aux sceptiques et qu'ils finissent par commander en fût.", "tag": "Blonde"}, {"titre": "L'IPA du Beffroi", "desc": "6,2 % — houblons américains et néo-zélandais, amertume franche, agrumes et résine. Notre best-seller au taproom.", "tag": "IPA"}, {"titre": "La Brune d'Hiver", "desc": "7 % — malts torréfiés, café et chocolat noir, longueur en bouche. Brassée de septembre à mars uniquement.", "tag": "Brune"}, {"titre": "La Blanche du Canal", "desc": "4,5 % — froment lillois, coriandre, zeste d'orange amère. La terrasse d'été en bouteille.", "tag": "Blanche"}, {"titre": "Les saisonnières", "desc": "Tous les deux mois : bière de garde, stout au café d'un torréfacteur voisin, sour aux fruits de saison. Quand c'est fini, c'est fini.", "tag": "Éphémère"}, {"titre": "Fûts pour bars & événements", "desc": "Fûts 20 et 30 L, tireuses prêtées, livraison sur Lille : bars, mariages, comités d'entreprise.", "tag": "CHR"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "Le malt d'à côté", "d": "Orges de Flandre maltées à 30 km : la matière première voyage moins que nos bouteilles."}, {"n": "02", "t": "Le brassin de 20 hL", "d": "Petits volumes, brassage tous les mardis : on peut se permettre d'arrêter une recette qui ne nous plaît plus."}, {"n": "03", "t": "Fermentation lente", "d": "Trois semaines minimum, garde à froid : le temps que le brasseur industriel n'a pas et que le goût réclame."}, {"n": "04", "t": "Ni filtrée ni pasteurisée", "d": "La bière reste vivante, un léger dépôt est normal — c'est la preuve, pas le défaut."}];
+let METHODE = [{"n": "01", "t": "Le malt d'à côté", "d": "Orges de Flandre maltées à 30 km : la matière première voyage moins que nos bouteilles."}, {"n": "02", "t": "Le brassin de 20 hL", "d": "Petits volumes, brassage tous les mardis : on peut se permettre d'arrêter une recette qui ne nous plaît plus."}, {"n": "03", "t": "Fermentation lente", "d": "Trois semaines minimum, garde à froid : le temps que le brasseur industriel n'a pas et que le goût réclame."}, {"n": "04", "t": "Ni filtrée ni pasteurisée", "d": "La bière reste vivante, un léger dépôt est normal — c'est la preuve, pas le défaut."}];
 const ENGAGEMENT_DEMO = ["Brasserie indépendante : aucun groupe au capital, aucune bière brassée pour d'autres", "Malts d'orge de Flandre, houblons tracés, aucun additif ni arôme", "Bières non filtrées, non pasteurisées — DLUO courte, goût long", "Consigne bouteilles et fûts : rapportez, on reprend, on relave"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 function TARIFS_DEMO_LIVE() {
@@ -125,6 +126,11 @@ export default function BrasserieHoublonPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   TARIFS_DEMO = TARIFS_DEMO_LIVE();
 
 

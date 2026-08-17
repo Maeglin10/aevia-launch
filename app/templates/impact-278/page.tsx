@@ -33,6 +33,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -2894,6 +2895,11 @@ function Impact278Page() {
   sessionData = session;
   SERVICES_DEMO = SERVICES_DEMO_LIVE();
   PROCESS_STEPS = PROCESS_STEPS_LIVE();
+  /* La méthode du client remplace les étapes de la démonstration. */
+  PROCESS_STEPS = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_STEPS[i % PROCESS_STEPS.length], ...e })),
+    PROCESS_STEPS,
+  );
   TESTIMONIALS278_DEMO = TESTIMONIALS278_DEMO_LIVE();
   PHOTO = PHOTO_LIVE();
   CROSSFADE_SLIDES = CROSSFADE_SLIDES_LIVE();
