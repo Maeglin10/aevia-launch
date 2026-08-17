@@ -74,7 +74,7 @@ for (let i = debut; i < fin && i < themes.length; i++) {
       const p = await ctx.newPage();
       await p.goto(`${BASE}/templates/${theme}?session=${sessionId}`, { waitUntil: "domcontentloaded", timeout: 45000 });
       /* Attendre que la donnée du client soit à l'écran, pas seulement dans le DOM. */
-      await p.waitForFunction((nomClient) => {
+      const donneesVues = await p.waitForFunction((nomClient) => {
         const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
         for (let n = w.nextNode(); n; n = w.nextNode()) {
           if (!(n.nodeValue ?? "").includes(nomClient)) continue;
@@ -83,7 +83,16 @@ for (let i = debut; i < fin && i < themes.length; i++) {
           if (rc.width >= 1 && rc.height >= 1) return true;
         }
         return false;
-      }, client.form.businessName, { timeout: 20000 }).catch(() => {});
+      }, client.form.businessName, { timeout: 20000 }).then(() => true).catch(() => false);
+      /*
+         Le témoin de contrôle. Sans lui, une page photographiée sans données
+         du client se lit comme une page pleine d'anglais et de noms de
+         démonstration — et l'on corrige un câblage qui n'a rien. C'est arrivé :
+         le limiteur de `/api/sessions` rend 429 au-delà de trente requêtes par
+         minute, et le balayage entier mesurait des pages vides.
+         `SESSIONS_RATE_LIMIT` le relève pour l'audit local.
+      */
+      if (nom === "ordi") fiche.donneesVues = donneesVues;
       /* Descendre pour déclencher les animations d'apparition, puis remonter. */
       await p.evaluate(async () => {
         for (let y = 0; y < document.body.scrollHeight; y += 700) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 90)); }
@@ -134,7 +143,7 @@ for (let i = debut; i < fin && i < themes.length; i++) {
     fiche.erreur = String(e).slice(0, 80);
   }
   fiches.push(fiche);
-  console.log(`${String(i + 1).padStart(3)}/${themes.length} ${theme.padEnd(12)} ${fiche.erreur ? "✗ " + fiche.erreur : `${fiche.sections} sections · ${fiche.hauteur} px · déborde ${fiche.deCote} px`}`);
+  console.log(`${String(i + 1).padStart(3)}/${themes.length} ${theme.padEnd(12)} ${fiche.erreur ? "✗ " + fiche.erreur : `${fiche.donneesVues ? "✓" : "✗ SANS DONNÉES"} ${fiche.sections} sections · ${fiche.hauteur} px · déborde ${fiche.deCote} px`}`);
   fs.writeFileSync(path.join(SORTIE, "fiches.json"), JSON.stringify(fiches, null, 1));
 }
 await nav.close();
