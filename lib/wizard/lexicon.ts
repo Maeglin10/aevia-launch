@@ -24,7 +24,7 @@ export interface BlockCopy {
 export type TradeLexicon = Partial<Record<ContentBlock, BlockCopy>>;
 
 /** Libellés par défaut, employés quand le métier n'a pas d'entrée dédiée. */
-export const DEFAULT_LEXICON: Required<Pick<TradeLexicon, "prestations" | "avis" | "engagements" | "chiffres" | "faq" | "equipe" | "zones">> = {
+export const DEFAULT_LEXICON: Required<Pick<TradeLexicon, "prestations" | "avis" | "engagements" | "chiffres" | "faq" | "equipe" | "zones" | "methode" | "realisations" | "horaires">> = {
   prestations: {
     label: "Vos prestations et leurs tarifs",
     hint: "Ce que vous vendez, tel que vous le diriez à un client. Le tarif peut être un montant, une fourchette ou « sur devis ».",

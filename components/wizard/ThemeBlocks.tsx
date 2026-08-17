@@ -92,7 +92,9 @@ function Section({
   children,
 }: {
   title: string;
-  hint: string;
+  /* Le lexique ne garantit pas la précision : trois blocs — méthode,
+     réalisations, horaires — n'en ont pas encore. */
+  hint?: string;
   /** Nombre d'entrées renseignées, affiché sur le pli. */
   rempli: number;
   children: React.ReactNode;
