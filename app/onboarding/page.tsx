@@ -462,6 +462,13 @@ function OnboardingContent() {
   const type  = searchParams.get("type")  ?? "vitrine";
   const theme = searchParams.get("theme") ?? "";
   const maint = searchParams.get("maintenance") ?? "0";
+  /*
+    La session de l'aperçu, portée depuis /preview par /order. Sans elle, la
+    commande arrive chez Stripe sans adresse d'aperçu, et le courriel envoyé au
+    client comme celui envoyé à l'administration pointent vers une page bâtie
+    après coup — quand ils pointent quelque part.
+  */
+  const sessionApercu = searchParams.get("session") ?? "";
   const brand = searchParams.get("branding") ?? "0";
   const currencyParam = searchParams.get("currency");
   const currency: Currency = isCurrency(currencyParam) ? currencyParam : DEFAULT_CURRENCY;
@@ -600,6 +607,8 @@ function OnboardingContent() {
              Ce que le client a tapé prime sur ce que le lien avait retenu : c'est
              le geste le plus récent, et le plus explicite. */
           ref: codeParrainage || codeParrainageRetenu() || undefined,
+          /* L'aperçu que le client vient de voir : c'est ce lien qu'il recevra. */
+          sessionApercu: sessionApercu || undefined,
         }),
       });
       if (!res.ok) throw new Error("Erreur lors de la création du paiement");

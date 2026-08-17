@@ -73,6 +73,8 @@ export async function POST(req: NextRequest) {
         Stripe confirmera l'encaissement.
       */
       ref?: unknown;
+      /** La session d'aperçu déjà vue par le client. */
+      sessionApercu?: unknown;
     };
     const { type, name, theme, maintenance, branding, currency, brief, domaine } = body;
 
@@ -118,10 +120,26 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    /*
+       L'identifiant de l'aperçu, tel quel. Il sert à deux choses : le courriel
+       du client pointe vers la page qu'il a déjà vue, et le webhook peut lier
+       l'achat au compte de l'écosystème sans en fabriquer une autre.
+    */
+    const sessionApercu = typeof body.sessionApercu === "string"
+      ? body.sessionApercu.trim().replace(/[^A-Za-z0-9-]/g, "").slice(0, 64)
+      : "";
+
+    /*
+       `session_id` est celui de Stripe : la page de confirmation ne peut pas en
+       tirer l'adresse de l'aperçu. Sans `sessionId`, son bouton « voir mon
+       site » n'a aucune adresse et ne mène nulle part — le client vient de
+       payer et repart sans lien.
+    */
     const successUrl =
       `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}` +
       `&name=${encodeURIComponent(siteName)}` +
-      `&type=${encodeURIComponent(siteType)}`;
+      `&type=${encodeURIComponent(siteType)}` +
+      (sessionApercu ? `&sessionId=${encodeURIComponent(sessionApercu)}` : "");
 
     const cancelUrl =
       `${baseUrl}/order` +
@@ -263,6 +281,12 @@ export async function POST(req: NextRequest) {
           : typeof brief?.domain === "string" ? (brief.domain as string) : "").slice(0, 100),
         domainePaye: domaineNom && tarifDomaine ? "1" : "0",
         ...(codeParrainage ? { ref: codeParrainage } : {}),
+        ...(sessionApercu
+          ? {
+              sessionApercu,
+              previewUrl: `${baseUrl}/preview/${sessionApercu}`,
+            }
+          : {}),
       },
       // Force Stripe to collect customer email (even though Checkout collects by default in payment mode)
       customer_email: undefined, // let Stripe collect it

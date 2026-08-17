@@ -255,10 +255,13 @@ function orderEmailHtml(params: {
               </table>
 
               <p style="margin:0 0 16px;font-size:13px;color:#71717a;line-height:1.6;">
-                Action requise : démarrer la création et contacter le client sous 2 heures.
+                Le site est généré et l'aperçu envoyé au client. Vous n'avez rien à
+                faire : ce message est là pour que vous sachiez qu'une commande est passée.
               </p>
 
               ${previewUrl ? `
+              <!-- Le lien vient des métadonnées de la commande, qui portent
+                   désormais la session d'aperçu vue par le client. -->
               <a href="${escapeHtml(previewUrl)}" style="display:inline-block;padding:12px 24px;background:#7c3aed;color:#fff;font-weight:700;font-size:13px;border-radius:8px;text-decoration:none;margin-bottom:8px;">
                 Voir l'aperçu généré →
               </a>` : ""}
@@ -579,6 +582,9 @@ export async function POST(req: NextRequest) {
       }
 
       // ── Preview-checkout path: content already generated, just send emails ──
+      /* La commande porte « sessionApercu » depuis le formulaire, et
+         « sessionId » quand elle vient du raccourci d'aperçu. */
+      if (!meta.sessionId && meta.sessionApercu) meta.sessionId = meta.sessionApercu;
       if (meta.sessionId && !meta.briefId) {
         const previewUrl = meta.previewUrl ?? `${process.env.NEXT_PUBLIC_BASE_URL ?? "https://launch.aevia.services"}/preview/${meta.sessionId}`;
         const clientEmail = session.customer_details?.email ?? session.customer_email ?? undefined;
