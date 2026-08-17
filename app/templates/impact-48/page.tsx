@@ -2671,6 +2671,10 @@ export default function ArchitectureTemplate() {
 
       label: s.label,
 
+      /* Le chiffre est celui du client : l'unité de la démonstration ne le suit pas. */
+
+      suffix: "",
+
     })),
 
     STATS_INLINE_SOURCE,
