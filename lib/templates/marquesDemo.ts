@@ -38,6 +38,9 @@ export const MARQUE_DEMO_COLLEE: Record<string, string[]> = {
 };
 
 export const MARQUE_DEMO: Record<string, string> = {
+  "impact-165": "Pulse",
+  "impact-155": "Pierre & Co",
+  "impact-229": "Éclat Spa",
   "impact-24": "Zero to One",
   "impact-01": "IMPACT",
   "impact-116": "KINETIC",
