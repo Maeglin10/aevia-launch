@@ -31,6 +31,7 @@ import {
   clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -1216,7 +1217,7 @@ function ServiceCard({
    ════════════════════════════════════════════════════════════════════════════ */
 function ProcessSection() {
   const steps = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
+    (clientMethode(sessionData) ?? clientServices(sessionData))?.map((s: any, i: number) => ({ ...([
     {
       num: '01',
       title: 'Consultation initiale',

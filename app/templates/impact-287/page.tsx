@@ -34,6 +34,7 @@ import {
   clientHours,
   clientInstagram,
   clientList,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -1446,7 +1447,7 @@ function MethodSection() {
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-            {PILLARS.map((p, i) => (
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PILLARS[i % PILLARS.length], ...e })), PILLARS).map((p, i) => (
               <Reveal key={p.number} delay={0.06 * i}>
                 <div
                   style={{

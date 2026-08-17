@@ -10,6 +10,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
   clientHeroLine,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -18,6 +19,16 @@ import {
   clientText,
   clientTrade,
 } from "@/lib/templates/clientContent";
+
+/* Les étapes de la démonstration, sorties du rendu pour que la méthode du
+   client puisse s'y substituer ligne à ligne. */
+const METHODE_DEMO_187 = [
+              { n: "01", t: "BILAN", d: "Composition corporelle, objectifs, historique, contraintes. On part de la réalité, pas d'une fiction." },
+              { n: "02", t: "PROGRAMME", d: "Plan 100% personnalisé. Entraînements, nutrition, récupération. Rien de générique." },
+              { n: "03", t: "EXÉCUTION", d: "On s'entraîne. Dur. Mais intelligemment. Progression linéaire, technique irréprochable." },
+              { n: "04", t: "RÉSULTATS", d: "Suivi hebdo, ajustements, mesures. Les chiffres ne mentent pas — et ils seront bons." },
+            ];
+
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
@@ -305,12 +316,7 @@ export default function MaxPerformancePage() {
             <h2 className="font-black uppercase text-[#f8f5f0] text-4xl" style={{ fontFamily: "'Anton', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>4 semaines <span className="text-[var(--brand,#f97316)]">pour tout changer.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {[
-              { n: "01", t: "BILAN", d: "Composition corporelle, objectifs, historique, contraintes. On part de la réalité, pas d'une fiction." },
-              { n: "02", t: "PROGRAMME", d: "Plan 100% personnalisé. Entraînements, nutrition, récupération. Rien de générique." },
-              { n: "03", t: "EXÉCUTION", d: "On s'entraîne. Dur. Mais intelligemment. Progression linéaire, technique irréprochable." },
-              { n: "04", t: "RÉSULTATS", d: "Suivi hebdo, ajustements, mesures. Les chiffres ne mentent pas — et ils seront bons." },
-            ].map((s, i) => (
+            {resolveList(clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_DEMO_187[i % METHODE_DEMO_187.length], ...e })), METHODE_DEMO_187).map((s, i) => (
               <Reveal key={i} delay={i * 0.09}>
                 <div className="bg-[#0a0a0a] border border-[#f8f5f0]/5 p-7 h-full">
                   <div className="font-black text-5xl text-[var(--brand,#f97316)]/10 mb-4" style={{ fontFamily: "'Anton', sans-serif" }}>{s.n}</div>
