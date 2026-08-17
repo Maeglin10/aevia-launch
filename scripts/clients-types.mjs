@@ -395,6 +395,50 @@ export const CLIENTS = {
     ],
     zones: ["Beaune", "Pommard", "Meursault", "Nuits-Saint-Georges"],
   }),
+  /*
+    Le domaine « Tech & Agences » manquait, et ses trente-neuf thèmes étaient
+    donc jugés avec les données d'un couvreur : impact-34, plateforme de
+    podcast, montrait « Réfection complète de toiture » entre deux graphiques
+    d'audience. Ce n'était pas le thème qui déraillait.
+  */
+  "Tech & Agences": commun({
+    nom: "Fabrique Numérique", metier: "studio de produit numérique", ville: "Nantes",
+    couleur: "#4F46E5", categorie: "Nos offres",
+    courriel: "bonjour@fabrique-numerique.fr", telephone: "02 40 89 17 22",
+    instagram: "fabrique.numerique", adresse: "8 quai de la Fosse, 44000 Nantes",
+    prestations: [
+      { name: "Cadrage produit", price: "6 000 €", description: "Trois semaines : entretiens utilisateurs, arbitrage des fonctions, chiffrage. Vous repartez avec un périmètre tenable." },
+      { name: "Conception et développement", price: "sur devis", description: "Une équipe de trois, un incrément livré chaque quinzaine, votre code dans votre dépôt dès le premier jour." },
+      { name: "Reprise d'un existant", price: "à partir de 9 000 €", description: "Audit technique, dette chiffrée, plan de remise en état — sans tout réécrire." },
+      { name: "Accompagnement", price: "1 800 €/mois", description: "Astreinte, correctifs, évolutions mesurées. Pas de forfait qui dort." },
+    ],
+    servicePrincipal: "conception et développement de produits numériques",
+    benefices: ["votre code dans votre dépôt dès le premier jour", "un incrément livré chaque quinzaine", "un périmètre chiffré avant d'écrire une ligne"],
+    cible: "entreprises qui lancent ou reprennent un produit",
+    tarifs: "de 6 000 € le cadrage à 1 800 €/mois d'accompagnement",
+    methode: [
+      { name: "Le cadrage", desc: "Entretiens utilisateurs, arbitrage des fonctions, périmètre chiffré." },
+      { name: "La conception", desc: "Maquettes cliquables, éprouvées auprès de vrais utilisateurs avant d'écrire une ligne." },
+      { name: "Les incréments", desc: "Une version utilisable tous les quinze jours, mise en ligne devant vous." },
+      { name: "La transmission", desc: "Documentation, passation, et votre équipe capable de continuer sans nous." },
+    ],
+    chiffres: [{ value: "34", label: "produits livrés" }, { value: "15 j", label: "entre deux versions" }, { value: "9", label: "ans d'exercice" }, { value: "100 %", label: "code remis au client" }],
+    garanties: ["Prestataire référencé Crédit Impôt Innovation", "Hébergement en France", "Engagement de réversibilité"],
+    questions: [
+      { q: "À qui appartient le code ?", a: "À vous, dès le premier jour. Le dépôt est le vôtre, nous y sommes invités." },
+      { q: "Travaillez-vous au forfait ?", a: "Le cadrage est au forfait. La suite est à la quinzaine : vous arrêtez quand vous voulez." },
+      { q: "Reprenez-vous un projet commencé ailleurs ?", a: "Souvent. On commence par un audit chiffré avant de s'engager." },
+      { q: "Où êtes-vous ?", a: "À Nantes, et nous travaillons avec des équipes partout en France." },
+    ],
+    equipe: [{ name: "Sarah Delcourt", role: "Conception produit" }, { name: "Yann Rivière", role: "Développement" }, { name: "Nadia Belkacem", role: "Interfaces" }],
+    horaires: [{ day: "Lundi au vendredi", open: "9h", close: "18h" }],
+    realisations: [{ beforeUrl: "", afterUrl: "", caption: "Refonte d'un outil de gestion utilisé par 400 agents, migré sans interruption de service" }],
+    avis: [
+      { author: "Élodie Ravier", text: "Le cadrage nous a évité six mois de travail inutile. Le périmètre tenait, le budget aussi.", rating: 5, source: "Directrice produit" },
+      { author: "Thomas Nguyen", text: "Une version toutes les deux semaines, sans exception, pendant dix mois.", rating: 5, source: "Fondateur" },
+    ],
+    zones: ["Nantes", "Rennes", "Angers", "à distance"],
+  }),
 };
 
 /* Chaque domaine a désormais sa fiche : aucun repli. */

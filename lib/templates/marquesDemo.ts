@@ -19,6 +19,17 @@
   277 thèmes sur 373. Les autres n'écrivent leur nom de démonstration nulle part,
   ou le tirent du thème lui-même.
 */
+/*
+  Une variante collée, quand le thème écrit son nom en un seul mot là où il le
+  déclare en deux : impact-31 replie « Ananda » et « Flow » en « AnandaFlow »
+  dans son pied de page. Le passage borne les noms sur les lettres — c'est ce
+  qui l'empêche de changer « FORGEZ » en voyant « FORGE » — et un nom collé
+  échappe donc à la borne. On le déclare.
+*/
+export const MARQUE_DEMO_COLLEE: Record<string, string[]> = {
+  "impact-31": ["AnandaFlow"],
+};
+
 export const MARQUE_DEMO: Record<string, string> = {
   "impact-02": "Elena Korr Portfolio",
   "impact-03": "Atelier NOIR",
