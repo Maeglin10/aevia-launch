@@ -79,6 +79,13 @@ export interface Catalogues {
   listings?: { title: string; price?: string; surface?: string; rooms?: string; status?: string; photoUrl?: string; city?: string }[];
   team?: { name: string; role: string; photoUrl?: string; bio?: string; specialty?: string; credentials?: string }[];
   beforeAfter?: { beforeUrl: string; afterUrl: string; caption?: string }[];
+  /*
+    Les étapes de la méthode : « comment ça se passe », de la prise de contact à
+    la fin du chantier. Cent quarante-neuf thèmes affichent cette section et
+    aucun ne pouvait la remplir — le formulaire ne la demandait pas, et rien ne
+    la lisait.
+  */
+  methode?: { name: string; desc?: string }[];
   commerce?: { mode: "showcase" | "external" | "stripe"; storeUrl?: string };
 }
 

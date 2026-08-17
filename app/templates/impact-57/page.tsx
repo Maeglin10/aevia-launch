@@ -23,6 +23,7 @@ import {
   clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -366,7 +367,7 @@ function ServicesSection() {
 }
 
 // ── Section 5: Process ───────────────────────────────────────────────────────
-const PROCESS_STEPS = [
+let PROCESS_STEPS = [
   {
     n: '01',
     title: 'Discover',
@@ -951,6 +952,11 @@ export default function MaskUnitHome() {
 
   fd = session?.formData;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  PROCESS_STEPS = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_STEPS[i % PROCESS_STEPS.length], ...e })),
+    PROCESS_STEPS,
+  );
   memoriserSession(sessionData);
   bp = session?.businessProfile;
   c = session?.generatedContent;

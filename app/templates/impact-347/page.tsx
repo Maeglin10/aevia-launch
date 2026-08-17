@@ -30,6 +30,7 @@ import {
   clientEyebrow,
   clientHeroLine,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -435,6 +436,11 @@ export default function PrismeFormationPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_SOURCE[i % METHODE_SOURCE.length], ...e })),
+    METHODE_SOURCE,
+  );
   HERO = HERO_LIVE();
 
   /* Blocs vivants : recalculés à chaque rendu, une fois la session affectée. */

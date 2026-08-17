@@ -806,6 +806,53 @@ export function clientSlug(s: SessionLike | null | undefined): string | undefine
   return slug || undefined;
 }
 
+export interface ClientEtape {
+  /** Le titre de l'étape, tel que le client l'a écrit. */
+  name: string;
+  desc: string;
+  /*
+    Les alias, comme ailleurs dans ce fichier. Les thèmes nomment ces deux
+    champs de sept façons — `title`/`body`, `label`/`text`, `t`/`d` — et la
+    fusion par étalement ne remplace que les clés qu'elle porte : sans alias,
+    douze thèmes gardaient le titre de la démonstration.
+  */
+  title: string;
+  description: string;
+  t: string;
+  label: string;
+  heading: string;
+  body: string;
+  text: string;
+  content: string;
+  d: string;
+}
+
+/*
+  Les étapes de la méthode du client.
+
+  Deux sources : le profil, que le formulaire remplit, et les surcharges de
+  section, employées par un thème avant que le champ n'existe. On lit les deux —
+  c'est la règle de ce fichier, qui réconcilie les vocabulaires plutôt que de
+  les imposer.
+*/
+export function clientMethode(s: SessionLike | null | undefined): ClientEtape[] | undefined {
+  const etape = (name: string, desc: string): ClientEtape => ({
+    name, desc,
+    title: name, t: name, label: name, heading: name,
+    description: desc, body: desc, text: desc, content: desc, d: desc,
+  });
+
+  const duProfil = enTableau(s?.businessProfile?.methode);
+  const propre = keep(
+    duProfil.map((r) => etape(trimmed(r?.name) || trimmed(r?.title), trimmed(r?.desc) || trimmed(r?.description))),
+    (r) => Boolean(r.name),
+  );
+  if (propre) return propre;
+
+  const surcharge = clientList(s, "methode.etapes");
+  return surcharge ? surcharge.map((x) => etape(x, "")) : undefined;
+}
+
 /** Le lien de réservation, quand le client en a un. */
 export function clientBookingUrl(s: SessionLike | null | undefined): string | undefined {
   return trimmed(s?.businessProfile?.bookingSystem?.url) || undefined;

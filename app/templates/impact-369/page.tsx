@@ -14,6 +14,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -68,7 +69,7 @@ let HERO = HERO_DEMO;
 
 const SERVICES_SOURCE = [{"titre": "La grande salle", "desc": "320 m² de tuffeau et de chêne, 220 couverts, office traiteur professionnel attenant, sono et lumières installées.", "tag": "Salle"}, {"titre": "Le parc & la cérémonie", "desc": "Cérémonie laïque sous l'allée de charmes, cocktail sur la terrasse ouest au couchant, plan B pluie prévu et beau.", "tag": "Parc"}, {"titre": "L'hébergement", "desc": "12 chambres (26 couchages) dans la longère et les dépendances : les proches restent, le brunch du lendemain a lieu ici.", "tag": "Nuits"}, {"titre": "Séminaires & journées d'équipe", "desc": "En semaine : salle plénière lumineuse, sous-commissions dans les dépendances, parc pour les formats qui respirent.", "tag": "Entreprise"}, {"titre": "Traiteurs : libres ou conseillés", "desc": "Cuisine professionnelle aux normes pour le traiteur de votre choix — ou notre liste de cinq maisons éprouvées.", "tag": "Traiteur"}, {"titre": "Coordination du jour J", "desc": "Notre intendante orchestre prestataires et timing le jour même : vous êtes invités chez vous.", "tag": "Jour J"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "La visite", "d": "Une heure trente, aux heures où VOTRE événement vivra : la lumière du parc à 18 h ne se raconte pas."}, {"n": "02", "t": "L'option posée", "d": "Date bloquée gratuitement 15 jours, devis détaillé espace par espace — pas de forfait opaque."}, {"n": "03", "t": "La préparation cadrée", "d": "Deux rendez-vous techniques, plan d'implantation, fiche prestataires : tout est écrit avant le jour J."}, {"n": "04", "t": "Le jour, orchestré", "d": "L'intendante gère les arrivées, le timing, les imprévus. Le domaine est à vous jusqu'au lendemain 15 h."}];
+let METHODE = [{"n": "01", "t": "La visite", "d": "Une heure trente, aux heures où VOTRE événement vivra : la lumière du parc à 18 h ne se raconte pas."}, {"n": "02", "t": "L'option posée", "d": "Date bloquée gratuitement 15 jours, devis détaillé espace par espace — pas de forfait opaque."}, {"n": "03", "t": "La préparation cadrée", "d": "Deux rendez-vous techniques, plan d'implantation, fiche prestataires : tout est écrit avant le jour J."}, {"n": "04", "t": "Le jour, orchestré", "d": "L'intendante gère les arrivées, le timing, les imprévus. Le domaine est à vous jusqu'au lendemain 15 h."}];
 const ENGAGEMENT_DEMO = ["ERP de 5e catégorie contrôlé : commission de sécurité, accessibilité PMR", "Un seul événement à la fois — jamais deux mariages qui s'entendent chanter", "Sonorisation extérieure limitée à 22 h, salle insonorisée jusqu'à l'aube : les voisins et la fête coexistent", "Assurance RC organisateur exigée et vérifiée — protection de tous"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Mariage — samedi haute saison", "p": "6 900 €", "n": "Du vendredi 14 h au dimanche 15 h : salle, parc, chambres, intendante."}, {"a": "Mariage — vendredi ou hors saison", "p": "4 900 €", "n": "Mêmes prestations, dates d'octobre à avril ou vendredis d'été."}, {"a": "Séminaire journée (< 80 pers.)", "p": "1 900 €", "n": "Salle plénière, 2 salles annexes, parc, café d'accueil compris."}, {"a": "Grande tablée familiale (< 60)", "p": "2 400 €", "n": "Anniversaires, noces d'or : la salle des dépendances et la terrasse."}];
@@ -128,6 +129,11 @@ export default function DomaineCharmillesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   HERO_DEMO = HERO_DEMO_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),

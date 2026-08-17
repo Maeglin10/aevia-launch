@@ -15,6 +15,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -68,7 +69,7 @@ function SERVICES_SOURCE_LIVE() {
 }
 let SERVICES_SOURCE = SERVICES_SOURCE_LIVE();;
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "On cale vos trajets", "d": "Un appel pour poser les habitudes : jours, heures, adresses, particularités. Tout est écrit."}, {"n": "02", "t": "Confirmation la veille", "d": "SMS la veille au soir avec l'heure et le chauffeur. Pas de doute au réveil."}, {"n": "03", "t": "Le trajet, soigné", "d": "Ponctualité, aide à la montée, conduite souple : les habitués choisissent leur musique — ou le silence."}, {"n": "04", "t": "La facturation simple", "d": "Tiers payant pour le médical conventionné, facture mensuelle pour les abonnés, reçu immédiat sinon."}];
+let METHODE = [{"n": "01", "t": "On cale vos trajets", "d": "Un appel pour poser les habitudes : jours, heures, adresses, particularités. Tout est écrit."}, {"n": "02", "t": "Confirmation la veille", "d": "SMS la veille au soir avec l'heure et le chauffeur. Pas de doute au réveil."}, {"n": "03", "t": "Le trajet, soigné", "d": "Ponctualité, aide à la montée, conduite souple : les habitués choisissent leur musique — ou le silence."}, {"n": "04", "t": "La facturation simple", "d": "Tiers payant pour le médical conventionné, facture mensuelle pour les abonnés, reçu immédiat sinon."}];
 const ENGAGEMENT_DEMO = ["Carte professionnelle VTC, entreprise au registre REVTC, assurance transport de personnes", "Conventionné transport assis (TAP) : le médical sur prescription, sans avance de frais", "Chauffeurs stables : vos trajets réguliers gardent le même visage", "SMS de confirmation la veille et d'arrivée à destination pour les proches qui s'inquiètent"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 function TARIFS_DEMO_LIVE() {
@@ -134,6 +135,11 @@ export default function CapChauffeurPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   TARIFS_DEMO = TARIFS_DEMO_LIVE();
   AVIS_SOURCE = AVIS_SOURCE_LIVE();
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();

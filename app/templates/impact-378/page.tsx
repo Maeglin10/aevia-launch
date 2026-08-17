@@ -14,6 +14,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -65,7 +66,7 @@ const PARCOURS_SOURCE = [{"n": "01", "title": "Le bilan complet", "body": "Actif
 let PARCOURS = PARCOURS_SOURCE;
 const SERVICES_SOURCE = [{"titre": "Bilan patrimonial", "desc": "La photographie complète : civil, fiscal, financier, immobilier. Le préalable à tout conseil sérieux — facturé, donc indépendant.", "tag": "Bilan"}, {"titre": "Épargne & placements", "desc": "Assurance-vie, PER, comptes-titres en architecture ouverte : les supports choisis pour votre stratégie, pas pour la commission.", "tag": "Placements"}, {"titre": "Immobilier patrimonial", "desc": "LMNP, déficit foncier, SCPI, démembrement : l'immobilier qui sert un objectif chiffré, pas une plaquette de promoteur.", "tag": "Immobilier"}, {"titre": "Retraite", "desc": "Bilan retraite complet, rachats de trimestres étudiés, PER optimisé : savoir à 45 ans ce qu'on touchera à 64.", "tag": "Retraite"}, {"titre": "Transmission", "desc": "Donations, assurance-vie, démembrement, pacte Dutreil : transmettre plus en payant le juste impôt — en lien avec votre notaire.", "tag": "Transmission"}, {"titre": "Dirigeants & professions libérales", "desc": "Rémunération, holding, prévoyance Madelin, cession d'entreprise : le patrimoine pro et perso enfin coordonnés.", "tag": "Dirigeants"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "CIF, contrôlé AMF", "d": "Le statut de Conseiller en Investissements Financiers nous soumet au contrôle de l'AMF et à une association agréée."}, {"n": "02", "t": "Lettre de mission", "d": "Périmètre, livrables et rémunération écrits avant de commencer — vous savez ce que vous payez et pourquoi."}, {"n": "03", "t": "Architecture ouverte", "d": "Aucun produit maison : nous comparons les contrats du marché et négocions les frais pour vous."}, {"n": "04", "t": "Transparence totale", "d": "Honoraires et rétrocessions détaillés dans chaque rapport annuel, au centime."}];
+let METHODE = [{"n": "01", "t": "CIF, contrôlé AMF", "d": "Le statut de Conseiller en Investissements Financiers nous soumet au contrôle de l'AMF et à une association agréée."}, {"n": "02", "t": "Lettre de mission", "d": "Périmètre, livrables et rémunération écrits avant de commencer — vous savez ce que vous payez et pourquoi."}, {"n": "03", "t": "Architecture ouverte", "d": "Aucun produit maison : nous comparons les contrats du marché et négocions les frais pour vous."}, {"n": "04", "t": "Transparence totale", "d": "Honoraires et rétrocessions détaillés dans chaque rapport annuel, au centime."}];
 const ENGAGEMENT_DEMO = ["CIF adhérent d'une association agréée AMF, ORIAS n° 26 009 244", "Carte T pour les opérations immobilières, RC professionnelle complète", "Rémunération mixte affichée : honoraires + rétrocessions détaillées par écrit", "Aucun objectif commercial sur un produit : notre seul stock, c'est le conseil"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Bilan patrimonial complet", "p": "dès 890 €", "n": "Deux rendez-vous, rapport écrit de 30+ pages, plan d'action chiffré."}, {"a": "Stratégie + mise en œuvre", "p": "sur lettre de mission", "n": "Honoraires forfaitaires annoncés avant, rétrocessions déduites ou affichées."}, {"a": "Suivi annuel", "p": "dès 490 €/an", "n": "Revue complète, ajustements, disponibilité toute l'année."}, {"a": "Bilan retraite seul", "p": "590 €", "n": "Relevés analysés, projections chiffrées, rachats étudiés."}];
@@ -126,6 +127,11 @@ export default function CapHorizonPatrimoinePage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   AVIS_SOURCE = AVIS_SOURCE_LIVE();
 
 

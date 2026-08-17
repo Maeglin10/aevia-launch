@@ -18,6 +18,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -159,7 +160,7 @@ const BENTO = [
   { col: "span 2", row: "span 1" },
 ];
 
-const METHODE = [
+let METHODE = [
   { n: "01", t: "Éval de départ offerte", d: "45 min en voiture. Ton volume d'heures estimé est écrit au contrat — et on s'y tient." },
   { n: "02", t: "Résa en ligne 24h/24", d: "Tes créneaux depuis ton téléphone, annulation gratuite 48 h avant, liste d'attente automatique." },
   { n: "03", t: "Simulateur + voiture", d: "Le simulateur déblaye les bases et les situations à risque ; la voiture sert à progresser, pas à répéter." },
@@ -326,6 +327,11 @@ export default function PermisCapSudPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   brand = fd?.brandColor ?? null;
   if (brand) {

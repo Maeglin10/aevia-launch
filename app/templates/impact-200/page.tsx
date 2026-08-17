@@ -39,6 +39,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -346,7 +347,7 @@ const PACKAGES_DEMO = [
 ]
 let PACKAGES = PACKAGES_DEMO;
 
-const STEPS = [
+let STEPS = [
   {
     num: "01",
     title: "La Rencontre",
@@ -504,6 +505,11 @@ export default function Impact200Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  STEPS = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...STEPS[i % STEPS.length], ...e })),
+    STEPS,
+  );
   MARQUEE_ITEMS = MARQUEE_ITEMS_LIVE();
   TESTIMONIALS_DEMO = TESTIMONIALS_DEMO_LIVE();
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();

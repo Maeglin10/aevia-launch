@@ -14,6 +14,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -60,7 +61,7 @@ let HERO = HERO_DEMO;
 
 const SERVICES_SOURCE = [{"titre": "Mobilier sur mesure", "desc": "Tables, bibliothèques, bureaux, lits : dessinés avec vous, assemblés à tenon-mortaise et queues d'aronde. Aucun panneau de particules ne franchit la porte.", "tag": "Sur mesure"}, {"titre": "Restauration de mobilier ancien", "desc": "Placages refaits à la colle d'os, finitions à la gomme-laque au tampon, ferrures d'époque remontées : la restauration qui respecte le meuble, pas qui le maquille.", "tag": "Restauration"}, {"titre": "Marqueterie & placage", "desc": "Motifs contemporains ou reprises de modèles Louis-Philippe : essences choisies pour leur veine, découpées à la scie à chantourner.", "tag": "Marqueterie"}, {"titre": "Escaliers & pièces d'agencement", "desc": "Limons, garde-corps, habillages : les grandes pièces de menuiserie qui structurent une maison, calculées et posées.", "tag": "Agencement"}, {"titre": "Pièces d'exception", "desc": "Cabinets, secrétaires, meubles d'apparat : les commandes qui prennent six mois et se transmettent ensuite.", "tag": "Exception"}, {"titre": "Conseil & expertise", "desc": "Estimer un meuble de famille, dire s'il vaut une restauration : un avis d'ébéniste avant de dépenser — parfois pour vous dire non.", "tag": "Conseil"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "Le dessin, ensemble", "d": "Croquis, essences, proportions : la pièce se décide sur papier, à l'échelle, avant qu'une planche ne soit coupée."}, {"n": "02", "t": "Le bois choisi", "d": "Grumes sélectionnées chez nos scieurs du Jura, séchées deux ans minimum. Vous voyez la planche de votre plateau."}, {"n": "03", "t": "L'assemblage", "d": "Tenon-mortaise, queues d'aronde, chevilles : les liaisons qui traversent les siècles, faites à la main."}, {"n": "04", "t": "La finition & la livraison", "d": "Huile dure, cire ou vernis au tampon selon l'usage. Livraison et pose par nos soins, jamais par transporteur."}];
+let METHODE = [{"n": "01", "t": "Le dessin, ensemble", "d": "Croquis, essences, proportions : la pièce se décide sur papier, à l'échelle, avant qu'une planche ne soit coupée."}, {"n": "02", "t": "Le bois choisi", "d": "Grumes sélectionnées chez nos scieurs du Jura, séchées deux ans minimum. Vous voyez la planche de votre plateau."}, {"n": "03", "t": "L'assemblage", "d": "Tenon-mortaise, queues d'aronde, chevilles : les liaisons qui traversent les siècles, faites à la main."}, {"n": "04", "t": "La finition & la livraison", "d": "Huile dure, cire ou vernis au tampon selon l'usage. Livraison et pose par nos soins, jamais par transporteur."}];
 const ENGAGEMENT_DEMO = ["Bois massif français certifié PEFC — aucun aggloméré, médium ou placage industriel", "Assemblages traditionnels : la pièce se démonte et se répare dans cinquante ans", "Atelier visitable : venez voir votre meuble en cours, l'établi est ouvert", "Garantie 5 ans sur les assemblages, conseils d'entretien remis avec chaque pièce"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Table massive (2,20 m)", "p": "dès 3 400 €", "n": "Plateau chêne ou frêne, piètement assemblé, finition huilée."}, {"a": "Bibliothèque sur mesure (ml)", "p": "dès 950 €", "n": "Toute hauteur, montants massifs, étagères non fléchissantes."}, {"a": "Restauration de meuble ancien", "p": "dès 600 €", "n": "Après diagnostic ; devis ferme avant toute intervention."}, {"a": "Diagnostic / expertise", "p": "90 €", "n": "À l'atelier ou sur photos détaillées, déduit si restauration."}];
@@ -127,6 +128,11 @@ export default function EtabliMoreauPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   HERO_DEMO = HERO_DEMO_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),

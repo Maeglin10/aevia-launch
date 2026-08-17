@@ -16,6 +16,7 @@ import {
   clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -165,7 +166,7 @@ function ATELIER_PHASES_LIVE() {
 }
 let ATELIER_PHASES = ATELIER_PHASES_LIVE();
 
-const METHODE = [
+let METHODE = [
   { n: "01", t: "Relevé & écoute", d: "Chez vous, au laser. On parle habitudes de cuisine, rangements, circulation — avant de parler meubles." },
   { n: "02", t: "Plan 3D & devis fermé", d: "Un projet photoréaliste et un devis ferme, poste par poste. Pas de « à partir de » : le prix signé est le prix payé." },
   { n: "03", t: "Fabrication française", d: "Caissons et façades fabriqués en France, quincaillerie allemande. Six semaines en moyenne entre commande et pose." },
@@ -513,6 +514,11 @@ export default function LignesEtBoisPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   HERO_PROJETS_DEMO = HERO_PROJETS_DEMO_LIVE();
   ATELIER_PHASES = ATELIER_PHASES_LIVE();
   AVIS_SOURCE = AVIS_SOURCE_LIVE();

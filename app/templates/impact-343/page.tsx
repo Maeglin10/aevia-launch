@@ -32,6 +32,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -131,7 +132,7 @@ const SERVICES_SOURCE = [
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const METHODE = [
+let METHODE = [
   { n: "01", t: "Diagnostic au comptoir", d: "Chaque pièce examinée devant vous : taches signalées, boutons fragiles notés, délai annoncé.", h: "Au dépôt" },
   { n: "02", t: "Fiche de soin par pièce", d: "Fibre, tache, traitement : chaque vêtement suit sa fiche, pas un tapis roulant.", h: "Atelier, matin" },
   { n: "03", t: "Atelier sur place", d: "Rien ne part en sous-traitance : nettoyage, repassage et retouches se font derrière la vitrine.", h: "Atelier, journée" },
@@ -449,6 +450,11 @@ export default function BlancNetPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   HERO = HERO_LIVE();
 
   /* Les blocs vivants sont recalculés à chaque rendu, une fois la session

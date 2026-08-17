@@ -40,6 +40,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -196,7 +197,7 @@ function SERVICES_SOURCE_LIVE() {
 let SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const METHODE = [
+let METHODE = [
   { n: "01", t: "Prélever près de chez vous", d: "Trois sites et des tournées : personne ne fait 40 minutes de route pour une prise de sang." },
   { n: "02", t: "Transporter sous contrôle", d: "Navette réfrigérée toutes les deux heures, température loggée — la qualité commence dans le coffre." },
   { n: "03", t: "Analyser au plateau", d: "Automates mutualisés, contrôles COFRAC quotidiens, biologistes présents physiquement." },
@@ -594,6 +595,11 @@ export default function BioValleePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   HERO_SOURCE = HERO_SOURCE_LIVE();
   SITES_SOURCE = SITES_SOURCE_LIVE();
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();

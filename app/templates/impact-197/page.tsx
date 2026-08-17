@@ -15,6 +15,7 @@ import {
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -204,7 +205,7 @@ const SERVICES_DETAIL_DEMO = [
   { icon: Award, title: "Sélection hôtelière", desc: "Chaque hébergement est visité et validé par notre équipe. Seuls les 5% les plus exceptionnels intègrent notre carnet." },
 ];
 
-const PROCESS_STEPS = [
+let PROCESS_STEPS = [
   { num: "01", title: "Consultation découverte", desc: "Un appel de 30 minutes avec votre conseiller dédié pour comprendre vos envies, votre style de voyage, votre budget et vos contraintes." },
   { num: "02", title: "Proposition personnalisée", desc: "Sous 72h, vous recevez 2 à 3 itinéraires sur mesure avec détail des hébergements, expériences et tarifs transparents." },
   { num: "03", title: "Affinage et validation", desc: "Nous peaufinons ensemble chaque détail jusqu'à ce que l'itinéraire soit exactement ce que vous imaginiez — sans compromis." },
@@ -436,6 +437,11 @@ export default function EvasionDoree() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  PROCESS_STEPS = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_STEPS[i % PROCESS_STEPS.length], ...e })),
+    PROCESS_STEPS,
+  );
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(

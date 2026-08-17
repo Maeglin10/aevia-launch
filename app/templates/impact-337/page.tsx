@@ -36,6 +36,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -164,7 +165,7 @@ const METHODE_SOURCE = [
   { n: "03", t: "Souscription sans rupture", d: "Résiliations gérées par nos soins, aucune journée sans couverture, cartes vertes et attestations immédiates." },
   { n: "04", t: "Revue annuelle", d: "Chaque année, on vérifie que vos contrats suivent votre vie : déménagement, naissance, nouveau véhicule, nouvelle activité." },
 ];
-const METHODE = METHODE_SOURCE;
+let METHODE = METHODE_SOURCE;
 
 const ENGAGEMENT_SOURCE = [
   "Immatriculés à l'ORIAS (n° 26 004 512), contrôlés par l'ACPR",
@@ -596,6 +597,11 @@ export default function CapAssurancesPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_SOURCE[i % METHODE_SOURCE.length], ...e })),
+    METHODE_SOURCE,
+  );
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

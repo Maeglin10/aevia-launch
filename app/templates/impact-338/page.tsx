@@ -32,6 +32,7 @@ import {
   clientHeroLine,
   clientHeroPrestations,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -158,7 +159,7 @@ const METHODE_SOURCE = [
   { n: "03", t: "Programme unifié", d: "Un seul échéancier, des franchises cohérentes, zéro trou entre les contrats." },
   { n: "04", t: "Pilotage annuel", d: "Revue de sinistralité, ajustement des capitaux, renégociation à chaque échéance triennale." },
 ];
-const METHODE = METHODE_SOURCE;
+let METHODE = METHODE_SOURCE;
 
 const ENGAGEMENT_SOURCE = [
   "ORIAS n° 26 007 833, sous le contrôle de l'ACPR, RC professionnelle de courtage",
@@ -431,6 +432,11 @@ export default function BorealCourtagePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_SOURCE[i % METHODE_SOURCE.length], ...e })),
+    METHODE_SOURCE,
+  );
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

@@ -39,6 +39,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -276,7 +277,7 @@ const FLASH_PIECES_DEMO = [
   { name: "Papillon Sombre", price: 160, size: "10cm", style: "Neo-Trad" },
 ]
 
-const STEPS = [
+let STEPS = [
   {
     num: "01",
     title: "Consultation",
@@ -447,6 +448,11 @@ export default function Impact199Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  STEPS = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...STEPS[i % STEPS.length], ...e })),
+    STEPS,
+  );
   GALLERY_IMAGES_DEMO = GALLERY_IMAGES_DEMO_LIVE();
   ARTISTS_DEMO = ARTISTS_DEMO_LIVE();
   STYLES_DEMO = STYLES_DEMO_LIVE();

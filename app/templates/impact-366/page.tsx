@@ -15,6 +15,7 @@ import {
   clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -69,7 +70,7 @@ let HERO = HERO_DEMO;
 
 const SERVICES_SOURCE = [{"titre": "Paniers AMAP", "desc": "Un contrat de saison (6 mois), un panier chaque mardi : vous partagez la récolte — l'abondance de juillet comme la sobriété de février.", "tag": "AMAP"}, {"titre": "Marché des Lices", "desc": "Le samedi matin : l'étal complet, pour ceux qui préfèrent choisir. Les amapiens y ont leurs habitudes aussi.", "tag": "Marché"}, {"titre": "Légumes de plein champ", "desc": "Pommes de terre, courges, oignons : les gros volumes d'hiver, stockés à la ferme, vendus au cageot pour les conserves familiales.", "tag": "Stock"}, {"titre": "Plants de printemps", "desc": "En avril-mai : nos plants de tomates, courgettes et aromatiques, ceux-là mêmes que nous plantons — pas des invendus de jardinerie.", "tag": "Plants"}, {"titre": "Chantiers participatifs", "desc": "Plantation de printemps, récolte des courges : les amapiens qui veulent mettre les mains viennent — jamais obligatoire, toujours joyeux.", "tag": "Participatif"}, {"titre": "Écoles & visites", "desc": "Les classes de Vannes viennent voir pousser ce qu'elles mangent à la cantine — on livre aussi deux cantines de la ville.", "tag": "Pédagogie"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "Un engagement de saison", "d": "Six mois de paniers payés d'avance : la trésorerie qui permet de semer sans emprunter."}, {"n": "02", "t": "La récolte partagée", "d": "Le panier suit le champ : généreux l'été, plus sobre l'hiver. C'est le principe — et le calendrier est publié."}, {"n": "03", "t": "La distribution ensemble", "d": "Le mardi soir à la ferme : chacun compose son panier sur la table de tri, l'équipe raconte la semaine du champ."}, {"n": "04", "t": "Les comptes ouverts", "d": "Une réunion par saison : les prix, les investissements, les galères. Les amapiens savent ce qu'ils financent."}];
+let METHODE = [{"n": "01", "t": "Un engagement de saison", "d": "Six mois de paniers payés d'avance : la trésorerie qui permet de semer sans emprunter."}, {"n": "02", "t": "La récolte partagée", "d": "Le panier suit le champ : généreux l'été, plus sobre l'hiver. C'est le principe — et le calendrier est publié."}, {"n": "03", "t": "La distribution ensemble", "d": "Le mardi soir à la ferme : chacun compose son panier sur la table de tri, l'équipe raconte la semaine du champ."}, {"n": "04", "t": "Les comptes ouverts", "d": "Une réunion par saison : les prix, les investissements, les galères. Les amapiens savent ce qu'ils financent."}];
 const ENGAGEMENT_DEMO = ["Certification AB — contrôles annuels, dérogations : zéro", "Tout ce qui est vendu a poussé sur nos 3 hectares — pas de revente négoce", "Prix de saison publiés et stables, décidés en réunion d'AMAP", "Deux cantines scolaires de Vannes livrées en légumes de saison"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Contrat AMAP — panier solo", "p": "12 €/semaine", "n": "Sur 6 mois : l'équivalent de 4-5 légumes chaque mardi."}, {"a": "Contrat AMAP — panier famille", "p": "21 €/semaine", "n": "8-10 légumes, calendrier de récoltes publié à la signature."}, {"a": "Cageot d'hiver (10 kg)", "p": "18 €", "n": "Pommes de terre, courges, oignons — pour les caves et les conserves."}, {"a": "Plants de printemps", "p": "dès 1,50 €", "n": "Tomates anciennes, courgettes, basilic — en avril-mai à la ferme."}];
@@ -129,6 +130,11 @@ export default function PotagerEstuairePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   HERO_DEMO = HERO_DEMO_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),

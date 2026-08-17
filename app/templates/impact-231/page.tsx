@@ -9,6 +9,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -62,7 +63,7 @@ const ACCOMPAGNEMENTS_DEMO = [
   { titre: "Femmes & hormones", desc: "Grossesse, post-partum, ménopause, SOPK. Accompagnement adapté aux cycles hormonaux et aux besoins spécifiques des femmes.", tag: "Femmes" },
 ]
 
-const METHODE = [
+let METHODE = [
   "Bilan alimentaire complet lors de la 1ère consultation (1h)",
   "Plan personnalisé : pas de modèle standard, tout est fait pour vous",
   "Suivi mensuel avec ajustements selon vos retours et résultats",
@@ -181,6 +182,11 @@ export default function NutritherapiePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   AVIS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
     AVIS_SOURCE,

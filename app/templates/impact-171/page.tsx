@@ -16,6 +16,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -128,7 +129,7 @@ function DOCTORS_DEMO_LIVE() {
 }
 let DOCTORS_DEMO = DOCTORS_DEMO_LIVE();
 
-const STEPS = [
+let STEPS = [
   { n: "01", title: "Évaluation", desc: "Entretien approfondi de 45 minutes pour comprendre votre historique médical et vos objectifs santé." },
   { n: "02", title: "Bilan Approfondi", desc: "Analyses biologiques complètes, imagerie si nécessaire et évaluation des facteurs de risque." },
   { n: "03", title: "Protocole", desc: "Élaboration d'un plan de soins personnalisé avec objectifs mesurables à 3, 6 et 12 mois." },
@@ -284,6 +285,11 @@ export default function Impact171Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  STEPS = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...STEPS[i % STEPS.length], ...e })),
+    STEPS,
+  );
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   navLinks = navLinks_LIVE();
   DOCTORS_DEMO = DOCTORS_DEMO_LIVE();

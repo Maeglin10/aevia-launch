@@ -14,6 +14,7 @@ import {
   clientCertifications,
   clientCity,
   clientHeroLine,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -66,7 +67,7 @@ const HERO = [{"k": "Verrières", "lines": ["La lumière traverse,", "l'espace r
 
 const SERVICES_SOURCE = [{"titre": "Verrières d'atelier", "desc": "Acier fin ou aluminium thermolaqué, simple ou double vitrage, cintrages possibles : la verrière dessinée pour l'espace, pas au catalogue.", "tag": "Verrières"}, {"titre": "Garde-corps en verre", "desc": "Escaliers, mezzanines, terrasses : verre feuilleté trempé calculé selon les normes, profils encastrés ou pinces inox.", "tag": "Garde-corps"}, {"titre": "Cloisons & portes de verre", "desc": "Bureaux, cabinets, habitat : cloisons toute hauteur, portes pivot, films acoustiques et dépolis à la demande.", "tag": "Cloisons"}, {"titre": "Planchers & marches", "desc": "Dalles de verre feuilleté antidérapant sur structure calculée : la lumière descend d'un étage à l'autre.", "tag": "Structure"}, {"titre": "Miroiterie décorative", "desc": "Miroirs vieillis, verres teintés, crédences laquées au RAL exact : les finitions qui signent un projet.", "tag": "Décor"}, {"titre": "Accompagnement architectes", "desc": "Notes de calcul, échantillons, réservations chantier, pose coordonnée avec les autres corps d'état : un seul lot, tenu.", "tag": "Architectes"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "Faisabilité & calculs", "d": "Charges, normes (DTU 39, NF P01-012), supports : on valide la technique avant d'esquisser."}, {"n": "02", "t": "Modélisation 3D", "d": "L'ouvrage dans votre espace, aux cotes réelles : vous voyez la lumière avant de signer."}, {"n": "03", "t": "Fabrication pilotée", "d": "Verres et profils commandés aux façonniers agréés, contrôle qualité à réception, stockage sécurisé."}, {"n": "04", "t": "Pose millimétrée", "d": "Équipes propres, calage optique, joints parfaits : la réception se fait à la lumière rasante."}];
+let METHODE = [{"n": "01", "t": "Faisabilité & calculs", "d": "Charges, normes (DTU 39, NF P01-012), supports : on valide la technique avant d'esquisser."}, {"n": "02", "t": "Modélisation 3D", "d": "L'ouvrage dans votre espace, aux cotes réelles : vous voyez la lumière avant de signer."}, {"n": "03", "t": "Fabrication pilotée", "d": "Verres et profils commandés aux façonniers agréés, contrôle qualité à réception, stockage sécurisé."}, {"n": "04", "t": "Pose millimétrée", "d": "Équipes propres, calage optique, joints parfaits : la réception se fait à la lumière rasante."}];
 const ENGAGEMENT_DEMO = ["Notes de calcul fournies pour chaque ouvrage structurel — pas de verre « au jugé »", "Garantie décennale, verres certifiés, DTU 39 respecté et documenté", "Un interlocuteur unique du premier trait à la réception", "Showroom sur rendez-vous : touchez les verres, comparez les profils"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Verrière d'atelier (ml)", "p": "dès 900 €", "n": "Acier fin, vitrage clair, pose et finitions comprises."}, {"a": "Garde-corps verre (ml)", "p": "dès 650 €", "n": "Feuilleté trempé calculé, profil encastré aluminium."}, {"a": "Cloison toute hauteur (m²)", "p": "dès 320 €", "n": "Vitrage 10 mm, châssis discret, porte en option."}, {"a": "Étude + modélisation 3D", "p": "490 €", "n": "Note de calcul incluse, déduite à la commande."}];
@@ -129,6 +130,11 @@ export default function VerreEtLumierePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   AVIS_SOURCE = AVIS_SOURCE_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),

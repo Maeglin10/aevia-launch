@@ -39,6 +39,7 @@ import {
   clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -158,7 +159,7 @@ function SERVICES_SOURCE_LIVE() {
 let SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const METHODE = [
+let METHODE = [
   { n: "01", t: "Réserver au téléphone", d: "On vérifie le calibre avec vous, la machine est bloquée à votre nom, caution annoncée d'avance." },
   { n: "02", t: "Prise en main au dépôt", d: "Démarrage, sécurités, gestes de base : dix minutes qui évitent la panne du samedi midi." },
   { n: "03", t: "Le chantier chez vous", d: "Carburant fourni au départ (plein/plein), assistance téléphonique aux heures d'ouverture." },
@@ -488,6 +489,11 @@ export default function LocamatPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   ZONES_SOURCE = ZONES_SOURCE_LIVE();
 

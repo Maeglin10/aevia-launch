@@ -14,6 +14,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -64,7 +65,7 @@ const HERO = [{"k": "Urgence casse", "line": "Fermé ce soir, remplacé demain."
 
 const SERVICES_SOURCE = [{"titre": "Urgence bris de glace", "desc": "Vitrine, fenêtre, porte : mise en sécurité le jour même, remplacement sous 24-48 h, photos et facture conformes pour votre assurance.", "tag": "Urgence"}, {"titre": "Double vitrage rénovation", "desc": "Remplacer le simple vitrage dans vos fenêtres existantes : isolation thermique et phonique sans changer les menuiseries.", "tag": "Isolation"}, {"titre": "Miroirs sur mesure", "desc": "Coupe, façon des bords, pose collée ou fixée : du miroir d'entrée à la salle de danse, l'atelier fait tout.", "tag": "Miroirs"}, {"titre": "Parois de douche & crédences", "desc": "Verre trempé sécurit, découpes pour robinetterie, crédences laquées : mesurées chez vous, posées sans joint disgracieux.", "tag": "Intérieur"}, {"titre": "Vitrines de commerce", "desc": "Vitrages feuilletés retardateurs d'effraction, portes en verre, dépannage prioritaire pour les commerces sous contrat.", "tag": "Commerces"}, {"titre": "Survitrage & petits bois", "desc": "Bâti ancien : survitrage discret et vitrages au modèle pour fenêtres à petits carreaux — l'isolation sans trahir la façade.", "tag": "Ancien"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "Métré sur place", "d": "Prise de cotes au laser, contrôle d'équerrage — les murs ne sont jamais droits, nos verres s'y adaptent."}, {"n": "02", "t": "Façonnage à l'atelier", "d": "Coupe, rodage des bords, perçages : tout se fait au Havre, pas en commande à trois semaines."}, {"n": "03", "t": "Pose propre", "d": "Protection des sols, dépose de l'ancien vitrage recyclé en filière verre, mastics et parcloses soignés."}, {"n": "04", "t": "Dossier assurance", "d": "En cas de sinistre : photos avant/après, facture détaillée conforme aux attentes des assureurs."}];
+let METHODE = [{"n": "01", "t": "Métré sur place", "d": "Prise de cotes au laser, contrôle d'équerrage — les murs ne sont jamais droits, nos verres s'y adaptent."}, {"n": "02", "t": "Façonnage à l'atelier", "d": "Coupe, rodage des bords, perçages : tout se fait au Havre, pas en commande à trois semaines."}, {"n": "03", "t": "Pose propre", "d": "Protection des sols, dépose de l'ancien vitrage recyclé en filière verre, mastics et parcloses soignés."}, {"n": "04", "t": "Dossier assurance", "d": "En cas de sinistre : photos avant/après, facture détaillée conforme aux attentes des assureurs."}];
 const ENGAGEMENT_DEMO = ["Devis avant intervention, même en urgence — le prix ne profite pas de la panique", "Garantie décennale sur les poses, verres certifiés CE", "Verre déposé recyclé en filière agréée — le calcin redevient du verre", "Atelier de façonnage sur place : vos mesures ne voyagent pas"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Remplacement vitrage simple", "p": "dès 120 €", "n": "Fourniture, dépose et pose, mastic ou parclose."}, {"a": "Double vitrage rénovation (m²)", "p": "dès 180 €", "n": "Sur menuiserie existante, gain thermique immédiat."}, {"a": "Paroi de douche sur mesure", "p": "dès 450 €", "n": "Verre trempé 8 mm, quincaillerie inox, pose comprise."}, {"a": "Miroir sur mesure (m²)", "p": "dès 140 €", "n": "Coupe et façon des bords comprises, pose en option."}];
@@ -122,6 +123,11 @@ export default function MiroiterieDuPortPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

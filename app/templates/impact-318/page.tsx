@@ -35,6 +35,7 @@ import {
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -118,7 +119,7 @@ const STATS_SOURCE = [
 ];
 let STATS = STATS_SOURCE;
 
-const METHODE = [
+let METHODE = [
   { n: "01", t: "Diagnostic terrain", d: "Évaluation sur site en moins de 2h. Identification des risques, périmètre d'intervention, devis immédiat.", icon: Target },
   { n: "02", t: "Sécurisation", d: "Mise en sécurité de la zone, balisage, extraction des matériaux dangereux et ventilation forcée.", icon: ShieldCheck },
   { n: "03", t: "Nettoyage technique", d: "Équipement haute pression, extracteurs, produits professionnels certifiés. Traitement surface par surface.", icon: Sparkles },
@@ -334,6 +335,11 @@ export default function NettoyageExtremePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
 
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),

@@ -13,6 +13,7 @@ import {
   clientCertifications,
   clientCity,
   clientHeroLine,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -64,7 +65,7 @@ const HERO = [{"k": "Réfection complète", "line": "ON DÉPOSE. ON REMONTE.", "
 
 const SERVICES_SOURCE = [{"titre": "Réfection de couverture", "desc": "Dépose complète, contrôle de charpente, écran sous-toiture et remontage en ardoise, tuile ou zinc. Le chantier type qui engage quarante ans.", "tag": "Réfection"}, {"titre": "Zinguerie", "desc": "Gouttières, noues, abergements de cheminée, toitures zinc à joint debout : façonnés à l'atelier, soudés sur place.", "tag": "Zinc"}, {"titre": "Isolation de toiture", "desc": "Sarking ou combles perdus, éligible aux aides (MaPrimeRénov'). Le bon moment, c'est pendant la réfection — on chiffre les deux.", "tag": "Isolation"}, {"titre": "Réparations & entretien", "desc": "Ardoises glissées, tuiles gélives, mousse : forfait d'entretien annuel avec passage après l'hiver et rapport photo.", "tag": "Entretien"}, {"titre": "Fenêtres de toit", "desc": "Pose et remplacement de fenêtres de toit, raccords d'étanchéité garantis, volets solaires possibles.", "tag": "Lumière"}, {"titre": "Urgences & assurances", "desc": "Bâchage sous 24 h, chiffrage conforme aux attentes des experts, photos avant/après pour votre dossier.", "tag": "Urgence"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "Visite et diagnostic", "d": "Montée sur toit ou drone selon l'accès, photos commentées, diagnostic écrit de la charpente à la gouttière."}, {"n": "02", "t": "Devis détaillé", "d": "Matériaux nommés (ardoise, crochet, écran), quantités, délais. Les aides à la rénovation sont chiffrées avec."}, {"n": "03", "t": "Chantier protégé", "d": "Échafaudage aux normes, bâchage chaque soir, gravats évacués en benne — jamais dans votre jardin."}, {"n": "04", "t": "Réception en toiture", "d": "Réception avec photos de chaque zone, garanties remises, facture conforme pour l'assurance habitation."}];
+let METHODE = [{"n": "01", "t": "Visite et diagnostic", "d": "Montée sur toit ou drone selon l'accès, photos commentées, diagnostic écrit de la charpente à la gouttière."}, {"n": "02", "t": "Devis détaillé", "d": "Matériaux nommés (ardoise, crochet, écran), quantités, délais. Les aides à la rénovation sont chiffrées avec."}, {"n": "03", "t": "Chantier protégé", "d": "Échafaudage aux normes, bâchage chaque soir, gravats évacués en benne — jamais dans votre jardin."}, {"n": "04", "t": "Réception en toiture", "d": "Réception avec photos de chaque zone, garanties remises, facture conforme pour l'assurance habitation."}];
 const ENGAGEMENT_DEMO = ["Garantie décennale couverture-zinguerie — attestation remise avec chaque devis", "Qualibat 3212, équipes formées au travail en hauteur (habilitations à jour)", "Devis gratuit et détaillé matériau par matériau, jamais de forfait flou", "Après tempête : bâchage d'abord, devis ensuite — on ne profite pas de l'urgence"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Réfection ardoise naturelle", "p": "140–180 €/m²", "n": "Dépose, écran, ardoise d'Anjou au crochet inox, zinguerie comprise."}, {"a": "Réfection tuile terre cuite", "p": "95–130 €/m²", "n": "Tuiles de pays, faîtage scellé ou à sec selon DTU."}, {"a": "Gouttière zinc posée", "p": "dès 68 €/ml", "n": "Façonnée à l'atelier, naissances et descentes comprises."}, {"a": "Forfait entretien annuel", "p": "dès 290 €", "n": "Passage après l'hiver, ardoises remplacées, rapport photo envoyé."}];
@@ -122,6 +123,11 @@ export default function ToitsDeLoirePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

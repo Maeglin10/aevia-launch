@@ -14,6 +14,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -68,7 +69,7 @@ const HERO = [
 
 const SERVICES_SOURCE = [{"titre": "Semelles orthopédiques", "desc": "Sur prescription : examen clinique, plateforme de pression, fabrication au cabinet en 8 jours, contrôle à un mois inclus.", "tag": "Semelles"}, {"titre": "Pédicurie médicale", "desc": "Cors, durillons, hyperkératoses, ongles épais ou incarnés : instruments stériles à usage unique, sans douleur.", "tag": "Pédicurie"}, {"titre": "Pied diabétique", "desc": "Gradation du risque podologique, soins pris en charge par l'Assurance Maladie selon le grade, coordination avec votre médecin.", "tag": "Diabète"}, {"titre": "Podologie du sport", "desc": "Analyse de course sur tapis, semelles dynamiques fines, conseils chaussage par discipline — course, trail, foot, ski.", "tag": "Sport"}, {"titre": "Enfants & croissance", "desc": "Pieds plats, marche en dedans, douleurs de croissance : on surveille, on rassure, on ne corrige que ce qui doit l'être.", "tag": "Enfants"}, {"titre": "Orthoplasties & orthonyxies", "desc": "Protections sur mesure en silicone, redressement d'ongles : le petit appareillage qui évite la chirurgie.", "tag": "Appareillage"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "Anamnèse complète", "d": "Douleurs, chaussage, activité, antécédents : le pied s'explique rarement tout seul."}, {"n": "02", "t": "Examen clinique et postural", "d": "Debout, allongé, en marche : cheville, genou, bassin — la chaîne entière est regardée."}, {"n": "03", "t": "Plateforme et scan 3D", "d": "Pressions statiques et dynamiques enregistrées, empreinte numérique pour la fabrication."}, {"n": "04", "t": "Fabrication et contrôle", "d": "Semelles faites au cabinet, essayées dans VOS chaussures, re-testées à un mois. Ajustements inclus."}];
+let METHODE = [{"n": "01", "t": "Anamnèse complète", "d": "Douleurs, chaussage, activité, antécédents : le pied s'explique rarement tout seul."}, {"n": "02", "t": "Examen clinique et postural", "d": "Debout, allongé, en marche : cheville, genou, bassin — la chaîne entière est regardée."}, {"n": "03", "t": "Plateforme et scan 3D", "d": "Pressions statiques et dynamiques enregistrées, empreinte numérique pour la fabrication."}, {"n": "04", "t": "Fabrication et contrôle", "d": "Semelles faites au cabinet, essayées dans VOS chaussures, re-testées à un mois. Ajustements inclus."}];
 const ENGAGEMENT_DEMO = ["Pédicures-podologues D.E., inscrits à l'Ordre national — n° ADELI affichés", "Instruments stériles à usage unique ou stérilisés en autoclave contrôlé", "Semelles fabriquées au cabinet : pas d'envoi en série dans un atelier lointain", "Devis remis avant tout appareillage, prise en charge expliquée mutuelle en main"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Bilan podologique + semelles", "p": "160 €", "n": "Examen complet, plateforme, fabrication, contrôle à 1 mois inclus."}, {"a": "Soin de pédicurie", "p": "35 €", "n": "Cors, durillons, ongles : 45 minutes, instruments stériles."}, {"a": "Pied diabétique (gradé 2-3)", "p": "pris en charge", "n": "Forfaits annuels remboursés par l'Assurance Maladie."}, {"a": "Analyse de course (vidéo + tapis)", "p": "90 €", "n": "Compte rendu et conseils chaussage, déduit si semelles sport."}];
@@ -126,6 +127,11 @@ export default function PodoMarchePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

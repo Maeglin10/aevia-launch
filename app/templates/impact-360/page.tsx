@@ -39,6 +39,7 @@ import {
   clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -145,7 +146,7 @@ const SERVICES_SOURCE = [
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const METHODE = [
+let METHODE = [
   { n: "01", t: "Devis sur plan", d: "Envoyez le lieu, la date, le nombre d'invités : devis détaillé sous 48 h, repérage sur place pour les tentes." },
   { n: "02", t: "Livraison à J-2", d: "Tout arrive le mercredi ou jeudi : le temps de dresser sans courir, tentes montées par nos équipes." },
   { n: "03", t: "Le jour J, une hotline", d: "Un numéro qui répond le soir de l'événement — pour le fusible de la sono ou la rallonge manquante." },
@@ -514,6 +515,11 @@ export default function AtlantiqueMaterielsPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   ZONES_SOURCE = ZONES_SOURCE_LIVE();
 
 

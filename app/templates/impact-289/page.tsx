@@ -29,6 +29,7 @@ import {
   clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -1152,7 +1153,7 @@ type ProcessStep = {
   body: string;
 };
 
-const PROCESS_STEPS: ProcessStep[] = [
+let PROCESS_STEPS: ProcessStep[] = [
   {
     num: '01',
     title: 'Diagnostic gratuit',
@@ -2650,6 +2651,11 @@ export default function Impact289Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  PROCESS_STEPS = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...PROCESS_STEPS[i % PROCESS_STEPS.length], ...e })),
+    PROCESS_STEPS,
+  );
   PHOTO = PHOTO_LIVE();
   SPECIFICITES = SPECIFICITES_LIVE();
   PARTNER_CATEGORIES = PARTNER_CATEGORIES_LIVE();

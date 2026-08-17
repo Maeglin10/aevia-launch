@@ -37,6 +37,7 @@ import {
   clientCity,
   clientHeroLine,
   clientList,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -2766,6 +2767,11 @@ export default function Impact277Page() {
   PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   STEPS = STEPS_LIVE();
+  /* La méthode du client remplace les étapes de la démonstration. */
+  STEPS = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...STEPS[i % STEPS.length], ...e })),
+    STEPS,
+  );
 
 
 

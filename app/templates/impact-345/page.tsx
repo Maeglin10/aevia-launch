@@ -31,6 +31,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -395,6 +396,11 @@ export default function MaisonBertinPage() {
   sessionData = session;
   HERO = HERO_LIVE();
   METHODE = METHODE_LIVE();
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_SOURCE[i % METHODE_SOURCE.length], ...e })),
+    METHODE_SOURCE,
+  );
 
   /* Blocs vivants : recalculés à chaque rendu, une fois la session affectée. */
   STATS = resolveList(clientStats(sessionData), STATS_SOURCE);

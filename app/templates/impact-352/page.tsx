@@ -18,6 +18,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -1268,6 +1269,11 @@ export default function ZincEtArdoisePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE_DEMO[i % METHODE_DEMO.length], ...e })),
+    METHODE_DEMO,
+  );
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   brand = fd?.brandColor ?? null;
   if (brand) C = { ...C, accent: brand };

@@ -13,6 +13,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -67,7 +68,7 @@ function SERVICES_SOURCE_LIVE() {
 }
 let SERVICES_SOURCE = SERVICES_SOURCE_LIVE();;
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "On goûte tout", "d": "Aucune bouteille n'entre en cave sans avoir été goûtée par nous — souvent au domaine, avec celui qui l'a faite."}, {"n": "02", "t": "On demande le plat", "d": "« Un rouge à 15 € » ne veut rien dire. Dites-nous ce que vous mangez, avec qui, et le conseil devient utile."}, {"n": "03", "t": "On assume les non", "d": "Si votre budget ne permet pas ce que vous cherchez, on le dit et on propose autre chose plutôt que de vendre une déception."}, {"n": "04", "t": "On suit la bouteille", "d": "Revenez nous dire. C'est comme ça que la sélection s'ajuste — et que le conseil suivant sera meilleur."}];
+let METHODE = [{"n": "01", "t": "On goûte tout", "d": "Aucune bouteille n'entre en cave sans avoir été goûtée par nous — souvent au domaine, avec celui qui l'a faite."}, {"n": "02", "t": "On demande le plat", "d": "« Un rouge à 15 € » ne veut rien dire. Dites-nous ce que vous mangez, avec qui, et le conseil devient utile."}, {"n": "03", "t": "On assume les non", "d": "Si votre budget ne permet pas ce que vous cherchez, on le dit et on propose autre chose plutôt que de vendre une déception."}, {"n": "04", "t": "On suit la bouteille", "d": "Revenez nous dire. C'est comme ça que la sélection s'ajuste — et que le conseil suivant sera meilleur."}];
 const ENGAGEMENT_DEMO = ["80 % des vins achetés en direct au domaine : le vigneron est payé correctement", "Chaque bouteille de la cave a été goûtée par l'équipe avant d'être référencée", "Conseil sans supplément, quel que soit le budget — y compris à 8 €", "L'abus d'alcool est dangereux pour la santé : à consommer avec modération"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Le vin de la semaine", "p": "dès 8,50 €", "n": "Une découverte chaque semaine, goûtée et défendue par l'équipe."}, {"a": "Loire — cœur de gamme", "p": "12–25 €", "n": "Vouvray, Chinon, Bourgueil : le meilleur rapport plaisir/prix de la cave."}, {"a": "Champagne de vigneron", "p": "dès 26 €", "n": "Récoltant-manipulant, brut nature ou extra-brut."}, {"a": "Dégustation mensuelle", "p": "12 €", "n": "Avec le vigneron, le 3e jeudi. Déduits dès 3 bouteilles emportées."}];
@@ -128,6 +129,11 @@ export default function CaveDesTerroirsPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    clientMethode(sessionData)?.map((e: any, i: number) => ({ ...METHODE[i % METHODE.length], ...e })),
+    METHODE,
+  );
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   AVIS_SOURCE = AVIS_SOURCE_LIVE();
 
