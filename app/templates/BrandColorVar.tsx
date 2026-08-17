@@ -1477,6 +1477,78 @@ function effacerLaQueueDeLaMarque(nom: string | undefined) {
   }
 }
 
+/*
+  La prose de démonstration du thème, dans la langue du visiteur.
+
+  Le lexique global ne porte que des libellés — « Contact », « Nos tarifs » — et
+  s'arrête à soixante caractères. Ce qui reste en anglais sur une page française
+  n'est pas du libellé : ce sont les paragraphes que le thème écrit en dur,
+  propres à lui seul. « Our master nose blends the rare absolutes… » ne se
+  partage avec aucun autre thème.
+
+  Chaque thème porte donc son propre dictionnaire, chargé avec lui et avec lui
+  seul : mille cent trente-six paragraphes en cinq langues dans un lexique
+  global pèseraient sur toutes les pages pour ne servir qu'à une.
+
+  Ces phrases disparaissent dès que le client remplit le bloc correspondant.
+  Les traduire n'est donc pas un pis-aller : c'est ce qui tient la page pendant
+  qu'il ne l'a pas encore rempli.
+*/
+let traductionsDuTheme: Record<string, Record<string, string>> | null = null;
+let themeCharge = "";
+
+async function chargerLesTraductions(theme: string) {
+  if (themeCharge === theme) return traductionsDuTheme;
+  themeCharge = theme;
+  traductionsDuTheme = null;
+  try {
+    const mod = await import(`./${theme}/traductions`);
+    traductionsDuTheme = (mod as { TRADUCTIONS?: Record<string, Record<string, string>> }).TRADUCTIONS ?? null;
+  } catch {
+    /* Un thème sans dictionnaire n'en a pas besoin : rien à traduire. */
+  }
+  return traductionsDuTheme;
+}
+
+function traduireLaProse(locale: string | undefined, dico: Record<string, string> | undefined) {
+  if (!locale || locale === "en" || !dico) return;
+
+  const marcheur = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const aTraduire: [Text, string][] = [];
+  for (let n = marcheur.nextNode(); n; n = marcheur.nextNode()) {
+    const brut = n.nodeValue ?? "";
+    const texte = brut.trim();
+    if (!texte) continue;
+    const e = n.parentElement;
+    if (!e || e.closest("style,script,noscript,template,input,textarea")) continue;
+    const trouve = dico[texte.toLowerCase()];
+    if (!trouve) continue;
+    aTraduire.push([n as Text, brut.replace(texte, trouve)]);
+  }
+  /* On écrit dans le nœud existant : `textContent = …` détruirait ce que React
+     tient, comme on l'a appris sur impact-380. */
+  for (const [n, valeur] of aTraduire) n.nodeValue = valeur;
+
+  /* Un paragraphe coupé entre deux éléments, comme pour les libellés. */
+  const ecraser = (t: string) => t.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
+  const parForme: Record<string, string> = {};
+  for (const [k, v] of Object.entries(dico)) parForme[ecraser(k)] = v;
+
+  for (const e of document.querySelectorAll<HTMLElement>("h1,h2,h3,h4,p,span,a,button,li,blockquote")) {
+    const entier = (e.textContent ?? "").replace(/\s+/g, " ").trim();
+    if (!entier) continue;
+    const trouve = dico[entier.toLowerCase()] ?? parForme[ecraser(entier)];
+    if (!trouve) continue;
+    if (e.closest("input,textarea,style,script")) continue;
+    const noeuds: Text[] = [];
+    const m = document.createTreeWalker(e, NodeFilter.SHOW_TEXT);
+    for (let n = m.nextNode(); n; n = m.nextNode()) if ((n.nodeValue ?? "").trim()) noeuds.push(n as Text);
+    if (noeuds.length < 2) continue;
+    noeuds[0].nodeValue = trouve;
+    for (let i = 1; i < noeuds.length; i++) noeuds[i].nodeValue = "";
+  }
+}
+
 function traduireLesLibelles(locale: string | undefined) {
   if (!locale || locale === "en") return;
   const dict = LEXIQUE_INTERFACE[locale];
@@ -2260,8 +2332,15 @@ export function BrandColorVar() {
           effacerLaMarqueDeDemonstration(d?.formData?.businessName);
           effacerLaQueueDeLaMarque(d?.formData?.businessName);
           traduireLesLibelles(d?.formData?.locale);
+          traduireLaProse(d?.formData?.locale, traductionsDuTheme?.[d?.formData?.locale ?? ""]);
           prolongerLeFond();
         };
+        /* Le dictionnaire du thème arrive de façon asynchrone : on repasse dès
+           qu'il est là. Posé APRÈS la définition de `passer` — le référencer
+           plus haut le mettrait dans sa zone morte. */
+        const theme = window.location.pathname.match(/\/templates\/(impact-[\w-]+)/)?.[1];
+        if (theme) void chargerLesTraductions(theme).then(() => passer());
+
         requestAnimationFrame(() => requestAnimationFrame(passer));
         /*
           Une dernière passe tardive : sur une connexion lente, ou sur un thème
