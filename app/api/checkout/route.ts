@@ -65,8 +65,26 @@ export async function POST(req: NextRequest) {
         .vercel.app — le domaine est une option, jamais un péage.
       */
       domaine?: { nom?: unknown; prix?: unknown };
+      /*
+        Le code de parrainage, tel que le client l'a tapé ou tel que le lien
+        « ?ref= » l'a apporté. Il ne change rien au prix : il dit seulement qui a
+        amené ce client, et c'est le moteur de commissions d'Inbox — la seule
+        base qui connaisse les vendeurs — qui en tirera les conséquences quand
+        Stripe confirmera l'encaissement.
+      */
+      ref?: unknown;
     };
     const { type, name, theme, maintenance, branding, currency, brief, domaine } = body;
+
+    /*
+      Normalisé comme Inbox le stocke : majuscules, lettres et chiffres. Un code
+      dicté au téléphone arrive en minuscules, avec un espace de trop, parfois
+      avec un tiret. Vingt-quatre caractères au plus : au-delà, ce n'est pas un
+      code, c'est une tentative.
+    */
+    const codeParrainage = typeof body.ref === "string"
+      ? body.ref.trim().toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 24)
+      : "";
 
     // Validate required fields
     const siteType = (typeof type === "string" && type) ? type : "landing";
@@ -244,6 +262,7 @@ export async function POST(req: NextRequest) {
         domain: (domaineNom && tarifDomaine ? domaineNom
           : typeof brief?.domain === "string" ? (brief.domain as string) : "").slice(0, 100),
         domainePaye: domaineNom && tarifDomaine ? "1" : "0",
+        ...(codeParrainage ? { ref: codeParrainage } : {}),
       },
       // Force Stripe to collect customer email (even though Checkout collects by default in payment mode)
       customer_email: undefined, // let Stripe collect it

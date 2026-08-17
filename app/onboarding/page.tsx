@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef, Suspense } from "react";
 import { ChoixDomaine } from "@/components/wizard/ChoixDomaine";
+import { retenirLeParrainage, codeParrainageRetenu } from "@/lib/parrainage";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams, useRouter } from "next/navigation";
 import { ChevronRight, ChevronLeft, ChevronDown, Upload, X, Check, Loader2, Globe, Phone, Mail, MapPin, Plus, Link } from "lucide-react";
@@ -481,6 +482,9 @@ function OnboardingContent() {
 
   // If a session ID was passed (from /configure), pre-fill the brief with
   // what we already collected during the IA preview step.
+  /* Le « ?ref= » du lien du vendeur, retenu avant qu'une navigation ne l'efface. */
+  useEffect(() => { retenirLeParrainage(); }, []);
+
   useEffect(() => {
     if (!sessionId) return;
     let cancelled = false;
@@ -581,6 +585,8 @@ function OnboardingContent() {
             reste une note d'intention.
           */
           domaine: data.domain ? { nom: data.domain, prix: data.domainePrix } : undefined,
+          /* Qui a amené ce client. Ne change pas le prix — voir lib/parrainage.ts. */
+          ref: codeParrainageRetenu() || undefined,
         }),
       });
       if (!res.ok) throw new Error("Erreur lors de la création du paiement");

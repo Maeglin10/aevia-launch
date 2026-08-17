@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { retenirLeParrainage, codeParrainageRetenu } from "@/lib/parrainage";
 
 import { Suspense } from "react";
 import { useLang } from "@/lib/LangContext";
@@ -67,12 +68,15 @@ function CheckoutContent() {
     if (called.current) return;
     called.current = true;
 
+    /* Le lien du vendeur mène parfois droit ici. */
+    retenirLeParrainage();
+
     async function startCheckout() {
       try {
         const res = await fetch("/api/checkout", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ type, name, theme, maintenance }),
+          body: JSON.stringify({ type, name, theme, maintenance, ref: codeParrainageRetenu() || undefined }),
         });
 
         if (!res.ok) {
