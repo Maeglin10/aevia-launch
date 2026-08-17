@@ -16,6 +16,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "the absolute mastery of acoustic engineering. engineered for the evolutionary audiophile in our berlin sanctuary.": "La maîtrise absolue de l'ingénierie acoustique. Conçue pour l'audiophile exigeant, dans notre atelier berlinois.",
     "the chronology": "La chronologie",
     "the craftsmen": "Les artisans",
+    "what is the lead time for aether one monitors?": "Quel est le délai de fabrication ?",
     "what is the warranty on vacuum-tube components?": "Quelle est la garantie sur les composants à tubes ?",
   },
   es: {
@@ -25,6 +26,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "the absolute mastery of acoustic engineering. engineered for the evolutionary audiophile in our berlin sanctuary.": "El dominio absoluto de la ingeniería acústica. Concebido para el audiófilo exigente, en nuestro taller berlinés.",
     "the chronology": "La cronología",
     "the craftsmen": "Los artesanos",
+    "what is the lead time for aether one monitors?": "¿Cuál es el plazo de fabricación?",
     "what is the warranty on vacuum-tube components?": "¿Cuál es la garantía de los componentes de válvulas?",
   },
   de: {
@@ -34,6 +36,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "the absolute mastery of acoustic engineering. engineered for the evolutionary audiophile in our berlin sanctuary.": "Die absolute Beherrschung der Akustiktechnik. Für den anspruchsvollen Audiophilen, in unserer Berliner Werkstatt.",
     "the chronology": "Die Chronologie",
     "the craftsmen": "Die Handwerker",
+    "what is the lead time for aether one monitors?": "Wie lang ist die Lieferzeit?",
     "what is the warranty on vacuum-tube components?": "Wie lange ist die Garantie auf Röhrenbauteile?",
   },
   pt: {
@@ -43,6 +46,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "the absolute mastery of acoustic engineering. engineered for the evolutionary audiophile in our berlin sanctuary.": "O domínio absoluto da engenharia acústica. Concebido para o audiófilo exigente, na nossa oficina berlinense.",
     "the chronology": "A cronologia",
     "the craftsmen": "Os artesãos",
+    "what is the lead time for aether one monitors?": "Qual é o prazo de fabrico?",
     "what is the warranty on vacuum-tube components?": "Qual é a garantia dos componentes de válvulas?",
   },
 };
