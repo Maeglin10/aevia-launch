@@ -53,22 +53,28 @@ let brand: any = null;
 function HERO_CUVEES_LIVE() {
   return [
   {
+    /* Le mot-symbole se lit en deux colonnes. Un client qui a un nom l'occupe
+       entier : la seconde colonne ne doit pas garder celui du domaine. */
     left: `${clientName(sessionData) ?? "Château"}`,
-    right: "DE VALROC",
+    right: clientName(sessionData) ? "" : "DE VALROC",
     name: (clientName(sessionData) ?? "Cuvée Prestige"),
     meta: "AOC " + (clientCity(sessionData) ?? "Bordeaux") + " Grand Cru · 2020",
     bottle: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1545608508-78f351665a1c?auto=format&fit=crop&q=85&w=620&h=1240"),
   },
   {
+    /* Le mot-symbole se lit en deux colonnes. Un client qui a un nom l'occupe
+       entier : la seconde colonne ne doit pas garder celui du domaine. */
     left: `${clientName(sessionData) ?? "Château"}`,
-    right: "DE VALROC",
+    right: clientName(sessionData) ? "" : "DE VALROC",
     name: "Cuvée Réserve",
     meta: "AOC " + (clientCity(sessionData) ?? "Bordeaux") + " · 2021",
     bottle: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1598866971869-22782ffd918e?auto=format&fit=crop&q=85&w=620&h=1240"),
   },
   {
+    /* Le mot-symbole se lit en deux colonnes. Un client qui a un nom l'occupe
+       entier : la seconde colonne ne doit pas garder celui du domaine. */
     left: `${clientName(sessionData) ?? "Château"}`,
-    right: "DE VALROC",
+    right: clientName(sessionData) ? "" : "DE VALROC",
     name: "Blanc de Grâce",
     meta: (clientCity(sessionData) ?? "Bordeaux") + " Blanc · 2022",
     bottle: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1714377676631-bef738815d62?auto=format&fit=crop&q=85&w=620&h=1240"),
