@@ -599,6 +599,19 @@ export function StepForm() {
           body: JSON.stringify({ formData }),
         });
         ({ sessionId: currentSessionId } = await sessionRes.json());
+        /*
+          Deux parcours sur cinquante et un ont été redirigés vers
+          « /preview/undefined » : la création de session avait échoué en
+          silence, et l'on poussait le client vers une page qui ne peut rien
+          afficher. Sans identifiant, on s'arrête et on le dit.
+        */
+        if (!currentSessionId) {
+          setLoading(false);
+          setError(
+            "La création de votre site n'a pas abouti. Réessayez dans un instant — rien n'est perdu.",
+          );
+          return;
+        }
       }
 
       // Generate content

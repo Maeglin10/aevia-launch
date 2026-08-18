@@ -150,10 +150,36 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
   const [googleNoAccount, setGoogleNoAccount] = useState(false);
 
   useEffect(() => {
-    fetch(`/api/sessions?id=${sessionId}`)
-      .then((r) => r.json())
-      .then((data) => { setSession(data); setLoading(false); })
-      .catch(() => setLoading(false));
+    /*
+      La session vient d'un stockage distant, cohérent à terme. Le formulaire
+      redirige ici dans la seconde qui suit son écriture : une seule lecture
+      arrive parfois avant que l'objet ne soit lisible, et la page annonce
+      « Session introuvable » alors que tout est en place. Mesuré sur cinq
+      parcours réels sur cinquante et un — les cinq marchaient dix secondes plus
+      tard.
+
+      On réessaie donc, en s'espaçant, et l'on n'annonce l'échec qu'après.
+    */
+    let vivant = true;
+    (async () => {
+      for (const attente of [0, 700, 1500, 3000, 5000]) {
+        if (!vivant) return;
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const r = await fetch(`/api/sessions?id=${sessionId}`, { cache: "no-store" });
+          if (!r.ok) continue;
+          const data = await r.json();
+          if (!data || !vivant) continue;
+          setSession(data);
+          setLoading(false);
+          return;
+        } catch {
+          /* On réessaie. */
+        }
+      }
+      if (vivant) setLoading(false);
+    })();
+    return () => { vivant = false; };
   }, [sessionId]);
 
   // Read the ?google=connected|partial|failed|error result left by the OAuth
