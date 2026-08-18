@@ -329,7 +329,7 @@ function BlueprintHero() {
             transition={{ duration: 0.55, ease: EASE_3, delay: BEAT.second }}
             className="hero-lede"
             style={{ fontFamily: FONT_BODY, fontSize: 16, color: `${C.cream}a6`, lineHeight: 1.7, maxWidth: 480, margin: "0 0 30px" }}
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Gros œuvre, infrastructure et immobilier d’entreprise. 347 chantiers livrés, aucun litige de réception depuis 2011.
           </>}</motion.p>
 

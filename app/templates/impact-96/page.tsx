@@ -985,7 +985,7 @@ return (
                 marginBottom: 44,
                 fontWeight: 400,
               }}
-            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Maison de production parisienne. Fiction, documentaire, publicité de prestige.
               Nous fabriquons des images qui traversent le temps.
             </>}</motion.p>

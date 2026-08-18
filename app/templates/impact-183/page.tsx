@@ -270,7 +270,7 @@ return (
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10" style={{ fontFamily: "'Nunito', sans-serif" }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10" style={{ fontFamily: "'Nunito', sans-serif" }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Construction, rénovation, sécurité et entretien de piscines. Pisciniste qualifié, conseils personnalisés sur les finitions, chantiers soignés. Devis gratuit sous 48h.
           </>}</motion.p>
 

@@ -266,7 +266,7 @@ return (
           </Reveal>
 
           <Reveal delay={0.2}>
-            <p className="text-base sm:text-lg text-[#4B5563] mb-6 md:mb-10 max-w-2xl mx-auto leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="text-base sm:text-lg text-[#4B5563] mb-6 md:mb-10 max-w-2xl mx-auto leading-relaxed">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Plus de 3 200 cours conçus par des experts pour accélérer votre carrière,
               changer de métier ou maîtriser une nouvelle compétence.
             </>}</p>

@@ -567,7 +567,7 @@ return (
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Farines biologiques, levain naturel, produits locaux. Brunchs le dimanche. {clientCity(sessionData) ?? "Montpellier"}.
             </>}</p>
           </Reveal>

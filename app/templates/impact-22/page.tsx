@@ -252,7 +252,7 @@ return (
                 </>}</h1>
               </Reveal>
               <Reveal delay={0.2}>
-                <p className="text-gray-400 text-xl max-w-2xl mx-auto mb-10 leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                <p className="text-gray-400 text-xl max-w-2xl mx-auto mb-10 leading-relaxed">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                   Inférence GPU à la demande, models-as-a-service, vector DB intégrée. Scalez de 0 à production en 5 minutes.
                 </>}</p>
               </Reveal>

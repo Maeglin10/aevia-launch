@@ -160,7 +160,7 @@ return (
                 <span style={{ color: C.orange }}>{clientHeroLine(sessionData, 1, 3, 9) ?? "serein"}</span>{" "}{clientHeroLine(sessionData, 2, 3, 9) ?? "& bien fait"}</>}</>)}</motion.h1>
 
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.25 }}
-                style={{fontSize: 18, color: brand ?? 'var(--brand,#93c5fd)', lineHeight: 1.8, marginBottom: 40, maxWidth: 460, fontWeight: 400 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                style={{fontSize: 18, color: brand ?? 'var(--brand,#93c5fd)', lineHeight: 1.8, marginBottom: 40, maxWidth: 460, fontWeight: 400 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Déménagement local, longue distance, international, garde-meuble. Équipes professionnelles, estimation ferme sous 24 h.
               </>}</motion.p>
 

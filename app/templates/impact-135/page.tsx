@@ -1453,7 +1453,7 @@ export default function Impact135Page() {
               marginBottom: 56,
               margin: "0 auto 56px",
             }}
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Sub-millisecond execution. Bloomberg-grade data. Unlimited algorithmic strategies.
             Built for traders who play at the highest level.
           </>}</motion.p>

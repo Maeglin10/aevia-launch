@@ -681,7 +681,7 @@ return (
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Studio féminin sur rendez-vous. Fineline, aquarelle, tatouages délicats et durables. {clientCity(sessionData) ?? "Bordeaux"}.
             </>}</p>
           </Reveal>

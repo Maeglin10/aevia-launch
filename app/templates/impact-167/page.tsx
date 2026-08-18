@@ -1306,7 +1306,7 @@ export default function Impact167Page() {
                   maxWidth: 420,
                   marginBottom: 44,
                 }}
-              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Vingt-huit années à rechercher, négocier et transmettre les biens les plus rares de {clientCity(sessionData) ?? "Paris"}. Un accès privilégié au marché invisible.
               </>}</p>
             </TextReveal>

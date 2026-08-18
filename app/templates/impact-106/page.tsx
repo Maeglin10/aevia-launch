@@ -308,7 +308,7 @@ export default function StudioVersaPage() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-xl text-[#1a1a1a]/50 font-light max-w-lg leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              <p className="text-xl text-[#1a1a1a]/50 font-light max-w-lg leading-relaxed mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 We craft brand identities, digital products, and visual stories for companies that want to matter.
               </>}</p>
             </Reveal>

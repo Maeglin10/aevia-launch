@@ -12,6 +12,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "active recovery with guided stretching and foam rolling protocols.": "Récupération active avec des protocoles d'étirement guidé et de rouleau en mousse.",
     "choose your": "Choisissez Votre",
+    "claim free week": "Réclamez votre semaine gratuite",
     "claim your trial": "Profiter de l'essai",
     "every member gets a custom training plan based on their goals and baseline assessment.": "Chaque adhérent reçoit un plan d'entraînement sur mesure, bâti sur ses objectifs et son bilan de départ.",
     "find your": "Trouvez votre",
@@ -22,6 +23,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "meet the": "Rencontrez",
     "open gym access": "Accès libre à la salle",
     "plan.": "Plan.",
+    "science-backed programming. expert coaching. a community that pushes you further than you'd go alone.": "Programmation basée sur la science. Coaching d'experts. Une communauté qui vous pousse plus loin que vous ne le feriez seul.",
     "small class sizes mean you get personal coach attention even in a group environment. worth every single cent.": "Des tailles de classe réduites signifient que vous bénéficiez d'une attention personnelle de la part du coach même dans un environnement de groupe. Ça vaut chaque centime.",
     "small classes of 12 max. you're not a number — you're part of a tribe.": "Petites classes de 12 max. Vous n'êtes pas un numéro — vous faites partie d'une tribu.",
     "start your free week": "Commencer votre semaine offerte",
@@ -33,6 +35,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   es: {
     "active recovery with guided stretching and foam rolling protocols.": "Recuperación activa con protocolos de estiramiento guiado y rodillo de espuma.",
     "choose your": "Elige Tu",
+    "claim free week": "Reclama tu semana gratis",
     "claim your trial": "Aprovechar la prueba",
     "every member gets a custom training plan based on their goals and baseline assessment.": "Cada socio recibe un plan de entrenamiento a medida, según sus objetivos y su valoración inicial.",
     "find your": "Encuentre su",
@@ -43,6 +46,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "meet the": "Conozca a",
     "open gym access": "Acceso libre a la sala",
     "plan.": "Plan.",
+    "science-backed programming. expert coaching. a community that pushes you further than you'd go alone.": "Programación respaldada por la ciencia. Entrenamiento experto. Una comunidad que te empuja más allá de lo que irías solo.",
     "small class sizes mean you get personal coach attention even in a group environment. worth every single cent.": "Tamaños de clase pequeños significan que recibes atención personal del entrenador incluso en un entorno grupal. Vale cada centavo.",
     "small classes of 12 max. you're not a number — you're part of a tribe.": "Clases pequeñas de 12 como máximo. No eres un número, eres parte de una tribu.",
     "start your free week": "Empiece su semana gratis",
@@ -54,6 +58,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   de: {
     "active recovery with guided stretching and foam rolling protocols.": "Aktive Erholung mit geführten Dehnungs- und Schaumrollenprotokollen.",
     "choose your": "Wählen Sie Ihr",
+    "claim free week": "Fordern Sie Ihre kostenlose Woche an",
     "claim your trial": "Testphase sichern",
     "every member gets a custom training plan based on their goals and baseline assessment.": "Jedes Mitglied erhält einen maßgeschneiderten Trainingsplan, aufgebaut auf Zielen und Eingangstest.",
     "find your": "Finden Sie Ihren",
@@ -64,6 +69,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "meet the": "Lernen Sie",
     "open gym access": "Freier Zugang zum Studio",
     "plan.": "Plan.",
+    "science-backed programming. expert coaching. a community that pushes you further than you'd go alone.": "Wissenschaftlich fundiertes Programmieren. Experten-Coaching. Eine Gemeinschaft, die dich weiter bringt, als du alleine gehen würdest.",
     "small class sizes mean you get personal coach attention even in a group environment. worth every single cent.": "Kleine Klassengrößen bedeuten, dass Sie auch in einer Gruppenatmosphäre persönliche Traineraufmerksamkeit erhalten. Jeden einzelnen Cent wert.",
     "small classes of 12 max. you're not a number — you're part of a tribe.": "Kleine Klassen mit maximal 12 Teilnehmern. Sie sind keine Nummer — Sie sind Teil eines Stammes.",
     "start your free week": "Ihre Gratiswoche starten",
@@ -75,6 +81,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   pt: {
     "active recovery with guided stretching and foam rolling protocols.": "Recuperação ativa com protocolos de alongamento guiado e rolo de espuma.",
     "choose your": "Escolha o Seu",
+    "claim free week": "Reclame a sua semana grátis",
     "claim your trial": "Aproveitar o teste",
     "every member gets a custom training plan based on their goals and baseline assessment.": "Cada sócio recebe um plano de treino à medida, construído sobre os seus objetivos e a avaliação inicial.",
     "find your": "Encontre o seu",
@@ -85,6 +92,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "meet the": "Conheça",
     "open gym access": "Acesso livre à sala",
     "plan.": "Plano.",
+    "science-backed programming. expert coaching. a community that pushes you further than you'd go alone.": "Programação baseada na ciência. Coaching especializado. Uma comunidade que o empurra mais longe do que você iria sozinho.",
     "small class sizes mean you get personal coach attention even in a group environment. worth every single cent.": "Tamanhos de turma pequenos significam que você recebe atenção pessoal do treinador mesmo em um ambiente de grupo. Vale cada cêntimo.",
     "small classes of 12 max. you're not a number — you're part of a tribe.": "Aulas pequenas de 12 no máximo. Você não é um número — você faz parte de uma tribo.",
     "start your free week": "Comece a sua semana grátis",

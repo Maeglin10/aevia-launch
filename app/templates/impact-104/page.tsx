@@ -405,7 +405,7 @@ export default function LumiereDoreePage() {
               marginBottom: 40,
               maxWidth: 500,
             }}
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             {clientTrade(sessionData) ?? "Photographe"} de mariage basée à {clientCity(sessionData) ?? "Paris"}, je capture vos émotions avec discrétion et sensibilité pour des souvenirs qui durent toute une vie.
           </>}</motion.p>
           <motion.div

@@ -10,15 +10,19 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "ce que l'on dit": "Ce Que l'On Dit",
     "design sur mesure": "Design Sur Mesure",
   },
   es: {
+    "ce que l'on dit": "Lo Que Se Dice",
     "design sur mesure": "Diseño a Medida",
   },
   de: {
+    "ce que l'on dit": "Was Man Sagt",
     "design sur mesure": "Maßgeschneiderte Gestaltung",
   },
   pt: {
+    "ce que l'on dit": "O Que Se Diz",
     "design sur mesure": "Design Sob Medida",
   },
 };

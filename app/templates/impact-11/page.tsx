@@ -252,7 +252,7 @@ return (
                 <span className="text-[var(--brand,#7C3AED)]">{clientHeroLine(sessionData, 1, 3, 12) ?? "compétences"}</span><br />{clientHeroLine(sessionData, 2, 3, 12) ?? "de demain"}</>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-gray-500 text-base sm:text-xl leading-relaxed mb-6 md:mb-10 max-w-xl">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              <p className="text-gray-500 text-base sm:text-xl leading-relaxed mb-6 md:mb-10 max-w-xl">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Des cours en ligne créés par des experts, des certifications reconnues, et un mentoring personnalisé pour accélérer votre carrière.
               </>}</p>
             </Reveal>

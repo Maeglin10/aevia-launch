@@ -180,7 +180,7 @@ return (
                   marginBottom: 40,
                   maxWidth: 480,
                 }}
-              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Un espace de coworking premium à {clientCity(sessionData) ?? "Paris"}. Hot desks, bureaux dédiés, salles de réunion, studio podcast — et une communauté pensée pour grandir.
               </>}</motion.p>
 

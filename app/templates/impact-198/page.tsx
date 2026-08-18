@@ -1393,7 +1393,7 @@ export default function Impact198Page() {
               margin: "0 auto 40px",
               lineHeight: 1.7,
             }}
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Formules exclusives, ingrédients naturels certifiés et expertise parisienne au service de votre beauté naturelle.
           </>}</motion.p>
 

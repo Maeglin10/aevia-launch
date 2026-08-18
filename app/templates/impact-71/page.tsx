@@ -180,7 +180,7 @@ return (
             <h1 style={{ /* TITRE_DEGAGE */ marginTop: 86 }} className="text-7xl md:text-9xl lg:text-[11rem] font-light leading-[1.15] tracking-tighter mb-12 uppercase italic text-[#33302c] pb-6">{<>{clientHeroLine(sessionData, 0, 2, 10) ?? "Find Your"}<br />{" "}
               <span className="text-[var(--brand,#c9a84c)]">{clientHeroLine(sessionData, 1, 2, 10) ?? "Stillness."}</span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-stone-400 leading-relaxed font-light mb-12 italic tracking-tight">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-stone-400 leading-relaxed font-light mb-12 italic tracking-tight">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               An architectural sanctuary in the heart of the city. We provide the
               space, the breath, and the ancient wisdom for modern evolution.
             </>}</p>

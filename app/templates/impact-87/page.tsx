@@ -372,7 +372,7 @@ export default function IronClubPage() {
               marginBottom: 36,
               maxWidth: 520,
             }}
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             La salle de sport et CrossFit de référence à {clientCity(sessionData) ?? "Lyon"}. Une communauté soudée, des coachs certifiés, des résultats qui parlent d&apos;eux-mêmes.
           </>}</motion.p>
           <motion.div

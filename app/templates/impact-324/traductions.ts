@@ -11,14 +11,18 @@
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "— all rights reserved.": "— tous droits réservés.",
+    "live the": "Vivez le",
   },
   es: {
     "— all rights reserved.": "— todos los derechos reservados.",
+    "live the": "Vive el",
   },
   de: {
     "— all rights reserved.": "— alle Rechte vorbehalten.",
+    "live the": "Leben Sie das",
   },
   pt: {
     "— all rights reserved.": "— todos os direitos reservados.",
+    "live the": "Viva o",
   },
 };

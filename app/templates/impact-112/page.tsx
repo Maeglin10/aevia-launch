@@ -1463,7 +1463,7 @@ return (
                   maxWidth: 420,
                   marginBottom: 44,
                 }}
-              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Céramiques artisanales tournées à la main en Bourgogne. Grès,
                 porcelaine, émaux naturels. Chaque pièce est unique et livrée
                 avec son certificat d'authenticité.

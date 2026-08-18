@@ -742,7 +742,7 @@ export default function BlancNetPage() {
           </h1>
 
           <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: "clamp(15px, 1.6vw, 17.5px)", lineHeight: 1.78, color: C.textMuted, maxWidth: 480, margin: "0 0 32px" }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Aquanettoyage sans solvant toxique, repassage main, retouches sur place. Déposé avant 10 h, prêt le lendemain 17 h — et vos costumes savent la différence."}
+            {c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? "Aquanettoyage sans solvant toxique, repassage main, retouches sur place. Déposé avant 10 h, prêt le lendemain 17 h — et vos costumes savent la différence."}
           </p>
 
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>

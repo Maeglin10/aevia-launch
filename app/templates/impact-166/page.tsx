@@ -1274,7 +1274,7 @@ return (
               maxWidth: 480,
               margin: "32px auto 48px",
             }}
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             {clientTrade(sessionData) ?? "Photographe"} documentaire et commerciale basée à {clientCity(sessionData) ?? "Paris"}. Je photographie
             ce qui mérite d'être vu — pour l'éditorial, la mode, le mariage et
             l'architecture.

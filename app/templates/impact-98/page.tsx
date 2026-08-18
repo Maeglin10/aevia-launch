@@ -397,7 +397,7 @@ export default function ZenithWatchesPage() {
             <h1 className="text-5xl sm:text-6xl md:text-[8rem] lg:text-[6rem] xl:text-[7.5rem] 2xl:text-[9.5rem] font-black leading-[0.95] md:leading-[0.75] tracking-tighter mb-12 uppercase text-white italic break-words">{<>{clientHeroLine(sessionData, 0, 2, 8) ?? "Taming"}<br />{" "}
               <span className="text-[var(--brand,#d4af37)] not-italic">{clientHeroLine(sessionData, 1, 2, 8) ?? "Entropy."}</span>
             </>}</h1>
-            <p className="max-w-md text-xl text-white/50 leading-relaxed font-light mb-12 uppercase tracking-wide italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="max-w-md text-xl text-white/50 leading-relaxed font-light mb-12 uppercase tracking-wide italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               The absolute mechanical mastery of time. Engineered for the next
               millennium.
             </>}</p>

@@ -34,7 +34,7 @@ const LEXIQUE = new Set(clefsDu(fs.readFileSync("app/templates/BrandColorVar.tsx
 
 /* Les mots qui ne se disent qu'en anglais. « Contact », « Note », « Menu »,
    « Format » s'écrivent pareil en français : ils ne prouvent rien. */
-const ANGLAIS = /\b(the|and|our|your|you|we|with|for|from|about|more|all|get|see|watch|book|learn|read|start|join|discover|explore|view|shop|buy|order|find|meet|why|how|what|when|where|who|is|are|was|were|been|have|has|had|will|would|can|could|should|every|each|any|other|new|best|top|free|now|today|here|there|this|that|these|those|team|work|works|working|time|times|year|years|day|days|made|make|makes|built|build|design|designed|crafted|trusted|loved|worldwide|processed|revenue|growth|customer|customers|client|clients|people|story|stories|journey|approach|process|feature|features|benefit|benefits|pricing|price|plan|plans|review|reviews|question|questions|answer|answers|ready|let|us|me|my|their|his|her|its|into|over|under|through|between|without|within|before|after|again|also|only|just|than|then|but|or|so|if|because|while|during|since|until|up|down|out|off|on|in|at|to|of|by|as|it|he|she|they|them|do|does|did|done|be|being|am)\b/gi;
+const ANGLAIS = /\b(the|and|our|your|you|we|with|for|from|about|more|all|get|see|watch|book|learn|read|start|join|discover|explore|view|shop|buy|order|find|meet|why|how|what|when|where|who|is|are|was|were|been|have|has|had|will|would|can|could|should|every|each|any|other|new|best|top|free|now|today|here|there|this|that|these|those|team|work|works|working|time|times|year|years|day|days|made|make|makes|built|build|design|designed|crafted|trusted|loved|worldwide|processed|revenue|growth|customer|customers|browse|try|sign|request|secure|download|upload|listen|submit|subscribe|schedule|grab|claim|unlock|enquire|book|shop|view|client|clients|people|story|stories|journey|approach|process|feature|features|benefit|benefits|pricing|price|plan|plans|review|reviews|question|questions|answer|answers|ready|let|us|me|my|their|his|her|its|into|over|under|through|between|without|within|before|after|again|also|only|just|than|then|but|or|so|if|because|while|during|since|until|up|down|out|off|on|in|at|to|of|by|as|it|he|she|they|them|do|does|did|done|be|being|am)\b/gi;
 
 const rapport = [];
 for (const theme of THEMES) {
@@ -51,12 +51,22 @@ for (const theme of THEMES) {
 
   /* Les textes vus par l'œil : nœuds JSX et chaînes de données. */
   const vus = new Set();
-  for (const m of src.matchAll(/>([^<>{}\n]{3,160})</g)) vus.add(m[1]);
+  /*
+    Le texte d'un nœud JSX peut s'étaler sur plusieurs lignes :
+
+        <Play … /> Watch demo (3 min)
+        </button>
+
+    En excluant le saut de ligne, la première version ne voyait jamais ces
+    textes — et « Watch demo (3 min) » n'est entré dans aucun dictionnaire.
+    On accepte le saut de ligne, puis on replie les blancs.
+  */
+  for (const m of src.matchAll(/>([^<>{}]{3,200})</g)) vus.add(m[1].replace(/\s+/g, " ").trim());
   for (const m of src.matchAll(/(?:label|title|name|desc|text|quote|role|q|a|caption|sub|subtitle|heading|cta|blurb|body|answer|question|value|stat|tag|badge|eyebrow|kicker)\s*:\s*"([^"\\]{3,160})"/g)) vus.add(m[1]);
 
   const restes = [];
   for (const brut of vus) {
-    const t = brut.replace(/\s+/g, " ").trim();
+    const t = brut.replace(/[_]+/g, " ").replace(/\s+/g, " ").trim();
     if (t.length < 4 || !/[a-z]/i.test(t)) continue;
     if (/[éèêëàâäîïôöùûüçœÉÈÊÀÂÎÔÙÛÇ]/.test(t)) continue;      /* français accentué */
     if (deja.has(t.toLowerCase()) || LEXIQUE.has(t.toLowerCase())) continue;

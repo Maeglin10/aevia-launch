@@ -191,7 +191,7 @@ return (
             <h1 className="text-5xl sm:text-6xl md:text-9xl lg:text-[11rem] font-light leading-[1.15] pb-4 tracking-tighter mb-12 break-words">{<>{clientHeroLine(sessionData, 0, 2, 10) ?? "The Art of"}<br />{" "}
               <span className="italic font-normal text-[var(--brand,#c9b7a1)]">{clientHeroLine(sessionData, 1, 2, 10) ?? "Precision."}</span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-[#1a1814]/40 leading-relaxed font-light mb-12 italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-[#1a1814]/40 leading-relaxed font-light mb-12 italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Un sanctuaire dédié à la beauté structurelle. Onglerie, regard et
               rituels visage conçus comme des œuvres d'art.
             </>}</p>

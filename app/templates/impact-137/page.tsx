@@ -249,7 +249,7 @@ export default function TorrefieCoffeePage() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>
-              <p className="max-w-lg text-lg text-[#2c1810]/50 font-light leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              <p className="max-w-lg text-lg text-[#2c1810]/50 font-light leading-relaxed mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Single-origin specialty coffee, roasted in small batches in our {clientCity(sessionData) ?? "Bordeaux"} atelier. Direct trade, traceable, scored 85+.
               </>}</p>
             </Reveal>

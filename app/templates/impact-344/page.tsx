@@ -685,7 +685,7 @@ export default function AquaVertPressingPage() {
               </h1>
 
               <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: "clamp(15px, 1.6vw, 17.5px)", lineHeight: 1.78, opacity: 0.76, maxWidth: 540, margin: "0 0 34px", color: "currentColor" }}>
-                {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Aquanettoyage à l'eau, détergents certifiés Écolabel, consigne de cintres et livraison à vélo dans tout Neudorf. Le pressing d'à côté, en mieux pour tout le monde."}
+                {c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? "Aquanettoyage à l'eau, détergents certifiés Écolabel, consigne de cintres et livraison à vélo dans tout Neudorf. Le pressing d'à côté, en mieux pour tout le monde."}
               </p>
 
               <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center", marginBottom: "clamp(36px, 6vh, 64px)" }}>

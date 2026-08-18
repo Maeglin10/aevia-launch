@@ -225,7 +225,7 @@ export default function OasisWellnessPage() {
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-col md:flex-row items-center justify-center gap-8">
-                <p className="text-lg text-[var(--brand,#2c3e2d)]/60 font-light max-w-sm leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                <p className="text-lg text-[var(--brand,#2c3e2d)]/60 font-light max-w-sm leading-relaxed">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                   A sanctuary dedicated to biological restoration and deep mindfulness. Rediscover your essence in the heart of the city.
                 </>}</p>
                 <div className="w-[1px] h-20 bg-[var(--brand,#2c3e2d)]/10 hidden md:block" />

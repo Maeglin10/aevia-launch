@@ -248,7 +248,7 @@ return (
                 <div className="grid md:grid-cols-3 gap-12 md:gap-24 text-left max-w-6xl mx-auto border-t border-white/5 pt-16">
                    <div className="space-y-6">
                       <h3 className="text-[10px] font-black uppercase tracking-[0.5em] text-white/60">Core Directive</h3>
-                      <p className="text-[11px] text-white/20 leading-loose uppercase tracking-[0.4em] font-bold italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                      <p className="text-[11px] text-white/20 leading-loose uppercase tracking-[0.4em] font-bold italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                          Architecture brutale pour une infrastructure de données immuable. Nous forgeons le stockage de l'éternité numérique.
                       </>}</p>
                    </div>

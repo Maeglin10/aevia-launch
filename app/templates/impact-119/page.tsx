@@ -206,7 +206,7 @@ return (
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.2}>
-                  <p className="text-xl text-slate-400 font-light max-w-lg leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                  <p className="text-xl text-slate-400 font-light max-w-lg leading-relaxed mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                     High-performance cloud infrastructure designed for modern engineering teams. Bare metal performance with serverless ease.
                   </>}</p>
                 </Reveal>

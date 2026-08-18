@@ -343,7 +343,7 @@ export default function HorologsLuxePage() {
             transition={{ duration: 0.9, delay: 0.78, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-xl text-base text-white/30 leading-relaxed font-light mb-12 uppercase tracking-widest italic"
             style={{ fontSize: "0.82rem" }}
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Hand-assembled manufacture movements for the discerning
             collector. Swiss precision, exceptional finishing — calibrated
             to perfection.

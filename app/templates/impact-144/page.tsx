@@ -251,7 +251,7 @@ export default function KineticMarqueePage() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.25}>
-              <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Brand identity, web experiences, and motion design for companies that refuse to stand still.
               </>}</p>
             </Reveal>

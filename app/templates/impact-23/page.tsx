@@ -347,7 +347,7 @@ export default function StudioPelikanPage() {
                 </Reveal>
                 <Reveal delay={0.2}>
                   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                    <p className="text-white/50 text-lg max-w-sm">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>Cinéma d&apos;auteur, documentaire, série. Depuis 2012, nous produisons des œuvres qui voyagent.</>}</p>
+                    <p className="text-white/50 text-lg max-w-sm">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>Cinéma d&apos;auteur, documentaire, série. Depuis 2012, nous produisons des œuvres qui voyagent.</>}</p>
                     <button onClick={() => goTo("films")} className="shrink-0 border border-[var(--brand,#C9A05A)]/40 text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[var(--brand,#C9A05A)] hover:text-black transition-all cursor-pointer flex items-center gap-2">
                       <Play className="w-3 h-3 fill-current" /> Voir la bande démo
                     </button>

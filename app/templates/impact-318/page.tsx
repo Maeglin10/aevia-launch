@@ -519,7 +519,7 @@ export default function NettoyageExtremePage() {
               </h1>
 
               <p style={{ fontFamily: BODY, fontSize: "clamp(15px, 1.6vw, 17.5px)", fontWeight: 300, lineHeight: 1.75, opacity: 0.78, maxWidth: 520, margin: "0 0 34px" }}>
-                {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Intervention rapide 24h/24. Dégât des eaux, incendie, fin de chantier, décontamination. Équipement professionnel et protocoles certifiés."}
+                {c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? "Intervention rapide 24h/24. Dégât des eaux, incendie, fin de chantier, décontamination. Équipement professionnel et protocoles certifiés."}
               </p>
 
               <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>

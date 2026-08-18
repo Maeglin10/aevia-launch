@@ -348,7 +348,7 @@ function Hero() {
 
   const l1 = clientHeroLine(sessionData, 0, 2, 18) ?? HERO_DEMO.l1;
   const l2 = clientHeroLine(sessionData, 1, 2, 18) ?? HERO_DEMO.l2;
-  const sub = clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? HERO_DEMO.sub;
+  const sub = c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? HERO_DEMO.sub;
 
   const fonds: Record<string, { bg: string; fg: string; sub: string }> = {
     clair: { bg: C.accentLight, fg: C.accentDark, sub: "rgba(55,104,73,0.82)" },

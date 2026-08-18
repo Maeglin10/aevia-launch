@@ -595,7 +595,7 @@ export default function AetherLabsPage() {
             </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#6B5A40] leading-relaxed max-w-md mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="text-[#6B5A40] leading-relaxed max-w-md mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               {clientName(sessionData) ?? "Aether Labs"} formule des soins à l&apos;intersection de la chimie organique et de la cosmétique clinique. Chaque produit est développé en laboratoire, testé sous contrôle dermatologique.
             </>}</p>
           </Reveal>

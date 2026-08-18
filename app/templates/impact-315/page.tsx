@@ -628,7 +628,7 @@ export default function Page() {
               color: C.textMuted,
               maxWidth: 600,
               margin: '0 auto 36px',
-            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Service de ménage à domicile professionnel. Personnel formé, assuré et vérifié. Réservation en ligne en 2 minutes.
             </>}</p>
           </Reveal>

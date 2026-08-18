@@ -1371,7 +1371,7 @@ export default function Page() {
             transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             <GoldDivider />
-            <p style={{ ...bodyFont, fontSize: '15px', color: GRAY_MID, lineHeight: 1.8, maxWidth: '460px', margin: '0 auto 40px', letterSpacing: '0.02em' }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p style={{ ...bodyFont, fontSize: '15px', color: GRAY_MID, lineHeight: 1.8, maxWidth: '460px', margin: '0 auto 40px', letterSpacing: '0.02em' }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Un salon d'exception au cœur de {clientCity(sessionData) ?? "Paris"}. Chaque rendez-vous est une rencontre entre votre personnalité et l'expertise de nos artisans coiffeurs.
             </>}</p>
             <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' as const }}>

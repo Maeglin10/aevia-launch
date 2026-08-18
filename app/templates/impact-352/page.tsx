@@ -382,7 +382,7 @@ function Hero() {
 
   const l1 = clientHeroLine(sessionData, 0, 2, 22) ?? HERO_DEMO.l1;
   const l2 = clientHeroLine(sessionData, 1, 2, 22) ?? HERO_DEMO.l2;
-  const sub = clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? HERO_DEMO.sub;
+  const sub = c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? HERO_DEMO.sub;
 
   return (
     <section

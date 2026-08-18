@@ -106,7 +106,7 @@ function HeroWatch() {
               transition={{ duration: 0.55, ease: EASE_3, delay: BEAT.second }}
               className="hero-lede"
               style={{ fontFamily: SANS, fontSize: 16, color: C.textMuted, lineHeight: 1.8, maxWidth: 430, margin: "0 0 30px" }}
-            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Six calibres manufacture, assemblés à la main, réglés sur cinq positions. Aucune pièce ne quitte l’atelier avant quarante jours d’observation.
             </>}</motion.p>
 

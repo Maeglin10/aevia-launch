@@ -434,7 +434,7 @@ export default function SkylineConciergePage() {
             <h1 style={{ /* TITRE_DEGAGE */ marginTop: 29 }} className="text-4xl sm:text-5xl md:text-[8rem] font-black leading-[0.95] sm:leading-[0.85] tracking-tighter mb-10 uppercase break-words">{<>{clientHeroLine(sessionData, 0, 2, 16) ?? "The Standard of"}<br />{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#c9a96e)] via-[#ffffff] to-[var(--brand,#c9a96e)]">{clientHeroLine(sessionData, 1, 2, 16) ?? "Absolute Luxury."}</span>
             </>}</h1>
-            <p className="max-w-2xl text-lg text-white/40 leading-relaxed font-light italic mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="max-w-2xl text-lg text-white/40 leading-relaxed font-light italic mb-12">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Confidential brokerage and lifestyle management for the world's
               most discerning families. From off-market penthouses to global
               asset security.

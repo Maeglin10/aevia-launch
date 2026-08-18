@@ -311,7 +311,7 @@ return (
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-col gap-16">
-                <p className="text-2xl text-black/40 font-light max-w-lg leading-relaxed italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                <p className="text-2xl text-black/40 font-light max-w-lg leading-relaxed italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                   Architectural interventions that harmonize human ritual with the
                   absolute geometry of nature.
                 </>}</p>

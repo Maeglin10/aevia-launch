@@ -236,7 +236,7 @@ export default function ArcaneRealtyPage() {
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-col items-center justify-center gap-12">
-                <p className="text-xl text-white/40 font-light max-w-xl leading-relaxed italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                <p className="text-xl text-white/40 font-light max-w-xl leading-relaxed italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                   Securing the world's most exclusive architectural masterpieces for the most discerning collectors.
                 </>}</p>
                 <div className="flex flex-wrap justify-center gap-8">

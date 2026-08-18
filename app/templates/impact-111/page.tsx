@@ -245,7 +245,7 @@ export default function TerraArchitecturePage() {
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.3}>
-                  <p className="text-xl text-[#3d3a35]/60 font-light max-w-lg leading-relaxed mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                  <p className="text-xl text-[#3d3a35]/60 font-light max-w-lg leading-relaxed mb-12">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                     We design structures that don't just sit on the earth, but emerge from it. Minimalist, sustainable, and timeless architecture.
                   </>}</p>
                 </Reveal>

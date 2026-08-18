@@ -330,7 +330,7 @@ export default function AetherSoundPage() {
           <Reveal>
              <h1 style={{ /* TITRE_DEGAGE */ marginTop: 128 }} className="hero-ecran-court text-5xl sm:text-6xl md:text-[9rem] font-black leading-[0.9] md:leading-[0.78] tracking-tight md:tracking-tighter mb-12 uppercase text-white italic break-words">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "The"}<br/> <span className="text-[var(--brand,#c9a84c)] not-italic">{clientHeroLine(sessionData, 1, 2, 9) ?? "Silence."}</span>
              </>}</h1>
-             <p className="max-w-md text-xl text-white/30 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+             <p className="max-w-md text-xl text-white/30 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                Redefining the threshold of hearing. Precision sonic instruments for the world's most discerning ears.
              </>}</p>
              <div className="flex flex-col sm:flex-row gap-6">

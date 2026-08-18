@@ -569,7 +569,7 @@ export default function EtudeNotarialePage() {
             {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 23) ?? "Un acte qui engage,"}<br /><em style={{ color: C.accent, fontWeight: 400 }}>{clientHeroLine(sessionData, 1, 2, 23) ?? "un conseil qui protège."}</em></>)}
           </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, duration: 0.85, ease: EASE }} style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(15.5px, 1.5vw, 17px)", color: C.textMuted, lineHeight: 1.78, maxWidth: 490, marginBottom: "clamp(26px, 3.4vw, 38px)" }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Immobilier, famille, entreprise : deux notaires associés reçoivent, expliquent et sécurisent chacun de vos engagements — au tarif réglementé, le même partout en France."}
+            {c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? "Immobilier, famille, entreprise : deux notaires associés reçoivent, expliquent et sécurisent chacun de vos engagements — au tarif réglementé, le même partout en France."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72, duration: 0.85, ease: EASE }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <CtaButton href={telHref}>Prendre rendez-vous</CtaButton>

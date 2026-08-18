@@ -662,7 +662,7 @@ export default function AtelierTeintesPage() {
             transition={{ duration: 0.95, ease: EASE, delay: 0.42 }}
             style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(15px, 1.6vw, 17px)", lineHeight: 1.78, color: C.textMuted, maxWidth: 486, margin: "0 0 clamp(26px, 3.4vw, 38px)" }}
           >
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Peintures dépolluantes, enduits à la chaux, papiers peints panoramiques : un atelier de peintres décorateurs qui prépare les murs comme on prépare une toile — parce que c'est pareil."}
+            {c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? "Peintures dépolluantes, enduits à la chaux, papiers peints panoramiques : un atelier de peintres décorateurs qui prépare les murs comme on prépare une toile — parce que c'est pareil."}
           </motion.p>
 
           <motion.div

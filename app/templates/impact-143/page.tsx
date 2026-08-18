@@ -255,7 +255,7 @@ export default function AtelierInteriorPage() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>
-              <p className="max-w-lg text-lg text-[#2a2520]/50 font-light leading-relaxed mb-8">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              <p className="max-w-lg text-lg text-[#2a2520]/50 font-light leading-relaxed mb-8">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Bespoke interior design for discerning clients. We create environments that elevate daily life into something extraordinary.
               </>}</p>
               <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-8 py-4 bg-[#2a2520] text-[#f5f0eb] text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-[var(--brand,#8b7355)] transition-colors">
