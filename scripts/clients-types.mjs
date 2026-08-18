@@ -403,6 +403,7 @@ export const CLIENTS = {
   */
   "Tech & Agences": commun({
     nom: "Fabrique Numérique", metier: "studio de produit numérique", ville: "Nantes",
+    accroche: "Votre code dans votre dépôt dès le premier jour — un incrément livré chaque quinzaine",
     couleur: "#4F46E5", categorie: "Nos offres",
     courriel: "bonjour@fabrique-numerique.fr", telephone: "02 40 89 17 22",
     instagram: "fabrique.numerique", adresse: "8 quai de la Fosse, 44000 Nantes",
