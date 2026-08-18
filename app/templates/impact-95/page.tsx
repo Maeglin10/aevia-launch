@@ -950,7 +950,7 @@ export default function LumiereCliniquePage() {
               <h1 className="text-5xl md:text-7xl font-light leading-[1.0] mb-8 max-w-2xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 14) ?? "La beauté"}<br /><em>{clientHeroLine(sessionData, 1, 3, 14) ?? "comme résultat"}</em><br />{clientHeroLine(sessionData, 2, 3, 14) ?? "de la science"}</>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-[#6B6560] text-lg leading-relaxed max-w-lg mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              <p className="text-[#6B6560] text-lg leading-relaxed max-w-lg mb-12">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 {clientName(sessionData) ?? "Lumière Clinic"} allie rigueur médicale et approche esthétique personnalisée. Chaque protocole est co-construit avec le patient, fondé sur des preuves scientifiques et exécuté avec précision.
               </>}</p>
             </Reveal>

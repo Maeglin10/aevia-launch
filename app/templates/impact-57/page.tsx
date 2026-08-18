@@ -1116,7 +1116,7 @@ return (
                   lineHeight: 1.8,
                   maxWidth: '45ch',
                 }}
-              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Studio créatif spécialisé dans les identités de marque disruptives, le motion design et les expériences digitales immersives.
               </>}</p>
             </div>

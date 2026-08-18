@@ -810,7 +810,7 @@ export default function Impact173Page() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.8 }}
               style={{ maxWidth: 520, fontSize: 16, color: C.textSub, lineHeight: 1.8, marginTop: 48, marginBottom: 56 }}
-            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Entreprise générale de construction depuis 35 ans. Gros œuvre, réhabilitation, promotion immobilière. Prix ferme, délais tenus, interlocuteur unique.
             </>}</motion.p>
 

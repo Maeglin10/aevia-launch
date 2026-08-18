@@ -12,17 +12,21 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "design": "Conception",
     "free": "Gratuit",
+    "success stories": "Histoires de succès",
   },
   es: {
     "design": "Diseño",
     "free": "Gratis",
+    "success stories": "Historias de éxito",
   },
   de: {
     "design": "Design",
     "free": "Kostenlos",
+    "success stories": "Erfolgsgeschichten",
   },
   pt: {
     "design": "Design",
     "free": "Gratuito",
+    "success stories": "Histórias de sucesso",
   },
 };

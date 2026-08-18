@@ -654,7 +654,7 @@ export default function Page() {
                   margin: "0 0 clamp(28px,3.6vw,44px)",
                 }}
               >
-                {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Nettoyage de bureaux, copropriétés et locaux commerciaux. Équipes formées, certifiées et engagées pour un résultat irréprochable."}
+                {c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? "Nettoyage de bureaux, copropriétés et locaux commerciaux. Équipes formées, certifiées et engagées pour un résultat irréprochable."}
               </motion.p>
               <motion.div
                 initial={{ opacity: 0, y: 22 }}

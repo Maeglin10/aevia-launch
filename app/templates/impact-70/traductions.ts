@@ -18,6 +18,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "join the circle": "Rejoindre le cercle",
     "membership is by invitation only. apply for consideration and gain access to the world's most guarded nocturnal experiences.": "L'adhésion se fait sur invitation. Déposez une candidature pour accéder aux expériences nocturnes les mieux gardées.",
     "the night is eternal.": "LA NUIT EST ÉTERNELLE.",
+    "view membership tiers": "Voir les niveaux d'adhésion",
+    "where the light fades and the soul awakens. an immersive sanctuary for the world's most discerning nocturnal explorers.": "Là où la lumière s'estompe et l'âme s'éveille. Un sanctuaire immersif pour les explorateurs nocturnes les plus exigeants du monde.",
     "witness the night": "Vivre la nuit",
   },
   es: {
@@ -29,6 +31,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "join the circle": "Unirse al círculo",
     "membership is by invitation only. apply for consideration and gain access to the world's most guarded nocturnal experiences.": "La adhesión es por invitación. Presente su candidatura para acceder a las experiencias nocturnas mejor guardadas.",
     "the night is eternal.": "LA NOCHE ES ETERNA.",
+    "view membership tiers": "Ver niveles de membresía",
+    "where the light fades and the soul awakens. an immersive sanctuary for the world's most discerning nocturnal explorers.": "Donde la luz se desvanece y el alma despierta. Un santuario inmersivo para los exploradores nocturnos más exigentes del mundo.",
     "witness the night": "Vivir la noche",
   },
   de: {
@@ -40,6 +44,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "join the circle": "Dem Kreis beitreten",
     "membership is by invitation only. apply for consideration and gain access to the world's most guarded nocturnal experiences.": "Die Mitgliedschaft erfolgt auf Einladung. Bewerben Sie sich um Zugang zu den bestgehüteten nächtlichen Erlebnissen.",
     "the night is eternal.": "DIE NACHT IST EWIG.",
+    "view membership tiers": "Mitgliedschaftsstufen anzeigen",
+    "where the light fades and the soul awakens. an immersive sanctuary for the world's most discerning nocturnal explorers.": "Wo das Licht verblasst und die Seele erwacht. Ein immersives Heiligtum für die anspruchsvollsten nächtlichen Entdecker der Welt.",
     "witness the night": "Die Nacht erleben",
   },
   pt: {
@@ -51,6 +57,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "join the circle": "Juntar-se ao círculo",
     "membership is by invitation only. apply for consideration and gain access to the world's most guarded nocturnal experiences.": "A adesão é por convite. Apresente candidatura para aceder às experiências noturnas mais bem guardadas.",
     "the night is eternal.": "A NOITE É ETERNA.",
+    "view membership tiers": "Ver níveis de adesão",
+    "where the light fades and the soul awakens. an immersive sanctuary for the world's most discerning nocturnal explorers.": "Onde a luz se desvanece e a alma desperta. Um santuário imersivo para os exploradores noturnos mais exigentes do mundo.",
     "witness the night": "Viver a noite",
   },
 };

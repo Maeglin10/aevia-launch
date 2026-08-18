@@ -316,7 +316,7 @@ export default function VoltProPage() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.28}>
-              <p className="max-w-xl text-base md:text-lg text-white/45 leading-relaxed mb-10" style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.82rem" }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              <p className="max-w-xl text-base md:text-lg text-white/45 leading-relaxed mb-10" style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.82rem" }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Installation, mise en conformité, domotique et dépannage 7j/7. Devis gratuit sous 24h, intervention soignée, attestation CONSUEL garantie.
               </>}</p>
             </Reveal>

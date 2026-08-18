@@ -353,7 +353,7 @@ export default function NoirCouturePage() {
                     </>}</h1>
                   </Reveal>
                   <Reveal delay={0.2}>
-                    <p className="text-white/60 text-sm leading-relaxed max-w-xs mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                    <p className="text-white/60 text-sm leading-relaxed max-w-xs mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                       L'art de la silhouette. Chaque pièce est une déclaration. Chaque collection, un manifeste.
                     </>}</p>
                   </Reveal>

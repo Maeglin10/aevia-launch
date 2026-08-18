@@ -170,7 +170,7 @@ return (
             <h1 className="text-5xl md:text-7xl font-normal text-[#F7F5F2] leading-[1.15] mb-8 max-w-3xl font-serif" style={{ fontFamily: "'Libre Baskerville', serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 12) ?? "Construire"}<br /><em>{clientHeroLine(sessionData, 1, 3, 12) ?? "l'excellence"}</em><br />{clientHeroLine(sessionData, 2, 3, 12) ?? "durable"}</>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#C8B89A] text-lg max-w-lg mb-12 leading-relaxed font-light">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="text-[#C8B89A] text-lg max-w-lg mb-12 leading-relaxed font-light">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Depuis 35 ans, Blueprint réalise des programmes immobiliers d&apos;exception. Résidentiel haut de gamme, bureaux premium, opérations mixtes — nous concevons des lieux qui durent.
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-5">

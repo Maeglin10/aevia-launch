@@ -11,14 +11,18 @@
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "avis clients": "avis clients",
+    "ils me font confiance": "Ils me font confiance",
   },
   es: {
     "avis clients": "opiniones de clientes",
+    "ils me font confiance": "Ellos confían en mí",
   },
   de: {
     "avis clients": "Kundenbewertungen",
+    "ils me font confiance": "Sie vertrauen mir",
   },
   pt: {
     "avis clients": "avaliações de clientes",
+    "ils me font confiance": "Eles confiam em mim",
   },
 };

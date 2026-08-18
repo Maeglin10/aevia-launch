@@ -939,7 +939,7 @@ export default function AlmaCompetencesPage() {
           </h1>
 
           <p style={{ fontFamily: BODY, fontSize: "clamp(15px, 1.6vw, 17.5px)", lineHeight: 1.78, color: C.textMuted, maxWidth: 480, margin: "0 0 32px" }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Cuisine, menuiserie, développement web : des reconversions en 4 à 9 mois vers des titres professionnels RNCP, en atelier réel, avec stage et accompagnement à l'emploi."}
+            {c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? "Cuisine, menuiserie, développement web : des reconversions en 4 à 9 mois vers des titres professionnels RNCP, en atelier réel, avec stage et accompagnement à l'emploi."}
           </p>
 
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>

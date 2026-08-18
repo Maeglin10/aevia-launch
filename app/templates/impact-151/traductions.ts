@@ -10,8 +10,10 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "join the circle": "Rejoindre le Cercle",
     "join the circle.": "Rejoindre le cercle.",
     "minimum 12 years": "Minimum 12 ans",
+    "request invitation": "Demander une invitation",
     "sa. // all_rights_reserved": "SA. // TOUS_DROITS_RÉSERVÉS",
     "the alchemist": "L'alchimiste",
     "the circle": "Le cercle",
@@ -21,8 +23,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "the terroir analysis.": "L'analyse du terroir.",
   },
   es: {
+    "join the circle": "Unirse al Círculo",
     "join the circle.": "Unirse al círculo.",
     "minimum 12 years": "Mínimo 12 años",
+    "request invitation": "Solicitar invitación",
     "sa. // all_rights_reserved": "SA. // TODOS_LOS_DERECHOS_RESERVADOS",
     "the alchemist": "El alquimista",
     "the circle": "El círculo",
@@ -32,8 +36,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "the terroir analysis.": "El análisis del terruño.",
   },
   de: {
+    "join the circle": "Dem dem Kreis beitreten",
     "join the circle.": "Dem Kreis beitreten.",
     "minimum 12 years": "Mindestens 12 Jahre",
+    "request invitation": "Einladung anfordern",
     "sa. // all_rights_reserved": "SA. // ALLE_RECHTE_VORBEHALTEN",
     "the alchemist": "Der Alchemist",
     "the circle": "Der Kreis",
@@ -43,8 +49,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "the terroir analysis.": "Die Terroir-Analyse.",
   },
   pt: {
+    "join the circle": "Junte-se ao Círculo",
     "join the circle.": "Juntar-se ao círculo.",
     "minimum 12 years": "Mínimo 12 anos",
+    "request invitation": "Pedir convite",
     "sa. // all_rights_reserved": "SA. // TODOS_OS_DIREITOS_RESERVADOS",
     "the alchemist": "O alquimista",
     "the circle": "O círculo",

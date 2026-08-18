@@ -968,7 +968,7 @@ return (
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-lg text-white/50 max-w-xl mb-10 leading-relaxed"
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Vertex Studio creates 3D product visualizations, AR experiences, and real-time environments for brands that want to stand out in the spatial era.
           </>}</motion.p>
           <motion.div

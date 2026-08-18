@@ -292,7 +292,7 @@ return (
             style={{ fontFamily: FONT, fontSize: "clamp(40px, 5vw, 68px)", color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 17) ?? "Manger juste"}<br /><em style={{ color: C.sand }}>{clientHeroLine(sessionData, 1, 2, 17) ?? "pour vivre mieux."}</em>
           </>}</>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Camille Renard, diététicienne-nutritionniste à {clientCity(sessionData) ?? "Lyon"}. Un accompagnement individualisé pour votre poids, vos troubles digestifs, vos performances ou votre santé hormonale.
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>

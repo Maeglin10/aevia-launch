@@ -161,7 +161,7 @@ return (
                   maxWidth: 600,
                   margin: "0 auto 40px",
                 }}
-              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Nexus gives your team deep analytics, pipeline connections, and
                 enterprise-grade security in a single, unified workflow.
               </>}</p>

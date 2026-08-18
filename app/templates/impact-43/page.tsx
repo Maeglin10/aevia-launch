@@ -284,7 +284,7 @@ export default function SereneRetreatHome() {
                 maxWidth: 500,
                 margin: "0 auto 48px",
               }}
-            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               A curated sanctuary of thermal waters, ancient botanicals,
               and silence. Sixty kilometres from the city. A world apart.
             </>}</p>

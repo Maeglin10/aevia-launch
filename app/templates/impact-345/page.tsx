@@ -646,7 +646,7 @@ export default function MaisonBertinPage() {
           </h1>
 
           <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: "clamp(15px, 1.6vw, 17.5px)", lineHeight: 1.78, color: C.textMuted, maxWidth: 470, margin: "0 0 32px" }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Charolais de Côte-d'Or, porc fermier élevé sur paille, volailles de Bresse : tout est tracé, maturé sur place et coupé devant vous. Une boucherie, pas un rayon."}
+            {c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? "Charolais de Côte-d'Or, porc fermier élevé sur paille, volailles de Bresse : tout est tracé, maturé sur place et coupé devant vous. Une boucherie, pas un rayon."}
           </p>
 
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>

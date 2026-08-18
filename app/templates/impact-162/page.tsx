@@ -295,7 +295,7 @@ return (
             </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#D4C9B0] text-lg max-w-md mb-10 leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="text-[#D4C9B0] text-lg max-w-md mb-10 leading-relaxed">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Chaque tasse est une promesse — de qualité, de soin, de présence. Bienvenue au Matin Doré.
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-5">

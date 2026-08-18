@@ -170,7 +170,7 @@ return (
                   maxWidth: 480,
                   marginBottom: 40,
                 }}
-              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Consolidate your rendering stack onto a direct GPU cluster.
                 Build, mutation, and deployment layered in mathematical vector spaces.
               </>}</p>

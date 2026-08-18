@@ -514,7 +514,7 @@ export default function QBitLabsPage() {
                     maxWidth: 520,
                     margin: "0 0 40px",
                   }}
-                >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                   {clientName(sessionData) ?? "QBit Labs"} is an independent quantum computing research institute
                   advancing fault-tolerant processors, quantum algorithms, and the
                   foundational science of the post-classical era.

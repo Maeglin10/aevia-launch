@@ -140,7 +140,7 @@ return (
           </Reveal>
 
           <Reveal delay={0.2}>
-            <p className="text-lg md:text-xl font-sans font-light tracking-wide max-w-2xl mx-auto mb-12 text-zinc-200">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="text-lg md:text-xl font-sans font-light tracking-wide max-w-2xl mx-auto mb-12 text-zinc-200">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Une terre de graves, des vignes centenaires et le temps pour seul allié. L'expression la plus pure d'un grand terroir.
             </>}</p>
           </Reveal>

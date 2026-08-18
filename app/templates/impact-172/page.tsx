@@ -317,7 +317,7 @@ export default function LegrandPage() {
               <em>{clientHeroLine(sessionData, 0, 3, 10) ?? "L'excellence"}</em><br />{clientHeroLine(sessionData, 1, 3, 10) ?? "juridique au service"}<br />{clientHeroLine(sessionData, 2, 3, 10) ?? "de vos ambitions"}</>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#C8B89A] text-lg max-w-lg mb-12 font-light leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="text-[#C8B89A] text-lg max-w-lg mb-12 font-light leading-relaxed">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Cabinet d&apos;avocats d&apos;affaires indépendant, {clientName(sessionData) ?? "Legrand & Associés"} conseille les entreprises et les institutions dans leurs opérations les plus complexes depuis plus de trente ans.
             </>}</p>
           </Reveal>

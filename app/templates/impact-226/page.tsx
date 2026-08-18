@@ -446,7 +446,7 @@ return (
             style={{ fontFamily: FONT, fontSize: "clamp(42px, 5.5vw, 74px)", fontWeight: 400, color: C.text, lineHeight: 1.05, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 15) ?? "L'art sur peau,"}<br /><em style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 15) ?? "pour toujours."}</em>
           </>}</>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(245,240,232,0.65)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            style={{ fontSize: 17, color: "rgba(245,240,232,0.65)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Studio {clientName(sessionData) ?? "Encre"} Noire réunit 3 artistes tatoueurs spécialisés — blackwork, réalisme, japonais, aquarelle. Chaque pièce est unique, dessinée sur mesure, réalisée avec obsession du détail.
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>

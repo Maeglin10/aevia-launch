@@ -919,7 +919,7 @@ export default function HalleAuxFromagesPage() {
           </h1>
 
           <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: "clamp(15px, 1.6vw, 17.5px)", lineHeight: 1.78, color: C.textMuted, maxWidth: 480, margin: "0 0 32px" }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Beaufort d'alpage, tommes fermières, chèvres du plateau : achetés jeunes aux fermes, affinés dans notre cave voûtée, vendus à leur heure exacte. Goûtez la différence d'un affineur."}
+            {c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? "Beaufort d'alpage, tommes fermières, chèvres du plateau : achetés jeunes aux fermes, affinés dans notre cave voûtée, vendus à leur heure exacte. Goûtez la différence d'un affineur."}
           </p>
 
           <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>

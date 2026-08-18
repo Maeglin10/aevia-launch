@@ -260,7 +260,7 @@ export default function BrilloNetPage() {
             className="text-5xl md:text-7xl lg:text-[82px] font-bold leading-[0.88] tracking-tight mb-8 text-white">{<>{clientHeroLine(sessionData, 0, 2, 16) ?? "Votre intérieur,"}<br />{clientHeroLine(sessionData, 1, 2, 16) ?? "impeccable."}</>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
-            className="max-w-md text-sm text-white/38 leading-relaxed mb-10" style={{ fontFamily: "'Inter', sans-serif" }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            className="max-w-md text-sm text-white/38 leading-relaxed mb-10" style={{ fontFamily: "'Inter', sans-serif" }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Entreprise de ménage et nettoyage sur {clientCity(sessionData) ?? "Lyon"}. Domicile, bureaux, fin de chantier. Intervenantes formées, assurées, ponctualité garantie. Premier passage sans engagement.
           </>}</motion.p>
 

@@ -294,7 +294,7 @@ return (
             <h1 className="text-4xl sm:text-5xl md:text-8xl lg:text-9xl font-black leading-[1.15] tracking-tighter mb-8 uppercase pb-4 break-words">{<>{clientHeroLine(sessionData, 0, 2, 14) ?? "The Alchemy"}<br />{" "}
               <span className="text-[var(--brand,#7c2d12)] italic">{clientHeroLine(sessionData, 1, 2, 14) ?? "of Extraction."}</span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-8 uppercase tracking-tight italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-8 uppercase tracking-tight italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Precision-roasted molecular coffee. Sourced at origin. Analyzed in
               lab. Delivered in spectrum.
             </>}</p>

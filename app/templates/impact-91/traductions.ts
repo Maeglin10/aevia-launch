@@ -10,18 +10,22 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "des questions ?": "Des questions ?",
     "design": "Design",
     "nos clients": "Nos Clients",
   },
   es: {
+    "des questions ?": "¿Preguntas?",
     "design": "Diseño",
     "nos clients": "Nuestros Clientes",
   },
   de: {
+    "des questions ?": "Fragen?",
     "design": "Design",
     "nos clients": "Unsere Kunden",
   },
   pt: {
+    "des questions ?": "Perguntas?",
     "design": "Design",
     "nos clients": "Nossos Clientes",
   },

@@ -1243,7 +1243,7 @@ return (
                 maxWidth: 500,
                 fontWeight: 300,
               }}
-            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Antoine Lefèvre, formé chez Alain Passard et Anne-Sophie Pic,
               compose pour vous des menus d&apos;exception à domicile —
               produits locaux, technique irréprochable, émotions garanties.

@@ -448,7 +448,7 @@ export default function TextRevealPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-zinc-400 text-xl font-light leading-relaxed">
             <Reveal delay={0.2}>
-              <p>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              <p>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 In a sea of templates and infinite scrolling, user attention is
                 the most valuable currency. We believe that true digital luxury
                 isn't about minimalism—it's about intentional friction and

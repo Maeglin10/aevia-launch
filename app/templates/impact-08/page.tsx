@@ -500,7 +500,7 @@ return (
                     </>}</motion.h1>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-end">
-                       <p className="max-w-xl text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-widest">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                       <p className="max-w-xl text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-widest">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                           Nous ne construisons pas des voitures. Nous domptons la physique. Chaque courbe est dictée par le vent, chaque watt est maîtrisé par l'IA.
                        </>}</p>
                        <div className="flex flex-col sm:flex-row gap-8 md:justify-end">

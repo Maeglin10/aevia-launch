@@ -447,7 +447,7 @@ export default function Impact171Page() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-lg text-[#134E4A]/70 leading-relaxed mb-8 max-w-lg">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              <p className="text-lg text-[#134E4A]/70 leading-relaxed mb-8 max-w-lg">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Médecine evidence-based, suivi personnalisé et technologies de diagnostic avancées.
                 {clientName(sessionData) ?? "VITALITÉ"} Médical place la prévention au cœur de votre santé.
               </>}</p>

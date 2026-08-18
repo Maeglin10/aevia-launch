@@ -418,7 +418,7 @@ export default function AtelierLeoniePage() {
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
-            className="max-w-sm text-sm text-white/32 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            className="max-w-sm text-sm text-white/32 leading-relaxed mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Salon de coiffure premium à {clientCity(sessionData) ?? "Paris"}. Coupe, couleur, soins, extensions, coiffure de mariée. Stylistes passionnées, produits haut de gamme, résultat sur mesure.
           </>}</motion.p>
 

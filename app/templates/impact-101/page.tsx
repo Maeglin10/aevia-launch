@@ -383,7 +383,7 @@ export default function BlockBasePage() {
                   {clientHeroLine(sessionData, 2, 4, 13) ?? "Absolute"} <br />{" "}
                   <span className="text-white/20">{clientHeroLine(sessionData, 3, 4, 13) ?? "Frictionless."}</span>
                 </>}</h1>
-                <p className="max-w-xl text-base md:text-lg text-white/40 leading-relaxed font-light mb-6 md:mb-12 uppercase tracking-widest">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                <p className="max-w-xl text-base md:text-lg text-white/40 leading-relaxed font-light mb-6 md:mb-12 uppercase tracking-widest">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                   High-performance indexing and indexer infrastructure for the
                   next generation of decentralized computation. Engineering the
                   backbone of zero-knowledge privacy.

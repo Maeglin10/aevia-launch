@@ -573,7 +573,7 @@ export default function Page() {
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               M&A, levées de fonds, RGPD. Cabinet {clientCity(sessionData) ?? "Bordeaux"} Chartrons — expertise juridique de haut niveau.
             </>}</p>
           </Reveal>

@@ -260,7 +260,7 @@ export default function AetherSoundPage() {
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-col items-center justify-center gap-12">
-                <p className="text-xl text-white/40 font-light max-w-xl leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                <p className="text-xl text-white/40 font-light max-w-xl leading-relaxed">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                   Luthier-grade acoustic engineering for the discerning audiophile. Experience the silence between the notes.
                 </>}</p>
                 <div className="flex flex-wrap justify-center gap-8">

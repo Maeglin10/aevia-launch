@@ -579,7 +579,7 @@ export default function PharmacieDuParcPage() {
             {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 20) ?? "Votre pharmacie,"}<br /><em style={{ color: C.accent, fontStyle: "italic" }}>{clientHeroLine(sessionData, 1, 2, 20) ?? "au-delà du comptoir."}</em></>)}
           </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.7, ease: EASE }} style={{ fontSize: "clamp(15px, 1.4vw, 16.5px)", color: C.textMuted, lineHeight: 1.78, maxWidth: 500, marginBottom: "clamp(24px, 4vh, 34px)" }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Ordonnances préparées à l'avance, vaccination sans rendez-vous, tests rapides et vrai conseil de pharmaciens diplômés — au cœur du quartier du Parc, à Lille."}
+            {c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? "Ordonnances préparées à l'avance, vaccination sans rendez-vous, tests rapides et vrai conseil de pharmaciens diplômés — au cœur du quartier du Parc, à Lille."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.68, duration: 0.7, ease: EASE }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <CtaBtn href={`mailto:${mail}`} big>Envoyer mon ordonnance</CtaBtn>

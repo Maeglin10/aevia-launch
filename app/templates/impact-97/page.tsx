@@ -412,7 +412,7 @@ export default function HorizonYachtPage() {
             <h1 className="text-[clamp(2.75rem,7vw,9rem)] font-black leading-[0.95] tracking-tighter mb-12 uppercase text-white italic break-words">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Mastering"}<br />{" "}
               <span className="text-[var(--brand,#c5a059)] not-italic">{clientHeroLine(sessionData, 1, 2, 9) ?? "The Deep."}</span>
             </>}</h1>
-            <p className="max-w-md text-lg text-white/50 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="max-w-md text-lg text-white/50 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               The world's most exclusive superyacht fleet, curated for the
               modern navigator.
             </>}</p>

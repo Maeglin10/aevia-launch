@@ -192,7 +192,7 @@ export default function EchoChamberPage() {
 
           <motion.p initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, delay: 0.34 }}
             style={{ fontFamily: C.bodyFont, fontSize: "1.05rem", color: C.textLight, maxWidth: 540, margin: "0 auto 3rem", lineHeight: 1.75, letterSpacing: "0.01em" }}
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Trois studios indépendants. SSL, Neve, Pro Tools HDX. 200+ artistes enregistrés. Votre son mérite ce qu'il y a de mieux.
           </>}</motion.p>
 

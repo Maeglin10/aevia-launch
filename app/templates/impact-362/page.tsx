@@ -561,7 +561,7 @@ export default function DuoPeinturesPage() {
               </h1>
 
               <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: "clamp(15px, 1.6vw, 17.5px)", lineHeight: 1.8, opacity: 0.76, maxWidth: 560, margin: "0 0 clamp(28px, 3.6vw, 40px)", color: "currentColor" }}>
-                {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Un père compagnon, une fille reprise d'entreprise : deux peintres qui rénovent cages d'escalier, appartements locatifs et maisons familiales — vite, proprement, au prix écrit."}
+                {c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? "Un père compagnon, une fille reprise d'entreprise : deux peintres qui rénovent cages d'escalier, appartements locatifs et maisons familiales — vite, proprement, au prix écrit."}
               </p>
 
               <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center", marginBottom: "clamp(34px, 6vh, 62px)" }}>

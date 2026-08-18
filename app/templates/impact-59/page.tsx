@@ -202,7 +202,7 @@ return (
             <h1 style={{ /* TITRE_DEGAGE */ marginTop: 40 }} className="text-6xl md:text-8xl lg:text-[10rem] font-bold leading-[1.15] pb-4 tracking-tighter mb-12 uppercase font-serif">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Rest is"}<br />{" "}
               <span className="italic font-light">{clientHeroLine(sessionData, 1, 2, 9) ?? "the work."}</span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-black/50 leading-relaxed font-light mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-black/50 leading-relaxed font-light mb-12">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Luminal designs profound retreat experiences in the world&apos;s most
               transformative landscapes. We create the conditions for genuine
               rest through carefully calibrated stillness.

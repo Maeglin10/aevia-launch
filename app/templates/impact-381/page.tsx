@@ -255,7 +255,7 @@ export default function CaveDesTerroirsPage() {
             {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 13) ?? "Des vins qu'on a bus"}<br /><em style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 13) ?? "avant de vous les vendre."}</em></>)}
           </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Quatre cents références choisies domaine par domaine, dont soixante en Loire : un caviste qui a serré la main de la plupart de ses vignerons et qui vous dira franchement quand une bouteille n'est pas pour vous."}
+            {c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? "Quatre cents références choisies domaine par domaine, dont soixante en Loire : un caviste qui a serré la main de la plupart de ses vignerons et qui vous dira franchement quand une bouteille n'est pas pour vous."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <motion.a href={telHref} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>

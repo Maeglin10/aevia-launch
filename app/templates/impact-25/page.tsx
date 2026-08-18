@@ -341,7 +341,7 @@ export default function PixelRepublicPage() {
           </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 530 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 530 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Pixel Republic crée des sites web, applications et identités visuelles qui convertissent. Stratégie, design, développement — une seule équipe, de A à Z.
           </>}</motion.p>
 

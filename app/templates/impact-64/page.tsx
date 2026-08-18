@@ -175,7 +175,7 @@ return (
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.6 }}
               style={{ fontFamily: sans, fontSize: "1.1rem", color: C.textMuted, lineHeight: 1.75, maxWidth: "500px", marginBottom: "2.5rem" }}
-            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               NeuronSec est le centre opérationnel de cybersécurité des entreprises qui ne peuvent pas se permettre d'être hackées. SOC 24/7, Red Team offensif, conformité NIS2 et ISO 27001.
             </>}</motion.p>
 

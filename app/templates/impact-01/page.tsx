@@ -1307,7 +1307,7 @@ return (
               maxWidth: 600,
               margin: "0 auto 56px",
             }}
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Full-service creative studio crafting immersive digital experiences,
             brand identities, and high-performance products for ambitious brands.
           </>}</motion.p>

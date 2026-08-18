@@ -11,6 +11,7 @@
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "animated content that stops the scroll.": "Contenu animé qui arrête le défilement.",
+    "brand identity, web experiences, and motion design for companies that refuse to stand still.": "Identité de marque, expériences web et design motion pour des entreprises qui refusent de rester immobiles.",
     "campaign design": "Conception de campagne",
     "client": "Client",
     "creative agency for brands in motion.": "Agence créative pour les marques en mouvement.",
@@ -24,6 +25,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "multi-channel campaigns that amplify your message.": "Des campagnes multicanales qui portent votre message.",
     "name, logo, visual system, and tone of voice. a complete brand from scratch.": "Nom, logo, système visuel et ton de voix. Une marque complète depuis zéro.",
     "other": "Autre",
+    "start a": "Commencer un",
     "thank you": "Merci",
     "the website they built is an experience. our bounce rate dropped to 8% and conversions tripled.": "Le site web qu'ils ont construit est une expérience. Notre taux de rebond est tombé à 8 % et les conversions ont triplé.",
     "what we": "Ce que nous",
@@ -32,6 +34,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   es: {
     "animated content that stops the scroll.": "Contenido animado que detiene el desplazamiento.",
+    "brand identity, web experiences, and motion design for companies that refuse to stand still.": "Identidad de marca, experiencias web y diseño en movimiento para empresas que se niegan a quedarse quietas.",
     "campaign design": "Diseño de campaña",
     "client": "Cliente",
     "creative agency for brands in motion.": "Agencia creativa para marcas en movimiento.",
@@ -45,6 +48,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "multi-channel campaigns that amplify your message.": "Campañas multicanal que amplifican su mensaje.",
     "name, logo, visual system, and tone of voice. a complete brand from scratch.": "Nombre, logo, sistema visual y tono de voz. Una marca completa desde cero.",
     "other": "Otro",
+    "start a": "Iniciar un",
     "thank you": "Gracias",
     "the website they built is an experience. our bounce rate dropped to 8% and conversions tripled.": "El sitio web que construyeron es una experiencia. Nuestra tasa de rebote cayó al 8 % y las conversiones se triplicaron.",
     "what we": "Lo que nosotros",
@@ -53,6 +57,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   de: {
     "animated content that stops the scroll.": "Animierter Inhalt, der das Scrollen stoppt.",
+    "brand identity, web experiences, and motion design for companies that refuse to stand still.": "Markenidentität, Web-Erlebnisse und Motion Design für Unternehmen, die sich weigern, stillzustehen.",
     "campaign design": "Kampagnendesign",
     "client": "Kunde",
     "creative agency for brands in motion.": "Kreativagentur für Marken in Bewegung.",
@@ -66,6 +71,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "multi-channel campaigns that amplify your message.": "Mehrkanalkampagnen, die Ihre Botschaft tragen.",
     "name, logo, visual system, and tone of voice. a complete brand from scratch.": "Name, Logo, visuelles System und Tonfall. Eine komplette Marke von Grund auf.",
     "other": "Andere",
+    "start a": "Starten Sie ein",
     "thank you": "Danke",
     "the website they built is an experience. our bounce rate dropped to 8% and conversions tripled.": "Die Website, die sie erstellt haben, ist ein Erlebnis. Unsere Absprungrate fiel auf 8 % und die Conversions verdreifachten sich.",
     "what we": "Was wir",
@@ -74,6 +80,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   pt: {
     "animated content that stops the scroll.": "Conteúdo animado que para o scroll.",
+    "brand identity, web experiences, and motion design for companies that refuse to stand still.": "Identidade de marca, experiências web e design em movimento para empresas que se recusam a ficar paradas.",
     "campaign design": "Design de campanha",
     "client": "Cliente",
     "creative agency for brands in motion.": "Agência criativa para marcas em movimento.",
@@ -87,6 +94,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "multi-channel campaigns that amplify your message.": "Campanhas multicanal que ampliam a sua mensagem.",
     "name, logo, visual system, and tone of voice. a complete brand from scratch.": "Nome, logótipo, sistema visual e tom de voz. Uma marca completa do zero.",
     "other": "Outro",
+    "start a": "Começar um",
     "thank you": "Obrigado",
     "the website they built is an experience. our bounce rate dropped to 8% and conversions tripled.": "O site que eles construíram é uma experiência. A nossa taxa de rejeição caiu para 8% e as conversões triplicaram.",
     "what we": "O que nós",

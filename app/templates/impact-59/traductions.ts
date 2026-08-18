@@ -18,6 +18,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "ce qu'on nous pose.": "Ce qu'on nous pose.",
     "crafted with stillness": "Fait dans le calme",
     "descend into stillness": "Descendre vers le calme",
+    "explore 2026 programme": "Explorer le Programme 2026",
     "founder & lead clinician": "Fondatrice et praticienne principale",
     "from $4,200": "à partir de 4 200 $",
     "from $5,800": "à partir de 5 800 $",
@@ -27,6 +28,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "protocols are timed to natural light cycles to reset the hypothalamic-pituitary-adrenal axis and restore sleep architecture.": "Les protocoles sont synchronisés avec les cycles de lumière naturelle pour réinitialiser l'axe hypothalamo-hypophysaire-surrénalien et restaurer l'architecture du sommeil.",
     "selection of the retreat landscape best suited to your specific restorative needs.": "Sélection du paysage de retraite le mieux adapté à vos besoins de restauration spécifiques.",
     "shinrin-yoku through arashiyama bamboo groves. zen walking sequences with a lineage-trained teacher. tea ceremony as contemplative practice.": "Shinrin-yoku à travers les forêts de bambous d'Arashiyama. Séquences de marche zen avec un enseignant formé par lignée. Cérémonie du thé comme pratique contemplative.",
+    "terms of access": "Conditions d'accès",
     "the luminal method": "La méthode Luminal",
   },
   es: {
@@ -38,6 +40,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "ce qu'on nous pose.": "Lo que nos preguntan.",
     "crafted with stillness": "Hecho en la calma",
     "descend into stillness": "Descender hacia la calma",
+    "explore 2026 programme": "Explorar el Programa 2026",
     "founder & lead clinician": "Fundadora y clínica principal",
     "from $4,200": "desde 4 200 $",
     "from $5,800": "desde 5 800 $",
@@ -47,6 +50,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "protocols are timed to natural light cycles to reset the hypothalamic-pituitary-adrenal axis and restore sleep architecture.": "Los protocolos están sincronizados con los ciclos de luz natural para restablecer el eje hipotálamo-hipofisario-adrenal y restaurar la arquitectura del sueño.",
     "selection of the retreat landscape best suited to your specific restorative needs.": "Selección del paisaje de retiro más adecuado a tus necesidades restaurativas específicas.",
     "shinrin-yoku through arashiyama bamboo groves. zen walking sequences with a lineage-trained teacher. tea ceremony as contemplative practice.": "Shinrin-yoku a través de los bosques de bambú de Arashiyama. Secuencias de caminata zen con un maestro entrenado por linaje. Ceremonia del té como práctica contemplativa.",
+    "terms of access": "Términos de acceso",
     "the luminal method": "El método Luminal",
   },
   de: {
@@ -58,6 +62,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "ce qu'on nous pose.": "Was uns gefragt wird.",
     "crafted with stillness": "In Stille gefertigt",
     "descend into stillness": "Hinab in die Stille",
+    "explore 2026 programme": "Erforschen Sie das Programm 2026",
     "founder & lead clinician": "Gründerin und leitende Therapeutin",
     "from $4,200": "ab 4 200 $",
     "from $5,800": "ab 5 800 $",
@@ -67,6 +72,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "protocols are timed to natural light cycles to reset the hypothalamic-pituitary-adrenal axis and restore sleep architecture.": "Die Protokolle sind auf natürliche Lichtzyklen abgestimmt, um die hypothalamisch-hypophysär-adrenalen Achse zurückzusetzen und die Schlafarchitektur wiederherzustellen.",
     "selection of the retreat landscape best suited to your specific restorative needs.": "Auswahl der Rückzugslandschaft, die am besten zu Ihren spezifischen Wiederherstellungsbedürfnissen passt.",
     "shinrin-yoku through arashiyama bamboo groves. zen walking sequences with a lineage-trained teacher. tea ceremony as contemplative practice.": "Shinrin-yoku durch die Bambuswälder von Arashiyama. Zen-Wandersequenzen mit einem linienausgebildeten Lehrer. Teezeremonie als kontemplative Praxis.",
+    "terms of access": "Zugangsbedingungen",
     "the luminal method": "Die Luminal-Methode",
   },
   pt: {
@@ -78,6 +84,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "ce qu'on nous pose.": "O que nos perguntam.",
     "crafted with stillness": "Feito na calma",
     "descend into stillness": "Descer até à calma",
+    "explore 2026 programme": "Explorar o Programa 2026",
     "founder & lead clinician": "Fundadora e clínica principal",
     "from $4,200": "a partir de 4 200 $",
     "from $5,800": "a partir de 5 800 $",
@@ -87,6 +94,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "protocols are timed to natural light cycles to reset the hypothalamic-pituitary-adrenal axis and restore sleep architecture.": "Os protocolos estão sincronizados com os ciclos de luz natural para redefinir o eixo hipotálamo-hipofisário-adrenal e restaurar a arquitetura do sono.",
     "selection of the retreat landscape best suited to your specific restorative needs.": "Seleção da paisagem de retiro mais adequada às suas necessidades restaurativas específicas.",
     "shinrin-yoku through arashiyama bamboo groves. zen walking sequences with a lineage-trained teacher. tea ceremony as contemplative practice.": "Shinrin-yoku através dos bosques de bambu de Arashiyama. Sequências de caminhada zen com um professor treinado por linhagem. Cerimônia do chá como prática contemplativa.",
+    "terms of access": "Condições de Acesso",
     "the luminal method": "O método Luminal",
   },
 };

@@ -476,7 +476,7 @@ export default function VelocityJetsPage() {
             <h1 className="text-[clamp(2.5rem,6.5vw,8rem)] font-black italic leading-[0.9] tracking-tighter mb-10 uppercase break-words">{<>{clientHeroLine(sessionData, 0, 2, 16) ?? "Redefining"}<br />{" "}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00f2ff] via-white to-[#00f2ff]">{clientHeroLine(sessionData, 1, 2, 16) ?? "Air Superiority."}</span>
             </>}</h1>
-            <p className="max-w-2xl text-lg text-white/40 leading-relaxed font-light italic mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="max-w-2xl text-lg text-white/40 leading-relaxed font-light italic mb-12">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Access the world's most advanced fleet of private aircraft. From
               rapid super-midsize charters to ultra-long-range executive suites.
             </>}</p>

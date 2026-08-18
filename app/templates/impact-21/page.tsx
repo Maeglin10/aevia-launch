@@ -423,7 +423,7 @@ return (
                 </>}</h1>
               </Reveal>
               <Reveal delay={0.2}>
-                <p className="text-gray-500 text-xl max-w-lg leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                <p className="text-gray-500 text-xl max-w-lg leading-relaxed mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                   Packaging, mobilier, objets tech. {clientName(sessionData) ?? "Forme Studio"} crée des produits qui se distinguent, se vendent, et résistent au temps.
                 </>}</p>
               </Reveal>

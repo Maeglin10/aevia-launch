@@ -10,15 +10,19 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "ce qu'on fait": "Ce que nous faisons",
     "stop waiting. start performing.": "Assez attendu. Passez à l'action.",
   },
   es: {
+    "ce qu'on fait": "Lo que hacemos",
     "stop waiting. start performing.": "Basta de esperar. Empiece a rendir.",
   },
   de: {
+    "ce qu'on fait": "Was wir tun",
     "stop waiting. start performing.": "Genug gewartet. Jetzt leisten.",
   },
   pt: {
+    "ce qu'on fait": "O que fazemos",
     "stop waiting. start performing.": "Basta de esperar. Comece a render.",
   },
 };

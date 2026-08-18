@@ -919,7 +919,7 @@ export default function Impact211Page() {
             fontWeight: 300,
             color: C.cream,
             marginBottom: "0.5rem",
-          }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maison Éclat"))}</>}</p>
+          }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maison Éclat"))}</>}</p>
           <p style={{ ...eyebrowStyle, textAlign: "center", marginBottom: "2rem" }}>
             7ème arrondissement · {clientCity(sessionData) ?? "Paris"}
           </p>

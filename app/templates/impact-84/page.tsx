@@ -204,7 +204,7 @@ return (
             </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#8A8278] text-base md:text-lg max-w-xl mb-6 md:mb-12 leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="text-[#8A8278] text-base md:text-lg max-w-xl mb-6 md:mb-12 leading-relaxed">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Une harmonie mesurée entre rigueur scientifique et vision artistique du visage. Nos protocoles de pointe respectent votre morphologie naturelle pour des résultats invisibles et durables.
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-5">

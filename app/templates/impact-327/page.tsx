@@ -677,7 +677,7 @@ export default function LignesEtBoisPage() {
             {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 19) ?? "Du plan 3D"}<br /><em style={{ color: C.oak, fontWeight: 400 }}>{clientHeroLine(sessionData, 1, 2, 19) ?? "à la pièce à vivre."}</em></>)}
           </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65, duration: 0.85, ease: EASE }} style={{ fontFamily: SANS, fontWeight: 400, fontSize: "clamp(15.5px, 1.6vw, 17.5px)", color: "rgba(255,255,255,0.78)", lineHeight: 1.75, marginBottom: "clamp(24px, 3.6vw, 36px)", maxWidth: 520 }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Cuisines, dressings et agencements dessinés au millimètre, fabriqués en France, posés par nos menuisiers salariés. Devis ferme, garantie 10 ans."}
+            {c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? "Cuisines, dressings et agencements dessinés au millimètre, fabriqués en France, posés par nos menuisiers salariés. Devis ferme, garantie 10 ans."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.85, duration: 0.85, ease: EASE }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <CtaButton href={telHref}>Réserver mon étude 3D</CtaButton>

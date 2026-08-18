@@ -304,7 +304,7 @@ return (
             <h1 className="hero-ecran-court text-7xl md:text-9xl lg:text-[11rem] font-black leading-[1.15] tracking-tighter mb-12 uppercase pb-6">{<>{clientHeroLine(sessionData, 0, 2, 7) ?? "Void &"}<br />{" "}
               <span className="text-stone-500 italic">{clientHeroLine(sessionData, 1, 2, 7) ?? "Volume."}</span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-12 uppercase tracking-tight italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-12 uppercase tracking-tight italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Redefining the relationship between structure and environment.
               Pushing the limits of computational architecture.
             </>}</p>

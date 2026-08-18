@@ -1201,7 +1201,7 @@ return (
                 color: C.textMuted, fontSize: 'clamp(15px, 2.2vw, 18px)', lineHeight: 1.7,
                 maxWidth: 540, marginBottom: 40,
               }}
-            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Spécialiste du chauffage, de la climatisation et des pompes à chaleur depuis 2009. Installation, entretien et dépannage 24h/7j dans toute la métropole lyonnaise.
             </>}</motion.p>
 

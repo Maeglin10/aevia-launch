@@ -200,7 +200,7 @@ return (
             <h1 className="text-5xl sm:text-6xl md:text-9xl lg:text-[9rem] xl:text-[11rem] font-light leading-[1.15] pb-4 tracking-tighter mb-12 uppercase text-white break-words">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Surrender"}<br />{" "}
               <span className="italic font-normal text-[var(--brand,#b8860b)]">{clientHeroLine(sessionData, 1, 2, 9) ?? "to fire."}</span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-[#f5efe0]/40 leading-relaxed font-light mb-12 italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-[#f5efe0]/40 leading-relaxed font-light mb-12 italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Chef Anatol Voss transforms memory, season, and flame into a
               dining experience that transcends cuisine.
             </>}</p>

@@ -362,7 +362,7 @@ export default function FolioStudioPage() {
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-24 items-end">
               <div className="md:col-span-5 md:col-start-8">
                 <Reveal delay={0.2}>
-                  <p className="text-xl md:text-2xl text-zinc-600 leading-normal mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                  <p className="text-xl md:text-2xl text-zinc-600 leading-normal mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                     {MANIFEST.hero.sub}
                   </>}</p>
                   <div className="flex items-center gap-6">

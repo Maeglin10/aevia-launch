@@ -355,7 +355,7 @@ export default function Impact174Page() {
               <span className="text-[var(--brand,#84cc16)]">{clientHeroLine(sessionData, 1, 3, 6) ?? "VOTRE"}</span><br />{clientHeroLine(sessionData, 2, 3, 6) ?? "CORPS."}</>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#f5f5f5]/50 text-lg leading-relaxed mb-10 max-w-md">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="text-[#f5f5f5]/50 text-lg leading-relaxed mb-10 max-w-md">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               L'entraînement haute intensité rencontre la précision scientifique. Programmes sur-mesure, coachs d'élite, résultats mesurables.
             </>}</p>
           </Reveal>

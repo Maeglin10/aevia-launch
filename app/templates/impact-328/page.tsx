@@ -486,7 +486,7 @@ export default function MaisonEstevePage() {
             {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 21) ?? "Accompagner,"}<br /><em style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 21) ?? "avec calme et clarté."}</em></>)}
           </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, duration: 1.0, ease: EASE }} style={{ fontFamily: SANS, fontSize: "clamp(15.5px, 1.5vw, 17px)", color: C.textMuted, lineHeight: 1.82, maxWidth: 480, marginBottom: "clamp(26px, 3.6vw, 38px)" }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Depuis trois générations, notre maison organise des obsèques dignes et des cérémonies fidèles à la personne — au prix annoncé, sans jamais rien presser."}
+            {c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? "Depuis trois générations, notre maison organise des obsèques dignes et des cérémonies fidèles à la personne — au prix annoncé, sans jamais rien presser."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72, duration: 1.0, ease: EASE }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <CtaButton href={telHref}><Phone size={16} /> Nous joindre — 24h/24</CtaButton>

@@ -890,7 +890,7 @@ export default function OriginRoastPage() {
                 <span style={{ color: C.caramel, fontStyle: "italic" }}>{clientHeroLine(sessionData, 1, 2, 9) ?? "to Cup."}</span>
               </>}</>)}</motion.h1>
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.25 }}
-                style={{ fontFamily: SANS, fontSize: 18, color: C.sand, lineHeight: 1.8, marginBottom: 44, maxWidth: 480, fontWeight: 300 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                style={{ fontFamily: SANS, fontSize: 18, color: C.sand, lineHeight: 1.8, marginBottom: 44, maxWidth: 480, fontWeight: 300 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Café de spécialité en petits lots — 47 fermes partenaires, 18 pays. Torréfié à la commande et expédié au pic de fraîcheur.
               </>}</motion.p>
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.35 }}

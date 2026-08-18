@@ -415,7 +415,7 @@ return (
                      </>}</>)}</motion.h1>
 
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-24 items-end text-left max-w-5xl">
-                        <p className="text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-widest">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                        <p className="text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-widest">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                            Nous maîtrisons le transit orbital commercial. Conçu pour l'élite évolutive, notre service assure une sécurité absolue vers les destinations lointaines.
                         </>}</p>
                         <div className="flex flex-col sm:flex-row gap-8 justify-end">
