@@ -12,17 +12,21 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "coo — fintech scale-up": "COO — Scale-up Fintech",
     "growth": "Croissance",
+    "tout growth inclus": "Tout Growth inclus",
   },
   es: {
     "coo — fintech scale-up": "COO — Escalado de Fintech",
     "growth": "Crecimiento",
+    "tout growth inclus": "Todo Growth incluido",
   },
   de: {
     "coo — fintech scale-up": "COO — Fintech-Skalierung",
     "growth": "Wachstum",
+    "tout growth inclus": "Alles Growth inklusive",
   },
   pt: {
     "coo — fintech scale-up": "COO — Scale-up de Fintech",
     "growth": "Crescimento",
+    "tout growth inclus": "Todo Growth incluído",
   },
 };
