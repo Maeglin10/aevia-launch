@@ -2520,9 +2520,18 @@ export function BrandColorVar() {
           poserLeContact(d?.formData);
           effacerLaMarqueDeDemonstration(d?.formData?.businessName);
           effacerLaQueueDeLaMarque(d?.formData?.businessName);
-          traduireLesLibelles(d?.formData?.locale);
-          traduireLaProse(d?.formData?.locale, traductionsDuTheme?.[d?.formData?.locale ?? ""]);
-          chiffresDeLaLangue(d?.formData?.locale);
+          /*
+            Sans session — la galerie publique des thèmes — la page se lit en
+            français : c'est la langue de la boutique. Un visiteur qui choisit
+            son thème voyait « EXPEDITIONS · GEAR » là où l'aperçu, lui, était
+            déjà traduit. La langue du navigateur décide entre nos cinq langues,
+            le français en repli.
+          */
+          const langue = d?.formData?.locale
+            ?? (["fr", "es", "de", "pt", "en"].find((l) => navigator.language?.startsWith(l)) ?? "fr");
+          traduireLesLibelles(langue);
+          traduireLaProse(langue, traductionsDuTheme?.[langue]);
+          chiffresDeLaLangue(langue);
           prolongerLeFond();
         };
         /* Le dictionnaire du thème arrive de façon asynchrone : on repasse dès
