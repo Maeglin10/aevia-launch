@@ -1654,6 +1654,51 @@ async function chargerLesTraductions(theme: string) {
   return traductionsDuTheme;
 }
 
+/*
+  Les chiffres à l'anglaise sur une page qui ne l'est pas.
+
+  Un site de fleuriste français annonçait « 4,000+ arrangements créés » — la
+  virgule des milliers est anglaise, le français met une espace. Une page de
+  logiciel affichait « $124.5K » de chiffre d'affaires : un visiteur européen
+  n'y lit pas sa monnaie.
+
+  Ces chiffres sont des chiffres de démonstration ; ils disparaissent dès que le
+  client remplit ses propres chiffres clés. Tant qu'ils sont là, ils doivent au
+  moins s'écrire dans la langue de la page.
+
+  Une seule passe pour les trois cent soixante-treize thèmes : deux cent
+  soixante-sept séparateurs et quatre-vingt-quatre montants vivent dans cinq
+  cent soixante-huit fichiers, qu'on ne va pas réécrire un à un.
+*/
+const SEPARATEUR: Record<string, string> = { fr: "\u202f", es: ".", de: ".", pt: "." };
+
+function chiffresDeLaLangue(locale: string | undefined) {
+  if (!locale || locale === "en") return;
+  const mille = SEPARATEUR[locale];
+  if (!mille) return;
+
+  const marcheur = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const aReecrire: [Text, string][] = [];
+  for (let n = marcheur.nextNode(); n; n = marcheur.nextNode()) {
+    const brut = n.nodeValue ?? "";
+    if (!/\d/.test(brut)) continue;
+    const e = n.parentElement;
+    if (!e || e.closest("style,script,noscript,template,input,textarea")) continue;
+
+    let sortie = brut;
+    /* Le dollar devient l'euro : ces montants sont du décor, pas une conversion. */
+    sortie = sortie.replace(/\$\s?(\d[\d.,]*\s?[KMB]?)/g, (_, n) => `${n} €`);
+    /* La virgule des milliers devient le séparateur de la langue. On exige
+       exactement trois chiffres derrière, pour ne pas toucher aux décimales
+       écrites « 1,5 ». Deux passes : « 1,234,567 » a deux virgules qui se
+       chevauchent, et un seul remplacement en laisserait une. */
+    for (let i = 0; i < 2; i++) sortie = sortie.replace(/(\d),(\d{3})\b/g, `$1${mille}$2`);
+
+    if (sortie !== brut) aReecrire.push([n as Text, sortie]);
+  }
+  for (const [n, valeur] of aReecrire) n.nodeValue = valeur;
+}
+
 function traduireLaProse(locale: string | undefined, dico: Record<string, string> | undefined) {
   if (!locale || locale === "en" || !dico) return;
 
@@ -2477,6 +2522,7 @@ export function BrandColorVar() {
           effacerLaQueueDeLaMarque(d?.formData?.businessName);
           traduireLesLibelles(d?.formData?.locale);
           traduireLaProse(d?.formData?.locale, traductionsDuTheme?.[d?.formData?.locale ?? ""]);
+          chiffresDeLaLangue(d?.formData?.locale);
           prolongerLeFond();
         };
         /* Le dictionnaire du thème arrive de façon asynchrone : on repasse dès

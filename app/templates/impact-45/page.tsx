@@ -388,7 +388,7 @@ return (
           opacity: 0.55,
         }}
       >
-        {clientName(sessionData) ?? "impact-45"}
+        {clientName(sessionData) ?? "Tattoo Studio Home"}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </main>

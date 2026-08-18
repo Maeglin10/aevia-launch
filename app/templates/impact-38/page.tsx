@@ -1378,7 +1378,7 @@ export default function OriginRoastPage() {
 
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
 
-        {clientName(sessionData) ?? "impact-38"}
+        {clientName(sessionData) ?? "Origin Roast"}
 
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
 

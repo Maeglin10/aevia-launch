@@ -518,7 +518,7 @@ return (
               <>
             <span className="text-2xl md:text-3xl font-light tracking-[0.2em] uppercase text-white flex items-center gap-4">
                <Landmark className="w-7 h-7 md:w-8 md:h-8 text-[var(--brand,#b4925e)]" />
-               {clientName(sessionData) ?? "IVORY"}<span className="text-[var(--brand,#b4925e)] font-black italic">.ARCHIVE</span>
+               {(clientName(sessionData) ?? "IVORY .ARCHIVE").split(" ")[0]}<span className="text-[var(--brand,#b4925e)] font-black italic">{(clientName(sessionData) ?? "IVORY .ARCHIVE").split(" ").slice(1).join(" ")}</span>
             </span>
             <span className="text-[10px] font-black tracking-[0.6em] text-white/20 uppercase italic hidden md:block">Elite Art Conservation & Private Registry</span>
               </>

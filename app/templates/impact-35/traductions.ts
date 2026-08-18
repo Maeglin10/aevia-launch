@@ -10,19 +10,27 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "day pass": "Pass Journée",
     "day pass — 25€": "Pass journée — 25 €",
+    "head of growth, finpath": "Responsable de la Croissance, FinPath",
     "open space": "Espace partagé",
   },
   es: {
+    "day pass": "Pase Diario",
     "day pass — 25€": "Pase de día — 25 €",
+    "head of growth, finpath": "Jefe de Crecimiento, FinPath",
     "open space": "Espacio compartido",
   },
   de: {
+    "day pass": "Tagespass",
     "day pass — 25€": "Tagespass — 25 €",
+    "head of growth, finpath": "Leiter des Wachstums, FinPath",
     "open space": "Gemeinschaftsbüro",
   },
   pt: {
+    "day pass": "Passe Diário",
     "day pass — 25€": "Passe diário — 25 €",
+    "head of growth, finpath": "Responsável pelo Crescimento, FinPath",
     "open space": "Espaço partilhado",
   },
 };

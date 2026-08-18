@@ -9,7 +9,13 @@ import {
 } from "lucide-react";
 import { useLang } from "@/lib/LangContext";
 import { iconeDe } from "@/lib/templates/sectorIcons";
-import { INDUSTRIES, SECTORS, SECTOR_TEMPLATES, TEMPLATE_CITY_LABELS } from "@/lib/templates/sectors";
+import {
+  INDUSTRIES,
+  SECTORS,
+  SECTOR_TEMPLATES,
+  TEMPLATE_CITY_LABELS,
+  libelleDuSecteur,
+} from "@/lib/templates/sectors";
 import { SECTOR_EXTRA_QUESTIONS } from "@/lib/templates/sector-questions";
 import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
 import { NICHE_ARCHETYPE, SANTE_NICHES } from "@/lib/wizard/archetypes";
@@ -365,7 +371,8 @@ export function StepForm() {
         step: s,
         totalSteps: TOTAL_STEPS,
         industry: form.industry || undefined,
-        businessType: form.sector || undefined,
+        /* Le libellé, pas la clé : « Médecin », pas « medecin ». */
+        businessType: libelleDuSecteur(form.sector, locale) || undefined,
         completed,
       }),
       keepalive: true,
@@ -504,7 +511,7 @@ export function StepForm() {
     void fetch("/api/sessions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ formData: { locale, sector, industry, businessType: sector } }),
+      body: JSON.stringify({ formData: { locale, sector, industry, businessType: libelleDuSecteur(sector, locale) } }),
     })
       .then((res) => res.json())
       .then((data: { sessionId: string }) => setSessionId(data.sessionId))
@@ -548,7 +555,7 @@ export function StepForm() {
         // La langue du wizard suit le client jusque dans le thème.
         locale,
         industry: form.industry, sector: form.sector,
-        businessType: form.sector, // FormData contract key
+        businessType: libelleDuSecteur(form.sector, locale), // le libellé, pas la clé
         template: form.template,
         businessName: form.businessName, tagline: form.tagline, city: form.city,
         // Pilot niches (service_rdv/food/immobilier) skip the generic

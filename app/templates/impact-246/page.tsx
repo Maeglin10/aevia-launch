@@ -237,7 +237,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
     eyebrow: 'Notre engagement',
     numeral: 'I',
     src: PHOTO.plumberMd,
-    alt: `Plombier ThermoFix ${clientName(sessionData) ?? "Pro"} à l'œuvre`,
+    alt: `Plombier ${clientName(sessionData) ?? "ThermoFix Pro"} à l'œuvre`,
     title: (
       <>
         Urgence /{' '}
@@ -251,7 +251,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
     eyebrow: "Zone d'intervention",
     numeral: 'II',
     src: PHOTO.heatingMd,
-    alt: `Zone d'intervention ThermoFix ${clientName(sessionData) ?? "Pro"} Marseille et alentours`,
+    alt: `Zone d'intervention ${clientName(sessionData) ?? "ThermoFix Pro"} Marseille et alentours`,
     title: (
       <>
         {clientCity(sessionData) ?? "Marseille"} /{' '}
@@ -534,7 +534,7 @@ function Nav() {
         ) : (
           <>
             <Wrench size={20} color={C.accent} strokeWidth={2} />
-            ThermoFix&nbsp;<span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  color: C.accent }}>{clientName(sessionData) ?? "Pro"}</span>
+            {(clientName(sessionData) ?? "ThermoFix Pro").split(" ")[0]}&nbsp;<span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  color: C.accent }}>{(clientName(sessionData) ?? "ThermoFix Pro").split(" ").slice(1).join(" ")}</span>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: C.accent, display: 'inline-block', marginLeft: 2 }} />
           </>
         )}
@@ -699,7 +699,7 @@ function Hero() {
       >
         <img
           src={PHOTO.plumber}
-          alt={`Plombier-chauffagiste ThermoFix ${clientName(sessionData) ?? "Pro"} en intervention à Marseille`}
+          alt={`Plombier-chauffagiste ${clientName(sessionData) ?? "ThermoFix Pro"} en intervention à Marseille`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="true"
         />
@@ -1513,7 +1513,7 @@ function TechPanel() {
           >
             <img
               src={PHOTO.acMd}
-              alt={`Technicien certifié ThermoFix ${clientName(sessionData) ?? "Pro"}`}
+              alt={`Technicien certifié ${clientName(sessionData) ?? "ThermoFix Pro"}`}
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />

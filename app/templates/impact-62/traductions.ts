@@ -10,15 +10,23 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "old world journey": "Voyage dans le vieux monde",
+    "surrender to fire": "Abandonnez-vous au feu",
     "the tasting menu": "Le menu dégustation",
   },
   es: {
+    "old world journey": "Viaje por el viejo mundo",
+    "surrender to fire": "Ríndete al fuego",
     "the tasting menu": "El menú degustación",
   },
   de: {
+    "old world journey": "Reise in die alte Welt",
+    "surrender to fire": "Gib dich dem Feuer hin",
     "the tasting menu": "Das Degustationsmenü",
   },
   pt: {
+    "old world journey": "Viagem pelo Velho Mundo",
+    "surrender to fire": "Renda-se ao Fogo",
     "the tasting menu": "O menu de degustação",
   },
 };

@@ -83,9 +83,18 @@ for (const theme of Object.keys(SECTEURS).sort((a, b) => Number(a.slice(7)) - Nu
   /* Un thème neutre ne penche vers rien : on ne le juge pas. */
   const net = points >= 6 && points >= second * 1.6;
 
-  const proposes = [...new Set((SECTEURS[theme] ?? []).map((s) => DOMAINES[s]).filter(Boolean))];
-  if (!net || proposes.length === 0) continue;
-  if (proposes.includes(devine)) continue;
+  /*
+    Juger secteur par secteur, non pas thème par thème.
+
+    impact-180 est un site de chauffagiste proposé à la fois aux toiletteurs et
+    aux coiffeurs. En regardant le thème dans son ensemble, un seul secteur bien
+    rattaché suffisait à le blanchir — et le coiffeur continuait de recevoir
+    « URGENCE 4H » et un tableau électrique en couverture.
+  */
+  const secteurs = SECTEURS[theme] ?? [];
+  const fautifs = secteurs.filter((s) => DOMAINES[s] && DOMAINES[s] !== devine);
+  if (!net || fautifs.length === 0) continue;
+  const proposes = [...new Set(fautifs.map((s) => DOMAINES[s]))];
 
   /* Le nom de démonstration doit pencher du même côté que le texte. */
   const marque = MARQUES[theme] ?? "";
@@ -95,11 +104,11 @@ for (const theme of Object.keys(SECTEURS).sort((a, b) => Number(a.slice(7)) - Nu
     .sort((a, b) => b[1] - a[1]);
   if (versLaMarque[0][1] === 0 || versLaMarque[0][0] !== devine) continue;
 
-  rapport.push({ theme, raconte: devine, points, marque, propose: proposes.join(", ") });
+  rapport.push({ theme, raconte: devine, points, marque, secteurs: fautifs, propose: proposes.join(", ") });
 }
 
 console.log(`${rapport.length} thèmes racontent un métier autre que celui auquel on les propose :\n`);
 for (const r of rapport) {
-  console.log(`  ${r.theme.padEnd(12)} « ${r.marque} » → ${r.raconte} · proposé à « ${r.propose} »`);
+  console.log(`  ${r.theme.padEnd(12)} « ${r.marque} » raconte ${r.raconte} · proposé à ${r.secteurs.join(", ")} (${r.propose})`);
 }
 fs.writeFileSync("/tmp/catalogue-ecarts.json", JSON.stringify(rapport, null, 1));
