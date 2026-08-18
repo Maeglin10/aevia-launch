@@ -2491,9 +2491,16 @@ export function BrandColorVar() {
       if (id) sessionStorage.setItem(cleSession, id);
       else id = sessionStorage.getItem(cleSession);
     } catch {}
-    if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
+    /*
+      Sans session — la galerie publique — les passes tournent quand même, sur
+      les seuls textes de démonstration : traduction, chiffres, lisibilité.
+      Le garde `return` coupait tout, et la vitrine restait anglaise là où
+      l'aperçu du même thème était déjà traduit.
+    */
+    (id
+      ? fetch(`/api/sessions?id=${id}`).then((r) => r.json()).catch(() => undefined)
+      : Promise.resolve(undefined)
+    )
       .then((d) => {
         const c: string | undefined = d?.formData?.brandColor;
         if (c && /^#?[0-9a-f]{6}$/i.test(c.trim())) {
