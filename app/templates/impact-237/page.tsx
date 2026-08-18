@@ -37,7 +37,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   {clientName(sessionData) ?? "Cabinet Dentaire Sorrento"} — Dr. Clara Sorrento & Associés · {clientCity(sessionData) ?? "Nice"}
+   {clientName(sessionData) ?? "Cabinet Dentaire Sorrento — Dr. Clara Sorrento & Associés"} · {clientCity(sessionData) ?? "Nice"}
    Photographie réelle + chorégraphie de défilement éditoriale.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */

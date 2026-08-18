@@ -438,7 +438,7 @@ export default function EchoChamberPage() {
           opacity: 0.55,
         }}
       >
-        {clientName(sessionData) ?? "impact-42"}
+        {clientName(sessionData) ?? "Echo Chamber"}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>

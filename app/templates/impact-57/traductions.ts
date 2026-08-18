@@ -12,24 +12,28 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "all work": "Toutes les réalisations",
     "available for q3 2025": "Disponible au 3e trimestre 2025",
+    "motion design": "Design de mouvement",
     "see our work →": "VOIR NOS RÉALISATIONS →",
     "view all work": "Voir toutes les réalisations",
   },
   es: {
     "all work": "Todos los trabajos",
     "available for q3 2025": "Disponible en el 3.er trimestre de 2025",
+    "motion design": "Diseño de movimiento",
     "see our work →": "VER NUESTROS TRABAJOS →",
     "view all work": "Ver todos los trabajos",
   },
   de: {
     "all work": "Alle Arbeiten",
     "available for q3 2025": "Verfügbar im 3. Quartal 2025",
+    "motion design": "Bewegungsdesign",
     "see our work →": "UNSERE ARBEITEN ANSEHEN →",
     "view all work": "Alle Arbeiten ansehen",
   },
   pt: {
     "all work": "Todos os trabalhos",
     "available for q3 2025": "Disponível no 3.º trimestre de 2025",
+    "motion design": "Design de movimento",
     "see our work →": "VER OS NOSSOS TRABALHOS →",
     "view all work": "Ver todos os trabalhos",
   },

@@ -29,7 +29,7 @@ import {
 } from 'lucide-react';
 
 /* ════════════════════════════════════════════════════════════════════════════
-   {clientName(sessionData) ?? "Cabinet Faure"} — Maître Isabelle Faure · Avocate droit de la famille & succession{" "}
+   {clientName(sessionData) ?? "Cabinet Faure — Maître Isabelle Faure"} · Avocate droit de la famille & succession{" "}
    {clientCity(sessionData) ?? "Marseille"} · Barreau de {clientCity(sessionData) ?? "Marseille"}
    Photographie réelle + chorégraphie de défilement éditoriale.
    Auto-suffisant. 'use client'.

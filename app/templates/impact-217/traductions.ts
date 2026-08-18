@@ -34,6 +34,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view all 24 styles": "Voir les 24 modèles",
     "vol. 04 — onyx · out now": "Vol. 04 — Onyx · Disponible",
     "we source full-grain suede and recycled knits that develop character. your pair will not look like anyone else’s after a year — that is the point.": "Nous choisissons des daims pleine fleur et des mailles recyclées qui prennent du caractère. Au bout d'un an, votre paire ne ressemblera à aucune autre — c'est le but.",
+    "your cart is empty": "Votre panier est vide",
   },
   es: {
     ". limited runs, built to outlast the hype.": ". Series limitadas, hechas para durar más que la moda.",
@@ -60,6 +61,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view all 24 styles": "Ver los 24 modelos",
     "vol. 04 — onyx · out now": "Vol. 04 — Onyx · Ya disponible",
     "we source full-grain suede and recycled knits that develop character. your pair will not look like anyone else’s after a year — that is the point.": "Elegimos ante de flor entera y tejidos reciclados que ganan carácter. Al cabo de un año, su par no se parecerá a ningún otro: esa es la idea.",
+    "your cart is empty": "Tu carrito está vacío",
   },
   de: {
     ". limited runs, built to outlast the hype.": ". Limitierte Serien, gebaut, um länger zu halten als der Hype.",
@@ -86,6 +88,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view all 24 styles": "Alle 24 Modelle ansehen",
     "vol. 04 — onyx · out now": "Vol. 04 — Onyx · Jetzt erhältlich",
     "we source full-grain suede and recycled knits that develop character. your pair will not look like anyone else’s after a year — that is the point.": "Wir wählen Veloursleder aus vollem Narben und recycelte Strickstoffe, die Charakter entwickeln. Nach einem Jahr gleicht Ihr Paar keinem anderen — genau darum geht es.",
+    "your cart is empty": "Ihr Warenkorb ist leer",
   },
   pt: {
     ". limited runs, built to outlast the hype.": ". Séries limitadas, feitas para durar mais do que a moda.",
@@ -112,5 +115,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view all 24 styles": "Ver os 24 modelos",
     "vol. 04 — onyx · out now": "Vol. 04 — Onyx · Já disponível",
     "we source full-grain suede and recycled knits that develop character. your pair will not look like anyone else’s after a year — that is the point.": "Escolhemos camurça de flor inteira e malhas recicladas que ganham carácter. Ao fim de um ano, o seu par não se parecerá com nenhum outro — é essa a intenção.",
+    "your cart is empty": "O seu carrinho está vazio",
   },
 };

@@ -10,21 +10,25 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "motion design": "Design de mouvement",
     "new projects": "Nouveaux projets",
     "see work →": "VOIR LES RÉALISATIONS →",
     "start project": "DÉMARRER UN PROJET",
   },
   es: {
+    "motion design": "Diseño de movimiento",
     "new projects": "Nuevos proyectos",
     "see work →": "VER LOS TRABAJOS →",
     "start project": "INICIAR UN PROYECTO",
   },
   de: {
+    "motion design": "Bewegungsdesign",
     "new projects": "Neue Projekte",
     "see work →": "ARBEITEN ANSEHEN →",
     "start project": "PROJEKT STARTEN",
   },
   pt: {
+    "motion design": "Design de movimento",
     "new projects": "Novos projetos",
     "see work →": "VER OS TRABALHOS →",
     "start project": "INICIAR UM PROJETO",

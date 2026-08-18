@@ -3107,7 +3107,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2026 {clientName(sessionData) ?? "Côte"} d&apos;Azur Coaching · Thomas Morel · Coach diplômé
+          © 2026 {clientName(sessionData) ?? "Côte d’Azur Coaching · Thomas Morel · Coach diplômé"}
           d&apos;État{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 20 }}>

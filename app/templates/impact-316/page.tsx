@@ -52,7 +52,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   {clientName(sessionData) ?? "Pro-Nettoyage"} SERVICES — Nettoyage professionnel B2B (bureaux, copropriétés).
+   {clientName(sessionData) ?? "Pro-Nettoyage SERVICES"} — Nettoyage professionnel B2B (bureaux, copropriétés).
    Réécriture premium : héros H9 double colonne + rail de stats vertical,
    geste DifferentialExit (trois plans, trois vitesses au défilement),
    services en rangées éditoriales à filet, chiffres fantômes.
