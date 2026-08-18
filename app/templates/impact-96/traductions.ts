@@ -11,14 +11,26 @@
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "ce que nos clients": "Ce que nos clients",
+    "clients": "Clients",
+    "motion design & habillage": "Design motion et habillage",
+    "vfx & motion design": "VFX et design motion",
   },
   es: {
     "ce que nos clients": "Lo que dicen nuestros clientes",
+    "clients": "Clientes",
+    "motion design & habillage": "Diseño de movimiento y vestuario",
+    "vfx & motion design": "VFX y diseño de movimiento",
   },
   de: {
     "ce que nos clients": "Was unsere Kunden sagen",
+    "clients": "Kunden",
+    "motion design & habillage": "Motion Design & Gestaltung",
+    "vfx & motion design": "VFX & Motion Design",
   },
   pt: {
     "ce que nos clients": "O que os nossos clientes dizem",
+    "clients": "Clientes",
+    "motion design & habillage": "Design de movimento e vestuário",
+    "vfx & motion design": "VFX e design de movimento",
   },
 };

@@ -11,14 +11,18 @@
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "growth": "Croissance",
+    "tout growth inclus": "Tout Growth inclus",
   },
   es: {
     "growth": "Crecimiento",
+    "tout growth inclus": "Todo Growth incluido",
   },
   de: {
     "growth": "Wachstum",
+    "tout growth inclus": "Alles Growth inklusive",
   },
   pt: {
     "growth": "Crescimento",
+    "tout growth inclus": "Todo Growth incluído",
   },
 };

@@ -12,6 +12,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "\"presence is the ultimate luxury. we provide the architecture to achieve it.\"": "« La présence est le luxe absolu. Nous en bâtissons l'architecture. »",
     "14 days · from €11,200": "14 jours · à partir de 11 200 €",
+    "2-month follow-up": "suivi de 2 mois",
     "3 days · from €2,400": "3 jours · à partir de 2 400 €",
     "7 days · from €5,800": "7 jours · à partir de 5 800 €",
     "choose your": "Choisissez votre",
@@ -35,6 +36,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   es: {
     "\"presence is the ultimate luxury. we provide the architecture to achieve it.\"": "«La presencia es el lujo absoluto. Nosotros construimos su arquitectura.»",
     "14 days · from €11,200": "14 días · desde 11.200 €",
+    "2-month follow-up": "seguimiento de 2 meses",
     "3 days · from €2,400": "3 días · desde 2.400 €",
     "7 days · from €5,800": "7 días · desde 5.800 €",
     "choose your": "Elija su",
@@ -58,6 +60,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   de: {
     "\"presence is the ultimate luxury. we provide the architecture to achieve it.\"": "„Präsenz ist der höchste Luxus. Wir bauen die Architektur dafür.“",
     "14 days · from €11,200": "14 Tage · ab 11.200 €",
+    "2-month follow-up": "2-monatige Nachverfolgung",
     "3 days · from €2,400": "3 Tage · ab 2.400 €",
     "7 days · from €5,800": "7 Tage · ab 5.800 €",
     "choose your": "Wählen Sie Ihren",
@@ -81,6 +84,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   pt: {
     "\"presence is the ultimate luxury. we provide the architecture to achieve it.\"": "«A presença é o luxo absoluto. Nós construímos a sua arquitetura.»",
     "14 days · from €11,200": "14 dias · a partir de 11.200 €",
+    "2-month follow-up": "seguimento de 2 meses",
     "3 days · from €2,400": "3 dias · a partir de 2.400 €",
     "7 days · from €5,800": "7 dias · a partir de 5.800 €",
     "choose your": "Escolha o seu",

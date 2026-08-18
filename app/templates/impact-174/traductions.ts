@@ -10,15 +10,19 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "schedule": "Horaire",
     "start today": "Commencer aujourd'hui",
   },
   es: {
+    "schedule": "Horario",
     "start today": "Empezar hoy",
   },
   de: {
+    "schedule": "Zeitplan",
     "start today": "Heute beginnen",
   },
   pt: {
+    "schedule": "Horário",
     "start today": "Começar hoje",
   },
 };

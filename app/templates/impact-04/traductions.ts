@@ -11,6 +11,7 @@
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "· all rights reserved": "· Tous droits réservés",
+    "bespoke menu by the chef": "Menu sur mesure par le Chef",
     "best restaurants france": "Meilleurs Restaurants France",
     "born from a passion": "Né d'une passion",
     "can you accommodate dietary requirements?": "Pouvez-vous répondre aux exigences alimentaires ?",
@@ -51,6 +52,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   es: {
     "· all rights reserved": "· Todos los derechos reservados",
+    "bespoke menu by the chef": "Menú a medida por el Chef",
     "best restaurants france": "Mejores Restaurantes Francia",
     "born from a passion": "Nacido de una pasión",
     "can you accommodate dietary requirements?": "¿Pueden acomodar requisitos dietéticos?",
@@ -91,6 +93,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   de: {
     "· all rights reserved": "· Alle Rechte vorbehalten",
+    "bespoke menu by the chef": "Maßgeschneidertes Menü vom Chef",
     "best restaurants france": "Beste Restaurants Frankreich",
     "born from a passion": "Aus einer Leidenschaft entstanden",
     "can you accommodate dietary requirements?": "Können Sie diätetische Anforderungen berücksichtigen?",
@@ -131,6 +134,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   pt: {
     "· all rights reserved": "· Todos os direitos reservados",
+    "bespoke menu by the chef": "Menu sob medida pelo Chef",
     "best restaurants france": "Melhores Restaurantes França",
     "born from a passion": "Nascido de uma paixão",
     "can you accommodate dietary requirements?": "Conseguem acomodar requisitos dietéticos?",

@@ -13,20 +13,24 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "des questions ?": "Des questions ?",
     "design": "Design",
     "nos clients": "Nos Clients",
+    "or 18k": "Or 18K",
   },
   es: {
     "des questions ?": "¿Preguntas?",
     "design": "Diseño",
     "nos clients": "Nuestros Clientes",
+    "or 18k": "Oro 18K",
   },
   de: {
     "des questions ?": "Fragen?",
     "design": "Design",
     "nos clients": "Unsere Kunden",
+    "or 18k": "Gold 18K",
   },
   pt: {
     "des questions ?": "Perguntas?",
     "design": "Design",
     "nos clients": "Nossos Clientes",
+    "or 18k": "Ouro 18K",
   },
 };

@@ -10,7 +10,9 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "all platforms": "Toutes les plateformes",
     "creators who chose": "Ils nous ont choisis",
+    "drop-off points by minute": "Points de chute par minute",
     "everything you need to grow": "Tout ce dont vous avez besoin pour grandir",
     "explore analytics": "Explorez les analyses",
     "featured on": "En vedette sur",
@@ -26,6 +28,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "professional-grade tools that used to cost thousands a month — now included in every waveform plan.": "Des outils de qualité professionnelle qui coûtaient autrefois des milliers par mois — maintenant inclus dans chaque plan WaveForm.",
     "real results from real podcasters — not marketing copy.": "De vrais résultats, de vrais créateurs — pas un argumentaire.",
     "real-time listener data, episode drop-off analysis, geographic heatmaps, and subscriber growth charts — all in one beautiful dashboard.": "Des données d'audience en temps réel, une analyse des abandons d'épisodes, des cartes de chaleur géographiques et des graphiques de croissance des abonnés — le tout dans un magnifique tableau de bord.",
+    "revenue attribution per episode": "Attribution des revenus par épisode",
     "see pricing plans": "Voir les formules",
     "start free — no credit card": "Commencez gratuitement — Pas de carte de crédit",
     "start your podcast": "Lancer votre balado",
@@ -38,7 +41,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "upload & host": "Téléversement & hébergement",
   },
   es: {
+    "all platforms": "Todas las plataformas",
     "creators who chose": "Nos han elegido",
+    "drop-off points by minute": "Puntos de abandono por minuto",
     "everything you need to grow": "Todo lo que necesitas para crecer",
     "explore analytics": "Explora Analíticas",
     "featured on": "Presentado en",
@@ -54,6 +59,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "professional-grade tools that used to cost thousands a month — now included in every waveform plan.": "Herramientas de calidad profesional que solían costar miles al mes — ahora incluidas en cada plan de WaveForm.",
     "real results from real podcasters — not marketing copy.": "Resultados reales de creadores reales, no un argumentario.",
     "real-time listener data, episode drop-off analysis, geographic heatmaps, and subscriber growth charts — all in one beautiful dashboard.": "Datos de oyentes en tiempo real, análisis de abandono de episodios, mapas de calor geográficos y gráficos de crecimiento de suscriptores — todo en un hermoso panel.",
+    "revenue attribution per episode": "Atribución de ingresos por episodio",
     "see pricing plans": "Ver las tarifas",
     "start free — no credit card": "Comienza gratis — Sin tarjeta de crédito",
     "start your podcast": "Lance su pódcast",
@@ -66,7 +72,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "upload & host": "Subida y alojamiento",
   },
   de: {
+    "all platforms": "Alle Plattformen",
     "creators who chose": "Sie haben uns gewählt",
+    "drop-off points by minute": "Abbruchpunkte pro Minute",
     "everything you need to grow": "Alles, was Sie zum Wachsen brauchen",
     "explore analytics": "Analysen erkunden",
     "featured on": "Vorgestellt auf",
@@ -82,6 +90,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "professional-grade tools that used to cost thousands a month — now included in every waveform plan.": "Professionelle Werkzeuge, die früher Tausende pro Monat kosteten — jetzt in jedem WaveForm-Plan enthalten.",
     "real results from real podcasters — not marketing copy.": "Echte Ergebnisse von echten Machern — kein Werbetext.",
     "real-time listener data, episode drop-off analysis, geographic heatmaps, and subscriber growth charts — all in one beautiful dashboard.": "Echtzeit-Höreranalysen, Episoden-Abbruchanalysen, geografische Heatmaps und Abonnentenwachstumsdiagramme — alles in einem schönen Dashboard.",
+    "revenue attribution per episode": "Umsatzzuordnung pro Episode",
     "see pricing plans": "Preise ansehen",
     "start free — no credit card": "Kostenlos starten — Keine Kreditkarte erforderlich",
     "start your podcast": "Podcast starten",
@@ -94,7 +103,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "upload & host": "Upload & Hosting",
   },
   pt: {
+    "all platforms": "Todas as plataformas",
     "creators who chose": "Escolheram-nos",
+    "drop-off points by minute": "Pontos de abandono por minuto",
     "everything you need to grow": "Tudo o que você precisa para crescer",
     "explore analytics": "Explore Análises",
     "featured on": "Apresentado em",
@@ -110,6 +121,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "professional-grade tools that used to cost thousands a month — now included in every waveform plan.": "Ferramentas de nível profissional que costumavam custar milhares por mês — agora incluídas em todos os planos WaveForm.",
     "real results from real podcasters — not marketing copy.": "Resultados reais de criadores reais — não um argumentário.",
     "real-time listener data, episode drop-off analysis, geographic heatmaps, and subscriber growth charts — all in one beautiful dashboard.": "Dados de ouvintes em tempo real, análise de abandono de episódios, mapas de calor geográficos e gráficos de crescimento de assinantes — tudo em um belo painel.",
+    "revenue attribution per episode": "Atribuição de receitas por episódio",
     "see pricing plans": "Ver as tarifas",
     "start free — no credit card": "Comece grátis — Sem cartão de crédito",
     "start your podcast": "Lance o seu podcast",

@@ -11,6 +11,7 @@
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "a' design award gold": "A' Design Award Gold",
+    "audit design complet": "Audit de conception complet",
     "design & prototypage": "Design & Prototypage",
     "design de concept": "Conception de concept",
     "design durable": "Design durable",
@@ -27,6 +28,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   es: {
     "a' design award gold": "Premio A' de Diseño Oro",
+    "audit design complet": "Auditoría de diseño completa",
     "design & prototypage": "Diseño y prototipado",
     "design de concept": "Diseño de concepto",
     "design durable": "Diseño sostenible",
@@ -43,6 +45,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   de: {
     "a' design award gold": "A' Design Award Gold",
+    "audit design complet": "Vollständiges Design-Audit",
     "design & prototypage": "Design & Prototyping",
     "design de concept": "Konzeptdesign",
     "design durable": "Nachhaltiges Design",
@@ -59,6 +62,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   pt: {
     "a' design award gold": "Prémio A' de Design Ouro",
+    "audit design complet": "Auditoria de design completa",
     "design & prototypage": "Design e prototipagem",
     "design de concept": "Design de conceito",
     "design durable": "Design sustentável",

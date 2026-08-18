@@ -11,18 +11,22 @@
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "nos clients": "nos clients",
+    "pop-up premium": "Pop-up premium",
     "satisfaction client": "Satisfaction client",
   },
   es: {
     "nos clients": "nuestros clientes",
+    "pop-up premium": "Pop-up premium",
     "satisfaction client": "Satisfacción del cliente",
   },
   de: {
     "nos clients": "unsere Kunden",
+    "pop-up premium": "Premium-Pop-up",
     "satisfaction client": "Kundenzufriedenheit",
   },
   pt: {
     "nos clients": "nossos clientes",
+    "pop-up premium": "Pop-up premium",
     "satisfaction client": "Satisfação do cliente",
   },
 };

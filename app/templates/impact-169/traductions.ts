@@ -10,27 +10,35 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "best-of articles": "Articles les meilleurs",
     "critique design & media": "Critique de design et des médias",
     "design": "Conception",
     "directeur produit, scale-up": "Directeur de Produit, Scale-up",
     "head of strategy, conseil": "Responsable de la Stratégie, Conseil",
+    "remote work": "Télétravail",
   },
   es: {
+    "best-of articles": "Artículos destacados",
     "critique design & media": "Crítica de diseño y medios",
     "design": "Diseño",
     "directeur produit, scale-up": "Director de Producto, Scale-up",
     "head of strategy, conseil": "Jefe de Estrategia, Consultoría",
+    "remote work": "Trabajo remoto",
   },
   de: {
+    "best-of articles": "Die besten Artikel",
     "critique design & media": "Kritik von Design und Medien",
     "design": "Design",
     "directeur produit, scale-up": "Produktleiter, Scale-up",
     "head of strategy, conseil": "Leiter der Strategie, Beratung",
+    "remote work": "Fernarbeit",
   },
   pt: {
+    "best-of articles": "Artigos de destaque",
     "critique design & media": "Crítica de design e media",
     "design": "Design",
     "directeur produit, scale-up": "Diretor de Produto, Scale-up",
     "head of strategy, conseil": "Chefe de Estratégia, Consultoria",
+    "remote work": "Trabalho remoto",
   },
 };

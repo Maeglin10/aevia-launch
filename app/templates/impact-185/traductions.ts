@@ -10,21 +10,25 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "avis clients": "Avis clients",
     "des clients.": "des clients.",
     "of grooming.": "de Toilettage.",
     "the art of grooming": "L'art du soin",
   },
   es: {
+    "avis clients": "Opiniones de clientes",
     "des clients.": "clientes.",
     "of grooming.": "de Aseo.",
     "the art of grooming": "El arte del cuidado",
   },
   de: {
+    "avis clients": "Kundenbewertungen",
     "des clients.": "Kunden.",
     "of grooming.": "von Grooming.",
     "the art of grooming": "Die Kunst der Pflege",
   },
   pt: {
+    "avis clients": "Avaliações de clientes",
     "des clients.": "clientes.",
     "of grooming.": "de Cuidado Pessoal.",
     "the art of grooming": "A arte do cuidado",
