@@ -10,15 +10,23 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
-
+    "+1 200 avis clients": "+1 200 avis clients",
+    "masque or": "Masque Or",
+    "vegan & cruelty-free": "Vegan & cruelty-free",
   },
   es: {
-
+    "+1 200 avis clients": "+1 200 opiniones de clientes",
+    "masque or": "Mascarilla de Oro",
+    "vegan & cruelty-free": "Vegano y libre de crueldad",
   },
   de: {
-
+    "+1 200 avis clients": "+1 200 Kundenbewertungen",
+    "masque or": "Goldmaske",
+    "vegan & cruelty-free": "Vegan & tierversuchsfrei",
   },
   pt: {
-
+    "+1 200 avis clients": "+1 200 avaliações de clientes",
+    "masque or": "Máscara de Ouro",
+    "vegan & cruelty-free": "Vegano e livre de crueldade",
   },
 };

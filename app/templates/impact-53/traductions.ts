@@ -10,6 +10,7 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "build.": "CONSTRUIRE.",
     "client words //": "MOTS DES CLIENTS //",
     "digital experience design": "Conception d'expérience numérique",
     "from identity animations to short-form films. we direct and produce motion content from concept to delivery — titles, brand films, social content series.": "Des animations d'identité aux films courts. Nous dirigeons et produisons du contenu animé de la conception à la livraison — titres, films de marque, séries de contenu social.",
@@ -32,6 +33,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "years": "ANNÉES",
   },
   es: {
+    "build.": "CONSTRUIR.",
     "client words //": "PALABRAS DE LOS CLIENTES //",
     "digital experience design": "Diseño de experiencia digital",
     "from identity animations to short-form films. we direct and produce motion content from concept to delivery — titles, brand films, social content series.": "Desde animaciones de identidad hasta cortometrajes. Dirigimos y producimos contenido en movimiento desde el concepto hasta la entrega — títulos, películas de marca, series de contenido social.",
@@ -54,6 +56,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "years": "AÑOS",
   },
   de: {
+    "build.": "BAUEN.",
     "client words //": "KUNDENWORTE //",
     "digital experience design": "Digitales Erlebnisdesign",
     "from identity animations to short-form films. we direct and produce motion content from concept to delivery — titles, brand films, social content series.": "Von Identitätsanimationen bis hin zu Kurzfilmen. Wir leiten und produzieren bewegte Inhalte von der Idee bis zur Auslieferung — Titel, Markenfilme, soziale Inhaltsserien.",
@@ -76,6 +79,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "years": "JAHRE",
   },
   pt: {
+    "build.": "CONSTRUIR.",
     "client words //": "PALAVRAS DOS CLIENTES //",
     "digital experience design": "Design de Experiência Digital",
     "from identity animations to short-form films. we direct and produce motion content from concept to delivery — titles, brand films, social content series.": "De animações de identidade a filmes curtos. Dirigimos e produzimos conteúdo em movimento desde o conceito até a entrega — títulos, filmes de marca, séries de conteúdo social.",

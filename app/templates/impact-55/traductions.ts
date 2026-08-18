@@ -12,6 +12,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "> about": "> à propos",
     "> work": "> travail",
+    "cve watch: true": "surveillance des CVE : vrai",
     "exploit design": "conception d'exploit",
     "on-chain identity vault": "coffre-fort d'identité en chaîne",
     "red team ops dashboard": "tableau de bord des opérations de l'équipe rouge",
@@ -21,6 +22,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   es: {
     "> about": "> acerca de",
     "> work": "> trabajo",
+    "cve watch: true": "vigilancia de CVE: verdadero",
     "exploit design": "diseño de exploit",
     "on-chain identity vault": "bóveda de identidad en cadena",
     "red team ops dashboard": "tablero de operaciones del equipo rojo",
@@ -30,6 +32,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   de: {
     "> about": "> über",
     "> work": "> Arbeit",
+    "cve watch: true": "CVE-Überwachung: wahr",
     "exploit design": "Exploit-Design",
     "on-chain identity vault": "Identitätsvault on-chain",
     "red team ops dashboard": "Dashboard für die Operationen des roten Teams",
@@ -39,6 +42,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   pt: {
     "> about": "> sobre",
     "> work": "> trabalho",
+    "cve watch: true": "vigilância de CVE: verdadeiro",
     "exploit design": "design de exploit",
     "on-chain identity vault": "cofre de identidade em cadeia",
     "red team ops dashboard": "painel de operações da equipe vermelha",

@@ -10,15 +10,19 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "design": "Conception",
     "ux design system": "Système de design UX",
   },
   es: {
+    "design": "Diseño",
     "ux design system": "Sistema de diseño UX",
   },
   de: {
+    "design": "Design",
     "ux design system": "UX-Design-System",
   },
   pt: {
+    "design": "Design",
     "ux design system": "Sistema de design UX",
   },
 };

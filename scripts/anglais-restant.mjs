@@ -63,12 +63,24 @@ for (const theme of THEMES) {
   */
   for (const m of src.matchAll(/>([^<>{}]{3,200})</g)) vus.add(m[1].replace(/\s+/g, " ").trim());
   for (const m of src.matchAll(/(?:label|title|name|desc|text|quote|role|q|a|caption|sub|subtitle|heading|cta|blurb|body|answer|question|value|stat|tag|badge|eyebrow|kicker)\s*:\s*"([^"\\]{3,160})"/g)) vus.add(m[1]);
+  /*
+    Les libellés en tableau nu : `["Expeditions", "Stories", "Gear"]`.
+    Ni nœud JSX ni paire clé-valeur — la navigation d'impact-107 restait
+    invisible, et « GEAR » s'affichait sur un site français.
+  */
+  for (const m of src.matchAll(/\[((?:\s*"[^"\\]{2,40}"\s*,?)+)\s*\]/g)) {
+    for (const c of m[1].matchAll(/"([^"\\]{3,40})"/g)) vus.add(c[1]);
+  }
 
   const restes = [];
   for (const brut of vus) {
     const t = brut.replace(/[_]+/g, " ").replace(/\s+/g, " ").trim();
     if (t.length < 4 || !/[a-z]/i.test(t)) continue;
     if (/[éèêëàâäîïôöùûüçœÉÈÊÀÂÎÔÙÛÇ]/.test(t)) continue;      /* français accentué */
+    /* Les jetons techniques pris dans les tableaux : offsets de défilement
+       (« start start »), alignements, noms de police, classes utilitaires. */
+    if (/^(start|end|center|left|right|top|bottom)([ -](start|end|center|left|right|top|bottom))?$/i.test(t)) continue;
+    if (/^[a-z0-9-]+$/.test(t) && !t.includes(" ")) continue;
     if (deja.has(t.toLowerCase()) || LEXIQUE.has(t.toLowerCase())) continue;
     const mots = t.match(ANGLAIS) ?? [];
     /* Deux mots-outils anglais, ou un seul sur un texte court : c'est de l'anglais. */

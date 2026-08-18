@@ -16,6 +16,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "clients satisfaits": "Clients satisfaits",
     "eta 2824-2 / in-house": "ETA 2824-2 / Interne",
     "new season": "Nouvelle Saison",
+    "the telegraph": "Le Telegraph",
   },
   es: {
     ". the universal eye.": ". EL OJO UNIVERSAL.",
@@ -24,6 +25,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "clients satisfaits": "Clientes satisfechos",
     "eta 2824-2 / in-house": "ETA 2824-2 / Interno",
     "new season": "Nueva Temporada",
+    "the telegraph": "El Telegraph",
   },
   de: {
     ". the universal eye.": ". DAS UNIVERSELLE AUGE.",
@@ -32,6 +34,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "clients satisfaits": "Zufriedene Kunden",
     "eta 2824-2 / in-house": "ETA 2824-2 / In-house",
     "new season": "Neue Saison",
+    "the telegraph": "Der Telegraph",
   },
   pt: {
     ". the universal eye.": ". O OLHO UNIVERSAL.",
@@ -40,5 +43,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "clients satisfaits": "Clientes satisfeitos",
     "eta 2824-2 / in-house": "ETA 2824-2 / Interno",
     "new season": "Nova Temporada",
+    "the telegraph": "O Telegraph",
   },
 };

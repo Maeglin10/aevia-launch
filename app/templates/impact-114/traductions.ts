@@ -10,23 +10,15 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
-    "ce que l'on dit": "Ce Que l'On Dit",
-    "design sur mesure": "Design Sur Mesure",
-    "red dot design 2022": "Red Dot Design 2022",
+    "papier 308g acid-free": "Papier 308g sans acide",
   },
   es: {
-    "ce que l'on dit": "Lo Que Se Dice",
-    "design sur mesure": "Diseño a Medida",
-    "red dot design 2022": "Red Dot Design 2022",
+    "papier 308g acid-free": "Papel 308g sin ácido",
   },
   de: {
-    "ce que l'on dit": "Was Man Sagt",
-    "design sur mesure": "Maßgeschneiderte Gestaltung",
-    "red dot design 2022": "Red Dot Design 2022",
+    "papier 308g acid-free": "Papier 308g säurefrei",
   },
   pt: {
-    "ce que l'on dit": "O Que Se Diz",
-    "design sur mesure": "Design Sob Medida",
-    "red dot design 2022": "Red Dot Design 2022",
+    "papier 308g acid-free": "Papel 308g livre de ácido",
   },
 };
