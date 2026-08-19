@@ -190,9 +190,19 @@ export function clientReviews(s: SessionLike | null | undefined): ClientReview[]
   );
   if (fromProfile) return fromProfile;
 
-  // Les témoignages générés restent un repli : le client a demandé qu'ils ne
-  // disparaissent pas, mais les siens passent devant.
-  const gen = enTableau(s?.generatedContent?.testimonials);
+  /*
+    Le repli ne nomme personne.
+
+    On ne génère plus de témoignages : un avis inventé au nom de l'entreprise du
+    client est un faux avis de consommateur, et c'est lui qui le publie. Ce qui
+    reste ici vient soit de ses propres avis, soit du repli neutre — « Avis à
+    venir » — qui tient la place sans faire parler quelqu'un qui n'existe pas.
+
+    Un avis nominatif noté ne passe donc que s'il porte une source vérifiable.
+  */
+  const gen = enTableau(s?.generatedContent?.testimonials).filter(
+    (r) => !trimmed(r?.name) || Boolean(trimmed(r?.source)),
+  );
   return keep(
     gen.map((r) =>
       review(

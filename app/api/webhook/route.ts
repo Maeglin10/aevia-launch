@@ -779,7 +779,6 @@ Génère du JSON avec exactement ces champs:
   "aboutTitle": "...",
   "aboutText": "...",
   "services": [{"title":"...","description":"..."},{"title":"...","description":"..."},{"title":"...","description":"..."}],
-  "testimonials": [{"name":"...","role":"...","text":"...","rating":5},{"name":"...","role":"...","text":"...","rating":5},{"name":"...","role":"...","text":"...","rating":5}],
   "ctaText": "...",
   "metaTitle": "Titre SEO 50-60 chars axé sur le SEO local avec la ville",
   "metaDescription": "Méta description SEO 140-160 chars axée sur la qualité des prestations et le SEO local"
