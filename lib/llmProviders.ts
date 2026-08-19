@@ -269,6 +269,20 @@ export async function extractMenuItems(rawMenu: string): Promise<ExtractedMenuIt
   }
 }
 
+  /*
+    Aucun témoignage inventé.
+
+    L'invite demandait « avis 25-40 mots, note 5 » et le modèle rendait des avis
+    nominatifs — « J. Dubois, Propriétaire à Annecy, 5★ » — au nom de
+    l'entreprise réelle du client. C'est un faux avis de consommateur : pratique
+    commerciale trompeuse au sens du Code de la consommation, et c'est le client
+    qui le publie sur son propre site. Trois cent quarante-deux thèmes sur trois
+    cent soixante-treize les affichaient dès que le client n'avait pas saisi les
+    siens.
+
+    Les avis viennent des clients, ou de nulle part. La place reste tenue par un
+    repli neutre et non nominatif, et le panneau d'aide invite à les saisir.
+  */
 // ─── Shared prompt builder ───────────────────────────────────────────────────
 function buildPrompt(formData: FormData): string {
   const sectorExtras = (formData as unknown as Record<string, unknown>).sectorData as Record<string, string> | undefined;
@@ -314,7 +328,6 @@ Réponds UNIQUEMENT avec un objet JSON valide (pas de \`\`\`json wrapper, pas d'
   "aboutTitle": "titre section à propos",
   "aboutText": "paragraphe à propos 40-60 mots",
   "services": [{"title":"...","description":"35-50 mots"},{"title":"...","description":"35-50 mots"},{"title":"...","description":"35-50 mots"}],
-  "testimonials": [{"name":"prénom + initiale","role":"contexte court","text":"avis 25-40 mots","rating":5},{"name":"...","role":"...","text":"...","rating":5},{"name":"...","role":"...","text":"...","rating":5}],
   "ctaText": "appel à action 4-7 mots",
   "metaTitle": "titre SEO 50-60 chars axé sur le SEO local avec la ville",
   "metaDescription": "méta description SEO 140-160 chars axée sur la qualité des prestations, le SEO local et la connexion Google Search Console & Analytics native"${rawMenu ? `,
