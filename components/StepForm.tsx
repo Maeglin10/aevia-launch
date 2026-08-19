@@ -347,6 +347,66 @@ export function StepForm() {
   // to auto-save against — previously only created at final submit.
   const [sessionId, setSessionId] = useState<string | null>(null);
 
+  /*
+    Reprendre une session en cours, à l'étape demandée.
+
+    Le panneau d'aperçu invite le client à compléter ses avis, ses tarifs, ses
+    horaires : le bouton « Compléter » pointe vers
+    `/configure?session=…&step=4`. `searchParams` était bien déclaré, et jamais
+    lu — le client retombait dans un formulaire vide à la première étape et
+    devait tout ressaisir. C'est le chemin par lequel ses vrais avis entrent :
+    il ne peut pas être une impasse.
+
+    Sans paramètre, rien ne change : le wizard s'ouvre neuf.
+  */
+  const repriseFaite = useRef(false);
+  useEffect(() => {
+    if (repriseFaite.current) return;
+    /*
+      `useSearchParams` rend une liste vide au premier rendu d'une page rendue
+      statiquement : l'effet partait, ne trouvait pas de session, et le garde
+      l'empêchait de repartir quand les paramètres arrivaient. On lit donc
+      l'URL du navigateur, qui est juste dès le premier rendu client.
+    */
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("session");
+    if (!id) return;
+    repriseFaite.current = true;
+
+    let vivant = true;
+    (async () => {
+      try {
+        const r = await fetch(`/api/sessions?id=${encodeURIComponent(id)}`, { cache: "no-store" });
+        if (!r.ok) throw new Error(String(r.status));
+        const d = await r.json();
+        if (!vivant || !d?.formData) throw new Error("session vide");
+
+        const fd = d.formData as Partial<FormState> & { benefits?: string[] };
+        setForm((f) => ({
+          ...f,
+          ...Object.fromEntries(Object.entries(fd).filter(([, v]) => v !== undefined && v !== null)),
+          /* Les bénéfices voyagent en tableau et se saisissent en trois champs. */
+          benefit1: fd.benefits?.[0] ?? f.benefit1,
+          benefit2: fd.benefits?.[1] ?? f.benefit2,
+          benefit3: fd.benefits?.[2] ?? f.benefit3,
+          businessProfile: d.businessProfile ?? f.businessProfile,
+        }));
+        setSessionId(id);
+
+        const demandee = Number(params.get("step"));
+        if (Number.isFinite(demandee) && demandee >= 1 && demandee <= 7) setStep(demandee);
+      } catch {
+        /* Session introuvable ou expirée : on laisse le formulaire neuf plutôt
+           que d'afficher une erreur pour un lien qu'on ne maîtrise pas. */
+      }
+    })();
+    return () => { vivant = false; };
+    /* Une seule reprise par montage : `repriseFaite` la garde, et l'effet ne
+       dépend donc plus de l'identité de `searchParams`, qui change à chaque
+       rendu et annulait la reprise en cours. */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Tracks whether the user attempted to advance a given step, so we only show
   // validation errors after an attempt (not on first render).
   const [attempted, setAttempted] = useState<Record<number, boolean>>({});
