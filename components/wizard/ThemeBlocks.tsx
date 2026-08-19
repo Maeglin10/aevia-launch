@@ -5,6 +5,7 @@ import { ChevronDown, Plus, X } from "lucide-react";
 import type { BusinessProfile } from "@/lib/sessions";
 import { blocksForTheme, type ContentBlock } from "@/lib/templates/capabilities";
 import { copyFor } from "@/lib/wizard/lexicon";
+import CollerDesAvis from "./CollerDesAvis";
 
 /**
  * Les questions que le thème choisi rend nécessaires.
@@ -164,6 +165,19 @@ export function ThemeBlocks({
           title={say("avis").label!}
           hint={`${say("avis").hint} Laissez vide si vous n'en avez pas encore : le thème gardera ses exemples et nous vous le rappellerons.`}
         >
+          {/* Coller d'abord, corriger ensuite : personne ne retape quarante avis. */}
+          <div className="mb-3">
+            <CollerDesAvis
+              onAjouter={(lus) =>
+                patch({
+                  reputation: {
+                    ...(profile.reputation ?? {}),
+                    featuredReviews: [...reviews.filter((r) => r.text?.trim()), ...lus],
+                  },
+                })
+              }
+            />
+          </div>
           <Repeater
             rows={reviews}
             empty={{ author: "", text: "", rating: 5, source: "" }}
