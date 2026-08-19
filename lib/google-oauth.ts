@@ -9,11 +9,25 @@ const TOKEN_URL = "https://oauth2.googleapis.com/token";
 const ANALYTICS_ADMIN_BASE = "https://analyticsadmin.googleapis.com/v1beta";
 const SITE_VERIFICATION_BASE = "https://www.googleapis.com/siteVerification/v1";
 
-const SCOPES = [
+const SCOPES_BASE = [
   "https://www.googleapis.com/auth/analytics.edit",
   "https://www.googleapis.com/auth/webmasters",
   "https://www.googleapis.com/auth/userinfo.email",
-].join(" ");
+];
+
+/*
+  Le scope des avis ne s'ajoute que lorsque Google a accordé l'accès à l'API
+  Business Profile. Le demander avant fait refuser l'écran de consentement en
+  entier : le client perdrait Analytics et Search Console pour un scope qu'on ne
+  peut pas encore utiliser. Voir lib/google-avis.ts.
+*/
+function scopes(): string {
+  const avis =
+    process.env.GOOGLE_BUSINESS_REVIEWS === "1"
+      ? ["https://www.googleapis.com/auth/business.manage"]
+      : [];
+  return [...SCOPES_BASE, ...avis].join(" ");
+}
 
 function requireEnv(name: string): string {
   const value = process.env[name];
@@ -32,7 +46,7 @@ export function getGoogleAuthUrl(sessionId: string): string {
     client_id: clientId,
     redirect_uri: getRedirectUri(),
     response_type: "code",
-    scope: SCOPES,
+    scope: scopes(),
     access_type: "offline",
     prompt: "consent",
     state: Buffer.from(sessionId).toString("base64url"),
