@@ -237,6 +237,59 @@ export default function ConfidentialitePage() {
               </p>
             </div>
 
+            {/*
+              Les données Google du client, distinctes des données du visiteur.
+
+              L'examen d'accès à l'API Business Profile vérifie que la politique
+              dit ce que l'on fait des données Google : sans cette section, la
+              demande est refusée. Elle décrit ce que le code fait vraiment —
+              voir lib/google-avis.ts.
+            */}
+            <div className="border border-zinc-200 rounded-xl p-5 bg-zinc-50">
+              <div className="flex items-start justify-between mb-2">
+                <p className="font-semibold text-zinc-900">
+                  Google Search Console &amp; Google Business Profile — Google Ireland Ltd
+                </p>
+                <span className="text-xs text-zinc-600 bg-zinc-200 px-2 py-0.5 rounded-full">
+                  Compte client
+                </span>
+              </div>
+              <p className="text-zinc-700 leading-relaxed">
+                Ces traitements ne concernent que le client qui crée un site, jamais les visiteurs de
+                ce site, et jamais sans son autorisation explicite : ils reposent sur le bouton
+                « Connecter Google », qui ouvre l&apos;écran de consentement de Google.
+              </p>
+              <ul className="text-zinc-700 leading-relaxed list-disc pl-5 mt-2 space-y-1">
+                <li>
+                  <span className="font-medium">Search Console et Analytics</span> — nous créons la
+                  propriété de mesure du site et récupérons le jeton de vérification, afin que le
+                  client dispose de ses statistiques dès la publication.
+                </li>
+                <li>
+                  <span className="font-medium">Business Profile</span> — nous lisons les avis publics
+                  de la fiche d&apos;établissement du client, pour les afficher sur son propre site.
+                  Nous lisons l&apos;auteur, la note et le texte de l&apos;avis. Nous n&apos;écrivons
+                  rien sur sa fiche, ne répondons à aucun avis, et n&apos;accédons à aucune autre
+                  donnée de son compte Google.
+                </li>
+              </ul>
+              <p className="text-zinc-700 leading-relaxed mt-2">
+                Ces données sont conservées dans la session du site du client, aussi longtemps que ce
+                site existe, et supprimées avec lui. Elles ne sont ni revendues, ni transmises à un
+                tiers, ni utilisées pour entraîner un modèle, ni employées à des fins publicitaires.
+                Le client peut retirer l&apos;autorisation à tout moment depuis la page{" "}
+                <a
+                  href="https://myaccount.google.com/permissions"
+                  className="underline hover:text-zinc-900"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  des accès de son compte Google
+                </a>
+                , ou en nous écrivant.
+              </p>
+            </div>
+
           </div>
         </section>
 
