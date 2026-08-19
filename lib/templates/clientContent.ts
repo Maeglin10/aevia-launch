@@ -194,16 +194,13 @@ export function clientReviews(s: SessionLike | null | undefined): ClientReview[]
     Le repli ne nomme personne.
 
     On ne génère plus de témoignages : un avis inventé au nom de l'entreprise du
-    client est un faux avis de consommateur, et c'est lui qui le publie. Ce qui
-    reste ici vient soit de ses propres avis, soit du repli neutre — « Avis à
-    venir » — qui tient la place sans faire parler quelqu'un qui n'existe pas.
-
-    Un avis nominatif noté ne passe donc que s'il porte une source vérifiable.
+    client est un faux avis de consommateur, et c'est lui qui le publie. Un avis
+    nominatif noté ne passe donc que s'il porte une source vérifiable.
   */
   const gen = enTableau(s?.generatedContent?.testimonials).filter(
     (r) => !trimmed(r?.name) || Boolean(trimmed(r?.source)),
   );
-  return keep(
+  const genPropres = keep(
     gen.map((r) =>
       review(
         trimmed(r?.text),
@@ -214,6 +211,43 @@ export function clientReviews(s: SessionLike | null | undefined): ClientReview[]
     ),
     (r) => Boolean(r.text),
   );
+  if (genPropres) return genPropres;
+
+  /*
+    Sans avis du client, rendre `undefined` laissait le thème afficher les
+    siens — « Marcus Chen », « Sarah Jenkins, Creative Director, Vogue ». Sur la
+    galerie publique c'est une vitrine, et c'est très bien ; sur le site d'un
+    commerce réel, ce sont de faux avis nominatifs que ce commerce publie.
+
+    On ne distingue donc pas les deux par le thème mais par la session : dès
+    qu'il y a un client derrière la page, la place est tenue par une invitation
+    qui ne fait parler personne.
+  */
+  if (!s?.formData) return undefined;
+  return PLACE_AVIS[langueDe(s)] ?? PLACE_AVIS.fr;
+}
+
+const AUTEUR_PLACE: Record<string, string> = {
+  fr: "Avis à venir", en: "Review coming", es: "Opinión por llegar",
+  de: "Bewertung folgt", pt: "Avaliação a chegar",
+};
+
+/* Ce qui tient la place des avis, dans les cinq langues, sans nommer personne. */
+const PLACE_AVIS: Record<string, ClientReview[]> = Object.fromEntries(
+  Object.entries({
+    fr: ["Cette place attend le premier avis de vos clients.", "Vous pourrez les recopier ici depuis Google ou vos courriels.", "Trois avis suffisent à rassurer un visiteur qui hésite."],
+    en: ["This space is waiting for your first customer review.", "You can paste them here from Google or your emails.", "Three reviews are enough to reassure a hesitant visitor."],
+    es: ["Este espacio espera la primera opinión de tus clientes.", "Puedes copiarlas aquí desde Google o tus correos.", "Tres opiniones bastan para tranquilizar a quien duda."],
+    de: ["Hier wartet die erste Bewertung Ihrer Kundschaft.", "Sie können sie aus Google oder Ihren E-Mails einfügen.", "Drei Bewertungen genügen, um Zögernde zu überzeugen."],
+    pt: ["Este espaço aguarda a primeira avaliação dos seus clientes.", "Pode copiá-las aqui a partir do Google ou dos seus e-mails.", "Três avaliações bastam para tranquilizar quem hesita."],
+  }).map(([langue, textes]) => [
+    langue,
+    textes.map((t) => review(t, AUTEUR_PLACE[langue] ?? AUTEUR_PLACE.fr, undefined, undefined)),
+  ]),
+);
+
+function langueDe(s: SessionLike | null | undefined): string {
+  return (s?.formData?.locale ?? "fr").slice(0, 2).toLowerCase();
 }
 
 export function clientStats(s: SessionLike | null | undefined): ClientStat[] | undefined {
