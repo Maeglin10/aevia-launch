@@ -75,7 +75,12 @@ async function runProvider(name: ProviderName, prompt: string): Promise<Provider
 // Free tier quotas vary by project; we try the better model first, then the
 // lite model if quota is exhausted, so a single project can absorb more bursts.
 async function tryGemini(prompt: string): Promise<ProviderResult> {
-  const key = process.env.GEMINI_API_KEY;
+  /*
+    La clé payante d'abord. GEMINI_API_KEY est au palier gratuit — vingt
+    requêtes avant un 429 — ce qui suffisait aux essais mais pas au trafic.
+    L'ancienne reste en repli : on ajoute une clé, on n'en remplace aucune.
+  */
+  const key = process.env.GEMINI_API_KEY_LAUNCH_PAID ?? process.env.GEMINI_API_KEY;
   if (!key) return { ok: false, provider: "gemini", reason: "no_key" };
 
   const models = ["gemini-2.5-flash", "gemini-2.5-flash-lite"];
@@ -96,6 +101,17 @@ async function tryGemini(prompt: string): Promise<ProviderResult> {
           temperature: 0.7,
           maxOutputTokens: 2048,
           responseMimeType: "application/json",
+          /*
+            Sans budget de réflexion, 2.5-flash dépense la moitié de sa sortie à
+            réfléchir : mesuré 1964 jetons de pensée pour 66 de texte, l'appel
+            s'arrêtait sur MAX_TOKENS et rendait 239 caractères de JSON tronqué.
+            Le JSON invalide faisait échouer le fournisseur, et TOUS les sites
+            repliaient sur le contenu déterministe — aucun client ne recevait de
+            rédaction. Avec le budget à zéro : 826 jetons de texte, JSON complet,
+            et treize fois moins cher. Les deux autres appels Gemini du dépôt le
+            posaient déjà ; celui-ci, le principal, l'avait perdu.
+          */
+          thinkingConfig: { thinkingBudget: 0 },
         },
       }),
     });
@@ -204,7 +220,12 @@ Menu:
 export async function extractMenuItems(rawMenu: string): Promise<ExtractedMenuItem[] | null> {
   const menu = rawMenu.trim();
   if (!menu) return null;
-  const key = process.env.GEMINI_API_KEY;
+  /*
+    La clé payante d'abord. GEMINI_API_KEY est au palier gratuit — vingt
+    requêtes avant un 429 — ce qui suffisait aux essais mais pas au trafic.
+    L'ancienne reste en repli : on ajoute une clé, on n'en remplace aucune.
+  */
+  const key = process.env.GEMINI_API_KEY_LAUNCH_PAID ?? process.env.GEMINI_API_KEY;
   if (!key) return null;
 
   const url =
