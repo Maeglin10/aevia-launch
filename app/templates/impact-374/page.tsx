@@ -1,26 +1,30 @@
 "use client";
-import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
-import { ArrowRight, Car, CheckCircle, Clock, HeartPulse, Mail, MapPin, Phone, School, Star } from "lucide-react";
+import { ArrowRight, Car, CheckCircle, Clock, HeartPulse, Mail, MapPin, Phone, Star } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { DifferentialExit } from "@/lib/templates/hero-kit-3";
 import {
-  clientCertifications,
   clientAddress,
+  clientCertifications,
   clientCity,
+  clientCodePostalVille,
+  clientEmail,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
+  clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -33,67 +37,237 @@ let bp: any = null;
 let sessionData: any = null;
 let brand: any = null;
 
-/* VTC, 2e variante, quotidien et médical assis. Signature : DifferentialExit — les deux moitiés du héros défilent à des vitesses différentes, la parallaxe de la route. Sans photographie. */
+/* ════════════════════════════════════════════════════════════════════════════
+   CAP CHAUFFEUR — VTC du quotidien & transport médical assis · Rennes.
+   Réécriture premium : héros H9 double colonne + rail de stats vertical
+   dessiné en bord de route (pointillés d'axe, jalons kilométriques),
+   geste DifferentialExit — le titre, le paragraphe et le rail ne partent
+   pas à la même vitesse au défilement : trois plans, trois vitesses,
+   la parallaxe du trajet. P8 : Newsreader (voix) + Manrope (lecture).
+   Palette claire #f4f6fa / #33518f — à distinguer d'impact-316 (même
+   geste H9) par la palette bleu nuit, la paire de fontes et le dessin
+   routier des sections (route horaire, tarifs en grille horaire).
+   ════════════════════════════════════════════════════════════════════════════ */
 
 let C: Record<string, string> = {
-  bg: "#f6fafa",
-  bgSection: "#e9f2f1",
-  bgDark: "#0f2523",
-  text: "#122120",
-  textMuted: "#546b68",
-  accent: "var(--brand,#1d7a72)",
-  accentDark: "#135e57",
-  accentLight: "#d9ecea",
-  hi: "#7fc7bd",
+  bg: "#f4f6fa",
+  bgAlt: "#e9edf5",
+  bgDark: "#141d33",
+  bgDarkAlt: "#0e1526",
+  bgCard: "#ffffff",
+  accent: "var(--brand,#33518f)",
+  accentDark: "var(--brand-light,#24406f)",
+  accentLight: "#dbe3f2",
+  ink: "#131b2c",
+  textMuted: "#4c576e",
+  textFaint: "#7e89a1",
+  border: "#d4dbe8",
   white: "#ffffff",
-  border: "#d8e5e3",
+  /* Clé métier : le jaune des feux de position, réservé aux jalons. */
+  jalon: "#e8b64c",
 };
-/*
-  La paire du plan (P8) : « Newsreader » porte la voix du thème,
-  « Manrope » porte la lecture. Le thème n'avait que
-  system-ui pour tout — c'est ce qui le rendait interchangeable avec ses
-  voisins. FONT reste le corps de texte, pour ne pas mettre une serif
-  d'affiche dans les paragraphes ; FONT_TITRE ne va qu'aux titres.
-*/
-const FONTS_CSS = `@import url('https://fonts.googleapis.com/css2?family=Newsreader:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600;700;800&display=swap');`;
-const FONT_TITRE = "'Newsreader', Georgia, 'Times New Roman', serif";
-const FONT = "'Manrope', system-ui, -apple-system, sans-serif";
-const FONT_BODY = FONT;
 
-const NAV = [{"l": "Services", "h": "#services"}, {"l": "Comment ça marche", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [];
+/*
+  La paire du plan (P8) : « Newsreader » porte la voix du thème — une serif
+  de quotidien, celle des horaires imprimés — et « Manrope » porte la
+  lecture. Deux rôles opposés : la serif ne va qu'aux titres et aux chiffres
+  du rail, la sans-serif à tout ce qui se lit.
+*/
+const FONTS_CSS = `@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Manrope:wght@300;400;500;600;700;800&display=swap');`;
+const SERIF = "'Newsreader', Georgia, 'Times New Roman', serif";
+const SANS = "'Manrope', system-ui, -apple-system, sans-serif";
+
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+const NAV = [
+  { l: "Services", h: "#services" },
+  { l: "Médical & TAP", h: "#tap" },
+  { l: "Comment ça marche", h: "#methode" },
+  { l: "Tarifs", h: "#tarifs" },
+  { l: "Contact", h: "#contact" },
+];
+
+/* ── Données de démonstration ────────────────────────────────────────────── */
 
 function SERVICES_SOURCE_LIVE() {
-  return [{"titre": "Transport médical assis (TAP)", "desc": "Dialyses, chimiothérapies, consultations : conventionné Assurance Maladie — sur prescription médicale de transport, vous n'avancez rien.", "tag": "Médical"}, {"titre": "Abonnements réguliers", "desc": "Les mêmes trajets chaque semaine : travail, kiné, école de musique des enfants. Le même chauffeur, l'horaire garanti, la facture mensuelle.", "tag": "Réguliers"}, {"titre": "Gares & aéroport", "desc": (clientCity(sessionData) ?? "Rennes") + " en TGV part tôt : prises en charge dès 6 h, bagages portés, dépose au plus près du quai.", "tag": "Gares"}, {"titre": "Aînés & mobilité douce", "desc": "Aide à la montée, accompagnement jusqu'à la salle d'attente, patience véritable : le trajet fait partie du soin.", "tag": "Aînés"}, {"titre": "Enfants & ados", "desc": "Conservatoire, sport, garde alternée : des trajets confiés au même chauffeur connu des parents — avec SMS d'arrivée.", "tag": "Familles"}, {"titre": "Courses ponctuelles", "desc": "Un dîner, un rendez-vous, une voiture au garage : le VTC classique, au prix annoncé avant de monter.", "tag": "Ponctuel"}];
+  return [
+    { titre: "Transport médical assis (TAP)", desc: "Dialyses, chimiothérapies, consultations : conventionné Assurance Maladie — sur prescription médicale de transport, vous n'avancez rien.", tag: "Médical" },
+    { titre: "Abonnements réguliers", desc: "Les mêmes trajets chaque semaine : travail, kiné, école de musique des enfants. Le même chauffeur, l'horaire garanti, la facture mensuelle.", tag: "Réguliers" },
+    { titre: "Gares & aéroport", desc: (clientCity(sessionData) ?? "Rennes") + " en TGV part tôt : prises en charge dès 6 h, bagages portés, dépose au plus près du quai.", tag: "Gares" },
+    { titre: "Aînés & mobilité douce", desc: "Aide à la montée, accompagnement jusqu'à la salle d'attente, patience véritable : le trajet fait partie du soin.", tag: "Aînés" },
+    { titre: "Enfants & ados", desc: "Conservatoire, sport, garde alternée : des trajets confiés au même chauffeur connu des parents — avec SMS d'arrivée.", tag: "Familles" },
+    { titre: "Courses ponctuelles", desc: "Un dîner, un rendez-vous, une voiture au garage : le VTC classique, au prix annoncé avant de monter.", tag: "Ponctuel" },
+  ];
 }
-let SERVICES_SOURCE = SERVICES_SOURCE_LIVE();;
+let SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "On cale vos trajets", "d": "Un appel pour poser les habitudes : jours, heures, adresses, particularités. Tout est écrit."}, {"n": "02", "t": "Confirmation la veille", "d": "SMS la veille au soir avec l'heure et le chauffeur. Pas de doute au réveil."}, {"n": "03", "t": "Le trajet, soigné", "d": "Ponctualité, aide à la montée, conduite souple : les habitués choisissent leur musique — ou le silence."}, {"n": "04", "t": "La facturation simple", "d": "Tiers payant pour le médical conventionné, facture mensuelle pour les abonnés, reçu immédiat sinon."}];
-const ENGAGEMENT_DEMO = ["Carte professionnelle VTC, entreprise au registre REVTC, assurance transport de personnes", "Conventionné transport assis (TAP) : le médical sur prescription, sans avance de frais", "Chauffeurs stables : vos trajets réguliers gardent le même visage", "SMS de confirmation la veille et d'arrivée à destination pour les proches qui s'inquiètent"];
+
+const METHODE = [
+  { n: "01", t: "On cale vos trajets", d: "Un appel pour poser les habitudes : jours, heures, adresses, particularités. Tout est écrit." },
+  { n: "02", t: "Confirmation la veille", d: "SMS la veille au soir avec l'heure et le chauffeur. Pas de doute au réveil." },
+  { n: "03", t: "Le trajet, soigné", d: "Ponctualité, aide à la montée, conduite souple : les habitués choisissent leur musique — ou le silence." },
+  { n: "04", t: "La facturation simple", d: "Tiers payant pour le médical conventionné, facture mensuelle pour les abonnés, reçu immédiat sinon." },
+];
+
+const ENGAGEMENT_DEMO = [
+  "Carte professionnelle VTC, entreprise au registre REVTC, assurance transport de personnes",
+  "Conventionné transport assis (TAP) : le médical sur prescription, sans avance de frais",
+  "Chauffeurs stables : vos trajets réguliers gardent le même visage",
+  "SMS de confirmation la veille et d'arrivée à destination pour les proches qui s'inquiètent",
+];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
+
 function TARIFS_DEMO_LIVE() {
-  return [{"a": "Transport médical assis (TAP)", "p": "conventionné", "n": "Sur prescription médicale de transport — tiers payant, zéro avance."}, {"a": "Trajet en ville", "p": "dès 12 €", "n": "Prix ferme annoncé à la réservation, attente raisonnable incluse."}, {"a": "Abonnement hebdo (4 trajets)", "p": "dès 44 €/sem.", "n": "Mêmes trajets, même chauffeur, facturé au mois."}, {"a": "Gare de " + (clientCity(sessionData) ?? "Rennes") + " (départ 6h-8h)", "p": "18 €", "n": "Prise en charge à domicile, dépose au plus près du quai."}];
+  return [
+    { a: "Transport médical assis (TAP)", p: "conventionné", n: "Sur prescription médicale de transport — tiers payant, zéro avance." },
+    { a: "Trajet en ville", p: "dès 12 €", n: "Prix ferme annoncé à la réservation, attente raisonnable incluse." },
+    { a: "Abonnement hebdo (4 trajets)", p: "dès 44 €/sem.", n: "Mêmes trajets, même chauffeur, facturé au mois." },
+    { a: "Gare de " + (clientCity(sessionData) ?? "Rennes") + " (départ 6h-8h)", p: "18 €", n: "Prise en charge à domicile, dépose au plus près du quai." },
+  ];
 }
-let TARIFS_DEMO = TARIFS_DEMO_LIVE();;
+let TARIFS_DEMO = TARIFS_DEMO_LIVE();
 let TARIFS = TARIFS_DEMO;
-const AVIS_SOURCE = [{"texte": "Trois dialyses par semaine depuis un an : toujours à l'heure, toujours le même chauffeur, la prescription gérée avec la CPAM sans que je m'en occupe. Ce service tient ma semaine debout.", "auteur": "Gérard L., 71 ans", "detail": "Transport médical TAP"}, {"texte": "Ma fille va au conservatoire le mercredi avec Cap Chauffeur depuis deux ans. SMS au départ, SMS à l'arrivée : je travaille tranquille, elle est autonome en sécurité.", "auteur": "Maman de Jeanne, 11 ans", "detail": "Abonnement famille"}, {"texte": "TGV de 6h38 tous les lundis : le chauffeur sonne à 6h05, le café est encore chaud à Montparnasse. La régularité parfaite, sans y penser.", "auteur": "Consultant rennais", "detail": "Abonnement gare"}];
+
+const AVIS_SOURCE = [
+  { texte: "Trois dialyses par semaine depuis un an : toujours à l'heure, toujours le même chauffeur, la prescription gérée avec la CPAM sans que je m'en occupe. Ce service tient ma semaine debout.", auteur: "Gérard L., 71 ans", detail: "Transport médical TAP" },
+  { texte: "Ma fille va au conservatoire le mercredi avec Cap Chauffeur depuis deux ans. SMS au départ, SMS à l'arrivée : je travaille tranquille, elle est autonome en sécurité.", auteur: "Maman de Jeanne, 11 ans", detail: "Abonnement famille" },
+  { texte: "TGV de 6h38 tous les lundis : le chauffeur sonne à 6h05, le café est encore chaud à Montparnasse. La régularité parfaite, sans y penser.", auteur: "Consultant rennais", detail: "Abonnement gare" },
+];
 let AVIS_DEMO = AVIS_SOURCE;
-const STATS_DEMO = [{"value": "TAP", "label": "Transport médical assis conventionné"}, {"value": "6h", "label": "Premières prises en charge"}, {"value": "180+", "label": "Abonnés réguliers"}, {"value": "100 %", "label": "De courses confirmées la veille"}];
+
+const STATS_DEMO = [
+  { value: "TAP", label: "Transport médical assis conventionné" },
+  { value: "6h", label: "Premières prises en charge" },
+  { value: "180+", label: "Abonnés réguliers" },
+  { value: "100 %", label: "De courses confirmées la veille" },
+];
 let STATS = STATS_DEMO;
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+/* Les arrêts de la journée type — tous tirés des services existants. */
+const TRAJETS_DEMO = [
+  "Gares & aéroport, dès 6 h",
+  "Dialyses & rendez-vous médicaux",
+  "Travail, kiné, courses du quotidien",
+  "Conservatoire, sport, sorties d'école",
+];
+let TRAJETS = TRAJETS_DEMO;
+
+/* ── Primitives ──────────────────────────────────────────────────────────── */
+
+/** Kicker filé : 40×1 px + capitales espacées. */
+function Eyebrow({ children, color = C.accent, align = "left" }: { children: React.ReactNode; color?: string; align?: "left" | "center" }) {
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 26 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 14, justifyContent: align === "center" ? "center" : "flex-start" }}>
+      <span style={{ width: 40, height: 1, background: color, opacity: 0.75, flexShrink: 0 }} />
+      <span style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.36em", textTransform: "uppercase", color, fontWeight: 700 }}>{children}</span>
+      {align === "center" ? <span style={{ width: 40, height: 1, background: color, opacity: 0.75, flexShrink: 0 }} /> : null}
+    </div>
+  );
+}
+
+function Reveal({ children, delay = 0, y = 30, style }: { children: React.ReactNode; delay?: number; y?: number; style?: React.CSSProperties }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-10% 0px -10% 0px" });
+  return (
+    <motion.div ref={ref} style={style} initial={{ opacity: 0, y }} animate={inView ? { opacity: 1, y: 0 } : undefined} transition={{ duration: 0.9, ease: EASE, delay }}>
       {children}
     </motion.div>
   );
 }
 
-function photo(i: number, fallback: string): string {
-  return fd?.photoUrls?.[i] || fallback;
+/** Bouton principal — élévation, deux ombres, flèche qui avance. */
+function CtaButton({ href, children, filled = true, dark = false }: { href: string; children: React.ReactNode; filled?: boolean; dark?: boolean }) {
+  const [h, setH] = useState(false);
+  return (
+    <a
+      href={href}
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 10,
+        padding: filled ? "15px 30px" : "14px 26px",
+        fontFamily: SANS,
+        fontSize: 14.5,
+        fontWeight: 700,
+        letterSpacing: "0.02em",
+        textDecoration: "none",
+        borderRadius: 8,
+        border: `1.5px solid ${filled ? "transparent" : dark ? "rgba(255,255,255,0.35)" : C.border}`,
+        background: filled ? (h ? C.accentDark : C.accent) : h ? (dark ? "rgba(255,255,255,0.08)" : "rgba(51,81,143,0.06)") : "transparent",
+        color: filled ? "#ffffff" : dark ? "#ffffff" : C.ink,
+        transform: h ? "translateY(-2px)" : "none",
+        boxShadow: h
+          ? filled
+            ? "0 14px 34px -12px rgba(51,81,143,0.55), 0 3px 10px -4px rgba(19,27,44,0.25)"
+            : "0 10px 26px -14px rgba(19,27,44,0.3), 0 2px 8px -4px rgba(19,27,44,0.12)"
+          : "none",
+        transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)",
+      }}
+    >
+      {children}
+      <ArrowRight size={16} style={{ transform: h ? "translateX(5px)" : "none", transition: "transform 0.5s cubic-bezier(0.16,1,0.3,1)" }} />
+    </a>
+  );
 }
+
+function NavLink({ l, h }: { l: string; h: string }) {
+  const [on, setOn] = useState(false);
+  return (
+    <a
+      href={h}
+      onMouseEnter={() => setOn(true)}
+      onMouseLeave={() => setOn(false)}
+      style={{ position: "relative", color: on ? C.ink : C.textMuted, fontSize: 13.5, fontWeight: 600, textDecoration: "none", padding: "12px 4px", transition: "color 0.3s" }}
+    >
+      {l}
+      <span style={{ position: "absolute", left: 4, bottom: 8, height: 1.5, width: on ? "calc(100% - 8px)" : "0%", background: C.accent, transition: "width 0.5s cubic-bezier(0.16,1,0.3,1)" }} />
+    </a>
+  );
+}
+
+/** Une prestation : rangée numérotée, filet, glissement au survol. */
+function ServiceRow({ s, idx }: { s: any; idx: number }) {
+  const [h, setH] = useState(false);
+  return (
+    <Reveal delay={(idx % 2) * 0.08} style={{ height: "100%" }}>
+      <article
+        onMouseEnter={() => setH(true)}
+        onMouseLeave={() => setH(false)}
+        style={{
+          borderTop: `1px solid ${h ? C.accent : C.border}`,
+          background: h ? C.bgCard : "transparent",
+          padding: "clamp(20px,2.4vw,30px) clamp(14px,1.6vw,22px)",
+          height: "100%",
+          boxSizing: "border-box",
+          transform: h ? "translateY(-4px)" : "none",
+          boxShadow: h ? "0 22px 44px -26px rgba(19,27,44,0.35), 0 4px 14px -8px rgba(51,81,143,0.18)" : "none",
+          borderRadius: h ? 10 : 0,
+          transition: "all 0.5s cubic-bezier(0.16,1,0.3,1)",
+          cursor: "default",
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, marginBottom: 12 }}>
+          <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(1.4rem,1.9vw,1.8rem)", color: h ? C.accent : C.textFaint, lineHeight: 1, transition: "color 0.5s cubic-bezier(0.16,1,0.3,1)" }}>
+            {String(idx + 1).padStart(2, "0")}
+          </span>
+          <span style={{ fontFamily: SANS, fontSize: 10.5, fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: C.accent, background: C.accentLight, borderRadius: 999, padding: "4px 12px" }}>{s.tag}</span>
+        </div>
+        <h3 style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(1.15rem,1.6vw,1.4rem)", color: C.ink, margin: "0 0 10px", lineHeight: 1.2 }}>{s.titre}</h3>
+        <p style={{ fontFamily: SANS, fontSize: 14.5, color: C.textMuted, lineHeight: 1.72, margin: 0 }}>{s.desc}</p>
+      </article>
+    </Reveal>
+  );
+}
+
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || clientPhotos(sessionData)[i] || fallback;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Page
+   ════════════════════════════════════════════════════════════════════════════ */
 
 export default function CapChauffeurPage() {
   const [session, setSession] = useState<any>(null);
@@ -113,16 +287,12 @@ export default function CapChauffeurPage() {
       .catch(() => {});
   }, []);
 
-
   fd = session?.formData;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   TARIFS_DEMO = TARIFS_DEMO_LIVE();
-
-
-
 
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
@@ -138,6 +308,7 @@ export default function CapChauffeurPage() {
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
+  TRAJETS = resolveList(clientList(sessionData, "trajets.liste"), TRAJETS_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };
@@ -146,222 +317,546 @@ export default function CapChauffeurPage() {
   const SERVICES = resolveList(
     clientServices(sessionData)?.map((s: any, n: number) => ({
       titre: s.title ?? SERVICES_DEMO[n % SERVICES_DEMO.length].titre,
-      desc: s.description ?? SERVICES_DEMO[n % SERVICES_DEMO.length].desc,
+      desc: s.description ?? s.desc ?? SERVICES_DEMO[n % SERVICES_DEMO.length].desc,
       tag: SERVICES_DEMO[n % SERVICES_DEMO.length].tag,
     })),
-    SERVICES_DEMO
+    SERVICES_DEMO,
   );
   const AVIS = resolveList(
     clientReviews(sessionData)?.map((r: any, n: number) => ({
       texte: r.text ?? AVIS_DEMO[n % AVIS_DEMO.length].texte,
       auteur: r.name ?? AVIS_DEMO[n % AVIS_DEMO.length].auteur,
-      detail: r.location ?? AVIS_DEMO[n % AVIS_DEMO.length].detail,
+      detail: r.location ?? r.role ?? AVIS_DEMO[n % AVIS_DEMO.length].detail,
     })),
-    AVIS_DEMO
+    AVIS_DEMO,
   );
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  
-
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", h);
+    window.addEventListener("scroll", h, { passive: true });
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const phone = fd?.phone ?? "02 99 00 00 01";
-  const telHref = `tel:${fd?.phone ?? "+33299000001"}`;
-  const mail = fd?.email ?? "courses@cap-chauffeur.fr";
+  const phone = clientPhone(sessionData) ?? "02 99 00 00 01";
+  const telHref = `tel:${(clientPhone(sessionData) ?? "+33299000001").replace(/[\s().]/g, "")}`;
+  const mail = clientEmail(sessionData) ?? "courses@cap-chauffeur.fr";
 
   return (
-    <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
+    <div style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip", WebkitFontSmoothing: "antialiased" }}>
       <style>{`${FONTS_CSS}
+        *, *::before, *::after { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        .i374-ease { transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
 
-        @media (max-width: 900px) { #i374-nav { display: none !important; } .i374-burger { display: flex !important; } }
-        @media (max-width: 860px) {
-          .i374-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
-          .i374-card { max-width: 380px; margin: 0 auto; width: 100%; }
+        @keyframes i374-roule { 0% { top: 4%; } 100% { top: 92%; } }
+        @keyframes i374-route { 0% { background-position-x: 0; } 100% { background-position-x: -64px; } }
+
+        @media (max-width: 900px) {
+          .i374-navlinks { display: none !important; }
+          .i374-burger { display: flex !important; }
+        }
+        @media (max-width: 880px) {
+          .i374-hero { grid-template-columns: 1fr !important; gap: 46px !important; }
+          .i374-rail { border-left: none !important; padding-left: 0 !important; flex-direction: row !important; flex-wrap: wrap; gap: 26px !important; }
+          .i374-rail .i374-axe { display: none !important; }
+          .i374-rail .i374-jalon { flex: 1 1 40%; }
+          .i374-rail .i374-dot { display: none !important; }
+          .i374-voiture { display: none !important; }
           .i374-split { grid-template-columns: 1fr !important; }
-          .i374-stats { grid-template-columns: 1fr 1fr !important; row-gap: 8px; }
-          .i374-stats .i374-statcell { border-right: none !important; }
-          .i374-pad { padding-left: 24px !important; padding-right: 24px !important; }
-          .i374-herotext { padding: 0 24px 44px !important; }
+          .i374-split > * { order: initial !important; }
+          .i374-sticky { position: static !important; }
+          .i374-services { grid-template-columns: 1fr !important; }
+          .i374-route { grid-template-columns: 1fr !important; }
+          .i374-route .i374-stop { border-top: none !important; border-left: 2px dashed ${C.accentLight}; padding: 10px 0 10px 22px !important; }
+          .i374-avis > * { margin-top: 0 !important; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .i374-voiture { animation: none !important; }
+          .i374-cue { display: none !important; }
         }
       `}</style>
 
-      {/* ── NAV ─────────────────────────────────────────────────────────── */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 48px", background: scrolled ? C.bg : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`, transition: "all 0.4s ease" }}>
+      {/* ── NAV — collante à quatre propriétés ─────────────────────────────── */}
+      <nav
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: scrolled ? "10px clamp(20px,4.5vw,56px)" : "20px clamp(20px,4.5vw,56px)",
+          background: scrolled ? "rgba(244,246,250,0.92)" : "transparent",
+          backdropFilter: scrolled ? "blur(14px) saturate(150%)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(14px) saturate(150%)" : "none",
+          borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,
+          transition: "all 0.55s cubic-bezier(0.16,1,0.3,1)",
+        }}
+      >
         <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
           {fd?.logoBase64 ? (
             <img src={fd.logoBase64} alt={fd?.businessName ?? "logo"} style={{ height: 30, maxWidth: 160, objectFit: "contain", display: "block" }} />
           ) : (
             <>
               <Car size={18} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Cap Chauffeur"))}</span>
-              
+              <span style={{ fontFamily: SERIF, fontWeight: 500, fontSize: 19, color: C.ink, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                {fd?.businessName ?? (clientName(sessionData) ?? "Cap Chauffeur")}
+              </span>
+              <span style={{ fontSize: 9.5, letterSpacing: "0.26em", textTransform: "uppercase", color: C.textFaint, marginLeft: 6, fontWeight: 700 }}>
+                {clientTrade(sessionData) ?? "VTC du quotidien"}
+              </span>
             </>
           )}
         </div>
-        <div id="i374-nav" style={{ display: "flex", gap: 24, alignItems: "center" }}>
+        <div className="i374-navlinks" style={{ display: "flex", gap: "clamp(14px,2vw,26px)", alignItems: "center" }}>
           {NAV.map(({ l, h }) => (
-            <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
+            <NavLink key={l} l={l} h={h} />
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33299000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a
+            href={telHref}
+            style={{ background: C.accent, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }}
+            whileHover={{ scale: 1.03 }}
+          >
             Réserver
           </motion.a>
         </div>
-        <button className="i374-burger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu" style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}>
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        <button
+          className="i374-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
         </button>
       </nav>
       {mobileOpen && (
-        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: C.bg, borderBottom: `1px solid ${C.border}`, padding: "20px 28px", display: "flex", flexDirection: "column", gap: 4 }}>
+        <div style={{ position: "fixed", top: 64, left: 0, right: 0, zIndex: 99, background: C.bg, borderBottom: `1px solid ${C.border}`, padding: "20px 28px", display: "flex", flexDirection: "column", gap: 4 }}>
           {NAV.map(({ l, h }) => (
-            <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
+            <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.ink, fontSize: 16, fontWeight: 600, textDecoration: "none", padding: "12px 0" }}>
+              {l}
+            </a>
           ))}
-          <a href={`tel:${fd?.phone ?? "+33299000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Réserver</a>
+          <a href={telHref} style={{ background: C.accent, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>
+            Réserver
+          </a>
         </div>
       )}
 
-      {/* ── HERO ────────────────────────────────────────────────────────── */}
-<section className="i374-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.08fr) minmax(0,0.92fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1260, margin: "0 auto" }}><DifferentialExit depth={0.15}>
-        <div>
-          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
-            VTC du quotidien · {clientCity(sessionData) ?? "Rennes"}
-          </motion.span>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 22) ?? "Le chauffeur des jours"}<br /><em style={{ color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 22) ?? "où ça compte."}</em></>)}
-          </>)}</motion.h1>
-          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Rendez-vous médicaux, gares matinales, enfants à récupérer, parents à véhiculer : un VTC de confiance pour les trajets de la vraie vie — dont le transport médical assis conventionné."}
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-            <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
-              Organiser mes trajets <ArrowRight size={16} />
-            </motion.a>
-            <motion.a href="#services" style={{ background: C.white, color: C.text, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ borderColor: C.accent }}>
-              Nos services
-            </motion.a>
-          </motion.div>
-          
-        </div></DifferentialExit>
-        <div className="i374-card"><DifferentialExit depth={0.85}><div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3.2", justifyContent: "center" , overflow: "hidden" }}><img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/11790230/pexels-photo-11790230.jpeg?auto=compress&cs=tinysrgb&w=1400"))} alt="Habitacle prêt pour la course" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div></DifferentialExit></div>
-      </section>
+      {/* ════════ HERO — H9 : double colonne texte + rail de stats vertical ═════
+          Geste : DifferentialExit. Le titre part vite (depth 0.9), le
+          paragraphe à vitesse moyenne (0.55), le rail lentement (0.2), le
+          chiffre fantôme presque pas (0.05) : trois plans, trois vitesses —
+          la parallaxe qu'on voit par la vitre pendant le trajet. */}
+      <section
+        id="hero"
+        style={{
+          position: "relative",
+          minHeight: "100dvh",
+          display: "flex",
+          alignItems: "center",
+          background: C.bg,
+          overflow: "hidden",
+          padding: "clamp(118px,15vh,170px) clamp(24px,6vw,96px) clamp(56px,8vh,96px)",
+        }}
+      >
+        {/* Texture : voies horizontales très pâles, comme des files de circulation. */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "repeating-linear-gradient(0deg, rgba(51,81,143,0.05) 0 1px, transparent 1px 128px)",
+            pointerEvents: "none",
+          }}
+        />
+        {/* Chiffre fantôme — l'heure de la première prise en charge. Le fond, part lentement. */}
+        <DifferentialExit depth={0.05} style={{ position: "absolute", left: "-1%", bottom: "-6%", pointerEvents: "none", zIndex: 0 }}>
+          <div
+            aria-hidden
+            style={{
+              fontFamily: SERIF,
+              fontStyle: "italic",
+              fontWeight: 300,
+              fontSize: "clamp(10rem,24vw,24rem)",
+              lineHeight: 1,
+              color: C.accent,
+              opacity: 0.06,
+              userSelect: "none",
+              whiteSpace: "nowrap",
+            }}
+          >
+            6h05
+          </div>
+        </DifferentialExit>
 
-      {/* ── STATS ───────────────────────────────────────────────────────── */}
-      <section style={{ background: C.bgDark }}>
-        <div className="i374-stats i374-pad" style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
-          {STATS.map((s, idx) => (
-            <Reveal key={s.label} delay={idx * 0.08}>
-              <div className="i374-statcell" style={{ padding: "30px 8px", textAlign: "center", borderRight: idx < 3 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>
-                <div style={{ fontFamily: FONT, fontSize: 32, color: C.hi, lineHeight: 1 }}>{s.value}</div>
-                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginTop: 7 }}>{s.label}</div>
-              </div>
-            </Reveal>
-          ))}
+        <div
+          className="i374-hero"
+          style={{
+            position: "relative",
+            zIndex: 2,
+            width: "100%",
+            maxWidth: 1240,
+            margin: "0 auto",
+            display: "grid",
+            gridTemplateColumns: "minmax(0,1.45fr) minmax(0,0.62fr)",
+            gap: "clamp(48px,6vw,100px)",
+            alignItems: "center",
+          }}
+        >
+          {/* Colonne texte — premier plan, part vite. */}
+          <div>
+            <DifferentialExit depth={0.9}>
+              <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, ease: EASE, delay: 0.05 }}>
+                <Eyebrow>{clientEyebrow(sessionData) ?? "VTC du quotidien · Rennes"}</Eyebrow>
+              </motion.div>
+              <motion.h1
+                initial={{ opacity: 0, y: 42 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.0, ease: EASE, delay: 0.16 }}
+                style={{
+                  fontFamily: SERIF,
+                  fontWeight: 500,
+                  fontSize: "clamp(2.6rem,5.6vw,5rem)",
+                  lineHeight: 0.99,
+                  letterSpacing: "-0.015em",
+                  color: C.ink,
+                  margin: "clamp(20px,2.6vw,32px) 0 clamp(18px,2.2vw,26px)",
+                  maxWidth: "17ch",
+                }}
+              >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (
+                (clientHeroLine(sessionData, 0, 2, 20) != null) ? (<>
+                  {clientHeroLine(sessionData, 0, 2, 20)}
+                  <br />
+                  <em style={{ fontStyle: "italic", color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 20)}</em>
+                </>) : (<>
+                  Le chauffeur des jours <em style={{ fontStyle: "italic", color: C.accent }}>où ça compte.</em>
+                </>)
+              )}</motion.h1>
+            </DifferentialExit>
+
+            <DifferentialExit depth={0.55}>
+              <motion.p
+                initial={{ opacity: 0, y: 26 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.95, ease: EASE, delay: 0.4 }}
+                style={{
+                  fontFamily: SANS,
+                  fontWeight: 400,
+                  fontSize: "clamp(1rem,1.5vw,1.15rem)",
+                  lineHeight: 1.75,
+                  color: C.textMuted,
+                  maxWidth: 500,
+                  margin: "0 0 clamp(26px,3.4vw,40px)",
+                }}
+              >
+                {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Rendez-vous médicaux, gares matinales, enfants à récupérer, parents à véhiculer : un VTC de confiance pour les trajets de la vraie vie — dont le transport médical assis conventionné."}
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, ease: EASE, delay: 0.56 }}
+                style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}
+              >
+                <CtaButton href={telHref}>Organiser mes trajets</CtaButton>
+                <CtaButton href="#services" filled={false}>Nos services</CtaButton>
+              </motion.div>
+              {/* Le détail gratuit : la promesse SMS, avec son point de position. */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.9, ease: EASE, delay: 0.75 }}
+                style={{ display: "flex", alignItems: "center", gap: 10, marginTop: "clamp(22px,2.8vw,34px)" }}
+              >
+                <span style={{ position: "relative", width: 8, height: 8, flexShrink: 0 }}>
+                  <span style={{ position: "absolute", inset: 0, borderRadius: 999, background: C.jalon }} />
+                  <motion.span
+                    aria-hidden
+                    animate={{ scale: [1, 2.1], opacity: [0.55, 0] }}
+                    transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
+                    style={{ position: "absolute", inset: 0, borderRadius: 999, background: C.jalon }}
+                  />
+                </span>
+                <span style={{ fontFamily: SANS, fontSize: 13, color: C.textFaint, fontWeight: 600, letterSpacing: "0.04em" }}>
+                  Confirmation SMS la veille · arrivée annoncée aux proches
+                </span>
+              </motion.div>
+            </DifferentialExit>
+          </div>
+
+          {/* Rail de stats vertical — dessiné en axe de route : pointillés,
+              jalons kilométriques, et la voiture qui descend la ligne. */}
+          <DifferentialExit depth={0.2}>
+            <motion.div
+              className="i374-rail"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.0, ease: EASE, delay: 0.5 }}
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "clamp(26px,3.6vh,44px)",
+                position: "relative",
+                paddingLeft: "clamp(26px,2.8vw,42px)",
+              }}
+            >
+              {/* L'axe : ligne discontinue verticale, marquage au sol. */}
+              <span
+                aria-hidden
+                className="i374-axe"
+                style={{
+                  position: "absolute",
+                  left: 3,
+                  top: 0,
+                  bottom: 0,
+                  width: 2,
+                  background: `repeating-linear-gradient(180deg, ${C.border} 0 12px, transparent 12px 24px)`,
+                }}
+              />
+              {/* La voiture — un point qui roule le long de l'axe. */}
+              <span
+                className="i374-voiture"
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  left: -1,
+                  top: "4%",
+                  width: 10,
+                  height: 10,
+                  borderRadius: 999,
+                  background: C.accent,
+                  boxShadow: `0 0 0 4px ${C.accentLight}`,
+                  animation: "i374-roule 9s cubic-bezier(0.16,1,0.3,1) infinite alternate",
+                }}
+              />
+              {STATS.map((s, i) => (
+                <div key={s.label + i} className="i374-jalon" style={{ position: "relative" }}>
+                  <span
+                    aria-hidden
+                    className="i374-dot"
+                    style={{
+                      position: "absolute",
+                      left: "calc(clamp(26px,2.8vw,42px) * -1)",
+                      top: 8,
+                      width: 8,
+                      height: 8,
+                      borderRadius: 999,
+                      border: `2px solid ${C.accent}`,
+                      background: C.bg,
+                    }}
+                  />
+                  <div style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(1.8rem,2.9vw,2.5rem)", lineHeight: 1, color: C.accent, letterSpacing: "-0.01em" }}>{s.value}</div>
+                  <div style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase", color: C.textFaint, marginTop: 8, fontWeight: 600, maxWidth: 200 }}>{s.label}</div>
+                </div>
+              ))}
+            </motion.div>
+          </DifferentialExit>
+        </div>
+
+        {/* Cue défilement */}
+        <div className="i374-cue" style={{ position: "absolute", bottom: 24, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
+          <span style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.3em", textTransform: "uppercase", color: C.textFaint, fontWeight: 700 }}>Le trajet</span>
+          <motion.span animate={{ y: [0, 7, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }} style={{ width: 1, height: 30, background: `linear-gradient(${C.accent}, transparent)`, display: "block" }} />
         </div>
       </section>
 
+      {/* ── RESPIRATION — une phrase, avant le premier bloc dense ──────────── */}
+      <section style={{ background: C.bgAlt, padding: "clamp(72px,10vw,130px) clamp(24px,8vw,160px)", textAlign: "center" }}>
+        <Reveal>
+          <p style={{ fontFamily: SERIF, fontStyle: "italic", fontWeight: 400, fontSize: "clamp(1.45rem,3vw,2.5rem)", lineHeight: 1.4, color: C.ink, maxWidth: 860, margin: "0 auto" }}>
+            {/* TEXTE_SECTION */ clientText(sessionData, "respiration.texte") ?? (<>
+              La régularité n&apos;est pas un luxe : c&apos;est ce qui tient une semaine <em style={{ color: C.accent }}>debout</em>.
+            </>)}
+          </p>
+        </Reveal>
+        <Reveal delay={0.18}>
+          <div style={{ width: 2, height: 64, background: `linear-gradient(${C.accent}, transparent)`, margin: "44px auto 0", borderRadius: 2 }} />
+        </Reveal>
+      </section>
 
-      {/* ── SERVICES ────────────────────────────────────────────────────── */}
-      <section id="services" className="i374-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+      {/* ── LA ROUTE — les arrêts d'une journée type, en ligne pointillée ──── */}
+      <section style={{ background: C.bg, padding: "clamp(70px,9vw,120px) clamp(24px,6vw,96px)", position: "relative", overflow: "hidden" }}>
+        <div style={{ maxWidth: 1180, margin: "0 auto" }}>
           <Reveal>
-            <div style={{ marginBottom: 50 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>{tr(sessionData, "Services")}</span>
-              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
-                Les trajets qui<br /><em>tiennent une vie.</em>
-              </>)}</h2>
-            </div>
+            <Eyebrow>Une journée sur la route</Eyebrow>
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18 }}>
-            {SERVICES.map((s, idx) => (
-              <Reveal key={s.titre} delay={idx * 0.06}>
-                <motion.div whileHover={{ y: -5 }} style={{ background: C.white, borderRadius: 12, padding: "26px 24px", border: `1px solid ${C.border}`, height: "100%" }}>
-                  <span style={{ background: C.accentLight, color: C.accentDark, borderRadius: 999, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag}</span>
-                  <h3 style={{ fontFamily: FONT_TITRE, fontSize: 18.5, color: C.text, margin: "15px 0 10px" }}>{s.titre}</h3>
-                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{s.desc}</p>
-                </motion.div>
+          <Reveal delay={0.08}>
+            <h2 style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(1.8rem,3.6vw,3rem)", lineHeight: 1.06, color: C.ink, margin: "clamp(16px,2vw,24px) 0 clamp(30px,4vw,52px)", maxWidth: "24ch" }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "trajets.titre") ?? (<>
+                Du premier train du matin <em style={{ fontStyle: "italic", color: C.accent }}>à la sortie du conservatoire.</em>
+              </>)}
+            </h2>
+          </Reveal>
+          <div
+            className="i374-route"
+            style={{
+              display: "grid",
+              gridTemplateColumns: `repeat(${TRAJETS.length}, minmax(0,1fr))`,
+              gap: "clamp(18px,2.4vw,32px)",
+              position: "relative",
+            }}
+          >
+            {TRAJETS.map((t, i) => (
+              <Reveal key={t + i} delay={i * 0.09}>
+                <div
+                  className="i374-stop"
+                  style={{
+                    borderTop: `2px dashed ${C.accentLight}`,
+                    paddingTop: 18,
+                    position: "relative",
+                  }}
+                >
+                  <span
+                    aria-hidden
+                    style={{ position: "absolute", top: -6, left: 0, width: 10, height: 10, borderRadius: 999, background: i === 0 ? C.jalon : C.accent, boxShadow: `0 0 0 4px ${C.bg}` }}
+                  />
+                  <div style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(1.05rem,1.4vw,1.25rem)", color: C.ink, lineHeight: 1.35 }}>{t}</div>
+                  <div style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.24em", textTransform: "uppercase", color: C.textFaint, marginTop: 8, fontWeight: 700 }}>
+                    Arrêt {String(i + 1).padStart(2, "0")}
+                  </div>
+                </div>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── MÉTHODE / INFOS ─────────────────────────────────────────────── */}
-      <section id="methode" className="i374-pad" style={{ padding: "96px 64px", background: C.bg }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+      {/* ── SERVICES — rangées numérotées à filet, en deux colonnes ────────── */}
+      <section id="services" style={{ background: C.bgAlt, padding: "clamp(80px,11vw,150px) clamp(24px,6vw,96px)" }}>
+        <div style={{ maxWidth: 1180, margin: "0 auto" }}>
           <Reveal>
-            <div style={{ marginBottom: 50 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Comment ça marche</span>
-              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
-                La régularité,<br /><em>c'est notre métier.</em>
-              </>)}</h2>
+            <Eyebrow>Nos services</Eyebrow>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <h2 style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(2rem,4.2vw,3.6rem)", lineHeight: 1.05, color: C.ink, margin: "clamp(16px,2vw,26px) 0 clamp(34px,4.5vw,60px)", maxWidth: "20ch" }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
+                Les trajets qui <em style={{ fontStyle: "italic", color: C.accent }}>tiennent une vie.</em>
+              </>)}
+            </h2>
+          </Reveal>
+          <div className="i374-services" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0,1fr))", gap: "0 clamp(28px,4vw,64px)" }}>
+            {SERVICES.map((s, idx) => (
+              <ServiceRow key={s.titre + idx} s={s} idx={idx} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── TAP & ENGAGEMENTS — le bloc sombre : médical conventionné ──────── */}
+      <section id="tap" style={{ background: C.bgDark, padding: "clamp(84px,11vw,150px) clamp(24px,6vw,96px)", position: "relative", overflow: "hidden" }}>
+        {/* Glow radial discret + fantôme TAP. */}
+        <div aria-hidden style={{ position: "absolute", top: "-16%", right: "-6%", width: "52%", height: "68%", background: "radial-gradient(ellipse, rgba(232,182,76,0.10) 0%, transparent 70%)", pointerEvents: "none" }} />
+        <div aria-hidden style={{ position: "absolute", right: "-2%", bottom: "-8%", fontFamily: SERIF, fontStyle: "italic", fontWeight: 300, fontSize: "clamp(9rem,20vw,20rem)", lineHeight: 1, color: C.white, opacity: 0.05, userSelect: "none", pointerEvents: "none" }}>
+          TAP
+        </div>
+        <div
+          className="i374-split"
+          style={{ maxWidth: 1180, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1.05fr) minmax(0,0.95fr)", gap: "clamp(44px,6vw,96px)", alignItems: "center", position: "relative", zIndex: 1 }}
+        >
+          <div>
+            <Reveal>
+              <Eyebrow color={C.jalon}>Transport médical assis · conventionné</Eyebrow>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <h2 style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(1.9rem,3.8vw,3.2rem)", lineHeight: 1.06, color: C.white, margin: "clamp(16px,2vw,26px) 0 clamp(18px,2.4vw,28px)", maxWidth: "18ch" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
+                  De la confiance, <em style={{ fontStyle: "italic", color: C.jalon }}>trajet après trajet.</em>
+                </>)}
+              </h2>
+            </Reveal>
+            <Reveal delay={0.14}>
+              <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(0.98rem,1.4vw,1.1rem)", lineHeight: 1.78, color: "rgba(255,255,255,0.72)", maxWidth: 480, margin: "0 0 clamp(24px,3vw,36px)" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "tap.texte") ?? (
+                  "Dialyses, chimiothérapies, consultations : le transport assis professionnalisé est conventionné Assurance Maladie. Sur prescription médicale de transport, vous n'avancez rien — le tiers payant est géré pour vous."
+                )}
+              </p>
+            </Reveal>
+            <div>
+              {ENGAGEMENT.map((e, idx) => (
+                <Reveal key={idx} delay={0.18 + idx * 0.06}>
+                  <div style={{ display: "flex", gap: 14, padding: "13px 0", borderTop: idx === 0 ? "none" : "1px solid rgba(255,255,255,0.09)", alignItems: "flex-start" }}>
+                    <CheckCircle size={17} color={C.jalon} style={{ flexShrink: 0, marginTop: 3 }} />
+                    <span style={{ fontFamily: SANS, fontSize: 14.5, color: "rgba(255,255,255,0.8)", lineHeight: 1.65 }}>{e}</span>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+            <Reveal delay={0.4}>
+              <div style={{ marginTop: "clamp(22px,3vw,34px)" }}>
+                <CtaButton href={telHref} dark>Nous appeler</CtaButton>
+              </div>
+            </Reveal>
+          </div>
+
+          {/* Photo du client — l'habitacle. Sans photo, l'aplat dessiné tient seul. */}
+          <Reveal delay={0.15}>
+            <div style={{ position: "relative" }}>
+              <div style={{ borderRadius: 14, overflow: "hidden", border: "1px solid rgba(255,255,255,0.12)", aspectRatio: "4/3.2", background: `linear-gradient(150deg, rgba(51,81,143,0.45) 0%, rgba(19,27,44,0.9) 62%), repeating-linear-gradient(0deg, rgba(255,255,255,0.04) 0 1px, transparent 1px 42px)` }}>
+                {photo(0, "https://images.pexels.com/photos/11790230/pexels-photo-11790230.jpeg?auto=compress&cs=tinysrgb&w=1400") ? (
+                  <img
+                    src={photo(0, "https://images.pexels.com/photos/11790230/pexels-photo-11790230.jpeg?auto=compress&cs=tinysrgb&w=1400")}
+                    alt="Habitacle prêt pour la course"
+                    loading="lazy"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                  />
+                ) : (
+                  <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <HeartPulse size={72} color="rgba(255,255,255,0.35)" strokeWidth={1} />
+                  </div>
+                )}
+              </div>
+              {/* Cartouche posé sur la photo — le badge conventionné. */}
+              <div style={{ position: "absolute", bottom: -16, left: "clamp(16px,2.5vw,30px)", background: C.jalon, color: C.bgDarkAlt, borderRadius: 8, padding: "12px 18px", display: "flex", alignItems: "center", gap: 9, boxShadow: "0 14px 34px -14px rgba(0,0,0,0.55)" }}>
+                <HeartPulse size={16} strokeWidth={2.2} />
+                <span style={{ fontFamily: SANS, fontSize: 12.5, fontWeight: 800, letterSpacing: "0.06em" }}>TAP conventionné · tiers payant</span>
+              </div>
             </div>
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: 18 }}>
+        </div>
+      </section>
+
+      {/* ── MÉTHODE — la feuille de route, en jalons verticaux ─────────────── */}
+      <section id="methode" style={{ background: C.bg, padding: "clamp(80px,11vw,150px) clamp(24px,6vw,96px)" }}>
+        <div className="i374-split" style={{ maxWidth: 1180, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,0.85fr) minmax(0,1.15fr)", gap: "clamp(44px,6vw,96px)", alignItems: "start" }}>
+          <div style={{ position: "sticky", top: 110, alignSelf: "start" }} className="i374-sticky">
+            <Reveal>
+              <Eyebrow>Comment ça marche</Eyebrow>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <h2 style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(1.9rem,3.8vw,3.2rem)", lineHeight: 1.06, color: C.ink, margin: "clamp(16px,2vw,24px) 0 clamp(16px,2vw,22px)", maxWidth: "16ch" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
+                  La régularité, <em style={{ fontStyle: "italic", color: C.accent }}>c&apos;est notre métier.</em>
+                </>)}
+              </h2>
+            </Reveal>
+            <Reveal delay={0.14}>
+              <p style={{ fontFamily: SANS, fontSize: "clamp(0.95rem,1.35vw,1.05rem)", lineHeight: 1.75, color: C.textMuted, maxWidth: 400 }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "methode.texte") ?? (
+                  "Quatre étapes, toujours les mêmes : c'est ce qui fait qu'un trajet régulier ne demande plus d'y penser."
+                )}
+              </p>
+            </Reveal>
+          </div>
+          <div style={{ position: "relative", paddingLeft: "clamp(30px,3.4vw,48px)" }}>
+            {/* L'axe pointillé de la feuille de route. */}
+            <span aria-hidden style={{ position: "absolute", left: 9, top: 12, bottom: 12, width: 2, background: `repeating-linear-gradient(180deg, ${C.border} 0 12px, transparent 12px 24px)` }} />
             {METHODE.map((m, idx) => (
               <Reveal key={m.n} delay={idx * 0.08}>
-                <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: "26px 24px", height: "100%" }}>
-                  <div style={{ fontFamily: FONT, fontSize: 28, color: C.accentDark, marginBottom: 12 }}>{m.n}</div>
-                  <h3 style={{ fontSize: 16.5, fontWeight: 700, color: C.text, marginBottom: 9 }}>{m.t}</h3>
-                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{m.d}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── ENGAGEMENTS ─────────────────────────────────────────────────── */}
-      <section id="engagements" className="i374-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
-        <div className="i374-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
-          <Reveal>
-            <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3", display: "flex", alignItems: "center", justifyContent: "center" }}><HeartPulse size={80} color={C.accentDark} strokeWidth={1.1} /></div>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <div>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Nos engagements</span>
-              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
-                De la confiance,<br /><em>trajet après trajet.</em>
-              </>)}</h2>
-              {ENGAGEMENT.map((e, idx) => (
-                <div key={idx} style={{ display: "flex", gap: 12, marginBottom: 14 }}>
-                  <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
-                  <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{e}</span>
-                </div>
-              ))}
-              <motion.a href={telHref} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 24, background: C.accentDark, color: "#fff", borderRadius: 8, padding: "14px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ scale: 1.02 }}>
-                Nous appeler <ArrowRight size={16} />
-              </motion.a>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── TARIFS ──────────────────────────────────────────────────────── */}
-      <section id="tarifs" className="i374-pad" style={{ padding: "96px 64px", background: C.bg }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 16 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Tarifs</span>
-              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Prévus, <em>pas subis.</em></>)}</h2>
-              <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>Transport médical conventionné : pris en charge sur prescription (bon de transport). Le reste : prix ferme annoncé à la réservation.</p>
-            </div>
-          </Reveal>
-          <div style={{ marginTop: 38 }}>
-            {TARIFS.map((tt, idx) => (
-              <Reveal key={tt.a} delay={idx * 0.06}>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "space-between", alignItems: "baseline", background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: "20px 24px", marginBottom: 12 }}>
-                  <div style={{ minWidth: 0 }}>
-                    <div style={{ fontFamily: FONT, fontSize: 17.5, color: C.text }}>{tt.a}</div>
-                    <div style={{ fontSize: 13.5, color: C.textMuted, marginTop: 5, lineHeight: 1.6 }}>{tt.n}</div>
+                <div style={{ position: "relative", padding: "clamp(18px,2.4vw,28px) 0", borderBottom: idx < METHODE.length - 1 ? `1px solid ${C.border}` : "none" }}>
+                  <span aria-hidden style={{ position: "absolute", left: "calc(clamp(30px,3.4vw,48px) * -1 + 4px)", top: "clamp(24px,3vw,34px)", width: 12, height: 12, borderRadius: 999, border: `2.5px solid ${C.accent}`, background: C.bg }} />
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 16 }}>
+                    <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(1.5rem,2.2vw,2rem)", color: C.accent, lineHeight: 1, flexShrink: 0 }}>{m.n}</span>
+                    <div>
+                      <h3 style={{ fontFamily: SANS, fontWeight: 800, fontSize: "clamp(1.05rem,1.5vw,1.25rem)", color: C.ink, margin: "0 0 8px", letterSpacing: "-0.01em" }}>{m.t}</h3>
+                      <p style={{ fontFamily: SANS, fontSize: 14.5, color: C.textMuted, lineHeight: 1.72, margin: 0, maxWidth: 480 }}>{m.d}</p>
+                    </div>
                   </div>
-                  <div style={{ fontFamily: FONT, fontSize: 19, color: C.accentDark, whiteSpace: "nowrap" }}>{tt.p}</div>
                 </div>
               </Reveal>
             ))}
@@ -369,71 +864,145 @@ export default function CapChauffeurPage() {
         </div>
       </section>
 
-      {/* ── AVIS ────────────────────────────────────────────────────────── */}
-      <section className="i374-pad" style={{ padding: "96px 64px", background: C.bgDark }}>
-        <Reveal>
-          <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Des habitudes <em style={{ color: C.hi }}>bien accompagnées</em>.</>)}</h2>
+      {/* ── TARIFS — la grille horaire : lignes à points de conduite ───────── */}
+      <section id="tarifs" style={{ background: C.bgAlt, padding: "clamp(80px,11vw,150px) clamp(24px,6vw,96px)" }}>
+        <div style={{ maxWidth: 880, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ textAlign: "center" }}>
+              <Eyebrow align="center">Tarifs</Eyebrow>
+              <h2 style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(2rem,4vw,3.4rem)", lineHeight: 1.05, color: C.ink, margin: "clamp(16px,2vw,24px) 0 14px" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>
+                  Prévus, <em style={{ fontStyle: "italic", color: C.accent }}>pas subis.</em>
+                </>)}
+              </h2>
+              <p style={{ fontFamily: SANS, fontSize: "clamp(0.95rem,1.35vw,1.05rem)", color: C.textMuted, maxWidth: 560, margin: "0 auto", lineHeight: 1.72 }}>
+                Transport médical conventionné : pris en charge sur prescription (bon de transport). Le reste : prix ferme annoncé à la réservation.
+              </p>
+            </div>
+          </Reveal>
+          <div style={{ marginTop: "clamp(36px,4.5vw,56px)", borderTop: `1px solid ${C.border}` }}>
+            {TARIFS.map((tt, idx) => (
+              <Reveal key={tt.a + idx} delay={idx * 0.06}>
+                <div style={{ padding: "clamp(18px,2.4vw,26px) 4px", borderBottom: `1px solid ${C.border}` }}>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
+                    <span style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(1.05rem,1.6vw,1.3rem)", color: C.ink, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{tt.a}</span>
+                    {/* La ligne de conduite : les points de la grille horaire. */}
+                    <span aria-hidden style={{ flex: 1, borderBottom: `2px dotted ${C.border}`, transform: "translateY(-4px)" }} />
+                    <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(1.1rem,1.7vw,1.4rem)", color: C.accent, whiteSpace: "nowrap" }}>{tt.p}</span>
+                  </div>
+                  <p style={{ fontFamily: SANS, fontSize: 13.5, color: C.textFaint, margin: "8px 0 0", lineHeight: 1.6, maxWidth: 560 }}>{tt.n}</p>
+                </div>
+              </Reveal>
+            ))}
           </div>
-        </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
-          {AVIS.map((a, idx) => (
-            <Reveal key={a.auteur} delay={idx * 0.1}>
-              <div style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.10)", borderRadius: 12, padding: "26px 24px", height: "100%" }}>
-                <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>
-                  {[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.hi} color={C.hi} />)}
-                </div>
-                <p style={{ fontFamily: FONT, fontSize: 15, fontStyle: "italic", color: "rgba(255,255,255,0.82)", lineHeight: 1.7, marginBottom: 18 }}>"{a.texte}"</p>
-                <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14 }}>
-                  <div style={{ fontWeight: 700, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
-                  <div style={{ color: C.hi, fontSize: 12, marginTop: 4 }}>{a.detail}</div>
-                </div>
-              </div>
-            </Reveal>
-          ))}
         </div>
       </section>
 
-      {/* ── CONTACT ─────────────────────────────────────────────────────── */}
-      <section id="contact" className="i374-pad" style={{ padding: "96px 64px", background: C.accentLight, textAlign: "center" }}>
-        <Reveal>
-          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>On s'organise</span>
-          <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
-            Vos trajets réguliers<br /><em>méritent un vrai service.</em>
-          </>)}</h2>
-          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>Appelez pour poser vos habitudes : devis d'abonnement immédiat, premier trajet d'essai sans engagement.</p>
-          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {phone}
-            </motion.a>
-            <motion.a href={`mailto:${mail}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "14px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ background: C.accent, color: "#fff" }}>
-              <Mail size={18} /> Nous écrire
-            </motion.a>
+      {/* ── AVIS — colonnes décalées, sur fond nuit ────────────────────────── */}
+      <section style={{ background: C.bgDarkAlt, padding: "clamp(84px,11vw,150px) clamp(24px,6vw,96px)", position: "relative", overflow: "hidden" }}>
+        <div aria-hidden style={{ position: "absolute", top: "-24%", left: "50%", transform: "translateX(-50%)", width: "70%", height: "56%", background: "radial-gradient(ellipse, rgba(51,81,143,0.22) 0%, transparent 70%)", pointerEvents: "none" }} />
+        <div style={{ maxWidth: 1180, margin: "0 auto", position: "relative", zIndex: 1 }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: "clamp(38px,5vw,64px)" }}>
+              <Eyebrow color={C.jalon} align="center">Ils montent chaque semaine</Eyebrow>
+              <h2 style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(1.9rem,3.8vw,3.2rem)", lineHeight: 1.06, color: C.white, margin: "clamp(16px,2vw,24px) 0 0" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
+                  Des habitudes <em style={{ fontStyle: "italic", color: C.jalon }}>bien accompagnées.</em>
+                </>)}
+              </h2>
+            </div>
+          </Reveal>
+          <div className="i374-avis" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: "clamp(18px,2.4vw,30px)", alignItems: "start" }}>
+            {AVIS.map((a, idx) => (
+              <Reveal key={a.auteur + idx} delay={idx * 0.1} style={{ marginTop: idx % 3 === 1 ? "clamp(0px,3vw,44px)" : 0 }}>
+                <figure style={{ background: "rgba(255,255,255,0.045)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 14, padding: "clamp(24px,3vw,36px)", margin: 0, height: "100%", boxSizing: "border-box" }}>
+                  <div style={{ display: "flex", gap: 3, marginBottom: 16 }}>
+                    {[...Array(5)].map((_, j) => (
+                      <Star key={j} size={13} fill={C.jalon} color={C.jalon} />
+                    ))}
+                  </div>
+                  <blockquote style={{ fontFamily: SERIF, fontStyle: "italic", fontWeight: 300, fontSize: "clamp(1rem,1.4vw,1.15rem)", color: "rgba(255,255,255,0.86)", lineHeight: 1.68, margin: "0 0 20px" }}>
+                    &ldquo;{a.texte}&rdquo;
+                  </blockquote>
+                  <figcaption style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 14 }}>
+                    <div style={{ fontFamily: SANS, fontWeight: 800, color: C.white, fontSize: 14 }}>{a.auteur}</div>
+                    <div style={{ fontFamily: SANS, color: C.jalon, fontSize: 11.5, marginTop: 4, letterSpacing: "0.1em", textTransform: "uppercase", fontWeight: 700 }}>{a.detail}</div>
+                  </figcaption>
+                </figure>
+              </Reveal>
+            ))}
           </div>
-        </Reveal>
+        </div>
       </section>
 
-      {/* ── FOOTER ──────────────────────────────────────────────────────── */}
-      <footer className="i374-pad" style={{ background: C.bgDark, padding: "44px 64px 22px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
-            <div>
-              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Cap Chauffeur"))}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>VTC & transport assis · {clientCity(sessionData) ?? "Rennes"}<br />REVTC — conventionné transport assis professionnalisé (TAP)</p>
+      {/* ── CONTACT ────────────────────────────────────────────────────────── */}
+      <section id="contact" style={{ background: C.bg, padding: "clamp(84px,11vw,150px) clamp(24px,6vw,96px)", textAlign: "center", position: "relative", overflow: "hidden" }}>
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "repeating-linear-gradient(0deg, rgba(51,81,143,0.045) 0 1px, transparent 1px 128px)", pointerEvents: "none" }} />
+        <div style={{ position: "relative", zIndex: 1, maxWidth: 680, margin: "0 auto" }}>
+          <Reveal>
+            <Eyebrow align="center">On s&apos;organise</Eyebrow>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <h2 style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(2rem,4.4vw,3.8rem)", lineHeight: 1.04, color: C.ink, margin: "clamp(16px,2vw,26px) 0 16px" }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
+                Vos trajets réguliers <em style={{ fontStyle: "italic", color: C.accent }}>méritent un vrai service.</em>
+              </>)}
+            </h2>
+          </Reveal>
+          <Reveal delay={0.14}>
+            <p style={{ fontFamily: SANS, fontSize: "clamp(0.98rem,1.4vw,1.1rem)", color: C.textMuted, maxWidth: 470, margin: "0 auto clamp(30px,4vw,44px)", lineHeight: 1.72 }}>
+              Appelez pour poser vos habitudes : devis d&apos;abonnement immédiat, premier trajet d&apos;essai sans engagement.
+            </p>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
+              <CtaButton href={telHref}>
+                <Phone size={16} /> {phone}
+              </CtaButton>
+              <CtaButton href={`mailto:${mail}`} filled={false}>
+                <Mail size={16} /> Nous écrire
+              </CtaButton>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: (clientAddress(sessionData) ?? ((clientCity(sessionData) ?? "Rennes") + ", Ille-et-Vilaine")) }, { icon: <Phone size={13} />, t: phone }, { icon: <Mail size={13} />, t: mail }, { icon: <Clock size={13} />, t: "Lun–Sam 6h–22h · abonnés 7j/7" }].map((item, idx) => (
-                <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
-                  <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── FOOTER ─────────────────────────────────────────────────────────── */}
+      <footer style={{ background: C.bgDarkAlt, padding: "clamp(48px,6vw,80px) clamp(24px,6vw,96px) 24px" }}>
+        <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 12 }}>
+                <Car size={16} color={C.jalon} />
+                <span style={{ fontFamily: SERIF, fontWeight: 500, fontSize: 19, color: C.white }}>{fd?.businessName ?? (clientName(sessionData) ?? "Cap Chauffeur")}</span>
+              </div>
+              <p style={{ color: "rgba(255,255,255,0.42)", fontSize: 13, lineHeight: 1.75, maxWidth: 320, margin: 0 }}>
+                {clientTrade(sessionData) ?? "VTC & transport assis"} · {clientCity(sessionData) ?? "Rennes"}
+                <br />
+                REVTC — conventionné transport assis professionnalisé (TAP)
+              </p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+              {[
+                { icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "35000", "Rennes, Ille-et-Vilaine") },
+                { icon: <Phone size={13} />, t: phone },
+                { icon: <Mail size={13} />, t: mail },
+                { icon: <Clock size={13} />, t: "Lun–Sam 6h–22h · abonnés 7j/7" },
+              ].map((item, idx) => (
+                <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.48)", fontSize: 13, alignItems: "center" }}>
+                  <span style={{ color: C.jalon }}>{item.icon}</span>
+                  {item.t}
                 </div>
               ))}
             </div>
           </div>
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Cap Chauffeur"))} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity />
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
+            <span style={{ color: "rgba(255,255,255,0.28)", fontSize: 12 }}>
+              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Cap Chauffeur")} — Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" />
+              {/* VILLE_PIED */}
+              {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
-            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
+            <span style={{ color: "rgba(255,255,255,0.28)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>
         </div>
       </footer>
