@@ -1,6 +1,6 @@
-// AUTO-GENERATED — do not hand-edit. Regenerate from <section> counts.
-// Tier by number of visual <section> blocks: <=3 landing(399), 4-5 essentiel(599),
-// 6-7 pro(899), 8+ premium(1499). Most templates are rich (7+ sections) -> pro/premium.
+// AUTO-GENERATED — do not hand-edit. Regenerate with: node scripts/generer-paliers.mjs
+// Tier by number of visual <section> blocks in the theme's home page:
+// <=3 landing(399), 4-5 essentiel(599), 6-7 pro(899), 8+ premium(1499).
 export type SiteTier = 'landing' | 'essentiel' | 'pro' | 'premium';
 export const TIER_PRICE: Record<SiteTier, number> = { landing: 399, essentiel: 599, pro: 899, premium: 1499 };
 export const TEMPLATE_TIER: Record<string, SiteTier> = {
@@ -18,7 +18,7 @@ export const TEMPLATE_TIER: Record<string, SiteTier> = {
   "impact-12": "premium", // 11 sections
   "impact-13": "premium", // 11 sections
   "impact-14": "premium", // 12 sections
-  "impact-15": "pro", // 6 sections
+  "impact-15": "premium", // 8 sections
   "impact-16": "pro", // 7 sections
   "impact-17": "premium", // 10 sections
   "impact-18": "premium", // 10 sections
@@ -28,7 +28,7 @@ export const TEMPLATE_TIER: Record<string, SiteTier> = {
   "impact-22": "pro", // 6 sections
   "impact-23": "premium", // 27 sections
   "impact-24": "premium", // 12 sections
-  "impact-25": "pro", // 7 sections
+  "impact-25": "premium", // 8 sections
   "impact-26": "pro", // 6 sections
   "impact-27": "premium", // 9 sections
   "impact-28": "premium", // 13 sections
@@ -52,13 +52,13 @@ export const TEMPLATE_TIER: Record<string, SiteTier> = {
   "impact-46": "pro", // 7 sections
   "impact-47": "pro", // 7 sections
   "impact-48": "pro", // 7 sections
-  "impact-49": "pro", // 7 sections
-  "impact-50": "pro", // 6 sections
+  "impact-49": "premium", // 8 sections
+  "impact-50": "pro", // 7 sections
   "impact-51": "pro", // 6 sections
   "impact-52": "essentiel", // 5 sections
   "impact-53": "pro", // 7 sections
   "impact-54": "pro", // 6 sections
-  "impact-55": "pro", // 6 sections
+  "impact-55": "pro", // 7 sections
   "impact-56": "pro", // 6 sections
   "impact-57": "premium", // 8 sections
   "impact-58": "premium", // 10 sections
@@ -76,7 +76,7 @@ export const TEMPLATE_TIER: Record<string, SiteTier> = {
   "impact-70": "premium", // 9 sections
   "impact-71": "essentiel", // 5 sections
   "impact-72": "pro", // 7 sections
-  "impact-73": "pro", // 6 sections
+  "impact-73": "premium", // 8 sections
   "impact-74": "premium", // 8 sections
   "impact-75": "premium", // 9 sections
   "impact-76": "premium", // 9 sections
@@ -106,10 +106,10 @@ export const TEMPLATE_TIER: Record<string, SiteTier> = {
   "impact-100": "essentiel", // 5 sections
   "impact-101": "essentiel", // 5 sections
   "impact-102": "pro", // 6 sections
-  "impact-103": "pro", // 7 sections
+  "impact-103": "premium", // 9 sections
   "impact-104": "pro", // 6 sections
-  "impact-105": "pro", // 6 sections
-  "impact-106": "pro", // 6 sections
+  "impact-105": "premium", // 8 sections
+  "impact-106": "premium", // 10 sections
   "impact-107": "pro", // 7 sections
   "impact-108": "pro", // 6 sections
   "impact-109": "pro", // 7 sections
@@ -123,14 +123,14 @@ export const TEMPLATE_TIER: Record<string, SiteTier> = {
   "impact-117": "essentiel", // 5 sections
   "impact-118": "premium", // 14 sections
   "impact-119": "pro", // 7 sections
-  "impact-120": "premium", // 10 sections
+  "impact-120": "premium", // 11 sections
   "impact-121": "premium", // 9 sections
   "impact-122": "pro", // 6 sections
   "impact-123": "pro", // 6 sections
   "impact-124": "premium", // 8 sections
   "impact-125": "essentiel", // 5 sections
   "impact-126": "pro", // 7 sections
-  "impact-127": "essentiel", // 5 sections
+  "impact-127": "premium", // 9 sections
   "impact-128": "pro", // 6 sections
   "impact-129": "pro", // 7 sections
   "impact-130": "premium", // 9 sections
@@ -141,7 +141,7 @@ export const TEMPLATE_TIER: Record<string, SiteTier> = {
   "impact-135": "premium", // 8 sections
   "impact-136": "pro", // 6 sections
   "impact-137": "pro", // 6 sections
-  "impact-138": "pro", // 6 sections
+  "impact-138": "premium", // 8 sections
   "impact-139": "premium", // 9 sections
   "impact-140": "essentiel", // 5 sections
   "impact-141": "essentiel", // 4 sections
@@ -150,25 +150,25 @@ export const TEMPLATE_TIER: Record<string, SiteTier> = {
   "impact-144": "pro", // 7 sections
   "impact-145": "pro", // 6 sections
   "impact-146": "pro", // 6 sections
-  "impact-147": "pro", // 7 sections
+  "impact-147": "premium", // 8 sections
   "impact-148": "pro", // 6 sections
   "impact-149": "pro", // 6 sections
   "impact-150": "pro", // 7 sections
   "impact-151": "essentiel", // 5 sections
-  "impact-152": "pro", // 6 sections
+  "impact-152": "pro", // 7 sections
   "impact-153": "pro", // 7 sections
   "impact-154": "premium", // 15 sections
   "impact-155": "pro", // 6 sections
-  "impact-156": "pro", // 6 sections
+  "impact-156": "premium", // 8 sections
   "impact-157": "premium", // 9 sections
   "impact-158": "pro", // 6 sections
   "impact-159": "pro", // 6 sections
   "impact-160": "essentiel", // 4 sections
-  "impact-161": "premium", // 8 sections
+  "impact-161": "premium", // 10 sections
   "impact-162": "premium", // 8 sections
   "impact-163": "premium", // 9 sections
   "impact-164": "premium", // 10 sections
-  "impact-165": "pro", // 7 sections
+  "impact-165": "premium", // 9 sections
   "impact-166": "pro", // 6 sections
   "impact-167": "pro", // 7 sections
   "impact-168": "premium", // 20 sections
@@ -182,23 +182,23 @@ export const TEMPLATE_TIER: Record<string, SiteTier> = {
   "impact-176": "premium", // 9 sections
   "impact-177": "pro", // 6 sections
   "impact-178": "pro", // 6 sections
-  "impact-179": "premium", // 8 sections
-  "impact-180": "pro", // 6 sections
-  "impact-181": "pro", // 6 sections
-  "impact-182": "pro", // 6 sections
-  "impact-183": "pro", // 6 sections
-  "impact-184": "pro", // 6 sections
-  "impact-185": "essentiel", // 5 sections
-  "impact-186": "pro", // 7 sections
-  "impact-187": "pro", // 6 sections
-  "impact-188": "essentiel", // 5 sections
-  "impact-189": "pro", // 6 sections
-  "impact-190": "essentiel", // 5 sections
-  "impact-191": "pro", // 6 sections
-  "impact-192": "essentiel", // 5 sections
-  "impact-193": "pro", // 6 sections
-  "impact-194": "essentiel", // 5 sections
-  "impact-195": "pro", // 6 sections
+  "impact-179": "premium", // 10 sections
+  "impact-180": "premium", // 9 sections
+  "impact-181": "premium", // 8 sections
+  "impact-182": "premium", // 8 sections
+  "impact-183": "premium", // 8 sections
+  "impact-184": "premium", // 8 sections
+  "impact-185": "pro", // 7 sections
+  "impact-186": "premium", // 8 sections
+  "impact-187": "pro", // 7 sections
+  "impact-188": "premium", // 9 sections
+  "impact-189": "premium", // 8 sections
+  "impact-190": "premium", // 8 sections
+  "impact-191": "premium", // 8 sections
+  "impact-192": "premium", // 8 sections
+  "impact-193": "premium", // 8 sections
+  "impact-194": "premium", // 8 sections
+  "impact-195": "premium", // 8 sections
   "impact-196": "pro", // 6 sections
   "impact-197": "premium", // 14 sections
   "impact-198": "pro", // 7 sections
@@ -221,12 +221,12 @@ export const TEMPLATE_TIER: Record<string, SiteTier> = {
   "impact-220": "premium", // 9 sections
   "impact-221": "premium", // 8 sections
   "impact-222": "landing", // 2 sections
-  "impact-223": "premium", // 10 sections
-  "impact-226": "pro", // 6 sections
-  "impact-227": "pro", // 6 sections
-  "impact-228": "pro", // 6 sections
-  "impact-229": "pro", // 6 sections
-  "impact-230": "pro", // 6 sections
+  "impact-223": "premium", // 11 sections
+  "impact-226": "premium", // 8 sections
+  "impact-227": "premium", // 8 sections
+  "impact-228": "premium", // 8 sections
+  "impact-229": "premium", // 9 sections
+  "impact-230": "pro", // 7 sections
   "impact-231": "pro", // 6 sections
   "impact-232": "pro", // 6 sections
   "impact-233": "pro", // 6 sections
@@ -311,16 +311,70 @@ export const TEMPLATE_TIER: Record<string, SiteTier> = {
   "impact-313": "pro", // 7 sections
   "impact-314": "pro", // 7 sections
   "impact-315": "premium", // 10 sections
-  "impact-316": "premium", // 10 sections
-  "impact-317": "premium", // 9 sections
-  "impact-318": "premium", // 8 sections
-  "impact-319": "premium", // 8 sections
-  "impact-321": "premium", // 9 sections
-  "impact-322": "premium", // 8 sections
-  "impact-324": "pro", // 6 sections
-  "impact-325": "essentiel", // 4 sections
+  "impact-316": "premium", // 9 sections
+  "impact-317": "premium", // 10 sections
+  "impact-318": "premium", // 9 sections
+  "impact-319": "premium", // 9 sections
+  "impact-321": "premium", // 11 sections
+  "impact-322": "premium", // 9 sections
+  "impact-324": "premium", // 10 sections
+  "impact-325": "pro", // 6 sections
+  "impact-326": "premium", // 8 sections
+  "impact-327": "premium", // 10 sections
+  "impact-328": "pro", // 7 sections
+  "impact-329": "premium", // 8 sections
+  "impact-330": "pro", // 7 sections
+  "impact-331": "premium", // 10 sections
+  "impact-332": "premium", // 10 sections
+  "impact-333": "premium", // 9 sections
+  "impact-334": "premium", // 10 sections
+  "impact-335": "premium", // 10 sections
+  "impact-336": "premium", // 10 sections
+  "impact-337": "premium", // 8 sections
+  "impact-338": "premium", // 8 sections
+  "impact-339": "premium", // 9 sections
+  "impact-340": "premium", // 10 sections
+  "impact-341": "premium", // 10 sections
+  "impact-342": "premium", // 10 sections
+  "impact-343": "premium", // 9 sections
+  "impact-344": "pro", // 7 sections
+  "impact-345": "premium", // 8 sections
+  "impact-346": "premium", // 8 sections
+  "impact-347": "premium", // 8 sections
+  "impact-348": "premium", // 9 sections
+  "impact-349": "premium", // 8 sections
+  "impact-350": "premium", // 9 sections
+  "impact-351": "premium", // 8 sections
+  "impact-352": "premium", // 9 sections
+  "impact-353": "premium", // 9 sections
+  "impact-354": "premium", // 8 sections
+  "impact-355": "premium", // 9 sections
+  "impact-356": "premium", // 9 sections
+  "impact-357": "premium", // 8 sections
+  "impact-358": "premium", // 10 sections
+  "impact-359": "premium", // 9 sections
+  "impact-360": "premium", // 9 sections
+  "impact-361": "premium", // 9 sections
+  "impact-362": "pro", // 7 sections
+  "impact-363": "premium", // 8 sections
+  "impact-364": "premium", // 8 sections
+  "impact-365": "premium", // 8 sections
+  "impact-366": "premium", // 8 sections
+  "impact-367": "premium", // 8 sections
+  "impact-368": "premium", // 8 sections
+  "impact-369": "premium", // 8 sections
+  "impact-370": "premium", // 8 sections
+  "impact-371": "premium", // 9 sections
+  "impact-372": "premium", // 8 sections
+  "impact-373": "premium", // 8 sections
+  "impact-374": "premium", // 8 sections
+  "impact-375": "premium", // 8 sections
+  "impact-376": "premium", // 8 sections
+  "impact-377": "premium", // 8 sections
+  "impact-378": "premium", // 9 sections
+  "impact-379": "premium", // 8 sections
+  "impact-380": "premium", // 8 sections
+  "impact-381": "premium", // 8 sections
+  "impact-382": "premium", // 8 sections
+  "impact-383": "premium", // 8 sections
 };
-
-export function tierForTemplate(id: string | undefined | null): SiteTier {
-  return (id && TEMPLATE_TIER[id]) || 'pro';
-}
