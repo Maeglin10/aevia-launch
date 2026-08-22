@@ -383,3 +383,27 @@ usage sur les 66, `clientPhone` employé une fois.
 373-383), balayage visuel de 331-371, `capabilities.ts` au-delà de 330,
 `photoSlots.ts`, `build-section-manifest.mjs`, déploiement Vercel. Détail
 complet dans `docs/REPRISE_316_383_RESTE_A_FAIRE.md`.
+
+---
+
+## 2026-08-12 — Session #10b : audit de qualité du catalogue entier
+
+**Fait :** `scripts/audit-qualite.mjs` + `docs/AUDIT_QUALITE_2026-08-12.md`
+- Score /100 mesuré sur les 373 thèmes (design/câblage/vendabilité), contre
+  la check-list de la reprise 316-383. Moyenne 56 ; 54 thèmes sous 40.
+- 18 thèmes vendus au catalogue livrent de la démonstration (P0), 21 sont
+  facturés premium sous 45/100, 52 sont hors catalogue donc invendables.
+- Découverte : TEMPLATE_TIER ne couvre que 315 thèmes, repli « pro » —
+  les 58 thèmes 326-383 sont vendus 899 € au lieu de 1499 €.
+
+**Comment :** mesure statique (jamais estimée) corrigée de deux biais
+(shared.tsx intégré, gestes faits main notés en réserve), puis validation à
+l'écran des 6 pires avec session client réelle avant toute conclusion.
+
+**Pourquoi :** demande du fondateur — identifier les thèmes sous le niveau
+des derniers travaux et les moins vendables, documenter, proposer la remontée.
+
+**Erreurs commises :** l'instrument a d'abord menti deux fois (impact-83
+amputé de son shared.tsx ; le « geste » de 245/247 invisible car écrit main).
+La validation visuelle a confirmé le bas du classement : impact-122 est un
+journal anglophone vendu 899 € au métier formation, impact-41 n'a pas de h1.
