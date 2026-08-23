@@ -1,14 +1,21 @@
 "use client"
-
+/*
+  impact-36 — Apex Talent. Nav et pied de page partagés, francisés :
+  l'adresse new-yorkaise et les horaires ET ont cédé la place aux
+  coordonnées du contrat.
+*/
 import {
+  clientCodePostalVille,
+  clientEmail,
   clientName,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Award, Menu, X, MessageSquare, Link2, Users2 } from "lucide-react"
-import { C, FONT } from "./shared"
+import { Award, Menu, X } from "lucide-react"
+import { C, FONT, SERIF } from "./shared"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [__layoutSession, __setLayoutSession] = useState<any>(null);
@@ -27,11 +34,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   const navLinks = [
     { label: "Services", href: "/templates/impact-36/services" },
-    { label: "Sectors", href: "/templates/impact-36/sectors" },
-    { label: "Results", href: "/templates/impact-36/results" },
+    { label: "Secteurs", href: "/templates/impact-36/sectors" },
+    { label: "Missions", href: "/templates/impact-36/results" },
   ]
 
   const isActive = (href: string) => pathname === href
+
+  const tel = clientPhone(__layoutSession) ?? "01 44 70 82 15";
+  const telHref = `tel:${tel.replace(/\s/g, "")}`;
+  const mail = clientEmail(__layoutSession) ?? "contact@apex-talent.fr";
 
   return (
     <div
@@ -42,15 +53,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         minHeight: "100dvh",
         display: "flex",
         flexDirection: "column",
-        overflowX: "hidden",
+        overflowX: "clip",
       }}
     >
-      {/* Load Google Fonts */}
-      <style jsx global>{`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap');
+      {/* Fontes */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;1,500&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
       `}</style>
 
-      {/* NAVBAR */}
+      {/* NAV */}
       <nav
         style={{
           position: "fixed",
@@ -70,6 +81,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             alignItems: "center",
             height: 72,
             justifyContent: "space-between",
+            gap: 16,
           }}
         >
           <Link
@@ -79,6 +91,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               display: "flex",
               alignItems: "center",
               gap: 10,
+              minWidth: 0,
             }}
           >
           {fd?.logoBase64 ? (
@@ -93,20 +106,25 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               style={{
                 width: 36,
                 height: 36,
-                background: C.accent,
+                background: C.surMarine,
                 borderRadius: 8,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                flexShrink: 0,
               }}
             >
-              <Award size={20} color={C.white} />
+              <Award size={20} color={C.navy} />
             </div>
             <span
               style={{
-                fontWeight: 800,
+                fontFamily: SERIF,
+                fontWeight: 600,
                 fontSize: 20,
                 color: C.white,
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
               }}
             >{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
               Apex Talent
@@ -114,7 +132,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </>
           )}</Link>
 
-          {/* Desktop Links */}
+          {/* Liens bureau */}
           <div
             style={{
               gap: 32,
@@ -127,11 +145,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               style={{
                 fontSize: 14,
                 fontWeight: isActive("/templates/impact-36") ? 700 : 500,
-                color: isActive("/templates/impact-36") ? C.white : "#93c5fd",
+                color: isActive("/templates/impact-36") ? C.white : C.surMarine,
                 textDecoration: "none",
               }}
             >
-              Home
+              Accueil
             </Link>
             {navLinks.map((item) => (
               <Link
@@ -140,7 +158,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 style={{
                   fontSize: 14,
                   fontWeight: isActive(item.href) ? 700 : 500,
-                  color: isActive(item.href) ? C.white : "#93c5fd",
+                  color: isActive(item.href) ? C.white : C.surMarine,
                   textDecoration: "none",
                 }}
               >
@@ -149,7 +167,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             ))}
           </div>
 
-          {/* CTA Buttons */}
+          {/* Appels à l'action */}
           <div style={{ gap: 12 }} className="hidden md:flex">
             <Link href="/templates/impact-36/services#contact-form" style={{ textDecoration: "none" }}>
               <span
@@ -162,38 +180,41 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   fontSize: 14,
                   border: "1px solid rgba(255,255,255,0.2)",
                   cursor: "pointer",
+                  whiteSpace: "nowrap",
                 }}
               >
-                I'm a Candidate
+                Je suis candidat·e
               </span>
             </Link>
             <Link href="/templates/impact-36/services#contact-form" style={{ textDecoration: "none" }}>
               <span
                 style={{
-                  background: C.accent,
-                  color: C.white,
+                  background: C.surMarine,
+                  color: C.navy,
                   padding: "10px 20px",
                   borderRadius: 8,
                   fontWeight: 700,
                   fontSize: 14,
                   border: "none",
                   cursor: "pointer",
+                  whiteSpace: "nowrap",
                 }}
               >
-                Hire Talent
+                Confier un recrutement
               </span>
             </Link>
           </div>
 
-          {/* Mobile hamburger */}
+          {/* Burger mobile */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Menu"
             style={{
               background: "none",
               border: "none",
               cursor: "pointer",
               color: C.white,
-              padding: 4,
+              padding: 10,
             }}
             className="md:hidden"
           >
@@ -201,7 +222,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </button>
         </div>
 
-        {/* Mobile menu */}
+        {/* Menu mobile */}
         {mobileMenuOpen && (
           <div
             style={{
@@ -219,12 +240,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               style={{
                 fontSize: 15,
                 fontWeight: 600,
-                color: "#93c5fd",
+                color: C.surMarine,
                 textDecoration: "none",
                 padding: "8px 0",
               }}
             >
-              Home
+              Accueil
             </Link>
             {navLinks.map((item) => (
               <Link
@@ -234,7 +255,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 style={{
                   fontSize: 15,
                   fontWeight: 600,
-                  color: "#93c5fd",
+                  color: C.surMarine,
                   textDecoration: "none",
                   padding: "8px 0",
                 }}
@@ -247,8 +268,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               href="/templates/impact-36/services#contact-form"
               onClick={() => setMobileMenuOpen(false)}
               style={{
-                background: C.accent,
-                color: C.white,
+                background: C.surMarine,
+                color: C.navy,
                 padding: "12px",
                 borderRadius: 8,
                 fontWeight: 700,
@@ -257,16 +278,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 textDecoration: "none",
               }}
             >
-              Hire Talent
+              Confier un recrutement
             </Link>
           </div>
         )}
       </nav>
 
-      {/* Main Content */}
+      {/* Contenu */}
       <main style={{ flex: 1, paddingTop: 72 }}>{children}</main>
 
-      {/* FOOTER */}
+      {/* PIED DE PAGE */}
       <footer style={{ background: C.navy, padding: "80px 5% 40px" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div
@@ -290,47 +311,28 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   style={{
                     width: 36,
                     height: 36,
-                    background: C.accent,
+                    background: C.surMarine,
                     borderRadius: 8,
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
                   }}
                 >
-                  <Award size={20} color={C.white} />
+                  <Award size={20} color={C.navy} />
                 </div>
-                <span style={{ fontWeight: 800, fontSize: 20, color: C.white }}>Apex Talent</span>
+                <span style={{ fontFamily: SERIF, fontWeight: 600, fontSize: 20, color: C.white }}>{clientName(__layoutSession) ?? "Apex Talent"}</span>
               </div>
               <p
                 style={{
                   fontSize: 14,
-                  color: "var(--brand, #64748b)",
+                  color: C.surMarine,
+                  opacity: 0.75,
                   lineHeight: 1.75,
                   maxWidth: 280,
                 }}
               >
-                Executive search and HR consulting firm. Placing senior leaders at companies that set the standard.
+                Cabinet de recrutement de dirigeants et conseil RH — pour les entreprises qui placent la barre haut.
               </p>
-              <div style={{ display: "flex", gap: 12, marginTop: 20 }}>
-                {[MessageSquare, Link2, Users2].map((Icon, i) => (
-                  <a
-                    key={i}
-                    href="/templates/impact-36"
-                    style={{
-                      width: 36,
-                      height: 36,
-                      background: "rgba(255,255,255,0.07)",
-                      borderRadius: 8,
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      textDecoration: "none",
-                    }}
-                  >
-                    <Icon size={16} color="var(--brand, #64748b)" />
-                  </a>
-                ))}
-              </div>
             </div>
 
             <div>
@@ -338,19 +340,19 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 Services
               </h4>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <Link href="/templates/impact-36/services" style={{ fontSize: 14, color: "var(--brand, #64748b)", textDecoration: "none" }}>Executive Search</Link>
-                <Link href="/templates/impact-36/services" style={{ fontSize: 14, color: "var(--brand, #64748b)", textDecoration: "none" }}>RPO Solutions</Link>
-                <Link href="/templates/impact-36/services" style={{ fontSize: 14, color: "var(--brand, #64748b)", textDecoration: "none" }}>HR Consulting</Link>
+                <Link href="/templates/impact-36/services" style={{ fontSize: 14, color: C.surMarine, opacity: 0.8, textDecoration: "none" }}>Chasse de dirigeants</Link>
+                <Link href="/templates/impact-36/services" style={{ fontSize: 14, color: C.surMarine, opacity: 0.8, textDecoration: "none" }}>Recrutement délégué</Link>
+                <Link href="/templates/impact-36/services" style={{ fontSize: 14, color: C.surMarine, opacity: 0.8, textDecoration: "none" }}>Conseil RH</Link>
               </div>
             </div>
 
             <div>
               <h4 style={{ fontSize: 12, fontWeight: 700, color: C.white, marginBottom: 16, textTransform: "uppercase", letterSpacing: "0.1em" }}>
-                Results
+                Références
               </h4>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <Link href="/templates/impact-36/results" style={{ fontSize: 14, color: "var(--brand, #64748b)", textDecoration: "none" }}>Case Studies</Link>
-                <Link href="/templates/impact-36/sectors" style={{ fontSize: 14, color: "var(--brand, #64748b)", textDecoration: "none" }}>Sectors Served</Link>
+                <Link href="/templates/impact-36/results" style={{ fontSize: 14, color: C.surMarine, opacity: 0.8, textDecoration: "none" }}>Missions menées</Link>
+                <Link href="/templates/impact-36/sectors" style={{ fontSize: 14, color: C.surMarine, opacity: 0.8, textDecoration: "none" }}>Secteurs couverts</Link>
               </div>
             </div>
 
@@ -359,10 +361,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 Contact
               </h4>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} style={{ fontSize: 14, color: "var(--brand, #64748b)", textDecoration: "none" }}>contact@exemple.fr</a>
-                <span style={{ fontSize: 14, color: "var(--brand, #64748b)" }}>+1 212 555 0190</span>
-                <span style={{ fontSize: 14, color: "var(--brand, #64748b)" }}>New York, NY 10022</span>
-                <span style={{ fontSize: 14, color: "var(--brand, #64748b)" }}>Mon-Fri 8am-7pm ET</span>
+                <a href={`mailto:${mail}`} style={{ fontSize: 14, color: C.surMarine, opacity: 0.85, textDecoration: "none", wordBreak: "break-all" }}>{mail}</a>
+                <a href={telHref} style={{ fontSize: 14, color: C.surMarine, opacity: 0.85, textDecoration: "none" }}>{tel}</a>
+                <span style={{ fontSize: 14, color: C.surMarine, opacity: 0.85 }}>{clientCodePostalVille(__layoutSession, "75008", "Paris")}</span>
+                <span style={{ fontSize: 14, color: C.surMarine, opacity: 0.85 }}>Du lundi au vendredi, 9 h – 19 h</span>
               </div>
             </div>
           </div>
@@ -378,13 +380,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               gap: 16,
             }}
           >
-            <p style={{ fontSize: 13, color: "#334155" }}>
-              © 2026 {clientName(__layoutSession) ?? "Aevia WS"} — SIREN <LegalIdentity />. All rights reserved.
+            <p style={{ fontSize: 13, color: "rgba(169,189,211,0.55)" }}>
+              © {clientName(__layoutSession) ?? "Apex Talent"} · Site réalisé par Aevia WS — SIREN <LegalIdentity />
             </p>
             <div style={{ display: "flex", gap: 24 }}>
-              <Link href="/templates/impact-36/legal" style={{ fontSize: 13, color: "#334155", textDecoration: "none" }}>Legal Notice</Link>
-              <Link href="/templates/impact-36/legal" style={{ fontSize: 13, color: "#334155", textDecoration: "none" }}>Privacy Policy</Link>
-              <Link href="/templates/impact-36/legal" style={{ fontSize: 13, color: "#334155", textDecoration: "none" }}>CGU</Link>
+              <Link href="/templates/impact-36/legal" style={{ fontSize: 13, color: "rgba(169,189,211,0.55)", textDecoration: "none" }}>Mentions légales</Link>
+              <Link href="/templates/impact-36/legal" style={{ fontSize: 13, color: "rgba(169,189,211,0.55)", textDecoration: "none" }}>Confidentialité</Link>
+              <Link href="/templates/impact-36/legal" style={{ fontSize: 13, color: "rgba(169,189,211,0.55)", textDecoration: "none" }}>CGU</Link>
             </div>
           </div>
         </div>

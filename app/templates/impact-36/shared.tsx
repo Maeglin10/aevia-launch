@@ -1,5 +1,12 @@
 "use client"
 
+/*
+  impact-36 — Apex Talent, cabinet de recrutement de dirigeants. Francisé :
+  le thème est vendu à des cabinets français (recrutement, avocats,
+  comptables) — le corps parle leur langue, l'adresse n'est plus à New York.
+  Fontes P10 Spectral + IBM Plex Sans · palette #f4f5f8 / #28415e.
+*/
+
 import React, { useState, useEffect, useRef } from "react"
 import { motion, useInView } from "framer-motion"
 import {
@@ -7,172 +14,173 @@ import {
   Users,
   BarChart2,
   ChevronDown,
-  Globe,
-  Award,
-  CheckCircle,
 } from "lucide-react"
 
-// ─── Design Tokens ─────────────────────────────────────────────────────────────
+// ─── Jetons ───────────────────────────────────────────────────────────────────
 export const C = {
-  bg: "#f0f6ff",
+  bg: "#f4f5f8",
   bgAlt: "#ffffff",
-  text: "#0f1f3d",
-  textMuted: "#4b6a9b",
-  accent: "#2563eb",
-  accentLight: "#dbeafe",
-  accentDark: "#1d4ed8",
-  navy: "#0f1f3d",
+  text: "#1c2839",
+  textMuted: "#5a6b80",
+  accent: "var(--brand, #28415e)",
+  accentFixe: "#28415e",
+  accentLight: "#e3e9f1",
+  accentDark: "#1d3047",
+  navy: "#1d2c3f",
   white: "#ffffff",
-  border: "#dde7f5",
-  borderLight: "#eef4ff",
+  border: "#dfe3ea",
+  borderLight: "#edf0f5",
+  /* Sur les bandes marine : le bleu acier clair qui remplace l'électrique. */
+  surMarine: "#a9bdd3",
 }
 
-export const FONT = "'Plus Jakarta Sans', system-ui, sans-serif"
+export const FONT = "'IBM Plex Sans', system-ui, sans-serif"
+export const SERIF = "'Spectral', Georgia, serif"
 
-// ─── Datasets ─────────────────────────────────────────────────────────────────
+// ─── Données ──────────────────────────────────────────────────────────────────
 export const SERVICES = [
   {
     icon: Target,
-    name: "Executive Search",
-    desc: "C-suite and senior leadership placement across all industries. We access passive candidates that traditional recruiters miss.",
+    name: "Chasse de dirigeants",
+    desc: "Directions générales, comités exécutifs, postes clés : nous allons chercher les candidats qui ne répondent pas aux annonces.",
     details: [
-      "Board-level placements",
-      "C-suite recruitment",
-      "VP & Director roles",
-      "Confidential searches",
-      "60-day placement guarantee",
+      "Mandats de direction générale",
+      "Comité exécutif et cadres clés",
+      "Recherches confidentielles",
+      "Approche directe de profils en poste",
+      "Garantie de remplacement 6 mois",
     ],
     href: "/templates/impact-36/services#executive",
   },
   {
     icon: Users,
-    name: "Recruitment Process Outsourcing",
-    desc: "Full-cycle RPO solutions for high-volume hiring. We become your embedded talent acquisition team.",
+    name: "Recrutement délégué",
+    desc: "Pour les recrutements en volume : nous devenons votre équipe de recrutement intégrée, de la marque employeur à la signature.",
     details: [
-      "End-to-end recruitment",
-      "Employer branding",
-      "ATS implementation",
-      "Workforce planning",
-      "Dedicated recruiters",
+      "Processus de bout en bout",
+      "Marque employeur",
+      "Outils et vivier dédiés",
+      "Plan de recrutement pluriannuel",
+      "Recruteurs dédiés à votre compte",
     ],
     href: "/templates/impact-36/services#rpo",
   },
   {
     icon: BarChart2,
-    name: "HR Consulting",
-    desc: "Strategic HR advisory for fast-growing companies. Org design, compensation benchmarking, and people strategy.",
+    name: "Conseil RH",
+    desc: "Organisation, rémunérations, fidélisation : la stratégie des équipes pour les entreprises qui grandissent vite.",
     details: [
-      "Org design & restructuring",
-      "Compensation benchmarking",
-      "Performance frameworks",
-      "DEI strategy",
-      "HR tech stack advisory",
+      "Organigrammes et réorganisations",
+      "Étude de rémunérations",
+      "Entretiens et cadres d'évaluation",
+      "Plans de fidélisation",
+      "Choix des outils RH",
     ],
     href: "/templates/impact-36/services#consulting",
   },
 ]
 
 export const SECTORS = [
-  "Technology & SaaS",
-  "Financial Services",
-  "Healthcare & Life Sciences",
-  "Private Equity",
-  "Manufacturing",
-  "Professional Services",
-  "Retail & Consumer",
-  "Energy & Cleantech",
-  "Media & Entertainment",
-  "Real Estate",
-  "Legal",
-  "Non-Profit",
+  "Industrie & production",
+  "Numérique & logiciel",
+  "Banque & assurance",
+  "Santé",
+  "BTP & immobilier",
+  "Distribution & commerce",
+  "Transport & logistique",
+  "Énergie & environnement",
+  "Agroalimentaire",
+  "Services aux entreprises",
+  "Juridique & chiffre",
+  "Secteur public & associatif",
 ]
 
 export const CASE_STUDIES = [
   {
-    company: "NovaTech Capital",
-    sector: "Fintech",
-    challenge: "Needed a CTO and 3 VP-level engineers within 90 days ahead of a Series B close.",
-    outcome: "All 4 roles filled in 67 days. Two candidates sourced from passive talent — not on the open market.",
-    metric: "67 days",
-    metricLabel: "to full placement",
+    company: "ETI industrielle, 400 salariés",
+    sector: "Industrie",
+    challenge: "Trouver un directeur de site et trois chefs d'atelier en moins de trois mois, avant le lancement d'une nouvelle ligne.",
+    outcome: "Les quatre postes pourvus en 67 jours — dont deux profils approchés en poste, absents du marché.",
+    metric: "67 jours",
+    metricLabel: "pour pourvoir les quatre postes",
   },
   {
-    company: "Meridian Health Group",
-    sector: "Healthcare",
-    challenge: "Scaling from 80 to 300 employees across 6 new clinic locations. Needed an embedded RPO partner.",
-    outcome: "Delivered 220 quality hires over 14 months. Reduced cost-per-hire by 34% vs. previous agency model.",
-    metric: "34%",
-    metricLabel: "cost-per-hire reduction",
+    company: "Groupe de cliniques régional",
+    sector: "Santé",
+    challenge: "Passer de 80 à 300 salariés sur six nouveaux sites, sans service recrutement interne.",
+    outcome: "220 recrutements menés en quatorze mois en équipe déléguée, coût par embauche réduit d'un tiers.",
+    metric: "-34 %",
+    metricLabel: "de coût par embauche",
   },
   {
-    company: "Veritas Partners",
-    sector: "Private Equity",
-    challenge: "Post-acquisition HR integration across 3 portfolio companies with conflicting culture and comp structures.",
-    outcome: "Unified HR framework deployed in 90 days. Retention improved by 28% in year one post-integration.",
-    metric: "28%",
-    metricLabel: "retention improvement",
+    company: "Cabinet d'expertise comptable",
+    sector: "Juridique & chiffre",
+    challenge: "Harmoniser les grilles et retenir les collaborateurs après le rapprochement de trois cabinets.",
+    outcome: "Cadre commun déployé en 90 jours ; la rétention progresse de 28 % dès la première année.",
+    metric: "+28 %",
+    metricLabel: "de rétention à un an",
   },
 ]
 
 export const TESTIMONIALS = [
   {
-    name: "Sarah Beckmann",
-    role: "CPO, Elevate Commerce",
-    avatar: "SB",
-    text: "Apex found our VP of Engineering in 5 weeks — a role we'd been trying to fill for 6 months internally. The quality of candidates was exceptional.",
+    name: "Directrice générale",
+    role: "PME industrielle, 250 salariés",
+    avatar: "DG",
+    text: "Notre directeur industriel a été trouvé en cinq semaines — un poste que nous n'arrivions pas à pourvoir depuis six mois. Le niveau des candidatures était sans comparaison.",
     rating: 5,
   },
   {
-    name: "David Osei",
-    role: "CEO, Groundwork AI",
-    avatar: "DO",
-    text: "What separates Apex is their network. They brought us candidates who weren't looking — including our now-COO who came from a competitor.",
+    name: "Président fondateur",
+    role: "Éditeur de logiciel",
+    avatar: "PF",
+    text: "Leur force, c'est le réseau : ils nous ont présenté des candidats qui ne cherchaient pas — dont notre actuelle directrice des opérations.",
     rating: 5,
   },
   {
-    name: "Priya Malhotra",
-    role: "Head of People, CloudBridge",
-    avatar: "PM",
-    text: "Their HR consulting work was transformational. We went from reactive people ops to a proper talent strategy in under 3 months.",
+    name: "DRH",
+    role: "Groupe de distribution",
+    avatar: "RH",
+    text: "Le conseil RH a transformé notre façon de recruter : en trois mois, nous sommes passés de l'urgence permanente à un vrai plan d'équipe.",
     rating: 5,
   },
 ]
 
 export const STATS = [
-  { end: 2400, suffix: "+", label: "Placements Made" },
-  { end: 340, suffix: "+", label: "Enterprise Clients" },
-  { end: 94, suffix: "%", label: "Retention at 12 Months" },
-  { end: 18, suffix: " yrs", label: "Industry Experience" },
+  { end: 2400, suffix: "+", label: "Recrutements menés" },
+  { end: 340, suffix: "+", label: "Entreprises clientes" },
+  { end: 94, suffix: " %", label: "Toujours en poste à un an" },
+  { end: 18, suffix: " ans", label: "De pratique du métier" },
 ]
 
 export const FAQS = [
   {
-    q: "What is your typical time-to-fill for executive roles?",
-    a: "For director and VP-level roles, our average is 38 days from kickoff to signed offer. C-suite and board searches typically run 60-90 days depending on confidentiality requirements and market conditions.",
+    q: "Quel est votre délai moyen pour un poste de direction ?",
+    a: "Trente-huit jours en moyenne entre le lancement du mandat et l'offre signée pour un poste de cadre dirigeant. Les mandats de direction générale ou confidentiels demandent plutôt soixante à quatre-vingt-dix jours.",
   },
   {
-    q: "Do you work on retained or contingency basis?",
-    a: "Executive Search is retained. RPO engagements are monthly fee-based. We do not work on contingency for senior roles — it creates incentive misalignment and lower candidate quality.",
+    q: "Travaillez-vous au succès ou au mandat ?",
+    a: "Les recherches de dirigeants sont menées au mandat exclusif ; le recrutement délégué est facturé au forfait mensuel. Nous ne travaillons pas au succès sur les postes sensibles : cela pousse à la vitesse au détriment de la qualité.",
   },
   {
-    q: "What industries do you specialize in?",
-    a: "We maintain deep networks across 12 sectors. Technology, Financial Services, Healthcare, and Private Equity represent our highest placement volume, but we operate across all major industries.",
+    q: "Quels secteurs couvrez-vous ?",
+    a: "Douze secteurs, avec des réseaux particulièrement profonds dans l'industrie, le numérique, la santé et les métiers du chiffre et du droit.",
   },
   {
-    q: "What is your placement guarantee?",
-    a: "All retained executive searches include a 6-month replacement guarantee at no additional fee. If a placed candidate departs within 6 months for any reason, we restart the search.",
+    q: "Quelle est votre garantie ?",
+    a: "Toute recherche de dirigeant inclut une garantie de remplacement de six mois : si le candidat recruté quitte son poste dans ce délai, quelle qu'en soit la raison, la recherche est relancée sans frais.",
   },
   {
-    q: "Can you help with international searches?",
-    a: "Yes. We operate globally through a network of affiliate partners in 28 countries. Roles in North America, Europe, and APAC are handled by our in-house team.",
+    q: "Recrutez-vous hors de France ?",
+    a: "Oui. Les mandats en Europe francophone sont menés par l'équipe interne ; au-delà, nous nous appuyons sur un réseau de cabinets partenaires.",
   },
   {
-    q: "How do you source passive candidates?",
-    a: "Through 18 years of relationship-building, proprietary research methodologies, alumni networks, and our database of 180,000+ executive profiles. We do not rely solely on job boards.",
+    q: "Comment approchez-vous les candidats en poste ?",
+    a: "Par dix-huit ans de relations entretenues, un vivier qualifié et un travail de cartographie propre à chaque mandat. Les annonces ne représentent qu'une petite part de nos recrutements.",
   },
 ]
 
-// ─── Visual & Helper Components ────────────────────────────────────────────────
+// ─── Composants ───────────────────────────────────────────────────────────────
 export function Counter({
   end,
   suffix,
@@ -213,19 +221,19 @@ export function Counter({
       <div
         style={{
           fontSize: "clamp(40px, 4vw, 56px)",
-          fontWeight: 900,
+          fontWeight: 700,
           color: C.white,
-          fontFamily: FONT,
+          fontFamily: SERIF,
           lineHeight: 1,
         }}
       >
-        {count}
+        {count.toLocaleString("fr-FR")}
         {suffix}
       </div>
       <div
         style={{
           fontSize: 15,
-          color: "#93c5fd",
+          color: C.surMarine,
           marginTop: 8,
           fontWeight: 500,
         }}
@@ -337,16 +345,16 @@ export function MatchScore({ score, label }: { score: number; label: string }) {
           justifyContent: "space-between",
           fontSize: 13,
           fontWeight: 600,
-          color: C.navy,
+          color: C.white,
         }}
       >
         <span>{label}</span>
-        <span style={{ color: C.accent }}>{score}%</span>
+        <span style={{ color: C.surMarine }}>{score} %</span>
       </div>
       <div
         style={{
           height: 6,
-          background: C.border,
+          background: "rgba(255,255,255,0.12)",
           borderRadius: 99,
           overflow: "hidden",
         }}
@@ -357,7 +365,7 @@ export function MatchScore({ score, label }: { score: number; label: string }) {
           transition={{ duration: 1.2, delay: 0.3, ease: "easeOut" }}
           style={{
             height: "100%",
-            background: `linear-gradient(90deg, ${C.accent}, #60a5fa)`,
+            background: `linear-gradient(90deg, ${C.surMarine}, #d3deea)`,
             borderRadius: 99,
           }}
         />
