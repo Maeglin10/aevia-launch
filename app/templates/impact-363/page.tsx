@@ -12,14 +12,20 @@ import {
   clientCertifications,
   clientAddress,
   clientCity,
+  clientCodePostalVille,
+  clientEmail,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
+  clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -128,7 +134,10 @@ export default function PodoMarchePage() {
     TARIFS_DEMO,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
-  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
+  ENGAGEMENT = resolveList(
+    clientList(sessionData, "engagements.liste") ?? clientCertifications(sessionData),
+    ENGAGEMENT_DEMO,
+  );
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };
@@ -175,15 +184,16 @@ export default function PodoMarchePage() {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const phone = fd?.phone ?? "04 73 00 00 00";
-  const telHref = `tel:${fd?.phone ?? "+33473000000"}`;
-  const mail = fd?.email ?? "rdv@podo-marche.fr";
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "04 73 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33473000000").replace(/\s/g, "")}`;
+  const mail = clientEmail(sessionData) ?? fd?.email ?? "rdv@podo-marche.fr";
 
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
       <style>{`${FONTS_CSS}
 
         @media (max-width: 900px) { #i363-nav { display: none !important; } .i363-burger { display: flex !important; } }
+        @media (max-width: 560px) { .i363-navtrade { display: none !important; } }
         @media (max-width: 860px) {
           .i363-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
           .i363-card { max-width: 380px; margin: 0 auto; width: 100%; }
@@ -203,8 +213,8 @@ export default function PodoMarchePage() {
           ) : (
             <>
               <Footprints size={18} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Cabinet Podo'Marche"))}</span>
-              
+              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Cabinet Podo'Marche")}</span>
+              <span className="i363-navtrade" style={{ fontSize: 10, letterSpacing: 2.2, textTransform: "uppercase", color: C.textMuted, marginLeft: 6, whiteSpace: "nowrap" }}>{clientTrade(sessionData) ?? "Podologie"}</span>
             </>
           )}
         </div>
@@ -235,7 +245,7 @@ export default function PodoMarchePage() {
 <section className="i363-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.08fr) minmax(0,0.92fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1260, margin: "0 auto" }}>
         <div>
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
-            Pédicure-podologue · {clientCity(sessionData) ?? "Clermont-Ferrand"}
+            {clientEyebrow(sessionData) ?? `Pédicure-podologue · ${clientCity(sessionData) ?? "Clermont-Ferrand"}`}
           </motion.span>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
             {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 23) ?? "Vos pieds portent tout."}<br /><em style={{ color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 23) ?? "On s'occupe d'eux."}</em></>)}
@@ -277,6 +287,20 @@ export default function PodoMarchePage() {
         </div>
       </section>
 
+
+      {/* ── RESPIRATION — une phrase, un filet ──────────────────────────── */}
+      <section style={{ background: C.bg, padding: "clamp(66px,9vw,120px) clamp(24px,8vw,160px)", textAlign: "center" }}>
+        <Reveal>
+          <p style={{ fontFamily: FONT_TITRE, fontStyle: "italic", fontWeight: 400, fontSize: "clamp(20px,2.9vw,38px)", lineHeight: 1.4, color: C.text, maxWidth: 840, margin: "0 auto" }}>
+            {/* TEXTE_SECTION */ clientText(sessionData, "respiration.texte") ?? (
+              <>Un pied qui ne fait pas parler de lui, c'est toute la journée qui change.</>
+            )}
+          </p>
+        </Reveal>
+        <Reveal delay={0.12}>
+          <div style={{ width: 1, height: 72, background: `linear-gradient(${C.accent}, transparent)`, margin: "clamp(28px,4vw,48px) auto 0" }} />
+        </Reveal>
+      </section>
 
       {/* ── SERVICES ────────────────────────────────────────────────────── */}
       <section id="services" className="i363-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
@@ -361,7 +385,7 @@ export default function PodoMarchePage() {
             <div style={{ textAlign: "center", marginBottom: 16 }}>
               <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Tarifs</span>
               <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Annoncés, <em>mutuelles décodées.</em></>)}</h2>
-              <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>Les semelles sur prescription sont partiellement remboursées (Sécurité sociale + mutuelle selon contrat) ; le pied diabétique gradé est pris en charge. On vous fait le calcul exact avant.</p>
+              <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.intro") ?? (<>Les semelles sur prescription sont partiellement remboursées (Sécurité sociale + mutuelle selon contrat) ; le pied diabétique gradé est pris en charge. On vous fait le calcul exact avant.</>)}</p>
             </div>
           </Reveal>
           <div style={{ marginTop: 38 }}>
@@ -412,7 +436,7 @@ export default function PodoMarchePage() {
           <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
             La douleur au pied<br /><em>n'est pas une fatalité.</em>
           </>)}</h2>
-          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>Rendez-vous sous huit jours, le samedi matin aussi. Apportez vos chaussures les plus portées — elles parlent.</p>
+          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? (<>Rendez-vous sous huit jours, le samedi matin aussi. Apportez vos chaussures les plus portées — elles parlent.</>)}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>
               <Phone size={18} /> {phone}
@@ -429,11 +453,11 @@ export default function PodoMarchePage() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
-              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Cabinet Podo'Marche"))}</div>
+              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Cabinet Podo'Marche")}</div>
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Pédicures-podologues D.E. · {clientCity(sessionData) ?? "Clermont-Ferrand"}<br />Ordre national des pédicures-podologues — n° ADELI affichés</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: (clientAddress(sessionData) ?? ((clientCity(sessionData) ?? "Clermont-Ferrand") + ", Puy-de-Dôme")) }, { icon: <Phone size={13} />, t: phone }, { icon: <Mail size={13} />, t: mail }, { icon: <Clock size={13} />, t: "Lun–Ven 8h30–19h · Sam 8h30–13h" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: (clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "63000", "Clermont-Ferrand") + ", Puy-de-Dôme") }, { icon: <Phone size={13} />, t: phone }, { icon: <Mail size={13} />, t: mail }, { icon: <Clock size={13} />, t: "Lun–Ven 8h30–19h · Sam 8h30–13h" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
                 </div>
@@ -442,7 +466,7 @@ export default function PodoMarchePage() {
           </div>
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Cabinet Podo'Marche"))} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity />
+              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Cabinet Podo'Marche")} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity fallback="852 546 225" kind="siren" />
             </span>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>
