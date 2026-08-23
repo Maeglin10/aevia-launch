@@ -1,8 +1,20 @@
 "use client";
+// @ts-nocheck
+/*
+  impact-44 / recruit — « Prendre rendez-vous ». L'ex-formulaire de tryout
+  devient la page de contact du studio : coordonnées du contrat, déroulé
+  d'un premier rendez-vous, praticité.
+*/
 
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { C } from "../shared";
+import {
+  clientCity,
+  clientCodePostalVille,
+  clientEmail,
+  clientPhone,
+  clientText,
+} from "@/lib/templates/clientContent";
 
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
@@ -10,8 +22,25 @@ let fd: any = null;
 let bp: any = null;
 let c: any = null;
 
+const DEROULE = [
+  {
+    n: "01",
+    titre: "Vous appelez, on écoute",
+    texte: "Dix minutes au téléphone : le lieu, vos usages, votre budget. Si le studio n'est pas le bon interlocuteur, il vous le dit.",
+  },
+  {
+    n: "02",
+    titre: "La visite",
+    texte: "Une heure sur place, mètre en main. On regarde la lumière, les volumes et ce qui coince vraiment au quotidien.",
+  },
+  {
+    n: "03",
+    titre: "La proposition",
+    texte: "Sous une semaine : une direction, un périmètre, un prix écrit. Vous décidez — sans relance ni pression.",
+  },
+];
 
-export default function RecruitPage() {
+export default function RendezVousPage() {
   const [__session, __setSession] = useState<any>(null);
   useEffect(() => {
     let id = new URLSearchParams(window.location.search).get("session");
@@ -33,165 +62,52 @@ export default function RecruitPage() {
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
 
-  const [formState, setFormState] = useState({ handle: '', role: '', region: '', clips: '' });
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-  };
+  const tel = clientPhone(sessionData) ?? fd?.phone ?? "04 91 33 27 84";
+  const telHref = `tel:${tel.replace(/\s/g, "")}`;
+  const mail = clientEmail(sessionData) ?? fd?.email ?? "bonjour@espace-studio.fr";
 
   return (
-    <div style={{ background: C.bg, color: C.white, minHeight: "100dvh", padding: "80px 40px 120px", fontFamily: "'Courier New', monospace", position: "relative", overflow: "hidden" }}>
-      <div style={{ maxWidth: 800, margin: '0 auto', position: 'relative', zIndex: 1 }}>
-        <div style={{ textAlign: 'center', marginBottom: 64 }}>
-          <div style={{ fontSize: 11, color: C.textDim, letterSpacing: '0.5em', marginBottom: 16 }}>
-            <span style={{ color: C.red }}>06</span> / RECRUITMENT
-          </div>
-          <h1
-            className="glitch-text"
-            data-text="JOIN THE VOID"
-            style={{
-              fontSize: 'clamp(40px, 7vw, 80px)',
-              fontWeight: 900,
-              color: C.white,
-              letterSpacing: '0.1em',
-              textTransform: 'uppercase',
-              marginBottom: 20,
-              margin: 0,
-            }}
-          >
-            JOIN THE VOID
-          </h1>
-          <p style={{ color: C.textMid, fontSize: 14, lineHeight: 1.7, letterSpacing: '0.05em', maxWidth: 500, margin: '24px auto 0' }}>
-            WE DON&apos;T TAKE GOOD PLAYERS. WE TAKE KILLERS. IF YOUR KD IS &gt; 10 AND YOUR EGO FITS IN A 1080P MONITOR, APPLY.
-          </p>
+    <div style={{ background: C.bg, color: C.white, minHeight: "100dvh", padding: "60px 40px 120px" }}>
+      <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+        <div style={{ fontSize: 11, color: C.textDim, letterSpacing: "0.35em", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
+          <span style={{ color: C.sableFixe }}>06</span> / Rendez-vous
+        </div>
+        <h1 style={{ fontSize: "clamp(36px, 5.5vw, 72px)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "-0.02em", lineHeight: 1, marginBottom: 18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact-page.titre") ?? (<>
+          Parlons<br /><span style={{ color: C.sable }}>de chez vous.</span>
+        </>)}</h1>
+        <p style={{ color: C.textMid, fontSize: 16, lineHeight: 1.75, fontWeight: 300, maxWidth: 560, marginBottom: 56 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact-page.texte") ?? (<>
+          Pas de formulaire à quatorze champs : un appel ou un courriel suffit. Le studio répond sous deux jours ouvrés.
+        </>)}</p>
+
+        <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 72 }}>
+          <a href={telHref} style={{ padding: "18px 42px", background: C.sable, color: C.bg, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", textDecoration: "none", fontWeight: 800 }}>
+            {tel}
+          </a>
+          <a href={`mailto:${mail}`} style={{ padding: "18px 42px", border: `1px solid ${C.line}`, color: C.white, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", textDecoration: "none", fontWeight: 700, wordBreak: "break-all" }}>
+            {mail}
+          </a>
         </div>
 
-        <div style={{
-          background: C.gray,
-          border: `1px solid rgba(0,255,100,0.2)`,
-          clipPath: 'polygon(0 0, 100% 0, 96% 100%, 0 100%)',
-          padding: '48px',
-        }}>
-          <div style={{ fontSize: 10, color: C.green, letterSpacing: '0.4em', marginBottom: 32 }}>
-            // APPLICATION_FORM.EXE
-          </div>
-          {submitted ? (
-            <div style={{ padding: "40px 0", textAlign: "center", color: C.green }}>
-              <div style={{ fontSize: 24, fontWeight: 900, letterSpacing: "0.1em", marginBottom: 12 }}>Merci</div>
-              <div style={{ fontSize: 13, color: C.textMid, letterSpacing: "0.05em" }}>Merci, nous vous répondrons sous 24h.</div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px,100%), 1fr))", gap: 1, background: C.line, border: `1px solid ${C.line}`, marginBottom: 72 }}>
+          {DEROULE.map((e) => (
+            <div key={e.n} style={{ background: C.gray, padding: "34px 30px" }}>
+              <div className="i44-titre" style={{ fontSize: 40, fontWeight: 800, color: C.sableFixe, opacity: 0.5, marginBottom: 18 }}>{e.n}</div>
+              <h3 style={{ fontSize: 18, fontWeight: 800, textTransform: "uppercase", marginBottom: 12 }}>{e.titre}</h3>
+              <p style={{ color: C.textMid, fontSize: 14, lineHeight: 1.75, fontWeight: 300, margin: 0 }}>{e.texte}</p>
             </div>
-          ) : (
-            <form onSubmit={handleSubmit}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, marginBottom: 20 }} className="two-col">
-                {[
-                  { label: 'IN-GAME HANDLE', key: 'handle', placeholder: 'WRAITHX' },
-                  { label: 'PREFERRED ROLE', key: 'role', placeholder: 'IGL / ENTRY / AWP / SUPPORT' },
-                ].map(field => (
-                  <div key={field.key}>
-                    <label style={{ display: 'block', fontSize: 10, color: C.textDim, letterSpacing: '0.35em', marginBottom: 8 }}>
-                      {field.label}
-                    </label>
-                    <input
-                      required
-                      value={formState[field.key as keyof typeof formState]}
-                      onChange={e => setFormState(prev => ({ ...prev, [field.key]: e.target.value }))}
-                      placeholder={field.placeholder}
-                      style={{
-                        width: '100%',
-                        background: 'transparent',
-                        border: `1px solid rgba(0,255,100,0.2)`,
-                        padding: '12px 16px',
-                        color: C.white,
-                        fontFamily: "'Courier New', monospace",
-                        fontSize: 12,
-                        letterSpacing: '0.1em',
-                        outline: 'none',
-                        boxSizing: "border-box",
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-              <div style={{ marginBottom: 20 }}>
-                <label style={{ display: 'block', fontSize: 10, color: C.textDim, letterSpacing: '0.35em', marginBottom: 8 }}>
-                  REGION
-                </label>
-                <select
-                  required
-                  value={formState.region}
-                  onChange={e => setFormState(prev => ({ ...prev, region: e.target.value }))}
-                  style={{
-                    width: '100%',
-                    background: C.gray,
-                    border: `1px solid rgba(0,255,100,0.2)`,
-                    padding: '12px 16px',
-                    color: C.textMid,
-                    fontFamily: "'Courier New', monospace",
-                    fontSize: 12,
-                    letterSpacing: '0.1em',
-                    outline: 'none',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <option value="">SELECT REGION</option>
-                  <option value="eu">EU — EUROPE</option>
-                  <option value="na">NA — NORTH AMERICA</option>
-                  <option value="apac">APAC — ASIA PACIFIC</option>
-                  <option value="latam">LATAM — LATIN AMERICA</option>
-                </select>
-              </div>
-              <div style={{ marginBottom: 32 }}>
-                <label style={{ display: 'block', fontSize: 10, color: C.textDim, letterSpacing: '0.35em', marginBottom: 8 }}>
-                  CLIP LINKS / VOD URL
-                </label>
-                <textarea
-                  required
-                  value={formState.clips}
-                  onChange={e => setFormState(prev => ({ ...prev, clips: e.target.value }))}
-                  placeholder="https://clips.twitch.tv/... or YouTube VOD link"
-                  rows={3}
-                  style={{
-                    width: '100%',
-                    background: 'transparent',
-                    border: `1px solid rgba(0,255,100,0.2)`,
-                    padding: '12px 16px',
-                    color: C.white,
-                    fontFamily: "'Courier New', monospace",
-                    fontSize: 12,
-                    letterSpacing: '0.05em',
-                    outline: 'none',
-                    resize: 'none',
-                    boxSizing: "border-box",
-                  }}
-                />
-              </div>
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                type="submit"
-                style={{
-                  width: '100%',
-                  padding: '18px',
-                  background: C.green,
-                  border: 'none',
-                  color: C.bg,
-                  fontFamily: "'Courier New', monospace",
-                  fontSize: 13,
-                  fontWeight: 900,
-                  letterSpacing: '0.3em',
-                  textTransform: 'uppercase',
-                  cursor: 'pointer',
-                  boxShadow: `0 0 30px rgba(0,255,100,0.3)`,
-                }}
-              >
-                SUBMIT APPLICATION
-              </motion.button>
-            </form>
-          )}
-          <div style={{ marginTop: 16, fontSize: 10, color: C.textDim, letterSpacing: '0.2em', textAlign: 'center' }}>
-            RESPONSE TIME: 48-72 HRS. WE REVIEW EVERY CLIP. NO BS.
+          ))}
+        </div>
+
+        <div style={{ border: `1px solid ${C.line}`, padding: "clamp(26px,3.5vw,44px)", display: "flex", flexWrap: "wrap", gap: "20px 48px", fontSize: 13, color: C.textMid, lineHeight: 2 }}>
+          <div>
+            <div style={{ fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: C.sableFixe, fontWeight: 700, marginBottom: 10 }}>La boutique-atelier</div>
+            <div>{clientCodePostalVille(sessionData, "13001", "Marseille")}</div>
+            <div>Sur rendez-vous, du mardi au samedi</div>
+          </div>
+          <div>
+            <div style={{ fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: C.sableFixe, fontWeight: 700, marginBottom: 10 }}>Zone d'intervention</div>
+            <div>{clientCity(sessionData) ?? "Marseille"} et ses environs</div>
+            <div>Déplacements au-delà : sur devis</div>
           </div>
         </div>
       </div>
