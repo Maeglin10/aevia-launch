@@ -12,15 +12,20 @@ import {
   clientCertifications,
   clientAddress,
   clientCity,
+  clientCodePostalVille,
+  clientEmail,
   clientEyebrow,
+  clientList,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -36,13 +41,13 @@ let brand: any = null;
 /* Producteur fermier, 2e variante, maraîchage moderne et AMAP. Signature : CrossPush — les saisons du champ qui se poussent plein cadre. Images nature/jardin déjà présentes dans le repo. */
 
 let C: Record<string, string> = {
-  bg: "#f7faf8",
-  bgSection: "#eef4f0",
+  bg: "#f4f9f4",
+  bgSection: "#e9f2e9",
   bgDark: "#123528",
   text: "#14231c",
   textMuted: "#57675e",
-  accent: "var(--brand,#1a7a52)",
-  accentDark: "#125c3d",
+  accent: "var(--brand,#2e7d4f)",
+  accentDark: "var(--brand-light, #1f5c3a)",
   accentLight: "#dcefe5",
   hi: "#7fc7a4",
   white: "#ffffff",
@@ -136,7 +141,10 @@ export default function PotagerEstuairePage() {
     TARIFS_DEMO,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
-  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
+  ENGAGEMENT = resolveList(
+    clientList(sessionData, "engagements.liste") ?? clientCertifications(sessionData),
+    ENGAGEMENT_DEMO,
+  );
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };
@@ -171,9 +179,9 @@ export default function PotagerEstuairePage() {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const phone = fd?.phone ?? "02 97 00 00 00";
-  const telHref = `tel:${fd?.phone ?? "+33297000000"}`;
-  const mail = fd?.email ?? "amap@potager-estuaire.fr";
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "02 97 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33297000000").replace(/\s/g, "")}`;
+  const mail = clientEmail(sessionData) ?? fd?.email ?? "amap@potager-estuaire.fr";
 
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
@@ -199,7 +207,7 @@ export default function PotagerEstuairePage() {
           ) : (
             <>
               <Leaf size={18} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Le Potager de l'Estuaire"))}</span>
+              <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Le Potager de l'Estuaire")}</span>
               
             </>
           )}
@@ -424,11 +432,11 @@ export default function PotagerEstuairePage() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
-              <div style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Le Potager de l'Estuaire"))}</div>
+              <div style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Le Potager de l'Estuaire")}</div>
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Maraîchage biologique · Vannes<br />Certifié AB — AMAP et marché des Lices</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? clientCity(sessionData) ?? "Vannes, Morbihan" }, { icon: <Phone size={13} />, t: phone }, { icon: <Mail size={13} />, t: mail }, { icon: <Clock size={13} />, t: "Distribution AMAP : Mar 18h–19h30 · Marché : Sam matin" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "56000", "Vannes") + ", Morbihan" }, { icon: <Phone size={13} />, t: phone }, { icon: <Mail size={13} />, t: mail }, { icon: <Clock size={13} />, t: "Distribution AMAP : Mar 18h–19h30 · Marché : Sam matin" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
                 </div>
@@ -437,7 +445,7 @@ export default function PotagerEstuairePage() {
           </div>
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Le Potager de l'Estuaire"))} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity />
+              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Le Potager de l'Estuaire")} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity fallback="852 546 225" kind="siren" />
             </span>
             <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>
