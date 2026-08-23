@@ -42,6 +42,7 @@ import {
   clientName,
   clientPhone,
   clientPhotos,
+  clientReviews,
   clientServices,
   clientStats,
   clientText,
@@ -682,6 +683,34 @@ export default function HorizonYachtPage() {
               Composer votre séjour
             </MagneticBtn>
           </Reveal>
+        </div>
+      </section>
+
+      {/* ── LE LIVRE DE BORD — les voix des hôtes, à la suite des escales ── */}
+      <section className="py-32 bg-[#020a13] border-t border-white/5">
+        <div className="max-w-[1600px] mx-auto px-6 md:px-12">
+          <Reveal>
+            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#c5a059)] block mb-16 italic">{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Le livre de bord</>)}</span>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+            {resolveList(
+              clientReviews(sessionData)?.slice(0, 3).map((r: any) => ({ text: r.text, author: r.author, detail: r.detail || undefined })),
+              [
+                { text: "Réveillés par l'eau, pas par la rue. La péniche au ponton privé vaut à elle seule le séjour.", author: "Camille & Théo", detail: "deux nuits, la péniche" },
+                { text: "Vélos prêtés, itinéraire tracé par la réception, table réservée au retour. On n'a rien organisé.", author: "Famille Lopez", detail: "quatre nuits, chambre canal" },
+                { text: "Le petit déjeuner au fil de l'eau, servi jusqu'à onze heures — le luxe sans la raideur.", author: "Isabelle M.", detail: "week-end d'automne" },
+              ],
+            ).map((a: any, i: number) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <figure className="h-full flex flex-col border-l border-[var(--brand,#c5a059)]/30 pl-8">
+                  <blockquote className="text-xl font-light italic text-white/60 leading-relaxed mb-10 flex-1">« {a.text} »</blockquote>
+                  <figcaption className="text-[10px] font-bold uppercase tracking-widest text-white/25">
+                    {a.author}{a.detail ? <span className="block mt-2 text-[var(--brand,#c5a059)]/70">{a.detail}</span> : null}
+                  </figcaption>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
