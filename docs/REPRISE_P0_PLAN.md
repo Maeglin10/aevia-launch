@@ -107,14 +107,38 @@ partout) :
 | 140 | ✔ | voyagiste → hôtel : les destinations deviennent les chambres, PortalZoom en baie vitrée |
 | 97 | ✔ | yachts → hôtel du canal : la péniche au ponton privé, LineScroll sur les devises, contact créé |
 | 141 | ✔ | label → école de musique : le lecteur joue les productions des élèves, CrossPush plein cadre, cours tarifés câblés |
+| 122 | ✔ | journal → organisme de formation : la une devient la formation phare, les essais les dates inter, PanelRise sur le catalogue, Spectral/IBM Plex |
+| 119 | ✔ | cloud → salle IronX : le terminal devient le tableau de séance sous WipeReveal, Archivo/Inter, texture externe retirée |
+| 160 | ✔ | data-center → Maison V : le registre des nœuds devient le vestiaire, GhostSolid sur le titre, essayage privé en modale |
+| 136 | ✔ | agence web → studio déco, text-mask conservé, DifferentialExit sur le manifeste (3 plans), réalisations clientWorks, Syne/Work Sans |
+| 100 | ✔ | Nova francisé (EB Garamond/Outfit), ScrollSpin sur la suspension dessinée, fausses accréditations RIBA/AIA retirées, 18 coquilles → redirections d'ancres |
+| 44 | ✔ | esport → Espace Studio : réécriture complète, 5 sous-pages recontenues sur leurs routes, PanelDrop sur le nuancier du moodboard |
+| 35 | ✔ | coworking → Carré Daviel (chiffre & droit) : honoraires écrits d'avance, ExpandFrame sur les vues du cabinet, déontologie au pied |
+| 36 | ✔ | Apex Talent francisé, adresse new-yorkaise remplacée par le contrat, TrackingCollapse sur le mot du titre, Spectral/IBM Plex |
+| 11 | ✔ | EduPath relevé : ParticleOrb (la sphère en canvas), Fraunces/Inter sur les 6 pages, avis et coordonnées ajoutés (absents) |
+| 39 | ✔ | déménageur passé au vert forêt #356047, StickyProgress sur la méthode (titre collé, étapes qui s'allument), Spectral/IBM Plex |
+
+**Les 18 sont transformés.** Défauts trouvés à la mesure et en capture, tous
+corrigés : courriel du pied de 100 débordant de 4 px, tarifs client absents
+sur 100 et 36, compteur « NaN » du héros de 35 (prop `i` de SlideIndex),
+période de démo collée au prix client sur 35, sur-titre « Management » de
+démo au-dessus du titre client sur 122, logo long débordant sur le menu
+mobile de 122.
 
 Applications de gestes toutes distinctes chez les porteurs multiples :
 PortalZoom = fenêtre de château (369) / voûte de cave (381) / arche (322) /
 baie vitrée (140) ; LineScroll = programme (321), calepinage (376), canal
-(97) ; HeldSwap = médaillon (345), panier (365), pièce d'omakase (146).
+(97) ; HeldSwap = médaillon (345), panier (365), pièce d'omakase (146) ;
+PanelDrop = rideau du café (137) / nuancier du moodboard (44) ; PanelRise =
+respiration (335 et série) / catalogue sur la une (122) ; ScrollSpin =
+calibre de montre (98) / suspension d'atelier (100) ; WipeReveal = mot du
+héros (368) / tableau de séance (119) ; DifferentialExit = héros produit
+(316) / manifeste (136) ; ExpandFrame = héros des séries 32x / vues du
+cabinet (35) ; StickyProgress = méthode du déménageur (39, seul porteur).
 
-**Restent** : 122 (journal → formation), 119 (cloud → salle de sport, 6
-métiers), 160 (data-center → mode), 136 (agence web → décorateur), et les
-multi-pages 100 (18 coquilles à résorber), 44 (esport → décorateur), 35
-(coworking → chiffre & droit), 36 (recrutement à franciser), 11 (photos
-absentes), 39 (contenu déjà juste, StickyProgress à poser).
+Reste pour la passe d'alignement (déjà prévue) : régénérer capabilities,
+photoSlots, sectionManifest et les paliers (98 a gagné une section d'avis ;
+146, 151, 97, 141, 122, 119, 160, 136, 100, 11, 44 aussi ou des sections
+recomposées), et mettre à jour les descriptions registry/i18n de 44 (le
+catalogue décrit « warm white and terracotta », le thème est désormais
+sombre #101012/#d8c8a8) et de 160/122/119 dont l'esthétique a changé.
