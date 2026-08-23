@@ -1,8 +1,16 @@
 "use client";
+// @ts-nocheck
+/*
+  impact-44 / merch — « La sélection ». L'ex-boutique de maillots devient la
+  sélection d'objets du studio. Câblée clientProducts (noms et prix du
+  client) quand le wizard en fournit.
+*/
 
 import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { C, MERCH } from "../shared";
+import Link from "next/link";
+import { C, SELECTION, AMBIANCES } from "../shared";
+import { clientProducts, clientText } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
@@ -11,7 +19,7 @@ let bp: any = null;
 let c: any = null;
 
 
-export default function MerchPage() {
+export default function SelectionPage() {
   const [__session, __setSession] = useState<any>(null);
   useEffect(() => {
     let id = new URLSearchParams(window.location.search).get("session");
@@ -33,122 +41,56 @@ export default function MerchPage() {
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
 
-  const [cartCount, setCartCount] = useState(0);
+  const OBJETS = resolveList(
+    clientProducts(sessionData)?.map((p: any, i: number) => ({
+      ...SELECTION[i % SELECTION.length],
+      name: p.name,
+      ...(p.price ? { price: String(p.price).replace(/\s*€\s*$/, "") } : {}),
+    })),
+    SELECTION,
+  );
 
   return (
-    <div style={{ background: C.bg, color: C.white, minHeight: "100dvh", padding: "80px 40px 120px", fontFamily: "'Courier New', monospace" }}>
-      <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 60, flexWrap: "wrap", gap: 24 }}>
-          <div>
-            <div style={{ fontSize: 11, color: C.textDim, letterSpacing: '0.5em', marginBottom: 16 }}>
-              <span style={{ color: C.green }}>05</span> / GEAR STORE
-            </div>
-            <h1
-              className="glitch-text"
-              data-text="GEAR UP"
-              style={{
-                fontSize: 'clamp(36px, 6vw, 72px)',
-                fontWeight: 900,
-                color: C.white,
-                letterSpacing: '0.1em',
-                textTransform: 'uppercase',
-                margin: 0,
-              }}
-            >
-              GEAR UP
-            </h1>
-          </div>
-          <div style={{ padding: "12px 24px", border: `1px solid ${C.green}`, color: C.green, fontSize: 12, letterSpacing: "0.2em", background: "rgba(0,255,100,0.05)", boxShadow: `0 0 10px rgba(0,255,100,0.1)` }}>
-            CART CONSOLE: {cartCount} ITEMS
-          </div>
+    <div style={{ background: C.bg, color: C.white, minHeight: "100dvh", padding: "60px 40px 120px" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        <div style={{ fontSize: 11, color: C.textDim, letterSpacing: "0.35em", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
+          <span style={{ color: C.sableFixe }}>05</span> / La sélection
         </div>
+        <h1 style={{ fontSize: "clamp(36px, 5.5vw, 72px)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "-0.02em", lineHeight: 1, marginBottom: 18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "selection-page.titre") ?? (<>
+          Les objets<br /><span style={{ color: C.sable }}>que le studio défend.</span>
+        </>)}</h1>
+        <p style={{ color: C.textMid, fontSize: 16, lineHeight: 1.75, fontWeight: 300, maxWidth: 560, marginBottom: 64 }}>{/* TEXTE_SECTION */ clientText(sessionData, "selection-page.texte") ?? (<>
+          Céramistes, verriers, tisserands : des pièces choisies chez les artisans avec qui le studio travaille — disponibles en boutique, réservables par téléphone.
+        </>)}</p>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(260px, 100%), 1fr))',
-          gap: 24,
-        }}>
-          {MERCH.map((item, i) => (
-            <motion.div
-              key={item.name}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.1 }}
-              style={{
-                background: C.gray,
-                border: `1px solid rgba(0,255,100,0.12)`,
-                padding: '32px 24px',
-                position: 'relative',
-                cursor: 'pointer',
-                overflow: 'hidden',
-              }}
-            >
-              {item.hot && (
-                <div style={{
-                  position: 'absolute',
-                  top: 16,
-                  right: 16,
-                  fontSize: 10,
-                  padding: '4px 8px',
-                  background: C.red,
-                  color: C.white,
-                  letterSpacing: '0.2em',
-                  boxShadow: `0 0 10px ${C.red}`,
-                }}>
-                  HOT
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px,100%), 1fr))", gap: 24 }}>
+          {OBJETS.map((m: any, i: number) => {
+            const amb = AMBIANCES[i % AMBIANCES.length];
+            return (
+              <div key={i} style={{ border: `1px solid ${C.line}`, background: C.gray, display: "flex", flexDirection: "column" }}>
+                {/* L'objet, dessiné : silhouette sur fond de matière. */}
+                <div aria-hidden style={{ aspectRatio: "1/1", position: "relative", overflow: "hidden", background: `linear-gradient(160deg, ${C.grayAlt} 0%, #232329 100%)` }}>
+                  <div style={{ position: "absolute", left: "50%", bottom: "18%", transform: "translateX(-50%)", width: "38%", height: "44%", background: `linear-gradient(180deg, ${amb.teinte} 0%, ${amb.fonce} 100%)`, borderRadius: i % 2 ? "50% 50% 8% 8% / 62% 62% 8% 8%" : "8px" }} />
+                  <div style={{ position: "absolute", left: "50%", bottom: "12%", transform: "translateX(-50%)", width: "52%", height: 8, background: "rgba(0,0,0,0.35)", borderRadius: "50%", filter: "blur(4px)" }} />
+                  {m.hot && (
+                    <span style={{ position: "absolute", top: 14, left: 14, padding: "6px 12px", background: C.sable, color: C.bg, fontSize: 9, letterSpacing: "0.22em", textTransform: "uppercase", fontWeight: 800 }}>
+                      {m.tag}
+                    </span>
+                  )}
                 </div>
-              )}
-              {/* Product visual placeholder */}
-              <div style={{
-                width: '100%',
-                height: 180,
-                background: `linear-gradient(135deg, ${C.darkGreen} 0%, ${C.bg} 100%)`,
-                border: '1px solid rgba(0,255,100,0.1)',
-                marginBottom: 24,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-                <div style={{
-                  width: 85,
-                  height: 85,
-                  border: `2px solid rgba(0,255,100,0.3)`,
-                  clipPath: 'polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%)',
-                  background: 'rgba(0,255,100,0.05)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: C.textDim,
-                  fontSize: 10,
-                  letterSpacing: '0.1em',
-                }}>
-                  GP
+                <div style={{ padding: "20px 20px 24px", display: "flex", flexDirection: "column", flex: 1 }}>
+                  {!m.hot && <div style={{ fontSize: 10, letterSpacing: "0.25em", textTransform: "uppercase", color: C.sableFixe, fontWeight: 700, marginBottom: 8 }}>{m.tag}</div>}
+                  <h3 style={{ fontSize: 16.5, fontWeight: 700, marginBottom: 10, lineHeight: 1.3 }}>{m.name}</h3>
+                  <div style={{ marginTop: "auto", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, borderTop: `1px solid ${C.line}`, paddingTop: 14 }}>
+                    <span className="i44-titre" style={{ fontSize: 20, fontWeight: 800, color: C.sableFixe }}>{m.price} €</span>
+                    <Link href="/templates/impact-44/recruit" style={{ fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: C.textMid, textDecoration: "none", fontWeight: 700 }}>
+                      Réserver →
+                    </Link>
+                  </div>
                 </div>
               </div>
-              <div style={{ fontSize: 10, color: C.textDim, letterSpacing: '0.4em', marginBottom: 8 }}>{item.tag}</div>
-              <div style={{ fontSize: 13, color: C.white, letterSpacing: '0.1em', marginBottom: 16, fontWeight: 700 }}>{item.name}</div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: 22, color: C.green, fontWeight: 900, textShadow: `0 0 10px ${C.green}` }}>
-                  ${item.price}
-                </span>
-                <button
-                  onClick={() => setCartCount(c => c + 1)}
-                  style={{
-                    padding: '8px 18px',
-                    background: 'transparent',
-                    border: `1px solid ${C.green}`,
-                    color: C.green,
-                    fontFamily: "'Courier New', monospace",
-                    fontSize: 10,
-                    letterSpacing: '0.2em',
-                    cursor: 'pointer',
-                  }}
-                >
-                  ADD
-                </button>
-              </div>
-            </motion.div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

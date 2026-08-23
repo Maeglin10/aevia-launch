@@ -1,310 +1,71 @@
 "use client";
+// @ts-nocheck
+/*
+  impact-44 — Espace Studio · Marseille (accueil). L'organisation esport a
+  été réécrite en studio de décoration : c'est ce que le catalogue vendait.
+  Geste : PanelDrop — le panneau de matières du moodboard tombe comme un
+  rideau quand l'ambiance change (137 le porte sur le texte de son héros de
+  café ; ici c'est le nuancier). Un seul index pilote la teinte de la pièce
+  dessinée, le panneau et le compteur.
+*/
 import {
-  clientAccrocheRestante,
   clientCity,
+  clientEyebrow,
+  clientHeroLine,
+  clientHeroSubtitle,
   clientName,
+  clientReviews,
+  clientServices,
+  clientStats,
   clientTagline,
   clientText,
+  clientWorks,
   memoriserSession,
 } from "@/lib/templates/clientContent";
-// @ts-nocheck
+import { resolveList } from "@/lib/templates/resolveList";
 
-import React, { useState, useEffect, useRef, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState, useEffect } from "react";
+import { motion, useInView } from "framer-motion";
 import Link from "next/link";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
+import { PanelDrop } from "@/lib/templates/hero-kit-3";
 import {
   C,
-  GAME_MODES,
-  TEAM_STATS,
-  ROSTER,
-  MERCH,
-  BRACKET,
-  CRTBoot,
-  CharacterSilhouette,
-  NeonStatCounter,
+  PRESTATIONS,
+  STUDIO_STATS,
+  SELECTION,
+  REALISATIONS,
+  AMBIANCES,
+  StatCounter,
+  Nuancier,
 } from "./shared";
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
-// Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
 let brand: any = null;
 
-// ─── PARALLAX HERO ────────────────────────────────────────────────────────────
-function HeroSection() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [scrollFrac, setScrollFrac] = useState(0);
-  const [skyY, setSkyY] = useState(0);
-  const [mountY, setMountY] = useState(0);
-  const [cityY, setCityY] = useState(0);
-  const [groundY, setGroundY] = useState(0);
-  const rafRef = useRef<number | null>(null);
-
-  const handleScroll = useCallback(() => {
-    if (!sectionRef.current) return;
-    const rect = sectionRef.current.getBoundingClientRect();
-    const total = sectionRef.current.offsetHeight - window.innerHeight;
-    const scrolled = -rect.top;
-    const frac = Math.max(0, Math.min(1, scrolled / total));
-    setScrollFrac(frac);
-    setSkyY(frac * 0.1 * 300);
-    setMountY(frac * 0.3 * 300);
-    setCityY(frac * 0.6 * 300);
-    setGroundY(frac * 1.0 * 300);
-  }, []);
-
-  useEffect(() => {
-    const onScroll = () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      rafRef.current = requestAnimationFrame(handleScroll);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    };
-  }, [handleScroll]);
-
+function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
   return (
-    <section
-      ref={sectionRef}
-      id="hero"
-      style={{
-        position: "relative",
-        height: "200vh",
-        fontFamily: "'Courier New', monospace",
-      }}
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 28 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.9, delay, ease: [0.16, 1, 0.3, 1] }}
     >
-      <div style={{
-        position: "sticky",
-        top: 0,
-        height: "100dvh",
-        overflow: "hidden",
-        background: C.bg,
-      }}>
-        {/* SKY layer — speed 0.1x */}
-        <div style={{
-          position: "absolute",
-          inset: 0,
-          transform: `translateY(${skyY}px)`,
-          background: `linear-gradient(180deg, #020a04 0%, #041a08 40%, #061406 100%)`,
-        }}>
-          {/* Stars */}
-          {Array.from({ length: 40 }).map((_, i) => (
-            <div key={i} style={{
-              position: "absolute",
-              top: `${Math.random() * 60}%`,
-              left: `${Math.random() * 100}%`,
-              width: Math.random() > 0.8 ? 3 : 1.5,
-              height: Math.random() > 0.8 ? 3 : 1.5,
-              borderRadius: "50%",
-              background: C.green,
-              opacity: Math.random() * 0.6 + 0.2,
-              boxShadow: `0 0 ${Math.random() * 6 + 2}px ${C.green}`,
-            }} />
-          ))}
-        </div>
-
-        {/* MOUNTAINS layer — speed 0.3x */}
-        <div style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          transform: `translateY(${mountY}px)`,
-          height: "55%",
-        }}>
-          <svg viewBox="0 0 1440 400" preserveAspectRatio="none" style={{ width: "100%", height: "100%" }}>
-            <polygon points="0,400 120,180 240,280 360,120 480,220 600,80 720,200 840,100 960,240 1080,140 1200,260 1320,160 1440,220 1440,400" fill="#0d2010" />
-            <polygon points="0,400 80,260 200,320 320,200 440,280 560,160 680,250 800,180 920,300 1040,200 1160,310 1280,220 1440,270 1440,400" fill="#0a1a0c" opacity="0.8" />
-            <polyline points="0,400 120,180 240,280 360,120 480,220 600,80 720,200 840,100 960,240 1080,140 1200,260 1320,160 1440,220" fill="none" stroke={C.green} strokeWidth="1" opacity="0.3" />
-          </svg>
-        </div>
-
-        {/* CITY layer — speed 0.6x */}
-        <div style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          transform: `translateY(${cityY}px)`,
-          height: "45%",
-        }}>
-          <svg viewBox="0 0 1440 320" preserveAspectRatio="none" style={{ width: "100%", height: "100%" }}>
-            {[
-              [0, 200, 80, 120], [90, 170, 60, 150], [160, 140, 100, 180], [270, 220, 50, 100],
-              [330, 100, 120, 220], [460, 180, 70, 140], [540, 130, 90, 190], [640, 160, 110, 160],
-              [760, 90, 80, 230], [850, 200, 60, 120], [920, 150, 100, 170], [1030, 120, 70, 200],
-              [1110, 180, 90, 140], [1210, 100, 80, 220], [1300, 160, 140, 160],
-            ].map(([x, y, w, h], i) => (
-              <rect key={i} x={x} y={y} width={w} height={h} fill={i % 3 === 0 ? "#0c1e0e" : "#081408"} stroke={C.green} strokeWidth="0.5" strokeOpacity="0.2" />
-            ))}
-            {[
-              [20, 220, 14, 10], [44, 220, 14, 10], [20, 240, 14, 10], [44, 240, 14, 10],
-              [180, 160, 14, 8], [204, 160, 14, 8], [180, 178, 14, 8],
-              [360, 130, 16, 10], [390, 130, 16, 10], [360, 150, 16, 10], [390, 150, 16, 10],
-              [780, 120, 14, 10], [804, 120, 14, 10], [780, 140, 14, 10],
-              [930, 170, 14, 10], [954, 170, 14, 10], [930, 190, 14, 10],
-            ].map(([x, y, w, h], i) => (
-              <rect key={i} x={x} y={y} width={w} height={h} fill={C.green} opacity={0.4} />
-            ))}
-            <rect x="0" y="298" width="1440" height="22" fill={`url(#cityGlow)`} />
-            <defs>
-              <linearGradient id="cityGlow" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={C.green} stopOpacity="0.15" />
-                <stop offset="100%" stopColor={C.green} stopOpacity="0" />
-              </linearGradient>
-            </defs>
-          </svg>
-        </div>
-
-        {/* GROUND layer — speed 1x */}
-        <div style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          transform: `translateY(${groundY}px)`,
-          height: "18%",
-          background: `linear-gradient(180deg, ${C.darkGreen} 0%, #010801 100%)`,
-          borderTop: `1px solid rgba(0,255,100,0.4)`,
-          boxShadow: `0 -4px 30px rgba(0,255,100,0.15)`,
-        }}>
-          <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style={{ width: "100%", height: "100%", opacity: 0.3 }}>
-            {Array.from({ length: 20 }).map((_, i) => (
-              <line key={i} x1={i * 72} y1="0" x2={i * 72} y2="120" stroke={C.green} strokeWidth="0.5" />
-            ))}
-            {Array.from({ length: 6 }).map((_, i) => (
-              <line key={i} x1="0" y1={i * 20} x2="1440" y2={i * 20} stroke={C.green} strokeWidth="0.5" />
-            ))}
-          </svg>
-        </div>
-
-        {/* CHARACTER */}
-        <div style={{
-          position: "absolute",
-          bottom: "18%",
-          left: "8%",
-          zIndex: 10,
-          transform: `translateX(${scrollFrac * 65}vw)`,
-          transition: "transform 0.08s linear",
-        }}>
-          <CharacterSilhouette scrollProgress={scrollFrac} />
-        </div>
-
-        {/* HERO TEXT */}
-        <div style={{
-          position: "absolute",
-          top: "12%",
-          left: 0,
-          right: 0,
-          padding: "0 40px",
-          textAlign: "center",
-          zIndex: 20,
-          fontFamily: "'Courier New', monospace",
-        }}>
-          <h1
-            className="glitch-text"
-            data-text="ENTER THE VOID"
-            style={{
-              fontSize: "clamp(48px, 10vw, 120px)",
-              fontWeight: 900,
-              color: C.white,
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              lineHeight: 1,
-              marginBottom: 24,
-              textShadow: `0 0 60px rgba(0,255,100,0.2)`,
-            }}
-          >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
-            ENTER THE VOID
-          </>)}</h1>
-          <div style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 20,
-            color: C.textMid,
-            fontSize: 13,
-            letterSpacing: "0.3em",
-          }}>
-            <div style={{ height: 1, width: 80, background: `linear-gradient(90deg, transparent, ${C.green})` }} />
-            <span>SEASON SIX — NOW LIVE</span>
-            <div style={{ height: 1, width: 80, background: `linear-gradient(90deg, ${C.green}, transparent)` }} />
-          </div>
-
-          {/* Real CTA — mobile's only other actionable element was the nav
-              hamburger; the recruitment CTA lives far below the fold. */}
-          <div style={{ marginTop: 32 }}>
-            <Link href="/templates/impact-44/recruit" style={{
-              display: "inline-block",
-              padding: "16px 40px",
-              background: C.green,
-              border: "none",
-              color: C.bg,
-              fontSize: 12,
-              letterSpacing: "0.25em",
-              textTransform: "uppercase",
-              textDecoration: "none",
-              fontWeight: 900,
-              boxShadow: `0 0 30px rgba(0,255,100,0.3)`,
-            }}>
-              Submit Tryout Form
-            </Link>
-          </div>
-        </div>
-
-        {/* SCROLL INDICATOR */}
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-          style={{
-            position: "absolute",
-            bottom: "22%",
-            left: "50%",
-            transform: "translateX(-50%)",
-            zIndex: 20,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 8,
-            color: C.textDim,
-            fontSize: 10,
-            letterSpacing: "0.3em",
-          }}
-        >
-          <span>SCROLL TO ENGAGE</span>
-          <div style={{ width: 1, height: 40, background: `linear-gradient(180deg, ${C.green}, transparent)` }} />
-        </motion.div>
-
-        {/* Corner HUD elements — sit at the same top:80 band as the eyebrow
-            text + H1 above; on mobile the centered hero text block (which
-            has no whiteSpace:nowrap guard and spans nearly full width) grew
-            wide enough to run underneath both corner readouts, turning them
-            into an unreadable overlapping mess. They're decorative flavor
-            text, so we drop them below 640px instead of fighting for space. */}
-        <div className="i44-hud" style={{ position: "absolute", top: 80, left: 20, fontFamily: "'Courier New', monospace", fontSize: 10, color: C.textDim, letterSpacing: "0.1em", zIndex: 20 }}>
-          <div>LAT: 48.8566° N</div>
-          <div>LNG: 2.3522° E</div>
-          <div style={{ color: C.green, marginTop: 4 }}>STATUS: ACTIVE</div>
-        </div>
-        <div className="i44-hud" style={{ position: "absolute", top: 80, right: 20, fontFamily: "'Courier New', monospace", fontSize: 10, color: C.textDim, letterSpacing: "0.1em", textAlign: "right", zIndex: 20 }}>
-          <div>PING: 4ms</div>
-          <div>FPS: 240</div>
-          <div style={{ color: C.green, marginTop: 4 }}>RANK: LEGENDARY</div>
-        </div>
-        <style>{`@media (max-width: 640px) { .i44-hud { display: none !important; } }`}</style>
-      </div>
-    </section>
+      {children}
+    </motion.div>
   );
 }
 
-// ─── ROOT PAGE ────────────────────────────────────────────────────────────────
+// ─── PAGE ─────────────────────────────────────────────────────────────────────
 
-export default function GamingTemplatePage() {
+export default function EspaceStudioPage() {
   const [session, setSession] = useState<{
     formData?: {
       businessName?: string; businessType?: string; tagline?: string;
@@ -345,168 +106,286 @@ export default function GamingTemplatePage() {
 
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
-  const [booted, setBooted] = useState(false);
+  const OFFRES = resolveList(
+    clientServices(sessionData)?.slice(0, 4).map((s: any, i: number) => ({
+      ...PRESTATIONS[i % PRESTATIONS.length],
+      title: s.title,
+      desc: s.desc || PRESTATIONS[i % PRESTATIONS.length].desc,
+      ...(s.price ? { prix: s.price } : {}),
+    })),
+    PRESTATIONS,
+  );
+  const STATS = resolveList(
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+      ...STUDIO_STATS[i % STUDIO_STATS.length],
+      value: parseInt(String(s.value).replace(/[^\d]/g, ""), 10) || 0,
+      suffix: String(s.value).replace(/^[\d\s]+/, ""),
+      label: s.label,
+    })),
+    STUDIO_STATS,
+  );
+  const LIEUX = /* REALISATIONS */ resolveList(
+    clientWorks(sessionData)?.slice(0, 4).map((o: any, i: number) => ({
+      ...REALISATIONS[i % REALISATIONS.length],
+      nom: o.title,
+      ...(o.detail ? { type: o.detail } : {}),
+    })),
+    REALISATIONS,
+  );
+  const AVIS = resolveList(
+    clientReviews(sessionData)?.slice(0, 3).map((r: any) => ({ text: r.text, author: r.author, detail: r.detail || undefined })),
+    [
+      { text: "Deux heures de conseil, un carnet de teintes — et l'appartement a enfin l'air d'avoir été pensé.", author: "Julie M.", detail: "conseil couleur" },
+      { text: "Le studio a tenu le chantier, les artisans et le budget. On n'a décidé que de ce qui nous plaisait.", author: "Famille Garnier", detail: "rénovation" },
+      { text: "Vendu en trois semaines, au prix. Le home staging s'est payé tout seul.", author: "R. Fabiani", detail: "home staging" },
+    ],
+  );
 
-  
-return (
+  /* Un seul index : l'ambiance pilote la teinte, le panneau et le compteur. */
+  const { i: ambiance, go: choisirAmbiance } = useSlides(AMBIANCES.length, DWELL.slow);
+  const A = AMBIANCES[ambiance];
+
+  return (
     <>
-      <CRTBoot onDone={() => setBooted(true)} />
+      <div style={{ background: C.bg, color: C.white, minHeight: "100dvh", overflowX: "clip" }}>
 
-      <motion.div
-        className="scanline-overlay"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: booted ? 1 : 0 }}
-        transition={{ duration: 0.5 }}
-        style={{
-          background: C.bg,
-          color: C.white,
-          minHeight: "100dvh",
-          overflowX: "clip",
-        }}
-      >
-        <HeroSection />
+        {/* ── HÉROS — le moodboard d'ambiance sous PanelDrop ────────────── */}
+        <section id="hero" style={{ position: "relative", minHeight: "100dvh", display: "flex", alignItems: "center", padding: "140px 40px 80px", overflow: "hidden" }}>
+          {/* Repli dessiné : la lumière du sud sur un mur sombre. */}
+          <div aria-hidden style={{ position: "absolute", inset: 0, background: `radial-gradient(90% 70% at 80% 20%, ${A.fonce}33, transparent 60%)`, transition: "background 1.2s ease" }} />
+          <div aria-hidden style={{ position: "absolute", inset: 0, opacity: 0.05, backgroundImage: `repeating-linear-gradient(90deg, transparent 0 140px, ${C.sableFixe} 140px 141px)` }} />
 
-        {/* Game Modes Preview Section */}
-        <section style={{ padding: "120px 40px", textAlign: "center", borderTop: `1px solid rgba(0,255,100,0.1)` }}>
-          <div style={{ maxWidth: 800, margin: "0 auto" }}>
-            <div style={{ fontSize: 11, color: C.textDim, letterSpacing: "0.4em", marginBottom: 16 }}>
-              // SUB_SYSTEM_01
+          <div className="i44-hero" style={{ position: "relative", zIndex: 2, maxWidth: 1280, margin: "0 auto", width: "100%", display: "grid", gridTemplateColumns: "1.05fr 0.95fr", gap: "clamp(40px,6vw,90px)", alignItems: "center" }}>
+            <div>
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 0.15 }}>
+                <span style={{ fontSize: 11, letterSpacing: "0.35em", textTransform: "uppercase", color: C.sableFixe, fontWeight: 700 }}>
+                  {clientEyebrow(sessionData) ?? `Décoration d'intérieur · ${clientCity(sessionData) ?? "Marseille"}`}
+                </span>
+              </motion.div>
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                style={{ fontSize: "clamp(44px, 6.5vw, 96px)", fontWeight: 800, lineHeight: 0.98, letterSpacing: "-0.02em", textTransform: "uppercase", margin: "26px 0 28px" }}
+              >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>
+                {clientHeroLine(sessionData, 0, 2, 12) ?? "L'intérieur"}<br />
+                <span style={{ color: C.sable }}>{clientHeroLine(sessionData, 1, 2, 16) ?? "qui vous ressemble."}</span>
+              </>)}</motion.h1>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                style={{ color: C.textMid, fontSize: 17, lineHeight: 1.75, maxWidth: 480, marginBottom: 36, fontWeight: 300 }}
+              >
+                {clientHeroSubtitle(sessionData) ?? clientTagline(sessionData) ?? "Conseil couleur, décoration pièce par pièce, rénovation suivie : le studio dessine, chiffre et livre — vous habitez."}
+              </motion.p>
+              <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.68 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+                <Link href="/templates/impact-44/recruit" style={{ padding: "16px 36px", background: C.sable, color: C.bg, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", textDecoration: "none", fontWeight: 800 }}>
+                  Prendre rendez-vous
+                </Link>
+                <Link href="/templates/impact-44/bracket" style={{ padding: "16px 36px", border: `1px solid ${C.line}`, color: C.white, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", textDecoration: "none", fontWeight: 700 }}>
+                  Voir les réalisations
+                </Link>
+              </motion.div>
             </div>
-            <h2 className="glitch-text" data-text="GAME MODES" style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 900, color: C.white, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 24 }}>{c?.aboutTitle ?? fd?.businessName ?? <>
-              GAME MODES
-            </>}</h2>
-            <p style={{ color: C.textMid, fontSize: 14, lineHeight: 1.7, marginBottom: 40, maxWidth: 520, margin: "0 auto 40px" }}>{c?.aboutText ?? <>
-              Explore tactical operation protocols. From massive squad battles to high-pressure solo eliminations, our server algorithms deliver pure action.
-            </>}</p>
-            <Link href="/templates/impact-44/modes" style={{
-              padding: "16px 40px",
-              background: "transparent",
-              border: `1px solid ${C.green}`,
-              color: C.green,
-              fontSize: 12,
-              letterSpacing: "0.25em",
-              textTransform: "uppercase",
-              textDecoration: "none",
-              boxShadow: `0 0 12px rgba(0,255,100,0.15)`,
-            }}>
-              Launch Modes Interface
-            </Link>
+
+            {/* Le moodboard : la pièce dessinée retinte, le panneau tombe. */}
+            <motion.div initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}>
+              <div style={{ border: `1px solid ${C.line}`, background: C.gray }}>
+                {/* La pièce, en aplats — jamais un trou noir sans photo. */}
+                <div aria-hidden style={{ height: "clamp(150px,22vh,220px)", position: "relative", overflow: "hidden", background: `linear-gradient(180deg, ${A.teinte} 0%, ${A.fonce} 100%)`, transition: "background 1.2s ease" }}>
+                  <div style={{ position: "absolute", left: "8%", bottom: 0, width: "30%", height: "58%", background: "rgba(16,16,18,0.35)", borderRadius: "6px 6px 0 0" }} />
+                  <div style={{ position: "absolute", right: "12%", bottom: 0, width: "16%", height: "78%", background: "rgba(16,16,18,0.25)" }} />
+                  <div style={{ position: "absolute", left: "46%", top: "18%", width: 52, height: 52, borderRadius: "50%", background: "rgba(242,237,228,0.75)", boxShadow: "0 0 60px rgba(242,237,228,0.5)" }} />
+                </div>
+                <div style={{ padding: "26px 28px 30px" }}>
+                  <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 20 }}>
+                    <span style={{ fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: C.textDim, fontWeight: 700 }}>Le nuancier du studio</span>
+                    <span style={{ fontSize: 10, letterSpacing: "0.2em", color: C.textDim, fontVariantNumeric: "tabular-nums" }}>{ambiance + 1} / {AMBIANCES.length}</span>
+                  </div>
+                  <div style={{ display: "flex", gap: 8, marginBottom: 22, flexWrap: "wrap" }}>
+                    {AMBIANCES.map((amb, i) => (
+                      <button
+                        key={amb.nom}
+                        onClick={() => choisirAmbiance(i)}
+                        style={{
+                          padding: "11px 18px",
+                          minHeight: 44,
+                          background: i === ambiance ? C.sable : "transparent",
+                          color: i === ambiance ? C.bg : C.textMid,
+                          border: `1px solid ${i === ambiance ? C.sable : C.line}`,
+                          fontSize: 11,
+                          letterSpacing: "0.15em",
+                          textTransform: "uppercase",
+                          fontWeight: 700,
+                          cursor: "pointer",
+                          transition: "all 0.25s",
+                        }}
+                      >
+                        {amb.nom}
+                      </button>
+                    ))}
+                  </div>
+                  <PanelDrop index={ambiance} style={{ minHeight: 150 }}>
+                    <div>
+                      <p style={{ color: C.textMid, fontSize: 14.5, lineHeight: 1.7, marginBottom: 18, fontWeight: 300 }}>{A.desc}</p>
+                      <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap" }}>
+                        <Nuancier teintes={[A.teinte, A.fonce, "#f2ede4"]} />
+                        <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+                          {A.matieres.map((m) => (
+                            <span key={m} style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: C.sableFixe, fontWeight: 600 }}>{m}</span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </PanelDrop>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+          <style>{`@media (max-width: 960px) { .i44-hero { grid-template-columns: 1fr !important; } }`}</style>
+        </section>
+
+        {/* ── CHIFFRES DU STUDIO ────────────────────────────────────────── */}
+        <section style={{ background: C.gray, borderTop: `1px solid ${C.line}`, borderBottom: `1px solid ${C.line}`, padding: "40px 24px" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(200px,100%), 1fr))", gap: 8 }}>
+            {STATS.map((s: any, i: number) => (
+              <StatCounter key={i} value={s.value} label={s.label} suffix={s.suffix} format={s.format} />
+            ))}
           </div>
         </section>
 
-        {/* Team Stats Section */}
-        <section style={{ background: C.gray, padding: "120px 40px", textAlign: "center" }}>
-          <div style={{ maxWidth: 800, margin: "0 auto" }}>
-            <div style={{ fontSize: 11, color: C.textDim, letterSpacing: "0.4em", marginBottom: 16 }}>
-              // SUB_SYSTEM_02
+        {/* ── PRESTATIONS (aperçu) ──────────────────────────────────────── */}
+        <section style={{ padding: "110px 40px" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+            <Reveal>
+              <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-end", justifyContent: "space-between", gap: 20, marginBottom: 56 }}>
+                <div>
+                  <div style={{ fontSize: 11, color: C.textDim, letterSpacing: "0.35em", textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Prestations</div>
+                  <h2 style={{ fontSize: "clamp(30px, 4.4vw, 54px)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "-0.015em", lineHeight: 1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "prestations.titre") ?? (<>
+                    Quatre façons<br /><span style={{ color: C.sable }}>de travailler ensemble.</span>
+                  </>)}</h2>
+                </div>
+                <Link href="/templates/impact-44/modes" style={{ fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: C.sableFixe, textDecoration: "none", fontWeight: 700, borderBottom: `1px solid ${C.sable}`, paddingBottom: 6 }}>
+                  Tout le détail →
+                </Link>
+              </div>
+            </Reveal>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px,100%), 1fr))", gap: 1, background: C.line, border: `1px solid ${C.line}` }}>
+              {OFFRES.map((p: any, i: number) => (
+                <Reveal key={p.id ?? i} delay={i * 0.08}>
+                  <Link href="/templates/impact-44/modes" style={{ display: "flex", flexDirection: "column", height: "100%", background: C.bg, padding: "36px 30px", textDecoration: "none", color: "inherit" }}>
+                    <span style={{ fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: C.textDim, fontWeight: 700, marginBottom: 18 }}>{p.tag}</span>
+                    <h3 style={{ fontSize: 21, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.01em", lineHeight: 1.15, marginBottom: 12 }}>{p.title}</h3>
+                    <p style={{ color: C.textMid, fontSize: 13.5, lineHeight: 1.7, fontWeight: 300, flex: 1, marginBottom: 22 }}>{p.desc}</p>
+                    <div style={{ borderTop: `1px solid ${C.line}`, paddingTop: 14, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: C.sableFixe, fontWeight: 700 }}>{p.prix}</div>
+                  </Link>
+                </Reveal>
+              ))}
             </div>
-            <h2 className="glitch-text" data-text="ACTIVE ROSTER" style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 900, color: C.white, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
-              TEAM ROSTER
-            </>)}</h2>
-            <p style={{ color: C.textMid, fontSize: 14, lineHeight: 1.7, marginBottom: 40, maxWidth: 520, margin: "0 auto 40px" }}>
-              Meet our championship-winning active competitors. 847 tournament wins and 23 world titles across all competitive divisions.
-            </p>
-            <Link href="/templates/impact-44/team" style={{
-              padding: "16px 40px",
-              background: "transparent",
-              border: `1px solid ${C.green}`,
-              color: C.green,
-              fontSize: 12,
-              letterSpacing: "0.25em",
-              textTransform: "uppercase",
-              textDecoration: "none",
-              boxShadow: `0 0 12px rgba(0,255,100,0.15)`,
-            }}>
-              Inspect Active Roster
-            </Link>
           </div>
         </section>
 
-        {/* Bracket Section */}
-        <section style={{ padding: "120px 40px", textAlign: "center" }}>
-          <div style={{ maxWidth: 800, margin: "0 auto" }}>
-            <div style={{ fontSize: 11, color: C.textDim, letterSpacing: "0.4em", marginBottom: 16 }}>
-              // SUB_SYSTEM_03
+        {/* ── RÉALISATIONS (aperçu) ─────────────────────────────────────── */}
+        <section style={{ background: C.gray, borderTop: `1px solid ${C.line}`, padding: "110px 40px" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+            <Reveal>
+              <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-end", justifyContent: "space-between", gap: 20, marginBottom: 56 }}>
+                <h2 style={{ fontSize: "clamp(30px, 4.4vw, 54px)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "-0.015em", lineHeight: 1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>
+                  Des lieux <span style={{ color: C.sable }}>livrés.</span>
+                </>)}</h2>
+                <Link href="/templates/impact-44/bracket" style={{ fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: C.sableFixe, textDecoration: "none", fontWeight: 700, borderBottom: `1px solid ${C.sable}`, paddingBottom: 6 }}>
+                  Toutes les réalisations →
+                </Link>
+              </div>
+            </Reveal>
+            <div style={{ borderTop: `1px solid ${C.line}` }}>
+              {LIEUX.map((l: any, i: number) => (
+                <Reveal key={i} delay={i * 0.06}>
+                  <Link href="/templates/impact-44/bracket" style={{ display: "flex", flexWrap: "wrap", alignItems: "baseline", justifyContent: "space-between", gap: "8px 24px", padding: "26px 4px", borderBottom: `1px solid ${C.line}`, textDecoration: "none", color: "inherit" }}>
+                    <span className="i44-titre" style={{ fontSize: "clamp(20px,2.6vw,30px)", fontWeight: 800, textTransform: "uppercase" }}>{l.nom}</span>
+                    <span style={{ fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: C.textMid }}>{l.type}</span>
+                    <span style={{ fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: C.textDim }}>{l.duree}</span>
+                  </Link>
+                </Reveal>
+              ))}
             </div>
-            <h2 className="glitch-text" data-text="TOURNAMENTS" style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 900, color: C.white, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
-              WORLD FINALS BRACKET
-            </>)}</h2>
-            <p style={{ color: C.textMid, fontSize: 14, lineHeight: 1.7, marginBottom: 40, maxWidth: 520, margin: "0 auto 40px" }}>
-              Track our tournament path to world domination. High stakes and zero-room-for-errors live updates from our servers.
-            </p>
-            <Link href="/templates/impact-44/bracket" style={{
-              padding: "16px 40px",
-              background: "transparent",
-              border: `1px solid ${C.green}`,
-              color: C.green,
-              fontSize: 12,
-              letterSpacing: "0.25em",
-              textTransform: "uppercase",
-              textDecoration: "none",
-              boxShadow: `0 0 12px rgba(0,255,100,0.15)`,
-            }}>
-              Load Tournament Grid
-            </Link>
           </div>
         </section>
 
-        {/* Merch Section */}
-        <section style={{ background: C.gray, padding: "120px 40px", textAlign: "center" }}>
-          <div style={{ maxWidth: 800, margin: "0 auto" }}>
-            <div style={{ fontSize: 11, color: C.textDim, letterSpacing: "0.4em", marginBottom: 16 }}>
-              // SUB_SYSTEM_04
+        {/* ── AVIS ──────────────────────────────────────────────────────── */}
+        <section style={{ padding: "110px 40px", borderTop: `1px solid ${C.line}` }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+            <Reveal>
+              <div style={{ fontSize: 11, color: C.textDim, letterSpacing: "0.35em", textTransform: "uppercase", fontWeight: 700, marginBottom: 14 }}>Ils y vivent</div>
+              <h2 style={{ fontSize: "clamp(30px, 4.4vw, 54px)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "-0.015em", lineHeight: 1, marginBottom: 56 }}>{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>
+                Paroles <span style={{ color: C.sable }}>d'habitants.</span>
+              </>)}</h2>
+            </Reveal>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px,100%), 1fr))", gap: 40 }}>
+              {AVIS.map((a: any, i: number) => (
+                <Reveal key={i} delay={i * 0.08}>
+                  <figure style={{ height: "100%", display: "flex", flexDirection: "column", borderLeft: `2px solid ${C.sable}`, paddingLeft: 22, margin: 0 }}>
+                    <blockquote style={{ color: C.textMid, fontSize: 16.5, lineHeight: 1.75, fontWeight: 300, fontStyle: "italic", flex: 1, margin: "0 0 18px" }}>« {a.text} »</blockquote>
+                    <figcaption style={{ fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: C.textDim, fontWeight: 700 }}>
+                      {a.author}{a.detail ? <span style={{ display: "block", marginTop: 6, color: C.sableFixe }}>{a.detail}</span> : null}
+                    </figcaption>
+                  </figure>
+                </Reveal>
+              ))}
             </div>
-            <h2 className="glitch-text" data-text="GEAR STORE" style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 900, color: C.white, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
-              LIMITED DROP GEAR
-            </>)}</h2>
-            <p style={{ color: C.textMid, fontSize: 14, lineHeight: 1.7, marginBottom: 40, maxWidth: 520, margin: "0 auto 40px" }}>
-              Suit up with our official cyber jerseys, signature hoodies, and accessories. Season 6 drop now open.
-            </p>
-            <Link href="/templates/impact-44/merch" style={{
-              padding: "16px 40px",
-              background: "transparent",
-              border: `1px solid ${C.green}`,
-              color: C.green,
-              fontSize: 12,
-              letterSpacing: "0.25em",
-              textTransform: "uppercase",
-              textDecoration: "none",
-              boxShadow: `0 0 12px rgba(0,255,100,0.15)`,
-            }}>
-              Browse Gear Catalog
-            </Link>
           </div>
         </section>
 
-        {/* Recruitment CTA Section */}
-        <section style={{ padding: "120px 40px", textAlign: "center" }}>
-          <div style={{ maxWidth: 800, margin: "0 auto" }}>
-            <div style={{ fontSize: 11, color: C.textDim, letterSpacing: "0.4em", marginBottom: 16 }}>
-              // SUB_SYSTEM_05
+        {/* ── LA SÉLECTION (aperçu) ─────────────────────────────────────── */}
+        <section style={{ background: C.gray, borderTop: `1px solid ${C.line}`, padding: "110px 40px" }}>
+          <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+            <Reveal>
+              <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-end", justifyContent: "space-between", gap: 20, marginBottom: 56 }}>
+                <h2 style={{ fontSize: "clamp(30px, 4.4vw, 54px)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "-0.015em", lineHeight: 1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "selection.titre") ?? (<>
+                  La sélection <span style={{ color: C.sable }}>du studio.</span>
+                </>)}</h2>
+                <Link href="/templates/impact-44/merch" style={{ fontSize: 11, letterSpacing: "0.22em", textTransform: "uppercase", color: C.sableFixe, textDecoration: "none", fontWeight: 700, borderBottom: `1px solid ${C.sable}`, paddingBottom: 6 }}>
+                  Toute la sélection →
+                </Link>
+              </div>
+            </Reveal>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(220px,100%), 1fr))", gap: 20 }}>
+              {SELECTION.map((m, i) => (
+                <Reveal key={m.name} delay={i * 0.07}>
+                  <Link href="/templates/impact-44/merch" style={{ display: "block", border: `1px solid ${C.line}`, background: C.bg, textDecoration: "none", color: "inherit" }}>
+                    <div aria-hidden style={{ aspectRatio: "4/3", background: `linear-gradient(150deg, ${C.grayAlt} 0%, #26262c 100%)`, position: "relative" }}>
+                      <div style={{ position: "absolute", left: "50%", top: "50%", transform: "translate(-50%,-50%)", width: 46, height: 46, borderRadius: "50%", border: `1px solid ${C.sable}`, opacity: 0.6 }} />
+                    </div>
+                    <div style={{ padding: "18px 18px 20px" }}>
+                      <div style={{ fontSize: 10, letterSpacing: "0.25em", textTransform: "uppercase", color: C.sableFixe, fontWeight: 700, marginBottom: 8 }}>{m.tag}</div>
+                      <div style={{ fontSize: 14.5, fontWeight: 600, marginBottom: 8 }}>{m.name}</div>
+                      <div style={{ fontSize: 12, color: C.textMid }}>{m.price} €</div>
+                    </div>
+                  </Link>
+                </Reveal>
+              ))}
             </div>
-            <h2 className="glitch-text" data-text="JOIN US" style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: 900, color: C.white, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
-              JOIN THE VOID
-            </>)}</h2>
-            <p style={{ color: C.textMid, fontSize: 14, lineHeight: 1.7, marginBottom: 40, maxWidth: 520, margin: "0 auto 40px" }}>
-              Are you legendary? Submit your gameplay clips and join the ranks of the elite. Applications reviewed weekly.
-            </p>
-            <Link href="/templates/impact-44/recruit" style={{
-              padding: "18px 48px",
-              background: C.green,
-              border: "none",
-              color: C.bg,
-              fontSize: 12,
-              letterSpacing: "0.25em",
-              textTransform: "uppercase",
-              textDecoration: "none",
-              fontWeight: 900,
-              boxShadow: `0 0 30px rgba(0,255,100,0.3)`,
-            }}>
-              Submit Tryout Form
-            </Link>
           </div>
         </section>
-      </motion.div>
+
+        {/* ── APPEL FINAL ───────────────────────────────────────────────── */}
+        <section style={{ padding: "120px 40px", textAlign: "center", borderTop: `1px solid ${C.line}` }}>
+          <div style={{ maxWidth: 720, margin: "0 auto" }}>
+            <Reveal>
+              <h2 style={{ fontSize: "clamp(32px, 5vw, 60px)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "-0.015em", lineHeight: 1.02, marginBottom: 22 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
+                Et si on parlait<br /><span style={{ color: C.sable }}>de chez vous ?</span>
+              </>)}</h2>
+              <p style={{ color: C.textMid, fontSize: 16, lineHeight: 1.75, fontWeight: 300, maxWidth: 520, margin: "0 auto 40px" }}>
+                {c?.ctaText ?? "Une première visite, un échange sur vos usages et votre budget — et une proposition claire sous une semaine."}
+              </p>
+              <Link href="/templates/impact-44/recruit" style={{ display: "inline-block", padding: "18px 48px", background: C.sable, color: C.bg, fontSize: 12, letterSpacing: "0.22em", textTransform: "uppercase", textDecoration: "none", fontWeight: 800 }}>
+                Prendre rendez-vous
+              </Link>
+            </Reveal>
+          </div>
+        </section>
+      </div>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName({ formData: fd }) ?? "impact-44"}
