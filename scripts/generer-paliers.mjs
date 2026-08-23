@@ -44,6 +44,12 @@ export const TIER_PRICE: Record<SiteTier, number> = { landing: 399, essentiel: 5
 export const TEMPLATE_TIER: Record<string, SiteTier> = {
 ${lignes.join("\n")}
 };
+
+/* Le repli « pro » ne devrait plus jamais servir : la carte couvre tout le
+   catalogue. Il reste là pour un thème créé et vendu avant régénération. */
+export function tierForTemplate(id: string | undefined | null): SiteTier {
+  return (id && TEMPLATE_TIER[id]) || 'pro';
+}
 `;
 
 fs.writeFileSync(CIBLE, sortie);
