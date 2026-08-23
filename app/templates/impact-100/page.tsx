@@ -1,10 +1,18 @@
 "use client";
 // @ts-nocheck
+/*
+  impact-100 — Nova, architecture d'intérieur. Francisé et recentré : le
+  studio spatial anglophone devient l'atelier d'architecture intérieure
+  vendu au catalogue. Les dix-huit sous-pages coquilles sont résorbées en
+  redirections vers les ancres de cette page.
+  Héros H2 : split média gauche — la photo du lieu à gauche, le titre à
+  droite, et la suspension dessinée qui tourne au défilement (ScrollSpin,
+  application : le luminaire ; 98 le porte sur un cadran de montre).
+  Fontes P11 EB Garamond + Outfit · palette #f8f6f2 / #6b5942.
+*/
 
 import {
   motion,
-  useScroll,
-  useTransform,
   useInView,
   AnimatePresence,
   useMotionValue,
@@ -13,24 +21,22 @@ import {
 import { useState, useRef, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Separator } from "@/components/ui/separator";
-import { Compass, Layout, Maximize, Ruler, Sparkles, Globe, Mail, MapPin, ChevronRight, ArrowRight, X, Menu, Box, Home, Layers, PencilLine, Focus, Frame, Monitor, Share2, Lock, Search, ShoppingBag } from "lucide-react";
+import { Compass, Sparkles, Mail, ChevronRight, ArrowRight, X, Menu, Box, Home, Layers, PencilLine, Ruler, Phone, MapPin, Layout } from "lucide-react";
+import { ScrollSpin } from "@/lib/templates/hero-kit-3";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientCodePostalVille,
+  clientEmail,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
+  clientReviews,
   clientServices,
   clientStats,
   clientText,
@@ -42,40 +48,39 @@ import "../premium.css";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
-// Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
 let bp: any = null;
 let brand: any = null;
 
 /* ==========================================================================
-   DATA STRUCTURES
+   DONNÉES
    ========================================================================= */
 
 function PROJECTS_DEMO_LIVE() {
   return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, location: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     id: 1,
-    name: "The Obsidian Loft",
-    category: "Residential",
-    location: "London, UK",
-    desc: "A study in monochromatic minimalism, utilizing raw concrete and reclaimed oak to create a silent sanctuary.",
+    name: "L'appartement Obsidienne",
+    category: "Résidentiel",
+    location: (clientCity(sessionData) ?? "Lyon"),
+    desc: "Une étude en camaïeu minéral : béton ciré, chêne de récupération, et le calme d'un plan enfin juste.",
     img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200&q=80"),
   },
   {
     id: 2,
-    name: "Lumière Office HQ",
-    category: "Commercial",
-    location: (clientCity(sessionData) ?? "Paris") + ", FR",
-    desc: "Redefining workspace through glass-brick acoustics and architectural light channeling.",
+    name: "Les bureaux Lumière",
+    category: "Tertiaire",
+    location: (clientCity(sessionData) ?? "Lyon"),
+    desc: "Un plateau repensé par la lumière : briques de verre acoustiques et circulations qui ne se croisent plus.",
     img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80"),
   },
   {
     id: 3,
-    name: "Aura Boutique Hotel",
-    category: "Hospitality",
-    location: "Kyoto, JP",
-    desc: "Merging traditional Japanese spatial philosophy with brutalist structural integrity.",
+    name: "La maison Aura",
+    category: "Hôtellerie",
+    location: "Annecy",
+    desc: "Cinq chambres d'hôtes où chaque seuil ménage une transition — du bruit du monde au silence de la chambre.",
     img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1590490359683-658d3d23f972?w=1200&q=80"),
   },
 ]);
@@ -84,33 +89,33 @@ let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 
 const PHILOSOPHY_SOURCE = [
   {
-    title: "Spatial Psychology",
-    desc: "We design for the subconscious, utilizing negative space to reduce cognitive load and enhance focus.",
+    title: "Le plan avant le décor",
+    desc: "On redessine d'abord les circulations, la lumière et les usages. Le mobilier vient ensuite — jamais l'inverse.",
     icon: Layout,
   },
   {
-    title: "Material Integrity",
-    desc: "Zero-compromise sourcing of raw elements. We let the stone, wood, and metal speak for themselves.",
+    title: "La vérité des matériaux",
+    desc: "Pierre, bois, métal choisis à la source, posés sans maquillage. Ce qui est beau à dix ans l'était déjà nu.",
     icon: Box,
   },
   {
-    title: "Luminous Strategy",
-    desc: "Lighting isn't a feature; it's the primary architectural material. We sculpt with photon paths.",
+    title: "La lumière comme matériau",
+    desc: "L'éclairage n'est pas une finition : c'est la première matière du projet, dessinée dès l'esquisse.",
     icon: Sparkles,
   },
 ];
 let PHILOSOPHY = PHILOSOPHY_SOURCE;
 
 const STATS_DEMO = [
-  { label: "Spaces Transformed", value: "140+" },
-  { label: "Design Awards", value: "24" },
-  { label: "Material Partnerships", value: "85" },
-  { label: "Client Retention", value: "98%" },
+  { label: "Lieux transformés", value: "140+" },
+  { label: "Années de pratique", value: "12" },
+  { label: "Artisans partenaires", value: "85" },
+  { label: "Clients qui reviennent", value: "98 %" },
 ];
 let STATS = STATS_DEMO;
 
 /* ==========================================================================
-   UTILITY COMPONENTS
+   COMPOSANTS UTILITAIRES
    ========================================================================= */
 
 function Reveal({
@@ -176,15 +181,36 @@ function MagneticBtn({
   );
 }
 
+/* La suspension — le luminaire dessiné qui tourne au défilement. */
+function Suspension() {
+  return (
+    <div aria-hidden className="flex flex-col items-center">
+      <div className="w-px h-24 bg-[#221c15]/30" />
+      <div
+        className="w-40 h-40 rounded-full border border-[#6b5942]/40 relative"
+        style={{
+          background:
+            "repeating-conic-gradient(from 0deg, rgba(107,89,66,0.28) 0deg 2deg, transparent 2deg 30deg)",
+        }}
+      >
+        <div className="absolute inset-6 rounded-full border border-[#6b5942]/30" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-3 h-3 rounded-full bg-[#6b5942]" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ==========================================================================
-   MAIN PAGE COMPONENT
+   PAGE PRINCIPALE
    ========================================================================= */
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
-  return fd?.photoUrls?.[i] || fallback;
+  return fd?.photoUrls?.[i] || clientPhotos(sessionData)[i] || fallback;
 }
 export default function NovaSpacesPage() {
   const [session, setSession] = useState<{
@@ -227,27 +253,10 @@ export default function NovaSpacesPage() {
   PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 
   PHILOSOPHY = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PHILOSOPHY_SOURCE[i % PHILOSOPHY_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...PHILOSOPHY_SOURCE[i % PHILOSOPHY_SOURCE.length], title: s.title, desc: s.desc || PHILOSOPHY_SOURCE[i % PHILOSOPHY_SOURCE.length].desc })),
     PHILOSOPHY_SOURCE,
   );
 
-  useEffect(() => {
-    if (!fd?.photoUrls?.length) return;
-    let n = 2;
-    const _photoArrays: any[] = [PROJECTS_DEMO];
-    _photoArrays.forEach((arr) => {
-      if (!Array.isArray(arr)) return;
-      arr.forEach((item) => {
-        if (!item || typeof item !== "object") return;
-        for (const key of ["img", "src", "image", "imgSrc", "photo"]) {
-          if (typeof item[key] === "string" && item[key].includes("images.unsplash.com")) {
-            if (fd.photoUrls[n]) item[key] = fd.photoUrls[n];
-            n++;
-          }
-        }
-      });
-    });
-  });
   STATS = resolveList(clientStats(session), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
@@ -263,6 +272,15 @@ export default function NovaSpacesPage() {
     PROJECTS_DEMO
   );
 
+  const AVIS = resolveList(
+    clientReviews(sessionData)?.slice(0, 3).map((r: any) => ({ text: r.text, author: r.author, detail: r.detail || undefined })),
+    [
+      { text: "L'atelier a rendu ses proportions à un appartement qu'on croyait condamné au couloir sombre.", author: "Famille Berthier", detail: "rénovation résidentielle" },
+      { text: "Le chantier a duré onze semaines — celles annoncées. C'est assez rare pour être écrit ici.", author: "M. Costa", detail: "plateau de bureaux" },
+      { text: "Chaque luminaire semble avoir toujours été là. C'est exactement ce qu'on leur avait demandé : rien de spectaculaire, tout de juste.", author: "Claire & Antoine", detail: "maison de famille" },
+    ],
+  );
+
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeProject, setActiveProject] = useState<number | null>(null);
@@ -273,35 +291,44 @@ export default function NovaSpacesPage() {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
+  const ville = clientCity(sessionData) ?? "Lyon";
+  const tel = clientPhone(sessionData) ?? fd?.phone ?? "04 72 40 18 62";
+  const telHref = `tel:${tel.replace(/\s/g, "")}`;
+  const mail = clientEmail(sessionData) ?? fd?.email ?? "atelier@nova-interieurs.fr";
+
   return (
-    <div className="premium-theme min-h-dvh bg-[#f7f7f7] text-[#1a1a1a] font-sans selection:bg-[#1a1a1a] selection:text-white overflow-x-hidden">
+    <div className="i100 premium-theme min-h-dvh bg-[#f8f6f2] text-[#221c15] selection:bg-[#221c15] selection:text-white overflow-x-clip" style={{ fontFamily: "'Outfit', ui-sans-serif, system-ui, sans-serif" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500;600;700&display=swap');
+        .i100 h1, .i100 h2, .i100 h3, .i100 h4, .i100 .titre { font-family: 'EB Garamond', Georgia, serif; }
+      `}</style>
       {/* ── NAVIGATION ── */}
       <nav
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-white/90 backdrop-blur-2xl py-4 border-b border-black/5" : "bg-transparent py-8"}`}
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-[#f8f6f2]/90 backdrop-blur-2xl py-4 border-b border-black/5" : "bg-transparent py-8"}`}
       >
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="#hero" className="group flex flex-col items-center">
+          <Link href="#hero" className="group flex flex-col items-start">
             {fd?.logoBase64 ? (
               <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
             ) : (
               <>
-                <span className="text-3xl font-light tracking-[0.3em] uppercase leading-none">
-                  Nova
+                <span className="titre text-3xl font-medium tracking-[0.25em] uppercase leading-none">
+                  {clientName({ formData: fd }) ?? "Nova"}
                 </span>
-                <span className="text-[10px] font-bold uppercase tracking-[0.8em] text-black/30 -mt-1 ml-1">
-                  Spatial Design
+                <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-black/30 mt-1">
+                  Architecture d'intérieur
                 </span>
               </>
             )}
           </Link>
 
           <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-black/40">
-            {["The_Work", "Atelier", "Method", "Bespoke", "Contact"].map(
-              (link) => (
+            {[["Réalisations", "#work"], ["Méthode", "#methode"], ["Atelier", "#atelier"], ["Contact", "#contact"]].map(
+              ([link, ancre]) => (
                 <Link
                   key={link}
-                  href="#work"
-                  className="hover:text-black transition-colors cursor-pointer"
+                  href={ancre}
+                  className="hover:text-[#6b5942] transition-colors cursor-pointer"
                 >
                   {link}
                 </Link>
@@ -310,17 +337,18 @@ export default function NovaSpacesPage() {
           </div>
 
           <div className="flex items-center gap-8">
-            <button className="hidden md:flex items-center gap-3 group">
+            <Link href="#contact" className="hidden md:flex items-center gap-3 group">
               <span className="text-[10px] font-bold uppercase tracking-widest text-black/60 group-hover:text-black transition-colors">
-                Start_Project
+                Lancer un projet
               </span>
-              <div className="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-black/40 group-hover:bg-black group-hover:text-white group-hover:border-black transition-all">
+              <div className="w-8 h-8 rounded-full border border-black/10 flex items-center justify-center text-black/40 group-hover:bg-[#6b5942] group-hover:text-white group-hover:border-[#6b5942] transition-all">
                 <ArrowRight className="w-4 h-4" />
               </div>
-            </button>
+            </Link>
             <button
               onClick={() => setMenuOpen(true)}
-              className="lg:hidden text-black"
+              className="lg:hidden text-black p-2"
+              aria-label="Menu"
             >
               <Menu className="w-6 h-6" />
             </button>
@@ -328,28 +356,29 @@ export default function NovaSpacesPage() {
         </div>
       </nav>
 
-      {/* MOBILE MENU */}
+      {/* MENU MOBILE */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
             initial={{ opacity: 0, x: "-100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "-100%" }}
-            className="fixed inset-0 z-[100] bg-[#f7f7f7] p-12 flex flex-col justify-center gap-10"
+            className="fixed inset-0 z-[100] bg-[#f8f6f2] p-12 flex flex-col justify-center gap-10"
           >
             <button
               onClick={() => setMenuOpen(false)}
-              className="absolute top-10 right-8 text-black/40"
+              className="absolute top-10 right-8 text-black/40 p-2"
+              aria-label="Fermer"
             >
               <X className="w-10 h-10" />
             </button>
-            <div className="flex flex-col gap-4 text-7xl font-light uppercase text-black/10">
-              {["Work", "Method", "Contact"].map((l) => (
+            <div className="flex flex-col gap-4 text-6xl titre font-medium uppercase text-black/15">
+              {[["Réalisations", "#work"], ["Méthode", "#methode"], ["Atelier", "#atelier"], ["Contact", "#contact"]].map(([l, a]) => (
                 <Link
                   key={l}
-                  href="#work"
+                  href={a}
                   onClick={() => setMenuOpen(false)}
-                  className="hover:text-black hover:translate-x-4 transition-all"
+                  className="hover:text-[#6b5942] hover:translate-x-4 transition-all"
                 >
                   {l}
                 </Link>
@@ -359,54 +388,59 @@ export default function NovaSpacesPage() {
         )}
       </AnimatePresence>
 
-      {/* ── HERO ── */}
-      <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden pt-24 md:pt-0">
-        <div className="absolute inset-0">
-          <Image
-            src={photo(3, "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1600&q=80")}
-            alt="Architectural Minimal"
-            fill
-            className="object-cover opacity-80"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#f7f7f7] via-[#f7f7f7]/40 to-transparent" />
-        </div>
+      {/* ── HÉROS — H2 : la photo à gauche, le titre à droite ── */}
+      <section id="hero" className="relative min-h-[100svh] flex items-center overflow-hidden pt-32 pb-16 md:pt-24">
+        <div className="max-w-[1600px] mx-auto px-6 md:px-12 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+            <Reveal>
+              <div className="relative aspect-[4/5] overflow-hidden border border-black/5 bg-[#ece7dd]">
+                <Image
+                  src={photo(3, "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1600&q=80")}
+                  alt="Intérieur signé par l'atelier"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#f8f6f2]/30 to-transparent" />
+                {/* La suspension tourne pendant que le héros défile. */}
+                <div className="absolute -right-0 top-0 hidden md:block">
+                  <ScrollSpin degrees={140}>
+                    <Suspension />
+                  </ScrollSpin>
+                </div>
+              </div>
+            </Reveal>
 
-        <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full">
-          <Reveal>
-            <h1 className="hero-ecran-court text-5xl sm:text-6xl md:text-7xl lg:text-[14rem] font-light leading-[0.95] lg:leading-[0.85] tracking-tighter mb-12 uppercase text-black break-words">{<>{clientHeroLine(sessionData, 0, 2, 11) ?? "The Silence"}<br />{" "}
-              <span className="font-black italic">{clientHeroLine(sessionData, 1, 2, 11) ?? "Of Space."}</span>
-            </>}</h1>
-            <p className="max-w-md text-xl text-black/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-              Sculpting void into atmosphere through architectural precision and
-              material truth.
-            </>}</p>
-            <div className="flex flex-col sm:flex-row gap-6">
-              <MagneticBtn className="px-12 py-5 bg-black text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-all cursor-pointer">
-                Explore The Portfolio
-              </MagneticBtn>
-              <Link
-                href="#work"
-                className="px-12 py-5 border border-black/20 text-black text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:bg-black hover:text-white transition-all flex items-center justify-center gap-3"
-              >
-                The Method <ArrowRight className="w-4 h-4" />
-              </Link>
+            <div>
+              <Reveal delay={0.15}>
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#6b5942] block mb-8">
+                  {clientEyebrow(sessionData) ?? `Architecture d'intérieur · ${ville}`}
+                </span>
+                <h1 className="hero-ecran-court text-5xl sm:text-6xl md:text-7xl xl:text-[7.5rem] font-medium leading-[0.98] tracking-tight mb-10 text-black">{<>{clientHeroLine(sessionData, 0, 2, 12) ?? "Le silence"}<br />{" "}
+                  <em className="font-medium">{clientHeroLine(sessionData, 1, 2, 12) ?? "de l'espace."}</em>
+                </>}</h1>
+                <p className="max-w-md text-lg text-black/50 leading-relaxed font-light mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                  L'atelier redessine les lieux par le plan, la matière et la lumière — pas par l'accumulation d'objets.
+                </>}</p>
+                <div className="flex flex-col sm:flex-row gap-6">
+                  <Link href="#work" className="px-12 py-5 bg-[#221c15] text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:bg-[#6b5942] transition-all text-center">
+                    Voir les lieux livrés
+                  </Link>
+                  <Link
+                    href="#contact"
+                    className="px-12 py-5 border border-black/20 text-black text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:bg-[#221c15] hover:text-white transition-all flex items-center justify-center gap-3"
+                  >
+                    Lancer un projet <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              </Reveal>
             </div>
-          </Reveal>
-        </div>
-
-        <div className="absolute bottom-12 right-12 hidden lg:flex flex-col items-end gap-2 text-black/20">
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em]">
-            Vertical_Axis_Aligned
-          </span>
-          <span className="text-[10px] font-bold uppercase tracking-[0.3em]">
-            Spatial_Purity_Index_0.98
-          </span>
+          </div>
         </div>
       </section>
 
-      {/* ── STATS SECTION ── */}
-      <section id="realisations" className="py-24 border-y border-black/5 bg-white">
+      {/* ── CHIFFRES ── */}
+      <section id="realisations" className="py-24 border-y border-black/5 bg-[#fdfbf7]">
         <div className="max-w-[1600px] mx-auto px-6 md:px-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-12">
             {STATS.map((stat, i) => (
@@ -415,7 +449,7 @@ export default function NovaSpacesPage() {
                   <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/30 mb-2">
                     {stat.label}
                   </div>
-                  <div className="text-5xl font-light italic text-black">
+                  <div className="titre text-5xl font-medium italic text-[#6b5942]">
                     {stat.value}
                   </div>
                 </div>
@@ -425,44 +459,44 @@ export default function NovaSpacesPage() {
         </div>
       </section>
 
-      {/* ── THE WORK ── */}
+      {/* ── LES LIEUX ── */}
       <section id="work" className="py-32 px-6 md:px-12">
         <div className="max-w-[1600px] mx-auto">
           <Reveal>
             <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
               <div>
-                <h2 className="text-7xl md:text-[10rem] font-light tracking-tighter leading-none mb-6 uppercase text-black">{/* TEXTE_SECTION */ clientText(sessionData, "work.titre") ?? (<>
-                  The <br /> <span className="font-black italic">Form.</span>
+                <h2 className="titre text-7xl md:text-[9rem] font-medium tracking-tight leading-none mb-6 text-black">{/* TEXTE_SECTION */ clientText(sessionData, "work.titre") ?? (<>
+                  Les lieux<br /> <em>livrés.</em>
                 </>)}</h2>
-                <p className="text-black/20 text-[10px] font-bold uppercase tracking-[0.4em]">
-                  Project Index // Interior Architecture // 2024
+                <p className="text-black/25 text-[10px] font-bold uppercase tracking-[0.4em]">
+                  Index des projets // Architecture intérieure
                 </p>
               </div>
               <Link
-                href="#work"
-                className="text-[10px] font-bold uppercase tracking-[0.3em] text-black border-b border-black pb-2 hover:text-black/40 hover:border-black/40 transition-all"
+                href="#contact"
+                className="text-[10px] font-bold uppercase tracking-[0.3em] text-black border-b border-black pb-2 hover:text-[#6b5942] hover:border-[#6b5942] transition-all"
               >
-                Download Press Archive
+                Visiter sur rendez-vous
               </Link>
             </div>
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {PROJECTS.map((item, i) => (
-              <Reveal key={item.id} delay={i * 0.1}>
+              <Reveal key={item.id ?? i} delay={i * 0.1}>
                 <div
                   className="group space-y-10 cursor-pointer"
                   onMouseEnter={() => setActiveProject(item.id)}
                   onMouseLeave={() => setActiveProject(null)}
                 >
-                  <div className="relative aspect-[4/5] overflow-hidden rounded-sm grayscale group-hover:grayscale-0 transition-all duration-[1.5s]">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-sm grayscale group-hover:grayscale-0 transition-all duration-[1.5s] bg-[#ece7dd]">
                     <Image
                       src={item.img}
                       alt={item.name}
                       fill
                       className="object-cover transition-transform duration-[2s] group-hover:scale-125"
                     />
-                    <div className="absolute inset-0 bg-[#f7f7f7]/30 group-hover:bg-transparent transition-colors duration-700" />
+                    <div className="absolute inset-0 bg-[#f8f6f2]/30 group-hover:bg-transparent transition-colors duration-700" />
 
                     <div className="absolute top-6 left-6">
                       <Badge className="bg-white/60 backdrop-blur-md text-black border-black/10 text-[10px] font-bold uppercase tracking-widest px-3 py-1">
@@ -478,28 +512,28 @@ export default function NovaSpacesPage() {
                           exit={{ opacity: 0 }}
                           className="absolute inset-0 flex items-center justify-center bg-black/5 backdrop-blur-[2px]"
                         >
-                          <button className="px-10 py-4 bg-black text-white text-[10px] font-bold uppercase tracking-widest hover:scale-110 transition-all shadow-2xl">
-                            View Space
-                          </button>
+                          <span className="px-10 py-4 bg-[#221c15] text-white text-[10px] font-bold uppercase tracking-widest shadow-2xl">
+                            Voir le lieu
+                          </span>
                         </motion.div>
                       )}
                     </AnimatePresence>
                   </div>
                   <div className="space-y-6">
-                    <div className="flex justify-between items-baseline">
-                      <h3 className="text-4xl font-light uppercase tracking-tighter text-black italic group-hover:translate-x-2 transition-transform">
+                    <div className="flex justify-between items-baseline gap-4">
+                      <h3 className="titre text-4xl font-medium tracking-tight text-black italic group-hover:translate-x-2 transition-transform">
                         {item.name}
                       </h3>
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-black/20">
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-black/25 whitespace-nowrap">
                         {item.location}
                       </span>
                     </div>
-                    <p className="text-sm text-black/40 font-light leading-relaxed uppercase tracking-widest italic leading-loose">
+                    <p className="text-sm text-black/45 font-light leading-loose">
                       {item.desc}
                     </p>
                     <div className="flex items-center gap-4">
                       <div className="h-[1px] flex-1 bg-black/5" />
-                      <Ruler className="w-5 h-5 text-black/10 group-hover:text-black transition-all" />
+                      <Ruler className="w-5 h-5 text-black/10 group-hover:text-[#6b5942] transition-all" />
                     </div>
                   </div>
                 </div>
@@ -509,20 +543,17 @@ export default function NovaSpacesPage() {
         </div>
       </section>
 
-      {/* ── METHODOLOGY ── */}
-      <section id="contact" className="py-40 bg-white overflow-hidden relative border-t border-black/5">
-        <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] bg-black/5 blur-[120px] rounded-full" />
+      {/* ── LA MÉTHODE ── */}
+      <section id="methode" className="py-40 bg-[#fdfbf7] overflow-hidden relative border-t border-black/5">
+        <div className="absolute -top-32 -right-32 w-[40rem] h-[40rem] bg-[#6b5942]/5 blur-[120px] rounded-full" aria-hidden />
         <div className="max-w-[1600px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="text-center mb-32">
               <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/30 mb-8 block">
-                The Methodology
+                Ce que l'atelier prend en charge
               </span>
-              <h2 className="text-6xl md:text-8xl font-light italic tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
-                Spatial{" "}
-                <span className="font-black not-italic text-black">
-                  Refinement.
-                </span>
+              <h2 className="titre text-6xl md:text-8xl font-medium italic tracking-tight">{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
+                Trois <em className="not-italic font-semibold text-[#6b5942]">convictions.</em>
               </>)}</h2>
             </div>
           </Reveal>
@@ -530,19 +561,19 @@ export default function NovaSpacesPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             {PHILOSOPHY.map((s, i) => (
               <Reveal key={i} delay={i * 0.1}>
-                <div className="p-16 border border-black/5 bg-black/[0.01] hover:border-black/30 transition-all group h-full flex flex-col relative overflow-hidden">
-                  <div className="w-16 h-16 bg-black/5 rounded-full flex items-center justify-center text-black/40 mb-10 group-hover:bg-black group-hover:text-white transition-all duration-500">
+                <div className="p-12 lg:p-16 border border-black/5 bg-black/[0.01] hover:border-[#6b5942]/40 transition-all group h-full flex flex-col relative overflow-hidden">
+                  <div className="w-16 h-16 bg-black/5 rounded-full flex items-center justify-center text-black/40 mb-10 group-hover:bg-[#6b5942] group-hover:text-white transition-all duration-500">
                     <s.icon className="w-8 h-8" />
                   </div>
-                  <h3 className="text-3xl font-light uppercase mb-6 tracking-tighter text-black group-hover:translate-x-2 transition-transform">
+                  <h3 className="titre text-3xl font-medium mb-6 tracking-tight text-black group-hover:translate-x-2 transition-transform">
                     {s.title}
                   </h3>
-                  <p className="text-sm text-black/40 font-light leading-relaxed mb-12 flex-1 tracking-wide uppercase italic leading-loose">
+                  <p className="text-sm text-black/45 font-light leading-loose mb-12 flex-1">
                     {s.desc}
                   </p>
-                  <button className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.3em] text-black/60 group-hover:text-black group-hover:gap-6 transition-all">
-                    Read Principle <ArrowRight className="w-4 h-4" />
-                  </button>
+                  <Link href="#contact" className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.3em] text-black/60 group-hover:text-[#6b5942] group-hover:gap-6 transition-all">
+                    En parler <ArrowRight className="w-4 h-4" />
+                  </Link>
                 </div>
               </Reveal>
             ))}
@@ -550,24 +581,24 @@ export default function NovaSpacesPage() {
         </div>
       </section>
 
-      {/* ── THE ATELIER ── */}
-      <section className="py-40 px-6 md:px-12 bg-[#f7f7f7]">
-        <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+      {/* ── L'ATELIER ── */}
+      <section id="atelier" className="py-40 px-6 md:px-12 bg-[#f8f6f2]">
+        <div className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-32 items-center">
           <Reveal>
-            <div className="relative aspect-square rounded-sm overflow-hidden group border border-black/5">
+            <div className="relative aspect-square rounded-sm overflow-hidden group border border-black/5 bg-[#ece7dd]">
               <Image
                 src={photo(4, "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80")}
-                alt="Atelier"
+                alt="L'atelier au travail"
                 fill
-                className="object-cover group-hover:scale-110 transition-all duration-[3s] grayscale hover:grayscale-0 transition-all duration-1000"
+                className="object-cover group-hover:scale-110 grayscale hover:grayscale-0 transition-all duration-1000"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#f7f7f7] via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#f8f6f2] via-transparent to-transparent" />
               <div className="absolute bottom-16 left-16 text-black">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block text-black/40">
-                  The Atelier
+                  L'atelier
                 </span>
-                <h4 className="text-5xl font-light italic uppercase tracking-tighter leading-none">
-                  Architectural <br /> Integrity.
+                <h4 className="titre text-5xl font-medium italic tracking-tight leading-none">
+                  Dessiner, <br /> puis tenir.
                 </h4>
               </div>
             </div>
@@ -575,190 +606,174 @@ export default function NovaSpacesPage() {
 
           <Reveal delay={0.2}>
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/30 mb-8 block">
-              Project Process
+              La conduite du projet
             </span>
-            <h2 className="text-6xl md:text-9xl font-light italic tracking-tighter leading-[0.8] mb-12 uppercase text-black">{c?.aboutTitle ?? fd?.businessName ?? <>
-              Primal <br />{" "}
-              <span className="font-black not-italic">Order.</span>
+            <h2 className="titre text-6xl md:text-8xl font-medium italic tracking-tight leading-[0.9] mb-12 text-black">{c?.aboutTitle ?? <>
+              L'ordre <br />{" "}
+              <em className="not-italic font-semibold text-[#6b5942]">des choses.</em>
             </>}</h2>
-            <p className="text-black/40 text-xl leading-relaxed mb-16 font-light uppercase tracking-wide italic">{c?.aboutText ?? <>
-              Beyond decoration. We re-engineer the fundamental structure of
-              living, creating environments that align with the human cadence.
+            <p className="text-black/50 text-xl leading-relaxed mb-16 font-light">{c?.aboutText ?? <>
+              Au-delà du décor : nous ré-agençons la structure même de l'habiter — relevé, esquisse, carnet de matériaux, chantier suivi chaque semaine jusqu'à la réception.
             </>}</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
               {[
                 {
                   icon: Compass,
-                  label: "Navigation",
-                  desc: "Orientation study",
+                  label: "Le relevé",
+                  desc: "Mesures, orientation, lumière",
                 },
                 {
                   icon: PencilLine,
-                  label: "Bespoke",
-                  desc: "Custom furniture",
+                  label: "Le sur-mesure",
+                  desc: "Mobilier dessiné à l'atelier",
                 },
-                { icon: Home, label: "Residential", desc: "Private enclaves" },
-                { icon: Layers, label: "Layers", desc: "Texture mapping" },
+                { icon: Home, label: "Le résidentiel", desc: "Appartements & maisons" },
+                { icon: Layers, label: "Les matières", desc: "Carnet unique par projet" },
               ].map((val, i) => (
                 <div key={i} className="space-y-4">
-                  <val.icon className="w-6 h-6 text-black/30" />
+                  <val.icon className="w-6 h-6 text-[#6b5942]" />
                   <h4 className="text-[10px] font-bold uppercase tracking-widest text-black">
                     {val.label}
                   </h4>
-                  <p className="text-[10px] font-light text-black/30 uppercase tracking-widest leading-loose">
+                  <p className="text-sm font-light text-black/40 leading-loose">
                     {val.desc}
                   </p>
                 </div>
               ))}
             </div>
-            <MagneticBtn className="mt-20 px-14 py-6 bg-black text-white text-[10px] font-bold uppercase tracking-[0.4em] rounded-full hover:scale-105 transition-all shadow-2xl">
-              Schedule Spatial Audit
-            </MagneticBtn>
           </Reveal>
         </div>
       </section>
 
-      {/* ── FOOTER ── */}
-      <footer className="bg-white pt-40 pb-16 px-6 md:px-12 border-t border-black/5">
-        <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-32 mb-40">
+      {/* ── ILS HABITENT NOS PLANS (AVIS) ── */}
+      <section className="py-32 px-6 md:px-12 bg-[#fdfbf7] border-t border-black/5">
+        <div className="max-w-[1400px] mx-auto">
+          <Reveal>
+            <h2 className="titre text-5xl md:text-7xl font-medium italic tracking-tight mb-24">{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ils habitent <em className="not-italic font-semibold text-[#6b5942]">nos plans.</em></>)}</h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+            {AVIS.map((a: any, i: number) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <figure className="h-full flex flex-col">
+                  <blockquote className="titre text-2xl font-medium italic text-black/70 leading-relaxed mb-8 flex-1">« {a.text} »</blockquote>
+                  <figcaption className="text-[10px] font-bold uppercase tracking-[0.3em] text-black/40 border-t border-black/10 pt-6">
+                    {a.author}{a.detail ? <span className="block mt-2 text-[#6b5942]">{a.detail}</span> : null}
+                  </figcaption>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CONTACT ── */}
+      <section id="contact" className="py-40 px-6 md:px-12 bg-[#221c15] text-[#f8f6f2]">
+        <div className="max-w-[1000px] mx-auto text-center">
+          <Reveal>
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#c2ab8d] block mb-8">
+              Lancer un projet
+            </span>
+            <h2 className="titre text-6xl md:text-8xl font-medium italic tracking-tight mb-12">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
+              Parlons du <em className="not-italic font-semibold text-[#c2ab8d]">lieu.</em>
+            </>)}</h2>
+            <p className="text-[#f8f6f2]/60 text-xl font-light leading-relaxed mb-16 max-w-xl mx-auto">
+              Une visite, un relevé, une première esquisse chiffrée : le projet commence par une conversation à l'atelier ou chez vous.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-6 mb-16">
+              <a href={telHref} className="inline-flex items-center justify-center gap-3 px-12 py-5 bg-[#f8f6f2] text-[#221c15] text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:bg-[#c2ab8d] transition-all">
+                <Phone className="w-4 h-4" /> {tel}
+              </a>
+              <a href={`mailto:${mail}`} className="inline-flex items-center justify-center gap-3 px-12 py-5 border border-white/20 text-[#f8f6f2] text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:bg-white/10 transition-all">
+                <Mail className="w-4 h-4" /> {mail}
+              </a>
+            </div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#f8f6f2]/40 flex items-center justify-center gap-3">
+              <MapPin className="w-4 h-4" /> {clientCodePostalVille(sessionData, "69001", "Lyon")} · reçoit sur rendez-vous
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── PIED DE PAGE ── */}
+      <footer className="bg-[#fdfbf7] pt-40 pb-16 px-6 md:px-12 border-t border-black/5">
+        <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 lg:gap-32 mb-32">
           <div className="lg:col-span-6">
             <Reveal>
               <div className="flex flex-col mb-12">
-                <span className="text-4xl font-light tracking-[0.3em] uppercase leading-none">
-                  Nova
+                <span className="titre text-4xl font-medium tracking-[0.25em] uppercase leading-none">
+                  {clientName(sessionData) ?? "Nova"}
                 </span>
-                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/30 -mt-1 ml-1">
-                  Spatial Design
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/30 mt-2">
+                  Architecture d'intérieur
                 </span>
               </div>
-              <p className="text-black/20 max-w-md mb-16 text-[11px] font-bold uppercase tracking-[0.2em] leading-loose italic">
-                A global spatial design atelier dedicated to the pursuit of
-                architectural purity and the silent power of minimalism.
+              <p className="text-black/40 max-w-md mb-16 text-sm font-light leading-loose">
+                Un atelier d'architecture intérieure attaché à la justesse des plans, à la vérité des matériaux et au silence des lieux bien faits.
               </p>
               <div className="flex gap-6">
-                {[Globe, Globe, Mail].map((Icon, i) => (
-                  <button
-                    key={i}
-                    className="w-14 h-14 rounded-full border border-black/10 flex items-center justify-center text-black/40 hover:bg-black hover:text-white hover:border-black transition-all"
-                  >
-                    <Icon className="w-5 h-5" />
-                  </button>
-                ))}
+                <a href={telHref} aria-label="Téléphone" className="w-14 h-14 rounded-full border border-black/10 flex items-center justify-center text-black/40 hover:bg-[#6b5942] hover:text-white hover:border-[#6b5942] transition-all">
+                  <Phone className="w-5 h-5" />
+                </a>
+                <a href={`mailto:${mail}`} aria-label="Courriel" className="w-14 h-14 rounded-full border border-black/10 flex items-center justify-center text-black/40 hover:bg-[#6b5942] hover:text-white hover:border-[#6b5942] transition-all">
+                  <Mail className="w-5 h-5" />
+                </a>
               </div>
             </Reveal>
           </div>
 
           <div className="lg:col-span-2">
             <h4 className="text-[10px] font-bold uppercase tracking-widest text-black/40 mb-12">
-              Projects
+              Projets
             </h4>
-            <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-black/20">
-              <li>
-                <Link href="#work" className="hover:text-black transition-colors">
-                  Residential
-                </Link>
-              </li>
-              <li>
-                <Link href="#work" className="hover:text-black transition-colors">
-                  Commercial
-                </Link>
-              </li>
-              <li>
-                <Link href="#work" className="hover:text-black transition-colors">
-                  Hospitality
-                </Link>
-              </li>
-              <li>
-                <Link href="#work" className="hover:text-black transition-colors">
-                  Furniture
-                </Link>
-              </li>
+            <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-black/30">
+              {[["Résidentiel", "#work"], ["Tertiaire", "#work"], ["Hôtellerie", "#work"], ["Mobilier", "#atelier"]].map(([l, a]) => (
+                <li key={l}>
+                  <Link href={a} className="hover:text-black transition-colors">{l}</Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           <div className="lg:col-span-2">
             <h4 className="text-[10px] font-bold uppercase tracking-widest text-black/40 mb-12">
-              Method
+              Méthode
             </h4>
-            <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-black/20">
-              <li>
-                <Link href="#work" className="hover:text-black transition-colors">
-                  Spatial_Logic
-                </Link>
-              </li>
-              <li>
-                <Link href="#work" className="hover:text-black transition-colors">
-                  Material_Sourcing
-                </Link>
-              </li>
-              <li>
-                <Link href="#work" className="hover:text-black transition-colors">
-                  Light_Sculpting
-                </Link>
-              </li>
-              <li>
-                <Link href="#work" className="hover:text-black transition-colors">
-                  Sustainability
-                </Link>
-              </li>
+            <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-black/30">
+              {[["Le plan", "#methode"], ["Les matières", "#methode"], ["La lumière", "#methode"], ["Le chantier", "#atelier"]].map(([l, a]) => (
+                <li key={l}>
+                  <Link href={a} className="hover:text-black transition-colors">{l}</Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           <div className="lg:col-span-2">
             <h4 className="text-[10px] font-bold uppercase tracking-widest text-black/40 mb-12">
-              Atelier
+              L'atelier
             </h4>
-            <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-black/20">
-              <li>
-                <Link href="#work" className="hover:text-black transition-colors">
-                  The_Studio
-                </Link>
-              </li>
-              <li>
-                <Link href="#work" className="hover:text-black transition-colors">
-                  Locations
-                </Link>
-              </li>
-              <li>
-                <Link href="#work" className="hover:text-black transition-colors">
-                  Press_Archive
-                </Link>
-              </li>
-              <li>
-                <Link href="#work" className="hover:text-black transition-colors">
-                  Careers
-                </Link>
-              </li>
+            <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-black/30">
+              <li><a href={telHref} className="hover:text-black transition-colors">{tel}</a></li>
+              <li><a href={`mailto:${mail}`} className="hover:text-black transition-colors normal-case">{mail}</a></li>
+              <li>{clientCodePostalVille(sessionData, "69001", "Lyon")}</li>
             </ul>
           </div>
         </div>
 
-        <div className="max-w-[1600px] mx-auto pt-12 border-t border-black/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-black/10">
-          <div className="flex items-center gap-12">
-            <span>
-              &copy; {new Date().getFullYear()} NOVA SPATIAL DESIGN COLLECTIVE.
-            </span>
-            <div className="flex gap-8">
-              <span>RIBA_CHARTERED_PRACTICE</span>
-              <span>AIA_VERIFIED_STUDIO</span>
-            </div>
-          </div>
-          <div className="flex gap-12 font-mono">
-            <span>GRID_STATUS_LOCKED</span>
-            <span>VOID_RATIO_OPTIMAL</span>
+        <div className="max-w-[1600px] mx-auto pt-12 border-t border-black/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-bold uppercase tracking-[0.3em] text-black/25">
+          <span>
+            © {clientName(sessionData) ?? "Nova"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""} · Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" />
+          </span>
+          <div className="flex gap-8">
+            <Link href="#contact" className="hover:text-black transition-colors">Mentions légales</Link>
+            <Link href="#contact" className="hover:text-black transition-colors">CGV</Link>
           </div>
         </div>
       </footer>
 
       <style>{`
-        ::-webkit-scrollbar{width:4px;background:#f7f7f7}
-        ::-webkit-scrollbar-thumb{background:#1a1a1a}
+        ::-webkit-scrollbar{width:4px;background:#f8f6f2}
+        ::-webkit-scrollbar-thumb{background:#221c15}
       `}</style>
-      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-100"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
-      </footer>
     </div>
   );
 }
