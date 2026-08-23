@@ -699,7 +699,9 @@ export default function NovaSpacesPage() {
 
       {/* ── PIED DE PAGE ── */}
       <footer className="bg-[#fdfbf7] pt-40 pb-16 px-6 md:px-12 border-t border-black/5">
-        <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 lg:gap-32 mb-32">
+        {/* gap-32 × 11 interstices dépassait la largeur du conteneur : les
+            pistes s'écrasaient et la dernière colonne sortait du cadre. */}
+        <div className="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 lg:gap-8 mb-32">
           <div className="lg:col-span-6">
             <Reveal>
               <div className="flex flex-col mb-12">
