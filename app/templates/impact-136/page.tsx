@@ -1,80 +1,92 @@
 "use client";
-import { tr } from "@/lib/templates/uiStrings";
 import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
+/*
+  impact-136 — Studio de décoration. L'agence web devient le studio
+  d'intérieurs qu'on vendait, et garde son text-mask : le titre en réserve
+  blanche s'ouvre au défilement sur la photo du lieu.
+  Geste : DifferentialExit — dans le manifeste, le titre, les paragraphes et
+  le numéro fantôme ne partent pas à la même vitesse (trois plans, trois
+  rythmes ; application distincte de 316 qui le porte sur son héros).
+  Fontes P9 Syne + Work Sans · palette #f5f3ef / #8a5a3c.
+*/
 
 import React, { useState, useEffect, useRef } from "react";
 import {
   motion,
   useScroll,
   useTransform,
-  AnimatePresence,
   useSpring,
   useInView,
 } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight, Play, Maximize, X, Globe, ArrowDown, Sparkles, Command, Eye, Code } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Phone, Mail, MapPin } from "lucide-react";
 
 import "../premium.css";
+import { DifferentialExit } from "@/lib/templates/hero-kit-3";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import {
   clientCity,
+  clientCodePostalVille,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
-// Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
 
 /* ==========================================================================
-   DATA STRUCTURES
+   DONNÉES DE DÉMONSTRATION — le studio
    ========================================================================== */
 
 function WORKS_DEMO_LIVE() {
   return [
   {
     id: "01",
-    client: "Aura Skincare",
-    category: "E-Commerce",
+    client: "Appartement Haussmann",
+    category: "Rénovation complète",
     year: "2025",
-    desc: "A sensory digital experience focusing on fluid webgl interactions to mirror the viscosity of premium serums.",
+    desc: "Cent dix mètres carrés rendus à leur hauteur sous plafond, moulures restaurées, cuisine ouverte dessinée sur mesure.",
     image:
       (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop"),
   },
   {
     id: "02",
-    client: "Nexus Fintech",
-    category: "Product Design",
+    client: "Maison de ville",
+    category: "Décoration & mobilier",
     year: "2024",
-    desc: "Redefining institutional trading platforms through brutalist UI and micro-latency data visualization.",
+    desc: "Palette minérale, lin lavé et noyer : une maison de famille apaisée sans rien effacer de son histoire.",
     image:
       (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop"),
   },
   {
     id: "03",
-    client: "Vanguard Auto",
-    category: "Immersive 3D",
+    client: "Loft des Chartrons",
+    category: "Agencement sur mesure",
     year: "2024",
-    desc: "Real-time browser-based car configurator utilizing WebGPU for photorealistic ray tracing.",
+    desc: "Une verrière d'atelier, une bibliothèque de neuf mètres et des rangements invisibles pour un plateau sans cloison.",
     image:
       (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop"),
   },
   {
     id: "04",
-    client: "Maison Archive",
-    category: "Editorial",
+    client: "Cabinet médical",
+    category: "Espaces professionnels",
     year: "2023",
-    desc: "Digital archive for a legacy fashion house, utilizing typographic scroll-jacking to tell historical narratives.",
+    desc: "Une salle d'attente qui n'angoisse personne : acoustique traitée, lumière indirecte, matières chaleureuses.",
     image:
       (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1469334031218-e382a71b716b?q=80&w=1200&auto=format&fit=crop"),
   },
@@ -85,24 +97,24 @@ let WORKS = WORKS_DEMO;
 
 const SERVICES_SOURCE = [
   {
-    title: "Digital Platforms",
-    desc: "We build flagship websites and web applications that serve as the digital epicenter of your brand. Focusing on conversion, performance, and aesthetic dominance.",
-    icon: <GlobeIcon />,
+    title: "Conseil & direction artistique",
+    desc: "Une visite, un relevé, un cahier de recommandations chiffré : la direction claire avant d'engager le moindre travaux.",
+    prix: "dès 390 €",
   },
   {
-    title: "Creative Development",
-    desc: "Pushing the boundaries of what a browser can render. WebGL, Three.js, and custom shader pipelines that turn ordinary scroll into cinematic experiences.",
-    icon: <CodeIcon />,
+    title: "Rénovation complète",
+    desc: "Plans, choix des artisans, suivi de chantier hebdomadaire et réception : un seul interlocuteur du premier croquis aux clés.",
+    prix: "sur devis",
   },
   {
-    title: "Brand Identity",
-    desc: "Crafting visual systems that scale from a smartwatch screen to a billboard. Typography, color theory, and motion guidelines.",
-    icon: <Eye />,
+    title: "Agencement sur mesure",
+    desc: "Bibliothèques, dressings, claustras et cuisines dessinés au millimètre, fabriqués par nos ébénistes partenaires.",
+    prix: "sur devis",
   },
   {
-    title: "Product Strategy",
-    desc: "Data-driven UX architecture designed to reduce friction and elevate user retention. We map the entire user journey before writing a line of code.",
-    icon: <Command />,
+    title: "Décoration & stylisme",
+    desc: "Palette, mobilier, luminaires, rideaux : la couche finale qui fait tenir l'ensemble — posée en une semaine.",
+    prix: "dès 90 €/m²",
   },
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
@@ -110,65 +122,30 @@ let SERVICES = SERVICES_DEMO;
 
 const PROCESS = [
   {
-    phase: "01. Discovery",
+    phase: "01. L'écoute & le relevé",
     detail:
-      "Deep dive into your industry, competitors, and technical constraints. We define the baseline metrics for success.",
+      "Comment vous vivez, ce qui coince, ce qui doit rester. On mesure tout, on photographie tout, on n'invente rien.",
   },
   {
-    phase: "02. Wireframing",
+    phase: "02. L'esquisse",
     detail:
-      "Structural architecture. We establish the skeleton of the product without the distraction of visual design.",
+      "Deux directions dessinées, pas dix. Plans, volumes et budget posés noir sur blanc avant tout engagement.",
   },
   {
-    phase: "03. Art Direction",
+    phase: "03. La direction artistique",
     detail:
-      "Exploring typography, motion, and visual paradigms. Creating the moodboards that define the final aesthetic.",
+      "Matières, teintes, mobilier, lumière : un carnet unique qui sert de loi au chantier — et vous évite mille décisions.",
   },
   {
-    phase: "04. Production",
+    phase: "04. Le chantier & la réception",
     detail:
-      "Pixel-perfect execution. Bridging the gap between design and development with fluid animations.",
+      "Artisans coordonnés, passage hebdomadaire, réserves levées. Vous entrez dans un lieu terminé, pas dans une promesse.",
   },
 ];
 
 /* ==========================================================================
-   UTILITY COMPONENTS
+   COMPOSANTS UTILITAIRES
    ========================================================================== */
-
-function GlobeIcon() {
-  return (
-    <svg
-      className="w-6 h-6"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="12" cy="12" r="10" />
-      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-      <path d="M2 12h20" />
-    </svg>
-  );
-}
-
-function CodeIcon() {
-  return (
-    <svg
-      className="w-6 h-6"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <polyline points="16 18 22 12 16 6" />
-      <polyline points="8 6 2 12 8 18" />
-    </svg>
-  );
-}
 
 function Reveal({
   children,
@@ -194,14 +171,14 @@ function Reveal({
 }
 
 /* ==========================================================================
-   MAIN PAGE COMPONENT
+   PAGE PRINCIPALE
    ========================================================================== */
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
-  return fd?.photoUrls?.[i] || fallback;
+  return fd?.photoUrls?.[i] || clientPhotos(sessionData)[i] || fallback;
 }
 export default function TextRevealPage() {
   const [session, setSession] = useState<{
@@ -242,57 +219,53 @@ export default function TextRevealPage() {
   WORKS_DEMO = WORKS_DEMO_LIVE();
 
   SERVICES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({
+      ...SERVICES_SOURCE[i % SERVICES_SOURCE.length],
+      title: s.title,
+      desc: s.desc || SERVICES_SOURCE[i % SERVICES_SOURCE.length].desc,
+      ...(s.price ? { prix: s.price } : {}),
+    })),
     SERVICES_SOURCE,
   );
-  WORKS = WORKS_DEMO.map((row, i) => ({
-    ...row,
-    image: clientPhotos(session)[0 + i] || row.image,
-  }));
-  SERVICES = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
-    SERVICES_DEMO,
+  WORKS = /* REALISATIONS */ resolveList(
+    clientWorks(sessionData)?.map((o: any, i: number) => ({
+      ...WORKS_DEMO[i % WORKS_DEMO.length],
+      client: o.title,
+      ...(o.detail ? { category: o.detail } : {}),
+      ...(o.imageUrl ? { image: o.imageUrl } : {}),
+    })),
+    WORKS_DEMO.map((row, i) => ({
+      ...row,
+      image: clientPhotos(session)[0 + i] || row.image,
+    })),
   );
-
-  useEffect(() => {
-    if (!fd?.photoUrls?.length) return;
-    let n = 2;
-    const _photoArrays: any[] = [WORKS];
-    _photoArrays.forEach((arr) => {
-      if (!Array.isArray(arr)) return;
-      arr.forEach((item) => {
-        if (!item || typeof item !== "object") return;
-        for (const key of ["img", "src", "image", "imgSrc", "photo"]) {
-          if (typeof item[key] === "string" && item[key].includes("images.unsplash.com")) {
-            if (fd.photoUrls[n]) item[key] = fd.photoUrls[n];
-            n++;
-          }
-        }
-      });
-    });
-  });
+  SERVICES = SERVICES_DEMO;
+  const AVIS = resolveList(
+    clientReviews(sessionData)?.slice(0, 3).map((r: any) => ({ text: r.text, author: r.author, detail: r.detail || undefined })),
+    [
+      { text: "Le studio a vu en une visite ce qu'on ne voyait plus depuis dix ans. Le chantier a duré ce qui était écrit.", author: "Hélène & Marc", detail: "rénovation complète" },
+      { text: "Un carnet de direction artistique si précis que même le carreleur en parlait. Le résultat est exactement le dessin.", author: "Sophie L.", detail: "maison de ville" },
+      { text: "La bibliothèque sur mesure a réconcilié le salon avec ses 4 mètres sous plafond.", author: "Julien P.", detail: "agencement" },
+    ],
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [scrolled, setScrolled] = useState(false);
   const [hoveredWork, setHoveredWork] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // For the massive text mask effect
+  // Le text-mask : un rectangle blanc à texte noir, multiplié sur la photo.
   const containerRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
   });
 
-  // Smooth the scroll progress for the clip-path
   const smoothProgress = useSpring(scrollYProgress, {
     damping: 20,
     stiffness: 100,
   });
 
-  // Transform scroll progress to CSS clip-path inset values
-  // Start with a small rectangle in the center (text mask), expand to full screen (inset(0%))
-  // We simulate the text mask expansion by scaling a background element and fading text
   const heroScale = useTransform(smoothProgress, [0, 0.5], [1, 5]);
   const heroOpacity = useTransform(smoothProgress, [0, 0.5], [1, 0]);
   const bgScale = useTransform(smoothProgress, [0, 1], [1.2, 1]);
@@ -303,21 +276,27 @@ export default function TextRevealPage() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Dynamic Services & Testimonials Mutation for Session Data
-  
+  const ville = clientCity(sessionData) ?? "Bordeaux";
+  const tel = clientPhone(sessionData) ?? fd?.phone ?? "05 56 81 44 07";
+  const telHref = `tel:${tel.replace(/\s/g, "")}`;
+  const mail = clientEmail(sessionData) ?? fd?.email ?? "bonjour@studio-interieur.fr";
 
   return (
-    <div className="premium-theme min-h-dvh bg-[#0a0a0a] text-zinc-100 font-sans selection:bg-white selection:text-black">
+    <div className="i136 premium-theme min-h-dvh bg-[#f5f3ef] text-[#221b14] selection:bg-[var(--brand,#8a5a3c)] selection:text-white" style={{ fontFamily: "'Work Sans', ui-sans-serif, system-ui, sans-serif" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap');
+        .i136 h1, .i136 h2, .i136 h3, .i136 h4, .i136 .titre { font-family: 'Syne', 'Work Sans', sans-serif; }
+      `}</style>
       {/* ==========================================
           NAVIGATION
           ========================================== */}
       <nav
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#0a0a0a]/80 backdrop-blur-md py-4 border-b border-white/5" : "bg-transparent py-8"}`}
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#f5f3ef]/85 backdrop-blur-md py-4 border-b border-[#221b14]/10" : "bg-transparent py-8"}`}
       >
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between mix-blend-difference text-white">
           <Link
             href="#hero"
-            className="text-xl md:text-2xl font-bold tracking-tighter uppercase flex items-center gap-2"
+            className="text-xl md:text-2xl font-bold tracking-tighter uppercase flex items-center gap-2 titre"
           >
             {fd?.logoBase64 ? (
               <img
@@ -326,27 +305,25 @@ export default function TextRevealPage() {
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <>
-                <Sparkles className="w-5 h-5" /> {clientName({ formData: fd }) ?? "REVEAL"}
-              </>
+              <>{clientName({ formData: fd }) ?? "Studio Intérieur"}</>
             )}
           </Link>
 
           <div className="hidden md:flex items-center gap-8 text-[11px] font-bold uppercase tracking-widest">
-            <Link href="#hero" className="hover:opacity-60 transition-opacity">
-              Work
+            <Link href="#realisations-liste" className="hover:opacity-60 transition-opacity">
+              Réalisations
             </Link>
-            <Link href="#hero" className="hover:opacity-60 transition-opacity">
-              Studio
+            <Link href="#prestations" className="hover:opacity-60 transition-opacity">
+              Prestations
             </Link>
-            <Link href="#hero" className="hover:opacity-60 transition-opacity">
-              Journal
+            <Link href="#methode" className="hover:opacity-60 transition-opacity">
+              La méthode
             </Link>
           </div>
 
-          <button className="hidden md:flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest hover:opacity-60 transition-opacity">
-            Start a Project <ArrowRight className="w-4 h-4" />
-          </button>
+          <a href={`mailto:${mail}`} className="hidden md:flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest hover:opacity-60 transition-opacity">
+            Parler de votre projet <ArrowRight className="w-4 h-4" />
+          </a>
 
           <button
             className="md:hidden flex flex-col gap-1.5 p-2"
@@ -360,53 +337,54 @@ export default function TextRevealPage() {
         </div>
 
         {mobileOpen && (
-          <div className="md:hidden bg-[#0a0a0a]/95 backdrop-blur-md border-t border-white/5 px-6 py-6 flex flex-col gap-6">
-            <Link href="#hero" onClick={() => setMobileOpen(false)} className="text-[11px] font-bold uppercase tracking-widest text-zinc-300 hover:text-white">Work</Link>
-            <Link href="#hero" onClick={() => setMobileOpen(false)} className="text-[11px] font-bold uppercase tracking-widest text-zinc-300 hover:text-white">Studio</Link>
-            <Link href="#hero" onClick={() => setMobileOpen(false)} className="text-[11px] font-bold uppercase tracking-widest text-zinc-300 hover:text-white">Journal</Link>
-            <Link href="#hero" onClick={() => setMobileOpen(false)} className="text-[11px] font-bold uppercase tracking-widest text-zinc-300 hover:text-white">Start a Project</Link>
+          <div className="md:hidden bg-[#f5f3ef]/95 backdrop-blur-md border-t border-[#221b14]/10 px-6 py-6 flex flex-col gap-6">
+            <Link href="#realisations-liste" onClick={() => setMobileOpen(false)} className="text-[11px] font-bold uppercase tracking-widest text-[#221b14]/70 hover:text-[#221b14]">Réalisations</Link>
+            <Link href="#prestations" onClick={() => setMobileOpen(false)} className="text-[11px] font-bold uppercase tracking-widest text-[#221b14]/70 hover:text-[#221b14]">Prestations</Link>
+            <Link href="#methode" onClick={() => setMobileOpen(false)} className="text-[11px] font-bold uppercase tracking-widest text-[#221b14]/70 hover:text-[#221b14]">La méthode</Link>
+            <Link href="#contact" onClick={() => setMobileOpen(false)} className="text-[11px] font-bold uppercase tracking-widest text-[#221b14]/70 hover:text-[#221b14]">Parler de votre projet</Link>
           </div>
         )}
       </nav>
 
       {/* ==========================================
-          1. TEXT MASK SCROLL HERO
+          1. LE TEXT-MASK — conservé tel quel
           ========================================== */}
       <section id="hero" ref={containerRef} className="relative w-full h-[200vh]">
-        <div className="sticky top-0 w-full h-dvh overflow-hidden bg-[#0a0a0a] flex items-center justify-center">
-          {/* Background Image that reveals */}
+        <div className="sticky top-0 w-full h-dvh overflow-hidden bg-[#221b14] flex items-center justify-center">
+          {/* La photo du lieu, révélée à travers le titre */}
           <motion.div
             style={{ scale: bgScale }}
             className="absolute inset-0 z-0"
           >
             <Image
               src={photo(4, "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop")}
-              alt="Abstract background"
+              alt="Intérieur signé par le studio"
               fill
               className="object-cover"
               priority
             />
             <div className="absolute inset-0 bg-black/40" />
+            {/* Repli sans photo : un dégradé terre, jamais un trou noir. */}
+            <div className="absolute inset-0 -z-10" style={{ background: "linear-gradient(160deg, #2c221a 0%, #4a382b 55%, #8a5a3c 130%)" }} />
           </motion.div>
 
-          {/* The Text Mask Layer */}
+          {/* Le calque-masque */}
           <motion.div
             style={{ scale: heroScale, opacity: heroOpacity }}
             className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none mix-blend-multiply bg-white"
           >
-            {/* The white background with black text creates the mask effect via mix-blend-multiply */}
             <div className="w-full h-full bg-white flex items-center justify-center">
-              <h1 className="text-[15vw] font-black tracking-tighter text-black leading-none text-center">{<>{clientHeroLine(sessionData, 0, 2, 7) ?? "DIGITAL"}<br />{clientHeroLine(sessionData, 1, 2, 7) ?? "REALITY"}</>}</h1>
+              <h1 className="text-[15vw] font-black tracking-tighter text-black leading-none text-center uppercase">{<>{clientHeroLine(sessionData, 0, 2, 8) ?? "Habiter"}<br />{clientHeroLine(sessionData, 1, 2, 10) ?? "Autrement"}</>}</h1>
             </div>
           </motion.div>
 
-          {/* Scroll Indicator */}
+          {/* Indicateur de défilement */}
           <motion.div
             style={{ opacity: heroOpacity }}
             className="absolute bottom-12 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-4 text-white"
           >
             <span className="text-[10px] uppercase tracking-widest font-bold">
-              Scroll to Expand
+              Faites défiler pour entrer
             </span>
             <div className="w-[1px] h-12 bg-white/30 relative overflow-hidden">
               <motion.div
@@ -420,68 +398,72 @@ export default function TextRevealPage() {
       </section>
 
       {/* ==========================================
-          2. MANIFESTO
+          2. LE MANIFESTE — DifferentialExit, trois plans
           ========================================== */}
-      <section className="py-32 md:py-48 px-6 md:px-12 bg-[#0a0a0a] relative z-20 -mt-[50vh]">
-        <div className="max-w-[1200px] mx-auto">
-          <Reveal>
-            <h2 className="text-4xl md:text-6xl lg:text-[5rem] font-medium leading-[1.1] tracking-tight mb-16">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
-              {clientHeroLine(sessionData, 0, 2, 24) ?? "We design digital experiences that"}{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-100 to-zinc-600">
-                {clientHeroLine(sessionData, 1, 2, 24) ?? "refuse to be ignored."}
+      <section className="py-32 md:py-48 px-6 md:px-12 bg-[#f5f3ef] relative z-20 -mt-[50vh] overflow-hidden">
+        {/* Le numéro fantôme — l'arrière-plan, part lentement. */}
+        <DifferentialExit depth={0.05} style={{ position: "absolute", right: "-2%", top: "6%", pointerEvents: "none", zIndex: 0 }}>
+          <span aria-hidden className="titre font-extrabold leading-none select-none" style={{ fontSize: "clamp(180px,30vw,420px)", color: "rgba(138,90,60,0.07)" }}>01</span>
+        </DifferentialExit>
+        <div className="max-w-[1200px] mx-auto relative z-10">
+          {/* H4 éditorial décalé : le titre démarre en retrait, la 2e ligne revient. */}
+          <DifferentialExit depth={0.9}>
+            <h2 className="text-4xl md:text-6xl lg:text-[5rem] font-semibold leading-[1.05] tracking-tight mb-16 md:pl-[12%]">{/* TEXTE_SECTION */ clientText(sessionData, "manifeste.titre") ?? (<>
+              Nous dessinons des intérieurs{" "}
+              <span className="block md:-ml-[12%] text-[var(--brand,#8a5a3c)]">
+                qui ne s'oublient pas.
               </span>
             </>)}</h2>
-          </Reveal>
+          </DifferentialExit>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-zinc-400 text-xl font-light leading-relaxed">
-            <Reveal delay={0.2}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-[#5d5347] text-xl font-light leading-relaxed md:pl-[12%]">
+            <DifferentialExit depth={0.55}>
               <p>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-                In a sea of templates and infinite scrolling, user attention is
-                the most valuable currency. We believe that true digital luxury
-                isn't about minimalism—it's about intentional friction and
-                memorable interactions.
+                Un lieu réussi ne se décrète pas sur un moodboard : il se
+                relève au mètre, se dessine, se chiffre — puis se tient. Le
+                studio conduit tout, du premier croquis à la réception.
               </>}</p>
-            </Reveal>
-            <Reveal delay={0.4}>
+            </DifferentialExit>
+            <DifferentialExit depth={0.35}>
               <p>{c?.aboutText ?? <>
-                By combining brutalist architectural principles with hyper-fluid
-                WebGL rendering, we construct platforms that don't just inform
-                users; they make them feel something.
+                Nous travaillons les volumes avant les objets, la lumière avant
+                les couleurs, et nous n'achetons rien qui ne serve la façon
+                dont vous vivez vraiment.
               </>}</p>
-            </Reveal>
+            </DifferentialExit>
           </div>
         </div>
       </section>
 
       {/* ==========================================
-          3. SELECTED WORKS (Hover Reveal Grid)
+          3. RÉALISATIONS (liste à survol)
           ========================================== */}
-      <section className="py-24 bg-[#050505] border-y border-white/5 relative">
+      <section id="realisations-liste" className="py-24 bg-[#efeae2] border-y border-[#221b14]/10 relative">
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 mb-20 flex justify-between items-end">
           <Reveal>
-            <span className="text-[10px] uppercase tracking-widest font-bold text-zinc-500 block mb-4">
-              Archive
+            <span className="text-[10px] uppercase tracking-widest font-bold text-[#8a7a68] block mb-4">
+              Archives du studio
             </span>
-            <h2 className="text-5xl font-medium tracking-tight">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
-              Selected Works
+            <h2 className="text-5xl font-semibold tracking-tight">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>
+              Lieux livrés
             </>)}</h2>
           </Reveal>
           <Reveal delay={0.2}>
-            <button className="hidden md:flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest pb-1 border-b border-white/20 hover:border-white transition-colors">
-              View All Projects <ArrowRight className="w-4 h-4" />
-            </button>
+            <Link href="#contact" className="hidden md:flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest pb-1 border-b border-[#221b14]/20 hover:border-[#221b14] transition-colors">
+              Visiter sur rendez-vous <ArrowRight className="w-4 h-4" />
+            </Link>
           </Reveal>
         </div>
 
-        <div className="border-t border-white/10">
+        <div className="border-t border-[#221b14]/10">
           {WORKS.map((work, i) => (
             <div
-              key={work.id}
-              className="group relative border-b border-white/10"
+              key={work.id ?? i}
+              className="group relative border-b border-[#221b14]/10"
               onMouseEnter={() => setHoveredWork(work.id)}
               onMouseLeave={() => setHoveredWork(null)}
             >
-              {/* Background Hover Image Reveal (Desktop) */}
+              {/* La photo du lieu, révélée au survol (bureau) */}
               <div
                 className={`absolute inset-0 z-0 overflow-hidden hidden md:block transition-opacity duration-500 ${hoveredWork === work.id ? "opacity-100" : "opacity-0"}`}
               >
@@ -491,31 +473,31 @@ export default function TextRevealPage() {
                   fill
                   className="object-cover opacity-30"
                 />
-                <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
+                <div className="absolute inset-0 bg-[#f5f3ef]/40 backdrop-blur-[2px]" />
               </div>
 
               <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 py-12 md:py-16 flex flex-col md:flex-row items-start md:items-center justify-between gap-8 cursor-pointer">
                 <div className="flex items-center gap-8 md:gap-16 md:w-1/2">
-                  <span className="font-mono text-zinc-600 text-sm">
+                  <span className="font-mono text-[#a3937f] text-sm">
                     {work.id}
                   </span>
-                  <h3 className="text-4xl md:text-6xl font-medium tracking-tight group-hover:translate-x-4 transition-transform duration-500">
+                  <h3 className="text-4xl md:text-6xl font-semibold tracking-tight group-hover:translate-x-4 transition-transform duration-500">
                     {work.client}
                   </h3>
                 </div>
 
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-16 w-full md:w-1/2 text-sm text-zinc-400">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-16 w-full md:w-1/2 text-sm text-[#6b6257]">
                   <span className="uppercase tracking-widest">
                     {work.category}
                   </span>
                   <span className="font-mono">{work.year}</span>
-                  <div className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-300 md:ml-auto">
+                  <div className="w-12 h-12 rounded-full border border-[#221b14]/20 flex items-center justify-center group-hover:bg-[var(--brand,#8a5a3c)] group-hover:text-white group-hover:border-[var(--brand,#8a5a3c)] transition-all duration-300 md:ml-auto">
                     <ArrowUpRight className="w-5 h-5 group-hover:rotate-45 transition-transform" />
                   </div>
                 </div>
 
-                {/* Mobile Image (Visible only on mobile) */}
-                <div className="w-full aspect-[21/9] relative rounded-lg overflow-hidden md:hidden mt-4">
+                {/* Photo visible en mobile */}
+                <div className="w-full aspect-[21/9] relative rounded-lg overflow-hidden md:hidden mt-4 bg-[#e4dccf]">
                   <Image
                     src={work.image}
                     alt={work.client}
@@ -530,32 +512,32 @@ export default function TextRevealPage() {
       </section>
 
       {/* ==========================================
-          4. SERVICES & EXPERTISE
+          4. PRESTATIONS
           ========================================== */}
-      <section className="py-32 bg-[#0a0a0a]">
+      <section id="prestations" className="py-32 bg-[#f5f3ef]">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal className="mb-20 text-center max-w-3xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-medium tracking-tight mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
-              Capabilities
+            <h2 className="text-4xl md:text-5xl font-semibold tracking-tight mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "prestations.titre") ?? (<>
+              Ce que le studio prend en charge
             </>)}</h2>
-            <p className="text-zinc-400 text-lg">
-              We operate as an extension of your internal team, providing the
-              specialized firepower needed to execute ambitious digital
-              transformations.
+            <p className="text-[#6b6257] text-lg">
+              Quatre façons de travailler ensemble — du simple conseil à la
+              maison entière, toujours au prix écrit d'avance.
             </p>
           </Reveal>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {SERVICES.map((service, i) => (
               <Reveal key={i} delay={i * 0.1}>
-                <div className="p-8 border border-white/10 rounded-2xl bg-white/[0.02] hover:bg-white/[0.04] transition-colors h-full flex flex-col">
-                  <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center mb-8">
-                    {service.icon}
-                  </div>
-                  <h3 className="text-2xl font-medium mb-4">{service.title}</h3>
-                  <p className="text-zinc-500 text-sm leading-relaxed flex-1">
+                <div className="p-8 border border-[#221b14]/10 rounded-2xl bg-white/60 hover:bg-white transition-colors h-full flex flex-col">
+                  <span className="titre text-4xl font-bold text-[var(--brand,#8a5a3c)]/30 mb-8">{String(i + 1).padStart(2, "0")}</span>
+                  <h3 className="text-2xl font-semibold mb-4">{service.title}</h3>
+                  <p className="text-[#6b6257] text-sm leading-relaxed flex-1">
                     {service.desc}
                   </p>
+                  <div className="mt-8 pt-4 border-t border-[#221b14]/10 text-[11px] font-bold uppercase tracking-widest text-[var(--brand,#8a5a3c)]">
+                    {service.prix}
+                  </div>
                 </div>
               </Reveal>
             ))}
@@ -564,51 +546,62 @@ export default function TextRevealPage() {
       </section>
 
       {/* ==========================================
-          4.5 MANIFESTO / VISION
+          4.5 LA CONVICTION + AVIS
           ========================================== */}
-      <section id="contact" className="py-32 bg-[#050505] relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.03)_0%,rgba(0,0,0,0)_50%)] pointer-events-none" />
+      <section id="contact" className="py-32 bg-[#efeae2] relative overflow-hidden border-y border-[#221b14]/10">
         <div className="max-w-[1000px] mx-auto px-6 md:px-12 relative z-10 text-center">
           <Reveal>
-            <span className="text-[10px] uppercase tracking-widest font-bold text-zinc-500 block mb-8">
-              The Reveal Doctrine
+            <span className="text-[10px] uppercase tracking-widest font-bold text-[#8a7a68] block mb-8">
+              La conviction du studio
             </span>
-            <h2 className="text-3xl md:text-5xl font-light leading-relaxed text-zinc-300 mb-12">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
-              "A brand is no longer just a logo or a color palette. In the
-              digital age, a brand is defined by how it{" "}
-              <span className="text-white font-medium">behaves</span>, how it{" "}
-              <span className="text-white font-medium">moves</span>, and the{" "}
-              <span className="text-white font-medium">friction</span> it
-              introduces to force engagement."
+            <h2 className="text-3xl md:text-5xl font-light leading-snug text-[#3d3428] mb-12">{/* TEXTE_SECTION */ clientText(sessionData, "conviction.titre") ?? (<>
+              « Un intérieur réussi ne se voit pas d'abord :{" "}
+              <span className="text-[var(--brand,#8a5a3c)] font-medium">il se ressent</span>. La
+              lumière tombe juste, les gestes du quotidien{" "}
+              <span className="text-[var(--brand,#8a5a3c)] font-medium">trouvent leur place</span>,
+              et l'on ne saurait plus dire pourquoi. »
             </>)}</h2>
-            <div className="flex flex-col items-center gap-4">
-              <div className="w-16 h-16 rounded-full overflow-hidden relative">
+            <div className="flex flex-col items-center gap-4 mb-24">
+              <div className="w-16 h-16 rounded-full overflow-hidden relative bg-[#ddd2c2]">
                 <Image
                   src={photo(5, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop")}
-                  alt="Founder"
+                  alt="La fondatrice du studio"
                   fill
                   className="object-cover grayscale"
                 />
               </div>
               <div>
-                <span className="text-sm font-bold block text-white">
-                  Alexander Chen
+                <span className="text-sm font-bold block">
+                  Claire Aubert
                 </span>
-                <span className="text-[10px] uppercase tracking-widest text-zinc-500">
-                  Founder & Creative Director
+                <span className="text-[10px] uppercase tracking-widest text-[#8a7a68]">
+                  Fondatrice & directrice artistique
                 </span>
               </div>
             </div>
           </Reveal>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10 text-left">
+            {AVIS.map((a: any, i: number) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <figure className="h-full flex flex-col border-l-2 border-[var(--brand,#8a5a3c)]/30 pl-6">
+                  <blockquote className="text-base font-light italic text-[#5d5347] leading-relaxed mb-6 flex-1">« {a.text} »</blockquote>
+                  <figcaption className="text-[10px] font-bold uppercase tracking-widest text-[#8a7a68]">
+                    {a.author}{a.detail ? ` — ${a.detail}` : ""}
+                  </figcaption>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ==========================================
-          5. PROCESS MARQUEE & LIST
+          5. LA MÉTHODE
           ========================================== */}
-      <section id="realisations" className="py-32 bg-[#050505] border-y border-white/5 overflow-hidden">
-        {/* Giant Marquee */}
-        <div className="relative flex whitespace-nowrap mb-32 opacity-10 pointer-events-none">
+      <section id="methode" className="py-32 bg-[#f5f3ef] overflow-hidden">
+        {/* Marquee géant */}
+        <div className="relative flex whitespace-nowrap mb-32 opacity-[0.06] pointer-events-none" aria-hidden>
           <motion.div
             animate={{ x: ["0%", "-50%"] }}
             transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
@@ -617,9 +610,9 @@ export default function TextRevealPage() {
             {[...Array(6)].map((_, i) => (
               <span
                 key={i}
-                className="text-[12rem] font-black tracking-tighter leading-none"
+                className="titre text-[12rem] font-extrabold tracking-tighter leading-none text-[var(--brand,#8a5a3c)]"
               >
-                METHODOLOGY
+                MÉTHODE
               </span>
             ))}
           </motion.div>
@@ -629,10 +622,10 @@ export default function TextRevealPage() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
             <div className="lg:col-span-4">
               <Reveal>
-                <h2 className="text-4xl font-medium mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>Our Approach</>)}</h2>
-                <p className="text-zinc-400">
-                  A rigorous, battle-tested framework designed to eliminate
-                  ambiguity and deliver exceptional results on timeline.
+                <h2 className="text-4xl font-semibold mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>Quatre temps, pas un de plus</>)}</h2>
+                <p className="text-[#6b6257]">
+                  Le même déroulé pour un salon ou une maison entière — c'est
+                  lui qui tient les délais et le budget.
                 </p>
               </Reveal>
             </div>
@@ -641,9 +634,9 @@ export default function TextRevealPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-16">
                 {PROCESS.map((p, i) => (
                   <Reveal key={i} delay={i * 0.1}>
-                    <div className="border-t border-zinc-800 pt-6">
-                      <h4 className="text-xl font-medium mb-4">{p.phase}</h4>
-                      <p className="text-zinc-500 text-sm leading-relaxed">
+                    <div className="border-t border-[#221b14]/15 pt-6">
+                      <h4 className="text-xl font-semibold mb-4">{p.phase}</h4>
+                      <p className="text-[#6b6257] text-sm leading-relaxed">
                         {p.detail}
                       </p>
                     </div>
@@ -656,140 +649,112 @@ export default function TextRevealPage() {
       </section>
 
       {/* ==========================================
-          6. MEGA FOOTER CTA
+          6. PIED DE PAGE & CONTACT
           ========================================== */}
-      <footer className="bg-[#0a0a0a] pt-32 pb-12 px-6 md:px-12 relative overflow-hidden">
-        {/* Glow effect */}
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-zinc-800/20 blur-[150px] rounded-t-full pointer-events-none" />
+      <footer className="bg-[#221b14] text-[#f5f3ef] pt-32 pb-12 px-6 md:px-12 relative overflow-hidden">
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[var(--brand,#8a5a3c)]/15 blur-[150px] rounded-t-full pointer-events-none" aria-hidden />
 
         <div className="max-w-[1600px] mx-auto relative z-10">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-32 gap-12">
             <div>
               <Reveal>
-                <h2 className="text-6xl md:text-[8rem] font-medium tracking-tighter leading-[0.9] mb-8">
-                  Let's <br />
-                  <span className="text-zinc-500">Collaborate.</span>
+                <h2 className="text-6xl md:text-[7rem] font-semibold tracking-tighter leading-[0.95] mb-8">
+                  Parlons de <br />
+                  <span className="text-[var(--brand,#c89b78)]">votre intérieur.</span>
                 </h2>
                 <a
-                  href={`mailto:${fd?.email ?? "hello@reveal.studio"}`}
-                  className="text-2xl md:text-4xl font-light hover:text-zinc-400 transition-colors border-b border-zinc-700 pb-2"
+                  href={`mailto:${mail}`}
+                  className="text-2xl md:text-4xl font-light hover:text-[#c89b78] transition-colors border-b border-white/20 pb-2 break-all"
                 >
-                  {fd?.email ?? "hello@reveal.studio"}
+                  {mail}
                 </a>
               </Reveal>
             </div>
 
-            <Reveal delay={0.2} className="flex gap-4">
-              <a
-                href="/templates/impact-136"
-                className="w-14 h-14 rounded-full border border-zinc-800 flex items-center justify-center hover:bg-white hover:text-black hover:border-white transition-all"
-              >
-                <Globe className="w-5 h-5" />
-              </a>
-              <a
-                href="/templates/impact-136"
-                className="w-14 h-14 rounded-full border border-zinc-800 flex items-center justify-center hover:bg-white hover:text-black hover:border-white transition-all"
-              >
-                <Globe className="w-5 h-5" />
-              </a>
-              <a
-                href="/templates/impact-136"
-                className="w-14 h-14 rounded-full border border-zinc-800 flex items-center justify-center hover:bg-white hover:text-black hover:border-white transition-all"
-              >
-                <Globe className="w-5 h-5" />
-              </a>
+            <Reveal delay={0.2} className="flex flex-col gap-6 text-sm text-[#f5f3ef]/70">
+              <a href={telHref} className="flex items-center gap-3 hover:text-white transition-colors"><Phone className="w-4 h-4 text-[var(--brand,#c89b78)]" /> {tel}</a>
+              <span className="flex items-center gap-3"><MapPin className="w-4 h-4 text-[var(--brand,#c89b78)]" /> {clientCodePostalVille(sessionData, "33000", "Bordeaux")}</span>
+              <a href={`mailto:${mail}`} className="flex items-center gap-3 hover:text-white transition-colors"><Mail className="w-4 h-4 text-[var(--brand,#c89b78)]" /> Sur rendez-vous, à l'atelier</a>
             </Reveal>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pt-16 border-t border-zinc-900 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pt-16 border-t border-white/10 mb-16">
             <div>
-              <h4 className="text-[10px] font-bold uppercase tracking-widest text-zinc-600 mb-6">
-                Offices
+              <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#f5f3ef]/40 mb-6">
+                L'atelier
               </h4>
-              <ul className="space-y-4 text-sm text-zinc-400">
+              <ul className="space-y-4 text-sm text-[#f5f3ef]/70">
                 <li>
-                  <strong className="text-white block mb-1">New York</strong>{" "}
-                  100 Broadway, NY 10005
+                  <strong className="text-white block mb-1">{clientName(sessionData) ?? "Studio Intérieur"}</strong>{" "}
+                  {clientCodePostalVille(sessionData, "33000", "Bordeaux")}
                 </li>
                 <li className="pt-2">
-                  <strong className="text-white block mb-1">London</strong> 12
-                  Shoreditch High St.
+                  Reçoit sur rendez-vous,<br /> du mardi au samedi.
                 </li>
               </ul>
             </div>
 
             <div>
-              <h4 className="text-[10px] font-bold uppercase tracking-widest text-zinc-600 mb-6">
-                Socials
+              <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#f5f3ef]/40 mb-6">
+                Suivre le studio
               </h4>
-              <ul className="space-y-4 text-sm text-zinc-400">
+              <ul className="space-y-4 text-sm text-[#f5f3ef]/70">
                 <li>
-                  <Link href="#contact" className="hover:text-white transition-colors">
-                    Globe
+                  <Link href="#hero" className="hover:text-white transition-colors">
+                    Instagram
                   </Link>
                 </li>
                 <li>
-                  <Link href="#contact" className="hover:text-white transition-colors">
-                    Globe (X)
+                  <Link href="#hero" className="hover:text-white transition-colors">
+                    Pinterest
                   </Link>
                 </li>
                 <li>
-                  <Link href="#contact" className="hover:text-white transition-colors">
-                    LinkedIn
-                  </Link>
-                </li>
-                <li>
-                  <Link href="#contact" className="hover:text-white transition-colors">
-                    Awwwards
+                  <Link href="#realisations-liste" className="hover:text-white transition-colors">
+                    Les réalisations
                   </Link>
                 </li>
               </ul>
             </div>
 
             <div className="lg:col-span-2">
-              <h4 className="text-[10px] font-bold uppercase tracking-widest text-zinc-600 mb-6">
-                Newsletter
+              <h4 className="text-[10px] font-bold uppercase tracking-widest text-[#f5f3ef]/40 mb-6">
+                Le carnet du studio
               </h4>
-              <p className="text-sm text-zinc-400 mb-4">
-                A monthly digest of design trends, WebGL experiments, and studio
-                news.
+              <p className="text-sm text-[#f5f3ef]/70 mb-4">
+                Un lieu livré par saison, raconté du relevé à la réception —
+                photos, choix, budget.
               </p>
               <form className="flex" onSubmit={(e) => e.preventDefault()}>
                 <input
                   type="email"
-                  placeholder="Enter your email"
-                  className="bg-transparent border-b border-zinc-800 px-0 py-3 flex-1 text-sm focus:outline-none focus:border-white text-white transition-colors"
+                  placeholder="Votre courriel"
+                  className="bg-transparent border-b border-white/20 px-0 py-3 flex-1 text-sm focus:outline-none focus:border-white text-white transition-colors"
                 />
                 <button
                   type="submit"
-                  className="border-b border-zinc-800 px-4 py-3 text-[10px] uppercase tracking-widest font-bold hover:text-white text-zinc-500 transition-colors"
+                  className="border-b border-white/20 px-4 py-3 text-[10px] uppercase tracking-widest font-bold hover:text-white text-[#f5f3ef]/50 transition-colors"
                 >
-                  {tr({ formData: fd }, "Subscribe")}
+                  S'abonner
                 </button>
               </form>
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-zinc-900 text-[10px] uppercase tracking-widest font-bold text-zinc-600">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-white/10 text-[10px] uppercase tracking-widest font-bold text-[#f5f3ef]/40">
             <span>
-              &copy; {new Date().getFullYear()} Reveal Studio. All rights
-              reserved.
+              © {clientName(sessionData) ?? "Studio Intérieur"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""} · Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" />
             </span>
             <div className="flex gap-6">
               <Link href="#contact" className="hover:text-white transition-colors">
-                {tr({ formData: fd }, "Privacy Policy")}
+                Mentions légales
               </Link>
               <Link href="#contact" className="hover:text-white transition-colors">
-                Terms of Service
+                CGV
               </Link>
             </div>
           </div>
         </div>
-      </footer>
-      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-136"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
       </footer>
     </div>
   );
