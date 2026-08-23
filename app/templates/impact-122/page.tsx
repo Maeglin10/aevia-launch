@@ -34,6 +34,7 @@ import {
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -257,7 +258,7 @@ export default function ChronicleEditorialPage() {
               />
             ) : (
               <>
-                <h1 className="hero-ecran-court text-3xl md:text-5xl font-black uppercase tracking-tighter" style={{ fontFamily: "'Spectral', Georgia, serif" }}>{clientName({ formData: fd }) ?? clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>
+                <h1 className="hero-ecran-court text-xl sm:text-3xl md:text-5xl font-black uppercase tracking-tighter max-w-[52vw] md:max-w-none text-center" style={{ fontFamily: "'Spectral', Georgia, serif" }}>{clientName({ formData: fd }) ?? clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>
                   Chronicle.
                 </>}</h1>
                 {!scrolled && <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#191a24]/50 mt-1">Formation professionnelle</span>}
@@ -341,7 +342,7 @@ export default function ChronicleEditorialPage() {
 
                 <div className="max-w-3xl mx-auto text-center md:text-left">
                   <div className="text-xs font-black uppercase tracking-widest text-[var(--brand,#3d4bc9)] mb-4">
-                    {MANIFEST.hero.category}
+                    {clientTrade(sessionData) ?? MANIFEST.hero.category}
                   </div>
                   <h2 className="text-5xl md:text-7xl font-serif leading-[1.1] mb-6 tracking-tight">{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>
                     {clientHeroLine(sessionData, 0, 1, 64) ?? MANIFEST.hero.title}
