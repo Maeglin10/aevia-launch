@@ -407,3 +407,45 @@ des derniers travaux et les moins vendables, documenter, proposer la remontée.
 amputé de son shared.tsx ; le « geste » de 245/247 invisible car écrit main).
 La validation visuelle a confirmé le bas du classement : impact-122 est un
 journal anglophone vendu 899 € au métier formation, impact-41 n'a pas de h1.
+
+---
+
+## 2026-08-23 — Session #11 : les 18 P0 transformés à la main, sans agents
+
+**Fait :** les 18 thèmes vendus qui livraient de la démonstration
+(`docs/REPRISE_P0_PLAN.md`, suivi complet) sont transformés, vérifiés et
+poussés un par un : 98, 146, 151, 137, 145, 140, 97, 141, puis 122
+(journal→formation, PanelRise), 119 (cloud→salle IronX, WipeReveal), 160
+(data-center→Maison V, GhostSolid), 136 (agence web→studio déco, text-mask
+conservé, DifferentialExit), 100 (Nova francisé, ScrollSpin, 18 coquilles
+résorbées en redirections), 44 (esport→Espace Studio, réécriture complète
+multi-pages, PanelDrop), 35 (coworking→Carré Daviel chiffre & droit,
+ExpandFrame), 36 (Apex Talent francisé + adresse FR, TrackingCollapse), 11
+(EduPath relevé, ParticleOrb, avis + contact ajoutés), 39 (vert forêt,
+StickyProgress). Quatre thèmes sans section d'avis en ont gagné une (146,
+151, 97, 141). Chaque thème : 4 contrôles statiques + zéro URL d'image
+inventée (diff des identifiants avant/après) + build + session client
+réelle + mesure DOM + captures regardées aux deux tailles.
+
+**Comment :** tout à la main, un thème à la fois, aucun agent — consigne
+expresse du fondateur. Un build par lot, un seul balayage Playwright à la
+fois, `pkill -f "[n]ext-server"` (motif auto-exclu).
+
+**Pourquoi :** l'audit du 12 août — un thème vendu qui livre la
+démonstration d'un autre métier est invendable ; le sujet cible est le
+libellé catalogue existant, jamais une niche inventée.
+
+**Erreurs commises :** deux nouvelles pannes d'instrument attrapées en
+capture, pas en code : la prop de SlideIndex s'appelle `i` (le compteur
+affichait « NaN — 03 ») et une période de démonstration se collait au prix
+du client (« 9 400 € / l'heure »). Plus un débordement de 4 px (courriel du
+pied de 100, interlettrage large sans repli) et des tarifs client jamais
+peints sur 100 et 36 — tous vus par la mesure, tous corrigés. Le build
+lancé avant les derniers correctifs a dû être refait : ne pas mesurer un
+build qui ne contient pas ce qu'on veut mesurer.
+
+**Restes à faire :** passe d'alignement (capabilities, photoSlots,
+sectionManifest, paliers, descriptions registry/i18n de 44/160/122/119),
+P0bis (21 premium sous 45), P1 par séries homogènes, re-run
+`audit-qualite`, déploiement Vercel manuel (impossible depuis ce conteneur,
+jeton absent).
