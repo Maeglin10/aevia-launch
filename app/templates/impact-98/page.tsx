@@ -25,17 +25,28 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Separator } from "@/components/ui/separator";
 import { Watch, Zap, Diamond, ShieldCheck, Star, Globe, Mail, MapPin, ChevronRight, ArrowRight, X, Menu, Clock, Activity, Maximize, Settings, Compass, Shield, Award, Focus, Frame, Monitor, Share2, Lock, Search, ShoppingBag } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
+import { ScrollSpin } from "@/lib/templates/hero-kit-3";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 
 import "../premium.css";
 import {
+  clientAddress,
+  clientCertifications,
   clientCity,
+  clientCodePostalVille,
+  clientEmail,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
+  clientList,
   clientName,
+  clientPhone,
   clientPhotos,
+  clientReviews,
   clientServices,
   clientStats,
   clientText,
+  clientTrade,
   clientWorks,
 } from "@/lib/templates/clientContent";
 
@@ -60,24 +71,24 @@ function COLLECTIONS_SOURCE_LIVE() {
     id: 1,
     name: "Astra Chrono",
     category: "Complications",
-    price: "From CHF 125,000",
-    desc: "A tourbillon masterpiece featuring a hand-finished skeleton dial and 72-hour power reserve.",
+    price: "dès 12 500 €",
+    desc: "Chronographe squelette anglé main, réserve de marche de 72 heures, fond saphir.",
     img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1200&q=80"),
   },
   {
     id: 2,
     name: "Deep Horizon",
-    category: "Professional",
-    price: "From CHF 18,500",
-    desc: "Titanium grade 5 case, water-resistant to 1000m with a helium escape valve and ceramic bezel.",
+    category: "Sport",
+    price: "dès 4 800 €",
+    desc: "Boîtier titane grade 5, étanche 30 bars, lunette céramique, bracelet interchangeable.",
     img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=1200&q=80"),
   },
   {
     id: 3,
     name: "Legacy Perpetual",
-    category: "Heritage",
-    price: "From CHF 85,000",
-    desc: "Rose gold moonphase calendar that requires no adjustment for the next 122 years.",
+    category: "Patrimoine",
+    price: "dès 9 200 €",
+    desc: "Quantième à phase de lune en or rose, réglé pour ne pas dévier avant 122 ans.",
     img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=1200&q=80"),
   },
 ]);
@@ -87,27 +98,34 @@ let COLLECTIONS_DEMO = COLLECTIONS_SOURCE;
 
 const CRAFTSMANSHIP = [
   {
-    title: "Hand-Finished Calibers",
-    desc: "Every bridge is beveled by hand and every gear is polished to a mirror finish in our Swiss workshops.",
+    title: "Calibres finis main",
+    desc: "Chaque pont est anglé à la main, chaque rouage poli miroir, à l'établi de l'atelier.",
     icon: Settings,
   },
   {
-    title: "Metallurgical Mastery",
-    desc: "Our proprietary gold and titanium alloys are engineered for eternal luster and scratch resistance.",
+    title: "Métaux d'exception",
+    desc: "Or contrôlé et poinçonné, titane grade 5, aciers durcis : des alliages choisis pour durer, pas pour briller six mois.",
     icon: Diamond,
   },
   {
-    title: "Chronometric Precision",
-    desc: "Testing standards that exceed COSC certification by 300% for absolute timekeeping integrity.",
+    title: "Précision chronométrique",
+    desc: "Chaque pièce est contrôlée sur banc de marche avant livraison, bulletin de test remis à l'acheteur.",
     icon: Clock,
   },
 ];
 
+const AVIS_SOURCE = [
+  { texte: "Ma montre de famille, arrêtée depuis vingt ans, repartie comme en 1962 — avec le bulletin de marche pour le prouver.", auteur: "Hélène M.", detail: "Restauration" },
+  { texte: "On m'a déconseillé la pièce la plus chère de la vitrine, parce qu'elle n'allait pas à mon poignet. C'est ce jour-là qu'ils m'ont gagné.", auteur: "Franck D.", detail: "Conseil en boutique" },
+  { texte: "Devis d'expertise précis, rachat au prix annoncé, virement le jour même. Rigoureux de bout en bout.", auteur: "Succession B.", detail: "Expertise & rachat" },
+];
+let AVIS_LISTE = AVIS_SOURCE;
+
 const STATS_DEMO = [
-  { label: "Components Per Watch", value: "320+" },
-  { label: "Master Watchmakers", value: "14" },
-  { label: "Hours of Testing", value: "800" },
-  { label: "Heritage Years", value: "125" },
+  { label: "Composants par montre", value: "320+" },
+  { label: "Horlogers à l'établi", value: "4" },
+  { label: "Heures de contrôle", value: "120" },
+  { label: "Ans de maison", value: "45" },
 ];
 let STATS = STATS_DEMO;
 
@@ -247,6 +265,15 @@ export default function ZenithWatchesPage() {
   });
   COLLECTIONS_DEMO = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...COLLECTIONS_SOURCE[i % COLLECTIONS_SOURCE.length], name: s.title , ...(s.price ? { price: s.price } : {})})), COLLECTIONS_SOURCE);
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  AVIS_LISTE = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
+      ...AVIS_SOURCE[i % AVIS_SOURCE.length],
+      texte: r.text ?? AVIS_SOURCE[i % AVIS_SOURCE.length].texte,
+      auteur: r.name ?? r.author ?? AVIS_SOURCE[i % AVIS_SOURCE.length].auteur,
+      detail: r.location ?? r.role ?? AVIS_SOURCE[i % AVIS_SOURCE.length].detail,
+    })),
+    AVIS_SOURCE,
+  );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Product collection ← client's business profile (falls back to demo).
@@ -273,7 +300,7 @@ export default function ZenithWatchesPage() {
   }, []);
 
   return (
-    <div className="premium-theme min-h-dvh bg-[#0a0a0a] text-[#e5e5e5] font-sans selection:bg-[var(--brand,#d4af37)] selection:text-white overflow-x-hidden">
+    <div className="premium-theme min-h-dvh bg-[#0a0a0a] text-[#e5e5e5] font-sans selection:bg-[var(--brand,#b08d3f)] selection:text-white overflow-x-hidden">
       {/* ── NAVIGATION ── */}
       <nav
         className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-black/90 backdrop-blur-2xl py-4 border-b border-white/5" : "bg-transparent py-8"}`}
@@ -288,11 +315,11 @@ export default function ZenithWatchesPage() {
               />
             ) : (
               <>
-                <span className="text-3xl font-black tracking-[0.2em] uppercase leading-none italic">
-                  Zenith
+                <span className="i98-serif text-3xl font-black tracking-[0.14em] uppercase leading-none italic">
+                  {fd?.businessName ?? clientName(sessionData) ?? "Zenith"}
                 </span>
-                <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#d4af37)] -mt-1 ml-1">
-                  Swiss Horology
+                <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#b08d3f)] -mt-1 ml-1">
+                  {clientTrade(sessionData) ?? "Haute horlogerie"}
                 </span>
               </>
             )}
@@ -301,15 +328,15 @@ export default function ZenithWatchesPage() {
           <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {[
               "Collections",
-              "Grand_Complications",
-              "Savoir-Faire",
-              "Heritage",
-              "Concierge",
+              "Complications",
+              "Savoir-faire",
+              "Maison",
+              "Contact",
             ].map((link) => (
               <Link
                 key={link}
                 href="#collections"
-                className="hover:text-[var(--brand,#d4af37)] transition-colors cursor-pointer"
+                className="hover:text-[var(--brand,#b08d3f)] transition-colors cursor-pointer"
               >
                 {link}
               </Link>
@@ -318,16 +345,16 @@ export default function ZenithWatchesPage() {
 
           <div className="flex items-center gap-8">
             <button className="hidden md:flex items-center gap-3 group">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-[var(--brand,#d4af37)] transition-colors">
-                Ownership_Portal
+              <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-[var(--brand,#b08d3f)] transition-colors">
+                Prendre rendez-vous
               </span>
-              <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 group-hover:bg-[var(--brand,#d4af37)] group-hover:text-black group-hover:border-[var(--brand,#d4af37)] transition-all">
+              <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 group-hover:bg-[var(--brand,#b08d3f)] group-hover:text-black group-hover:border-[var(--brand,#b08d3f)] transition-all">
                 <ShieldCheck className="w-4 h-4" />
               </div>
             </button>
             <button
               onClick={() => setMenuOpen(true)}
-              className="lg:hidden text-[var(--brand,#d4af37)]"
+              className="lg:hidden text-[var(--brand,#b08d3f)]"
             >
               <Menu className="w-6 h-6" />
             </button>
@@ -346,7 +373,7 @@ export default function ZenithWatchesPage() {
           >
             <button
               onClick={() => setMenuOpen(false)}
-              className="absolute top-10 right-8 text-white/40 hover:text-[var(--brand,#d4af37)]"
+              className="absolute top-10 right-8 text-white/40 hover:text-[var(--brand,#b08d3f)]"
             >
               <X className="w-10 h-10" />
             </button>
@@ -357,7 +384,7 @@ export default function ZenithWatchesPage() {
                     key={l}
                     href="#collections"
                     onClick={() => setMenuOpen(false)}
-                    className="hover:text-[var(--brand,#d4af37)] hover:translate-x-4 transition-all"
+                    className="hover:text-[var(--brand,#b08d3f)] hover:translate-x-4 transition-all"
                   >
                     {l}
                   </Link>
@@ -383,48 +410,54 @@ export default function ZenithWatchesPage() {
 
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 items-center">
           <Reveal>
-            <h1 className="text-5xl sm:text-6xl md:text-[8rem] lg:text-[6rem] xl:text-[7.5rem] 2xl:text-[9.5rem] font-black leading-[0.95] md:leading-[0.75] tracking-tighter mb-12 uppercase text-white italic break-words">{<>{clientHeroLine(sessionData, 0, 2, 8) ?? "Taming"}<br />{" "}
-              <span className="text-[var(--brand,#d4af37)] not-italic">{clientHeroLine(sessionData, 1, 2, 8) ?? "Entropy."}</span>
+            <h1 className="text-5xl sm:text-6xl md:text-[8rem] lg:text-[6rem] xl:text-[7.5rem] 2xl:text-[9.5rem] font-black leading-[0.95] md:leading-[0.75] tracking-tighter mb-12 uppercase text-white italic break-words">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Dompter"}<br />{" "}
+              <span className="text-[var(--brand,#b08d3f)] not-italic">{clientHeroLine(sessionData, 1, 2, 9) ?? "le temps."}</span>
             </>}</h1>
-            <p className="max-w-md text-xl text-white/50 leading-relaxed font-light mb-12 uppercase tracking-wide italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-              The absolute mechanical mastery of time. Engineered for the next
-              millennium.
+            <p className="max-w-md text-xl text-white/50 leading-relaxed font-light mb-12 tracking-wide">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              La maîtrise mécanique du temps, assemblée et réglée à l'atelier.
+              Pièces neuves, restaurations, et le service qui va avec.
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-6">
-              <MagneticBtn className="px-12 py-5 bg-[var(--brand,#d4af37)] text-black text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-all cursor-pointer shadow-[0_0_40px_rgba(212,175,55,0.3)]">
-                The Masterpiece Archive
+              <MagneticBtn className="px-12 py-5 bg-[var(--brand,#b08d3f)] text-black text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-all cursor-pointer shadow-[0_0_40px_rgba(212,175,55,0.3)]">
+                Les pièces maîtresses
               </MagneticBtn>
               <Link
                 href="#collections"
                 className="px-12 py-5 border border-white/20 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:bg-white hover:text-black transition-all flex items-center justify-center gap-3"
               >
-                Current Collection <ArrowRight className="w-4 h-4" />
+                La collection <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           </Reveal>
 
           <div className="hidden lg:flex justify-end pr-12 relative">
             <Reveal delay={0.4}>
-              <div className="relative w-96 h-96 rounded-full border border-white/5 flex items-center justify-center">
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{
-                    duration: 60,
-                    repeat: Infinity,
-                    ease: "linear",
-                  }}
-                  className="absolute inset-0 border-t-2 border-[var(--brand,#d4af37)] rounded-full"
-                />
-                <div className="text-center">
-                  <span className="text-5xl font-black italic block text-[var(--brand,#d4af37)]">
-                    VHP
-                  </span>
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-white/30">
-                    Vertical High Precision
-                  </span>
-                </div>
+              {/* Geste de signature : ScrollSpin — le balancier n'a pas
+                  d'horloge propre, c'est le défilement qui l'entraîne. La
+                  boîte de suivi est plus haute que le dessin : le composant
+                  mesure sa propre hauteur pour établir la course. */}
+              <div style={{ minHeight: 520, display: "grid", placeItems: "center" }}>
+                <ScrollSpin degrees={200}>
+                  <div className="relative w-96 h-96 rounded-full border border-white/5 flex items-center justify-center">
+                    <div className="absolute inset-0 border-t-2 border-[var(--brand,#b08d3f)] rounded-full" />
+                    <div className="absolute inset-6 rounded-full border border-white/10" />
+                    {[...Array(12)].map((_, n) => (
+                      <span key={n} aria-hidden className="absolute left-1/2 top-1/2 w-[1px] h-44 origin-top" style={{ transform: `rotate(${n * 30}deg)` }}>
+                        <span className="block w-[1px] h-3 bg-white/25" />
+                      </span>
+                    ))}
+                    <div className="text-center">
+                      <span className="i98-serif text-5xl font-black italic block text-[var(--brand,#b08d3f)]">
+                        Cal. 98
+                      </span>
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-white/30">
+                        Remontage manuel
+                      </span>
+                    </div>
+                  </div>
+                </ScrollSpin>
               </div>
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-[var(--brand,#d4af37)] rounded-full blur-2xl opacity-20 animate-pulse" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-[var(--brand,#b08d3f)] rounded-full blur-2xl opacity-20 animate-pulse" />
             </Reveal>
           </div>
         </div>
@@ -437,7 +470,7 @@ export default function ZenithWatchesPage() {
             {STATS.map((stat, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="text-center md:text-left">
-                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4af37)] mb-2">
+                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#b08d3f)] mb-2">
                     {stat.label}
                   </div>
                   <div className="text-5xl font-black italic text-white">
@@ -457,17 +490,17 @@ export default function ZenithWatchesPage() {
             <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
               <div>
                 <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "collections.titre") ?? (<>
-                  The <br /> <span className="text-[var(--brand,#d4af37)]">Archive.</span>
+                  Les <br /> <span className="text-[var(--brand,#b08d3f)]">pièces.</span>
                 </>)}</h2>
                 <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">
-                  Internal Reference // Swiss Quality Index // 2024
+                  {/* TEXTE_SECTION */ clientText(sessionData, "collections.legende") ?? (<>Assemblées, réglées et garanties par la maison</>)}
                 </p>
               </div>
               <Link
                 href="#collections"
-                className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4af37)] border-b border-[var(--brand,#d4af37)] pb-2 hover:text-white hover:border-white transition-all"
+                className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#b08d3f)] border-b border-[var(--brand,#b08d3f)] pb-2 hover:text-white hover:border-white transition-all"
               >
-                Download Technical Deck
+                Recevoir le catalogue
               </Link>
             </div>
           </Reveal>
@@ -501,10 +534,10 @@ export default function ZenithWatchesPage() {
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
-                          className="absolute inset-0 flex items-center justify-center bg-[var(--brand,#d4af37)]/10 backdrop-blur-[2px]"
+                          className="absolute inset-0 flex items-center justify-center bg-[var(--brand,#b08d3f)]/10 backdrop-blur-[2px]"
                         >
                           <button className="px-10 py-4 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:scale-110 transition-all shadow-2xl">
-                            Caliber Specs
+                            Voir la fiche
                           </button>
                         </motion.div>
                       )}
@@ -512,19 +545,19 @@ export default function ZenithWatchesPage() {
                   </div>
                   <div className="space-y-6">
                     <div className="flex justify-between items-baseline">
-                      <h3 className="text-4xl font-black uppercase tracking-tighter text-white italic group-hover:text-[var(--brand,#d4af37)] transition-colors">
+                      <h3 className="text-4xl font-black uppercase tracking-tighter text-white italic group-hover:text-[var(--brand,#b08d3f)] transition-colors">
                         {item.name}
                       </h3>
-                      <span className="text-lg font-black text-[var(--brand,#d4af37)] tracking-tighter">
+                      <span className="text-lg font-black text-[var(--brand,#b08d3f)] tracking-tighter">
                         {item.price}
                       </span>
                     </div>
-                    <p className="text-sm text-white/30 font-light leading-relaxed uppercase tracking-widest italic">
+                    <p className="text-sm text-white/40 font-light leading-relaxed tracking-wide">
                       {item.desc}
                     </p>
                     <div className="flex items-center gap-4">
-                      <div className="h-[1px] flex-1 bg-white/5 group-hover:bg-[var(--brand,#d4af37)]/20 transition-all" />
-                      <Settings className="w-5 h-5 text-white/10 group-hover:text-[var(--brand,#d4af37)] transition-all" />
+                      <div className="h-[1px] flex-1 bg-white/5 group-hover:bg-[var(--brand,#b08d3f)]/20 transition-all" />
+                      <Settings className="w-5 h-5 text-white/10 group-hover:text-[var(--brand,#b08d3f)] transition-all" />
                     </div>
                   </div>
                 </div>
@@ -536,16 +569,16 @@ export default function ZenithWatchesPage() {
 
       {/* ── SAVOIR-FAIRE ── */}
       <section id="contact" className="py-40 bg-[#0d0d0d] overflow-hidden relative">
-        <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-[var(--brand,#d4af37)]/5 blur-[120px] rounded-full" />
+        <div className="absolute top-0 right-0 w-[40rem] h-[40rem] bg-[var(--brand,#b08d3f)]/5 blur-[120px] rounded-full" />
         <div className="max-w-[1600px] mx-auto px-6 md:px-12">
           <Reveal>
             <div className="text-center mb-32">
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4af37)] mb-8 block">
-                Atelier Excellence
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b08d3f)] mb-8 block">
+                {clientEyebrow(sessionData) ?? "L'atelier"}
               </span>
               <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
-                Swiss{" "}
-                <span className="text-[var(--brand,#d4af37)] not-italic">Savoir-Faire.</span>
+                Le{" "}
+                <span className="text-[var(--brand,#b08d3f)] not-italic">savoir-faire.</span>
               </>)}</h2>
             </div>
           </Reveal>
@@ -553,18 +586,18 @@ export default function ZenithWatchesPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             {CRAFTSMANSHIP.map((s, i) => (
               <Reveal key={i} delay={i * 0.1}>
-                <div className="p-16 border border-white/5 bg-white/[0.01] hover:border-[var(--brand,#d4af37)]/30 transition-all group h-full flex flex-col relative overflow-hidden">
-                  <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center text-[var(--brand,#d4af37)] mb-10 group-hover:bg-[var(--brand,#d4af37)] group-hover:text-black transition-all duration-500">
+                <div className="p-16 border border-white/5 bg-white/[0.01] hover:border-[var(--brand,#b08d3f)]/30 transition-all group h-full flex flex-col relative overflow-hidden">
+                  <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center text-[var(--brand,#b08d3f)] mb-10 group-hover:bg-[var(--brand,#b08d3f)] group-hover:text-black transition-all duration-500">
                     <s.icon className="w-8 h-8" />
                   </div>
                   <h3 className="text-3xl font-black uppercase italic mb-6 tracking-tighter text-white group-hover:translate-x-2 transition-transform">
                     {s.title}
                   </h3>
-                  <p className="text-sm text-white/30 font-light leading-relaxed mb-12 flex-1 tracking-wide uppercase italic leading-loose">
+                  <p className="text-sm text-white/40 font-light leading-relaxed mb-12 flex-1 tracking-wide">
                     {s.desc}
                   </p>
-                  <button className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4af37)] group-hover:gap-6 transition-all">
-                    Read Case Study <ArrowRight className="w-4 h-4" />
+                  <button className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#b08d3f)] group-hover:gap-6 transition-all">
+                    En savoir plus <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
               </Reveal>
@@ -586,41 +619,38 @@ export default function ZenithWatchesPage() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
               <div className="absolute bottom-16 left-16 text-white">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block text-[var(--brand,#d4af37)]">
-                  Since 1899
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block text-[var(--brand,#b08d3f)]">
+                  {/* TEXTE_SECTION */ clientText(sessionData, "maison.depuis") ?? (<>La maison</>)}
                 </span>
-                <h4 className="text-5xl font-black italic uppercase tracking-tighter leading-none text-[var(--brand,#d4af37)]">
-                  A Legacy <br /> In Gold.
+                <h4 className="i98-serif text-5xl font-black italic uppercase tracking-tighter leading-none text-[var(--brand,#b08d3f)]">
+                  L'or, <br /> en héritage.
                 </h4>
               </div>
             </div>
           </Reveal>
 
           <Reveal delay={0.2}>
-            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4af37)] mb-8 block">
-              The Philosophy
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b08d3f)] mb-8 block">
+              La philosophie
             </span>
-            <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-12 uppercase text-white">{c?.aboutTitle ?? fd?.businessName ?? <>
-              Eternal <br />{" "}
-              <span className="text-[var(--brand,#d4af37)] not-italic">Rhythm.</span>
+            <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-12 uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "maison.titre") ?? c?.aboutTitle ?? <>
+              Le battement <br />{" "}
+              <span className="text-[var(--brand,#b08d3f)] not-italic">juste.</span>
             </>}</h2>
-            <p className="text-white/40 text-xl leading-relaxed mb-16 font-light uppercase tracking-wide italic">{c?.aboutText ?? <>
-              We don't sell watches. We sell the mastery over the fourth
-              dimension. A Zenith is a perpetual heartbeat on your wrist.
+            <p className="text-white/40 text-xl leading-relaxed mb-16 font-light tracking-wide">{/* TEXTE_SECTION */ clientText(sessionData, "maison.texte") ?? c?.aboutText ?? <>
+              Nous ne vendons pas des montres : nous réglons des battements.
+              Chaque pièce qui sort de l'atelier est ajustée, contrôlée sur
+              banc, et suivie toute sa vie.
             </>}</p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              {[
-                {
-                  icon: Compass,
-                  label: "Navigation",
-                  desc: "Marine chronometer",
-                },
-                { icon: Shield, label: "Armored", desc: "Durability v2.0" },
-                { icon: Globe, label: "Global_Time", desc: "Multi-timezone" },
-                { icon: Award, label: "Certified", desc: "METAS/COSC+" },
-              ].map((val, i) => (
+              {(clientList(sessionData, "maison.garanties") ?? clientCertifications(sessionData) ?? [
+                "Poinçon or contrôlé — bureau de garantie",
+                "Garantie 5 ans, mouvement et étanchéité",
+                "Atelier de réparation agréé toutes marques",
+                "Expertise et rachat sur estimation écrite",
+              ]).slice(0, 4).map((txt: string, i: number) => ({ icon: [Compass, Shield, Globe, Award][i % 4], label: String(txt).split("—")[0].split(",")[0], desc: String(txt) })).map((val, i) => (
                 <div key={i} className="space-y-4">
-                  <val.icon className="w-6 h-6 text-[var(--brand,#d4af37)]" />
+                  <val.icon className="w-6 h-6 text-[var(--brand,#b08d3f)]" />
                   <h4 className="text-[11px] font-black uppercase tracking-widest text-white">
                     {val.label}
                   </h4>
@@ -630,10 +660,40 @@ export default function ZenithWatchesPage() {
                 </div>
               ))}
             </div>
-            <MagneticBtn className="mt-20 px-14 py-6 bg-white text-black text-[10px] font-black uppercase tracking-[0.4em] rounded-full hover:bg-[var(--brand,#d4af37)] hover:text-white transition-all shadow-2xl">
-              Private Boutique Appointment
+            <MagneticBtn className="mt-20 px-14 py-6 bg-white text-black text-[10px] font-black uppercase tracking-[0.4em] rounded-full hover:bg-[var(--brand,#b08d3f)] hover:text-white transition-all shadow-2xl">
+              Rendez-vous privé en boutique
             </MagneticBtn>
           </Reveal>
+        </div>
+      </section>
+
+      {/* ── LA CLIENTÈLE — la confiance, à voix basse ── */}
+      <section id="avis" className="py-32 px-6 md:px-12 bg-[#0d0d0d] border-t border-white/5">
+        <div className="max-w-[1600px] mx-auto">
+          <Reveal>
+            <div className="text-center mb-20">
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b08d3f)] mb-6 block">
+                La clientèle
+              </span>
+              <h2 className="text-5xl md:text-7xl font-black italic tracking-tighter uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>
+                Ils reviennent <span className="text-[var(--brand,#b08d3f)] not-italic">pour l'établi.</span>
+              </>)}</h2>
+            </div>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {AVIS_LISTE.map((a: any, i: number) => (
+              <Reveal key={`${a.auteur}-${i}`} delay={i * 0.1}>
+                <figure className="h-full m-0 p-10 border border-white/5 bg-white/[0.02] hover:border-[var(--brand,#b08d3f)]/40 transition-all duration-500 flex flex-col">
+                  <span className="i98-serif text-6xl leading-none text-[var(--brand,#b08d3f)]/60 select-none" aria-hidden>«</span>
+                  <blockquote className="i98-serif italic text-lg text-white/70 leading-relaxed mt-2 mb-8 flex-1">{a.texte}</blockquote>
+                  <figcaption className="pt-6 border-t border-white/10">
+                    <div className="text-[11px] font-black uppercase tracking-widest text-white">{a.auteur}</div>
+                    <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#b08d3f)] mt-2">{a.detail}</div>
+                  </figcaption>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -643,22 +703,23 @@ export default function ZenithWatchesPage() {
           <div className="lg:col-span-6">
             <Reveal>
               <div className="flex flex-col mb-12">
-                <span className="text-5xl font-black tracking-[0.2em] uppercase leading-none italic">
-                  Zenith
+                <span className="i98-serif text-5xl font-black tracking-[0.14em] uppercase leading-none italic">
+                  {fd?.businessName ?? clientName(sessionData) ?? "Zenith"}
                 </span>
-                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4af37)] -mt-1 ml-1">
-                  Swiss Horology
+                <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#b08d3f)] -mt-1 ml-1">
+                  {clientTrade(sessionData) ?? "Haute horlogerie"} · {clientCity(sessionData) ?? "Nice"}
                 </span>
               </div>
-              <p className="text-white/20 max-w-md mb-16 text-[11px] font-bold uppercase tracking-[0.2em] leading-loose italic">
-                The absolute mechanical mastery of time. Engineered for the next
-                millennium in our Le Locle sanctuary.
+              <p className="text-white/30 max-w-md mb-16 text-[12px] tracking-wide leading-loose">
+                {clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "06000", "Nice") + ", boutique sur rendez-vous"}
+                <br />
+                {(clientPhone(sessionData) ?? fd?.phone ?? "04 93 00 00 00") + " · " + (clientEmail(sessionData) ?? fd?.email ?? "atelier@zenith-horlogerie.fr")}
               </p>
               <div className="flex gap-6">
                 {[Globe, Globe, Mail].map((Icon, i) => (
                   <button
                     key={i}
-                    className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:bg-[var(--brand,#d4af37)] hover:text-black hover:border-[var(--brand,#d4af37)] transition-all"
+                    className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center text-white/40 hover:bg-[var(--brand,#b08d3f)] hover:text-black hover:border-[var(--brand,#b08d3f)] transition-all"
                   >
                     <Icon className="w-5 h-5" />
                   </button>
@@ -668,84 +729,84 @@ export default function ZenithWatchesPage() {
           </div>
 
           <div className="lg:col-span-2">
-            <h4 className="text-[11px] font-black uppercase tracking-widest text-[var(--brand,#d4af37)] mb-12">
+            <h4 className="text-[11px] font-black uppercase tracking-widest text-[var(--brand,#b08d3f)] mb-12">
               Collection
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
               <li>
                 <Link href="#collections" className="hover:text-white transition-colors">
-                  Astra_Series
+                  La collection Astra
                 </Link>
               </li>
               <li>
                 <Link href="#collections" className="hover:text-white transition-colors">
-                  Deep_Sea_Units
+                  Les plongeuses
                 </Link>
               </li>
               <li>
                 <Link href="#collections" className="hover:text-white transition-colors">
-                  Heritage_Line
+                  La ligne Patrimoine
                 </Link>
               </li>
               <li>
                 <Link href="#collections" className="hover:text-white transition-colors">
-                  Bespoke_Builds
+                  Pièces sur mesure
                 </Link>
               </li>
             </ul>
           </div>
 
           <div className="lg:col-span-2">
-            <h4 className="text-[11px] font-black uppercase tracking-widest text-[var(--brand,#d4af37)] mb-12">
+            <h4 className="text-[11px] font-black uppercase tracking-widest text-[var(--brand,#b08d3f)] mb-12">
               Atelier
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
               <li>
                 <Link href="#collections" className="hover:text-white transition-colors">
-                  Movement_Lab
+                  Le mouvement
                 </Link>
               </li>
               <li>
                 <Link href="#collections" className="hover:text-white transition-colors">
-                  Finishing_Dept
+                  Les finitions
                 </Link>
               </li>
               <li>
                 <Link href="#collections" className="hover:text-white transition-colors">
-                  Certification
+                  Le contrôle
                 </Link>
               </li>
               <li>
                 <Link href="#collections" className="hover:text-white transition-colors">
-                  Sourcing
+                  Les matières
                 </Link>
               </li>
             </ul>
           </div>
 
           <div className="lg:col-span-2">
-            <h4 className="text-[11px] font-black uppercase tracking-widest text-[var(--brand,#d4af37)] mb-12">
-              Zenith
+            <h4 className="text-[11px] font-black uppercase tracking-widest text-[var(--brand,#b08d3f)] mb-12">
+              Maison
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
               <li>
                 <Link href="#collections" className="hover:text-white transition-colors">
-                  Our_Legacy
+                  La maison
                 </Link>
               </li>
               <li>
                 <Link href="#collections" className="hover:text-white transition-colors">
-                  Global_Boutiques
+                  La boutique
                 </Link>
               </li>
               <li>
                 <Link href="#collections" className="hover:text-white transition-colors">
-                  Ownership_Care
+                  L'entretien
                 </Link>
               </li>
               <li>
                 <Link href="#collections" className="hover:text-white transition-colors">
-                  Press_Archive
+                  La presse
                 </Link>
               </li>
             </ul>
@@ -755,29 +816,25 @@ export default function ZenithWatchesPage() {
         <div className="max-w-[1600px] mx-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10">
           <div className="flex items-center gap-12">
             <span>
-              &copy; {new Date().getFullYear()} ZENITH HOROLOGY SWITZERLAND.
+              &copy; {new Date().getFullYear()} {fd?.businessName ?? clientName(sessionData) ?? "Zenith"}
+              {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
-            <div className="flex gap-8">
-              <span>METAS_CHRONO_COMPLIANT</span>
-              <span>FHH_CERTIFIED_ATELIER</span>
-            </div>
           </div>
-          <div className="flex gap-12 font-mono">
-            <span>SYNC_STATUS_EXTERNAL</span>
-            <span>CALIBER_V12_NOMINAL</span>
+          <div className="flex gap-8 normal-case tracking-normal">
+            <span>Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" /></span>
+            <span>Éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>
         </div>
       </footer>
 
       <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;0,900;1,500;1,700;1,900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+        .premium-theme { font-family: 'Space Grotesk', system-ui, sans-serif; }
+        .i98-serif, .premium-theme h1, .premium-theme h2 { font-family: 'Playfair Display', Georgia, serif; }
         ::-webkit-scrollbar{width:4px;background:#050505}
-        ::-webkit-scrollbar-thumb{background:#d4af37}
+        ::-webkit-scrollbar-thumb{background:var(--brand,#b08d3f)}
       `}</style>
-      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName(sessionData) ?? "impact-98"}
-        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
-      </footer>
+
     </div>
   );
 }
