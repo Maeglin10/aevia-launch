@@ -1,5 +1,6 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
+import { StickyProgress } from "@/lib/templates/hero-kit-3";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react';
@@ -8,6 +9,8 @@ import { ArrowRight, Phone, Shield, Zap, Star, Check, CheckCircle, Calendar, Map
 import Link from "next/link";
 import {
   C,
+  SANS,
+  HOW_IT_WORKS,
   SERVICES_DATA,
   STATS,
   PRICING_CARDS,
@@ -15,7 +18,6 @@ import {
   FAQS,
   SectionReveal,
   FAQItem,
-  StepTimeline,
   StatCard,
   TruckSVG,
 } from "./shared";
@@ -284,17 +286,30 @@ return (
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
+      {/* LA MÉTHODE — StickyProgress : le titre reste, les étapes défilent */}
       <section style={{ padding: "100px 5%", background: C.bgAlt }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <SectionReveal>
-            <div style={{ textAlign: "center", marginBottom: 72 }}>
-              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 900, color: C.navy, marginBottom: 14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Comment ça marche</>)}</h2>
-              <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 440, margin: "0 auto", lineHeight: 1.7 }}>Quatre étapes simples. Zéro surprise. Vos affaires déplacées avec soin.</p>
-            </div>
-          </SectionReveal>
-          <StepTimeline />
+          <StickyProgress
+            className="i39-sticky"
+            style={{ display: "grid", gridTemplateColumns: "0.85fr 1.15fr", gap: "clamp(28px,4vw,72px)" }}
+            steps={HOW_IT_WORKS.map((e) => ({ n: e.step, title: e.title, body: e.desc }))}
+            renderTitle={(active) => (
+              <div>
+                <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 700, color: C.navy, marginBottom: 14, lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Comment ça marche</>)}</h2>
+                <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 380, lineHeight: 1.7, marginBottom: 28 }}>Quatre étapes simples. Zéro surprise. Vos affaires déplacées avec soin.</p>
+                <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                  <span style={{ fontFamily: SANS, fontSize: 14, fontWeight: 700, color: C.orangeDark, fontVariantNumeric: "tabular-nums" }}>
+                    0{active + 1} / 0{HOW_IT_WORKS.length}
+                  </span>
+                  <div style={{ flex: 1, maxWidth: 180, height: 3, background: C.border, borderRadius: 99, overflow: "hidden" }}>
+                    <div style={{ width: `${((active + 1) / HOW_IT_WORKS.length) * 100}%`, height: "100%", background: C.orange, transition: "width 0.5s ease" }} />
+                  </div>
+                </div>
+              </div>
+            )}
+          />
         </div>
+        <style>{`@media (max-width: 860px) { .i39-sticky { grid-template-columns: 1fr !important; } }`}</style>
       </section>
 
       {/* STATS */}
