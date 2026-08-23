@@ -116,6 +116,35 @@ export default function SwiftMovePage() {
   
   // Dynamic Services & Testimonials Mutation for Session Data
   
+  const OFFRES = resolveList(
+    clientServices(sessionData)?.map((sv: any, i: number) => ({
+      ...SERVICES_DATA[i % SERVICES_DATA.length],
+      name: sv.title,
+      desc: sv.desc || SERVICES_DATA[i % SERVICES_DATA.length].desc,
+      shortDesc: sv.desc || SERVICES_DATA[i % SERVICES_DATA.length].shortDesc,
+      ...(sv.price ? { from: sv.price } : {}),
+    })),
+    SERVICES_DATA,
+  );
+  const FORMULES = resolveList(
+    clientServices(sessionData)?.slice(0, 3).map((sv: any, i: number) => ({
+      ...PRICING_CARDS[i % PRICING_CARDS.length],
+      name: sv.title,
+      ...(sv.price ? { price: sv.price, suffix: "", period: "" } : {}),
+    })),
+    PRICING_CARDS,
+  );
+  const AVIS = resolveList(
+    clientReviews(sessionData)?.slice(0, 3).map((r: any, i: number) => ({
+      ...TESTIMONIALS[i % TESTIMONIALS.length],
+      text: r.text,
+      name: r.author,
+      role: r.detail || TESTIMONIALS[i % TESTIMONIALS.length].role,
+      avatar: (r.author || "·").split(/\s+/).map((m: string) => m[0]).slice(0, 2).join("").toUpperCase(),
+    })),
+    TESTIMONIALS,
+  );
+
 return (
     <div style={{ background: C.bg, color: C.text }}>
       <style>{`
@@ -248,7 +277,7 @@ return (
           </SectionReveal>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: 20 }} className="grid lg:grid-cols-2 md:grid-cols-1">
-            {SERVICES_DATA.slice(0, 4).map((service, i) => (
+            {OFFRES.slice(0, 4).map((service, i) => (
               <SectionReveal key={service.name} delay={i * 0.1}>
                 <Link href="/templates/impact-39/services" style={{ textDecoration: "none" }}>
                   <div
@@ -332,7 +361,7 @@ return (
             </div>
           </SectionReveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(360px, 100%), 1fr))", gap: 24 }} className="grid md:grid-cols-1">
-            {TESTIMONIALS.map((t, i) => (
+            {AVIS.map((t, i) => (
               <SectionReveal key={t.name} delay={i * 0.1}>
                 <div style={{ background: C.bgAlt, borderRadius: 16, padding: 32, border: `1px solid ${C.border}`, display: "flex", flexDirection: "column", gap: 18 }}>
                   <div style={{ display: "flex", gap: 4 }}>
@@ -365,7 +394,7 @@ return (
             </div>
           </SectionReveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: 24, maxWidth: 900, margin: "0 auto" }} className="grid md:grid-cols-1">
-            {PRICING_CARDS.map((plan, i) => (
+            {FORMULES.map((plan, i) => (
               <SectionReveal key={plan.name} delay={i * 0.12}>
                 <div style={{ background: plan.highlight ? C.navy : C.white, borderRadius: 16, padding: 32, border: plan.highlight ? `2px solid ${C.orange}` : `1px solid ${C.border}`, display: "flex", flexDirection: "column", position: "relative", height: "100%" }}>
                   {plan.highlight && (

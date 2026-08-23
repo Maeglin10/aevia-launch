@@ -756,7 +756,9 @@ export default function NovaSpacesPage() {
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-black/30">
               <li><a href={telHref} className="hover:text-black transition-colors">{tel}</a></li>
-              <li><a href={`mailto:${mail}`} className="hover:text-black transition-colors normal-case tracking-normal break-all inline-block max-w-full">{mail}</a></li>
+              {/* Style inline : l'interlettrage hérité rendait le courriel
+                  insécable plus large que sa colonne (mesuré : +16 px). */}
+              <li style={{ wordBreak: "break-all", letterSpacing: 0, textTransform: "none", minWidth: 0 }}><a href={`mailto:${mail}`} className="hover:text-black transition-colors" style={{ wordBreak: "break-all", letterSpacing: 0, textTransform: "none" }}>{mail}</a></li>
               <li>{clientCodePostalVille(sessionData, "69001", "Lyon")}</li>
             </ul>
           </div>

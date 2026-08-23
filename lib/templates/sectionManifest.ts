@@ -4,7 +4,7 @@
 // source, le type de champ à lui présenter, et un aperçu du texte d'origine qui
 // sert d'étiquette dans le panneau d'édition.
 //
-// 2485 retouches possibles sur 371 thèmes.
+// 2536 retouches possibles sur 371 thèmes.
 
 export interface RetouchePossible {
   /** La clé lue par le thème : « contact.titre ». */
@@ -434,12 +434,22 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "work.titre",
       "type": "texte",
-      "apercu": "The Form."
+      "apercu": "Les lieux livrés."
+    },
+    {
+      "cle": "methode.titre",
+      "type": "texte",
+      "apercu": "Trois convictions."
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": "Ils habitent nos plans."
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Spatial Refinement."
+      "apercu": "Parlons du lieu."
     }
   ],
   "impact-101": [
@@ -710,6 +720,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "section-4.titre",
       "type": "texte",
       "apercu": "Apprenez des meilleurs"
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": "Ce qu'en disent les apprenants"
     },
     {
       "cle": "section-5.titre",
@@ -1072,34 +1087,34 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-119": [
     {
-      "cle": "section-3.titre",
+      "cle": "programmes.titre",
       "type": "texte",
-      "apercu": "Global Backbone."
+      "apercu": "Trois écoles, un plateau."
     },
     {
-      "cle": "section-4.titre",
+      "cle": "coaching.titre",
       "type": "texte",
-      "apercu": "Hardened by Default."
+      "apercu": "Coachés, vraiment."
     },
     {
-      "cle": "services.titre",
+      "cle": "avis.titre",
       "type": "texte",
-      "apercu": "What teams say."
+      "apercu": "Ce que dit le vestiaire."
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Simple, predictable."
+      "apercu": "Sans engagement caché."
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Ready to Scale Beyond Borders?"
+      "apercu": "La première séance est offerte."
     },
     {
       "cle": "contact.liste1",
       "type": "liste",
-      "apercu": "github · twitter · discord"
+      "apercu": "instagram · facebook · strava"
     }
   ],
   "impact-12": [
@@ -1230,29 +1245,44 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-122": [
     {
+      "cle": "sessions.titre",
+      "type": "texte",
+      "apercu": "Prochaines sessions"
+    },
+    {
       "cle": "hero.titre",
       "type": "texte",
-      "apercu": "The Latest"
+      "apercu": ""
     },
     {
-      "cle": "section-2.titre",
+      "cle": "catalogue.titre",
       "type": "texte",
-      "apercu": "Editors' Picks"
+      "apercu": "Le catalogue"
     },
     {
-      "cle": "subscribe.titre",
+      "cle": "inter.titre",
       "type": "texte",
-      "apercu": "Support Independent Journalism"
+      "apercu": "Les dates inter-entreprises."
     },
     {
-      "cle": "section-5.titre",
+      "cle": "formats.titre",
       "type": "texte",
-      "apercu": "Questions?"
+      "apercu": "Trois façons de se former"
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": "Le courrier des stagiaires"
+    },
+    {
+      "cle": "faq.titre",
+      "type": "texte",
+      "apercu": "Financements & questions"
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "The Daily Chronicle"
+      "apercu": "Parler de votre projet de formation"
     }
   ],
   "impact-123": [
@@ -1680,51 +1710,66 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-136": [
     {
-      "cle": "section-2.titre",
-      "type": "texte",
-      "apercu": ""
-    },
-    {
-      "cle": "section-3.titre",
-      "type": "texte",
-      "apercu": "Selected Works"
-    },
-    {
-      "cle": "section-4.titre",
-      "type": "texte",
-      "apercu": "Capabilities"
-    },
-    {
-      "cle": "contact.titre",
+      "cle": "manifeste.titre",
       "type": "texte",
       "apercu": ""
     },
     {
       "cle": "realisations.titre",
       "type": "texte",
-      "apercu": "Our Approach"
+      "apercu": "Lieux livrés"
+    },
+    {
+      "cle": "prestations.titre",
+      "type": "texte",
+      "apercu": "Ce que le studio prend en charge"
+    },
+    {
+      "cle": "conviction.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "methode.titre",
+      "type": "texte",
+      "apercu": "Quatre temps, pas un de plus"
     }
   ],
   "impact-137": [
     {
       "cle": "section-2.titre",
       "type": "texte",
-      "apercu": "Our Process."
+      "apercu": "Quatre gestes, dans l'ordre."
     },
     {
       "cle": "section-3.titre",
       "type": "texte",
-      "apercu": "Single Origins."
+      "apercu": "Les origines."
     },
     {
       "cle": "about.titre",
       "type": "texte",
-      "apercu": "The Reviews."
+      "apercu": "Le comptoir en parle."
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Your Plan."
+      "apercu": "Votre formule."
+    },
+    {
+      "cle": "tarifs.intro",
+      "type": "texte",
+      "apercu": "Torréfié à la commande, expédié tous les quinze jours. Pause"
+    },
+    {
+      "cle": "cta.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "cta.texte",
+      "type": "texte",
+      "apercu": ""
     }
   ],
   "impact-138": [
@@ -1860,31 +1905,81 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-140": [
     {
-      "cle": "contact.titre",
+      "cle": "maison.titre",
       "type": "texte",
-      "apercu": "The Great Migration"
+      "apercu": ""
     },
     {
-      "cle": "section-5.titre",
+      "cle": "maison.texte",
       "type": "texte",
-      "apercu": "Words from the Wild"
+      "apercu": ""
+    },
+    {
+      "cle": "signature.legende",
+      "type": "texte",
+      "apercu": "La Suite Signature"
+    },
+    {
+      "cle": "signature.titre",
+      "type": "texte",
+      "apercu": "Dormir au-dessus de la ville."
+    },
+    {
+      "cle": "signature.texte",
+      "type": "texte",
+      "apercu": "Tout le dernier étage, une terrasse plantée qui fait le tour"
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": "Des séjours qui restent"
+    },
+    {
+      "cle": "cta.titre",
+      "type": "texte",
+      "apercu": "Prêts pour le large ?"
+    },
+    {
+      "cle": "cta.texte",
+      "type": "texte",
+      "apercu": "La réception répond à toute heure, et la maison se réserve t"
     }
   ],
   "impact-141": [
     {
       "cle": "about.titre",
       "type": "texte",
-      "apercu": "A Journey Through Synthetic Soundscapes."
+      "apercu": "On apprend en enregistrant."
+    },
+    {
+      "cle": "about.texte",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "The Collective"
+      "apercu": "L'équipe pédagogique"
     },
     {
-      "cle": "section-4.titre",
+      "cle": "equipe.texte",
       "type": "texte",
-      "apercu": "Global Tour '24"
+      "apercu": ""
+    },
+    {
+      "cle": "concerts.kicker",
+      "type": "texte",
+      "apercu": "Les concerts d'élèves"
+    },
+    {
+      "cle": "concerts.titre",
+      "type": "texte",
+      "apercu": "Les concerts d'élèves"
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": "Ce qu'en disent les élèves"
     }
   ],
   "impact-142": [
@@ -1970,31 +2065,51 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-145": [
     {
-      "cle": "section-2.titre",
+      "cle": "biens.titre",
       "type": "texte",
-      "apercu": "Curated Space."
+      "apercu": "Des espaces choisis."
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "White Glove."
+      "apercu": "Gants blancs."
     },
     {
-      "cle": "section-4.titre",
+      "cle": "avis.titre",
       "type": "texte",
-      "apercu": "In Their Words."
+      "apercu": "Avec leurs mots."
     },
     {
-      "cle": "section-5.titre",
+      "cle": "conseil.titre",
       "type": "texte",
-      "apercu": "The Council."
+      "apercu": "Le conseil."
+    },
+    {
+      "cle": "cta.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "cta.texte",
+      "type": "texte",
+      "apercu": ""
     }
   ],
   "impact-146": [
     {
-      "cle": "contact.titre",
+      "cle": "rituel.titre",
       "type": "texte",
-      "apercu": "The Capture."
+      "apercu": ""
+    },
+    {
+      "cle": "rituel.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "arrivage.titre",
+      "type": "texte",
+      "apercu": "La pièce."
     },
     {
       "cle": "section-4.titre",
@@ -2002,14 +2117,29 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Chef Hiroshi."
     },
     {
-      "cle": "section-5.titre",
+      "cle": "chef.texte",
       "type": "texte",
-      "apercu": "The Menu."
+      "apercu": "Formé dix ans à Osaka puis à Kyoto, Hiroshi Mori a posé son "
     },
     {
-      "cle": "section-6.titre",
+      "cle": "carte.titre",
       "type": "texte",
-      "apercu": "TRUST THE HAND."
+      "apercu": "La carte."
+    },
+    {
+      "cle": "cta.titre",
+      "type": "texte",
+      "apercu": "Confiez-vous à la main."
+    },
+    {
+      "cle": "cta.texte",
+      "type": "texte",
+      "apercu": "Les réservations ouvrent le premier de chaque mois pour les "
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": "Le livre d'or"
     }
   ],
   "impact-147": [
@@ -2149,14 +2279,44 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-151": [
     {
+      "cle": "matiere.titre",
+      "type": "texte",
+      "apercu": "Ce qui entre à l'atelier."
+    },
+    {
+      "cle": "matiere.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "pieces.titre",
+      "type": "texte",
+      "apercu": "Les pièces d'atelier."
+    },
+    {
+      "cle": "etabli.titre",
+      "type": "texte",
+      "apercu": "Cent heures par pièce."
+    },
+    {
       "cle": "alchemist.texte",
       "type": "texte",
       "apercu": ""
     },
     {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": "Ce qu'on en dit."
+    },
+    {
+      "cle": "cercle.titre",
+      "type": "texte",
+      "apercu": "Rejoindre le cercle."
+    },
+    {
       "cle": "circle.texte",
       "type": "texte",
-      "apercu": "Accédez à des millésimes exclusifs, des dégustations privées"
+      "apercu": "Accédez aux pièces uniques avant leur mise en vitrine, aux e"
     }
   ],
   "impact-152": [
@@ -2404,14 +2564,34 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-160": [
     {
-      "cle": "section-2.titre",
+      "cle": "vestiaire.titre",
       "type": "texte",
-      "apercu": "Registry."
+      "apercu": "Vestiaire."
+    },
+    {
+      "cle": "atelier.titre",
+      "type": "texte",
+      "apercu": "Peu, mais juste."
+    },
+    {
+      "cle": "savoir.titre",
+      "type": "texte",
+      "apercu": "La main."
+    },
+    {
+      "cle": "savoir.texte",
+      "type": "texte",
+      "apercu": "Une pièce n'entre au vestiaire qu'après trois passages : le "
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": "Elles la portent."
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Hard_State."
+      "apercu": "Passer la porte."
     }
   ],
   "impact-161": [
@@ -9718,24 +9898,34 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-35": [
     {
-      "cle": "section-1.titre",
+      "cle": "hero.titre",
       "type": "texte",
       "apercu": ""
     },
     {
-      "cle": "spaces.titre",
+      "cle": "expertises.titre",
       "type": "texte",
-      "apercu": "Un espace pour chaque façon de travailler"
+      "apercu": "Six domaines, une seule stratégie."
     },
     {
-      "cle": "section-3.titre",
+      "cle": "honoraires.titre",
       "type": "texte",
-      "apercu": "Tout est inclus, dès le premier jour"
+      "apercu": "Écrits d'avance, tenus ensuite."
     },
     {
-      "cle": "section-5.titre",
+      "cle": "avis.titre",
       "type": "texte",
-      "apercu": "Rejoignez 250+ membres satisfaits"
+      "apercu": "La confiance se constate."
+    },
+    {
+      "cle": "faq.titre",
+      "type": "texte",
+      "apercu": "Avant de pousser la porte."
+    },
+    {
+      "cle": "contact.titre",
+      "type": "texte",
+      "apercu": "Un dossier ? Une heure suffit pour y voir clair."
     }
   ],
   "impact-350": [
@@ -10290,29 +10480,29 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-36": [
     {
-      "cle": "section-1.titre",
+      "cle": "hero.titre",
       "type": "texte",
       "apercu": ""
     },
     {
       "cle": "results.titre",
       "type": "texte",
-      "apercu": "18 years of measurable results"
+      "apercu": "Dix-huit ans de résultats mesurés"
     },
     {
-      "cle": "section-4.titre",
+      "cle": "missions.titre",
       "type": "texte",
-      "apercu": "Success stories"
+      "apercu": "Des missions menées au bout"
     },
     {
-      "cle": "section-5.titre",
+      "cle": "avis.titre",
       "type": "texte",
-      "apercu": "What our clients say"
+      "apercu": "Ce que disent nos clients"
     },
     {
-      "cle": "section-6.titre",
+      "cle": "secteurs.titre",
       "type": "texte",
-      "apercu": "Industries we serve"
+      "apercu": "Les secteurs que nous connaissons"
     }
   ],
   "impact-360": [
@@ -11672,24 +11862,34 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-44": [
     {
-      "cle": "section-3.titre",
+      "cle": "hero.titre",
       "type": "texte",
-      "apercu": "TEAM ROSTER"
+      "apercu": ""
     },
     {
-      "cle": "section-4.titre",
+      "cle": "prestations.titre",
       "type": "texte",
-      "apercu": "WORLD FINALS BRACKET"
+      "apercu": "Quatre façons de travailler ensemble."
     },
     {
-      "cle": "section-5.titre",
+      "cle": "realisations.titre",
       "type": "texte",
-      "apercu": "LIMITED DROP GEAR"
+      "apercu": "Des lieux livrés."
     },
     {
-      "cle": "section-6.titre",
+      "cle": "avis.titre",
       "type": "texte",
-      "apercu": "JOIN THE VOID"
+      "apercu": "Paroles d'habitants."
+    },
+    {
+      "cle": "selection.titre",
+      "type": "texte",
+      "apercu": "La sélection du studio."
+    },
+    {
+      "cle": "contact.titre",
+      "type": "texte",
+      "apercu": "Et si on parlait de chez vous ?"
     }
   ],
   "impact-45": [
@@ -13130,24 +13330,79 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "fleet.titre",
       "type": "texte",
-      "apercu": "The Vessels."
+      "apercu": "Les maisons."
+    },
+    {
+      "cle": "fleet.legende",
+      "type": "texte",
+      "apercu": "Chambres, suites et la péniche — au bord du canal"
     },
     {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Naval Infrastructure."
+      "apercu": "Tout, au bord de l'eau."
+    },
+    {
+      "cle": "ponton.legende",
+      "type": "texte",
+      "apercu": "Depuis le ponton"
+    },
+    {
+      "cle": "itineraires.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "itineraires.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": "Le livre de bord"
     }
   ],
   "impact-98": [
     {
       "cle": "collections.titre",
       "type": "texte",
-      "apercu": "The Archive."
+      "apercu": "Les pièces."
+    },
+    {
+      "cle": "collections.legende",
+      "type": "texte",
+      "apercu": "Assemblées, réglées et garanties par la maison"
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Swiss Savoir-Faire."
+      "apercu": "Le savoir-faire."
+    },
+    {
+      "cle": "maison.depuis",
+      "type": "texte",
+      "apercu": "La maison"
+    },
+    {
+      "cle": "maison.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "maison.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": "Ils reviennent pour l'établi."
+    },
+    {
+      "cle": "maison.garanties",
+      "type": "liste",
+      "apercu": "Poinçon or contrôlé — bureau de garantie · Garantie 5 ans, mouvement et étanchéité · ,\n                "
     }
   ],
   "impact-99": [

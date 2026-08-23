@@ -1,7 +1,10 @@
 "use client";
 import {
   clientCity,
+  clientCodePostalVille,
+  clientEmail,
   clientName,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
@@ -182,7 +185,7 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
                   <div style={{ width: 38, height: 38, background: C.orange, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <Truck size={22} color={C.white} />
                   </div>
-                  <span style={{ fontWeight: 800, fontSize: 20, color: C.white }}>Swift Move</span>
+                  <span style={{ fontWeight: 800, fontSize: 20, color: C.white }}>{clientName(__layoutSession) ?? "Swift Move"}</span>
                 </div>
               </Link>
               <p style={{ fontSize: 14, color: "#64748b", lineHeight: 1.75, maxWidth: 260 }}>
@@ -195,9 +198,13 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
                   </a>
                 ))}
               </div>
-              <div style={{ marginTop: 20, display: "flex", alignItems: "center", gap: 8 }}>
-                <Phone size={15} color={C.orange} />
-                <a href={`tel:${fd?.phone ?? "+33100000000"}`} style={{ fontSize: 16, fontWeight: 800, color: C.white, textDecoration: "none" }}>+33 1 XX XX XX XX</a>
+              <div style={{ marginTop: 20, display: "flex", flexDirection: "column", gap: 10 }}>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <Phone size={15} color={C.orange} />
+                  <a href={`tel:${(clientPhone(__layoutSession) ?? fd?.phone ?? "01 84 25 60 40").replace(/\s/g, "")}`} style={{ fontSize: 16, fontWeight: 800, color: C.white, textDecoration: "none" }}>{clientPhone(__layoutSession) ?? fd?.phone ?? "01 84 25 60 40"}</a>
+                </div>
+                <a href={`mailto:${clientEmail(__layoutSession) ?? fd?.email ?? "devis@swift-move.fr"}`} style={{ fontSize: 14, color: "#94a3b8", textDecoration: "none", wordBreak: "break-all" }}>{clientEmail(__layoutSession) ?? fd?.email ?? "devis@swift-move.fr"}</a>
+                <span style={{ fontSize: 14, color: "#94a3b8" }}>{clientCodePostalVille(__layoutSession, "75011", "Paris")}</span>
               </div>
             </div>
             <div>
@@ -241,7 +248,7 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
           </div>
 
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 32, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-            <p style={{ fontSize: 13, color: "#334155" }}>© 2025 {clientName(__layoutSession) ?? "Aevia WS"} — SIREN <LegalIdentity /> — valentinmilliand@aevia.services</p>
+            <p style={{ fontSize: 13, color: "#334155" }}>© {clientName(__layoutSession) ?? "Swift Move"} · Site réalisé par Aevia WS — SIREN <LegalIdentity /></p>
             <div style={{ display: "flex", gap: 24 }}>
               <Link href="/templates/impact-39/legal" style={{ textDecoration: "none", fontSize: 13, color: "#334155" }}>
                 Mentions légales
