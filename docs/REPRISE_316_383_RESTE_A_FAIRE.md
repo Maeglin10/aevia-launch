@@ -6,101 +6,39 @@ geste / archétype / fontes / palette par thème y est complète, c'est la
 référence pour tout ce qui suit.
 **Rapport de chantier** : [REPRISE_316_383_RAPPORT.md](REPRISE_316_383_RAPPORT.md)
 
-## Où on en est
+## Où on en est — mis à jour le 23 août
 
-**49 thèmes sur 66 réécrits et poussés** : 316-319, 321-322, 324-330,
-331-345, 346-350, 352-353, 355-362, 364, 367, 370-371.
+**Les 66 thèmes de la reprise sont faits et poussés.** Les 17 restants ont
+été terminés à la main (sans agents) : 6 récupérés des agents interrompus et
+vérifiés avant d'être gardés (351, 365, 372, 374, 377, 380), 354 réécrit en
+entier (H4 décalé, ScrollGrow 1 → 1.42), 363/366/369 complétés, la passe de
+contrat commune appliquée à 368, 373, 375-379, 381-383 (téléphone/courriel
+par bp.contacts, engagements retouchables, LegalIdentity complet), et les
+deux remplacements de geste du plan exécutés : 368 PanelRise → WipeReveal
+(H2, média à gauche), 381 HeldSwap → PortalZoom (la voûte de cave).
 
-Chacun a été contrôlé : les quatre scripts de contrat passent
-(`check-imports-contrat`, `check-variables-contrat`, `check-frozen`,
-`check-hooks-dans-jsx`), le geste posé est celui du plan, et **aucune URL
-d'image n'a été inventée** — le comptage des identifiants d'images avant et
-après réécriture est identique fichier par fichier.
+`capabilities.ts` est aligné (0 bloc manquant au rapport), le manifeste des
+retouches est régénéré (2 485 retouches sur 371 thèmes).
 
-## Les 17 thèmes restants
+## Ce qui reste sur ce chantier
 
-**Huit étaient en cours d'écriture par des agents au moment de l'arrêt** —
-leur travail n'est pas dans le dépôt, il faut les refaire :
+1. **Balayage visuel** des thèmes non encore vus à l'écran (la règle du
+   projet : rien n'est « fait » sans capture regardée) : 331-383 hors 316-330
+   déjà mesurés. `node scripts/qa-reprise.mjs impact-XXX … --sortie /tmp/vue`
+   sur `next start`, un seul balayage à la fois.
+2. **Wizard** : quatre métiers (garage_auto, coiffeur, institut_beaute,
+   pressing) affichent des blocs « produits » que leur archétype de wizard ne
+   demande pas — rapport `couverture-wizard-themes.mjs`. C'est un manque côté
+   `sector-questions`, pas côté thèmes.
+3. **Déploiement Vercel manuel** puis contrôle au navigateur sur le domaine.
 
-| id | métier | geste | héros | fontes | palette |
-|---|---|---|---|---|---|
-| 351 | couvreur-zingueur Toits de Loire | HardCutRebuild | H3 plein cadre | P9 Syne+Work Sans | D #12161a / #cc7722 |
-| 354 | crèche cocon Le Nid Douillet | ScrollGrow | H4 éditorial | P8 Newsreader+Manrope | #faf5f3 / #c26565 |
-| 363 | pédicure-podologue Podo'Marche | MosaicPush | H1 split droite | P8 Newsreader+Manrope | #f5f9fa / #12766b |
-| 365 | producteur fermier Quatre Vents | HeldSwap | H7 magazine | P4 Fraunces+Inter | #fbfaf4 / #5f7a2e |
-| 366 | maraîchage/AMAP Estuaire | CrossPush | H3 plein cadre | P12 Bricolage+Figtree | #f4f9f4 / #2e7d4f |
-| 368 | sages-femmes Neuf Mois & Vous | WipeReveal (≠) | H2 split gauche | P5 DM Serif+DM Sans | #f9f6fb / #7a5296 |
-| 369 | domaine de mariage Charmilles | PortalZoom | H3 plein cadre | P3 Cormorant+system-ui | #fbf9f5 / #9a7b4f |
-| 372 | sécurité commerces Horizon | TrackingCollapse | H1 split droite | P10 Spectral+IBM Plex | #f4f7fa / #2f6098 |
+## La suite du programme « tout vendable »
 
-**Neuf n'ont jamais été lancés** : 373 à 383. Leur ligne d'allocation est au
-§3 du plan.
-
-`impact-351` mérite une attention particulière : c'est le **patron de câblage
-de référence** du dépôt. Son design doit être élevé sans dégrader la qualité
-de son câblage existant.
-
-## Comment reprendre
-
-Les consignes données aux agents sont reproduites en annexe ci-dessous. Un
-agent par lot de trois thèmes, avec pour chacun sa ligne du §3 du plan.
-
-## Ce qui reste après les thèmes
-
-1. **Balayage visuel des 36 thèmes non encore mesurés** (331-371). Seuls les
-   13 premiers (316-330) ont été capturés et regardés.
-   ```bash
-   npm run build && SESSIONS_RATE_LIMIT=1000000 npx next start -p 3000
-   node scripts/qa-reprise.mjs impact-331 impact-332 … --sortie /tmp/vue
-   ```
-   Un seul balayage à la fois. **Regarder les captures**, ne pas se contenter
-   de la ligne de résultat. Les points d'attention signalés par les agents :
-   - 331 : la queue du titre ne doit pas tomber sur la photo (chevauchement H4) ;
-   - 338 : le bento repose sur `display: contents` — vérifier le placement des
-     dix tuiles à 1440 et le repli en colonne sous 900 px ;
-   - 339 : l'orbe doit passer sous le texte à 390 px, sans déborder ;
-   - 345 : le titre chevauche le médaillon si le nom du client est long ;
-   - 336 : le ruban d'avis est un marquee — vérifier qu'il ne crée pas de
-     débordement de page.
-
-2. **Alignement de `capabilities.ts`** pour les thèmes 331 et suivants :
-   ```bash
-   node scripts/aligner-capabilites.mjs            # rapport
-   node scripts/aligner-capabilites.mjs --ecrire   # applique
-   ```
-   Fait pour 316-330 : 27 blocs ajoutés sur 10 thèmes. Le script n'enlève
-   jamais rien — « horaires » est posé après rendu par `BrandColorVar` sans
-   qu'aucun helper n'apparaisse dans le code.
-
-3. **`photoSlots.ts`** : `n` (emplacements demandables, plafond 8) et `labels`
-   par thème. Les données relevées par les agents sont dans les rapports de
-   chantier ; à défaut, les compter dans le fichier.
-
-4. **`scripts/build-section-manifest.mjs`** — obligatoire après tout ajout de
-   `clientText`/`clientList`, sinon les retouches sont invisibles dans
-   l'aperçu client. Chaque thème repris en pose 8 à 12.
-
-5. **`npm run build`** en lisant le code de sortie, puis **déploiement Vercel
-   manuel** (pousser sur GitHub ne met pas en ligne) :
-   ```bash
-   export VERCEL_API_TOKEN=$(grep '^VERCEL_API_TOKEN=' ~/skybot-inbox/.env | cut -d= -f2)
-   npx vercel --prod --yes --token "$VERCEL_API_TOKEN"
-   curl -sI https://launch.aevia.services | head -2
-   ```
-
-6. **`.claude/HISTORY.md`** — entrée de session au format Fait / Comment /
-   Pourquoi / Erreurs commises.
-
-## Les photographies
-
-Le mandataire du conteneur bloque `images.unsplash.com` et
-`images.pexels.com` : **aucune image nouvelle n'a pu être vérifiée, donc
-aucune n'a été ajoutée**. Les URLs d'origine sont conservées à l'identique.
-Les emplacements supplémentaires portent un repli dessiné en CSS et toute
-section plein cadre porte `background: C.bgDark`, pour que la page tienne
-sans photo.
-
-Il ne reste donc, côté visuel, qu'à poser les images.
+Voir [AUDIT_QUALITE_2026-08-12.md](AUDIT_QUALITE_2026-08-12.md) et
+[REPRISE_P0_PLAN.md](REPRISE_P0_PLAN.md) : les 18 thèmes P0 (vendus au
+catalogue, corps en anglais ou hors sujet), puis P0bis (premium sous 45),
+puis P1 par séries homogènes. Les paliers de prix sont déjà régénérés
+(58 thèmes remis à leur vrai prix).
 
 ---
 
