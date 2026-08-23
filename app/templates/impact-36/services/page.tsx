@@ -2,7 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import { Check, Target, Users, BarChart2, Briefcase, ArrowRight, UserCheck, Paperclip } from "lucide-react"
-import { C, SERVICES, SectionReveal } from "../shared"
+import { C, SERIF, SERVICES, SectionReveal } from "../shared"
+import { clientServices, clientText } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
@@ -32,6 +34,15 @@ export default function ServicesPage() {
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+
+  const OFFRES = resolveList(
+    clientServices(sessionData)?.map((sv: any, i: number) => ({
+      ...SERVICES[i % SERVICES.length],
+      name: sv.title,
+      desc: sv.desc || SERVICES[i % SERVICES.length].desc,
+    })),
+    SERVICES,
+  );
 
   const [formType, setFormType] = useState<"client" | "candidate">("client")
   const [submitted, setSubmitted] = useState(false)
@@ -66,24 +77,24 @@ export default function ServicesPage() {
                 marginBottom: 16,
               }}
             >
-              <Briefcase size={14} color={C.accentDark} />
-              <span style={{ color: C.accentDark, fontSize: 13, fontWeight: 600 }}>What We Do</span>
+              <Briefcase size={14} color={C.accentFixe} />
+              <span style={{ color: C.accentFixe, fontSize: 13, fontWeight: 600 }}>Ce que nous faisons</span>
             </div>
-            <h1 style={{ fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 800, color: C.navy, marginBottom: 16 }}>
-              Our Services
-            </h1>
+            <h1 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 600, color: C.navy, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services-page.titre") ?? (<>
+              Nos services
+            </>)}</h1>
             <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 560, margin: "0 auto", lineHeight: 1.7 }}>
-              From single executive searches to full HR transformation — we work at the intersection of talent strategy and business outcomes.
+              D'un poste de direction à pourvoir jusqu'à la refonte complète de votre recrutement — le détail de ce que chaque mission comprend.
             </p>
           </div>
         </SectionReveal>
 
         {/* Detailed services lists */}
         <div style={{ display: "flex", flexDirection: "column", gap: 48, marginBottom: 80 }}>
-          {SERVICES.map((service, i) => (
+          {OFFRES.map((service, i) => (
             <SectionReveal key={service.name} delay={i * 0.05}>
               <div
-                id={service.name.toLowerCase().includes("executive") ? "executive" : service.name.toLowerCase().includes("outsourcing") ? "rpo" : "consulting"}
+                id={i === 0 ? "executive" : i === 1 ? "rpo" : "consulting"}
                 style={{
                   background: C.white,
                   borderRadius: 24,
@@ -108,15 +119,15 @@ export default function ServicesPage() {
                       marginBottom: 24,
                     }}
                   >
-                    <service.icon size={26} color={C.accent} />
+                    <service.icon size={26} color={C.accentFixe} />
                   </div>
-                  <h2 style={{ fontSize: 26, fontWeight: 800, color: C.navy, marginBottom: 16 }}>{service.name}</h2>
+                  <h2 style={{ fontFamily: SERIF, fontSize: 26, fontWeight: 600, color: C.navy, marginBottom: 16 }}>{service.name}</h2>
                   <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.7, margin: 0 }}>{service.desc}</p>
                 </div>
 
                 <div style={{ borderLeft: `1px solid ${C.border}`, paddingLeft: 48 }}>
                   <h4 style={{ fontSize: 13, fontWeight: 700, color: C.navy, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 20 }}>
-                    Core Deliverables
+                    Ce que la mission comprend
                   </h4>
                   <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                     {service.details.map((d) => (
@@ -149,11 +160,11 @@ export default function ServicesPage() {
             {!submitted ? (
               <form onSubmit={handleSubmit}>
                 <div style={{ textAlign: "center", marginBottom: 32 }}>
-                  <h2 style={{ fontSize: 24, fontWeight: 800, color: C.navy, margin: 0 }}>
-                    Get in touch with Apex
+                  <h2 style={{ fontFamily: SERIF, fontSize: 24, fontWeight: 600, color: C.navy, margin: 0 }}>
+                    Écrire au cabinet
                   </h2>
                   <p style={{ fontSize: 14, color: C.textMuted, marginTop: 6 }}>
-                    Select your path below to connect with our talent advisors.
+                    Dites-nous qui vous êtes : la bonne personne vous répond sous 24 heures ouvrées.
                   </p>
                 </div>
 
@@ -175,7 +186,7 @@ export default function ServicesPage() {
                       transition: "all 0.2s",
                     }}
                   >
-                    I'm looking to Hire
+                    Je recrute
                   </button>
                   <button
                     type="button"
@@ -193,29 +204,29 @@ export default function ServicesPage() {
                       transition: "all 0.2s",
                     }}
                   >
-                    I'm a Candidate
+                    Je suis candidat·e
                   </button>
                 </div>
 
                 <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
                     <div>
-                      <label style={{ fontSize: 13, fontWeight: 700, color: C.navy, display: "block", marginBottom: 6 }}>Your Name</label>
+                      <label style={{ fontSize: 13, fontWeight: 700, color: C.navy, display: "block", marginBottom: 6 }}>Votre nom</label>
                       <input
                         type="text"
                         required
-                        placeholder="Ex: Sarah"
+                        placeholder="Ex. : Claire Fabre"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         style={{ width: "100%", padding: "12px 16px", borderRadius: 10, border: `1px solid ${C.border}`, fontSize: 14, outline: "none", boxSizing: "border-box" }}
                       />
                     </div>
                     <div>
-                      <label style={{ fontSize: 13, fontWeight: 700, color: C.navy, display: "block", marginBottom: 6 }}>Your Email</label>
+                      <label style={{ fontSize: 13, fontWeight: 700, color: C.navy, display: "block", marginBottom: 6 }}>Votre courriel</label>
                       <input
                         type="email"
                         required
-                        placeholder="name@company.com"
+                        placeholder="prenom@entreprise.fr"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         style={{ width: "100%", padding: "12px 16px", borderRadius: 10, border: `1px solid ${C.border}`, fontSize: 14, outline: "none", boxSizing: "border-box" }}
@@ -225,11 +236,11 @@ export default function ServicesPage() {
 
                   {formType === "client" ? (
                     <div>
-                      <label style={{ fontSize: 13, fontWeight: 700, color: C.navy, display: "block", marginBottom: 6 }}>Company Name</label>
+                      <label style={{ fontSize: 13, fontWeight: 700, color: C.navy, display: "block", marginBottom: 6 }}>Votre entreprise</label>
                       <input
                         type="text"
                         required
-                        placeholder="Ex: NovaTech Capital"
+                        placeholder="Ex. : ETI industrielle, 400 salariés"
                         value={formData.company}
                         onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                         style={{ width: "100%", padding: "12px 16px", borderRadius: 10, border: `1px solid ${C.border}`, fontSize: 14, outline: "none", boxSizing: "border-box" }}
@@ -237,22 +248,22 @@ export default function ServicesPage() {
                     </div>
                   ) : (
                     <div>
-                      <label style={{ fontSize: 13, fontWeight: 700, color: C.navy, display: "block", marginBottom: 6 }}>Upload CV / Resume</label>
+                      <label style={{ fontSize: 13, fontWeight: 700, color: C.navy, display: "block", marginBottom: 6 }}>Votre CV</label>
                       <div style={{ border: `2px dashed ${C.border}`, borderRadius: 12, padding: "20px", textAlign: "center", cursor: "pointer", background: C.bg }}>
                         <Paperclip size={24} color={C.accent} style={{ margin: "0 auto 8px" }} />
-                        <span style={{ fontSize: 13, fontWeight: 600, color: C.textMuted }}>Click to upload (PDF or Word, max 5MB)</span>
+                        <span style={{ fontSize: 13, fontWeight: 600, color: C.textMuted }}>Cliquer pour joindre (PDF, 5 Mo max)</span>
                       </div>
                     </div>
                   )}
 
                   <div>
                     <label style={{ fontSize: 13, fontWeight: 700, color: C.navy, display: "block", marginBottom: 6 }}>
-                      {formType === "client" ? "Describe your hiring needs" : "Tell us about your background"}
+                      {formType === "client" ? "Décrivez le poste à pourvoir" : "Parlez-nous de votre parcours"}
                     </label>
                     <textarea
                       required
                       rows={4}
-                      placeholder={formType === "client" ? "We need a VP of Engineering..." : "I'm a senior product leader with 10 years of experience..."}
+                      placeholder={formType === "client" ? "Nous cherchons un directeur industriel..." : "Quinze ans de direction d'usine, mobile sur la région..."}
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       style={{ width: "100%", padding: "12px 16px", borderRadius: 10, border: `1px solid ${C.border}`, fontSize: 14, outline: "none", boxSizing: "border-box", resize: "vertical" }}
@@ -277,7 +288,7 @@ export default function ServicesPage() {
                       marginTop: 8,
                     }}
                   >
-                    Submit request <ArrowRight size={16} />
+                    Envoyer <ArrowRight size={16} />
                   </button>
                 </div>
               </form>
@@ -288,14 +299,14 @@ export default function ServicesPage() {
                 </div>
                 <h3 style={{ fontSize: 22, fontWeight: 800, color: C.navy, marginBottom: 10 }}>Merci</h3>
                 <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.6, maxWidth: 460, margin: "0 auto 24px" }}>
-                  Merci, nous vous répondrons sous 24h.
+                  Votre message est bien parti — nous vous répondons sous 24 heures ouvrées.
                 </p>
                 <button
                   type="button"
                   onClick={() => setSubmitted(false)}
                   style={{ background: "none", border: "none", color: C.accent, fontWeight: 600, fontSize: 14, cursor: "pointer", textDecoration: "underline" }}
                 >
-                  Make another submission
+                  Envoyer un autre message
                 </button>
               </div>
             )}

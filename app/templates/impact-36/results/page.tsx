@@ -4,7 +4,9 @@ import React from "react"
 import { useEffect, useState } from "react";
 import { Award, ArrowRight, CheckCircle } from "lucide-react"
 import Link from "next/link"
-import { C, CASE_STUDIES, SectionReveal } from "../shared"
+import { C, SERIF, CASE_STUDIES, SectionReveal } from "../shared"
+import { clientText, clientWorks } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
 
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
@@ -35,6 +37,16 @@ export default function ResultsPage() {
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
 
+  const CAS = resolveList(
+    clientWorks(sessionData)?.map((w: any, i: number) => ({
+      ...CASE_STUDIES[i % CASE_STUDIES.length],
+      company: w.title || w.name,
+      challenge: w.desc || w.description || CASE_STUDIES[i % CASE_STUDIES.length].challenge,
+      outcome: w.detail || CASE_STUDIES[i % CASE_STUDIES.length].outcome,
+    })),
+    CASE_STUDIES,
+  );
+
   return (
     <div style={{ padding: "60px 5%", background: C.bg, minHeight: "100dvh" }}>
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -52,21 +64,21 @@ export default function ResultsPage() {
                 marginBottom: 16,
               }}
             >
-              <Award size={14} color={C.accentDark} />
-              <span style={{ color: C.accentDark, fontSize: 13, fontWeight: 600 }}>Our Results</span>
+              <Award size={14} color={C.accentFixe} />
+              <span style={{ color: C.accentFixe, fontSize: 13, fontWeight: 600 }}>Nos références</span>
             </div>
-            <h1 style={{ fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 800, color: C.navy, marginBottom: 16 }}>
-              Case Studies & Success
-            </h1>
+            <h1 style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 600, color: C.navy, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "missions-page.titre") ?? (<>
+              Missions menées
+            </>)}</h1>
             <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 560, margin: "0 auto", lineHeight: 1.7 }}>
-              Real metrics from real company partnerships. Here is how we build leaders.
+              Des mandats réels, des résultats mesurés — voilà comment se construit une équipe de direction.
             </p>
           </div>
         </SectionReveal>
 
         {/* Detailed Case Studies */}
         <div style={{ display: "flex", flexDirection: "column", gap: 48, marginBottom: 64 }}>
-          {CASE_STUDIES.map((cs, i) => (
+          {CAS.map((cs, i) => (
             <SectionReveal key={cs.company} delay={i * 0.05}>
               <div
                 style={{
@@ -96,10 +108,10 @@ export default function ResultsPage() {
                   >
                     {cs.sector}
                   </div>
-                  <h2 style={{ fontSize: 28, fontWeight: 800, color: C.navy, marginBottom: 20 }}>{cs.company}</h2>
+                  <h2 style={{ fontFamily: SERIF, fontSize: 28, fontWeight: 600, color: C.navy, marginBottom: 20 }}>{cs.company}</h2>
 
                   <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 24 }}>
-                    <div style={{ fontSize: 48, fontWeight: 950, color: C.accent, lineHeight: 1 }}>{cs.metric}</div>
+                    <div style={{ fontFamily: SERIF, fontSize: 48, fontWeight: 700, color: C.accentFixe, lineHeight: 1 }}>{cs.metric}</div>
                     <div style={{ fontSize: 14, color: C.textMuted, fontWeight: 600, lineHeight: 1.3 }}>{cs.metricLabel}</div>
                   </div>
                 </div>
@@ -107,13 +119,13 @@ export default function ResultsPage() {
                 <div style={{ borderLeft: `1px solid ${C.border}`, paddingLeft: 48, display: "flex", flexDirection: "column", gap: 24 }}>
                   <div>
                     <h4 style={{ fontSize: 12, fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }}>
-                      The Challenge
+                      Le besoin
                     </h4>
                     <p style={{ fontSize: 15, color: C.text, lineHeight: 1.6, margin: 0 }}>{cs.challenge}</p>
                   </div>
                   <div>
                     <h4 style={{ fontSize: 12, fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }}>
-                      The Outcome & Impact
+                      Le résultat
                     </h4>
                     <p style={{ fontSize: 15, color: C.text, lineHeight: 1.6, margin: 0 }}>{cs.outcome}</p>
                   </div>
@@ -133,11 +145,11 @@ export default function ResultsPage() {
               textAlign: "center",
             }}
           >
-            <h2 style={{ fontSize: 28, fontWeight: 800, color: C.white, marginBottom: 16 }}>
-              Ready to write your own success story?
+            <h2 style={{ fontFamily: SERIF, fontSize: 28, fontWeight: 600, color: C.white, marginBottom: 16 }}>
+              Votre prochain recrutement mérite le même sérieux.
             </h2>
-            <p style={{ fontSize: 16, color: "#93c5fd", maxWidth: 480, margin: "0 auto 32px", lineHeight: 1.7 }}>
-              Get in touch with our executive search team to secure high-caliber leaders today.
+            <p style={{ fontSize: 16, color: C.surMarine, maxWidth: 480, margin: "0 auto 32px", lineHeight: 1.7 }}>
+              Parlez-nous du poste : nous vous dirons franchement s'il est de notre ressort, et comment nous le mènerions.
             </p>
             <Link href="/templates/impact-36/services#contact-form" style={{ textDecoration: "none" }}>
               <span
@@ -145,8 +157,8 @@ export default function ResultsPage() {
                   display: "inline-flex",
                   alignItems: "center",
                   gap: 8,
-                  background: C.accent,
-                  color: C.white,
+                  background: C.surMarine,
+                  color: C.navy,
                   padding: "14px 28px",
                   borderRadius: 8,
                   fontWeight: 700,
@@ -155,7 +167,7 @@ export default function ResultsPage() {
                   cursor: "pointer",
                 }}
               >
-                Hire Apex Talent <ArrowRight size={16} />
+                Confier un recrutement <ArrowRight size={16} />
               </span>
             </Link>
           </div>

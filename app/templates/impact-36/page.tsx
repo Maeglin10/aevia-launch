@@ -1,14 +1,23 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
+/*
+  impact-36 — Apex Talent (accueil). Cabinet de recrutement de dirigeants,
+  francisé. Geste : TrackingCollapse — le mot fort du titre arrive très
+  espacé puis se resserre à chaque rotation (un index unique pilote le mot
+  et le compteur discret). Héros en double colonne : l'argument à gauche,
+  le rapport d'adéquation à droite.
+*/
 
 import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
-import { ArrowRight, Star, Target, Briefcase, Award, Globe, CheckCircle } from "lucide-react"
+import { ArrowRight, Star, Target, Briefcase, CheckCircle } from "lucide-react"
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2"
+import { TrackingCollapse } from "@/lib/templates/hero-kit-3"
 import {
   C,
+  SERIF,
   SERVICES,
   SECTORS,
   CASE_STUDIES,
@@ -20,11 +29,13 @@ import {
 } from "./shared"
 import {
   clientHeroLine,
+  clientHeroSubtitle,
   clientWorks,
   clientCity,
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
   memoriserSession,
 } from "@/lib/templates/clientContent";
@@ -32,11 +43,11 @@ let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
-// Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
 
+const MOTS_HEROS = ["les dirigeants.", "les cadres clés.", "les profils rares."];
 
 export default function Home() {
   const [session, setSession] = useState<{
@@ -73,10 +84,8 @@ export default function Home() {
   fd = session?.formData;
   sessionData = session;
   /*
-    Les references du client passent devant celles de la demonstration. Le
-    theme declare une section « realisations » et n'en lisait aucune : un
-    cabinet de recrutement affichait les etudes de cas de NovaTech Capital,
-    quels que soient les chantiers que son client avait saisis.
+    Les références du client passent devant celles de la démonstration : un
+    cabinet qui a saisi ses missions ne montre pas celles du thème.
   */
   const CAS_CLIENTS = resolveList(
     clientWorks(sessionData)?.map((w: any, i: number) => ({
@@ -90,15 +99,36 @@ export default function Home() {
   memoriserSession(sessionData);
   c = session?.generatedContent;
   const SERVICES_DU_CLIENT = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES[i % SERVICES.length], name: s.title, desc: s.desc || SERVICES[i % SERVICES.length].desc })), SERVICES);
+  const CHIFFRES = resolveList(
+    clientStats(sessionData)?.map((s: any, i: number) => ({
+      ...STATS[i % STATS.length],
+      end: parseInt(String(s.value).replace(/[^\d]/g, ""), 10) || 0,
+      suffix: String(s.value).replace(/^[\d\s ]+/, ""),
+      label: s.label,
+    })),
+    STATS,
+  );
+  const AVIS = resolveList(
+    clientReviews(sessionData)?.slice(0, 3).map((r: any, i: number) => ({
+      ...TESTIMONIALS[i % TESTIMONIALS.length],
+      text: r.text,
+      name: r.author,
+      role: r.detail || TESTIMONIALS[i % TESTIMONIALS.length].role,
+      avatar: (r.author || "·").split(/\s+/).map((p: string) => p[0]).slice(0, 2).join("").toUpperCase(),
+    })),
+    TESTIMONIALS,
+  );
 
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
-  
-  // Dynamic Services & Testimonials Mutation for Session Data
-  
+  /* Un seul index : le mot du titre et son compteur discret. */
+  const motsClient = clientServices(sessionData)?.slice(0, 3).map((s: any) => s.title + ".");
+  const MOTS = motsClient && motsClient.length >= 2 ? motsClient : MOTS_HEROS;
+  const { i: mot } = useSlides(MOTS.length, DWELL.slow);
+
 return (
     <div>
-      {/* HERO */}
+      {/* HÉROS */}
       <section
         style={{
           background: C.navy,
@@ -111,17 +141,17 @@ return (
           overflow: "hidden",
         }}
       >
-        {/* Background grid */}
+        {/* Trame de fond */}
         <div
           style={{
             position: "absolute",
             inset: 0,
-            backgroundImage: `linear-gradient(rgba(37,99,235,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,0.07) 1px, transparent 1px)`,
+            backgroundImage: `linear-gradient(rgba(169,189,211,0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(169,189,211,0.06) 1px, transparent 1px)`,
             backgroundSize: "60px 60px",
           }}
         />
 
-        {/* Blue glow */}
+        {/* Halo acier */}
         <div
           style={{
             position: "absolute",
@@ -129,7 +159,7 @@ return (
             left: "30%",
             width: 700,
             height: 700,
-            background: `radial-gradient(circle, ${C.accent}25 0%, transparent 60%)`,
+            background: `radial-gradient(circle, rgba(169,189,211,0.14) 0%, transparent 60%)`,
             borderRadius: "50%",
             pointerEvents: "none",
           }}
@@ -153,33 +183,28 @@ return (
               alignItems: "center",
             }}
           >
-            {/* Left: Copy */}
+            {/* Colonne gauche : l'argument */}
             <div>
               <motion.h1
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 0.1 }}
                 style={{
+                  fontFamily: SERIF,
                   fontSize: "clamp(38px, 4.5vw, 60px)",
-                  fontWeight: 900,
+                  fontWeight: 600,
                   color: C.white,
-                  lineHeight: 1.1,
+                  lineHeight: 1.12,
                   marginBottom: 24,
                 }}
-              >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>
-                The people who{" "}
-                <span
-                  style={{
-                    color: C.accent,
-                    background: `linear-gradient(135deg, ${C.accent}, var(--brand,#60a5fa))`,
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                  }}
-                >
-                  build
-                </span>{" "}
-                category leaders
-              </>}</>)}</motion.h1>
+              >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>
+                {clientHeroLine(sessionData, 0, 1, 34) ?? c?.heroHeadline ?? "Recruter celles et ceux qui font grandir"}
+                {!clientHeroLine(sessionData, 0, 1, 34) && (
+                  <span style={{ color: C.surMarine, display: "block" }}>
+                    <TrackingCollapse word={MOTS[mot]} index={mot} />
+                  </span>
+                )}
+              </>)}</motion.h1>
 
               <motion.p
                 initial={{ opacity: 0 }}
@@ -187,13 +212,13 @@ return (
                 transition={{ duration: 0.7, delay: 0.25 }}
                 style={{
                   fontSize: 18,
-                  color: "var(--brand-light,#93c5fd)",
+                  color: C.surMarine,
                   lineHeight: 1.75,
                   marginBottom: 40,
                   maxWidth: 460,
                 }}
-              >{fd?.tagline ?? c?.heroSubline ?? <>
-                Apex Talent places C-suite leaders and senior executives for companies that refuse to compromise on talent. Executive search, RPO, and HR consulting.
+              >{clientHeroSubtitle(sessionData) ?? fd?.tagline ?? c?.heroSubline ?? <>
+                Chasse de dirigeants, recrutement délégué et conseil RH — pour les entreprises qui ne transigent pas sur les personnes.
               </>}</motion.p>
 
               <motion.div
@@ -208,8 +233,8 @@ return (
                       display: "inline-flex",
                       alignItems: "center",
                       gap: 8,
-                      background: C.accent,
-                      color: C.white,
+                      background: C.surMarine,
+                      color: C.navy,
                       padding: "16px 32px",
                       borderRadius: 10,
                       fontWeight: 700,
@@ -218,7 +243,7 @@ return (
                       cursor: "pointer",
                     }}
                   >
-                    Hire Executive Talent <ArrowRight size={18} />
+                    Confier un recrutement <ArrowRight size={18} />
                   </span>
                 </Link>
                 <Link href="/templates/impact-36/services#contact-form" style={{ textDecoration: "none" }}>
@@ -237,13 +262,13 @@ return (
                       cursor: "pointer",
                     }}
                   >
-                    I'm a Candidate
+                    Je suis candidat·e
                   </span>
                 </Link>
               </motion.div>
             </div>
 
-            {/* Right: Candidate match score visual */}
+            {/* Colonne droite : le rapport d'adéquation */}
             <motion.div
               initial={{ opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
@@ -263,27 +288,28 @@ return (
                     alignItems: "center",
                     gap: 12,
                     marginBottom: 28,
+                    flexWrap: "wrap",
                   }}
                 >
                   <div
                     style={{
                       width: 48,
                       height: 48,
-                      background: `${C.accent}30`,
+                      background: "rgba(169,189,211,0.18)",
                       borderRadius: 12,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
                     }}
                   >
-                    <Target size={24} color={C.accent} />
+                    <Target size={24} color={C.surMarine} />
                   </div>
                   <div>
                     <div style={{ color: C.white, fontWeight: 700, fontSize: 16 }}>
-                      Candidate Match Report
+                      Rapport d'adéquation
                     </div>
-                    <div style={{ color: "var(--brand, #64748b)", fontSize: 13 }}>
-                      VP of Engineering — NovaTech Capital
+                    <div style={{ color: C.surMarine, fontSize: 13, opacity: 0.8 }}>
+                      Directeur industriel — mandat en cours
                     </div>
                   </div>
                   <div
@@ -298,7 +324,7 @@ return (
                       color: "#4ade80",
                     }}
                   >
-                    SHORTLISTED
+                    PRÉSÉLECTIONNÉ
                   </div>
                 </div>
 
@@ -310,17 +336,17 @@ return (
                     marginBottom: 24,
                   }}
                 >
-                  <MatchScore score={97} label="Technical Expertise" />
-                  <MatchScore score={93} label="Leadership Experience" />
-                  <MatchScore score={89} label="Culture Alignment" />
-                  <MatchScore score={95} label="Compensation Fit" />
-                  <MatchScore score={91} label="Industry Background" />
+                  <MatchScore score={97} label="Expertise métier" />
+                  <MatchScore score={93} label="Expérience de direction" />
+                  <MatchScore score={89} label="Adéquation culturelle" />
+                  <MatchScore score={95} label="Cadre de rémunération" />
+                  <MatchScore score={91} label="Connaissance du secteur" />
                 </div>
 
                 <div
                   style={{
-                    background: `${C.accent}15`,
-                    border: `1px solid ${C.accent}30`,
+                    background: "rgba(169,189,211,0.1)",
+                    border: "1px solid rgba(169,189,211,0.25)",
                     borderRadius: 12,
                     padding: "14px 18px",
                     display: "flex",
@@ -328,11 +354,11 @@ return (
                     alignItems: "center",
                   }}
                 >
-                  <span style={{ color: "var(--brand-light,#93c5fd)", fontSize: 14, fontWeight: 600 }}>
-                    Overall Match Score
+                  <span style={{ color: C.surMarine, fontSize: 14, fontWeight: 600 }}>
+                    Adéquation globale
                   </span>
-                  <span style={{ fontSize: 24, fontWeight: 900, color: C.accent }}>
-                    93%
+                  <span style={{ fontSize: 24, fontWeight: 900, color: C.white }}>
+                    93 %
                   </span>
                 </div>
 
@@ -348,7 +374,7 @@ return (
                 >
                   <CheckCircle size={16} color="#4ade80" />
                   <span style={{ fontSize: 13, color: "#94a3b8" }}>
-                    Passive candidate — not actively searching
+                    Candidat en poste — approché, pas en recherche
                   </span>
                 </div>
               </div>
@@ -357,7 +383,7 @@ return (
         </div>
       </section>
 
-      {/* SERVICES SUMMARY */}
+      {/* SERVICES */}
       <section id="services" style={{ padding: "100px 5%", background: C.bgAlt }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <SectionReveal>
@@ -373,16 +399,16 @@ return (
                   marginBottom: 16,
                 }}
               >
-                <Briefcase size={14} color={C.accentDark} />
-                <span style={{ color: C.accentDark, fontSize: 13, fontWeight: 600 }}>
-                  What We Do
+                <Briefcase size={14} color={C.accentFixe} />
+                <span style={{ color: C.accentFixe, fontSize: 13, fontWeight: 600 }}>
+                  Ce que nous faisons
                 </span>
               </div>
-              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, color: C.navy, marginBottom: 16 }}>{c?.aboutTitle ?? fd?.businessName ?? <>
-                Three ways we deliver results
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 600, color: C.navy, marginBottom: 16 }}>{c?.aboutTitle ?? <>
+                Trois façons de vous renforcer
               </>}</h2>
               <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 520, margin: "0 auto", lineHeight: 1.7 }}>{c?.aboutText ?? <>
-                From single executive searches to full HR transformation — we work at the intersection of talent strategy and business outcomes.
+                D'un poste de direction à pourvoir jusqu'à la refonte complète de votre recrutement — au croisement de la stratégie d'équipe et des résultats.
               </>}</p>
             </div>
           </SectionReveal>
@@ -414,9 +440,9 @@ return (
                       marginBottom: 20,
                     }}
                   >
-                    <service.icon size={26} color={C.accent} />
+                    <service.icon size={26} color={C.accentFixe} />
                   </div>
-                  <h3 style={{ fontSize: 22, fontWeight: 800, color: C.navy, marginBottom: 12 }}>
+                  <h3 style={{ fontFamily: SERIF, fontSize: 22, fontWeight: 600, color: C.navy, marginBottom: 12 }}>
                     {service.name}
                   </h3>
                   <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.7, marginBottom: 24, flex: 1 }}>
@@ -428,7 +454,7 @@ return (
                         display: "inline-flex",
                         alignItems: "center",
                         gap: 6,
-                        color: C.accent,
+                        color: C.accentFixe,
                         fontWeight: 700,
                         fontSize: 14,
                         background: "none",
@@ -437,7 +463,7 @@ return (
                         padding: 0,
                       }}
                     >
-                      {tr({ formData: fd }, "Learn more")} <ArrowRight size={14} />
+                      En savoir plus <ArrowRight size={14} />
                     </span>
                   </Link>
                 </div>
@@ -447,35 +473,35 @@ return (
         </div>
       </section>
 
-      {/* STATS BAND */}
+      {/* BANDE DE CHIFFRES */}
       <section id="results" style={{ padding: "100px 5%", background: C.navy }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <SectionReveal>
             <div style={{ textAlign: "center", marginBottom: 72 }}>
-              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, color: C.white, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "results.titre") ?? (<>
-                18 years of measurable results
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 600, color: C.white, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "results.titre") ?? (<>
+                Dix-huit ans de résultats mesurés
               </>)}</h2>
-              <p style={{ fontSize: 17, color: "var(--brand-light,#93c5fd)", maxWidth: 480, margin: "0 auto" }}>
-                Numbers that define our commitment to quality over volume.
+              <p style={{ fontSize: 17, color: C.surMarine, maxWidth: 480, margin: "0 auto" }}>
+                Les chiffres d'un cabinet qui préfère la qualité au volume.
               </p>
             </div>
           </SectionReveal>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(200px, 100%), 1fr))", gap: 40 }}>
-            {STATS.map((s, i) => (
+            {CHIFFRES.map((s, i) => (
               <Counter key={s.label} end={s.end} suffix={s.suffix} label={s.label} delay={i * 0.15} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* CASE STUDIES HIGHLIGHTS */}
+      {/* MISSIONS MENÉES */}
       <section style={{ padding: "100px 5%", background: C.bg }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <SectionReveal>
             <div style={{ textAlign: "center", marginBottom: 64 }}>
-              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, color: C.navy, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
-                Success stories
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 600, color: C.navy, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "missions.titre") ?? (<>
+                Des missions menées au bout
               </>)}</h2>
             </div>
           </SectionReveal>
@@ -500,7 +526,7 @@ return (
                       style={{
                         display: "inline-block",
                         background: C.accentLight,
-                        color: C.accent,
+                        color: C.accentFixe,
                         fontSize: 11,
                         fontWeight: 700,
                         padding: "3px 10px",
@@ -512,17 +538,17 @@ return (
                     >
                       {cs.sector}
                     </div>
-                    <h3 style={{ fontSize: 20, fontWeight: 800, color: C.navy }}>{cs.company}</h3>
+                    <h3 style={{ fontFamily: SERIF, fontSize: 20, fontWeight: 600, color: C.navy }}>{cs.company}</h3>
                   </div>
                   <div>
                     <div style={{ fontSize: 12, fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 6 }}>
-                      Challenge
+                      Le besoin
                     </div>
                     <p style={{ fontSize: 14, color: C.text, lineHeight: 1.65 }}>{cs.challenge}</p>
                   </div>
                   <div>
                     <div style={{ fontSize: 12, fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 6 }}>
-                      Outcome
+                      Le résultat
                     </div>
                     <p style={{ fontSize: 14, color: C.text, lineHeight: 1.65 }}>{cs.outcome}</p>
                   </div>
@@ -536,7 +562,7 @@ return (
                       gap: 12,
                     }}
                   >
-                    <div style={{ fontSize: 32, fontWeight: 900, color: C.accent }}>{cs.metric}</div>
+                    <div style={{ fontFamily: SERIF, fontSize: 32, fontWeight: 700, color: C.accentFixe }}>{cs.metric}</div>
                     <div style={{ fontSize: 13, color: C.textMuted }}>{cs.metricLabel}</div>
                   </div>
                 </div>
@@ -558,26 +584,26 @@ return (
                   cursor: "pointer",
                 }}
               >
-                View all case studies
+                Toutes les missions
               </span>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* TESTIMONIALS */}
+      {/* TÉMOIGNAGES */}
       <section style={{ padding: "100px 5%", background: C.navy }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <SectionReveal>
             <div style={{ textAlign: "center", marginBottom: 64 }}>
-              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 800, color: C.white, marginBottom: 12 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
-                What our clients say
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 600, color: C.white, marginBottom: 12 }}>{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>
+                Ce que disent nos clients
               </>)}</h2>
             </div>
           </SectionReveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 24 }}>
-            {TESTIMONIALS.map((t, i) => (
-              <SectionReveal key={t.name} delay={i * 0.1}>
+            {AVIS.map((t, i) => (
+              <SectionReveal key={i} delay={i * 0.1}>
                 <div
                   style={{
                     background: "rgba(255,255,255,0.04)",
@@ -590,25 +616,25 @@ return (
                     height: "100%",
                   }}
                 >
-                  <div style={{ display: "flex", gap: 4 }}>
-                    {Array.from({ length: t.rating }).map((_, j) => (
-                      <Star key={j} size={16} fill={C.accent} color={C.accent} />
+                  <div style={{ display: "flex", gap: 4 }} aria-hidden>
+                    {Array.from({ length: t.rating ?? 5 }).map((_, j) => (
+                      <Star key={j} size={16} fill={C.surMarine} color={C.surMarine} />
                     ))}
                   </div>
-                  <p style={{ fontSize: 15, color: "#cbd5e1", lineHeight: 1.75, flex: 1 }}>"{t.text}"</p>
+                  <p style={{ fontSize: 15, color: "#cbd5e1", lineHeight: 1.75, flex: 1 }}>« {t.text} »</p>
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                     <div
                       style={{
                         width: 42,
                         height: 42,
                         borderRadius: "50%",
-                        background: `${C.accent}30`,
+                        background: "rgba(169,189,211,0.18)",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
                         fontWeight: 700,
                         fontSize: 13,
-                        color: "var(--brand,#60a5fa)",
+                        color: C.surMarine,
                         flexShrink: 0,
                       }}
                     >
@@ -616,7 +642,7 @@ return (
                     </div>
                     <div>
                       <div style={{ fontWeight: 700, fontSize: 15, color: C.white }}>{t.name}</div>
-                      <div style={{ fontSize: 13, color: "var(--brand, #64748b)" }}>{t.role}</div>
+                      <div style={{ fontSize: 13, color: C.surMarine, opacity: 0.8 }}>{t.role}</div>
                     </div>
                   </div>
                 </div>
@@ -626,15 +652,15 @@ return (
         </div>
       </section>
 
-      {/* SECTORS LINK PREVIEW */}
+      {/* SECTEURS */}
       <section style={{ padding: "100px 5%", background: C.bgAlt }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", textAlign: "center" }}>
           <SectionReveal>
-            <h2 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 800, color: C.navy, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
-              Industries we serve
+            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 600, color: C.navy, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "secteurs.titre") ?? (<>
+              Les secteurs que nous connaissons
             </>)}</h2>
             <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 500, margin: "0 auto 40px", lineHeight: 1.7 }}>
-              Deep networks in 12 sectors, built over 18 years of specialized placement.
+              Douze secteurs, des réseaux entretenus depuis dix-huit ans.
             </p>
             <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
               {SECTORS.slice(0, 4).map((sector) => (
@@ -668,7 +694,7 @@ return (
                     cursor: "pointer",
                   }}
                 >
-                  Explore all industries
+                  Tous les secteurs
                 </span>
               </Link>
             </div>
