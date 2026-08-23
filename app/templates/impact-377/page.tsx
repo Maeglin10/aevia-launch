@@ -3,24 +3,50 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
-import { ArrowRight, CheckCircle, Clock, Guitar, Mail, MapPin, Mic2, Music4, Phone, Star } from "lucide-react";
+import { ArrowRight, CheckCircle, Clock, Mail, MapPin, Mic2, Music4, Phone, Star } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
-import { ScrollGrow } from "@/lib/templates/hero-kit-3";
+import { ScrollGrow, FixedRail } from "@/lib/templates/hero-kit-3";
 import {
-  clientCertifications,
   clientAddress,
+  clientCertifications,
   clientCity,
+  clientCodePostalVille,
+  clientEmail,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
+
+/* ════════════════════════════════════════════════════════════════════════════
+   STUDIO GAMME — École de musiques actuelles · Villeurbanne
+
+   Archétype H5 : rail latéral fixe + titre monumental. Geste signature UNIQUE :
+   ScrollGrow sur le TITRE — il grandit au défilement comme un son qui monte,
+   c'est le crescendo. Les deux voisins de catalogue qui partagent ScrollGrow
+   s'en distinguent nettement : impact-352 (H7 magazine ardoise, EB Garamond,
+   1 → 1.26 sur un titre de couverture) et impact-354 (H4 crèche, Newsreader,
+   1 → 1.18 sur une CARTE, pas un titre). Ici : H5, Bricolage Grotesque,
+   1 → 1.34 sur le titre lui-même, rail violet, portées musicales en filets.
+
+   Signature visuelle : les portées (5 filets horizontaux d'1 px) traversent le
+   héros et la bande de chiffres ; les nuances pp → ff graduent les rangées de
+   cours ; un soufflet de crescendo (‹) est dessiné en CSS dans la méthode.
+
+   Le proxy du conteneur bloque Unsplash/Pexels : la seule URL d'image du thème
+   est conservée telle quelle, les autres emplacements sont peints en CSS et la
+   page tient debout sans photographie.
+   ════════════════════════════════════════════════════════════════════════════ */
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -32,35 +58,45 @@ let bp: any = null;
 let sessionData: any = null;
 let brand: any = null;
 
-/* École de musique, 2e variante (la 1re est impact-73), musiques actuelles. Signature : ScrollGrow — la carte qui grossit comme un son qui s'approche. Carte CSS sans photo. */
-
-let C: Record<string, string> = {
-  bg: "#faf8fb",
-  bgSection: "#f0ebf4",
-  bgDark: "#231a2b",
-  text: "#211a28",
-  textMuted: "#655d6d",
-  accent: "var(--brand,#6d4a8a)",
-  accentDark: "#54386b",
-  accentLight: "#e9def2",
-  hi: "#bda0d8",
+/* ── Tokens ──────────────────────────────────────────────────────────────── */
+const C = {
+  bg: "#f8f6fc",
+  bgAlt: "#efe9f7",
+  bgDark: "#1a1224",
+  bgDarkAlt: "#120c1a",
+  bgCard: "#ffffff",
+  accent: "var(--brand,#6d28a8)",
+  accentDark: "var(--brand-light,#531f82)",
+  accentLight: "#e8dcf4",
+  ink: "#1e1727",
+  textMuted: "#5f5769",
+  textFaint: "#948b9f",
+  border: "#e3dbee",
   white: "#ffffff",
-  border: "#e2d9ea",
-};
+  /* La lumière de scène : la seule couleur claire admise sur les fonds noirs. */
+  neon: "#c9a8ea",
+} as const;
+
 /*
-  La paire du plan (P12) : « Bricolage Grotesque » porte la voix du thème,
-  « Figtree » porte la lecture. Le thème n'avait que
-  system-ui pour tout — c'est ce qui le rendait interchangeable avec ses
-  voisins. FONT reste le corps de texte, pour ne pas mettre une serif
-  d'affiche dans les paragraphes ; FONT_TITRE ne va qu'aux titres.
+  La paire du plan (P12) : « Bricolage Grotesque » porte la voix — une
+  grotesque à chasse large qui sonne comme une affiche de concert — et
+  « Figtree » porte la lecture. Rôles opposés : la première ne descend jamais
+  dans un paragraphe, la seconde ne monte jamais dans un titre. L'italique du
+  thème est celui de Figtree : Bricolage n'en a pas, et c'est ce contraste
+  droit/penché qui fait la figure de titre.
 */
-const FONTS_CSS = `@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=Figtree:wght@300;400;500;600;700;800&display=swap');`;
+const FONTS_CSS = `@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&display=swap');`;
 const FONT_TITRE = "'Bricolage Grotesque', system-ui, -apple-system, sans-serif";
 const FONT = "'Figtree', system-ui, -apple-system, sans-serif";
 const FONT_BODY = FONT;
 
-const NAV = [{"l": "Cours", "h": "#services"}, {"l": "La pédagogie", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [{"k": "La scène du trimestre", "line": "Trois mois de travail, un vrai concert.", "sub": ""}];
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
+/* ── Données de démonstration (contenu du thème, conservé mot pour mot) ──── */
+const NAV = [{ l: "Cours", h: "#services" }, { l: "La pédagogie", h: "#methode" }, { l: "Tarifs", h: "#tarifs" }, { l: "Contact", h: "#contact" }];
+
+/* Les six nuances : la dynamique musicale gradue les rangées de cours. */
+const NUANCES = ["pp", "p", "mp", "mf", "f", "ff"] as const;
 
 const SERVICES_SOURCE = [{"titre": "Guitare & basse", "desc": "Électrique, acoustique, du premier riff aux impros : les morceaux que VOUS choisissez servent de programme, la technique s'y glisse.", "tag": "Cordes"}, {"titre": "Batterie & percussions", "desc": "Studios insonorisés, kits acoustiques et électroniques : frapper fort sans fâcher personne, groove d'abord.", "tag": "Batterie"}, {"titre": "Chant", "desc": "Technique vocale, micro, scène : du timide de la douche au chanteur de groupe, sans jamais formater les voix.", "tag": "Chant"}, {"titre": "Piano & claviers", "desc": "Classique si vous voulez, mais aussi synthés, nappes et claviers de groupe : le piano qui sert la musique d'aujourd'hui.", "tag": "Claviers"}, {"titre": "MAO & production", "desc": "Ableton, enregistrement, mixage : produire ses morceaux dans notre studio MAO, du beat au master.", "tag": "MAO"}, {"titre": "Ateliers de groupe", "desc": "Dès le 3e mois : jouer ensemble, monter un set, préparer la scène trimestrielle. C'est là que la musique prend.", "tag": "Groupe"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
@@ -74,20 +110,113 @@ let AVIS_DEMO = AVIS_SOURCE;
 const STATS_DEMO = [{"value": "9", "label": "Professeurs diplômés en poste"}, {"value": "4", "label": "Studios insonorisés + MAO"}, {"value": "3 mois", "label": "Avant votre premier atelier de groupe"}, {"value": "1", "label": "Scène chaque trimestre"}];
 let STATS = STATS_DEMO;
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+/* La seule adresse d'image que portait le thème : conservée telle quelle. */
+const PHOTO_SCENE = "https://images.pexels.com/photos/8520462/pexels-photo-8520462.jpeg?auto=compress&cs=tinysrgb&w=1400";
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Primitives
+   ════════════════════════════════════════════════════════════════════════════ */
+
+function Reveal({ children, delay = 0, y = 26, style }: { children: React.ReactNode; delay?: number; y?: number; style?: React.CSSProperties }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 26 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}>
+    <motion.div ref={ref} style={style} initial={{ opacity: 0, y }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.7, delay, ease: EASE }}>
       {children}
     </motion.div>
   );
 }
 
-function photo(i: number, fallback: string): string {
-  return fd?.photoUrls?.[i] || fallback;
+/** Kicker filé : 40×1 px, capitales espacées. */
+function Kicker({ children, color = C.accentDark, align = "left" }: { children: React.ReactNode; color?: string; align?: "left" | "center" }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 14, justifyContent: align === "center" ? "center" : "flex-start" }}>
+      <span aria-hidden style={{ width: 40, height: 1, background: color, opacity: 0.7, flexShrink: 0 }} />
+      <span style={{ fontFamily: FONT, fontSize: 10.5, letterSpacing: "0.36em", textTransform: "uppercase", color, fontWeight: 600 }}>{children}</span>
+      {align === "center" && <span aria-hidden style={{ width: 40, height: 1, background: color, opacity: 0.7, flexShrink: 0 }} />}
+    </div>
+  );
 }
 
+/** Une portée : cinq filets horizontaux d'1 px, dégradés aux extrémités. */
+function Portee({ height = 52, opacity = 1, color = C.border, style }: { height?: number; opacity?: number; color?: string; style?: React.CSSProperties }) {
+  return (
+    <div aria-hidden style={{ height, opacity, display: "flex", flexDirection: "column", justifyContent: "space-between", pointerEvents: "none", ...style }}>
+      {[0, 1, 2, 3, 4].map((n) => (
+        <span key={n} style={{ display: "block", height: 1, background: `linear-gradient(90deg, transparent, ${color} 12%, ${color} 88%, transparent)` }} />
+      ))}
+    </div>
+  );
+}
+
+/** Lien de nav : soulignement en largeur qui pousse. */
+function NavLink({ label, href, dark = false, onClick }: { label: string; href: string; dark?: boolean; onClick?: () => void }) {
+  const [h, setH] = useState(false);
+  return (
+    <a
+      href={href}
+      onClick={onClick}
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{
+        fontFamily: FONT,
+        color: h ? C.accentDark : dark ? "rgba(255,255,255,0.82)" : C.textMuted,
+        fontSize: 13.5,
+        fontWeight: 500,
+        letterSpacing: "0.04em",
+        textDecoration: "none",
+        padding: "12px 2px",
+        position: "relative",
+        transition: "color .45s cubic-bezier(.16,1,.3,1)",
+      }}
+    >
+      {label}
+      <span aria-hidden style={{ position: "absolute", left: 0, bottom: 6, height: 1.5, width: h ? "100%" : "0%", background: C.accent, transition: "width .5s cubic-bezier(.16,1,.3,1)" }} />
+    </a>
+  );
+}
+
+/** Bouton principal : élévation, deux ombres, flèche qui avance. */
+function CtaButton({ href, children, ghost = false, big = false }: { href: string; children: React.ReactNode; ghost?: boolean; big?: boolean }) {
+  const [h, setH] = useState(false);
+  return (
+    <a
+      href={href}
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 10,
+        padding: big ? "17px 34px" : "14px 28px",
+        borderRadius: 10,
+        fontFamily: FONT,
+        fontWeight: 700,
+        fontSize: big ? 15.5 : 14.5,
+        textDecoration: "none",
+        background: ghost ? "transparent" : h ? C.accentDark : C.accent,
+        color: ghost ? C.ink : C.white,
+        border: ghost ? `1px solid ${h ? C.accent : C.border}` : "1px solid transparent",
+        transform: h ? "translateY(-2px)" : "none",
+        boxShadow: h
+          ? "0 3px 8px rgba(30,23,39,0.10), 0 22px 44px -18px rgba(109,40,168,0.45)"
+          : "0 1px 3px rgba(30,23,39,0.06), 0 10px 24px -18px rgba(30,23,39,0.25)",
+        transition: "all .5s cubic-bezier(.16,1,.3,1)",
+      }}
+    >
+      {children}
+      <ArrowRight size={big ? 17 : 15} style={{ transform: h ? "translateX(4px)" : "none", transition: "transform .5s cubic-bezier(.16,1,.3,1)" }} />
+    </a>
+  );
+}
+
+function photo(i: number, repli: string): string {
+  return fd?.photoUrls?.[i] || clientPhotos(sessionData)[i] || repli;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   PAGE
+   ════════════════════════════════════════════════════════════════════════════ */
 export default function StudioGammePage() {
   const [session, setSession] = useState<any>(null);
 
@@ -106,11 +235,11 @@ export default function StudioGammePage() {
       .catch(() => {});
   }, []);
 
-
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,
@@ -126,187 +255,329 @@ export default function StudioGammePage() {
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
-  if (brand) {
-    C = { ...C, accent: brand };
-  }
 
   const SERVICES = resolveList(
     clientServices(sessionData)?.map((s: any, n: number) => ({
       titre: s.title ?? SERVICES_DEMO[n % SERVICES_DEMO.length].titre,
-      desc: s.description ?? SERVICES_DEMO[n % SERVICES_DEMO.length].desc,
+      desc: s.description ?? s.desc ?? SERVICES_DEMO[n % SERVICES_DEMO.length].desc,
       tag: SERVICES_DEMO[n % SERVICES_DEMO.length].tag,
     })),
-    SERVICES_DEMO
+    SERVICES_DEMO,
   );
   const AVIS = resolveList(
     clientReviews(sessionData)?.map((r: any, n: number) => ({
       texte: r.text ?? AVIS_DEMO[n % AVIS_DEMO.length].texte,
       auteur: r.name ?? AVIS_DEMO[n % AVIS_DEMO.length].auteur,
-      detail: r.location ?? AVIS_DEMO[n % AVIS_DEMO.length].detail,
+      detail: r.location ?? r.role ?? AVIS_DEMO[n % AVIS_DEMO.length].detail,
     })),
-    AVIS_DEMO
+    AVIS_DEMO,
   );
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  
+  const [rangSurvole, setRangSurvole] = useState(-1);
+  const [tarifSurvole, setTarifSurvole] = useState(-1);
 
+  /* Un seul index pilote le spotlight d'avis : compteur, flèches, citation. */
+  const { i: iAvis, next: avisSuivant, prev: avisPrecedent } = useSlides(AVIS.length, DWELL.slow);
+  const A = AVIS[iAvis];
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", h);
+    window.addEventListener("scroll", h, { passive: true });
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const phone = fd?.phone ?? "04 72 00 00 01";
-  const telHref = `tel:${fd?.phone ?? "+33472000001"}`;
-  const mail = fd?.email ?? "hello@studio-gamme.fr";
+  const phone = clientPhone(sessionData) ?? "04 72 00 00 01";
+  const telHref = `tel:${(clientPhone(sessionData) ?? "+33472000001").replace(/[^+\d]/g, "")}`;
+  const mail = clientEmail(sessionData) ?? "hello@studio-gamme.fr";
+  const nom = fd?.businessName ?? clientName(sessionData) ?? "Studio Gamme";
+  const ville = clientCity(sessionData) ?? "Villeurbanne";
 
   return (
-    <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
+    <div style={{ background: C.bg, color: C.ink, fontFamily: FONT_BODY, overflowX: "clip", WebkitFontSmoothing: "antialiased" }}>
       <style>{`${FONTS_CSS}
 
         @media (max-width: 900px) { #i377-nav { display: none !important; } .i377-burger { display: flex !important; } }
         @media (max-width: 860px) {
-          .i377-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
-          .i377-card { max-width: 380px; margin: 0 auto; width: 100%; }
-          .i377-split { grid-template-columns: 1fr !important; }
-          .i377-stats { grid-template-columns: 1fr 1fr !important; row-gap: 8px; }
+          .i377-rail { display: none !important; }
+          .i377-hero { padding-left: clamp(20px,6vw,32px) !important; }
+          .i377-stats { grid-template-columns: 1fr 1fr !important; row-gap: clamp(18px,4vw,26px) !important; }
           .i377-stats .i377-statcell { border-right: none !important; }
-          .i377-pad { padding-left: 24px !important; padding-right: 24px !important; }
-          .i377-herotext { padding: 0 24px 44px !important; }
+          .i377-rang { grid-template-columns: 1fr !important; gap: 8px !important; }
+          .i377-rang .i377-rangnuance { position: static !important; }
+          .i377-split { grid-template-columns: 1fr !important; }
+          .i377-split > * { order: initial !important; }
+          .i377-scene { grid-template-columns: 1fr !important; }
+          .i377-tarif { grid-template-columns: 1fr !important; }
+          .i377-tarif .i377-tarifprix { justify-self: start !important; margin-top: 4px; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .i377-eq span { animation: none !important; height: 30% !important; }
+        }
+        @keyframes i377-eq {
+          0%, 100% { transform: scaleY(0.24); }
+          50% { transform: scaleY(1); }
         }
       `}</style>
 
-      {/* ── NAV ─────────────────────────────────────────────────────────── */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 48px", background: scrolled ? C.bg : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`, transition: "all 0.4s ease" }}>
+      {/* ── NAV — collante, quatre propriétés en transition ─────────────── */}
+      <nav
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: scrolled ? "10px clamp(20px,4.5vw,48px)" : "20px clamp(20px,4.5vw,48px)",
+          background: scrolled ? "rgba(248,246,252,0.92)" : "transparent",
+          backdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none",
+          borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,
+          transition: "all .55s cubic-bezier(.16,1,.3,1)",
+        }}
+      >
         <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
           {fd?.logoBase64 ? (
-            <img src={fd.logoBase64} alt={fd?.businessName ?? "logo"} style={{ height: 30, maxWidth: 160, objectFit: "contain", display: "block" }} />
+            <img src={fd.logoBase64} alt={nom} style={{ height: 30, maxWidth: 160, objectFit: "contain", display: "block" }} />
           ) : (
             <>
               <Music4 size={18} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Gamme"))}</span>
-              <span style={{ fontSize: 10, letterSpacing: 2.2, textTransform: "uppercase", color: C.textMuted, marginLeft: 6 }}>Musiques actuelles</span>
+              <span style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: 18, letterSpacing: "-0.01em", color: C.ink, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{nom}</span>
+              <span style={{ fontSize: 10, letterSpacing: "0.24em", textTransform: "uppercase", color: C.textFaint, marginLeft: 6 }}>{clientTrade(sessionData) ?? "Musiques actuelles"}</span>
             </>
           )}
         </div>
-        <div id="i377-nav" style={{ display: "flex", gap: 24, alignItems: "center" }}>
+        <div id="i377-nav" style={{ display: "flex", gap: "clamp(14px,2vw,26px)", alignItems: "center" }}>
           {NAV.map(({ l, h }) => (
-            <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
+            <NavLink key={l} label={l} href={h} />
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33472000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
-            Cours d'essai offert
-          </motion.a>
+          <CtaButton href={telHref}>Cours d'essai offert</CtaButton>
         </div>
         <button className="i377-burger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu" style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}>
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
         </button>
       </nav>
       {mobileOpen && (
-        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: C.bg, borderBottom: `1px solid ${C.border}`, padding: "20px 28px", display: "flex", flexDirection: "column", gap: 4 }}>
+        <div style={{ position: "fixed", top: 64, left: 0, right: 0, zIndex: 99, background: C.bg, borderBottom: `1px solid ${C.border}`, padding: "20px 28px", display: "flex", flexDirection: "column", gap: 4 }}>
           {NAV.map(({ l, h }) => (
-            <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
+            <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.ink, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href={`tel:${fd?.phone ?? "+33472000001"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Cours d'essai offert</a>
+          <a href={telHref} style={{ background: C.accent, color: "#fff", borderRadius: 10, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Cours d'essai offert</a>
         </div>
       )}
 
-      {/* ── HERO ────────────────────────────────────────────────────────── */}
-<section className="i377-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.08fr) minmax(0,0.92fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1260, margin: "0 auto" }}>
-        <div>
-          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
-            École de musiques actuelles · {clientCity(sessionData) ?? "Villeurbanne"}
-          </motion.span>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 13) ?? "Jouer les morceaux"}<br /><em style={{ color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 13) ?? "que vous écoutez vraiment."}</em></>)}
-          </>)}</motion.h1>
-          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
+      {/* ── HÉROS — H5 : rail latéral fixe + titre monumental (ScrollGrow) ── */}
+      <section
+        className="i377-hero"
+        style={{
+          position: "relative",
+          minHeight: "100dvh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          padding: "clamp(120px,15vh,170px) clamp(24px,6vw,88px) clamp(40px,6vh,72px)",
+          paddingLeft: "calc(clamp(52px,5.5vw,74px) + clamp(24px,5vw,72px))",
+          background: C.bg,
+          overflow: "clip",
+        }}
+      >
+        {/* Le rail : la barre qui ne bouge jamais pendant que le titre grandit. */}
+        <FixedRail color={C.accentDark} side="left" width="clamp(52px,5.5vw,74px)" className="i377-rail">
+          <span aria-hidden style={{ writingMode: "vertical-rl", fontFamily: FONT, fontSize: 10, letterSpacing: "0.34em", textTransform: "uppercase", color: "rgba(255,255,255,0.78)", whiteSpace: "nowrap" }}>
+            {nom} · {ville}
+          </span>
+          {/* L'échelle des nuances : le crescendo du rail, pp muet, ff allumé. */}
+          <div aria-hidden style={{ display: "flex", flexDirection: "column", gap: 7, alignItems: "center" }}>
+            {NUANCES.map((nu, k) => (
+              <span key={nu} style={{ fontFamily: FONT, fontStyle: "italic", fontSize: 10 + k * 1.1, lineHeight: 1, color: k === NUANCES.length - 1 ? C.neon : `rgba(255,255,255,${0.26 + k * 0.1})` }}>{nu}</span>
+            ))}
+          </div>
+        </FixedRail>
+
+        {/* Portées en filets : la texture du métier, sans image. */}
+        <Portee height={64} opacity={0.85} style={{ position: "absolute", top: "16%", left: 0, right: 0 }} />
+        <Portee height={64} opacity={0.5} style={{ position: "absolute", bottom: "26%", left: 0, right: 0 }} />
+        {/* Nuance fantôme — opacité sous 0.1, jamais cliquable. */}
+        <span aria-hidden style={{ position: "absolute", right: "clamp(8px,4vw,60px)", top: "8%", fontFamily: FONT, fontStyle: "italic", fontWeight: 300, fontSize: "clamp(160px,26vw,380px)", lineHeight: 1, color: C.accent, opacity: 0.06, pointerEvents: "none", userSelect: "none" }}>ff</span>
+        {/* Glow de scène, radial et discret. */}
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: `radial-gradient(60% 46% at 68% 30%, rgba(109,40,168,0.10), transparent 70%)`, pointerEvents: "none" }} />
+
+        <div style={{ position: "relative", zIndex: 2, maxWidth: 1180 }}>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15, duration: 0.7, ease: EASE }}>
+            <Kicker>{clientEyebrow(sessionData) ?? <>École de musiques actuelles · {ville}</>}</Kicker>
+          </motion.div>
+
+          {/* Le geste : ScrollGrow sur le titre. On défile, il grandit — crescendo. */}
+          <ScrollGrow from={1} to={1.34} fade>
+            <motion.h1
+              initial={{ opacity: 0, y: 34 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.95, ease: EASE }}
+              style={{
+                fontFamily: FONT_TITRE,
+                fontWeight: 700,
+                fontSize: "clamp(46px,8.6vw,124px)",
+                lineHeight: 0.98,
+                letterSpacing: "-0.025em",
+                color: C.ink,
+                margin: "clamp(18px,2.6vw,34px) 0 clamp(16px,2vw,26px)",
+              }}
+            >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
+              {c?.heroHeadline ?? (<>
+                {clientHeroLine(sessionData, 0, 2, 16) ?? "Jouer les morceaux"}
+                <br />
+                <span style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 16) ?? (<>que vous écoutez <em style={{ fontFamily: FONT, fontWeight: 500 }}>vraiment.</em></>)}</span>
+              </>)}
+            </>)}</motion.h1>
+          </ScrollGrow>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.52, duration: 0.8, ease: EASE }}
+            style={{ fontSize: "clamp(15.5px,1.4vw,17.5px)", color: C.textMuted, lineHeight: 1.75, maxWidth: 500, marginBottom: "clamp(26px,3vw,38px)" }}
+          >
             {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Guitare, batterie, chant, MAO : des cours individuels sur les musiques que vous aimez, des ateliers de groupe dès le troisième mois, et une vraie scène chaque trimestre. La théorie vient en jouant."}
           </motion.p>
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-            <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
-              Réserver un cours d'essai <ArrowRight size={16} />
-            </motion.a>
-            <motion.a href="#services" style={{ background: C.white, color: C.text, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ borderColor: C.accent }}>
-              Les cours
-            </motion.a>
+
+          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.8, ease: EASE }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+            <CtaButton href={telHref} big>Réserver un cours d'essai</CtaButton>
+            <CtaButton href="#services" ghost>Les cours</CtaButton>
           </motion.div>
-          
         </div>
-        <div className="i377-card">
-          <ScrollGrow from={1} to={1.18}>
-            <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 10, overflow: "hidden", boxShadow: "0 18px 52px rgba(0,0,0,0.18)" }}>
-              <div style={{ aspectRatio: "4/3", background: C.accentLight , overflow: "hidden" }}><img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/8520462/pexels-photo-8520462.jpeg?auto=compress&cs=tinysrgb&w=1400"))} alt="Cours de piano en duo" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div>
-              <div style={{ padding: "22px 24px 24px", borderTop: `3px solid ${C.accent}` }}>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.accentDark, marginBottom: 8 }}>"La scène du trimestre"</div>
-                <div style={{ fontFamily: FONT, fontSize: 19, color: C.text, lineHeight: 1.35 }}>"Trois mois de travail, un vrai concert."</div>
+
+        {/* Chiffres intégrés au héros : posés SUR une portée, séparés de barres
+            de mesure — pas de bande sombre standard. */}
+        <div style={{ position: "relative", zIndex: 2, marginTop: "clamp(44px,7vh,84px)", maxWidth: 1180 }}>
+          <Reveal delay={0.15}>
+            <div style={{ position: "relative" }}>
+              <Portee height={48} opacity={0.9} style={{ position: "absolute", left: 0, right: 0, top: "50%", transform: "translateY(-50%)" }} />
+              <div className="i377-stats" style={{ position: "relative", display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", gap: 0 }}>
+                {STATS.map((s, idx) => (
+                  <div key={s.label} className="i377-statcell" style={{ padding: "clamp(10px,1.4vw,16px) clamp(12px,1.6vw,22px)", borderRight: idx < STATS.length - 1 ? `1px solid ${C.border}` : "none", background: "transparent" }}>
+                    <div style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(24px,2.6vw,34px)", letterSpacing: "-0.02em", color: C.accentDark, lineHeight: 1, background: C.bg, display: "inline-block", padding: "2px 6px 2px 0" }}>{s.value}</div>
+                    <div style={{ fontSize: 12.5, color: C.textMuted, marginTop: 6, lineHeight: 1.45, background: C.bg, display: "inline-block", paddingRight: 6 }}>{s.label}</div>
+                  </div>
+                ))}
               </div>
-            </div>
-          </ScrollGrow>
-        </div>
-      </section>
-
-      {/* ── STATS ───────────────────────────────────────────────────────── */}
-      <section style={{ background: C.bgDark }}>
-        <div className="i377-stats i377-pad" style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
-          {STATS.map((s, idx) => (
-            <Reveal key={s.label} delay={idx * 0.08}>
-              <div className="i377-statcell" style={{ padding: "30px 8px", textAlign: "center", borderRight: idx < 3 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>
-                <div style={{ fontFamily: FONT, fontSize: 32, color: C.hi, lineHeight: 1 }}>{s.value}</div>
-                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginTop: 7 }}>{s.label}</div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-
-      {/* ── SERVICES ────────────────────────────────────────────────────── */}
-      <section id="services" className="i377-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ marginBottom: 50 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Cours</span>
-              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
-                Votre instrument,<br /><em>vos morceaux, votre rythme.</em>
-              </>)}</h2>
             </div>
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18 }}>
-            {SERVICES.map((s, idx) => (
-              <Reveal key={s.titre} delay={idx * 0.06}>
-                <motion.div whileHover={{ y: -5 }} style={{ background: C.white, borderRadius: 12, padding: "26px 24px", border: `1px solid ${C.border}`, height: "100%" }}>
-                  <span style={{ background: C.accentLight, color: C.accentDark, borderRadius: 999, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag}</span>
-                  <h3 style={{ fontFamily: FONT_TITRE, fontSize: 18.5, color: C.text, margin: "15px 0 10px" }}>{s.titre}</h3>
-                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{s.desc}</p>
-                </motion.div>
-              </Reveal>
-            ))}
+        </div>
+      </section>
+
+      {/* ── RESPIRATION — une phrase penchée, seule ─────────────────────── */}
+      <section style={{ background: C.bgAlt, padding: "clamp(72px,10vw,140px) clamp(24px,7vw,120px)", textAlign: "center" }}>
+        <Reveal>
+          <Kicker align="center" color={C.textFaint}>La maison</Kicker>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <p style={{ fontFamily: FONT, fontStyle: "italic", fontWeight: 300, fontSize: "clamp(24px,3.4vw,44px)", lineHeight: 1.35, letterSpacing: "-0.01em", color: C.ink, maxWidth: 900, margin: "clamp(22px,3vw,34px) auto 0" }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.texte") ?? (<>
+            La théorie vient <span style={{ color: C.accent, fontStyle: "normal", fontFamily: FONT_TITRE, fontWeight: 600 }}>en jouant</span>.
+          </>)}</p>
+        </Reveal>
+        <Reveal delay={0.2}>
+          <div aria-hidden style={{ width: 1, height: "clamp(52px,6vw,84px)", background: `linear-gradient(${C.accent}, transparent)`, margin: "clamp(30px,4vw,48px) auto 0" }} />
+        </Reveal>
+      </section>
+
+      {/* ── COURS — rangées éditoriales graduées pp → ff ─────────────────── */}
+      <section id="services" style={{ background: C.bg, padding: "clamp(84px,11vw,160px) clamp(24px,6vw,88px)" }}>
+        <div style={{ maxWidth: 1160, margin: "0 auto" }}>
+          <Reveal>
+            <Kicker>Cours</Kicker>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <h2 style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(30px,4.4vw,58px)", letterSpacing: "-0.02em", color: C.ink, lineHeight: 1.06, margin: "clamp(16px,2vw,24px) 0 clamp(12px,1.6vw,18px)" }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
+              Votre instrument, vos morceaux,<br /><em style={{ fontFamily: FONT, fontWeight: 400, color: C.accent }}>votre rythme.</em>
+            </>)}</h2>
+          </Reveal>
+          <Reveal delay={0.14}>
+            <p style={{ fontSize: 15.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 500, marginBottom: "clamp(36px,4.5vw,60px)" }}>
+              Six pupitres, une même règle : la nuance monte rangée après rangée — du premier accord joué pianissimo au set complet, fortissimo, sur la scène du trimestre.
+            </p>
+          </Reveal>
+
+          <div style={{ borderTop: `1px solid ${C.border}` }}>
+            {SERVICES.map((s, idx) => {
+              const survole = rangSurvole === idx;
+              return (
+                <Reveal key={s.titre} delay={idx * 0.05}>
+                  <div
+                    className="i377-rang"
+                    onMouseEnter={() => setRangSurvole(idx)}
+                    onMouseLeave={() => setRangSurvole(-1)}
+                    style={{
+                      position: "relative",
+                      display: "grid",
+                      gridTemplateColumns: "clamp(56px,7vw,96px) minmax(0,1fr) auto",
+                      gap: "clamp(14px,2.4vw,36px)",
+                      alignItems: "baseline",
+                      padding: "clamp(20px,2.6vw,34px) clamp(8px,1.4vw,18px)",
+                      borderBottom: `1px solid ${C.border}`,
+                      background: survole ? C.bgCard : "transparent",
+                      transform: survole ? "translateX(8px)" : "none",
+                      boxShadow: survole
+                        ? "0 2px 6px rgba(30,23,39,0.05), 0 24px 48px -28px rgba(109,40,168,0.35)"
+                        : "none",
+                      transition: "all .5s cubic-bezier(.16,1,.3,1)",
+                      cursor: "default",
+                    }}
+                  >
+                    {/* La nuance : pp → ff, le crescendo des rangées. */}
+                    <div className="i377-rangnuance" style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
+                      <span style={{ fontFamily: FONT_TITRE, fontWeight: 600, fontSize: 13, color: C.textFaint, letterSpacing: "0.08em" }}>{String(idx + 1).padStart(2, "0")}</span>
+                      <span aria-hidden style={{ fontFamily: FONT, fontStyle: "italic", fontWeight: 500, fontSize: 15 + idx * 1.6, lineHeight: 1, color: survole ? C.accent : C.textFaint, transition: "color .45s cubic-bezier(.16,1,.3,1)" }}>{NUANCES[idx % NUANCES.length]}</span>
+                    </div>
+                    <div style={{ minWidth: 0 }}>
+                      <h3 style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(19px,2vw,26px)", letterSpacing: "-0.015em", color: C.ink, margin: "0 0 8px" }}>{s.titre}</h3>
+                      <p style={{ fontSize: 14.5, color: C.textMuted, lineHeight: 1.72, maxWidth: 520, margin: 0 }}>{s.desc}</p>
+                    </div>
+                    <span style={{ alignSelf: "center", background: survole ? C.accent : C.accentLight, color: survole ? C.white : C.accentDark, borderRadius: 999, padding: "5px 14px", fontSize: 10.5, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.14em", whiteSpace: "nowrap", transition: "all .45s cubic-bezier(.16,1,.3,1)" }}>{s.tag}</span>
+                  </div>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* ── MÉTHODE / INFOS ─────────────────────────────────────────────── */}
-      <section id="methode" className="i377-pad" style={{ padding: "96px 64px", background: C.bg }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+      {/* ── PÉDAGOGIE — quatre temps sous un soufflet de crescendo ───────── */}
+      <section id="methode" style={{ position: "relative", background: C.bgDark, padding: "clamp(84px,11vw,160px) clamp(24px,6vw,88px)", overflow: "clip" }}>
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(52% 50% at 82% 12%, rgba(201,168,234,0.12), transparent 70%)", pointerEvents: "none" }} />
+        <span aria-hidden style={{ position: "absolute", left: "-0.03em", bottom: "-0.16em", fontFamily: FONT_TITRE, fontWeight: 800, fontSize: "clamp(140px,22vw,320px)", lineHeight: 1, color: C.white, opacity: 0.04, pointerEvents: "none", userSelect: "none" }}>04</span>
+        <div style={{ position: "relative", maxWidth: 1160, margin: "0 auto" }}>
           <Reveal>
-            <div style={{ marginBottom: 50 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>La pédagogie</span>
-              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
-                On apprend la musique<br /><em>en la jouant fort.</em>
-              </>)}</h2>
+            <Kicker color={C.neon}>La pédagogie</Kicker>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <h2 style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(30px,4.2vw,54px)", letterSpacing: "-0.02em", color: C.white, lineHeight: 1.06, margin: "clamp(16px,2vw,24px) 0 clamp(34px,4vw,52px)" }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
+              On apprend la musique<br /><em style={{ fontFamily: FONT, fontWeight: 300, color: C.neon }}>en la jouant fort.</em>
+            </>)}</h2>
+          </Reveal>
+
+          {/* Le soufflet : un crescendo dessiné en deux filets qui s'écartent. */}
+          <Reveal delay={0.12}>
+            <div aria-hidden style={{ position: "relative", height: 34, marginBottom: "clamp(26px,3vw,40px)" }}>
+              <span style={{ position: "absolute", left: 0, right: 0, top: "50%", height: 1, background: `linear-gradient(90deg, rgba(201,168,234,0.65), rgba(201,168,234,0.15))`, transform: "rotate(-1.1deg)", transformOrigin: "left center" }} />
+              <span style={{ position: "absolute", left: 0, right: 0, top: "50%", height: 1, background: `linear-gradient(90deg, rgba(201,168,234,0.65), rgba(201,168,234,0.15))`, transform: "rotate(1.1deg)", transformOrigin: "left center" }} />
+              <span style={{ position: "absolute", right: 0, top: "50%", transform: "translateY(-50%)", fontFamily: FONT, fontStyle: "italic", fontSize: 15, color: C.neon }}>ff</span>
+              <span style={{ position: "absolute", left: 0, top: "50%", transform: "translate(-2px,-50%)", fontFamily: FONT, fontStyle: "italic", fontSize: 11, color: "rgba(201,168,234,0.6)" }}>pp</span>
             </div>
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: 18 }}>
+
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: "clamp(16px,2vw,26px)" }}>
             {METHODE.map((m, idx) => (
               <Reveal key={m.n} delay={idx * 0.08}>
-                <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: "26px 24px", height: "100%" }}>
-                  <div style={{ fontFamily: FONT, fontSize: 28, color: C.accentDark, marginBottom: 12 }}>{m.n}</div>
-                  <h3 style={{ fontSize: 16.5, fontWeight: 700, color: C.text, marginBottom: 9 }}>{m.t}</h3>
-                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{m.d}</p>
+                <div style={{ position: "relative", borderTop: `1px solid rgba(255,255,255,${0.14 + idx * 0.08})`, padding: "clamp(18px,2.2vw,28px) 2px 0", height: "100%" }}>
+                  <div style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(24px,2.4vw,32px)", color: C.neon, marginBottom: 12, letterSpacing: "-0.02em" }}>{m.n}</div>
+                  <h3 style={{ fontSize: 16.5, fontWeight: 700, color: C.white, marginBottom: 9, fontFamily: FONT }}>{m.t}</h3>
+                  <p style={{ fontSize: 14, color: "rgba(255,255,255,0.62)", lineHeight: 1.72, margin: 0 }}>{m.d}</p>
                 </div>
               </Reveal>
             ))}
@@ -314,123 +585,233 @@ export default function StudioGammePage() {
         </div>
       </section>
 
-      {/* ── ENGAGEMENTS ─────────────────────────────────────────────────── */}
-      <section id="engagements" className="i377-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
-        <div className="i377-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
+      {/* ── LA SCÈNE DU TRIMESTRE — plein cadre, repli sombre obligatoire ── */}
+      <section style={{ position: "relative", background: C.bgDark, overflow: "clip" }}>
+        <div className="i377-scene" style={{ display: "grid", gridTemplateColumns: "minmax(0,1.05fr) minmax(0,0.95fr)", minHeight: "min(76vh, 680px)" }}>
+          <div style={{ position: "relative", background: C.bgDark, minHeight: 320 }}>
+            {photo(0, PHOTO_SCENE) ? (
+              <img src={photo(0, PHOTO_SCENE)} alt="La scène du trimestre — cours et concert" loading="lazy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            ) : null}
+            {/* Scrim à trois arrêts : la photo reste lisible, le texte aussi. */}
+            <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(18,12,26,0.15) 0%, rgba(18,12,26,0.05) 45%, rgba(18,12,26,0.72) 100%)" }} />
+            <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(18,12,26,0.6), transparent 40%)" }} />
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", padding: "clamp(48px,6vw,96px) clamp(24px,5vw,80px)", position: "relative" }}>
+            <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(70% 60% at 30% 50%, rgba(109,40,168,0.12), transparent 75%)", pointerEvents: "none" }} />
+            <Reveal>
+              <Kicker color={C.neon}>La scène du trimestre</Kicker>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <h2 style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(28px,3.6vw,50px)", letterSpacing: "-0.02em", color: C.white, lineHeight: 1.06, margin: "clamp(16px,2vw,22px) 0 clamp(14px,1.8vw,20px)", position: "relative" }}>{/* TEXTE_SECTION */ clientText(sessionData, "scene.titre") ?? (<>
+                Trois mois de travail,<br /><em style={{ fontFamily: FONT, fontWeight: 300, color: C.neon }}>un vrai concert.</em>
+              </>)}</h2>
+            </Reveal>
+            <Reveal delay={0.16}>
+              <p style={{ fontSize: 15.5, color: "rgba(255,255,255,0.68)", lineHeight: 1.78, maxWidth: 480, margin: "0 0 clamp(26px,3vw,36px)", position: "relative" }}>
+                La scène trimestrielle est incluse — son, lumières et trac compris. Un vrai concert, du vrai son, un public : l'objectif qui structure les trois mois.
+              </p>
+            </Reveal>
+            {/* Le détail gratuit : un égaliseur qui respire, coupé si le
+                visiteur préfère l'immobilité. */}
+            <Reveal delay={0.24}>
+              <div className="i377-eq" aria-hidden style={{ display: "flex", alignItems: "flex-end", gap: 5, height: 44, position: "relative" }}>
+                {[0.7, 0.4, 0.9, 0.55, 1, 0.45, 0.8, 0.35, 0.65, 0.95, 0.5, 0.75].map((amp, k) => (
+                  <span
+                    key={k}
+                    style={{
+                      display: "block",
+                      width: 4,
+                      height: `${amp * 100}%`,
+                      borderRadius: 2,
+                      transformOrigin: "bottom",
+                      background: `linear-gradient(to top, ${C.accent}, ${C.neon})`,
+                      animation: `i377-eq ${1.3 + (k % 5) * 0.22}s ease-in-out ${k * 0.09}s infinite`,
+                    }}
+                  />
+                ))}
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ── ENGAGEMENTS — panneau peint (sans photo obligée) + liste ─────── */}
+      <section id="engagements" style={{ background: C.bgAlt, padding: "clamp(84px,11vw,160px) clamp(24px,6vw,88px)" }}>
+        <div className="i377-split" style={{ maxWidth: 1120, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: "clamp(36px,5.5vw,72px)", alignItems: "center" }}>
           <Reveal>
-            <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3", display: "flex", alignItems: "center", justifyContent: "center" }}><Mic2 size={80} color={C.accentDark} strokeWidth={1.1} /></div>
+            {photo(1, "") ? (
+              <div style={{ borderRadius: 14, overflow: "hidden", border: `1px solid ${C.border}`, aspectRatio: "4/3", background: C.bgDark }}>
+                <img src={photo(1, "")} alt="Les studios de l'école" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              </div>
+            ) : (
+              /* Repli peint : une cabine de studio — mousse, portée, micro. */
+              <div style={{ position: "relative", borderRadius: 14, overflow: "hidden", border: `1px solid ${C.border}`, aspectRatio: "4/3", background: `linear-gradient(150deg, ${C.bgDark} 0%, #241a31 55%, #2d2040 100%)` }}>
+                <div aria-hidden style={{ position: "absolute", inset: 0, backgroundImage: `radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1.6px)`, backgroundSize: "18px 18px" }} />
+                <Portee height={60} opacity={0.35} color={C.neon} style={{ position: "absolute", left: 0, right: 0, top: "30%" }} />
+                <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(48% 42% at 50% 42%, rgba(201,168,234,0.16), transparent 72%)" }} />
+                <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center" }}>
+                  <Mic2 size={72} color={C.neon} strokeWidth={1} />
+                </div>
+                <span style={{ position: "absolute", left: 18, bottom: 14, fontFamily: FONT, fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)" }}>Studios insonorisés · backline fourni</span>
+              </div>
+            )}
           </Reveal>
-          <Reveal delay={0.15}>
+          <Reveal delay={0.12}>
             <div>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>L'école</span>
-              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
-                Exigeante sur le son,<br /><em>détendue sur le reste.</em>
+              <Kicker>L'école</Kicker>
+              <h2 style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(26px,3.2vw,44px)", letterSpacing: "-0.02em", color: C.ink, margin: "clamp(14px,1.8vw,20px) 0 clamp(20px,2.6vw,30px)", lineHeight: 1.08 }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
+                Exigeante sur le son,<br /><em style={{ fontFamily: FONT, fontWeight: 400, color: C.accent }}>détendue sur le reste.</em>
               </>)}</h2>
               {ENGAGEMENT.map((e, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 12, marginBottom: 14 }}>
-                  <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
-                  <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{e}</span>
+                  <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 3 }} />
+                  <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.68 }}>{e}</span>
                 </div>
               ))}
-              <motion.a href={telHref} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 24, background: C.accentDark, color: "#fff", borderRadius: 8, padding: "14px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ scale: 1.02 }}>
-                Nous appeler <ArrowRight size={16} />
-              </motion.a>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ── TARIFS ──────────────────────────────────────────────────────── */}
-      <section id="tarifs" className="i377-pad" style={{ padding: "96px 64px", background: C.bg }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 16 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Tarifs</span>
-              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Au mois, <em>sans engagement.</em></>)}</h2>
-              <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>Tout est mensuel et sans engagement annuel. L'atelier de groupe et la scène trimestrielle sont inclus dès la formule standard.</p>
-            </div>
-          </Reveal>
-          <div style={{ marginTop: 38 }}>
-            {TARIFS.map((tt, idx) => (
-              <Reveal key={tt.a} delay={idx * 0.06}>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "space-between", alignItems: "baseline", background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: "20px 24px", marginBottom: 12 }}>
-                  <div style={{ minWidth: 0 }}>
-                    <div style={{ fontFamily: FONT, fontSize: 17.5, color: C.text }}>{tt.a}</div>
-                    <div style={{ fontSize: 13.5, color: C.textMuted, marginTop: 5, lineHeight: 1.6 }}>{tt.n}</div>
-                  </div>
-                  <div style={{ fontFamily: FONT, fontSize: 19, color: C.accentDark, whiteSpace: "nowrap" }}>{tt.p}</div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── AVIS ────────────────────────────────────────────────────────── */}
-      <section className="i377-pad" style={{ padding: "96px 64px", background: C.bgDark }}>
-        <Reveal>
-          <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Ils jouent, <em style={{ color: C.hi }}>enfin</em>.</>)}</h2>
-          </div>
-        </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
-          {AVIS.map((a, idx) => (
-            <Reveal key={a.auteur} delay={idx * 0.1}>
-              <div style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.10)", borderRadius: 12, padding: "26px 24px", height: "100%" }}>
-                <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>
-                  {[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.hi} color={C.hi} />)}
-                </div>
-                <p style={{ fontFamily: FONT, fontSize: 15, fontStyle: "italic", color: "rgba(255,255,255,0.82)", lineHeight: 1.7, marginBottom: 18 }}>"{a.texte}"</p>
-                <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14 }}>
-                  <div style={{ fontWeight: 700, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
-                  <div style={{ color: C.hi, fontSize: 12, marginTop: 4 }}>{a.detail}</div>
-                </div>
+              <div style={{ marginTop: 26 }}>
+                <CtaButton href={telHref}>Nous appeler</CtaButton>
               </div>
-            </Reveal>
-          ))}
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── TARIFS — table fine, filets et prix à droite ─────────────────── */}
+      <section id="tarifs" style={{ background: C.bg, padding: "clamp(84px,11vw,160px) clamp(24px,6vw,88px)" }}>
+        <div style={{ maxWidth: 900, margin: "0 auto" }}>
+          <Reveal>
+            <Kicker align="center" color={C.textFaint}>Tarifs</Kicker>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <h2 style={{ textAlign: "center", fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(28px,4vw,52px)", letterSpacing: "-0.02em", color: C.ink, lineHeight: 1.06, margin: "clamp(14px,1.8vw,22px) 0 14px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Au mois, <em style={{ fontFamily: FONT, fontWeight: 400, color: C.accent }}>sans engagement.</em></>)}</h2>
+          </Reveal>
+          <Reveal delay={0.14}>
+            <p style={{ textAlign: "center", fontSize: 15, color: C.textMuted, maxWidth: 520, margin: "0 auto clamp(34px,4vw,52px)", lineHeight: 1.72 }}>
+              Tout est mensuel et sans engagement annuel. L'atelier de groupe et la scène trimestrielle sont inclus dès la formule standard.
+            </p>
+          </Reveal>
+          <div style={{ borderTop: `1px solid ${C.border}` }}>
+            {TARIFS.map((tt, idx) => {
+              const survole = tarifSurvole === idx;
+              return (
+                <Reveal key={tt.a} delay={idx * 0.05}>
+                  <div
+                    className="i377-tarif"
+                    onMouseEnter={() => setTarifSurvole(idx)}
+                    onMouseLeave={() => setTarifSurvole(-1)}
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "minmax(0,1fr) auto",
+                      gap: "clamp(10px,2vw,28px)",
+                      alignItems: "baseline",
+                      padding: "clamp(18px,2.4vw,28px) clamp(6px,1vw,14px)",
+                      borderBottom: `1px solid ${C.border}`,
+                      background: survole ? C.bgCard : "transparent",
+                      boxShadow: survole ? "0 2px 6px rgba(30,23,39,0.05), 0 20px 40px -26px rgba(109,40,168,0.3)" : "none",
+                      transition: "all .5s cubic-bezier(.16,1,.3,1)",
+                    }}
+                  >
+                    <div style={{ minWidth: 0 }}>
+                      <div style={{ fontFamily: FONT_TITRE, fontWeight: 600, fontSize: "clamp(16.5px,1.6vw,19px)", color: C.ink }}>{tt.a}</div>
+                      <div style={{ fontSize: 13.5, color: C.textMuted, marginTop: 5, lineHeight: 1.6 }}>{tt.n}</div>
+                    </div>
+                    <div className="i377-tarifprix" style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(17px,1.8vw,21px)", letterSpacing: "-0.01em", color: survole ? C.accent : C.accentDark, whiteSpace: "nowrap", transition: "color .45s cubic-bezier(.16,1,.3,1)" }}>{tt.p}</div>
+                  </div>
+                </Reveal>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ── AVIS — spotlight rotatif : une voix à la fois ────────────────── */}
+      <section style={{ position: "relative", background: C.bgDark, padding: "clamp(84px,11vw,160px) clamp(24px,6vw,88px)", overflow: "clip" }}>
+        <span aria-hidden style={{ position: "absolute", left: "clamp(8px,3vw,48px)", top: "clamp(8px,3vw,40px)", fontFamily: FONT_TITRE, fontWeight: 800, fontSize: "clamp(150px,24vw,340px)", lineHeight: 0.8, color: C.white, opacity: 0.04, pointerEvents: "none", userSelect: "none" }}>“</span>
+        <div style={{ position: "relative", maxWidth: 880, margin: "0 auto", textAlign: "center" }}>
+          <Reveal>
+            <h2 style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(26px,3.6vw,46px)", letterSpacing: "-0.02em", color: C.white, marginBottom: "clamp(34px,4.5vw,56px)" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Ils jouent, <em style={{ fontFamily: FONT, fontWeight: 300, color: C.neon }}>enfin</em>.</>)}</h2>
+          </Reveal>
+          <div style={{ minHeight: "clamp(220px,26vw,280px)", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+            <motion.blockquote
+              key={iAvis}
+              initial={{ opacity: 0, y: 22 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.75, ease: EASE }}
+              style={{ margin: 0 }}
+            >
+              <div style={{ display: "flex", gap: 4, justifyContent: "center", marginBottom: 18 }} aria-label="5 étoiles">
+                {[...Array(5)].map((_, j) => <Star key={j} size={14} fill={C.neon} color={C.neon} strokeWidth={0} />)}
+              </div>
+              <p style={{ fontFamily: FONT, fontStyle: "italic", fontWeight: 300, fontSize: "clamp(18px,2.3vw,28px)", color: "rgba(255,255,255,0.88)", lineHeight: 1.6, margin: "0 auto clamp(20px,2.6vw,30px)", maxWidth: 780 }}>
+                «&nbsp;{A.texte}&nbsp;»
+              </p>
+              <div style={{ fontWeight: 700, color: C.white, fontSize: 15, fontFamily: FONT }}>{A.auteur}</div>
+              <div style={{ color: C.neon, fontSize: 12, letterSpacing: "0.16em", textTransform: "uppercase", marginTop: 6 }}>{A.detail}</div>
+            </motion.blockquote>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 22, marginTop: "clamp(22px,3vw,34px)", color: "rgba(255,255,255,0.6)" }}>
+            <SlideIndex i={iAvis} total={AVIS.length} variant="fraction" color="rgba(255,255,255,0.6)" className="" />
+            <HairlineArrows onPrev={avisPrecedent} onNext={avisSuivant} color="rgba(255,255,255,0.85)" className="" />
+          </div>
         </div>
       </section>
 
       {/* ── CONTACT ─────────────────────────────────────────────────────── */}
-      <section id="contact" className="i377-pad" style={{ padding: "96px 64px", background: C.accentLight, textAlign: "center" }}>
+      <section id="contact" style={{ position: "relative", background: C.accentLight, padding: "clamp(84px,11vw,160px) clamp(24px,6vw,88px)", textAlign: "center", overflow: "clip" }}>
+        <Portee height={56} opacity={0.55} color="rgba(109,40,168,0.25)" style={{ position: "absolute", left: 0, right: 0, top: "14%" }} />
         <Reveal>
-          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Essayez</span>
-          <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
-            30 minutes d'essai,<br /><em>et vous saurez.</em>
+          <Kicker align="center">Essayez</Kicker>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <h2 style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(30px,4.6vw,58px)", letterSpacing: "-0.02em", color: C.ink, lineHeight: 1.05, margin: "clamp(16px,2vw,24px) 0 clamp(14px,1.8vw,18px)" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
+            30 minutes d'essai,<br /><em style={{ fontFamily: FONT, fontWeight: 400, color: C.accent }}>et vous saurez.</em>
           </>)}</h2>
-          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>Cours d'essai offert sur l'instrument de votre choix. Studios ouverts en semaine jusqu'à 21 h — venez après le travail.</p>
+        </Reveal>
+        <Reveal delay={0.15}>
+          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 470, margin: "0 auto clamp(30px,4vw,44px)", lineHeight: 1.72 }}>
+            Cours d'essai offert sur l'instrument de votre choix. Studios ouverts en semaine jusqu'à 21 h — venez après le travail.
+          </p>
+        </Reveal>
+        <Reveal delay={0.22}>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {phone}
-            </motion.a>
-            <motion.a href={`mailto:${mail}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "14px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ background: C.accent, color: "#fff" }}>
-              <Mail size={18} /> Nous écrire
-            </motion.a>
+            <CtaButton href={telHref} big><Phone size={17} /> {phone}</CtaButton>
+            <CtaButton href={`mailto:${mail}`} ghost big><Mail size={17} /> Nous écrire</CtaButton>
           </div>
         </Reveal>
       </section>
 
       {/* ── FOOTER ──────────────────────────────────────────────────────── */}
-      <footer className="i377-pad" style={{ background: C.bgDark, padding: "44px 64px 22px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
-            <div>
-              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Gamme"))}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>École de musiques actuelles · {clientCity(sessionData) ?? "Villeurbanne"}<br />Professeurs diplômés (DEM, MIMA) — scène trimestrielle</p>
+      <footer style={{ background: C.bgDarkAlt, padding: "clamp(48px,6vw,80px) clamp(24px,6vw,88px) 24px" }}>
+        <div style={{ maxWidth: 1120, margin: "0 auto" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
+            <div style={{ maxWidth: 380 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: 12 }}>
+                <Music4 size={16} color={C.neon} />
+                <span style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: 18, color: C.white }}>{nom}</span>
+              </div>
+              <p style={{ color: "rgba(255,255,255,0.42)", fontSize: 13, lineHeight: 1.75, margin: 0 }}>
+                {clientTagline(sessionData) ?? (<>École de musiques actuelles · {ville}<br />Professeurs diplômés (DEM, MIMA) — scène trimestrielle</>)}
+              </p>
+              <Portee height={30} opacity={0.35} color="rgba(255,255,255,0.25)" style={{ marginTop: 22, maxWidth: 220 }} />
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: (clientAddress(sessionData) ?? ((clientCity(sessionData) ?? "Villeurbanne") + ", Rhône")) }, { icon: <Phone size={13} />, t: phone }, { icon: <Mail size={13} />, t: mail }, { icon: <Clock size={13} />, t: "Lun–Ven 14h–21h · Mer & Sam 9h–19h" }].map((item, idx) => (
-                <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
-                  <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
+            <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
+              {[
+                { icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "69100", "Villeurbanne") },
+                { icon: <Phone size={13} />, t: phone },
+                { icon: <Mail size={13} />, t: mail },
+                { icon: <Clock size={13} />, t: "Lun–Ven 14h–21h · Mer & Sam 9h–19h" },
+              ].map((item, idx) => (
+                <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.5)", fontSize: 13, alignItems: "center" }}>
+                  <span style={{ color: C.neon }}>{item.icon}</span>{item.t}
                 </div>
               ))}
             </div>
           </div>
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Gamme"))} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity />
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
+            <span style={{ color: "rgba(255,255,255,0.28)", fontSize: 12 }}>
+              © 2026 {nom} — Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" />{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
-            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
+            <span style={{ color: "rgba(255,255,255,0.28)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>
         </div>
       </footer>

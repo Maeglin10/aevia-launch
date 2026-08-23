@@ -3,23 +3,29 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
-import { ArrowRight, Beer, CheckCircle, Clock, Flame, Mail, MapPin, Phone, Star, Wheat } from "lucide-react";
+import { ArrowRight, Beer, Clock, Mail, MapPin, Phone, Star, Wheat } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
-import { PanelRise } from "@/lib/templates/hero-kit-3";
+import { ArcSwap } from "@/lib/templates/hero-kit-3";
 import {
-  clientCertifications,
   clientAddress,
+  clientCertifications,
   clientCity,
+  clientCodePostalVille,
+  clientEmail,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
+  clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -32,65 +38,391 @@ let bp: any = null;
 let sessionData: any = null;
 let brand: any = null;
 
-/* Brasserie artisanale, 2e variante de la niche. Signature : PanelRise — le bandeau qui s'élève, la mousse qui monte dans le verre. Sans photographie. */
+/* ════════════════════════════════════════════════════════════════════════════
+   BRASSERIE DU HOUBLON FRANC — brasserie artisanale · Lille
+
+   Archétype H3 (plein cadre, titre en bas, fond de repli C.bgDark
+   OBLIGATOIRE) · paire P6 (Archivo + Inter) · palette cuivre de brasserie
+   D #130f0b / #cf7f2e · signature : la bouteille qui balance.
+
+   Le geste ArcSwap remplace le PanelRise qui trônait ici sur… la bande de
+   chiffres. Il s'applique à son objet naturel : une bouteille dessinée en SVG
+   qui bascule autour de son pied (transformOrigin 50 % 92 %, câblé dans le
+   composant du kit), sort par la droite en tournant et revient par la gauche
+   presque couchée. Un seul index pilote tout le héros : la teinte de la
+   bouteille, son étiquette, la bière nommée dans la bande et la fraction.
+   Une ombre au sol marque le pivot — jamais de cadre autour de l'objet.
+
+   L'URL de photographie est celle du thème ; on n'en invente aucune, et le
+   plein cadre tient sans elle (cuivre + trame de bulles).
+   ════════════════════════════════════════════════════════════════════════════ */
 
 let C: Record<string, string> = {
-  bg: "#100d09",
-  bgSection: "#161209",
-  bgDark: "#0a0806",
-  text: "#f4efe6",
-  textMuted: "#a89f8f",
-  accent: "var(--brand,#d99a2b)",
-  accentDark: "#e3b661",
-  accentLight: "#1d160a",
-  hi: "#e3b661",
-  white: "#181307",
-  border: "rgba(255,255,255,0.09)",
+  bg: "#130f0b",
+  bgAlt: "#1a1410",
+  bgDark: "#0c0907",
+  bgDarkAlt: "#080605",
+  bgCard: "#1e1712",
+  accent: "var(--brand,#cf7f2e)",
+  accentDark: "var(--brand-light,#e2a45c)",
+  accentLight: "#241708",
+  ink: "#f3ece0",
+  textMuted: "#a49584",
+  textFaint: "#6f6355",
+  border: "rgba(207,127,46,0.20)",
+  white: "#ffffff",
+  /* Clé métier : la mousse — le voile clair qui monte dans le verre. */
+  mousse: "rgba(207,127,46,0.10)",
 };
-/*
-  La paire du plan (P6) : « Archivo » porte la voix du thème,
-  « Inter » porte la lecture. Le thème n'avait que
-  system-ui pour tout — c'est ce qui le rendait interchangeable avec ses
-  voisins. FONT reste le corps de texte, pour ne pas mettre une serif
-  d'affiche dans les paragraphes ; FONT_TITRE ne va qu'aux titres.
-*/
-const FONTS_CSS = `@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');`;
-const FONT_TITRE = "'Archivo', system-ui, -apple-system, sans-serif";
-const FONT = "'Inter', system-ui, -apple-system, sans-serif";
-const FONT_BODY = FONT;
 
-const NAV = [{"l": "Nos bières", "h": "#services"}, {"l": "Le brassage", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-const HERO = [];
+const DISPLAY = "'Archivo', 'Arial Narrow', system-ui, sans-serif";
+const BODY = "'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif";
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+const EASE_CSS = "cubic-bezier(.16,1,.3,1)";
 
-const SERVICES_SOURCE = [{"titre": "La Blonde de Soif", "desc": "4,8 % — maltée, sèche, désaltérante. Celle qu'on sert aux sceptiques et qu'ils finissent par commander en fût.", "tag": "Blonde"}, {"titre": "L'IPA du Beffroi", "desc": "6,2 % — houblons américains et néo-zélandais, amertume franche, agrumes et résine. Notre best-seller au taproom.", "tag": "IPA"}, {"titre": "La Brune d'Hiver", "desc": "7 % — malts torréfiés, café et chocolat noir, longueur en bouche. Brassée de septembre à mars uniquement.", "tag": "Brune"}, {"titre": "La Blanche du Canal", "desc": "4,5 % — froment lillois, coriandre, zeste d'orange amère. La terrasse d'été en bouteille.", "tag": "Blanche"}, {"titre": "Les saisonnières", "desc": "Tous les deux mois : bière de garde, stout au café d'un torréfacteur voisin, sour aux fruits de saison. Quand c'est fini, c'est fini.", "tag": "Éphémère"}, {"titre": "Fûts pour bars & événements", "desc": "Fûts 20 et 30 L, tireuses prêtées, livraison sur Lille : bars, mariages, comités d'entreprise.", "tag": "CHR"}];
+const NAV = [
+  { l: "Nos bières", h: "#services" },
+  { l: "Le brassage", h: "#methode" },
+  { l: "Tarifs", h: "#tarifs" },
+  { l: "Contact", h: "#contact" },
+];
+
+/* Les robes des bières : la bouteille du geste se teinte avec la diapositive.
+   Blonde, IPA ambrée, brune, blanche — puis la boucle reprend. */
+const ROBES = ["#e3b048", "#c96f2a", "#3a2313", "#efe3c2", "#cf7f2e", "#8a5a2a"];
+
+/* ── Données de démonstration — textes du thème, conservés ────────────────── */
+
+const SERVICES_SOURCE = [
+  {
+    titre: "La Blonde de Soif",
+    desc: "4,8 % — maltée, sèche, désaltérante. Celle qu'on sert aux sceptiques et qu'ils finissent par commander en fût.",
+    tag: "Blonde",
+    n: "01",
+  },
+  {
+    titre: "L'IPA du Beffroi",
+    desc: "6,2 % — houblons américains et néo-zélandais, amertume franche, agrumes et résine. Notre best-seller au taproom.",
+    tag: "IPA",
+    n: "02",
+  },
+  {
+    titre: "La Brune d'Hiver",
+    desc: "7 % — malts torréfiés, café et chocolat noir, longueur en bouche. Brassée de septembre à mars uniquement.",
+    tag: "Brune",
+    n: "03",
+  },
+  {
+    titre: "La Blanche du Canal",
+    desc: "4,5 % — froment lillois, coriandre, zeste d'orange amère. La terrasse d'été en bouteille.",
+    tag: "Blanche",
+    n: "04",
+  },
+  {
+    titre: "Les saisonnières",
+    desc: "Tous les deux mois : bière de garde, stout au café d'un torréfacteur voisin, sour aux fruits de saison. Quand c'est fini, c'est fini.",
+    tag: "Éphémère",
+    n: "05",
+  },
+  {
+    titre: "Fûts pour bars & événements",
+    desc: "Fûts 20 et 30 L, tireuses prêtées, livraison sur Lille : bars, mariages, comités d'entreprise.",
+    tag: "CHR",
+    n: "06",
+  },
+];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "Le malt d'à côté", "d": "Orges de Flandre maltées à 30 km : la matière première voyage moins que nos bouteilles."}, {"n": "02", "t": "Le brassin de 20 hL", "d": "Petits volumes, brassage tous les mardis : on peut se permettre d'arrêter une recette qui ne nous plaît plus."}, {"n": "03", "t": "Fermentation lente", "d": "Trois semaines minimum, garde à froid : le temps que le brasseur industriel n'a pas et que le goût réclame."}, {"n": "04", "t": "Ni filtrée ni pasteurisée", "d": "La bière reste vivante, un léger dépôt est normal — c'est la preuve, pas le défaut."}];
-const ENGAGEMENT_DEMO = ["Brasserie indépendante : aucun groupe au capital, aucune bière brassée pour d'autres", "Malts d'orge de Flandre, houblons tracés, aucun additif ni arôme", "Bières non filtrées, non pasteurisées — DLUO courte, goût long", "Consigne bouteilles et fûts : rapportez, on reprend, on relave"];
+
+const METHODE = [
+  {
+    n: "01",
+    t: "Le malt d'à côté",
+    d: "Orges de Flandre maltées à 30 km : la matière première voyage moins que nos bouteilles.",
+  },
+  {
+    n: "02",
+    t: "Le brassin de 20 hL",
+    d: "Petits volumes, brassage tous les mardis : on peut se permettre d'arrêter une recette qui ne nous plaît plus.",
+  },
+  {
+    n: "03",
+    t: "Fermentation lente",
+    d: "Trois semaines minimum, garde à froid : le temps que le brasseur industriel n'a pas et que le goût réclame.",
+  },
+  {
+    n: "04",
+    t: "Ni filtrée ni pasteurisée",
+    d: "La bière reste vivante, un léger dépôt est normal — c'est la preuve, pas le défaut.",
+  },
+];
+
+const ENGAGEMENT_DEMO = [
+  "Brasserie indépendante : aucun groupe au capital, aucune bière brassée pour d'autres",
+  "Malts d'orge de Flandre, houblons tracés, aucun additif ni arôme",
+  "Bières non filtrées, non pasteurisées — DLUO courte, goût long",
+  "Consigne bouteilles et fûts : rapportez, on reprend, on relave",
+];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
+
 function TARIFS_DEMO_LIVE() {
-  return [{"a": "Bouteille 33 cl (boutique)", "p": "3,20 €", "n": "Consigne 0,20 € rendue au retour."}, {"a": "Caisse de 12 (assortie)", "p": "34 €", "n": "Composez avec les permanentes et la saisonnière du moment."}, {"a": "Fût 20 L + tireuse prêtée", "p": "145 €", "n": "Caution tireuse, livraison sur " + (clientCity(sessionData) ?? "Lille") + " comprise."}, {"a": "Visite-dégustation (1 h 30)", "p": "12 €", "n": "Cuves, brassin en cours, 4 dégustations. Le samedi à 15 h."}];
+  return [
+    { a: "Bouteille 33 cl (boutique)", p: "3,20 €", n: "Consigne 0,20 € rendue au retour." },
+    { a: "Caisse de 12 (assortie)", p: "34 €", n: "Composez avec les permanentes et la saisonnière du moment." },
+    {
+      a: "Fût 20 L + tireuse prêtée",
+      p: "145 €",
+      n: "Caution tireuse, livraison sur " + (clientCity(sessionData) ?? "Lille") + " comprise.",
+    },
+    { a: "Visite-dégustation (1 h 30)", p: "12 €", n: "Cuves, brassin en cours, 4 dégustations. Le samedi à 15 h." },
+  ];
 }
-let TARIFS_DEMO = TARIFS_DEMO_LIVE();;
+let TARIFS_DEMO = TARIFS_DEMO_LIVE();
 let TARIFS = TARIFS_DEMO;
-const AVIS_SOURCE = [{"texte": "L'IPA du Beffroi est devenue la bière officielle de nos vendredis. Le taproom au pied des cuves, avec le brasseur qui passe expliquer le brassin en cours : c'est ça, boire local.", "auteur": "Habitué du taproom", "detail": "Taproom"}, {"texte": "Fûts et tireuse pour notre mariage de 120 personnes : livrés, installés, repris le lundi. La blanche a fait l'unanimité, même chez les non-buveurs de bière.", "auteur": "Marion & Cédric", "detail": "Fûts événement"}, {"texte": "La visite du samedi avec dégustation vaut largement les 12 €. On a compris pourquoi une bière artisanale coûte ce qu'elle coûte — et on l'achète sans broncher depuis.", "auteur": "Groupe d'amis lillois", "detail": "Visite-dégustation"}];
+
+const AVIS_SOURCE = [
+  {
+    texte:
+      "L'IPA du Beffroi est devenue la bière officielle de nos vendredis. Le taproom au pied des cuves, avec le brasseur qui passe expliquer le brassin en cours : c'est ça, boire local.",
+    auteur: "Habitué du taproom",
+    detail: "Taproom",
+  },
+  {
+    texte:
+      "Fûts et tireuse pour notre mariage de 120 personnes : livrés, installés, repris le lundi. La blanche a fait l'unanimité, même chez les non-buveurs de bière.",
+    auteur: "Marion & Cédric",
+    detail: "Fûts événement",
+  },
+  {
+    texte:
+      "La visite du samedi avec dégustation vaut largement les 12 €. On a compris pourquoi une bière artisanale coûte ce qu'elle coûte — et on l'achète sans broncher depuis.",
+    auteur: "Groupe d'amis lillois",
+    detail: "Visite-dégustation",
+  },
+];
 let AVIS_DEMO = AVIS_SOURCE;
-const STATS_DEMO = [{"value": "4", "label": "Bières permanentes"}, {"value": "1 200 hL", "label": "Brassés par an — pas un de plus"}, {"value": "0", "label": "Filtration, pasteurisation, additif"}, {"value": "30 km", "label": "Rayon des orges maltées"}];
+
+const STATS_DEMO = [
+  { value: "4", label: "Bières permanentes" },
+  { value: "1 200 hL", label: "Brassés par an — pas un de plus" },
+  { value: "0", label: "Filtration, pasteurisation, additif" },
+  { value: "30 km", label: "Rayon des orges maltées" },
+];
 let STATS = STATS_DEMO;
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
+/* ── Primitives ───────────────────────────────────────────────────────────── */
+
+function Kicker({ children, color = C.accent, align = "left" }: any) {
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 26 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 14,
+        justifyContent: align === "center" ? "center" : "flex-start",
+      }}
+    >
+      <span style={{ width: 40, height: 1, background: color, opacity: 0.85, flexShrink: 0 }} />
+      <span
+        style={{
+          fontFamily: BODY,
+          fontSize: 10.5,
+          letterSpacing: "0.36em",
+          textTransform: "uppercase",
+          color,
+          fontWeight: 600,
+        }}
+      >
+        {children}
+      </span>
+    </div>
+  );
+}
+
+function Reveal({ children, delay = 0, y = 26, style }: any) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-12% 0px -8% 0px" });
+  return (
+    <motion.div
+      ref={ref}
+      style={style}
+      initial={{ opacity: 0, y }}
+      animate={inView ? { opacity: 1, y: 0 } : undefined}
+      transition={{ duration: 0.85, delay, ease: EASE }}
+    >
       {children}
     </motion.div>
   );
 }
 
-function photo(i: number, fallback: string): string {
-  return fd?.photoUrls?.[i] || fallback;
+/** Filet dégradé d'un pixel — la ligne de tirage. */
+function Filet({ opacity = 1 }: any) {
+  return (
+    <div
+      aria-hidden
+      style={{
+        height: 1,
+        width: "100%",
+        background: `linear-gradient(to right, transparent, ${C.accent}, transparent)`,
+        opacity: 0.34 * opacity,
+        pointerEvents: "none",
+      }}
+    />
+  );
 }
 
+function TexteFantome({ children, top, right, left, size = "clamp(8rem,20vw,19rem)" }: any) {
+  return (
+    <span
+      aria-hidden
+      style={{
+        position: "absolute",
+        top,
+        right,
+        left,
+        fontFamily: DISPLAY,
+        fontWeight: 800,
+        fontSize: size,
+        lineHeight: 0.8,
+        color: C.accent,
+        opacity: 0.06,
+        pointerEvents: "none",
+        userSelect: "none",
+        letterSpacing: "-0.05em",
+        whiteSpace: "nowrap",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
+
+function BoutonCuivre({ href, children, plein = true, large = false }: any) {
+  const [h, setH] = useState(false);
+  return (
+    <a
+      href={href}
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 10,
+        padding: large ? "17px 34px" : "14px 28px",
+        fontFamily: BODY,
+        fontSize: large ? 15 : 14,
+        fontWeight: 600,
+        letterSpacing: "0.04em",
+        textDecoration: "none",
+        borderRadius: 3,
+        border: `1px solid ${plein ? (h ? C.accentDark : C.accent) : h ? C.accent : "rgba(243,236,224,0.26)"}`,
+        background: plein ? (h ? C.accentDark : C.accent) : h ? "rgba(207,127,46,0.10)" : "transparent",
+        color: plein ? "#160e05" : C.ink,
+        transform: h ? "translateY(-3px)" : "none",
+        boxShadow: h
+          ? "0 18px 42px -18px rgba(207,127,46,0.55), 0 3px 12px -6px rgba(0,0,0,0.6)"
+          : "0 0 0 0 rgba(0,0,0,0)",
+        transition: `all .5s ${EASE_CSS}`,
+        minHeight: 44,
+      }}
+    >
+      {children}
+      <ArrowRight
+        size={15}
+        style={{ transform: h ? "translateX(5px)" : "none", transition: `transform .5s ${EASE_CSS}` }}
+      />
+    </a>
+  );
+}
+
+function NavLien({ l, h }: any) {
+  const [hov, setHov] = useState(false);
+  return (
+    <a
+      href={h}
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      style={{
+        position: "relative",
+        fontFamily: BODY,
+        fontSize: 13.5,
+        fontWeight: 500,
+        letterSpacing: "0.04em",
+        color: hov ? C.ink : C.textMuted,
+        textDecoration: "none",
+        padding: "12px 2px",
+        transition: `color .45s ${EASE_CSS}`,
+      }}
+    >
+      {l}
+      <span
+        aria-hidden
+        style={{
+          position: "absolute",
+          left: 0,
+          bottom: 6,
+          height: 1,
+          width: hov ? "100%" : "0%",
+          background: C.accent,
+          transition: `width .5s ${EASE_CSS}`,
+        }}
+      />
+    </a>
+  );
+}
+
+/** La bouteille du geste : SVG, aucune image. La robe suit la bière. */
+function Bouteille({ robe, etiquette, nom }: any) {
+  return (
+    <svg viewBox="0 0 140 400" width="100%" height="100%" aria-hidden style={{ display: "block", overflow: "visible" }}>
+      {/* capsule */}
+      <rect x="57" y="8" width="26" height="16" rx="4" fill={C.accent} />
+      {/* le verre : col, épaules, corps, pied */}
+      <path
+        d="M60 24 h20 v66 c0 26 28 34 28 68 v212 c0 13 -10 22 -23 22 h-30 c-13 0 -23 -9 -23 -22 v-212 c0 -34 28 -42 28 -68 z"
+        fill={robe}
+        stroke="rgba(0,0,0,0.35)"
+        strokeWidth="1.5"
+      />
+      {/* voile sombre du verre : la robe se lit sans être criarde */}
+      <path
+        d="M60 24 h20 v66 c0 26 28 34 28 68 v212 c0 13 -10 22 -23 22 h-30 c-13 0 -23 -9 -23 -22 v-212 c0 -34 28 -42 28 -68 z"
+        fill="rgba(12,9,7,0.42)"
+      />
+      {/* reflet */}
+      <rect x="42" y="176" width="7" height="176" rx="3.5" fill="rgba(255,255,255,0.14)" />
+      {/* étiquette */}
+      <rect x="38" y="238" width="64" height="78" rx="5" fill="#f3ece0" stroke="rgba(0,0,0,0.18)" strokeWidth="1" />
+      <line x1="46" y1="252" x2="94" y2="252" stroke={robe} strokeWidth="2.5" />
+      <text
+        x="70"
+        y="278"
+        textAnchor="middle"
+        fontFamily={DISPLAY}
+        fontWeight="800"
+        fontSize="13"
+        letterSpacing="1.5"
+        fill="#160e05"
+        style={{ textTransform: "uppercase" }}
+      >
+        {String(etiquette ?? "").toUpperCase().slice(0, 8)}
+      </text>
+      <text x="70" y="296" textAnchor="middle" fontFamily={BODY} fontSize="7.5" letterSpacing="1.1" fill="#6f6355">
+        {String(nom ?? "").toUpperCase().slice(0, 22)}
+      </text>
+      <line x1="46" y1="304" x2="94" y2="304" stroke={robe} strokeWidth="1" opacity="0.6" />
+      {/* collerette */}
+      <rect x="56" y="96" width="28" height="20" rx="3" fill="#f3ece0" opacity="0.9" />
+    </svg>
+  );
+}
+
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || clientPhotos(sessionData)[i] || fallback;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   PAGE
+   ════════════════════════════════════════════════════════════════════════════ */
 export default function BrasserieHoublonPage() {
   const [session, setSession] = useState<any>(null);
 
@@ -109,28 +441,41 @@ export default function BrasserieHoublonPage() {
       .catch(() => {});
   }, []);
 
-
   fd = session?.formData;
-  bp = session?.businessProfile;
   c = session?.generatedContent;
+  bp = session?.businessProfile;
   sessionData = session;
+
   TARIFS_DEMO = TARIFS_DEMO_LIVE();
-
-
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({
+      ...SERVICES_SOURCE[i % SERVICES_SOURCE.length],
+      titre: s.title,
+    })),
     SERVICES_SOURCE,
   );
   AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
+      ...AVIS_SOURCE[i % AVIS_SOURCE.length],
+      auteur: r.author,
+      texte: r.text,
+    })),
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({
+      ...TARIFS_DEMO[i % TARIFS_DEMO.length],
+      a: s.title,
+      p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p,
+      n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n,
+    })),
     TARIFS_DEMO,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
-  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
+  ENGAGEMENT = resolveList(
+    clientList(sessionData, "engagements.liste") ?? clientCertifications(sessionData),
+    ENGAGEMENT_DEMO,
+  );
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };
@@ -139,247 +484,517 @@ export default function BrasserieHoublonPage() {
   const SERVICES = resolveList(
     clientServices(sessionData)?.map((s: any, n: number) => ({
       titre: s.title ?? SERVICES_DEMO[n % SERVICES_DEMO.length].titre,
-      desc: s.description ?? SERVICES_DEMO[n % SERVICES_DEMO.length].desc,
+      desc: s.description ?? s.desc ?? SERVICES_DEMO[n % SERVICES_DEMO.length].desc,
       tag: SERVICES_DEMO[n % SERVICES_DEMO.length].tag,
+      n: SERVICES_DEMO[n % SERVICES_DEMO.length].n,
     })),
-    SERVICES_DEMO
+    SERVICES_DEMO,
   );
   const AVIS = resolveList(
     clientReviews(sessionData)?.map((r: any, n: number) => ({
       texte: r.text ?? AVIS_DEMO[n % AVIS_DEMO.length].texte,
-      auteur: r.name ?? AVIS_DEMO[n % AVIS_DEMO.length].auteur,
-      detail: r.location ?? AVIS_DEMO[n % AVIS_DEMO.length].detail,
+      auteur: r.name ?? r.author ?? AVIS_DEMO[n % AVIS_DEMO.length].auteur,
+      detail: r.location ?? r.role ?? AVIS_DEMO[n % AVIS_DEMO.length].detail,
     })),
-    AVIS_DEMO
+    AVIS_DEMO,
   );
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  
 
+  /*
+    Un seul index pilote tout le héros : la robe de la bouteille, son
+    étiquette, la bière nommée dans la bande de tirage et la fraction. Il ne
+    fabrique aucun texte — il fait tourner les bières que le thème (ou le
+    client) a déjà écrites. DWELL.slow : l'arc dure 0,9 s, l'arrêt 5,6 s.
+  */
+  const { i, next, prev } = useSlides(SERVICES.length, DWELL.slow);
+  const BIERE = SERVICES[i % SERVICES.length];
+  const robe = ROBES[i % ROBES.length];
 
   useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", h);
+    const h = () => setScrolled(window.scrollY > 40);
+    h();
+    window.addEventListener("scroll", h, { passive: true });
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const phone = fd?.phone ?? "03 20 00 00 02";
-  const telHref = `tel:${fd?.phone ?? "+33320000002"}`;
-  const mail = fd?.email ?? "taproom@houblon-franc.fr";
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "03 20 00 00 02";
+  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33320000002").replace(/\s+/g, "")}`;
+  const mail = clientEmail(sessionData) ?? fd?.email ?? "taproom@houblon-franc.fr";
+  const nom = fd?.businessName ?? clientName(sessionData) ?? "Brasserie du Houblon Franc";
+  const ville = clientCity(sessionData) ?? "Lille";
+  const metier = clientTrade(sessionData) ?? "Brasserie artisanale";
+
+  /* Titre du héros — deux lignes courtes : le gabarit H3 est énorme. */
+  const ligne1 = clientHeroLine(sessionData, 0, 2, 17) ?? "La bière brassée ici,";
+  const ligne2 = clientHeroLine(sessionData, 1, 2, 17) ?? "bue ici, aimée ici.";
+
+  /* L'unique emplacement photographié d'origine : le plein cadre du héros. */
+  const heroImg = photo(
+    0,
+    "https://images.pexels.com/photos/1267348/pexels-photo-1267348.jpeg?auto=compress&cs=tinysrgb&w=1400",
+  );
+  /* Emplacements supplémentaires, sans URL inventée : le CSS tient seul. */
+  const taproomImg = photo(1, "");
+  const cuvesImg = photo(2, "");
 
   return (
-    <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
-      <style>{`${FONTS_CSS}
+    <div style={{ background: C.bg, color: C.ink, fontFamily: BODY, overflowX: "clip" }}>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,500;0,600;0,700;0,800;1,700&family=Inter:wght@300;400;500;600&display=swap');
 
-        @media (max-width: 900px) { #i380-nav { display: none !important; } .i380-burger { display: flex !important; } }
-        @media (max-width: 860px) {
-          .i380-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
-          .i380-card { max-width: 380px; margin: 0 auto; width: 100%; }
+        .i380-navrow { display: flex; gap: clamp(16px,2vw,30px); align-items: center; }
+        .i380-split { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: clamp(32px,5vw,72px); align-items: center; }
+        .i380-stats { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); }
+        .i380-bieres { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px,100%),1fr)); gap: 16px; }
+        .i380-herobas { display: grid; grid-template-columns: minmax(0,1fr) clamp(180px,22vw,260px); gap: clamp(28px,4vw,64px); align-items: end; }
+        .i380-brassage { display: grid; grid-template-columns: minmax(0,0.9fr) minmax(0,1.1fr); gap: clamp(32px,5vw,72px); align-items: start; }
+
+        /* Le détail gratuit : trois bulles montent dans le cuivre du héros. */
+        @keyframes i380-bulle {
+          0% { transform: translateY(0); opacity: 0; }
+          12% { opacity: .5; }
+          88% { opacity: .5; }
+          100% { transform: translateY(-58vh); opacity: 0; }
+        }
+        .i380-bulle { animation: i380-bulle 11s linear infinite; }
+        .i380-bulle2 { animation-duration: 14s; animation-delay: 3s; }
+        .i380-bulle3 { animation-duration: 9s; animation-delay: 6s; }
+        @media (prefers-reduced-motion: reduce) { .i380-bulle { animation: none; opacity: .18; } }
+
+        @media (max-width: 1000px) {
+          .i380-brassage { grid-template-columns: 1fr; }
+          .i380-brassticky { position: static !important; }
+        }
+        @media (max-width: 900px) {
+          #i380-nav { display: none !important; }
+          .i380-burger { display: flex !important; }
           .i380-split { grid-template-columns: 1fr !important; }
-          .i380-stats { grid-template-columns: 1fr 1fr !important; row-gap: 8px; }
-          .i380-stats .i380-statcell { border-right: none !important; }
-          .i380-pad { padding-left: 24px !important; padding-right: 24px !important; }
-          .i380-herotext { padding: 0 24px 44px !important; }
+        }
+        @media (max-width: 860px) {
+          .i380-herobas { grid-template-columns: 1fr; }
+          .i380-flacon { display: none !important; }
+          .i380-stats { grid-template-columns: repeat(2, minmax(0,1fr)); }
+          .i380-statcell { border-left: none !important; }
+          .i380-tarifrow { flex-direction: column; align-items: flex-start !important; }
         }
       `}</style>
 
       {/* ── NAV ─────────────────────────────────────────────────────────── */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 48px", background: scrolled ? C.bg : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`, transition: "all 0.4s ease" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+      <nav
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: scrolled ? "12px clamp(20px,5vw,56px)" : "22px clamp(20px,5vw,56px)",
+          background: scrolled ? "rgba(12,9,7,0.92)" : "transparent",
+          backdropFilter: scrolled ? "blur(14px) saturate(140%)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(14px) saturate(140%)" : "none",
+          borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,
+          transition: `padding .55s ${EASE_CSS}, background .55s ${EASE_CSS}, border-color .55s ${EASE_CSS}, backdrop-filter .55s ${EASE_CSS}`,
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "center", gap: 11, minWidth: 0 }}>
           {fd?.logoBase64 ? (
-            <img src={fd.logoBase64} alt={fd?.businessName ?? "logo"} style={{ height: 30, maxWidth: 160, objectFit: "contain", display: "block" }} />
+            <img
+              src={fd.logoBase64}
+              alt={nom}
+              style={{ height: 30, maxWidth: 168, objectFit: "contain", display: "block" }}
+            />
           ) : (
             <>
-              <Beer size={18} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Brasserie du Houblon Franc"))}</span>
-              
+              <Beer size={17} color={C.accent} style={{ flexShrink: 0 }} />
+              <span
+                style={{
+                  fontFamily: DISPLAY,
+                  fontWeight: 700,
+                  fontSize: 17.5,
+                  letterSpacing: "-0.005em",
+                  color: C.ink,
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                {nom}
+              </span>
+              <span
+                style={{
+                  fontSize: 9.5,
+                  letterSpacing: "0.30em",
+                  textTransform: "uppercase",
+                  color: C.textFaint,
+                  marginLeft: 8,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {ville}
+              </span>
             </>
           )}
         </div>
-        <div id="i380-nav" style={{ display: "flex", gap: 24, alignItems: "center" }}>
-          {NAV.map(({ l, h }) => (
-            <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
+        <div id="i380-nav" className="i380-navrow">
+          {NAV.map((n) => (
+            <NavLien key={n.l} l={n.l} h={n.h} />
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33320000002"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
-            Visite & dégustation
-          </motion.a>
+          <BoutonCuivre href={telHref}>Visite & dégustation</BoutonCuivre>
         </div>
-        <button className="i380-burger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu" style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}>
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        <button
+          className="i380-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{
+            display: "none",
+            flexDirection: "column",
+            justifyContent: "center",
+            gap: 5,
+            background: "none",
+            border: "none",
+            cursor: "pointer",
+            padding: 10,
+            minWidth: 44,
+            minHeight: 44,
+          }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: `transform .35s ${EASE_CSS}`, transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "opacity .3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: `transform .35s ${EASE_CSS}`, transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
         </button>
       </nav>
       {mobileOpen && (
-        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: C.bg, borderBottom: `1px solid ${C.border}`, padding: "20px 28px", display: "flex", flexDirection: "column", gap: 4 }}>
+        <div
+          style={{
+            position: "fixed",
+            top: 62,
+            left: 0,
+            right: 0,
+            zIndex: 99,
+            background: C.bgDark,
+            borderBottom: `1px solid ${C.border}`,
+            padding: "18px clamp(20px,6vw,28px) 24px",
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+          }}
+        >
           {NAV.map(({ l, h }) => (
-            <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
+            <a
+              key={l}
+              href={h}
+              onClick={() => setMobileOpen(false)}
+              style={{ color: C.ink, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}
+            >
+              {l}
+            </a>
           ))}
-          <a href={`tel:${fd?.phone ?? "+33320000002"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Visite & dégustation</a>
+          <a
+            href={telHref}
+            style={{
+              background: C.accent,
+              color: "#160e05",
+              borderRadius: 3,
+              padding: "14px 22px",
+              fontSize: 15,
+              fontWeight: 700,
+              textDecoration: "none",
+              textAlign: "center",
+              marginTop: 10,
+            }}
+          >
+            Visite & dégustation
+          </a>
         </div>
       )}
 
-      {/* ── HERO ────────────────────────────────────────────────────────── */}
-<section className="i380-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.08fr) minmax(0,0.92fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1260, margin: "0 auto" }}>
-        <div>
-          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>
-            Brasserie artisanale · {clientCity(sessionData) ?? "Lille"}
-          </motion.span>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 21) ?? "La bière brassée ici,"}<br /><em style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 21) ?? "bue ici, aimée ici."}</em></>)}
-          </>)}</motion.h1>
-          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Quatre bières permanentes, une saisonnière tous les deux mois, un taproom au pied des cuves : une brasserie indépendante qui brasse en petits volumes et refuse de filtrer ce qui donne le goût."}
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-            <motion.a href={telHref} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
-              Réserver une visite-dégustation <ArrowRight size={16} />
-            </motion.a>
-            <motion.a href="#services" style={{ background: C.white, color: C.text, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ borderColor: C.accent }}>
-              Nos bières
-            </motion.a>
-          </motion.div>
-          
-        </div>
-        <div className="i380-card"><div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3.2", justifyContent: "center" , overflow: "hidden" }}><img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/1267348/pexels-photo-1267348.jpeg?auto=compress&cs=tinysrgb&w=1400"))} alt="Brasseur devant les cuves" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div></div>
-      </section>
+      {/* ── HÉROS — H3 plein cadre, titre en bas, bouteille en balancier ── */}
+      <section
+        id="hero"
+        style={{
+          position: "relative",
+          minHeight: "100dvh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-end",
+          overflow: "hidden",
+          /* Fond de repli obligatoire : la page reste tenue photo bloquée. */
+          background: C.bgDark,
+        }}
+      >
+        {heroImg ? (
+          <img
+            src={heroImg}
+            alt="Brasseur devant les cuves"
+            loading="eager"
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              opacity: 0.5,
+            }}
+          />
+        ) : null}
 
-      {/* ── STATS ───────────────────────────────────────────────────────── */}
-      <PanelRise><section style={{ background: C.bgDark }}>
-        <div className="i380-stats i380-pad" style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
-          {STATS.map((s, idx) => (
-            <Reveal key={s.label} delay={idx * 0.08}>
-              <div className="i380-statcell" style={{ padding: "30px 8px", textAlign: "center", borderRight: idx < 3 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>
-                <div style={{ fontFamily: FONT, fontSize: 32, color: C.hi, lineHeight: 1 }}>{s.value}</div>
-                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginTop: 7 }}>{s.label}</div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section></PanelRise>
+        {/* Le cuivre tient sans photographie : lueur de cuve + bulles. */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            bottom: "-22%",
+            right: "-8%",
+            width: "72vw",
+            height: "72vw",
+            maxWidth: 980,
+            maxHeight: 980,
+            background: `radial-gradient(circle, ${C.accent} 0%, transparent 62%)`,
+            opacity: 0.12,
+            pointerEvents: "none",
+          }}
+        />
+        {[
+          { left: "12%", size: 7, cls: "i380-bulle" },
+          { left: "46%", size: 5, cls: "i380-bulle i380-bulle2" },
+          { left: "78%", size: 9, cls: "i380-bulle i380-bulle3" },
+        ].map((b, k) => (
+          <span
+            key={k}
+            aria-hidden
+            className={b.cls}
+            style={{
+              position: "absolute",
+              bottom: "6%",
+              left: b.left,
+              width: b.size,
+              height: b.size,
+              borderRadius: 999,
+              border: `1px solid ${C.accentDark}`,
+              opacity: 0,
+              pointerEvents: "none",
+            }}
+          />
+        ))}
 
+        {/* Scrim à trois arrêts : le titre reste lisible sur toute image. */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(to top, rgba(8,6,5,0.95) 0%, rgba(8,6,5,0.70) 34%, rgba(8,6,5,0.22) 66%, rgba(8,6,5,0.52) 100%)",
+            pointerEvents: "none",
+          }}
+        />
 
-      {/* ── SERVICES ────────────────────────────────────────────────────── */}
-      <section id="services" className="i380-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ marginBottom: 50 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Nos bières</span>
-              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
-                Quatre permanentes,<br /><em>et ce qui nous passe par la tête.</em>
-              </>)}</h2>
-            </div>
-          </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18 }}>
-            {SERVICES.map((s, idx) => (
-              <Reveal key={s.titre} delay={idx * 0.06}>
-                <motion.div whileHover={{ y: -5 }} style={{ background: C.white, borderRadius: 12, padding: "26px 24px", border: `1px solid ${C.border}`, height: "100%" }}>
-                  <span style={{ background: C.accentLight, color: C.accent, borderRadius: 999, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag}</span>
-                  <h3 style={{ fontFamily: FONT_TITRE, fontSize: 18.5, color: C.text, margin: "15px 0 10px" }}>{s.titre}</h3>
-                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{s.desc}</p>
-                </motion.div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── MÉTHODE / INFOS ─────────────────────────────────────────────── */}
-      <section id="methode" className="i380-pad" style={{ padding: "96px 64px", background: C.bg }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ marginBottom: 50 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Le brassage</span>
-              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
-                Petits volumes,<br /><em>grandes exigences.</em>
-              </>)}</h2>
-            </div>
-          </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: 18 }}>
-            {METHODE.map((m, idx) => (
-              <Reveal key={m.n} delay={idx * 0.08}>
-                <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: "26px 24px", height: "100%" }}>
-                  <div style={{ fontFamily: FONT, fontSize: 28, color: C.accent, marginBottom: 12 }}>{m.n}</div>
-                  <h3 style={{ fontSize: 16.5, fontWeight: 700, color: C.text, marginBottom: 9 }}>{m.t}</h3>
-                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{m.d}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── ENGAGEMENTS ─────────────────────────────────────────────────── */}
-      <section id="engagements" className="i380-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
-        <div className="i380-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
-          <Reveal>
-            <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3", display: "flex", alignItems: "center", justifyContent: "center" }}><Wheat size={80} color={C.accent} strokeWidth={1.1} /></div>
-          </Reveal>
-          <Reveal delay={0.15}>
+        <div
+          style={{
+            position: "relative",
+            zIndex: 2,
+            width: "100%",
+            maxWidth: 1280,
+            margin: "0 auto",
+            padding: "clamp(120px,14vw,180px) clamp(20px,5vw,64px) clamp(40px,6vw,70px)",
+          }}
+        >
+          <div className="i380-herobas">
             <div>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>La maison</span>
-              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
-                Indépendants,<br /><em>et fiers de l'être.</em>
-              </>)}</h2>
-              {ENGAGEMENT.map((e, idx) => (
-                <div key={idx} style={{ display: "flex", gap: 12, marginBottom: 14 }}>
-                  <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
-                  <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{e}</span>
-                </div>
-              ))}
-              <motion.a href={telHref} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 24, background: C.accent, color: "#101010", borderRadius: 8, padding: "14px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ scale: 1.02 }}>
-                Nous appeler <ArrowRight size={16} />
-              </motion.a>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease: EASE }}
+              >
+                <Kicker>{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
+              </motion.div>
 
-      {/* ── TARIFS ──────────────────────────────────────────────────────── */}
-      <section id="tarifs" className="i380-pad" style={{ padding: "96px 64px", background: C.bg }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 16 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Tarifs</span>
-              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Au verre, <em>au fût, à la caisse.</em></>)}</h2>
-              <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>Vente directe à la boutique et au taproom. Tarifs CHR sur demande, livraison offerte sur {clientCity(sessionData) ?? "Lille"} dès 6 fûts.</p>
-            </div>
-          </Reveal>
-          <div style={{ marginTop: 38 }}>
-            {TARIFS.map((tt, idx) => (
-              <Reveal key={tt.a} delay={idx * 0.06}>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "space-between", alignItems: "baseline", background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: "20px 24px", marginBottom: 12 }}>
-                  <div style={{ minWidth: 0 }}>
-                    <div style={{ fontFamily: FONT, fontSize: 17.5, color: C.text }}>{tt.a}</div>
-                    <div style={{ fontSize: 13.5, color: C.textMuted, marginTop: 5, lineHeight: 1.6 }}>{tt.n}</div>
+              <motion.h1
+                initial={{ opacity: 0, y: 34 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.95, delay: 0.055, ease: EASE }}
+                style={{
+                  margin: "clamp(18px,2.4vw,28px) 0 0",
+                  fontFamily: DISPLAY,
+                  fontWeight: 800,
+                  fontSize: "clamp(2.5rem,7vw,6rem)",
+                  lineHeight: 0.96,
+                  letterSpacing: "-0.035em",
+                  textTransform: "uppercase",
+                  color: C.ink,
+                }}
+              >
+                {ligne1}
+                <br />
+                <em style={{ fontStyle: "italic", color: C.accent }}>{ligne2}</em>
+              </motion.h1>
+
+              <motion.p
+                initial={{ opacity: 0, y: 22 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.85, delay: 0.11, ease: EASE }}
+                style={{
+                  fontSize: "clamp(15px,1.2vw,17px)",
+                  color: "rgba(243,236,224,0.80)",
+                  lineHeight: 1.78,
+                  maxWidth: 520,
+                  margin: "clamp(20px,2.4vw,30px) 0 clamp(26px,3vw,36px)",
+                }}
+              >
+                {clientHeroSubtitle(sessionData) ??
+                  c?.heroSubline ??
+                  "Quatre bières permanentes, une saisonnière tous les deux mois, un taproom au pied des cuves : une brasserie indépendante qui brasse en petits volumes et refuse de filtrer ce qui donne le goût."}
+              </motion.p>
+
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.85, delay: 0.165, ease: EASE }}
+                style={{ display: "flex", gap: 13, flexWrap: "wrap" }}
+              >
+                <BoutonCuivre href={telHref} large>
+                  Réserver une visite-dégustation
+                </BoutonCuivre>
+                <BoutonCuivre href="#services" plein={false} large>
+                  Nos bières
+                </BoutonCuivre>
+              </motion.div>
+
+              {/* Bande de tirage : l'index unique nomme la bière servie. */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.85, delay: 0.22, ease: EASE }}
+                style={{ marginTop: "clamp(28px,4vw,44px)" }}
+              >
+                <Filet />
+                <div style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap", paddingTop: 16 }}>
+                  <SlideIndex i={i} total={SERVICES.length} variant="fraction" color="rgba(243,236,224,0.82)" className="" />
+                  <div style={{ minWidth: 0, flex: "1 1 220px" }}>
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 8 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, ease: EASE }}
+                    >
+                      <span
+                        style={{
+                          fontSize: 10.5,
+                          letterSpacing: "0.30em",
+                          textTransform: "uppercase",
+                          color: C.accent,
+                          display: "block",
+                          marginBottom: 5,
+                        }}
+                      >
+                        {BIERE?.tag}
+                      </span>
+                      <span style={{ fontSize: 14, color: "rgba(243,236,224,0.86)", fontWeight: 500 }}>
+                        {BIERE?.titre}
+                      </span>
+                    </motion.div>
                   </div>
-                  <div style={{ fontFamily: FONT, fontSize: 19, color: C.accent, whiteSpace: "nowrap" }}>{tt.p}</div>
+                  <HairlineArrows onPrev={prev} onNext={next} color={C.white} className="" />
                 </div>
-              </Reveal>
-            ))}
+              </motion.div>
+            </div>
+
+            {/* ── GESTE : ArcSwap ─────────────────────────────────────────
+                La bouteille balance autour de son pied : le pivot bas est
+                dans le composant du kit (transformOrigin 50 % 92 %). Sortie
+                accélérante 0,62 s, 0,42 s de scène vide, entrée 0,9 s
+                presque couchée qui se redresse. L'ombre au sol marque le
+                pivot ; aucun cadre autour de l'objet. */}
+            <div className="i380-flacon" style={{ position: "relative", height: "clamp(300px,38vw,440px)" }}>
+              <ArcSwap index={i} sweep={52} hold={0.42} className="">
+                <div style={{ height: "clamp(300px,38vw,440px)" }}>
+                  <Bouteille robe={robe} etiquette={BIERE?.tag} nom={nom} />
+                </div>
+              </ArcSwap>
+              <span
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  left: "50%",
+                  bottom: -6,
+                  transform: "translateX(-50%)",
+                  width: "68%",
+                  height: 18,
+                  borderRadius: "50%",
+                  background: "radial-gradient(ellipse, rgba(0,0,0,0.55) 0%, transparent 70%)",
+                  pointerEvents: "none",
+                }}
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── AVIS ────────────────────────────────────────────────────────── */}
-      <section className="i380-pad" style={{ padding: "96px 64px", background: C.bgDark }}>
+      {/* ── RESPIRATION ─────────────────────────────────────────────────── */}
+      <section
+        style={{
+          background: C.bg,
+          padding: "clamp(70px,10vw,128px) clamp(24px,8vw,140px)",
+          textAlign: "center",
+        }}
+      >
         <Reveal>
-          <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>On revient <em style={{ color: C.hi }}>le jeudi soir</em>.</>)}</h2>
-          </div>
+          <p
+            style={{
+              fontFamily: DISPLAY,
+              fontStyle: "italic",
+              fontWeight: 700,
+              fontSize: "clamp(1.3rem,2.9vw,2.5rem)",
+              lineHeight: 1.34,
+              letterSpacing: "-0.02em",
+              color: C.ink,
+              maxWidth: 880,
+              margin: "0 auto",
+            }}
+          >
+            {/* TEXTE_SECTION */ clientText(sessionData, "respiration.phrase") ?? (
+              <>
+                La bière reste vivante — le léger dépôt,{" "}
+                <span style={{ color: C.accent }}>c'est la preuve, pas le défaut.</span>
+              </>
+            )}
+          </p>
         </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
-          {AVIS.map((a, idx) => (
-            <Reveal key={a.auteur} delay={idx * 0.1}>
-              <div style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.10)", borderRadius: 12, padding: "26px 24px", height: "100%" }}>
-                <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>
-                  {[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.hi} color={C.hi} />)}
+        <Reveal delay={0.14}>
+          <div style={{ width: 1, height: 68, background: `linear-gradient(${C.accent}, transparent)`, margin: "40px auto 0" }} />
+        </Reveal>
+      </section>
+
+      {/* ── CHIFFRES — bande fine ───────────────────────────────────────── */}
+      <section style={{ background: C.bgDark }}>
+        <div className="i380-stats" style={{ maxWidth: 1240, margin: "0 auto", padding: "0 clamp(20px,5vw,56px)" }}>
+          {STATS.map((s: any, idx: number) => (
+            <Reveal key={s.label ?? idx} delay={idx * 0.055}>
+              <div
+                className="i380-statcell"
+                style={{
+                  padding: "clamp(26px,3vw,40px) clamp(12px,1.6vw,24px)",
+                  borderLeft: idx === 0 ? "none" : `1px solid ${C.border}`,
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: DISPLAY,
+                    fontWeight: 800,
+                    fontSize: "clamp(22px,2.6vw,34px)",
+                    color: C.accent,
+                    lineHeight: 1,
+                    letterSpacing: "-0.025em",
+                  }}
+                >
+                  {s.value}
                 </div>
-                <p style={{ fontFamily: FONT, fontSize: 15, fontStyle: "italic", color: "rgba(255,255,255,0.82)", lineHeight: 1.7, marginBottom: 18 }}>"{a.texte}"</p>
-                <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14 }}>
-                  <div style={{ fontWeight: 700, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
-                  <div style={{ color: C.hi, fontSize: 12, marginTop: 4 }}>{a.detail}</div>
+                <div style={{ fontSize: 12.5, color: C.textFaint, marginTop: 9, lineHeight: 1.55, letterSpacing: "0.03em" }}>
+                  {s.label}
                 </div>
               </div>
             </Reveal>
@@ -387,49 +1002,771 @@ export default function BrasserieHoublonPage() {
         </div>
       </section>
 
-      {/* ── CONTACT ─────────────────────────────────────────────────────── */}
-      <section id="contact" className="i380-pad" style={{ padding: "96px 64px", background: C.accentLight, textAlign: "center" }}>
-        <Reveal>
-          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Le taproom</span>
-          <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
-            Les cuves sont là,<br /><em>les verres aussi.</em>
-          </>)}</h2>
-          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>Taproom du jeudi au samedi soir, boutique du mercredi au samedi après-midi. Visites-dégustations le samedi à 15 h, sur réservation.</p>
-          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={telHref} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {phone}
-            </motion.a>
-            <motion.a href={`mailto:${mail}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "14px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ background: C.accent, color: "#fff" }}>
-              <Mail size={18} /> Nous écrire
-            </motion.a>
+      {/* ── NOS BIÈRES — étiquettes en grille ───────────────────────────── */}
+      <section
+        id="services"
+        style={{
+          background: C.bg,
+          padding: "clamp(76px,10vw,140px) clamp(20px,5vw,64px)",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <TexteFantome top="2%" right="-3%">
+          20 hL
+        </TexteFantome>
+        <div style={{ maxWidth: 1240, margin: "0 auto", position: "relative" }}>
+          <Reveal>
+            <Kicker>Nos bières</Kicker>
+            <h2
+              style={{
+                fontFamily: DISPLAY,
+                fontWeight: 800,
+                fontSize: "clamp(1.8rem,3.8vw,3rem)",
+                lineHeight: 1.06,
+                letterSpacing: "-0.032em",
+                color: C.ink,
+                margin: "22px 0 16px",
+                maxWidth: 760,
+              }}
+            >
+              {/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (
+                <>
+                  Quatre permanentes,
+                  <br />
+                  <em style={{ fontStyle: "italic", color: C.accent }}>et ce qui nous passe par la tête.</em>
+                </>
+              )}
+            </h2>
+            <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "0 0 clamp(32px,4vw,48px)" }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "services.intro") ??
+                "Brassées en 20 hL, non filtrées, non pasteurisées. La saisonnière change tous les deux mois — quand c'est fini, c'est fini."}
+            </p>
+          </Reveal>
+          <div className="i380-bieres">
+            {SERVICES.map((s: any, idx: number) => (
+              <Reveal key={s.titre ?? idx} delay={(idx % 3) * 0.055} style={{ height: "100%" }}>
+                <CarteBiere s={s} robe={ROBES[idx % ROBES.length]} />
+              </Reveal>
+            ))}
           </div>
-        </Reveal>
+        </div>
       </section>
 
-      {/* ── FOOTER ──────────────────────────────────────────────────────── */}
-      <footer className="i380-pad" style={{ background: C.bgDark, padding: "44px 64px 22px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
-            <div>
-              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Brasserie du Houblon Franc"))}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Brasserie artisanale indépendante · {clientCity(sessionData) ?? "Lille"}<br />Bières non filtrées, non pasteurisées — vente directe et CHR</p>
+      {/* ── LE BRASSAGE — rail collant + chronologie filetée ────────────── */}
+      <section
+        id="methode"
+        style={{
+          background: C.bgAlt,
+          padding: "clamp(76px,10vw,140px) clamp(20px,5vw,64px)",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <div className="i380-brassage" style={{ maxWidth: 1240, margin: "0 auto", position: "relative" }}>
+          <Reveal>
+            <div className="i380-brassticky" style={{ position: "sticky", top: 108 }}>
+              <Kicker>Le brassage</Kicker>
+              <h2
+                style={{
+                  fontFamily: DISPLAY,
+                  fontWeight: 800,
+                  fontSize: "clamp(1.8rem,3.6vw,2.9rem)",
+                  lineHeight: 1.06,
+                  letterSpacing: "-0.032em",
+                  color: C.ink,
+                  margin: "22px 0 20px",
+                }}
+              >
+                {/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (
+                  <>
+                    Petits volumes,
+                    <br />
+                    <em style={{ fontStyle: "italic", color: C.accent }}>grandes exigences.</em>
+                  </>
+                )}
+              </h2>
+              {/* Troisième emplacement photo : les cuves. Sans image, le
+                  panneau reste un objet dessiné — jamais un rectangle vide. */}
+              <div
+                style={{
+                  position: "relative",
+                  border: `1px solid ${C.border}`,
+                  borderRadius: 3,
+                  overflow: "hidden",
+                  aspectRatio: "4/3",
+                  maxWidth: 420,
+                  background: `linear-gradient(150deg, ${C.accentLight} 0%, ${C.bgDarkAlt} 100%)`,
+                }}
+              >
+                {cuvesImg ? (
+                  <img
+                    src={cuvesImg}
+                    alt="Cuves de brassage"
+                    loading="lazy"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                  />
+                ) : (
+                  <>
+                    <div
+                      aria-hidden
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        backgroundImage: `repeating-linear-gradient(90deg, ${C.mousse} 0px, ${C.mousse} 1px, transparent 1px, transparent 46px)`,
+                      }}
+                    />
+                    <div
+                      aria-hidden
+                      style={{
+                        position: "absolute",
+                        top: "-30%",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        width: "90%",
+                        height: "120%",
+                        borderRadius: "0 0 46% 46% / 0 0 30% 30%",
+                        border: `1px solid ${C.border}`,
+                        background: `linear-gradient(to bottom, transparent 30%, ${C.mousse} 100%)`,
+                      }}
+                    />
+                    <div
+                      style={{
+                        position: "absolute",
+                        inset: 0,
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 12,
+                        textAlign: "center",
+                        padding: 24,
+                      }}
+                    >
+                      <Wheat size={30} color={C.accent} strokeWidth={1.2} />
+                      <span
+                        style={{
+                          fontFamily: DISPLAY,
+                          fontWeight: 700,
+                          fontSize: "clamp(14px,1.6vw,18px)",
+                          letterSpacing: "0.22em",
+                          textTransform: "uppercase",
+                          color: C.ink,
+                        }}
+                      >
+                        Brassin du mardi
+                      </span>
+                      <span style={{ fontSize: 12, color: C.textFaint, letterSpacing: "0.14em" }}>20 hL · {ville}</span>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: (clientAddress(sessionData) ?? ((clientCity(sessionData) ?? "Lille") + ", Nord")) }, { icon: <Phone size={13} />, t: phone }, { icon: <Mail size={13} />, t: mail }, { icon: <Clock size={13} />, t: "Taproom : Jeu–Sam 17h–00h · boutique Mer–Sam 14h–19h" }].map((item, idx) => (
-                <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
-                  <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
+          </Reveal>
+
+          <div style={{ position: "relative", paddingLeft: "clamp(30px,5vw,64px)" }}>
+            <div
+              aria-hidden
+              style={{
+                position: "absolute",
+                left: "clamp(9px,1.6vw,20px)",
+                top: 8,
+                bottom: 8,
+                width: 1,
+                background: `linear-gradient(to bottom, transparent, ${C.accent}, transparent)`,
+                opacity: 0.4,
+              }}
+            />
+            {METHODE.map((m, idx) => (
+              <Reveal key={m.n} delay={idx * 0.055}>
+                <div style={{ position: "relative", paddingBottom: idx === METHODE.length - 1 ? 0 : "clamp(28px,3.4vw,44px)" }}>
+                  <span
+                    aria-hidden
+                    style={{
+                      position: "absolute",
+                      left: "calc(clamp(9px,1.6vw,20px) - clamp(30px,5vw,64px) - 3px)",
+                      top: 7,
+                      width: 7,
+                      height: 7,
+                      borderRadius: 999,
+                      background: C.accent,
+                      boxShadow: `0 0 0 4px ${C.accentLight}`,
+                    }}
+                  />
+                  <div style={{ fontSize: 10.5, letterSpacing: "0.32em", textTransform: "uppercase", color: C.accent, marginBottom: 8 }}>
+                    Étape {m.n}
+                  </div>
+                  <h3
+                    style={{
+                      fontFamily: DISPLAY,
+                      fontWeight: 700,
+                      fontSize: "clamp(17px,1.7vw,21px)",
+                      color: C.ink,
+                      margin: "0 0 9px",
+                      letterSpacing: "-0.015em",
+                    }}
+                  >
+                    {m.t}
+                  </h3>
+                  <p style={{ fontSize: 14.5, color: C.textMuted, lineHeight: 1.75, margin: 0, maxWidth: 560 }}>{m.d}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── LA MAISON — panneau taproom + engagements ───────────────────── */}
+      <section
+        id="engagements"
+        style={{ background: C.bg, padding: "clamp(76px,10vw,140px) clamp(20px,5vw,64px)" }}
+      >
+        <div className="i380-split" style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <Reveal>
+            {/* Deuxième emplacement photo : le taproom. Repli dessiné. */}
+            <div
+              style={{
+                position: "relative",
+                border: `1px solid ${C.border}`,
+                borderRadius: 3,
+                overflow: "hidden",
+                aspectRatio: "4/3",
+                background: `linear-gradient(150deg, ${C.accentLight} 0%, ${C.bgDarkAlt} 100%)`,
+              }}
+            >
+              {taproomImg ? (
+                <img
+                  src={taproomImg}
+                  alt="Le taproom au pied des cuves"
+                  loading="lazy"
+                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                />
+              ) : (
+                <>
+                  <div
+                    aria-hidden
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      backgroundImage: `linear-gradient(${C.mousse} 1px, transparent 1px), linear-gradient(90deg, ${C.mousse} 1px, transparent 1px)`,
+                      backgroundSize: "42px 42px",
+                    }}
+                  />
+                  <div
+                    aria-hidden
+                    style={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%,-50%)",
+                      width: "70%",
+                      height: "70%",
+                      borderRadius: 999,
+                      background: `radial-gradient(circle, ${C.accent} 0%, transparent 66%)`,
+                      opacity: 0.12,
+                    }}
+                  />
+                  <div
+                    style={{
+                      position: "absolute",
+                      inset: 0,
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: 14,
+                      padding: 24,
+                      textAlign: "center",
+                    }}
+                  >
+                    <Beer size={30} color={C.accent} strokeWidth={1.2} />
+                    <span
+                      style={{
+                        fontFamily: DISPLAY,
+                        fontWeight: 700,
+                        fontSize: "clamp(15px,1.8vw,20px)",
+                        letterSpacing: "0.22em",
+                        textTransform: "uppercase",
+                        color: C.ink,
+                      }}
+                    >
+                      Le taproom
+                    </span>
+                    <span style={{ fontSize: 12, color: C.textFaint, letterSpacing: "0.14em" }}>Au pied des cuves · {ville}</span>
+                  </div>
+                </>
+              )}
+              <div
+                style={{
+                  position: "absolute",
+                  left: 0,
+                  bottom: 0,
+                  background: "rgba(8,6,5,0.86)",
+                  borderTop: `1px solid ${C.border}`,
+                  borderRight: `1px solid ${C.border}`,
+                  padding: "10px 18px",
+                  fontSize: 10.5,
+                  letterSpacing: "0.30em",
+                  textTransform: "uppercase",
+                  color: C.accent,
+                }}
+              >
+                Indépendante
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={0.12}>
+            <div>
+              <Kicker>La maison</Kicker>
+              <h2
+                style={{
+                  fontFamily: DISPLAY,
+                  fontWeight: 800,
+                  fontSize: "clamp(1.7rem,3.2vw,2.6rem)",
+                  lineHeight: 1.08,
+                  letterSpacing: "-0.032em",
+                  color: C.ink,
+                  margin: "20px 0 28px",
+                }}
+              >
+                {/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (
+                  <>
+                    Indépendants,
+                    <br />
+                    <em style={{ fontStyle: "italic", color: C.accent }}>et fiers de l'être.</em>
+                  </>
+                )}
+              </h2>
+              {ENGAGEMENT.map((e: any, idx: number) => (
+                <div key={idx} style={{ display: "flex", gap: 14, marginBottom: 16, alignItems: "flex-start" }}>
+                  <span
+                    aria-hidden
+                    style={{ flexShrink: 0, marginTop: 9, width: 22, height: 1, background: C.accent, opacity: 0.85 }}
+                  />
+                  <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.7 }}>{e}</span>
+                </div>
+              ))}
+              <div style={{ marginTop: 30 }}>
+                <BoutonCuivre href={telHref}>Nous appeler</BoutonCuivre>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── TARIFS — bandes fines ───────────────────────────────────────── */}
+      <section
+        id="tarifs"
+        style={{
+          background: C.bgDark,
+          padding: "clamp(76px,10vw,140px) clamp(20px,5vw,64px)",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <TexteFantome top="8%" right="1%" size="clamp(6rem,13vw,14rem)">
+          33 cl
+        </TexteFantome>
+        <div style={{ maxWidth: 1020, margin: "0 auto", position: "relative" }}>
+          <Reveal>
+            <Kicker>Tarifs</Kicker>
+            <h2
+              style={{
+                fontFamily: DISPLAY,
+                fontWeight: 800,
+                fontSize: "clamp(1.8rem,3.6vw,2.9rem)",
+                lineHeight: 1.06,
+                letterSpacing: "-0.032em",
+                color: C.ink,
+                margin: "22px 0 14px",
+              }}
+            >
+              {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (
+                <>
+                  Au verre, <em style={{ fontStyle: "italic", color: C.accent }}>au fût, à la caisse.</em>
+                </>
+              )}
+            </h2>
+            <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 620, lineHeight: 1.75, margin: 0 }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.intro") ??
+                `Vente directe à la boutique et au taproom. Tarifs CHR sur demande, livraison offerte sur ${ville} dès 6 fûts.`}
+            </p>
+          </Reveal>
+
+          <div style={{ marginTop: "clamp(30px,4vw,52px)" }}>
+            <Filet />
+            {TARIFS.map((t: any, idx: number) => (
+              <Reveal key={t.a ?? idx} delay={idx * 0.05}>
+                <BandeTarif t={t} />
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── AVIS — sous-bocks posés sur le comptoir ─────────────────────── */}
+      <section
+        style={{
+          background: C.bgDarkAlt,
+          padding: "clamp(76px,10vw,140px) clamp(20px,5vw,64px)",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%,-50%)",
+            width: "72vw",
+            height: "72vw",
+            maxWidth: 1020,
+            maxHeight: 1020,
+            background: `radial-gradient(circle, ${C.accent} 0%, transparent 62%)`,
+            opacity: 0.09,
+            pointerEvents: "none",
+          }}
+        />
+        <div style={{ maxWidth: 1180, margin: "0 auto", position: "relative" }}>
+          <Reveal>
+            <div style={{ textAlign: "center", marginBottom: "clamp(36px,5vw,56px)" }}>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Kicker align="center">Le comptoir</Kicker>
+              </div>
+              <h2
+                style={{
+                  fontFamily: DISPLAY,
+                  fontWeight: 800,
+                  fontSize: "clamp(1.8rem,3.6vw,2.8rem)",
+                  lineHeight: 1.06,
+                  letterSpacing: "-0.032em",
+                  color: C.ink,
+                  margin: "22px 0 0",
+                }}
+              >
+                {/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (
+                  <>
+                    On revient <em style={{ fontStyle: "italic", color: C.accent }}>le jeudi soir</em>.
+                  </>
+                )}
+              </h2>
+            </div>
+          </Reveal>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(300px,100%),1fr))",
+              gap: "clamp(16px,2.4vw,28px)",
+            }}
+          >
+            {AVIS.map((a: any, idx: number) => (
+              <Reveal key={a.auteur ?? idx} delay={idx * 0.09} style={{ height: "100%" }}>
+                <SousBock a={a} idx={idx} />
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CONTACT — le taproom ────────────────────────────────────────── */}
+      <section
+        id="contact"
+        style={{
+          background: C.accentLight,
+          padding: "clamp(76px,10vw,140px) clamp(20px,5vw,64px)",
+          textAlign: "center",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            inset: 0,
+            pointerEvents: "none",
+            backgroundImage: `linear-gradient(${C.mousse} 1px, transparent 1px), linear-gradient(90deg, ${C.mousse} 1px, transparent 1px)`,
+            backgroundSize: "56px 56px",
+            opacity: 0.7,
+          }}
+        />
+        <div style={{ maxWidth: 760, margin: "0 auto", position: "relative" }}>
+          <Reveal>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Kicker align="center">Le taproom</Kicker>
+            </div>
+            <h2
+              style={{
+                fontFamily: DISPLAY,
+                fontWeight: 800,
+                fontSize: "clamp(1.9rem,4vw,3.1rem)",
+                lineHeight: 1.06,
+                letterSpacing: "-0.032em",
+                color: C.ink,
+                margin: "22px 0 18px",
+              }}
+            >
+              {/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (
+                <>
+                  Les cuves sont là,
+                  <br />
+                  <em style={{ fontStyle: "italic", color: C.accent }}>les verres aussi.</em>
+                </>
+              )}
+            </h2>
+            <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 480, margin: "0 auto 38px", lineHeight: 1.75 }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ??
+                "Taproom du jeudi au samedi soir, boutique du mercredi au samedi après-midi. Visites-dégustations le samedi à 15 h, sur réservation."}
+            </p>
+            <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
+              <BoutonCuivre href={telHref} large>
+                <Phone size={16} style={{ marginRight: 2 }} /> {phone}
+              </BoutonCuivre>
+              <BoutonCuivre href={`mailto:${mail}`} plein={false} large>
+                <Mail size={16} style={{ marginRight: 2 }} /> Nous écrire
+              </BoutonCuivre>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── PIED DE PAGE ────────────────────────────────────────────────── */}
+      <footer style={{ background: C.bgDark, padding: "clamp(44px,6vw,68px) clamp(20px,5vw,64px) 24px" }}>
+        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 34, marginBottom: 30 }}>
+            <div style={{ minWidth: 240 }}>
+              <div
+                style={{
+                  fontFamily: DISPLAY,
+                  fontWeight: 700,
+                  fontSize: 19,
+                  color: C.accent,
+                  marginBottom: 10,
+                  letterSpacing: "-0.005em",
+                }}
+              >
+                {nom}
+              </div>
+              <p style={{ color: C.textFaint, fontSize: 13, lineHeight: 1.75, margin: 0, maxWidth: 360 }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "pied.description") ?? (
+                  <>
+                    Brasserie artisanale indépendante · {clientCodePostalVille(sessionData) ?? ville}
+                    <br />
+                    Bières non filtrées, non pasteurisées — vente directe et CHR
+                  </>
+                )}
+              </p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {[
+                { icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? `${ville}, Nord` },
+                { icon: <Phone size={13} />, t: phone },
+                { icon: <Mail size={13} />, t: mail },
+                { icon: <Clock size={13} />, t: "Taproom : Jeu–Sam 17h–00h · boutique Mer–Sam 14h–19h" },
+              ].map((item, idx) => (
+                <div key={idx} style={{ display: "flex", gap: 11, color: C.textFaint, fontSize: 13, alignItems: "center" }}>
+                  <span style={{ color: C.accent }}>{item.icon}</span>
+                  {item.t}
                 </div>
               ))}
             </div>
           </div>
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Brasserie du Houblon Franc"))} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity />
+          <p style={{ color: C.textFaint, fontSize: 12, margin: "0 0 18px", opacity: 0.85, letterSpacing: "0.04em" }}>
+            L'abus d'alcool est dangereux pour la santé — à consommer avec modération. Vente interdite aux mineurs.
+          </p>
+          <Filet />
+          <div style={{ paddingTop: 18, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
+            <span style={{ color: C.textFaint, fontSize: 12, opacity: 0.8 }}>
+              © 2026 {nom} — Site réalisé par Aevia WS · SIREN{" "}
+              <LegalIdentity fallback="852 546 225" kind="siren" />
+              {/* VILLE_PIED */}
+              {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
-            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
+            <span style={{ color: C.textFaint, fontSize: 12, opacity: 0.8 }}>
+              Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.
+            </span>
           </div>
         </div>
       </footer>
     </div>
+  );
+}
+
+/* ── Sous-composants à état local ─────────────────────────────────────────── */
+
+/** Carte-étiquette : la bière comme sur la bouteille — filet, robe, corps. */
+function CarteBiere({ s, robe }: any) {
+  const [h, setH] = useState(false);
+  return (
+    <article
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{
+        position: "relative",
+        height: "100%",
+        boxSizing: "border-box",
+        background: h ? C.bgCard : "rgba(30,23,18,0.55)",
+        border: `1px solid ${h ? "rgba(207,127,46,0.45)" : C.border}`,
+        borderTop: `3px solid ${robe}`,
+        borderRadius: 4,
+        padding: "clamp(22px,2.6vw,32px) clamp(20px,2.4vw,28px)",
+        transform: h ? "translateY(-6px)" : "none",
+        boxShadow: h
+          ? "0 26px 52px -30px rgba(0,0,0,0.9), 0 6px 18px -10px rgba(207,127,46,0.35)"
+          : "0 8px 24px -20px rgba(0,0,0,0.7)",
+        transition: `all .5s ${EASE_CSS}`,
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 14 }}>
+        <span
+          style={{
+            fontFamily: DISPLAY,
+            fontWeight: 800,
+            fontSize: 22,
+            color: C.accent,
+            opacity: h ? 0.9 : 0.4,
+            letterSpacing: "-0.03em",
+            transition: `opacity .5s ${EASE_CSS}`,
+          }}
+        >
+          {s.n}
+        </span>
+        <span
+          style={{
+            border: `1px solid ${C.border}`,
+            color: C.accent,
+            borderRadius: 999,
+            padding: "3px 11px",
+            fontSize: 10,
+            fontWeight: 600,
+            textTransform: "uppercase",
+            letterSpacing: "0.22em",
+            whiteSpace: "nowrap",
+          }}
+        >
+          {s.tag}
+        </span>
+      </div>
+      <h3
+        style={{
+          fontFamily: DISPLAY,
+          fontWeight: 700,
+          fontSize: "clamp(17px,1.8vw,21px)",
+          color: C.ink,
+          margin: "0 0 10px",
+          letterSpacing: "-0.018em",
+        }}
+      >
+        {s.titre}
+      </h3>
+      <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.72, margin: 0 }}>{s.desc}</p>
+    </article>
+  );
+}
+
+function BandeTarif({ t }: any) {
+  const [h, setH] = useState(false);
+  return (
+    <div
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      className="i380-tarifrow"
+      style={{
+        display: "flex",
+        gap: 18,
+        justifyContent: "space-between",
+        alignItems: "baseline",
+        padding: "clamp(20px,2.4vw,28px) clamp(8px,1.4vw,18px)",
+        borderBottom: `1px solid ${C.border}`,
+        background: h ? C.bgCard : "transparent",
+        transform: h ? "translateX(6px)" : "none",
+        boxShadow: h ? `inset 2px 0 0 0 ${C.accent}, 0 12px 30px -22px rgba(0,0,0,0.85)` : "none",
+        transition: `all .5s ${EASE_CSS}`,
+      }}
+    >
+      <div style={{ minWidth: 0, flex: "1 1 320px" }}>
+        <div
+          style={{
+            fontFamily: DISPLAY,
+            fontWeight: 700,
+            fontSize: "clamp(16px,1.5vw,19px)",
+            color: C.ink,
+            letterSpacing: "-0.015em",
+          }}
+        >
+          {t.a}
+        </div>
+        <div style={{ fontSize: 13.5, color: C.textMuted, marginTop: 7, lineHeight: 1.65, maxWidth: 540 }}>{t.n}</div>
+      </div>
+      <div
+        style={{
+          fontFamily: DISPLAY,
+          fontWeight: 700,
+          fontSize: "clamp(17px,1.7vw,22px)",
+          color: h ? C.accentDark : C.accent,
+          whiteSpace: "nowrap",
+          transition: `color .5s ${EASE_CSS}`,
+        }}
+      >
+        {t.p}
+      </div>
+    </div>
+  );
+}
+
+/** L'avis en sous-bock : légère rotation alternée, redressé au survol. */
+function SousBock({ a, idx }: any) {
+  const [h, setH] = useState(false);
+  const angle = idx % 2 === 0 ? -1.1 : 1.3;
+  return (
+    <figure
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{
+        height: "100%",
+        boxSizing: "border-box",
+        margin: 0,
+        background: "rgba(30,23,18,0.65)",
+        border: `1px solid ${h ? "rgba(207,127,46,0.45)" : C.border}`,
+        borderRadius: 10,
+        padding: "clamp(24px,3vw,36px)",
+        display: "flex",
+        flexDirection: "column",
+        transform: h ? "rotate(0deg) translateY(-6px)" : `rotate(${angle}deg)`,
+        boxShadow: h
+          ? "0 28px 56px -32px rgba(0,0,0,0.95), 0 8px 20px -12px rgba(207,127,46,0.3)"
+          : "0 10px 30px -24px rgba(0,0,0,0.8)",
+        transition: `all .55s ${EASE_CSS}`,
+      }}
+    >
+      <div style={{ display: "flex", gap: 4, marginBottom: 18 }} aria-label="5 étoiles">
+        {Array.from({ length: 5 }).map((_, s) => (
+          <Star key={s} size={13} fill={C.accent} color={C.accent} strokeWidth={0} />
+        ))}
+      </div>
+      <blockquote
+        style={{
+          fontFamily: DISPLAY,
+          fontStyle: "italic",
+          fontWeight: 600,
+          fontSize: "clamp(15px,1.4vw,17px)",
+          lineHeight: 1.66,
+          color: C.ink,
+          margin: "0 0 22px",
+          flex: 1,
+          letterSpacing: "-0.01em",
+        }}
+      >
+        «&nbsp;{a.texte}&nbsp;»
+      </blockquote>
+      <figcaption style={{ borderTop: `1px solid ${C.border}`, paddingTop: 16 }}>
+        <div style={{ fontSize: 14, fontWeight: 600, color: C.white }}>{a.auteur}</div>
+        <div style={{ fontSize: 11, color: C.accent, marginTop: 5, letterSpacing: "0.26em", textTransform: "uppercase" }}>
+          {a.detail}
+        </div>
+      </figcaption>
+    </figure>
   );
 }

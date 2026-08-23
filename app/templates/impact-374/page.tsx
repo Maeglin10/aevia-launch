@@ -798,18 +798,12 @@ export default function CapChauffeurPage() {
           <Reveal delay={0.15}>
             <div style={{ position: "relative" }}>
               <div style={{ borderRadius: 14, overflow: "hidden", border: "1px solid rgba(255,255,255,0.12)", aspectRatio: "4/3.2", background: `linear-gradient(150deg, rgba(51,81,143,0.45) 0%, rgba(19,27,44,0.9) 62%), repeating-linear-gradient(0deg, rgba(255,255,255,0.04) 0 1px, transparent 1px 42px)` }}>
-                {photo(0, "https://images.pexels.com/photos/11790230/pexels-photo-11790230.jpeg?auto=compress&cs=tinysrgb&w=1400") ? (
-                  <img
-                    src={photo(0, "https://images.pexels.com/photos/11790230/pexels-photo-11790230.jpeg?auto=compress&cs=tinysrgb&w=1400")}
-                    alt="Habitacle prêt pour la course"
-                    loading="lazy"
-                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                  />
-                ) : (
-                  <div style={{ width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <HeartPulse size={72} color="rgba(255,255,255,0.35)" strokeWidth={1} />
-                  </div>
-                )}
+                <img
+                  src={photo(0, "https://images.pexels.com/photos/11790230/pexels-photo-11790230.jpeg?auto=compress&cs=tinysrgb&w=1400")}
+                  alt="Habitacle prêt pour la course"
+                  loading="lazy"
+                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                />
               </div>
               {/* Cartouche posé sur la photo — le badge conventionné. */}
               <div style={{ position: "absolute", bottom: -16, left: "clamp(16px,2.5vw,30px)", background: C.jalon, color: C.bgDarkAlt, borderRadius: 8, padding: "12px 18px", display: "flex", alignItems: "center", gap: 9, boxShadow: "0 14px 34px -14px rgba(0,0,0,0.55)" }}>
@@ -841,6 +835,17 @@ export default function CapChauffeurPage() {
                   "Quatre étapes, toujours les mêmes : c'est ce qui fait qu'un trajet régulier ne demande plus d'y penser."
                 )}
               </p>
+            </Reveal>
+            {/* Photo du chauffeur en tournée — sans photo, le médaillon dessiné
+                (dégradé + marquage au sol) tient seul. */}
+            <Reveal delay={0.2}>
+              <div style={{ marginTop: "clamp(22px,3vw,34px)", borderRadius: 14, overflow: "hidden", border: `1px solid ${C.border}`, aspectRatio: "4/3", maxWidth: 400, background: `linear-gradient(150deg, ${C.accentLight} 0%, ${C.bgAlt} 58%), repeating-linear-gradient(90deg, rgba(51,81,143,0.07) 0 1px, transparent 1px 34px)`, position: "relative" }}>
+                {photo(1, "") ? (
+                  <img src={photo(1, "")} alt="Chauffeur en tournée" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                ) : (
+                  <span aria-hidden style={{ position: "absolute", left: "10%", right: "10%", top: "50%", height: 2, background: `repeating-linear-gradient(90deg, ${C.accent} 0 14px, transparent 14px 30px)`, opacity: 0.45 }} />
+                )}
+              </div>
             </Reveal>
           </div>
           <div style={{ position: "relative", paddingLeft: "clamp(30px,3.4vw,48px)" }}>
