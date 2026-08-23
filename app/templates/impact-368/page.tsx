@@ -7,7 +7,7 @@ import { ArrowRight, CalendarHeart, CheckCircle, Clock, HeartPulse, Mail, MapPin
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
-import { PanelRise } from "@/lib/templates/hero-kit-3";
+import { WipeReveal } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
   clientAddress,
@@ -37,7 +37,18 @@ let bp: any = null;
 let sessionData: any = null;
 let brand: any = null;
 
-/* Cabinet de sages-femmes, 2e variante, cabinet de groupe moderne. Signature : PanelRise — les bandeaux qui s'élèvent. Sans photographie. */
+/* Cabinet de sages-femmes, 2e variante, cabinet de groupe moderne.
+   Signature : WipeReveal — le motif de consultation se dévoile de gauche à
+   droite, comme on tourne la page d'un carnet de santé. Un seul index
+   (useSlides) pilote le mot du titre, la légende et le compteur. Archétype
+   H2 : le média à gauche, le texte à droite — le miroir exact de ses
+   voisines de métier. */
+
+const HERO_SLIDES = [
+  { mot: "des créneaux qui existent vraiment.", legende: "Suivi de grossesse — dossier partagé entre les trois praticiennes" },
+  { mot: "l'urgence allaitement du jour même.", legende: "Un créneau réservé chaque matin pour le jour même" },
+  { mot: "la gynéco sans jugement, de 16 à 96 ans.", legende: "Frottis, contraception, DIU posés au cabinet" },
+];
 
 let C: Record<string, string> = {
   bg: "#faf8fb",
@@ -163,6 +174,7 @@ export default function NeufMoisPage() {
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { i: slide, next, prev } = useSlides(HERO_SLIDES.length, DWELL.normal);
   
 
 
@@ -228,14 +240,15 @@ export default function NeufMoisPage() {
         </div>
       )}
 
-      {/* ── HERO ────────────────────────────────────────────────────────── */}
-<section className="i368-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.08fr) minmax(0,0.92fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1260, margin: "0 auto" }}>
+      {/* ── HERO — H2 : média à gauche, texte à droite, mot en WipeReveal ── */}
+<section className="i368-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,0.92fr) minmax(0,1.08fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1260, margin: "0 auto" }}>
+        <div className="i368-card"><div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3.2", justifyContent: "center" , overflow: "hidden" }}><img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/7108415/pexels-photo-7108415.jpeg?auto=compress&cs=tinysrgb&w=1400"))} alt="Échographie de contrôle" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div></div>
         <div>
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
             Cabinet de sages-femmes · {clientCity(sessionData) ?? "Caen"}
           </motion.span>
           <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 18) ?? "Trois sages-femmes,"}<br /><em style={{ color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 18) ?? "des créneaux qui existent vraiment."}</em></>)}
+            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 18) ?? "Trois sages-femmes,"}<br /><em style={{ color: C.accentDark, display: "inline-block" }}><WipeReveal index={clientHeroLine(sessionData, 1, 2, 18) ? "client" : slide}>{clientHeroLine(sessionData, 1, 2, 18) ?? HERO_SLIDES[slide].mot}</WipeReveal></em></>)}
           </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
             {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Un cabinet de groupe pensé pour les agendas réels : créneaux du soir et du samedi, urgences allaitement le jour même, cours en visio pour les alitées — et trois praticiennes qui partagent vos dossiers."}
@@ -248,13 +261,17 @@ export default function NeufMoisPage() {
               Nos consultations
             </motion.a>
           </motion.div>
-          
+
+          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 42, flexWrap: "wrap" }}>
+            <SlideIndex i={slide} total={HERO_SLIDES.length} variant="fraction" color={C.textMuted} className="" />
+            <span style={{ fontSize: 13.5, color: C.textMuted, maxWidth: 380 }}>{HERO_SLIDES[slide].legende}</span>
+            <HairlineArrows onPrev={prev} onNext={next} color={C.text} className="" />
+          </div>
         </div>
-        <div className="i368-card"><div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3.2", justifyContent: "center" , overflow: "hidden" }}><img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/7108415/pexels-photo-7108415.jpeg?auto=compress&cs=tinysrgb&w=1400"))} alt="Échographie de contrôle" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div></div>
       </section>
 
       {/* ── STATS ───────────────────────────────────────────────────────── */}
-      <PanelRise><section style={{ background: C.bgDark }}>
+      <section style={{ background: C.bgDark }}>
         <div className="i368-stats i368-pad" style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
           {STATS.map((s, idx) => (
             <Reveal key={s.label} delay={idx * 0.08}>
@@ -265,7 +282,7 @@ export default function NeufMoisPage() {
             </Reveal>
           ))}
         </div>
-      </section></PanelRise>
+      </section>
 
 
       {/* ── SERVICES ────────────────────────────────────────────────────── */}

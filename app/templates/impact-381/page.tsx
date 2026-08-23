@@ -6,12 +6,14 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, CheckCircle, Clock, Grape, Mail, MapPin, Phone, Sparkle, Star, Wine } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, HeldSwap, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { PortalZoom } from "@/lib/templates/hero-kit-3";
 import {
   clientTrade,
   clientCertifications,
   clientAddress,
   clientCity,
+  clientEyebrow,
   clientPhone,
   clientList,
   clientEmail,
@@ -36,16 +38,25 @@ let bp: any = null;
 let sessionData: any = null;
 let brand: any = null;
 
-/* Caviste indépendant, 2e variante de la niche. Signature : HeldSwap — la bouteille posée sur le comptoir, tenue, remplacée. Carte CSS sans photo. */
+/* Caviste indépendant, 2e variante de la niche.
+   Signature : PortalZoom — la VOÛTE de cave. À chaque région, on traverse le
+   seuil et l'on s'enfonce plus profond dans la même cave : le masque en
+   plein cintre s'ouvre en grand pendant que la scène recule. La voûte se
+   distingue de la fenêtre de château d'impact-369 et de l'arche de mariage
+   d'impact-322 par son cintre bas et large, celui d'un berceau de tuffeau.
+   Archétype H3 : plein cadre, titre posé en bas, fond de repli C.bgDark. */
+
+/* Le plein cintre d'un berceau de cave : bas, large, épaules rondes. */
+const VOUTE = "inset(34% 24% 0% 24% round 50% 50% 0 0 / 58% 58% 0 0)";
 
 let C: Record<string, string> = {
-  bg: "#120c0e",
-  bgSection: "#181013",
+  bg: "#160d12",
+  bgSection: "#1c1117",
   bgDark: "#0b0708",
   text: "#f4edee",
   textMuted: "#a99a9d",
-  accent: "var(--brand,#d46a72)",
-  accentDark: "#e39aa0",
+  accent: "var(--brand,#b34a5e)",
+  accentDark: "var(--brand-light, #d0798a)",
   accentLight: "#1f1214",
   hi: "#e39aa0",
   white: "#1b1114",
@@ -188,7 +199,7 @@ export default function CaveDesTerroirsPage() {
 
         @media (max-width: 900px) { #i381-nav { display: none !important; } .i381-burger { display: flex !important; } }
         @media (max-width: 860px) {
-          .i381-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
+          .i381-heroContent { padding: 0 24px 40px !important; }
           .i381-card { max-width: 380px; margin: 0 auto; width: 100%; }
           .i381-split { grid-template-columns: 1fr !important; }
           .i381-stats { grid-template-columns: 1fr 1fr !important; row-gap: 8px; }
@@ -234,45 +245,39 @@ export default function CaveDesTerroirsPage() {
         </div>
       )}
 
-      {/* ── HERO ────────────────────────────────────────────────────────── */}
-<section className="i381-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.08fr) minmax(0,0.92fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1260, margin: "0 auto" }}>
-        <div>
-          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>
-            {clientTrade(sessionData) ?? "Caviste"} indépendant · {clientCity(sessionData) ?? "Tours"}
+      {/* ── HERO — H3 plein cadre : la voûte de cave (PortalZoom) ──────── */}
+      <section id="hero" className="i381-hero" style={{ height: "100dvh", minHeight: 660, position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden", background: C.bgDark }}>
+        {/* Le repli peint : la cave existe même sans photographie. */}
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(90% 70% at 50% 100%, rgba(179,74,94,0.22), transparent 65%), radial-gradient(60% 45% at 50% 0%, rgba(0,0,0,0.6), transparent 70%)" }} />
+        <PortalZoom images={[photo(0, "https://images.pexels.com/photos/35474950/pexels-photo-35474950.jpeg?auto=compress&cs=tinysrgb&w=1600")]} index={i} portal={VOUTE} overlay={0.52} />
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(11,7,8,0.88) 0%, rgba(11,7,8,0.25) 46%, rgba(11,7,8,0.45) 100%)" }} />
+
+        <div className="i381-heroContent" style={{ position: "relative", zIndex: 2, width: "100%", maxWidth: 1260, margin: "0 auto", padding: "0 64px clamp(44px,6vw,84px)" }}>
+          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
+            {clientEyebrow(sessionData) ?? `${clientTrade(sessionData) ?? "Caviste"} indépendant · ${clientCity(sessionData) ?? "Tours"}`}
           </motion.span>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 13) ?? "Des vins qu'on a bus"}<br /><em style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 13) ?? "avant de vous les vendre."}</em></>)}
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(36px, 5.4vw, 74px)", color: C.text, lineHeight: 1.06, margin: "16px 0 18px", maxWidth: 820, textShadow: "0 10px 44px rgba(0,0,0,0.65)" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
+            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 20) ?? "Des vins qu'on a bus"} <em style={{ color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 20) ?? "avant de vous les vendre."}</em></>)}
           </>)}</motion.h1>
-          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
+          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} style={{ fontSize: 16.5, color: "rgba(244,237,238,0.82)", lineHeight: 1.72, maxWidth: 520, marginBottom: 30 }}>
             {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Quatre cents références choisies domaine par domaine, dont soixante en Loire : un caviste qui a serré la main de la plupart de ses vignerons et qui vous dira franchement quand une bouteille n'est pas pour vous."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-            <motion.a href={telHref} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
+            <motion.a href={telHref} style={{ background: C.accent, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
               Appeler la cave <ArrowRight size={16} />
             </motion.a>
-            <motion.a href="#services" style={{ background: C.white, color: C.text, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ borderColor: C.accent }}>
+            <motion.a href="#services" style={{ background: "rgba(244,237,238,0.08)", color: C.text, border: `1px solid rgba(244,237,238,0.28)`, borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none", backdropFilter: "blur(6px)" }} whileHover={{ borderColor: C.accent }}>
               La sélection
             </motion.a>
           </motion.div>
-          
-          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 42, flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textMuted} className="" />
-            <span style={{ fontSize: 13.5, color: C.textMuted }}>
+
+          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 36, flexWrap: "wrap" }}>
+            <SlideIndex i={i} total={HERO.length} variant="fraction" color="rgba(244,237,238,0.7)" className="" />
+            <span style={{ fontSize: 13.5, color: "rgba(244,237,238,0.7)" }}>
               <strong style={{ color: C.text, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
             </span>
             <HairlineArrows onPrev={prev} onNext={next} color={C.text} className="" />
           </div>
-        </div>
-        <div className="i381-card">
-          <HeldSwap index={i} tilt={9}>
-            <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 10, overflow: "hidden", boxShadow: "0 18px 52px rgba(0,0,0,0.18)" }}>
-              <div style={{ aspectRatio: "4/3", background: C.accentLight , overflow: "hidden" }}><img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/35474950/pexels-photo-35474950.jpeg?auto=compress&cs=tinysrgb&w=1400"))} alt="Cave du caviste" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div>
-              <div style={{ padding: "22px 24px 24px", borderTop: `3px solid ${C.accent}` }}>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.accent, marginBottom: 8 }}>{S.k}</div>
-                <div style={{ fontFamily: FONT, fontSize: 19, color: C.text, lineHeight: 1.35 }}>{S.line}</div>
-              </div>
-            </div>
-          </HeldSwap>
         </div>
       </section>
 
