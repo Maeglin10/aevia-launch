@@ -344,7 +344,7 @@ export const TEMPLATE_TIER: Record<string, SiteTier> = {
   "impact-348": "premium", // 9 sections
   "impact-349": "premium", // 8 sections
   "impact-350": "premium", // 9 sections
-  "impact-351": "premium", // 8 sections
+  "impact-351": "premium", // 9 sections
   "impact-352": "premium", // 9 sections
   "impact-353": "premium", // 9 sections
   "impact-354": "premium", // 8 sections
@@ -356,25 +356,31 @@ export const TEMPLATE_TIER: Record<string, SiteTier> = {
   "impact-360": "premium", // 9 sections
   "impact-361": "premium", // 9 sections
   "impact-362": "pro", // 7 sections
-  "impact-363": "premium", // 8 sections
+  "impact-363": "premium", // 9 sections
   "impact-364": "premium", // 8 sections
-  "impact-365": "premium", // 8 sections
+  "impact-365": "premium", // 9 sections
   "impact-366": "premium", // 8 sections
   "impact-367": "premium", // 8 sections
   "impact-368": "premium", // 8 sections
-  "impact-369": "premium", // 8 sections
+  "impact-369": "premium", // 9 sections
   "impact-370": "premium", // 8 sections
   "impact-371": "premium", // 9 sections
-  "impact-372": "premium", // 8 sections
+  "impact-372": "premium", // 9 sections
   "impact-373": "premium", // 8 sections
-  "impact-374": "premium", // 8 sections
+  "impact-374": "premium", // 9 sections
   "impact-375": "premium", // 8 sections
   "impact-376": "premium", // 8 sections
-  "impact-377": "premium", // 8 sections
+  "impact-377": "premium", // 9 sections
   "impact-378": "premium", // 9 sections
   "impact-379": "premium", // 8 sections
-  "impact-380": "premium", // 8 sections
+  "impact-380": "premium", // 9 sections
   "impact-381": "premium", // 8 sections
   "impact-382": "premium", // 8 sections
   "impact-383": "premium", // 8 sections
 };
+
+/* Le repli « pro » ne devrait plus jamais servir : la carte couvre tout le
+   catalogue. Il reste là pour un thème créé et vendu avant régénération. */
+export function tierForTemplate(id: string | undefined | null): SiteTier {
+  return (id && TEMPLATE_TIER[id]) || 'pro';
+}
