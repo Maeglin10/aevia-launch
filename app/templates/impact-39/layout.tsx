@@ -38,6 +38,7 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
 
   return (
     <div
+      className="i39"
       style={{
         fontFamily: SANS,
         background: C.bg,
@@ -50,7 +51,8 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
     >
       {/* Load Google Fonts */}
       <style jsx global>{`
-        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;0,700;1,500&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+        .i39 h1, .i39 h2, .i39 h3 { font-family: 'Spectral', Georgia, serif; }
       `}</style>
 
       {/* NAVBAR */}

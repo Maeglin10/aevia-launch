@@ -17,20 +17,22 @@ import {
 // ─── Design tokens ───────────────────────────────────────────────────────────
 export const C = {
   bg: "#ffffff",
-  bgAlt: "#f1f5f9",
-  text: "#1e3a5f",
-  textMuted: "#64748b",
-  orange: "#ea580c",
-  orangeLight: "#fff7ed",
-  orangeDark: "#c2410c",
-  navy: "#1e3a5f",
-  navyLight: "#2d5282",
+  bgAlt: "#f5f6f4",
+  text: "#22352b",
+  textMuted: "#5f6d63",
+  /* L'orange générique cède au vert forêt — la couleur du thème, sous --brand. */
+  orange: "var(--brand, #356047)",
+  orangeLight: "#eaf0ea",
+  orangeDark: "#27492f",
+  navy: "#22352b",
+  navyLight: "#33503f",
   white: "#ffffff",
-  border: "#e2e8f0",
-  borderLight: "#f8fafc",
+  border: "#e0e5df",
+  borderLight: "#f7f9f6",
 };
 
-export const SANS = "'Manrope', system-ui, sans-serif";
+export const SANS = "'IBM Plex Sans', system-ui, sans-serif";
+export const SERIF = "'Spectral', Georgia, serif";
 
 // ─── Static data ─────────────────────────────────────────────────────────────
 import { Home, Building2, Package } from "lucide-react";
@@ -269,7 +271,7 @@ export function StatCard({ stat, delay }: { stat: typeof STATS[0]; delay: number
   return (
     <motion.div ref={ref} initial={{ opacity: 0, scale: 0.9 }} animate={inView ? { opacity: 1, scale: 1 } : {}} transition={{ duration: 0.5, delay }} style={{ textAlign: "center" }}>
       <div style={{ fontFamily: SANS, fontSize: "clamp(36px, 4vw, 52px)", fontWeight: 900, color: C.white }}>{stat.value}</div>
-      <div style={{ fontSize: 15, color: "var(--brand, #93c5fd)", marginTop: 6, fontWeight: 500 }}>{stat.label}</div>
+      <div style={{ fontSize: 15, color: "#a9c3b1", marginTop: 6, fontWeight: 500 }}>{stat.label}</div>
     </motion.div>
   );
 }
@@ -280,7 +282,7 @@ export function TruckSVG({ truckX }: { truckX: any }) {
       <svg viewBox="0 0 200 80" style={{ width: 220, height: 88 }}>
         <rect x="60" y="10" width="130" height="50" rx="4" fill={C.orange} />
         <rect x="10" y="20" width="55" height="40" rx="4" fill={C.orangeDark} />
-        <rect x="15" y="24" width="42" height="22" rx="2" fill="var(--brand, #93c5fd)" opacity="0.7" />
+        <rect x="15" y="24" width="42" height="22" rx="2" fill="#a9c3b1" opacity="0.7" />
         <circle cx="35" cy="62" r="12" fill={C.navy} />
         <circle cx="35" cy="62" r="6" fill="#94a3b8" />
         <circle cx="155" cy="62" r="12" fill={C.navy} />
