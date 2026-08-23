@@ -16,10 +16,17 @@ import { ArrowRight, MapPin, Compass, Calendar, Users, Star, ArrowLeft, Globe, S
 
 import "../premium.css";
 import { resolveList } from "@/lib/templates/resolveList";
+import { PortalZoom } from "@/lib/templates/hero-kit-3";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import {
-  clientHeroLine,
+  clientAddress,
   clientCity,
+  clientCodePostalVille,
+  clientEmail,
+  clientEyebrow,
+  clientHeroLine,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -46,44 +53,44 @@ function DESTINATIONS_DEMO_LIVE() {
   return [
   {
     id: "dst-01",
-    title: "Namib Desert",
-    country: "Namibia",
-    price: "$4,200",
-    days: "8 Days",
-    desc: "Traverse the oldest desert in the world. Witness the towering red dunes of Sossusvlei and the surreal dead-tree valleys of Deadvlei.",
+    title: "La Suite Horizon",
+    country: "Vue mer",
+    price: "420 €",
+    days: "48 m²",
+    desc: "Le dernier étage, une baie à 180° sur la Méditerranée, et le petit-déjeuner servi en terrasse au lever du jour.",
     image:
       (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/18386168/pexels-photo-18386168.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     color: "var(--brand,#d97736)",
   },
   {
     id: "dst-02",
-    title: "Atacama Plateau",
-    country: "Chile",
-    price: "$3,800",
-    days: "10 Days",
-    desc: "High-altitude salt flats, active geysers, and the clearest night skies on Earth. An alien landscape waiting to be explored.",
+    title: "La Chambre des Pins",
+    country: "Côté jardin",
+    price: "240 €",
+    days: "28 m²",
+    desc: "Le calme du jardin de pins, un lit à la française et la lumière du matin filtrée par les persiennes.",
     image:
       (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/20873970/pexels-photo-20873970.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     color: "#b45309",
   },
   {
     id: "dst-03",
-    title: "Cappadocia",
-    country: "Turkey",
-    price: "$2,900",
-    days: "6 Days",
-    desc: "Fairy chimneys, underground cities, and dawn balloon flights over ancient volcanic valleys.",
+    title: "La Suite du Cap",
+    country: "Angle sud",
+    price: "340 €",
+    days: "36 m²",
+    desc: "Deux expositions, un salon d'angle, et le soleil du soir jusqu'à la dernière minute.",
     image:
       (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/6173322/pexels-photo-6173322.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     color: "#c2410c",
   },
   {
     id: "dst-04",
-    title: "Wadi Rum",
-    country: "Jordan",
-    price: "$3,100",
-    days: "5 Days",
-    desc: "The Valley of the Moon. Sleep in luxury glass domes under the stars and ride through sandstone canyons.",
+    title: "La Villa du Jardin",
+    country: "Indépendante",
+    price: "560 €",
+    days: "64 m²",
+    desc: "Une maison dans la maison : entrée privée, terrasse plantée, et le service de l'hôtel à portée de sonnette.",
     image:
       (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1547234935-80c7145ec969?q=80&w=1600&auto=format&fit=crop"),
     color: "#9a3412",
@@ -95,24 +102,24 @@ let DESTINATIONS_DEMO = DESTINATIONS_DEMO_LIVE();
 function EXPERIENCES_DEMO_LIVE() {
   return [
   {
-    title: "Private Expeditions",
+    title: "Le spa & les bains",
     icon: <Compass className="w-6 h-6 text-amber-500" />,
-    desc: "Fully tailored itineraries crafted by local experts. Go where the guidebooks don't.",
+    desc: "Bassin intérieur, hammam et cabines de soin — réservés aux hôtes, du matin au soir.",
   },
   {
-    title: "Aerial Safaris",
+    title: "La table d'hôtes",
     icon: <Plane className="w-6 h-6 text-amber-500" />,
-    desc: "Gain a new perspective. Charter flights over inaccessible terrain and untouched wilderness.",
+    desc: "Une carte courte, le marché du jour, et le dîner servi en terrasse dès les premiers soirs doux.",
   },
   {
-    title: "Cultural Immersion",
+    title: "La conciergerie",
     icon: <Coffee className="w-6 h-6 text-amber-500" />,
-    desc: "Spend time with indigenous communities, learning ancient survival and crafting techniques.",
+    desc: "Tables introuvables, criques sans nom, chauffeur, bateau — demandez d'abord, on s'occupe du reste.",
   },
   {
-    title: "Photography " + (clientCity(sessionData) ?? "Tours"),
+    title: "Le rooftop",
     icon: <Camera className="w-6 h-6 text-amber-500" />,
-    desc: "Led by National Geographic award winners. Master landscape and wildlife photography.",
+    desc: "Le toit de " + (clientCity(sessionData) ?? "Nice") + " pour vous seuls : bar au coucher du soleil, séances de yoga à l'aube.",
   },
 ];
 }
@@ -120,19 +127,19 @@ let EXPERIENCES_DEMO = EXPERIENCES_DEMO_LIVE();
 
 const REVIEWS_SOURCE = [
   {
-    text: "The Atacama expedition changed the way I see the world. The logistics were flawless, allowing us to just focus on the overwhelming beauty of the landscape.",
-    author: "Marcus T.",
-    role: "Photographer",
+    text: "La Suite Horizon tient sa promesse : on ouvre les rideaux et la mer entre dans la chambre. Petit-déjeuner en terrasse inoubliable.",
+    author: "Marc T.",
+    role: "Séjour de mai",
   },
   {
-    text: "Sleeping in the Namib desert under a billion stars, with nothing but silence around us. Absolute perfection from start to finish.",
+    text: "La conciergerie nous a trouvé une table le samedi soir et un bateau le dimanche matin. Tout, sans une seule friction.",
     author: "Elena R.",
-    role: "Travel Writer",
+    role: "Week-end en amoureux",
   },
   {
-    text: "Wanderlust doesn't just book trips; they architect life-changing moments. Worth every single penny.",
+    text: "On ne vend pas des nuits ici, on compose des séjours. Le spa à 7 h du matin, seuls au monde — ça n'a pas de prix.",
     author: "Julian S.",
-    role: "Entrepreneur",
+    role: "Habitué de la maison",
   },
 ];
 let REVIEWS_DEMO = REVIEWS_SOURCE;
@@ -312,23 +319,23 @@ export default function WanderlustPage() {
               />
             ) : (
               <>
-                Wander<span className="text-amber-500">Lust.</span>
+                {fd?.businessName ?? clientName(sessionData) ?? <>Wander<span className="text-amber-500">Lust.</span></>}
               </>
             )}
           </Link>
 
           <div className="hidden lg:flex items-center gap-10 text-[11px] font-bold uppercase tracking-widest">
             <Link href="#hero" className="hover:text-amber-500 transition-colors">
-              Destinations
-            </Link>
-            <Link href="#hero" className="hover:text-amber-500 transition-colors">
-              Expeditions
+              Chambres & suites
             </Link>
             <Link href="#apropos" className="hover:text-amber-500 transition-colors">
-              Journal
+              Les expériences
             </Link>
-            <Link href="#apropos" className="hover:text-amber-500 transition-colors">
-              {tr(sessionData, "About")}
+            <Link href="#contact" className="hover:text-amber-500 transition-colors">
+              La suite signature
+            </Link>
+            <Link href="#contact" className="hover:text-amber-500 transition-colors">
+              Contact
             </Link>
           </div>
 
@@ -337,7 +344,7 @@ export default function WanderlustPage() {
               <Search className="w-5 h-5" />
             </button>
             <button className="px-6 py-2.5 bg-amber-500 text-stone-900 text-[10px] font-bold uppercase tracking-widest hover:bg-amber-400 transition-colors rounded-sm">
-              Plan Your Trip
+              Réserver un séjour
             </button>
           </div>
 
@@ -368,21 +375,21 @@ export default function WanderlustPage() {
             </button>
             <div className="flex flex-col gap-8 text-3xl font-light">
               <Link href="#hero" onClick={() => setMenuOpen(false)}>
-                Destinations
-              </Link>
-              <Link href="#hero" onClick={() => setMenuOpen(false)}>
-                Expeditions
+                Chambres & suites
               </Link>
               <Link href="#apropos" onClick={() => setMenuOpen(false)}>
-                Journal
+                Les expériences
               </Link>
-              <Link href="#apropos" onClick={() => setMenuOpen(false)}>
-                {tr(sessionData, "About Us")}
+              <Link href="#contact" onClick={() => setMenuOpen(false)}>
+                La suite signature
+              </Link>
+              <Link href="#contact" onClick={() => setMenuOpen(false)}>
+                Contact
               </Link>
             </div>
             <div className="mt-auto mb-8">
               <button className="w-full py-4 bg-amber-500 text-[#0c0a09] text-xs font-bold uppercase tracking-widest rounded-sm">
-                Plan Your Trip
+                Réserver un séjour
               </button>
             </div>
           </motion.div>
@@ -393,27 +400,20 @@ export default function WanderlustPage() {
           1. HERO CAROUSEL
           ========================================== */}
       <section id="hero" className="relative w-full h-[100svh] overflow-hidden bg-[#0c0a09]">
-        {/* Background Images */}
-        <AnimatePresence initial={false}>
-          <motion.div
-            key={activeDst}
-            initial={{ opacity: 0, scale: 1.05 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
-            className="absolute inset-0 z-0"
-          >
-            <Image
-              src={DESTINATIONS[activeDst % DESTINATIONS.length].image}
-              alt={DESTINATIONS[activeDst % DESTINATIONS.length].title}
-              fill
-              className="object-cover"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0c0a09] via-[#0c0a09]/40 to-transparent" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0c0a09]/80 via-transparent to-transparent" />
-          </motion.div>
-        </AnimatePresence>
+        {/* Le geste : PortalZoom — on traverse la BAIE VITRÉE de la chambre
+            pour entrer dans la suivante. La baie (angles arrondis, large) se
+            distingue de la fenêtre de château d'impact-369 et de la voûte de
+            cave d'impact-381. Le fond sombre porte la scène sans photo. */}
+        <PortalZoom
+          images={DESTINATIONS.map((d: any) => d.image)}
+          index={activeDst}
+          portal="inset(16% 26% 0% 26% round 28px 28px 0 0)"
+          overlay={0.35}
+        />
+        <div className="absolute inset-0 z-[1] pointer-events-none">
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0c0a09] via-[#0c0a09]/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0c0a09]/80 via-transparent to-transparent" />
+        </div>
 
         {/* Content */}
         <div className="relative z-10 w-full max-w-[1600px] mx-auto px-6 md:px-12 h-full flex flex-col justify-end pb-24 md:pb-32 pt-32 pointer-events-none">
@@ -426,6 +426,7 @@ export default function WanderlustPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
               >
+                <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-amber-500 mb-5">{clientEyebrow(sessionData) ?? `Hôtel & maison de bord de mer · ${clientCity(sessionData) ?? "Nice"}`}</div>
                 <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-bold tracking-tighter leading-[0.9] mb-6">{clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>
                   {DESTINATIONS[activeDst % DESTINATIONS.length].title}
                 </>}</h1>
@@ -439,11 +440,11 @@ export default function WanderlustPage() {
                   </div>
                   <div className="flex items-center gap-2 text-amber-500">
                     {DESTINATIONS[activeDst % DESTINATIONS.length].price}{" "}
-                    <span className="text-stone-500">/pp</span>
+                    <span className="text-stone-500">/nuit</span>
                   </div>
                 </div>
                 <button className="mt-10 px-8 py-4 bg-amber-500 text-stone-900 text-[10px] font-bold uppercase tracking-widest hover:bg-amber-400 transition-colors rounded-sm flex items-center gap-3">
-                  View Itinerary <ArrowRight className="w-4 h-4" />
+                  Voir la chambre <ArrowRight className="w-4 h-4" />
                 </button>
               </motion.div>
             </div>
@@ -492,20 +493,20 @@ export default function WanderlustPage() {
       <section className="py-12 bg-amber-500 text-[#0c0a09] relative z-20">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-amber-600/30">
           <div className="text-center px-4">
-            <div className="text-3xl md:text-4xl font-black tracking-tighter mb-1">{clientStats(sessionData)?.[0]?.value ?? "15+"}</div>
-            <div className="text-[10px] uppercase tracking-widest font-bold opacity-80">{clientStats(sessionData)?.[0]?.label ?? "Years Experience"}</div>
+            <div className="text-3xl md:text-4xl font-black tracking-tighter mb-1">{clientStats(sessionData)?.[0]?.value ?? "1927"}</div>
+            <div className="text-[10px] uppercase tracking-widest font-bold opacity-80">{clientStats(sessionData)?.[0]?.label ?? "La maison, depuis"}</div>
           </div>
           <div className="text-center px-4">
-            <div className="text-3xl md:text-4xl font-black tracking-tighter mb-1">{clientStats(sessionData)?.[1]?.value ?? "42"}</div>
-            <div className="text-[10px] uppercase tracking-widest font-bold opacity-80">{clientStats(sessionData)?.[1]?.label ?? "Remote Destinations"}</div>
+            <div className="text-3xl md:text-4xl font-black tracking-tighter mb-1">{clientStats(sessionData)?.[1]?.value ?? "34"}</div>
+            <div className="text-[10px] uppercase tracking-widest font-bold opacity-80">{clientStats(sessionData)?.[1]?.label ?? "Chambres et suites"}</div>
           </div>
           <div className="text-center px-4">
-            <div className="text-3xl md:text-4xl font-black tracking-tighter mb-1">{clientStats(sessionData)?.[2]?.value ?? "4.9/5"}</div>
-            <div className="text-[10px] uppercase tracking-widest font-bold opacity-80">{clientStats(sessionData)?.[2]?.label ?? "Guest Satisfaction"}</div>
+            <div className="text-3xl md:text-4xl font-black tracking-tighter mb-1">{clientStats(sessionData)?.[2]?.value ?? "4,9/5"}</div>
+            <div className="text-[10px] uppercase tracking-widest font-bold opacity-80">{clientStats(sessionData)?.[2]?.label ?? "Note des voyageurs"}</div>
           </div>
           <div className="text-center px-4">
-            <div className="text-3xl md:text-4xl font-black tracking-tighter mb-1">{clientStats(sessionData)?.[3]?.value ?? "100%"}</div>
-            <div className="text-[10px] uppercase tracking-widest font-bold opacity-80">{clientStats(sessionData)?.[3]?.label ?? "Carbon Offset"}</div>
+            <div className="text-3xl md:text-4xl font-black tracking-tighter mb-1">{clientStats(sessionData)?.[3]?.value ?? "7 j/7"}</div>
+            <div className="text-[10px] uppercase tracking-widest font-bold opacity-80">{clientStats(sessionData)?.[3]?.label ?? "Conciergerie"}</div>
           </div>
         </div>
       </section>
@@ -517,15 +518,15 @@ export default function WanderlustPage() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal className="text-center max-w-3xl mx-auto mb-20">
             <span className="text-[10px] text-amber-500 uppercase tracking-[0.3em] font-bold block mb-4">
-              Curated Journeys
+              La maison
             </span>
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tighter mb-6">{c?.aboutTitle ?? fd?.businessName ?? <>
-              Redefining Exploration.
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tighter mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "maison.titre") ?? c?.aboutTitle ?? <>
+              L'art de recevoir, face à la mer.
             </>}</h2>
-            <p className="text-stone-400 text-lg font-light leading-relaxed">{c?.aboutText ?? <>
-              We design travel experiences for those who seek the extraordinary.
-              Away from the crowds, immersed in the authentic rhythm of the
-              planet.
+            <p className="text-stone-400 text-lg font-light leading-relaxed">{/* TEXTE_SECTION */ clientText(sessionData, "maison.texte") ?? c?.aboutText ?? <>
+              Une maison de 1927, réveillée pièce par pièce : le spa dans les
+              anciennes citernes, la table sous la pergola, et des chambres où
+              rien ne sonne, rien ne clignote.
             </>}</p>
           </Reveal>
 
@@ -556,7 +557,7 @@ export default function WanderlustPage() {
             <Reveal className="relative aspect-[4/5] rounded-2xl overflow-hidden order-2 lg:order-1">
               <Image
                 src={photo(4, "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?q=80&w=1200&auto=format&fit=crop")}
-                alt="Safari"
+                alt="La suite signature au dernier étage"
                 fill
                 className="object-cover hover:scale-105 transition-transform duration-[2s]"
               />
@@ -564,28 +565,28 @@ export default function WanderlustPage() {
               <div className="absolute bottom-8 left-8 right-8">
                 <div className="flex gap-2 mb-4">
                   <span className="px-3 py-1 bg-amber-500/20 text-amber-500 text-[10px] font-bold uppercase tracking-widest rounded-sm backdrop-blur-sm">
-                    Wildlife
+                    Dernier étage
                   </span>
                   <span className="px-3 py-1 bg-black/40 text-white text-[10px] font-bold uppercase tracking-widest rounded-sm backdrop-blur-sm">
-                    12 Days
+                    64 m²
                   </span>
                 </div>
-                <h3 className="text-3xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>The Great Migration</>)}</h3>
+                <h3 className="text-3xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "signature.legende") ?? (<>La Suite Signature</>)}</h3>
               </div>
             </Reveal>
 
             <div className="order-1 lg:order-2">
               <Reveal>
                 <span className="text-[10px] text-amber-500 uppercase tracking-[0.3em] font-bold block mb-4">
-                  Featured Signature Trip
+                  La suite signature
                 </span>
                 <h2 className="text-4xl md:text-6xl font-bold tracking-tighter mb-8 leading-tight">
-                  Witness the greatest show on earth.
+                  {/* TEXTE_SECTION */ clientText(sessionData, "signature.titre") ?? (<>Dormir au-dessus de la ville.</>)}
                 </h2>
                 <p className="text-stone-400 text-lg leading-relaxed font-light mb-10">
-                  Track millions of wildebeest and zebra across the Serengeti
-                  and Masai Mara. Stay in exclusive mobile camps that move with
-                  the herds, ensuring you are always at the heart of the action.
+                  {/* TEXTE_SECTION */ clientText(sessionData, "signature.texte") ?? (<>Tout le dernier étage, une terrasse plantée qui fait le tour, et la
+                  Méditerranée pour seul vis-à-vis. La suite se réserve tôt —
+                  elle est seule de son espèce.</>)}
                 </p>
 
                 <ul className="space-y-6 mb-12">
@@ -595,10 +596,10 @@ export default function WanderlustPage() {
                     </div>
                     <div>
                       <h4 className="font-bold text-lg mb-1">
-                        Luxury Mobile Camps
+                        La terrasse à 360°
                       </h4>
                       <p className="text-sm text-stone-500">
-                        Uncompromising comfort in the most remote locations.
+                        Petit-déjeuner au soleil levant, dîner au couchant — sans quitter l'étage.
                       </p>
                     </div>
                   </li>
@@ -608,17 +609,17 @@ export default function WanderlustPage() {
                     </div>
                     <div>
                       <h4 className="font-bold text-lg mb-1">
-                        Expert Trackers
+                        Le service dédié
                       </h4>
                       <p className="text-sm text-stone-500">
-                        Guided by Maasai warriors with generations of knowledge.
+                        Une gouvernante et la conciergerie en ligne directe, de l'arrivée au départ.
                       </p>
                     </div>
                   </li>
                 </ul>
 
                 <button className="px-8 py-4 border border-amber-500 text-amber-500 text-[10px] font-bold uppercase tracking-widest hover:bg-amber-500 hover:text-[#0c0a09] transition-colors rounded-sm">
-                  View Full Itinerary
+                  Réserver la suite
                 </button>
               </Reveal>
             </div>
@@ -632,10 +633,10 @@ export default function WanderlustPage() {
       <section className="py-32 bg-[#0c0a09] border-y border-stone-800/50 overflow-hidden">
         <div className="mb-16 text-center px-6">
           <span className="text-[10px] uppercase tracking-widest font-bold text-amber-500 block mb-4">
-            Traveler Stories
+            Le livre d'or
           </span>
-          <h2 className="text-4xl font-bold tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
-            Words from the Wild
+          <h2 className="text-4xl font-bold tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>
+            Des séjours qui restent
           </>)}</h2>
         </div>
 
@@ -687,18 +688,16 @@ export default function WanderlustPage() {
             <div>
               <Reveal>
                 <h2 className="text-5xl md:text-7xl font-bold tracking-tighter leading-[1.1] mb-6">
-                  Ready for the <br />
-                  <span className="text-amber-500">Unknown?</span>
+                  {/* TEXTE_SECTION */ clientText(sessionData, "cta.titre") ?? (<>Prêts pour <br /><span className="text-amber-500">le large ?</span></>)}
                 </h2>
                 <p className="text-stone-400 text-lg max-w-md">
-                  Our expedition designers are ready to craft your next great
-                  adventure.
+                  {/* TEXTE_SECTION */ clientText(sessionData, "cta.texte") ?? (<>La réception répond à toute heure, et la maison se réserve tôt en saison.</>)}
                 </p>
               </Reveal>
             </div>
             <Reveal delay={0.2}>
               <button className="px-10 py-5 bg-amber-500 text-stone-900 text-xs font-bold uppercase tracking-widest hover:bg-amber-400 transition-colors rounded-sm flex items-center gap-3">
-                Start Planning <ArrowRight className="w-5 h-5" />
+                Réserver un séjour <ArrowRight className="w-5 h-5" />
               </button>
             </Reveal>
           </div>
@@ -709,17 +708,21 @@ export default function WanderlustPage() {
                 href="#hero"
                 className="text-2xl font-bold tracking-tighter uppercase mb-6 block"
               >
-                Wander<span className="text-amber-500">Lust.</span>
+                {fd?.businessName ?? clientName(sessionData) ?? <>Wander<span className="text-amber-500">Lust.</span></>}
               </Link>
-              <p className="text-stone-500 text-sm leading-relaxed mb-8">
-                Curators of extraordinary journeys to the most remote corners of
-                the globe.
+              <p className="text-stone-500 text-sm leading-relaxed mb-6">
+                Hôtel & maison de bord de mer · {clientCity(sessionData) ?? "Nice"}
               </p>
+              <div className="space-y-2 text-sm text-stone-500">
+                <div>{clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "06000", "Nice")}</div>
+                <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33493000000").replace(/\s/g, "")}`} className="block hover:text-amber-500 transition-colors">{clientPhone(sessionData) ?? fd?.phone ?? "04 93 00 00 00"}</a>
+                <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "sejour@wanderlust-hotel.fr"}`} className="block hover:text-amber-500 transition-colors">{clientEmail(sessionData) ?? fd?.email ?? "sejour@wanderlust-hotel.fr"}</a>
+              </div>
             </div>
 
             <div>
               <h4 className="text-[10px] font-bold uppercase tracking-widest text-amber-500 mb-6">
-                Destinations
+                La maison
               </h4>
               <ul className="space-y-4 text-sm text-stone-400">
                 <li>
@@ -727,7 +730,7 @@ export default function WanderlustPage() {
                     href="#contact"
                     className="hover:text-amber-500 transition-colors"
                   >
-                    Africa & Safaris
+                    Chambres & suites
                   </Link>
                 </li>
                 <li>
@@ -735,7 +738,7 @@ export default function WanderlustPage() {
                     href="#contact"
                     className="hover:text-amber-500 transition-colors"
                   >
-                    Polar Regions
+                    La table d'hôtes
                   </Link>
                 </li>
                 <li>
@@ -743,7 +746,7 @@ export default function WanderlustPage() {
                     href="#contact"
                     className="hover:text-amber-500 transition-colors"
                   >
-                    Latin America
+                    Le spa & les bains
                   </Link>
                 </li>
                 <li>
@@ -751,7 +754,7 @@ export default function WanderlustPage() {
                     href="#contact"
                     className="hover:text-amber-500 transition-colors"
                   >
-                    Asia & Himalayas
+                    Le rooftop
                   </Link>
                 </li>
               </ul>
@@ -759,7 +762,7 @@ export default function WanderlustPage() {
 
             <div>
               <h4 className="text-[10px] font-bold uppercase tracking-widest text-amber-500 mb-6">
-                Company
+                Pratique
               </h4>
               <ul className="space-y-4 text-sm text-stone-400">
                 <li>
@@ -767,7 +770,7 @@ export default function WanderlustPage() {
                     href="#contact"
                     className="hover:text-amber-500 transition-colors"
                   >
-                    {tr(sessionData, "Our Story")}
+                    Notre histoire
                   </Link>
                 </li>
                 <li>
@@ -775,7 +778,7 @@ export default function WanderlustPage() {
                     href="#contact"
                     className="hover:text-amber-500 transition-colors"
                   >
-                    Sustainability Impact
+                    Accès & parking
                   </Link>
                 </li>
                 <li>
@@ -783,7 +786,7 @@ export default function WanderlustPage() {
                     href="#contact"
                     className="hover:text-amber-500 transition-colors"
                   >
-                    Travel Journal
+                    Le journal de la maison
                   </Link>
                 </li>
                 <li>
@@ -791,7 +794,7 @@ export default function WanderlustPage() {
                     href="#contact"
                     className="hover:text-amber-500 transition-colors"
                   >
-                    {tr(sessionData, "Contact Us")}
+                    Contact
                   </Link>
                 </li>
               </ul>
@@ -799,23 +802,23 @@ export default function WanderlustPage() {
 
             <div>
               <h4 className="text-[10px] font-bold uppercase tracking-widest text-amber-500 mb-6">
-                Dispatch Newsletter
+                La lettre de la maison
               </h4>
               <p className="text-sm text-stone-400 mb-4">
-                Field notes, photography, and exclusive expedition
-                announcements.
+                Les dates d'ouverture, les soirées de la table, les offres de
+                basse saison.
               </p>
               <form className="flex" onSubmit={(e) => e.preventDefault()}>
                 <input
                   type="email"
-                  placeholder="Email address"
+                  placeholder="Votre courriel"
                   className="bg-transparent border-b border-stone-700 px-0 py-3 flex-1 text-sm focus:outline-none focus:border-amber-500 text-white transition-colors"
                 />
                 <button
                   type="submit"
                   className="border-b border-stone-700 px-4 py-3 text-[10px] uppercase tracking-widest font-bold hover:text-amber-500 text-stone-500 transition-colors"
                 >
-                  {tr(sessionData, "Subscribe")}
+                  S'abonner
                 </button>
               </form>
             </div>
@@ -823,25 +826,17 @@ export default function WanderlustPage() {
 
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-stone-800 text-[10px] uppercase tracking-widest font-bold text-stone-600">
             <span>
-              &copy; {new Date().getFullYear()} Wanderlust Expeditions. All
-              rights reserved.
+              &copy; {new Date().getFullYear()} {fd?.businessName ?? clientName(sessionData) ?? "Wanderlust"}
+              {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
-            <div className="flex gap-6">
-              <Link href="#contact" className="hover:text-white transition-colors">
-                {tr(sessionData, "Privacy Policy")}
-              </Link>
-              <Link href="#contact" className="hover:text-white transition-colors">
-                Terms of Booking
-              </Link>
+            <div className="flex gap-6 normal-case tracking-normal">
+              <span>Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" /></span>
+              <span>Éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
             </div>
           </div>
         </div>
       </footer>
-      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName(sessionData) ?? "impact-140"}
-        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
-      </footer>
+
     </div>
   );
 }
