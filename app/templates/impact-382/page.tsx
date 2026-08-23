@@ -11,6 +11,11 @@ import {
   clientCertifications,
   clientAddress,
   clientCity,
+  clientTrade,
+  clientPhone,
+  clientList,
+  clientEmail,
+  clientCodePostalVille,
   clientName,
   clientPhotos,
   clientReviews,
@@ -138,7 +143,10 @@ export default function TrajectoiresRhPage() {
     TARIFS_DEMO,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
-  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
+  ENGAGEMENT = resolveList(
+    clientList(sessionData, "engagements.liste") ?? clientCertifications(sessionData),
+    ENGAGEMENT_DEMO,
+  );
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };
@@ -173,9 +181,9 @@ export default function TrajectoiresRhPage() {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const phone = fd?.phone ?? "02 40 00 00 02";
-  const telHref = `tel:${fd?.phone ?? "+33240000002"}`;
-  const mail = fd?.email ?? "contact@trajectoires-rh.fr";
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "02 40 00 00 02";
+  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33240000002").replace(/\s/g, "")}`;
+  const mail = clientEmail(sessionData) ?? fd?.email ?? "contact@trajectoires-rh.fr";
 
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
@@ -201,7 +209,7 @@ export default function TrajectoiresRhPage() {
           ) : (
             <>
               <Users size={18} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Trajectoires RH"))}</span>
+              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Trajectoires RH")}</span>
               <span style={{ fontSize: 10, letterSpacing: 2.2, textTransform: "uppercase", color: C.textMuted, marginLeft: 6 }}>Recrutement</span>
             </>
           )}
@@ -418,7 +426,7 @@ export default function TrajectoiresRhPage() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
-              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Trajectoires RH"))}</div>
+              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Trajectoires RH")}</div>
               <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Cabinet de recrutement & chasse · {clientCity(sessionData) ?? "Nantes"}<br />Spécialisé PME et ETI du Grand Ouest</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -431,7 +439,7 @@ export default function TrajectoiresRhPage() {
           </div>
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Trajectoires RH"))} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity />
+              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Trajectoires RH")} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity fallback="852 546 225" kind="siren" />
             </span>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>
