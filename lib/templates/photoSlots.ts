@@ -2579,11 +2579,12 @@ export const THEME_PHOTOS: Record<string, PhotoSlots> = {
   ],
  },
  "impact-351": {
-  n: 1,
-  total: 1,
+  n: 2,
+  total: 2,
   labels: [
+   null,
    "Couvreurs sur une toiture"
-  ]
+  ],
  },
  "impact-352": {
   n: 3,
@@ -2603,11 +2604,12 @@ export const THEME_PHOTOS: Record<string, PhotoSlots> = {
   ],
  },
  "impact-354": {
-  n: 1,
-  total: 1,
+  n: 2,
+  total: 2,
   labels: [
-   "Lecture partagée avec un enfant"
-  ]
+   null,
+   null
+  ],
  },
  "impact-355": {
   n: 2,
@@ -2691,10 +2693,9 @@ export const THEME_PHOTOS: Record<string, PhotoSlots> = {
   ]
  },
  "impact-365": {
-  n: 5,
-  total: 5,
+  n: 4,
+  total: 4,
   labels: [
-   null,
    null,
    null,
    null,
@@ -2727,10 +2728,9 @@ export const THEME_PHOTOS: Record<string, PhotoSlots> = {
   ]
  },
  "impact-369": {
-  n: 5,
-  total: 5,
+  n: 4,
+  total: 4,
   labels: [
-   null,
    null,
    null,
    null,
@@ -2767,11 +2767,12 @@ export const THEME_PHOTOS: Record<string, PhotoSlots> = {
   ],
  },
  "impact-372": {
-  n: 1,
-  total: 1,
+  n: 2,
+  total: 2,
   labels: [
-   "Ronde de surveillance devant un commerce"
-  ]
+   null,
+   null
+  ],
  },
  "impact-373": {
   n: 1,
@@ -2781,11 +2782,12 @@ export const THEME_PHOTOS: Record<string, PhotoSlots> = {
   ]
  },
  "impact-374": {
-  n: 1,
-  total: 1,
+  n: 2,
+  total: 2,
   labels: [
-   "Habitacle prêt pour la course"
-  ]
+   "Habitacle prêt pour la course",
+   "Chauffeur en tournée"
+  ],
  },
  "impact-375": {
   n: 1,
@@ -2802,11 +2804,12 @@ export const THEME_PHOTOS: Record<string, PhotoSlots> = {
   ]
  },
  "impact-377": {
-  n: 1,
-  total: 1,
+  n: 2,
+  total: 2,
   labels: [
-   "Cours de piano en duo"
-  ]
+   "La scène du trimestre — cours et concert",
+   "Les studios de l'école"
+  ],
  },
  "impact-378": {
   n: 1,
@@ -2827,11 +2830,13 @@ export const THEME_PHOTOS: Record<string, PhotoSlots> = {
   ],
  },
  "impact-380": {
-  n: 1,
-  total: 1,
+  n: 3,
+  total: 3,
   labels: [
-   "Brasseur devant les cuves"
-  ]
+   null,
+   null,
+   null
+  ],
  },
  "impact-381": {
   n: 1,
