@@ -97,4 +97,17 @@ la version que Playwright réclame n'étant pas celle qui est installée.
 
 ## État par thème
 
-*(complété au fur et à mesure des lots — voir la section suivante)*
+**23 août — le balayage final des 19 derniers thèmes de la reprise** (351,
+354, 363, 365-366, 368-369, 372-383), session client réelle, photos coupées,
+deux tailles : **19/19 sans panne, sans débordement horizontal, et sans aucun
+marqueur client manquant** — nom, ville, prestations, tarifs, avis, chiffres,
+téléphone, courriel, adresse et SIRET portés partout. Captures regardées sur
+les remaniements du jour (354 : H4 décalé conforme, pastille soleil, rail de
+chiffres ; 381 : plein cadre voûte lisible sans photo, compteur et marque
+client en place). Sur 373 et 382, le titre du thème est conservé quand
+l'accroche du client ne tient pas dans le gabarit : c'est la règle du contrat
+(le dessin passe avant), et le nom du client est porté partout ailleurs.
+
+Avec les 13 premiers thèmes mesurés au premier jour et les 34 vérifiés par
+lots intermédiaires, **la reprise des 66 est vérifiée à l'écran de bout en
+bout.**
