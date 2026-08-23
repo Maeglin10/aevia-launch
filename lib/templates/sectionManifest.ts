@@ -4,7 +4,7 @@
 // source, le type de champ à lui présenter, et un aperçu du texte d'origine qui
 // sert d'étiquette dans le panneau d'édition.
 //
-// 2440 retouches possibles sur 371 thèmes.
+// 2485 retouches possibles sur 371 thèmes.
 
 export interface RetouchePossible {
   /** La clé lue par le thème : « contact.titre ». */
@@ -9797,6 +9797,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-351": [
     {
+      "cle": "respiration.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "services.titre",
       "type": "texte",
       "apercu": "Du faîtage à la gouttière."
@@ -9807,14 +9812,19 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Une toiture se refait dans l'ordre, ou pas du tout."
     },
     {
-      "cle": "engagements.titre",
-      "type": "texte",
-      "apercu": "Couvreurs, et assurés pour l'être."
-    },
-    {
       "cle": "tarifs.titre",
       "type": "texte",
       "apercu": "Des repères honnêtes."
+    },
+    {
+      "cle": "tarifs.intro",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.titre",
+      "type": "texte",
+      "apercu": "Couvreurs, et assurés pour l'être."
     },
     {
       "cle": "section-7.titre",
@@ -9825,6 +9835,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "contact.titre",
       "type": "texte",
       "apercu": "Faites regarder votre toit avant qu'il ne se rappelle à vous"
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": ""
     }
   ],
   "impact-352": [
@@ -9963,39 +9978,64 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-354": [
     {
-      "cle": "section-1.titre",
+      "cle": "heros.legende",
       "type": "texte",
-      "apercu": "Ils grandissent vite."
+      "apercu": ""
     },
     {
-      "cle": "services.titre",
+      "cle": "respiration.texte",
       "type": "texte",
-      "apercu": "Une crèche qui appartient aux familles."
+      "apercu": ""
     },
     {
-      "cle": "methode.titre",
+      "cle": "projet.titre",
       "type": "texte",
-      "apercu": "Douce pour eux, simple pour vous."
+      "apercu": ""
+    },
+    {
+      "cle": "journee.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "Du sérieux, et de la tendresse."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Le barème CAF, rien d'autre."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "tarifs.intro",
       "type": "texte",
-      "apercu": "Les familles du Nid ."
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Poussez la porte, restez pour le café."
+      "apercu": ""
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "journee.etapes",
+      "type": "liste",
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-355": [
@@ -10428,6 +10468,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Vos pieds portent tout."
     },
     {
+      "cle": "respiration.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "services.titre",
       "type": "texte",
       "apercu": "Du soin du quotidien à la biomécanique."
@@ -10448,6 +10493,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Annoncés, mutuelles décodées."
     },
     {
+      "cle": "tarifs.intro",
+      "type": "texte",
+      "apercu": "Les semelles sur prescription sont partiellement remboursées"
+    },
+    {
       "cle": "section-7.titre",
       "type": "texte",
       "apercu": "Ils marchent sans y penser ."
@@ -10456,6 +10506,16 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "contact.titre",
       "type": "texte",
       "apercu": "La douleur au pied n'est pas une fatalité."
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": "Rendez-vous sous huit jours, le samedi matin aussi. Apportez"
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-364": [
@@ -10522,39 +10582,59 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-365": [
     {
-      "cle": "section-1.titre",
+      "cle": "hero.titre",
       "type": "texte",
-      "apercu": "Ce que la terre donne,"
+      "apercu": ""
+    },
+    {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Peu de choses, mais les nôtres."
+      "apercu": ""
     },
     {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Bio, locale, et ça se vérifie."
+      "apercu": ""
     },
     {
       "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "La transparence jusqu'au bout du rang."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Le juste prix, des deux côtés."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "tarifs.texte",
       "type": "texte",
-      "apercu": "Ils mangent la semaine de la ferme ."
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Passez à la ferme, repartez avec la semaine."
+      "apercu": ""
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-366": [
@@ -10592,6 +10672,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "contact.titre",
       "type": "texte",
       "apercu": "Il reste des paniers pour la saison prochaine."
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-367": [
@@ -10655,7 +10740,7 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "Trois sages-femmes,"
+      "apercu": ""
     },
     {
       "cle": "services.titre",
@@ -10686,43 +10771,63 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "contact.titre",
       "type": "texte",
       "apercu": "Un cabinet qui répond, ça existe encore."
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-369": [
     {
-      "cle": "hero.titre",
+      "cle": "respiration.phrase",
       "type": "texte",
-      "apercu": "{c?.heroHeadline ?? ("
+      "apercu": ""
     },
     {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Un domaine entier, rien que pour vous."
+      "apercu": ""
     },
     {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Du premier regard au dernier feu du parc."
-    },
-    {
-      "cle": "engagements.titre",
-      "type": "texte",
-      "apercu": "Beau, et en règle."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Le domaine, aux dates vraies."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "tarifs.texte",
       "type": "texte",
-      "apercu": "Des jours qui comptent ."
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.titre",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Venez à 18 h, quand le parc s'allume."
+      "apercu": ""
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-37": [
@@ -10843,34 +10948,54 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-372": [
     {
+      "cle": "respiration.phrase",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Protéger sans transformer le lieu en bunker."
+      "apercu": ""
     },
     {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Des agents qui savent à qui ils parlent."
+      "apercu": ""
     },
     {
       "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "La discrétion n'exclut pas la rigueur."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Des contrats clairs, des heures déclarées."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "tarifs.texte",
       "type": "texte",
-      "apercu": "Protégés, sereinement ."
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "La sécurité se prépare avant d'être nécessaire."
+      "apercu": ""
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-373": [
@@ -10903,13 +11028,28 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "contact.titre",
       "type": "texte",
       "apercu": "Votre prochain trajet commence par un SMS."
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-374": [
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "Le chauffeur des jours"
+      "apercu": ""
+    },
+    {
+      "cle": "respiration.texte",
+      "type": "texte",
+      "apercu": "La régularité n est pas un luxe : c est ce qui tient une sem"
+    },
+    {
+      "cle": "trajets.titre",
+      "type": "texte",
+      "apercu": "Du premier train du matin à la sortie du conservatoire."
     },
     {
       "cle": "services.titre",
@@ -10917,14 +11057,24 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "apercu": "Les trajets qui tiennent une vie."
     },
     {
-      "cle": "methode.titre",
-      "type": "texte",
-      "apercu": "La régularité, c'est notre métier."
-    },
-    {
       "cle": "engagements.titre",
       "type": "texte",
       "apercu": "De la confiance, trajet après trajet."
+    },
+    {
+      "cle": "tap.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "methode.titre",
+      "type": "texte",
+      "apercu": "La régularité, c est notre métier."
+    },
+    {
+      "cle": "methode.texte",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
@@ -10934,12 +11084,17 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
     {
       "cle": "section-7.titre",
       "type": "texte",
-      "apercu": "Des habitudes bien accompagnées ."
+      "apercu": "Des habitudes bien accompagnées."
     },
     {
       "cle": "contact.titre",
       "type": "texte",
       "apercu": "Vos trajets réguliers méritent un vrai service."
+    },
+    {
+      "cle": "trajets.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-375": [
@@ -10977,6 +11132,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "contact.titre",
       "type": "texte",
       "apercu": "Un vitrage cassé ? Appelez avant de bâcher."
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-376": [
@@ -11004,13 +11164,23 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "contact.titre",
       "type": "texte",
       "apercu": "Dessinez l'espace, on apporte la lumière."
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-377": [
     {
       "cle": "section-1.titre",
       "type": "texte",
-      "apercu": "Jouer les morceaux"
+      "apercu": "que vous écoutez vraiment."
+    },
+    {
+      "cle": "hero.texte",
+      "type": "texte",
+      "apercu": "La théorie vient en jouant ."
     },
     {
       "cle": "services.titre",
@@ -11021,6 +11191,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "methode.titre",
       "type": "texte",
       "apercu": "On apprend la musique en la jouant fort."
+    },
+    {
+      "cle": "scene.titre",
+      "type": "texte",
+      "apercu": "Trois mois de travail, un vrai concert."
     },
     {
       "cle": "engagements.titre",
@@ -11083,6 +11258,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "contact.titre",
       "type": "texte",
       "apercu": "Trente minutes pour voir si nous pouvons vous être utiles."
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-379": [
@@ -11120,6 +11300,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "contact.titre",
       "type": "texte",
       "apercu": "Poussez la porte, l'établi est ouvert."
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-38": [
@@ -11171,39 +11356,64 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
   ],
   "impact-380": [
     {
-      "cle": "section-1.titre",
+      "cle": "respiration.phrase",
       "type": "texte",
-      "apercu": "La bière brassée ici,"
+      "apercu": ""
     },
     {
       "cle": "services.titre",
       "type": "texte",
-      "apercu": "Quatre permanentes, et ce qui nous passe par la tête."
+      "apercu": ""
+    },
+    {
+      "cle": "services.intro",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "methode.titre",
       "type": "texte",
-      "apercu": "Petits volumes, grandes exigences."
+      "apercu": ""
     },
     {
       "cle": "engagements.titre",
       "type": "texte",
-      "apercu": "Indépendants, et fiers de l'être."
+      "apercu": ""
     },
     {
       "cle": "tarifs.titre",
       "type": "texte",
-      "apercu": "Au verre, au fût, à la caisse."
+      "apercu": ""
     },
     {
-      "cle": "section-7.titre",
+      "cle": "tarifs.intro",
       "type": "texte",
-      "apercu": "On revient le jeudi soir ."
+      "apercu": ""
+    },
+    {
+      "cle": "avis.titre",
+      "type": "texte",
+      "apercu": ""
     },
     {
       "cle": "contact.titre",
       "type": "texte",
-      "apercu": "Les cuves sont là, les verres aussi."
+      "apercu": ""
+    },
+    {
+      "cle": "contact.texte",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "pied.description",
+      "type": "texte",
+      "apercu": ""
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-381": [
@@ -11241,6 +11451,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "contact.titre",
       "type": "texte",
       "apercu": "Dites-nous ce que vous mangez ce soir."
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-382": [
@@ -11273,6 +11488,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "contact.titre",
       "type": "texte",
       "apercu": "Parlons du poste, et surtout de l'équipe."
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-383": [
@@ -11310,6 +11530,11 @@ export const RETOUCHES: Record<string, RetouchePossible[]> = {
       "cle": "contact.titre",
       "type": "texte",
       "apercu": "Un seul animal à la fois, alors les places sont comptées."
+    },
+    {
+      "cle": "engagements.liste",
+      "type": "liste",
+      "apercu": ""
     }
   ],
   "impact-39": [
