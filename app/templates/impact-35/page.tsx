@@ -110,7 +110,7 @@ export default function CarreDavielPage() {
     clientServices(sessionData)?.slice(0, 3).map((s: any, i: number) => ({
       ...FORFAITS[i % FORFAITS.length],
       name: s.title,
-      ...(s.price ? { price: String(s.price).replace(/\s*€.*$/, ""), period: String(s.price).includes("/") ? String(s.price).split("/")[1] : FORFAITS[i % FORFAITS.length].period } : {}),
+      ...(s.price ? { price: String(s.price).replace(/\s*€.*$/, ""), period: String(s.price).includes("/") ? String(s.price).split("/")[1].trim() : undefined } : {}),
     })),
     FORFAITS,
   );
@@ -178,7 +178,7 @@ export default function CarreDavielPage() {
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 14, marginTop: 14 }}>
                 <span style={{ fontFamily: SANS, fontSize: 11.5, letterSpacing: "0.12em", textTransform: "uppercase", color: C.textMuted, fontWeight: 600 }}>{VUES[vue].legende}</span>
                 <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                  <SlideIndex index={vue} total={VUES.length} color={C.textMuted} />
+                  <SlideIndex i={vue} total={VUES.length} color={C.textMuted} />
                   <HairlineArrows onPrev={prev} onNext={next} color={C.text} />
                 </div>
               </div>
@@ -237,7 +237,7 @@ export default function CarreDavielPage() {
                   )}
                   <h3 style={{ fontFamily: SERIF, fontSize: 21, fontWeight: 600, marginBottom: 14 }}>{p.name}</h3>
                   <div style={{ fontFamily: SERIF, fontSize: 40, fontWeight: 700, marginBottom: 22 }}>
-                    {p.price} €<span style={{ fontFamily: SANS, fontSize: 13, fontWeight: 400, opacity: 0.6 }}> / {p.period}</span>
+                    {p.price} €{p.period ? <span style={{ fontFamily: SANS, fontSize: 13, fontWeight: 400, opacity: 0.6 }}> / {p.period}</span> : null}
                   </div>
                   <ul style={{ listStyle: "none", padding: 0, margin: "0 0 26px", flex: 1, display: "flex", flexDirection: "column", gap: 10 }}>
                     {p.features.map((f: string) => (

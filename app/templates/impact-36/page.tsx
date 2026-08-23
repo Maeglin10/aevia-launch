@@ -98,7 +98,7 @@ export default function Home() {
   );
   memoriserSession(sessionData);
   c = session?.generatedContent;
-  const SERVICES_DU_CLIENT = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES[i % SERVICES.length], name: s.title, desc: s.desc || SERVICES[i % SERVICES.length].desc })), SERVICES);
+  const SERVICES_DU_CLIENT = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES[i % SERVICES.length], name: s.title, desc: s.desc || SERVICES[i % SERVICES.length].desc, prix: s.price || undefined })), SERVICES);
   const CHIFFRES = resolveList(
     clientStats(sessionData)?.map((s: any, i: number) => ({
       ...STATS[i % STATS.length],
@@ -448,6 +448,9 @@ return (
                   <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.7, marginBottom: 24, flex: 1 }}>
                     {service.desc}
                   </p>
+                  {service.prix ? (
+                    <div style={{ fontSize: 13, fontWeight: 700, color: C.accentFixe, marginBottom: 16 }}>{service.prix}</div>
+                  ) : null}
                   <Link href="/templates/impact-36/services" style={{ textDecoration: "none" }}>
                     <span
                       style={{
