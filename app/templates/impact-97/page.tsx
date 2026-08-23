@@ -28,15 +28,24 @@ import { Anchor, Compass, Ship, ShieldCheck, Star, Globe, Mail, MapPin, ChevronR
 
 import "../premium.css";
 import { resolveList } from "@/lib/templates/resolveList";
+import { DWELL, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { LineScroll } from "@/lib/templates/hero-kit-3";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import {
+  clientAddress,
   clientCity,
+  clientCodePostalVille,
+  clientEmail,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientServices,
   clientStats,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -58,29 +67,29 @@ function FLEET_DEMO_SOURCE_LIVE() {
   return [
   {
     id: 1,
-    name: "Azure Odyssey",
-    length: "85m",
-    guests: 12,
-    price: "From €850k/week",
-    desc: "A masterpiece of naval architecture featuring a glass-bottom infinity pool and private helipad.",
+    name: "La Suite du Bassin",
+    length: "42 m²",
+    guests: 2,
+    price: "290 € / nuit",
+    desc: "Le dernier étage côté canal : baignoire sous verrière, terrasse au ras de l'eau, silence d'écluse.",
     img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1200&q=80"),
   },
   {
     id: 2,
-    name: "Lumière Grandeur",
-    length: "110m",
-    guests: 18,
-    price: "From €1.2M/week",
-    desc: "The pinnacle of luxury with a three-deck spa, underwater lounge, and Michelin-star culinary team.",
+    name: "La Péniche Lumière",
+    length: "26 m",
+    guests: 4,
+    price: "420 € / nuit",
+    desc: "La suite flottante de la maison, amarrée au ponton privé : deux cabines, un pont-terrasse, le canal pour plafond d'étoiles.",
     img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1200&q=80"),
   },
   {
     id: 3,
-    name: "Solaris Voyager",
-    length: "72m",
-    guests: 10,
-    price: "From €620k/week",
-    desc: "Sustainable exploration vessel equipped with hybrid propulsion and a sub-surface exploration pod.",
+    name: "Les Chambres du Quai",
+    length: "24 m²",
+    guests: 2,
+    price: "170 € / nuit",
+    desc: "Briques roses, persiennes, lits hauts : les chambres historiques de la maison, côté cour ou côté quai.",
     img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1200&q=80"),
   },
 ];
@@ -91,32 +100,32 @@ let FLEET = FLEET_DEMO;
 
 const DESTINATIONS_DEMO = [
   {
-    name: "French Riviera",
-    season: "May — September",
-    highlights: "Monaco, St. Tropez, Cannes",
+    name: "Le canal à vélo",
+    season: "Avril — Octobre",
+    highlights: "Vélos de la maison, écluses, halte pique-nique",
   },
   {
-    name: "Amalfi Coast",
-    season: "June — August",
-    highlights: "Positano, Capri, Ravello",
+    name: "La ville à pied",
+    season: "Toute l'année",
+    highlights: "Marchés, Capitole, quais de la Garonne",
   },
   {
-    name: "Cyclades",
-    season: "July — September",
-    highlights: "Mykonos, Santorini, Paros",
+    name: "La journée sur l'eau",
+    season: "Mai — Septembre",
+    highlights: "Bateau électrique sans permis, panier de la table",
   },
   {
-    name: "Caribbean",
-    season: "December — March",
-    highlights: "St. Barths, Mustique, Grenadines",
+    name: "Les vignobles",
+    season: "Septembre — Novembre",
+    highlights: "Fronton et Gaillac, chauffeur de la maison",
   },
 ];
 
 const STATS_DEMO = [
-  { label: "Global Charter Ports", value: "140+" },
-  { label: "Vessels in Management", value: "85" },
-  { label: "Crew Members", value: "1.2k" },
-  { label: "Client Satisfaction", value: "99.8%" },
+  { label: "La maison, depuis", value: "1898" },
+  { label: "Chambres, suites & péniche", value: "21" },
+  { label: "Note des voyageurs", value: "4,8/5" },
+  { label: "Réception & bagagerie", value: "7 j/7" },
 ];
 let STATS = STATS_DEMO;
 
@@ -274,6 +283,13 @@ export default function HorizonYachtPage() {
     DESTINATIONS_DEMO
   );
 
+  const DEVISES = [
+    { k: "La maison", l1: "Dormir", l2: "sur l'eau." },
+    { k: "La péniche", l1: "Larguer", l2: "les amarres." },
+    { k: "La table", l1: "Dîner", l2: "au fil du canal." },
+  ];
+  const { i: devise } = useSlides(DEVISES.length, DWELL.slow);
+
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeVessel, setActiveVessel] = useState<number | null>(null);
@@ -305,10 +321,10 @@ export default function HorizonYachtPage() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-2xl font-black tracking-tighter uppercase leading-none italic">
-                    Horizon
+                    {fd?.businessName ?? clientName(sessionData) ?? "Horizon"}
                   </span>
                   <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c5a059)] -mt-1 ml-1">
-                    Maritime Group
+                    {clientTrade(sessionData) ?? "Hôtel & port du canal"}
                   </span>
                 </div>
               </>
@@ -317,11 +333,11 @@ export default function HorizonYachtPage() {
 
           <div className="hidden lg:flex items-center gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
             {[
-              "The_Fleet",
-              "Charter",
-              "Brokerage",
-              "Destinations",
-              "Concierge",
+              "Les maisons",
+              "La table",
+              "Itinéraires",
+              "La maison",
+              "Contact",
             ].map((link) => (
               <Link
                 key={link}
@@ -336,7 +352,7 @@ export default function HorizonYachtPage() {
           <div className="flex items-center gap-8">
             <button className="hidden md:flex items-center gap-3 group">
               <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-[var(--brand,#c5a059)] transition-colors">
-                Client_Login
+                Réserver un séjour
               </span>
               <div className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/40 group-hover:bg-[var(--brand,#c5a059)] group-hover:text-[#020a13] group-hover:border-[var(--brand,#c5a059)] transition-all">
                 <ShieldCheck className="w-4 h-4" />
@@ -368,7 +384,7 @@ export default function HorizonYachtPage() {
               <X className="w-10 h-10" />
             </button>
             <div className="flex flex-col gap-6 text-6xl font-black italic uppercase text-white/10">
-              {["Fleet", "Charter", "Brokerage", "Contact"].map((l) => (
+              {["Les maisons", "La table", "Itinéraires", "Contact"].map((l) => (
                 <Link
                   key={l}
                   href="#fleet"
@@ -388,7 +404,7 @@ export default function HorizonYachtPage() {
         <div className="absolute inset-0">
           <Image
             src={photo(4, "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1600&q=80")}
-            alt="Yacht Deck"
+            alt="Le ponton de la maison au soir"
             fill
             className="object-cover opacity-60 contrast-110"
             priority
@@ -398,22 +414,35 @@ export default function HorizonYachtPage() {
 
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 items-center">
           <Reveal>
-            <h1 className="text-[clamp(2.75rem,7vw,9rem)] font-black leading-[0.95] tracking-tighter mb-12 uppercase text-white italic break-words">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Mastering"}<br />{" "}
-              <span className="text-[var(--brand,#c5a059)] not-italic">{clientHeroLine(sessionData, 1, 2, 9) ?? "The Deep."}</span>
-            </>}</h1>
-            <p className="max-w-md text-lg text-white/50 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-              The world's most exclusive superyacht fleet, curated for the
-              modern navigator.
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c5a059)] mb-6">{clientEyebrow(sessionData) ?? `Hôtel & port du canal · ${clientCity(sessionData) ?? "Toulouse"}`}</div>
+            <h1 className="text-[clamp(2.75rem,7vw,9rem)] font-black leading-[0.95] tracking-tighter mb-6 uppercase text-white italic">
+              <LineScroll
+                lines={
+                  clientHeroLine(sessionData, 0, 2, 10)
+                    ? [clientHeroLine(sessionData, 0, 2, 10), clientHeroLine(sessionData, 1, 2, 10) ?? ""]
+                    : [DEVISES[devise].l1, DEVISES[devise].l2]
+                }
+                index={clientHeroLine(sessionData, 0, 2, 10) ? "client" : devise}
+                lineStyle={{ paddingRight: "0.08em" }}
+              />
+            </h1>
+            <div className="flex items-center gap-5 mb-10">
+              <SlideIndex i={devise} total={DEVISES.length} variant="fraction" color="rgba(255,255,255,0.35)" className="" />
+              <span className="text-[10px] font-bold uppercase tracking-widest text-white/35">{DEVISES[devise].k}</span>
+            </div>
+            <p className="max-w-md text-lg text-white/50 leading-relaxed font-light mb-12 tracking-wide">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              Une maison de 1898 amarrée au canal : vingt et une chambres, une
+              péniche, une table — et l'eau qui passe.
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-6">
               <MagneticBtn className="px-12 py-5 bg-[var(--brand,#c5a059)] text-[#020a13] text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-all cursor-pointer">
-                View Current Fleet
+                Voir les chambres
               </MagneticBtn>
               <Link
                 href="#fleet"
                 className="px-12 py-5 border border-white/20 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:bg-white hover:text-[#020a13] transition-all flex items-center justify-center gap-3"
               >
-                Charter Portfolio <ArrowRight className="w-4 h-4" />
+                La péniche <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           </Reveal>
@@ -421,10 +450,10 @@ export default function HorizonYachtPage() {
 
         <div className="absolute bottom-12 right-12 hidden lg:flex flex-col items-end gap-2 text-white/20">
           <span className="text-[10px] font-bold uppercase tracking-widest italic">
-            Monte Carlo // Miami // Dubai
+            Le canal · le ponton privé · le jardin d'écluse
           </span>
           <span className="text-[10px] font-bold uppercase tracking-widest">
-            Global Logistics Support 24/7
+            Réception ouverte 7 j/7
           </span>
         </div>
       </section>
@@ -456,17 +485,17 @@ export default function HorizonYachtPage() {
             <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
               <div>
                 <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "fleet.titre") ?? (<>
-                  The <br /> <span className="text-[var(--brand,#c5a059)]">Vessels.</span>
+                  Les <br /> <span className="text-[var(--brand,#c5a059)]">maisons.</span>
                 </>)}</h2>
                 <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">
-                  Charter Manifest // Global Availability // Summer 2024
+                  {/* TEXTE_SECTION */ clientText(sessionData, "fleet.legende") ?? (<>Chambres, suites et la péniche — au bord du canal</>)}
                 </p>
               </div>
               <Link
                 href="#fleet"
                 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c5a059)] border-b border-[var(--brand,#c5a059)] pb-2 hover:text-white hover:border-white transition-all"
               >
-                Download Full Deck
+                Recevoir la brochure
               </Link>
             </div>
           </Reveal>
@@ -503,7 +532,7 @@ export default function HorizonYachtPage() {
                           className="absolute inset-0 flex items-center justify-center bg-[var(--brand,#c5a059)]/10 backdrop-blur-[2px]"
                         >
                           <button className="px-10 py-4 bg-white text-[#020a13] text-[10px] font-black uppercase tracking-widest hover:scale-110 transition-all shadow-2xl">
-                            Explore Deck
+                            Voir la chambre
                           </button>
                         </motion.div>
                       )}
@@ -515,10 +544,10 @@ export default function HorizonYachtPage() {
                         {item.name}
                       </h3>
                       <span className="text-[10px] font-bold uppercase tracking-widest text-white/20 group-hover:text-white/60 transition-colors">
-                        {item.guests} Guests
+                        {item.guests} pers.
                       </span>
                     </div>
-                    <p className="text-sm text-white/30 font-light leading-relaxed uppercase tracking-widest italic">
+                    <p className="text-sm text-white/40 font-light leading-relaxed tracking-wide">
                       {item.desc}
                     </p>
                     <div className="flex items-center gap-4">
@@ -543,12 +572,12 @@ export default function HorizonYachtPage() {
           <Reveal>
             <div className="text-center mb-32">
               <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c5a059)] mb-8 block">
-                Operational Mastery
+                La vie de la maison
               </span>
               <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
-                Naval{" "}
+                Tout, au bord{" "}
                 <span className="text-[var(--brand,#c5a059)] not-italic">
-                  Infrastructure.
+                  de l'eau.
                 </span>
               </>)}</h2>
             </div>
@@ -557,18 +586,18 @@ export default function HorizonYachtPage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
             {[
               {
-                title: "Charter Management",
-                desc: "Maximizing the commercial potential of your vessel through global network integration.",
+                title: "La table du canal",
+                desc: "Le marché du matin, une carte courte, et les tables du quai dès les premiers soirs doux.",
                 icon: Ship,
               },
               {
-                title: "New Build Advisory",
-                desc: "Naval architecture and engineering oversight for the world's most ambitious builds.",
+                title: "Le jardin d'écluse",
+                desc: "Un jardin clos entre la maison et l'eau : petit-déjeuner à l'ombre, sieste au bord du bief.",
                 icon: Anchor,
               },
               {
-                title: "Crew Logistics",
-                desc: "Rigorous selection and management of the world's most elite maritime professionals.",
+                title: "Vélos & bateaux",
+                desc: "Les vélos de la maison, le bateau électrique sans permis, et les paniers de la table pour la journée.",
                 icon: Waves,
               },
             ].map((s, i) => (
@@ -584,7 +613,7 @@ export default function HorizonYachtPage() {
                     {s.desc}
                   </p>
                   <button className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c5a059)] group-hover:gap-6 transition-all">
-                    Read Strategy <ArrowRight className="w-5 h-5" />
+                    En savoir plus <ArrowRight className="w-5 h-5" />
                   </button>
                 </div>
               </Reveal>
@@ -600,17 +629,17 @@ export default function HorizonYachtPage() {
             <div className="relative aspect-square rounded-sm overflow-hidden group border border-white/5">
               <Image
                 src={photo(5, "https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=1200&q=80")}
-                alt="Destination"
+                alt="Le canal depuis le ponton"
                 fill
                 className="object-cover group-hover:scale-110 transition-all duration-[3s] grayscale hover:grayscale-0 transition-all duration-1000"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#020a13] via-[#020a13]/20 to-transparent" />
               <div className="absolute bottom-16 left-16 text-white">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] mb-4 block text-[var(--brand,#c5a059)]">
-                  Monaco Grand Prix
+                  {/* TEXTE_SECTION */ clientText(sessionData, "ponton.legende") ?? (<>Depuis le ponton</>)}
                 </span>
                 <h4 className="text-5xl font-black italic uppercase tracking-tighter leading-none">
-                  The Front Row <br /> of the World.
+                  Le canal, <br /> aux premières loges.
                 </h4>
               </div>
             </div>
@@ -618,16 +647,16 @@ export default function HorizonYachtPage() {
 
           <Reveal delay={0.2}>
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c5a059)] mb-8 block">
-              Itinerary Design
+              Les itinéraires
             </span>
-            <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-12 uppercase text-white">{c?.aboutTitle ?? fd?.businessName ?? <>
-              Infinite <br />{" "}
-              <span className="text-[var(--brand,#c5a059)] not-italic">Horizons.</span>
+            <h2 className="text-6xl md:text-9xl font-black italic tracking-tighter leading-[0.8] mb-12 uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "itineraires.titre") ?? c?.aboutTitle ?? <>
+              Partir, <br />{" "}
+              <span className="text-[var(--brand,#c5a059)] not-italic">revenir dîner.</span>
             </>}</h2>
-            <p className="text-white/40 text-xl leading-relaxed mb-16 font-light uppercase tracking-wide italic">{c?.aboutText ?? <>
-              Beyond the coordinates. We design bespoke experiences that merge
-              absolute privacy with unprecedented access to the world's most
-              guarded enclaves.
+            <p className="text-white/40 text-xl leading-relaxed mb-16 font-light uppercase tracking-wide italic">{/* TEXTE_SECTION */ clientText(sessionData, "itineraires.texte") ?? c?.aboutText ?? <>
+              La réception dessine vos journées : vélos au bord du bief, bateau
+              sans permis, marchés du matin — et la table qui vous attend au
+              retour.
             </>}</p>
             <div className="grid grid-cols-1 gap-8">
               {DESTINATIONS.map((d, i) => (
@@ -650,7 +679,7 @@ export default function HorizonYachtPage() {
               ))}
             </div>
             <MagneticBtn className="mt-20 px-14 py-6 border border-[var(--brand,#c5a059)] text-[var(--brand,#c5a059)] text-[10px] font-black uppercase tracking-[0.4em] rounded-full hover:bg-[var(--brand,#c5a059)] hover:text-[#020a13] transition-all shadow-2xl">
-              Consult With A Specialist
+              Composer votre séjour
             </MagneticBtn>
           </Reveal>
         </div>
@@ -667,17 +696,19 @@ export default function HorizonYachtPage() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-4xl font-black tracking-tighter uppercase leading-none italic">
-                    Horizon
+                    {fd?.businessName ?? clientName(sessionData) ?? "Horizon"}
                   </span>
                   <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c5a059)] -mt-1 ml-1">
-                    Maritime Group
+                    {clientTrade(sessionData) ?? "Hôtel & port du canal"}
                   </span>
                 </div>
               </div>
-              <p className="text-white/20 max-w-md mb-16 text-[11px] font-bold uppercase tracking-[0.2em] leading-loose italic">
-                The global authority in superyacht brokerage, charter, and naval
-                management. Headquartered in Monaco, serving the world's most
-                discerning navigators.
+              <p className="text-white/30 max-w-md mb-10 text-[12px] tracking-wide leading-loose">
+                {clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "31000", "Toulouse") + ", au bord du canal"}
+                <br />
+                {(clientPhone(sessionData) ?? fd?.phone ?? "05 61 00 00 00") + " · " + (clientEmail(sessionData) ?? fd?.email ?? "sejour@horizon-canal.fr")}
+                <br />
+                Réception 7 j/7 · arrivées jusqu'à 22 h
               </p>
               <div className="flex gap-6">
                 {[Globe, Globe, Mail].map((Icon, i) => (
@@ -694,27 +725,27 @@ export default function HorizonYachtPage() {
 
           <div className="lg:col-span-2">
             <h4 className="text-[11px] font-black uppercase tracking-widest text-[var(--brand,#c5a059)] mb-12">
-              Portfolio
+              Les maisons
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
               <li>
                 <Link href="#services" className="hover:text-white transition-colors">
-                  Sales_Listings
+                  Chambres & suites
                 </Link>
               </li>
               <li>
                 <Link href="#services" className="hover:text-white transition-colors">
-                  Charter_Fleet
+                  La péniche
                 </Link>
               </li>
               <li>
                 <Link href="#fleet" className="hover:text-white transition-colors">
-                  New_Construction
+                  La table
                 </Link>
               </li>
               <li>
                 <Link href="#fleet" className="hover:text-white transition-colors">
-                  Case_Studies
+                  Le jardin
                 </Link>
               </li>
             </ul>
@@ -722,27 +753,27 @@ export default function HorizonYachtPage() {
 
           <div className="lg:col-span-2">
             <h4 className="text-[11px] font-black uppercase tracking-widest text-[var(--brand,#c5a059)] mb-12">
-              {tr(sessionData, "Services")}
+              Services
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
               <li>
                 <Link href="#services" className="hover:text-white transition-colors">
-                  Management
+                  Séminaires au vert
                 </Link>
               </li>
               <li>
                 <Link href="#services" className="hover:text-white transition-colors">
-                  Crewing
+                  Privatisation
                 </Link>
               </li>
               <li>
                 <Link href="#fleet" className="hover:text-white transition-colors">
-                  Charter_Marketing
+                  Bons cadeaux
                 </Link>
               </li>
               <li>
                 <Link href="#fleet" className="hover:text-white transition-colors">
-                  Technical_Support
+                  Accès & parking
                 </Link>
               </li>
             </ul>
@@ -755,22 +786,22 @@ export default function HorizonYachtPage() {
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-white/30">
               <li>
                 <Link href="#contact" className="hover:text-white transition-colors">
-                  Our_Bureaus
+                  Nous trouver
                 </Link>
               </li>
               <li>
                 <Link href="#contact" className="hover:text-white transition-colors">
-                  Private_Consult
+                  Réserver
                 </Link>
               </li>
               <li>
                 <Link href="#fleet" className="hover:text-white transition-colors">
-                  Media_Inquiries
+                  La presse
                 </Link>
               </li>
               <li>
                 <Link href="#fleet" className="hover:text-white transition-colors">
-                  Careers
+                  Recrutement
                 </Link>
               </li>
             </ul>
@@ -780,16 +811,13 @@ export default function HorizonYachtPage() {
         <div className="max-w-[1600px] mx-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10">
           <div className="flex items-center gap-12">
             <span>
-              &copy; {new Date().getFullYear()} HORIZON MARITIME GROUP MONACO.
+              &copy; {new Date().getFullYear()} {fd?.businessName ?? clientName(sessionData) ?? "Horizon"}
+              {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
-            <div className="flex gap-8">
-              <span>SOLAS_CERT_COMPLIANT</span>
-              <span>LY3_CODE_VERIFIED</span>
-            </div>
           </div>
-          <div className="flex gap-12 font-mono">
-            <span>COURSE_AUTO_NAV</span>
-            <span>DEPTH_STATUS_OPTIMAL</span>
+          <div className="flex gap-8 normal-case tracking-normal">
+            <span>Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" /></span>
+            <span>Éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>
         </div>
       </footer>
@@ -798,11 +826,7 @@ export default function HorizonYachtPage() {
         ::-webkit-scrollbar{width:4px;background:#020a13}
         ::-webkit-scrollbar-thumb{background:#c5a059}
       `}</style>
-      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
-      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName(sessionData) ?? "impact-97"}
-        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
-      </footer>
+
     </div>
   );
 }
