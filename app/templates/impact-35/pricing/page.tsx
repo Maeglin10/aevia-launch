@@ -44,7 +44,7 @@ export default function HonorairesPage() {
     clientServices(sessionData)?.slice(0, 3).map((s: any, i: number) => ({
       ...FORFAITS[i % FORFAITS.length],
       name: s.title,
-      ...(s.price ? { price: String(s.price).replace(/\s*€.*$/, ""), period: String(s.price).includes("/") ? String(s.price).split("/")[1] : FORFAITS[i % FORFAITS.length].period } : {}),
+      ...(s.price ? { price: String(s.price).replace(/\s*€.*$/, ""), period: String(s.price).includes("/") ? String(s.price).split("/")[1].trim() : undefined } : {}),
     })),
     FORFAITS,
   );
@@ -73,7 +73,7 @@ export default function HonorairesPage() {
                 )}
                 <h2 style={{ fontFamily: SERIF, fontSize: 22, fontWeight: 600, marginBottom: 14 }}>{p.name}</h2>
                 <div style={{ fontFamily: SERIF, fontSize: 44, fontWeight: 700, marginBottom: 24 }}>
-                  {p.price} €<span style={{ fontFamily: SANS, fontSize: 13, fontWeight: 400, opacity: 0.6 }}> / {p.period}</span>
+                  {p.price} €{p.period ? <span style={{ fontFamily: SANS, fontSize: 13, fontWeight: 400, opacity: 0.6 }}> / {p.period}</span> : null}
                 </div>
                 <ul style={{ listStyle: "none", padding: 0, margin: "0 0 28px", flex: 1, display: "flex", flexDirection: "column", gap: 11 }}>
                   {p.features.map((f: string) => (

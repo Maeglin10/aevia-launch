@@ -253,7 +253,7 @@ export default function NovaSpacesPage() {
   PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 
   PHILOSOPHY = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PHILOSOPHY_SOURCE[i % PHILOSOPHY_SOURCE.length], title: s.title, desc: s.desc || PHILOSOPHY_SOURCE[i % PHILOSOPHY_SOURCE.length].desc })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...PHILOSOPHY_SOURCE[i % PHILOSOPHY_SOURCE.length], title: s.title, desc: s.desc || PHILOSOPHY_SOURCE[i % PHILOSOPHY_SOURCE.length].desc, prix: s.price || undefined })),
     PHILOSOPHY_SOURCE,
   );
 
@@ -571,9 +571,12 @@ export default function NovaSpacesPage() {
                   <p className="text-sm text-black/45 font-light leading-loose mb-12 flex-1">
                     {s.desc}
                   </p>
-                  <Link href="#contact" className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.3em] text-black/60 group-hover:text-[#6b5942] group-hover:gap-6 transition-all">
-                    En parler <ArrowRight className="w-4 h-4" />
-                  </Link>
+                  <div className="flex items-center justify-between gap-4">
+                    <Link href="#contact" className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-[0.3em] text-black/60 group-hover:text-[#6b5942] group-hover:gap-6 transition-all">
+                      En parler <ArrowRight className="w-4 h-4" />
+                    </Link>
+                    {s.prix ? <span className="text-[10px] font-bold uppercase tracking-widest text-[#6b5942] whitespace-nowrap">{s.prix}</span> : null}
+                  </div>
                 </div>
               </Reveal>
             ))}
@@ -753,7 +756,7 @@ export default function NovaSpacesPage() {
             </h4>
             <ul className="space-y-6 text-[10px] font-bold uppercase tracking-widest text-black/30">
               <li><a href={telHref} className="hover:text-black transition-colors">{tel}</a></li>
-              <li><a href={`mailto:${mail}`} className="hover:text-black transition-colors normal-case">{mail}</a></li>
+              <li><a href={`mailto:${mail}`} className="hover:text-black transition-colors normal-case tracking-normal break-all inline-block max-w-full">{mail}</a></li>
               <li>{clientCodePostalVille(sessionData, "69001", "Lyon")}</li>
             </ul>
           </div>

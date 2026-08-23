@@ -40,6 +40,7 @@ export default function ServicesPage() {
       ...SERVICES[i % SERVICES.length],
       name: sv.title,
       desc: sv.desc || SERVICES[i % SERVICES.length].desc,
+      prix: sv.price || undefined,
     })),
     SERVICES,
   );
@@ -123,6 +124,9 @@ export default function ServicesPage() {
                   </div>
                   <h2 style={{ fontFamily: SERIF, fontSize: 26, fontWeight: 600, color: C.navy, marginBottom: 16 }}>{service.name}</h2>
                   <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.7, margin: 0 }}>{service.desc}</p>
+                  {service.prix ? (
+                    <div style={{ marginTop: 18, fontSize: 14, fontWeight: 700, color: C.accentFixe }}>{service.prix}</div>
+                  ) : null}
                 </div>
 
                 <div style={{ borderLeft: `1px solid ${C.border}`, paddingLeft: 48 }}>
