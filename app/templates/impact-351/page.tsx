@@ -3,7 +3,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
-import { ArrowRight, CheckCircle, Clock, CloudRain, Home, Mail, MapPin, Phone, Shield, Star } from "lucide-react";
+import { ArrowRight, Clock, CloudRain, Home, Mail, MapPin, Phone, Shield } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
@@ -14,7 +14,10 @@ import {
   clientCertifications,
   clientAddress,
   clientCity,
+  clientCodePostalVille,
+  clientEmail,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -32,20 +35,38 @@ let bp: any = null;
 let sessionData: any = null;
 let brand: any = null;
 
-/* Couvreur-zingueur, 1re variante. Signature : HardCutRebuild — la toiture déposée d'un coup puis remontée rang par rang. Sans photographie. */
+/* ════════════════════════════════════════════════════════════════════════════
+   TOITS DE LOIRE — Couvreur-zingueur · Angers
+
+   Archétype H3 « plein cadre, titre bas » : la photographie du chantier occupe
+   tout l'écran, le titre se pose en bas de cadre — et quand le client n'a pas
+   encore fourni de photo, le fond de repli `C.bgDark` porte une texture de
+   rangs d'ardoise dessinée en CSS : la page tient debout sans image.
+
+   Geste de signature UNIQUE : HardCutRebuild — la toiture déposée d'un coup
+   (sortie brutale, 0,12 s), puis le titre remonté rang par rang, en décalé.
+   C'est du montage, pas de la transition : la coupe franche du chantier.
+
+   Un seul index (useSlides) pilote tout le héros : la photo, le sur-titre,
+   le titre, le sous-titre et l'index de diapositive.
+   ════════════════════════════════════════════════════════════════════════════ */
 
 let C: Record<string, string> = {
-  bg: "#0b0d11",
-  bgSection: "#101319",
-  bgDark: "#07090c",
-  text: "#f2f1ed",
-  textMuted: "#9aa0ab",
-  accent: "var(--brand,#f2760a)",
-  accentDark: "#f2a25c",
-  accentLight: "#1c1610",
-  hi: "#f2a25c",
-  white: "#12151b",
-  border: "rgba(255,255,255,0.09)",
+  bg: "#12161a",
+  bgAlt: "#171d23",
+  bgDark: "#0b0e12",
+  bgDarkAlt: "#07090c",
+  bgCard: "#1a212a",
+  accent: "var(--brand,#cc7722)",
+  accentDark: "var(--brand-light,#e09a4e)",
+  accentLight: "#251a0e",
+  ink: "#f2f0ea",
+  textMuted: "#a8adb5",
+  textFaint: "#6d7480",
+  border: "rgba(242,240,234,0.10)",
+  white: "#ffffff",
+  /* Clé métier : le gris bleuté du zinc, pour les filets et textures. */
+  zinc: "#8d99a6",
 };
 /*
   La paire du plan (P9) : « Syne » porte la voix du thème,
@@ -58,6 +79,10 @@ const FONTS_CSS = `@import url('https://fonts.googleapis.com/css2?family=Syne:wg
 const FONT_TITRE = "'Syne', system-ui, -apple-system, sans-serif";
 const FONT = "'Work Sans', system-ui, -apple-system, sans-serif";
 const FONT_BODY = FONT;
+
+/* ── Easing unique du thème, répété littéralement en CSS ──────────────────── */
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+const EASE_CSS = "cubic-bezier(0.16, 1, 0.3, 1)";
 
 const NAV = [{"l": "Savoir-faire", "h": "#services"}, {"l": "Le chantier", "h": "#methode"}, {"l": "Tarifs", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
 const HERO = [{"k": "Réfection complète", "line": "ON DÉPOSE. ON REMONTE.", "sub": "Couverture refaite rang par rang, isolation posée au passage — la maison au sec pour quarante ans."}, {"k": "Ardoise d'Anjou", "line": "L'ARDOISE, POSÉE AU CROCHET.", "sub": "Le matériau du pays, posé comme le veulent les Compagnons : au crochet inox, sur voliges saines."}, {"k": "Urgence tempête", "line": "BÂCHÉ CETTE NUIT.", "sub": "Après la tempête, on sécurise d'abord : bâchage sous 24 h, dossier photo pour votre assurance."}];
@@ -74,20 +99,167 @@ let AVIS_DEMO = AVIS_SOURCE;
 const STATS_DEMO = [{"value": "10 ans", "label": "Garantie décennale"}, {"value": "Qualibat", "label": "3212 — couverture"}, {"value": "24 h", "label": "Bâchage d'urgence"}, {"value": "380+", "label": "Toitures refaites"}];
 let STATS = STATS_DEMO;
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+/* La seule adresse d'image du thème, conservée telle quelle. */
+const PHOTO_CHANTIER =
+  "https://images.pexels.com/photos/31762405/pexels-photo-31762405.jpeg?auto=compress&cs=tinysrgb&w=1400";
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Primitives
+   ════════════════════════════════════════════════════════════════════════════ */
+
+function Reveal({ children, delay = 0, y = 26, style }: { children: React.ReactNode; delay?: number; y?: number; style?: React.CSSProperties }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 26 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}>
+    <motion.div ref={ref} style={style} initial={{ opacity: 0, y }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}>
       {children}
     </motion.div>
   );
 }
 
-function photo(i: number, fallback: string): string {
-  return fd?.photoUrls?.[i] || fallback;
+/** Kicker : filet 40 × 1 px puis capitales à interlettrage large. */
+function Kicker({
+  children,
+  color = C.accent,
+  align = "left",
+}: {
+  children: React.ReactNode;
+  color?: string;
+  align?: "left" | "center";
+}) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 14, justifyContent: align === "center" ? "center" : "flex-start" }}>
+      <span style={{ width: 40, height: 1, background: color, opacity: 0.75, flexShrink: 0 }} />
+      <span style={{ fontFamily: FONT, fontSize: 10.5, letterSpacing: "0.36em", textTransform: "uppercase", color, fontWeight: 600 }}>
+        {children}
+      </span>
+      {align === "center" && (
+        <span style={{ width: 40, height: 1, background: color, opacity: 0.75, flexShrink: 0 }} />
+      )}
+    </div>
+  );
 }
 
+/** Chiffre fantôme posé en marge — texture sans image. */
+function Ghost({
+  children,
+  right = false,
+  size = "clamp(120px, 20vw, 300px)",
+}: {
+  children: React.ReactNode;
+  right?: boolean;
+  size?: string;
+}) {
+  return (
+    <span
+      aria-hidden
+      style={{ position: "absolute", top: "-0.14em", [right ? "right" : "left"]: "-0.05em", fontFamily: FONT_TITRE, fontWeight: 800, fontSize: size, lineHeight: 0.8, color: C.zinc, opacity: 0.07, pointerEvents: "none", userSelect: "none" }}
+    >
+      {children}
+    </span>
+  );
+}
+
+/** Texture de rangs d'ardoise, sans image — pour les fonds de repli. */
+function ardoise(opacity = 0.12) {
+  return {
+    backgroundImage: `repeating-linear-gradient(0deg, rgba(141,153,166,${opacity}) 0 1px, transparent 1px 34px), repeating-linear-gradient(90deg, rgba(141,153,166,${opacity * 0.55}) 0 1px, transparent 1px 58px)`,
+  } as React.CSSProperties;
+}
+
+function photo(i: number, fallback: string): string {
+  return fd?.photoUrls?.[i] || clientPhotos(sessionData)[i] || fallback;
+}
+
+/** Lien de nav : soulignement dont la largeur pousse au survol. */
+function NavLink({ label, href, onClick }: { label: string; href: string; onClick?: () => void }) {
+  const [h, setH] = useState(false);
+  return (
+    <a
+      href={href}
+      onClick={onClick}
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{ position: "relative", fontFamily: FONT, fontSize: 12.5, letterSpacing: "0.14em", textTransform: "uppercase", fontWeight: 500, color: h ? C.ink : C.textMuted, textDecoration: "none", padding: "13px 2px", transition: `color .45s ${EASE_CSS}`, display: "inline-block", minHeight: 44 }}
+    >
+      {label}
+      <span style={{ position: "absolute", left: 0, bottom: 8, height: 1, width: h ? "100%" : "0%", background: C.accent, transition: `width .5s ${EASE_CSS}` }} />
+    </a>
+  );
+}
+
+/** Bouton : élévation, deux ombres, flèche qui avance — 0,5 s. */
+function CtaButton({
+  children,
+  href,
+  filled = false,
+}: {
+  children: React.ReactNode;
+  href: string;
+  filled?: boolean;
+}) {
+  const [h, setH] = useState(false);
+  return (
+    <a
+      href={href}
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "15px 28px", minHeight: 44, fontFamily: FONT, fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, border: `1px solid ${filled ? "transparent" : C.border}`, background: filled ? C.accent : h ? "rgba(242,240,234,0.06)" : "transparent", color: filled ? "#101010" : C.ink, textDecoration: "none", transform: h ? "translateY(-2px)" : "none", boxShadow: h ? "0 20px 40px -22px rgba(204,119,34,0.5), 0 4px 12px -8px rgba(0,0,0,0.6)" : "0 0 0 rgba(0,0,0,0)", filter: filled && h ? "brightness(1.08)" : "none", transition: `all .5s ${EASE_CSS}` }}
+    >
+      {children}
+      <ArrowRight size={14} style={{ transform: h ? "translateX(5px)" : "none", transition: `transform .5s ${EASE_CSS}` }} />
+    </a>
+  );
+}
+
+/** Carte de savoir-faire à coupe franche : l'angle tranché du chantier. */
+function ServiceCard({ s, i }: { s: any; i: number }) {
+  const [h, setH] = useState(false);
+  return (
+    <Reveal delay={Math.min(i, 4) * 0.055} style={{ height: "100%" }}>
+      <article
+        onMouseEnter={() => setH(true)}
+        onMouseLeave={() => setH(false)}
+        style={{ position: "relative", background: h ? C.bgCard : C.bgAlt, border: `1px solid ${h ? "rgba(204,119,34,0.4)" : C.border}`, clipPath: "polygon(0 0, calc(100% - 26px) 0, 100% 26px, 100% 100%, 0 100%)", padding: "clamp(24px,2.8vw,34px) clamp(22px,2.6vw,30px)", height: "100%", boxSizing: "border-box", transform: h ? "translateY(-6px)" : "none", boxShadow: h ? "0 30px 60px -34px rgba(0,0,0,0.85), 0 6px 18px -12px rgba(204,119,34,0.35)" : "0 2px 14px -12px rgba(0,0,0,0.7)", transition: `all .5s ${EASE_CSS}`, cursor: "default" }}
+      >
+        {/* La coupe : un liseré accent sur l'angle tranché. */}
+        <span aria-hidden style={{ position: "absolute", top: 0, right: 0, width: 37, height: 1.5, background: h ? C.accent : C.zinc, opacity: h ? 1 : 0.4, transform: "rotate(45deg) translate(6px, 12px)", transformOrigin: "100% 0", transition: `all .5s ${EASE_CSS}` }} />
+        <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, marginBottom: 16 }}>
+          <span style={{ fontFamily: FONT, fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", fontWeight: 700, color: h ? C.accentDark : C.textFaint, transition: `color .5s ${EASE_CSS}` }}>{s.tag}</span>
+          <span style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: 15, color: h ? C.accent : C.textFaint, transition: `color .5s ${EASE_CSS}` }}>{String(i + 1).padStart(2, "0")}</span>
+        </div>
+        <h3 style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(18px,1.9vw,22px)", lineHeight: 1.16, color: C.ink, margin: "0 0 12px" }}>{s.titre}</h3>
+        <p style={{ fontFamily: FONT, fontWeight: 300, fontSize: 14.5, color: C.textMuted, lineHeight: 1.72, margin: 0 }}>{s.desc}</p>
+      </article>
+    </Reveal>
+  );
+}
+
+/** Bande de tarif : titre, note, prix à droite — table fine sombre. */
+function TarifRow({ t, i }: { t: any; i: number }) {
+  const [h, setH] = useState(false);
+  return (
+    <Reveal delay={Math.min(i, 4) * 0.06}>
+      <div
+        onMouseEnter={() => setH(true)}
+        onMouseLeave={() => setH(false)}
+        className="i351-tarif"
+        style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) auto", gap: "clamp(14px,3vw,36px)", alignItems: "baseline", padding: "clamp(20px,2.4vw,28px) clamp(8px,1.4vw,18px)", borderTop: `1px solid ${C.border}`, background: h ? C.bgAlt : "transparent", transform: h ? "translateY(-2px)" : "none", boxShadow: h ? "0 26px 50px -38px rgba(0,0,0,0.9), 0 3px 10px -8px rgba(204,119,34,0.3)" : "0 0 0 rgba(0,0,0,0)", transition: `all .5s ${EASE_CSS}` }}
+      >
+        <div style={{ minWidth: 0 }}>
+          <div style={{ fontFamily: FONT_TITRE, fontWeight: 600, fontSize: "clamp(17px,1.8vw,21px)", color: C.ink, lineHeight: 1.24 }}>{t.a}</div>
+          <div style={{ fontFamily: FONT, fontWeight: 300, fontSize: 13.5, color: C.textFaint, marginTop: 6, lineHeight: 1.65, maxWidth: 560 }}>{t.n}</div>
+        </div>
+        <div style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(17px,2vw,22px)", color: h ? C.accentDark : C.accent, whiteSpace: "nowrap", transition: `color .5s ${EASE_CSS}` }}>{t.p}</div>
+      </div>
+    </Reveal>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   PAGE — une seule pièce : le patron de câblage lit tout dans le corps
+   du rendu, après l'affectation des variables de module.
+   ════════════════════════════════════════════════════════════════════════════ */
 export default function ToitsDeLoirePage() {
   const [session, setSession] = useState<any>(null);
 
@@ -188,11 +360,12 @@ export default function ToitsDeLoirePage() {
   /*
     La photo tourne avec la diapositive. On ne met une image que si le client en
     a fourni : afficher une photo de stock à la place de la sienne serait pire
-    que de n'en afficher aucune.
+    que de n'en afficher aucune — le fond de repli `C.bgDark`, texturé en CSS,
+    tient le plein cadre à sa place.
   */
   const HERO_IMG: string | null = fd?.photoUrls?.length
     ? fd.photoUrls[0]
-    : null;
+    : clientPhotos(sessionData)[0] || null;
   const { i, next, prev } = useSlides(HERO_SLIDES.length, DWELL.normal);
   const S = HERO_SLIDES[i];
 
@@ -203,303 +376,397 @@ export default function ToitsDeLoirePage() {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const phone = fd?.phone ?? "02 41 00 00 00";
-  const telHref = `tel:${fd?.phone ?? "+33241000000"}`;
-  const mail = fd?.email ?? "devis@toits-de-loire.fr";
+  /* Le contrat d'abord (fiche d'entreprise puis formulaire), la démo ensuite. */
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "02 41 00 00 00";
+  const telHref = `tel:${clientPhone(sessionData) ?? fd?.phone ?? "+33241000000"}`;
+  const mail = clientEmail(sessionData) ?? fd?.email ?? "devis@toits-de-loire.fr";
 
   return (
-    <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
+    <div style={{ background: C.bg, color: C.ink, fontFamily: FONT_BODY, overflowX: "clip" }}>
       <style>{`${FONTS_CSS}
 
         @media (max-width: 900px) { #i351-nav { display: none !important; } .i351-burger { display: flex !important; } }
+
+        /* Le geste : la photo plein cadre coupe et se remonte avec l'index. */
+        .i351-cut { position: absolute; inset: 0; }
+        .i351-cut > div { height: 100%; }
+
+        /* Grilles à deux colonnes : media queries locales du thème,
+           on ne compte pas sur app/templates/layout.tsx. */
+        @media (max-width: 900px) {
+          .i351-split { grid-template-columns: minmax(0,1fr) !important; }
+          .i351-contact { grid-template-columns: minmax(0,1fr) !important; }
+          .i351-footgrid { grid-template-columns: minmax(0,1fr) !important; }
+          .i351-step { grid-template-columns: minmax(0,1fr) !important; row-gap: 10px; }
+          .i351-avisrow { grid-template-columns: minmax(0,1fr) !important; row-gap: 14px; }
+        }
         @media (max-width: 860px) {
-          .i351-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
-          .i351-card { max-width: 380px; margin: 0 auto; width: 100%; }
-          .i351-split { grid-template-columns: 1fr !important; }
           .i351-stats { grid-template-columns: 1fr 1fr !important; row-gap: 8px; }
           .i351-stats .i351-statcell { border-right: none !important; }
           .i351-pad { padding-left: 24px !important; padding-right: 24px !important; }
-          .i351-herotext { padding: 0 24px 44px !important; }
+          .i351-herobas { flex-direction: column; align-items: flex-start !important; gap: 18px !important; }
         }
+        @media (max-width: 760px) {
+          .i351-tarif { grid-template-columns: minmax(0,1fr) !important; row-gap: 8px; }
+        }
+
+        /* Le geste et les révélations honorent la préférence système. */
+        @media (prefers-reduced-motion: reduce) {
+          .i351-cut img { transform: none !important; }
+        }
+
+        #i351-nav a, .i351-burger { transition: all .5s ${EASE_CSS}; }
       `}</style>
 
-      {/* ── NAV ─────────────────────────────────────────────────────────── */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 48px", background: scrolled ? C.bg : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`, transition: "all 0.4s ease" }}>
+      {/* ── NAV — collante à cinq propriétés ────────────────────────────── */}
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 18, padding: scrolled ? "10px clamp(20px,5vw,56px)" : "20px clamp(20px,5vw,56px)", background: scrolled ? "rgba(18,22,26,0.92)" : "transparent", backdropFilter: scrolled ? "blur(14px) saturate(140%)" : "none", WebkitBackdropFilter: scrolled ? "blur(14px) saturate(140%)" : "none", borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`, boxShadow: scrolled ? "0 14px 38px -30px rgba(0,0,0,0.9)" : "none", transition: `all .55s ${EASE_CSS}` }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
           {fd?.logoBase64 ? (
             <img src={fd.logoBase64} alt={fd?.businessName ?? "logo"} style={{ height: 30, maxWidth: 160, objectFit: "contain", display: "block" }} />
           ) : (
             <>
               <Home size={18} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Toits de Loire"))}</span>
-              <span style={{ fontSize: 10, letterSpacing: 2.2, textTransform: "uppercase", color: C.textMuted, marginLeft: 6 }}>{clientTrade(sessionData) ?? "Couvreur-zingueur"}</span>
+              <span style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: 18, color: C.ink, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Toits de Loire"))}</span>
+              <span className="i351-navtrade" style={{ fontSize: 9.5, letterSpacing: "0.24em", textTransform: "uppercase", color: C.textFaint, marginLeft: 6, whiteSpace: "nowrap" }}>{clientTrade(sessionData) ?? "Couvreur-zingueur"}</span>
             </>
           )}
         </div>
-        <div id="i351-nav" style={{ display: "flex", gap: 24, alignItems: "center" }}>
+        <div id="i351-nav" style={{ display: "flex", gap: "clamp(14px,2vw,26px)", alignItems: "center" }}>
           {NAV.map(({ l, h }) => (
-            <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
+            <NavLink key={l} label={l} href={h} />
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33241000000"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <CtaButton href={telHref} filled>
             Devis toiture
-          </motion.a>
+          </CtaButton>
         </div>
         <button className="i351-burger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu" style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}>
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
         </button>
       </nav>
       {mobileOpen && (
-        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: C.bg, borderBottom: `1px solid ${C.border}`, padding: "20px 28px", display: "flex", flexDirection: "column", gap: 4 }}>
+        <div style={{ position: "fixed", top: 64, left: 0, right: 0, zIndex: 99, background: C.bg, borderBottom: `1px solid ${C.border}`, padding: "18px 28px 24px", display: "flex", flexDirection: "column", gap: 4 }}>
           {NAV.map(({ l, h }) => (
-            <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
+            <NavLink key={l} label={l} href={h} onClick={() => setMobileOpen(false)} />
           ))}
-          <a href={`tel:${fd?.phone ?? "+33241000000"}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Devis toiture</a>
+          <a href={telHref} style={{ background: C.accent, color: "#101010", padding: "14px 22px", fontFamily: FONT, fontSize: 13, letterSpacing: "0.18em", textTransform: "uppercase", fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 10 }}>Devis toiture</a>
         </div>
       )}
 
-      {/* ── HERO ────────────────────────────────────────────────────────── */}
+      {/* ── HERO — H3 plein cadre, titre bas ────────────────────────────── */}
 
       {/*
         Le hero n'avait aucune image : la photo du client n'apparaissait nulle
         part au-dessus de la ligne de flottaison, et le geste d'animation
-        n'animait que du texte. Deux colonnes sur grand écran, une seule en
-        dessous de 900 px — la media query .i351-hero le prévoyait déjà.
+        n'animait que du texte. Plein cadre désormais : la photo (ou le repli
+        sombre texturé) occupe l'écran, la coupe franche l'emporte à chaque
+        diapositive, et le titre reprend en bas de cadre.
       */}
-      <section className="i351-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: HERO_IMG ? "minmax(0,1.05fr) minmax(0,0.95fr)" : "1fr", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1180, margin: "0 auto" }}>
-        <div>
-        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>
-          {/* {clientCity(sessionData) ?? "Angers"} était écrit en dur : la ville du thème survivait à celle du client. */}
-          {clientTrade(sessionData) ?? "Couvreur-zingueur"}{fd?.city ? ` · ${fd.city}` : " · " + (clientCity(sessionData) ?? "Angers")}
-        </span>
-        <HardCutRebuild index={i} stagger={0.09}>
-              {[
-                <div key="k" style={{ fontSize: 13, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.accent, marginBottom: 12 }}>{S.k}</div>,
-                <h1 key="h" style={{ fontFamily: FONT_TITRE, fontSize: "clamp(36px, 5.4vw, 68px)", fontWeight: 800, color: C.text, lineHeight: 1.05, margin: "0 0 14px" }}>{S.line}</h1>,
-                <p key="d" style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 540, margin: 0 }}>{S.sub}</p>,
-              ]}
-            </HardCutRebuild>
-        <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
-          {fd?.tagline ?? c?.heroSubline ?? "Ardoise d'Anjou, zinc à joint debout, tuiles de pays : trois équipes de couvreurs qui déposent, isolent et remontent dans les règles de l'art. Décennale, Qualibat, et un bâchage d'urgence qui répond la nuit."}
-        </p>
-        <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-          <motion.a href={telHref} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
-            Demander un devis <ArrowRight size={16} />
-          </motion.a>
-          <motion.a href="#services" style={{ background: C.white, color: C.text, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ borderColor: C.accent }}>
-            Nos chantiers
-          </motion.a>
-        </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 44, flexWrap: "wrap" }}>
-          <SlideIndex i={i} total={HERO_SLIDES.length} variant="fraction" color={C.textMuted} className="" />
-          <span style={{ fontSize: 13.5, color: C.textMuted }}><strong style={{ color: C.text, fontWeight: 700 }}>{S.k}</strong> — {S.sub}</span>
-          <HairlineArrows onPrev={prev} onNext={next} color={C.text} className="" />
-        </div>
-        </div>
-
-        {/* Pas de ratio imposé sur la boîte : entre elle et l'image, le wrapper
-            du geste n'a pas de hauteur, donc `height:100%` ne résolvait à rien
-            et une bande vide restait sous la photo. L'image donne sa hauteur. */}
-        {HERO_IMG && (
-          <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, overflow: "hidden" }}>
-            <HardCutRebuild index={i} stagger={0.09}>
+      <section style={{ position: "relative", minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "flex-end", background: C.bgDark, overflow: "hidden" }}>
+        {/* Couche média : la photo coupe avec l'index — ou le repli en rangs d'ardoise. */}
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: C.bgDark, ...ardoise(0.16) }}>
+          {HERO_IMG ? (
+            <HardCutRebuild index={i} stagger={0} className="i351-cut">
               {[
                 <img
                   key="img"
                   src={HERO_IMG}
                   alt={`${fd?.businessName ?? "Chantier"} — ${S.k}`}
                   loading="eager"
-                  style={{ width: "100%", height: "auto", aspectRatio: "4/3", objectFit: "cover", display: "block" }}
+                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
                 />,
               ]}
             </HardCutRebuild>
+          ) : (
+            <div style={{ position: "absolute", inset: 0, background: `radial-gradient(70% 60% at 74% 18%, rgba(204,119,34,0.14), transparent 65%), linear-gradient(196deg, rgba(141,153,166,0.10), transparent 46%)` }} />
+          )}
+        </div>
+
+        {/* Scrims — trois arrêts et plus, pour que le titre bas reste lisible. */}
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(11,14,18,0.62) 0%, rgba(11,14,18,0.16) 34%, rgba(11,14,18,0.52) 66%, rgba(11,14,18,0.94) 100%)" }} />
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(11,14,18,0.55) 0%, rgba(11,14,18,0) 62%)" }} />
+
+        {/* Barre fixe : l'axe que la coupe ne déplace jamais. */}
+        <span aria-hidden style={{ position: "absolute", left: "clamp(20px,5vw,56px)", top: "22%", bottom: "18%", width: 2, background: `linear-gradient(${C.accent}, transparent)`, opacity: 0.85 }} />
+
+        <div className="i351-pad" style={{ position: "relative", zIndex: 2, padding: "0 clamp(34px,7vw,84px) clamp(44px,6vw,72px)", maxWidth: 1280, width: "100%", margin: "0 auto", boxSizing: "border-box" }}>
+          <span style={{ fontFamily: FONT, fontSize: 11, fontWeight: 700, letterSpacing: "0.34em", textTransform: "uppercase", color: C.accentDark }}>
+            {/* {clientCity(sessionData) ?? "Angers"} était écrit en dur : la ville du thème survivait à celle du client. */}
+            {clientTrade(sessionData) ?? "Couvreur-zingueur"}{fd?.city ? ` · ${fd.city}` : " · " + (clientCity(sessionData) ?? "Angers")}
+          </span>
+          <HardCutRebuild index={i} stagger={0.09}>
+            {[
+              <div key="k" style={{ fontFamily: FONT, fontSize: 12, fontWeight: 700, letterSpacing: "0.26em", textTransform: "uppercase", color: C.accent, margin: "18px 0 12px" }}>{S.k}</div>,
+              <h1 key="h" style={{ fontFamily: FONT_TITRE, fontSize: "clamp(2.4rem, 6.4vw, 5.6rem)", fontWeight: 800, color: C.white, lineHeight: 0.98, letterSpacing: "-0.015em", margin: "0 0 16px", maxWidth: "16ch", textShadow: "0 14px 54px rgba(0,0,0,0.65)" }}>{S.line}</h1>,
+              <p key="d" style={{ fontFamily: FONT, fontWeight: 300, fontSize: "clamp(15px,1.6vw,17.5px)", color: "rgba(242,240,234,0.85)", lineHeight: 1.75, maxWidth: 520, margin: 0 }}>{S.sub}</p>,
+            ]}
+          </HardCutRebuild>
+          <p style={{ fontFamily: FONT, fontWeight: 300, fontSize: "clamp(14px,1.4vw,16px)", color: "rgba(242,240,234,0.62)", lineHeight: 1.75, maxWidth: 560, margin: "16px 0 30px" }}>
+            {fd?.tagline ?? c?.heroSubline ?? "Ardoise d'Anjou, zinc à joint debout, tuiles de pays : trois équipes de couvreurs qui déposent, isolent et remontent dans les règles de l'art. Décennale, Qualibat, et un bâchage d'urgence qui répond la nuit."}
+          </p>
+          <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+            <CtaButton href={telHref} filled>
+              Demander un devis
+            </CtaButton>
+            <CtaButton href="#services">Nos chantiers</CtaButton>
           </div>
-        )}
+          <div className="i351-herobas" style={{ display: "flex", alignItems: "center", gap: 18, marginTop: "clamp(30px,4vw,46px)", flexWrap: "wrap" }}>
+            <SlideIndex i={i} total={HERO_SLIDES.length} variant="fraction" color={C.textMuted} className="" />
+            <span style={{ fontSize: 13, color: C.textMuted, maxWidth: 520 }}><strong style={{ color: C.ink, fontWeight: 700 }}>{S.k}</strong> — {S.sub}</span>
+            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" />
+          </div>
+        </div>
       </section>
 
-      {/* ── STATS ───────────────────────────────────────────────────────── */}
-      <section style={{ background: C.bgDark }}>
-        <div className="i351-stats i351-pad" style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
+      {/* ── RESPIRATION — une phrase, rien d'autre ──────────────────────── */}
+      <section style={{ background: C.bg, padding: "clamp(76px,11vw,150px) clamp(24px,8vw,160px)", textAlign: "center", position: "relative", overflow: "hidden" }}>
+        <div aria-hidden style={{ position: "absolute", inset: "auto -10% -50% -10%", height: "80%", background: "radial-gradient(55% 60% at 50% 60%, rgba(204,119,34,0.08), transparent 70%)", pointerEvents: "none" }} />
+        <Reveal>
+          <p style={{ fontFamily: FONT_TITRE, fontWeight: 500, fontStyle: "italic", fontSize: "clamp(21px,3vw,40px)", lineHeight: 1.34, letterSpacing: "-0.008em", color: C.ink, maxWidth: 880, margin: "0 auto", position: "relative" }}>
+            {/* TEXTE_SECTION */ clientText(sessionData, "respiration.texte") ?? (
+              <>Une toiture bien remontée, c'est <em style={{ color: C.accentDark }}>la maison au sec pour quarante ans.</em></>
+            )}
+          </p>
+        </Reveal>
+        <Reveal delay={0.12}>
+          <div style={{ width: 1, height: 78, background: `linear-gradient(${C.accent}, transparent)`, margin: "clamp(32px,5vw,54px) auto 0" }} />
+        </Reveal>
+      </section>
+
+      {/* ── SERVICES — cartes à coupe franche ───────────────────────────── */}
+      <section id="services" className="i351-pad" style={{ position: "relative", padding: "clamp(76px,10vw,132px) clamp(24px,5vw,64px)", background: C.bgAlt, overflow: "hidden" }}>
+        <div aria-hidden style={{ position: "absolute", inset: 0, ...ardoise(0.07), pointerEvents: "none" }} />
+        <div style={{ position: "relative", maxWidth: 1200, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ position: "relative", marginBottom: "clamp(36px,5vw,58px)", maxWidth: 720 }}>
+              <Ghost>Z</Ghost>
+              <div style={{ position: "relative" }}>
+                <Kicker>Savoir-faire</Kicker>
+                <h2 style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.ink, margin: "20px 0 0", lineHeight: 1.06, letterSpacing: "-0.014em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
+                  Du faîtage<br /><em style={{ color: C.accent }}>à la gouttière.</em>
+                </>)}</h2>
+              </div>
+            </div>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: "clamp(14px,1.8vw,20px)" }}>
+            {SERVICES.map((s, idx) => (
+              <ServiceCard key={`${s.titre}-${idx}`} s={s} i={idx} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── STATS — bande monumentale, filets dégradés ──────────────────── */}
+      <section style={{ position: "relative", background: C.bgDarkAlt, overflow: "hidden" }}>
+        <div aria-hidden style={{ position: "absolute", inset: 0, ...ardoise(0.1), pointerEvents: "none" }} />
+        <div aria-hidden style={{ position: "absolute", inset: "-40% 40% auto -10%", height: "120%", background: "radial-gradient(50% 60% at 40% 50%, rgba(204,119,34,0.1), transparent 70%)", pointerEvents: "none" }} />
+        <div className="i351-stats i351-pad" style={{ position: "relative", display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", maxWidth: 1160, margin: "0 auto", padding: "0 32px" }}>
           {STATS.map((s, idx) => (
-            <Reveal key={s.label} delay={idx * 0.08}>
-              <div className="i351-statcell" style={{ padding: "30px 8px", textAlign: "center", borderRight: idx < 3 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>
-                <div style={{ fontFamily: FONT, fontSize: 32, color: C.hi, lineHeight: 1 }}>{s.value}</div>
-                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginTop: 7 }}>{s.label}</div>
+            <Reveal key={`${s.label}-${idx}`} delay={idx * 0.08}>
+              <div className="i351-statcell" style={{ padding: "clamp(30px,4vw,48px) 12px", textAlign: "center", borderRight: idx < 3 ? "none" : "none", backgroundImage: idx > 0 ? "linear-gradient(180deg, rgba(141,153,166,0.02), rgba(141,153,166,0.3), rgba(141,153,166,0.02))" : "none", backgroundSize: "1px 100%", backgroundRepeat: "no-repeat", backgroundPosition: "left center" }}>
+                <div style={{ fontFamily: FONT_TITRE, fontWeight: 800, fontSize: "clamp(26px,3.2vw,40px)", color: C.accentDark, lineHeight: 1, letterSpacing: "-0.01em" }}>{s.value}</div>
+                <div style={{ fontFamily: FONT, fontWeight: 300, fontSize: 13, color: "rgba(242,240,234,0.5)", marginTop: 10, lineHeight: 1.5 }}>{s.label}</div>
               </div>
             </Reveal>
           ))}
         </div>
       </section>
 
-
-      {/* ── SERVICES ────────────────────────────────────────────────────── */}
-      <section id="services" className="i351-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+      {/* ── MÉTHODE — le chantier, dans l'ordre ─────────────────────────── */}
+      <section id="methode" className="i351-pad" style={{ position: "relative", padding: "clamp(76px,10vw,136px) clamp(24px,5vw,64px)", background: C.bg, overflow: "hidden" }}>
+        <div style={{ position: "relative", maxWidth: 1100, margin: "0 auto" }}>
           <Reveal>
-            <div style={{ marginBottom: 50 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Savoir-faire</span>
-              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
-                Du faîtage<br /><em>à la gouttière.</em>
-              </>)}</h2>
+            <div style={{ position: "relative", marginBottom: "clamp(34px,5vw,56px)", maxWidth: 720 }}>
+              <Ghost right>04</Ghost>
+              <div style={{ position: "relative" }}>
+                <Kicker>Le chantier</Kicker>
+                <h2 style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.ink, margin: "20px 0 0", lineHeight: 1.06, letterSpacing: "-0.014em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
+                  Une toiture se refait<br /><em style={{ color: C.accent }}>dans l'ordre, ou pas du tout.</em>
+                </>)}</h2>
+              </div>
             </div>
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18 }}>
-            {SERVICES.map((s, idx) => (
-              <Reveal key={s.titre} delay={idx * 0.06}>
-                <motion.div whileHover={{ y: -5 }} style={{ background: C.white, borderRadius: 12, padding: "26px 24px", border: `1px solid ${C.border}`, height: "100%" }}>
-                  <span style={{ background: C.accentLight, color: C.accent, borderRadius: 999, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag}</span>
-                  <h3 style={{ fontFamily: FONT_TITRE, fontSize: 18.5, color: C.text, margin: "15px 0 10px" }}>{s.titre}</h3>
-                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{s.desc}</p>
-                </motion.div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── MÉTHODE / INFOS ─────────────────────────────────────────────── */}
-      <section id="methode" className="i351-pad" style={{ padding: "96px 64px", background: C.bg }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ marginBottom: 50 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Le chantier</span>
-              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
-                Une toiture se refait<br /><em>dans l'ordre, ou pas du tout.</em>
-              </>)}</h2>
-            </div>
-          </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: 18 }}>
+          <div>
             {METHODE.map((m, idx) => (
               <Reveal key={m.n} delay={idx * 0.08}>
-                <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: "26px 24px", height: "100%" }}>
-                  <div style={{ fontFamily: FONT, fontSize: 28, color: C.accent, marginBottom: 12 }}>{m.n}</div>
-                  <h3 style={{ fontSize: 16.5, fontWeight: 700, color: C.text, marginBottom: 9 }}>{m.t}</h3>
-                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{m.d}</p>
+                <div className="i351-step" style={{ display: "grid", gridTemplateColumns: "96px minmax(0,0.9fr) minmax(0,1.5fr)", gap: "clamp(16px,3vw,44px)", alignItems: "start", padding: "clamp(22px,2.8vw,34px) clamp(8px,1.4vw,20px)", borderTop: `1px solid ${C.border}` }}>
+                  <div style={{ fontFamily: FONT_TITRE, fontWeight: 800, fontSize: "clamp(24px,2.8vw,36px)", lineHeight: 1, color: C.accent }}>{m.n}</div>
+                  <h3 style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(17px,1.9vw,22px)", lineHeight: 1.2, color: C.ink, margin: 0 }}>{m.t}</h3>
+                  <p style={{ fontFamily: FONT, fontWeight: 300, fontSize: 14.5, color: C.textMuted, lineHeight: 1.75, margin: 0, maxWidth: 520 }}>{m.d}</p>
                 </div>
               </Reveal>
             ))}
+            <div style={{ borderTop: `1px solid ${C.border}` }} />
           </div>
         </div>
       </section>
 
-      {/* ── ENGAGEMENTS ─────────────────────────────────────────────────── */}
-      <section id="engagements" className="i351-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
-        <div className="i351-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
+      {/* ── TARIFS — bandes fines, repères honnêtes ─────────────────────── */}
+      <section id="tarifs" className="i351-pad" style={{ position: "relative", padding: "clamp(76px,10vw,136px) clamp(24px,5vw,64px)", background: C.bgAlt, overflow: "hidden" }}>
+        <div aria-hidden style={{ position: "absolute", inset: 0, ...ardoise(0.06), pointerEvents: "none" }} />
+        <div style={{ position: "relative", maxWidth: 980, margin: "0 auto" }}>
           <Reveal>
-            <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3", justifyContent: "center" , overflow: "hidden" }}><img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/31762405/pexels-photo-31762405.jpeg?auto=compress&cs=tinysrgb&w=1400"))} alt="Couvreurs sur une toiture" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div>
+            <div style={{ position: "relative", marginBottom: "clamp(28px,4vw,46px)" }}>
+              <Ghost right>€</Ghost>
+              <div style={{ position: "relative" }}>
+                <Kicker>Tarifs</Kicker>
+                <h2 style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.ink, margin: "20px 0 14px", lineHeight: 1.06, letterSpacing: "-0.014em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Des repères <em style={{ color: C.accent }}>honnêtes.</em></>)}</h2>
+                <p style={{ fontFamily: FONT, fontWeight: 300, fontSize: 15, color: C.textMuted, maxWidth: 540, margin: 0, lineHeight: 1.72 }}>
+                  {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.intro") ?? (
+                    <>Chaque toit est unique : ces fourchettes situent le budget, le devis après visite fait foi. Aides MaPrimeRénov' déduites quand l'isolation s'y prête.</>
+                  )}
+                </p>
+              </div>
+            </div>
+          </Reveal>
+          <div>
+            {TARIFS.map((tt, idx) => (
+              <TarifRow key={`${tt.a}-${idx}`} t={tt} i={idx} />
+            ))}
+            <div style={{ borderTop: `1px solid ${C.border}` }} />
+          </div>
+        </div>
+      </section>
+
+      {/* ── ENGAGEMENTS — le chantier photographié, la liste filetée ────── */}
+      <section id="engagements" className="i351-pad" style={{ padding: "clamp(76px,10vw,136px) clamp(24px,5vw,64px)", background: C.bg }}>
+        <div className="i351-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: "clamp(32px,5vw,64px)", alignItems: "center" }}>
+          <Reveal>
+            <div style={{ position: "relative", border: `1px solid ${C.border}`, background: C.bgDark, aspectRatio: "4/3", overflow: "hidden", ...ardoise(0.2) }}>
+              {photo(1, PHOTO_CHANTIER) ? (
+                <img src={photo(1, PHOTO_CHANTIER)} alt="Couvreurs sur une toiture" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              ) : (
+                <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16, background: "linear-gradient(200deg, rgba(204,119,34,0.22), rgba(7,9,12,0.8))" }}>
+                  <CloudRain size={46} color={C.accentDark} strokeWidth={1} />
+                  <span style={{ fontFamily: FONT, fontSize: 10, letterSpacing: "0.34em", textTransform: "uppercase", color: "rgba(242,240,234,0.55)" }}>Chantier bâché chaque soir</span>
+                </div>
+              )}
+            </div>
           </Reveal>
           <Reveal delay={0.15}>
             <div>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Nos engagements</span>
-              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
-                Couvreurs,<br /><em>et assurés pour l'être.</em>
+              <Kicker>Nos engagements</Kicker>
+              <h2 style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(26px, 3vw, 40px)", color: C.ink, margin: "20px 0 clamp(20px,3vw,30px)", lineHeight: 1.1, letterSpacing: "-0.012em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
+                Couvreurs,<br /><em style={{ color: C.accent }}>et assurés pour l'être.</em>
               </>)}</h2>
-              {ENGAGEMENT.map((e, idx) => (
-                <div key={idx} style={{ display: "flex", gap: 12, marginBottom: 14 }}>
-                  <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
-                  <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{e}</span>
-                </div>
-              ))}
-              <motion.a href={telHref} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 24, background: C.accent, color: "#101010", borderRadius: 8, padding: "14px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ scale: 1.02 }}>
-                Nous appeler <ArrowRight size={16} />
-              </motion.a>
+              <div>
+                {ENGAGEMENT.map((e, idx) => (
+                  <div key={idx} style={{ display: "grid", gridTemplateColumns: "auto minmax(0,1fr)", gap: 16, alignItems: "start", padding: "15px 0", borderTop: `1px solid ${C.border}` }}>
+                    <span style={{ fontFamily: FONT, fontSize: 10.5, letterSpacing: "0.22em", color: C.accent, fontWeight: 700, paddingTop: 4 }}>{String(idx + 1).padStart(2, "0")}</span>
+                    <span style={{ fontFamily: FONT, fontWeight: 300, fontSize: 15, color: C.textMuted, lineHeight: 1.68 }}>{e}</span>
+                  </div>
+                ))}
+                <div style={{ borderTop: `1px solid ${C.border}`, marginBottom: 26 }} />
+              </div>
+              <CtaButton href={telHref} filled>
+                Nous appeler
+              </CtaButton>
             </div>
           </Reveal>
         </div>
       </section>
 
-      {/* ── TARIFS ──────────────────────────────────────────────────────── */}
-      <section id="tarifs" className="i351-pad" style={{ padding: "96px 64px", background: C.bg }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+      {/* ── AVIS — bandes de toits qui tiennent ─────────────────────────── */}
+      <section className="i351-pad" style={{ position: "relative", padding: "clamp(76px,10vw,140px) clamp(24px,5vw,64px)", background: C.bgDarkAlt, overflow: "hidden" }}>
+        <div aria-hidden style={{ position: "absolute", inset: 0, ...ardoise(0.09), pointerEvents: "none" }} />
+        <div aria-hidden style={{ position: "absolute", inset: "-30% -10% auto 40%", height: "90%", background: "radial-gradient(50% 60% at 60% 40%, rgba(204,119,34,0.1), transparent 70%)", pointerEvents: "none" }} />
+        <div style={{ position: "relative", maxWidth: 1080, margin: "0 auto" }}>
           <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 16 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Tarifs</span>
-              <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Des repères <em>honnêtes.</em></>)}</h2>
-              <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>Chaque toit est unique : ces fourchettes situent le budget, le devis après visite fait foi. Aides MaPrimeRénov' déduites quand l'isolation s'y prête.</p>
+            <div style={{ marginBottom: "clamp(34px,5vw,56px)" }}>
+              <Kicker color={C.accentDark}>Ils nous ont ouvert leur toit</Kicker>
+              <h2 style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(26px, 3.4vw, 42px)", color: C.white, margin: "20px 0 0", lineHeight: 1.08, letterSpacing: "-0.012em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Des toits <em style={{ color: C.accentDark }}>qui tiennent</em>.</>)}</h2>
             </div>
           </Reveal>
-          <div style={{ marginTop: 38 }}>
-            {TARIFS.map((tt, idx) => (
-              <Reveal key={tt.a} delay={idx * 0.06}>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "space-between", alignItems: "baseline", background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: "20px 24px", marginBottom: 12 }}>
-                  <div style={{ minWidth: 0 }}>
-                    <div style={{ fontFamily: FONT, fontSize: 17.5, color: C.text }}>{tt.a}</div>
-                    <div style={{ fontSize: 13.5, color: C.textMuted, marginTop: 5, lineHeight: 1.6 }}>{tt.n}</div>
-                  </div>
-                  <div style={{ fontFamily: FONT, fontSize: 19, color: C.accent, whiteSpace: "nowrap" }}>{tt.p}</div>
-                </div>
+          <div>
+            {AVIS.map((a, idx) => (
+              <Reveal key={`${a.auteur}-${idx}`} delay={idx * 0.09}>
+                <figure className="i351-avisrow" style={{ display: "grid", gridTemplateColumns: "minmax(0,1.6fr) minmax(0,0.7fr)", gap: "clamp(18px,3vw,48px)", alignItems: "end", margin: 0, padding: "clamp(24px,3vw,38px) 0", backgroundImage: "linear-gradient(90deg, rgba(141,153,166,0.28), rgba(141,153,166,0.02))", backgroundSize: "100% 1px", backgroundRepeat: "no-repeat", backgroundPosition: "top left" }}>
+                  <blockquote style={{ fontFamily: FONT, fontWeight: 300, fontStyle: "italic", fontSize: "clamp(15.5px,1.8vw,19px)", color: "rgba(242,240,234,0.86)", lineHeight: 1.72, margin: 0, maxWidth: 640 }}>
+                    « {a.texte} »
+                  </blockquote>
+                  <figcaption style={{ textAlign: "right" }}>
+                    <div style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: 15, color: C.white }}>{a.auteur}</div>
+                    <div style={{ fontFamily: FONT, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: C.accentDark, marginTop: 6 }}>{a.detail}</div>
+                  </figcaption>
+                </figure>
               </Reveal>
             ))}
+            <div style={{ backgroundImage: "linear-gradient(90deg, rgba(141,153,166,0.28), rgba(141,153,166,0.02))", backgroundSize: "100% 1px", backgroundRepeat: "no-repeat", height: 1 }} />
           </div>
         </div>
       </section>
 
-      {/* ── AVIS ────────────────────────────────────────────────────────── */}
-      <section className="i351-pad" style={{ padding: "96px 64px", background: C.bgDark }}>
-        <Reveal>
-          <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Des toits <em style={{ color: C.hi }}>qui tiennent</em>.</>)}</h2>
-          </div>
-        </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
-          {AVIS.map((a, idx) => (
-            <Reveal key={a.auteur} delay={idx * 0.1}>
-              <div style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.10)", borderRadius: 12, padding: "26px 24px", height: "100%" }}>
-                <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>
-                  {[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.hi} color={C.hi} />)}
-                </div>
-                <p style={{ fontFamily: FONT, fontSize: 15, fontStyle: "italic", color: "rgba(255,255,255,0.82)", lineHeight: 1.7, marginBottom: 18 }}>"{a.texte}"</p>
-                <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14 }}>
-                  <div style={{ fontWeight: 700, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
-                  <div style={{ color: C.hi, fontSize: 12, marginTop: 4 }}>{a.detail}</div>
-                </div>
+      {/* ── CONTACT — le devis d'abord, les coordonnées à côté ──────────── */}
+      <section id="contact" className="i351-pad" style={{ position: "relative", padding: "clamp(76px,10vw,140px) clamp(24px,5vw,64px)", background: C.bg, overflow: "hidden" }}>
+        <div aria-hidden style={{ position: "absolute", inset: "auto -10% -40% -10%", height: "70%", background: "radial-gradient(50% 60% at 50% 60%, rgba(204,119,34,0.08), transparent 70%)", pointerEvents: "none" }} />
+        <div className="i351-contact" style={{ position: "relative", maxWidth: 1080, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1.1fr) minmax(0,0.9fr)", gap: "clamp(32px,5vw,76px)", alignItems: "start" }}>
+          <Reveal>
+            <div>
+              <Kicker>Devis gratuit</Kicker>
+              <h2 style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(28px, 4vw, 48px)", color: C.ink, margin: "20px 0 16px", lineHeight: 1.05, letterSpacing: "-0.016em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
+                Faites regarder votre toit<br /><em style={{ color: C.accent }}>avant qu'il ne se rappelle à vous.</em>
+              </>)}</h2>
+              <p style={{ fontFamily: FONT, fontWeight: 300, fontSize: 16, color: C.textMuted, maxWidth: 480, margin: "0 0 clamp(24px,3vw,34px)", lineHeight: 1.72 }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? (
+                  <>Visite et diagnostic gratuits dans tout le Maine-et-Loire. Urgence bâchage : on répond aussi la nuit.</>
+                )}
+              </p>
+              <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+                <CtaButton href={telHref} filled>
+                  {phone}
+                </CtaButton>
+                <CtaButton href={`mailto:${mail}`}>Nous écrire</CtaButton>
               </div>
-            </Reveal>
-          ))}
+            </div>
+          </Reveal>
+          <Reveal delay={0.12}>
+            <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, padding: "clamp(24px,3vw,36px)" }}>
+              {[
+                { icon: <Phone size={15} strokeWidth={1.5} />, l: "Téléphone", v: phone },
+                { icon: <Mail size={15} strokeWidth={1.5} />, l: "Courriel", v: mail },
+                { icon: <MapPin size={15} strokeWidth={1.5} />, l: "Atelier", v: clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "49000", "Angers") + ", Maine-et-Loire" },
+                { icon: <Clock size={15} strokeWidth={1.5} />, l: "Horaires", v: "Lun–Ven 7h30–18h · Urgence bâchage 7j/7" },
+              ].map((row, n) => (
+                <div key={row.l} style={{ display: "grid", gridTemplateColumns: "auto minmax(0,1fr)", gap: 14, alignItems: "start", padding: "15px 0", borderTop: n === 0 ? "none" : `1px solid ${C.border}` }}>
+                  <span style={{ color: C.accent, paddingTop: 3 }}>{row.icon}</span>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontFamily: FONT, fontSize: 9.5, letterSpacing: "0.3em", textTransform: "uppercase", color: C.textFaint, marginBottom: 6 }}>{row.l}</div>
+                    <div style={{ fontFamily: FONT_TITRE, fontWeight: 600, fontSize: 16.5, color: C.ink, wordBreak: "break-word" }}>{row.v}</div>
+                  </div>
+                </div>
+              ))}
+              <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 18, marginTop: 4, display: "flex", gap: 12, alignItems: "center" }}>
+                <Shield size={16} color={C.accent} strokeWidth={1.5} style={{ flexShrink: 0 }} />
+                <span style={{ fontFamily: FONT, fontWeight: 300, fontSize: 13, color: C.textMuted, lineHeight: 1.6 }}>Décennale et Qualibat 3212 : les attestations partent avec chaque devis.</span>
+              </div>
+            </div>
+          </Reveal>
         </div>
-      </section>
-
-      {/* ── CONTACT ─────────────────────────────────────────────────────── */}
-      <section id="contact" className="i351-pad" style={{ padding: "96px 64px", background: C.accentLight, textAlign: "center" }}>
-        <Reveal>
-          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Devis gratuit</span>
-          <h2 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
-            Faites regarder votre toit<br /><em>avant qu'il ne se rappelle à vous.</em>
-          </>)}</h2>
-          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>Visite et diagnostic gratuits dans tout le Maine-et-Loire. Urgence bâchage : on répond aussi la nuit.</p>
-          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={telHref} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {phone}
-            </motion.a>
-            <motion.a href={`mailto:${mail}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "14px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ background: C.accent, color: "#fff" }}>
-              <Mail size={18} /> Nous écrire
-            </motion.a>
-          </div>
-        </Reveal>
       </section>
 
       {/* ── FOOTER ──────────────────────────────────────────────────────── */}
-      <footer className="i351-pad" style={{ background: C.bgDark, padding: "44px 64px 22px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
+      <footer className="i351-pad" style={{ position: "relative", background: C.bgDarkAlt, padding: "clamp(44px,6vw,72px) clamp(24px,5vw,64px) 22px", overflow: "hidden" }}>
+        <div aria-hidden style={{ position: "absolute", inset: 0, ...ardoise(0.07), pointerEvents: "none" }} />
+        <div style={{ position: "relative", maxWidth: 1100, margin: "0 auto" }}>
+          <div className="i351-footgrid" style={{ display: "grid", gridTemplateColumns: "minmax(0,1.3fr) minmax(0,1fr)", gap: "clamp(24px,4vw,56px)", marginBottom: 30 }}>
             <div>
-              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Toits de Loire"))}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Couverture · Zinguerie · {clientCity(sessionData) ?? "Angers"} et Maine-et-Loire<br />Garantie décennale, Qualibat 3212</p>
+              <div style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: 20, color: C.accentDark, marginBottom: 10 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Toits de Loire"))}</div>
+              <p style={{ fontFamily: FONT, fontWeight: 300, color: "rgba(242,240,234,0.42)", fontSize: 13, lineHeight: 1.75, margin: 0, maxWidth: 360 }}>Couverture · Zinguerie · {clientCity(sessionData) ?? "Angers"} et Maine-et-Loire<br />Garantie décennale, Qualibat 3212</p>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
               {[{ icon: <MapPin size={13} />, t: (clientAddress(sessionData) ?? ((clientCity(sessionData) ?? "Angers") + ", Maine-et-Loire")) }, { icon: <Phone size={13} />, t: phone }, { icon: <Mail size={13} />, t: mail }, { icon: <Clock size={13} />, t: "Lun–Ven 7h30–18h · Urgence bâchage 7j/7" }].map((item, idx) => (
-                <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
-                  <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
+                <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(242,240,234,0.46)", fontSize: 13, alignItems: "center" }}>
+                  <span style={{ color: C.accentDark, display: "flex" }}>{item.icon}</span>{item.t}
                 </div>
               ))}
             </div>
           </div>
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Toits de Loire"))} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity />
+          <div style={{ borderTop: "1px solid rgba(242,240,234,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
+            <span style={{ color: "rgba(242,240,234,0.28)", fontSize: 12 }}>
+              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Toits de Loire"))} — Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" />{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
-            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
+            <span style={{ color: "rgba(242,240,234,0.28)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>
         </div>
       </footer>

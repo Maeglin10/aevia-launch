@@ -3,23 +3,28 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
-import { ArrowRight, Carrot, CheckCircle, Clock, Egg, Mail, MapPin, Phone, Sprout, Star } from "lucide-react";
+import { ArrowRight, CheckCircle, Clock, Mail, MapPin, Phone, Sprout, Star } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, HeldSwap, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import {
-  clientCertifications,
   clientAddress,
+  clientCertifications,
   clientCity,
+  clientEmail,
   clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
+  clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -32,57 +37,406 @@ let bp: any = null;
 let sessionData: any = null;
 let brand: any = null;
 
-/* Producteur fermier en vente directe, 1re variante. Signature : HeldSwap — le panier de la semaine posé sur la table. Images nature déjà présentes dans le repo. */
+/* ════════════════════════════════════════════════════════════════════════════
+   FERME DES QUATRE VENTS — Producteur fermier en vente directe · Cahors
+   Réécriture premium (reprise 316–383, famille II).
 
+   Geste signature : HeldSwap (hero-kit-2) — LE PANIER EN MÉDAILLON. La récolte
+   de la semaine est posée dans un médaillon rond, comme une assiette sur la
+   table : elle sort en basculant à peine (tilt 8°), la table reste vide une
+   demi-seconde — le temps tenu de la mécanique — puis la suivante se pose.
+   Un seul index pilote tout le héros : le médaillon, la chronique qui
+   l'accompagne, le compteur.
+
+   Archétype H7 : magazine — méta-rangée filetée en tête, titre serif géant,
+   bandeau média posé au bas du héros. Le thème se lit comme la une d'une
+   gazette de saison, pas comme une page de vente.
+
+   Paire P4 : Fraunces (serif à axe optique, voix du thème) × Inter (labeur).
+   Palette #fbfaf4 / #5f7a2e — papier crème, vert de rang.
+
+   Dessin des sections, volontairement écarté du squelette commun :
+   les repères (chiffres) font une rangée filetée de sommaire, pas une bande
+   sombre ; les produits composent une « une » de magazine (article de tête +
+   brèves filetées) ; la méthode est un bandeau de quatre temps à chiffres
+   fantômes ; les prix sont une mercuriale à points de conduite ; les avis
+   sont trois colonnes décalées sur le seul fond sombre de la page.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Fontes : deux rôles opposés, importées une fois ──────────────────────── */
+const FONTS_CSS = `@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Inter:wght@300;400;500;600&display=swap');`;
+const SERIF = "'Fraunces', Georgia, 'Times New Roman', serif";
+const SANS = "'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif";
+// Les passes globales et les sous-pages lisent encore FONT / FONT_BODY.
+const FONT = SERIF;
+const FONT_BODY = SANS;
+
+/* ── Courbe d'accélération unique du thème ───────────────────────────────── */
+const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+const EASE_CSS = "cubic-bezier(.16,1,.3,1)";
+
+/* ── Jetons ──────────────────────────────────────────────────────────────── */
 let C: Record<string, string> = {
-  bg: "#f9faf7",
-  bgSection: "#eef2ea",
-  bgDark: "#22271f",
-  text: "#20251c",
-  textMuted: "#5f6858",
-  accent: "var(--brand,#5c7a4e)",
-  accentDark: "#465e3a",
-  accentLight: "#e4ecdd",
-  hi: "#a9c491",
+  bg: "#fbfaf4",
+  bgAlt: "#f1efe1",
+  bgDark: "#242a19",
+  bgDarkAlt: "#1b2013",
+  bgCard: "#ffffff",
+  accent: "var(--brand, #5f7a2e)",
+  accentDark: "var(--brand-light, #47601f)",
+  accentLight: "#e7ecd3",
+  ink: "#242a19",
+  textMuted: "#5c6350",
+  textFaint: "#94997f",
+  border: "#e2e0cb",
   white: "#ffffff",
-  border: "#dde4d6",
+  // Clé métier : le vert tendre des jeunes pousses — les hautes lumières des
+  // fonds sombres, les étoiles des avis, les filets du pied de page.
+  pousse: "#c4d494",
 };
-const FONT = "'Libre Baskerville', Georgia, serif";
-const FONT_BODY = "'Cabin', system-ui, sans-serif";
 
-const NAV = [{"l": "Nos produits", "h": "#services"}, {"l": "La ferme", "h": "#methode"}, {"l": "Paniers & prix", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
-function HERO_DEMO_LIVE() {
-  return [{"k": "Le panier de la semaine", "line": "Composé mardi, cueilli jeudi, retiré vendredi.", "sub": "Légumes du moment, jamais les mêmes deux semaines de suite.", "img": (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80"), "alt": "Légumes du jardin en permaculture"}, {"k": "Le jardin", "line": "Deux hectares menés en bio, sans raccourci.", "sub": "Certification AB, sol vivant, rotations longues.", "img": (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80"), "alt": "Travail au jardin de la ferme"}, {"k": "Les saisons", "line": "En juin les fraises, en janvier les poireaux.", "sub": "On ne force rien — c'est le principe.", "img": (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=80"), "alt": "Rangs de culture à la belle saison"}];
+const NAV = [
+  { l: "Nos produits", h: "#services" },
+  { l: "La ferme", h: "#methode" },
+  { l: "Paniers & prix", h: "#tarifs" },
+  { l: "Contact", h: "#contact" },
+];
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Données de démonstration — contenu rédactionnel du thème, conservé.
+
+   Les champs de présentation vivent dans des constantes SOURCE (jamais un
+   appel au contrat au niveau module : une constante évaluée à l'import ne
+   verrait jamais le client) ; ce qui lit la session passe par des fonctions
+   LIVE() ré-appelées dans le corps du rendu.
+   ════════════════════════════════════════════════════════════════════════════ */
+
+function HERO_LIVE() {
+  return [
+    {
+      k: "Le panier de la semaine",
+      line: "Composé mardi, cueilli jeudi, retiré vendredi.",
+      sub: "Légumes du moment, jamais les mêmes deux semaines de suite.",
+      img: fd?.photoUrls?.[0] || clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=800&q=80",
+      alt: "Légumes du jardin en permaculture",
+    },
+    {
+      k: "Le jardin",
+      line: "Deux hectares menés en bio, sans raccourci.",
+      sub: "Certification AB, sol vivant, rotations longues.",
+      img: fd?.photoUrls?.[1] || clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80",
+      alt: "Travail au jardin de la ferme",
+    },
+    {
+      k: "Les saisons",
+      line: "En juin les fraises, en janvier les poireaux.",
+      sub: "On ne force rien — c'est le principe.",
+      img: fd?.photoUrls?.[2] || clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=80",
+      alt: "Rangs de culture à la belle saison",
+    },
+  ];
 }
-let HERO_DEMO = HERO_DEMO_LIVE();
-let HERO = HERO_DEMO;
+let HERO = HERO_LIVE();
 
-const SERVICES_SOURCE = [{"titre": "Légumes de saison", "desc": "Quarante variétés sur l'année, cueillies la veille ou le matin de la vente. La tomate d'août et le panais de janvier — jamais l'inverse.", "tag": "Maraîchage"}, {"titre": "Œufs de plein air", "desc": "250 poules sur parcours herbeux, nourries au grain local complété par ce que la ferme produit. Ramassés chaque matin.", "tag": "Œufs"}, {"titre": "Volailles fermières", "desc": "Poulets élevés 110 jours minimum, en plein air, abattus en abattoir de proximité. Sur commande, retrait le vendredi.", "tag": "Volaille"}, {"titre": "Paniers hebdomadaires", "desc": "Petit (2 pers.) ou grand (4-5 pers.) : la récolte de la semaine, une recette pour le légume oublié, sans engagement.", "tag": "Paniers"}, {"titre": "Conserves de la ferme", "desc": "Coulis, ratatouille, soupes d'hiver : l'été mis en bocaux dans notre atelier agréé, pour les mois sans.", "tag": "Bocaux"}, {"titre": "Visites & œufs de vacances", "desc": "La ferme se visite le premier samedi du mois. Les enfants ramassent les œufs, les parents comprennent les prix.", "tag": "Visites"}];
+const SERVICES_SOURCE = [
+  { titre: "Légumes de saison", desc: "Quarante variétés sur l'année, cueillies la veille ou le matin de la vente. La tomate d'août et le panais de janvier — jamais l'inverse.", tag: "Maraîchage" },
+  { titre: "Œufs de plein air", desc: "250 poules sur parcours herbeux, nourries au grain local complété par ce que la ferme produit. Ramassés chaque matin.", tag: "Œufs" },
+  { titre: "Volailles fermières", desc: "Poulets élevés 110 jours minimum, en plein air, abattus en abattoir de proximité. Sur commande, retrait le vendredi.", tag: "Volaille" },
+  { titre: "Paniers hebdomadaires", desc: "Petit (2 pers.) ou grand (4-5 pers.) : la récolte de la semaine, une recette pour le légume oublié, sans engagement.", tag: "Paniers" },
+  { titre: "Conserves de la ferme", desc: "Coulis, ratatouille, soupes d'hiver : l'été mis en bocaux dans notre atelier agréé, pour les mois sans.", tag: "Bocaux" },
+  { titre: "Visites & œufs de vacances", desc: "La ferme se visite le premier samedi du mois. Les enfants ramassent les œufs, les parents comprennent les prix.", tag: "Visites" },
+];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "Un sol vivant", "d": "Rotations longues, engrais verts, compost de la ferme : le sol est notre premier outil de travail."}, {"n": "02", "t": "Cueilli à maturité", "d": "La récolte se fait pour le lendemain, pas pour tenir une semaine de camion. Ça change le goût, vraiment."}, {"n": "03", "t": "Vendu en direct", "d": "Boutique à la ferme, marché de Cahors le samedi, paniers réservés : aucun intermédiaire, prix décidés ici."}, {"n": "04", "t": "Contrôlé chaque année", "d": "Certification AB par organisme agréé, contrôles annuels — le logo se mérite, il ne se déclare pas."}];
-const ENGAGEMENT_DEMO = ["Certification Agriculture Biologique (AB), contrôles annuels d'organisme agréé", "Vente directe uniquement : ce qui est sur l'étal a poussé ici, point", "Prix affichés à l'année, décidés par la ferme — pas par un cours mondial", "La ferme se visite : premier samedi du mois, et sur demande pour les écoles"];
-let ENGAGEMENT = ENGAGEMENT_DEMO;
-const TARIFS_DEMO = [{"a": "Panier petit (2 pers.)", "p": "14 €", "n": "5-6 légumes de la semaine + la recette du légume oublié."}, {"a": "Panier grand (4-5 pers.)", "p": "24 €", "n": "8-10 légumes, de quoi tenir la semaine sans supermarché."}, {"a": "Œufs plein air (×6)", "p": "2,80 €", "n": "Ramassés du matin, boîtes consignées reprises."}, {"a": "Poulet fermier (~1,8 kg)", "p": "12,90 €/kg", "n": "Sur commande avant mercredi, retrait vendredi."}];
-let TARIFS = TARIFS_DEMO;
-const AVIS_SOURCE = [{"texte": "Deux ans de panier hebdomadaire : on a réappris à cuisiner avec les saisons, les enfants reconnaissent les légumes, et le goût des tomates d'août ne se compare à rien.", "auteur": "Famille Delmas", "detail": "Panier grand"}, {"texte": "La visite du premier samedi vaut tous les discours : on voit les poules, le compost, les rangs. Depuis, le prix des œufs me paraît même trop bas.", "auteur": "Nathalie C.", "detail": "Visite + cliente marché"}, {"texte": "Poulet de 110 jours commandé pour un dimanche de famille : mes parents ont retrouvé « le goût du poulet d'avant ». Tout est dit.", "auteur": "Julien F.", "detail": "Volaille fermière"}];
-let AVIS_DEMO = AVIS_SOURCE;
-const STATS_DEMO = [{"value": "AB", "label": "Certifiée agriculture biologique"}, {"value": "2 ha", "label": "De maraîchage diversifié"}, {"value": "250", "label": "Poules de plein air"}, {"value": "0 km", "label": "Entre le champ et la boutique"}];
-let STATS = STATS_DEMO;
 
-function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+const METHODE_SOURCE = [
+  { n: "01", t: "Un sol vivant", d: "Rotations longues, engrais verts, compost de la ferme : le sol est notre premier outil de travail." },
+  { n: "02", t: "Cueilli à maturité", d: "La récolte se fait pour le lendemain, pas pour tenir une semaine de camion. Ça change le goût, vraiment." },
+  { n: "03", t: "Vendu en direct", d: "Boutique à la ferme, marché de Cahors le samedi, paniers réservés : aucun intermédiaire, prix décidés ici." },
+  { n: "04", t: "Contrôlé chaque année", d: "Certification AB par organisme agréé, contrôles annuels — le logo se mérite, il ne se déclare pas." },
+];
+const METHODE = METHODE_SOURCE;
+
+const ENGAGEMENT_SOURCE = [
+  "Certification Agriculture Biologique (AB), contrôles annuels d'organisme agréé",
+  "Vente directe uniquement : ce qui est sur l'étal a poussé ici, point",
+  "Prix affichés à l'année, décidés par la ferme — pas par un cours mondial",
+  "La ferme se visite : premier samedi du mois, et sur demande pour les écoles",
+];
+let ENGAGEMENT = ENGAGEMENT_SOURCE;
+
+const TARIFS_SOURCE = [
+  { a: "Panier petit (2 pers.)", p: "14 €", n: "5-6 légumes de la semaine + la recette du légume oublié." },
+  { a: "Panier grand (4-5 pers.)", p: "24 €", n: "8-10 légumes, de quoi tenir la semaine sans supermarché." },
+  { a: "Œufs plein air (×6)", p: "2,80 €", n: "Ramassés du matin, boîtes consignées reprises." },
+  { a: "Poulet fermier (~1,8 kg)", p: "12,90 €/kg", n: "Sur commande avant mercredi, retrait vendredi." },
+];
+let TARIFS = TARIFS_SOURCE;
+
+const AVIS_SOURCE = [
+  { texte: "Deux ans de panier hebdomadaire : on a réappris à cuisiner avec les saisons, les enfants reconnaissent les légumes, et le goût des tomates d'août ne se compare à rien.", auteur: "Famille Delmas", detail: "Panier grand" },
+  { texte: "La visite du premier samedi vaut tous les discours : on voit les poules, le compost, les rangs. Depuis, le prix des œufs me paraît même trop bas.", auteur: "Nathalie C.", detail: "Visite + cliente marché" },
+  { texte: "Poulet de 110 jours commandé pour un dimanche de famille : mes parents ont retrouvé « le goût du poulet d'avant ». Tout est dit.", auteur: "Julien F.", detail: "Volaille fermière" },
+];
+let AVIS_DEMO = AVIS_SOURCE;
+
+const STATS_SOURCE = [
+  { value: "AB", label: "Certifiée agriculture biologique" },
+  { value: "2 ha", label: "De maraîchage diversifié" },
+  { value: "250", label: "Poules de plein air" },
+  { value: "0 km", label: "Entre le champ et la boutique" },
+];
+let STATS = STATS_SOURCE;
+
+/* ── Photos ──────────────────────────────────────────────────────────────── */
+/**
+ * L'image téléversée à cet emplacement, sinon celle du thème.
+ * `||` et non `??` : une chaîne vide est un emplacement non pourvu.
+ */
+function photo(i: number, repli: string): string {
+  return fd?.photoUrls?.[i] || clientPhotos(sessionData)[i] || repli;
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Primitives
+   ════════════════════════════════════════════════════════════════════════════ */
+
+function Reveal({ children, delay = 0, y = 24, style }: { children: React.ReactNode; delay?: number; y?: number; style?: React.CSSProperties }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 26 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}>
+    <motion.div ref={ref} style={style} initial={{ opacity: 0, y }} animate={inView ? { opacity: 1, y: 0 } : undefined} transition={{ duration: 0.8, delay, ease: EASE }}>
       {children}
     </motion.div>
   );
 }
 
-function photo(i: number, fallback: string): string {
-  return fd?.photoUrls?.[i] || fallback;
+/** Sur-titre : un filet de 40 px, puis des capitales très espacées. */
+function Kicker({ children, color = C.accentDark, align = "left" }: { children: React.ReactNode; color?: string; align?: "left" | "center" }) {
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: 14, justifyContent: align === "center" ? "center" : "flex-start" }}>
+      <span style={{ width: 40, height: 1, background: color, opacity: 0.7, flexShrink: 0 }} />
+      <span style={{ fontFamily: SANS, fontSize: 10.5, fontWeight: 600, letterSpacing: "0.34em", textTransform: "uppercase", color }}>{children}</span>
+      {align === "center" && <span style={{ width: 40, height: 1, background: color, opacity: 0.7, flexShrink: 0 }} />}
+    </div>
+  );
 }
 
+/** Un filet dégradé d'un pixel — la séparation du thème. */
+function Filet({ color, width = "100%", style }: { color: string; width?: string | number; style?: React.CSSProperties }) {
+  return <span aria-hidden style={{ display: "block", width, height: 1, background: `linear-gradient(90deg, transparent, ${color}, transparent)`, ...style }} />;
+}
+
+/**
+ * La rose des vents, dessinée — quatre pointes, un cercle.
+ * C'est le détail gratuit du thème : elle tourne très lentement (90 s le
+ * tour, on ne la voit pas tourner, on sent que le vent change) et elle
+ * signe le nom de la ferme sans jamais l'illustrer lourdement.
+ */
+function RoseDesVents({ size = 64, color, opacity = 0.5, className = "", style }: { size?: number; color: string; opacity?: number; className?: string; style?: React.CSSProperties }) {
+  return (
+    <svg aria-hidden viewBox="0 0 100 100" width={size} height={size} className={className} style={{ display: "block", opacity, pointerEvents: "none", ...style }}>
+      <circle cx="50" cy="50" r="30" fill="none" stroke={color} strokeWidth="1" />
+      <path d="M50 4 L56 44 L50 50 L44 44 Z" fill={color} opacity="0.9" />
+      <path d="M50 96 L56 56 L50 50 L44 56 Z" fill="none" stroke={color} strokeWidth="1" />
+      <path d="M4 50 L44 44 L50 50 L44 56 Z" fill="none" stroke={color} strokeWidth="1" />
+      <path d="M96 50 L56 44 L50 50 L56 56 Z" fill="none" stroke={color} strokeWidth="1" />
+      <circle cx="50" cy="50" r="2.4" fill={color} />
+    </svg>
+  );
+}
+
+function NavLink({ label, href }: { label: string; href: string }) {
+  const [h, setH] = useState(false);
+  return (
+    <a
+      href={href}
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{
+        position: "relative",
+        fontFamily: SANS,
+        fontSize: 13.5,
+        fontWeight: 500,
+        color: h ? C.ink : C.textMuted,
+        textDecoration: "none",
+        padding: "12px 2px",
+        transition: `color .48s ${EASE_CSS}`,
+      }}
+    >
+      {label}
+      {/* le soulignement pousse en largeur, il n'apparaît pas */}
+      <span style={{ position: "absolute", left: 0, bottom: 6, height: 1, width: h ? "100%" : "0%", background: C.accent, transition: `width .5s ${EASE_CSS}` }} />
+    </a>
+  );
+}
+
+/** Bouton : rectangulaire, à peine adouci — un thème de ferme, pas de spa. */
+function CTA({ href, children, filled = false, big = false, sombre = false }: { href: string; children: React.ReactNode; filled?: boolean; big?: boolean; sombre?: boolean }) {
+  const [h, setH] = useState(false);
+  return (
+    <a
+      href={href}
+      onMouseEnter={() => setH(true)}
+      onMouseLeave={() => setH(false)}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 10,
+        fontFamily: SANS,
+        fontSize: big ? 15 : 14,
+        fontWeight: 600,
+        padding: big ? "16px 30px" : "13px 24px",
+        borderRadius: 4,
+        textDecoration: "none",
+        whiteSpace: "nowrap",
+        border: `1px solid ${filled ? "transparent" : sombre ? "rgba(255,255,255,0.28)" : C.border}`,
+        background: filled ? (h ? C.accentDark : C.accent) : h ? (sombre ? "rgba(255,255,255,0.10)" : C.white) : "transparent",
+        color: filled ? C.white : sombre ? C.white : C.ink,
+        transform: h ? "translateY(-2px)" : "none",
+        boxShadow: h
+          ? `0 18px 36px -22px rgba(36,42,25,0.6), 0 2px 0 0 ${filled ? "rgba(255,255,255,0.2)" : sombre ? "rgba(255,255,255,0.12)" : C.accentLight}`
+          : "0 0 0 0 rgba(0,0,0,0), 0 0 0 0 rgba(0,0,0,0)",
+        transition: `all .5s ${EASE_CSS}`,
+      }}
+    >
+      {children}
+      <ArrowRight size={15} style={{ transform: h ? "translateX(5px)" : "none", transition: `transform .5s ${EASE_CSS}` }} />
+    </a>
+  );
+}
+
+/** Une brève du sommaire des produits : filet, tag, titre, texte. */
+function BreveProduit({ s, idx, dernier }: { s: any; idx: number; dernier: boolean }) {
+  const [h, setH] = useState(false);
+  return (
+    <Reveal delay={Math.min(idx, 5) * 0.055} y={16}>
+      <article
+        onMouseEnter={() => setH(true)}
+        onMouseLeave={() => setH(false)}
+        style={{
+          padding: "clamp(18px,2vw,26px) clamp(12px,1.4vw,18px)",
+          borderBottom: dernier ? "1px solid transparent" : `1px solid ${h ? "transparent" : C.border}`,
+          background: h ? C.bgCard : "transparent",
+          borderRadius: 8,
+          transform: h ? "translateX(6px)" : "none",
+          boxShadow: h ? `0 24px 48px -40px rgba(36,42,25,0.55), 0 2px 0 0 ${C.accentLight}` : "0 0 0 0 rgba(0,0,0,0), 0 0 0 0 rgba(0,0,0,0)",
+          transition: `all .5s ${EASE_CSS}`,
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
+          <span style={{ fontFamily: SANS, fontSize: 9.5, fontWeight: 600, letterSpacing: "0.24em", textTransform: "uppercase", color: h ? C.accent : C.textFaint, transition: `color .45s ${EASE_CSS}` }}>{s.tag}</span>
+          <h3 style={{ fontFamily: SERIF, fontSize: "clamp(20px,2vw,26px)", fontWeight: 500, color: C.ink, lineHeight: 1.12, margin: 0, letterSpacing: "-0.006em" }}>{s.titre}</h3>
+        </div>
+        <p style={{ fontFamily: SANS, fontSize: 14, color: C.textMuted, lineHeight: 1.72, margin: "9px 0 0", maxWidth: 520 }}>{s.desc}</p>
+      </article>
+    </Reveal>
+  );
+}
+
+/** Un temps de la méthode : colonne au chiffre fantôme, sur le bandeau. */
+function TempsFerme({ m, idx }: { m: any; idx: number }) {
+  const [h, setH] = useState(false);
+  return (
+    <Reveal delay={idx * 0.08} y={20}>
+      <div
+        onMouseEnter={() => setH(true)}
+        onMouseLeave={() => setH(false)}
+        style={{
+          position: "relative",
+          height: "100%",
+          padding: "clamp(30px,3vw,42px) clamp(16px,1.8vw,24px) clamp(22px,2.2vw,30px)",
+          borderTop: `1px solid ${C.border}`,
+          background: h ? C.bgCard : "transparent",
+          borderRadius: "0 0 10px 10px",
+          transform: h ? "translateY(-5px)" : "none",
+          boxShadow: h ? `0 28px 52px -44px rgba(36,42,25,0.6), 0 2px 0 0 ${C.accentLight}` : "0 0 0 0 rgba(0,0,0,0), 0 0 0 0 rgba(0,0,0,0)",
+          transition: `all .5s ${EASE_CSS}`,
+        }}
+      >
+        {/* le chiffre fantôme : la texture sans image du bandeau */}
+        <span aria-hidden style={{ position: "absolute", top: 4, right: 8, fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(64px,6vw,92px)", lineHeight: 1, color: C.accent, opacity: h ? 0.14 : 0.07, pointerEvents: "none", userSelect: "none", transition: `opacity .5s ${EASE_CSS}` }}>
+          {m.n}
+        </span>
+        <h3 style={{ fontFamily: SERIF, fontSize: "clamp(21px,2.1vw,26px)", fontWeight: 500, color: C.ink, lineHeight: 1.14, margin: "0 0 10px", letterSpacing: "-0.006em" }}>{m.t}</h3>
+        <p style={{ fontFamily: SANS, fontSize: 14, color: C.textMuted, lineHeight: 1.74, margin: 0 }}>{m.d}</p>
+      </div>
+    </Reveal>
+  );
+}
+
+/** Une ligne de la mercuriale : produit, points de conduite, prix. */
+function MercurialeLigne({ t, idx }: { t: any; idx: number }) {
+  const [h, setH] = useState(false);
+  return (
+    <Reveal delay={idx * 0.05} y={14}>
+      <div
+        onMouseEnter={() => setH(true)}
+        onMouseLeave={() => setH(false)}
+        style={{
+          padding: "clamp(18px,2vw,26px) clamp(8px,1.2vw,16px)",
+          background: h ? C.bgCard : "transparent",
+          borderRadius: 8,
+          transform: h ? "translateX(5px)" : "none",
+          boxShadow: h ? `0 22px 44px -40px rgba(36,42,25,0.55), 0 2px 0 0 ${C.accentLight}` : "0 0 0 0 rgba(0,0,0,0), 0 0 0 0 rgba(0,0,0,0)",
+          transition: `all .5s ${EASE_CSS}`,
+        }}
+      >
+        <div style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
+          <span style={{ fontFamily: SERIF, fontSize: "clamp(19px,1.9vw,24px)", fontWeight: 500, color: C.ink, letterSpacing: "-0.006em", flexShrink: 0 }}>{t.a}</span>
+          {/* les points de conduite d'une mercuriale de marché */}
+          <span aria-hidden style={{ flex: 1, borderBottom: `1px dotted ${h ? C.accent : C.textFaint}`, transform: "translateY(-4px)", opacity: 0.7, transition: `border-color .45s ${EASE_CSS}` }} />
+          <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(19px,1.9vw,24px)", color: C.accentDark, whiteSpace: "nowrap", flexShrink: 0 }}>{t.p}</span>
+        </div>
+        <p style={{ fontFamily: SANS, fontSize: 13.5, color: C.textMuted, lineHeight: 1.68, margin: "7px 0 0", maxWidth: 560 }}>{t.n}</p>
+      </div>
+    </Reveal>
+  );
+}
+
+/** Un avis, dans les colonnes décalées du fond sombre. */
+function AvisCarte({ a, idx }: { a: any; idx: number }) {
+  const [h, setH] = useState(false);
+  return (
+    <Reveal delay={idx * 0.1} y={26} style={{ height: "100%" }}>
+      <figure
+        className={idx % 2 === 1 ? "i365-avis-decale" : ""}
+        onMouseEnter={() => setH(true)}
+        onMouseLeave={() => setH(false)}
+        style={{
+          margin: 0,
+          height: "100%",
+          boxSizing: "border-box",
+          background: h ? "rgba(255,255,255,0.085)" : "rgba(255,255,255,0.045)",
+          border: `1px solid ${h ? "rgba(196,212,148,0.4)" : "rgba(255,255,255,0.10)"}`,
+          borderRadius: 12,
+          padding: "clamp(24px,2.5vw,32px)",
+          display: "flex",
+          flexDirection: "column",
+          transform: h ? "translateY(-5px)" : "none",
+          boxShadow: h ? "0 32px 58px -44px rgba(0,0,0,0.9), 0 2px 0 0 rgba(196,212,148,0.28)" : "0 0 0 0 rgba(0,0,0,0), 0 0 0 0 rgba(0,0,0,0)",
+          transition: `all .5s ${EASE_CSS}`,
+        }}
+      >
+        <div style={{ display: "flex", gap: 4, marginBottom: 16 }}>
+          {[...Array(5)].map((_, j) => (
+            <Star key={j} size={12} fill={C.pousse} color={C.pousse} />
+          ))}
+        </div>
+        <blockquote style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(16.5px,1.6vw,19px)", color: "rgba(255,255,255,0.86)", lineHeight: 1.6, margin: "0 0 20px", flex: 1 }}>
+          « {a.texte} »
+        </blockquote>
+        <figcaption style={{ borderTop: "1px solid rgba(255,255,255,0.12)", paddingTop: 14 }}>
+          <div style={{ fontFamily: SANS, fontSize: 13.5, fontWeight: 600, color: C.white }}>{a.auteur}</div>
+          <div style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: C.pousse, marginTop: 6 }}>{a.detail}</div>
+        </figcaption>
+      </figure>
+    </Reveal>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════════════
+   Page
+   ════════════════════════════════════════════════════════════════════════════ */
 export default function QuatreVentsPage() {
   const [session, setSession] = useState<any>(null);
 
@@ -101,350 +455,714 @@ export default function QuatreVentsPage() {
       .catch(() => {});
   }, []);
 
-  useEffect(() => {
-    const fid = "fonts-i365";
-    if (document.getElementById(fid)) return;
-    const s = document.createElement("style");
-    s.id = fid;
-    s.textContent = `@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Cabin:wght@400;500;600;700&display=swap');`;
-    document.head.appendChild(s);
-  }, []);
-
   fd = session?.formData;
-
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  HERO_DEMO = HERO_DEMO_LIVE();
-  SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
-    SERVICES_SOURCE,
-  );
-  AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
-    AVIS_SOURCE,
-  );
-  HERO = HERO_DEMO.map((row, i) => ({
-    ...row,
-    img: clientPhotos(sessionData)[0 + i] || row.img,
-  }));
-  TARIFS = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
-    TARIFS_DEMO,
-  );
-  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
-  ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };
   }
 
-  const SERVICES = resolveList(
-    clientServices(sessionData)?.map((s: any, n: number) => ({
-      titre: s.title ?? SERVICES_DEMO[n % SERVICES_DEMO.length].titre,
-      desc: s.description ?? SERVICES_DEMO[n % SERVICES_DEMO.length].desc,
-      tag: SERVICES_DEMO[n % SERVICES_DEMO.length].tag,
+  /* ── Listes : le client écrase, le thème complète ───────────────────────── */
+  HERO = HERO_LIVE();
+  SERVICES_DEMO = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({
+      ...SERVICES_SOURCE[i % SERVICES_SOURCE.length],
+      titre: s.title ?? SERVICES_SOURCE[i % SERVICES_SOURCE.length].titre,
+      desc: s.description ?? s.desc ?? SERVICES_SOURCE[i % SERVICES_SOURCE.length].desc,
     })),
-    SERVICES_DEMO
+    SERVICES_SOURCE,
   );
-  const AVIS = resolveList(
-    clientReviews(sessionData)?.map((r: any, n: number) => ({
-      texte: r.text ?? AVIS_DEMO[n % AVIS_DEMO.length].texte,
-      auteur: r.name ?? AVIS_DEMO[n % AVIS_DEMO.length].auteur,
-      detail: r.location ?? AVIS_DEMO[n % AVIS_DEMO.length].detail,
+  const SERVICES = SERVICES_DEMO;
+
+  AVIS_DEMO = resolveList(
+    clientReviews(sessionData)?.map((r: any, i: number) => ({
+      ...AVIS_SOURCE[i % AVIS_SOURCE.length],
+      texte: r.text ?? AVIS_SOURCE[i % AVIS_SOURCE.length].texte,
+      auteur: r.author ?? r.name ?? AVIS_SOURCE[i % AVIS_SOURCE.length].auteur,
+      detail: r.source ?? r.location ?? r.role ?? AVIS_SOURCE[i % AVIS_SOURCE.length].detail,
     })),
-    AVIS_DEMO
+    AVIS_SOURCE,
   );
+  const AVIS = AVIS_DEMO;
+
+  TARIFS = resolveList(
+    clientServices(sessionData)?.map((s: any, i: number) => ({
+      ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
+      a: s.title ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].a,
+      p: s.price ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].p,
+      n: s.description ?? s.desc ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
+    })),
+    TARIFS_SOURCE,
+  );
+  STATS = resolveList(clientStats(sessionData), STATS_SOURCE);
+  ENGAGEMENT = resolveList(clientList(sessionData, "engagements.liste") ?? clientCertifications(sessionData), ENGAGEMENT_SOURCE);
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  /* Un seul index pilote tout le héros : le médaillon, la chronique, le compteur. */
   const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
-
   useEffect(() => {
-    const h = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", h);
+    const h = () => setScrolled(window.scrollY > 40);
+    h();
+    window.addEventListener("scroll", h, { passive: true });
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const phone = fd?.phone ?? "05 65 00 00 00";
-  const telHref = `tel:${fd?.phone ?? "+33565000000"}`;
-  const mail = fd?.email ?? "panier@ferme-quatre-vents.fr";
+  /* ── Contact ───────────────────────────────────────────────────────────── */
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "05 65 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33565000000").replace(/\s/g, "")}`;
+  const mail = clientEmail(sessionData) ?? fd?.email ?? "panier@ferme-quatre-vents.fr";
+  const ferme = fd?.businessName ?? clientName(sessionData) ?? "Ferme des Quatre Vents";
+  const ville = clientCity(sessionData) ?? "Cahors";
 
   return (
-    <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
+    <div style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip" }}>
       <style>{`
-        @media (max-width: 900px) { #i365-nav { display: none !important; } .i365-burger { display: flex !important; } }
+        ${FONTS_CSS}
+
+        @media (max-width: 960px) { #i365-nav { display: none !important; } .i365-burger { display: flex !important; } }
+
+        /* Le bandeau média du héros : médaillon + chronique côte à côte, puis
+           empilés — le médaillon garde sa taille, la chronique passe dessous. */
         @media (max-width: 860px) {
-          .i365-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
-          .i365-card { max-width: 380px; margin: 0 auto; width: 100%; }
-          .i365-split { grid-template-columns: 1fr !important; }
-          .i365-stats { grid-template-columns: 1fr 1fr !important; row-gap: 8px; }
-          .i365-stats .i365-statcell { border-right: none !important; }
-          .i365-pad { padding-left: 24px !important; padding-right: 24px !important; }
-          .i365-herotext { padding: 0 24px 44px !important; }
+          .i365-bandeau { grid-template-columns: minmax(0,1fr) !important; justify-items: start !important; gap: 22px !important; }
+          .i365-meta { grid-template-columns: minmax(0,1fr) !important; row-gap: 8px !important; }
+          .i365-meta .i365-metacell { border-left: none !important; padding-left: 0 !important; }
+          .i365-une { grid-template-columns: minmax(0,1fr) !important; gap: 34px !important; }
+          .i365-split { grid-template-columns: minmax(0,1fr) !important; gap: 34px !important; }
+          .i365-contact { grid-template-columns: minmax(0,1fr) !important; gap: 34px !important; }
+          .i365-avis-decale { transform: none !important; }
+        }
+        @media (max-width: 700px) {
+          .i365-reperes { grid-template-columns: repeat(auto-fit, minmax(min(150px,100%),1fr)) !important; }
+          .i365-reperes .i365-repcell { border-left: none !important; }
+        }
+
+        /* Les colonnes décalées des avis : le décalage n'existe qu'au large. */
+        @media (min-width: 861px) {
+          .i365-avis-decale { transform: translateY(26px); }
+        }
+
+        /* La rose des vents tourne en 90 s : on ne la voit pas tourner,
+           on sent que le vent change. */
+        @keyframes i365-vent { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .i365-rose { animation: i365-vent 90s linear infinite; }
+        @media (prefers-reduced-motion: reduce) {
+          .i365-rose { animation: none !important; }
         }
       `}</style>
 
-      {/* ── NAV ─────────────────────────────────────────────────────────── */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 48px", background: scrolled ? C.bg : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`, transition: "all 0.4s ease" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+      {/* ── NAV — collante à quatre propriétés : hauteur, fond, flou, filet ─ */}
+      <nav
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          gap: 16,
+          padding: scrolled ? "12px clamp(20px,4vw,56px)" : "22px clamp(20px,4vw,56px)",
+          background: scrolled ? "rgba(251,250,244,0.93)" : "transparent",
+          backdropFilter: scrolled ? "blur(14px) saturate(140%)" : "none",
+          WebkitBackdropFilter: scrolled ? "blur(14px) saturate(140%)" : "none",
+          borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,
+          transition: `all .55s ${EASE_CSS}`,
+        }}
+      >
+        <a href="#hero" style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0, textDecoration: "none" }}>
           {fd?.logoBase64 ? (
-            <img src={fd.logoBase64} alt={fd?.businessName ?? "logo"} style={{ height: 30, maxWidth: 160, objectFit: "contain", display: "block" }} />
+            <img src={fd.logoBase64} alt={ferme} style={{ height: 30, maxWidth: 170, objectFit: "contain", display: "block" }} />
           ) : (
             <>
               <Sprout size={18} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Ferme des Quatre Vents"))}</span>
-              
+              <span style={{ fontFamily: SERIF, fontSize: 21, fontWeight: 500, color: C.ink, letterSpacing: "0.004em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{ferme}</span>
             </>
           )}
-        </div>
-        <div id="i365-nav" style={{ display: "flex", gap: 24, alignItems: "center" }}>
+        </a>
+        <div id="i365-nav" style={{ display: "flex", gap: "clamp(16px,2vw,28px)", alignItems: "center" }}>
           {NAV.map(({ l, h }) => (
-            <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
+            <NavLink key={l} label={l} href={h} />
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33565000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <CTA href={telHref} filled>
             Panier de la semaine
-          </motion.a>
+          </CTA>
         </div>
-        <button className="i365-burger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu" style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}>
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
-          <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
+        <button
+          className="i365-burger"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Menu"
+          style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}
+        >
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: `transform .35s ${EASE_CSS}`, transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "opacity .3s", opacity: mobileOpen ? 0 : 1 }} />
+          <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: `transform .35s ${EASE_CSS}`, transform: mobileOpen ? "rotate(-45deg) translate(4.5px, -4.5px)" : "none" }} />
         </button>
       </nav>
       {mobileOpen && (
-        <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: C.bg, borderBottom: `1px solid ${C.border}`, padding: "20px 28px", display: "flex", flexDirection: "column", gap: 4 }}>
+        <div style={{ position: "fixed", top: 68, left: 0, right: 0, zIndex: 99, background: C.bg, borderBottom: `1px solid ${C.border}`, padding: "18px clamp(20px,5vw,32px) 26px", display: "flex", flexDirection: "column", gap: 4 }}>
           {NAV.map(({ l, h }) => (
-            <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
+            <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ fontFamily: SANS, color: C.ink, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>
+              {l}
+            </a>
           ))}
-          <a href={`tel:${fd?.phone ?? "+33565000000"}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Panier de la semaine</a>
+          <a href={telHref} style={{ fontFamily: SANS, background: C.accent, color: C.white, borderRadius: 4, padding: "14px 22px", fontSize: 15, fontWeight: 600, textDecoration: "none", textAlign: "center", marginTop: 10 }}>
+            Panier de la semaine
+          </a>
         </div>
       )}
 
-      {/* ── HERO ────────────────────────────────────────────────────────── */}
-<section className="i365-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.08fr) minmax(0,0.92fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1260, margin: "0 auto" }}>
+      {/* ══ HÉROS H7 — la une du magazine de saison ════════════════════════
+          Méta-rangée filetée, titre serif géant, bandeau média posé en bas :
+          le médaillon du panier (HeldSwap) y tourne avec sa chronique. */}
+      <section
+        id="hero"
+        style={{
+          position: "relative",
+          minHeight: "100dvh",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          maxWidth: 1280,
+          margin: "0 auto",
+          padding: "clamp(104px,11vw,140px) clamp(20px,4.5vw,56px) clamp(36px,4vw,56px)",
+          overflow: "hidden",
+        }}
+      >
+        {/* Texture : le grand « 4 » fantôme des Quatre Vents. */}
+        <span
+          aria-hidden
+          style={{
+            position: "absolute",
+            right: "clamp(-30px,-2vw,-6px)",
+            top: "clamp(70px,8vw,110px)",
+            fontFamily: SERIF,
+            fontStyle: "italic",
+            fontSize: "clamp(220px,30vw,460px)",
+            lineHeight: 0.8,
+            color: C.accent,
+            opacity: 0.055,
+            pointerEvents: "none",
+            userSelect: "none",
+          }}
+        >
+          4
+        </span>
+        {/* La rose des vents, en marge — le détail gratuit. */}
+        <div aria-hidden className="i365-rose" style={{ position: "absolute", top: "clamp(96px,10vw,130px)", right: "clamp(22px,4vw,58px)" }}>
+          <RoseDesVents size={54} color={C.accent} opacity={0.4} />
+        </div>
+
         <div>
-          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>{clientEyebrow(sessionData) ?? "Ferme bio · Vallée du Lot"}</motion.span>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 14) ?? "Ce que la terre donne,"}<br /><em style={{ color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 14) ?? "la semaine où elle le donne."}</em></>)}
-          </>)}</motion.h1>
-          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Maraîchage bio, œufs de plein air, poulets fermiers : la ferme vend en direct ce qu'elle produit, au rythme des saisons. Paniers de la semaine, boutique à la ferme et marché de Cahors."}
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-            <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
-              Réserver mon panier <ArrowRight size={16} />
-            </motion.a>
-            <motion.a href="#services" style={{ background: C.white, color: C.text, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ borderColor: C.accent }}>
-              Ce qu'on produit
-            </motion.a>
+          {/* La méta-rangée : trois cellules filetées, comme l'ours d'une gazette. */}
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE, delay: 0.08 }}>
+            <div
+              className="i365-meta"
+              style={{
+                display: "grid",
+                gridTemplateColumns: "minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr)",
+                gap: 0,
+                borderTop: `1px solid ${C.ink}`,
+                borderBottom: `1px solid ${C.border}`,
+                padding: "12px 0",
+              }}
+            >
+              <div className="i365-metacell" style={{ fontFamily: SANS, fontSize: 10.5, fontWeight: 600, letterSpacing: "0.3em", textTransform: "uppercase", color: C.accentDark }}>
+                {clientEyebrow(sessionData) ?? "Ferme bio · Vallée du Lot"}
+              </div>
+              <div className="i365-metacell" style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase", color: C.textFaint, borderLeft: `1px solid ${C.border}`, paddingLeft: 18 }}>
+                Certifiée AB — vente directe et marchés
+              </div>
+              <div className="i365-metacell" style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase", color: C.textFaint, borderLeft: `1px solid ${C.border}`, paddingLeft: 18 }}>
+                Boutique : Mer & Ven 16h–19h · Sam 9h–13h
+              </div>
+            </div>
           </motion.div>
-          
-          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 42, flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textMuted} className="" />
-            <span style={{ fontSize: 13.5, color: C.textMuted }}>
-              <strong style={{ color: C.text, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.text} className="" />
+
+          {/* Le titre géant de la une. */}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.24, duration: 1, ease: EASE }}
+            style={{
+              fontFamily: SERIF,
+              fontSize: "clamp(42px,7.6vw,104px)",
+              fontWeight: 400,
+              color: C.ink,
+              lineHeight: 0.98,
+              letterSpacing: "-0.018em",
+              margin: "clamp(26px,3.4vw,48px) 0 clamp(16px,2vw,26px)",
+              maxWidth: 1080,
+            }}
+          >
+            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (
+              <>
+                {c?.heroHeadline ?? (
+                  <>
+                    {clientHeroLine(sessionData, 0, 2, 22) ?? "Ce que la terre donne,"}
+                    <br />
+                    <em style={{ fontStyle: "italic", color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 22) ?? "la semaine où elle le donne."}</em>
+                  </>
+                )}
+              </>
+            )}
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.46, duration: 0.9, ease: EASE }}
+            style={{ fontFamily: SANS, fontSize: "clamp(15.5px,1.5vw,17px)", color: C.textMuted, lineHeight: 1.78, maxWidth: 500, margin: "0 0 clamp(24px,2.8vw,34px)" }}
+          >
+            {clientHeroSubtitle(sessionData) ??
+              c?.heroSubline ??
+              "Maraîchage bio, œufs de plein air, poulets fermiers : la ferme vend en direct ce qu'elle produit, au rythme des saisons. Paniers de la semaine, boutique à la ferme et marché de Cahors."}
+          </motion.p>
+
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.62, duration: 0.85, ease: EASE }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+            <CTA href={telHref} filled big>
+              Réserver mon panier
+            </CTA>
+            <CTA href="#services" big>
+              Ce qu'on produit
+            </CTA>
+          </motion.div>
+        </div>
+
+        {/* Le bandeau média du bas de une : médaillon HeldSwap + chronique. */}
+        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.95, ease: EASE }} style={{ marginTop: "clamp(36px,4.5vw,60px)" }}>
+          <Filet color={C.accent} style={{ opacity: 0.5, marginBottom: "clamp(20px,2.4vw,30px)" }} />
+          <div
+            className="i365-bandeau"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "auto minmax(0,1fr) auto",
+              gap: "clamp(20px,3vw,44px)",
+              alignItems: "center",
+            }}
+          >
+            {/* LE MÉDAILLON — le geste. La récolte sort en basculant, la table
+                reste vide un demi-temps, la suivante se pose. */}
+            <div style={{ position: "relative", width: "clamp(150px,17vw,216px)", flexShrink: 0 }}>
+              {/* l'assiette : un double cercle fileté sous le médaillon */}
+              <span aria-hidden style={{ position: "absolute", inset: -12, borderRadius: "50%", border: `1px solid ${C.border}` }} />
+              <span aria-hidden style={{ position: "absolute", inset: -12, borderRadius: "50%", border: `1px dashed ${C.accent}`, opacity: 0.35, transform: "scale(1.09)" }} />
+              <HeldSwap index={i} tilt={8}>
+                <div
+                  style={{
+                    borderRadius: "50%",
+                    overflow: "hidden",
+                    aspectRatio: "1",
+                    border: `4px solid ${C.white}`,
+                    boxShadow: "0 22px 48px -20px rgba(36,42,25,0.45), 0 2px 0 0 rgba(255,255,255,0.6)",
+                    background: `radial-gradient(circle at 40% 32%, ${C.accentLight} 0%, ${C.bgAlt} 78%)`,
+                  }}
+                >
+                  {S.img ? (
+                    <img src={S.img} alt={S.alt} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                  ) : (
+                    <div style={{ width: "100%", height: "100%", display: "grid", placeItems: "center" }}>
+                      <RoseDesVents size={64} color={C.accent} opacity={0.45} />
+                    </div>
+                  )}
+                </div>
+              </HeldSwap>
+            </div>
+
+            {/* La chronique liée au médaillon — même index. */}
+            <div style={{ minWidth: 0 }}>
+              <HeldSwap index={`t-${i}`} tilt={0}>
+                <div>
+                  <div style={{ fontFamily: SANS, fontSize: 10, fontWeight: 600, letterSpacing: "0.28em", textTransform: "uppercase", color: C.accentDark, marginBottom: 8 }}>{S.k}</div>
+                  <div style={{ fontFamily: SERIF, fontSize: "clamp(19px,2vw,26px)", fontWeight: 500, color: C.ink, lineHeight: 1.2, letterSpacing: "-0.008em" }}>{S.line}</div>
+                  <div style={{ fontFamily: SANS, fontSize: 13.5, color: C.textMuted, lineHeight: 1.65, marginTop: 8, maxWidth: 440 }}>{S.sub}</div>
+                </div>
+              </HeldSwap>
+            </div>
+
+            {/* Compteur + flèches filaires. */}
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 10 }}>
+              <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textMuted} className="" />
+              <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" />
+            </div>
           </div>
-        </div>
-        <div className="i365-card">
-          <HeldSwap index={i} tilt={9}>
-            <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 10, overflow: "hidden", boxShadow: "0 18px 52px rgba(0,0,0,0.18)" }}>
-              <img src={S.img} alt={S.alt} loading="lazy" style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block" }} />
-              <div style={{ padding: "22px 24px 24px", borderTop: `3px solid ${C.accent}` }}>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.accentDark, marginBottom: 8 }}>{S.k}</div>
-                <div style={{ fontFamily: FONT, fontSize: 19, color: C.text, lineHeight: 1.35 }}>{S.line}</div>
-              </div>
-            </div>
-          </HeldSwap>
-        </div>
+        </motion.div>
       </section>
 
-      {/* ── STATS ───────────────────────────────────────────────────────── */}
-      <section style={{ background: C.bgDark }}>
-        <div className="i365-stats i365-pad" style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", maxWidth: 1100, margin: "0 auto", padding: "0 32px" }}>
-          {STATS.map((s, idx) => (
-            <Reveal key={s.label} delay={idx * 0.08}>
-              <div className="i365-statcell" style={{ padding: "30px 8px", textAlign: "center", borderRight: idx < 3 ? "1px solid rgba(255,255,255,0.08)" : "none" }}>
-                <div style={{ fontFamily: FONT, fontSize: 32, color: C.hi, lineHeight: 1 }}>{s.value}</div>
-                <div style={{ fontSize: 13, color: "rgba(255,255,255,0.45)", marginTop: 7 }}>{s.label}</div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+      {/* ══ RESPIRATION — une phrase, rien d'autre ════════════════════════ */}
+      <section style={{ background: C.bgAlt, padding: "clamp(72px,10vw,144px) clamp(24px,8vw,140px)", textAlign: "center" }}>
+        <Reveal>
+          <div style={{ display: "flex", justifyContent: "center", marginBottom: 30 }}>
+            <Kicker color={C.textMuted} align="center">
+              La règle de la maison
+            </Kicker>
+          </div>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <p style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(24px,3.5vw,48px)", lineHeight: 1.32, fontWeight: 400, maxWidth: 920, margin: "0 auto", color: C.ink, letterSpacing: "-0.008em" }}>
+            {/* TEXTE_SECTION */ clientText(sessionData, "respiration.phrase") ?? (
+              <>En juin les fraises, en janvier les poireaux. On ne force rien — c'est le principe.</>
+            )}
+          </p>
+        </Reveal>
+        <Reveal delay={0.2}>
+          <span aria-hidden style={{ display: "block", width: 1, height: 72, background: `linear-gradient(${C.accent}, transparent)`, margin: "clamp(34px,4vw,52px) auto 0" }} />
+        </Reveal>
       </section>
 
-
-      {/* ── SERVICES ────────────────────────────────────────────────────── */}
-      <section id="services" className="i365-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <Reveal>
-            <div style={{ marginBottom: 50 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Nos produits</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
-                Peu de choses,<br /><em>mais les nôtres.</em>
-              </>)}</h2>
-            </div>
-          </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18 }}>
-            {SERVICES.map((s, idx) => (
-              <Reveal key={s.titre} delay={idx * 0.06}>
-                <motion.div whileHover={{ y: -5 }} style={{ background: C.white, borderRadius: 12, padding: "26px 24px", border: `1px solid ${C.border}`, height: "100%" }}>
-                  <span style={{ background: C.accentLight, color: C.accentDark, borderRadius: 999, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{s.tag}</span>
-                  <h3 style={{ fontFamily: FONT, fontSize: 18.5, color: C.text, margin: "15px 0 10px" }}>{s.titre}</h3>
-                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{s.desc}</p>
-                </motion.div>
+      {/* ══ REPÈRES — le sommaire chiffré, en rangée filetée ══════════════
+          Pas de bande sombre : les chiffres tiennent sur le papier, séparés
+          par des filets verticaux, comme les repères d'un ours de magazine. */}
+      <section style={{ background: C.bg, padding: "clamp(48px,6vw,84px) clamp(20px,4.5vw,56px)" }}>
+        <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+          <div
+            className="i365-reperes"
+            style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", gap: 0, borderTop: `1px solid ${C.border}`, borderBottom: `1px solid ${C.border}` }}
+          >
+            {STATS.map((s: any, idx: number) => (
+              <Reveal key={s.label ?? idx} delay={idx * 0.07}>
+                <div className="i365-repcell" style={{ padding: "clamp(22px,2.6vw,34px) clamp(14px,1.8vw,26px)", borderLeft: idx > 0 ? `1px solid ${C.border}` : "none" }}>
+                  <div style={{ fontFamily: SERIF, fontSize: "clamp(30px,3.4vw,46px)", fontWeight: 500, color: C.accentDark, lineHeight: 1, letterSpacing: "-0.01em" }}>{s.value}</div>
+                  <div style={{ fontFamily: SANS, fontSize: 12, color: C.textFaint, lineHeight: 1.55, marginTop: 10 }}>{s.label}</div>
+                </div>
               </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── MÉTHODE / INFOS ─────────────────────────────────────────────── */}
-      <section id="methode" className="i365-pad" style={{ padding: "96px 64px", background: C.bg }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+      {/* ══ NOS PRODUITS — la « une » du marché : article de tête + brèves ═ */}
+      <section id="services" style={{ position: "relative", background: C.bg, padding: "clamp(56px,7vw,108px) clamp(20px,4.5vw,56px) clamp(72px,9vw,132px)", overflow: "hidden" }}>
+        <div style={{ maxWidth: 1240, margin: "0 auto" }}>
           <Reveal>
-            <div style={{ marginBottom: 50 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>La ferme</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.8vw, 46px)", color: C.text, marginTop: 10, lineHeight: 1.14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>
-                Bio, locale,<br /><em>et ça se vérifie.</em>
-              </>)}</h2>
+            <div style={{ marginBottom: "clamp(34px,4vw,54px)", maxWidth: 760 }}>
+              <Kicker>Nos produits</Kicker>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px,4.6vw,60px)", fontWeight: 400, color: C.ink, marginTop: 18, lineHeight: 1.05, letterSpacing: "-0.016em" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (
+                  <>
+                    Peu de choses,
+                    <br />
+                    <em style={{ fontStyle: "italic", color: C.accentDark }}>mais les nôtres.</em>
+                  </>
+                )}
+              </h2>
             </div>
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: 18 }}>
+          <div
+            className="i365-une"
+            style={{ display: "grid", gridTemplateColumns: "minmax(0,0.94fr) minmax(0,1.06fr)", gap: "clamp(28px,4.5vw,72px)", alignItems: "start" }}
+          >
+            {/* L'article de tête : la première prestation, traitée en grand. */}
+            <Reveal y={30}>
+              <article
+                style={{
+                  position: "relative",
+                  background: C.bgDark,
+                  borderRadius: 14,
+                  padding: "clamp(30px,3.4vw,48px)",
+                  color: C.white,
+                  overflow: "hidden",
+                  minHeight: "clamp(300px,32vw,420px)",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "flex-end",
+                }}
+              >
+                {/* glow végétal : le fond sombre ne doit pas être un trou */}
+                <span aria-hidden style={{ position: "absolute", top: "-38%", right: "-24%", width: "80%", aspectRatio: "1", borderRadius: "50%", background: `radial-gradient(circle at 50% 50%, ${C.pousse} 0%, transparent 64%)`, opacity: 0.12, pointerEvents: "none" }} />
+                <span aria-hidden style={{ position: "absolute", top: 18, left: 24, fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(90px,10vw,150px)", lineHeight: 1, color: C.pousse, opacity: 0.09, pointerEvents: "none", userSelect: "none" }}>
+                  01
+                </span>
+                <span style={{ fontFamily: SANS, fontSize: 10, fontWeight: 600, letterSpacing: "0.28em", textTransform: "uppercase", color: C.pousse, marginBottom: 14 }}>{SERVICES[0]?.tag}</span>
+                <h3 style={{ fontFamily: SERIF, fontSize: "clamp(28px,3.2vw,44px)", fontWeight: 500, lineHeight: 1.06, margin: "0 0 14px", letterSpacing: "-0.012em" }}>{SERVICES[0]?.titre}</h3>
+                <p style={{ fontFamily: SANS, fontSize: 15, color: "rgba(255,255,255,0.78)", lineHeight: 1.75, margin: 0, maxWidth: 460 }}>{SERVICES[0]?.desc}</p>
+              </article>
+            </Reveal>
+
+            {/* Les brèves : le reste de l'étal, en sommaire fileté. */}
+            <div>
+              {SERVICES.slice(1).map((s: any, idx: number) => (
+                <BreveProduit key={`${s.titre}-${idx}`} s={s} idx={idx} dernier={idx === SERVICES.length - 2} />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ══ LA FERME — quatre temps sur un bandeau fileté ═════════════════ */}
+      <section id="methode" style={{ position: "relative", background: C.bgAlt, padding: "clamp(72px,9vw,132px) clamp(20px,4.5vw,56px)", overflow: "hidden" }}>
+        {/* la rose, en filigrane du bandeau */}
+        <div aria-hidden className="i365-rose" style={{ position: "absolute", bottom: "clamp(-60px,-4vw,-30px)", left: "clamp(-40px,-3vw,-20px)" }}>
+          <RoseDesVents size={220} color={C.accent} opacity={0.06} />
+        </div>
+        <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative" }}>
+          <Reveal>
+            <div style={{ marginBottom: "clamp(34px,4vw,54px)", maxWidth: 740 }}>
+              <Kicker>La ferme</Kicker>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px,4.6vw,58px)", fontWeight: 400, color: C.ink, marginTop: 18, lineHeight: 1.05, letterSpacing: "-0.016em" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (
+                  <>
+                    Bio, locale,
+                    <br />
+                    <em style={{ fontStyle: "italic", color: C.accentDark }}>et ça se vérifie.</em>
+                  </>
+                )}
+              </h2>
+            </div>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px,100%), 1fr))", gap: "clamp(10px,1.6vw,20px)" }}>
             {METHODE.map((m, idx) => (
-              <Reveal key={m.n} delay={idx * 0.08}>
-                <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: "26px 24px", height: "100%" }}>
-                  <div style={{ fontFamily: FONT, fontSize: 28, color: C.accentDark, marginBottom: 12 }}>{m.n}</div>
-                  <h3 style={{ fontSize: 16.5, fontWeight: 700, color: C.text, marginBottom: 9 }}>{m.t}</h3>
-                  <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.7 }}>{m.d}</p>
-                </div>
-              </Reveal>
+              <TempsFerme key={m.n} m={m} idx={idx} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── ENGAGEMENTS ─────────────────────────────────────────────────── */}
-      <section id="engagements" className="i365-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
-        <div className="i365-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
+      {/* ══ ENGAGEMENTS — la photographie du jardin, et la liste tenue ═════ */}
+      <section id="engagements" style={{ background: C.bg, padding: "clamp(72px,9vw,132px) clamp(20px,4.5vw,56px)" }}>
+        <div
+          className="i365-split"
+          style={{ maxWidth: 1140, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,0.94fr) minmax(0,1.06fr)", gap: "clamp(28px,5vw,72px)", alignItems: "center" }}
+        >
           <Reveal>
-            <img src={photo(4, "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80")} alt="Le jardin de la ferme en pleine saison" loading="lazy" style={{ width: "100%", borderRadius: 10, aspectRatio: "4/3", objectFit: "cover" }} />
+            <div style={{ position: "relative" }}>
+              <div
+                style={{
+                  borderRadius: 14,
+                  border: `1px solid ${C.border}`,
+                  background: `radial-gradient(circle at 40% 30%, ${C.accentLight} 0%, ${C.bgAlt} 76%)`,
+                  aspectRatio: "4/3",
+                  overflow: "hidden",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {photo(3, "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80") ? (
+                  <img
+                    src={photo(3, "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&q=80")}
+                    alt="Le jardin de la ferme en pleine saison"
+                    loading="lazy"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                  />
+                ) : (
+                  <RoseDesVents size={110} color={C.accent} opacity={0.4} />
+                )}
+              </div>
+              {/* le cadre décalé : un filet posé en débord, comme une photo
+                  épinglée de travers dans la gazette */}
+              <span aria-hidden style={{ position: "absolute", inset: 0, borderRadius: 14, border: `1px solid ${C.accent}`, opacity: 0.35, transform: "translate(12px, 12px)", pointerEvents: "none", zIndex: -1 }} />
+            </div>
           </Reveal>
-          <Reveal delay={0.15}>
+          <Reveal delay={0.12}>
             <div>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Nos engagements</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 40px)", color: C.text, margin: "12px 0 26px", lineHeight: 1.18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (<>
-                La transparence<br /><em>jusqu'au bout du rang.</em>
-              </>)}</h2>
-              {ENGAGEMENT.map((e, idx) => (
-                <div key={idx} style={{ display: "flex", gap: 12, marginBottom: 14 }}>
-                  <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
-                  <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{e}</span>
+              <Kicker>Nos engagements</Kicker>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px,4vw,50px)", fontWeight: 400, color: C.ink, margin: "18px 0 26px", lineHeight: 1.07, letterSpacing: "-0.014em" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "engagements.titre") ?? (
+                  <>
+                    La transparence
+                    <br />
+                    <em style={{ fontStyle: "italic", color: C.accentDark }}>jusqu'au bout du rang.</em>
+                  </>
+                )}
+              </h2>
+              {ENGAGEMENT.map((e: string, idx: number) => (
+                <div key={idx} style={{ display: "flex", gap: 13, marginBottom: 15, paddingBottom: 15, borderBottom: idx < ENGAGEMENT.length - 1 ? `1px solid ${C.border}` : "none" }}>
+                  <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 3 }} />
+                  <span style={{ fontFamily: SANS, fontSize: 15, color: C.textMuted, lineHeight: 1.7 }}>{e}</span>
                 </div>
               ))}
-              <motion.a href={telHref} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 24, background: C.accentDark, color: "#fff", borderRadius: 8, padding: "14px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ scale: 1.02 }}>
-                Nous appeler <ArrowRight size={16} />
-              </motion.a>
+              <div style={{ marginTop: 26 }}>
+                <CTA href={telHref} filled>
+                  Nous appeler
+                </CTA>
+              </div>
             </div>
           </Reveal>
         </div>
       </section>
 
-      {/* ── TARIFS ──────────────────────────────────────────────────────── */}
-      <section id="tarifs" className="i365-pad" style={{ padding: "96px 64px", background: C.bg }}>
-        <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+      {/* ══ PANIERS & PRIX — la mercuriale à points de conduite ═══════════ */}
+      <section id="tarifs" style={{ background: C.bgAlt, padding: "clamp(72px,9vw,132px) clamp(20px,4.5vw,56px)" }}>
+        <div style={{ maxWidth: 880, margin: "0 auto" }}>
           <Reveal>
-            <div style={{ textAlign: "center", marginBottom: 16 }}>
-              <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Paniers & prix</span>
-              <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 3.5vw, 44px)", color: C.text, marginTop: 10 }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Le juste prix, <em>des deux côtés.</em></>)}</h2>
-              <p style={{ fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "14px auto 0", lineHeight: 1.7 }}>Sans engagement : on réserve son panier avant mardi soir, on le retire vendredi à la ferme ou samedi au marché.</p>
+            <div style={{ textAlign: "center", marginBottom: "clamp(30px,3.4vw,46px)" }}>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Kicker align="center">Paniers & prix</Kicker>
+              </div>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px,4.4vw,56px)", fontWeight: 400, color: C.ink, margin: "18px 0 0", lineHeight: 1.06, letterSpacing: "-0.014em" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (
+                  <>
+                    Le juste prix, <em style={{ fontStyle: "italic", color: C.accentDark }}>des deux côtés.</em>
+                  </>
+                )}
+              </h2>
+              <p style={{ fontFamily: SANS, fontSize: 15, color: C.textMuted, maxWidth: 560, margin: "16px auto 0", lineHeight: 1.76 }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.texte") ?? (
+                  <>Sans engagement : on réserve son panier avant mardi soir, on le retire vendredi à la ferme ou samedi au marché.</>
+                )}
+              </p>
             </div>
           </Reveal>
-          <div style={{ marginTop: 38 }}>
-            {TARIFS.map((tt, idx) => (
-              <Reveal key={tt.a} delay={idx * 0.06}>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, justifyContent: "space-between", alignItems: "baseline", background: C.white, border: `1px solid ${C.border}`, borderRadius: 12, padding: "20px 24px", marginBottom: 12 }}>
-                  <div style={{ minWidth: 0 }}>
-                    <div style={{ fontFamily: FONT, fontSize: 17.5, color: C.text }}>{tt.a}</div>
-                    <div style={{ fontSize: 13.5, color: C.textMuted, marginTop: 5, lineHeight: 1.6 }}>{tt.n}</div>
-                  </div>
-                  <div style={{ fontFamily: FONT, fontSize: 19, color: C.accentDark, whiteSpace: "nowrap" }}>{tt.p}</div>
-                </div>
-              </Reveal>
+          <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 10 }}>
+            {TARIFS.map((t: any, idx: number) => (
+              <MercurialeLigne key={`${t.a}-${idx}`} t={t} idx={idx} />
+            ))}
+            <div style={{ borderTop: `1px solid ${C.border}`, marginTop: 10 }} />
+          </div>
+        </div>
+      </section>
+
+      {/* ══ AVIS — colonnes décalées, le seul fond sombre de la page ═══════ */}
+      <section style={{ position: "relative", background: C.bgDark, padding: "clamp(76px,9vw,134px) clamp(20px,4.5vw,56px)", overflow: "hidden" }}>
+        {/* glow végétal, très faible */}
+        <span
+          aria-hidden
+          style={{
+            position: "absolute",
+            top: "-32%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "min(120vw, 1100px)",
+            aspectRatio: "1",
+            borderRadius: "50%",
+            background: `radial-gradient(circle at 50% 50%, ${C.pousse} 0%, transparent 62%)`,
+            opacity: 0.1,
+            pointerEvents: "none",
+          }}
+        />
+        <div style={{ position: "relative", maxWidth: 1140, margin: "0 auto" }}>
+          <Reveal>
+            <div style={{ display: "flex", justifyContent: "center", marginBottom: 24 }}>
+              <Kicker color={C.pousse} align="center">
+                Ils en parlent
+              </Kicker>
+            </div>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px,4vw,52px)", fontWeight: 400, color: C.white, textAlign: "center", lineHeight: 1.08, letterSpacing: "-0.014em", margin: "0 0 clamp(38px,4.5vw,60px)" }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (
+                <>
+                  Ils mangent <em style={{ fontStyle: "italic", color: C.pousse }}>la semaine de la ferme</em>.
+                </>
+              )}
+            </h2>
+          </Reveal>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px,100%), 1fr))", gap: "clamp(16px,2vw,26px)", alignItems: "start" }}>
+            {AVIS.map((a: any, idx: number) => (
+              <AvisCarte key={`${a.auteur}-${idx}`} a={a} idx={idx} />
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── AVIS ────────────────────────────────────────────────────────── */}
-      <section className="i365-pad" style={{ padding: "96px 64px", background: C.bgDark }}>
-        <Reveal>
-          <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3.4vw, 42px)", color: "#fff" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Ils mangent <em style={{ color: C.hi }}>la semaine de la ferme</em>.</>)}</h2>
-          </div>
-        </Reveal>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
-          {AVIS.map((a, idx) => (
-            <Reveal key={a.auteur} delay={idx * 0.1}>
-              <div style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.10)", borderRadius: 12, padding: "26px 24px", height: "100%" }}>
-                <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>
-                  {[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.hi} color={C.hi} />)}
+      {/* ══ CONTACT — la boutique ═════════════════════════════════════════ */}
+      <section id="contact" style={{ background: C.bg, padding: "clamp(72px,9vw,132px) clamp(20px,4.5vw,56px)" }}>
+        <div className="i365-contact" style={{ maxWidth: 1140, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1.06fr) minmax(0,0.94fr)", gap: "clamp(28px,5vw,72px)", alignItems: "center" }}>
+          <Reveal>
+            <div>
+              <Kicker>La boutique</Kicker>
+              <h2 style={{ fontFamily: SERIF, fontSize: "clamp(30px,4.6vw,58px)", fontWeight: 400, color: C.ink, margin: "18px 0 18px", lineHeight: 1.05, letterSpacing: "-0.016em" }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (
+                  <>
+                    Passez à la ferme,
+                    <br />
+                    <em style={{ fontStyle: "italic", color: C.accentDark }}>repartez avec la semaine.</em>
+                  </>
+                )}
+              </h2>
+              <p style={{ fontFamily: SANS, fontSize: 16, color: C.textMuted, maxWidth: 480, lineHeight: 1.78, marginBottom: 30 }}>
+                {/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? (
+                  <>Boutique mercredi et vendredi soir, samedi matin. Paniers réservés par téléphone ou SMS avant mardi soir.</>
+                )}
+              </p>
+              <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+                <CTA href={telHref} filled big>
+                  <Phone size={17} /> {phone}
+                </CTA>
+                <CTA href={`mailto:${mail}`} big>
+                  <Mail size={17} /> Nous écrire
+                </CTA>
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={0.12}>
+            <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: 14, padding: "clamp(24px,2.6vw,34px)", boxShadow: "0 40px 76px -64px rgba(36,42,25,0.7)" }}>
+              <Kicker color={C.textFaint}>La ferme</Kicker>
+              <div style={{ marginTop: 20, display: "flex", flexDirection: "column", gap: 16 }}>
+                <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                  <MapPin size={16} color={C.accent} style={{ flexShrink: 0, marginTop: 3 }} />
+                  <span style={{ fontFamily: SANS, fontSize: 14.5, color: C.textMuted, lineHeight: 1.66 }}>{clientAddress(sessionData) ?? clientCity(sessionData) ?? "Cahors, Lot"}</span>
                 </div>
-                <p style={{ fontFamily: FONT, fontSize: 15, fontStyle: "italic", color: "rgba(255,255,255,0.82)", lineHeight: 1.7, marginBottom: 18 }}>"{a.texte}"</p>
-                <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14 }}>
-                  <div style={{ fontWeight: 700, color: "#fff", fontSize: 14 }}>{a.auteur}</div>
-                  <div style={{ color: C.hi, fontSize: 12, marginTop: 4 }}>{a.detail}</div>
+                <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                  <Phone size={16} color={C.accent} style={{ flexShrink: 0, marginTop: 3 }} />
+                  <a href={telHref} style={{ fontFamily: SANS, fontSize: 14.5, color: C.ink, textDecoration: "none" }}>
+                    {phone}
+                  </a>
+                </div>
+                <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                  <Mail size={16} color={C.accent} style={{ flexShrink: 0, marginTop: 3 }} />
+                  <a href={`mailto:${mail}`} style={{ fontFamily: SANS, fontSize: 14.5, color: C.ink, textDecoration: "none", wordBreak: "break-word" }}>
+                    {mail}
+                  </a>
+                </div>
+                <div style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
+                  <Clock size={16} color={C.accent} style={{ flexShrink: 0, marginTop: 3 }} />
+                  <span style={{ fontFamily: SANS, fontSize: 14.5, color: C.textMuted, lineHeight: 1.66 }}>Boutique ferme : Mer & Ven 16h–19h · Sam 9h–13h</span>
                 </div>
               </div>
-            </Reveal>
-          ))}
+              <div style={{ borderTop: `1px solid ${C.border}`, marginTop: 22, paddingTop: 18 }}>
+                <p style={{ fontFamily: SANS, fontSize: 13.5, color: C.textMuted, lineHeight: 1.7, margin: 0 }}>
+                  {clientTagline(sessionData) ?? "La ferme se visite le premier samedi du mois — et sur demande pour les écoles."}
+                </p>
+              </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* ── CONTACT ─────────────────────────────────────────────────────── */}
-      <section id="contact" className="i365-pad" style={{ padding: "96px 64px", background: C.accentLight, textAlign: "center" }}>
-        <Reveal>
-          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>La boutique</span>
-          <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 48px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
-            Passez à la ferme,<br /><em>repartez avec la semaine.</em>
-          </>)}</h2>
-          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>Boutique mercredi et vendredi soir, samedi matin. Paniers réservés par téléphone ou SMS avant mardi soir.</p>
-          <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {phone}
-            </motion.a>
-            <motion.a href={`mailto:${mail}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "14px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ background: C.accent, color: "#fff" }}>
-              <Mail size={18} /> Nous écrire
-            </motion.a>
-          </div>
-        </Reveal>
-      </section>
-
-      {/* ── FOOTER ──────────────────────────────────────────────────────── */}
-      <footer className="i365-pad" style={{ background: C.bgDark, padding: "44px 64px 22px" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
-            <div>
-              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Ferme des Quatre Vents"))}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Ferme en agriculture biologique · Cahors<br />Certifiée AB — vente directe et marchés</p>
+      {/* ══ PIED ══════════════════════════════════════════════════════════ */}
+      <footer style={{ background: C.bgDarkAlt, padding: "clamp(44px,5vw,64px) clamp(20px,4.5vw,56px) 26px" }}>
+        <div style={{ maxWidth: 1140, margin: "0 auto" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 32, marginBottom: 34 }}>
+            <div style={{ maxWidth: 380 }}>
+              <div style={{ fontFamily: SERIF, fontSize: 25, fontWeight: 500, color: C.pousse, marginBottom: 10 }}>{ferme}</div>
+              <p style={{ fontFamily: SANS, color: "rgba(255,255,255,0.4)", fontSize: 13, lineHeight: 1.75, margin: 0 }}>
+                {clientTrade(sessionData) ?? "Ferme en agriculture biologique"} · {ville}
+                <br />
+                Certifiée AB — vente directe et marchés
+              </p>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? clientCity(sessionData) ?? "Cahors, Lot" }, { icon: <Phone size={13} />, t: phone }, { icon: <Mail size={13} />, t: mail }, { icon: <Clock size={13} />, t: "Boutique ferme : Mer & Ven 16h–19h · Sam 9h–13h" }].map((item, idx) => (
-                <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
-                  <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+              {[
+                { icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? clientCity(sessionData) ?? "Cahors, Lot" },
+                { icon: <Phone size={13} />, t: phone },
+                { icon: <Mail size={13} />, t: mail },
+                { icon: <Clock size={13} />, t: "Boutique ferme : Mer & Ven 16h–19h · Sam 9h–13h" },
+              ].map((item, idx) => (
+                <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.44)", fontFamily: SANS, fontSize: 13, alignItems: "center" }}>
+                  <span style={{ color: C.pousse, display: "flex" }}>{item.icon}</span>
+                  {item.t}
                 </div>
               ))}
             </div>
           </div>
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Ferme des Quatre Vents"))} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity />
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
+            <span style={{ fontFamily: SANS, color: "rgba(255,255,255,0.28)", fontSize: 12 }}>
+              © 2026 {ferme} — Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" />
+              {/* VILLE_PIED */}
+              {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
-            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
+            <span style={{ fontFamily: SANS, color: "rgba(255,255,255,0.28)", fontSize: 12 }}>
+              Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.
+            </span>
           </div>
         </div>
       </footer>
