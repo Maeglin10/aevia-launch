@@ -666,6 +666,36 @@ export default function SonicPlayerPage() {
       </section>
 
       {/* ==========================================
+          4bis. LES RETOURS — parents et élèves, en clair
+          ========================================== */}
+      <section className="py-32 bg-[#02000a] border-t border-[var(--brand,#581c87)]/20">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+          <Reveal className="mb-16">
+            <h2 className="text-4xl md:text-5xl font-black tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ce qu'en disent les élèves</>)}</h2>
+          </Reveal>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+            {resolveList(
+              clientReviews(sessionData)?.slice(0, 3).map((r: any) => ({ text: r.text, author: r.author, detail: r.detail || undefined })),
+              [
+                { text: "Deux ans de batterie, un premier concert sur une vraie scène. Mon fils ne rate plus un cours.", author: "Sonia", detail: "parent d'élève, batterie" },
+                { text: "L'atelier MAO m'a appris à finir mes morceaux, pas juste à les commencer. Le premier EP est sorti.", author: "Rayan", detail: "élève MAO, 2e année" },
+                { text: "Un groupe monté par l'école, un créneau de studio chaque trimestre : on progresse parce qu'on joue.", author: "Chloé", detail: "chant, groupe encadré" },
+              ],
+            ).map((a: any, i: number) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <figure className="h-full flex flex-col bg-[#0a0418] border border-[var(--brand,#581c87)]/20 rounded-sm p-8">
+                  <blockquote className="text-lg text-slate-300 leading-relaxed mb-8 flex-1">« {a.text} »</blockquote>
+                  <figcaption className="font-mono text-xs text-[var(--brand,#c084fc)]">
+                    {a.author}{a.detail ? <span className="block mt-1 text-slate-500">{a.detail}</span> : null}
+                  </figcaption>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ==========================================
           5. MEGA FOOTER
           ========================================== */}
       <footer className="bg-[#02000a] pt-32 pb-12 px-6 md:px-12 border-t border-[var(--brand,#581c87)]/20 relative overflow-hidden">

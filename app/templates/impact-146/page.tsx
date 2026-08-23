@@ -8,6 +8,7 @@ import { Utensils, ArrowRight, Menu, Star, Clock, MapPin, Shield, Heart, Compass
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { DWELL, HeldSwap, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
+import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
@@ -413,6 +414,34 @@ export default function KuroOmakasePage() {
                     </button>
                  </div>
               </Reveal>
+           </div>
+        </section>
+
+        {/* ── LE LIVRE D'OR — trois voix, posées comme le reste : à nu ── */}
+        <section className="py-40 bg-black border-t border-white/5">
+           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
+              <Reveal>
+                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-white/30 block mb-16 italic">{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Le livre d'or</>)}</span>
+              </Reveal>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+                 {resolveList(
+                   clientReviews(sessionData)?.slice(0, 3).map((r: any) => ({ text: r.text, author: r.author, detail: r.detail || undefined })),
+                   [
+                     { text: "Vingt couverts, aucun menu, aucun choix à faire — et le meilleur repas de mon année.", author: "Claire D.", detail: "novembre" },
+                     { text: "Le silence entre les pièces fait partie du repas. On en ressort calmé.", author: "Louis A.", detail: "septembre" },
+                     { text: "Le comptoir privatisé pour huit : un service d'une précision rare.", author: "Mathilde R.", detail: "juin" },
+                   ],
+                 ).map((a: any, i: number) => (
+                   <Reveal key={i} delay={i * 0.1}>
+                     <figure className="h-full flex flex-col">
+                        <blockquote className="text-xl font-light italic text-white/60 leading-relaxed mb-10 flex-1">« {a.text} »</blockquote>
+                        <figcaption className="text-[10px] font-black uppercase tracking-[0.3em] text-white/25 border-t border-white/5 pt-6">
+                           {a.author}{a.detail ? ` — ${a.detail}` : ""}
+                        </figcaption>
+                     </figure>
+                   </Reveal>
+                 ))}
+              </div>
            </div>
         </section>
       </main>

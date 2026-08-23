@@ -37,6 +37,7 @@ import {
   clientName,
   clientPhone,
   clientPhotos,
+  clientReviews,
   clientServices,
   clientStats,
   clientText,
@@ -474,6 +475,35 @@ return (
                        </div>
                     </Reveal>
                  </div>
+              </div>
+           </div>
+        </section>
+
+        {/* ==========================================
+            4bis. LES VOIX (AVIS) — le chapitre que l'atelier
+            n'écrit pas lui-même
+            ========================================== */}
+        <section className="py-60 bg-black relative">
+           <div className="max-w-[1200px] mx-auto px-8 md:px-20">
+              <SectionTitle subtitle="Chapitre IV // Les voix" title={/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ce qu'on en dit.</>)} alignment="left" />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-20 -mt-12">
+                 {resolveList(
+                   clientReviews(sessionData)?.slice(0, 3).map((r: any) => ({ text: r.text, author: r.author, detail: r.detail || undefined })),
+                   [
+                     { text: "Une montre reprise, réglée, rendue avec son carnet de mesures. Personne d'autre n'y touchera.", author: "H. Delcourt", detail: "révision d'un calibre ancien" },
+                     { text: "Du premier dessin à l'écrin, la bague a été pensée pour elle seule. Le sur mesure au sens propre.", author: "M. et A. Ferrand", detail: "création sur mesure" },
+                     { text: "L'atelier explique chaque geste, chaque heure passée. On sait ce qu'on paie, et pourquoi.", author: "S. Baron", detail: "transformation d'un héritage" },
+                   ],
+                 ).map((a: any, i: number) => (
+                   <Reveal key={i} delay={i * 0.12}>
+                     <figure className="h-full flex flex-col border-l border-[var(--brand,#c4a661)]/30 pl-8">
+                        <blockquote className="text-xl font-light italic text-white/60 leading-relaxed mb-10 flex-1">« {a.text} »</blockquote>
+                        <figcaption className="text-[10px] font-black uppercase tracking-[0.4em] text-white/25">
+                           {a.author}{a.detail ? <span className="block mt-2 text-[var(--brand,#c4a661)]/60 normal-case tracking-widest italic font-light">{a.detail}</span> : null}
+                        </figcaption>
+                     </figure>
+                   </Reveal>
+                 ))}
               </div>
            </div>
         </section>
