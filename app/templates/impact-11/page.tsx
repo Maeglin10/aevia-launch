@@ -7,11 +7,15 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { BookOpen, Users, Star, Play, ChevronRight, Menu, X, ArrowRight, Clock, Award, BarChart2, Globe, CheckCircle } from "lucide-react";
+import { ParticleOrb } from "@/lib/templates/hero-kit-3";
+import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientReviews,
   clientServices,
   clientStats,
@@ -54,7 +58,7 @@ const useFonts = () => {
     if (document.getElementById("edu-fonts")) return;
     const s = document.createElement("style");
     s.id = "edu-fonts";
-    s.textContent = `@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');`;
+    s.textContent = `@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap');\n.i11 h1, .i11 h2, .i11 h3, .i11 .titre { font-family: 'Fraunces', Georgia, serif; }`;
     document.head.appendChild(s);
   }, []);
 };
@@ -71,7 +75,7 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 
 function courses_LIVE() {
   return resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ title: s.title, ...(s.price ? { price: s.price } : {}) })), [
-  { title: "Data Science & IA", level: "Intermédiaire", duration: "48h", students: "12 400", rating: 4.9, price: "199€", tag: "Populaire", color: "var(--brand, #7C3AED)" },
+  { title: "Data Science & IA", level: "Intermédiaire", duration: "48h", students: "12 400", rating: 4.9, price: "199€", tag: "Populaire", color: "var(--brand, #5b48c9)" },
   { title: "UX Design System", level: "Débutant", duration: "32h", students: "8 200", rating: 4.8, price: "149€", tag: "Nouveau", color: "#0EA5E9" },
   { title: "Full-Stack React/Node", level: "Avancé", duration: "64h", students: "9 800", rating: 4.9, price: "249€", tag: "Bestseller", color: "#10B981" },
   { title: "Marketing Digital", level: "Débutant", duration: "24h", students: "15 600", rating: 4.7, price: "99€", tag: "Certifiant", color: "#F59E0B" },
@@ -167,8 +171,8 @@ export default function EduPathPage() {
   // Dynamic Services & Testimonials Mutation for Session Data
   
 return (
-    <div className="min-h-dvh bg-white" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
-      <motion.div className="fixed top-0 left-0 right-0 h-[3px] bg-[var(--brand,#7C3AED)] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
+    <div className="i11 min-h-dvh bg-[#f7f7fb]" style={{ fontFamily: "'Inter', sans-serif" }}>
+      <motion.div className="fixed top-0 left-0 right-0 h-[3px] bg-[var(--brand,#5b48c9)] origin-left z-[60]" style={{ scaleX: scrollYProgress }} />
 
       {/* Nav */}
       <nav className="fixed top-4 left-4 right-4 z-50">
@@ -182,7 +186,7 @@ return (
               />
             ) : (
               <>
-                <div className="w-8 h-8 bg-[var(--brand,#7C3AED)] rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-[var(--brand,#5b48c9)] rounded-lg flex items-center justify-center">
                   <BookOpen className="w-4 h-4 text-white" />
                 </div>
                 <span className="text-gray-900 font-bold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "EduPath"))}</span>
@@ -191,12 +195,12 @@ return (
           </Link>
           <div className="hidden lg:flex items-center gap-8 text-gray-600 text-sm font-medium">
             {["Cours", "Mentoring", "Certifications", "Entreprises", "Tarifs"].map(item => (
-              <Link key={item} href={navHref(item)} className="hover:text-[var(--brand,#7C3AED)] transition-colors cursor-pointer">{item}</Link>
+              <Link key={item} href={navHref(item)} className="hover:text-[var(--brand,#5b48c9)] transition-colors cursor-pointer">{item}</Link>
             ))}
           </div>
           <div className="hidden lg:flex items-center gap-3">
             <button className="text-gray-700 text-sm px-4 py-2 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer">Se connecter</button>
-            <button className="bg-[var(--brand,#7C3AED)] text-white text-sm px-5 py-2.5 rounded-xl hover:bg-[#6D28D9] transition-colors cursor-pointer font-medium">Commencer</button>
+            <button className="bg-[var(--brand,#5b48c9)] text-white text-sm px-5 py-2.5 rounded-xl hover:bg-[#4a3aa8] transition-colors cursor-pointer font-medium">Commencer</button>
           </div>
           {/* nav links + auth buttons need lg (1024px) before they fit on one row without
               clipping — tablet (768px) now falls back to the hamburger menu instead */}
@@ -229,16 +233,20 @@ return (
       </AnimatePresence>
 
       {/* Hero */}
-      <section ref={heroRef} className="relative min-h-dvh overflow-hidden bg-gradient-to-br from-[#F5F3FF] via-white to-[#EFF6FF] pt-24 pb-12 md:pt-32 md:pb-24 px-6">
+      <section ref={heroRef} className="relative min-h-dvh overflow-hidden bg-gradient-to-br from-[#f1effa] via-white to-[#f7f7fb] pt-24 pb-12 md:pt-32 md:pb-24 px-6">
         <motion.div className="absolute inset-0 pointer-events-none" style={{ y: heroY }}>
-          <div className="absolute top-20 right-10 w-96 h-96 bg-[var(--brand,#7C3AED)]/8 rounded-full blur-3xl" />
+          <div className="absolute top-20 right-10 w-96 h-96 bg-[var(--brand,#5b48c9)]/8 rounded-full blur-3xl" />
           <div className="absolute bottom-20 left-10 w-80 h-80 bg-[#0EA5E9]/8 rounded-full blur-3xl" />
         </motion.div>
+        {/* La sphère de savoir — dessinée en canvas, jamais une photo. */}
+        <div aria-hidden className="hidden lg:block absolute right-[-4%] top-1/2 -translate-y-1/2 w-[560px] h-[560px] pointer-events-none opacity-80">
+          <ParticleOrb count={650} color="#5b48c9" seconds={48} style={{ width: "100%", height: "100%" }} />
+        </div>
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="max-w-3xl">
             <Reveal delay={0.1}>
               <h1 className="text-gray-900 text-4xl sm:text-5xl md:text-7xl font-bold leading-tight mb-4 md:mb-6">{<>{clientHeroLine(sessionData, 0, 3, 12) ?? "Apprenez les"}<br />
-                <span className="text-[var(--brand,#7C3AED)]">{clientHeroLine(sessionData, 1, 3, 12) ?? "compétences"}</span><br />{clientHeroLine(sessionData, 2, 3, 12) ?? "de demain"}</>}</h1>
+                <span className="text-[var(--brand,#5b48c9)]">{clientHeroLine(sessionData, 1, 3, 12) ?? "compétences"}</span><br />{clientHeroLine(sessionData, 2, 3, 12) ?? "de demain"}</>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
               <p className="text-gray-500 text-base sm:text-xl leading-relaxed mb-6 md:mb-10 max-w-xl">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
@@ -247,12 +255,12 @@ return (
             </Reveal>
             <Reveal delay={0.3}>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="bg-[var(--brand,#7C3AED)] text-white px-8 py-4 rounded-xl font-semibold hover:bg-[#6D28D9] transition-colors cursor-pointer flex items-center gap-2">
+                <button className="bg-[var(--brand,#5b48c9)] text-white px-8 py-4 rounded-xl font-semibold hover:bg-[#4a3aa8] transition-colors cursor-pointer flex items-center gap-2">
                   Commencer gratuitement <ArrowRight className="w-4 h-4" />
                 </button>
                 <button className="flex items-center gap-3 text-gray-700 px-6 py-4 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer">
                   <div className="w-10 h-10 bg-white shadow-md rounded-full flex items-center justify-center">
-                    <Play className="w-4 h-4 text-[var(--brand,#7C3AED)] fill-[var(--brand,#7C3AED)]" />
+                    <Play className="w-4 h-4 text-[var(--brand,#5b48c9)] fill-[var(--brand,#5b48c9)]" />
                   </div>
                   Voir la démo
                 </button>
@@ -276,14 +284,14 @@ return (
       <section className="py-24 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <Reveal className="text-center mb-16">
-            <p className="text-[var(--brand,#7C3AED)] text-sm font-semibold mb-3">Pourquoi EduPath</p>
+            <p className="text-[var(--brand,#5b48c9)] text-sm font-semibold mb-3">Pourquoi EduPath</p>
             <h2 className="text-gray-900 text-4xl md:text-5xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>Tout ce dont vous avez besoin</>)}</h2>
           </Reveal>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((f, i) => (
               <Reveal key={f.title} delay={i * 0.1}>
-                <div className="bg-gray-50 rounded-2xl p-6 hover:bg-[var(--brand,#7C3AED)]/5 transition-colors cursor-pointer group">
-                  <div className="w-12 h-12 bg-[var(--brand,#7C3AED)]/10 rounded-xl flex items-center justify-center text-[var(--brand,#7C3AED)] mb-4 group-hover:bg-[var(--brand,#7C3AED)] group-hover:text-white transition-colors">{f.icon}</div>
+                <div className="bg-gray-50 rounded-2xl p-6 hover:bg-[var(--brand,#5b48c9)]/5 transition-colors cursor-pointer group">
+                  <div className="w-12 h-12 bg-[var(--brand,#5b48c9)]/10 rounded-xl flex items-center justify-center text-[var(--brand,#5b48c9)] mb-4 group-hover:bg-[var(--brand,#5b48c9)] group-hover:text-white transition-colors">{f.icon}</div>
                   <h3 className="text-gray-900 font-semibold mb-2">{f.title}</h3>
                   <p className="text-gray-500 text-sm leading-relaxed">{f.desc}</p>
                 </div>
@@ -298,12 +306,12 @@ return (
         <div className="max-w-6xl mx-auto">
           <Reveal className="flex flex-col md:flex-row md:items-end justify-between mb-10">
             <div>
-              <p className="text-[var(--brand,#7C3AED)] text-sm font-semibold mb-3">Catalogue</p>
+              <p className="text-[var(--brand,#5b48c9)] text-sm font-semibold mb-3">Catalogue</p>
               <h2 className="text-gray-900 text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Cours populaires</>)}</h2>
             </div>
             <div className="flex gap-2 flex-wrap mt-6 md:mt-0">
               {categories.map(cat => (
-                <button key={cat} onClick={() => setActiveCategory(cat)} className={`px-4 py-2 rounded-xl text-sm font-medium transition-all cursor-pointer ${activeCategory === cat ? "bg-[var(--brand,#7C3AED)] text-white" : "bg-white text-gray-600 border border-gray-200 hover:border-[var(--brand,#7C3AED)]"}`}>{cat}</button>
+                <button key={cat} onClick={() => setActiveCategory(cat)} className={`px-4 py-2 rounded-xl text-sm font-medium transition-all cursor-pointer ${activeCategory === cat ? "bg-[var(--brand,#5b48c9)] text-white" : "bg-white text-gray-600 border border-gray-200 hover:border-[var(--brand,#5b48c9)]"}`}>{cat}</button>
               ))}
             </div>
           </Reveal>
@@ -346,18 +354,18 @@ return (
       <section className="py-24 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <Reveal className="mb-12">
-            <p className="text-[var(--brand,#7C3AED)] text-sm font-semibold mb-3">Formateurs</p>
+            <p className="text-[var(--brand,#5b48c9)] text-sm font-semibold mb-3">Formateurs</p>
             <h2 className="text-gray-900 text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Apprenez des meilleurs</>)}</h2>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6">
             {instructors.map((inst, i) => (
               <Reveal key={inst.name} delay={i * 0.1}>
                 <div className="bg-gray-50 rounded-2xl p-6 hover:shadow-md transition-shadow cursor-pointer">
-                  <div className="w-16 h-16 bg-gradient-to-br from-[var(--brand,#7C3AED)] to-[#0EA5E9] rounded-2xl mb-4 flex items-center justify-center text-white text-xl font-bold">
+                  <div className="w-16 h-16 bg-gradient-to-br from-[var(--brand,#5b48c9)] to-[#0EA5E9] rounded-2xl mb-4 flex items-center justify-center text-white text-xl font-bold">
                     {inst.name.charAt(0)}
                   </div>
                   <h3 className="text-gray-900 font-semibold mb-1">{inst.name}</h3>
-                  <p className="text-[var(--brand,#7C3AED)] text-sm mb-4">{inst.specialty}</p>
+                  <p className="text-[var(--brand,#5b48c9)] text-sm mb-4">{inst.specialty}</p>
                   <div className="flex items-center gap-4 text-xs text-gray-500">
                     <span className="flex items-center gap-1"><BookOpen className="w-3 h-3" />{inst.courses} cours</span>
                     <span className="flex items-center gap-1"><Users className="w-3 h-3" />{inst.students} élèves</span>
@@ -370,17 +378,49 @@ return (
         </div>
       </section>
 
+      {/* Avis */}
+      <section className="py-24 px-6 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <Reveal className="mb-12">
+            <p className="text-[var(--brand,#5b48c9)] text-sm font-semibold mb-3">Ils se sont formés ici</p>
+            <h2 className="text-gray-900 text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ce qu'en disent les apprenants</>)}</h2>
+          </Reveal>
+          <div className="grid md:grid-cols-3 gap-6">
+            {resolveList(
+              clientReviews(sessionData)?.slice(0, 3).map((r: any) => ({ text: r.text, author: r.author, detail: r.detail || undefined })),
+              [
+                { text: "Le mentorat mensuel change tout : quelqu'un regarde vraiment vos projets et vous dit quoi corriger.", author: "Sonia R.", detail: "parcours données" },
+                { text: "J'ai suivi le parcours du soir en travaillant à côté. Six mois plus tard, je changeais de poste.", author: "Mehdi A.", detail: "reconversion" },
+                { text: "Des cours courts, des projets concrets, une communauté qui répond en une heure.", author: "Claire D.", detail: "design" },
+              ],
+            ).map((a: any, i: number) => (
+              <Reveal key={i} delay={i * 0.1}>
+                <figure className="bg-gray-50 rounded-2xl p-6 h-full flex flex-col m-0">
+                  <div className="flex gap-1 mb-4" aria-hidden>
+                    {[...Array(5)].map((_, j) => <Star key={j} className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />)}
+                  </div>
+                  <blockquote className="text-gray-600 text-sm leading-relaxed flex-1 m-0">« {a.text} »</blockquote>
+                  <figcaption className="mt-5 pt-4 border-t border-gray-200 text-xs font-semibold text-gray-900">
+                    {a.author}{a.detail ? <span className="block mt-0.5 font-normal text-[var(--brand,#5b48c9)]">{a.detail}</span> : null}
+                  </figcaption>
+                </figure>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Pricing */}
-      <section className="py-24 px-6 bg-gradient-to-br from-[#F5F3FF] to-white">
+      <section className="py-24 px-6 bg-gradient-to-br from-[#f1effa] to-white">
         <div className="max-w-5xl mx-auto">
           <Reveal className="text-center mb-16">
-            <p className="text-[var(--brand,#7C3AED)] text-sm font-semibold mb-3">Tarifs</p>
+            <p className="text-[var(--brand,#5b48c9)] text-sm font-semibold mb-3">Tarifs</p>
             <h2 className="text-gray-900 text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Investissez dans votre carrière</>)}</h2>
           </Reveal>
           <div className="grid md:grid-cols-3 gap-6">
             {plans.map((plan, i) => (
               <Reveal key={plan.name} delay={i * 0.1}>
-                <div className={`rounded-2xl p-8 ${plan.highlight ? "bg-[var(--brand,#7C3AED)] text-white scale-105 shadow-2xl" : "bg-white border border-gray-200"}`}>
+                <div className={`rounded-2xl p-8 ${plan.highlight ? "bg-[var(--brand,#5b48c9)] text-white scale-105 shadow-2xl" : "bg-white border border-gray-200"}`}>
                   <h3 className={`font-bold text-xl mb-2 ${plan.highlight ? "text-white" : "text-gray-900"}`}>{plan.name}</h3>
                   <div className="mb-6">
                     <span className={`text-4xl font-bold ${plan.highlight ? "text-white" : "text-gray-900"}`}>{plan.price}€</span>
@@ -389,12 +429,12 @@ return (
                   <ul className="space-y-3 mb-8">
                     {plan.features.map(f => (
                       <li key={f} className="flex items-center gap-2 text-sm">
-                        <CheckCircle className={`w-4 h-4 shrink-0 ${plan.highlight ? "text-white" : "text-[var(--brand,#7C3AED)]"}`} />
+                        <CheckCircle className={`w-4 h-4 shrink-0 ${plan.highlight ? "text-white" : "text-[var(--brand,#5b48c9)]"}`} />
                         <span className={plan.highlight ? "text-white/90" : "text-gray-600"}>{f}</span>
                       </li>
                     ))}
                   </ul>
-                  <button className={`w-full py-3 rounded-xl font-semibold text-sm transition-colors cursor-pointer ${plan.highlight ? "bg-white text-[var(--brand,#7C3AED)] hover:bg-gray-100" : "bg-[var(--brand,#7C3AED)] text-white hover:bg-[#6D28D9]"}`}>
+                  <button className={`w-full py-3 rounded-xl font-semibold text-sm transition-colors cursor-pointer ${plan.highlight ? "bg-white text-[var(--brand,#5b48c9)] hover:bg-gray-100" : "bg-[var(--brand,#5b48c9)] text-white hover:bg-[#4a3aa8]"}`}>
                     {plan.cta}
                   </button>
                 </div>
@@ -409,15 +449,19 @@ return (
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10 mb-12">
           <div>
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-[var(--brand,#7C3AED)] rounded-lg flex items-center justify-center"><BookOpen className="w-4 h-4 text-white" /></div>
+              <div className="w-8 h-8 bg-[var(--brand,#5b48c9)] rounded-lg flex items-center justify-center"><BookOpen className="w-4 h-4 text-white" /></div>
               <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "EduPath"))}</span>
             </div>
-            <p className="text-gray-400 text-sm leading-relaxed">La plateforme d'apprentissage en ligne pour les professionnels ambitieux.</p>
+            <p className="text-gray-400 text-sm leading-relaxed mb-5">La plateforme d'apprentissage en ligne pour les professionnels ambitieux.</p>
+            <div className="text-gray-400 text-sm space-y-1.5">
+              <p className="m-0"><a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "01 76 42 08 15").replace(/\s/g, "")}`} className="hover:text-white transition-colors">{clientPhone(sessionData) ?? fd?.phone ?? "01 76 42 08 15"}</a></p>
+              <p className="m-0"><a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "bonjour@edupath.fr"}`} className="hover:text-white transition-colors break-all">{clientEmail(sessionData) ?? fd?.email ?? "bonjour@edupath.fr"}</a></p>
+            </div>
           </div>
           {[
             { title: "Formation", links: ["Catalogue", "Certifications", "Mentoring", "Entreprises"] },
             { title: "Ressources", links: ["Blog", "Webinaires", "Communauté", "API"] },
-            { title: "Légal", links: ["Conditions", "Confidentialité", "Cookies", "Contact"] },
+            { title: "Légal", links: ["Conditions", "Confidentialité", "Cookies"] },
           ].map(col => (
             <div key={col.title}>
               <h4 className="text-white font-semibold mb-4 text-sm">{col.title}</h4>
@@ -428,7 +472,7 @@ return (
           ))}
         </div>
         <div className="max-w-6xl mx-auto border-t border-gray-800 pt-8 flex justify-between items-center text-xs text-gray-500">
-          <span>© 2026 {clientName(sessionData) ?? "EduPath."} Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© {clientName(sessionData) ?? "EduPath"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""} · Site réalisé par Aevia WS — SIREN <LegalIdentity fallback="852 546 225" kind="siren" /></span>
           <span>Fait avec amour à {clientCity(sessionData) ?? "Paris"}</span>
         </div>
       </footer>
