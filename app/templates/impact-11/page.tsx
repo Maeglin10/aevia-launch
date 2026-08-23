@@ -101,7 +101,7 @@ const instructors = [
 ];
 
 function plans_LIVE() {
-  return /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
+  return /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price, prixClient: true } : {}) })), [
   { name: "Starter", price: "29", period: "mois", features: ["50 cours inclus", "Projets pratiques", "Forum communauté", "Certificat de suivi"], cta: "Commencer", highlight: false },
   { name: "Pro", price: "79", period: "mois", features: ["Tous les cours", "Mentoring mensuel", "Projets guidés", "Certificats officiels", "Support prioritaire"], cta: "Essai 7 jours gratuit", highlight: true },
   { name: "Équipe", price: "199", period: "mois", features: ["10 sièges inclus", "Dashboard équipe", "Rapports de progression", "Onboarding dédié", "Formateur attitré"], cta: "Contacter l'équipe", highlight: false },
@@ -424,8 +424,16 @@ return (
                 <div className={`rounded-2xl p-8 ${plan.highlight ? "bg-[var(--brand,#5b48c9)] text-white scale-105 shadow-2xl" : "bg-white border border-gray-200"}`}>
                   <h3 className={`font-bold text-xl mb-2 ${plan.highlight ? "text-white" : "text-gray-900"}`}>{plan.name}</h3>
                   <div className="mb-6">
-                    <span className={`text-4xl font-bold ${plan.highlight ? "text-white" : "text-gray-900"}`}>{plan.price}€</span>
-                    <span className={`text-sm /${plan.highlight ? "text-white/70" : "text-gray-400"}`}>/{plan.period}</span>
+                    {/* Le prix du client est une phrase complète (« 180 € le
+                        déplacement ») : on ne lui colle ni € ni période. */}
+                    {plan.prixClient ? (
+                      <span className={`text-3xl font-bold ${plan.highlight ? "text-white" : "text-gray-900"}`}>{plan.price}</span>
+                    ) : (
+                      <>
+                        <span className={`text-4xl font-bold ${plan.highlight ? "text-white" : "text-gray-900"}`}>{plan.price}€</span>
+                        <span className={`text-sm ${plan.highlight ? "text-white/70" : "text-gray-400"}`}>/{plan.period}</span>
+                      </>
+                    )}
                   </div>
                   <ul className="space-y-3 mb-8">
                     {plan.features.map(f => (
