@@ -89,3 +89,32 @@ L'allocation ci-dessus les respecte tous, unions multi-métiers comprises
 - **impact-11 et 44 n'ont aucune photographie** ; 39 en a une. Pour crèche et
   auto-école, un thème sans visuel reste difficile à vendre — reprise faite
   avec replis CSS, mais un thème dédié avec photos serait mieux.
+
+
+## Suivi d'exécution — mis à jour le 23 août
+
+Fait à la main, sans agents, un thème à la fois, commis et poussé après les
+quatre contrôles de contrat et le comptage d'URLs d'images (zéro inventée
+partout) :
+
+| id | fait | l'essentiel |
+|---|---|---|
+| 98 | ✔ | francisé, ScrollSpin sur le calibre (plus d'horloge autonome), prix en euros, section avis créée, Playfair/Space Grotesk |
+| 146 | ✔ | francisé et rapatrié (Paris, euros), HeldSwap sur la pièce de saison, flèches mortes re-câblées sur l'index |
+| 151 | ✔ | vin → horlogerie-joaillerie (ADN alchimiste conservé), LineMask sur les devises, contact créé, presse fictive retirée |
+| 137 | ✔ | francisé, PanelDrop (le rideau du café), ville alignée sur le libellé, avis câblés |
+| 145 | ✔ | francisé et rapatrié (euros, loi Hoguet), PushBlur plein cadre à index unique |
+| 140 | ✔ | voyagiste → hôtel : les destinations deviennent les chambres, PortalZoom en baie vitrée |
+| 97 | ✔ | yachts → hôtel du canal : la péniche au ponton privé, LineScroll sur les devises, contact créé |
+| 141 | ✔ | label → école de musique : le lecteur joue les productions des élèves, CrossPush plein cadre, cours tarifés câblés |
+
+Applications de gestes toutes distinctes chez les porteurs multiples :
+PortalZoom = fenêtre de château (369) / voûte de cave (381) / arche (322) /
+baie vitrée (140) ; LineScroll = programme (321), calepinage (376), canal
+(97) ; HeldSwap = médaillon (345), panier (365), pièce d'omakase (146).
+
+**Restent** : 122 (journal → formation), 119 (cloud → salle de sport, 6
+métiers), 160 (data-center → mode), 136 (agence web → décorateur), et les
+multi-pages 100 (18 coquilles à résorber), 44 (esport → décorateur), 35
+(coworking → chiffre & droit), 36 (recrutement à franciser), 11 (photos
+absentes), 39 (contenu déjà juste, StickyProgress à poser).
