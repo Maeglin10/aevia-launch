@@ -1,342 +1,240 @@
 "use client"
 
+/*
+  impact-35 — Carré Daviel, cabinet pluridisciplinaire chiffre & droit.
+  L'ex-coworking a été réécrit : le thème est vendu aux avocats, aux
+  experts-comptables et aux conseillers en patrimoine — le corps parle
+  désormais leur métier. Jetons, données de démonstration et composants
+  partagés entre l'accueil et les sous-pages.
+  Fontes P2 Playfair Display + Space Grotesk · palette #f7f6f3 / #1f3a5f.
+*/
+
 import React, { useState, useRef } from "react"
 import { motion, useInView } from "framer-motion"
-import {
-  Wifi,
-  Coffee,
-  Printer,
-  Calendar,
-  Monitor,
-  Lock,
-  Clock,
-  Zap,
-  Building2,
-  ChevronDown,
-} from "lucide-react"
+import { Scale, Calculator, Landmark, FileText, Briefcase, ShieldCheck } from "lucide-react"
 
-// ─── Design Tokens ─────────────────────────────────────────────────────────────
+// ─── Jetons ───────────────────────────────────────────────────────────────────
 export const C = {
-  bg: "#f8f8f6",
-  bgAlt: "#f0f0ec",
-  text: "#1e293b",
-  textMuted: "#64748b",
-  accent: "#84cc16",
-  accentDark: "#65a30d",
-  accentLight: "#f0fdf4",
+  bg: "#f7f6f3",
+  bgAlt: "#efede7",
   white: "#ffffff",
-  border: "#e2e8f0",
-  slate: "#1e293b",
-  slateMid: "#334155",
+  text: "#1c2430",
+  textMuted: "#5d6673",
+  navy: "var(--brand, #1f3a5f)",
+  navyFixe: "#1f3a5f",
+  navyDark: "#16293f",
+  or: "#b08d4f",
+  border: "#e2ded6",
 }
 
-export const FONT = "'Outfit', system-ui, sans-serif"
+export const SERIF = "'Playfair Display', Georgia, serif"
+export const SANS = "'Space Grotesk', system-ui, sans-serif"
 
-// ─── Datasets ─────────────────────────────────────────────────────────────────
-export const PLANS_FR = [
+// ─── Données ──────────────────────────────────────────────────────────────────
+export const NAV_LINKS = [
+  { label: "Expertises", href: "/templates/impact-35/services" },
+  { label: "Le cabinet", href: "/templates/impact-35/spaces" },
+  { label: "Honoraires", href: "/templates/impact-35/pricing" },
+  { label: "L'équipe", href: "/templates/impact-35/community" },
+]
+
+export const EXPERTISES = [
   {
-    name: "Day Pass",
-    price: "25",
-    priceMensuel: "25",
-    priceAnnuel: "21",
-    period: "jour",
+    icon: Briefcase,
+    title: "Droit des affaires",
+    desc: "Constitution, pactes d'associés, contrats commerciaux, cession : la vie juridique de l'entreprise, sécurisée à chaque étape.",
+  },
+  {
+    icon: Calculator,
+    title: "Comptabilité & paie",
+    desc: "Tenue, révision, bilans et bulletins : des comptes tenus au fil de l'eau, pas reconstitués en avril.",
+  },
+  {
+    icon: FileText,
+    title: "Fiscalité",
+    desc: "Déclarations, options fiscales, contrôles : l'impôt juste — celui que la loi prévoit, ni plus, ni moins.",
+  },
+  {
+    icon: Landmark,
+    title: "Gestion de patrimoine",
+    desc: "Audit patrimonial, placements, immobilier, prévoyance : une stratégie écrite, revue chaque année.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Transmission",
+    desc: "Donation, succession, cession d'entreprise : préparer tôt ce qui se joue une seule fois.",
+  },
+  {
+    icon: Scale,
+    title: "Contentieux",
+    desc: "Négociation d'abord, plaidoirie s'il le faut : commercial, social et fiscal, devant toutes les juridictions.",
+  },
+]
+
+export const FORFAITS = [
+  {
+    name: "Première consultation",
+    price: "120",
+    period: "l'heure",
     features: [
-      "Open Space (hot desk)",
-      "Café inclus",
-      "WiFi 1 Gbps",
-      "Accès 9h–19h",
-      "Espace lounge",
+      "Au cabinet ou en visio",
+      "Analyse de votre situation",
+      "Plan d'action écrit sous 48 h",
+      "Déductible si mission confiée",
     ],
-    cta: "Réserver",
+    cta: "Prendre rendez-vous",
     highlight: false,
   },
   {
-    name: "Hot Desk",
+    name: "Entreprise — suivi annuel",
     price: "180",
-    priceMensuel: "180",
-    priceAnnuel: "153",
     period: "mois",
     features: [
-      "5 jours/semaine",
-      "Casier dédié",
-      "Adresse postale",
-      "Café illimité",
-      "Événements communauté",
-      "4h salle de réunion/mois",
+      "Comptabilité tenue au fil de l'eau",
+      "Bilans et liasses fiscales",
+      "Questions juridiques courantes incluses",
+      "Point trimestriel avec votre associé référent",
+      "Tableau de bord mensuel",
     ],
-    cta: "Commencer",
+    cta: "Demander une proposition",
     highlight: true,
   },
   {
-    name: "Bureau Fixe Solo",
-    price: "350",
-    priceMensuel: "350",
-    priceAnnuel: "298",
-    period: "mois",
+    name: "Audit patrimonial",
+    price: "690",
+    period: "forfait",
     features: [
-      "Bureau attitré 24/7",
-      "Adresse domiciliation",
-      "10h salle de réunion/mois",
-      "Café illimité",
-      "Impression illimitée",
-      "Accès invités (2/mois)",
+      "Bilan complet : actifs, fiscalité, prévoyance",
+      "Stratégie écrite et chiffrée",
+      "Restitution de deux heures",
+      "Mise à jour annuelle proposée",
     ],
-    cta: "Réserver",
-    highlight: false,
-  },
-  {
-    name: "Bureau Équipe",
-    price: "650",
-    priceMensuel: "650",
-    priceAnnuel: "553",
-    period: "mois",
-    features: [
-      "2 à 4 personnes",
-      "Bureau privatif",
-      "Domiciliation incluse",
-      "Salles de réunion illimitées",
-      "Support prioritaire",
-      "Accès 24/7",
-    ],
-    cta: "Réserver",
+    cta: "Commander l'audit",
     highlight: false,
   },
 ]
 
-export const AMENITIES = [
-  { icon: Wifi, label: "Fibre 1 Gbps", desc: "Double connexion redondante avec options VPN privé" },
-  { icon: Coffee, label: "Café Premium", desc: "Machine café haut de gamme, thés, eaux pétillantes" },
-  { icon: Printer, label: "Impression & Scan", desc: "Imprimantes laser couleur, A3, plastification, reliure" },
-  { icon: Calendar, label: "Espace Événement", desc: "Salle jusqu'à 150 personnes, scène modulable, catering" },
-  { icon: Monitor, label: "Écrans 4K", desc: "Salles de réunion avec écrans 75\" et visioconférence" },
-  { icon: Lock, label: "Accès 24/7", desc: "Badge d'entrée sécurisé, CCTV, réception colis" },
-  { icon: Clock, label: "Horaires flexibles", desc: "Ouvert en permanence pour les membres permanents" },
-  { icon: Zap, label: "Vélos & Douches", desc: "Vélos en libre-service, parking vélos sécurisé, douches" },
+export const EQUIPE = [
+  { nom: "Me Claire Daviel", role: "Avocate associée", detail: "Droit des affaires & contentieux" },
+  { nom: "Antoine Rey", role: "Expert-comptable associé", detail: "Comptabilité, paie & fiscalité" },
+  { nom: "Sarah Benkacem", role: "Conseillère patrimoniale", detail: "Placements & transmission" },
+  { nom: "Julien Morvan", role: "Juriste", detail: "Rédaction & veille" },
 ]
 
-export const SPACE_TYPES = [
+export const TEMOIGNAGES = [
   {
-    name: "Hot Desk",
-    icon: "HD",
-    tagline: "Flexibilité maximale",
-    desc: "Choisissez n'importe quel bureau disponible dans notre open space. Idéal pour les freelances et télétravailleurs qui veulent un environnement productif sans engagement.",
-    from: 25,
-    perDay: true,
+    text: "Un seul cabinet pour la compta, le juridique et ma transmission : je n'explique plus mon dossier trois fois.",
+    author: "Dirigeant de PME",
+    detail: "suivi annuel",
   },
   {
-    name: "Bureau Dédié",
-    icon: "BD",
-    tagline: "Votre coin personnel",
-    desc: "Un bureau permanent que vous pouvez personnaliser. Laissez vos équipements, rangez vos dossiers, arrivez prêt à travailler chaque matin.",
-    from: 350,
-    perDay: false,
+    text: "Les honoraires sont écrits avant la mission, et tenus. C'est plus rare qu'on ne croit.",
+    author: "Artisan, 12 salariés",
+    detail: "création puis suivi",
   },
   {
-    name: "Bureau Privé",
-    icon: "BP",
-    tagline: "Productivité en équipe",
-    desc: "Bureaux fermés de 2 à 10 personnes. Personnalisez l'espace, tenez des réunions confidentielles et évoluez selon votre croissance.",
-    from: 650,
-    perDay: false,
-  },
-]
-
-export const TESTIMONIALS = [
-  {
-    name: "Sophie Marchand",
-    role: "Co-fondatrice, Luminary SaaS",
-    avatar: "SM",
-    rating: 5,
-    text: "Nous sommes passés de 2 à 14 personnes en 18 mois. La flexibilité de passer des hot desks à un bureau privé sans déménager a été inestimable.",
-  },
-  {
-    name: "Marc Chen",
-    role: "Consultant Stratégie Indépendant",
-    avatar: "MC",
-    rating: 5,
-    text: "L'atmosphère à elle seule vaut le prix. Je signe 40% plus de contrats quand je reçois mes clients ici plutôt qu'en café. Nexus Hub inspire le sérieux.",
-  },
-  {
-    name: "Amara Diallo",
-    role: "Head of Growth, FinPath",
-    avatar: "AD",
-    rating: 5,
-    text: "La communauté ici est unique. Deux partenariats et une mise en relation investisseur sont directement sortis de connexions faites dans le lounge.",
+    text: "L'audit patrimonial a mis à plat dix ans de décisions empilées. On sait enfin où on va.",
+    author: "Profession libérale",
+    detail: "audit patrimonial",
   },
 ]
 
 export const FAQS = [
   {
-    q: "Puis-je tester avant de m'engager ?",
-    a: "Absolument. Achetez un Day Pass à 25€ et découvrez l'ensemble des installations. Si vous rejoignez un abonnement mensuel dans les 7 jours, votre Day Pass est crédité sur votre premier mois.",
+    q: "Comment sont fixés les honoraires ?",
+    a: "Chaque mission fait l'objet d'une convention d'honoraires écrite avant tout engagement : forfait quand le périmètre est connu, taux horaire communiqué d'avance sinon. Aucune diligence facturable n'est engagée sans votre accord.",
   },
   {
-    q: "Qu'inclut le service de domiciliation ?",
-    a: "Vous bénéficiez d'une adresse prestigieuse pour l'enregistrement de votre entreprise, la réception du courrier, la numérisation sur demande et la réception de colis. Inclus jusqu'à 20 articles par mois.",
+    q: "La première consultation m'engage-t-elle ?",
+    a: "Non. Vous repartez avec une analyse et un plan d'action écrit ; vous êtes libre de le mettre en œuvre seul, avec nous, ou pas du tout. Son montant est déduit si vous nous confiez la mission.",
   },
   {
-    q: "Comment fonctionne la réservation des salles de réunion ?",
-    a: "Les membres réservent via notre app ou la réception. Les abonnements mensuels incluent des heures créditées. Les heures supplémentaires sont à 35€/h. Les salles peuvent être réservées le jour même si disponibles.",
+    q: "Mes informations sont-elles protégées ?",
+    a: "Oui. Les avocats du cabinet sont tenus au secret professionnel, et l'ensemble de l'équipe à une stricte confidentialité. Vos pièces sont échangées par un espace sécurisé, jamais par simple courriel.",
   },
   {
-    q: "Puis-je résilier mon abonnement à tout moment ?",
-    a: "Les abonnements Hot Desk nécessitent un préavis de 30 jours. Les Bureaux Fixes et Équipes requièrent 60 jours. Aucun contrat annuel obligatoire.",
+    q: "Travaillez-vous à distance ?",
+    a: "Le cabinet reçoit sur place et en visioconférence. La signature électronique et l'espace documentaire permettent de mener une mission entière sans déplacement.",
   },
   {
-    q: "Organisez-vous des événements communautaires ?",
-    a: "Oui — afterworks mensuels, workshops, pitch sessions, meetups tech : tous les événements sont gratuits pour les membres. Nous organisons 80+ événements par an.",
-  },
-  {
-    q: "Y a-t-il un essai gratuit ?",
-    a: "Oui ! Nous offrons 1 journée d'essai gratuite sur présentation de votre projet. Contactez-nous à contact@exemple.fr pour en bénéficier.",
+    q: "Pouvez-vous reprendre un dossier en cours ?",
+    a: "Oui, dans le respect des règles de succession entre confrères et de transfert de mandat comptable. Le cabinet s'occupe des formalités de reprise.",
   },
 ]
 
 export const STATS = [
-  { value: "250+", label: "Membres actifs" },
-  { value: "80+", label: "Entreprises" },
-  { value: "30+", label: "Nationalités" },
-  { value: "4.9", label: "Note membres" },
+  { value: "3", label: "métiers sous un même toit" },
+  { value: "18 ans", label: "de pratique moyenne" },
+  { value: "48 h", label: "pour un plan d'action écrit" },
+  { value: "100 %", label: "des honoraires écrits d'avance" },
 ]
 
-// ─── Helper Components ────────────────────────────────────────────────────────
-export function FloorPlan() {
-  const [hoveredZone, setHoveredZone] = useState<string | null>(null)
+/* Photos du thème (déjà présentes au dépôt — aucune URL inventée). */
+export const PHOTOS_CABINET = [
+  "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80&fit=crop",
+  "https://images.unsplash.com/photo-1517502884422-41eaead166d4?w=800&q=80&fit=crop",
+  "https://images.unsplash.com/photo-1600508774634-4e11d34730e2?w=800&q=80&fit=crop",
+]
 
-  const zones = [
-    { id: "hotdesk", label: "Open Space", x: 40, y: 40, w: 180, h: 120, color: C.accent },
-    { id: "dedicated", label: "Bureaux Dédiés", x: 240, y: 40, w: 140, h: 120, color: "#3b82f6" },
-    { id: "offices", label: "Bureaux Privés", x: 400, y: 40, w: 120, h: 260, color: "#8b5cf6" },
-    { id: "meeting", label: "Salles Réunion", x: 40, y: 180, w: 180, h: 120, color: "#f59e0b" },
-    { id: "lounge", label: "Lounge Membres", x: 240, y: 180, w: 140, h: 120, color: "#ec4899" },
-    { id: "event", label: "Espace Événement", x: 40, y: 320, w: 340, h: 80, color: "#14b8a6" },
-  ]
+// ─── Composants ───────────────────────────────────────────────────────────────
 
+export function SectionReveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: "-60px" })
   return (
-    <div style={{ position: "relative" }}>
-      <svg
-        viewBox="0 0 560 430"
-        style={{
-          width: "100%",
-          maxWidth: 620,
-          borderRadius: 16,
-          background: C.bgAlt,
-          border: `2px solid ${C.border}`,
-          display: "block",
-        }}
-      >
-        <rect x="20" y="20" width="520" height="400" rx="8" fill="none" stroke={C.border} strokeWidth="2" />
-        {zones.map((z) => (
-          <g key={z.id}>
-            <rect
-              x={z.x}
-              y={z.y}
-              width={z.w}
-              height={z.h}
-              rx={6}
-              fill={hoveredZone === z.id ? z.color : `${z.color}22`}
-              stroke={z.color}
-              strokeWidth={hoveredZone === z.id ? 2.5 : 1.5}
-              style={{ cursor: "pointer", transition: "all 0.2s" }}
-              onMouseEnter={() => setHoveredZone(z.id)}
-              onMouseLeave={() => setHoveredZone(null)}
-            />
-            <text
-              x={z.x + z.w / 2}
-              y={z.y + z.h / 2 + 5}
-              textAnchor="middle"
-              fill={hoveredZone === z.id ? "#ffffff" : z.color}
-              fontSize={11}
-              fontWeight="600"
-              fontFamily={FONT}
-              style={{ pointerEvents: "none" }}
-            >
-              {z.label}
-            </text>
-          </g>
-        ))}
-      </svg>
-      {hoveredZone && (
-        <div
-          style={{
-            position: "absolute",
-            bottom: 12,
-            left: "50%",
-            transform: "translateX(-50%)",
-            background: C.slate,
-            color: C.white,
-            padding: "8px 20px",
-            borderRadius: 30,
-            fontSize: 13,
-            fontWeight: 600,
-            whiteSpace: "nowrap",
-            pointerEvents: "none",
-          }}
-        >
-          {zones.find((z) => z.id === hoveredZone)?.label}
-        </div>
-      )}
-    </div>
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 26 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.85, delay, ease: [0.16, 1, 0.3, 1] }}
+    >
+      {children}
+    </motion.div>
   )
 }
 
 export function FAQItem({ faq, delay }: { faq: { q: string; a: string }; delay: number }) {
   const [open, setOpen] = useState(false)
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true })
-
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 16 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay }}
-    >
-      <div
-        onClick={() => setOpen(!open)}
-        style={{
-          background: C.white,
-          border: `1px solid ${open ? C.accent : C.border}`,
-          borderRadius: 12,
-          padding: "20px 24px",
-          cursor: "pointer",
-          marginBottom: 8,
-          transition: "border-color 0.2s",
-        }}
-      >
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 16 }}>
-          <span style={{ fontWeight: 600, fontSize: 16, color: C.slate }}>{faq.q}</span>
-          <motion.div animate={{ rotate: open ? 180 : 0 }} transition={{ duration: 0.2 }} style={{ flexShrink: 0 }}>
-            <ChevronDown size={20} color={C.textMuted} />
-          </motion.div>
-        </div>
-        {open && (
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.25 }}
-            style={{ marginTop: 14, fontSize: 15, color: C.textMuted, lineHeight: 1.7 }}
-          >
+    <SectionReveal delay={delay}>
+      <div style={{ borderBottom: `1px solid ${C.border}` }}>
+        <button
+          onClick={() => setOpen(!open)}
+          aria-expanded={open}
+          style={{
+            width: "100%",
+            textAlign: "left",
+            background: "transparent",
+            border: "none",
+            cursor: "pointer",
+            padding: "22px 4px",
+            minHeight: 44,
+            display: "flex",
+            alignItems: "baseline",
+            justifyContent: "space-between",
+            gap: 18,
+            color: C.text,
+          }}
+        >
+          <span style={{ fontFamily: SERIF, fontSize: "clamp(17px,1.6vw,21px)", fontWeight: 500 }}>{faq.q}</span>
+          <span aria-hidden style={{ fontFamily: SANS, fontSize: 20, color: C.or, transform: open ? "rotate(45deg)" : "none", transition: "transform 0.3s", lineHeight: 1 }}>+</span>
+        </button>
+        <div style={{ maxHeight: open ? 400 : 0, overflow: "hidden", transition: "max-height 0.45s ease" }}>
+          <p style={{ fontFamily: SANS, color: C.textMuted, fontSize: 14.5, lineHeight: 1.8, padding: "0 4px 24px", margin: 0, maxWidth: 720 }}>
             {faq.a}
-          </motion.p>
-        )}
+          </p>
+        </div>
       </div>
-    </motion.div>
+    </SectionReveal>
   )
 }
 
-export function SectionReveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: "-80px" })
-
+/* L'en-tête rituel des sections : sur-titre espacé, titre serif. */
+export function TitreSection({ surtitre, children, centre = false }: { surtitre: string; children: React.ReactNode; centre?: boolean }) {
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay, ease: "easeOut" }}
-    >
-      {children}
-    </motion.div>
+    <div style={{ textAlign: centre ? "center" : "left", marginBottom: "clamp(34px,4.5vw,56px)" }}>
+      <div style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.35em", textTransform: "uppercase", color: C.or, fontWeight: 600, marginBottom: 14 }}>{surtitre}</div>
+      <h2 style={{ fontFamily: SERIF, fontSize: "clamp(28px,3.8vw,48px)", fontWeight: 600, color: C.text, lineHeight: 1.12, letterSpacing: "-0.01em", margin: 0 }}>{children}</h2>
+    </div>
   )
 }
