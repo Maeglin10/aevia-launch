@@ -118,12 +118,24 @@ partout) :
 | 11 | ✔ | EduPath relevé : ParticleOrb (la sphère en canvas), Fraunces/Inter sur les 6 pages, avis et coordonnées ajoutés (absents) |
 | 39 | ✔ | déménageur passé au vert forêt #356047, StickyProgress sur la méthode (titre collé, étapes qui s'allument), Spectral/IBM Plex |
 
-**Les 18 sont transformés.** Défauts trouvés à la mesure et en capture, tous
-corrigés : courriel du pied de 100 débordant de 4 px, tarifs client absents
-sur 100 et 36, compteur « NaN » du héros de 35 (prop `i` de SlideIndex),
-période de démo collée au prix client sur 35, sur-titre « Management » de
-démo au-dessus du titre client sur 122, logo long débordant sur le menu
-mobile de 122.
+**Les 18 sont transformés, et le balayage de clôture est propre** (0 panne,
+0 débordement, 0 marqueur client manquant sur les 18 — aux deux exceptions
+documentées près : 122 et 136 n'ont pas de bande de chiffres, par dessin).
+Défauts trouvés à la mesure et en capture, tous corrigés :
+
+- l'accueil de 39 peignait prestations, formules et avis depuis les
+  constantes de démonstration (l'audit le disait « meilleur contrat du
+  lot » — c'était faux au rendu), et son pied affichait « +33 1 XX XX XX
+  XX » en dur plus le courriel personnel du fondateur ;
+- la grille du pied de 100 (`gap-32` × 11 interstices sur douze pistes)
+  dépassait son conteneur — deux correctifs de repli de ligne n'y pouvaient
+  rien, le mal était la grille ;
+- tarifs client absents sur 100 et 36 ; « 9 400 €€/mois » sur 11 et
+  « 9 400 € / l'heure » sur 35 (le gabarit collait son euro et sa période
+  aux prix saisis) ; compteur « NaN — 03 » sur 35 (la prop de SlideIndex
+  s'appelle `i`) ; sur-titre « Management » de démo au-dessus du titre
+  client sur 122 ; logo long débordant sur le menu mobile de 122 ;
+  adresse du contrat absente du pied de 11.
 
 Applications de gestes toutes distinctes chez les porteurs multiples :
 PortalZoom = fenêtre de château (369) / voûte de cave (381) / arche (322) /
