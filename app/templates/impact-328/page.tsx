@@ -160,15 +160,16 @@ function Reveal({ children, delay = 0, y = 22 }: { children: React.ReactNode; de
   );
 }
 
-/** Kicker filé : 40×1 px dégradé qui s'éteint, capitales en sourdine. */
+/*
+  Sur-titre à la barre verticale : le filet horizontal partagé devenait la
+  signature de quarante-quatre thèmes. Ici la maison funéraire pose une barre
+  debout, sobre, à gauche du libellé — la verticale d'une stèle.
+*/
 function Kicker({ children, color = C.accent, align = "left" }: { children: React.ReactNode; color?: string; align?: "left" | "center" }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 14, justifyContent: align === "center" ? "center" : "flex-start" }}>
-      <span aria-hidden style={{ width: 40, height: 1, background: `linear-gradient(90deg, transparent, ${color})`, display: "inline-block", opacity: 0.7 }} />
-      <span style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.34em", textTransform: "uppercase", color }}>{children}</span>
-      {align === "center" && (
-        <span aria-hidden style={{ width: 40, height: 1, background: `linear-gradient(90deg, ${color}, transparent)`, display: "inline-block", opacity: 0.7 }} />
-      )}
+    <div style={{ display: "flex", alignItems: "center", gap: 12, justifyContent: align === "center" ? "center" : "flex-start" }}>
+      <span aria-hidden style={{ width: 2, height: 22, background: color, display: "inline-block", opacity: 0.85, flexShrink: 0 }} />
+      <span style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.28em", textTransform: "uppercase", color }}>{children}</span>
     </div>
   );
 }

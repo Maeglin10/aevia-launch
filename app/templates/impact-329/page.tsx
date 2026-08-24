@@ -165,13 +165,18 @@ function Reveal({ children, delay = 0, y = 28 }: { children: React.ReactNode; de
   );
 }
 
-/** Kicker filé : 40×1 px dégradé, capitales très espacées. */
+/*
+  Sur-titre en pastille : le libellé tenu dans une capsule teintée, sans
+  aucun filet. Le contour dit l'appartenance là où le trait disait la ligne.
+*/
 function Kicker({ children, center = false }: { children: React.ReactNode; center?: boolean }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 14, justifyContent: center ? "center" : "flex-start" }}>
-      <span aria-hidden style={{ width: 40, height: 1, background: `linear-gradient(90deg, ${C.accent}, transparent)`, flexShrink: 0 }} />
-      <span style={{ fontFamily: DISPLAY, fontSize: 11, fontWeight: 700, letterSpacing: "0.36em", textTransform: "uppercase", color: C.accent }}>{children}</span>
-      {center ? <span aria-hidden style={{ width: 40, height: 1, background: `linear-gradient(270deg, ${C.accent}, transparent)`, flexShrink: 0 }} /> : null}
+    <div style={{ display: "flex", justifyContent: center ? "center" : "flex-start" }}>
+      <span style={{
+        fontFamily: DISPLAY, fontSize: 10.5, fontWeight: 700, letterSpacing: "0.22em",
+        textTransform: "uppercase", color: C.accent, border: `1px solid ${C.accent}`,
+        borderRadius: 999, padding: "5px 14px", display: "inline-block", lineHeight: 1.2,
+      }}>{children}</span>
     </div>
   );
 }

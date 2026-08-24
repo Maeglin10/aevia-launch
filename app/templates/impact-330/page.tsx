@@ -166,14 +166,16 @@ function Reveal({ children, delay = 0, y = 26 }: { children: React.ReactNode; de
   );
 }
 
-/** Kicker filé : 40×1 px dégradé, capitales espacées. */
+/*
+  Sur-titre au point : une pastille pleine de six pixels, puis le libellé.
+  Rien d'autre. Une officine n'a pas besoin d'un trait pour se présenter.
+*/
 function Kicker({ children, center = false, color }: { children: React.ReactNode; center?: boolean; color?: string }) {
   const col = color ?? C.accent;
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 14, justifyContent: center ? "center" : "flex-start" }}>
-      <span aria-hidden style={{ width: 40, height: 1, background: `linear-gradient(90deg, ${col}, transparent)`, flexShrink: 0 }} />
-      <span style={{ fontFamily: SANS, fontSize: 11, fontWeight: 700, letterSpacing: "0.34em", textTransform: "uppercase", color: col }}>{children}</span>
-      {center ? <span aria-hidden style={{ width: 40, height: 1, background: `linear-gradient(270deg, ${col}, transparent)`, flexShrink: 0 }} /> : null}
+    <div style={{ display: "flex", alignItems: "center", gap: 10, justifyContent: center ? "center" : "flex-start" }}>
+      <span aria-hidden style={{ width: 6, height: 6, borderRadius: 999, background: col, flexShrink: 0 }} />
+      <span style={{ fontFamily: SANS, fontSize: 11.5, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: col }}>{children}</span>
     </div>
   );
 }

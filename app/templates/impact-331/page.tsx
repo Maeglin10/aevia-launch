@@ -146,6 +146,11 @@ function Reveal({
 }
 
 /** Kicker : filet 40×1 px puis capitales très espacées. */
+/*
+  Sur-titre numéroté : un chiffre romain tient lieu d'ornement et le libellé
+  s'appuie dessus, souligné. Le filet horizontal était devenu la signature de
+  quarante-quatre thèmes ; celui-ci se reconnaît à son index.
+*/
 function Kicker({
   children,
   color = C.accentDark,
@@ -156,18 +161,11 @@ function Kicker({
   align?: "left" | "center";
 }) {
   return (
-    <div
-      style={{ display: "flex", alignItems: "center", gap: 14, justifyContent: align === "center" ? "center" : "flex-start", }}
-    >
-      <span style={{ width: 40, height: 1, background: color, opacity: 0.75, flexShrink: 0 }} />
-      <span
-        style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.36em", textTransform: "uppercase", fontWeight: 600, color, }}
-      >
+    <div style={{ display: "flex", alignItems: "baseline", gap: 12, justifyContent: align === "center" ? "center" : "flex-start" }}>
+      <span aria-hidden style={{ fontFamily: SERIF, fontSize: 15, color, opacity: 0.55 }}>I</span>
+      <span style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.3em", textTransform: "uppercase", fontWeight: 600, color, borderBottom: `1px solid ${color}33`, paddingBottom: 3 }}>
         {children}
       </span>
-      {align === "center" && (
-        <span style={{ width: 40, height: 1, background: color, opacity: 0.75, flexShrink: 0 }} />
-      )}
     </div>
   );
 }
