@@ -22,7 +22,22 @@ const themes = fs.readdirSync("app/templates").filter((d) => /^impact-\d+$/.test
 function recette(t) {
   const p = `app/templates/${t}/page.tsx`;
   if (!fs.existsSync(p)) return null;
-  const s = fs.readFileSync(p, "utf8");
+  const tout = fs.readFileSync(p, "utf8");
+  /*
+    On ne juge que le haut de page.
+
+    La première version lisait le fichier entier : un thème dont le héros ne
+    porte plus d'italique restait compté comme italique à cause d'une citation
+    en bas de page. La jauge annonçait 100 % même après correction.
+  */
+  /* Le héros se repère à sa hauteur d'écran, ou à défaut au premier <section>
+     qui suit l'en-tête. Se caler sur le premier <section> tout court prenait
+     la barre de navigation et rendait la jauge muette. */
+  let debut = tout.search(/<section[^>]*(100dvh|100vh|minHeight)/);
+  if (debut < 0) debut = tout.search(/── HERO|── Hero/);
+  if (debut < 0) debut = Math.max(0, tout.search(/<section/));
+  const suite = tout.indexOf("</section>", debut);
+  const s = suite > 0 ? tout.slice(debut, suite) : tout;
   return {
     theme: t,
     filet:    /width:\s*\d{2,3},?\s*height:\s*[12]\b|h-px w-\d|width:\s*["']?\d{2}px["']?,\s*height:\s*["']?1px/.test(s),
