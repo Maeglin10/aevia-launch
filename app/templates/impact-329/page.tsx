@@ -7,8 +7,7 @@ import { motion, useInView } from "framer-motion";
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Truck, Package, Shield } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, useSlides, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
-import { HardCutRebuild, FixedRail } from "@/lib/templates/hero-kit-3";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import {
   clientHeroLine,
   clientTrade,
@@ -39,17 +38,19 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CAP DÉMÉNAGEMENTS — déménageur · Nantes. Archétype H5 : rail latéral fixe
-   + titre monumental. Paire P6 : Archivo (voix impact, capitales serrées)
-   contre Inter (prose). Sombre #0b0d11, accent #f2760a.
+   CAP DÉMÉNAGEMENTS — déménageur · Nantes. Paire P6 : Archivo (voix impact,
+   capitales serrées) contre Inter (prose). Sombre #0b0d11, accent #f2760a.
 
-   Signature : HardCutRebuild — coupe brutale (0,12 s) puis reconstruction
-   pièce par pièce, c'est littéralement le métier : on démonte tout, on
-   remonte tout. Le FixedRail à gauche est l'axe qui ne bouge jamais pendant
-   que tout le reste coupe : sans lui la coupe se lirait comme un bug.
+   Héros — archétype « chiffre en avant ». Le rail latéral et la coupe/
+   reconstruction ont été retirés : ils habillaient une composition que la
+   moitié de la série partageait — sur-titre, titre monumental, paragraphe,
+   deux boutons, fraction 01/03. Ici le montant occupe la place du titre,
+   parce qu'un déménagement se choisit sur un prix ferme, et le titre descend
+   d'un cran. Trois formules nommées remplacent la fraction : on choisit au
+   lieu de subir le carrousel. Bandes horizontales, aucune colonne
+   texte/image.
 
-   Hero sans photographie (aucune image de camion vérifiée dans le repo) :
-   typographie monumentale et pile de « cartons » CSS, précédent impact-213.
+   Hero sans photographie (aucune image de camion vérifiée dans le repo).
 
    Dessin des sections : stats monumentales (chiffres en Archivo 900 pleine
    bande), formules en bandes horizontales — pas en cartes.
@@ -195,6 +196,28 @@ function NavLink({ l, h }: { l: string; h: string }) {
       <span aria-hidden style={{ position: "absolute", left: 4, bottom: 8, height: 1, width: hov ? "calc(100% - 8px)" : "0%", background: C.accent, transition: "width 0.45s cubic-bezier(.16,1,.3,1)" }} />
     </a>
   );
+}
+
+/*
+  Le héros affiche le montant en énorme et la mention qui le précède en petit.
+  « dès 490 € » se coupe donc en deux. Le client peut écrire « à partir de
+  1 490 € TTC » ou « Sur devis » : sans chiffre, tout part dans la petite
+  mention et le grand bloc reste vide — on rend alors la phrase entière en
+  grand plutôt que d'afficher un trou.
+*/
+const MONTANT = /^(.*?)(\d[\d\s  .,]*\s*(?:€|EUR|euros?)?.*)$/i;
+
+/** Ce qui précède le montant : « dès », « à partir de », « » si rien. */
+function avantLeMontant(p: string): string {
+  const m = MONTANT.exec((p ?? "").trim());
+  return m ? m[1].trim() : "";
+}
+
+/** Le montant lui-même, ou la phrase entière quand elle ne porte aucun chiffre. */
+function leMontant(p: string): string {
+  const t = (p ?? "").trim();
+  const m = MONTANT.exec(t);
+  return m ? m[2].trim() : t;
 }
 
 /** Bouton plein : élévation + double ombre + flèche qui avance. */
@@ -438,7 +461,7 @@ export default function CapDemenagementsPage() {
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { i, next, prev } = useSlides(HERO_FORMULES.length, DWELL.normal);
+  const { i, go } = useSlides(HERO_FORMULES.length, DWELL.normal);
   const f = HERO_FORMULES[i];
 
   useEffect(() => {
@@ -465,9 +488,19 @@ export default function CapDemenagementsPage() {
         @media (max-width: 900px) {
           #i329-nav { display: none !important; }
           .i329-burger { display: flex !important; }
-          .i329-stack { display: none !important; }
-          .i329-rail { display: none !important; }
-          .i329-herotext { padding-left: clamp(24px, 5vw, 48px) !important; }
+          /* Le héros « chiffre en avant » : en étroit, la rangée haute et la
+             rangée basse se rangent l'une sous l'autre plutôt que de se
+             tasser aux deux bouts d'une ligne. */
+          .i329-haut, .i329-bas { flex-direction: column !important; align-items: flex-start !important; }
+          /* Sans cette ligne, « space-between » hérité étire la colonne et
+             renvoie la description tout en bas de l'écran, à 400 px du bouton. */
+          .i329-haut, .i329-bas { justify-content: flex-start !important; gap: 22px !important; }
+          .i329-bas > p { border-left: none !important; padding-left: 0 !important; }
+        }
+        @media (max-width: 560px) {
+          /* 216px de chiffre ne tiennent pas dans 390 : on redescend la borne
+             haute au lieu de laisser le montant sortir de l'écran. */
+          .i329-chiffre { font-size: clamp(56px, 21vw, 92px) !important; }
         }
         @media (max-width: 860px) {
           .i329-split { grid-template-columns: 1fr !important; }
@@ -534,100 +567,89 @@ export default function CapDemenagementsPage() {
         </div>
       )}
 
-      {/* ── HERO — H5 : FixedRail + titre monumental + HardCutRebuild ────── */}
-      <section style={{ position: "relative", minHeight: "100dvh", display: "flex", alignItems: "stretch", background: C.bg, overflow: "hidden" }}>
-        {/* L'axe qui ne bouge jamais pendant que tout le reste coupe. */}
-        <FixedRail color={C.accent} side="left" className="i329-rail">
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 18 }}>
-            <span aria-hidden style={{ writingMode: "vertical-rl", fontFamily: DISPLAY, fontSize: 10, fontWeight: 800, letterSpacing: "0.42em", textTransform: "uppercase", color: "#101010" }}>
-              Démonté · Roulé · Remonté
-            </span>
-            <div style={{ fontFamily: DISPLAY, fontSize: 12, fontWeight: 800, color: "#101010" }}>
-              <SlideIndex i={i} total={HERO_FORMULES.length} variant="flat" color="#101010" className="" />
-            </div>
+      {/* ── HERO — le chiffre en avant : le prix se lit avant la phrase ──── */}
+      {/*
+        Archétype « chiffre en avant ». Les thèmes voisins ouvrent sur une
+        phrase ; celui-ci ouvre sur un montant. Un déménagement se choisit sur
+        un prix ferme, alors le prix occupe la place du titre et le titre
+        descend d'un cran. Bandes horizontales, pas de colonne texte/image.
+      */}
+      <section style={{ position: "relative", minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", gap: "clamp(22px, 3.2vh, 40px)", background: C.bg, overflow: "hidden", padding: "clamp(124px, 16vh, 168px) clamp(24px, 6vw, 96px) clamp(44px, 7vh, 76px)" }}>
+        {/* Aplat kraft en biais, très bas : la matière du métier, sans photo. */}
+        <span aria-hidden style={{ position: "absolute", inset: 0, background: `linear-gradient(118deg, transparent 0%, transparent 61%, rgba(242,118,10,0.055) 61.3%, rgba(242,118,10,0.015) 78%, transparent 88%)`, pointerEvents: "none" }} />
+
+        {/* rangée haute : d'où l'on parle, et les trois formules nommées */}
+        <div className="i329-haut" style={{ position: "relative", zIndex: 2, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 18, flexWrap: "wrap" }}>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 9, fontSize: 12.5, letterSpacing: "0.02em", color: C.textMuted }}>
+            <span aria-hidden style={{ width: 7, height: 7, borderRadius: "50%", background: C.accent, flexShrink: 0 }} />
+            {clientEyebrow(sessionData) ?? ((clientTrade(sessionData) ?? "Déménageur") + " professionnel · " + (clientCity(sessionData) ?? "Nantes") + " & toute la France")}
+          </span>
+
+          {/*
+            La fraction « 01 / 03 » ne dit pas ce qu'on regarde. Trois noms de
+            formules, si : on choisit au lieu de subir le carrousel.
+          */}
+          <div role="tablist" aria-label="Formules" style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            {HERO_FORMULES.map((fo, n) => (
+              <button
+                key={fo.k}
+                type="button"
+                role="tab"
+                aria-selected={n === i}
+                onClick={() => go(n)}
+                style={{
+                  fontFamily: DISPLAY, fontSize: 11.5, fontWeight: 800, letterSpacing: "0.16em", textTransform: "uppercase",
+                  padding: "9px 15px", cursor: "pointer", background: n === i ? C.accent : "transparent",
+                  color: n === i ? "#101010" : C.textMuted, border: `1px solid ${n === i ? C.accent : C.border}`,
+                  borderRadius: 999, transition: "background .25s, color .25s, border-color .25s",
+                }}
+              >
+                {fo.k}
+              </button>
+            ))}
           </div>
-        </FixedRail>
-
-        {/* Filet vertical 1px dégradé, entre le rail et le texte */}
-        <span aria-hidden style={{ position: "absolute", left: "clamp(46px, 4.4vw, 74px)", top: "12%", bottom: "12%", width: 1, background: `linear-gradient(180deg, transparent, ${C.border} 30%, ${C.border} 70%, transparent)`, pointerEvents: "none" }} />
-
-        {/* Chiffre fantôme du volume : le m³, l'unité du métier. */}
-        <span aria-hidden style={{ position: "absolute", right: "-1%", bottom: "-4%", fontFamily: DISPLAY, fontWeight: 900, fontSize: "clamp(160px, 24vw, 340px)", lineHeight: 1, color: C.ink, opacity: 0.04, pointerEvents: "none", userSelect: "none", letterSpacing: "-0.04em" }}>
-          m³
-        </span>
-
-        {/* Pile de « cartons » : rythme de blocs kraft, aucun asset externe. */}
-        <div aria-hidden className="i329-stack" style={{ position: "absolute", right: "clamp(24px, 4vw, 56px)", top: "20%", bottom: "18%", width: "min(28vw, 300px)", opacity: 0.55, display: "grid", gridTemplateRows: "repeat(5, 1fr)", gap: 10, pointerEvents: "none" }}>
-          {[0.5, 0.8, 0.65, 0.9, 0.55].map((w, n) => (
-            <motion.div
-              key={n}
-              initial={{ x: 60, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.4 + n * 0.12, duration: 0.7, ease: EASE }}
-              style={{
-                width: `${w * 100}%`,
-                justifySelf: "end",
-                border: `1px solid ${C.border}`,
-                borderRadius: 6,
-                background: n % 2 ? `linear-gradient(135deg, ${C.bgCard} 0%, rgba(201,168,124,0.06) 100%)` : "transparent",
-                position: "relative",
-                overflow: "hidden",
-              }}
-            >
-              {/* le ruban adhésif du carton : un filet kraft au centre */}
-              <span style={{ position: "absolute", left: "44%", top: 0, bottom: 0, width: "12%", background: "rgba(201,168,124,0.10)" }} />
-            </motion.div>
-          ))}
         </div>
 
-        <div className="i329-hero i329-herotext" style={{ position: "relative", zIndex: 6, display: "flex", flexDirection: "column", justifyContent: "center", padding: "clamp(120px, 15vh, 160px) clamp(32px, 6vw, 96px) clamp(48px, 7vh, 80px)", paddingLeft: "clamp(70px, 7.5vw, 128px)", maxWidth: 1240, width: "100%" }}>
-          <div style={{ maxWidth: 780 }}>
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 }} style={{ display: "inline-flex", alignItems: "center", gap: 8, border: `1px solid ${C.border}`, borderRadius: 999, padding: "7px 16px", fontSize: 12.5, color: C.textMuted, marginBottom: "clamp(20px, 3vh, 30px)" }}>
-              <span style={{ width: 7, height: 7, borderRadius: "50%", background: C.accent }} />
-              {clientEyebrow(sessionData) ?? ((clientTrade(sessionData) ?? "Déménageur") + " professionnel · " + (clientCity(sessionData) ?? "Nantes") + " & toute la France")}
-            </motion.div>
+        {/* LE CHIFFRE — l'élément dominant de la page */}
+        <div style={{ position: "relative", zIndex: 2 }}>
+          <motion.div
+            key={`prix-${i}`}
+            initial={{ opacity: 0, y: 26 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.62, ease: EASE }}
+            style={{ display: "flex", alignItems: "flex-start", gap: "clamp(10px, 1.4vw, 20px)", flexWrap: "wrap" }}
+          >
+            <span style={{ fontFamily: DISPLAY, fontSize: "clamp(13px, 1.2vw, 16px)", fontWeight: 800, letterSpacing: "0.22em", textTransform: "uppercase", color: C.kraft, marginTop: "clamp(10px, 1.6vw, 24px)", flexShrink: 0 }}>
+              {avantLeMontant(f.p)}
+            </span>
+            <span className="i329-chiffre" style={{ fontFamily: DISPLAY, fontSize: "clamp(74px, 15.5vw, 216px)", fontWeight: 900, lineHeight: 0.82, letterSpacing: "-0.045em", color: C.ink, display: "block", overflowWrap: "anywhere" }}>
+              {leMontant(f.p)}
+            </span>
+          </motion.div>
+        </div>
 
-            {/* La coupe franche puis la reconstruction, élément par élément :
-                exactement ce qu'on vend. */}
-            <HardCutRebuild index={i} stagger={0.09}>
-              {[
-                <div key="k" style={{ fontFamily: DISPLAY, fontSize: 13, fontWeight: 800, letterSpacing: "0.3em", textTransform: "uppercase", color: C.accent, marginBottom: 14 }}>
-                  Formule {f.k}
-                </div>,
-                <h1 key="big" style={{ fontFamily: DISPLAY, fontSize: "clamp(42px, 7.4vw, 104px)", fontWeight: 900, letterSpacing: "-0.03em", lineHeight: 0.96, margin: "0 0 20px", color: C.ink, textTransform: "uppercase" }}>
-                  {clientHeroLine(sessionData, 0, 1, 16) ?? c?.heroHeadline ?? f.big}
-                </h1>,
-                /*
-                  Le hero de ce thème est un carrousel de formules : son titre et
-                  son paragraphe décrivent la formule affichée, pas l'entreprise.
-                  La phrase du client n'avait donc aucune place — et ne se lisait
-                  nulle part. Cette ligne n'apparaît que s'il en a écrit une.
-                */
-                clientAccrocheRestante(sessionData) ? (
-                  <p key="accroche" style={{ fontSize: "clamp(15px, 1.4vw, 17px)", color: C.ink, opacity: 0.82, lineHeight: 1.65, maxWidth: 520, margin: "0 0 14px" }}>
-                    {clientAccrocheRestante(sessionData)}
-                  </p>
-                ) : null,
-                <div key="p" style={{ fontFamily: DISPLAY, fontSize: "clamp(19px, 1.9vw, 24px)", fontWeight: 800, color: C.accent, marginBottom: 14, letterSpacing: "-0.01em" }}>{f.p}</div>,
-                <p key="d" style={{ fontSize: "clamp(15px, 1.35vw, 16.5px)", color: C.textMuted, lineHeight: 1.78, maxWidth: 500, margin: 0 }}>
-                  {c?.heroSubline ?? f.d}
-                </p>,
-              ]}
-            </HardCutRebuild>
+        {/* la règle qui sépare le montant de ce qu'il achète */}
+        <span aria-hidden style={{ position: "relative", zIndex: 2, height: 1, background: `linear-gradient(90deg, ${C.accent}, ${C.border} 42%, transparent)` }} />
 
-            <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center", marginTop: "clamp(26px, 4vh, 38px)" }}>
+        {/* rangée basse : à gauche ce qu'on fait, à droite ce que ça comprend */}
+        <div className="i329-bas" style={{ position: "relative", zIndex: 2, display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: "clamp(24px, 4vw, 64px)", flexWrap: "wrap" }}>
+          <div style={{ flex: "1 1 340px", minWidth: 0 }}>
+            <h1 style={{ fontFamily: DISPLAY, fontSize: "clamp(27px, 3.9vw, 54px)", fontWeight: 900, letterSpacing: "-0.028em", lineHeight: 1.02, margin: 0, color: C.ink, textTransform: "uppercase", overflowWrap: "break-word" }}>
+              {clientHeroLine(sessionData, 0, 1, 16) ?? c?.heroHeadline ?? f.big}
+            </h1>
+            {clientAccrocheRestante(sessionData) ? (
+              <p style={{ fontSize: "clamp(14.5px, 1.3vw, 16px)", color: C.ink, opacity: 0.8, lineHeight: 1.68, maxWidth: 460, margin: "14px 0 0" }}>
+                {clientAccrocheRestante(sessionData)}
+              </p>
+            ) : null}
+            <div style={{ marginTop: "clamp(22px, 3.4vh, 34px)" }}>
               <CtaBtn href={telHref} big>Obtenir mon devis ferme</CtaBtn>
-              <motion.a href="#formules" style={{ background: "rgba(255,255,255,0.05)", color: C.ink, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 26px", fontWeight: 600, fontSize: 15, textDecoration: "none" }} whileHover={{ background: "rgba(255,255,255,0.09)" }}>
-                Comparer les formules
-              </motion.a>
-            </div>
-
-            <div style={{ display: "flex", alignItems: "center", gap: 20, marginTop: "clamp(32px, 5vh, 48px)" }}>
-              <SlideIndex i={i} total={HERO_FORMULES.length} variant="fraction" color={C.textMuted} className="" />
-              <span aria-hidden style={{ width: 40, height: 1, background: `linear-gradient(90deg, ${C.border}, transparent)` }} />
-              <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" />
             </div>
           </div>
+
+          <p style={{ flex: "0 1 400px", fontSize: "clamp(14.5px, 1.3vw, 16.5px)", color: C.textMuted, lineHeight: 1.8, margin: 0, paddingBottom: 4, borderLeft: `1px solid ${C.border}`, paddingLeft: "clamp(16px, 1.8vw, 26px)" }}>
+            {c?.heroSubline ?? f.d}
+          </p>
         </div>
       </section>
 
