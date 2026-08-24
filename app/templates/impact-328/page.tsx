@@ -459,50 +459,59 @@ export default function MaisonEstevePage() {
         </div>
       )}
 
-      {/* ── HERO — HeldSwap, tenu lentement ─────────────────────────────── */}
-      <section className="i328-hero i328-root" style={{ minHeight: "calc(100dvh - 105px)", display: "grid", gridTemplateColumns: "minmax(0,1.05fr) minmax(0,0.95fr)", gap: "clamp(38px, 5vw, 64px)", alignItems: "center", padding: "clamp(48px, 8vh, 80px) clamp(24px, 5vw, 64px) clamp(44px, 7vh, 64px)", maxWidth: 1240, margin: "0 auto", position: "relative" }}>
-        {/* Glow très doux — la seule texture que la page s'autorise ici */}
-        <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(50% 60% at 24% 40%, rgba(90,107,93,0.06), transparent 70%)", pointerEvents: "none" }} />
-        <div style={{ position: "relative" }}>
+      {/* ── HERO — photographie plein cadre, texte posé en bas ───────────── */}
+      <section className="i328-hero i328-root" style={{ position: "relative", minHeight: "calc(100dvh - 105px)", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
+        {/* La photographie tient toute la page ; elle change au fil des temps. */}
+        <HeldSwap index={i} tilt={0}>
+          <img
+            src={photo(i, temps.img)}
+            alt={temps.alt}
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+          />
+        </HeldSwap>
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(28,31,35,0.86) 0%, rgba(28,31,35,0.55) 38%, rgba(28,31,35,0.12) 72%, transparent 100%)" }} />
+
+        <div style={{ position: "relative", width: "100%", padding: "clamp(40px, 8vh, 90px) clamp(22px, 6vw, 84px) clamp(34px, 6vh, 62px)" }}>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 1.0 }}>
-            <Kicker>{clientEyebrow(sessionData) ?? <>Pompes funèbres & prévoyance · {clientCity(sessionData) ?? "Toulouse"}</>}</Kicker>
+            <Kicker color={C.white}>{clientEyebrow(sessionData) ?? <>Pompes funèbres &amp; prévoyance · {clientCity(sessionData) ?? "Toulouse"}</>}</Kicker>
           </motion.div>
+
+          {/* Un seul bloc de titre, sans seconde ligne penchée. */}
           <motion.h1
-            initial={{ opacity: 0, y: 26 }}
+            initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.35, duration: 1.1, ease: EASE }}
-            style={{ fontFamily: SERIF, fontSize: "clamp(38px, 5vw, 70px)", fontWeight: 400, color: C.ink, lineHeight: 1.0, letterSpacing: "-0.01em", margin: "clamp(16px, 2.2vw, 24px) 0 clamp(18px, 2.4vw, 26px)" }}
-          >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 21) ?? "Accompagner,"}<br /><em style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 21) ?? "avec calme et clarté."}</em></>)}
-          </>)}</motion.h1>
-          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, duration: 1.0, ease: EASE }} style={{ fontFamily: SANS, fontSize: "clamp(15.5px, 1.5vw, 17px)", color: C.textMuted, lineHeight: 1.82, maxWidth: 480, marginBottom: "clamp(26px, 3.6vw, 38px)" }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Depuis trois générations, notre maison organise des obsèques dignes et des cérémonies fidèles à la personne — au prix annoncé, sans jamais rien presser."}
+            transition={{ delay: 0.34, duration: 1.1, ease: EASE }}
+            style={{ fontFamily: SERIF, fontSize: "clamp(40px, 6.4vw, 92px)", fontWeight: 400, color: C.white, lineHeight: 1.02, letterSpacing: "-0.02em", maxWidth: 900, marginTop: 20 }}
+          >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (
+            c?.heroHeadline ?? clientHeroLine(sessionData, 0, 1, 34) ?? "Accompagner, avec calme et clarté"
+          )}</motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.54, duration: 1.0, ease: EASE }}
+            style={{ fontFamily: SANS, fontSize: "clamp(15px, 1.5vw, 18px)", lineHeight: 1.7, color: "rgba(255,255,255,0.82)", maxWidth: 560, marginTop: "clamp(18px, 2.6vh, 26px)" }}
+          >
+            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Depuis trois générations, notre maison organise des obsèques dignes et des cérémonies fidèles à la personne."}
           </motion.p>
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72, duration: 1.0, ease: EASE }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 1.0, ease: EASE }}
+            style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: "clamp(24px, 3.4vh, 36px)" }}
+          >
             <CtaButton href={telHref}><Phone size={16} /> Nous joindre — 24h/24</CtaButton>
             <CtaButton href="#prevoyance" ghost>Anticiper pour ses proches</CtaButton>
           </motion.div>
-          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: "clamp(32px, 5vh, 48px)" }}>
-            <SlideIndex i={i} total={HERO_TEMPS.length} variant="fraction" color={C.textMuted} className="" />
-            <span style={{ fontFamily: SANS, fontSize: 13.5, letterSpacing: "0.12em", textTransform: "uppercase", color: C.textFaint }}>{temps.k}</span>
-          </div>
-        </div>
 
-        {/* Le panneau tenu : il entre, se pose, reste. Le temps mort entre
-            deux temps est voulu — c'est lui qui porte le respect. */}
-        <div className="i328-heldcard" style={{ position: "relative" }}>
-          <HeldSwap index={i} tilt={7}>
-            <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: 4, overflow: "hidden", boxShadow: "0 2px 14px rgba(38,36,31,0.06), 0 26px 60px -22px rgba(90,107,93,0.24)" }}>
-              <div style={{ position: "relative", background: C.bgDark }}>
-                <img src={photo(i, temps.img)} alt={temps.alt} loading="lazy" style={{ width: "100%", aspectRatio: "4/3.4", objectFit: "cover", display: "block" }} />
-                <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(35,38,43,0.22), transparent 40%)", pointerEvents: "none" }} />
-              </div>
-              <div style={{ padding: "clamp(20px, 2.6vw, 28px) clamp(22px, 2.8vw, 30px)" }}>
-                <div style={{ fontFamily: SANS, fontSize: 10.5, fontWeight: 600, letterSpacing: "0.30em", textTransform: "uppercase", color: C.accent, marginBottom: 10 }}>{temps.k}</div>
-                <div style={{ fontFamily: SERIF, fontSize: "clamp(19px, 2vw, 23px)", fontWeight: 400, color: C.ink, lineHeight: 1.4 }}>{temps.line}</div>
-              </div>
-            </div>
-          </HeldSwap>
+          {/* Les temps du parcours, en repères alignés — sans fraction ni flèches. */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(12px, 2.4vw, 30px)", alignItems: "center", marginTop: "clamp(30px, 4.6vh, 52px)", paddingTop: "clamp(16px, 2.4vh, 24px)", borderTop: "1px solid rgba(255,255,255,0.18)" }}>
+            {HERO_TEMPS.map((t, n) => (
+              <span
+                key={t.k}
+                style={{ fontFamily: SANS, fontSize: 12, letterSpacing: "0.16em", textTransform: "uppercase", color: n === i ? C.white : "rgba(255,255,255,0.45)", transition: "color .5s" }}
+              >
+                {t.k}
+              </span>
+            ))}
+          </div>
         </div>
       </section>
 
