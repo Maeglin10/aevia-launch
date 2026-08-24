@@ -554,48 +554,69 @@ export default function PharmacieDuParcPage() {
         </div>
       )}
 
-      {/* ── HERO — H1 split, MosaicPush : le rayonnage ───────────────────── */}
-      <section className="i330-hero i330-croixmotif" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.08fr) minmax(0,0.92fr)", gap: "clamp(40px, 5vw, 64px)", alignItems: "center", padding: "clamp(120px, 16vh, 152px) clamp(32px, 6vw, 72px) clamp(48px, 7vh, 76px)", maxWidth: 1280, margin: "0 auto", position: "relative" }}>
-        {/* La croix, une seule, en fantôme — la signalétique sans l'enseigne. */}
-        <GhostCross size="clamp(180px, 22vw, 300px)" color={C.accent} opacity={0.05} style={{ right: "-4%", top: "8%" }} />
-        <div style={{ position: "relative" }}>
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }} style={{ marginBottom: 18 }}>
-            <Kicker>{clientEyebrow(sessionData) ?? `Pharmacie d'officine · ${clientCity(sessionData) ?? "Lille"}`}</Kicker>
-          </motion.div>
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: C.accentLight, color: C.accentDark, borderRadius: 999, padding: "7px 16px", fontSize: 12.5, fontWeight: 600, marginBottom: "clamp(18px, 2.6vh, 26px)" }}>
-            <span style={{ width: 7, height: 7, borderRadius: "50%", background: C.accent }} />
-            Ouvert Lun–Sam 8h30–19h30, sans interruption
-          </motion.div>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.8, ease: EASE }} style={{ fontFamily: SERIF, fontSize: "clamp(38px, 5.2vw, 68px)", fontWeight: 400, letterSpacing: "-0.015em", lineHeight: 1.04, margin: "0 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 20) ?? "Votre pharmacie,"}<br /><em style={{ color: C.accent, fontStyle: "italic" }}>{clientHeroLine(sessionData, 1, 2, 20) ?? "au-delà du comptoir."}</em></>)}
-          </>)}</motion.h1>
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.7, ease: EASE }} style={{ fontSize: "clamp(15px, 1.4vw, 16.5px)", color: C.textMuted, lineHeight: 1.78, maxWidth: 500, marginBottom: "clamp(24px, 4vh, 34px)" }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Ordonnances préparées à l'avance, vaccination sans rendez-vous, tests rapides et vrai conseil de pharmaciens diplômés — au cœur du quartier du Parc, à Lille."}
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.68, duration: 0.7, ease: EASE }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-            <CtaBtn href={`mailto:${mail}`} big>Envoyer mon ordonnance</CtaBtn>
-            <motion.a href={telHref} style={{ background: C.white, color: C.ink, border: `1px solid ${C.border}`, borderRadius: 10, padding: "14px 26px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 8 }} whileHover={{ borderColor: C.accent }}>
-              <Phone size={16} /> {phone}
-            </motion.a>
-          </motion.div>
-          <div style={{ display: "flex", alignItems: "center", gap: 20, marginTop: "clamp(30px, 5vh, 46px)", flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO_UNIVERS.length} variant="fraction" color={C.textMuted} className="" />
-            <span style={{ fontSize: 13.5, color: C.textMuted, maxWidth: 380 }}>
-              <strong style={{ color: C.ink, fontWeight: 700 }}>{univers.k}</strong> — {univers.line}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" />
-          </div>
-        </div>
+      {/* ── HERO — devanture : colonne unique centrée, rayonnage en bandeau ── */}
+      <section className="i330-hero i330-croixmotif" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", position: "relative", padding: "clamp(96px, 12vh, 150px) clamp(20px, 6vw, 80px) clamp(40px, 6vh, 70px)", textAlign: "center", overflow: "hidden" }}>
+        <GhostCross size="clamp(320px, 40vw, 620px)" color={C.accent} opacity={0.045} style={{ left: "50%", top: "44%", transform: "translate(-50%, -50%)" }} />
 
-        {/* Le rayonnage : trois tuiles poussées rayon par rayon. */}
-        <div style={{ position: "relative" }}>
-          <span aria-hidden style={{ position: "absolute", left: -14, top: 14, right: 14, bottom: -14, borderRadius: 18, border: `1px solid ${C.border}`, background: "transparent", pointerEvents: "none" }} />
-          <MosaicPush
-            index={i}
-            tiles={tiles}
-            stagger={0.07}
-            style={{ display: "grid", gridTemplateColumns: "1fr", gridTemplateRows: "repeat(3, minmax(112px, auto))", gap: 12, position: "relative" }}
-          />
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }} style={{ marginBottom: 22, position: "relative" }}>
+          <Kicker center>{clientEyebrow(sessionData) ?? `Pharmacie d'officine · ${clientCity(sessionData) ?? "Lille"}`}</Kicker>
+        </motion.div>
+
+        {/* Le titre tient la page : une seule ligne, sans seconde ligne penchée. */}
+        <motion.h1
+          initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.24, duration: 0.8, ease: EASE }}
+          style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(44px, 8.4vw, 116px)", lineHeight: 0.98, letterSpacing: "-0.03em", color: C.ink, maxWidth: 1180, position: "relative", margin: 0 }}
+        >
+          {c?.heroHeadline ?? clientHeroLine(sessionData, 0, 1, 30) ?? "Votre pharmacie de quartier"}
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.42, duration: 0.7, ease: EASE }}
+          style={{ fontFamily: SANS, fontSize: "clamp(15px, 1.5vw, 19px)", lineHeight: 1.65, color: C.textMuted, maxWidth: 620, marginTop: "clamp(22px, 3vh, 32px)", position: "relative" }}
+        >
+          {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Ordonnances préparées à l'avance, vaccination sans rendez-vous, tests rapides et conseil qui prend le temps."}
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.58, duration: 0.7, ease: EASE }}
+          style={{ display: "flex", gap: 12, flexWrap: "wrap", justifyContent: "center", marginTop: "clamp(26px, 4vh, 40px)", position: "relative" }}
+        >
+          <CtaBtn href={`mailto:${mail}`} big>Envoyer mon ordonnance</CtaBtn>
+          <motion.a href={telHref} style={{ background: "transparent", color: C.ink, border: `1px solid ${C.border}`, borderRadius: 10, padding: "14px 26px", fontFamily: SANS, fontSize: 15, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
+            <Phone size={16} /> {phone}
+          </motion.a>
+        </motion.div>
+
+        {/* L'information de service en bandeau, à la place de l'index de carrousel. */}
+        <motion.div
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.76, duration: 0.7 }}
+          style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", alignItems: "center", gap: "clamp(14px, 3vw, 36px)", marginTop: "clamp(34px, 5vh, 54px)", paddingTop: "clamp(20px, 3vh, 30px)", borderTop: `1px solid ${C.border}`, width: "min(100%, 900px)", position: "relative" }}
+        >
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: SANS, fontSize: 13.5, color: C.textMuted }}>
+            <span aria-hidden style={{ width: 7, height: 7, borderRadius: "50%", background: C.accent }} />
+            Ouvert Lun–Sam 8h30–19h30, sans interruption
+          </span>
+          {HERO_UNIVERS.map((u) => (
+            <span key={u.k} style={{ fontFamily: SANS, fontSize: 13.5, color: C.textMuted }}>
+              <strong style={{ color: C.ink, fontWeight: 700 }}>{u.k}</strong>
+            </span>
+          ))}
+        </motion.div>
+      </section>
+
+      {/* Le rayonnage, en bande pleine largeur sous la devanture. */}
+      <section style={{ padding: "clamp(28px, 5vh, 56px) clamp(20px, 6vw, 80px)", background: C.white, borderTop: `1px solid ${C.border}` }}>
+        <MosaicPush
+          index={i}
+          tiles={tiles}
+          stagger={0.07}
+          style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 260px), 1fr))", gap: 14, maxWidth: 1280, margin: "0 auto" }}
+        />
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 18, marginTop: 22 }}>
+          <span style={{ fontFamily: SANS, fontSize: 13.5, color: C.textMuted, maxWidth: 420, textAlign: "center" }}>
+            <strong style={{ color: C.ink, fontWeight: 700 }}>{univers.k}</strong> — {univers.line}
+          </span>
+          <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" />
         </div>
       </section>
 
