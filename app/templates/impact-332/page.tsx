@@ -123,6 +123,11 @@ function Reveal({
   );
 }
 
+/*
+  Sur-titre encadré : le libellé tenu dans un filet rectangulaire, à plat.
+  Ni trait de fuite ni dégradé — la boîte se distingue au premier coup d'œil
+  des sur-titres filés des thèmes voisins.
+*/
 function Kicker({
   children,
   color = C.accent,
@@ -133,18 +138,10 @@ function Kicker({
   align?: "left" | "center";
 }) {
   return (
-    <div
-      style={{ display: "flex", alignItems: "center", gap: 14, justifyContent: align === "center" ? "center" : "flex-start", }}
-    >
-      <span style={{ width: 40, height: 1, background: color, opacity: 0.8, flexShrink: 0 }} />
-      <span
-        style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.34em", textTransform: "uppercase", fontWeight: 600, color, }}
-      >
+    <div style={{ display: "flex", justifyContent: align === "center" ? "center" : "flex-start" }}>
+      <span style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.26em", textTransform: "uppercase", fontWeight: 700, color, border: `1px solid ${color}55`, padding: "6px 12px", display: "inline-block", lineHeight: 1.1 }}>
         {children}
       </span>
-      {align === "center" && (
-        <span style={{ width: 40, height: 1, background: color, opacity: 0.8, flexShrink: 0 }} />
-      )}
     </div>
   );
 }
