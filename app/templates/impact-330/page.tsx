@@ -425,6 +425,10 @@ export default function PharmacieDuParcPage() {
   /* Photo optionnelle de l'officine : jamais de stock à la place — sans
      photo, l'aplat menthe + croix fantôme tient la place, et il est beau. */
   const photoOfficine = fd?.photoUrls?.[0] || clientPhotos(sessionData)[0] || "";
+  /* La vitrine du héros : la photo du client, sinon une officine de repli. */
+  const photoVitrine =
+    photoOfficine ||
+    "https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=1800&q=80&auto=format&fit=crop";
 
   /* Le rayonnage : trois tuiles empilées, poussées de gauche à droite
      à chaque changement d'univers. */
@@ -585,6 +589,21 @@ export default function PharmacieDuParcPage() {
           <motion.a href={telHref} style={{ background: "transparent", color: C.ink, border: `1px solid ${C.border}`, borderRadius: 10, padding: "14px 26px", fontFamily: SANS, fontSize: 15, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 8, textDecoration: "none" }}>
             <Phone size={16} /> {phone}
           </motion.a>
+        </motion.div>
+
+        {/* La vitrine : un bandeau large sous le titre, jamais une colonne
+            latérale — c'est la colonne latérale qui rendait tous ces thèmes
+            semblables. */}
+        <motion.div
+          initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72, duration: 0.9, ease: EASE }}
+          style={{ position: "relative", width: "min(100%, 1180px)", marginTop: "clamp(30px, 4.6vh, 52px)", borderRadius: 18, overflow: "hidden", border: `1px solid ${C.border}`, boxShadow: "0 26px 60px -32px rgba(16,40,28,0.35)" }}
+        >
+          <img
+            src={photoVitrine}
+            alt={`${fd?.businessName ?? clientName(sessionData) ?? "Pharmacie du Parc"} — l'officine`}
+            style={{ display: "block", width: "100%", aspectRatio: "21/7", objectFit: "cover" }}
+          />
+          <div aria-hidden style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${C.white}22, transparent 55%)` }} />
         </motion.div>
 
         {/* L'information de service en bandeau, à la place de l'index de carrousel. */}
