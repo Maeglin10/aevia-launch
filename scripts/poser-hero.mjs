@@ -24,8 +24,18 @@ if (!fs.existsSync(cible)) { console.error(`introuvable : ${cible}`); process.ex
 
 const L = fs.readFileSync(cible, "utf8").split("\n");
 
-const debut = L.findIndex((l) => /── HERO|══ HERO|── Hero/i.test(l));
-if (debut < 0) { console.error(`${id} : pas de commentaire « ── HERO » — bornes à poser à la main`); process.exit(1); }
+/*
+  Le héros se repère d'abord à son commentaire de tête. Une bonne moitié des
+  thèmes n'en porte pas : on prend alors le premier <section> plein écran —
+  la barre de navigation, elle, n'est jamais en 100dvh. Se caler sur le
+  premier <section> tout court prendrait le bandeau de nav.
+*/
+let debut = L.findIndex((l) => /── HERO|══ HERO|── Hero/i.test(l));
+if (debut < 0) {
+  debut = L.findIndex((l, k) => /^\s*<section\b/.test(l) && /100dvh|100vh/.test(L.slice(k, k + 8).join(" ")));
+  if (debut >= 0) console.error(`${id} : pas de commentaire « ── HERO », bornes prises sur le premier <section> plein écran (ligne ${debut + 1})`);
+}
+if (debut < 0) { console.error(`${id} : ni commentaire « ── HERO » ni <section> plein écran — bornes à poser à la main`); process.exit(1); }
 const fin = L.findIndex((l, k) => k > debut && /^ {6}<\/section>\s*$/.test(l));
 if (fin < 0) { console.error(`${id} : pas de « </section> » à six espaces après la ligne ${debut + 1}`); process.exit(1); }
 

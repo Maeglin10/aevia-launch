@@ -58,8 +58,8 @@ d'écart, et jamais avec les mêmes proportions.
 | 334 | cuisiniste | `diagonale` | fait |
 | 335 | pompes funèbres | `typo` | fait |
 | 336 | pharmacie | `liste` | fait |
-| 337 | assurance | `devanture` | à faire |
-| 338 | assurance | `chiffre` | à faire |
+| 337 | assurance | `devanture` | fait |
+| 338 | assurance | `chiffre` | fait |
 | 339 | audioprothésiste | `pleincadre` | à faire |
 | 340 | audioprothésiste | `editorial` | à faire |
 | 341 | auto-école | `bandeau` | à faire |
