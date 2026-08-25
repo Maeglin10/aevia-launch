@@ -510,12 +510,46 @@ export default function MaisonAuditionPage() {
 
         @media (max-width: 980px) { #i339-nav { display: none !important; } .i339-burger { display: flex !important; } }
 
-        /* Héros : deux colonnes désaxées au-dessus de 980px, une seule en
-           dessous — l'orbe passe alors SOUS le titre, jamais derrière lui
-           (le texte doit rester lisible sur un canevas animé). */
+        /*
+          ── Héros « split inversé » ────────────────────────────────────────
+          L'onde n'est plus une case rangée à droite du texte : elle tient le
+          bord gauche de l'écran, du haut jusqu'en bas, à fond perdu. La
+          parole se pose à sa droite. Le partage texte-à-gauche /
+          visuel-à-droite était la charpente de toute la série.
+        */
+        .i339-source {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          width: min(46%, 620px);
+          pointer-events: none;
+          z-index: 0;
+        }
+        .i339-orbe {
+          position: absolute;
+          top: 50%;
+          left: 46%;
+          width: min(72vh, 560px);
+          aspect-ratio: 1;
+          transform: translate(-50%, -50%);
+        }
+        .i339-parole {
+          position: relative;
+          z-index: 2;
+          margin-left: auto;
+          width: min(620px, 52%);
+          padding: clamp(136px,13vw,172px) clamp(20px,5vw,76px) clamp(56px,7vw,88px) 0;
+        }
+
         @media (max-width: 980px) {
-          .i339-hero { grid-template-columns: minmax(0,1fr) !important; gap: 36px !important; padding-top: 120px !important; }
-          .i339-orbwrap { margin: 0 auto !important; max-width: 460px !important; }
+          /* Sous 980 il n'y a plus de « à côté » : l'onde recule en fond,
+             très pâle, et la parole prend toute la largeur. Le texte doit
+             rester lisible sur un canevas animé — d'où l'opacité. */
+          .i339-hero { padding: 0 clamp(20px,5vw,44px) !important; }
+          .i339-source { width: 100%; opacity: 0.3; }
+          .i339-orbe { left: 50%; width: min(70vw, 420px); }
+          .i339-parole { width: 100%; margin-left: 0; padding: 120px 0 clamp(48px,7vw,72px); }
         }
         @media (max-width: 860px) {
           .i339-split { grid-template-columns: minmax(0,1fr) !important; gap: 34px !important; }
@@ -606,165 +640,137 @@ export default function MaisonAuditionPage() {
         </div>
       )}
 
-      {/* ══ HERO — H6 : typographie à gauche, source sonore à droite ══════ */}
+      {/* ══ HERO — split inversé : l'onde à gauche, à fond perdu ══════════
+             La version précédente rangeait le texte à gauche et l'orbe dans
+             une case à droite, tous deux serrés dans une grille centrée : la
+             charpente de toute la série. Ici l'onde n'est plus dans une case
+             — elle occupe le bord gauche de l'écran, du haut jusqu'en bas, et
+             la parole se pose à sa droite. */}
       <section
         id="hero"
         className="i339-hero"
         style={{
           position: "relative",
           minHeight: "100dvh",
-          display: "grid",
-          gridTemplateColumns: "minmax(0,1.12fr) minmax(0,0.88fr)",
+          display: "flex",
           alignItems: "center",
-          gap: "clamp(28px,4vw,64px)",
-          padding: "clamp(136px,13vw,172px) clamp(20px,5vw,76px) clamp(56px,7vw,88px)",
-          maxWidth: 1300,
-          margin: "0 auto",
           overflow: "hidden",
         }}
       >
-        {/* Texture : un « 30 » fantôme, les trente jours d'essai. */}
-        <span
-          aria-hidden
-          style={{
-            position: "absolute",
-            left: "clamp(-26px,-2vw,0px)",
-            bottom: "clamp(6px,3vw,54px)",
-            fontFamily: SERIF,
-            fontSize: "clamp(150px,24vw,340px)",
-            lineHeight: 0.74,
-            color: C.accent,
-            opacity: 0.07,
-            pointerEvents: "none",
-            userSelect: "none",
-          }}
-        >
-          30
-        </span>
+        {/* ── L'onde, à fond perdu sur le bord gauche ────────────────────── */}
+        <div className="i339-source" aria-hidden>
+          {/*
+            Les anneaux gardent leur animation d'origine, qui est une mise à
+            l'échelle. Ils doivent donc rester des enfants à `inset: 0` d'un
+            conteneur déjà centré : leur poser un translate(-50%,-50%) à eux
+            le ferait écraser par le `transform: scale()` des keyframes, et la
+            propagation partirait en biais hors du cadre.
+          */}
+          <div className="i339-orbe">
+            <span
+              style={{
+                position: "absolute",
+                inset: "-14%",
+                borderRadius: "50%",
+                background: `radial-gradient(circle at 50% 50%, ${C.accentLight} 0%, rgba(246,230,207,0.32) 44%, transparent 72%)`,
+                pointerEvents: "none",
+              }}
+            />
+            {[0, 1, 2].map((n) => (
+              <span
+                key={n}
+                className={`i339-anneau${n === 1 ? " i339-anneau-2" : n === 2 ? " i339-anneau-3" : ""}`}
+                style={{ position: "absolute", inset: "4%", borderRadius: "50%", border: `1px solid ${C.onde}`, pointerEvents: "none" }}
+              />
+            ))}
+            <ParticleOrb
+              color={C.onde}
+              count={380}
+              seconds={64}
+              className=""
+              /*
+                Un <canvas> est un élément remplacé : avec `inset` seul et des
+                dimensions automatiques, il garde sa taille intrinsèque de
+                300 × 150 px au lieu de s'étirer — l'orbe se dessinait petit,
+                calé dans le coin haut-gauche de son cercle. Il faut lui poser
+                une largeur ET une hauteur.
+              */
+              style={{ position: "absolute", left: "8%", top: "8%", width: "84%", height: "84%", opacity: 0.72, pointerEvents: "none" }}
+            />
+          </div>
+        </div>
 
-        <div style={{ position: "relative", zIndex: 2 }}>
+        {/* ── La parole, à droite de l'onde ──────────────────────────────── */}
+        <div className="i339-parole">
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.1 }}>
             <Kicker>{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
           </motion.div>
 
+          {/*
+            Titre d'un seul tenant, d'une seule couleur : la seconde ligne en
+            italique d'une autre couleur était la signature de gabarit de toute
+            la série.
+          */}
           <motion.h1
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.26, duration: 1, ease: EASE }}
             style={{
               fontFamily: SERIF,
-              fontSize: "clamp(44px,7.4vw,104px)",
+              fontSize: "clamp(38px,5.6vw,82px)",
               fontWeight: 300,
               color: C.ink,
-              lineHeight: 0.99,
+              lineHeight: 1,
               letterSpacing: "-0.018em",
               margin: "clamp(20px,2.6vw,36px) 0 clamp(18px,2vw,28px)",
+              overflowWrap: "break-word",
             }}
           >
-            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (
-              <>
-                {c?.heroHeadline ?? (
-                  <>
-                    {clientHeroLine(sessionData, 0, 2, 18) ?? "Réentendre les voix,"}
-                    <br />
-                    <em style={{ fontStyle: "italic", color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 18) ?? "pas seulement le bruit."}</em>
-                  </>
-                )}
-              </>
-            )}
+            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ??
+              c?.heroHeadline ??
+              clientHeroLine(sessionData, 0, 1, 36) ??
+              "Réentendre les voix, pas seulement le bruit."}
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.46, duration: 0.9, ease: EASE }}
-            style={{ fontFamily: SANS, fontSize: "clamp(15.5px,1.5vw,17px)", color: C.textMuted, lineHeight: 1.82, maxWidth: 500, marginBottom: "clamp(26px,3vw,36px)" }}
+            style={{ fontFamily: SANS, fontSize: "clamp(15px,1.4vw,17px)", color: C.textMuted, lineHeight: 1.82, maxWidth: 520, marginBottom: "clamp(24px,2.8vw,34px)" }}
           >
             {clientHeroSubtitle(sessionData) ??
               c?.heroSubline ??
               "Bilan auditif complet, essai réel de 30 jours à domicile, réglages illimités. Des appareils invisibles au 100 % Santé sans reste à charge — choisis pour votre oreille, pas pour la vitrine."}
           </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.62, duration: 0.85, ease: EASE }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
+          {/* Une seule action pleine ; l'accompagnement reste un lien. */}
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.62, duration: 0.85, ease: EASE }} style={{ display: "flex", gap: "clamp(16px,2vw,26px)", flexWrap: "wrap", alignItems: "center" }}>
             <CTA href={telHref} filled big>
               Réserver un bilan auditif
             </CTA>
-            <CTA href="#services">Nos accompagnements</CTA>
+            <a href="#services" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+              Nos accompagnements
+            </a>
           </motion.div>
 
           {/* Les chiffres, en bas de héros, séparés par une onde d'un pixel. */}
-          <div style={{ marginTop: "clamp(30px,3.6vw,48px)" }}>
+          <div style={{ marginTop: "clamp(28px,3.4vw,44px)" }}>
             <Onde color={C.accent} opacity={0.3} height={26} />
-            <div className="i339-statrail" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(150px,100%), 1fr))", gap: "clamp(10px,1.4vw,20px)", marginTop: 16 }}>
+            <div className="i339-statrail" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(140px,100%), 1fr))", gap: "clamp(10px,1.4vw,20px)", marginTop: 16 }}>
               {STATS.map((s: any, idx: number) => (
                 <Reveal key={s.label ?? idx} delay={idx * 0.07} y={12}>
                   <div>
-                    <div style={{ fontFamily: SERIF, fontSize: "clamp(28px,3vw,38px)", color: C.accent, lineHeight: 1 }}>{s.value}</div>
+                    <div style={{ fontFamily: SERIF, fontSize: "clamp(24px,2.6vw,34px)", color: C.accent, lineHeight: 1 }}>{s.value}</div>
                     <div style={{ fontFamily: SANS, fontSize: 11.5, color: C.textFaint, marginTop: 8, lineHeight: 1.5 }}>{s.label}</div>
                   </div>
                 </Reveal>
               ))}
             </div>
           </div>
-        </div>
 
-        {/* La source : l'orbe, à hauteur d'oreille, et ses anneaux. */}
-        <div className="i339-orbwrap" style={{ position: "relative", zIndex: 1, aspectRatio: "1", width: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          {[0, 1, 2].map((n) => (
-            <span
-              key={n}
-              aria-hidden
-              className={`i339-anneau${n === 1 ? " i339-anneau-2" : n === 2 ? " i339-anneau-3" : ""}`}
-              style={{
-                position: "absolute",
-                inset: "6%",
-                borderRadius: "50%",
-                border: `1px solid ${C.onde}`,
-                pointerEvents: "none",
-              }}
-            />
-          ))}
-          {/* Le halo derrière l'orbe : sans lui, le canevas paraît découpé. */}
-          <span
-            aria-hidden
-            style={{
-              position: "absolute",
-              inset: "10%",
-              borderRadius: "50%",
-              background: `radial-gradient(circle at 50% 50%, ${C.accentLight} 0%, rgba(246,230,207,0.35) 45%, transparent 72%)`,
-              pointerEvents: "none",
-            }}
-          />
-          <ParticleOrb
-            color={C.onde}
-            count={380}
-            seconds={64}
-            className=""
-            style={{
-              position: "relative",
-              width: "84%",
-              aspectRatio: "1",
-              opacity: 0.72,
-              pointerEvents: "none",
-            }}
-          />
           {/* Le repère de lecture : l'orbe est une onde, on le dit une fois. */}
           <span
-            style={{
-              position: "absolute",
-              bottom: "2%",
-              left: "50%",
-              transform: "translateX(-50%)",
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              fontFamily: SANS,
-              fontSize: 10,
-              letterSpacing: "0.3em",
-              textTransform: "uppercase",
-              color: C.textFaint,
-              whiteSpace: "nowrap",
-            }}
+            style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: "clamp(20px,2.4vw,30px)", fontFamily: SANS, fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: C.textFaint }}
           >
             <Volume2 size={13} color={C.accent} /> Le son, rendu visible
           </span>

@@ -6,7 +6,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, Car, Check, Clock, Mail, MapPin, Phone, Zap } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { CrossPush } from "@/lib/templates/hero-kit-3";
 import {
   clientAddress,
@@ -377,7 +377,7 @@ export default function PermisCapSudPage() {
 
   /* Un seul index pilote tout le héros : les plans qui se croisent, le titre,
      le sur-titre et la légende. */
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i, go } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
   useEffect(() => {
@@ -429,7 +429,40 @@ export default function PermisCapSudPage() {
         @keyframes i342glide { from { transform: translateX(0); } to { transform: translateX(-50%); } }
         @media (prefers-reduced-motion: reduce) { .i342-marquee { animation: none !important; } }
 
+        /*
+          ── Héros « carte flottante » ──────────────────────────────────────
+          Le titre était posé à plat sur toute la largeur de l'image, en bas :
+          exactement impact-328 et impact-340. Ici il vit dans une carte qui
+          chevauche le bord bas-droit du croisement d'images — le débord EST
+          l'archétype, sans lui la carte redeviendrait un encart.
+        */
+        /* Le cadre photographique s'arrête avant le bas de l'écran : c'est
+           ce bord-là que la carte franchit. Sur un plein écran sans marge,
+           rien ne peut déborder de rien. */
+        .i342-cadre { position: absolute; top: 0; left: 0; right: 0; bottom: clamp(64px, 11vh, 132px); overflow: hidden; }
+        .i342-carte {
+          position: relative;
+          z-index: 2;
+          width: min(560px, 100%);
+          margin: 0 0 clamp(14px, 2.4vh, 30px) 0;
+          background: rgba(6,8,10,0.86);
+          backdrop-filter: blur(10px) saturate(120%);
+          -webkit-backdrop-filter: blur(10px) saturate(120%);
+          border: 1px solid ${C.border};
+          border-right: 3px solid ${C.accent};
+          box-shadow: 0 60px 120px -60px rgba(0,0,0,0.95);
+          padding: clamp(24px, 3vw, 40px);
+          margin-right: clamp(22px, 5vw, 68px);
+        }
+
         @media (max-width: 900px) { #i342-nav { display: none !important; } .i342-burger { display: flex !important; } }
+        @media (max-width: 780px) {
+          /* Sur un téléphone la carte prend toute la largeur et se pose au
+             bas de l'écran : le débord latéral n'a plus de place. */
+          .i342-hero { justify-content: stretch; }
+          .i342-cadre { bottom: clamp(120px, 26vh, 240px); }
+          .i342-carte { width: auto; margin: 0 14px 18px; }
+        }
         @media (max-width: 1040px) {
           .i342-contact { grid-template-columns: 1fr !important; }
           .i342-bento { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
@@ -485,50 +518,77 @@ export default function PermisCapSudPage() {
       )}
 
       {/* ── HÉROS — H3 plein cadre, titre en bas ────────────────────────── */}
-      <section style={{ position: "relative", minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "flex-end", background: C.bgDark, overflow: "hidden" }}>
-        {/* fond de repli obligatoire : la nuit de ville, en CSS, sous tout */}
-        <NuitDeVille />
+      {/* ── HERO — carte flottante en débord ──────────────────────────────
+             Le croisement d'images tient le cadre ; la carte d'inscription se
+             pose dessus et déborde de son bord bas-droit. La version
+             précédente posait le titre à plat sur toute la largeur de
+             l'image, comme impact-328 et impact-340 : le plein cadre est déjà
+             pris deux fois dans la série. */}
+      <section className="i342-hero" style={{ position: "relative", minHeight: "100dvh", display: "flex", alignItems: "flex-end", justifyContent: "flex-end", background: C.bgDark, overflow: "hidden" }}>
+        {/* Le cadre : il s'arrête avant le bas de l'écran, et c'est son bord
+            que la carte franchit. */}
+        <div className="i342-cadre">
+          {/* fond de repli obligatoire : la nuit de ville, en CSS, sous tout */}
+          <NuitDeVille />
 
-        {/* le geste : deux plans qui se croisent, piloté par le même index */}
-        {/* Voile de 0,45 seulement : images bloquées, la nuit de ville doit
-            rester lisible sous le croisement, sans que le titre y perde. */}
-        {HERO_IMAGES.length > 0 && <CrossPush images={HERO_IMAGES} index={i} overlay={0.45} className="" />}
+          {/* le geste : deux plans qui se croisent, piloté par le même index */}
+          {/* Voile de 0,45 seulement : images bloquées, la nuit de ville doit
+              rester lisible sous le croisement, sans que le titre y perde. */}
+          {HERO_IMAGES.length > 0 && <CrossPush images={HERO_IMAGES} index={i} overlay={0.45} className="" />}
 
-        {/* voile de lecture sous le titre */}
-        <div aria-hidden style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: "62%", background: "linear-gradient(to top, rgba(6,8,10,0.94) 0%, rgba(6,8,10,0.72) 42%, transparent 100%)", pointerEvents: "none" }} />
+          {/* Le voile ne couvre plus toute la largeur : il se concentre sur le
+              coin où la carte se pose, pour que l'image reste image ailleurs. */}
+          <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 90% at 78% 88%, rgba(6,8,10,0.9) 12%, rgba(6,8,10,0.30) 56%, transparent 80%)", pointerEvents: "none" }} />
+        </div>
 
-        <div className="i342-pad" style={{ position: "relative", zIndex: 2, width: "100%", maxWidth: 1240, margin: "0 auto", padding: "clamp(120px, 18vh, 200px) clamp(22px, 5vw, 68px) clamp(44px, 7vh, 76px)" }}>
+        <motion.div
+          className="i342-carte"
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: EASE, delay: 0.12 }}
+        >
           <Kicker>{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
 
-          <motion.div key={`k-${i}`} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: EASE, delay: 0.055 }} style={{ fontFamily: SANS, fontSize: 12.5, fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: C.accentDark, margin: "clamp(20px, 3vw, 30px) 0 12px" }}>
+          <motion.div key={`k-${i}`} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: EASE, delay: 0.055 }} style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: C.accentDark, margin: "clamp(16px, 2.2vw, 24px) 0 10px" }}>
             {S.k}
           </motion.div>
 
-          <motion.h1 key={`h-${i}`} initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.78, ease: EASE, delay: 0.11 }} style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: "clamp(36px, 7vw, 88px)", lineHeight: 0.95, letterSpacing: "-0.028em", textTransform: "uppercase", color: C.white, margin: 0, maxWidth: 980 }}>
+          <motion.h1 key={`h-${i}`} initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.78, ease: EASE, delay: 0.11 }} style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: "clamp(30px, 3.8vw, 54px)", lineHeight: 0.98, letterSpacing: "-0.028em", textTransform: "uppercase", color: C.white, margin: 0, overflowWrap: "break-word" }}>
             {S.line}
           </motion.h1>
 
-          <motion.p key={`s-${i}`} initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.78, ease: EASE, delay: 0.165 }} style={{ fontFamily: SANS, fontSize: "clamp(15px, 1.5vw, 17.5px)", lineHeight: 1.75, color: "rgba(255,255,255,0.72)", maxWidth: 520, margin: "clamp(16px, 2vw, 24px) 0 0" }}>
+          <motion.p key={`s-${i}`} initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.78, ease: EASE, delay: 0.165 }} style={{ fontFamily: SANS, fontSize: "clamp(14.5px, 1.3vw, 16.5px)", lineHeight: 1.75, color: "rgba(255,255,255,0.74)", margin: "clamp(14px, 1.8vw, 20px) 0 clamp(22px, 2.8vw, 30px)" }}>
             {clientHeroSubtitle(sessionData) ?? S.sub}
           </motion.p>
 
-          <div style={{ display: "flex", gap: 13, flexWrap: "wrap", alignItems: "center", marginTop: "clamp(24px, 3.4vw, 36px)" }}>
+          {/* Une seule action pleine ; les formules restent un lien. */}
+          <div style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center" }}>
             <motion.a href={telHref} className="i342-cta" style={{ background: C.accent, color: "#0e0e0e", borderRadius: 2, padding: "16px 32px", fontWeight: 700, fontSize: 14.5, letterSpacing: "0.06em", textTransform: "uppercase", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10 }} whileHover={{ y: -2, boxShadow: "0 14px 32px rgba(227,91,63,0.36), 0 3px 8px rgba(0,0,0,0.45)" }} transition={{ duration: 0.5, ease: EASE }}>
               Je m'inscris <ArrowRight size={16} className="i342-arrow" />
             </motion.a>
-            <motion.a href="#tarifs" style={{ background: "rgba(255,255,255,0.05)", color: C.ink, border: `1px solid ${C.border}`, borderRadius: 2, padding: "15px 28px", fontWeight: 600, fontSize: 14.5, textDecoration: "none" }} whileHover={{ borderColor: C.accent, backgroundColor: C.accentLight }} transition={{ duration: 0.5, ease: EASE }}>
+            <a href="#tarifs" style={{ fontFamily: SANS, fontSize: 13, color: C.white, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
               Les formules
-            </motion.a>
+            </a>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: "clamp(28px, 4vw, 46px)", paddingTop: 20, borderTop: `1px solid ${C.border}`, flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color="rgba(255,255,255,0.5)" className="" />
-            <span style={{ fontSize: 13.5, color: "rgba(255,255,255,0.6)", lineHeight: 1.6 }}>
-              <strong style={{ color: C.white, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.white} className="" />
+          {/*
+            De quoi passer d'une formation à l'autre. La fraction « 01 / 03 »
+            ne disait pas ce qu'on regardait ; ces traits nomment les vues et
+            y mènent directement.
+          */}
+          <div style={{ display: "flex", gap: 10, marginTop: "clamp(24px, 3vw, 32px)", paddingTop: 18, borderTop: `1px solid ${C.border}` }}>
+            {HERO.map((h: any, n: number) => (
+              <button
+                key={h.k ?? n}
+                type="button"
+                onClick={() => go(n)}
+                aria-label={h.k ?? `Vue ${n + 1}`}
+                aria-current={n === i}
+                style={{ width: 40, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === i ? C.accent : "rgba(255,255,255,0.26)", transition: "background .3s" }}
+              />
+            ))}
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* ── RESPIRATION ─────────────────────────────────────────────────── */}

@@ -6,7 +6,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, Check, Ear, Mail, MapPin, Phone, Volume2 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, WordFlight, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, WordFlight, useSlides } from "@/lib/templates/hero-kit-2";
 import {
   clientAddress,
   clientCertifications,
@@ -322,11 +322,19 @@ function Ghost({
 }
 
 /** Le média de repli du héros : une courbe de gain tracée en CSS pur. */
-function CourbeDeGain({ legende, index }: { legende: string; index: number }) {
+/**
+ * La courbe de gain.
+ *
+ * `nu` la dépouille de ses deux légendes : en fond perdu derrière le héros,
+ * « 125 Hz — 8 kHz » se glissait sous la barre de navigation et
+ * « Illustration — courbe de gain » sous le bouton d'appel. Le dessin reste,
+ * les mentions repartent dans la version encadrée.
+ */
+function CourbeDeGain({ legende, index, nu = false }: { legende: string; index: number; nu?: boolean }) {
   return (
     <div
       className="i340-courbe"
-      style={{ position: "relative", background: `linear-gradient(155deg, ${C.bgDark} 0%, ${C.bgDarkAlt} 62%, #241a10 100%)`, border: `1px solid ${C.border}`, borderRadius: 2, padding: "clamp(22px, 3vw, 34px)", overflow: "hidden", minHeight: "clamp(320px, 42vw, 460px)", display: "flex", flexDirection: "column", justifyContent: "space-between", }}
+      style={{ position: "relative", background: `linear-gradient(155deg, ${C.bgDark} 0%, ${C.bgDarkAlt} 62%, #241a10 100%)`, border: nu ? "none" : `1px solid ${C.border}`, borderRadius: nu ? 0 : 2, padding: "clamp(22px, 3vw, 34px)", overflow: "hidden", minHeight: nu ? 0 : "clamp(320px, 42vw, 460px)", height: nu ? "100%" : undefined, display: "flex", flexDirection: "column", justifyContent: "space-between", }}
     >
       {/* trame de fond : lignes de fréquence */}
       <div
@@ -338,13 +346,15 @@ function CourbeDeGain({ legende, index }: { legende: string; index: number }) {
         aria-hidden
         style={{ position: "absolute", inset: 0, background: `radial-gradient(60% 50% at 68% 30%, rgba(217,154,78,0.11), transparent 70%)`, pointerEvents: "none", }}
       />
-      <div style={{ position: "relative", zIndex: 1 }}>
-        <span
-          style={{ fontFamily: SANS, fontSize: 10, fontWeight: 700, letterSpacing: "0.32em", textTransform: "uppercase", color: C.onde, }}
-        >
-          125 Hz — 8 kHz
-        </span>
-      </div>
+      {nu ? null : (
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <span
+            style={{ fontFamily: SANS, fontSize: 10, fontWeight: 700, letterSpacing: "0.32em", textTransform: "uppercase", color: C.onde, }}
+          >
+            125 Hz — 8 kHz
+          </span>
+        </div>
+      )}
 
       {/* la courbe : onze pastilles posées en pourcentage */}
       <div style={{ position: "relative", flex: 1, margin: "22px 0 18px", minHeight: 150 }}>
@@ -364,18 +374,20 @@ function CourbeDeGain({ legende, index }: { legende: string; index: number }) {
         />
       </div>
 
-      <div style={{ position: "relative", zIndex: 1 }}>
-        <div
-          style={{ fontFamily: SERIF, fontSize: "clamp(15px, 1.5vw, 18px)", fontStyle: "italic", color: "rgba(255,255,255,0.86)", lineHeight: 1.5, }}
-        >
-          {legende}
+      {nu ? null : (
+        <div style={{ position: "relative", zIndex: 1 }}>
+          <div
+            style={{ fontFamily: SERIF, fontSize: "clamp(15px, 1.5vw, 18px)", fontStyle: "italic", color: "rgba(255,255,255,0.86)", lineHeight: 1.5, }}
+          >
+            {legende}
+          </div>
+          <div
+            style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(255,255,255,0.36)", marginTop: 9, }}
+          >
+            Illustration — courbe de gain
+          </div>
         </div>
-        <div
-          style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(255,255,255,0.36)", marginTop: 9, }}
-        >
-          Illustration — courbe de gain
-        </div>
-      </div>
+      )}
     </div>
   );
 }
@@ -479,7 +491,7 @@ export default function OctaveAuditionPage() {
   const [avisIdx, setAvisIdx] = useState(0);
 
   /* Un seul index pilote tout le héros : titre, sur-titre, légende, courbe. */
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i, go } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
   useEffect(() => {
@@ -518,7 +530,33 @@ export default function OctaveAuditionPage() {
         .i340-arrow { transition: transform .5s cubic-bezier(0.16,1,0.3,1); }
         .i340-cta:hover .i340-arrow { transform: translateX(6px); }
 
-        .i340-hero { display: grid; grid-template-columns: minmax(0,1.06fr) minmax(0,0.94fr); gap: clamp(32px, 5vw, 72px); align-items: center; }
+        /*
+          ── Héros « plein cadre » ──────────────────────────────────────────
+          Le média n'est plus une case rangée à droite du texte : il tient
+          tout l'écran, et la parole se pose sur son bord bas. Ce partage
+          texte-à-gauche / média-à-droite était la charpente de la série.
+        */
+        .i340-fond { position: absolute; inset: 0; }
+        /* La courbe de gain a une hauteur minimale pensée pour une case :
+           en fond perdu elle doit remplir, bordure et arrondi en moins. */
+        .i340-courbe-plein { position: absolute; inset: 0; }
+        .i340-courbe-plein > * { height: 100%; border: none !important; border-radius: 0 !important; }
+        .i340-parole {
+          position: relative;
+          z-index: 2;
+          width: 100%;
+          max-width: 1240px;
+          margin: 0 auto;
+          padding: clamp(120px, 15vh, 168px) clamp(22px, 5vw, 68px) clamp(44px, 6vh, 72px);
+        }
+        .i340-bas {
+          display: grid;
+          grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+          gap: clamp(24px, 4vw, 64px);
+          align-items: end;
+          margin-top: clamp(22px, 3vw, 34px);
+        }
+        .i340-matiere { border-left: 1px solid rgba(255,255,255,0.2); padding-left: clamp(18px, 2.4vw, 32px); }
         .i340-split { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
         .i340-row { display: grid; grid-template-columns: 82px minmax(0,1.05fr) minmax(0,1.25fr); gap: clamp(16px, 2.4vw, 34px); align-items: start; }
         .i340-tarif { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: clamp(14px, 2vw, 30px); align-items: baseline; }
@@ -537,7 +575,10 @@ export default function OctaveAuditionPage() {
           .i340-burger { display: flex !important; }
         }
         @media (max-width: 980px) {
-          .i340-hero { grid-template-columns: 1fr !important; }
+          /* Empilés, le filet vertical n'a plus de sens : il redevient
+             horizontal, sous la prose. */
+          .i340-bas { grid-template-columns: 1fr !important; row-gap: 24px; }
+          .i340-matiere { border-left: none !important; border-top: 1px solid rgba(255,255,255,0.2); padding-left: 0 !important; padding-top: 22px; }
           .i340-contact { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 860px) {
@@ -568,7 +609,7 @@ export default function OctaveAuditionPage() {
             <>
               <Volume2 size={18} color={C.accent} style={{ flexShrink: 0 }} />
               <span
-                style={{ fontFamily: SERIF, fontSize: "clamp(17px, 2vw, 21px)", letterSpacing: "-0.01em", color: C.ink, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}
+                style={{ fontFamily: SERIF, fontSize: "clamp(17px, 2vw, 21px)", letterSpacing: "-0.01em", color: scrolled ? C.ink : C.white, transition: "color .55s cubic-bezier(0.16,1,0.3,1)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}
               >
                 {maison}
               </span>
@@ -581,7 +622,7 @@ export default function OctaveAuditionPage() {
               key={l}
               href={h}
               className="i340-link"
-              style={{ color: C.textMuted, fontSize: 13.5, fontWeight: 500, letterSpacing: "0.02em", textDecoration: "none", padding: "12px 2px", }}
+              style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.82)", transition: "color .55s cubic-bezier(0.16,1,0.3,1)", fontSize: 13.5, fontWeight: 500, letterSpacing: "0.02em", textDecoration: "none", padding: "12px 2px", }}
             >
               {l}
             </a>
@@ -631,81 +672,104 @@ export default function OctaveAuditionPage() {
       )}
 
       {/* ── HÉROS — H1 split, média à droite ────────────────────────────── */}
+      {/* ── HERO — plein cadre, la parole posée en bas ────────────────────
+             La photographie du client (ou, à défaut, la courbe de gain
+             dessinée) occupe tout l'écran ; le texte se pose sur son bord
+             bas. La version précédente rangeait le texte à gauche et le média
+             dans une case à droite : la charpente de toute la série. */}
       <section
-        className="i340-hero i340-pad"
-        style={{ minHeight: "100dvh", padding: "clamp(120px, 15vh, 168px) clamp(22px, 5vw, 68px) clamp(56px, 8vh, 88px)", maxWidth: 1240, margin: "0 auto", position: "relative", }}
+        className="i340-hero"
+        style={{ position: "relative", minHeight: "100dvh", display: "flex", alignItems: "flex-end", overflow: "hidden", background: C.bgDark }}
       >
+        {/* Le fond : la photo du client si elle existe, sinon la courbe CSS. */}
+        <div aria-hidden className="i340-fond">
+          {HERO_MEDIA ? (
+            <img
+              src={HERO_MEDIA}
+              alt=""
+              loading="eager"
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
+          ) : (
+            /*
+              Sans photographie, la courbe de gain tient tout le cadre : c'est
+              l'audiogramme du thème, pas un trou noir ni une image de stock
+              inventée. `key` sur l'index pour qu'elle se retrace à chaque
+              diapositive.
+            */
+            <div className="i340-courbe-plein">
+              <CourbeDeGain legende={S.legende} index={i} nu />
+            </div>
+          )}
+        </div>
+
+        {/* Scrim à trois arrêts : le texte se lit quoi qu'il y ait derrière. */}
+        <div
+          aria-hidden
+          style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(23,18,12,0.62) 0%, rgba(23,18,12,0.18) 32%, rgba(23,18,12,0.72) 68%, rgba(23,18,12,0.95) 100%)" }}
+        />
         <Ghost top={64} size="clamp(150px, 26vw, 320px)">{"("}</Ghost>
 
-        <div style={{ position: "relative", zIndex: 1, minWidth: 0 }}>
-          <Kicker>{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
+        <div className="i340-parole i340-pad">
+          <Kicker color={C.accentLight}>{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
 
           <h1
-            style={{ fontFamily: SERIF, fontSize: "clamp(34px, 4.9vw, 62px)", fontWeight: 400, letterSpacing: "-0.022em", lineHeight: 0.99, color: C.ink, margin: "clamp(18px, 2.6vw, 28px) 0 0", minHeight: "2.6em", }}
+            style={{ fontFamily: SERIF, fontSize: "clamp(34px, 5.6vw, 76px)", fontWeight: 400, letterSpacing: "-0.022em", lineHeight: 1, color: C.white, margin: "clamp(16px, 2.2vw, 26px) 0 0", minHeight: "2.1em", maxWidth: 900, textShadow: "0 12px 48px rgba(0,0,0,0.45)" }}
           >
             <WordFlight text={S.line} keyed={i} className="" />
           </h1>
 
-          <p
-            style={{ fontFamily: SANS, fontSize: "clamp(15px, 1.5vw, 17px)", color: C.textMuted, lineHeight: 1.78, maxWidth: 480, margin: "clamp(16px, 2vw, 24px) 0 clamp(26px, 3.4vw, 38px)", }}
-          >
-            {clientHeroSubtitle(sessionData) ??
-              c?.heroSubline ??
-              "Appareils connectés, réglages par l'oreille ET par la donnée : mesure in-vivo, environnements sonores réels, application de suivi. L'audition, traitée comme une science exacte."}
-          </p>
-
-          <div style={{ display: "flex", gap: 13, flexWrap: "wrap", alignItems: "center" }}>
-            <motion.a
-              href={telHref}
-              className="i340-cta"
-              style={{ background: C.accent, color: C.white, borderRadius: 2, padding: "16px 30px", fontWeight: 700, fontSize: 14.5, letterSpacing: "0.03em", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10, }}
-              whileHover={{ y: -2, boxShadow: "0 14px 30px rgba(180,83,9,0.26), 0 3px 8px rgba(27,22,17,0.14)" }}
-              transition={{ duration: 0.5, ease: EASE }}
-            >
-              Tester mon audition <ArrowRight size={16} className="i340-arrow" />
-            </motion.a>
-            <motion.a
-              href="#services"
-              style={{ background: "transparent", color: C.ink, border: `1px solid ${C.border}`, borderRadius: 2, padding: "15px 26px", fontWeight: 600, fontSize: 14.5, textDecoration: "none", }}
-              whileHover={{ borderColor: C.accent, backgroundColor: C.accentLight }}
-              transition={{ duration: 0.5, ease: EASE }}
-            >
-              La technologie
-            </motion.a>
-          </div>
-
-          <div
-            style={{ display: "flex", alignItems: "center", gap: 16, marginTop: "clamp(32px, 4.6vw, 52px)", paddingTop: 20, borderTop: `1px solid ${C.border}`, flexWrap: "wrap", }}
-          >
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textFaint} className="" />
-            <span style={{ fontSize: 13.5, color: C.textMuted, lineHeight: 1.6 }}>
-              <strong style={{ color: C.ink, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" />
-          </div>
-        </div>
-
-        {/* Média : la photo du client si elle existe, sinon la courbe CSS. */}
-        <div style={{ position: "relative", zIndex: 1, minWidth: 0 }}>
-          {HERO_MEDIA ? (
-            <div
-              style={{ position: "relative", border: `1px solid ${C.border}`, background: C.bgDark, overflow: "hidden", borderRadius: 2, }}
-            >
-              <img
-                src={HERO_MEDIA}
-                alt={`${maison} — ${S.k}`}
-                loading="eager"
-                style={{ width: "100%", height: "auto", aspectRatio: "4/5", objectFit: "cover", display: "block" }}
-              />
-              <div
-                style={{ position: "absolute", left: 0, right: 0, bottom: 0, padding: "40px 22px 18px", background: "linear-gradient(to top, rgba(23,18,12,0.88), rgba(23,18,12,0.35) 55%, transparent)", fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(14px, 1.4vw, 17px)", color: "rgba(255,255,255,0.9)", }}
+          {/* ── La ligne du bas : la prose, puis la matière du moment ────── */}
+          <div className="i340-bas">
+            <div style={{ minWidth: 0 }}>
+              <p
+                style={{ fontFamily: SANS, fontSize: "clamp(14.5px, 1.4vw, 16.5px)", color: "rgba(255,255,255,0.82)", lineHeight: 1.78, maxWidth: 520, margin: "0 0 clamp(22px, 2.8vw, 32px)" }}
               >
-                {S.legende}
+                {clientHeroSubtitle(sessionData) ??
+                  c?.heroSubline ??
+                  "Appareils connectés, réglages par l'oreille ET par la donnée : mesure in-vivo, environnements sonores réels, application de suivi. L'audition, traitée comme une science exacte."}
+              </p>
+
+              {/* Une seule action pleine ; la technologie reste un lien. */}
+              <div style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center" }}>
+                <motion.a
+                  href={telHref}
+                  className="i340-cta"
+                  style={{ background: C.accent, color: C.white, borderRadius: 2, padding: "16px 30px", fontWeight: 700, fontSize: 14.5, letterSpacing: "0.03em", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10 }}
+                  whileHover={{ y: -2, boxShadow: "0 14px 30px rgba(180,83,9,0.26), 0 3px 8px rgba(27,22,17,0.14)" }}
+                  transition={{ duration: 0.5, ease: EASE }}
+                >
+                  Tester mon audition <ArrowRight size={16} className="i340-arrow" />
+                </motion.a>
+                <a href="#services" style={{ fontFamily: SANS, fontSize: 13, color: C.white, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+                  La technologie
+                </a>
               </div>
             </div>
-          ) : (
-            <CourbeDeGain legende={S.legende} index={i} />
-          )}
+
+            {/*
+              La matière montrée, et de quoi passer aux autres. La fraction
+              « 01 / 03 » ne disait pas ce qu'on regardait ; ces trois traits
+              nomment les diapositives et y mènent directement.
+            */}
+            <div className="i340-matiere">
+              <div style={{ fontSize: 13.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.65 }}>
+                <strong style={{ color: C.white, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
+              </div>
+              <div style={{ display: "flex", gap: 10, marginTop: 16 }}>
+                {HERO.map((h: any, n: number) => (
+                  <button
+                    key={h.k ?? n}
+                    type="button"
+                    onClick={() => go(n)}
+                    aria-label={h.k ?? `Vue ${n + 1}`}
+                    aria-current={n === i}
+                    style={{ width: 40, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === i ? C.accent : "rgba(255,255,255,0.28)", transition: "background .3s" }}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
