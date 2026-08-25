@@ -419,16 +419,47 @@ export default function FaubourgSerruresPage() {
         }
 
         /* ── grilles pilotées ici, jamais en style inline ────────────────── */
+        /*
+          Le héros ne se partage plus en colonne texte / colonne image : le
+          texte tient le haut, la planche technique court d'un bord à l'autre
+          en pied d'écran.
+        */
         .i332-hero {
-          display: grid;
-          grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
-          gap: clamp(28px, 4vw, 60px);
-          align-items: center;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          gap: clamp(28px, 4.5vh, 56px);
           max-width: 1220px;
           margin: 0 auto;
-          padding: clamp(130px, 16vh, 180px) clamp(22px, 6vw, 68px) clamp(52px, 7vw, 92px);
+          padding: clamp(130px, 16vh, 180px) clamp(22px, 6vw, 68px) 0;
           position: relative;
           min-height: 100dvh;
+        }
+        .i332-haut { max-width: 900px; }
+
+        /* Le bandeau sort de la largeur du contenu ET du rembourrage : le
+           parent porte overflow-x: clip, donc 100vw ne crée pas de barre. */
+        .i332-bandeau {
+          position: relative;
+          z-index: 2;
+          width: 100vw;
+          margin-left: calc(50% - 50vw);
+          display: grid;
+          grid-template-columns: minmax(0, 0.9fr) minmax(0, 2.1fr);
+          align-items: center;
+          gap: clamp(18px, 3vw, 48px);
+          padding: clamp(16px, 2vw, 26px) clamp(22px, 6vw, 68px);
+          border-top: 1px solid ${C.accent};
+          background: linear-gradient(180deg, ${C.bgAlt} 0%, ${C.bgDark} 100%);
+          overflow: hidden;
+        }
+        .i332-bandeau-legende { min-width: 0; }
+        .i332-planche {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          align-items: center;
+          justify-items: center;
+          gap: clamp(12px, 2vw, 32px);
         }
 
         .i332-stats {
@@ -498,7 +529,12 @@ export default function FaubourgSerruresPage() {
         @media (max-width: 1000px) {
           #i332-nav { display: none !important; }
           .i332-burger { display: flex !important; }
-          .i332-hero { grid-template-columns: 1fr; }
+          /* Trois cylindres côte à côte deviennent trois traits illisibles :
+             sous 1000 px la planche n'en garde qu'un, et la légende passe
+             au-dessus. */
+          .i332-bandeau { grid-template-columns: 1fr; row-gap: 18px; }
+          .i332-planche { grid-template-columns: 1fr; }
+          .i332-planche > *:not(:first-child) { display: none; }
           .i332-tile, .i332-tile-large { grid-column: span 3; }
           .i332-split { grid-template-columns: 1fr; }
           .i332-pied { grid-template-columns: 1fr 1fr; }
@@ -582,15 +618,18 @@ export default function FaubourgSerruresPage() {
         </div>
       )}
 
-      {/* ══ HERO — H6 typographique, sans photographie ═══════════════════ */}
+      {/* ══ HERO — bandeau bas : le texte tient le haut, la coupe technique
+             court d'un bord à l'autre en pied d'écran. Ni colonne texte ni
+             colonne image : c'est ce partage-là qui rendait la série
+             interchangeable. ══════════════════════════════════════════════ */}
       <section id="haut" className="i332-hero">
         <div aria-hidden className="i332-trame" style={{ position: "absolute", inset: 0, opacity: 0.6 }} />
         <div
           aria-hidden style={{ position: "absolute", top: "6%", right: "-8%", width: "min(820px, 92vw)", height: "min(820px, 92vw)", background: "radial-gradient(circle, rgba(78,159,212,0.12) 0%, rgba(78,159,212,0) 62%)", pointerEvents: "none", }}
         />
-        <Ghost style={{ bottom: "4%", left: "clamp(-12px, -1vw, 0px)", fontSize: "clamp(120px, 20vw, 280px)", opacity: 0.045 }}>A2P</Ghost>
+        <Ghost style={{ top: "18%", left: "clamp(-12px, -1vw, 0px)", fontSize: "clamp(120px, 20vw, 280px)", opacity: 0.045 }}>A2P</Ghost>
 
-        <div style={{ position: "relative", zIndex: 2 }}>
+        <div className="i332-haut" style={{ position: "relative", zIndex: 2 }}>
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE, delay: 0.05 }}>
             <Kicker>{clientEyebrow(sessionData) ?? `Serrurerie de sécurité · ${ville}`}</Kicker>
           </motion.div>
@@ -607,7 +646,7 @@ export default function FaubourgSerruresPage() {
           </motion.div>
 
           <motion.p
-            initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, ease: EASE, delay: 0.32 }} style={{ fontFamily: SANS, fontSize: "clamp(15px, 1.25vw, 17px)", fontWeight: 300, lineHeight: 1.8, color: C.textMuted, maxWidth: 520, margin: "clamp(22px, 2.6vw, 32px) 0 clamp(26px, 3vw, 36px)", }}
+            initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, ease: EASE, delay: 0.32 }} style={{ fontFamily: SANS, fontSize: "clamp(15px, 1.25vw, 17px)", fontWeight: 300, lineHeight: 1.8, color: C.textMuted, maxWidth: 600, margin: "clamp(22px, 2.6vw, 32px) 0 clamp(24px, 2.8vw, 34px)", }}
           >
             {clientAccrocheRestante(sessionData, 2, 13) ??
               clientHeroPrestations(sessionData) ??
@@ -615,35 +654,51 @@ export default function FaubourgSerruresPage() {
               "Pas de dépannage à 3 h du matin ici : du blindage pensé à froid. Portes blindées, serrures A2P, coffres — étudiés, posés, garantis par des serruriers salariés."}
           </motion.p>
 
+          {/*
+            Une seule action pleine, et la seconde piste en lien souligné : le
+            duo plein + contour était le tic de la série.
+          */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE, delay: 0.44 }} style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}
+            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE, delay: 0.44 }} style={{ display: "flex", gap: "clamp(16px, 2vw, 28px)", flexWrap: "wrap", alignItems: "center" }}
           >
             <motion.a
               href={telHref} whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: C.onAccent, fontFamily: SANS, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 700, padding: "17px 32px", textDecoration: "none", boxShadow: "0 18px 38px -22px rgba(78,159,212,0.9)", }}
             >
               Demander une étude <ArrowRight size={15} />
             </motion.a>
-            <motion.a
-              href="#services" whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "transparent", color: C.ink, border: `1px solid ${C.border}`, fontFamily: SANS, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 500, padding: "16px 28px", textDecoration: "none", }}
+            <a
+              href="#services" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}
             >
               Nos installations
-            </motion.a>
+            </a>
           </motion.div>
         </div>
 
-        {/* Le cylindre en coupe : la seule image du héros, et elle est dessinée. */}
+        {/* ── LE BANDEAU — d'un bord à l'autre, en pied d'écran ──────────── */}
+        {/*
+          Le cylindre en coupe était enfermé dans un panneau à droite du texte :
+          c'était la deuxième colonne. Ici il court sur toute la largeur, trois
+          fois, comme une planche technique — et la légende reste lisible parce
+          qu'elle a le bord gauche du bandeau pour elle seule.
+        */}
         <motion.div
-          initial={{ opacity: 0, x: reduce ? 0 : 26 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1.05, ease: EASE, delay: 0.3 }} style={{ position: "relative", zIndex: 2, display: "grid", placeItems: "center" }}
+          className="i332-bandeau" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.05, ease: EASE, delay: 0.3 }}
         >
-          <div
-            style={{ position: "relative", width: "100%", maxWidth: 420, border: `1px solid ${C.border}`, background: `linear-gradient(155deg, ${C.bgAlt} 0%, ${C.bgDark} 100%)`, padding: "clamp(26px, 3.4vw, 42px) clamp(18px, 2.4vw, 30px)", }}
-          >
-            <CylindreSVG size={320} stroke={C.accentDark} />
-            <div
-              style={{ marginTop: 22, paddingTop: 16, borderTop: `1px solid ${C.border}`, fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.22em", textTransform: "uppercase", color: C.textFaint, lineHeight: 1.8, }}
-            >
+          <div className="i332-bandeau-legende">
+            <div style={{ fontFamily: DISPLAY, fontWeight: 900, fontSize: "clamp(26px, 3.4vw, 44px)", lineHeight: 1, letterSpacing: "-0.03em", color: C.ink }}>
+              A2P
+            </div>
+            <div style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.22em", textTransform: "uppercase", color: C.textFaint, lineHeight: 1.8, marginTop: 10 }}>
               Cylindre en coupe · goupilles alignées sur la ligne de césure
             </div>
+          </div>
+
+          <div aria-hidden className="i332-planche">
+            {[0.9, 0.5, 0.26].map((o, n) => (
+              <div key={n} style={{ display: "grid", placeItems: "center", opacity: o }}>
+                <CylindreSVG size={148} stroke={n === 0 ? C.accentDark : C.acier} />
+              </div>
+            ))}
           </div>
         </motion.div>
       </section>

@@ -52,64 +52,70 @@ d'écart, et jamais avec les mêmes proportions.
 | 328 | pompes funèbres | `pleincadre` | fait avant ce chantier |
 | 329 | déménageur | `chiffre` | fait |
 | 330 | pharmacie | `devanture` | fait avant ce chantier |
-| 331 | opticien | `editorial` | à faire |
-| 332 | serrurier | `bandeau` | à faire |
-| 333 | notaire | `carte` | à faire |
-| 334 | cuisiniste | `splitgauche` | à faire |
-| 335 | pompes funèbres | `typo` | à faire |
-| 336 | pharmacie | `diagonale` | à faire |
-| 337 | assurance | `liste` | à faire |
-| 338 | assurance | `devanture` | à faire |
+| 331 | opticien | `editorial` | fait |
+| 332 | serrurier | `bandeau` | fait |
+| 333 | notaire | `carte` | fait |
+| 334 | cuisiniste | `diagonale` | fait |
+| 335 | pompes funèbres | `typo` | fait |
+| 336 | pharmacie | `liste` | fait |
+| 337 | assurance | `devanture` | à faire |
+| 338 | assurance | `chiffre` | à faire |
 | 339 | audioprothésiste | `pleincadre` | à faire |
-| 340 | audioprothésiste | `typo` | à faire |
-| 341 | auto-école | `editorial` | à faire |
-| 342 | auto-école | `bandeau` | à faire |
-| 343 | pressing | `carte` | à faire |
-| 344 | pressing | `splitgauche` | à faire |
+| 340 | audioprothésiste | `editorial` | à faire |
+| 341 | auto-école | `bandeau` | à faire |
+| 342 | auto-école | `carte` | à faire |
+| 343 | pressing | `splitgauche` | à faire |
+| 344 | pressing | `diagonale` | à faire |
 | 345 | commerce de bouche | `chiffre` | à faire |
-| 346 | commerce de bouche | `diagonale` | à faire |
+| 346 | commerce de bouche | `typo` | à faire |
 | 347 | formation | `liste` | à faire |
 | 348 | formation | `devanture` | à faire |
 | 349 | contrôle technique | `pleincadre` | à faire |
-| 350 | contrôle technique | `typo` | à faire |
-| 351 | couvreur | `editorial` | à faire |
-| 352 | couvreur | `bandeau` | à faire |
-| 353 | crèche | `carte` | à faire |
-| 354 | crèche | `splitgauche` | à faire |
+| 350 | contrôle technique | `editorial` | à faire |
+| 351 | couvreur | `bandeau` | à faire |
+| 352 | couvreur | `carte` | à faire |
+| 353 | crèche | `splitgauche` | à faire |
+| 354 | crèche | `diagonale` | à faire |
 | 355 | infirmier | `chiffre` | à faire |
-| 356 | infirmier | `diagonale` | à faire |
+| 356 | infirmier | `typo` | à faire |
 | 357 | laboratoire | `liste` | à faire |
 | 358 | laboratoire | `devanture` | à faire |
 | 359 | location matériel | `pleincadre` | à faire |
-| 360 | location matériel | `typo` | à faire |
-| 361 | peintre | `editorial` | à faire |
-| 362 | peintre | `bandeau` | à faire |
-| 363 | podologue | `carte` | à faire |
-| 364 | podologue | `splitgauche` | à faire |
+| 360 | location matériel | `editorial` | à faire |
+| 361 | peintre | `bandeau` | à faire |
+| 362 | peintre | `carte` | à faire |
+| 363 | podologue | `splitgauche` | à faire |
+| 364 | podologue | `diagonale` | à faire |
 | 365 | producteur | `chiffre` | à faire |
-| 366 | producteur | `diagonale` | à faire |
+| 366 | producteur | `typo` | à faire |
 | 367 | sage-femme | `liste` | à faire |
 | 368 | sage-femme | `devanture` | à faire |
 | 369 | salle de réception | `pleincadre` | à faire |
-| 370 | salle de réception | `typo` | à faire |
-| 371 | sécurité | `editorial` | à faire |
-| 372 | sécurité | `bandeau` | à faire |
-| 373 | VTC | `carte` | à faire |
-| 374 | VTC | `splitgauche` | à faire |
+| 370 | salle de réception | `editorial` | à faire |
+| 371 | sécurité | `bandeau` | à faire |
+| 372 | sécurité | `carte` | à faire |
+| 373 | VTC | `splitgauche` | à faire |
+| 374 | VTC | `diagonale` | à faire |
 | 375 | vitrier | `chiffre` | à faire |
-| 376 | vitrier | `diagonale` | à faire |
+| 376 | vitrier | `typo` | à faire |
 | 377 | école de musique | `liste` | à faire |
 | 378 | gestion de patrimoine | `devanture` | à faire |
 | 379 | menuisier | `pleincadre` | à faire |
-| 380 | brasserie | `typo` | à faire |
-| 381 | caviste | `editorial` | à faire |
-| 382 | recrutement | `bandeau` | à faire |
-| 383 | toiletteur | `carte` | à faire |
+| 380 | brasserie | `editorial` | à faire |
+| 381 | caviste | `bandeau` | à faire |
+| 382 | recrutement | `carte` | à faire |
+| 383 | toiletteur | `splitgauche` | à faire |
 
-Deux écarts assumés à la rotation : `335` (pompes funèbres) reçoit `typo` et
-non `chiffre` — un montant en énorme sur une page d'obsèques serait déplacé ;
-`329` reçoit `chiffre` et non `liste`, parce que la page porte déjà ses trois
-formules en bandes à `#formules` et qu'un héros-liste les redirait.
+Trois écarts assumés à la rotation, pour ne pas plier un métier à un tableau :
+
+- `335` (pompes funèbres) reçoit `typo` et non `chiffre` — un montant écrit en
+  énorme sur une page d'obsèques serait déplacé.
+- `329` reçoit `chiffre` et non `liste`, parce que la page porte déjà ses trois
+  formules en bandes à `#formules` et qu'un héros-liste les redirait.
+- `334` reçoit `diagonale` et non `splitgauche` : son héros portait **déjà**
+  l'image à gauche. Reconduire l'archétype qu'il avait n'aurait rien changé —
+  c'est exactement l'erreur des trois thèmes dits « superficiels », à qui on
+  n'avait donné qu'un nouveau sur-titre.
 
 ## Ce qu'on supprime partout
 

@@ -493,10 +493,28 @@ export default function PharmacieHorlogePage() {
     <div style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip", WebkitFontSmoothing: "antialiased" }}>
       <style>{FONTS_CSS}</style>
       <style>{`
+        /* L'annonce du héros : le titre à gauche, l'action à droite, sur une
+           même ligne — pas une colonne de texte face à une colonne d'image. */
+        .i336-annonce {
+          display: grid;
+          grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+          gap: clamp(24px, 4vw, 64px);
+          align-items: end;
+        }
+        /* Chaque ligne de l'index s'éclaire au survol : c'est un sommaire
+           cliquable, il doit se comporter comme tel. */
+        .i336-ligne { transition: background .3s ${EASE_CSS}, padding-left .3s ${EASE_CSS}; }
+        .i336-ligne:hover { background: ${C.accentLight}; padding-left: clamp(8px, 1.2vw, 18px); }
+
         @media (max-width: 980px) { #i336-nav { display: none !important; } .i336-burger { display: flex !important; } }
         @media (max-width: 900px) {
-          .i336-hero { grid-template-columns: minmax(0,1fr) !important; padding: 116px 22px 56px !important; gap: 34px !important; }
-          .i336-rail { border-left: none !important; padding-left: 0 !important; }
+          .i336-hero { padding: 116px 22px 56px !important; gap: 26px !important; }
+          .i336-annonce { grid-template-columns: minmax(0,1fr); row-gap: 26px; align-items: start; }
+          /* Le libellé de droite passerait à la ligne et casserait la grille
+             de l'index : sous 900 il disparaît, le numéro et le titre
+             suffisent. */
+          .i336-ligne { grid-template-columns: clamp(28px,7vw,40px) minmax(0,1fr) !important; }
+          .i336-ligne > span:last-child { display: none; }
           .i336-parcours { grid-template-columns: minmax(0,1fr) !important; gap: 22px !important; }
           .i336-parcours > div:first-child { position: static !important; }
           .i336-bento { grid-template-columns: minmax(0,1fr) !important; }
@@ -598,17 +616,22 @@ export default function PharmacieHorlogePage() {
         </div>
       )}
 
-      {/* ── HERO — H9 : double colonne + rail de chiffres VERTICAL ───────── */}
+      {/* ── HERO — liste immédiate ────────────────────────────────────────
+             Pas de héros séparé : une officine se lit comme un tableau de
+             services, pas comme une affiche. Deux lignes d'annonce, puis
+             l'index de ce qu'on trouve au comptoir, d'un bord à l'autre.
+             Ni colonne texte / colonne rail : c'est ce partage-là que la
+             série entière portait. */}
       <section
         id="top"
         className="i336-hero i336-pad"
         style={{
           minHeight: "100dvh",
-          display: "grid",
-          gridTemplateColumns: "minmax(0,1.5fr) minmax(0,1fr)",
-          gap: "clamp(30px,5vw,76px)",
-          alignItems: "center",
-          padding: "clamp(130px,14vw,168px) clamp(22px,5vw,64px) clamp(60px,7vw,88px)",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          gap: "clamp(26px,3.4vh,44px)",
+          padding: "clamp(120px,13vw,158px) clamp(22px,5vw,64px) clamp(48px,6vw,72px)",
           maxWidth: 1260,
           margin: "0 auto",
           position: "relative",
@@ -620,77 +643,94 @@ export default function PharmacieHorlogePage() {
           style={{
             position: "absolute",
             right: "-6vw",
-            top: "12vh",
+            top: "10vh",
             width: "clamp(300px,42vw,620px)",
             height: "clamp(300px,42vw,620px)",
             borderRadius: "50%",
-            background: `repeating-conic-gradient(from 0deg, rgba(109,74,138,0.075) 0deg 0.5deg, transparent 0.5deg 30deg)`,
+            background: `repeating-conic-gradient(from 0deg, rgba(109,74,138,0.05) 0deg 0.5deg, transparent 0.5deg 30deg)`,
             pointerEvents: "none",
           }}
         />
         <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(52% 44% at 14% 30%, rgba(109,74,138,0.10), transparent 70%)" }} />
 
-        <div style={{ position: "relative", zIndex: 1 }}>
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.15, ease: EASE }}>
-            <Kicker>{clientEyebrow(sessionData) ?? <>Pharmacie · {ville} centre</>}</Kicker>
-          </motion.div>
+        {/* L'annonce : deux lignes, pas un bloc. */}
+        <div className="i336-annonce" style={{ position: "relative", zIndex: 1 }}>
+          <div>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.12, ease: EASE }}>
+              <Kicker>{clientEyebrow(sessionData) ?? <>Pharmacie · {ville} centre</>}</Kicker>
+            </motion.div>
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.22, ease: EASE }}
+              style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(32px,4.4vw,58px)", color: C.ink, lineHeight: 1.02, letterSpacing: "-0.022em", margin: "clamp(16px,1.8vw,24px) 0 0", maxWidth: 720, overflowWrap: "break-word" }}
+            >
+              {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ??
+                clientHeroLine(sessionData, 0, 1, 42) ??
+                "La santé de quartier, au rythme de l'horloge."}
+            </motion.h1>
+          </div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.95, delay: 0.28, ease: EASE }}
-            style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(37px,5.2vw,66px)", color: C.ink, lineHeight: 0.99, letterSpacing: "-0.022em", margin: "clamp(18px,2vw,26px) 0 clamp(16px,1.8vw,24px)" }}
-          >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>
-            {clientHeroLine(sessionData, 0, 2, 21) ?? "La santé de quartier,"}
-            <br />
-            <em style={{ fontStyle: "italic", color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 21) ?? "au rythme de l'horloge."}</em>
-          </>)}</motion.h1>
-
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.44, ease: EASE }}
-            style={{ fontFamily: SANS, fontSize: "clamp(15.5px,1.25vw,17px)", fontWeight: 300, color: C.textMuted, lineHeight: 1.8, maxWidth: 500, marginBottom: "clamp(24px,3vw,34px)" }}
+            transition={{ duration: 0.85, delay: 0.36, ease: EASE }}
+            style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 18 }}
           >
-            {clientHeroSubtitle(sessionData) ??
-              clientTagline(sessionData) ??
-              "Ordonnance envoyée le matin, prête à midi. Vaccination sans rendez-vous, tests rapides, matériel médical — et de vrais conseils au comptoir, pas une file d'attente."}
-          </motion.p>
-
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, delay: 0.58, ease: EASE }} style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            <Btn href={`mailto:${mail}`} filled>
-              Envoyer mon ordonnance
-            </Btn>
-            <Btn href="#parcours">Voir le parcours</Btn>
+            <p style={{ fontFamily: SANS, fontSize: "clamp(14.5px,1.15vw,16px)", fontWeight: 300, color: C.textMuted, lineHeight: 1.78, maxWidth: 380, margin: 0 }}>
+              {clientHeroSubtitle(sessionData) ??
+                clientTagline(sessionData) ??
+                "Ordonnance envoyée le matin, prête à midi. Vaccination sans rendez-vous, tests rapides, matériel médical — et de vrais conseils au comptoir, pas une file d'attente."}
+            </p>
+            {/* Une seule action pleine ; le parcours reste un lien. */}
+            <div style={{ display: "flex", alignItems: "center", gap: "clamp(14px,2vw,24px)", flexWrap: "wrap" }}>
+              <Btn href={`mailto:${mail}`} filled>
+                Envoyer mon ordonnance
+              </Btn>
+              <a href="#parcours" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+                Voir le parcours
+              </a>
+            </div>
           </motion.div>
-
-          {/* le rappel réglementaire, jamais enterré dans le pied de page */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "10px 26px", marginTop: "clamp(28px,3.6vw,42px)", paddingTop: 20, borderTop: `1px solid ${C.border}` }}>
-            {URGENCES.map((u: string, idx: number) => (
-              <span key={idx} style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: SANS, fontSize: 12.5, color: C.textMuted, fontVariantNumeric: "tabular-nums" }}>
-                <span aria-hidden style={{ width: 14, height: 1, background: C.accent }} />
-                {u}
-              </span>
-            ))}
-          </div>
         </div>
 
-        {/* Le rail : les chiffres empilés, filet à gauche, pas une bande */}
-        <motion.div
-          className="i336-rail"
-          initial={{ opacity: 0, x: 22 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, delay: 0.5, ease: EASE }}
-          style={{ position: "relative", zIndex: 1, borderLeft: `1px solid ${C.border}`, paddingLeft: "clamp(22px,3vw,44px)" }}
-        >
-          <div style={{ fontFamily: SANS, fontSize: 9.5, fontWeight: 600, letterSpacing: "0.30em", textTransform: "uppercase", color: C.textFaint, marginBottom: 22 }}>L'officine en chiffres</div>
-          {STATS.map((s: any, idx: number) => (
-            <div key={s.label} style={{ padding: "clamp(16px,1.8vw,22px) 0", borderTop: idx === 0 ? "none" : `1px solid ${C.border}` }}>
-              <div style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(28px,3.2vw,42px)", color: C.accent, lineHeight: 1, letterSpacing: "-0.02em", fontVariantNumeric: "tabular-nums" }}>{s.value}</div>
-              <div style={{ fontFamily: SANS, fontSize: 12, letterSpacing: "0.08em", color: C.textMuted, marginTop: 9, lineHeight: 1.55 }}>{s.label}</div>
-            </div>
+        {/* ── L'INDEX — ce qu'on trouve au comptoir, dès le premier écran ── */}
+        {/*
+          Les titres seuls, pas les descriptions : les cartes détaillées vivent
+          plus bas, à #services. Ici c'est un sommaire — il dit ce que
+          l'officine fait avant qu'on ait déroulé quoi que ce soit.
+        */}
+        <nav aria-label="Ce qu'on trouve au comptoir" style={{ position: "relative", zIndex: 1, borderTop: `1px solid ${C.border}` }}>
+          {SERVICES.slice(0, 5).map((s: any, idx: number) => (
+            <Reveal key={s.titre ?? idx} delay={0.42 + idx * 0.06} y={12}>
+              <a
+                href="#services"
+                className="i336-ligne"
+                style={{ display: "grid", gridTemplateColumns: "clamp(34px,4vw,58px) minmax(0,1fr) auto", alignItems: "baseline", gap: "clamp(12px,2vw,26px)", padding: "clamp(11px,1.5vh,18px) 0", borderBottom: `1px solid ${C.border}`, textDecoration: "none", color: "inherit" }}
+              >
+                <span style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.2em", color: C.accent, fontVariantNumeric: "tabular-nums" }}>
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
+                <span style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(19px,2.3vw,32px)", color: C.ink, lineHeight: 1.16, letterSpacing: "-0.015em" }}>
+                  {s.titre}
+                </span>
+                <span style={{ fontFamily: SANS, fontSize: 10.5, fontWeight: 500, letterSpacing: "0.22em", textTransform: "uppercase", color: C.textFaint, whiteSpace: "nowrap" }}>
+                  {s.tag}
+                </span>
+              </a>
+            </Reveal>
           ))}
-        </motion.div>
+        </nav>
+
+        {/* le rappel réglementaire, jamais enterré dans le pied de page */}
+        <div style={{ position: "relative", zIndex: 1, display: "flex", flexWrap: "wrap", gap: "10px 26px" }}>
+          {URGENCES.map((u: string, idx: number) => (
+            <span key={idx} style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: SANS, fontSize: 12.5, color: C.textMuted, fontVariantNumeric: "tabular-nums" }}>
+              <span aria-hidden style={{ width: 14, height: 1, background: C.accent }} />
+              {u}
+            </span>
+          ))}
+        </div>
       </section>
 
       {/* ── RESPIRATION ─────────────────────────────────────────────────── */}

@@ -26,7 +26,7 @@ import { motion, AnimatePresence, useInView, useReducedMotion } from "framer-mot
 import { ArrowRight, ArrowUpRight, Mail, MapPin, Phone, Ruler } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { PanelDrop } from "@/lib/templates/hero-kit-3";
 import {
   clientAddress,
@@ -579,7 +579,7 @@ export default function StudioCulinaPage() {
   const reduce = useReducedMotion();
 
   /* Un seul index pilote tout le héros : panneau, légende, compteur, flèches. */
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i, go } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
   /* Le spotlight des avis : sa propre horloge, plus lente que le héros. */
@@ -610,10 +610,38 @@ export default function StudioCulinaPage() {
     <div style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip", WebkitFontSmoothing: "antialiased" }}>
       <style>{FONTS_CSS}</style>
       <style>{`
+        /*
+          ── Le héros : deux masses séparées par une oblique ────────────────
+          La photographie occupait une colonne et le texte l'autre : c'est ce
+          partage-là que toute la série portait. Ici elle est taillée en biais,
+          comme le chant d'un plan de travail, et le texte occupe le coin
+          qu'elle laisse. Le coin est plus étroit que la masse : l'asymétrie
+          est le sujet, une oblique au milieu ne serait qu'une colonne penchée.
+        */
+        .i334-oblique {
+          position: absolute;
+          inset: 0 0 0 auto;
+          width: 62%;
+          clip-path: polygon(26% 0, 100% 0, 100% 100%, 0 100%);
+          overflow: hidden;
+        }
+        .i334-oblique > *, .i334-oblique > * > * { height: 100%; }
+        .i334-coin {
+          position: relative;
+          z-index: 3;
+          width: min(560px, 46%);
+          margin-left: clamp(22px, 5vw, 88px);
+          padding: clamp(130px,14vw,168px) 0 clamp(60px,7vw,86px);
+        }
+
         @media (max-width: 980px) { #i334-nav { display: none !important; } .i334-burger { display: flex !important; } }
         @media (max-width: 900px) {
-          .i334-hero { grid-template-columns: minmax(0,1fr) !important; padding: 116px 22px 56px !important; gap: 34px !important; }
-          .i334-hero > * { order: initial !important; }
+          /* Sous 900 il n'y a plus de « à côté » : la masse photographique
+             prend le haut de l'écran, l'oblique passe sur son bord bas, et le
+             texte se pose dessous. */
+          .i334-hero { display: block !important; }
+          .i334-oblique { inset: 0 0 auto 0; width: 100%; height: 44dvh; clip-path: polygon(0 0, 100% 0, 100% 78%, 0 100%); }
+          .i334-coin { width: auto; margin: 0; padding: calc(44dvh + 14px) 22px 56px; }
           .i334-heromedia { max-width: 480px; margin: 0 auto; width: 100%; }
           .i334-split { grid-template-columns: minmax(0,1fr) !important; gap: 34px !important; }
           .i334-split > * { order: initial !important; }
@@ -689,43 +717,28 @@ export default function StudioCulinaPage() {
         </div>
       )}
 
-      {/* ── HERO — H2 : le média à GAUCHE, la parole à droite ────────────── */}
+      {/* ── HERO — diagonale asymétrique ──────────────────────────────────
+             La photographie n'occupe plus une colonne mais une masse coupée
+             en biais, comme un chant de plan de travail. Le texte vit dans le
+             coin qu'elle laisse. Aucune grille : deux masses de tailles
+             différentes, séparées par une oblique. */}
       <section
         id="top"
-        className="i334-hero i334-pad"
-        style={{
-          minHeight: "100dvh",
-          display: "grid",
-          gridTemplateColumns: "minmax(0,0.94fr) minmax(0,1.06fr)",
-          gap: "clamp(30px,4.5vw,68px)",
-          alignItems: "center",
-          padding: "clamp(130px,14vw,168px) clamp(22px,5vw,64px) clamp(60px,7vw,86px)",
-          maxWidth: 1280,
-          margin: "0 auto",
-          position: "relative",
-        }}
+        className="i334-hero"
+        style={{ position: "relative", minHeight: "100dvh", display: "flex", alignItems: "center", overflow: "hidden", background: C.bg }}
       >
-        {/* glow radial : la lumière de l'atelier, 0.10 max */}
-        <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(58% 46% at 18% 26%, rgba(185,141,85,0.10), transparent 68%)" }} />
-
-        {/* Colonne média — order 1 en grand écran, remise à la suite en dessous de 900 px */}
-        <div className="i334-heromedia" style={{ order: 1, position: "relative", zIndex: 1 }}>
+        {/* La masse photographique, taillée en oblique sur son bord gauche. */}
+        <div className="i334-oblique" aria-hidden={false}>
           <PanelDrop index={i}>
-            <figure style={{ margin: 0, background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: 3, overflow: "hidden", boxShadow: "0 40px 80px -50px rgba(31,26,19,0.6), 0 8px 22px -16px rgba(31,26,19,0.32)" }}>
-              <div style={{ position: "relative", background: C.bgDark }}>
-                <img src={S.img} alt={S.alt} loading="eager" style={{ width: "100%", aspectRatio: "4/3.15", objectFit: "cover", display: "block" }} />
-                <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(31,26,19,0.20) 0%, rgba(31,26,19,0) 38%, rgba(31,26,19,0.04) 70%, rgba(31,26,19,0.34) 100%)" }} />
-              </div>
-              <figcaption style={{ padding: "20px 22px 22px", borderTop: `2px solid ${C.accent}` }}>
-                <div style={{ fontFamily: SANS, fontSize: 10, fontWeight: 600, letterSpacing: "0.30em", textTransform: "uppercase", color: C.accentDark, marginBottom: 9 }}>{S.k}</div>
-                <div style={{ fontFamily: SERIF, fontSize: "clamp(17px,1.7vw,21px)", color: C.ink, lineHeight: 1.34 }}>{S.line}</div>
-              </figcaption>
-            </figure>
+            <div style={{ position: "relative", width: "100%", height: "100%", background: C.bgDark }}>
+              <img src={S.img} alt={S.alt} loading="eager" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(255deg, rgba(31,26,19,0) 34%, rgba(31,26,19,0.42) 100%)" }} />
+            </div>
           </PanelDrop>
         </div>
 
-        {/* Colonne parole */}
-        <div style={{ order: 2, position: "relative", zIndex: 1 }}>
+        {/* Le coin de parole. */}
+        <div className="i334-coin">
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.15, ease: EASE }}>
             <Kicker>{clientEyebrow(sessionData) ?? <>Cuisines sur mesure · {ville}</>}</Kicker>
           </motion.div>
@@ -737,43 +750,61 @@ export default function StudioCulinaPage() {
             style={{
               fontFamily: SERIF,
               fontWeight: 300,
-              fontSize: "clamp(38px,5.4vw,70px)",
+              fontSize: "clamp(34px,4.6vw,62px)",
               color: C.ink,
-              lineHeight: 0.99,
+              lineHeight: 1.02,
               letterSpacing: "-0.022em",
               margin: "clamp(18px,2vw,26px) 0 clamp(16px,1.8vw,24px)",
+              overflowWrap: "break-word",
             }}
-          >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>
-            {clientHeroLine(sessionData, 0, 2, 20) ?? "La cuisine dessinée"}
-            <br />
-            <em style={{ fontStyle: "italic", color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 20) ?? "autour de vos matins."}</em>
-          </>)}</motion.h1>
+          >
+            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ??
+              clientHeroLine(sessionData, 0, 1, 40) ??
+              "La cuisine dessinée autour de vos matins."}
+          </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.85, delay: 0.44, ease: EASE }}
-            style={{ fontFamily: SANS, fontSize: "clamp(15.5px,1.25vw,17px)", fontWeight: 300, color: C.textMuted, lineHeight: 1.78, maxWidth: 480, marginBottom: "clamp(24px,3vw,34px)" }}
+            style={{ fontFamily: SANS, fontSize: "clamp(15px,1.2vw,16.5px)", fontWeight: 300, color: C.textMuted, lineHeight: 1.78, maxWidth: 460, marginBottom: "clamp(24px,3vw,34px)" }}
           >
             {clientHeroSubtitle(sessionData) ??
               clientTagline(sessionData) ??
               "Un studio de conception, pas un couloir d'expo : trois cuisines témoins, un architecte d'intérieur, et des façades qui se posent au millimètre. Devis ferme, pose décennale."}
           </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, delay: 0.58, ease: EASE }} style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
+          {/* Une seule action pleine ; le nuancier en lien souligné. */}
+          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, delay: 0.58, ease: EASE }} style={{ display: "flex", gap: "clamp(16px,2vw,26px)", flexWrap: "wrap", alignItems: "center" }}>
             <Btn href={telHref} filled>
               Réserver l'atelier
             </Btn>
-            <Btn href="#nuancier">Voir le nuancier</Btn>
+            <a href="#nuancier" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+              Voir le nuancier
+            </a>
           </motion.div>
 
-          {/* légende + compteur + flèches : le même index que le panneau */}
-          <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: "clamp(30px,4vw,46px)", flexWrap: "wrap", paddingTop: 22, borderTop: `1px solid ${C.border}` }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textFaint} className="" />
-            <span style={{ fontFamily: SANS, fontSize: 13, color: C.textMuted, lineHeight: 1.6 }}>
+          {/*
+            Le nom de la cuisine montrée, et de quoi passer aux autres. La
+            fraction « 01 / 03 » ne disait pas ce qu'on regardait ; ces trois
+            traits nomment les trois pièces et y mènent directement.
+          */}
+          <div style={{ marginTop: "clamp(26px,3.4vw,42px)", paddingTop: 20, borderTop: `1px solid ${C.border}` }}>
+            <div style={{ fontFamily: SANS, fontSize: 13, color: C.textMuted, lineHeight: 1.6, marginBottom: 14 }}>
               <strong style={{ color: C.ink, fontWeight: 600 }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" />
+            </div>
+            <div style={{ display: "flex", gap: 10 }}>
+              {HERO.map((h: any, n: number) => (
+                <button
+                  key={h.k ?? n}
+                  type="button"
+                  onClick={() => go(n)}
+                  aria-label={h.k ?? `Cuisine ${n + 1}`}
+                  aria-current={n === i}
+                  style={{ width: 44, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === i ? C.accent : C.border, transition: "background .3s" }}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
