@@ -6,7 +6,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, Baby, Blocks, BookOpen, Clock, Mail, MapPin, Music4, Phone, Soup, Sprout, TreePine } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { ComposeIn } from "@/lib/templates/hero-kit-3";
 import {
   clientAddress,
@@ -340,7 +340,7 @@ function Nav() {
        Geste : ComposeIn, un seul index pilote tout.
    ════════════════════════════════════════════════════════════════════════════ */
 function Hero() {
-  const { i, next, prev } = useSlides(SCENES.length, DWELL.normal);
+  const { i, go } = useSlides(SCENES.length, DWELL.normal);
   const S = SCENES[i];
   const img = photo(0, PHOTO_JEU);
 
@@ -397,51 +397,84 @@ function Hero() {
   ];
 
   return (
-    <section id="top" className="i353-hero" style={{ position: "relative", display: "grid", gridTemplateColumns: "minmax(0,0.98fr) minmax(0,1.02fr)", gap: "clamp(30px,5vw,70px)", alignItems: "center", maxWidth: 1260, margin: "0 auto", padding: "clamp(112px,13vw,168px) clamp(20px,5vw,64px) clamp(56px,7vw,96px)" }}>
+    <section id="top" className="i353-hero">
+      {/* ── HERO — devanture centrée ───────────────────────────────────────
+             Une colonne unique au milieu, et la scène posée dessous d'un bord
+             à l'autre, comme une vitrine à hauteur d'enfant.
+
+             L'archétype prévu au plan était « split inversé, image à
+             gauche » : c'est exactement ce que ce héros faisait déjà. Le lui
+             redonner n'aurait rien changé à l'écran — l'erreur des thèmes
+             dits « superficiels », à qui on n'avait donné qu'un nouveau
+             sur-titre. */}
+
       {/* La lueur qui dérive : ce qui empêche la scène vide de ressembler à
           une page qui n'a pas fini de charger. */}
-      <div aria-hidden className="i353-derive" style={{ position: "absolute", inset: "-10% -20%", background: "radial-gradient(38% 42% at 30% 45%, rgba(78,138,95,0.16), transparent 70%)", pointerEvents: "none" }} />
+      <div aria-hidden className="i353-derive" style={{ position: "absolute", inset: "-10% -20%", background: "radial-gradient(38% 42% at 50% 30%, rgba(78,138,95,0.16), transparent 70%)", pointerEvents: "none" }} />
 
-      {/* ── MÉDIA À GAUCHE : la scène qui se compose ─────────────────────── */}
-      <ComposeIn
-        index={i}
-        items={pieces}
-        hold={1.4}
-        beat={0.17}
-        className="i353-scene"
-        style={{ position: "relative", display: "grid", gridTemplateColumns: "minmax(0,1.08fr) minmax(0,0.92fr)", gridTemplateRows: "minmax(112px,auto) minmax(112px,auto) minmax(96px,auto)", gap: 14 }}
-      />
-
-      {/* ── TEXTE À DROITE ──────────────────────────────────────────────── */}
-      <div style={{ position: "relative" }}>
+      <div className="i353-dire">
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, ease: EASE, delay: 0.12 }}>
-          <Kicker>{clientEyebrow(sessionData) ?? `Micro-crèche · ${clientCity(sessionData) ?? "Grenoble"}`}</Kicker>
+          <Kicker align="center">{clientEyebrow(sessionData) ?? `Micro-crèche · ${clientCity(sessionData) ?? "Grenoble"}`}</Kicker>
         </motion.div>
 
-        <motion.h1 initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.95, ease: EASE, delay: 0.22 }} style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(2.3rem,5.4vw,4.6rem)", lineHeight: 0.99, letterSpacing: "-0.015em", color: C.ink, margin: "clamp(18px,2.4vw,28px) 0 clamp(16px,2vw,24px)" }}>
-          {l1}
-          <br />
-          <em style={{ fontStyle: "italic", color: C.accent }}>{l2}</em>
+        {/*
+          Titre d'un seul tenant, d'une seule couleur : la seconde ligne en
+          italique d'un autre ton était la signature de gabarit de la série.
+        */}
+        <motion.h1 initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.95, ease: EASE, delay: 0.22 }} style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(2.1rem,5.2vw,4.6rem)", lineHeight: 1.02, letterSpacing: "-0.015em", color: C.ink, margin: "clamp(16px,2.2vw,26px) 0 clamp(14px,1.8vw,22px)", maxWidth: 900, overflowWrap: "break-word" }}>
+          {l1} {l2}
         </motion.h1>
 
-        <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.36 }} style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(15.5px,1.5vw,18px)", lineHeight: 1.8, color: C.textMuted, maxWidth: 500, margin: "0 0 clamp(24px,3vw,34px)" }}>
+        <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.36 }} style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(15px,1.4vw,17.5px)", lineHeight: 1.8, color: C.textMuted, maxWidth: 620, margin: "0 auto clamp(22px,2.8vw,32px)" }}>
           {sub}
         </motion.p>
 
-        <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.48 }} style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+        {/* Une seule action pleine ; la journée reste un lien. */}
+        <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.48 }} style={{ display: "flex", gap: "clamp(16px,2vw,26px)", flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
           <RoundButton href={`tel:${clientPhone(sessionData) ?? fd?.phone ?? "+33476000000"}`} filled>
             Demander une place
           </RoundButton>
-          <RoundButton href="#methode">Une journée ici</RoundButton>
+          <a href="#methode" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+            Une journée ici
+          </a>
         </motion.div>
+      </div>
 
-        {/* Légende de scène : le seul index qui pilote tout le héros. */}
-        <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: "clamp(28px,4vw,44px)", flexWrap: "wrap" }}>
-          <SlideIndex i={i} total={SCENES.length} variant="fraction" color={C.textFaint} className="" />
-          <span style={{ fontFamily: SANS, fontSize: 13.5, color: C.textMuted, minWidth: 0 }}>
-            <strong style={{ color: C.ink, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
-          </span>
-          <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" />
+      {/* ── LA VITRINE — la scène se compose d'un bord à l'autre ─────────── */}
+      {/*
+        La scène tenait une colonne à gauche du texte, en trois rangées. Ici
+        ses pièces s'alignent sous le titre. Le geste ComposeIn ne change pas
+        — elles arrivent toujours une à une — mais la scène est horizontale.
+      */}
+      <ComposeIn
+        index={i}
+        items={pieces.map((p: any, n: number) => ({ ...p, style: { gridColumn: `${n + 1} / span 1`, gridRow: "1" } }))}
+        hold={1.4}
+        beat={0.17}
+        className="i353-scene"
+        style={{ position: "relative", display: "grid", gridTemplateColumns: `repeat(${pieces.length}, minmax(0,1fr))`, gridAutoRows: "minmax(clamp(170px,19vw,240px),auto)", gap: 14 }}
+      />
+
+      {/* Légende de scène : le seul index qui pilote tout le héros. */}
+      <div className="i353-legende">
+        <span style={{ fontFamily: SANS, fontSize: 13.5, color: C.textMuted, minWidth: 0 }}>
+          <strong style={{ color: C.ink, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
+        </span>
+        {/*
+          La fraction « 01 / 03 » ne disait pas ce qu'on regardait ; ces
+          traits nomment les scènes et y mènent directement.
+        */}
+        <div style={{ display: "flex", gap: 9, flexShrink: 0 }}>
+          {SCENES.map((sc: any, n: number) => (
+            <button
+              key={sc.k ?? n}
+              type="button"
+              onClick={() => go(n)}
+              aria-label={sc.k ?? `Scène ${n + 1}`}
+              aria-current={n === i}
+              style={{ width: 36, height: 3, padding: 0, border: "none", borderRadius: 2, cursor: "pointer", background: n === i ? C.accent : C.border, transition: "background .3s" }}
+            />
+          ))}
         </div>
       </div>
     </section>
@@ -946,8 +979,41 @@ export default function PetitsCairnsPage() {
 
         /* Grilles à deux colonnes : media queries locales du thème.
            On ne compte pas sur app/templates/layout.tsx. */
+        /*
+          ── Héros « devanture centrée » ────────────────────────────────────
+          Une colonne unique au milieu, la scène alignée dessous comme une
+          vitrine. L'archétype prévu — image à gauche, texte à droite — était
+          DÉJÀ ce que ce héros faisait : le lui redonner n'aurait rien changé.
+        */
+        .i353-hero {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: clamp(22px, 3vh, 38px);
+          text-align: center;
+          max-width: 1260px;
+          margin: 0 auto;
+          padding: clamp(112px, 13vw, 164px) clamp(20px, 5vw, 64px) clamp(48px, 6vw, 80px);
+        }
+        .i353-dire { position: relative; z-index: 2; width: 100%; }
+        .i353-legende {
+          position: relative;
+          z-index: 2;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 16px;
+          flex-wrap: wrap;
+          width: 100%;
+          text-align: left;
+          padding-top: clamp(14px, 2vw, 20px);
+          border-top: 1px solid ${C.border};
+        }
+
         @media (max-width: 900px) {
-          .i353-hero { grid-template-columns: minmax(0,1fr) !important; }
+          /* Quatre pièces côte à côte deviennent quatre colonnes de six
+             caractères : la scène repasse en colonne. */
           .i353-scene { grid-template-columns: minmax(0,1fr) !important; }
           /* Les placements sont posés en style inline par ComposeIn :
              seul !important les défait. */

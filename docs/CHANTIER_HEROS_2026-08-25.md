@@ -72,10 +72,10 @@ d'écart, et jamais avec les mêmes proportions.
 | 348 | formation | `typo` | fait |
 | 349 | contrôle technique | `pleincadre` | fait |
 | 350 | contrôle technique | `editorial` | fait |
-| 351 | couvreur | `bandeau` | à faire |
-| 352 | couvreur | `carte` | à faire |
-| 353 | crèche | `splitgauche` | à faire |
-| 354 | crèche | `diagonale` | à faire |
+| 351 | couvreur | `bandeau` | fait |
+| 352 | couvreur | `carte` | fait |
+| 353 | crèche | `devanture` | fait |
+| 354 | crèche | `diagonale` | fait |
 | 355 | infirmier | `chiffre` | à faire |
 | 356 | infirmier | `typo` | à faire |
 | 357 | laboratoire | `liste` | à faire |
@@ -121,6 +121,12 @@ Trois écarts assumés à la rotation, pour ne pas plier un métier à un tablea
   reconduit ce qu'il avait, l'erreur des thèmes dits « superficiels ». Les
   tuiles deviennent une vitrine alignée sous un titre centré. `348`
   (organisme de formation) prend `typo` à sa place.
+- `351` prend `bandeau` alors qu'il venait d'être passé en plein cadre : le
+  plein cadre est déjà porté par `349`, à deux crans, et par `340`. Sa
+  photographie reste au-dessus de la ligne de flottaison, ce qui était le
+  point de sa réécriture précédente.
+- `353` (micro-crèche) reçoit `devanture` et non `splitgauche` : son héros
+  posait DÉJÀ l'image à gauche et le texte à droite. Même raison que `334`.
 - `339` et `340` échangent : `340` porte déjà une photographie de client dans
   son héros et sait se replier sur une courbe de gain dessinée, il prend donc
   `pleincadre` ; `339` n'a pas d'image du tout — son orbe de particules passe

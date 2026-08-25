@@ -372,122 +372,128 @@ function Hero() {
   return (
     <section
       id="top"
-      style={{ position: "relative", background: C.bg, padding: "clamp(116px,14vw,170px) clamp(20px,5vw,60px) clamp(56px,7vw,96px)", overflow: "hidden", ...laine(0.8) }}
+      className="i354-hero"
+      style={{ position: "relative", background: C.bg, overflow: "hidden", ...laine(0.8) }}
     >
-      <div className="i354-heroGrid" style={{ position: "relative", maxWidth: 1240, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1.06fr) minmax(0,0.94fr)", columnGap: "clamp(20px,3vw,44px)" }}>
-        {/* ── Colonne titre — elle déborde volontairement sur le panneau ── */}
-        <div className="i354-heroText" style={{ position: "relative", zIndex: 2, paddingTop: "clamp(6px,2vw,30px)" }}>
-          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, ease: EASE, delay: 0.08 }}>
-            <Kicker>{clientEyebrow(sessionData) ?? `Crèche associative · ${clientCity(sessionData) ?? "Reims"}`}</Kicker>
-          </motion.div>
+      {/* ── HERO — diagonale asymétrique ────────────────────────────────────
+             La photographie n'occupe plus une colonne : c'est une masse
+             taillée en biais, sur le bord gauche, et le texte vit dans le
+             coin qu'elle laisse. Le titre débordait sur un panneau posé à sa
+             droite — une grille à deux colonnes de plus.
 
-          <ScrollGrow from={1} to={1.42} fade>
-            <motion.h1
-              className="i354-h1"
-              onMouseEnter={() => setHTitle(true)}
-              onMouseLeave={() => setHTitle(false)}
-              initial={{ opacity: 0, y: 34 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.05, ease: EASE, delay: 0.18 }}
-              style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(2.5rem,6.8vw,6.2rem)", lineHeight: 1.02, letterSpacing: "-0.015em", color: C.ink, margin: "clamp(22px,3.4vw,44px) 0 clamp(18px,2.4vw,30px)", marginRight: "-24%", maxWidth: "none", cursor: "default", transformOrigin: "0% 50%" }}
+             L'oblique penche dans l'autre sens que celle d'impact-334, et la
+             masse est à gauche : deux diagonales identiques se liraient comme
+             un même gabarit. */}
+
+      {/* La masse photographique, taillée en oblique sur son bord droit. */}
+      <motion.div
+        className="i354-oblique"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.1, ease: EASE, delay: 0.2 }}
+      >
+        <div style={{ position: "relative", width: "100%", height: "100%", background: C.bgDark }}>
+          {img ? (
+            <img
+              src={img}
+              alt={`${fd?.businessName ?? clientName(sessionData) ?? "Le Nid Douillet"} — lecture partagée avec un enfant`}
+              loading="eager"
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
+          ) : (
+            <div
+              style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 18, background: `linear-gradient(195deg, rgba(232,180,168,0.5), rgba(43,29,33,0.9))` }}
             >
-              {l1}
-              <br />
-              <em style={{ fontStyle: "italic", color: hTitle ? C.accentDark : C.accent, transition: `color .5s ${EASE_CSS}` }}>
-                {l2}
-              </em>
-            </motion.h1>
-          </ScrollGrow>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE, delay: 0.34 }}
-            style={{ fontFamily: SANS, fontWeight: 400, fontSize: "clamp(15px,1.45vw,17.5px)", lineHeight: 1.78, color: C.textMuted, maxWidth: 460, margin: "0 0 clamp(24px,3vw,36px)" }}
-          >
-            {sub}
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE, delay: 0.46 }}
-            style={{ display: "flex", gap: 12, flexWrap: "wrap" }}
-          >
-            <PillButton href={`tel:${clientPhone(sessionData) ?? fd?.phone ?? "+33326000000"}`} filled>
-              Rencontrer l'équipe
-            </PillButton>
-            <PillButton href="#services">Notre projet</PillButton>
-          </motion.div>
-
-          {/* Rail de repères sous les boutons — les chiffres du cocon. */}
-          <motion.div
-            className="i354-heroStats"
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE, delay: 0.6 }}
-            style={{ display: "flex", gap: "clamp(20px,3vw,40px)", flexWrap: "wrap", marginTop: "clamp(30px,4vw,52px)", paddingTop: 20, borderTop: `1px solid ${C.border}`, maxWidth: 480 }}
-          >
-            {STATS.slice(0, 3).map((s, i) => (
-              <div key={`${s.label}-${i}`} style={{ minWidth: 0 }}>
-                <div style={{ fontFamily: SERIF, fontSize: "clamp(21px,2.2vw,28px)", color: C.accentDark, lineHeight: 1 }}>{s.value}</div>
-                <div style={{ fontFamily: SANS, fontSize: 11.5, lineHeight: 1.5, color: C.textFaint, marginTop: 6, maxWidth: 150 }}>{s.label}</div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-
-        {/* ── Panneau média décalé vers le bas — le titre passe dessus ──── */}
-        <motion.div
-          className="i354-panel"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.1, ease: EASE, delay: 0.3 }}
-          style={{ position: "relative", zIndex: 1, marginTop: "clamp(64px,10vw,150px)" }}
-        >
-          {/* Bande de recouvrement : un aplat calme sous la queue du titre. */}
-          <div aria-hidden style={{ height: "clamp(24px,3vw,44px)", background: "transparent" }} />
-          <figure style={{ position: "relative", margin: 0, borderRadius: "clamp(18px,2.4vw,30px) clamp(18px,2.4vw,30px) 120px clamp(18px,2.4vw,30px)", overflow: "hidden", background: C.bgDark, boxShadow: "0 40px 90px -50px rgba(43,29,33,0.55), 0 10px 30px -22px rgba(43,29,33,0.3)" }}>
-            <div style={{ aspectRatio: "4/5", position: "relative" }}>
-              {img ? (
-                <img
-                  src={img}
-                  alt={`${fd?.businessName ?? clientName(sessionData) ?? "Le Nid Douillet"} — lecture partagée avec un enfant`}
-                  loading="eager"
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                />
-              ) : (
-                <div
-                  style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 18, background: `linear-gradient(195deg, rgba(232,180,168,0.5), rgba(43,29,33,0.9))` }}
-                >
-                  <Moon size={52} color={C.accentLight} strokeWidth={0.9} />
-                  <span style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.32em", textTransform: "uppercase", color: "rgba(250,245,243,0.7)", fontWeight: 600 }}>
-                    L'heure du calme
-                  </span>
-                </div>
-              )}
-              <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(43,29,33,0.62) 0%, rgba(43,29,33,0.06) 44%, rgba(43,29,33,0.12) 100%)" }} />
-              {/* Cartouche de légende — le détail du magazine de famille. */}
-              <figcaption style={{ position: "absolute", left: "clamp(16px,2.4vw,28px)", right: "clamp(16px,2.4vw,28px)", bottom: "clamp(16px,2.4vw,26px)" }}>
-                <div style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.32em", textTransform: "uppercase", color: "rgba(250,245,243,0.62)", marginBottom: 8, fontWeight: 600 }}>
-                  Grandir accompagné
-                </div>
-                <p style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(16px,1.8vw,22px)", lineHeight: 1.36, color: "rgba(250,245,243,0.96)", margin: 0, textShadow: "0 8px 30px rgba(0,0,0,0.5)" }}>
-                  {/* TEXTE_SECTION */ clientText(sessionData, "heros.legende") ?? (
-                    <>{HERO_DEMO.legende}</>
-                  )}
-                </p>
-              </figcaption>
+              <Moon size={52} color={C.accentLight} strokeWidth={0.9} />
+              <span style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.32em", textTransform: "uppercase", color: "rgba(250,245,243,0.7)", fontWeight: 600 }}>
+                L'heure du calme
+              </span>
             </div>
-          </figure>
-          {/* Pastille soleil — le détail gratuit, qui tourne douze fois plus lentement qu'une horloge. */}
-          <div
-            aria-hidden
-            className="i354-soleil"
-            style={{ position: "absolute", top: "clamp(6px,1vw,16px)", right: "clamp(-14px,-1vw,-8px)", width: 74, height: 74, borderRadius: "50%", background: C.accentLight, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 14px 30px -18px rgba(157,71,71,0.5)" }}
-          >
-            <Sun size={30} color={C.accentDark} strokeWidth={1.2} />
+          )}
+          <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(43,29,33,0.66) 0%, rgba(43,29,33,0.06) 46%, rgba(43,29,33,0.14) 100%)" }} />
+          {/* Cartouche de légende — le détail du magazine de famille. */}
+          <div className="i354-legende">
+            <div style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.32em", textTransform: "uppercase", color: "rgba(250,245,243,0.62)", marginBottom: 8, fontWeight: 600 }}>
+              Grandir accompagné
+            </div>
+            <p style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(15px,1.6vw,20px)", lineHeight: 1.36, color: "rgba(250,245,243,0.96)", margin: 0, textShadow: "0 8px 30px rgba(0,0,0,0.5)" }}>
+              {/* TEXTE_SECTION */ clientText(sessionData, "heros.legende") ?? (
+                <>{HERO_DEMO.legende}</>
+              )}
+            </p>
           </div>
+        </div>
+      </motion.div>
+
+      {/* Pastille soleil — le détail gratuit, qui tourne douze fois plus
+          lentement qu'une horloge. Elle se pose sur l'arête de la coupe. */}
+      <div aria-hidden className="i354-soleil">
+        <Sun size={30} color={C.accentDark} strokeWidth={1.2} />
+      </div>
+
+      {/* ── Le coin de parole ─────────────────────────────────────────────── */}
+      <div className="i354-coin">
+        <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, ease: EASE, delay: 0.08 }}>
+          <Kicker>{clientEyebrow(sessionData) ?? `Crèche associative · ${clientCity(sessionData) ?? "Reims"}`}</Kicker>
+        </motion.div>
+
+        {/*
+          Titre d'un seul tenant. La seconde ligne en italique d'une autre
+          couleur était la signature de gabarit de toute la série ; ScrollGrow
+          suffit à faire le geste du thème.
+        */}
+        <ScrollGrow from={1} to={1.14} fade>
+          <motion.h1
+            className="i354-h1"
+            onMouseEnter={() => setHTitle(true)}
+            onMouseLeave={() => setHTitle(false)}
+            initial={{ opacity: 0, y: 34 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.05, ease: EASE, delay: 0.18 }}
+            style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(2.1rem,4.2vw,4.2rem)", lineHeight: 1.03, letterSpacing: "-0.015em", color: hTitle ? C.accentDark : C.ink, transition: `color .5s ${EASE_CSS}`, margin: "clamp(18px,2.6vw,32px) 0 clamp(16px,2.2vw,26px)", cursor: "default", transformOrigin: "0% 50%", overflowWrap: "break-word" }}
+          >
+            {l1} {l2}
+          </motion.h1>
+        </ScrollGrow>
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: EASE, delay: 0.34 }}
+          style={{ fontFamily: SANS, fontWeight: 400, fontSize: "clamp(14.5px,1.35vw,16.5px)", lineHeight: 1.78, color: C.textMuted, margin: "0 0 clamp(22px,2.8vw,32px)" }}
+        >
+          {sub}
+        </motion.p>
+
+        {/* Une seule action pleine ; le projet reste un lien. */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: EASE, delay: 0.46 }}
+          style={{ display: "flex", gap: "clamp(16px,2vw,26px)", flexWrap: "wrap", alignItems: "center" }}
+        >
+          <PillButton href={`tel:${clientPhone(sessionData) ?? fd?.phone ?? "+33326000000"}`} filled>
+            Rencontrer l'équipe
+          </PillButton>
+          <a href="#services" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+            Notre projet
+          </a>
+        </motion.div>
+
+        {/* Rail de repères sous les boutons — les chiffres du cocon. */}
+        <motion.div
+          className="i354-heroStats"
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: EASE, delay: 0.6 }}
+          style={{ display: "flex", gap: "clamp(18px,2.6vw,36px)", flexWrap: "wrap", marginTop: "clamp(26px,3.4vw,44px)", paddingTop: 20, borderTop: `1px solid ${C.border}` }}
+        >
+          {STATS.slice(0, 3).map((s, n) => (
+            <div key={`${s.label}-${n}`} style={{ minWidth: 0 }}>
+              <div style={{ fontFamily: SERIF, fontSize: "clamp(20px,2vw,26px)", color: C.accentDark, lineHeight: 1 }}>{s.value}</div>
+              <div style={{ fontFamily: SANS, fontSize: 11.5, lineHeight: 1.5, color: C.textFaint, marginTop: 6, maxWidth: 150 }}>{s.label}</div>
+            </div>
+          ))}
         </motion.div>
       </div>
     </section>
@@ -1067,12 +1073,75 @@ export default function NidDouilletPage() {
         }
         @media (max-width: 560px) { .i354-navtrade { display: none !important; } }
 
-        /* Le débord du titre H4 ne vaut que sur deux colonnes : en dessous,
-           il rentre dans le rang et le panneau suit dans le flux. */
+        /*
+          ── Héros « diagonale asymétrique » ────────────────────────────────
+          La photographie est une masse taillée en biais sur le bord gauche ;
+          le texte occupe le coin qu'elle laisse. L'oblique penche dans
+          l'autre sens que celle d'impact-334, et la masse est à gauche et non
+          à droite : deux diagonales identiques se liraient comme un même
+          gabarit.
+        */
+        .i354-hero {
+          position: relative;
+          min-height: 100dvh;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+        }
+        .i354-oblique {
+          position: absolute;
+          /* La masse commence SOUS la barre de navigation : à fond perdu
+             jusqu'en haut, elle passait derrière « Le projet » et « Une
+             journée », écrits en encre sombre sur une photographie sombre —
+             illisibles. La barre est transparente au repos et la moitié
+             droite de l'écran est claire : la teindre en blanc ne réglerait
+             qu'un côté. */
+          inset: clamp(84px, 10.5vh, 116px) auto 0 0;
+          /* 52 % et non 58 : le bord haut de la masse est son point le plus
+             large, et le coin de parole doit commencer APRÈS lui, sinon le
+             premier mot du titre passe derrière la photographie — « Ils
+             grandissent vite » s'affichait « s grandissent vite ». */
+          width: 52%;
+          clip-path: polygon(0 0, 100% 0, 72% 100%, 0 100%);
+          overflow: hidden;
+        }
+        .i354-legende {
+          position: absolute;
+          left: clamp(16px, 2.4vw, 32px);
+          bottom: clamp(16px, 2.4vw, 30px);
+          max-width: 62%;
+        }
+        .i354-soleil {
+          position: absolute;
+          top: clamp(96px, 14vh, 160px);
+          left: calc(52% - 42px);
+          z-index: 3;
+          width: 74px;
+          height: 74px;
+          border-radius: 50%;
+          background: ${C.accentLight};
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 14px 30px -18px rgba(157,71,71,0.5);
+        }
+        .i354-coin {
+          position: relative;
+          z-index: 2;
+          width: min(520px, 42%);
+          margin-right: clamp(20px, 5vw, 76px);
+          padding: clamp(116px, 14vh, 168px) 0 clamp(48px, 6vh, 84px);
+        }
+
         @media (max-width: 940px) {
-          .i354-heroGrid { grid-template-columns: minmax(0,1fr) !important; row-gap: 30px; }
+          /* Sous 940 il n'y a plus de « à côté » : la masse prend le haut de
+             l'écran, la coupe passe sur son bord bas, le texte se pose
+             dessous. */
+          .i354-hero { display: block; }
+          .i354-oblique { inset: 0 0 auto 0; width: 100%; height: 42dvh; clip-path: polygon(0 0, 100% 0, 100% 76%, 0 100%); }
+          .i354-legende { max-width: 78%; bottom: clamp(28px, 6vw, 52px); }
+          .i354-coin { width: auto; margin: 0; padding: calc(42dvh + 16px) clamp(20px,5vw,60px) clamp(48px,7vw,80px); }
           .i354-h1 { margin-right: 0 !important; }
-          .i354-panel { margin-top: 0 !important; max-width: 460px; }
           .i354-soleil { display: none !important; }
           .i354-split { grid-template-columns: minmax(0,1fr) !important; }
           .i354-contact { grid-template-columns: minmax(0,1fr) !important; }

@@ -6,7 +6,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, Clock, CloudRain, Home, Mail, MapPin, Phone, Shield } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { HardCutRebuild } from "@/lib/templates/hero-kit-3";
 import {
   clientHeroLine,
@@ -366,7 +366,7 @@ export default function ToitsDeLoirePage() {
   const HERO_IMG: string | null = fd?.photoUrls?.length
     ? fd.photoUrls[0]
     : clientPhotos(sessionData)[0] || null;
-  const { i, next, prev } = useSlides(HERO_SLIDES.length, DWELL.normal);
+  const { i, go } = useSlides(HERO_SLIDES.length, DWELL.normal);
   const S = HERO_SLIDES[i];
 
 
@@ -387,9 +387,39 @@ export default function ToitsDeLoirePage() {
 
         @media (max-width: 900px) { #i351-nav { display: none !important; } .i351-burger { display: flex !important; } }
 
-        /* Le geste : la photo plein cadre coupe et se remonte avec l'index. */
+        /* Le geste : la photo coupe et se remonte avec l'index. */
         .i351-cut { position: absolute; inset: 0; }
         .i351-cut > div { height: 100%; }
+
+        /*
+          ── Héros « bandeau bas » ──────────────────────────────────────────
+          Le texte tient le haut, le chantier court d'un bord à l'autre en
+          pied d'écran. Le plein cadre était juste pour ce métier, mais
+          impact-349 — deux crans plus loin — et impact-340 le portent déjà.
+        */
+        .i351-dire { flex: 0 0 auto; }
+        .i351-bandeau { position: relative; z-index: 2; width: 100%; }
+        .i351-bandeau-img {
+          position: relative;
+          width: 100%;
+          /* Hauteur mesurée : au-delà de 22vh, le texte du haut plus le
+             bandeau dépassent les 100dvh de la section et la bande tombe
+             sous la ligne de flottaison — vérifié à l'écran en 1280×860. */
+          height: clamp(130px, 21vh, 230px);
+          overflow: hidden;
+          border-top: 1px solid rgba(242,240,234,0.12);
+        }
+        .i351-bandeau-legende {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 18px;
+          flex-wrap: wrap;
+          max-width: 1280px;
+          margin: 0 auto;
+          padding: clamp(14px, 2vw, 22px) clamp(34px, 7vw, 84px) clamp(20px, 3vh, 34px);
+          box-sizing: border-box;
+        }
 
         /* Grilles à deux colonnes : media queries locales du thème,
            on ne compte pas sur app/templates/layout.tsx. */
@@ -454,43 +484,22 @@ export default function ToitsDeLoirePage() {
         </div>
       )}
 
-      {/* ── HERO — H3 plein cadre, titre bas ────────────────────────────── */}
-
-      {/*
-        Le hero n'avait aucune image : la photo du client n'apparaissait nulle
-        part au-dessus de la ligne de flottaison, et le geste d'animation
-        n'animait que du texte. Plein cadre désormais : la photo (ou le repli
-        sombre texturé) occupe l'écran, la coupe franche l'emporte à chaque
-        diapositive, et le titre reprend en bas de cadre.
-      */}
-      <section style={{ position: "relative", minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "flex-end", background: C.bgDark, overflow: "hidden" }}>
-        {/* Couche média : la photo coupe avec l'index — ou le repli en rangs d'ardoise. */}
-        <div aria-hidden style={{ position: "absolute", inset: 0, background: C.bgDark, ...ardoise(0.16) }}>
-          {HERO_IMG ? (
-            <HardCutRebuild index={i} stagger={0} className="i351-cut">
-              {[
-                <img
-                  key="img"
-                  src={HERO_IMG}
-                  alt={`${fd?.businessName ?? "Chantier"} — ${S.k}`}
-                  loading="eager"
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                />,
-              ]}
-            </HardCutRebuild>
-          ) : (
-            <div style={{ position: "absolute", inset: 0, background: `radial-gradient(70% 60% at 74% 18%, rgba(204,119,34,0.14), transparent 65%), linear-gradient(196deg, rgba(141,153,166,0.10), transparent 46%)` }} />
-          )}
-        </div>
-
-        {/* Scrims — trois arrêts et plus, pour que le titre bas reste lisible. */}
-        <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(11,14,18,0.62) 0%, rgba(11,14,18,0.16) 34%, rgba(11,14,18,0.52) 66%, rgba(11,14,18,0.94) 100%)" }} />
-        <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(11,14,18,0.55) 0%, rgba(11,14,18,0) 62%)" }} />
+      {/* ── HERO — bandeau bas ────────────────────────────────────────────
+             Le texte tient le haut ; le chantier court en bandeau d'un bord à
+             l'autre, en pied d'écran, et la coupe franche l'emporte à chaque
+             diapositive. Le plein cadre était juste, mais impact-349 et
+             impact-340 le portent déjà — et 349 n'est qu'à deux crans d'ici.
+             La photographie du client reste au-dessus de la ligne de
+             flottaison, ce qui était le point du plein cadre. */}
+      <section className="i351-hero" style={{ position: "relative", minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "space-between", background: C.bgDark, overflow: "hidden" }}>
+        {/* Le fond : rangs d'ardoise en CSS, jamais un trou noir. */}
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: C.bgDark, ...ardoise(0.16) }} />
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: `radial-gradient(70% 60% at 74% 18%, rgba(204,119,34,0.14), transparent 65%), linear-gradient(196deg, rgba(141,153,166,0.10), transparent 46%)` }} />
 
         {/* Barre fixe : l'axe que la coupe ne déplace jamais. */}
-        <span aria-hidden style={{ position: "absolute", left: "clamp(20px,5vw,56px)", top: "22%", bottom: "18%", width: 2, background: `linear-gradient(${C.accent}, transparent)`, opacity: 0.85 }} />
+        <span aria-hidden style={{ position: "absolute", left: "clamp(20px,5vw,56px)", top: "16%", bottom: "42%", width: 2, background: `linear-gradient(${C.accent}, transparent)`, opacity: 0.85 }} />
 
-        <div className="i351-pad" style={{ position: "relative", zIndex: 2, padding: "0 clamp(34px,7vw,84px) clamp(44px,6vw,72px)", maxWidth: 1280, width: "100%", margin: "0 auto", boxSizing: "border-box" }}>
+        <div className="i351-pad i351-dire" style={{ position: "relative", zIndex: 2, padding: "clamp(112px,13vh,150px) clamp(34px,7vw,84px) 0", maxWidth: 1280, width: "100%", margin: "0 auto", boxSizing: "border-box" }}>
           <span style={{ fontFamily: FONT, fontSize: 11, fontWeight: 700, letterSpacing: "0.34em", textTransform: "uppercase", color: C.accentDark }}>
             {/* {clientCity(sessionData) ?? "Angers"} était écrit en dur : la ville du thème survivait à celle du client. */}
             {clientTrade(sessionData) ?? "Couvreur-zingueur"}{fd?.city ? ` · ${fd.city}` : " · " + (clientCity(sessionData) ?? "Angers")}
@@ -498,23 +507,80 @@ export default function ToitsDeLoirePage() {
           <HardCutRebuild index={i} stagger={0.09}>
             {[
               <div key="k" style={{ fontFamily: FONT, fontSize: 12, fontWeight: 700, letterSpacing: "0.26em", textTransform: "uppercase", color: C.accent, margin: "18px 0 12px" }}>{S.k}</div>,
-              <h1 key="h" style={{ fontFamily: FONT_TITRE, fontSize: "clamp(2.4rem, 6.4vw, 5.6rem)", fontWeight: 800, color: C.white, lineHeight: 0.98, letterSpacing: "-0.015em", margin: "0 0 16px", maxWidth: "16ch", textShadow: "0 14px 54px rgba(0,0,0,0.65)" }}>{S.line}</h1>,
-              <p key="d" style={{ fontFamily: FONT, fontWeight: 300, fontSize: "clamp(15px,1.6vw,17.5px)", color: "rgba(242,240,234,0.85)", lineHeight: 1.75, maxWidth: 520, margin: 0 }}>{S.sub}</p>,
+              <h1 key="h" style={{ fontFamily: FONT_TITRE, fontSize: "clamp(2rem, 4.8vw, 4rem)", fontWeight: 800, color: C.white, lineHeight: 0.99, letterSpacing: "-0.015em", margin: "0 0 16px", maxWidth: "18ch", textShadow: "0 14px 54px rgba(0,0,0,0.65)" }}>{S.line}</h1>,
+              <p key="d" style={{ fontFamily: FONT, fontWeight: 300, fontSize: "clamp(15px,1.5vw,17px)", color: "rgba(242,240,234,0.85)", lineHeight: 1.75, maxWidth: 520, margin: 0 }}>{S.sub}</p>,
             ]}
           </HardCutRebuild>
-          <p style={{ fontFamily: FONT, fontWeight: 300, fontSize: "clamp(14px,1.4vw,16px)", color: "rgba(242,240,234,0.62)", lineHeight: 1.75, maxWidth: 560, margin: "16px 0 30px" }}>
+          <p style={{ fontFamily: FONT, fontWeight: 300, fontSize: "clamp(14px,1.35vw,16px)", color: "rgba(242,240,234,0.62)", lineHeight: 1.75, maxWidth: 560, margin: "16px 0 28px" }}>
             {fd?.tagline ?? c?.heroSubline ?? "Ardoise d'Anjou, zinc à joint debout, tuiles de pays : trois équipes de couvreurs qui déposent, isolent et remontent dans les règles de l'art. Décennale, Qualibat, et un bâchage d'urgence qui répond la nuit."}
           </p>
-          <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+          {/* Une seule action pleine ; les chantiers restent un lien. */}
+          <div style={{ display: "flex", gap: "clamp(16px,2vw,26px)", flexWrap: "wrap", alignItems: "center" }}>
             <CtaButton href={telHref} filled>
               Demander un devis
             </CtaButton>
-            <CtaButton href="#services">Nos chantiers</CtaButton>
+            <a href="#services" style={{ fontFamily: FONT, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+              Nos chantiers
+            </a>
           </div>
-          <div className="i351-herobas" style={{ display: "flex", alignItems: "center", gap: 18, marginTop: "clamp(30px,4vw,46px)", flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO_SLIDES.length} variant="fraction" color={C.textMuted} className="" />
-            <span style={{ fontSize: 13, color: C.textMuted, maxWidth: 520 }}><strong style={{ color: C.ink, fontWeight: 700 }}>{S.k}</strong> — {S.sub}</span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" />
+        </div>
+
+        {/* ── LE BANDEAU — le chantier, d'un bord à l'autre ──────────────── */}
+        <div className="i351-bandeau">
+          <div className="i351-bandeau-img">
+            {HERO_IMG ? (
+              <HardCutRebuild index={i} stagger={0} className="i351-cut">
+                {[
+                  <img
+                    key="img"
+                    src={HERO_IMG}
+                    alt={`${fd?.businessName ?? "Chantier"} — ${S.k}`}
+                    loading="eager"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                  />,
+                ]}
+              </HardCutRebuild>
+            ) : (
+              /*
+                Sans photographie du client, le bandeau garde ses rangs
+                d'ardoise, appuyés. Le thème refuse le stock dans le héros —
+                une image de couverture qui n'est pas la sienne dit un
+                chantier qu'il n'a pas fait — donc la bande se tient à la
+                texture, mais assez marquée pour se lire comme une bande.
+              */
+              <div aria-hidden style={{ position: "absolute", inset: 0, backgroundColor: C.bgDarkAlt }}>
+                {/*
+                  Deux couches, pas une : `ardoise()` rend un backgroundImage,
+                  et le poser après un raccourci `background` écrase le
+                  dégradé sans prévenir — la bande redevenait un aplat noir.
+                */}
+                <span style={{ position: "absolute", inset: 0, background: `linear-gradient(100deg, rgba(141,153,166,0.16) 0%, rgba(141,153,166,0.05) 44%, rgba(204,119,34,0.26) 100%)` }} />
+                <span style={{ position: "absolute", inset: 0, ...ardoise(0.34) }} />
+              </div>
+            )}
+            <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(11,14,18,0.9) 0%, rgba(11,14,18,0.25) 46%, rgba(11,14,18,0.55) 100%)" }} />
+          </div>
+
+          {/*
+            Le nom du chantier, et de quoi passer aux autres. La fraction
+            « 01 / 03 » ne disait pas ce qu'on regardait.
+          */}
+          <div className="i351-bandeau-legende i351-pad">
+            <span style={{ fontSize: 13, color: "rgba(242,240,234,0.72)", lineHeight: 1.6, minWidth: 0 }}>
+              <strong style={{ color: C.white, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
+            </span>
+            <div style={{ display: "flex", gap: 9, flexShrink: 0 }}>
+              {HERO_SLIDES.map((h: any, n: number) => (
+                <button
+                  key={h.k ?? n}
+                  type="button"
+                  onClick={() => go(n)}
+                  aria-label={h.k ?? `Chantier ${n + 1}`}
+                  aria-current={n === i}
+                  style={{ width: 38, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === i ? C.accent : "rgba(242,240,234,0.28)", transition: "background .3s" }}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>

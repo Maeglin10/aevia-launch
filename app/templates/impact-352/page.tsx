@@ -385,132 +385,121 @@ function Hero() {
   return (
     <section
       id="top"
-      style={{ position: "relative", background: C.bg, padding: "clamp(112px,13vw,164px) clamp(20px,5vw,64px) 0", overflow: "hidden", }}
+      className="i352-hero"
+      style={{ position: "relative", background: C.bg, overflow: "hidden" }}
     >
+      {/* ── HERO — carte flottante en débord ───────────────────────────────
+             La flèche en ardoise tient le cadre ; la carte de l'entreprise se
+             pose dessus et déborde de son bord bas-gauche. La version
+             précédente ouvrait sur une méta-rangée, un titre monumental et un
+             bandeau média en pied : c'est exactement ce qu'impact-351, son
+             voisin de métier, porte désormais — et deux voisins ne partagent
+             jamais leur composition.
+
+             Le commentaire est DANS la section, pas devant : ce <section> est
+             le retour direct du composant, et deux expressions JSX frères
+             sans fragment ne compilent pas. */}
       {/* Glow radial, texture sans image */}
       <div
         aria-hidden
         style={{ position: "absolute", inset: "-20% -10% auto -10%", height: "70%", background: "radial-gradient(60% 70% at 22% 20%, rgba(49,88,122,0.12), transparent 70%)", pointerEvents: "none", }}
       />
 
-      <div style={{ position: "relative", maxWidth: 1280, margin: "0 auto" }}>
-        {/* ── Méta-rangée du magazine ──────────────────────────────────── */}
-        <motion.div
-          className="i352-meta"
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.85, ease: EASE, delay: 0.1 }}
-          style={{ display: "grid", gridTemplateColumns: "1fr auto auto", alignItems: "center", gap: "clamp(14px,3vw,40px)", paddingBottom: 16, borderBottom: `1px solid ${C.border}`, }}
-        >
-          <Kicker>{clientEyebrow(sessionData) ?? `Couverture patrimoniale · ${clientCity(sessionData) ?? "Rouen"}`}</Kicker>
-          <span
-            className="i352-metahide"
-            style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.28em", textTransform: "uppercase", color: C.textFaint, }}
-          >
-            {STATS[1]?.value ?? "3231"} — {STATS[1]?.label ?? "Qualibat patrimoine bâti"}
-          </span>
-          <span
-            style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: 15, color: C.accent, whiteSpace: "nowrap", }}
-          >
-            N° {STATS[3]?.value ?? "10 ans"}
-          </span>
-        </motion.div>
+      {/* ── Le cadre photographique. Il s'arrête avant le bas de l'écran :
+             c'est ce bord-là que la carte franchit. ─────────────────────── */}
+      <motion.div
+        className="i352-cadre"
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1.05, ease: EASE, delay: 0.1 }}
+      >
+        <div style={{ position: "absolute", inset: 0, background: C.bgDark, ...slateTexture(0.22) }} />
+        {img ? (
+          <img
+            src={img}
+            alt={`${fd?.businessName ?? clientName(sessionData) ?? "Zinc & Ardoise"} — flèche en ardoise restaurée`}
+            loading="eager"
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+          />
+        ) : null}
+        {/* Le voile s'épaissit vers le bas-gauche, là où la carte se pose. */}
+        <div
+          aria-hidden
+          style={{ position: "absolute", inset: 0, background: "linear-gradient(196deg, rgba(16,27,35,0.28) 0%, rgba(16,27,35,0.10) 40%, rgba(16,27,35,0.80) 100%)", }}
+        />
 
-        {/* ── Titre monumental : le geste de signature ──────────────────── */}
-        <ScrollGrow from={1} to={1.26} fade>
+        {/* Cartouche — le détail gratuit : la légende de magazine, à droite,
+            là où la carte ne va pas. */}
+        <div className="i352-cartouche">
+          <div style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.34em", textTransform: "uppercase", color: "rgba(244,246,248,0.66)", marginBottom: 8 }}>
+            {HERO_DEMO.k} · {clientCity(sessionData) ?? "Rouen"}
+          </div>
+          <p style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(15px,1.7vw,21px)", lineHeight: 1.34, color: "rgba(244,246,248,0.95)", margin: 0, textShadow: "0 8px 34px rgba(0,0,0,0.55)" }}>
+            {/* TEXTE_SECTION */ clientText(sessionData, "heros.cartouche") ?? (
+              <>Chaque toit ancien a son dessin — on le respecte.</>
+            )}
+          </p>
+        </div>
+      </motion.div>
+
+      {/* ── LA CARTE — elle déborde du cadre photographique ──────────────── */}
+      <motion.div
+        className="i352-carte"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, ease: EASE, delay: 0.2 }}
+      >
+        <Kicker>{clientEyebrow(sessionData) ?? `Couverture patrimoniale · ${clientCity(sessionData) ?? "Rouen"}`}</Kicker>
+
+        {/* ── Le titre : le geste de signature, d'un seul tenant ─────────
+               La seconde ligne en italique d'une autre couleur était le tic
+               de toute la série ; ScrollGrow suffit à faire le geste. */}
+        <ScrollGrow from={1} to={1.12} fade>
           <motion.h1
             onMouseEnter={() => setHTitle(true)}
             onMouseLeave={() => setHTitle(false)}
-            initial={{ opacity: 0, y: 34 }}
+            initial={{ opacity: 0, y: 26 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.05, ease: EASE, delay: 0.2 }}
-            style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(2.6rem, 7.6vw, 7.4rem)", lineHeight: 0.98, letterSpacing: "-0.018em", color: C.ink, margin: "clamp(26px,4vw,54px) 0 clamp(20px,2.6vw,34px)", maxWidth: "15ch", cursor: "default", }}
+            transition={{ duration: 1.05, ease: EASE, delay: 0.3 }}
+            style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(2.1rem, 3.6vw, 3.6rem)", lineHeight: 1.02, letterSpacing: "-0.018em", color: hTitle ? C.accentDark : C.ink, transition: `color .5s ${EASE_CSS}`, margin: "clamp(16px,2.2vw,26px) 0 clamp(14px,1.8vw,20px)", cursor: "default", overflowWrap: "break-word", }}
           >
-            {l1}
-            <br />
-            <em
-              style={{ fontStyle: "italic", color: hTitle ? C.accentDark : C.accent, transition: `color .5s ${EASE_CSS}`, }}
-            >
-              {l2}
-            </em>
+            {l1} {l2}
           </motion.h1>
         </ScrollGrow>
 
-        {/* ── Chapô + appels à l'action ────────────────────────────────── */}
-        <div
-          className="i352-chapo"
-          style={{ display: "grid", gridTemplateColumns: "minmax(0,1.4fr) minmax(0,1fr)", gap: "clamp(24px,4vw,64px)", alignItems: "end", paddingBottom: "clamp(30px,4vw,52px)", }}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: EASE, delay: 0.42 }}
+          style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(14.5px,1.3vw,16.5px)", lineHeight: 1.78, color: C.textMuted, margin: "0 0 clamp(20px,2.6vw,28px)", }}
         >
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE, delay: 0.36 }}
-            style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(15.5px,1.5vw,18.5px)", lineHeight: 1.78, color: C.textMuted, maxWidth: 520, margin: 0, }}
-          >
-            {sub}
-          </motion.p>
+          {sub}
+        </motion.p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE, delay: 0.48 }}
-            style={{ display: "flex", gap: 12, flexWrap: "wrap" }}
-          >
-            <LineButton href={`tel:${clientPhone(sessionData) ?? fd?.phone ?? "+33235000000"}`} filled>
-              Parler de votre toiture
-            </LineButton>
-            <LineButton href="#services">Nos restaurations</LineButton>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* ── Bandeau média bas de cadre ───────────────────────────────────── */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.05, ease: EASE, delay: 0.56 }}
-        style={{ position: "relative", maxWidth: 1280, margin: "0 auto" }}
-      >
-        <div
-          className="i352-band"
-          style={{ position: "relative", height: "clamp(220px,34vw,420px)", overflow: "hidden", background: C.bgDark, ...slateTexture(0.22), }}
+        {/* Une seule action pleine ; les restaurations restent un lien. */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: EASE, delay: 0.52 }}
+          style={{ display: "flex", gap: "clamp(16px,2vw,26px)", flexWrap: "wrap", alignItems: "center" }}
         >
-          {img ? (
-            <img
-              src={img}
-              alt={`${fd?.businessName ?? clientName(sessionData) ?? "Zinc & Ardoise"} — flèche en ardoise restaurée`}
-              loading="eager"
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-            />
-          ) : null}
-          <div
-            aria-hidden
-            style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(16,27,35,0.30) 0%, rgba(16,27,35,0.05) 42%, rgba(16,27,35,0.72) 100%)", }}
-          />
-          {/* Cartouche — le détail gratuit : la légende de magazine */}
-          <div
-            style={{ position: "absolute", left: "clamp(16px,3vw,38px)", bottom: "clamp(16px,3vw,34px)", right: "clamp(16px,3vw,38px)", display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 20, flexWrap: "wrap", }}
-          >
-            <div style={{ maxWidth: 560 }}>
-              <div
-                style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.34em", textTransform: "uppercase", color: "rgba(244,246,248,0.66)", marginBottom: 8, }}
-              >
-                {HERO_DEMO.k}
-              </div>
-              <p
-                style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(17px,2.2vw,27px)", lineHeight: 1.34, color: "rgba(244,246,248,0.95)", margin: 0, textShadow: "0 8px 34px rgba(0,0,0,0.55)", }}
-              >
-                {/* TEXTE_SECTION */ clientText(sessionData, "heros.cartouche") ?? (
-                  <>Chaque toit ancien a son dessin — on le respecte.</>
-                )}
-              </p>
-            </div>
-            <span
-              style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(244,246,248,0.55)", whiteSpace: "nowrap", }}
-            >
-              {clientCity(sessionData) ?? "Rouen"}
-            </span>
-          </div>
+          <LineButton href={`tel:${clientPhone(sessionData) ?? fd?.phone ?? "+33235000000"}`} filled>
+            Parler de votre toiture
+          </LineButton>
+          <a href="#services" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+            Nos restaurations
+          </a>
+        </motion.div>
+
+        {/* La qualification, en pied de carte : elle vivait dans la
+            méta-rangée du magazine, elle n'a pas disparu. */}
+        <div style={{ marginTop: "clamp(20px,2.6vw,28px)", paddingTop: 16, borderTop: `1px solid ${C.border}`, display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 14, flexWrap: "wrap" }}>
+          <span style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.28em", textTransform: "uppercase", color: C.textFaint }}>
+            {STATS[1]?.value ?? "3231"} — {STATS[1]?.label ?? "Qualibat patrimoine bâti"}
+          </span>
+          <span style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: 15, color: C.accent, whiteSpace: "nowrap" }}>
+            N° {STATS[3]?.value ?? "10 ans"}
+          </span>
         </div>
       </motion.div>
     </section>
@@ -1332,7 +1321,50 @@ export default function ZincEtArdoisePage() {
 
         /* Grilles à deux (ou trois) colonnes : media queries locales du thème,
            on ne compte pas sur app/templates/layout.tsx. */
+        /*
+          ── Héros « carte flottante en débord » ────────────────────────────
+          Le cadre photographique s'arrête avant le bas de l'écran ; la carte
+          franchit ce bord. Sans marge, rien ne peut déborder de rien — d'où
+          la marge basse du cadre. La méta-rangée + titre monumental +
+          bandeau média est passée à impact-351, son voisin de métier.
+
+          (Pas d'accent grave dans ce bloc : il vit dans un littéral de
+          gabarit, et une apostrophe inversée le refermerait.)
+        */
+        .i352-hero { position: relative; min-height: 100dvh; display: flex; align-items: flex-end; }
+        .i352-cadre {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: clamp(60px, 10vh, 130px);
+          overflow: hidden;
+        }
+        .i352-cartouche {
+          position: absolute;
+          right: clamp(16px, 3vw, 44px);
+          bottom: clamp(16px, 3vw, 34px);
+          max-width: min(420px, 42%);
+          text-align: right;
+        }
+        .i352-carte {
+          position: relative;
+          z-index: 2;
+          width: min(600px, 100%);
+          margin: 0 0 clamp(16px, 3vh, 40px) clamp(20px, 5vw, 64px);
+          background: ${C.bg};
+          border: 1px solid ${C.border};
+          border-left: 3px solid ${C.accent};
+          box-shadow: 0 60px 120px -60px rgba(16,27,35,0.75);
+          padding: clamp(24px, 3vw, 40px);
+        }
+
         @media (max-width: 900px) {
+          /* Sur un téléphone la carte prend toute la largeur ; le cartouche
+             de magazine n'a plus de coin libre, il s'efface. */
+          .i352-cadre { bottom: clamp(150px, 34vh, 320px); }
+          .i352-cartouche { display: none; }
+          .i352-carte { width: auto; margin: 0 14px 16px; }
           .i352-meta { grid-template-columns: minmax(0,1fr) !important; row-gap: 12px; }
           .i352-metahide { display: none !important; }
           .i352-chapo { grid-template-columns: minmax(0,1fr) !important; }

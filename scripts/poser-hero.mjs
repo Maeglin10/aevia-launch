@@ -32,12 +32,43 @@ const L = fs.readFileSync(cible, "utf8").split("\n");
 */
 let debut = L.findIndex((l) => /── HERO|══ HERO|── Hero/i.test(l));
 if (debut < 0) {
-  debut = L.findIndex((l, k) => /^\s*<section\b/.test(l) && /100dvh|100vh/.test(L.slice(k, k + 8).join(" ")));
+  /* Le <section> plein écran. La déclaration de hauteur peut se trouver
+     jusqu'à une quinzaine de lignes plus bas quand le style est écrit sur
+     plusieurs lignes — une fenêtre trop courte rendait la moitié des thèmes
+     « introuvables ». */
+  debut = L.findIndex((l, k) => /^\s*<section\b/.test(l) && /100dvh|100vh/.test(L.slice(k, k + 16).join(" ")));
   if (debut >= 0) console.error(`${id} : pas de commentaire « ── HERO », bornes prises sur le premier <section> plein écran (ligne ${debut + 1})`);
 }
+if (debut < 0) {
+  /* Certains héros ne déclarent aucune hauteur d'écran : ils se reconnaissent
+     à leur classe « iNNN-hero » ou à leur ancre de haut de page. */
+  const num = id.slice(7);
+  const marque = new RegExp(`className="i${num}-hero|id="(top|hero|haut)"`);
+  debut = L.findIndex((l, k) => /^\s*<section\b/.test(l) && marque.test(L.slice(k, k + 16).join(" ")));
+  if (debut >= 0) console.error(`${id} : héros repéré à sa classe ou à son ancre (ligne ${debut + 1}) — pas de hauteur d'écran déclarée`);
+}
 if (debut < 0) { console.error(`${id} : ni commentaire « ── HERO » ni <section> plein écran — bornes à poser à la main`); process.exit(1); }
-const fin = L.findIndex((l, k) => k > debut && /^ {6}<\/section>\s*$/.test(l));
-if (fin < 0) { console.error(`${id} : pas de « </section> » à six espaces après la ligne ${debut + 1}`); process.exit(1); }
+
+/*
+  La balise fermante se trouve en comptant les ouvertures et les fermetures,
+  pas à un nombre d'espaces fixe.
+
+  Deux tentatives précédentes ont échoué : « </section> à six espaces »
+  laissait de côté les thèmes dont le héros vit à quatre, et « à
+  l'indentation de l'ouvrante » butait sur les fichiers où le <section> du
+  héros est collé en colonne zéro alors que sa fermante est bien indentée —
+  impact-363 et cinq autres sont dans ce cas.
+*/
+const ouverture = L.findIndex((l, k) => k >= debut && /<section\b/.test(l));
+if (ouverture < 0) { console.error(`${id} : aucun <section> après la ligne ${debut + 1}`); process.exit(1); }
+let profondeur = 0;
+let fin = -1;
+for (let k = ouverture; k < L.length; k++) {
+  profondeur += (L[k].match(/<section\b/g) ?? []).length;
+  profondeur -= (L[k].match(/<\/section>/g) ?? []).length;
+  if (profondeur === 0) { fin = k; break; }
+}
+if (fin < 0) { console.error(`${id} : <section> jamais refermé après la ligne ${ouverture + 1}`); process.exit(1); }
 
 /* Garde-fou : un héros de moins de dix lignes ou de plus de trois cents
    signifie que les bornes ont glissé. On refuse plutôt que d'abîmer. */
