@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { CircularLabel, DWELL, HairlineArrows, HeldSwap, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { CircularLabel, DWELL, HeldSwap, useSlides } from "@/lib/templates/hero-kit-2";
 import {
   clientAddress,
   clientCertifications,
@@ -432,7 +432,7 @@ export default function MaisonBertinPage() {
 
   /* Un seul index pour tout le héros : médaillon, sur-titre, légende,
      compteur. DWELL.slow (5,6 s) laisse le vide se tenir entre deux pièces. */
-  const { i, next, prev } = useSlides(HERO.length, DWELL.slow);
+  const { i, go } = useSlides(HERO.length, DWELL.slow);
   const S = HERO[i];
 
   useEffect(() => {
@@ -455,11 +455,45 @@ export default function MaisonBertinPage() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&display=swap');
 
+        /*
+          ── Héros « chiffre en avant » ─────────────────────────────────────
+          Le millésime tient la place du titre ; le médaillon l'accompagne
+          sans lui faire face — il est nettement plus petit, sinon on
+          retomberait sur deux colonnes de même poids, la charpente qu'on
+          quitte.
+        */
+        .i345-millesime {
+          position: relative;
+          z-index: 2;
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) clamp(150px, 20vw, 260px);
+          gap: clamp(24px, 4vw, 64px);
+          align-items: center;
+        }
+        .i345-medaillon { position: relative; width: 100%; }
+        .i345-dire {
+          position: relative;
+          z-index: 2;
+          display: grid;
+          grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr);
+          gap: clamp(22px, 3.4vw, 52px);
+          align-items: start;
+        }
+        .i345-piece { border-left: 1px solid ${C.borderSoft}; padding-left: clamp(16px, 2vw, 28px); }
+
         @media (max-width: 980px) { #i345-nav { display: none !important; } .i345-burger { display: flex !important; } }
         @media (max-width: 900px) {
-          .i345-hero { grid-template-columns: minmax(0,1fr) !important; gap: 30px !important; }
-          .i345-titre { margin-right: 0 !important; }
-          .i345-panel { margin-top: 0 !important; padding-top: clamp(28px, 4vw, 40px) !important; }
+          .i345-hero { gap: 26px !important; }
+          /* Empilés, le médaillon se recentre et le filet vertical de la
+             pièce du jour redevient horizontal. */
+          .i345-millesime { grid-template-columns: minmax(0,1fr); row-gap: 26px; }
+          .i345-medaillon { max-width: 220px; margin: 0 auto; }
+          .i345-dire { grid-template-columns: minmax(0,1fr); row-gap: 26px; }
+          .i345-piece { border-left: none; border-top: 1px solid ${C.borderSoft}; padding-left: 0; padding-top: 22px; }
+        }
+        @media (max-width: 560px) {
+          /* 220 px de millésime ne tiennent pas dans 390. */
+          .i345-annee { font-size: clamp(64px, 22vw, 104px) !important; }
         }
         @media (max-width: 860px) {
           .i345-split { grid-template-columns: minmax(0,1fr) !important; }
@@ -553,16 +587,22 @@ export default function MaisonBertinPage() {
       )}
 
       {/* ── HÉROS H4 — le titre chevauche le panneau d'étal ──────────────── */}
+      {/* ── HERO — le chiffre en avant : l'année d'installation ────────────
+             Elle traînait en fond à 4 % d'opacité pendant que le titre
+             chevauchait un panneau à sa droite. Aux halles, l'ancienneté est
+             l'argument : elle passe donc au premier plan et prend la place du
+             titre, qui descend d'un cran. Plus de colonne texte face à une
+             colonne panneau — c'était la charpente de la série. */}
       <section
         className="i345-hero i345-pad"
         style={{
           position: "relative",
           minHeight: "100dvh",
-          display: "grid",
-          gridTemplateColumns: "minmax(0,1.15fr) minmax(0,0.85fr)",
-          gap: "clamp(24px, 3vw, 40px)",
-          alignItems: "center",
-          padding: "clamp(128px, 15vh, 168px) clamp(24px, 5vw, 64px) clamp(56px, 8vh, 90px)",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          gap: "clamp(24px, 3.4vh, 44px)",
+          padding: "clamp(124px, 14vh, 160px) clamp(24px, 5vw, 64px) clamp(48px, 7vh, 80px)",
           maxWidth: 1280,
           margin: "0 auto",
         }}
@@ -582,128 +622,103 @@ export default function MaisonBertinPage() {
           aria-hidden
           style={{ position: "absolute", top: "6%", right: "12%", width: 520, height: 520, borderRadius: "50%", background: `radial-gradient(circle, ${C.accent} 0%, transparent 68%)`, opacity: 0.1, pointerEvents: "none" }}
         />
-        {/* Chiffre fantôme : l'année d'installation aux halles. */}
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            left: "-2vw",
-            bottom: "3vh",
-            fontFamily: DISPLAY,
-            fontSize: "clamp(120px, 22vw, 300px)",
-            lineHeight: 0.78,
-            color: C.ink,
-            opacity: 0.04,
-            pointerEvents: "none",
-            userSelect: "none",
-          }}
-        >
-          {anneeStat?.value ?? "1962"}
-        </div>
 
-        {/* Colonne éditoriale — le titre déborde sur le panneau. */}
-        <div style={{ position: "relative", zIndex: 2, minWidth: 0 }}>
-          <Kicker tone="accent">{clientEyebrow(sessionData) ?? `${metier} · Halles de ${ville}`}</Kicker>
+        <Kicker tone="accent">{clientEyebrow(sessionData) ?? `${metier} · Halles de ${ville}`}</Kicker>
 
-          <h1
-            className="i345-titre"
-            style={{
-              fontFamily: DISPLAY,
-              fontSize: "clamp(34px, 5vw, 64px)",
-              lineHeight: 1.02,
-              letterSpacing: "-0.02em",
-              color: C.ink,
-              margin: "24px 0 24px",
-              marginRight: "clamp(-160px, -9vw, 0px)",
-              textShadow: "0 16px 40px rgba(0,0,0,0.55)",
-            }}
-          >
-            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (
-              <>
-                {clientHeroLine(sessionData, 0, 2, 16) ?? "La viande d'éleveurs"}
-                <br />
-                <em style={{ fontStyle: "italic", color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 16) ?? "qu'on connaît par leur prénom."}</em>
-              </>
-            )}
-          </h1>
-
-          <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: "clamp(15px, 1.6vw, 17.5px)", lineHeight: 1.78, color: C.textMuted, maxWidth: 470, margin: "0 0 32px" }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Charolais de Côte-d'Or, porc fermier élevé sur paille, volailles de Bresse : tout est tracé, maturé sur place et coupé devant vous. Une boucherie, pas un rayon."}
-          </p>
-
-          <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-            <motion.a
-              href={telHref}
-              style={{ background: C.accent, color: C.bgDark, padding: "16px 30px", fontFamily: BODY, fontSize: 14.5, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10 }}
-              whileHover={{ scale: 1.02, y: -2 }}
+        {/* ── L'ANNÉE, et le médaillon de la pièce du jour ───────────────── */}
+        <div className="i345-millesime">
+          <div style={{ minWidth: 0 }}>
+            <div style={{ fontFamily: BODY, fontSize: "clamp(11px, 1.1vw, 13px)", fontWeight: 700, letterSpacing: "0.26em", textTransform: "uppercase", color: C.accent, marginBottom: "clamp(8px, 1.2vw, 16px)" }}>
+              {anneeStat?.label ?? "Aux halles depuis"}
+            </div>
+            {/* Le millésime déborde légèrement à gauche : il ouvre la page. */}
+            <div
+              className="i345-annee"
+              style={{ fontFamily: DISPLAY, fontSize: "clamp(86px, 15vw, 220px)", lineHeight: 0.8, letterSpacing: "-0.045em", color: C.ink, marginLeft: "-0.04em", textShadow: "0 20px 60px rgba(0,0,0,0.5)" }}
             >
-              Commander pour le week-end <ArrowRight size={16} aria-hidden />
-            </motion.a>
-            <a
-              href="#viandes"
-              style={{ border: `1px solid ${C.border}`, background: C.bgCard, color: C.ink, padding: "15px 26px", fontFamily: BODY, fontSize: 14.5, fontWeight: 600, textDecoration: "none" }}
-            >
-              Nos viandes
-            </a>
-          </div>
-
-          {/* Le compteur du geste : même index que le médaillon. */}
-          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: "clamp(28px, 5vh, 48px)", flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textFaint} className="" />
-            <span style={{ fontFamily: BODY, fontSize: 13, color: C.textMuted, maxWidth: 320 }}>
-              <strong style={{ color: C.ink, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" labels={{ prev: "Pièce précédente", next: "Pièce suivante" }} />
-          </div>
-        </div>
-
-        {/* Panneau d'étal : le médaillon et les chiffres de la maison. */}
-        <div
-          className="i345-panel"
-          style={{
-            position: "relative",
-            background: C.bgCard,
-            border: `1px solid ${C.border}`,
-            padding: "clamp(70px, 7vw, 96px) clamp(22px, 2.6vw, 34px) clamp(26px, 3vw, 36px)",
-            marginTop: "clamp(0px, 6vw, 74px)",
-            boxShadow: "0 34px 80px rgba(0,0,0,0.5)",
-          }}
-        >
-          {/* Le médaillon : la pièce posée, tenue, remplacée. */}
-          <div style={{ position: "relative", maxWidth: 320, margin: "0 auto" }}>
-            <HeldSwap index={i} tilt={6}>
-              <div style={{ position: "relative" }}>
-                <Plate src={photo(0, PHOTO_FALLBACK[0])} alt={`${nom} — ${S.k}`} ratio="1/1" round />
-                <span aria-hidden style={{ position: "absolute", inset: -10, borderRadius: "50%", border: `1px solid ${C.border}`, pointerEvents: "none" }} />
-              </div>
-            </HeldSwap>
-            {/* Détail gratuit : le sceau tournant de la maison. */}
-            <div style={{ position: "absolute", right: -14, bottom: -14 }}>
-              <CircularLabel
-                text={`${nom} · ${metier} · `}
-                size={104}
-                color={C.accentDark}
-                fontSize={7.4}
-                seconds={26}
-                className=""
-              >
-                <Award size={18} color={C.accent} aria-hidden />
-              </CircularLabel>
+              {anneeStat?.value ?? "1962"}
             </div>
           </div>
 
-          <div style={{ marginTop: "clamp(26px, 3vw, 38px)" }}>
-            <div style={{ fontFamily: BODY, fontSize: 10, fontWeight: 700, letterSpacing: "0.26em", textTransform: "uppercase", color: C.accent, marginBottom: 6 }}>{S.k}</div>
-            <div style={{ fontFamily: DISPLAY, fontSize: "clamp(16px, 1.8vw, 19px)", lineHeight: 1.35, color: C.ink }}>{S.line}</div>
+          {/* Le médaillon : la pièce posée, tenue, remplacée. */}
+          <div className="i345-medaillon">
+            <div style={{ position: "relative", width: "100%" }}>
+              <HeldSwap index={i} tilt={6}>
+                <div style={{ position: "relative" }}>
+                  <Plate src={photo(0, PHOTO_FALLBACK[0])} alt={`${nom} — ${S.k}`} ratio="1/1" round />
+                  <span aria-hidden style={{ position: "absolute", inset: -10, borderRadius: "50%", border: `1px solid ${C.border}`, pointerEvents: "none" }} />
+                </div>
+              </HeldSwap>
+              {/* Détail gratuit : le sceau tournant de la maison. */}
+              <div style={{ position: "absolute", right: -14, bottom: -14 }}>
+                <CircularLabel
+                  text={`${nom} · ${metier} · `}
+                  size={98}
+                  color={C.accentDark}
+                  fontSize={7.4}
+                  seconds={26}
+                  className=""
+                >
+                  <Award size={17} color={C.accent} aria-hidden />
+                </CircularLabel>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* la règle qui sépare le millésime de ce qu'il garantit */}
+        <span aria-hidden style={{ position: "relative", zIndex: 1, height: 1, background: `linear-gradient(90deg, ${C.accent}, ${C.border} 40%, transparent)` }} />
+
+        {/* ── Ce que l'année achète ──────────────────────────────────────── */}
+        <div className="i345-dire">
+          <div style={{ minWidth: 0 }}>
+            <h1
+              className="i345-titre"
+              style={{ fontFamily: DISPLAY, fontSize: "clamp(26px, 3.4vw, 46px)", lineHeight: 1.04, letterSpacing: "-0.02em", color: C.ink, margin: 0, overflowWrap: "break-word" }}
+            >
+              {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ??
+                clientHeroLine(sessionData, 0, 1, 34) ??
+                "La viande d'éleveurs qu'on connaît par leur prénom."}
+            </h1>
+            <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: "clamp(14.5px, 1.4vw, 16.5px)", lineHeight: 1.78, color: C.textMuted, maxWidth: 480, margin: "clamp(14px, 1.8vw, 20px) 0 clamp(22px, 2.6vw, 30px)" }}>
+              {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Charolais de Côte-d'Or, porc fermier élevé sur paille, volailles de Bresse : tout est tracé, maturé sur place et coupé devant vous. Une boucherie, pas un rayon."}
+            </p>
+            {/* Une seule action pleine ; les viandes restent un lien. */}
+            <div style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center" }}>
+              <motion.a
+                href={telHref}
+                style={{ background: C.accent, color: C.bgDark, padding: "16px 30px", fontFamily: BODY, fontSize: 14.5, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10 }}
+                whileHover={{ scale: 1.02, y: -2 }}
+              >
+                Commander pour le week-end <ArrowRight size={16} aria-hidden />
+              </motion.a>
+              <a href="#viandes" style={{ fontFamily: BODY, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+                Nos viandes
+              </a>
+            </div>
           </div>
 
-          <div style={{ marginTop: "clamp(22px, 2.6vw, 32px)" }}>
-            {STATS.map((s: any, idx: number) => (
-              <div key={s.label} style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 14, padding: "11px 0", borderTop: `1px solid ${C.borderSoft}` }}>
-                <span style={{ fontFamily: BODY, fontSize: 12, color: C.textMuted, lineHeight: 1.5 }}>{s.label}</span>
-                <span style={{ fontFamily: DISPLAY, fontSize: 17, color: C.accentDark, whiteSpace: "nowrap" }}>{s.value}</span>
-              </div>
-            ))}
+          {/* La pièce montrée, et de quoi passer aux autres. */}
+          <div className="i345-piece">
+            <div style={{ fontFamily: BODY, fontSize: 10, fontWeight: 700, letterSpacing: "0.26em", textTransform: "uppercase", color: C.accent, marginBottom: 7 }}>{S.k}</div>
+            <div style={{ fontFamily: DISPLAY, fontSize: "clamp(15px, 1.6vw, 18px)", lineHeight: 1.35, color: C.ink }}>{S.line}</div>
+            <div style={{ fontFamily: BODY, fontSize: 12.5, color: C.textMuted, lineHeight: 1.7, marginTop: 9 }}>{S.sub}</div>
+            {/*
+              La fraction « 01 / 03 » ne disait pas ce qu'on regardait ; ces
+              traits nomment les pièces et y mènent directement.
+            */}
+            <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
+              {HERO.map((h: any, n: number) => (
+                <button
+                  key={h.k ?? n}
+                  type="button"
+                  onClick={() => go(n)}
+                  aria-label={h.k ?? `Pièce ${n + 1}`}
+                  aria-current={n === i}
+                  style={{ width: 34, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === i ? C.accent : C.borderSoft, transition: "background .3s" }}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
