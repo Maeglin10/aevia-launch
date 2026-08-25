@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { BentoCascade, DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { BentoCascade, DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import {
   clientAddress,
   clientCertifications,
@@ -678,7 +678,7 @@ export default function AlmaCompetencesPage() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   /* Un seul index pilote tout le héros : bento, marche, légende, compteur. */
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i, go } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
   /* Le bento en escalier : la marche à gauche, la grande tuile à droite, la
@@ -736,9 +736,8 @@ export default function AlmaCompetencesPage() {
 
         @media (max-width: 980px) { #i348-nav { display: none !important; } .i348-burger { display: flex !important; } }
         @media (max-width: 900px) {
-          .i348-hero { grid-template-columns: minmax(0,1fr) !important; gap: 34px !important; }
-          .i348-bentohero { grid-template-columns: minmax(0,1fr) !important; grid-template-rows: none !important; }
-          .i348-bentohero > * { grid-column: 1 !important; grid-row: auto !important; }
+          .i348-hero { gap: 26px !important; }
+          .i348-pied { grid-template-columns: minmax(0,1fr) !important; row-gap: 26px; }
           .i348-escalier > * { margin-left: 0 !important; margin-right: 0 !important; }
         }
         @media (max-width: 860px) {
@@ -749,6 +748,19 @@ export default function AlmaCompetencesPage() {
           .i348-stats > * { margin-top: 0 !important; border-left: none !important; }
           .i348-pad { padding-left: 24px !important; padding-right: 24px !important; }
           .i348-sticky { position: static !important; }
+        }
+
+        /* Le pied du héros typographique : la prose d'un côté, l'action et
+           les filières de l'autre. */
+        .i348-pied {
+          position: relative;
+          z-index: 2;
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+          gap: clamp(24px, 4vw, 64px);
+          align-items: start;
+          padding-top: clamp(20px, 2.6vw, 30px);
+          border-top: 1px solid ${C.border};
         }
 
         .i348-navlink { position: relative; }
@@ -847,16 +859,23 @@ export default function AlmaCompetencesPage() {
       )}
 
       {/* ── HÉROS H8 — bento en escalier, dévoilé marche par marche ───────── */}
+      {/* ── HERO — typographie seule ──────────────────────────────────────
+             Aucune image, aucun bento. Le titre remplit l'écran et le reste
+             tient sur une ligne dessous. Le héros précédent rangeait le texte
+             à gauche et un escalier de tuiles à droite : la charpente de
+             toute la série. Les photographies de l'école n'y perdent rien,
+             elles vivent déjà plus bas — atelier, travaux pratiques, réunion
+             d'information. */}
       <section
         className="i348-hero i348-pad"
         style={{
           position: "relative",
           minHeight: "100dvh",
-          display: "grid",
-          gridTemplateColumns: "minmax(0,0.96fr) minmax(0,1.04fr)",
-          gap: "clamp(28px, 4vw, 58px)",
-          alignItems: "center",
-          padding: "clamp(128px, 15vh, 172px) clamp(24px, 5vw, 64px) clamp(56px, 8vh, 92px)",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          gap: "clamp(22px, 3vh, 38px)",
+          padding: "clamp(124px, 14vh, 166px) clamp(24px, 5vw, 64px) clamp(50px, 7vh, 84px)",
           maxWidth: 1300,
           margin: "0 auto",
         }}
@@ -896,72 +915,85 @@ export default function AlmaCompetencesPage() {
           {STATS[0]?.value ?? "82 %"}
         </div>
 
-        {/* Colonne éditoriale */}
-        <div style={{ position: "relative", zIndex: 2, minWidth: 0 }}>
+        <div style={{ position: "relative", zIndex: 2 }}>
           <Kicker tone="accent">{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
 
+          {/*
+            Le titre tient l'écran à lui seul. Un mot reste en accent — le
+            geste du thème — mais sur la même ligne et sans passage à la
+            ligne forcé : c'est la seconde ligne en italique d'une autre
+            couleur, systématiquement posée en bas du titre, qui faisait la
+            signature de gabarit de toute la série.
+          */}
           <h1
             style={{
               fontFamily: DISPLAY,
               fontWeight: 700,
-              fontSize: "clamp(35px, 5.4vw, 72px)",
-              lineHeight: 0.97,
-              letterSpacing: "-0.035em",
+              fontSize: "clamp(38px, 7.6vw, 108px)",
+              lineHeight: 0.94,
+              letterSpacing: "-0.038em",
               color: C.ink,
-              margin: "24px 0 22px",
+              margin: "clamp(22px, 3vw, 40px) 0 0",
+              maxWidth: 1120,
+              overflowWrap: "break-word",
             }}
           >
-            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (
-              <>
-                {clientHeroLine(sessionData, 0, 2, 16) ?? "Changer de métier,"}
-                <br />
-                <Mot>{clientHeroLine(sessionData, 1, 2, 16) ?? "avec un titre qui le prouve."}</Mot>
-              </>
-            )}
+            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ??
+              clientHeroLine(sessionData, 0, 1, 34) ?? (
+                <>
+                  Changer de métier, <Mot>avec un titre qui le prouve.</Mot>
+                </>
+              )}
           </h1>
+        </div>
 
-          <p style={{ fontFamily: BODY, fontSize: "clamp(15px, 1.6vw, 17.5px)", lineHeight: 1.78, color: C.textMuted, maxWidth: 480, margin: "0 0 32px" }}>
+        {/* ── La ligne du bas : ce qu'on fait, et par où commencer ───────── */}
+        <div className="i348-pied">
+          <p style={{ fontFamily: BODY, fontSize: "clamp(14.5px, 1.35vw, 16.5px)", lineHeight: 1.78, color: C.textMuted, margin: 0 }}>
             {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Cuisine, menuiserie, développement web : des reconversions en 4 à 9 mois vers des titres professionnels RNCP, en atelier réel, avec stage et accompagnement à l'emploi."}
           </p>
 
-          <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-            <motion.a
-              href={telHref}
-              style={{ background: C.accentDark, color: C.white, padding: "16px 30px", fontFamily: BODY, fontSize: 14.5, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10, borderRadius: 6 }}
-              whileHover={{ scale: 1.02, y: -2 }}
-            >
-              Parler de mon projet <ArrowRight size={16} aria-hidden />
-            </motion.a>
-            <a
-              href="#methode"
-              style={{ border: `1px solid ${C.border}`, background: C.white, color: C.ink, padding: "15px 26px", fontFamily: BODY, fontSize: 14.5, fontWeight: 600, textDecoration: "none", borderRadius: 6 }}
-            >
-              Le cursus, marche par marche
-            </a>
-          </div>
+          <div style={{ minWidth: 0 }}>
+            {/* Une seule action pleine ; le cursus reste un lien. */}
+            <div style={{ display: "flex", gap: "clamp(15px, 2vw, 24px)", flexWrap: "wrap", alignItems: "center" }}>
+              <motion.a
+                href={telHref}
+                style={{ background: C.accentDark, color: C.white, padding: "16px 30px", fontFamily: BODY, fontSize: 14.5, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10, borderRadius: 6 }}
+                whileHover={{ scale: 1.02, y: -2 }}
+              >
+                Parler de mon projet <ArrowRight size={16} aria-hidden />
+              </motion.a>
+              <a href="#methode" style={{ fontFamily: BODY, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accentDark}`, paddingBottom: 3 }}>
+                Le cursus, marche par marche
+              </a>
+            </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: "clamp(26px, 4vh, 44px)", flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textFaint} className="" />
-            <span style={{ fontFamily: BODY, fontSize: 13, color: C.textMuted, maxWidth: 330 }}>
-              <strong style={{ color: C.ink, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" labels={{ prev: "Filière précédente", next: "Filière suivante" }} />
+            {/*
+              La filière montrée, et de quoi passer aux autres. La fraction
+              « 01 / 03 » ne disait pas ce qu'on regardait ; ces noms-là si.
+            */}
+            <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: "clamp(22px, 3vw, 30px)", paddingTop: 18, borderTop: `1px solid ${C.border}` }}>
+              {HERO.map((h: any, n: number) => (
+                <button
+                  key={h.k ?? n}
+                  type="button"
+                  onClick={() => go(n)}
+                  aria-selected={n === i}
+                  role="tab"
+                  style={{
+                    fontFamily: BODY, fontSize: 11.5, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase",
+                    padding: "8px 14px", cursor: "pointer", borderRadius: 999,
+                    background: n === i ? C.accentDark : "transparent",
+                    color: n === i ? C.white : C.textMuted,
+                    border: `1px solid ${n === i ? C.accentDark : C.border}`,
+                    transition: "background .25s, color .25s, border-color .25s",
+                  }}
+                >
+                  {h.k}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
-
-        {/* L'escalier : quatre tuiles inégales dévoilées de haut en bas. */}
-        <div style={{ position: "relative", zIndex: 2, minWidth: 0 }}>
-          <BentoCascade
-            index={i}
-            tiles={tiles}
-            className="i348-bentohero"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "minmax(0,0.62fr) minmax(0,0.62fr) minmax(0,0.76fr)",
-              gridTemplateRows: "minmax(150px, auto) minmax(112px, auto) minmax(112px, auto)",
-              gap: 12,
-            }}
-          />
         </div>
       </section>
 

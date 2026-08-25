@@ -18,8 +18,7 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
-import { LineScroll } from "@/lib/templates/hero-kit-3";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import {
   clientAccrocheRestante,
   clientAddress,
@@ -55,13 +54,17 @@ let brand: any = null;
    PRISME FORMATION — Organisme de formation certifié Qualiopi · Paris.
    Réécriture premium (reprise 316–383, famille II).
 
-   Geste signature : LineScroll — chaque ligne du titre entre par la droite et
-   sort par la gauche, décalée de 80 ms : le programme qui défile, ligne à
-   ligne, comme un sommaire de session. Transition 0,85 s, DWELL.slow (5,6 s)
-   pour laisser lire deux lignes entières avant la suivante.
+   Héros — archétype « liste immédiate ». Le carrousel ne montrait qu'une
+   formation à la fois derrière une fraction 01/03 : deux tiers du catalogue
+   passaient sous le pli. Les trois sont désormais posées d'emblée, en
+   rangées. La méta-rangée fine et le bandeau média sombre sont partis avec
+   lui — ce sont les archétypes d'impact-331 et d'impact-341, et deux voisins
+   ne partagent jamais leur composition.
 
-   Héros H7 (magazine) : méta-rangée fine en haut, titre serif géant au centre,
-   bandeau média sombre en bas portant la photo et les chiffres publiés.
+   LineScroll ne s'applique plus au titre : il masque chaque ligne dans une
+   fenêtre en overflow hidden, prévue pour des lignes coupées à la main. Un
+   titre d'un seul tenant s'y fait tronquer au lieu de passer à la ligne, et
+   sa longueur vient du client.
    Fontes P10 : Spectral (serif de labeur) + IBM Plex Sans. Palette claire
    #f6f7fa / accent #4338ca.
 
@@ -127,7 +130,10 @@ function HERO_LIVE() {
   const l0 = clientHeroLine(sessionData, 0, 2, 22);
   const l1 = clientHeroLine(sessionData, 1, 2, 22);
   if (!l0) return base;
-  return base.map((s, i) => (i === 0 ? { ...s, lines: [l0, l1].filter(Boolean) } : s));
+  /* `filter(Boolean)` ne retire pas `undefined` du TYPE : sans ce filtre
+     explicite, lines devient (string | undefined)[] et ne s'assigne plus. */
+  const lignes: string[] = [l0, l1].filter((x): x is string => Boolean(x));
+  return base.map((s, i) => (i === 0 ? { ...s, lines: lignes } : s));
 }
 
 const SERVICES_SOURCE = [
@@ -474,7 +480,7 @@ export default function PrismeFormationPage() {
 
   /* Un seul index pilote tout le héros : lignes du titre, méta-rangée,
      légende, compteur. DWELL.slow (5,6 s) laisse lire les deux lignes. */
-  const { i, next, prev } = useSlides(HERO.length, DWELL.slow);
+  const { i } = useSlides(HERO.length, DWELL.slow);
   const S = HERO[i];
 
   useEffect(() => {
@@ -497,11 +503,38 @@ export default function PrismeFormationPage() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
 
+        /*
+          ── Héros « liste immédiate » ──────────────────────────────────────
+          Le catalogue est posé d'emblée, les trois formations visibles à la
+          fois. L'annonce tient la ligne du haut : le titre à gauche, la
+          certification et l'action à droite.
+        */
+        .i347-annonce {
+          display: grid;
+          grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.9fr);
+          gap: clamp(24px, 4vw, 64px);
+          align-items: end;
+        }
+        /* Chaque rangée du catalogue s'éclaire au survol : c'est un sommaire
+           cliquable, il doit se comporter comme tel. */
+        .i347-ligne { transition: background .3s ease, padding-left .3s ease; }
+        .i347-ligne:hover { background: ${C.bgAlt}; padding-left: clamp(8px, 1.2vw, 18px); }
+        .i347-bstats {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0,1fr));
+          gap: 0;
+        }
+
         @media (max-width: 980px) { #i347-nav { display: none !important; } .i347-burger { display: flex !important; } }
         @media (max-width: 900px) {
-          .i347-meta { flex-direction: column !important; align-items: flex-start !important; gap: 10px !important; }
-          .i347-bandeau { grid-template-columns: minmax(0,1fr) !important; }
-          .i347-bstats { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+          .i347-annonce { grid-template-columns: minmax(0,1fr); row-gap: 26px; align-items: start; }
+          /* La description de la formation passerait à la ligne et casserait
+             la grille du catalogue : sous 900 elle disparaît, le numéro et le
+             nom suffisent. */
+          .i347-ligne { grid-template-columns: clamp(28px,7vw,40px) minmax(0,1fr) !important; }
+          .i347-ligne > span:last-child { display: none; }
+          .i347-bstats { grid-template-columns: repeat(2, minmax(0,1fr)) !important; row-gap: 18px; }
+          .i347-bstats > * { border-left: none !important; }
         }
         @media (max-width: 860px) {
           .i347-split { grid-template-columns: minmax(0,1fr) !important; }
@@ -609,14 +642,21 @@ export default function PrismeFormationPage() {
       )}
 
       {/* ── HÉROS H7 — magazine : méta-rangée, titre défilant, bandeau bas ── */}
+      {/* ── HERO — liste immédiate ────────────────────────────────────────
+             Un centre de formation se lit comme un catalogue, pas comme une
+             affiche : les trois formations sont posées d'emblée, toutes les
+             trois, au lieu de tourner une par une derrière une fraction
+             01/03. Plus de méta-rangée ni de bandeau média en pied — ce sont
+             les archétypes d'impact-331 et d'impact-341. */}
       <section
         style={{
           position: "relative",
           minHeight: "100dvh",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
-          paddingTop: "clamp(112px, 13vh, 150px)",
+          justifyContent: "center",
+          gap: "clamp(22px, 3vh, 38px)",
+          padding: "clamp(118px, 13vh, 154px) 0 clamp(46px, 6vh, 76px)",
           background: C.bg,
           overflow: "hidden",
         }}
@@ -639,98 +679,85 @@ export default function PrismeFormationPage() {
           style={{ position: "absolute", top: "-8%", right: "-6%", width: 560, height: 560, borderRadius: "50%", background: `radial-gradient(circle, ${C.accent} 0%, transparent 68%)`, opacity: 0.1, pointerEvents: "none" }}
         />
 
-        <div className="i347-pad" style={{ position: "relative", width: "100%", maxWidth: 1240, margin: "0 auto", padding: "0 clamp(24px, 5vw, 64px)", flex: "1 1 auto", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-          {/* Méta-rangée du magazine : métier · ville / session / certification */}
-          <div
-            className="i347-meta"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              gap: 18,
-              paddingBottom: 18,
-              borderBottom: `1px solid ${C.border}`,
-              flexWrap: "wrap",
-            }}
-          >
-            <Kicker tone="accent">{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
-            <span style={{ fontFamily: BODY, fontSize: 10.5, fontWeight: 600, letterSpacing: "0.28em", textTransform: "uppercase", color: C.textFaint }}>
-              {S.k}
-            </span>
-            <span style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: BODY, fontSize: 10.5, fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: C.accentDark }}>
-              <BadgeCheck size={14} aria-hidden className="i347-sceau" />
-              {STATS[0]?.value ?? "Qualiopi"}
-            </span>
-          </div>
-
-          {/* Le titre : chaque ligne entre par la droite, décalée de 80 ms. */}
-          <div
-            className="i347-titre"
-            style={{
-              fontFamily: DISPLAY,
-              fontSize: "clamp(27px, 4.7vw, 60px)",
-              fontWeight: 600,
-              lineHeight: 1.0,
-              letterSpacing: "-0.022em",
-              color: C.ink,
-              margin: "clamp(26px, 4vh, 44px) 0 clamp(18px, 2.6vh, 28px)",
-            }}
-          >
-            <LineScroll lines={S.lines} index={i} className="" lineStyle={{ paddingBottom: "0.08em" }} />
-          </div>
-
-          <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: "clamp(15px, 1.6vw, 17.5px)", lineHeight: 1.78, color: C.textMuted, maxWidth: 560, margin: "0 0 30px" }}>
-            {clientAccrocheRestante(sessionData, 2, 22) ?? c?.heroSubline ?? "Bureautique, management, langues, digital : des formations courtes certifiées Qualiopi, finançables CPF et OPCO, avec un vrai formateur dans la salle — ou en visio, mais jamais un simple e-learning abandonné."}
-          </p>
-
-          <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-            <motion.a
-              href={telHref}
-              style={{ background: C.accent, color: C.white, padding: "16px 30px", fontFamily: BODY, fontSize: 14.5, fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10, borderRadius: 2 }}
-              whileHover={{ scale: 1.02, y: -2 }}
-            >
-              Monter mon dossier CPF <ArrowRight size={16} aria-hidden />
-            </motion.a>
-            <a
-              href="#services"
-              style={{ border: `1px solid ${C.border}`, background: C.white, color: C.ink, padding: "15px 26px", fontFamily: BODY, fontSize: 14.5, fontWeight: 500, textDecoration: "none", borderRadius: 2 }}
-            >
-              Le catalogue
-            </a>
-          </div>
-
-          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: "clamp(26px, 4vh, 42px)", flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textFaint} className="" />
-            <span style={{ fontFamily: BODY, fontSize: 13, color: C.textMuted, maxWidth: 360 }}>
-              <strong style={{ color: C.ink, fontWeight: 600 }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" labels={{ prev: "Formation précédente", next: "Formation suivante" }} />
-          </div>
-        </div>
-
-        {/* Bandeau média bas : la salle, et les chiffres publiés. */}
-        <div style={{ position: "relative", background: C.bgDark, width: "100%", marginTop: "clamp(34px, 5vh, 64px)" }}>
-          <div
-            className="i347-bandeau i347-pad"
-            style={{
-              maxWidth: 1240,
-              margin: "0 auto",
-              padding: "clamp(22px, 3vw, 34px) clamp(24px, 5vw, 64px)",
-              display: "grid",
-              gridTemplateColumns: "minmax(0,0.82fr) minmax(0,1.18fr)",
-              gap: "clamp(22px, 3.5vw, 48px)",
-              alignItems: "center",
-            }}
-          >
-            <Plate src={photo(0, PHOTO_FALLBACK[0])} alt="Session de formation en salle" ratio="16/9" label="En session" sombre />
-            <div className="i347-bstats" style={{ display: "grid", gridTemplateColumns: `repeat(${Math.min(STATS.length, 4)}, minmax(0,1fr))`, gap: 0 }}>
-              {STATS.map((s: any, idx: number) => (
-                <div key={s.label} style={{ padding: "8px clamp(10px, 1.4vw, 20px)", borderLeft: idx === 0 ? "none" : "1px solid rgba(255,255,255,0.1)" }}>
-                  <div style={{ fontFamily: DISPLAY, fontSize: "clamp(20px, 2.4vw, 28px)", lineHeight: 1, color: C.certif }}>{s.value}</div>
-                  <div style={{ fontFamily: BODY, fontSize: 11.5, lineHeight: 1.45, color: "rgba(255,255,255,0.5)", marginTop: 8 }}>{s.label}</div>
-                </div>
-              ))}
+        <div className="i347-pad" style={{ position: "relative", width: "100%", maxWidth: 1240, margin: "0 auto", padding: "0 clamp(24px, 5vw, 64px)", display: "flex", flexDirection: "column", gap: "clamp(22px, 3vh, 38px)" }}>
+          {/* L'annonce : d'où l'on parle, et la certification qui compte. */}
+          <div className="i347-annonce">
+            <div style={{ minWidth: 0 }}>
+              <Kicker tone="accent">{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
+              <h1
+                className="i347-titre"
+                style={{ fontFamily: DISPLAY, fontSize: "clamp(28px, 4.2vw, 56px)", fontWeight: 600, lineHeight: 1.02, letterSpacing: "-0.022em", color: C.ink, margin: "clamp(16px, 2vw, 24px) 0 0", maxWidth: 760, overflowWrap: "break-word" }}
+              >
+                {/*
+                  Pas de LineScroll ici : il masque chaque ligne dans une
+                  fenêtre en overflow hidden, prévue pour des lignes déjà
+                  coupées à la main. Un titre d'un seul tenant s'y fait
+                  TRONQUER au lieu de passer à la ligne — vérifié à l'écran,
+                  « Des formations courtes, un » s'arrêtait net. La longueur
+                  du titre vient du client : on ne peut pas la garantir.
+                */}
+                {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ??
+                  clientHeroLine(sessionData, 0, 1, 44) ??
+                  "Des formations courtes, un formateur dans la salle."}
+              </h1>
             </div>
+
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 18 }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: BODY, fontSize: 10.5, fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: C.accentDark }}>
+                <BadgeCheck size={14} aria-hidden className="i347-sceau" />
+                {STATS[0]?.value ?? "Qualiopi"}
+              </span>
+              <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: "clamp(14px, 1.2vw, 15.5px)", lineHeight: 1.78, color: C.textMuted, maxWidth: 360, margin: 0 }}>
+                {clientAccrocheRestante(sessionData, 2, 22) ?? c?.heroSubline ?? "Bureautique, management, langues, digital : des formations courtes certifiées Qualiopi, finançables CPF et OPCO, avec un vrai formateur dans la salle — ou en visio, mais jamais un simple e-learning abandonné."}
+              </p>
+              {/* Une seule action pleine ; le catalogue reste un lien. */}
+              <div style={{ display: "flex", gap: "clamp(14px, 2vw, 24px)", flexWrap: "wrap", alignItems: "center" }}>
+                <motion.a
+                  href={telHref}
+                  style={{ background: C.accent, color: C.white, padding: "16px 30px", fontFamily: BODY, fontSize: 14.5, fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10, borderRadius: 2 }}
+                  whileHover={{ scale: 1.02, y: -2 }}
+                >
+                  Monter mon dossier CPF <ArrowRight size={16} aria-hidden />
+                </motion.a>
+                <a href="#services" style={{ fontFamily: BODY, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+                  Le catalogue
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* ── LES TROIS FORMATIONS, toutes visibles d'emblée ─────────────
+               Le carrousel n'en montrait qu'une à la fois : deux tiers du
+               catalogue passaient sous le pli. */}
+          <nav aria-label="Nos formations" style={{ position: "relative", borderTop: `1px solid ${C.border}` }}>
+            {HERO.map((h: any, n: number) => (
+              <a
+                key={h.k ?? n}
+                href="#services"
+                className="i347-ligne"
+                style={{ display: "grid", gridTemplateColumns: "clamp(32px, 4vw, 54px) minmax(0, 1.1fr) minmax(0, 1fr)", alignItems: "baseline", gap: "clamp(12px, 2vw, 28px)", padding: "clamp(12px, 1.7vh, 20px) 0", borderBottom: `1px solid ${C.border}`, textDecoration: "none", color: "inherit" }}
+              >
+                <span style={{ fontFamily: BODY, fontSize: 11, fontWeight: 600, letterSpacing: "0.2em", color: C.accentDark, fontVariantNumeric: "tabular-nums" }}>
+                  {String(n + 1).padStart(2, "0")}
+                </span>
+                <span style={{ fontFamily: DISPLAY, fontSize: "clamp(18px, 2.2vw, 30px)", fontWeight: 600, lineHeight: 1.14, letterSpacing: "-0.018em", color: C.ink }}>
+                  {h.k}
+                </span>
+                <span style={{ fontFamily: BODY, fontWeight: 300, fontSize: "clamp(13px, 1.15vw, 14.5px)", lineHeight: 1.65, color: C.textMuted }}>
+                  {h.sub}
+                </span>
+              </a>
+            ))}
+          </nav>
+
+          {/* Les chiffres publiés, en une seule ligne fine. */}
+          <div className="i347-bstats">
+            {STATS.map((s: any, idx: number) => (
+              <div key={s.label} style={{ padding: "0 clamp(10px, 1.4vw, 20px)", borderLeft: idx === 0 ? "none" : `1px solid ${C.border}` }}>
+                <div style={{ fontFamily: DISPLAY, fontSize: "clamp(19px, 2.2vw, 26px)", lineHeight: 1, color: C.accentDark }}>{s.value}</div>
+                <div style={{ fontFamily: BODY, fontSize: 11.5, lineHeight: 1.45, color: C.textFaint, marginTop: 8 }}>{s.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -817,7 +844,10 @@ export default function PrismeFormationPage() {
           </Reveal>
           <Reveal delay={0.12}>
             <div style={{ position: "relative" }}>
-              <Plate src={photo(1, PHOTO_FALLBACK[1])} alt="Attestation de certification affichée au centre" ratio="4/5" label="Audit passé" sombre />
+              {/* Le héros ne porte plus de photographie : si le client n'en a
+                   téléversé qu'une, elle se serait perdue. Elle prend cette
+                   place à défaut de deuxième. */}
+              <Plate src={photo(1, "") || photo(0, PHOTO_FALLBACK[1])} alt="Attestation de certification affichée au centre" ratio="4/5" label="Audit passé" sombre />
               {/* Détail gratuit : le sceau posé sur l'angle du panneau. */}
               <div
                 className="i347-sceau"

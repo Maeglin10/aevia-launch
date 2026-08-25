@@ -6,7 +6,7 @@ import { motion, useInView, useReducedMotion } from "framer-motion";
 import { ArrowRight, CalendarCheck, Check, Mail, MapPin, Phone } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, LineMask, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, LineMask, useSlides } from "@/lib/templates/hero-kit-2";
 import {
   clientAccrocheRestante,
   clientAddress,
@@ -448,7 +448,7 @@ export default function CTLumierePage() {
     L'index unique du héros. DWELL.slow (5,6 s) pour une transition de 0,72 s :
     le ton famille demande qu'on ait le temps de lire avant que ça bouge.
   */
-  const { i, next, prev } = useSlides(HERO_SLIDES.length, DWELL.slow);
+  const { i, go } = useSlides(HERO_SLIDES.length, DWELL.slow);
   const S = HERO_SLIDES[i] ?? HERO_SLIDES[0];
 
   useEffect(() => {
@@ -483,16 +483,34 @@ export default function CTLumierePage() {
         }
 
         /* ── grilles pilotées ici, jamais en style inline ────────────────── */
+        /*
+          ── Héros « grille éditoriale » ────────────────────────────────────
+          Le titre tient toute la largeur, puis la page se divise en trois
+          comme un article : chapô, vignette, fiche du prochain créneau. Le
+          partage texte-à-gauche / média-à-droite était la charpente de la
+          série, et impact-349 — même métier, thème voisin — vient de la
+          quitter pour le plein cadre.
+        */
         .i350-hero {
           position: relative;
-          display: grid;
-          grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr);
-          gap: clamp(30px, 4.6vw, 68px);
-          align-items: center;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: clamp(26px, 3.6vh, 48px);
           min-height: 100dvh;
           max-width: 1240px;
           margin: 0 auto;
-          padding: clamp(124px, 15vh, 172px) clamp(22px, 5.5vw, 64px) clamp(56px, 7vw, 96px);
+          padding: clamp(120px, 14vh, 164px) clamp(22px, 5.5vw, 64px) clamp(48px, 6vh, 84px);
+        }
+        .i350-colonnes {
+          position: relative;
+          z-index: 2;
+          display: grid;
+          grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.95fr) minmax(0, 0.75fr);
+          gap: clamp(20px, 3vw, 48px);
+          align-items: start;
+          padding-top: clamp(20px, 2.6vw, 30px);
+          border-top: 1px solid ${C.border};
         }
 
         .i350-etape {
@@ -554,7 +572,11 @@ export default function CTLumierePage() {
         @media (max-width: 1000px) {
           #i350-nav { display: none !important; }
           .i350-burger { display: flex !important; }
-          .i350-hero { grid-template-columns: 1fr; }
+          /* Trois colonnes d'article ne tiennent pas sous 1000 : le chapô
+             passe pleine largeur, la vignette et la fiche se partagent la
+             ligne suivante. */
+          .i350-colonnes { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+          .i350-colonnes > *:first-child { grid-column: 1 / -1; }
           .i350-split { grid-template-columns: 1fr; }
           .i350-contact { grid-template-columns: 1fr; }
           .i350-pied { grid-template-columns: 1fr 1fr; }
@@ -570,7 +592,7 @@ export default function CTLumierePage() {
             row-gap: 10px;
           }
           .i350-tband > :last-child { grid-column: 2 / -1; text-align: left; }
-          .i350-fiche { position: static !important; margin-top: 14px; }
+          .i350-colonnes { grid-template-columns: minmax(0,1fr); }
           .i350-pied { grid-template-columns: 1fr; }
         }
 
@@ -628,64 +650,90 @@ export default function CTLumierePage() {
         </div>
       )}
 
-      {/* ══ HERO — H1 : split, média à droite ═══════════════════════════ */}
+      {/* ══ HERO — grille éditoriale ═══════════════════════════════════════
+             Le titre tient toute la largeur, puis la page se divise en trois
+             comme un article : le chapô, la vignette de la ligne de contrôle,
+             et la fiche du prochain créneau. La version précédente posait le
+             texte à gauche et le média à droite — la charpente que toute la
+             série partageait, et qu'impact-349, son voisin de métier, vient
+             de quitter pour le plein cadre. */}
       <section id="haut" className="i350-hero">
         <div aria-hidden className="i350-pois" style={{ position: "absolute", inset: 0, opacity: 0.5 }} />
         <div aria-hidden style={{ position: "absolute", top: "-10%", left: "-12%", width: "min(760px, 92vw)", height: "min(760px, 92vw)", background: "radial-gradient(circle, rgba(227,189,106,0.12) 0%, rgba(227,189,106,0) 64%)", pointerEvents: "none", }}/>
         <Ghost style={{ bottom: "4%", left: "-1%", fontSize: "clamp(110px, 17vw, 250px)", opacity: 0.05 }}>133</Ghost>
 
-        {/* Colonne du titre */}
-        <div style={{ position: "relative", zIndex: 2, minWidth: 0 }}>
+        {/* ── Le titre, d'un seul tenant, sur toute la largeur ───────────── */}
+        <div style={{ position: "relative", zIndex: 2 }}>
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE, delay: 0.05 }}>
             <Kicker>{clientEyebrow(sessionData) ?? `Contrôle technique · ${ville}`}</Kicker>
           </motion.div>
 
-          {/* ── GESTE SIGNATURE : LineMask, deux lignes en douceur ─────── */}
-          <motion.h1 initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.95, ease: EASE, delay: 0.16 }} style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(34px, 5.4vw, 72px)", lineHeight: 1.04, letterSpacing: "-0.024em", color: C.ink, margin: "clamp(20px, 2.6vw, 32px) 0 0", }}>
+          {/* ── GESTE SIGNATURE : LineMask, les lignes en douceur ───────── */}
+          <motion.h1 initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.95, ease: EASE, delay: 0.16 }} style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(32px, 5.6vw, 76px)", lineHeight: 1.02, letterSpacing: "-0.026em", color: C.ink, margin: "clamp(18px, 2.4vw, 30px) 0 0", maxWidth: 1040, }}>
             <LineMask lines={S.lines} index={i} className="" lineClassName="" />
           </motion.h1>
-
-          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, ease: EASE, delay: 0.3 }} style={{ fontFamily: SANS, fontSize: "clamp(15px, 1.25vw, 17px)", fontWeight: 400, lineHeight: 1.82, color: C.textMuted, maxWidth: 500, margin: "clamp(20px, 2.4vw, 28px) 0 clamp(26px, 3vw, 34px)", }}>
-            {clientAccrocheRestante(sessionData, 2, 22) ??
-              c?.heroSubline ??
-              "Le contrôle technique sans la boule au ventre : créneaux du soir, résultat expliqué avec des mots simples, espace enfants, café correct. Et un rapport qu'on comprend enfin."}
-          </motion.p>
-
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE, delay: 0.42 }} style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
-            <motion.a href={telHref} whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: C.white, borderRadius: 999, fontFamily: SANS, fontSize: 14, fontWeight: 700, padding: "17px 32px", textDecoration: "none", boxShadow: "0 20px 40px -22px rgba(79,119,45,0.95)", }}>
-              Réserver mon créneau <ArrowRight size={16} />
-            </motion.a>
-            <motion.a href="#methode" whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "transparent", color: C.ink, border: `1px solid ${C.border}`, borderRadius: 999, fontFamily: SANS, fontSize: 14, fontWeight: 600, padding: "16px 28px", textDecoration: "none", }}>
-              Comment ça se passe
-            </motion.a>
-          </motion.div>
-
-          {/* Le compteur : même index que le titre, jamais un second état. */}
-          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE, delay: 0.54 }} style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap", marginTop: "clamp(30px, 3.6vw, 46px)", paddingTop: "clamp(18px, 2.2vw, 26px)", borderTop: `1px solid ${C.border}`, }}>
-            <span style={{ fontFamily: SANS, fontSize: 12, fontWeight: 700, letterSpacing: "0.06em" }}>
-              <SlideIndex i={i} total={HERO_SLIDES.length} variant="fraction" color={C.accent} className="" />
-            </span>
-            <span style={{ fontFamily: SANS, fontSize: 13.5, fontWeight: 400, color: C.textMuted, minWidth: 0 }}>
-              <strong style={{ fontWeight: 700, color: C.ink }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" />
-          </motion.div>
         </div>
 
-        {/* Colonne média — et la fiche de rendez-vous à cheval sur son angle. */}
-        <motion.div initial={{ opacity: 0, x: reduce ? 0 : 28 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1.05, ease: EASE, delay: 0.26 }} style={{ position: "relative", zIndex: 2, minWidth: 0 }}>
-          <Vignette src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/8985613/pexels-photo-8985613.jpeg?auto=compress&cs=tinysrgb&w=1400"))} alt="Inspection sous le véhicule" ratio="4 / 5" arrondi={26}/>
-          {/* Le détail gratuit : une fiche qui ne clique pas, et qui rassure. */}
-          <div className="i350-fiche" style={{ position: "absolute", left: "clamp(-26px, -2vw, -8px)", bottom: "clamp(18px, 3vw, 40px)", background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: 18, padding: "16px 20px", boxShadow: "0 26px 48px -30px rgba(27,36,24,0.42), 0 3px 8px -4px rgba(27,36,24,0.12)", maxWidth: 250, }}>
-            <div style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.24em", textTransform: "uppercase", fontWeight: 700, color: C.accent, marginBottom: 8 }}>
+        {/* ── Les trois colonnes de l'article ────────────────────────────── */}
+        <div className="i350-colonnes">
+          {/* 1 — le chapô, en corps un peu plus fort que la prose courante */}
+          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, ease: EASE, delay: 0.3 }} style={{ minWidth: 0 }}>
+            <p style={{ fontFamily: SANS, fontSize: "clamp(15px, 1.35vw, 17.5px)", fontWeight: 400, lineHeight: 1.82, color: C.textMuted, margin: 0 }}>
+              {clientAccrocheRestante(sessionData, 2, 22) ??
+                c?.heroSubline ??
+                "Le contrôle technique sans la boule au ventre : créneaux du soir, résultat expliqué avec des mots simples, espace enfants, café correct. Et un rapport qu'on comprend enfin."}
+            </p>
+
+            {/* Une seule action pleine ; le déroulé reste un lien. */}
+            <div style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center", marginTop: "clamp(22px, 2.8vw, 32px)" }}>
+              <motion.a href={telHref} whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: C.white, borderRadius: 999, fontFamily: SANS, fontSize: 14, fontWeight: 700, padding: "17px 32px", textDecoration: "none", boxShadow: "0 20px 40px -22px rgba(79,119,45,0.95)", }}>
+                Réserver mon créneau <ArrowRight size={16} />
+              </motion.a>
+              <a href="#methode" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+                Comment ça se passe
+              </a>
+            </div>
+
+            {/*
+              La matière traitée, et de quoi passer aux autres. La fraction
+              « 01 / 03 » ne disait pas ce qu'on regardait ; ces traits-là
+              mènent directement à chaque vue.
+            */}
+            <div style={{ display: "flex", alignItems: "center", gap: 16, flexWrap: "wrap", marginTop: "clamp(24px, 3vw, 34px)", paddingTop: "clamp(16px, 2vw, 22px)", borderTop: `1px solid ${C.border}` }}>
+              <span style={{ fontFamily: SANS, fontSize: 13, fontWeight: 400, color: C.textMuted, minWidth: 0 }}>
+                <strong style={{ fontWeight: 700, color: C.ink }}>{S.k}</strong> — {S.sub}
+              </span>
+              <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+                {HERO_SLIDES.map((h: any, n: number) => (
+                  <button
+                    key={h.k ?? n}
+                    type="button"
+                    onClick={() => go(n)}
+                    aria-label={h.k ?? `Vue ${n + 1}`}
+                    aria-current={n === i}
+                    style={{ width: 34, height: 3, padding: 0, border: "none", cursor: "pointer", borderRadius: 2, background: n === i ? C.accent : C.border, transition: "background .3s" }}
+                  />
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* 2 — la vignette, en pied de colonne */}
+          <motion.div initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: EASE, delay: 0.26 }} style={{ position: "relative", minWidth: 0 }}>
+            <Vignette src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/8985613/pexels-photo-8985613.jpeg?auto=compress&cs=tinysrgb&w=1400"))} alt="Inspection sous le véhicule" ratio="4 / 3" arrondi={22}/>
+          </motion.div>
+
+          {/* 3 — la fiche de rendez-vous : elle ne clique pas, elle rassure */}
+          <motion.div initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: EASE, delay: 0.36 }} className="i350-fiche" style={{ background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: 18, padding: "clamp(18px, 2.2vw, 26px)", boxShadow: "0 26px 48px -30px rgba(27,36,24,0.42), 0 3px 8px -4px rgba(27,36,24,0.12)" }}>
+            <div style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.24em", textTransform: "uppercase", fontWeight: 700, color: C.accent, marginBottom: 10 }}>
               Prochain créneau
             </div>
-            <div style={{ fontFamily: SERIF, fontWeight: 500, fontSize: 21, lineHeight: 1.2, color: C.ink }}>Samedi, 9 h 30</div>
-            <div style={{ fontFamily: SANS, fontSize: 12.5, fontWeight: 400, color: C.textMuted, marginTop: 6, lineHeight: 1.6 }}>
+            <div style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(21px, 2.2vw, 28px)", lineHeight: 1.2, color: C.ink }}>Samedi, 9 h 30</div>
+            <div style={{ fontFamily: SANS, fontSize: 12.5, fontWeight: 400, color: C.textMuted, marginTop: 8, lineHeight: 1.6 }}>
               Carte grise, et c'est tout.
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </section>
 
       {/* ══ RESPIRATION ══════════════════════════════════════════════════ */}
