@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { ComposeIn } from "@/lib/templates/hero-kit-3";
 import {
   clientAddress,
@@ -635,7 +635,7 @@ export default function CapAssurancesPage() {
   const [ouvert, setOuvert] = useState<number>(0);
 
   // Un seul index pilote tout le hero : les tuiles, l'étiquette, la fraction.
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
   useEffect(() => {
@@ -693,11 +693,42 @@ export default function CapAssurancesPage() {
         /* Nav : la barre passe de transparente à posée en quatre propriétés. */
         @media (max-width: 980px) { #i337-nav { display: none !important; } .i337-burger { display: flex !important; } }
 
-        /* Hero H4 : le titre chevauche le panneau. En dessous de 980px la
-           superposition n'a plus de place — les deux colonnes s'empilent. */
+        /*
+          ── Héros « devanture centrée » ────────────────────────────────────
+          Une colonne unique au milieu, et le dossier posé dessous comme une
+          vitrine : trois garanties alignées à hauteur d'œil. La version
+          précédente faisait chevaucher le titre sur un panneau à sa droite —
+          c'était une grille à deux colonnes, comme toute la série.
+        */
+        .i337-vitrine {
+          position: relative;
+          z-index: 1;
+          width: 100%;
+          max-width: 1120px;
+          margin: 0 auto;
+          background: ${C.bgAlt};
+          border: 1px solid ${C.border};
+          border-radius: 4px;
+          padding: clamp(20px,2.4vw,30px);
+        }
+        /* Les tuiles de la vitrine ont la même hauteur : une garantie plus
+           bavarde que ses voisines ne doit pas creuser la rangée. */
+        .i337-vitrine-grille > * { min-height: clamp(124px, 12vw, 158px); }
+        .i337-statrail {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0,1fr));
+          gap: clamp(12px,2vw,32px);
+          width: 100%;
+          max-width: 1120px;
+          margin: 0 auto;
+        }
+
         @media (max-width: 980px) {
-          .i337-hero { grid-template-columns: minmax(0,1fr) !important; gap: 40px !important; padding-top: 116px !important; }
-          .i337-panel { margin-left: 0 !important; }
+          .i337-hero { gap: 34px !important; padding-top: 116px !important; }
+          /* Trois garanties côte à côte deviennent trois colonnes de six
+             caractères : sous 980 elles s'empilent. */
+          .i337-vitrine-grille { grid-template-columns: minmax(0,1fr) !important; }
+          .i337-vitrine-grille > * { min-height: 0 !important; }
           .i337-title { margin-right: 0 !important; }
         }
         @media (max-width: 860px) {
@@ -705,7 +736,7 @@ export default function CapAssurancesPage() {
           .i337-mrow { grid-template-columns: minmax(0,1fr) !important; gap: 18px !important; }
           /* Les rangées alternées reprennent l'ordre de lecture du document. */
           .i337-mrow > * { order: initial !important; }
-          .i337-statrail { grid-template-columns: repeat(auto-fit, minmax(min(140px,100%),1fr)) !important; }
+          .i337-statrail { grid-template-columns: 1fr 1fr !important; }
           .i337-avis { margin-top: 0 !important; }
           .i337-contact { grid-template-columns: minmax(0,1fr) !important; }
           .i337-tag { display: none !important; }
@@ -796,32 +827,39 @@ export default function CapAssurancesPage() {
         </div>
       )}
 
-      {/* ══ HERO — H4 : le titre déborde sur le panneau des garanties ═════ */}
+      {/* ══ HERO — devanture centrée ══════════════════════════════════════
+             Une colonne unique, centrée, et le dossier posé dessous comme
+             une vitrine : trois garanties alignées, à hauteur d'œil. Le
+             titre ne chevauche plus un panneau à sa droite — ce partage-là,
+             toute la série le portait. */}
       <section
         id="hero"
         className="i337-hero"
         style={{
           position: "relative",
           minHeight: "100dvh",
-          display: "grid",
-          gridTemplateColumns: "minmax(0,1.04fr) minmax(0,0.96fr)",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
           alignItems: "center",
-          gap: "clamp(24px,3vw,44px)",
-          padding: "clamp(132px,13vw,168px) clamp(20px,5vw,72px) clamp(60px,7vw,92px)",
+          textAlign: "center",
+          gap: "clamp(20px,2.6vh,34px)",
+          padding: "clamp(118px,12vw,152px) clamp(20px,5vw,72px) clamp(52px,6vw,84px)",
           maxWidth: 1320,
           margin: "0 auto",
         }}
       >
-        {/* Texture : glow radial très bas, et un mot fantôme en fond. */}
+        {/* Texture : glow radial très bas, et le mot fantôme au centre. */}
         <div
           aria-hidden
           className="i337-derive"
           style={{
             position: "absolute",
-            top: "-10%",
-            right: "-6%",
-            width: "min(70vw, 780px)",
-            height: "min(70vw, 780px)",
+            top: "-14%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "min(90vw, 900px)",
+            height: "min(90vw, 900px)",
             background: `radial-gradient(circle at 50% 50%, rgba(44,74,138,0.12) 0%, rgba(44,74,138,0.05) 42%, transparent 70%)`,
             pointerEvents: "none",
             zIndex: 0,
@@ -831,13 +869,14 @@ export default function CapAssurancesPage() {
           aria-hidden
           style={{
             position: "absolute",
-            left: "clamp(-30px,-2vw,0px)",
-            bottom: "clamp(10px,4vw,60px)",
+            left: "50%",
+            top: "clamp(120px,16vh,220px)",
+            transform: "translateX(-50%)",
             fontFamily: SERIF,
-            fontSize: "clamp(120px,20vw,300px)",
+            fontSize: "clamp(160px,26vw,380px)",
             lineHeight: 0.8,
             color: C.accent,
-            opacity: 0.055,
+            opacity: 0.05,
             pointerEvents: "none",
             userSelect: "none",
             letterSpacing: "-0.04em",
@@ -847,10 +886,9 @@ export default function CapAssurancesPage() {
           20
         </span>
 
-        {/* Colonne de titre — z-index supérieur : c'est elle qui chevauche. */}
-        <div style={{ position: "relative", zIndex: 3 }}>
+        <div style={{ position: "relative", zIndex: 3, display: "flex", flexDirection: "column", alignItems: "center" }}>
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE, delay: 0.1 }}>
-            <Kicker>{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
+            <Kicker align="center">{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
           </motion.div>
 
           <motion.h1
@@ -860,100 +898,54 @@ export default function CapAssurancesPage() {
             transition={{ delay: 0.24, duration: 0.95, ease: EASE }}
             style={{
               fontFamily: SERIF,
-              fontSize: "clamp(40px,6.6vw,92px)",
+              fontSize: "clamp(34px,5.2vw,72px)",
               fontWeight: 400,
               color: C.ink,
-              lineHeight: 0.98,
+              lineHeight: 0.99,
               letterSpacing: "-0.028em",
-              /* Le débord sur le panneau — l'archétype H4. Il est calé sur la
-                 gouttière du panneau et jamais sur le texte des tuiles : un
-                 titre posé par-dessus une garantie rendrait les deux illisibles. */
-              margin: "clamp(20px,2.4vw,34px) -6% clamp(18px,2vw,26px) 0",
-              position: "relative",
+              margin: "clamp(20px,2.4vw,34px) 0 clamp(18px,2vw,26px)",
+              maxWidth: 980,
+              overflowWrap: "break-word",
             }}
           >
-            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (
-              <>
-                {c?.heroHeadline ?? (
-                  <>
-                    {clientHeroLine(sessionData, 0, 2, 16) ?? "Assuré pour ce qui compte,"}
-                    <br />
-                    <em style={{ fontStyle: "italic", color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 16) ?? "pas pour remplir un contrat."}</em>
-                  </>
-                )}
-              </>
-            )}
+            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ??
+              c?.heroHeadline ??
+              clientHeroLine(sessionData, 0, 1, 34) ??
+              "Assuré pour ce qui compte, pas pour remplir un contrat."}
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.44, duration: 0.85, ease: EASE }}
-            style={{ fontFamily: SANS, fontSize: "clamp(15.5px,1.5vw,17px)", color: C.textMuted, lineHeight: 1.76, maxWidth: 480, marginBottom: "clamp(26px,3vw,36px)" }}
+            style={{ fontFamily: SANS, fontSize: "clamp(15px,1.4vw,17px)", color: C.textMuted, lineHeight: 1.76, maxWidth: 620, margin: "0 auto clamp(26px,3vw,36px)" }}
           >
             {clientHeroSubtitle(sessionData) ??
               c?.heroSubline ??
               "Un courtier indépendant compare pour vous auto, habitation, santé et prévoyance auprès de vingt compagnies — et reste votre interlocuteur au moment du sinistre."}
           </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.8, ease: EASE }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+          {/* Une seule action pleine ; les couvertures restent un lien. */}
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6, duration: 0.8, ease: EASE }} style={{ display: "flex", gap: "clamp(16px,2vw,26px)", flexWrap: "wrap", alignItems: "center", justifyContent: "center" }}>
             <CTA href={telHref} filled big>
               Faire le point gratuitement
             </CTA>
-            <CTA href="#services">Nos couvertures</CTA>
+            <a href="#services" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+              Nos couvertures
+            </a>
           </motion.div>
-
-          {/* Pilotage du geste : une seule fraction, une seule paire de flèches. */}
-          <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: "clamp(30px,3.4vw,44px)", flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textFaint} className="" />
-            <span style={{ fontFamily: SANS, fontSize: 13, color: C.textMuted, maxWidth: 380 }}>
-              <strong style={{ fontFamily: SANS, color: C.ink, fontWeight: 600 }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" />
-          </div>
-
-          {/* Les chiffres en marge du héros, pas en bandeau séparé. */}
-          <div
-            className="i337-statrail"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(min(150px,100%), 1fr))",
-              gap: "clamp(10px,1.4vw,20px)",
-              marginTop: "clamp(30px,3.6vw,46px)",
-              borderTop: `1px solid ${C.border}`,
-              paddingTop: "clamp(18px,2vw,26px)",
-            }}
-          >
-            {STATS.map((s: any, idx: number) => (
-              <Reveal key={s.label ?? idx} delay={idx * 0.07} y={14}>
-                <div>
-                  <div style={{ fontFamily: SERIF, fontSize: "clamp(24px,2.6vw,32px)", color: C.accent, lineHeight: 1, letterSpacing: "-0.02em" }}>{s.value}</div>
-                  <div style={{ fontFamily: SANS, fontSize: 11.5, color: C.textFaint, marginTop: 8, lineHeight: 1.5, letterSpacing: "0.04em" }}>{s.label}</div>
-                </div>
-              </Reveal>
-            ))}
-          </div>
         </div>
 
-        {/* Panneau des garanties — la scène du ComposeIn. */}
-        <div
-          className="i337-panel"
-          style={{
-            position: "relative",
-            zIndex: 1,
-            marginLeft: "clamp(-90px,-5vw,0px)",
-            background: C.bgAlt,
-            border: `1px solid ${C.border}`,
-            borderRadius: 4,
-            /* Gouttière gauche élargie : c'est elle que le titre recouvre. */
-            padding: "clamp(20px,2.4vw,30px) clamp(20px,2.4vw,30px) clamp(20px,2.4vw,30px) clamp(26px,4.6vw,66px)",
-            minHeight: "clamp(360px,44vw,470px)",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 18 }}>
+        {/* ── LA VITRINE — le dossier posé à plat, trois garanties alignées ── */}
+        {/*
+          Le panneau vertical est devenu une devanture : les trois tuiles se
+          rangent côte à côte au lieu de s'empiler dans une colonne à droite
+          du titre. Le geste ComposeIn reste le même — elles entrent une à
+          une — mais la scène est horizontale, et le titre ne recouvre plus
+          rien.
+        */}
+        <div className="i337-vitrine">
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 12, marginBottom: 16 }}>
             <Kicker color={C.textFaint}>Le dossier</Kicker>
             <span style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.22em", textTransform: "uppercase", color: C.accent }}>{S.k}</span>
           </div>
@@ -962,7 +954,8 @@ export default function CapAssurancesPage() {
             items={tiles}
             hold={1.2}
             beat={0.16}
-            style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr)", gridTemplateRows: "repeat(3, minmax(104px, auto))", gap: 12 }}
+            className="i337-vitrine-grille"
+            style={{ display: "grid", gridTemplateColumns: "repeat(3, minmax(0,1fr))", gap: 12, textAlign: "left" }}
           />
           {/* Détail gratuit : l'arc du parapluie, tracé en CSS, jamais expliqué. */}
           <span
@@ -980,6 +973,18 @@ export default function CapAssurancesPage() {
               pointerEvents: "none",
             }}
           />
+        </div>
+
+        {/* Les chiffres, en une seule ligne fine sous la vitrine. */}
+        <div className="i337-statrail">
+          {STATS.map((s: any, idx: number) => (
+            <Reveal key={s.label ?? idx} delay={idx * 0.07} y={14}>
+              <div>
+                <div style={{ fontFamily: SERIF, fontSize: "clamp(22px,2.4vw,30px)", color: C.accent, lineHeight: 1, letterSpacing: "-0.02em" }}>{s.value}</div>
+                <div style={{ fontFamily: SANS, fontSize: 11.5, color: C.textFaint, marginTop: 8, lineHeight: 1.5, letterSpacing: "0.04em" }}>{s.label}</div>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </section>
 

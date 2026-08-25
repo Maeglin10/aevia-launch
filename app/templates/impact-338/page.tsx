@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { BentoCascade, DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { BentoCascade, DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import {
   clientAddress,
   clientAreas,
@@ -466,7 +466,7 @@ export default function BorealCourtagePage() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   // Un seul index pilote toute la grille : tuiles de risque, chiffres, scène.
-  const { i, next, prev } = useSlides(HERO.length, DWELL.slow);
+  const { i } = useSlides(HERO.length, DWELL.slow);
   const S = HERO[i];
 
   useEffect(() => {
@@ -490,21 +490,17 @@ export default function BorealCourtagePage() {
     être l'élément de grille, sinon la mise en page retombe en flux auto et le
     bento s'effondre. L'ordre du tableau est l'ordre de la cascade.
   */
-  const titreHero = (
-    <>
-      {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (
-        <>
-          {c?.heroHeadline ?? (
-            <>
-              {clientHeroLine(sessionData, 0, 2, 20) ?? "Votre activité continue,"}
-              <br />
-              <em style={{ fontStyle: "italic", color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 20) ?? "quoi qu'il arrive."}</em>
-            </>
-          )}
-        </>
-      )}
-    </>
-  );
+  /*
+    Le titre d'un seul tenant, d'une seule couleur. La deuxième ligne en
+    italique d'une autre couleur était le tic de toute la série : cinquante
+    pour cent des thèmes depuis le 328 la portaient, contre dix-huit pour cent
+    des anciens. Elle se lisait comme une signature de gabarit.
+  */
+  const titreHero =
+    /* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ??
+    c?.heroHeadline ??
+    clientHeroLine(sessionData, 0, 1, 40) ??
+    "Votre activité continue, quoi qu'il arrive.";
 
   const photoFlotte = photo(1, "");
 
@@ -523,91 +519,47 @@ export default function BorealCourtagePage() {
     d'appel démonté une seconde sur six perd le clic qu'on lui destinait. Le
     reste de la grille se vide et se remplit : c'est là que le geste vit.
   */
+  /*
+    Le héros est passé au « chiffre en avant » : le nombre d'assureurs
+    consultés occupe la place du titre, parce que c'est lui qui distingue un
+    courtier d'un agent. Le bento à dix tuiles a donc laissé la place à une
+    bande de trois — les familles de risques de la diapositive courante.
+
+    Ces trois-là cascadent ; rien d'autre. Le titre et le bouton d'appel
+    restent hors du geste : un titre qui se redessine toutes les 5,6 s se lit
+    comme un rechargement, et un bouton démonté une seconde sur six perd le
+    clic qu'on lui destinait.
+  */
   const tiles = [
+    ...S.tiles.map(({ icon: Icon, t: titre, d, ton }: any, n: number) => ({
+      area: { gridColumn: `${n + 1} / span 1`, gridRow: "1 / span 1" },
+      node: (
+        <div style={{ ...tuileFond(ton), borderRadius: 3, padding: "clamp(16px,1.8vw,22px)", height: "100%", display: "flex", gap: 13, alignItems: "flex-start" }}>
+          <Icon size={19} color={C.accentDark} style={{ flexShrink: 0, marginTop: 3 }} />
+          <div style={{ minWidth: 0 }}>
+            <div style={{ fontFamily: SANS, fontWeight: 600, fontSize: 14.5, marginBottom: 5, color: C.ink }}>{titre}</div>
+            <div style={{ fontFamily: SANS, fontSize: 13, lineHeight: 1.6, color: C.textMuted }}>{d}</div>
+          </div>
+        </div>
+      ),
+    })),
     {
+      /* La quatrième case de la bande : la photographie du client, ou le
+         marquage au sol en repli. Sans elle, la photo téléversée à cet
+         emplacement ne s'afficherait plus nulle part sur la page. */
       area: { gridColumn: "4 / span 1", gridRow: "1 / span 1" },
       node: (
-        <div style={{ ...tuileFond("accent"), borderRadius: 3, padding: "clamp(18px,2vw,24px)", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 14 }}>
-          <div style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.26em", textTransform: "uppercase", color: C.accentDark }}>Famille de risques</div>
-          <div>
-            <div style={{ fontFamily: SERIF, fontSize: "clamp(22px,2.3vw,29px)", color: C.ink, lineHeight: 1.06, letterSpacing: "-0.015em" }}>{S.k}</div>
-            <div style={{ fontFamily: SANS, fontSize: 13, color: C.textMuted, lineHeight: 1.6, marginTop: 8 }}>{S.sub}</div>
-          </div>
-        </div>
-      ),
-    },
-    {
-      area: { gridColumn: "4 / span 1", gridRow: "2 / span 1" },
-      node: (
-        <div style={{ ...tuileFond("acier"), borderRadius: 3, padding: "clamp(18px,2vw,24px)", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", gap: 8 }}>
-          <div style={{ fontFamily: SERIF, fontSize: "clamp(34px,3.6vw,48px)", color: C.accentDark, lineHeight: 0.95, letterSpacing: "-0.03em" }}>{STATS_BENTO[0]?.value}</div>
-          <div style={{ fontFamily: SANS, fontSize: 12, color: C.textMuted, lineHeight: 1.5, letterSpacing: "0.03em" }}>{STATS_BENTO[0]?.label}</div>
-        </div>
-      ),
-    },
-    ...S.tiles.map(({ icon: Icon, t: titre, d, ton }, n: number) => ({
-      area: n === 0 ? { gridColumn: "1 / span 2", gridRow: "3 / span 1" } : { gridColumn: `${n + 2} / span 1`, gridRow: "3 / span 1" },
-      node: (
-        <div style={{ ...tuileFond(ton), borderRadius: 3, padding: "clamp(18px,2vw,24px)", height: "100%", display: "flex", gap: 14, alignItems: "flex-start" }}>
-          <Icon size={20} color={C.accentDark} style={{ flexShrink: 0, marginTop: 3 }} />
-          <div style={{ minWidth: 0 }}>
-            <div style={{ fontFamily: SANS, fontWeight: 600, fontSize: 15, marginBottom: 6, color: C.ink }}>{titre}</div>
-            <div style={{ fontFamily: SANS, fontSize: 13.5, lineHeight: 1.62, color: C.textMuted }}>{d}</div>
-          </div>
-        </div>
-      ),
-    })),
-    ...STATS_BENTO.slice(1, 4).map((s: any, n: number) => ({
-      area: { gridColumn: `${n + 1} / span 1`, gridRow: "4 / span 1" },
-      node: (
-        <div style={{ ...tuileFond(n === 1 ? "accent" : "sombre"), borderRadius: 3, padding: "clamp(16px,1.8vw,22px)", height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", gap: 6 }}>
-          <div style={{ fontFamily: SERIF, fontSize: "clamp(24px,2.6vw,34px)", color: C.ink, lineHeight: 1, letterSpacing: "-0.025em" }}>{s.value}</div>
-          <div style={{ fontFamily: SANS, fontSize: 11.5, color: C.textFaint, lineHeight: 1.5 }}>{s.label}</div>
-        </div>
-      ),
-    })),
-    {
-      area: { gridColumn: "4 / span 1", gridRow: "4 / span 1" },
-      node: (
-        <div
-          style={{
-            ...tuileFond("acier"),
-            borderRadius: 3,
-            height: "100%",
-            minHeight: 96,
-            overflow: "hidden",
-            position: "relative",
-            display: "flex",
-            alignItems: "flex-end",
-          }}
-        >
+        <div style={{ ...tuileFond("acier"), borderRadius: 3, height: "100%", minHeight: 96, overflow: "hidden", position: "relative", display: "flex", alignItems: "flex-end" }}>
           {photoFlotte ? (
             <img src={photoFlotte} alt="Flotte de véhicules d'entreprise" loading="lazy" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block", opacity: 0.85 }} />
           ) : (
-            /* Repli sans image : la trame d'un marquage au sol, en CSS. */
             <span
               aria-hidden
-              style={{
-                position: "absolute",
-                inset: 0,
-                backgroundImage: `repeating-linear-gradient(90deg, ${C.border} 0px, ${C.border} 2px, transparent 2px, transparent 22px)`,
-                opacity: 0.9,
-              }}
+              style={{ position: "absolute", inset: 0, backgroundImage: `repeating-linear-gradient(90deg, ${C.border} 0px, ${C.border} 2px, transparent 2px, transparent 22px)`, opacity: 0.9 }}
             />
           )}
           <span
-            style={{
-              position: "relative",
-              zIndex: 1,
-              fontFamily: SANS,
-              fontSize: 10,
-              letterSpacing: "0.24em",
-              textTransform: "uppercase",
-              color: C.ink,
-              padding: "12px 14px",
-              background: "linear-gradient(0deg, rgba(5,9,18,0.9) 0%, rgba(5,9,18,0.0) 100%)",
-              width: "100%",
-            }}
+            style={{ position: "relative", zIndex: 1, fontFamily: SANS, fontSize: 10, letterSpacing: "0.24em", textTransform: "uppercase", color: C.ink, padding: "12px 14px", background: "linear-gradient(0deg, rgba(5,9,18,0.9) 0%, rgba(5,9,18,0.0) 100%)", width: "100%" }}
           >
             Flottes suivies
           </span>
@@ -621,7 +573,26 @@ export default function BorealCourtagePage() {
       <style>{`
         ${FONTS_CSS}
 
+        /* Le héros « chiffre en avant » : le nombre à gauche, ce qu'il achète
+           à droite. Le nombre reste plus étroit que la parole — c'est une
+           ouverture, pas une colonne. */
+        .i338-chiffre {
+          display: grid;
+          grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
+          gap: clamp(24px, 4vw, 72px);
+          align-items: center;
+          margin-top: clamp(18px, 2.4vw, 32px);
+        }
+        .i338-dire { border-left: 1px solid ${C.border}; padding-left: clamp(20px, 3vw, 44px); min-width: 0; }
+
         @media (max-width: 980px) { #i338-nav { display: none !important; } .i338-burger { display: flex !important; } }
+        @media (max-width: 900px) {
+          /* Empilés, le filet vertical n'a plus de sens : il redevient
+             horizontal, et le nombre cesse de déborder à gauche. */
+          .i338-chiffre { grid-template-columns: minmax(0,1fr); row-gap: 26px; }
+          .i338-dire { border-left: none; border-top: 1px solid ${C.border}; padding-left: 0; padding-top: 24px; }
+          .i338-nombre { margin-left: 0 !important; }
+        }
 
         /* Bento : sous 900px, les placements inline de chaque tuile doivent
            céder. Les tuiles animées ne sont pas des enfants directs de la
@@ -726,16 +697,23 @@ export default function BorealCourtagePage() {
         </div>
       )}
 
-      {/* ══ HERO — H8 bento : dix tuiles inégales, une seule cascade ══════ */}
+      {/* ══ HERO — le chiffre en avant ═════════════════════════════════════
+             Le nombre d'assureurs consultés était en fond, à 6 % d'opacité,
+             pendant que le titre tenait la première tuile d'un bento. C'est
+             pourtant lui qui distingue un courtier d'un agent : il passe donc
+             au premier plan et prend la place du titre. La bande de tuiles
+             descend en pied d'écran. */}
       <section
         id="hero"
+        className="i338-hero"
         style={{
           position: "relative",
           minHeight: "100dvh",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          padding: "clamp(112px,12vw,150px) clamp(16px,4vw,56px) clamp(48px,6vw,80px)",
+          gap: "clamp(28px,4vh,52px)",
+          padding: "clamp(112px,12vw,150px) clamp(16px,4vw,56px) clamp(44px,5vw,72px)",
           background: C.bgDark,
           overflow: "hidden",
         }}
@@ -753,79 +731,73 @@ export default function BorealCourtagePage() {
             pointerEvents: "none",
           }}
         />
-        {/* Chiffre fantôme : le nombre d'assureurs consultés, en fond. */}
-        <span
-          aria-hidden
-          style={{
-            position: "absolute",
-            right: "clamp(-24px,-1vw,0px)",
-            bottom: "2%",
-            fontFamily: SERIF,
-            fontSize: "clamp(140px,22vw,320px)",
-            lineHeight: 0.78,
-            color: C.accent,
-            opacity: 0.06,
-            pointerEvents: "none",
-            userSelect: "none",
-            letterSpacing: "-0.05em",
-          }}
-        >
-          15
-        </span>
 
         <div style={{ position: "relative", width: "100%", maxWidth: 1320, margin: "0 auto" }}>
-          {/*
-            La grille appartient à la page, pas au geste : le conteneur du
-            BentoCascade est en `display: contents`, si bien que ses tuiles
-            animées deviennent des éléments de CETTE grille. C'est la seule
-            façon d'avoir une tuile fixe (le titre) et neuf tuiles qui
-            cascadent dans une seule et même grille — un placement porté par
-            un wrapper non placé renvoie tout le bento en flux automatique.
-          */}
-          <div
-            className="i338-bento"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, minmax(0,1fr))",
-              gridAutoRows: "minmax(104px, auto)",
-              gap: "clamp(8px,1vw,14px)",
-            }}
-          >
-            <div
-              style={{
-                ...tuileFond("sombre"),
-                gridColumn: "1 / span 3",
-                gridRow: "1 / span 2",
-                borderRadius: 3,
-                padding: "clamp(24px,3vw,40px)",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                gap: 18,
-              }}
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE, delay: 0.08 }}>
+            <Kicker>{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
+          </motion.div>
+
+          {/* ── LE CHIFFRE et ce qu'il achète ──────────────────────────── */}
+          <div className="i338-chiffre">
+            <motion.div
+              initial={{ opacity: 0, y: 28 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.95, ease: EASE, delay: 0.18 }}
+              style={{ minWidth: 0 }}
             >
-              <Kicker>{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
-              <h1 style={{ fontFamily: SERIF, fontSize: "clamp(34px,5vw,68px)", fontWeight: 400, color: C.ink, lineHeight: 0.99, letterSpacing: "-0.026em", margin: 0 }}>{titreHero}</h1>
-              <p style={{ fontFamily: SANS, fontSize: "clamp(14.5px,1.4vw,16.5px)", color: C.textMuted, lineHeight: 1.74, maxWidth: 480, margin: 0 }}>
+              {/* Le nombre déborde légèrement à gauche : il ouvre la page. */}
+              <div
+                className="i338-nombre"
+                style={{ fontFamily: SERIF, fontSize: "clamp(96px,16vw,240px)", fontWeight: 400, lineHeight: 0.82, letterSpacing: "-0.05em", color: C.accentDark, marginLeft: "-0.045em" }}
+              >
+                {STATS_BENTO[1]?.value ?? "15"}
+              </div>
+              <div style={{ fontFamily: SANS, fontSize: "clamp(12px,1.15vw,14px)", letterSpacing: "0.2em", textTransform: "uppercase", color: C.textFaint, marginTop: "clamp(20px,2.4vw,30px)", lineHeight: 1.7, maxWidth: 300 }}>
+                {STATS_BENTO[1]?.label ?? "Assureurs en place de marché"}
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.32 }}
+              className="i338-dire"
+            >
+              <h1 style={{ fontFamily: SERIF, fontSize: "clamp(28px,3.6vw,50px)", fontWeight: 400, color: C.ink, lineHeight: 1.02, letterSpacing: "-0.024em", margin: 0, overflowWrap: "break-word" }}>
+                {titreHero}
+              </h1>
+              <p style={{ fontFamily: SANS, fontSize: "clamp(14.5px,1.3vw,16.5px)", color: C.textMuted, lineHeight: 1.74, maxWidth: 480, margin: "clamp(16px,2vw,22px) 0 clamp(22px,2.6vw,30px)" }}>
                 {clientHeroPrestations(sessionData) ??
                   c?.heroSubline ??
                   "Courtage spécialisé PME et ETI : multirisque, flottes, cyber, RC dirigeants. Nous cartographions vos risques, négocions en place de marché et gérons vos sinistres."}
               </p>
-              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: 4 }}>
+              {/* Une seule action pleine ; les programmes restent un lien. */}
+              <div style={{ display: "flex", gap: "clamp(15px,2vw,26px)", flexWrap: "wrap", alignItems: "center" }}>
                 <CTA href={telHref} filled>
                   Cartographier nos risques
                 </CTA>
-                <CTA href="#services">Nos programmes</CTA>
+                <a href="#services" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+                  Nos programmes
+                </a>
               </div>
-            </div>
-            <BentoCascade index={i} tiles={tiles} className="i338-cascade" style={{ display: "contents" }} />
+            </motion.div>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: "clamp(20px,2.4vw,32px)", flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textFaint} className="" />
-            <span style={{ fontFamily: SANS, fontSize: 13, color: C.textMuted }}>
-              <strong style={{ color: C.ink, fontWeight: 600 }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" />
+        </div>
+
+        {/* ── LA BANDE — la famille de risques du moment, en pied d'écran ── */}
+        <div style={{ position: "relative", width: "100%", maxWidth: 1320, margin: "0 auto" }}>
+          <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 14, flexWrap: "wrap", marginBottom: 14 }}>
+            <span style={{ fontFamily: SERIF, fontSize: "clamp(17px,1.7vw,22px)", color: C.ink, lineHeight: 1.2 }}>{S.k}</span>
+            <span style={{ fontFamily: SANS, fontSize: 13, color: C.textMuted, lineHeight: 1.6, maxWidth: 620 }}>{S.sub}</span>
+          </div>
+          <div
+            className="i338-bento"
+            style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", gridAutoRows: "minmax(104px, auto)", gap: "clamp(8px,1vw,14px)" }}
+          >
+            {/*
+              La grille appartient à la page, pas au geste : le conteneur du
+              BentoCascade est en `display: contents`, si bien que ses tuiles
+              animées deviennent des éléments de CETTE grille. Un placement
+              porté par un wrapper non placé renverrait toute la bande en flux
+              automatique.
+            */}
+            <BentoCascade index={i} tiles={tiles} className="i338-cascade" style={{ display: "contents" }} />
           </div>
         </div>
       </section>
