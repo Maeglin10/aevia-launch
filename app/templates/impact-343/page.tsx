@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { WipeReveal } from "@/lib/templates/hero-kit-3";
 import {
   clientAddress,
@@ -487,7 +487,7 @@ export default function BlancNetPage() {
 
   /* Un seul index pour tout le héros : housse, ligne variable, ticket,
      compteur. DWELL.normal = 4,2 s, soit 4,4× la durée du dévoilement. */
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i, go } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
   useEffect(() => {
@@ -510,10 +510,36 @@ export default function BlancNetPage() {
         @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300;1,9..40,400&display=swap');
 
         @media (max-width: 980px) { #i343-nav { display: none !important; } .i343-burger { display: flex !important; } }
+        /*
+          ── Héros « grille éditoriale » ────────────────────────────────────
+          Le titre tient toute la largeur, puis la page se divise comme un
+          bordereau de dépôt : la prose, les repères, la housse, l'heure de
+          retrait. Colonnes volontairement inégales — quatre colonnes égales
+          se liraient comme une grille de cartes, pas comme un imprimé.
+        */
+        .i343-bordereau {
+          position: relative;
+          z-index: 1;
+          display: grid;
+          grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.85fr) minmax(0, 0.9fr) minmax(0, 0.7fr);
+          gap: clamp(18px, 2.6vw, 44px);
+          align-items: start;
+          padding-top: clamp(22px, 3vw, 34px);
+          border-top: 1px solid ${C.border};
+        }
+        .i343-heure { border-left: 1px solid ${C.border}; padding-left: clamp(14px, 1.8vw, 26px); }
+
+        @media (max-width: 1100px) {
+          /* Quatre colonnes de bordereau deviennent quatre colonnes de six
+             caractères : on passe à deux, la housse et l'heure sur la
+             seconde ligne. */
+          .i343-bordereau { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
+        }
         @media (max-width: 900px) {
-          .i343-hero { grid-template-columns: minmax(0,1fr) !important; gap: 34px !important; padding-top: 116px !important; }
-          .i343-heromedia { order: 2 !important; max-width: 440px; }
-          .i343-herotext { order: 1 !important; }
+          .i343-hero { gap: 26px !important; padding-top: 116px !important; }
+          .i343-bordereau { grid-template-columns: minmax(0,1fr); row-gap: 26px; }
+          .i343-heromedia { max-width: 420px; }
+          .i343-heure { border-left: none; border-top: 1px solid ${C.border}; padding-left: 0; padding-top: 22px; }
         }
         @media (max-width: 860px) {
           .i343-split { grid-template-columns: minmax(0,1fr) !important; }
@@ -618,16 +644,21 @@ export default function BlancNetPage() {
       )}
 
       {/* ── HÉROS H2 — média À GAUCHE, texte à droite ─────────────────────── */}
+      {/* ── HERO — grille éditoriale : le bulletin de dépôt ────────────────
+             Le titre tient toute la largeur, puis la page se divise en
+             quatre colonnes inégales, comme un bordereau : la prose, les
+             repères, la housse, l'heure de retrait. Plus de colonne texte
+             face à une colonne média — c'était la charpente de la série. */}
       <section
         className="i343-hero i343-pad"
         style={{
           position: "relative",
           minHeight: "100dvh",
-          display: "grid",
-          gridTemplateColumns: "minmax(0,0.92fr) minmax(0,1.08fr)",
-          gap: "clamp(34px, 5vw, 68px)",
-          alignItems: "center",
-          padding: "clamp(130px, 15vh, 168px) clamp(24px, 5vw, 64px) clamp(56px, 8vh, 88px)",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          gap: "clamp(24px, 3.2vh, 40px)",
+          padding: "clamp(126px, 14vh, 160px) clamp(24px, 5vw, 64px) clamp(48px, 7vh, 78px)",
           maxWidth: 1280,
           margin: "0 auto",
         }}
@@ -646,120 +677,112 @@ export default function BlancNetPage() {
             WebkitMaskImage: "radial-gradient(120% 80% at 20% 30%, #000 0%, transparent 72%)",
           }}
         />
-        {/* Chiffre fantôme : l'heure de retrait, promesse centrale de la maison. */}
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            right: "-2vw",
-            bottom: "2vh",
-            fontFamily: DISPLAY,
-            fontSize: "clamp(130px, 24vw, 330px)",
-            lineHeight: 0.78,
-            color: C.ink,
-            opacity: 0.045,
-            pointerEvents: "none",
-            userSelect: "none",
-          }}
-        >
-          17h
-        </div>
 
-        {/* Colonne média — la housse qu'on retire, geste WipeReveal. */}
-        <div className="i343-heromedia" style={{ position: "relative", width: "100%" }}>
-          <div style={{ position: "relative", background: C.white, boxShadow: "0 30px 70px rgba(19,21,29,0.12), 0 4px 14px rgba(19,21,29,0.05)" }}>
-            <WipeReveal index={i} duration={0.95}>
-              <Plate src={photo(0, PHOTO_FALLBACK[0])} alt={`Atelier de pressing — ${S.k}`} ratio="4/5" />
-            </WipeReveal>
-            <div style={{ padding: "20px 24px 24px", borderTop: `3px solid ${C.accent}` }}>
-              <WipeReveal index={i} duration={0.95} delay={0.055}>
-                <div style={{ fontFamily: BODY, fontSize: 10, fontWeight: 700, letterSpacing: "0.3em", textTransform: "uppercase", color: C.accentDark, marginBottom: 9 }}>{S.k}</div>
-              </WipeReveal>
-              <WipeReveal index={i} duration={0.95} delay={0.11}>
-                <div style={{ fontFamily: DISPLAY, fontSize: "clamp(17px, 1.9vw, 21px)", color: C.ink, lineHeight: 1.32 }}>{S.line}</div>
-              </WipeReveal>
-            </div>
-          </div>
-          {/* Détail gratuit : l'étiquette de ticket agrafée à la housse. */}
-          <div
-            aria-hidden={false}
-            style={{
-              position: "absolute",
-              right: "clamp(-14px, -1vw, -6px)",
-              top: 26,
-              background: C.ink,
-              color: C.white,
-              padding: "10px 14px",
-              transform: "rotate(-2deg)",
-              boxShadow: "0 10px 24px rgba(19,21,29,0.22)",
-            }}
-          >
-            <div style={{ fontFamily: BODY, fontSize: 9, letterSpacing: "0.26em", textTransform: "uppercase", opacity: 0.6 }}>Ticket</div>
-            <div style={{ fontFamily: DISPLAY, fontSize: 17, lineHeight: 1.1, marginTop: 2 }}>N° {String(i + 1).padStart(3, "0")}</div>
-          </div>
-        </div>
-
-        {/* Colonne texte */}
-        <div className="i343-herotext" style={{ position: "relative", minWidth: 0 }}>
+        {/* ── Le titre, d'un seul tenant, sur toute la largeur ───────────── */}
+        <div style={{ position: "relative", zIndex: 1 }}>
           <Kicker tone="accent">{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
-
           <h1
             style={{
               fontFamily: DISPLAY,
-              fontSize: "clamp(36px, 5.2vw, 64px)",
-              lineHeight: 0.98,
-              letterSpacing: "-0.015em",
+              fontSize: "clamp(36px, 6.4vw, 92px)",
+              lineHeight: 0.96,
+              letterSpacing: "-0.022em",
               color: C.ink,
-              margin: "22px 0 22px",
-              maxWidth: 620,
+              margin: "clamp(18px, 2.2vw, 28px) 0 0",
+              maxWidth: 1100,
+              overflowWrap: "break-word",
             }}
           >
-            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (
-              <>
-                {clientHeroLine(sessionData, 0, 2, 18) ?? "Vos vêtements rendus"}
-                <br />
-                <em style={{ fontStyle: "italic", color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 18) ?? "mieux que confiés."}</em>
-              </>
-            )}
+            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ??
+              clientHeroLine(sessionData, 0, 1, 36) ??
+              "Vos vêtements rendus mieux que confiés."}
           </h1>
+        </div>
 
-          <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: "clamp(15px, 1.6vw, 17.5px)", lineHeight: 1.78, color: C.textMuted, maxWidth: 480, margin: "0 0 32px" }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Aquanettoyage sans solvant toxique, repassage main, retouches sur place. Déposé avant 10 h, prêt le lendemain 17 h — et vos costumes savent la différence."}
-          </p>
-
-          <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-            <motion.a
-              href={telHref}
-              style={{ background: C.accent, color: C.white, padding: "16px 30px", fontFamily: BODY, fontSize: 14.5, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10 }}
-              whileHover={{ scale: 1.02, y: -2 }}
-            >
-              Nous appeler <ArrowRight size={16} aria-hidden />
-            </motion.a>
-            <a
-              href="#soins"
-              style={{ border: `1px solid ${C.border}`, background: C.white, color: C.ink, padding: "15px 26px", fontFamily: BODY, fontSize: 14.5, fontWeight: 500, textDecoration: "none" }}
-            >
-              Nos soins
-            </a>
+        {/* ── Le bordereau : quatre colonnes inégales ────────────────────── */}
+        <div className="i343-bordereau">
+          {/* 1 — la prose et l'action */}
+          <div style={{ minWidth: 0 }}>
+            <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: "clamp(14.5px, 1.3vw, 16.5px)", lineHeight: 1.78, color: C.textMuted, margin: "0 0 26px" }}>
+              {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Aquanettoyage sans solvant toxique, repassage main, retouches sur place. Déposé avant 10 h, prêt le lendemain 17 h — et vos costumes savent la différence."}
+            </p>
+            {/* Une seule action pleine ; les soins restent un lien. */}
+            <div style={{ display: "flex", gap: "clamp(15px, 2vw, 24px)", flexWrap: "wrap", alignItems: "center" }}>
+              <motion.a
+                href={telHref}
+                style={{ background: C.accent, color: C.white, padding: "16px 30px", fontFamily: BODY, fontSize: 14.5, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10 }}
+                whileHover={{ scale: 1.02, y: -2 }}
+              >
+                Nous appeler <ArrowRight size={16} aria-hidden />
+              </motion.a>
+              <a href="#soins" style={{ fontFamily: BODY, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+                Nos soins
+              </a>
+            </div>
           </div>
 
-          {/* Repères courts — retouchables ligne à ligne depuis l'aperçu. */}
-          <ul style={{ display: "flex", flexWrap: "wrap", gap: "10px 22px", listStyle: "none", padding: 0, margin: "30px 0 0" }}>
+          {/* 2 — les repères, en colonne de bordereau */}
+          <ul className="i343-reperes" style={{ listStyle: "none", padding: 0, margin: 0, minWidth: 0 }}>
             {REPERES.map((r: any, idx: number) => (
-              <li key={idx} style={{ display: "flex", alignItems: "center", gap: 8, fontFamily: BODY, fontSize: 12.5, color: C.textMuted }}>
-                <CheckCircle size={14} color={C.accent} aria-hidden />
+              <li key={idx} style={{ display: "flex", alignItems: "flex-start", gap: 9, fontFamily: BODY, fontSize: 12.5, color: C.textMuted, padding: "9px 0", borderTop: idx === 0 ? "none" : `1px solid ${C.border}` }}>
+                <CheckCircle size={14} color={C.accent} aria-hidden style={{ flexShrink: 0, marginTop: 2 }} />
                 {r}
               </li>
             ))}
           </ul>
 
-          {/* Le compteur du geste : même index que la housse. */}
-          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: "clamp(28px, 5vh, 46px)", flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textFaint} className="" />
-            <span style={{ fontFamily: BODY, fontSize: 13, color: C.textMuted, maxWidth: 320 }}>
-              <strong style={{ color: C.ink, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" labels={{ prev: "Soin précédent", next: "Soin suivant" }} />
+          {/* 3 — la housse qu'on retire, geste WipeReveal */}
+          <div className="i343-heromedia" style={{ position: "relative", minWidth: 0 }}>
+            <div style={{ position: "relative", background: C.white, boxShadow: "0 30px 70px rgba(19,21,29,0.12), 0 4px 14px rgba(19,21,29,0.05)" }}>
+              <WipeReveal index={i} duration={0.95}>
+                <Plate src={photo(0, PHOTO_FALLBACK[0])} alt={`Atelier de pressing — ${S.k}`} ratio="4/5" />
+              </WipeReveal>
+              <div style={{ padding: "16px 18px 18px", borderTop: `3px solid ${C.accent}` }}>
+                <WipeReveal index={i} duration={0.95} delay={0.055}>
+                  <div style={{ fontFamily: BODY, fontSize: 9.5, fontWeight: 700, letterSpacing: "0.3em", textTransform: "uppercase", color: C.accentDark, marginBottom: 8 }}>{S.k}</div>
+                </WipeReveal>
+                <WipeReveal index={i} duration={0.95} delay={0.11}>
+                  <div style={{ fontFamily: DISPLAY, fontSize: "clamp(15px, 1.5vw, 18px)", color: C.ink, lineHeight: 1.32 }}>{S.line}</div>
+                </WipeReveal>
+              </div>
+            </div>
+            {/* Détail gratuit : l'étiquette de ticket agrafée à la housse. */}
+            <div
+              style={{ position: "absolute", right: "clamp(-14px, -1vw, -6px)", top: 22, background: C.ink, color: C.white, padding: "9px 13px", transform: "rotate(-2deg)", boxShadow: "0 10px 24px rgba(19,21,29,0.22)" }}
+            >
+              <div style={{ fontFamily: BODY, fontSize: 9, letterSpacing: "0.26em", textTransform: "uppercase", opacity: 0.6 }}>Ticket</div>
+              <div style={{ fontFamily: DISPLAY, fontSize: 16, lineHeight: 1.1, marginTop: 2 }}>N° {String(i + 1).padStart(3, "0")}</div>
+            </div>
+          </div>
+
+          {/* 4 — l'heure de retrait, la promesse de la maison */}
+          <div className="i343-heure" style={{ minWidth: 0 }}>
+            <div style={{ fontFamily: BODY, fontSize: 9.5, fontWeight: 700, letterSpacing: "0.3em", textTransform: "uppercase", color: C.textFaint, marginBottom: 12 }}>
+              Prêt le lendemain
+            </div>
+            <div style={{ fontFamily: DISPLAY, fontSize: "clamp(46px, 6vw, 84px)", lineHeight: 0.86, letterSpacing: "-0.04em", color: C.accent }}>
+              17h
+            </div>
+            <div style={{ fontFamily: BODY, fontSize: 12.5, color: C.textMuted, lineHeight: 1.7, marginTop: 14 }}>
+              {S.sub}
+            </div>
+            {/*
+              De quoi passer d'un soin à l'autre. La fraction « 01 / 03 » ne
+              disait pas ce qu'on regardait ; ces traits nomment les soins et
+              y mènent directement.
+            */}
+            <div style={{ display: "flex", gap: 8, marginTop: 20 }}>
+              {HERO.map((h: any, n: number) => (
+                <button
+                  key={h.k ?? n}
+                  type="button"
+                  onClick={() => go(n)}
+                  aria-label={h.k ?? `Soin ${n + 1}`}
+                  aria-current={n === i}
+                  style={{ width: 34, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === i ? C.accent : C.border, transition: "background .3s" }}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>

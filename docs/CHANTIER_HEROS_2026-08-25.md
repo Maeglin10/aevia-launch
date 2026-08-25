@@ -64,9 +64,9 @@ d'écart, et jamais avec les mêmes proportions.
 | 340 | audioprothésiste | `pleincadre` | fait |
 | 341 | auto-école | `bandeau` | fait |
 | 342 | auto-école | `carte` | fait |
-| 343 | pressing | `editorial` | à faire |
-| 344 | pressing | `diagonale` | à faire |
-| 345 | commerce de bouche | `chiffre` | à faire |
+| 343 | pressing | `editorial` | fait |
+| 344 | pressing | `diagonale` | fait |
+| 345 | commerce de bouche | `chiffre` | fait |
 | 346 | commerce de bouche | `typo` | à faire |
 | 347 | formation | `liste` | à faire |
 | 348 | formation | `devanture` | à faire |

@@ -478,8 +478,27 @@ export default function AquaVertPressingPage() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Figtree:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap');
 
+        /*
+          ── Héros « diagonale asymétrique » ────────────────────────────────
+          Deux masses de tailles différentes, séparées par une coupe en biais
+          — un pli de repassage. Le cadran occupe la petite masse haute, la
+          parole la grande masse basse. Les deux coins sont décalés
+          horizontalement : une oblique au milieu de deux blocs alignés ne
+          serait qu'une colonne penchée.
+        */
+        .i344-oblique { position: absolute; inset: 0; pointer-events: none; }
+        .i344-heros { display: flex; flex-direction: column; gap: clamp(26px, 5vh, 62px); }
+        .i344-cadran { align-self: flex-end; margin-right: clamp(0px, 4vw, 72px); }
+        .i344-coin { max-width: min(860px, 74%); }
+
         @media (max-width: 980px) { #i344-nav { display: none !important; } .i344-burger { display: flex !important; } }
         @media (max-width: 900px) {
+          /* Sous 900 la coupe se couche : elle passe entre le cadran et le
+             texte au lieu de les séparer en biais, et le coin de parole
+             reprend toute la largeur. */
+          .i344-oblique { background: linear-gradient(178deg, transparent 0%, transparent 30%, currentColor 30.2%, transparent 30.5%, transparent 100%) !important; }
+          .i344-cadran { align-self: flex-start; margin-right: 0; }
+          .i344-coin { max-width: 100%; }
           .i344-bento { grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important; }
           .i344-tile-large { grid-column: span 2 !important; }
         }
@@ -633,61 +652,77 @@ export default function AquaVertPressingPage() {
               H₂O
             </div>
 
-            <div style={{ maxWidth: 1180, margin: "0 auto", width: "100%", position: "relative" }}>
-              <Kicker tone="inherit">{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
+            {/*
+              ── L'oblique ────────────────────────────────────────────────
+              Le héros se partage en biais, comme un pli de repassage. La
+              masse haute porte le cadran de cycle, la basse porte la parole,
+              et la coupe passe entre les deux. Elle est tracée en
+              currentColor : elle suit la bascule du sombre au clair, comme
+              tout le reste de ce bloc.
+            */}
+            <div
+              aria-hidden
+              className="i344-oblique"
+              /* La coupe passe À DROITE du coin de parole : posée au milieu, elle
+                 traversait le titre de part en part et le rendait illisible. */
+              style={{ background: "linear-gradient(112deg, transparent 0%, transparent 69%, currentColor 69.16%, transparent 69.34%, transparent 100%)", opacity: 0.18 }}
+            />
 
-              <h1
-                style={{
-                  fontFamily: DISPLAY,
-                  fontWeight: 800,
-                  fontSize: "clamp(40px, 7vw, 88px)",
-                  lineHeight: 0.96,
-                  letterSpacing: "-0.03em",
-                  margin: "24px 0 26px",
-                  maxWidth: 1000,
-                  color: "currentColor",
-                }}
-              >
-                {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (
-                  <>
-                    <span style={{ display: "block" }}>{clientHeroLine(sessionData, 0, 2, 24) ?? "Le propre qui ne pollue"}</span>
-                    {/* La seconde ligne est détourée : son trait suit la bascule,
-                        donc elle reste lisible du sombre au clair. */}
-                    <span
-                      style={{
-                        display: "block",
-                        color: "transparent",
-                        WebkitTextStroke: `1.6px color-mix(in srgb, ${C.ink} ${Math.round(invert * 100)}%, ${C.inkLight})`,
-                      }}
-                    >
-                      {clientHeroLine(sessionData, 1, 2, 24) ?? "ni vos fibres, ni la ville."}
-                    </span>
-                  </>
-                )}
-              </h1>
-
-              <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: "clamp(15px, 1.6vw, 17.5px)", lineHeight: 1.78, opacity: 0.76, maxWidth: 540, margin: "0 0 34px", color: "currentColor" }}>
-                {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Aquanettoyage à l'eau, détergents certifiés Écolabel, consigne de cintres et livraison à vélo dans tout Neudorf. Le pressing d'à côté, en mieux pour tout le monde."}
-              </p>
-
-              <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center", marginBottom: "clamp(36px, 6vh, 64px)" }}>
-                <motion.a
-                  href="#collecte"
-                  style={{ background: C.accent, color: C.white, padding: "16px 30px", fontFamily: BODY, fontSize: 14.5, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10 }}
-                  whileHover={{ scale: 1.02, y: -2 }}
-                >
-                  Programmer une collecte <ArrowRight size={16} aria-hidden />
-                </motion.a>
-                <a
-                  href="#soins"
-                  style={{ border: "1px solid currentColor", color: "currentColor", padding: "15px 26px", fontFamily: BODY, fontSize: 14.5, fontWeight: 600, textDecoration: "none", opacity: 0.85 }}
-                >
-                  Nos soins
-                </a>
+            <div className="i344-heros" style={{ maxWidth: 1180, margin: "0 auto", width: "100%", position: "relative" }}>
+              {/* La masse haute : le cadran, seul, dans le coin qu'il occupe. */}
+              <div className="i344-cadran">
+                <CycleDial progress={invert} />
               </div>
 
-              {/* Le cadran de cycle : la progression réelle de la bascule. */}
-              <CycleDial progress={invert} />
+              {/* La masse basse : le coin de parole. */}
+              <div className="i344-coin">
+                <Kicker tone="inherit">{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
+
+                {/*
+                  Titre d'un seul tenant. La seconde ligne détourée disait la
+                  même chose que la seconde ligne en italique des autres
+                  thèmes : une signature de gabarit. Le geste de la page est
+                  déjà la bascule d'encre, il n'a pas besoin d'un second.
+                */}
+                <h1
+                  style={{
+                    fontFamily: DISPLAY,
+                    fontWeight: 800,
+                    fontSize: "clamp(36px, 5.8vw, 76px)",
+                    lineHeight: 0.98,
+                    letterSpacing: "-0.03em",
+                    margin: "22px 0 24px",
+                    maxWidth: 820,
+                    color: "currentColor",
+                    overflowWrap: "break-word",
+                  }}
+                >
+                  {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ??
+                    clientHeroLine(sessionData, 0, 1, 48) ??
+                    "Le propre qui ne pollue ni vos fibres, ni la ville."}
+                </h1>
+
+                <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: "clamp(14.5px, 1.4vw, 16.5px)", lineHeight: 1.78, opacity: 0.76, maxWidth: 520, margin: "0 0 30px", color: "currentColor" }}>
+                  {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Aquanettoyage à l'eau, détergents certifiés Écolabel, consigne de cintres et livraison à vélo dans tout Neudorf. Le pressing d'à côté, en mieux pour tout le monde."}
+                </p>
+
+                {/* Une seule action pleine ; les soins restent un lien. */}
+                <div style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center" }}>
+                  <motion.a
+                    href="#collecte"
+                    style={{ background: C.accent, color: C.white, padding: "16px 30px", fontFamily: BODY, fontSize: 14.5, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10 }}
+                    whileHover={{ scale: 1.02, y: -2 }}
+                  >
+                    Programmer une collecte <ArrowRight size={16} aria-hidden />
+                  </motion.a>
+                  <a
+                    href="#soins"
+                    style={{ color: "currentColor", fontFamily: BODY, fontSize: 13, textDecoration: "none", borderBottom: "1px solid currentColor", paddingBottom: 3, opacity: 0.85 }}
+                  >
+                    Nos soins
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         )}
