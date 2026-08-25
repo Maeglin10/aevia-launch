@@ -241,13 +241,21 @@ function CadranSVG({
       {/* arc du cadran */}
       <path d="M28 158 A 122 122 0 0 1 272 158" stroke={stroke} strokeWidth="2" strokeLinecap="round" />
       <path d="M56 158 A 94 94 0 0 1 244 158" stroke={stroke} strokeWidth="1" opacity="0.35" />
-      {/* graduations — treize traits, le dernier plus long */}
+      {/*
+        Graduations — treize traits, le dernier plus long.
+
+        Coordonnées arrondies au millième : Math.cos ne rend pas la même
+        dernière décimale sous Node et sous le moteur du navigateur, et React
+        signale alors « a tree hydrated but some attributes … didn't match »
+        pour un écart de 1e-14. Même correctif qu'au sceau d'impact-333.
+      */}
       {Array.from({ length: 13 }).map((_, n) => {
         const a = Math.PI - (n / 12) * Math.PI;
         const r1 = 122;
         const r2 = n % 3 === 0 ? 100 : 110;
+        const r3 = (v: number) => Math.round(v * 1000) / 1000;
         return (
-          <line key={n} x1={150 + Math.cos(a) * r1} y1={158 - Math.sin(a) * r1} x2={150 + Math.cos(a) * r2} y2={158 - Math.sin(a) * r2} stroke={stroke} strokeWidth={n % 3 === 0 ? 2 : 1} opacity={n % 3 === 0 ? 0.9 : 0.45} strokeLinecap="round"/>
+          <line key={n} x1={r3(150 + Math.cos(a) * r1)} y1={r3(158 - Math.sin(a) * r1)} x2={r3(150 + Math.cos(a) * r2)} y2={r3(158 - Math.sin(a) * r2)} stroke={stroke} strokeWidth={n % 3 === 0 ? 2 : 1} opacity={n % 3 === 0 ? 0.9 : 0.45} strokeLinecap="round"/>
         );
       })}
       {/* zone de tolérance */}

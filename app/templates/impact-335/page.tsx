@@ -379,17 +379,37 @@ export default function RivesBlanchesPage() {
   const adresse = clientAddress(sessionData);
   const lieu = clientCodePostalVille(sessionData, "", ville).trim();
 
-  /* Le héros est plein cadre : sans image, la section doit rester belle. Le
-     repli est C.bgDark plus un dégradé d'horizon, jamais une URL inventée. */
-  const heroImg = photo(0, "https://images.pexels.com/photos/8865105/pexels-photo-8865105.jpeg?auto=compress&cs=tinysrgb&w=1600");
-  const salonsImg = photo(2, "");
+  /*
+    Le héros est devenu purement typographique : plus aucune photographie n'y
+    entre. Il l'était déjà à moitié — plein cadre, titre en bas — et c'était
+    exactement la composition d'impact-328, l'autre thème de pompes funèbres.
+    Deux pages jumelles pour le même métier, c'est le défaut qu'on corrige.
+
+    La première photographie du client ne se perd pas pour autant : le salon
+    de recueillement la prend quand le client n'en a pas fourni de troisième.
+    Aucune image de stock en repli ici — sans photo, l'aplat tient seul.
+  */
+  const salonsImg = photo(2, "") || photo(0, "");
 
   return (
     <div style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip", WebkitFontSmoothing: "antialiased" }}>
       <style>{FONTS_CSS}</style>
       <style>{`
+        /* Le pied du héros typographique : la prose d'un côté, le numéro de
+           l'autre, séparés par un filet. */
+        .i335-pied {
+          display: grid;
+          grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+          gap: clamp(24px, 4vw, 64px);
+          align-items: start;
+        }
+
         @media (max-width: 980px) { #i335-nav { display: none !important; } .i335-burger { display: flex !important; } }
         @media (max-width: 900px) {
+          /* Le filet vertical n'a plus de sens quand les deux blocs
+             s'empilent : il redevient horizontal. */
+          .i335-pied { grid-template-columns: minmax(0,1fr); row-gap: 30px; }
+          .i335-pied > *:last-child { border-left: none !important; border-top: 1px solid rgba(255,255,255,0.16); padding-left: 0 !important; padding-top: 26px; }
           .i335-split { grid-template-columns: minmax(0,1fr) !important; gap: 34px !important; }
           .i335-split > * { order: initial !important; }
           .i335-methoderow { grid-template-columns: minmax(0,1fr) !important; gap: 14px !important; }
@@ -466,49 +486,51 @@ export default function RivesBlanchesPage() {
         </div>
       )}
 
-      {/* ── HERO — H3 : plein cadre, titre en bas, repli C.bgDark ────────── */}
+      {/* ── HERO — typographie seule ──────────────────────────────────────
+             Aucune photographie. Le héros précédent était plein cadre avec le
+             titre posé en bas : mot pour mot la composition d'impact-328,
+             l'autre thème de pompes funèbres. Deux pages jumelles pour le même
+             métier, c'est le défaut qu'on corrige — et pour ce métier-là, la
+             sobriété d'une page écrite dit plus qu'une image d'ambiance. */}
       <section
         id="top"
+        className="i335-hero"
         style={{
           position: "relative",
           minHeight: "100dvh",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "flex-end",
+          justifyContent: "center",
           background: C.bgDark,
           overflow: "hidden",
         }}
       >
-        {/* Repli sans image : un horizon dessiné, pas un trou noir. */}
+        {/* L'horizon dessiné : la mer que la maison regarde, sans la photographier. */}
         <div
           aria-hidden
           style={{
             position: "absolute",
             inset: 0,
-            background: `linear-gradient(to bottom, ${C.bgDarkAlt} 0%, rgba(42,111,151,0.26) 46%, rgba(42,111,151,0.46) 62%, ${C.bgDark} 100%)`,
+            background: `linear-gradient(to bottom, ${C.bgDarkAlt} 0%, rgba(42,111,151,0.20) 52%, rgba(42,111,151,0.34) 66%, ${C.bgDark} 100%)`,
           }}
         />
-        <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(70% 42% at 50% 58%, rgba(158,201,222,0.12), transparent 72%)" }} />
-        {heroImg ? (
-          <img
-            src={heroImg}
-            alt="Lys blancs déposés sur la pierre"
-            loading="eager"
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-          />
-        ) : null}
-        {/* Scrim à trois arrêts : le titre se lit quoi qu'il y ait derrière. */}
-        <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(10,25,34,0.52) 0%, rgba(10,25,34,0.14) 34%, rgba(10,25,34,0.55) 72%, rgba(10,25,34,0.92) 100%)" }} />
-        <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 88% at 24% 74%, transparent 34%, rgba(10,25,34,0.52) 100%)" }} />
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(70% 42% at 50% 58%, rgba(158,201,222,0.10), transparent 72%)" }} />
+        {/* Le trait d'horizon lui-même : un filet, à la hauteur des yeux. */}
+        <span aria-hidden style={{ position: "absolute", left: 0, right: 0, top: "62%", height: 1, background: `linear-gradient(90deg, transparent, ${C.ecume}, transparent)`, opacity: 0.28 }} />
 
         <div
           className="i335-herotext"
-          style={{ position: "relative", zIndex: 2, padding: "clamp(120px,14vw,180px) clamp(22px,7vw,110px) clamp(64px,9vw,120px)", maxWidth: 1180, width: "100%", margin: "0 auto", boxSizing: "border-box" }}
+          style={{ position: "relative", zIndex: 2, padding: "clamp(120px,14vw,180px) clamp(22px,7vw,110px) clamp(52px,7vw,90px)", maxWidth: 1180, width: "100%", margin: "0 auto", boxSizing: "border-box" }}
         >
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.1, delay: 0.2, ease: EASE }}>
             <Kicker color={C.ecume}>{clientEyebrow(sessionData) ?? <>Pompes funèbres · {ville}</>}</Kicker>
           </motion.div>
 
+          {/*
+            Le titre tient l'écran à lui seul, d'une seule couleur et d'un seul
+            tenant : la seconde ligne en italique d'une autre couleur était le
+            tic de la série entière.
+          */}
           <motion.h1
             initial={{ opacity: 0, y: 34 }}
             animate={{ opacity: 1, y: 0 }}
@@ -516,39 +538,58 @@ export default function RivesBlanchesPage() {
             style={{
               fontFamily: SERIF,
               fontWeight: 300,
-              fontSize: "clamp(40px,7vw,92px)",
+              fontSize: "clamp(40px,8.4vw,116px)",
               color: C.white,
-              lineHeight: 0.98,
-              letterSpacing: "-0.018em",
-              margin: "clamp(22px,2.6vw,34px) 0 clamp(20px,2.2vw,30px)",
-              textShadow: "0 14px 60px rgba(0,0,0,0.5)",
-              maxWidth: 900,
+              lineHeight: 0.96,
+              letterSpacing: "-0.024em",
+              margin: "clamp(26px,3vw,40px) 0 clamp(24px,2.6vw,36px)",
+              maxWidth: 1040,
+              overflowWrap: "break-word",
             }}
-          >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>
-            {clientHeroLine(sessionData, 0, 2, 16) ?? "Ce qui compte,"}
-            <br />
-            <em style={{ fontStyle: "italic", color: C.ecume }}>{clientHeroLine(sessionData, 1, 2, 16) ?? "c'est comment on entoure."}</em>
-          </>)}</motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 22 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.15, delay: 0.56, ease: EASE }}
-            style={{ fontFamily: SANS, fontSize: "clamp(15.5px,1.3vw,17.5px)", fontWeight: 300, color: "rgba(255,255,255,0.8)", lineHeight: 1.8, maxWidth: 520, marginBottom: "clamp(28px,3.4vw,40px)" }}
           >
-            {clientHeroSubtitle(sessionData) ??
-              clientTagline(sessionData) ??
-              "Une maison familiale face à la mer, pour organiser des obsèques dignes — inhumation, crémation, cérémonies civiles ou religieuses. Au prix écrit, jamais pressé."}
-          </motion.p>
+            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ??
+              clientHeroLine(sessionData, 0, 1, 32) ??
+              "Ce qui compte, c'est comment on entoure."}
+          </motion.h1>
 
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.05, delay: 0.74, ease: EASE }} style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-            <Btn href={telHref} filled>
-              Nous joindre — 24h/24
-            </Btn>
-            <Btn href="#tarifs" light>
-              Anticiper
-            </Btn>
-          </motion.div>
+          {/* ── La ligne du bas : ce qu'on fait, et le numéro qui répond ──── */}
+          <div className="i335-pied">
+            <motion.p
+              initial={{ opacity: 0, y: 22 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.15, delay: 0.56, ease: EASE }}
+              style={{ fontFamily: SANS, fontSize: "clamp(15px,1.25vw,17px)", fontWeight: 300, color: "rgba(255,255,255,0.78)", lineHeight: 1.82, maxWidth: 520, margin: 0 }}
+            >
+              {clientHeroSubtitle(sessionData) ??
+                clientTagline(sessionData) ??
+                "Une maison familiale face à la mer, pour organiser des obsèques dignes — inhumation, crémation, cérémonies civiles ou religieuses. Au prix écrit, jamais pressé."}
+            </motion.p>
+
+            {/*
+              Sur une page de pompes funèbres, la chose la plus utile est le
+              numéro. Il est donc écrit en grand, et pas caché derrière un
+              libellé de bouton.
+            */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.05, delay: 0.74, ease: EASE }}
+              style={{ borderLeft: `1px solid rgba(255,255,255,0.16)`, paddingLeft: "clamp(18px,2.4vw,34px)" }}
+            >
+              <div style={{ fontFamily: SANS, fontSize: 10.5, fontWeight: 500, letterSpacing: "0.28em", textTransform: "uppercase", color: C.ecume, marginBottom: 12 }}>
+                Une présence, 24 h / 24
+              </div>
+              <a
+                href={telHref}
+                style={{ display: "inline-block", fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(26px,3.2vw,44px)", lineHeight: 1.05, letterSpacing: "-0.01em", color: C.white, textDecoration: "none", borderBottom: `1px solid ${C.ecume}`, paddingBottom: 6 }}
+              >
+                {phone}
+              </a>
+              <div style={{ marginTop: 18 }}>
+                <a href="#tarifs" style={{ fontFamily: SANS, fontSize: 13, color: "rgba(255,255,255,0.75)", textDecoration: "none", borderBottom: "1px solid rgba(255,255,255,0.3)", paddingBottom: 3 }}>
+                  Anticiper de son vivant
+                </a>
+              </div>
+            </motion.div>
+          </div>
         </div>
       </section>
 

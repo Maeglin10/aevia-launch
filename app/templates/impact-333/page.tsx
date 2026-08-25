@@ -6,7 +6,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, Check, Mail, MapPin, Phone, Scale } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, WordFlight, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, WordFlight, useSlides } from "@/lib/templates/hero-kit-2";
 import {
   clientAddress,
   clientCertifications,
@@ -174,13 +174,22 @@ function SceauSVG({ size = 260, stroke = C.accent, opacity = 1 }: { size?: numbe
       {/* plateaux */}
       <path d="M78 106 L 64 138 H 92 Z" stroke={stroke} strokeWidth="1.4" strokeLinejoin="round" />
       <path d="M182 106 L 168 138 H 196 Z" stroke={stroke} strokeWidth="1.4" strokeLinejoin="round" />
-      {/* les douze crans du sceau — le détail gratuit */}
+      {/*
+        Les douze crans du sceau — le détail gratuit.
+
+        Les coordonnées sont arrondies au millième : Math.cos ne rend pas la
+        même dernière décimale sous Node et sous le moteur du navigateur, et
+        React signalait « a tree hydrated but some attributes … didn't match »
+        sur un écart de 1e-14 dans l'attribut d. Trois décimales suffisent
+        largement au tracé et rendent le rendu serveur et client identiques.
+      */}
       {Array.from({ length: 12 }).map((_, i) => {
         const a = (i * Math.PI) / 6;
-        const x1 = 130 + Math.cos(a) * 112;
-        const y1 = 130 + Math.sin(a) * 112;
-        const x2 = 130 + Math.cos(a) * 122;
-        const y2 = 130 + Math.sin(a) * 122;
+        const r3 = (v: number) => Math.round(v * 1000) / 1000;
+        const x1 = r3(130 + Math.cos(a) * 112);
+        const y1 = r3(130 + Math.sin(a) * 112);
+        const x2 = r3(130 + Math.cos(a) * 122);
+        const y2 = r3(130 + Math.sin(a) * 122);
         return <path key={i} d={`M${x1} ${y1} L ${x2} ${y2}`} stroke={stroke} strokeWidth="1.2" opacity="0.6" strokeLinecap="round" />;
       })}
     </svg>
@@ -419,7 +428,7 @@ export default function EtudeDuCanalPage() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   /* Un seul index pilote tout le héros : titre, méta-rangée, bandeau, compteur. */
-  const { i, next, prev } = useSlides(HERO.length, DWELL.slow);
+  const { i, go } = useSlides(HERO.length, DWELL.slow);
   const S = HERO[i] ?? HERO_SOURCE[0];
 
   useEffect(() => {
@@ -445,6 +454,41 @@ export default function EtudeDuCanalPage() {
         .i333-reglure {
           background-image: repeating-linear-gradient(0deg, rgba(255,255,255,0.04) 0 1px, rgba(255,255,255,0) 1px 30px);
           pointer-events: none;
+        }
+
+        /*
+          ── Le héros : photographie plein cadre, carte posée en débord ─────
+          Le titre ne tient plus une colonne avec une image en face : il vit
+          dans une carte qui chevauche le bord bas-gauche de la photographie.
+          Le débord est l'archétype ; sans lui la carte redeviendrait un
+          simple encart posé dans une grille.
+        */
+        .i333-hero {
+          position: relative;
+          min-height: 100dvh;
+          display: flex;
+          align-items: flex-end;
+          padding: clamp(120px, 15vh, 168px) clamp(22px, 6vw, 68px) clamp(56px, 8vh, 104px);
+          overflow: hidden;
+        }
+        .i333-photo {
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: clamp(70px, 9vh, 128px);
+          left: clamp(90px, 14vw, 260px);
+          overflow: hidden;
+        }
+        .i333-carte {
+          position: relative;
+          z-index: 3;
+          width: min(620px, 100%);
+          background: ${C.bgAlt};
+          border: 1px solid ${C.border};
+          border-left: 3px solid ${C.accent};
+          box-shadow: 0 60px 110px -60px rgba(0,0,0,0.95);
+          padding: clamp(26px, 3.4vw, 46px);
+          overflow: hidden;
         }
 
         /* ── grilles pilotées ici, jamais en style inline ─────────────────── */
@@ -523,6 +567,12 @@ export default function EtudeDuCanalPage() {
           .i333-pied { grid-template-columns: 1fr 1fr; }
         }
         @media (max-width: 860px) {
+          /* Sur un téléphone il n'y a plus de « à côté » : la photographie
+             prend le haut de l'écran et la carte se pose dessous, en la
+             chevauchant d'un cran — le débord reste, l'encombrement part. */
+          .i333-hero { align-items: stretch; flex-direction: column; justify-content: flex-end; padding-bottom: clamp(32px, 6vh, 56px); }
+          .i333-photo { left: 0; bottom: auto; height: 46dvh; }
+          .i333-carte { width: 100%; margin-top: calc(46dvh - clamp(96px, 15vh, 150px)); }
           .i333-meta { grid-template-columns: 1fr 1fr; row-gap: 14px; }
           .i333-bandeau { grid-template-columns: 1fr; }
           .i333-stats { grid-template-columns: 1fr 1fr; }
@@ -600,103 +650,108 @@ export default function EtudeDuCanalPage() {
         </div>
       )}
 
-      {/* ══ HERO — H7 magazine ═══════════════════════════════════════════ */}
-      <section
-        id="haut" style={{ position: "relative", minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", gap: "clamp(24px, 3.4vw, 44px)", maxWidth: 1240, margin: "0 auto", padding: "clamp(120px, 15vh, 168px) clamp(22px, 6vw, 68px) clamp(44px, 6vw, 76px)", }}
-      >
-        <div aria-hidden className="i333-reglure" style={{ position: "absolute", inset: 0, opacity: 0.5 }} />
-        <div
-          aria-hidden style={{ position: "absolute", top: "-4%", left: "-10%", width: "min(860px, 95vw)", height: "min(860px, 95vw)", background: "radial-gradient(circle, rgba(125,143,242,0.12) 0%, rgba(125,143,242,0) 62%)", pointerEvents: "none", }}
-        />
-        <Ghost style={{ bottom: "12%", right: "1%", fontSize: "clamp(150px, 24vw, 340px)", opacity: 0.05 }}>
-          {ROMAINS[i % ROMAINS.length]}
-        </Ghost>
-
-        {/* méta-rangée de couverture */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE, delay: 0.05 }} style={{ position: "relative", zIndex: 2 }}
-        >
-          <div className="i333-meta">
-            {[
-              { l: "L'étude", v: marque },
-              { l: "Matière", v: S.k },
-              { l: "Ressort", v: clientEyebrow(sessionData) ?? `${metier} · ${ville}` },
-              { l: "Régime", v: "Émoluments réglementés" },
-            ].map((m) => (
-              <div key={m.l}>
-                <div
-                  style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.3em", textTransform: "uppercase", color: C.textFaint, marginBottom: 7, }}
-                >
-                  {m.l}
-                </div>
-                <div
-                  style={{ fontFamily: SERIF, fontSize: "clamp(14px, 1.2vw, 17px)", color: C.ink, lineHeight: 1.4, }}
-                >
-                  {m.v}
-                </div>
-              </div>
-            ))}
+      {/* ══ HERO — carte flottante en débord ═══════════════════════════════
+             La photographie tient tout le cadre ; la carte de l'étude se pose
+             dessus et déborde de son bord bas-gauche. Ni méta-rangée ni
+             bandeau de pied : c'est impact-331 qui porte désormais la page de
+             journal, et deux voisins ne partagent jamais leur composition. */}
+      <section id="haut" className="i333-hero">
+        {/* La photographie, plein cadre, derrière tout le reste. */}
+        <div className="i333-photo">
+          <div aria-hidden style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", background: `linear-gradient(150deg, ${C.bgCard} 0%, ${C.bgDarkAlt} 100%)` }}>
+            <SceauSVG size={220} stroke={C.minute} opacity={0.2} />
           </div>
-        </motion.div>
-
-        {/* ── GESTE SIGNATURE : les mots de l'acte entrent en vol ───────── */}
-        <div style={{ position: "relative", zIndex: 2 }}>
-          <h1
-            style={{ fontFamily: SERIF, fontSize: "clamp(38px, 6.6vw, 90px)", fontWeight: 400, lineHeight: 0.99, letterSpacing: "-0.026em", color: C.ink, margin: 0, minHeight: "2.1em", overflowWrap: "break-word", }}
-          >
-            <WordFlight text={S.line} keyed={i} className="" />
-          </h1>
-          <p
-            style={{ fontFamily: SANS, fontSize: "clamp(15px, 1.25vw, 17px)", fontWeight: 300, lineHeight: 1.82, color: C.textMuted, maxWidth: 560, margin: "clamp(22px, 2.6vw, 32px) 0 clamp(26px, 3vw, 36px)", }}
-          >
-            {/*
-              Le titre porte déjà l'accroche du client : le sous-titre annonce
-              donc ce que l'étude fait, jamais la même phrase deux fois.
-            */}
-            {clientHeroPrestations(sessionData) ??
-              c?.heroSubline ??
-              "Une étude jeune, des actes anciens comme le droit : vente, donation, succession, société. Chaque clause expliquée avant d'être signée, au tarif réglementé national."}
-          </p>
-          <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
-            <motion.a
-              href={telHref} whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: C.onAccent, fontFamily: SANS, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 600, padding: "17px 32px", textDecoration: "none", boxShadow: "0 18px 38px -22px rgba(125,143,242,0.9)", }}
-            >
-              Prendre rendez-vous <ArrowRight size={15} />
-            </motion.a>
-            <motion.a
-              href="#services" whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "transparent", color: C.ink, border: `1px solid ${C.border}`, fontFamily: SANS, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 400, padding: "16px 28px", textDecoration: "none", }}
-            >
-              Nos domaines
-            </motion.a>
-          </div>
+          <img
+            src={photo(0, "https://images.pexels.com/photos/7820383/pexels-photo-7820383.jpeg?auto=compress&cs=tinysrgb&w=1600")}
+            alt="Signature d'un acte à l'étude"
+            loading="eager"
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+          />
+          {/*
+            Le voile s'épaissit vers le bas-gauche, là où la carte se pose :
+            sans lui, le blanc de la carte flotterait sur un ciel clair et
+            perdrait son ombre portée.
+          */}
+          <div
+            aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(198deg, rgba(12,14,20,0.30) 0%, rgba(12,14,20,0.52) 44%, rgba(12,14,20,0.86) 100%)", }}
+          />
+          <Ghost style={{ top: "9%", right: "3%", fontSize: "clamp(120px, 18vw, 260px)", opacity: 0.07 }}>
+            {ROMAINS[i % ROMAINS.length]}
+          </Ghost>
         </div>
 
-        {/* bandeau média bas de couverture */}
-        <div className="i333-bandeau" style={{ position: "relative", zIndex: 2 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textMuted} className="" />
-            <span style={{ fontFamily: SANS, fontSize: 13.5, fontWeight: 300, color: C.textMuted, lineHeight: 1.7, maxWidth: 420 }}>
-              <strong style={{ fontFamily: SERIF, fontWeight: 500, fontSize: 16, color: C.ink }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" labels={{ prev: "Domaine précédent", next: "Domaine suivant" }} />
-          </div>
-          <div style={{ position: "relative", border: `1px solid ${C.border}`, overflow: "hidden", background: C.bgDark }}>
-            <div style={{ position: "relative", aspectRatio: "21 / 9", overflow: "hidden" }}>
-              <div aria-hidden style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", background: `linear-gradient(150deg, ${C.bgCard} 0%, ${C.bgDarkAlt} 100%)` }}>
-                <SceauSVG size={150} stroke={C.minute} opacity={0.24} />
+        {/* ── LA CARTE — elle déborde du cadre photographique ────────────── */}
+        <motion.div
+          className="i333-carte" initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: EASE, delay: 0.14 }}
+        >
+          <div aria-hidden className="i333-reglure" style={{ position: "absolute", inset: 0, opacity: 0.35 }} />
+
+          <div style={{ position: "relative", zIndex: 2 }}>
+            <div
+              style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: C.textFaint, marginBottom: "clamp(14px, 1.8vw, 20px)", }}
+            >
+              {clientEyebrow(sessionData) ?? `${metier} · ${ville}`} — {marque}
+            </div>
+
+            {/* ── GESTE SIGNATURE : les mots de l'acte entrent en vol ────── */}
+            <h1
+              style={{ fontFamily: SERIF, fontSize: "clamp(32px, 4.4vw, 62px)", fontWeight: 400, lineHeight: 1.02, letterSpacing: "-0.024em", color: C.ink, margin: 0, minHeight: "2.1em", overflowWrap: "break-word", }}
+            >
+              <WordFlight text={S.line} keyed={i} className="" />
+            </h1>
+
+            <p
+              style={{ fontFamily: SANS, fontSize: "clamp(14.5px, 1.2vw, 16.5px)", fontWeight: 300, lineHeight: 1.8, color: C.textMuted, maxWidth: 520, margin: "clamp(16px, 2vw, 24px) 0 clamp(22px, 2.6vw, 30px)", }}
+            >
+              {/*
+                Le titre porte déjà l'accroche du client : le sous-titre annonce
+                donc ce que l'étude fait, jamais la même phrase deux fois.
+              */}
+              {clientHeroPrestations(sessionData) ??
+                c?.heroSubline ??
+                "Une étude jeune, des actes anciens comme le droit : vente, donation, succession, société. Chaque clause expliquée avant d'être signée, au tarif réglementé national."}
+            </p>
+
+            {/* Une seule action pleine ; la seconde piste est un lien souligné. */}
+            <div style={{ display: "flex", alignItems: "center", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap" }}>
+              <motion.a
+                href={telHref} whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: C.onAccent, fontFamily: SANS, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 600, padding: "17px 32px", textDecoration: "none", boxShadow: "0 18px 38px -22px rgba(125,143,242,0.9)", }}
+              >
+                Prendre rendez-vous <ArrowRight size={15} />
+              </motion.a>
+              <a
+                href="#services" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}
+              >
+                Nos domaines
+              </a>
+            </div>
+
+            {/*
+              La matière traitée, en pied de carte. La fraction « 01 / 03 » ne
+              disait pas ce qu'on regardait ; les chiffres romains de l'étude
+              nomment les trois matières et permettent d'y aller directement.
+            */}
+            <div style={{ marginTop: "clamp(22px, 2.8vw, 32px)", paddingTop: "clamp(16px, 2vw, 22px)", borderTop: `1px solid ${C.border}`, display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
+              <span style={{ fontFamily: SANS, fontSize: 13, fontWeight: 300, color: C.textMuted, lineHeight: 1.7 }}>
+                <strong style={{ fontFamily: SERIF, fontWeight: 500, fontSize: 16, color: C.ink }}>{S.k}</strong> — {S.sub}
+              </span>
+              <div style={{ display: "flex", gap: 14, flexShrink: 0 }}>
+                {HERO.map((h: any, n: number) => (
+                  <button
+                    key={h.k ?? n}
+                    type="button"
+                    onClick={() => go(n)}
+                    aria-label={`Matière ${h.k ?? n + 1}`}
+                    aria-current={n === i}
+                    style={{ background: "none", border: "none", cursor: "pointer", padding: "4px 2px", fontFamily: SERIF, fontSize: 15, lineHeight: 1, color: n === i ? C.accent : C.textFaint, borderBottom: `1px solid ${n === i ? C.accent : "transparent"}`, transition: "color .25s, border-color .25s" }}
+                  >
+                    {ROMAINS[n % ROMAINS.length]}
+                  </button>
+                ))}
               </div>
-              <img
-                src={photo(0, "https://images.pexels.com/photos/7820383/pexels-photo-7820383.jpeg?auto=compress&cs=tinysrgb&w=1400")}
-                alt="Signature d'un acte à l'étude"
-                loading="eager"
-                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-              />
-              <div
-                aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(12,14,20,0.72) 0%, rgba(12,14,20,0.18) 44%, rgba(12,14,20,0.66) 100%)", }}
-              />
             </div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* ══ RESPIRATION ══════════════════════════════════════════════════ */}

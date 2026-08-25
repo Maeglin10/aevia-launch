@@ -446,18 +446,43 @@ export default function RegardNordPage() {
       <style>{`${FONTS_CSS}
 
         /* ── grilles pilotées ici, jamais en style inline ──────────────── */
+        /*
+          Le héros n'est plus une colonne de texte et une colonne d'image : ce
+          partage-là, toute la série le portait. C'est une page de journal —
+          bandeau de méta, titre pleine largeur, puis trois colonnes.
+        */
         .i331-hero {
-          display: grid;
-          grid-template-columns: minmax(0, 1.02fr) minmax(0, 0.98fr);
-          gap: clamp(28px, 4vw, 64px);
-          align-items: start;
+          display: block;
           max-width: 1280px;
           margin: 0 auto;
           padding: clamp(126px, 15vh, 168px) clamp(22px, 5vw, 68px) clamp(56px, 8vw, 96px);
           position: relative;
         }
-        .i331-h1 { position: relative; z-index: 4; margin-right: -22%; }
-        .i331-panel { position: relative; margin-top: clamp(40px, 7vw, 96px); }
+        .i331-masthead {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: clamp(14px, 2.2vw, 32px);
+          padding-bottom: clamp(18px, 2.4vw, 28px);
+          border-bottom: 1px solid ${C.border};
+          position: relative;
+          z-index: 3;
+        }
+        /* le filet vertical entre deux mentions, jamais avant la première */
+        .i331-mcell + .i331-mcell { border-left: 1px solid ${C.border}; padding-left: clamp(14px, 2.2vw, 32px); }
+        .i331-h1 { position: relative; z-index: 4; }
+
+        .i331-colonnes {
+          display: grid;
+          grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.86fr) minmax(0, 0.82fr);
+          gap: clamp(22px, 3.4vw, 52px);
+          align-items: start;
+          margin-top: clamp(30px, 4vw, 48px);
+          padding-top: clamp(22px, 3vw, 34px);
+          border-top: 1px solid ${C.border};
+          position: relative;
+          z-index: 3;
+        }
+        .i331-vitrine { position: relative; }
 
         .i331-focales {
           display: grid;
@@ -528,9 +553,13 @@ export default function RegardNordPage() {
         @media (max-width: 980px) {
           #i331-nav { display: none !important; }
           .i331-burger { display: flex !important; }
-          .i331-hero { grid-template-columns: 1fr; }
-          .i331-h1 { margin-right: 0; }
-          .i331-panel { margin-top: 8px; }
+          /* Trois colonnes de journal ne tiennent pas sous 980 : la prose
+             passe pleine largeur, le sommaire et la vitrine se partagent la
+             ligne suivante. */
+          .i331-colonnes { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+          .i331-colonnes > *:first-child { grid-column: 1 / -1; }
+          .i331-masthead { grid-template-columns: 1fr 1fr; row-gap: 18px; }
+          .i331-mcell:nth-child(3) { border-left: none; padding-left: 0; }
           .i331-split { grid-template-columns: 1fr; }
           .i331-pied { grid-template-columns: 1fr 1fr; }
           .i331-avis-decale { transform: none !important; }
@@ -543,6 +572,11 @@ export default function RegardNordPage() {
           .i331-srow-desc { grid-column: 1 / -1; }
           .i331-srow-decale { padding-left: clamp(12px, 1.6vw, 24px); order: initial; }
           .i331-focales { grid-template-columns: 1fr; }
+          .i331-colonnes { grid-template-columns: 1fr; }
+          /* Quatre mentions empilées mangeaient un demi-écran de téléphone :
+             deux par ligne, le bandeau retrouve sa hauteur de bandeau. */
+          .i331-masthead { grid-template-columns: 1fr 1fr; row-gap: 16px; }
+          .i331-mcell:nth-child(odd) { border-left: none; padding-left: 0; }
           .i331-stats { grid-template-columns: 1fr 1fr; }
           .i331-prow {
             grid-template-columns: minmax(0, 36px) minmax(0, 1fr);
@@ -621,133 +655,122 @@ export default function RegardNordPage() {
         </div>
       )}
 
-      {/* ══ HERO — H4 éditorial décalé ═══════════════════════════════════ */}
+      {/* ══ HERO — grille éditoriale : bandeau de méta, titre pleine largeur,
+             puis trois colonnes de texte. Pas de colonne texte / colonne
+             image : c'est cette charpente-là que toute la série partageait. */}
       <section id="haut" className="i331-hero">
         {/* glow radial très faible, seule texture du fond */}
         <div
           aria-hidden style={{ position: "absolute", top: "-10%", right: "-6%", width: "min(760px, 82vw)", height: "min(760px, 82vw)", background: `radial-gradient(circle, ${C.accentLight} 0%, rgba(213,233,238,0) 66%)`, opacity: 0.85, pointerEvents: "none", }}
         />
-        <Ghost style={{ top: "clamp(80px, 12vh, 150px)", left: "clamp(-14px, -1vw, 0px)", fontSize: "clamp(150px, 24vw, 320px)", opacity: 0.045 }}>
-          01
-        </Ghost>
 
-        <div style={{ position: "relative", zIndex: 3 }}>
+        {/* ── Le bandeau de tête : quatre mentions séparées par des filets ── */}
+        <motion.div
+          className="i331-masthead" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE, delay: 0.05 }}
+        >
+          {[
+            { l: "L'opticien", v: marque },
+            { l: "Où", v: `${ville} centre` },
+            { l: "Le métier", v: clientEyebrow(sessionData) ?? metier },
+            { l: "Prise en charge", v: "100 % Santé sans reste à charge" },
+          ].map((m) => (
+            <div key={m.l} className="i331-mcell">
+              <div style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.3em", textTransform: "uppercase", color: C.textFaint, marginBottom: 7 }}>
+                {m.l}
+              </div>
+              <div style={{ fontFamily: SERIF, fontSize: "clamp(14px, 1.15vw, 16.5px)", color: C.ink, lineHeight: 1.35, overflowWrap: "break-word" }}>
+                {m.v}
+              </div>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* ── Le titre tient toute la largeur, d'un seul tenant ──────────── */}
+        <motion.h1
+          className="i331-h1" initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.95, ease: EASE, delay: 0.16 }}
+          style={{ fontFamily: SERIF, fontSize: "clamp(34px, 6.6vw, 92px)", fontWeight: 500, lineHeight: 0.96, letterSpacing: "-0.032em", color: C.ink, margin: "clamp(26px, 3.4vw, 46px) 0 0", overflowWrap: "break-word", }}
+        >
+          {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ??
+            clientHeroLine(sessionData, 0, 1, 34) ??
+            "Une monture qui vous va, pas une monture qui se vend."}
+        </motion.h1>
+
+        {/* ── Les trois colonnes de la page : prose, sommaire, vitrine ───── */}
+        <div className="i331-colonnes">
           <motion.div
-            initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE, delay: 0.05 }}
+            initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, ease: EASE, delay: 0.3 }}
           >
-            <Kicker>{clientEyebrow(sessionData) ?? `${metier} · ${ville} centre`}</Kicker>
+            <p style={{ fontFamily: SANS, fontSize: "clamp(15px, 1.2vw, 16.5px)", fontWeight: 300, lineHeight: 1.82, color: C.textMuted, margin: 0 }}>
+              {clientHeroSubtitle(sessionData) ??
+                c?.heroSubline ??
+                "Examen de vue sur place, 300 montures choisies une à une, verres français montés à l'atelier. Le 100 % Santé sans reste à charge, et le conseil en plus."}
+            </p>
+            {/*
+              Un seul lien d'action. Le duo bouton plein + bouton contour était
+              le réflexe de toute la série ; ici la seconde piste est un lien
+              souligné, qui ne se dispute pas la place avec le premier.
+            */}
+            <div style={{ display: "flex", alignItems: "center", gap: "clamp(16px, 2vw, 28px)", flexWrap: "wrap", marginTop: "clamp(24px, 3vw, 34px)" }}>
+              <motion.a
+                href={telHref} whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: C.white, fontFamily: SANS, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 600, padding: "17px 32px", textDecoration: "none", boxShadow: "0 18px 36px -22px rgba(14,116,144,0.85)", }}
+              >
+                Prendre rendez-vous <ArrowRight size={15} />
+              </motion.a>
+              <a
+                href="#services" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}
+              >
+                Nos services
+              </a>
+            </div>
           </motion.div>
 
-          <motion.h1
-            className="i331-h1" initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.95, ease: EASE, delay: 0.16 }} style={{ fontFamily: SERIF, fontSize: "clamp(40px, 6.6vw, 84px)", fontWeight: 500, lineHeight: 0.98, letterSpacing: "-0.028em", color: C.ink, margin: "clamp(20px, 2.6vw, 32px) 0 0", overflowWrap: "break-word", }}
-          >
-            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (
-              <>
-                {clientHeroLine(sessionData, 0, 2, 15) ?? "Une monture qui vous va,"}
-                <br />
-                <em style={{ fontStyle: "italic", fontWeight: 400, color: C.accentDark }}>
-                  {clientHeroLine(sessionData, 1, 2, 15) ?? "pas une monture qui se vend."}
-                </em>
-              </>
-            )}
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, ease: EASE, delay: 0.3 }} style={{ fontFamily: SANS, fontSize: "clamp(15px, 1.25vw, 17px)", fontWeight: 300, lineHeight: 1.78, color: C.textMuted, maxWidth: 490, margin: "clamp(22px, 2.6vw, 32px) 0 clamp(26px, 3vw, 36px)", }}
-          >
-            {clientHeroSubtitle(sessionData) ??
-              c?.heroSubline ??
-              "Examen de vue sur place, 300 montures choisies une à une, verres français montés à l'atelier. Le 100 % Santé sans reste à charge, et le conseil en plus."}
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE, delay: 0.42 }} style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}
-          >
-            <motion.a
-              href={telHref} whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: C.white, fontFamily: SANS, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 600, padding: "17px 32px", textDecoration: "none", boxShadow: "0 18px 36px -22px rgba(14,116,144,0.85)", }}
-            >
-              Prendre rendez-vous <ArrowRight size={15} />
-            </motion.a>
-            <motion.a
-              href="#services" whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "transparent", color: C.ink, border: `1px solid ${C.border}`, fontFamily: SANS, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 500, padding: "16px 28px", textDecoration: "none", }}
-            >
-              Nos services
-            </motion.a>
-          </motion.div>
-
-          {/* Le sommaire des trois spécialités : ce que portait le carrousel. */}
-          <div className="i331-focales">
+          {/* le sommaire des spécialités, en colonne serrée de journal */}
+          <div>
             {FOCALES.map((f, idx) => (
-              <Reveal key={f.k} delay={0.5 + idx * 0.055} y={18}>
-                <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 14 }}>
-                  <div
-                    style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.26em", textTransform: "uppercase", color: C.accentDark, marginBottom: 8, }}
-                  >
+              <Reveal key={f.k} delay={0.34 + idx * 0.055} y={16}>
+                <div style={{ borderTop: `1px solid ${C.border}`, padding: "13px 0 15px" }}>
+                  <div style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.26em", textTransform: "uppercase", color: C.accentDark, marginBottom: 7 }}>
                     {String(idx + 1).padStart(2, "0")} · {f.k}
                   </div>
-                  <div
-                    style={{ fontFamily: SERIF, fontSize: "clamp(15px, 1.35vw, 18px)", lineHeight: 1.34, color: C.ink, marginBottom: 7, }}
-                  >
+                  <div style={{ fontFamily: SERIF, fontSize: "clamp(14.5px, 1.25vw, 17px)", lineHeight: 1.36, color: C.ink }}>
                     {f.line}
-                  </div>
-                  <div style={{ fontFamily: SANS, fontSize: 12.5, fontWeight: 300, color: C.textMuted, lineHeight: 1.65 }}>
-                    {f.sub}
                   </div>
                 </div>
               </Reveal>
             ))}
           </div>
-        </div>
 
-        {/* Le panneau que le titre chevauche. */}
-        <div className="i331-panel">
-          <motion.div
-            initial={{ opacity: 0, y: 34 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.05, ease: EASE, delay: 0.24 }} style={{ position: "relative", background: C.white, border: `1px solid ${C.border}`, boxShadow: "0 40px 80px -50px rgba(10,31,37,0.5)", }}
+          {/* la vitrine : une image carrée en pied de colonne, pas un panneau */}
+          <motion.figure
+            className="i331-vitrine" initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: EASE, delay: 0.28 }} style={{ margin: 0 }}
           >
-            {/* zone de chevauchement : le titre y atterrit, rien d'autre */}
-            <div
-              style={{ height: "clamp(64px, 9vw, 126px)", background: C.bgAlt, borderBottom: `1px solid ${C.border}`, }}
-            />
-
-            {/* ── GESTE SIGNATURE : la monture pivote au défilement ───────── */}
-            {/*
-              La boîte est plus haute que la monture, et la monture y est
-              centrée : ScrollSpin mesure sa propre hauteur pour établir la
-              course du défilement. Une boîte à la taille du dessin aurait fait
-              tourner la monture en une centaine de pixels — le geste aurait été
-              vrai mais invisible. transformOrigin reste au centre, donc la
-              monture pivote sur elle-même et non en orbite.
-            */}
-            <ScrollSpin
-              degrees={38} style={{ position: "absolute", top: "clamp(-70px, -6vw, -30px)", right: "clamp(-18px, -1.4vw, 0px)", width: 250, height: 320, display: "grid", placeItems: "center", zIndex: 5, pointerEvents: "none", }}
-            >
-              <MontureSVG size={230} stroke={C.accent} />
-            </ScrollSpin>
-
-            <div style={{ position: "relative", aspectRatio: "4 / 3", overflow: "hidden", background: `linear-gradient(155deg, ${C.bgDark} 0%, ${C.bgDarkAlt} 100%)` }}>
+            <div style={{ position: "relative", aspectRatio: "1 / 1", overflow: "hidden", border: `1px solid ${C.border}`, background: `linear-gradient(155deg, ${C.bgDark} 0%, ${C.bgDarkAlt} 100%)` }}>
               <div aria-hidden style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center" }}>
-                <MontureSVG size={230} stroke={C.verre} opacity={0.32} />
+                <MontureSVG size={190} stroke={C.verre} opacity={0.32} />
               </div>
               <img
                 src={photo(0, FOCALES_SOURCE[0].img)} alt={FOCALES[0]?.alt ?? "Conseil monture à la boutique"} loading="eager" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block", }}
               />
-              {/* scrim à trois arrêts : le bas du cadre porte la légende */}
-              <div
-                aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(7,38,46,0.06) 0%, rgba(7,38,46,0.02) 46%, rgba(7,38,46,0.55) 100%)", }}
-              />
-            </div>
-
-            <div style={{ padding: "clamp(18px, 2.2vw, 26px)", borderTop: `2px solid ${C.accent}` }}>
-              <div
-                style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: C.accentDark, marginBottom: 9, }}
+              {/*
+                La monture pivote au défilement — le geste signature du thème.
+                Elle est posée par-dessus l'image et non dans un panneau à part :
+                c'est le panneau qui faisait la deuxième colonne.
+              */}
+              <ScrollSpin
+                degrees={38} style={{ position: "absolute", right: "-8%", bottom: "-10%", width: 190, height: 190, display: "grid", placeItems: "center", zIndex: 3, pointerEvents: "none", }}
               >
+                <MontureSVG size={170} stroke={C.accent} />
+              </ScrollSpin>
+            </div>
+            <figcaption style={{ marginTop: 12, paddingTop: 11, borderTop: `2px solid ${C.accent}` }}>
+              <div style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.3em", textTransform: "uppercase", color: C.accentDark, marginBottom: 7 }}>
                 En vitrine cette semaine
               </div>
-              <div style={{ fontFamily: SERIF, fontSize: "clamp(17px, 1.6vw, 21px)", lineHeight: 1.32, color: C.ink }}>
+              <div style={{ fontFamily: SERIF, fontSize: "clamp(15px, 1.3vw, 18px)", lineHeight: 1.34, color: C.ink }}>
                 {FOCALES[0]?.line ?? FOCALES_SOURCE[0].line}
               </div>
-            </div>
-          </motion.div>
+            </figcaption>
+          </motion.figure>
         </div>
       </section>
 
