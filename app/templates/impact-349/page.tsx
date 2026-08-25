@@ -6,8 +6,7 @@ import { motion, useInView, useReducedMotion } from "framer-motion";
 import { ArrowRight, Check, Gauge, Mail, MapPin, Phone } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, GhostSolid, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
-import { FixedRail } from "@/lib/templates/hero-kit-3";
+import { DWELL, GhostSolid, useSlides } from "@/lib/templates/hero-kit-2";
 import {
   clientAccrocheRestante,
   clientAddress,
@@ -459,7 +458,12 @@ export default function ControleRhodanienPage() {
     compteur. DWELL.brisk = 3 s pour une transition de 0,7 s — la règle du
     catalogue veut 3 à 6 fois la transition.
   */
-  const { i, next, prev } = useSlides(POSTES.length, DWELL.brisk);
+  const { i, go } = useSlides(POSTES.length, DWELL.brisk);
+
+  /* Le héros est en fond perdu : la photographie du client d'abord, le repli
+     vérifié du thème ensuite. Sans image, le cadran dessiné tient le cadre —
+     jamais un trou noir. */
+  const heroImg = photo(0, "https://images.pexels.com/photos/8985518/pexels-photo-8985518.jpeg?auto=compress&cs=tinysrgb&w=1600");
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60);
@@ -501,16 +505,34 @@ export default function ControleRhodanienPage() {
         }
 
         /* ── grilles pilotées ici, jamais en style inline ────────────────── */
+        /*
+          ── Héros « plein cadre » ──────────────────────────────────────────
+          La photographie tient tout l'écran ; la parole se pose sur son bord
+          bas. Trois colonnes — texte, chiffres, rail vertical — disaient ce
+          qu'une image dit d'un coup.
+        */
         .i349-hero {
           position: relative;
-          display: grid;
-          grid-template-columns: minmax(0, 1.42fr) minmax(0, 0.58fr);
-          gap: clamp(30px, 4.4vw, 66px);
-          align-items: center;
+          display: flex;
+          align-items: flex-end;
           min-height: 100dvh;
+          overflow: hidden;
+        }
+        .i349-fond { position: absolute; inset: 0; overflow: hidden; }
+        .i349-parole {
+          position: relative;
+          z-index: 2;
+          width: 100%;
           max-width: 1300px;
           margin: 0 auto;
-          padding: clamp(126px, 15vh, 176px) clamp(22px, 5vw, 60px) clamp(54px, 7vw, 96px) clamp(86px, 9vw, 148px);
+          padding: clamp(120px, 14vh, 168px) clamp(22px, 5vw, 60px) clamp(40px, 5.5vh, 72px);
+        }
+        .i349-bas {
+          display: grid;
+          grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+          gap: clamp(22px, 3.4vw, 52px);
+          align-items: end;
+          margin: clamp(20px, 2.6vw, 30px) 0 clamp(24px, 3.2vw, 38px);
         }
 
         .i349-compteur {
@@ -521,10 +543,14 @@ export default function ControleRhodanienPage() {
           padding-top: clamp(18px, 2.2vw, 26px);
         }
 
+        /* Les chiffres, couchés en une ligne fine sous le compteur. */
         .i349-chiffres {
           display: grid;
-          grid-template-columns: minmax(0, 1fr);
+          grid-template-columns: repeat(4, minmax(0, 1fr));
           gap: 0;
+          margin-top: clamp(20px, 2.6vw, 30px);
+          padding-top: clamp(16px, 2vw, 24px);
+          border-top: 1px solid rgba(255,255,255,0.09);
         }
 
         .i349-srow {
@@ -584,13 +610,9 @@ export default function ControleRhodanienPage() {
         @media (max-width: 1040px) {
           #i349-nav { display: none !important; }
           .i349-burger { display: flex !important; }
-          .i349-hero {
-            grid-template-columns: 1fr;
-            padding-left: clamp(22px, 5vw, 60px);
-          }
-          /* le rail est un dispositif de grand écran : sous 1040 px il
-             occuperait la moitié de la largeur utile pour un compteur. */
-          .i349-rail { display: none !important; }
+          .i349-bas { grid-template-columns: 1fr; row-gap: 22px; }
+          .i349-chiffres { grid-template-columns: 1fr 1fr; row-gap: 18px; }
+          .i349-chiffres > * { border-left: none !important; padding-left: 0 !important; }
           .i349-split { grid-template-columns: 1fr; }
           .i349-pied { grid-template-columns: 1fr 1fr; }
         }
@@ -664,98 +686,114 @@ export default function ControleRhodanienPage() {
         </div>
       )}
 
-      {/* ══ HERO — H5 : rail latéral fixe + titre monumental ═════════════ */}
+      {/* ══ HERO — plein cadre, la parole posée en bas ════════════════════
+             La photographie du centre occupe tout l'écran ; le titre et le
+             compteur des postes se posent sur son bord bas. La version
+             précédente rangeait le texte à gauche, une colonne de chiffres à
+             droite et un rail vertical en marge : trois colonnes pour dire ce
+             qu'une image dit d'un coup. Les chiffres restent, en une ligne
+             fine sous le compteur — ils n'existaient nulle part ailleurs sur
+             la page. */}
       <section id="haut" className="i349-hero">
-        <div aria-hidden className="i349-trame" style={{ position: "absolute", inset: 0, opacity: 0.62 }} />
-        <div aria-hidden style={{ position: "absolute", top: "-6%", right: "-10%", width: "min(880px, 96vw)", height: "min(880px, 96vw)", background: "radial-gradient(circle, rgba(245,165,36,0.11) 0%, rgba(245,165,36,0) 62%)", pointerEvents: "none", }}/>
-        <Ghost style={{ bottom: "3%", right: "1%", fontSize: "clamp(120px, 19vw, 300px)", opacity: 0.045 }}>133</Ghost>
-
-        {/* Le rail : il ne bouge jamais, il compte. */}
-        <FixedRail color={C.bgDark} side="left" width="clamp(64px, 6vw, 104px)" className="i349-rail">
-          <div style={{ display: "grid", placeItems: "center", gap: 20, padding: "104px 0 40px" }}>
-            <span style={{ writingMode: "vertical-rl", transform: "rotate(180deg)", fontFamily: SANS, fontSize: 10, letterSpacing: "0.36em", textTransform: "uppercase", color: C.textFaint, whiteSpace: "nowrap", }}>
-              133 points de contrôle
-            </span>
-            <span aria-hidden style={{ width: 1, height: "clamp(60px, 12vh, 130px)", background: `linear-gradient(to bottom, ${C.accent}, rgba(245,165,36,0))` }} />
-            <div style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: 15, color: C.accentDark }}>
-              <SlideIndex i={i} total={POSTES.length} variant="fraction" color={C.accentDark} className="" />
-            </div>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.textMuted} vertical className="" />
+        {/* Le fond photographique, et son repli dessiné. */}
+        <div aria-hidden className="i349-fond">
+          <div style={{ position: "absolute", inset: 0, background: `linear-gradient(158deg, ${C.bgCard} 0%, ${C.bgDark} 58%, ${C.bgDarkAlt} 100%)` }} />
+          <div className="i349-trame" style={{ position: "absolute", inset: 0, opacity: 0.55 }} />
+          <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center" }}>
+            <CadranSVG size={420} stroke={C.banc} opacity={0.16} />
           </div>
-        </FixedRail>
+          {heroImg ? (
+            <img
+              src={heroImg}
+              alt=""
+              loading="eager"
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
+          ) : null}
+          {/* Scrim à trois arrêts : le titre se lit quoi qu'il y ait derrière. */}
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(12,10,7,0.62) 0%, rgba(12,10,7,0.20) 30%, rgba(12,10,7,0.74) 66%, rgba(12,10,7,0.95) 100%)" }} />
+        </div>
+        <Ghost style={{ top: "12%", right: "2%", fontSize: "clamp(110px, 17vw, 260px)", opacity: 0.06 }}>133</Ghost>
 
-        {/* Colonne du titre */}
-        <div style={{ position: "relative", zIndex: 2, minWidth: 0 }}>
+        <div className="i349-parole">
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE, delay: 0.05 }}>
             <Kicker>{clientEyebrow(sessionData) ?? `Contrôle technique · ${ville}`}</Kicker>
           </motion.div>
 
           {/* ── GESTE SIGNATURE, 1er emploi : le lockup contour / plein ─── */}
-          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.95, ease: EASE, delay: 0.16 }} style={{ margin: "clamp(20px, 2.6vw, 34px) 0 0" }}>
-            <h1 style={{ fontFamily: DISPLAY, fontWeight: 900, fontSize: "clamp(42px, 8.2vw, 116px)", lineHeight: 0.93, letterSpacing: "-0.038em", margin: 0, overflowWrap: "break-word", }}>
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.95, ease: EASE, delay: 0.16 }} style={{ margin: "clamp(18px, 2.4vw, 30px) 0 0" }}>
+            <h1 style={{ fontFamily: DISPLAY, fontWeight: 900, fontSize: "clamp(38px, 6.8vw, 96px)", lineHeight: 0.94, letterSpacing: "-0.038em", margin: 0, overflowWrap: "break-word", }}>
               <GhostSolid ghost={lockGhost} solid={lockSolid} accent={C.accent} strokeWidth={1.5} className="" />
             </h1>
           </motion.div>
 
-          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, ease: EASE, delay: 0.3 }} style={{ fontFamily: SANS, fontSize: "clamp(15px, 1.25vw, 17px)", fontWeight: 300, lineHeight: 1.8, color: C.textMuted, maxWidth: 520, margin: "clamp(22px, 2.6vw, 32px) 0 clamp(26px, 3vw, 34px)", }}>
-            {clientAccrocheRestante(sessionData, 2, 15) ??
-              clientHeroPrestations(sessionData) ??
-              c?.heroSubline ??
-              "Un contrôle honnête, expliqué point par point, sans vente forcée : nous ne réparons pas, nous contrôlons — c'est la garantie de notre indépendance. Rendez-vous en ligne, résultat en 45 minutes."}
-          </motion.p>
+          {/* ── La ligne du bas : la prose, puis l'action ────────────────── */}
+          <div className="i349-bas">
+            <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, ease: EASE, delay: 0.3 }} style={{ fontFamily: SANS, fontSize: "clamp(14.5px, 1.2vw, 16.5px)", fontWeight: 300, lineHeight: 1.8, color: "rgba(255,255,255,0.78)", margin: 0, }}>
+              {clientAccrocheRestante(sessionData, 2, 15) ??
+                clientHeroPrestations(sessionData) ??
+                c?.heroSubline ??
+                "Un contrôle honnête, expliqué point par point, sans vente forcée : nous ne réparons pas, nous contrôlons — c'est la garantie de notre indépendance. Rendez-vous en ligne, résultat en 45 minutes."}
+            </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE, delay: 0.42 }} style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center", marginBottom: "clamp(30px, 3.6vw, 48px)" }}>
-            <motion.a href={telHref} whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: "#15100a", fontFamily: SANS, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 700, padding: "17px 32px", textDecoration: "none", boxShadow: "0 18px 38px -22px rgba(245,165,36,0.95)", }}>
-              Prendre rendez-vous <ArrowRight size={15} />
-            </motion.a>
-            <motion.a href="#services" whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "transparent", color: C.ink, border: `1px solid ${C.border}`, fontFamily: SANS, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 500, padding: "16px 28px", textDecoration: "none", }}>
-              Les contrôles
-            </motion.a>
-          </motion.div>
+            {/* Une seule action pleine ; les contrôles restent un lien. */}
+            <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE, delay: 0.42 }} style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center" }}>
+              <motion.a href={telHref} whileHover={{ y: -3 }} transition={{ duration: 0.45, ease: EASE }} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: "#15100a", fontFamily: SANS, fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 700, padding: "17px 32px", textDecoration: "none", boxShadow: "0 18px 38px -22px rgba(245,165,36,0.95)", }}>
+                Prendre rendez-vous <ArrowRight size={15} />
+              </motion.a>
+              <a href="#services" style={{ fontFamily: SANS, fontSize: 13, color: C.white, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+                Les contrôles
+              </a>
+            </motion.div>
+          </div>
 
           {/* ── GESTE SIGNATURE, 2e emploi : le compteur des postes ─────── */}
           {/*
             Le contour devient plein au fur et à mesure : un poste écrit au
-            trait n'est pas encore passé, un poste plein l'est. Le même index
-            que le rail, aucun autre état. Stagger 55 ms entre les postes.
+            trait n'est pas encore passé, un poste plein l'est. Le rail
+            vertical portait la fraction et les flèches ; ici les postes eux-
+            mêmes sont cliquables, et ils disent ce qu'on regarde.
           */}
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE, delay: 0.54 }} className="i349-compteur">
             {POSTES.map((p, n) => {
               const passe = n <= i;
               return (
-                <div key={p.n} style={{ minWidth: 0 }}>
-                  <div style={{ height: 2, background: passe ? C.accent : "rgba(255,255,255,0.10)", transform: passe || reduce ? "scaleX(1)" : "scaleX(0.32)", transformOrigin: "left center", transition: `background .7s cubic-bezier(0.16, 1, 0.3, 1) ${n * 0.055}s, transform .7s cubic-bezier(0.16, 1, 0.3, 1) ${n * 0.055}s`, marginBottom: 12, }}/>
-                  <div style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: "clamp(14px, 1.5vw, 18px)", letterSpacing: "0.02em", lineHeight: 1.18, color: passe ? C.accent : "transparent", WebkitTextStroke: passe ? "0px transparent" : `1px rgba(255,255,255,0.42)`, transition: `color .7s cubic-bezier(0.16, 1, 0.3, 1) ${n * 0.055}s, -webkit-text-stroke-color .7s cubic-bezier(0.16, 1, 0.3, 1)`, }}>
+                <button
+                  key={p.n}
+                  type="button"
+                  onClick={() => go(n)}
+                  aria-current={n === i}
+                  aria-label={`Poste ${p.n} — ${p.l}`}
+                  style={{ minWidth: 0, textAlign: "left", background: "none", border: "none", padding: 0, cursor: "pointer" }}
+                >
+                  <div style={{ height: 2, background: passe ? C.accent : "rgba(255,255,255,0.16)", transform: passe || reduce ? "scaleX(1)" : "scaleX(0.32)", transformOrigin: "left center", transition: `background .7s cubic-bezier(0.16, 1, 0.3, 1) ${n * 0.055}s, transform .7s cubic-bezier(0.16, 1, 0.3, 1) ${n * 0.055}s`, marginBottom: 11, }}/>
+                  <div style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: "clamp(13px, 1.35vw, 17px)", letterSpacing: "0.02em", lineHeight: 1.18, color: passe ? C.accent : "transparent", WebkitTextStroke: passe ? "0px transparent" : `1px rgba(255,255,255,0.5)`, transition: `color .7s cubic-bezier(0.16, 1, 0.3, 1) ${n * 0.055}s, -webkit-text-stroke-color .7s cubic-bezier(0.16, 1, 0.3, 1)`, }}>
                     {p.l}
                   </div>
                   <div style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.24em", textTransform: "uppercase", color: C.textFaint, marginTop: 7, fontVariantNumeric: "tabular-nums", }}>
                     Poste {p.n}
                   </div>
-                </div>
+                </button>
               );
             })}
           </motion.div>
-        </div>
 
-        {/* Colonne des chiffres : ils vivent dans le héros, pas dans une bande. */}
-        <motion.div initial={{ opacity: 0, x: reduce ? 0 : 26 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 1.05, ease: EASE, delay: 0.28 }} style={{ position: "relative", zIndex: 2, minWidth: 0 }}>
-          <div className="i349-chiffres" style={{ border: `1px solid ${C.border}`, background: `linear-gradient(162deg, ${C.bgAlt} 0%, ${C.bgDark} 100%)`, }}>
-            <div style={{ position: "relative", padding: "clamp(20px, 2.4vw, 28px) clamp(18px, 2vw, 26px) clamp(8px, 1vw, 12px)" }}>
-              <CadranSVG size={210} stroke={C.accentDark} opacity={0.85} ratio={0.58} />
-            </div>
+          {/* Les chiffres du centre, en une ligne fine. Ils vivaient dans une
+              colonne à droite du titre ; ils n'existent nulle part ailleurs
+              sur la page, donc ils restent — mais couchés. */}
+          <div className="i349-chiffres">
             {STATS.map((s: any, idx: number) => (
-              <div key={`${s.label}-${idx}`} style={{ position: "relative", overflow: "hidden", borderTop: `1px solid ${C.border}`, padding: "clamp(16px, 2vw, 22px) clamp(18px, 2vw, 26px)", }}>
-                <Ghost style={{ top: -6, right: 10, fontSize: "clamp(46px, 5vw, 70px)" }}>{String(idx + 1).padStart(2, "0")}</Ghost>
-                <div style={{ position: "relative", fontFamily: DISPLAY, fontWeight: 800, fontSize: "clamp(24px, 2.6vw, 34px)", lineHeight: 1, letterSpacing: "-0.03em", color: C.accentDark, fontVariantNumeric: "tabular-nums", }}>
+              <div key={`${s.label}-${idx}`} style={{ minWidth: 0, padding: "0 clamp(10px, 1.4vw, 20px)", borderLeft: idx === 0 ? "none" : "1px solid rgba(255,255,255,0.14)" }}>
+                <div style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: "clamp(19px, 2.1vw, 27px)", lineHeight: 1, letterSpacing: "-0.03em", color: C.accentDark, fontVariantNumeric: "tabular-nums" }}>
                   {s.value}
                 </div>
-                <div style={{ position: "relative", fontFamily: SANS, fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: C.textFaint, marginTop: 9, lineHeight: 1.6, }}>
+                <div style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.14em", textTransform: "uppercase", color: C.textFaint, marginTop: 8, lineHeight: 1.55 }}>
                   {s.label}
                 </div>
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* ══ RESPIRATION ══════════════════════════════════════════════════ */}
@@ -873,7 +911,11 @@ export default function ControleRhodanienPage() {
       <section id="engagements" style={{ padding: "clamp(64px, 10vw, 130px) clamp(22px, 6vw, 68px)", background: C.bg, borderTop: `1px solid ${C.border}` }}>
         <div className="i349-split">
           <Reveal>
-            <Plaque src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/8985518/pexels-photo-8985518.jpeg?auto=compress&cs=tinysrgb&w=1400"))} alt="Véhicule sur le pont de contrôle" legende="Véhicule sur le pont de contrôle"/>
+            {/* Le héros a pris la première photographie du client, en fond
+                perdu. Cette plaque prend la quatrième s'il en a une : sans
+                elle, Plaque tient seule sur son cadran dessiné — jamais deux
+                fois la même image sur la page. */}
+            <Plaque src={photo(3, "")} alt="Véhicule sur le pont de contrôle" legende="Véhicule sur le pont de contrôle"/>
           </Reveal>
           <Reveal delay={0.12}>
             <div>

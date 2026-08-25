@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { MosaicPush } from "@/lib/templates/hero-kit-3";
 import {
   clientAddress,
@@ -660,7 +660,7 @@ export default function HalleAuxFromagesPage() {
 
   /* Un seul index pilote tout le héros : bento, sur-titre, légende, compteur.
      DWELL.normal (4,2 s) tient six fois la poussée de 0,7 s. */
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
   /* Le bento : quatre tuiles inégales — une grande, une haute, deux petites.
@@ -726,9 +726,14 @@ export default function HalleAuxFromagesPage() {
 
         @media (max-width: 980px) { #i346-nav { display: none !important; } .i346-burger { display: flex !important; } }
         @media (max-width: 900px) {
-          .i346-hero { grid-template-columns: minmax(0,1fr) !important; gap: 34px !important; }
-          .i346-bentohero { grid-template-columns: minmax(0,1fr) !important; grid-template-rows: none !important; }
-          .i346-bentohero > * { grid-column: 1 !important; grid-row: auto !important; }
+          .i346-hero { gap: 28px !important; }
+          /* L'étal en vitrine : quatre tuiles côte à côte deviennent quatre
+             colonnes de six caractères. On passe à deux, puis à une. Les
+             placements inline de chaque tuile doivent céder — elles ne sont
+             pas enfants directs de la grille (conteneur en display:contents),
+             d'où les deux sélecteurs. */
+          .i346-etal { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+          .i346-etal > *, .i346-etal > * > * { grid-column: auto !important; grid-row: auto !important; }
         }
         @media (max-width: 860px) {
           .i346-split { grid-template-columns: minmax(0,1fr) !important; }
@@ -737,10 +742,23 @@ export default function HalleAuxFromagesPage() {
           .i346-etal > * { grid-column: auto !important; }
           .i346-frise { grid-template-columns: minmax(0,1fr) !important; }
           .i346-frise > * { border-left: none !important; border-top: 1px solid ${C.border} !important; }
-          .i346-stats { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
+          .i346-stats { grid-template-columns: repeat(2, minmax(0,1fr)) !important; row-gap: 18px; }
           .i346-stats > * { border-left: none !important; }
           .i346-pad { padding-left: 24px !important; padding-right: 24px !important; }
           .i346-sticky { position: static !important; }
+        }
+
+        /* Les chiffres, en une seule ligne fine sous la vitrine. */
+        .i346-stats {
+          position: relative;
+          z-index: 2;
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0,1fr));
+          gap: 0;
+          width: 100%;
+          text-align: left;
+          padding-top: clamp(16px, 2vw, 24px);
+          border-top: 1px solid ${C.border};
         }
 
         .i346-navlink { position: relative; }
@@ -830,16 +848,23 @@ export default function HalleAuxFromagesPage() {
       )}
 
       {/* ── HÉROS H8 — bento de tuiles inégales, poussées rayon par rayon ─── */}
+      {/* ── HERO — devanture centrée ──────────────────────────────────────
+             Une colonne unique au milieu, et l'étal posé dessous d'un bord à
+             l'autre : quatre tuiles en vitrine, à hauteur d'œil. La version
+             précédente rangeait le texte à gauche et le plateau à droite —
+             la charpente de toute la série. */}
       <section
         className="i346-hero i346-pad"
         style={{
           position: "relative",
           minHeight: "100dvh",
-          display: "grid",
-          gridTemplateColumns: "minmax(0,0.94fr) minmax(0,1.06fr)",
-          gap: "clamp(28px, 4vw, 58px)",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
           alignItems: "center",
-          padding: "clamp(128px, 15vh, 172px) clamp(24px, 5vw, 64px) clamp(56px, 8vh, 92px)",
+          textAlign: "center",
+          gap: "clamp(24px, 3.4vh, 44px)",
+          padding: "clamp(122px, 14vh, 162px) clamp(24px, 5vw, 64px) clamp(48px, 7vh, 80px)",
           maxWidth: 1300,
           margin: "0 auto",
         }}
@@ -857,14 +882,15 @@ export default function HalleAuxFromagesPage() {
         />
         <div
           aria-hidden
-          style={{ position: "absolute", top: "4%", left: "-8%", width: 560, height: 560, borderRadius: "50%", background: `radial-gradient(circle, ${C.accent} 0%, transparent 68%)`, opacity: 0.1, pointerEvents: "none" }}
+          style={{ position: "absolute", top: "2%", left: "50%", transform: "translateX(-50%)", width: 620, height: 620, borderRadius: "50%", background: `radial-gradient(circle, ${C.accent} 0%, transparent 68%)`, opacity: 0.1, pointerEvents: "none" }}
         />
         <div
           aria-hidden
           style={{
             position: "absolute",
-            left: "-2vw",
-            bottom: "2vh",
+            left: "50%",
+            top: "clamp(110px, 15vh, 190px)",
+            transform: "translateX(-50%)",
             fontFamily: DISPLAY,
             fontSize: "clamp(120px, 21vw, 290px)",
             lineHeight: 0.76,
@@ -877,34 +903,36 @@ export default function HalleAuxFromagesPage() {
           {STATS[0]?.value ?? "120+"}
         </div>
 
-        {/* Colonne éditoriale */}
-        <div style={{ position: "relative", zIndex: 2, minWidth: 0 }}>
-          <Kicker tone="accent">{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
+        <div style={{ position: "relative", zIndex: 2, display: "flex", flexDirection: "column", alignItems: "center", width: "100%" }}>
+          <Kicker tone="accent" center>{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
 
+          {/*
+            Titre d'un seul tenant, d'une seule couleur : la seconde ligne en
+            italique d'un autre ton était la signature de gabarit de la série.
+          */}
           <h1
             style={{
               fontFamily: DISPLAY,
-              fontSize: "clamp(35px, 5.2vw, 70px)",
-              lineHeight: 0.99,
+              fontSize: "clamp(33px, 5.6vw, 78px)",
+              lineHeight: 1,
               letterSpacing: "-0.024em",
               color: C.ink,
-              margin: "24px 0 22px",
+              margin: "clamp(18px, 2.2vw, 28px) 0 0",
+              maxWidth: 900,
+              overflowWrap: "break-word",
             }}
           >
-            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (
-              <>
-                {clientHeroLine(sessionData, 0, 2, 18) ?? "Des fromages qui ont"}
-                <br />
-                <em style={{ fontStyle: "italic", color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 18) ?? "un alpage et une saison."}</em>
-              </>
-            )}
+            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ??
+              clientHeroLine(sessionData, 0, 1, 36) ??
+              "Des fromages qui ont un alpage et une saison."}
           </h1>
 
-          <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: "clamp(15px, 1.6vw, 17.5px)", lineHeight: 1.78, color: C.textMuted, maxWidth: 480, margin: "0 0 32px" }}>
+          <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: "clamp(14.5px, 1.4vw, 17px)", lineHeight: 1.78, color: C.textMuted, maxWidth: 620, margin: "clamp(16px, 2vw, 24px) auto clamp(22px, 2.8vw, 32px)" }}>
             {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Beaufort d'alpage, tommes fermières, chèvres du plateau : achetés jeunes aux fermes, affinés dans notre cave voûtée, vendus à leur heure exacte. Goûtez la différence d'un affineur."}
           </p>
 
-          <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+          {/* Une seule action pleine ; l'étal reste un lien. */}
+          <div style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center", justifyContent: "center" }}>
             <motion.a
               href={telHref}
               style={{ background: C.accentDark, color: C.white, padding: "16px 30px", fontFamily: BODY, fontSize: 14.5, fontWeight: 700, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10, borderRadius: 3 }}
@@ -912,58 +940,41 @@ export default function HalleAuxFromagesPage() {
             >
               Composer un plateau <ArrowRight size={16} aria-hidden />
             </motion.a>
-            <a
-              href="#services"
-              style={{ border: `1px solid ${C.border}`, background: C.white, color: C.ink, padding: "15px 26px", fontFamily: BODY, fontSize: 14.5, fontWeight: 600, textDecoration: "none", borderRadius: 3 }}
-            >
+            <a href="#services" style={{ fontFamily: BODY, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accentDark}`, paddingBottom: 3 }}>
               L'étal du moment
             </a>
           </div>
-
-          {/* Le compteur du geste : même index que le bento. */}
-          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: "clamp(26px, 4vh, 40px)", flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textFaint} className="" />
-            <span style={{ fontFamily: BODY, fontSize: 13, color: C.textMuted, maxWidth: 330 }}>
-              <strong style={{ color: C.ink, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" labels={{ prev: "Rayon précédent", next: "Rayon suivant" }} />
-          </div>
-
-          {/* Les chiffres vivent dans le héros : pas de bande sombre séparée. */}
-          <div
-            className="i346-stats"
-            style={{
-              display: "grid",
-              gridTemplateColumns: `repeat(${Math.min(STATS.length, 4)}, minmax(0,1fr))`,
-              gap: 0,
-              marginTop: "clamp(28px, 4vh, 44px)",
-              borderTop: `1px solid ${C.border}`,
-              paddingTop: 20,
-            }}
-          >
-            {STATS.map((s: any, idx: number) => (
-              <div key={s.label} style={{ padding: "6px clamp(10px, 1.4vw, 18px)", borderLeft: idx === 0 ? "none" : `1px solid ${C.borderSoft}` }}>
-                <div style={{ fontFamily: DISPLAY, fontSize: "clamp(21px, 2.5vw, 29px)", lineHeight: 1, color: C.accentDark }}>{s.value}</div>
-                <div style={{ fontFamily: BODY, fontSize: 11.5, lineHeight: 1.45, color: C.textFaint, marginTop: 7 }}>{s.label}</div>
-              </div>
-            ))}
-          </div>
         </div>
 
-        {/* Le plateau : quatre tuiles inégales, poussées l'une après l'autre. */}
-        <div style={{ position: "relative", zIndex: 2, minWidth: 0 }}>
-          <MosaicPush
-            index={i}
-            tiles={tiles}
-            stagger={0.055}
-            className="i346-bentohero"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "minmax(0,1.18fr) minmax(0,0.82fr)",
-              gridTemplateRows: "minmax(160px, auto) minmax(112px, auto) minmax(112px, auto)",
-              gap: 12,
-            }}
-          />
+        {/* ── L'ÉTAL — quatre tuiles alignées, comme une vitrine ─────────── */}
+        {/*
+          Le plateau tenait une colonne à droite du texte : trois rangées
+          empilées. Ici les quatre tuiles se rangent côte à côte sous le
+          titre. Le geste MosaicPush ne change pas — elles arrivent toujours
+          l'une après l'autre — mais la scène est horizontale.
+        */}
+        <MosaicPush
+          index={i}
+          /*
+            Les tuiles portent leur placement en dur — « 1 / span 2 » sur la
+            première rangée, etc. — pensé pour un plateau de trois rangées.
+            En vitrine, chacune prend une colonne et une seule rangée : on
+            réécrit l'aire ici plutôt que de dupliquer la liste.
+          */
+          tiles={tiles.map((t: any, n: number) => ({ ...t, area: { gridColumn: `${n + 1} / span 1`, gridRow: "1" } }))}
+          stagger={0.055}
+          className="i346-etal"
+          style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", gridAutoRows: "minmax(clamp(150px, 17vw, 210px), auto)", gap: 12, width: "100%", textAlign: "left" }}
+        />
+
+        {/* Les chiffres, en une seule ligne fine sous la vitrine. */}
+        <div className="i346-stats">
+          {STATS.map((s: any, idx: number) => (
+            <div key={s.label} style={{ padding: "0 clamp(10px, 1.4vw, 18px)", borderLeft: idx === 0 ? "none" : `1px solid ${C.borderSoft}` }}>
+              <div style={{ fontFamily: DISPLAY, fontSize: "clamp(19px, 2.2vw, 27px)", lineHeight: 1, color: C.accentDark }}>{s.value}</div>
+              <div style={{ fontFamily: BODY, fontSize: 11.5, lineHeight: 1.45, color: C.textFaint, marginTop: 7 }}>{s.label}</div>
+            </div>
+          ))}
         </div>
       </section>
 

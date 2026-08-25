@@ -67,11 +67,11 @@ d'écart, et jamais avec les mêmes proportions.
 | 343 | pressing | `editorial` | fait |
 | 344 | pressing | `diagonale` | fait |
 | 345 | commerce de bouche | `chiffre` | fait |
-| 346 | commerce de bouche | `typo` | à faire |
-| 347 | formation | `liste` | à faire |
-| 348 | formation | `devanture` | à faire |
-| 349 | contrôle technique | `pleincadre` | à faire |
-| 350 | contrôle technique | `editorial` | à faire |
+| 346 | commerce de bouche | `devanture` | fait |
+| 347 | formation | `liste` | fait |
+| 348 | formation | `typo` | fait |
+| 349 | contrôle technique | `pleincadre` | fait |
+| 350 | contrôle technique | `editorial` | fait |
 | 351 | couvreur | `bandeau` | à faire |
 | 352 | couvreur | `carte` | à faire |
 | 353 | crèche | `splitgauche` | à faire |
@@ -116,6 +116,11 @@ Trois écarts assumés à la rotation, pour ne pas plier un métier à un tablea
   l'image à gauche. Reconduire l'archétype qu'il avait n'aurait rien changé —
   c'est exactement l'erreur des trois thèmes dits « superficiels », à qui on
   n'avait donné qu'un nouveau sur-titre.
+- `346` (fromager) reçoit `devanture` et non `typo` : son héros est déjà
+  sans photographie — quatre tuiles de texte — et lui donner `typo` aurait
+  reconduit ce qu'il avait, l'erreur des thèmes dits « superficiels ». Les
+  tuiles deviennent une vitrine alignée sous un titre centré. `348`
+  (organisme de formation) prend `typo` à sa place.
 - `339` et `340` échangent : `340` porte déjà une photographie de client dans
   son héros et sait se replier sur une courbe de gain dessinée, il prend donc
   `pleincadre` ; `339` n'a pas d'image du tout — son orbe de particules passe
