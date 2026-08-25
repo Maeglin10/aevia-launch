@@ -6,7 +6,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, Car, Check, Clock, Mail, MapPin, Phone } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { TrackingCollapse } from "@/lib/templates/hero-kit-3";
 import {
   clientAddress,
@@ -338,7 +338,7 @@ export default function ConduiteZeroStressPage() {
   const [hoverTarif, setHoverTarif] = useState<number | null>(null);
 
   /* Un seul index pilote tout le héros : le mot, le sur-titre, la légende. */
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
   useEffect(() => {
@@ -371,7 +371,35 @@ export default function ConduiteZeroStressPage() {
         .i341-arrow { transition: transform .5s cubic-bezier(0.16,1,0.3,1); }
         .i341-cta:hover .i341-arrow { transform: translateX(6px); }
 
-        .i341-heroGrid { display: grid; grid-template-columns: minmax(0,1fr) 210px; gap: clamp(28px, 5vw, 64px); align-items: end; }
+        /*
+          ── Héros « bandeau bas » ──────────────────────────────────────────
+          Le rail de repères tenait une colonne de 210 px à droite du texte :
+          une grille à deux colonnes de plus. Il court désormais d'un bord à
+          l'autre, en pied d'écran, posé sur le marquage au sol.
+        */
+        .i341-dire { max-width: 900px; }
+        .i341-bandeau {
+          position: relative;
+          z-index: 1;
+          width: 100vw;
+          margin-left: calc(50% - 50vw);
+          /* Le marquage au sol fait 116 px de haut et pose ses deux traits à
+             64 et 24 px du bas : le texte doit dégager cette hauteur, sinon
+             les pointillés lui passent au travers. */
+          padding: clamp(22px, 3vw, 34px) clamp(22px, 5vw, 68px) 84px;
+          border-top: 1px solid ${C.border};
+          background: ${C.bgAlt};
+          overflow: hidden;
+        }
+        .i341-reperes {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: baseline;
+          gap: clamp(12px, 2.2vw, 34px);
+        }
+        /* Un point entre deux repères : la ponctuation d'une bande, pas d'une
+           liste à puces. */
+        .i341-reperes > *:not(:last-child)::after { content: " ·"; opacity: 0.4; margin-left: clamp(12px, 2.2vw, 34px); }
         .i341-split { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
         .i341-cols { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 0; }
         .i341-etape { display: grid; grid-template-columns: 64px minmax(0,1fr); gap: clamp(14px, 2vw, 26px); align-items: start; }
@@ -383,7 +411,6 @@ export default function ConduiteZeroStressPage() {
 
         @media (max-width: 900px) { #i341-nav { display: none !important; } .i341-burger { display: flex !important; } }
         @media (max-width: 1040px) {
-          .i341-heroGrid { grid-template-columns: 1fr !important; align-items: start !important; }
           .i341-contact { grid-template-columns: 1fr !important; }
           .i341-avis { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
           .i341-decal-1, .i341-decal-2 { margin-top: 0 !important; }
@@ -439,48 +466,69 @@ export default function ConduiteZeroStressPage() {
       )}
 
       {/* ── HÉROS — H6 typographique, sans photographie ─────────────────── */}
-      <section className="i341-pad" style={{ position: "relative", minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "clamp(122px, 16vh, 176px) clamp(22px, 5vw, 68px) clamp(72px, 11vh, 118px)", maxWidth: 1200, margin: "0 auto", overflow: "hidden" }}>
+      {/* ── HERO — bandeau bas ────────────────────────────────────────────
+             Le texte tient le haut ; le vocabulaire de la formation court en
+             bandeau d'un bord à l'autre, sur le marquage au sol. La version
+             précédente rangeait le texte à gauche et un rail de repères dans
+             une colonne à droite : la charpente de toute la série. */}
+      <section className="i341-hero" style={{ position: "relative", minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "clamp(122px, 16vh, 176px) clamp(22px, 5vw, 68px) 0", maxWidth: 1200, margin: "0 auto", overflow: "hidden" }}>
         <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(52% 44% at 76% 22%, rgba(13,148,136,0.10), transparent 72%)", pointerEvents: "none" }} />
         <Ghost top={72} size="clamp(160px, 30vw, 360px)">{"›"}</Ghost>
-        <Marquage opacity={0.55} />
 
-        <div className="i341-heroGrid" style={{ position: "relative", zIndex: 1 }}>
-          <div style={{ minWidth: 0 }}>
-            <Kicker>{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
+        <div className="i341-dire" style={{ position: "relative", zIndex: 1, minWidth: 0 }}>
+          <Kicker>{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
 
-            <h1 style={{ fontFamily: SERIF, fontSize: "clamp(38px, 6.6vw, 84px)", fontWeight: 400, lineHeight: 0.98, letterSpacing: "-0.018em", color: C.ink, margin: "clamp(20px, 3vw, 32px) 0 0" }}>
-              <span style={{ display: "block", letterSpacing: "-0.024em" }}>{clientHeroLine(sessionData, 0, 2, 21) ?? "Apprendre à conduire,"}</span>
-              <TrackingCollapse word={S.word} index={i} from="0.34em" to="0.02em" style={{ color: C.accent, fontStyle: "italic", marginTop: 6 }} />
-            </h1>
+          {/*
+            Le titre garde son geste — le dernier mot dont l'espacement se
+            referme — mais sur une seule ligne de couleur : la seconde ligne
+            en italique d'un autre ton était le tic de la série.
+          */}
+          <h1 style={{ fontFamily: SERIF, fontSize: "clamp(38px, 6.6vw, 84px)", fontWeight: 400, lineHeight: 0.98, letterSpacing: "-0.018em", color: C.ink, margin: "clamp(20px, 3vw, 32px) 0 0", overflowWrap: "break-word" }}>
+            <span style={{ display: "block", letterSpacing: "-0.024em" }}>{clientHeroLine(sessionData, 0, 2, 21) ?? "Apprendre à conduire,"}</span>
+            <TrackingCollapse word={S.word} index={i} from="0.34em" to="0.02em" style={{ color: C.accent, marginTop: 6 }} />
+          </h1>
 
-            <p style={{ fontFamily: SANS, fontSize: "clamp(15px, 1.5vw, 17px)", color: C.textMuted, lineHeight: 1.8, maxWidth: 500, margin: "clamp(20px, 2.6vw, 30px) 0 clamp(26px, 3.4vw, 38px)" }}>
+          <div className="i341-souscrit">
+            <p style={{ fontFamily: SANS, fontSize: "clamp(15px, 1.4vw, 17px)", color: C.textMuted, lineHeight: 1.8, maxWidth: 520, margin: "clamp(20px, 2.6vw, 30px) 0 clamp(24px, 3vw, 34px)" }}>
               {clientHeroPrestations(sessionData) ?? c?.heroSubline ?? "Des moniteurs diplômés qui ne crient jamais, des voitures récentes, et une méthode par étapes validées. 78 % de réussite au premier passage — affiché, parce que c'est vérifiable."}
             </p>
 
-            <div style={{ display: "flex", gap: 13, flexWrap: "wrap", alignItems: "center" }}>
+            {/* Une seule action pleine ; les formules restent un lien. */}
+            <div style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center" }}>
               <motion.a href={telHref} className="i341-cta" style={{ background: C.accent, color: C.white, borderRadius: 999, padding: "16px 32px", fontWeight: 700, fontSize: 14.5, letterSpacing: "0.02em", textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10 }} whileHover={{ y: -2, boxShadow: "0 14px 30px rgba(13,148,136,0.28), 0 3px 8px rgba(16,32,30,0.14)" }} transition={{ duration: 0.5, ease: EASE }}>
                 S'inscrire ou se renseigner <ArrowRight size={16} className="i341-arrow" />
               </motion.a>
-              <motion.a href="#tarifs" style={{ background: "transparent", color: C.ink, border: `1px solid ${C.border}`, borderRadius: 999, padding: "15px 28px", fontWeight: 600, fontSize: 14.5, textDecoration: "none" }} whileHover={{ borderColor: C.accent, backgroundColor: C.accentLight }} transition={{ duration: 0.5, ease: EASE }}>
+              <a href="#tarifs" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
                 Nos formules
-              </motion.a>
-            </div>
-
-            <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: "clamp(32px, 4.6vw, 54px)", paddingTop: 20, borderTop: `1px solid ${C.border}`, flexWrap: "wrap" }}>
-              <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textFaint} className="" />
-              <span style={{ fontSize: 13.5, color: C.textMuted, lineHeight: 1.6 }}>
-                <strong style={{ color: C.ink, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
-              </span>
-              <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" />
+              </a>
             </div>
           </div>
+        </div>
 
-          {/* Rail de repères : le vocabulaire des formations, en marge. */}
-          <div style={{ minWidth: 0, borderLeft: `1px solid ${C.border}`, paddingLeft: "clamp(16px, 2vw, 26px)" }}>
-            <span style={{ fontFamily: SANS, fontSize: 10, fontWeight: 700, letterSpacing: "0.3em", textTransform: "uppercase", color: C.textFaint }}>Ce qu'on enseigne</span>
-            <div style={{ marginTop: 16, display: "flex", flexDirection: "column", gap: 11 }}>
-              {REPERES.slice(0, 6).map((r, n) => (
-                <motion.span key={`${r}-${n}`} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.7, ease: EASE, delay: 0.25 + n * 0.055 }} style={{ fontFamily: SERIF, fontSize: "clamp(15px, 1.6vw, 19px)", color: n % 2 === 1 ? C.accent : C.textMuted, fontStyle: n % 2 === 1 ? "italic" : "normal", lineHeight: 1.25 }}>
+        {/* ── LE BANDEAU — le marquage au sol, et ce qu'on y apprend ─────── */}
+        {/*
+          Le rail de repères tenait une colonne de 210 px à droite du texte.
+          Ici il court d'un bord à l'autre, posé sur le marquage : c'est la
+          route, pas une marge.
+        */}
+        <div className="i341-bandeau">
+          <Marquage opacity={0.55} />
+          <div style={{ position: "relative", zIndex: 1 }}>
+            <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 16, flexWrap: "wrap", marginBottom: 14 }}>
+              <span style={{ fontFamily: SANS, fontSize: 10, fontWeight: 700, letterSpacing: "0.3em", textTransform: "uppercase", color: C.textFaint }}>Ce qu'on enseigne</span>
+              <span style={{ fontSize: 13, color: C.textMuted, lineHeight: 1.6 }}>
+                <strong style={{ color: C.ink, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
+              </span>
+            </div>
+            <div className="i341-reperes">
+              {REPERES.slice(0, 6).map((r: string, n: number) => (
+                <motion.span
+                  key={`${r}-${n}`}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.7, ease: EASE, delay: 0.25 + n * 0.055 }}
+                  style={{ fontFamily: SERIF, fontSize: "clamp(14px, 1.5vw, 19px)", color: n % 2 === 1 ? C.accent : C.ink, lineHeight: 1.25, whiteSpace: "nowrap" }}
+                >
                   {r}
                 </motion.span>
               ))}

@@ -60,11 +60,11 @@ d'écart, et jamais avec les mêmes proportions.
 | 336 | pharmacie | `liste` | fait |
 | 337 | assurance | `devanture` | fait |
 | 338 | assurance | `chiffre` | fait |
-| 339 | audioprothésiste | `pleincadre` | à faire |
-| 340 | audioprothésiste | `editorial` | à faire |
-| 341 | auto-école | `bandeau` | à faire |
-| 342 | auto-école | `carte` | à faire |
-| 343 | pressing | `splitgauche` | à faire |
+| 339 | audioprothésiste | `splitgauche` | fait |
+| 340 | audioprothésiste | `pleincadre` | fait |
+| 341 | auto-école | `bandeau` | fait |
+| 342 | auto-école | `carte` | fait |
+| 343 | pressing | `editorial` | à faire |
 | 344 | pressing | `diagonale` | à faire |
 | 345 | commerce de bouche | `chiffre` | à faire |
 | 346 | commerce de bouche | `typo` | à faire |
@@ -116,6 +116,10 @@ Trois écarts assumés à la rotation, pour ne pas plier un métier à un tablea
   l'image à gauche. Reconduire l'archétype qu'il avait n'aurait rien changé —
   c'est exactement l'erreur des trois thèmes dits « superficiels », à qui on
   n'avait donné qu'un nouveau sur-titre.
+- `339` et `340` échangent : `340` porte déjà une photographie de client dans
+  son héros et sait se replier sur une courbe de gain dessinée, il prend donc
+  `pleincadre` ; `339` n'a pas d'image du tout — son orbe de particules passe
+  à gauche, à fond perdu, et `343` récupère `editorial`.
 
 ## Ce qu'on supprime partout
 
