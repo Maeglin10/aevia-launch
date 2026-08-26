@@ -6,7 +6,7 @@ import { motion, AnimatePresence, useInView, useReducedMotion } from "framer-mot
 import { ArrowRight, CheckCircle, Clock, Footprints, Mail, MapPin, Phone } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, LineMask, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, LineMask, useSlides } from "@/lib/templates/hero-kit-2";
 import {
   clientAccrocheRestante,
   clientAddress,
@@ -513,7 +513,7 @@ export default function AllureAppuiPage() {
   const reduce = useReducedMotion();
 
   /* Un seul index pilote le héros : titre, sur-titre, légende, rail. */
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i, go } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
   useEffect(() => {
@@ -567,16 +567,51 @@ export default function AllureAppuiPage() {
           .i364-burger { display: flex !important; }
         }
 
-        /* Le panneau du héros redevient un bloc empilé — il est écrit APRÈS le
-           titre dans le DOM, donc il tombe naturellement dessous. */
+        /*
+          ── Héros « diagonale asymétrique » ────────────────────────────────
+          La masse teintée est taillée en biais sur le bord droit ; la parole
+          vit dans le grand pan qu'elle laisse. La coupe penche dans l'autre
+          sens que celles d'impact-334 (masse droite, coupe /) et
+          d'impact-354 (masse gauche) : trois diagonales, trois dessins.
+        */
+        .i364-masse {
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          width: 44%;
+          clip-path: polygon(38% 0, 100% 0, 100% 100%, 12% 100%);
+          background: linear-gradient(200deg, ${C.bgAlt} 0%, ${C.accentLight} 120%);
+          border-left: none;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+        }
+        .i364-masse-int {
+          width: min(320px, 68%);
+          margin-right: clamp(20px, 4vw, 64px);
+        }
+        .i364-lead {
+          position: relative;
+          z-index: 2;
+          width: min(680px, 52%);
+          margin-left: clamp(24px, 6vw, 96px);
+          padding: clamp(118px, 14vh, 160px) 0 clamp(48px, 6vh, 80px);
+        }
+
         @media (max-width: 1024px) {
-          .i364-panel {
-            position: static !important;
-            transform: none !important;
-            width: auto !important;
-            margin-top: clamp(36px, 6vw, 56px) !important;
+          /* Sous 1024 il n'y a plus de « à côté » : la masse passe sous la
+             parole, coupée en biais sur son bord haut. */
+          .i364-hero { display: block !important; }
+          .i364-masse {
+            position: static;
+            width: auto;
+            clip-path: polygon(0 0, 100% clamp(18px, 4vw, 36px), 100% 100%, 0 100%);
+            display: block;
+            padding: clamp(40px, 8vw, 64px) 24px clamp(32px, 6vw, 48px);
           }
-          .i364-lead { max-width: 100% !important; }
+          .i364-masse-int { width: auto; margin: 0; }
+          .i364-lead { width: auto; margin: 0; padding: 118px 24px 40px; }
           .i364-title { width: 100% !important; }
           .i364-statrail { display: grid !important; grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important; column-gap: 24px; }
         }
@@ -800,32 +835,24 @@ export default function AllureAppuiPage() {
       {/* ══ HÉROS — H4 éditorial décalé ════════════════════════════════════ */}
       <section
         id="top"
+        className="i364-hero"
         style={{
           position: "relative",
           minHeight: "100dvh",
           display: "flex",
           alignItems: "center",
-          padding: "clamp(124px, 17vh, 176px) clamp(20px, 5vw, 72px) clamp(56px, 9vh, 104px)",
           background: C.bg,
           overflow: "hidden",
         }}
       >
+        {/* ── HERO — diagonale asymétrique ────────────────────────────────
+               Le panneau de chiffres n'est plus une carte posée à droite du
+               titre : c'est une masse teintée, taillée en biais sur le bord
+               droit, et la parole vit dans le grand pan qu'elle laisse. La
+               coupe penche comme une voûte plantaire — et dans l'autre sens
+               que les diagonales d'impact-334 et d'impact-354. */}
         <TitreDeLaPage session={sessionData} />
-        {/* Glow radial — sans image, jamais au-dessus de 0.12. */}
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            top: "-18%",
-            right: "-10%",
-            width: "min(62vw, 780px)",
-            height: "min(62vw, 780px)",
-            borderRadius: "50%",
-            background: `radial-gradient(circle, ${C.accent} 0%, rgba(251,248,248,0) 68%)`,
-            opacity: 0.11,
-            pointerEvents: "none",
-          }}
-        />
+
         {/* Chiffre fantôme : le nombre de minutes du soin. */}
         <div
           aria-hidden
@@ -845,144 +872,120 @@ export default function AllureAppuiPage() {
           45
         </div>
 
-        <div style={{ position: "relative", width: "100%", maxWidth: 1280, margin: "0 auto" }}>
-          <div className="i364-lead" style={{ position: "relative", zIndex: 2, maxWidth: "min(62%, 780px)" }}>
-            <Kicker>
-              {clientEyebrow(sessionData) ?? `${metier} · ${ville}`}
-            </Kicker>
-
-            <div
-              className="i364-title"
-              style={{
-                fontFamily: SERIF,
-                fontWeight: 300,
-                fontSize: "clamp(38px, 6.6vw, 88px)",
-                lineHeight: 0.98,
-                letterSpacing: "-0.018em",
-                color: C.ink,
-                margin: "clamp(18px, 2.4vw, 30px) 0 0",
-                /* Le débordement volontaire : le titre passe par-dessus le panneau. */
-                width: "min(122%, 1020px)",
-              }}
-            >
-              <LineMask lines={S.lines} index={i} />
-            </div>
-
-            <p
-              style={{
-                fontFamily: SANS,
-                fontSize: "clamp(15px, 1.15vw, 17px)",
-                color: C.textMuted,
-                lineHeight: 1.78,
-                maxWidth: 520,
-                margin: "clamp(20px, 2.6vw, 30px) 0 clamp(26px, 3vw, 34px)",
-              }}
-            >
-              {clientAccrocheRestante(sessionData, 2, 20) ??
-                c?.heroSubline ??
-                "Un cabinet qui prend le temps : soins de pédicurie sans douleur, semelles discrètes, attention particulière aux pieds âgés et aux pieds abîmés par la vie."}
-            </p>
-
-            <div style={{ display: "flex", gap: 13, flexWrap: "wrap", alignItems: "center" }}>
-              <motion.a
-                href={telHref}
-                whileHover={{ y: -2 }}
-                transition={{ duration: 0.45, ease: EASE }}
-                style={{
-                  background: C.accentDark,
-                  color: C.white,
-                  borderRadius: 2,
-                  padding: "16px 32px",
-                  fontWeight: 600,
-                  fontSize: 12.5,
-                  letterSpacing: "0.13em",
-                  textTransform: "uppercase",
-                  textDecoration: "none",
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 10,
-                  boxShadow: "0 10px 26px rgba(125,59,58,0.16), 0 2px 6px rgba(125,59,58,0.10)",
-                }}
-              >
-                Prendre rendez-vous <ArrowRight size={15} />
-              </motion.a>
-              <a
-                href="#services"
-                style={{
-                  color: C.ink,
-                  borderBottom: `1px solid ${C.accent}`,
-                  padding: "6px 2px",
-                  fontFamily: SERIF,
-                  fontSize: 19,
-                  textDecoration: "none",
-                }}
-              >
-                Voir les soins
-              </a>
-            </div>
-
-            {clientHeroPrestations(sessionData) && (
-              <p style={{ fontSize: 12.5, color: C.textFaint, letterSpacing: "0.06em", marginTop: 20 }}>
-                {clientHeroPrestations(sessionData)}
-              </p>
-            )}
-
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 18,
-                marginTop: "clamp(30px, 4.5vh, 52px)",
-                flexWrap: "wrap",
-              }}
-            >
-              <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textFaint} className="" />
-              <span style={{ fontSize: 13, color: C.textMuted, maxWidth: 380, lineHeight: 1.6 }}>
-                <strong style={{ color: C.ink, fontWeight: 600 }}>{S.k}</strong> — {S.sub}
-              </span>
-              <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" />
-            </div>
-          </div>
-
-          {/* Le panneau : rail de chiffres en marge, chevauché par le titre. */}
-          <aside
-            className="i364-panel"
-            style={{
-              position: "absolute",
-              right: 0,
-              top: "50%",
-              transform: "translateY(-46%)",
-              width: "min(340px, 32%)",
-              zIndex: 1,
-              background: C.bgAlt,
-              border: `1px solid ${C.border}`,
-              padding: "clamp(22px, 2.4vw, 32px) clamp(18px, 2vw, 26px)",
-            }}
-          >
+        {/* ── La masse teintée, en biais sur le bord droit ───────────────── */}
+        <aside className="i364-masse" aria-label="Le cabinet en bref">
+          <div className="i364-masse-int">
             <Kicker color={C.accentDark}>Le cabinet en bref</Kicker>
-            <div className="i364-statrail" style={{ marginTop: 20 }}>
+            <div className="i364-statrail" style={{ marginTop: 18 }}>
               {STATS.map((s: any, n: number) => (
                 <Reveal key={(s.label ?? "") + n} delay={n * 0.055}>
-                  <div style={{ padding: "14px 0", borderTop: n === 0 ? "none" : `1px solid ${C.border}` }}>
-                    <div
-                      style={{
-                        fontFamily: SERIF,
-                        fontSize: "clamp(28px, 2.9vw, 38px)",
-                        lineHeight: 1,
-                        letterSpacing: "-0.012em",
-                        color: C.accentDark,
-                      }}
-                    >
-                      {s.value}
-                    </div>
-                    <div style={{ fontSize: 12.5, color: C.textMuted, marginTop: 7, lineHeight: 1.52 }}>
-                      {s.label}
-                    </div>
+                  <div style={{ padding: "13px 0", borderTop: n === 0 ? "none" : `1px solid ${C.border}` }}>
+                    <div style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(24px, 2.4vw, 32px)", lineHeight: 1, color: C.accentDark }}>{s.value}</div>
+                    <div style={{ fontFamily: SANS, fontSize: 12, lineHeight: 1.55, color: C.textMuted, marginTop: 6 }}>{s.label}</div>
                   </div>
                 </Reveal>
               ))}
             </div>
-          </aside>
+          </div>
+        </aside>
+
+        {/* ── Le pan de parole ───────────────────────────────────────────── */}
+        <div className="i364-lead">
+          <Kicker>
+            {clientEyebrow(sessionData) ?? `${metier} · ${ville}`}
+          </Kicker>
+
+          <div
+            className="i364-title"
+            style={{
+              fontFamily: SERIF,
+              fontWeight: 300,
+              fontSize: "clamp(36px, 5.8vw, 80px)",
+              lineHeight: 0.99,
+              letterSpacing: "-0.018em",
+              color: C.ink,
+              margin: "clamp(18px, 2.4vw, 30px) 0 0",
+            }}
+          >
+            <LineMask lines={S.lines} index={i} />
+          </div>
+
+          <p
+            style={{
+              fontFamily: SANS,
+              fontSize: "clamp(14.5px, 1.15vw, 16.5px)",
+              color: C.textMuted,
+              lineHeight: 1.78,
+              maxWidth: 500,
+              margin: "clamp(18px, 2.4vw, 28px) 0 clamp(24px, 2.8vw, 32px)",
+            }}
+          >
+            {clientAccrocheRestante(sessionData, 2, 20) ??
+              c?.heroSubline ??
+              "Un cabinet qui prend le temps : soins de pédicurie sans douleur, semelles discrètes, attention particulière aux pieds âgés et aux pieds abîmés par la vie."}
+          </p>
+
+          {/* Une seule action pleine ; les soins restent un lien. */}
+          <div style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center" }}>
+            <motion.a
+              href={telHref}
+              whileHover={{ y: -2 }}
+              transition={{ duration: 0.45, ease: EASE }}
+              style={{
+                background: C.accentDark,
+                color: C.white,
+                borderRadius: 2,
+                padding: "16px 32px",
+                fontWeight: 600,
+                fontSize: 12.5,
+                letterSpacing: "0.13em",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 10,
+                boxShadow: "0 10px 26px rgba(125,59,58,0.16), 0 2px 6px rgba(125,59,58,0.10)",
+              }}
+            >
+              Prendre rendez-vous <ArrowRight size={15} />
+            </motion.a>
+            <a
+              href="#services"
+              style={{ color: C.ink, borderBottom: `1px solid ${C.accent}`, padding: "6px 2px", fontFamily: SERIF, fontSize: 18, textDecoration: "none" }}
+            >
+              Voir les soins
+            </a>
+          </div>
+
+          {clientHeroPrestations(sessionData) && (
+            <p style={{ fontSize: 12.5, color: C.textFaint, letterSpacing: "0.06em", marginTop: 20 }}>
+              {clientHeroPrestations(sessionData)}
+            </p>
+          )}
+
+          {/*
+            Le soin montré, et de quoi passer aux autres. La fraction
+            « 01 / 03 » ne disait pas ce qu'on regardait.
+          */}
+          <div
+            style={{ display: "flex", alignItems: "center", gap: 18, marginTop: "clamp(26px, 4vh, 44px)", paddingTop: 18, borderTop: `1px solid ${C.border}`, flexWrap: "wrap", maxWidth: 560 }}
+          >
+            <span style={{ fontSize: 13, color: C.textMuted, minWidth: 0, lineHeight: 1.6 }}>
+              <strong style={{ color: C.ink, fontWeight: 600 }}>{S.k}</strong> — {S.sub}
+            </span>
+            <div style={{ display: "flex", gap: 8, flexShrink: 0, marginLeft: "auto" }}>
+              {HERO.map((h: any, n: number) => (
+                <button
+                  key={h.k ?? n}
+                  type="button"
+                  onClick={() => go(n)}
+                  aria-label={h.k ?? `Soin ${n + 1}`}
+                  aria-current={n === i}
+                  style={{ width: 34, height: 3, padding: 0, border: "none", borderRadius: 2, cursor: "pointer", background: n === i ? C.accentDark : C.border, transition: "background .3s" }}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 

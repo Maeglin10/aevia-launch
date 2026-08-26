@@ -84,8 +84,8 @@ d'écart, et jamais avec les mêmes proportions.
 | 360 | location matériel | `editorial` | fait |
 | 361 | peintre | `bandeau` | fait |
 | 362 | peintre | `carte` | fait |
-| 363 | podologue | `splitgauche` | à faire |
-| 364 | podologue | `diagonale` | à faire |
+| 363 | podologue | `splitgauche` | fait |
+| 364 | podologue | `diagonale` | fait |
 | 365 | producteur | `chiffre` | à faire |
 | 366 | producteur | `typo` | à faire |
 | 367 | sage-femme | `liste` | à faire |
