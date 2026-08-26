@@ -502,6 +502,23 @@ export default function TilleulsIdelPage() {
       <style>{`
         ${FONTS_CSS}
         #i355-root em { font-style: italic; }
+        /*
+          ── Héros « chiffre en avant » ─────────────────────────────────────
+          Le rythme de passage occupe la place que le titre avait, en pied
+          d'écran, et la vignette l'accompagne au lieu de lui faire face.
+        */
+        .i355-dire {
+          position: relative;
+          z-index: 2;
+          display: grid;
+          grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.7fr) minmax(0, 0.75fr);
+          gap: clamp(20px, 3vw, 48px);
+          align-items: end;
+          padding-top: clamp(20px, 2.6vw, 30px);
+          border-top: 1px solid ${C.border};
+        }
+        .i355-chiffre { border-left: 1px solid ${C.border}; padding-left: clamp(16px, 2.2vw, 30px); }
+
         .i355-pulse { animation: i355-beat 3.4s ${EASE_CSS} infinite; transform-origin: center; }
         @keyframes i355-beat {
           0%, 62%, 100% { opacity: 0.28; transform: scaleY(1); }
@@ -516,8 +533,13 @@ export default function TilleulsIdelPage() {
           .i355-burger { display: flex !important; }
         }
         @media (max-width: 900px) {
-          .i355-hero { grid-template-columns: minmax(0,1fr) !important; gap: 40px !important; padding-top: 120px !important; }
-          .i355-media { max-width: 520px; }
+          .i355-hero { gap: 30px !important; padding-top: 120px !important; }
+          /* Trois masses côte à côte deviennent trois colonnes étroites :
+             sous le point de rupture, la prose passe pleine largeur et la
+             vignette côtoie le chiffre. */
+          .i355-dire { grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important; }
+          .i355-dire > *:first-child { grid-column: 1 / -1; }
+          .i355-chiffre { border-left: none !important; padding-left: 0 !important; }
           .i355-split { grid-template-columns: minmax(0,1fr) !important; gap: 40px !important; }
           .i355-split-media { order: initial !important; }
           .i355-contact { grid-template-columns: minmax(0,1fr) !important; gap: 36px !important; }
@@ -599,15 +621,21 @@ export default function TilleulsIdelPage() {
       )}
 
       {/* ══ HÉROS — H1, média à droite ══════════════════════════════════ */}
+      {/* ── HERO — le chiffre en avant ─────────────────────────────────────
+             Pour des infirmiers à domicile, la question du patient n'est pas
+             « qui êtes-vous » mais « venez-vous quand j'en ai besoin ». Le
+             rythme de passage prend donc la place que le titre occupait, en
+             pied d'écran, et le titre passe en tête. Plus de colonne texte
+             face à une colonne média : c'était la charpente de la série. */}
       <section
         className="i355-hero"
         style={{
           position: "relative",
-          display: "grid",
-          gridTemplateColumns: "minmax(0, 1.06fr) minmax(0, 0.94fr)",
-          gap: "clamp(30px, 5vw, 66px)",
-          alignItems: "center",
-          padding: "clamp(130px, 15vh, 168px) clamp(20px, 5vw, 60px) clamp(90px, 12vw, 140px)",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          gap: "clamp(24px, 3.4vh, 44px)",
+          padding: "clamp(122px, 14vh, 160px) clamp(20px, 5vw, 60px) clamp(48px, 7vh, 84px)",
           maxWidth: 1280,
           margin: "0 auto",
           minHeight: "100dvh",
@@ -623,6 +651,10 @@ export default function TilleulsIdelPage() {
             <Kicker>{clientEyebrow(sessionData) ?? `Infirmiers à domicile · ${ville}`}</Kicker>
           </motion.div>
 
+          {/*
+            Titre d'un seul tenant, d'une seule couleur : la seconde ligne en
+            italique d'un autre ton était la signature de gabarit de la série.
+          */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -630,114 +662,101 @@ export default function TilleulsIdelPage() {
             style={{
               fontFamily: SERIF,
               fontWeight: 400,
-              fontSize: "clamp(40px, 6.2vw, 74px)",
-              lineHeight: 0.99,
+              fontSize: "clamp(34px, 5.4vw, 72px)",
+              lineHeight: 1,
               letterSpacing: "-0.022em",
               color: C.ink,
-              margin: "clamp(20px, 2.6vw, 32px) 0 clamp(16px, 2vw, 24px)",
+              margin: "clamp(18px, 2.4vw, 30px) 0 0",
+              maxWidth: 880,
+              overflowWrap: "break-word",
             }}
           >
-            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (
-              <>
-                {clientHeroLine(sessionData, 0, 2, 20) ?? "Le soin qui vient"}
-                <br />
-                <em style={{ color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 20) ?? "jusqu'à votre porte."}</em>
-              </>
-            )}
+            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ??
+              clientHeroLine(sessionData, 0, 1, 40) ??
+              "Le soin qui vient jusqu'à votre porte."}
           </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 22 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: EASE, delay: 0.36 }}
-            style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(15.5px, 1.5vw, 17.5px)", lineHeight: 1.8, color: C.textMuted, maxWidth: 496, marginBottom: "clamp(26px, 3vw, 36px)" }}
-          >
-            {clientHeroSubtitle(sessionData) ??
-              c?.heroSubline ??
-              "Quatre infirmiers libéraux conventionnés : prises de sang, pansements, perfusions, soins chroniques — à domicile 7j/7 ou au cabinet sans rendez-vous le matin. Tiers payant, carte Vitale."}
-          </motion.p>
-
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: EASE, delay: 0.5 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-            <Bouton href={telHref} large>
-              Appeler le cabinet
-            </Bouton>
-            <Bouton href="#services" variant="ligne" large>
-              Nos soins
-            </Bouton>
-          </motion.div>
-
-          {/* Détail gratuit : le tracé de pouls qui bat sous la ligne de prise
-              en charge. Purement CSS, coupé par prefers-reduced-motion. */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, ease: EASE, delay: 0.72 }}
-            style={{ display: "flex", alignItems: "center", gap: 14, marginTop: "clamp(30px, 4vw, 46px)", flexWrap: "wrap" }}
-          >
-            <svg width="52" height="16" viewBox="0 0 52 16" fill="none" aria-hidden style={{ flexShrink: 0 }}>
-              <path className="i355-pulse" d="M0 8h13l3-6 4 12 4-9 3 3h25" stroke={C.accent} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            <span style={{ fontFamily: SANS, fontSize: 12, letterSpacing: "0.16em", textTransform: "uppercase", color: C.textFaint }}>
-              Conventionnés CPAM · Tiers payant · Carte Vitale
-            </span>
-          </motion.div>
         </div>
 
-        {/* Média : la photo confiée, sinon celle du thème. Le cadre reste beau
-            image bloquée grâce à l'aplat et au filet. */}
-        <motion.div
-          className="i355-media"
-          initial={{ opacity: 0, y: 34 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.25, ease: EASE, delay: 0.3 }}
-          style={{ position: "relative", zIndex: 2, width: "100%", justifySelf: "center" }}
-        >
-          <div
-            style={{
-              position: "relative",
-              borderRadius: "4px 4px 96px 4px",
-              overflow: "hidden",
-              background: `linear-gradient(155deg, ${C.accentLight} 0%, ${C.bgAlt} 60%, ${C.bg} 100%)`,
-              border: `1px solid ${C.border}`,
-              aspectRatio: "4 / 4.2",
-              boxShadow: "0 42px 70px -50px rgba(13,43,38,0.6)",
-            }}
-          >
-            {heroImg ? (
-              <img src={heroImg} alt="Soins à domicile auprès d'une famille" loading="eager" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-            ) : (
-              <div aria-hidden style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <Stethoscope size={92} color={C.accent} strokeWidth={0.8} style={{ opacity: 0.4 }} />
-              </div>
-            )}
-            <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(13,43,38,0.55) 0%, rgba(13,43,38,0.08) 42%, transparent 70%)" }} />
-          </div>
+        <div className="i355-dire">
+          <motion.div initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: EASE, delay: 0.36 }} style={{ minWidth: 0 }}>
+            <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(14.5px, 1.35vw, 16.5px)", lineHeight: 1.8, color: C.textMuted, margin: "0 0 clamp(22px, 2.8vw, 32px)" }}>
+              {clientHeroSubtitle(sessionData) ??
+                c?.heroSubline ??
+                "Quatre infirmiers libéraux conventionnés : prises de sang, pansements, perfusions, soins chroniques — à domicile 7j/7 ou au cabinet sans rendez-vous le matin. Tiers payant, carte Vitale."}
+            </p>
 
-          {/* Carte d'appui : les deux premiers chiffres, posés sur le média. */}
-          <div
-            style={{
-              position: "absolute",
-              left: "clamp(-6px, -1vw, 0px)",
-              bottom: "clamp(-20px, -2vw, -12px)",
-              background: C.white,
-              border: `1px solid ${C.border}`,
-              borderLeft: `2px solid var(--brand, #0f766e)`,
-              borderRadius: 3,
-              padding: "16px 22px",
-              display: "flex",
-              gap: 26,
-              boxShadow: "0 26px 44px -34px rgba(13,43,38,0.65)",
-              maxWidth: "88%",
-            }}
+            {/* Une seule action pleine ; les soins restent un lien. */}
+            <div style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center" }}>
+              <Bouton href={telHref} large>
+                Appeler le cabinet
+              </Bouton>
+              <a href="#services" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+                Nos soins
+              </a>
+            </div>
+
+            {/* Détail gratuit : le tracé de pouls qui bat sous la ligne de prise
+                en charge. Purement CSS, coupé par prefers-reduced-motion. */}
+            <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: "clamp(24px, 3vw, 36px)", flexWrap: "wrap" }}>
+              <svg width="52" height="16" viewBox="0 0 52 16" fill="none" aria-hidden style={{ flexShrink: 0 }}>
+                <path className="i355-pulse" d="M0 8h13l3-6 4 12 4-9 3 3h25" stroke={C.accent} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <span style={{ fontFamily: SANS, fontSize: 12, letterSpacing: "0.16em", textTransform: "uppercase", color: C.textFaint }}>
+                Conventionnés CPAM · Tiers payant · Carte Vitale
+              </span>
+            </div>
+          </motion.div>
+
+          {/* La photographie, en vignette : elle accompagne le chiffre, elle
+              ne lui fait pas face. Le cadre reste beau image bloquée grâce à
+              l'aplat et au filet. */}
+          <motion.div
+            className="i355-media"
+            initial={{ opacity: 0, y: 26 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.25, ease: EASE, delay: 0.3 }}
+            style={{ position: "relative", zIndex: 2 }}
           >
-            {STATS.slice(0, 2).map((s: any) => (
-              <div key={s.label} style={{ minWidth: 0 }}>
-                <div style={{ fontFamily: SERIF, fontSize: 27, lineHeight: 1, color: C.accentDark }}>{s.value}</div>
-                <div style={{ fontFamily: SANS, fontSize: 11, lineHeight: 1.45, color: C.textMuted, marginTop: 6, maxWidth: 132 }}>{s.label}</div>
-              </div>
-            ))}
-          </div>
-        </motion.div>
+            <div
+              style={{
+                position: "relative",
+                borderRadius: "4px 4px 76px 4px",
+                overflow: "hidden",
+                background: `linear-gradient(155deg, ${C.accentLight} 0%, ${C.bgAlt} 60%, ${C.bg} 100%)`,
+                border: `1px solid ${C.border}`,
+                aspectRatio: "1 / 1",
+                boxShadow: "0 42px 70px -50px rgba(13,43,38,0.6)",
+              }}
+            >
+              {heroImg ? (
+                <img src={heroImg} alt="Soins à domicile auprès d'une famille" loading="eager" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+              ) : (
+                <div aria-hidden style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <Stethoscope size={92} color={C.accent} strokeWidth={0.8} style={{ opacity: 0.4 }} />
+                </div>
+              )}
+              <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(13,43,38,0.55) 0%, rgba(13,43,38,0.08) 42%, transparent 70%)" }} />
+            </div>
+          </motion.div>
+
+          {/* ── LE CHIFFRE — le rythme de passage, en énorme ─────────────── */}
+          <motion.div
+            className="i355-chiffre"
+            initial={{ opacity: 0, y: 26 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.1, ease: EASE, delay: 0.44 }}
+          >
+            <div style={{ fontFamily: SERIF, fontSize: "clamp(58px, 8.4vw, 128px)", lineHeight: 0.84, letterSpacing: "-0.04em", color: C.accentDark }}>
+              {STATS[1]?.value ?? "7j/7"}
+            </div>
+            <div style={{ fontFamily: SANS, fontSize: "clamp(11.5px, 1.1vw, 13px)", letterSpacing: "0.2em", textTransform: "uppercase", color: C.textMuted, lineHeight: 1.7, marginTop: "clamp(12px, 1.6vw, 18px)", maxWidth: 240 }}>
+              {STATS[1]?.label ?? "Pour les soins quotidiens"}
+            </div>
+            <div style={{ marginTop: "clamp(16px, 2vw, 24px)", paddingTop: 14, borderTop: `1px solid ${C.border}`, fontFamily: SANS, fontSize: 12.5, color: C.textFaint, lineHeight: 1.7 }}>
+              {STATS[2]?.value ?? "6h30"} — {STATS[2]?.label ?? "Première tournée (à jeun compris)"}
+            </div>
+          </motion.div>
+        </div>
       </section>
 
       {/* ══ RESPIRATION ═════════════════════════════════════════════════ */}
