@@ -561,7 +561,7 @@ export default function DomaineCharmillesPage() {
     sur-titre de l'espace montré, la légende, la fraction. DWELL.slow — un
     domaine se visite au pas, pas au trot.
   */
-  const { i, next, prev } = useSlides(HERO.length, DWELL.slow);
+  const { i, go, next, prev } = useSlides(HERO.length, DWELL.slow);
   const S = HERO[i];
   /* Deuxième index, hors héros : les avis en projecteur. */
   const avis = useSlides(AVIS.length, DWELL.slow);
@@ -839,15 +839,15 @@ export default function DomaineCharmillesPage() {
               maxWidth: 900,
             }}
           >
-            {c?.heroHeadline && !ligne1 ? (
-              c.heroHeadline
-            ) : (
-              <>
-                {ligne1 ?? "Le lieu fait"}
-                <br />
-                <em style={{ fontStyle: "italic", color: C.hi }}>{ligne2 ?? "la moitié du souvenir."}</em>
-              </>
-            )}
+            {/*
+              Titre d'un seul tenant, d'une seule couleur : la seconde ligne
+              en italique dorée était la signature de gabarit de la série.
+              La composition PortalZoom — la fenêtre de château qui s'ouvre —
+              reste, elle n'appartient qu'à ce thème.
+            */}
+            {c?.heroHeadline && !ligne1
+              ? c.heroHeadline
+              : `${ligne1 ?? "Le lieu fait"} ${ligne2 ?? "la moitié du souvenir."}`}
           </motion.h2>
 
           <motion.p
@@ -876,9 +876,9 @@ export default function DomaineCharmillesPage() {
             <BoutonDomaine href={telHref} large>
               Visiter le domaine
             </BoutonDomaine>
-            <BoutonDomaine href="#services" plein={false} clair large>
+            <a href="#services" style={{ fontSize: 13, color: "#fff", textDecoration: "none", borderBottom: `1px solid ${C.hi}`, paddingBottom: 3, alignSelf: "center" }}>
               Les espaces
-            </BoutonDomaine>
+            </a>
           </motion.div>
 
           <motion.div
@@ -889,7 +889,20 @@ export default function DomaineCharmillesPage() {
           >
             <Filet />
             <div style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap", paddingTop: 16 }}>
-              <SlideIndex i={i} total={HERO.length} variant="fraction" color="rgba(255,255,255,0.85)" className="" />
+              {/* La fraction « 01 / 03 » ne disait pas ce qu'on regardait ;
+                  ces traits mènent directement à chaque espace. */}
+              <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+                {HERO.map((h: any, n: number) => (
+                  <button
+                    key={h.k ?? n}
+                    type="button"
+                    onClick={() => go(n)}
+                    aria-label={h.k ?? `Espace ${n + 1}`}
+                    aria-current={n === i}
+                    style={{ width: 32, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === i ? C.hi : "rgba(255,255,255,0.32)", transition: "background .3s" }}
+                  />
+                ))}
+              </div>
               <div style={{ minWidth: 0, flex: "1 1 240px" }}>
                 <motion.div key={i} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: EASE }}>
                   <span
