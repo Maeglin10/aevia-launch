@@ -90,8 +90,8 @@ d'écart, et jamais avec les mêmes proportions.
 | 366 | producteur | `typo` | fait |
 | 367 | sage-femme | `liste` | fait |
 | 368 | sage-femme | `devanture` | fait |
-| 369 | salle de réception | `pleincadre` | à faire |
-| 370 | salle de réception | `editorial` | à faire |
+| 369 | salle de réception | `pleincadre` | fait |
+| 370 | salle de réception | `editorial` | fait |
 | 371 | sécurité | `bandeau` | à faire |
 | 372 | sécurité | `carte` | à faire |
 | 373 | VTC | `splitgauche` | à faire |
@@ -127,6 +127,11 @@ Trois écarts assumés à la rotation, pour ne pas plier un métier à un tablea
   point de sa réécriture précédente.
 - `353` (micro-crèche) reçoit `devanture` et non `splitgauche` : son héros
   posait DÉJÀ l'image à gauche et le texte à droite. Même raison que `334`.
+- `369` et `370` (salles de réception) gardent leurs compositions : le
+  PortalZoom à fenêtre de château (plein cadre) et le bento à poutrelles
+  n'appartiennent qu'à eux et ne partagent rien avec leurs voisins. Seuls les
+  marqueurs de gabarit ont été retirés — italique de seconde ligne, duo de
+  boutons, fraction.
 - `339` et `340` échangent : `340` porte déjà une photographie de client dans
   son héros et sait se replier sur une courbe de gain dessinée, il prend donc
   `pleincadre` ; `339` n'a pas d'image du tout — son orbe de particules passe

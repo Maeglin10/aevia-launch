@@ -484,7 +484,7 @@ export default function Halle1897Page() {
   const [mobileOpen, setMobileOpen] = useState(false);
   /* Un seul index pilote tout le héros : la tuile média, la légende, la
      fraction, le chiffre fantôme de la tuile de gauche. */
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i, go } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
   /* Avis en projecteur : deuxième index, hors héros, à cadence lente. */
   const avis = useSlides(AVIS.length, DWELL.slow);
@@ -744,19 +744,15 @@ export default function Halle1897Page() {
                 position: "relative",
               }}
             >
-              {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (
-                <>
-                  {c?.heroHeadline ?? (
-                    <>
-                      {clientHeroLine(sessionData, 0, 2, 22) ?? "Une usine textile,"}
-                      <br />
-                      <em style={{ fontStyle: "italic", color: C.accent }}>
-                        {clientHeroLine(sessionData, 1, 2, 22) ?? "devenue machine à fêtes."}
-                      </em>
-                    </>
-                  )}
-                </>
-              )}
+              {/*
+                Titre d'un seul tenant, d'une seule couleur : la seconde ligne
+                en italique d'un autre ton était la signature de gabarit de la
+                série. Le bento à poutrelles, lui, n'appartient qu'à ce thème.
+              */}
+              {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ??
+                c?.heroHeadline ??
+                clientHeroLine(sessionData, 0, 1, 44) ??
+                "Une usine textile, devenue machine à fêtes."}
             </h1>
           </motion.div>
 
@@ -815,9 +811,19 @@ export default function Halle1897Page() {
                   {S.sub}
                 </div>
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <SlideIndex i={i} total={HERO.length} variant="fraction" color="rgba(245,241,230,0.88)" className="" />
-                <HairlineArrows onPrev={prev} onNext={next} color={C.white} className="" />
+              {/* La fraction ne disait pas ce qu'on regardait ; ces traits
+                  mènent directement à chaque espace de la halle. */}
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                {HERO.map((h: any, n: number) => (
+                  <button
+                    key={h.k ?? n}
+                    type="button"
+                    onClick={() => go(n)}
+                    aria-label={h.k ?? `Espace ${n + 1}`}
+                    aria-current={n === i}
+                    style={{ width: 32, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === i ? C.accent : "rgba(245,241,230,0.32)", transition: "background .3s" }}
+                  />
+                ))}
               </div>
             </div>
           </motion.div>
@@ -852,13 +858,13 @@ export default function Halle1897Page() {
                 c?.heroSubline ??
                 "Briques rouges, verrière de 1897, 600 m² modulables : la Halle accueille mariages urbains, lancements de produit, dîners de gala et tournages — avec la technique intégrée et une équipe qui connaît sa machine."}
             </p>
-            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+            <div style={{ display: "flex", gap: "clamp(16px,2vw,26px)", flexWrap: "wrap", alignItems: "center" }}>
               <BoutonLaiton href={telHref} large>
                 Bloquer une date
               </BoutonLaiton>
-              <BoutonLaiton href="#services" plein={false} large>
+              <a href="#services" style={{ fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
                 La halle
-              </BoutonLaiton>
+              </a>
             </div>
           </motion.div>
 
