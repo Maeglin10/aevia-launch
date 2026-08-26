@@ -96,8 +96,8 @@ d'écart, et jamais avec les mêmes proportions.
 | 372 | sécurité | `carte` | fait |
 | 373 | VTC | `splitgauche` | fait |
 | 374 | VTC | `diagonale` | fait |
-| 375 | vitrier | `chiffre` | à faire |
-| 376 | vitrier | `typo` | à faire |
+| 375 | vitrier | `chiffre` | fait |
+| 376 | vitrier | `typo` | fait |
 | 377 | école de musique | `liste` | à faire |
 | 378 | gestion de patrimoine | `devanture` | à faire |
 | 379 | menuisier | `pleincadre` | à faire |

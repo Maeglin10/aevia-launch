@@ -6,7 +6,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, Building, CheckCircle, Clock, Gem, Mail, MapPin, Phone, Ruler, Star } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { LineScroll } from "@/lib/templates/hero-kit-3";
 import {
   clientAccrocheRestante,
@@ -159,7 +159,7 @@ export default function VerreEtLumierePage() {
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i, go } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
 
@@ -176,6 +176,29 @@ export default function VerreEtLumierePage() {
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
       <style>{`${FONTS_CSS}
+
+        /* Le pied du héros : la prose d'un côté, l'action de l'autre. */
+        .i376-pied {
+          display: grid;
+          grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+          gap: clamp(22px, 3.4vw, 52px);
+          align-items: end;
+          margin-top: clamp(18px, 2.4vw, 28px);
+          padding-top: clamp(18px, 2.4vw, 26px);
+          border-top: 1px solid ${C.border};
+        }
+        /* Les cases du châssis : trois ouvrages, comme trois carreaux. */
+        .i376-chassis {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 0;
+        }
+        .i376-chassis > button + button { border-left-width: 0 !important; }
+        @media (max-width: 860px) {
+          .i376-pied { grid-template-columns: minmax(0,1fr); row-gap: 20px; }
+          .i376-chassis { grid-template-columns: minmax(0,1fr); }
+          .i376-chassis > button + button { border-left-width: 1px !important; border-top-width: 0 !important; }
+        }
 
         @media (max-width: 900px) { #i376-nav { display: none !important; } .i376-burger { display: flex !important; } }
         @media (max-width: 860px) {
@@ -225,28 +248,84 @@ export default function VerreEtLumierePage() {
         </div>
       )}
 
-      {/* ── HERO ────────────────────────────────────────────────────────── */}
-
-      <section className="i376-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "140px 64px 70px", maxWidth: 1080, margin: "0 auto" }}>
+      {/* ── HERO — typographie monumentale sur la trame de la verrière ────
+             Sans photographie, comme avant — mais plus rien du gabarit
+             partagé : ce conteneur était identique AU CARACTÈRE PRÈS à ceux
+             d'impact-373 et d'impact-382. Le titre devient monumental sur la
+             trame d'une verrière dessinée en CSS, les trois ouvrages se
+             lisent en pied comme les cases d'un châssis. Le geste LineScroll
+             reste : ses lignes sont coupées à la main par le thème. */}
+      <section className="i376-hero" style={{ minHeight: "100dvh", position: "relative", display: "flex", flexDirection: "column", justifyContent: "center", gap: "clamp(24px, 3.4vh, 44px)", padding: "clamp(116px, 14vh, 152px) clamp(24px, 5vw, 72px) clamp(40px, 5vh, 64px)", overflow: "hidden" }}>
+        {/* La verrière : montants et traverses, en CSS, sur toute la section. */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            inset: 0,
+            pointerEvents: "none",
+            opacity: 0.5,
+            backgroundImage: `linear-gradient(${C.border} 1px, transparent 1px), linear-gradient(90deg, ${C.border} 1px, transparent 1px)`,
+            backgroundSize: "clamp(160px, 22vw, 300px) clamp(160px, 26vh, 260px)",
+          }}
+        />
+        <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", background: `radial-gradient(60% 45% at 70% 20%, ${C.accentLight} 0%, transparent 68%)`, opacity: 0.5 }} />
 
         <TitreDeLaPage session={sessionData} />
-        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Miroiterie d'agencement · Colmar</span>
-        <div style={{ fontFamily: FONT, fontSize: "clamp(32px, 4.6vw, 58px)", color: C.text, lineHeight: 1.14, margin: "18px 0 8px" }}><LineScroll lines={S.lines} index={i} /></div>
-        <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
-          {clientAccrocheRestante(sessionData, 1, 24) ?? c?.heroSubline ?? "Verrières d'atelier, garde-corps, planchers et marches de verre, cloisons toute hauteur : la miroiterie qui travaille avec les architectes — calculs, DTU et poésie de la lumière compris."}
-        </p>
-        <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-          <motion.a href={telHref} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
-            Parler d'un projet <ArrowRight size={16} />
-          </motion.a>
-          <motion.a href="#services" style={{ background: C.white, color: C.text, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ borderColor: C.accent }}>
-            Nos réalisations
-          </motion.a>
+
+        <div style={{ position: "relative", zIndex: 1, maxWidth: 1200, width: "100%", margin: "0 auto" }}>
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Miroiterie d'agencement · Colmar</span>
+
+          {/* Le titre monumental — LineScroll, lignes coupées par le thème. */}
+          <div style={{ fontFamily: FONT, fontWeight: 700, fontSize: "clamp(40px, 7.8vw, 108px)", color: C.text, lineHeight: 1.02, letterSpacing: "-0.03em", margin: "20px 0 0" }}>
+            <LineScroll lines={S.lines} index={i} />
+          </div>
+
+          <div className="i376-pied">
+            <p style={{ fontSize: "clamp(14.5px, 1.3vw, 16.5px)", color: C.textMuted, lineHeight: 1.75, margin: 0 }}>
+              {clientAccrocheRestante(sessionData, 1, 24) ?? c?.heroSubline ?? "Verrières d'atelier, garde-corps, planchers et marches de verre, cloisons toute hauteur : la miroiterie qui travaille avec les architectes — calculs, DTU et poésie de la lumière compris."}
+            </p>
+            {/* Une seule action pleine ; les réalisations restent un lien. */}
+            <div style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center" }}>
+              <motion.a href={telHref} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
+                Parler d'un projet <ArrowRight size={16} />
+              </motion.a>
+              <a href="#services" style={{ fontSize: 13, color: C.text, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+                Nos réalisations
+              </a>
+            </div>
+          </div>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 44, flexWrap: "wrap" }}>
-          <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textMuted} className="" />
-          <span style={{ fontSize: 13.5, color: C.textMuted }}><strong style={{ color: C.text, fontWeight: 700 }}>{S.k}</strong> — {S.sub}</span>
-          <HairlineArrows onPrev={prev} onNext={next} color={C.text} className="" />
+
+        {/* ── LES CASES DU CHÂSSIS — les trois ouvrages, cliquables ──────── */}
+        <div style={{ position: "relative", zIndex: 1, maxWidth: 1200, width: "100%", margin: "0 auto" }}>
+          <div className="i376-chassis">
+            {HERO.map((h: any, n: number) => (
+              <button
+                key={h.k ?? n}
+                type="button"
+                onClick={() => go(n)}
+                aria-current={n === i}
+                aria-label={h.k}
+                style={{
+                  textAlign: "left",
+                  background: n === i ? C.white : "transparent",
+                  border: `1px solid ${n === i ? C.accent : C.border}`,
+                  borderRadius: 0,
+                  padding: "clamp(14px, 1.8vw, 20px)",
+                  cursor: "pointer",
+                  transition: "background .3s, border-color .3s",
+                  minWidth: 0,
+                }}
+              >
+                <span style={{ display: "block", fontSize: 10.5, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: n === i ? C.accentDark : C.textMuted, marginBottom: 6 }}>
+                  {h.k}
+                </span>
+                <span style={{ display: "block", fontSize: 12.5, color: C.textMuted, lineHeight: 1.6 }}>
+                  {h.sub}
+                </span>
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 

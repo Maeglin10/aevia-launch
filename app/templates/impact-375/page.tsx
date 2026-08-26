@@ -6,7 +6,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, CheckCircle, Clock, Hammer, Mail, MapPin, PanelTop, Phone, Star, Sun } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { PushBlur } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
@@ -157,7 +157,7 @@ export default function MiroiterieDuPortPage() {
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i, go } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
 
@@ -174,6 +174,29 @@ export default function MiroiterieDuPortPage() {
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
       <style>{`${FONTS_CSS}
+
+        /*
+          ── Héros « chiffre en avant » ─────────────────────────────────────
+          « 1/10 mm » tient la place du titre ; la vignette d'atelier
+          l'accompagne sans lui faire face.
+        */
+        .i375-chiffre {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+          gap: clamp(24px, 4vw, 64px);
+          align-items: center;
+        }
+        .i375-dire {
+          display: grid;
+          grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+          gap: clamp(22px, 3.4vw, 52px);
+          align-items: start;
+        }
+        @media (max-width: 900px) {
+          .i375-chiffre { grid-template-columns: minmax(0,1fr); row-gap: 22px; }
+          .i375-nombre { font-size: clamp(56px, 17vw, 96px) !important; }
+          .i375-dire { grid-template-columns: minmax(0,1fr); row-gap: 18px; }
+        }
 
         @media (max-width: 900px) { #i375-nav { display: none !important; } .i375-burger { display: flex !important; } }
         @media (max-width: 860px) {
@@ -223,45 +246,85 @@ export default function MiroiterieDuPortPage() {
         </div>
       )}
 
-      {/* ── HERO ────────────────────────────────────────────────────────── */}
-<section className="i375-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.08fr) minmax(0,0.92fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1260, margin: "0 auto" }}>
-        <div>
-          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
-            Vitrier-miroitier · {clientCity(sessionData) ?? "Le Havre"}
-          </motion.span>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 22) ?? "Le verre, coupé juste,"}<br /><em style={{ color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 22) ?? "posé net."}</em></>)}
-          </>)}</motion.h1>
-          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Vitrages cassés remplacés'en urgence, double vitrage sur mesure, miroirs, crédences et parois de douche : l'atelier de miroiterie qui façonne sur place, au dixième de millimètre."}
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-            <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
-              Appeler l'atelier <ArrowRight size={16} />
-            </motion.a>
-            <motion.a href="#services" style={{ background: C.white, color: C.text, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ borderColor: C.accent }}>
-              Nos ouvrages
-            </motion.a>
-          </motion.div>
-          
-          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 42, flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textMuted} className="" />
-            <span style={{ fontSize: 13.5, color: C.textMuted }}>
-              <strong style={{ color: C.text, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.text} className="" />
-          </div>
-        </div>
-        <div className="i375-card">
-          <PushBlur index={i} amount={16}>
-            <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 10, overflow: "hidden", boxShadow: "0 18px 52px rgba(0,0,0,0.18)" }}>
-              <div style={{ aspectRatio: "4/3", background: C.accentLight , overflow: "hidden" }}><img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/5691531/pexels-photo-5691531.jpeg?auto=compress&cs=tinysrgb&w=1400"))} alt="Pose d'un châssis vitré" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div>
-              <div style={{ padding: "22px 24px 24px", borderTop: `3px solid ${C.accent}` }}>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.accentDark, marginBottom: 8 }}>{S.k}</div>
-                <div style={{ fontFamily: FONT, fontSize: 19, color: C.text, lineHeight: 1.35 }}>{S.line}</div>
-              </div>
+      {/* ── HERO — le chiffre en avant : 1/10 mm ──────────────────────────
+             La précision de façonnage est l'argument entier d'un miroitier :
+             elle prend la place du titre. La grille texte-à-gauche /
+             carte-à-droite était la charpente de la série. Le geste PushBlur
+             reste, sur la vignette d'atelier posée en regard du chiffre. */}
+      <section className="i375-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", gap: "clamp(22px, 3vh, 38px)", padding: "clamp(118px, 14vh, 150px) clamp(24px, 5vw, 64px) clamp(44px, 6vh, 68px)", maxWidth: 1260, margin: "0 auto" }}>
+        <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
+          Vitrier-miroitier · {clientCity(sessionData) ?? "Le Havre"}
+        </motion.span>
+
+        {/* ── LE CHIFFRE, et la vignette d'atelier en regard ─────────────── */}
+        <div className="i375-chiffre">
+          <motion.div initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.9, ease: [0.16, 1, 0.3, 1] }} style={{ minWidth: 0 }}>
+            <div className="i375-nombre" style={{ fontFamily: FONT_TITRE, fontSize: "clamp(54px, 9vw, 132px)", fontWeight: 800, lineHeight: 0.84, letterSpacing: "-0.04em", color: C.text, marginLeft: "-0.03em", whiteSpace: "nowrap" }}>
+              {STATS[2]?.value ?? "1/10 mm"}
             </div>
-          </PushBlur>
+            <div style={{ fontSize: "clamp(12px, 1.15vw, 14px)", letterSpacing: "0.22em", textTransform: "uppercase", color: C.textMuted, marginTop: "clamp(14px, 1.8vw, 22px)", lineHeight: 1.7, maxWidth: 320 }}>
+              {STATS[2]?.label ?? "Précision de façonnage"}
+            </div>
+          </motion.div>
+
+          <motion.div className="i375-vignette" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.95, ease: [0.16, 1, 0.3, 1] }}>
+            <PushBlur index={i} amount={16}>
+              <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 10, overflow: "hidden", boxShadow: "0 18px 52px rgba(0,0,0,0.18)" }}>
+                <div style={{ aspectRatio: "16/9", background: C.accentLight, overflow: "hidden", position: "relative" }}>
+                  <img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/5691531/pexels-photo-5691531.jpeg?auto=compress&cs=tinysrgb&w=1400"))} alt="Pose d'un châssis vitré" loading="eager" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                </div>
+                <div style={{ padding: "14px 18px 16px", borderTop: `3px solid ${C.accent}`, display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 12, flexWrap: "wrap" }}>
+                  <div style={{ minWidth: 0 }}>
+                    <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.accentDark, marginBottom: 5 }}>{S.k}</div>
+                    <div style={{ fontFamily: FONT, fontSize: 15.5, color: C.text, lineHeight: 1.35 }}>{S.line}</div>
+                  </div>
+                  {/*
+                    La fraction « 01 / 03 » ne disait pas ce qu'on regardait ;
+                    ces traits mènent directement à chaque ouvrage.
+                  */}
+                  <div style={{ display: "flex", gap: 7, flexShrink: 0 }}>
+                    {HERO.map((h: any, n: number) => (
+                      <button
+                        key={h.k ?? n}
+                        type="button"
+                        onClick={() => go(n)}
+                        aria-label={h.k ?? `Ouvrage ${n + 1}`}
+                        aria-current={n === i}
+                        style={{ width: 28, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === i ? C.accent : C.border, transition: "background .3s" }}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </PushBlur>
+          </motion.div>
+        </div>
+
+        {/* la règle qui sépare le chiffre de ce qu'il garantit */}
+        <span aria-hidden style={{ height: 1, background: `linear-gradient(90deg, ${C.accent}, ${C.border} 42%, transparent)` }} />
+
+        {/* ── Ce que le chiffre veut dire ────────────────────────────────── */}
+        <div className="i375-dire">
+          <motion.h1 initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(24px, 3.2vw, 42px)", color: C.text, lineHeight: 1.08, margin: 0, overflowWrap: "break-word" }}>
+            {/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ??
+              c?.heroHeadline ??
+              clientHeroLine(sessionData, 0, 1, 36) ??
+              "Le verre, coupé juste, posé net."}
+          </motion.h1>
+          <div style={{ minWidth: 0 }}>
+            <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} style={{ fontSize: "clamp(14.5px, 1.3vw, 16px)", color: C.textMuted, lineHeight: 1.75, margin: "0 0 22px" }}>
+              {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Vitrages cassés remplacés en urgence, double vitrage sur mesure, miroirs, crédences et parois de douche : l'atelier de miroiterie qui façonne sur place, au dixième de millimètre."}
+            </motion.p>
+            {/* Une seule action pleine ; les ouvrages restent un lien. */}
+            <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }} style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center" }}>
+              <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
+                Appeler l'atelier <ArrowRight size={16} />
+              </motion.a>
+              <a href="#services" style={{ fontSize: 13, color: C.text, textDecoration: "none", borderBottom: `1px solid ${C.accentDark}`, paddingBottom: 3 }}>
+                Nos ouvrages
+              </a>
+            </motion.div>
+          </div>
         </div>
       </section>
 
