@@ -457,7 +457,7 @@ export default function SentinellePage() {
     aucun texte — il fait défiler les dispositifs que le thème (ou le client)
     a déjà écrits.
   */
-  const { i, next, prev } = useSlides(SERVICES.length, DWELL.slow);
+  const { i, go } = useSlides(SERVICES.length, DWELL.slow);
   const secteur = SERVICES[i];
   /* Deuxième index, hors héros : les avis en projecteur. */
   const avis = useSlides(AVIS.length, DWELL.slow);
@@ -508,6 +508,51 @@ export default function SentinellePage() {
            coupée pour qui demande moins de mouvement. */
         @keyframes i371-scan { 0% { transform: translateY(-8vh); opacity: 0; } 12% { opacity: .55; } 88% { opacity: .55; } 100% { transform: translateY(108vh); opacity: 0; } }
         .i371-scan { animation: i371-scan 9s ${EASE_CSS} infinite; }
+        /*
+          ── Héros « bandeau bas » ──────────────────────────────────────────
+          La parole en haut sur la trame de veille, le poste photographié en
+          bandeau plein bord au pied.
+        */
+        .i371-dire {
+          position: relative;
+          z-index: 2;
+          width: 100%;
+          max-width: 1280px;
+          margin: 0 auto;
+          padding: clamp(112px,13vh,152px) clamp(20px,5vw,64px) 0;
+        }
+        .i371-sousrit {
+          display: grid;
+          grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+          gap: clamp(22px, 3.4vw, 52px);
+          align-items: end;
+          margin-top: clamp(18px, 2.4vw, 28px);
+          padding-top: clamp(18px, 2.4vw, 26px);
+          border-top: 1px solid rgba(238,244,248,0.14);
+        }
+        .i371-bandeau { position: relative; z-index: 2; width: 100%; }
+        .i371-bandeau-img {
+          position: relative;
+          height: clamp(160px, 26vh, 300px);
+          overflow: hidden;
+          border-top: 1px solid rgba(238,244,248,0.14);
+        }
+        .i371-bandeau-legende {
+          position: absolute;
+          left: clamp(20px, 5vw, 64px);
+          right: clamp(20px, 5vw, 64px);
+          bottom: clamp(14px, 2.4vh, 24px);
+          z-index: 2;
+          display: flex;
+          align-items: flex-end;
+          justify-content: space-between;
+          gap: 18px;
+          flex-wrap: wrap;
+        }
+        @media (max-width: 860px) {
+          .i371-sousrit { grid-template-columns: minmax(0,1fr); row-gap: 20px; }
+        }
+
         @media (prefers-reduced-motion: reduce) { .i371-scan { animation: none; opacity: .2; } }
 
         @media (max-width: 1000px) {
@@ -661,33 +706,25 @@ export default function SentinellePage() {
       {/* ── HÉROS — H3 plein cadre, titre en bas ────────────────────────── */}
       <section
         id="hero"
+        className="i371-hero"
         style={{
           position: "relative",
           minHeight: "100dvh",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "flex-end",
+          justifyContent: "space-between",
           overflow: "hidden",
-          /* Fond de repli obligatoire : la page reste tenue photo bloquée. */
           background: C.bgDark,
         }}
       >
+        {/* ── HERO — bandeau bas ──────────────────────────────────────────
+               La parole tient le haut sur la trame de veille ; le poste
+               photographié court en bandeau d'un bord à l'autre, en pied
+               d'écran. Le plein cadre à titre bas était la composition
+               d'impact-349 — qui porte aussi le geste GhostSolid : deux
+               pages jumelles à dix crans, c'est ce qu'on défait. Le geste
+               reste, la charpente change. */}
         <TitreDeLaPage session={sessionData} />
-        {heroImg ? (
-          <img
-            src={heroImg}
-            alt="Agent de sécurité en poste"
-            loading="eager"
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              opacity: 0.62,
-            }}
-          />
-        ) : null}
 
         {/* Trame de veille : la nuit tient sans photographie. */}
         <div
@@ -698,62 +735,12 @@ export default function SentinellePage() {
             pointerEvents: "none",
             backgroundImage: `linear-gradient(${C.veille} 1px, transparent 1px), linear-gradient(90deg, ${C.veille} 1px, transparent 1px)`,
             backgroundSize: "72px 72px",
-            maskImage: "radial-gradient(ellipse at 22% 78%, #000 0%, transparent 74%)",
-            WebkitMaskImage: "radial-gradient(ellipse at 22% 78%, #000 0%, transparent 74%)",
-          }}
-        />
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            bottom: "-18%",
-            left: "-6%",
-            width: "70vw",
-            height: "70vw",
-            maxWidth: 1000,
-            maxHeight: 1000,
-            background: `radial-gradient(circle, ${C.accent} 0%, transparent 62%)`,
-            opacity: 0.12,
-            pointerEvents: "none",
-          }}
-        />
-        {/* Le détail gratuit : la ligne de balayage d'un moniteur. */}
-        <div
-          aria-hidden
-          className="i371-scan"
-          style={{
-            position: "absolute",
-            left: 0,
-            right: 0,
-            top: 0,
-            height: 2,
-            background: `linear-gradient(to right, transparent, ${C.accent}, transparent)`,
-            pointerEvents: "none",
-          }}
-        />
-        {/* Scrim à trois arrêts : le titre reste lisible sur n'importe quelle image. */}
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "linear-gradient(to top, rgba(4,7,10,0.95) 0%, rgba(4,7,10,0.72) 34%, rgba(4,7,10,0.22) 66%, rgba(4,7,10,0.55) 100%)",
-            pointerEvents: "none",
+            maskImage: "radial-gradient(ellipse at 22% 30%, #000 0%, transparent 74%)",
+            WebkitMaskImage: "radial-gradient(ellipse at 22% 30%, #000 0%, transparent 74%)",
           }}
         />
 
-        <div
-          className="i371-herobas"
-          style={{
-            position: "relative",
-            zIndex: 2,
-            width: "100%",
-            maxWidth: 1280,
-            margin: "0 auto",
-            padding: "clamp(120px,14vw,180px) clamp(20px,5vw,64px) clamp(44px,6vw,76px)",
-          }}
-        >
+        <div className="i371-dire">
           <motion.div
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
@@ -764,10 +751,7 @@ export default function SentinellePage() {
 
           {/* ── GESTE : GhostSolid ──────────────────────────────────────
               Le contour arrive le premier, la ligne pleine 55 ms plus tard :
-              la présence se dessine, puis se matérialise. Une seule courbe,
-              transitions dans la fourchette 0,6–1,0 s, mouvement coupé pour
-              qui le demande — motion.div hérite de useReducedMotion via les
-              réglages globaux de framer-motion sur les transitions d'entrée. */}
+              la présence se dessine, puis se matérialise. */}
           <motion.div
             initial={{ opacity: 0, y: 34, filter: "blur(10px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
@@ -776,7 +760,7 @@ export default function SentinellePage() {
               margin: "clamp(18px,2.4vw,28px) 0 0",
               fontFamily: DISPLAY,
               fontWeight: 800,
-              fontSize: "clamp(2.6rem,8vw,7rem)",
+              fontSize: "clamp(2.4rem,6.6vw,5.8rem)",
               lineHeight: 0.94,
               letterSpacing: "-0.035em",
               textTransform: "uppercase",
@@ -785,83 +769,74 @@ export default function SentinellePage() {
             <GhostSolid ghost={ghost} solid={solid} accent={C.accent} className="" strokeWidth={1} />
           </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 22 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.11, ease: EASE }}
-            style={{
-              fontSize: "clamp(15px,1.2vw,17px)",
-              color: "rgba(238,244,248,0.80)",
-              lineHeight: 1.78,
-              maxWidth: 520,
-              margin: "clamp(20px,2.4vw,30px) 0 clamp(26px,3vw,36px)",
-            }}
-          >
-            {clientHeroPrestations(sessionData) ??
-              c?.heroSubline ??
-              "Gardiennage, rondes, événementiel, télésurveillance : des agents cartés CNAPS, encadrés, équipés et contrôlés — parce que la sécurité est un métier réglementé, pas un gilet jaune fluo."}
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.165, ease: EASE }}
-            style={{ display: "flex", gap: 13, flexWrap: "wrap" }}
-          >
-            <BoutonVeille href={telHref} large>
-              Évaluer votre site
-            </BoutonVeille>
-            <BoutonVeille href="#services" plein={false} large>
-              Nos dispositifs
-            </BoutonVeille>
-          </motion.div>
-
-          {/* Bande de veille : l'index unique du héros défile sur les
-              dispositifs déjà écrits, sans inventer une seule ligne. */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.85, delay: 0.22, ease: EASE }}
-            style={{ marginTop: "clamp(30px,4vw,48px)" }}
-          >
-            <Filet />
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 18,
-                flexWrap: "wrap",
-                paddingTop: 16,
-              }}
+          <div className="i371-sousrit">
+            <motion.p
+              initial={{ opacity: 0, y: 22 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.85, delay: 0.11, ease: EASE }}
+              style={{ fontSize: "clamp(14.5px,1.2vw,16.5px)", color: "rgba(238,244,248,0.80)", lineHeight: 1.78, margin: 0 }}
             >
-              <SlideIndex i={i} total={SERVICES.length} variant="fraction" color="rgba(238,244,248,0.82)" className="" />
-              <div style={{ minWidth: 0, flex: "1 1 240px" }}>
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, ease: EASE }}
-                >
-                  <span
-                    style={{
-                      fontSize: 10.5,
-                      letterSpacing: "0.30em",
-                      textTransform: "uppercase",
-                      color: C.accent,
-                      display: "block",
-                      marginBottom: 5,
-                    }}
-                  >
-                    {secteur?.tag}
-                  </span>
-                  <span style={{ fontSize: 14, color: "rgba(238,244,248,0.86)", fontWeight: 500 }}>
-                    {secteur?.titre}
-                  </span>
-                </motion.div>
+              {clientHeroPrestations(sessionData) ??
+                c?.heroSubline ??
+                "Gardiennage, rondes, événementiel, télésurveillance : une société de sécurité privée agréée CNAPS, des agents formés et encadrés, et un PC qui répond à la troisième sonnerie."}
+            </motion.p>
+
+            {/* Une seule action pleine ; les prestations restent un lien. */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.85, delay: 0.165, ease: EASE }}
+              style={{ display: "flex", gap: "clamp(16px,2vw,26px)", flexWrap: "wrap", alignItems: "center" }}
+            >
+              <BoutonVeille href={telHref} large>
+                Évaluer mon site
+              </BoutonVeille>
+              <a href="#services" style={{ fontSize: 13, color: C.white, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+                Nos prestations
+              </a>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* ── LE BANDEAU — le poste, d'un bord à l'autre ─────────────────── */}
+        <div className="i371-bandeau">
+          <div className="i371-bandeau-img">
+            {heroImg ? (
+              <img
+                src={heroImg}
+                alt="Agent de sécurité en poste"
+                loading="eager"
+                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              />
+            ) : (
+              <div aria-hidden style={{ position: "absolute", inset: 0, background: C.bgDarkAlt, backgroundImage: `linear-gradient(${C.veille} 1px, transparent 1px), linear-gradient(90deg, ${C.veille} 1px, transparent 1px)`, backgroundSize: "44px 44px" }} />
+            )}
+            <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(7,12,17,0.92) 0%, rgba(7,12,17,0.3) 46%, rgba(7,12,17,0.6) 100%)" }} />
+
+            {/* Le secteur montré, et de quoi passer aux autres. */}
+            <div className="i371-bandeau-legende">
+              <motion.div key={i} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: EASE }} style={{ minWidth: 0 }}>
+                <span style={{ fontSize: 10.5, letterSpacing: "0.30em", textTransform: "uppercase", color: C.accent, display: "block", marginBottom: 5 }}>
+                  {secteur?.tag}
+                </span>
+                <span style={{ fontSize: 14, color: "rgba(238,244,248,0.86)", fontWeight: 500 }}>
+                  {secteur?.titre}
+                </span>
+              </motion.div>
+              <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+                {SERVICES.map((sv: any, n: number) => (
+                  <button
+                    key={sv.titre ?? n}
+                    type="button"
+                    onClick={() => go(n)}
+                    aria-label={sv.titre ?? `Secteur ${n + 1}`}
+                    aria-current={n === i}
+                    style={{ width: 32, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === i ? C.accent : "rgba(238,244,248,0.28)", transition: "background .3s" }}
+                  />
+                ))}
               </div>
-              <HairlineArrows onPrev={prev} onNext={next} color={C.white} className="" />
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 

@@ -7,7 +7,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, Clock, Eye, Mail, MapPin, Phone } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { TrackingCollapse } from "@/lib/templates/hero-kit-3";
 import {
   clientAddress,
@@ -512,7 +512,7 @@ export default function HorizonProtectionPage() {
     nommé dans la bande basse, la fiche du panneau média, la fraction.
     DWELL.slow — le rythme d'une ronde, pas d'un diaporama.
   */
-  const { i, next, prev } = useSlides(HERO.length, DWELL.slow);
+  const { i, go } = useSlides(HERO.length, DWELL.slow);
   const S = HERO[i];
 
   useEffect(() => {
@@ -548,7 +548,37 @@ export default function HorizonProtectionPage() {
         @import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
 
         .i372-navrow { display: flex; gap: clamp(14px,2vw,28px); align-items: center; }
-        .i372-hero { display: grid; grid-template-columns: minmax(0,1.06fr) minmax(0,0.94fr); gap: clamp(32px,5vw,72px); align-items: center; }
+        /*
+          ── Héros « carte flottante en débord » ────────────────────────────
+          Le retour caméra tient un cadre à droite ; la carte de consigne le
+          franchit par la gauche. Miroir de la carte d'impact-362, à dix
+          crans, sur moniteur clair et non sur bascule sombre.
+        */
+        .i372-cadre {
+          position: absolute;
+          top: clamp(84px, 10.5vh, 116px);
+          right: 0;
+          bottom: 0;
+          left: 30%;
+          overflow: hidden;
+        }
+        .i372-carte {
+          position: relative;
+          z-index: 2;
+          width: min(520px, 44%);
+          margin-left: clamp(20px, 5vw, 72px);
+          background: ${C.bgCard};
+          border: 1px solid ${C.border};
+          border-right: 3px solid ${C.accent};
+          border-radius: 4px;
+          box-shadow: 0 60px 120px -60px rgba(16,26,44,0.6);
+          padding: clamp(22px, 2.8vw, 38px);
+        }
+        @media (max-width: 900px) {
+          .i372-herosec { display: block !important; }
+          .i372-cadre { position: absolute; inset: 0 0 auto 0; top: 0; left: 0; height: 42dvh; }
+          .i372-carte { width: auto; margin: calc(42dvh - 50px) 14px 20px; }
+        }
         .i372-split { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: clamp(32px,5vw,72px); align-items: center; }
         .i372-stats { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); }
         .i372-serv { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px,100%),1fr)); gap: clamp(16px,2vw,26px); }
@@ -711,8 +741,15 @@ export default function HorizonProtectionPage() {
       {/* ── HÉROS — H1 split, média à droite, TrackingCollapse ──────────── */}
       <section
         id="hero"
+        className="i372-herosec"
         style={{ position: "relative", minHeight: "100dvh", display: "flex", alignItems: "center", overflow: "hidden" }}
       >
+        {/* ── HERO — carte flottante en débord ─────────────────────────────
+               Le retour de vidéosurveillance tient un cadre sur la droite de
+               l'écran ; la consigne se pose dessus et franchit son bord
+               gauche. La grille texte-à-gauche / panneau-à-droite était la
+               charpente de la série. Le geste TrackingCollapse reste, dans
+               la carte. */}
         <TitreDeLaPage session={sessionData} />
         {/* La trame de veille : le quadrillage pâle d'un moniteur. */}
         <div
@@ -723,218 +760,121 @@ export default function HorizonProtectionPage() {
             pointerEvents: "none",
             backgroundImage: `linear-gradient(${C.veille} 1px, transparent 1px), linear-gradient(90deg, ${C.veille} 1px, transparent 1px)`,
             backgroundSize: "88px 88px",
-            maskImage: "radial-gradient(ellipse at 78% 30%, #000 0%, transparent 70%)",
-            WebkitMaskImage: "radial-gradient(ellipse at 78% 30%, #000 0%, transparent 70%)",
+            maskImage: "radial-gradient(ellipse at 20% 30%, #000 0%, transparent 70%)",
+            WebkitMaskImage: "radial-gradient(ellipse at 20% 30%, #000 0%, transparent 70%)",
           }}
         />
         <MotFantome top="10%" left="-2%">
           VIGILANCE
         </MotFantome>
 
-        <div
-          className="i372-hero"
-          style={{
-            position: "relative",
-            zIndex: 2,
-            width: "100%",
-            maxWidth: 1280,
-            margin: "0 auto",
-            padding: "clamp(120px,15vw,170px) clamp(20px,5vw,64px) clamp(48px,6vw,80px)",
-          }}
-        >
-          <div>
-            <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: EASE }}>
-              <Kicker>{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
-            </motion.div>
-
-            {/* ── GESTE : TrackingCollapse ────────────────────────────────
-                Le qualificatif de la présence arrive très espacé puis se
-                resserre — la vigilance qui se met en place. Resserrement
-                ample (0.38em → 0.02em), plus marqué que sur 341 et 357. */}
-            <motion.h2
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.95, delay: 0.055, ease: EASE }}
-              style={{
-                fontFamily: SERIF,
-                fontWeight: 500,
-                fontSize: "clamp(2.4rem,5.2vw,4.4rem)",
-                lineHeight: 1.0,
-                letterSpacing: "-0.018em",
-                color: C.ink,
-                margin: "clamp(18px,2.4vw,28px) 0 0",
-              }}
-            >
-              {ligne1}
-              <TrackingCollapse
-                word={S.word}
-                index={i}
-                from="0.38em"
-                to="0.02em"
-                style={{ color: C.accentDark, fontStyle: "italic", marginTop: 6 }}
-              />
-            </motion.h2>
-
-            <motion.p
-              initial={{ opacity: 0, y: 22 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.85, delay: 0.11, ease: EASE }}
-              style={{
-                fontSize: "clamp(15px,1.2vw,16.5px)",
-                color: C.textMuted,
-                lineHeight: 1.78,
-                maxWidth: 500,
-                margin: "clamp(20px,2.4vw,30px) 0 clamp(26px,3vw,36px)",
-              }}
-            >
-              {clientHeroPrestations(sessionData) ??
-                c?.heroSubline ??
-                "Commerces de centre-ville, résidences, événements privés : des agents formés à la relation autant qu'à la vigilance. La sécurité qui rassure vos clients au lieu de les inquiéter."}
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.85, delay: 0.165, ease: EASE }}
-              style={{ display: "flex", gap: 13, flexWrap: "wrap" }}
-            >
-              <BoutonConsigne href={telHref} large>
-                Étudier votre besoin
-              </BoutonConsigne>
-              <BoutonConsigne href="#services" plein={false} large>
-                Nos services
-              </BoutonConsigne>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.85, delay: 0.22, ease: EASE }}
-              style={{ marginTop: "clamp(28px,3.6vw,44px)" }}
-            >
-              <Filet />
-              <div style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap", paddingTop: 16 }}>
-                <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textMuted} className="" />
-                <div style={{ minWidth: 0, flex: "1 1 220px" }}>
-                  <motion.div key={i} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: EASE }}>
-                    <span
-                      style={{
-                        fontSize: 10.5,
-                        letterSpacing: "0.32em",
-                        textTransform: "uppercase",
-                        color: C.accent,
-                        display: "block",
-                        marginBottom: 5,
-                      }}
-                    >
-                      {S?.k}
-                    </span>
-                    <span style={{ fontSize: 13.5, color: C.textMuted }}>{S?.sub}</span>
-                  </motion.div>
-                </div>
-                <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" />
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Panneau média à droite : la photographie du thème (ou celle du
-              client), encadrée comme un retour de vidéosurveillance. */}
-          <motion.div
-            className="i372-heromedia"
-            initial={{ opacity: 0, y: 26 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.95, delay: 0.14, ease: EASE }}
-            style={{ position: "relative" }}
-          >
+        {/* ── Le cadre : le retour caméra, à droite ──────────────────────── */}
+        <div className="i372-cadre">
+          {heroImg ? (
+            <img
+              src={heroImg}
+              alt="Agent en ronde devant un commerce"
+              loading="eager"
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
+          ) : (
             <div
-              style={{
-                position: "relative",
-                border: `1px solid ${C.border}`,
-                borderRadius: 4,
-                overflow: "hidden",
-                aspectRatio: "4/5",
-                background: `linear-gradient(165deg, ${C.bgDark} 0%, ${C.bgDarkAlt} 100%)`,
-                boxShadow: "0 40px 80px -48px rgba(16,26,44,0.45)",
-              }}
-            >
-              {heroImg ? (
-                <img
-                  src={heroImg}
-                  alt="Agent en ronde devant un commerce"
-                  loading="eager"
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                />
-              ) : (
-                <div
-                  aria-hidden
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    backgroundImage: `linear-gradient(rgba(157,184,218,0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(157,184,218,0.10) 1px, transparent 1px)`,
-                    backgroundSize: "36px 36px",
-                  }}
-                />
-              )}
-              {/* La réglette de veille, par-dessus la photo comme sans elle. */}
-              <div
-                style={{
-                  position: "absolute",
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  background: "rgba(10,18,32,0.88)",
-                  borderTop: `1px solid rgba(157,184,218,0.22)`,
-                  padding: "12px 18px",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 12,
-                }}
-              >
-                <span
-                  aria-hidden
-                  className="i372-pulse"
-                  style={{ width: 7, height: 7, borderRadius: 999, background: C.hi, flexShrink: 0 }}
-                />
-                <motion.span
-                  key={i}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.6, ease: EASE }}
-                  style={{
-                    fontSize: 10.5,
-                    letterSpacing: "0.30em",
-                    textTransform: "uppercase",
-                    color: "rgba(255,255,255,0.78)",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                >
-                  {S?.k} · {ville}
-                </motion.span>
-              </div>
-            </div>
-            {/* Le cartouche d'autorisation, posé sur le coin du panneau. */}
-            <div
+              aria-hidden
               style={{
                 position: "absolute",
-                top: -14,
-                right: -10,
-                background: C.bgCard,
-                border: `1px solid ${C.border}`,
-                borderRadius: 3,
-                padding: "10px 16px",
-                boxShadow: "0 18px 40px -26px rgba(16,26,44,0.4)",
+                inset: 0,
+                background: `linear-gradient(165deg, ${C.bgDark} 0%, ${C.bgDarkAlt} 100%)`,
+                backgroundImage: `linear-gradient(rgba(157,184,218,0.10) 1px, transparent 1px), linear-gradient(90deg, rgba(157,184,218,0.10) 1px, transparent 1px)`,
+                backgroundSize: "36px 36px",
               }}
+            />
+          )}
+          {/* Le voile s'épaissit vers la gauche, là où la carte se pose. */}
+          <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(260deg, rgba(10,18,32,0.12) 0%, rgba(10,18,32,0.04) 44%, rgba(10,18,32,0.6) 100%)" }} />
+
+          {/* La réglette de veille, en pied de cadre. */}
+          <div
+            style={{ position: "absolute", left: 0, right: 0, bottom: 0, background: "rgba(10,18,32,0.88)", borderTop: `1px solid rgba(157,184,218,0.22)`, padding: "12px 18px", display: "flex", alignItems: "center", gap: 12 }}
+          >
+            <span aria-hidden className="i372-pulse" style={{ width: 7, height: 7, borderRadius: 999, background: C.hi, flexShrink: 0 }} />
+            <motion.span
+              key={i}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, ease: EASE }}
+              style={{ fontSize: 10.5, letterSpacing: "0.30em", textTransform: "uppercase", color: "rgba(255,255,255,0.78)", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", minWidth: 0 }}
             >
-              <span style={{ display: "block", fontSize: 9.5, letterSpacing: "0.32em", textTransform: "uppercase", color: C.accent, fontWeight: 600 }}>
-                CNAPS
-              </span>
-              <span style={{ display: "block", fontSize: 11, color: C.textMuted, marginTop: 3, letterSpacing: "0.06em" }}>
-                Autorisation affichée
-              </span>
+              {S?.k} · {ville}
+            </motion.span>
+            {/* La fraction ne disait pas ce qu'on regardait ; ces traits
+                mènent directement à chaque dispositif. */}
+            <div style={{ display: "flex", gap: 8, marginLeft: "auto", flexShrink: 0 }}>
+              {HERO.map((h: any, n: number) => (
+                <button
+                  key={h.k ?? n}
+                  type="button"
+                  onClick={() => go(n)}
+                  aria-label={h.k ?? `Dispositif ${n + 1}`}
+                  aria-current={n === i}
+                  style={{ width: 30, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === i ? C.hi : "rgba(255,255,255,0.3)", transition: "background .3s" }}
+                />
+              ))}
             </div>
+          </div>
+        </div>
+
+        {/* ── LA CARTE — la consigne, elle franchit le bord du cadre ─────── */}
+        <div className="i372-carte">
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, ease: EASE }}>
+            <Kicker>{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
           </motion.div>
+
+          {/* ── GESTE : TrackingCollapse — le qualificatif se resserre. ── */}
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.95, delay: 0.055, ease: EASE }}
+            style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(2rem,3.6vw,3.4rem)", lineHeight: 1.02, letterSpacing: "-0.018em", color: C.ink, margin: "clamp(16px,2.2vw,26px) 0 0", overflowWrap: "break-word" }}
+          >
+            {ligne1}
+            <TrackingCollapse word={S.word} index={i} from="0.38em" to="0.02em" style={{ color: C.accentDark, marginTop: 6 }} />
+          </motion.h2>
+
+          <motion.p
+            initial={{ opacity: 0, y: 22 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.85, delay: 0.11, ease: EASE }}
+            style={{ fontSize: "clamp(14px,1.15vw,16px)", color: C.textMuted, lineHeight: 1.78, margin: "clamp(16px,2vw,24px) 0 clamp(20px,2.6vw,30px)" }}
+          >
+            {clientHeroPrestations(sessionData) ??
+              c?.heroSubline ??
+              "Commerces de centre-ville, résidences, événements privés : des agents formés à la relation autant qu'à la vigilance. La sécurité qui rassure vos clients au lieu de les inquiéter."}
+          </motion.p>
+
+          {/* Une seule action pleine ; les services restent un lien. */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.85, delay: 0.165, ease: EASE }}
+            style={{ display: "flex", gap: "clamp(16px,2vw,24px)", flexWrap: "wrap", alignItems: "center" }}
+          >
+            <BoutonConsigne href={telHref} large>
+              Étudier votre besoin
+            </BoutonConsigne>
+            <a href="#services" style={{ fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+              Nos services
+            </a>
+          </motion.div>
+
+          {/* Le cartouche d'autorisation, en pied de carte. */}
+          <div style={{ marginTop: "clamp(20px,2.6vw,30px)", paddingTop: 16, borderTop: `1px solid ${C.border}`, display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 14, flexWrap: "wrap" }}>
+            <span style={{ fontSize: 9.5, letterSpacing: "0.32em", textTransform: "uppercase", color: C.accent, fontWeight: 600 }}>
+              CNAPS
+            </span>
+            <span style={{ fontSize: 11, color: C.textMuted, letterSpacing: "0.06em" }}>
+              Autorisation affichée
+            </span>
+          </div>
         </div>
       </section>
 
