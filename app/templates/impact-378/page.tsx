@@ -6,7 +6,6 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, CheckCircle, Clock, Landmark, Mail, MapPin, Phone, ShieldCheck, Star, TrendingUp } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { StickyProgress } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
@@ -187,7 +186,8 @@ export default function CapHorizonPatrimoinePage() {
 
         @media (max-width: 900px) { #i378-nav { display: none !important; } .i378-burger { display: flex !important; } }
         @media (max-width: 860px) {
-          .i378-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
+          .i378-hero { padding: 118px 24px 40px !important; gap: 24px !important; }
+          .i378-hero [style*="aspect-ratio"] { aspect-ratio: 4 / 3 !important; }
           .i378-card { max-width: 380px; margin: 0 auto; width: 100%; }
           .i378-split { grid-template-columns: 1fr !important; }
           .i378-stats { grid-template-columns: 1fr 1fr !important; row-gap: 8px; }
@@ -233,29 +233,56 @@ export default function CapHorizonPatrimoinePage() {
         </div>
       )}
 
-      {/* ── HERO ────────────────────────────────────────────────────────── */}
-<section className="i378-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.08fr) minmax(0,0.92fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1260, margin: "0 auto" }}>
-        <div>
+      {/* ── HERO — devanture centrée ──────────────────────────────────────
+             Une colonne unique au milieu, l'étude de portefeuille en vitrine
+             large dessous. La grille texte-à-gauche / carte-à-droite était
+             la charpente de la série — et ce conteneur était identique au
+             caractère près à ceux d'impact-373 et d'impact-382 avant leurs
+             refontes. */}
+      <section className="i378-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", gap: "clamp(24px, 3.2vh, 40px)", padding: "clamp(118px, 14vh, 150px) clamp(24px, 5vw, 64px) clamp(44px, 6vh, 70px)", maxWidth: 1260, margin: "0 auto" }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%" }}>
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
             Gestion de patrimoine · {clientCity(sessionData) ?? "Lyon"}
           </motion.span>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 16) ?? "Votre patrimoine mérite"}<br /><em style={{ color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 16) ?? "une stratégie, pas des produits."}</em></>)}
-          </>)}</motion.h1>
-          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
+          {/*
+            Titre d'un seul tenant, d'une seule couleur : la seconde ligne
+            dans l'accent était la signature de gabarit de la série.
+          */}
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(32px, 4.8vw, 62px)", color: C.text, lineHeight: 1.08, margin: "18px 0 18px", maxWidth: 860, overflowWrap: "break-word" }}>
+            {/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ??
+              c?.heroHeadline ??
+              clientHeroLine(sessionData, 0, 1, 40) ??
+              "Votre patrimoine mérite une stratégie, pas des produits."}
+          </motion.h1>
+          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: "clamp(14.5px, 1.3vw, 16.5px)", color: C.textMuted, lineHeight: 1.75, maxWidth: 660, margin: "0 auto 24px" }}>
             {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Conseillers en investissements financiers (statut CIF, contrôle AMF) : bilan patrimonial complet, stratégie écrite, mise en œuvre suivie — rémunération transparente, sans produit maison à écouler."}
           </motion.p>
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+          {/* Une seule action pleine ; l'approche reste un lien. */}
+          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center", justifyContent: "center" }}>
             <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
               Demander un bilan <ArrowRight size={16} />
             </motion.a>
-            <motion.a href="#services" style={{ background: C.white, color: C.text, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ borderColor: C.accent }}>
+            <a href="#services" style={{ fontSize: 13, color: C.text, textDecoration: "none", borderBottom: `1px solid ${C.accentDark}`, paddingBottom: 3 }}>
               Notre approche
-            </motion.a>
+            </a>
           </motion.div>
-          
         </div>
-        <div className="i378-card"><div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3.2", justifyContent: "center" , overflow: "hidden" }}><img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/7693722/pexels-photo-7693722.jpeg?auto=compress&cs=tinysrgb&w=1400"))} alt="Étude de portefeuille avec le client" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div></div>
+
+        {/* ── LA VITRINE — l'étude de portefeuille, en bandeau large ─────── */}
+        <div style={{ width: "100%" }}>
+          <div style={{ position: "relative", borderRadius: 14, border: `1px solid ${C.border}`, background: C.accentLight, overflow: "hidden", aspectRatio: "21 / 8" }}>
+            <img
+              src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/7693722/pexels-photo-7693722.jpeg?auto=compress&cs=tinysrgb&w=1600"))}
+              alt="Étude de portefeuille avec le client"
+              loading="eager"
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
+            <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(20,26,32,0.45) 0%, rgba(20,26,32,0.05) 46%, transparent 74%)" }} />
+            <div style={{ position: "absolute", left: "clamp(16px, 2.4vw, 28px)", bottom: 14, textAlign: "left", fontSize: 12.5, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(255,255,255,0.9)", textShadow: "0 4px 16px rgba(0,0,0,0.5)" }}>
+              Bilan · stratégie · suivi
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* ── STATS ───────────────────────────────────────────────────────── */}

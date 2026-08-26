@@ -98,8 +98,8 @@ d'écart, et jamais avec les mêmes proportions.
 | 374 | VTC | `diagonale` | fait |
 | 375 | vitrier | `chiffre` | fait |
 | 376 | vitrier | `typo` | fait |
-| 377 | école de musique | `liste` | à faire |
-| 378 | gestion de patrimoine | `devanture` | à faire |
+| 377 | école de musique | `liste` | fait |
+| 378 | gestion de patrimoine | `devanture` | fait |
 | 379 | menuisier | `pleincadre` | à faire |
 | 380 | brasserie | `editorial` | à faire |
 | 381 | caviste | `bandeau` | à faire |

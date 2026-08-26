@@ -7,7 +7,7 @@ import { ArrowRight, CheckCircle, Clock, Mail, MapPin, Mic2, Music4, Phone, Star
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
-import { ScrollGrow, FixedRail } from "@/lib/templates/hero-kit-3";
+import { ScrollGrow } from "@/lib/templates/hero-kit-3";
 import {
   clientAddress,
   clientCertifications,
@@ -298,6 +298,24 @@ export default function StudioGammePage() {
     <div style={{ background: C.bg, color: C.ink, fontFamily: FONT_BODY, overflowX: "clip", WebkitFontSmoothing: "antialiased" }}>
       <style>{`${FONTS_CSS}
 
+        /*
+          ── Héros « liste immédiate » ──────────────────────────────────────
+          Le programme des cours posé d'emblée, mesure par mesure.
+        */
+        .i377-annonce {
+          display: grid;
+          grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.9fr);
+          gap: clamp(24px, 4vw, 64px);
+          align-items: end;
+        }
+        .i377-ligne { transition: background .3s ease, padding-left .3s ease; }
+        .i377-ligne:hover { background: ${C.accentLight}; padding-left: clamp(8px, 1.2vw, 18px); }
+        @media (max-width: 900px) {
+          .i377-annonce { grid-template-columns: minmax(0,1fr); row-gap: 22px; align-items: start; }
+          .i377-tag { display: none; }
+          .i377-stats { grid-template-columns: 1fr 1fr !important; row-gap: 8px; }
+        }
+
         @media (max-width: 900px) { #i377-nav { display: none !important; } .i377-burger { display: flex !important; } }
         @media (max-width: 860px) {
           .i377-rail { display: none !important; }
@@ -381,88 +399,109 @@ export default function StudioGammePage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          padding: "clamp(120px,15vh,170px) clamp(24px,6vw,88px) clamp(40px,6vh,72px)",
-          paddingLeft: "calc(clamp(52px,5.5vw,74px) + clamp(24px,5vw,72px))",
+          gap: "clamp(20px,2.8vh,36px)",
+          padding: "clamp(112px,13vh,150px) clamp(24px,6vw,88px) clamp(36px,5vh,64px)",
           background: C.bg,
           overflow: "clip",
         }}
       >
-        {/* Le rail : la barre qui ne bouge jamais pendant que le titre grandit. */}
-        <FixedRail color={C.accentDark} side="left" width="clamp(52px,5.5vw,74px)" className="i377-rail">
-          <span aria-hidden style={{ writingMode: "vertical-rl", fontFamily: FONT, fontSize: 10, letterSpacing: "0.34em", textTransform: "uppercase", color: "rgba(255,255,255,0.78)", whiteSpace: "nowrap" }}>
-            {nom} · {ville}
-          </span>
-          {/* L'échelle des nuances : le crescendo du rail, pp muet, ff allumé. */}
-          <div aria-hidden style={{ display: "flex", flexDirection: "column", gap: 7, alignItems: "center" }}>
-            {NUANCES.map((nu, k) => (
-              <span key={nu} style={{ fontFamily: FONT, fontStyle: "italic", fontSize: 10 + k * 1.1, lineHeight: 1, color: k === NUANCES.length - 1 ? C.neon : `rgba(255,255,255,${0.26 + k * 0.1})` }}>{nu}</span>
-            ))}
-          </div>
-        </FixedRail>
+        {/* ── HERO — liste immédiate : le programme sur la portée ──────────
+               Une école se lit comme un programme de cours, pas comme une
+               affiche : les six enseignements sont posés d'emblée, chacun
+               sur sa ligne de portée, numérotés comme des mesures. Le rail
+               vertical FixedRail — une colonne de plus — s'efface ; le
+               crescendo ScrollGrow reste sur le titre. */}
 
         {/* Portées en filets : la texture du métier, sans image. */}
-        <Portee height={64} opacity={0.85} style={{ position: "absolute", top: "16%", left: 0, right: 0 }} />
-        <Portee height={64} opacity={0.5} style={{ position: "absolute", bottom: "26%", left: 0, right: 0 }} />
+        <Portee height={64} opacity={0.6} style={{ position: "absolute", top: "12%", left: 0, right: 0 }} />
         {/* Nuance fantôme — opacité sous 0.1, jamais cliquable. */}
-        <span aria-hidden style={{ position: "absolute", right: "clamp(8px,4vw,60px)", top: "8%", fontFamily: FONT, fontStyle: "italic", fontWeight: 300, fontSize: "clamp(160px,26vw,380px)", lineHeight: 1, color: C.accent, opacity: 0.06, pointerEvents: "none", userSelect: "none" }}>ff</span>
+        <span aria-hidden style={{ position: "absolute", right: "clamp(8px,4vw,60px)", top: "6%", fontFamily: FONT, fontStyle: "italic", fontWeight: 300, fontSize: "clamp(140px,22vw,320px)", lineHeight: 1, color: C.accent, opacity: 0.06, pointerEvents: "none", userSelect: "none" }}>ff</span>
         {/* Glow de scène, radial et discret. */}
         <div aria-hidden style={{ position: "absolute", inset: 0, background: `radial-gradient(60% 46% at 68% 30%, rgba(109,40,168,0.10), transparent 70%)`, pointerEvents: "none" }} />
 
-        <div style={{ position: "relative", zIndex: 2, maxWidth: 1180 }}>
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15, duration: 0.7, ease: EASE }}>
-            <Kicker>{clientEyebrow(sessionData) ?? <>École de musiques actuelles · {ville}</>}</Kicker>
-          </motion.div>
+        {/* L'annonce : d'où l'on parle, et par où commencer. */}
+        <div className="i377-annonce" style={{ position: "relative", zIndex: 2 }}>
+          <div style={{ minWidth: 0 }}>
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.15, duration: 0.7, ease: EASE }}>
+              <Kicker>{clientEyebrow(sessionData) ?? <>École de musiques actuelles · {ville}</>}</Kicker>
+            </motion.div>
 
-          {/* Le geste : ScrollGrow sur le titre. On défile, il grandit — crescendo. */}
-          <ScrollGrow from={1} to={1.34} fade>
-            <motion.h1
-              initial={{ opacity: 0, y: 34 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.95, ease: EASE }}
-              style={{
-                fontFamily: FONT_TITRE,
-                fontWeight: 700,
-                fontSize: "clamp(46px,8.6vw,124px)",
-                lineHeight: 0.98,
-                letterSpacing: "-0.025em",
-                color: C.ink,
-                margin: "clamp(18px,2.6vw,34px) 0 clamp(16px,2vw,26px)",
-              }}
-            >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-              {c?.heroHeadline ?? (<>
-                {clientHeroLine(sessionData, 0, 2, 16) ?? "Jouer les morceaux"}
-                <br />
-                <span style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 16) ?? (<>que vous écoutez <em style={{ fontFamily: FONT, fontWeight: 500 }}>vraiment.</em></>)}</span>
-              </>)}
-            </>)}</motion.h1>
-          </ScrollGrow>
+            {/* Le geste : ScrollGrow sur le titre. On défile, il grandit — crescendo. */}
+            <ScrollGrow from={1} to={1.18} fade>
+              <motion.h1
+                initial={{ opacity: 0, y: 34 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3, duration: 0.95, ease: EASE }}
+                style={{
+                  fontFamily: FONT_TITRE,
+                  fontWeight: 700,
+                  fontSize: "clamp(34px,5vw,66px)",
+                  lineHeight: 1.0,
+                  letterSpacing: "-0.025em",
+                  color: C.ink,
+                  margin: "clamp(16px,2.2vw,26px) 0 0",
+                  maxWidth: 700,
+                  overflowWrap: "break-word",
+                }}
+              >
+                {/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ??
+                  c?.heroHeadline ??
+                  clientHeroLine(sessionData, 0, 1, 34) ?? (
+                    <>
+                      Jouer les morceaux <span style={{ color: C.accent }}>que vous écoutez vraiment.</span>
+                    </>
+                  )}
+              </motion.h1>
+            </ScrollGrow>
+          </div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.52, duration: 0.8, ease: EASE }}
-            style={{ fontSize: "clamp(15.5px,1.4vw,17.5px)", color: C.textMuted, lineHeight: 1.75, maxWidth: 500, marginBottom: "clamp(26px,3vw,38px)" }}
-          >
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Guitare, batterie, chant, MAO : des cours individuels sur les musiques que vous aimez, des ateliers de groupe dès le troisième mois, et une vraie scène chaque trimestre. La théorie vient en jouant."}
-          </motion.p>
-
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.8, ease: EASE }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-            <CtaButton href={telHref} big>Réserver un cours d'essai</CtaButton>
-            <CtaButton href="#services" ghost>Les cours</CtaButton>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, duration: 0.8, ease: EASE }} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 16 }}>
+            <p style={{ fontSize: "clamp(14px,1.2vw,15.5px)", color: C.textMuted, lineHeight: 1.75, maxWidth: 380, margin: 0 }}>
+              {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Guitare, batterie, chant, MAO : des cours individuels sur les musiques que vous aimez, des ateliers de groupe dès le troisième mois, et une vraie scène chaque trimestre. La théorie vient en jouant."}
+            </p>
+            {/* Une seule action pleine ; les cours restent un lien. */}
+            <div style={{ display: "flex", gap: "clamp(14px,2vw,24px)", flexWrap: "wrap", alignItems: "center" }}>
+              <CtaButton href={telHref} big>Réserver un cours d'essai</CtaButton>
+              <a href="#services" style={{ fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+                Les cours
+              </a>
+            </div>
           </motion.div>
         </div>
 
-        {/* Chiffres intégrés au héros : posés SUR une portée, séparés de barres
-            de mesure — pas de bande sombre standard. */}
-        <div style={{ position: "relative", zIndex: 2, marginTop: "clamp(44px,7vh,84px)", maxWidth: 1180 }}>
+        {/* ── LE PROGRAMME — les six enseignements, mesure par mesure ────── */}
+        <nav aria-label="Les cours" style={{ position: "relative", zIndex: 2, borderTop: `1px solid ${C.border}` }}>
+          {SERVICES_DEMO.slice(0, 6).map((sv: any, n: number) => (
+            <Reveal key={sv.titre ?? n} delay={0.5 + n * 0.05} y={10}>
+              <a
+                href="#services"
+                className="i377-ligne"
+                style={{ display: "grid", gridTemplateColumns: "clamp(28px,3.4vw,48px) minmax(0,1fr) auto", alignItems: "baseline", gap: "clamp(12px,2vw,26px)", padding: "clamp(9px,1.3vh,15px) 0", borderBottom: `1px solid ${C.border}`, textDecoration: "none", color: "inherit" }}
+              >
+                <span style={{ fontFamily: FONT, fontStyle: "italic", fontSize: 12, fontWeight: 600, color: C.accentDark, fontVariantNumeric: "tabular-nums" }}>
+                  {String(n + 1).padStart(2, "0")}
+                </span>
+                <span style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(17px,2vw,27px)", lineHeight: 1.16, letterSpacing: "-0.018em", color: C.ink }}>
+                  {sv.titre}
+                </span>
+                <span className="i377-tag" style={{ fontFamily: FONT, fontSize: 10, fontWeight: 600, letterSpacing: "0.24em", textTransform: "uppercase", color: C.textFaint, whiteSpace: "nowrap" }}>
+                  {sv.tag ?? ""}
+                </span>
+              </a>
+            </Reveal>
+          ))}
+        </nav>
+
+        {/* Les chiffres, posés sur leur portée — la signature du thème. */}
+        <div style={{ position: "relative", zIndex: 2 }}>
           <Reveal delay={0.15}>
             <div style={{ position: "relative" }}>
               <Portee height={48} opacity={0.9} style={{ position: "absolute", left: 0, right: 0, top: "50%", transform: "translateY(-50%)" }} />
               <div className="i377-stats" style={{ position: "relative", display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", gap: 0 }}>
                 {STATS.map((s, idx) => (
                   <div key={s.label} className="i377-statcell" style={{ padding: "clamp(10px,1.4vw,16px) clamp(12px,1.6vw,22px)", borderRight: idx < STATS.length - 1 ? `1px solid ${C.border}` : "none", background: "transparent" }}>
-                    <div style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(24px,2.6vw,34px)", letterSpacing: "-0.02em", color: C.accentDark, lineHeight: 1, background: C.bg, display: "inline-block", padding: "2px 6px 2px 0" }}>{s.value}</div>
-                    <div style={{ fontSize: 12.5, color: C.textMuted, marginTop: 6, lineHeight: 1.45, background: C.bg, display: "inline-block", paddingRight: 6 }}>{s.label}</div>
+                    <div style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(21px,2.3vw,30px)", letterSpacing: "-0.02em", color: C.accentDark, lineHeight: 1, background: C.bg, display: "inline-block", padding: "2px 6px 2px 0" }}>{s.value}</div>
+                    <div style={{ fontSize: 12, color: C.textMuted, marginTop: 6, lineHeight: 1.45, background: C.bg, display: "inline-block", paddingRight: 6 }}>{s.label}</div>
                   </div>
                 ))}
               </div>
