@@ -6,7 +6,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, CheckCircle, Clock, Home, Mail, MapPin, PawPrint, Phone, Scissors, Star } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { PushBlur } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
@@ -157,7 +157,7 @@ export default function PoilsEtCompagniePage() {
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i, go } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
 
@@ -223,45 +223,80 @@ export default function PoilsEtCompagniePage() {
         </div>
       )}
 
-      {/* ── HERO ────────────────────────────────────────────────────────── */}
-<section className="i383-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.08fr) minmax(0,0.92fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1260, margin: "0 auto" }}>
-        <div>
-          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
-            Toilettage & pension · {clientCity(sessionData) ?? "Angers"}
-          </motion.span>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 13) ?? "Votre chien ressort beau."}<br /><em style={{ color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 13) ?? "Et surtout, détendu."}</em></>)}
-          </>)}</motion.h1>
-          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Un salon sans cage d'attente, un seul animal à la fois, des produits adaptés'à la peau : le toilettage pensé pour l'animal avant la photo. Et une pension familiale de six places quand vous partez."}
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-            <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
-              Prendre rendez-vous <ArrowRight size={16} />
-            </motion.a>
-            <motion.a href="#services" style={{ background: C.white, color: C.text, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ borderColor: C.accent }}>
-              Nos prestations
-            </motion.a>
-          </motion.div>
-          
-          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 42, flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textMuted} className="" />
-            <span style={{ fontSize: 13.5, color: C.textMuted }}>
-              <strong style={{ color: C.text, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.text} className="" />
-          </div>
-        </div>
-        <div className="i383-card">
+      {/* ── HERO — split inversé : l'animal à gauche, la parole à droite ──
+             L'image ouvre la page ; le texte la suit — l'inverse du réflexe
+             de la série. Le geste PushBlur reste sur la photographie, qui
+             occupe toute la hauteur de sa colonne au lieu d'une carte. */}
+      <section className="i383-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,0.95fr) minmax(0,1.05fr)", gap: "clamp(28px, 4.5vw, 62px)", alignItems: "center", padding: "clamp(118px, 15vh, 150px) clamp(24px, 5vw, 64px) clamp(48px, 7vh, 70px)", maxWidth: 1260, margin: "0 auto" }}>
+        {/* ── L'animal, à gauche — pleine hauteur de colonne ─────────────── */}
+        <div className="i383-animal" style={{ position: "relative", minWidth: 0 }}>
           <PushBlur index={i} amount={16}>
-            <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 10, overflow: "hidden", boxShadow: "0 18px 52px rgba(0,0,0,0.18)" }}>
-              <div style={{ aspectRatio: "4/3", background: C.accentLight , overflow: "hidden" }}><img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/6816837/pexels-photo-6816837.jpeg?auto=compress&cs=tinysrgb&w=1400"))} alt="Toilettage sur table" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div>
-              <div style={{ padding: "22px 24px 24px", borderTop: `3px solid ${C.accent}` }}>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.accentDark, marginBottom: 8 }}>{S.k}</div>
-                <div style={{ fontFamily: FONT, fontSize: 19, color: C.text, lineHeight: 1.35 }}>{S.line}</div>
+            <div style={{ position: "relative", borderRadius: 16, overflow: "hidden", background: C.accentLight, aspectRatio: "4 / 4.5", boxShadow: "0 42px 80px -52px rgba(43,34,25,0.5)" }}>
+              <img
+                src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/6816837/pexels-photo-6816837.jpeg?auto=compress&cs=tinysrgb&w=1400"))}
+                alt="Toilettage sur table"
+                loading="eager"
+                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              />
+              <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(43,34,25,0.5) 0%, rgba(43,34,25,0.05) 42%, transparent 70%)" }} />
+              {/* La prestation montrée, posée sur l'image. */}
+              <div style={{ position: "absolute", left: 18, right: 18, bottom: 14, display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 12 }}>
+                <motion.span key={`k-${i}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: "#fff", textShadow: "0 4px 18px rgba(0,0,0,0.6)" }}>
+                  {S.k}
+                </motion.span>
+                {/*
+                  La fraction « 01 / 03 » ne disait pas ce qu'on regardait ;
+                  ces traits mènent directement à chaque prestation.
+                */}
+                <div style={{ display: "flex", gap: 7, flexShrink: 0 }}>
+                  {HERO.map((h: any, n: number) => (
+                    <button
+                      key={h.k ?? n}
+                      type="button"
+                      onClick={() => go(n)}
+                      aria-label={h.k ?? `Prestation ${n + 1}`}
+                      aria-current={n === i}
+                      style={{ width: 30, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === i ? C.accent : "rgba(255,255,255,0.4)", transition: "background .3s" }}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </PushBlur>
+        </div>
+
+        {/* ── La parole, à droite ────────────────────────────────────────── */}
+        <div style={{ minWidth: 0 }}>
+          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
+            Toilettage & pension · {clientCity(sessionData) ?? "Angers"}
+          </motion.span>
+          {/*
+            Titre d'un seul tenant, d'une seule couleur : la seconde ligne
+            dans l'accent était la signature de gabarit de la série.
+          */}
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(32px, 4.4vw, 58px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px", overflowWrap: "break-word" }}>
+            {/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ??
+              c?.heroHeadline ??
+              clientHeroLine(sessionData, 0, 1, 34) ??
+              "Votre chien ressort beau. Et surtout, détendu."}
+          </motion.h1>
+          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 30 }}>
+            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Un salon sans cage d'attente, un seul animal à la fois, des produits adaptés à la peau : le toilettage pensé pour l'animal avant la photo. Et une pension familiale de six places quand vous partez."}
+          </motion.p>
+          {/* Une seule action pleine ; les prestations restent un lien. */}
+          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center" }}>
+            <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
+              Prendre rendez-vous <ArrowRight size={16} />
+            </motion.a>
+            <a href="#services" style={{ fontSize: 13, color: C.text, textDecoration: "none", borderBottom: `1px solid ${C.accentDark}`, paddingBottom: 3 }}>
+              Nos prestations
+            </a>
+          </motion.div>
+
+          {/* La légende de la prestation montrée. */}
+          <motion.div key={`sub-${i}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} style={{ marginTop: 34, paddingTop: 18, borderTop: `1px solid ${C.border}`, fontSize: 13.5, color: C.textMuted, lineHeight: 1.6 }}>
+            <strong style={{ color: C.text, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
+          </motion.div>
         </div>
       </section>
 

@@ -6,7 +6,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, CheckCircle, Clock, Handshake, Mail, MapPin, Phone, Star, Target, Users } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, WordFlight, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, WordFlight, useSlides } from "@/lib/templates/hero-kit-2";
 import {
   clientCertifications,
   clientAddress,
@@ -171,7 +171,7 @@ export default function TrajectoiresRhPage() {
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i, go } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
 
@@ -188,6 +188,39 @@ export default function TrajectoiresRhPage() {
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
       <style>{`${FONTS_CSS}
+
+        /*
+          ── Héros « carte flottante en débord » ────────────────────────────
+          Le cadre de l'entretien occupe le haut-droit ; la carte du cabinet
+          franchit son bord bas-gauche. Carte claire sur photo claire — le
+          contraire de la carte sombre de 342 et de celle, latérale, de 372.
+        */
+        .i382-cadre {
+          position: absolute;
+          top: clamp(76px, 9.5vh, 104px);
+          right: 0;
+          left: 24%;
+          bottom: clamp(60px, 10vh, 130px);
+          overflow: hidden;
+          border-radius: 0 0 0 14px;
+        }
+        .i382-carte {
+          position: relative;
+          z-index: 2;
+          width: min(600px, 52%);
+          margin: 0 0 clamp(20px, 3.4vh, 44px) clamp(24px, 5vw, 64px);
+          background: ${C.white};
+          border: 1px solid ${C.border};
+          border-left: 3px solid ${C.accentDark};
+          border-radius: 10px;
+          box-shadow: 0 60px 120px -60px rgba(16,20,26,0.5);
+          padding: clamp(24px, 3vw, 40px);
+        }
+        @media (max-width: 900px) {
+          .i382-hero { display: block !important; }
+          .i382-cadre { top: 0; left: 0; bottom: auto; height: 40dvh; border-radius: 0; }
+          .i382-carte { width: auto; margin: calc(40dvh - 50px) 14px 20px; }
+        }
 
         @media (max-width: 900px) { #i382-nav { display: none !important; } .i382-burger { display: flex !important; } }
         @media (max-width: 860px) {
@@ -237,26 +270,66 @@ export default function TrajectoiresRhPage() {
         </div>
       )}
 
-      {/* ── HERO ────────────────────────────────────────────────────────── */}
-
-      <section className="i382-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "140px 64px 70px", maxWidth: 1080, margin: "0 auto" }}>
-        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Recrutement & chasse · {clientCity(sessionData) ?? "Nantes"}</span>
-        <h1 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(34px, 5vw, 64px)", color: C.text, lineHeight: 1.12, margin: "18px 0 8px", minHeight: "2.3em" }}><WordFlight text={S.line} keyed={i} className="" /></h1>
-        <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
-          {c?.heroSubline ?? "Cadres, techniciens, dirigeants : un cabinet qui rencontre chaque candidat, comprend votre entreprise avant de chercher, et garantit son recrutement pendant un an. Les PME du Grand Ouest méritent mieux qu'un CV de plus."}
-        </p>
-        <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-          <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
-            Confier un recrutement <ArrowRight size={16} />
-          </motion.a>
-          <motion.a href="#services" style={{ background: C.white, color: C.text, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ borderColor: C.accent }}>
-            Nos prestations
-          </motion.a>
+      {/* ── HERO — carte flottante en débord ─────────────────────────────
+             L'entretien photographié tient un cadre en haut à droite ; la
+             carte du cabinet se pose dessus et franchit son bord bas-gauche.
+             Ce conteneur était l'un des trois clones au caractère près
+             mesurés en début de chantier (avec 373 et 376). Le geste
+             WordFlight reste, dans la carte. */}
+      <section className="i382-hero" style={{ minHeight: "100dvh", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden", background: C.bg }}>
+        {/* ── Le cadre : l'entretien, en haut à droite ───────────────────── */}
+        <div className="i382-cadre">
+          <img
+            src={photo(0, "https://images.pexels.com/photos/36733328/pexels-photo-36733328.jpeg?auto=compress&cs=tinysrgb&w=1600")}
+            alt="Entretien de recrutement"
+            loading="eager"
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+          />
+          {/* Le voile s'épaissit vers le bas-gauche, là où la carte se pose. */}
+          <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(198deg, rgba(16,20,26,0.1) 0%, rgba(16,20,26,0.04) 42%, rgba(16,20,26,0.5) 100%)" }} />
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 44, flexWrap: "wrap" }}>
-          <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textMuted} className="" />
-          <span style={{ fontSize: 13.5, color: C.textMuted }}><strong style={{ color: C.text, fontWeight: 700 }}>{S.k}</strong> — {S.sub}</span>
-          <HairlineArrows onPrev={prev} onNext={next} color={C.text} className="" />
+
+        {/* ── LA CARTE — elle franchit le bord du cadre ──────────────────── */}
+        <div className="i382-carte">
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>Recrutement & chasse · {clientCity(sessionData) ?? "Nantes"}</span>
+          <h1 style={{ fontFamily: FONT_TITRE, fontSize: "clamp(28px, 3.8vw, 52px)", color: C.text, lineHeight: 1.1, margin: "16px 0 8px", minHeight: "2.3em", overflowWrap: "break-word" }}>
+            <WordFlight text={S.line} keyed={i} className="" />
+          </h1>
+          <p style={{ fontSize: "clamp(14px, 1.2vw, 16px)", color: C.textMuted, lineHeight: 1.75, margin: "10px 0 26px" }}>
+            {c?.heroSubline ?? "Cadres, techniciens, dirigeants : un cabinet qui rencontre chaque candidat, comprend votre entreprise avant de chercher, et garantit son recrutement pendant un an. Les PME du Grand Ouest méritent mieux qu'un CV de plus."}
+          </p>
+          {/* Une seule action pleine ; les prestations restent un lien. */}
+          <div style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center" }}>
+            <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
+              Confier un recrutement <ArrowRight size={16} />
+            </motion.a>
+            <a href="#services" style={{ fontSize: 13, color: C.text, textDecoration: "none", borderBottom: `1px solid ${C.accentDark}`, paddingBottom: 3 }}>
+              Nos prestations
+            </a>
+          </div>
+
+          {/* Le mandat montré, et de quoi passer aux autres. */}
+          <div style={{ marginTop: "clamp(20px, 2.8vw, 30px)", paddingTop: 16, borderTop: `1px solid ${C.border}`, display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 14, flexWrap: "wrap" }}>
+            <span style={{ fontSize: 13, color: C.textMuted, minWidth: 0 }}>
+              <strong style={{ color: C.text, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
+            </span>
+            {/*
+              La fraction « 01 / 03 » ne disait pas ce qu'on regardait ; ces
+              traits mènent directement à chaque mandat.
+            */}
+            <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+              {HERO.map((h: any, n: number) => (
+                <button
+                  key={h.k ?? n}
+                  type="button"
+                  onClick={() => go(n)}
+                  aria-label={h.k ?? `Mandat ${n + 1}`}
+                  aria-current={n === i}
+                  style={{ width: 32, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === i ? C.accentDark : C.border, transition: "background .3s" }}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -329,7 +402,7 @@ export default function TrajectoiresRhPage() {
       <section id="engagements" className="i382-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
         <div className="i382-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
           <Reveal>
-            <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3", justifyContent: "center" , overflow: "hidden" }}><img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/36733328/pexels-photo-36733328.jpeg?auto=compress&cs=tinysrgb&w=1400"))} alt="Entretien de recrutement" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div>
+            <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3", justifyContent: "center" , overflow: "hidden" }}><img src={photo(1, "https://images.pexels.com/photos/5989926/pexels-photo-5989926.jpeg?auto=compress&cs=tinysrgb&w=1400")} alt="Prise de références au cabinet" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div>
           </Reveal>
           <Reveal delay={0.15}>
             <div>

@@ -6,7 +6,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, CheckCircle, Clock, Grape, Mail, MapPin, Phone, Sparkle, Star, Wine } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { PortalZoom } from "@/lib/templates/hero-kit-3";
 import {
   clientTrade,
@@ -179,7 +179,7 @@ export default function CaveDesTerroirsPage() {
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i, go } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
 
@@ -196,6 +196,43 @@ export default function CaveDesTerroirsPage() {
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
       <style>{`${FONTS_CSS}
+
+        /*
+          ── Héros « bandeau bas » ──────────────────────────────────────────
+          La parole en haut sur le repli peint ; la voûte photographiée court
+          en bandeau plein bord au pied, et le PortalZoom s'y ouvre.
+        */
+        .i381-sousrit {
+          display: grid;
+          grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+          gap: clamp(22px, 3.4vw, 52px);
+          align-items: end;
+          margin-top: clamp(18px, 2.4vw, 28px);
+          padding-top: clamp(18px, 2.4vw, 26px);
+          border-top: 1px solid rgba(244,237,238,0.14);
+        }
+        .i381-bandeau { position: relative; z-index: 2; width: 100%; }
+        .i381-bandeau-img {
+          position: relative;
+          height: clamp(170px, 27vh, 310px);
+          overflow: hidden;
+          border-top: 1px solid rgba(244,237,238,0.14);
+        }
+        .i381-bandeau-legende {
+          position: absolute;
+          left: clamp(24px, 5vw, 64px);
+          right: clamp(24px, 5vw, 64px);
+          bottom: clamp(14px, 2.4vh, 24px);
+          z-index: 2;
+          display: flex;
+          align-items: flex-end;
+          justify-content: space-between;
+          gap: 18px;
+          flex-wrap: wrap;
+        }
+        @media (max-width: 860px) {
+          .i381-sousrit { grid-template-columns: minmax(0,1fr); row-gap: 20px; }
+        }
 
         @media (max-width: 900px) { #i381-nav { display: none !important; } .i381-burger { display: flex !important; } }
         @media (max-width: 860px) {
@@ -245,38 +282,70 @@ export default function CaveDesTerroirsPage() {
         </div>
       )}
 
-      {/* ── HERO — H3 plein cadre : la voûte de cave (PortalZoom) ──────── */}
-      <section id="hero" className="i381-hero" style={{ height: "100dvh", minHeight: 660, position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden", background: C.bgDark }}>
+      {/* ── HERO — bandeau bas : la cave court sous la parole ─────────────
+             Le texte tient le haut sur le repli peint de la cave ; la voûte
+             photographiée court en bandeau d'un bord à l'autre, en pied
+             d'écran, et le PortalZoom s'y ouvre. Le plein cadre à titre bas
+             était la composition de cinq autres thèmes. */}
+      <section id="hero" className="i381-hero" style={{ minHeight: "100dvh", position: "relative", display: "flex", flexDirection: "column", justifyContent: "space-between", overflow: "hidden", background: C.bgDark }}>
         {/* Le repli peint : la cave existe même sans photographie. */}
         <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(90% 70% at 50% 100%, rgba(179,74,94,0.22), transparent 65%), radial-gradient(60% 45% at 50% 0%, rgba(0,0,0,0.6), transparent 70%)" }} />
-        <PortalZoom images={[photo(0, "https://images.pexels.com/photos/35474950/pexels-photo-35474950.jpeg?auto=compress&cs=tinysrgb&w=1600")]} index={i} portal={VOUTE} overlay={0.52} />
-        <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(11,7,8,0.88) 0%, rgba(11,7,8,0.25) 46%, rgba(11,7,8,0.45) 100%)" }} />
 
-        <div className="i381-heroContent" style={{ position: "relative", zIndex: 2, width: "100%", maxWidth: 1260, margin: "0 auto", padding: "0 64px clamp(44px,6vw,84px)" }}>
-          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
+        <div className="i381-dire" style={{ position: "relative", zIndex: 2, width: "100%", maxWidth: 1260, margin: "0 auto", padding: "clamp(112px,13vh,150px) clamp(24px,5vw,64px) 0" }}>
+          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
             {clientEyebrow(sessionData) ?? `${clientTrade(sessionData) ?? "Caviste"} indépendant · ${clientCity(sessionData) ?? "Tours"}`}
           </motion.span>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(36px, 5.4vw, 74px)", color: C.text, lineHeight: 1.06, margin: "16px 0 18px", maxWidth: 820, textShadow: "0 10px 44px rgba(0,0,0,0.65)" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 20) ?? "Des vins qu'on a bus"} <em style={{ color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 20) ?? "avant de vous les vendre."}</em></>)}
-          </>)}</motion.h1>
-          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} style={{ fontSize: 16.5, color: "rgba(244,237,238,0.82)", lineHeight: 1.72, maxWidth: 520, marginBottom: 30 }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Quatre cents références choisies domaine par domaine, dont soixante en Loire : un caviste qui a serré la main de la plupart de ses vignerons et qui vous dira franchement quand une bouteille n'est pas pour vous."}
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-            <motion.a href={telHref} style={{ background: C.accent, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
-              Appeler la cave <ArrowRight size={16} />
-            </motion.a>
-            <motion.a href="#services" style={{ background: "rgba(244,237,238,0.08)", color: C.text, border: `1px solid rgba(244,237,238,0.28)`, borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none", backdropFilter: "blur(6px)" }} whileHover={{ borderColor: C.accent }}>
-              La sélection
-            </motion.a>
-          </motion.div>
+          {/*
+            Titre d'un seul tenant, d'une seule couleur : le segment dans
+            l'accent était la signature de gabarit de la série.
+          */}
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(32px, 5vw, 66px)", color: C.text, lineHeight: 1.06, margin: "16px 0 0", maxWidth: 900, textShadow: "0 10px 44px rgba(0,0,0,0.65)", overflowWrap: "break-word" }}>
+            {/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ??
+              c?.heroHeadline ??
+              clientHeroLine(sessionData, 0, 1, 40) ??
+              "Des vins qu'on a bus avant de vous les vendre."}
+          </motion.h1>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 36, flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color="rgba(244,237,238,0.7)" className="" />
-            <span style={{ fontSize: 13.5, color: "rgba(244,237,238,0.7)" }}>
-              <strong style={{ color: C.text, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.text} className="" />
+          <div className="i381-sousrit">
+            <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} style={{ fontSize: "clamp(14.5px, 1.3vw, 16.5px)", color: "rgba(244,237,238,0.82)", lineHeight: 1.72, margin: 0 }}>
+              {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Quatre cents références choisies domaine par domaine, dont soixante en Loire : un caviste qui a serré la main de la plupart de ses vignerons et qui vous dira franchement quand une bouteille n'est pas pour vous."}
+            </motion.p>
+            {/* Une seule action pleine ; la sélection reste un lien. */}
+            <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.62 }} style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center" }}>
+              <motion.a href={telHref} style={{ background: C.accent, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
+                Appeler la cave <ArrowRight size={16} />
+              </motion.a>
+              <a href="#services" style={{ fontSize: 13, color: C.text, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+                La sélection
+              </a>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* ── LE BANDEAU — la voûte, d'un bord à l'autre ─────────────────── */}
+        <div className="i381-bandeau">
+          <div className="i381-bandeau-img">
+            <PortalZoom images={[photo(0, "https://images.pexels.com/photos/35474950/pexels-photo-35474950.jpeg?auto=compress&cs=tinysrgb&w=1600")]} index={i} portal={VOUTE} overlay={0.44} />
+            <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(11,7,8,0.85) 0%, rgba(11,7,8,0.2) 44%, rgba(11,7,8,0.5) 100%)", pointerEvents: "none" }} />
+
+            {/* Le rayon montré, et de quoi passer aux autres. */}
+            <div className="i381-bandeau-legende">
+              <motion.span key={`k-${i}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} style={{ fontSize: 13.5, color: "rgba(244,237,238,0.85)", minWidth: 0 }}>
+                <strong style={{ color: C.text, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
+              </motion.span>
+              <div style={{ display: "flex", gap: 8, flexShrink: 0 }}>
+                {HERO.map((h: any, n: number) => (
+                  <button
+                    key={h.k ?? n}
+                    type="button"
+                    onClick={() => go(n)}
+                    aria-label={h.k ?? `Rayon ${n + 1}`}
+                    aria-current={n === i}
+                    style={{ width: 32, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === i ? C.accent : "rgba(244,237,238,0.3)", transition: "background .3s" }}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>

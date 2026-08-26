@@ -433,7 +433,9 @@ export default function CTLumierePage() {
     ? [
         {
           k: (CLIENT_SERVICES?.[0]?.title as string) ?? HERO[0].k,
-          lines: [l0, l1].filter(Boolean),
+          /* filter(Boolean) ne retire pas undefined du TYPE : sans le
+             prédicat, lines devient (string | undefined)[]. */
+          lines: [l0, l1].filter((x): x is string => Boolean(x)),
           sub: clientHeroPrestations(sessionData) ?? HERO[0].sub,
         },
         ...(CLIENT_SERVICES ?? []).slice(1, 3).map((sv: any) => ({

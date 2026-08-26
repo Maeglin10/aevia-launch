@@ -803,8 +803,10 @@ export default function AtlantiqueMaterielsPage() {
           <div style={{ position: "relative", minWidth: 0, overflow: "hidden", border: `1px solid ${C.border}` }}>
             <PushBlur index={i} amount={18} style={{ position: "relative", aspectRatio: "16 / 9" }}>
               <div style={{ position: "absolute", inset: 0 }}>
-                {S.img ? (
-                  <img src={S.img} alt={`${marque} — ${S.alt}`} loading="eager" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                {/* img n'existe que sur les diapositives enrichies par le
+                    client : le type de base ne la porte pas. */}
+                {(S as any).img ? (
+                  <img src={(S as any).img} alt={`${marque} — ${S.alt}`} loading="eager" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                 ) : (
                   <div aria-hidden style={{ position: "absolute", inset: 0, background: S.repli }}>
                     <Nappe opacity={0.06} />
