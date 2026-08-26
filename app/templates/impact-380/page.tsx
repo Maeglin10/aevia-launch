@@ -6,7 +6,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, Beer, Clock, Mail, MapPin, Phone, Star, Wheat } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { ArcSwap } from "@/lib/templates/hero-kit-3";
 import {
   clientAddress,
@@ -508,7 +508,7 @@ export default function BrasserieHoublonPage() {
     fabrique aucun texte — il fait tourner les bières que le thème (ou le
     client) a déjà écrites. DWELL.slow : l'arc dure 0,9 s, l'arrêt 5,6 s.
   */
-  const { i, next, prev } = useSlides(SERVICES.length, DWELL.slow);
+  const { i, go } = useSlides(SERVICES.length, DWELL.slow);
   const BIERE = SERVICES[i % SERVICES.length];
   const robe = ROBES[i % ROBES.length];
 
@@ -548,7 +548,39 @@ export default function BrasserieHoublonPage() {
         .i380-split { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: clamp(32px,5vw,72px); align-items: center; }
         .i380-stats { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); }
         .i380-bieres { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px,100%),1fr)); gap: 16px; }
-        .i380-herobas { display: grid; grid-template-columns: minmax(0,1fr) clamp(180px,22vw,260px); gap: clamp(28px,4vw,64px); align-items: end; }
+        /*
+          ── Héros « grille éditoriale » ────────────────────────────────────
+          L'ours de gazette, le titre pleine largeur, puis trois colonnes :
+          chapô, bouteille en balancier, fiche du tirage.
+        */
+        .i380-masthead {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: clamp(14px, 2.2vw, 32px);
+          padding-bottom: clamp(12px, 1.8vw, 20px);
+          border-bottom: 1px solid rgba(243,236,224,0.18);
+        }
+        .i380-mcell + .i380-mcell { border-left: 1px solid rgba(243,236,224,0.14); padding-left: clamp(14px, 2.2vw, 32px); }
+        .i380-colonnes {
+          display: grid;
+          grid-template-columns: minmax(0, 1.15fr) clamp(170px, 19vw, 240px) minmax(0, 0.65fr);
+          gap: clamp(22px, 3.4vw, 56px);
+          align-items: end;
+          margin-top: clamp(20px, 2.8vw, 34px);
+          padding-top: clamp(18px, 2.4vw, 28px);
+          border-top: 1px solid rgba(243,236,224,0.18);
+        }
+        .i380-fiche { border-left: 1px solid rgba(243,236,224,0.14); padding-left: clamp(14px, 1.8vw, 26px); min-width: 0; }
+        @media (max-width: 980px) {
+          .i380-masthead { grid-template-columns: 1fr 1fr; row-gap: 14px; }
+          .i380-mcell:nth-child(odd) { border-left: none; padding-left: 0; }
+          .i380-colonnes { grid-template-columns: minmax(0,1fr) clamp(150px,26vw,200px); }
+          .i380-fiche { grid-column: 1 / -1; border-left: none; padding-left: 0; border-top: 1px solid rgba(243,236,224,0.14); padding-top: 16px; }
+        }
+        @media (max-width: 640px) {
+          .i380-colonnes { grid-template-columns: minmax(0,1fr); }
+          .i380-flacon { max-width: 200px; }
+        }
         .i380-brassage { display: grid; grid-template-columns: minmax(0,0.9fr) minmax(0,1.1fr); gap: clamp(32px,5vw,72px); align-items: start; }
 
         /* Le détail gratuit : trois bulles montent dans le cuivre du héros. */
@@ -715,203 +747,111 @@ export default function BrasserieHoublonPage() {
       {/* ── HÉROS — H3 plein cadre, titre en bas, bouteille en balancier ── */}
       <section
         id="hero"
+        className="i380-herosec"
         style={{
           position: "relative",
           minHeight: "100dvh",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "flex-end",
+          justifyContent: "center",
+          gap: "clamp(20px,2.8vh,36px)",
           overflow: "hidden",
-          /* Fond de repli obligatoire : la page reste tenue photo bloquée. */
           background: C.bgDark,
+          padding: "clamp(112px,13vh,150px) clamp(20px,5vw,64px) clamp(40px,5vh,64px)",
         }}
       >
+        {/* ── HERO — grille éditoriale : la gazette de brasserie ───────────
+               Bandeau de méta fileté, titre pleine largeur, puis trois
+               colonnes : le chapô, la bouteille qui balance (ArcSwap), la
+               fiche de la bière au tirage. Le plein cadre à titre bas était
+               la composition de cinq autres thèmes. */}
+
         {heroImg ? (
           <img
             src={heroImg}
-            alt="Brasseur devant les cuves"
+            alt=""
+            aria-hidden
             loading="eager"
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              opacity: 0.5,
-            }}
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.3 }}
           />
         ) : null}
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(24,16,10,0.86) 0%, rgba(24,16,10,0.68) 50%, rgba(24,16,10,0.92) 100%)" }} />
 
-        {/* Le cuivre tient sans photographie : lueur de cuve + bulles. */}
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            bottom: "-22%",
-            right: "-8%",
-            width: "72vw",
-            height: "72vw",
-            maxWidth: 980,
-            maxHeight: 980,
-            background: `radial-gradient(circle, ${C.accent} 0%, transparent 62%)`,
-            opacity: 0.12,
-            pointerEvents: "none",
-          }}
-        />
-        {[
-          { left: "12%", size: 7, cls: "i380-bulle" },
-          { left: "46%", size: 5, cls: "i380-bulle i380-bulle2" },
-          { left: "78%", size: 9, cls: "i380-bulle i380-bulle3" },
-        ].map((b, k) => (
-          <span
-            key={k}
-            aria-hidden
-            className={b.cls}
+        <div style={{ position: "relative", zIndex: 2, maxWidth: 1280, width: "100%", margin: "0 auto" }}>
+          {/* ── Le bandeau de méta, comme l'ours d'une gazette ───────────── */}
+          <div className="i380-masthead">
+            {[
+              { l: "La brasserie", v: nom },
+              { l: "Le métier", v: clientEyebrow(sessionData) ?? `${metier} · ${ville}` },
+              { l: "Au tirage", v: BIERE?.titre ?? "Quatre permanentes" },
+              { l: "La règle", v: "Jamais filtrée" },
+            ].map((m) => (
+              <div key={m.l} className="i380-mcell">
+                <div style={{ fontSize: 9.5, letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(243,236,224,0.5)", marginBottom: 7 }}>
+                  {m.l}
+                </div>
+                <div style={{ fontFamily: DISPLAY, fontWeight: 600, fontSize: "clamp(13px, 1.1vw, 15.5px)", color: C.ink, lineHeight: 1.35, overflowWrap: "break-word" }}>
+                  {m.v}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* ── Le titre, pleine largeur, d'un seul tenant ────────────────── */}
+          <motion.h1
+            initial={{ opacity: 0, y: 34 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.95, delay: 0.055, ease: EASE }}
             style={{
-              position: "absolute",
-              bottom: "6%",
-              left: b.left,
-              width: b.size,
-              height: b.size,
-              borderRadius: 999,
-              border: `1px solid ${C.accentDark}`,
-              opacity: 0,
-              pointerEvents: "none",
+              margin: "clamp(18px,2.6vw,32px) 0 0",
+              fontFamily: DISPLAY,
+              fontWeight: 800,
+              fontSize: "clamp(2.4rem,6.4vw,5.6rem)",
+              lineHeight: 0.96,
+              letterSpacing: "-0.035em",
+              textTransform: "uppercase",
+              color: C.ink,
+              maxWidth: 1120,
+              overflowWrap: "break-word",
             }}
-          />
-        ))}
+          >
+            {ligne1} {ligne2}
+          </motion.h1>
 
-        {/* Scrim à trois arrêts : le titre reste lisible sur toute image. */}
-        <div
-          aria-hidden
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "linear-gradient(to top, rgba(8,6,5,0.95) 0%, rgba(8,6,5,0.70) 34%, rgba(8,6,5,0.22) 66%, rgba(8,6,5,0.52) 100%)",
-            pointerEvents: "none",
-          }}
-        />
-
-        <div
-          style={{
-            position: "relative",
-            zIndex: 2,
-            width: "100%",
-            maxWidth: 1280,
-            margin: "0 auto",
-            padding: "clamp(120px,14vw,180px) clamp(20px,5vw,64px) clamp(40px,6vw,70px)",
-          }}
-        >
-          <div className="i380-herobas">
-            <div>
-              <motion.div
-                initial={{ opacity: 0, y: 14 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, ease: EASE }}
-              >
-                <Kicker>{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
-              </motion.div>
-
-              <motion.h1
-                initial={{ opacity: 0, y: 34 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.95, delay: 0.055, ease: EASE }}
-                style={{
-                  margin: "clamp(18px,2.4vw,28px) 0 0",
-                  fontFamily: DISPLAY,
-                  fontWeight: 800,
-                  fontSize: "clamp(2.5rem,7vw,6rem)",
-                  lineHeight: 0.96,
-                  letterSpacing: "-0.035em",
-                  textTransform: "uppercase",
-                  color: C.ink,
-                }}
-              >
-                {ligne1}
-                <br />
-                <em style={{ fontStyle: "italic", color: C.accent }}>{ligne2}</em>
-              </motion.h1>
-
+          {/* ── Les trois colonnes ────────────────────────────────────────── */}
+          <div className="i380-colonnes">
+            {/* 1 — le chapô et l'action */}
+            <div style={{ minWidth: 0 }}>
               <motion.p
                 initial={{ opacity: 0, y: 22 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.85, delay: 0.11, ease: EASE }}
-                style={{
-                  fontSize: "clamp(15px,1.2vw,17px)",
-                  color: "rgba(243,236,224,0.80)",
-                  lineHeight: 1.78,
-                  maxWidth: 520,
-                  margin: "clamp(20px,2.4vw,30px) 0 clamp(26px,3vw,36px)",
-                }}
+                style={{ fontSize: "clamp(14.5px,1.2vw,16.5px)", color: "rgba(243,236,224,0.80)", lineHeight: 1.78, margin: "0 0 clamp(20px,2.6vw,30px)" }}
               >
                 {clientHeroSubtitle(sessionData) ??
                   c?.heroSubline ??
                   "Quatre bières permanentes, une saisonnière tous les deux mois, un taproom au pied des cuves : une brasserie indépendante qui brasse en petits volumes et refuse de filtrer ce qui donne le goût."}
               </motion.p>
-
+              {/* Une seule action pleine ; les bières restent un lien. */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.85, delay: 0.165, ease: EASE }}
-                style={{ display: "flex", gap: 13, flexWrap: "wrap" }}
+                style={{ display: "flex", gap: "clamp(16px,2vw,26px)", flexWrap: "wrap", alignItems: "center" }}
               >
                 <BoutonCuivre href={telHref} large>
                   Réserver une visite-dégustation
                 </BoutonCuivre>
-                <BoutonCuivre href="#services" plein={false} large>
+                <a href="#services" style={{ fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
                   Nos bières
-                </BoutonCuivre>
-              </motion.div>
-
-              {/* Bande de tirage : l'index unique nomme la bière servie. */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.85, delay: 0.22, ease: EASE }}
-                style={{ marginTop: "clamp(28px,4vw,44px)" }}
-              >
-                <Filet />
-                <div style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap", paddingTop: 16 }}>
-                  <SlideIndex i={i} total={SERVICES.length} variant="fraction" color="rgba(243,236,224,0.82)" className="" />
-                  <div style={{ minWidth: 0, flex: "1 1 220px" }}>
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, ease: EASE }}
-                    >
-                      <span
-                        style={{
-                          fontSize: 10.5,
-                          letterSpacing: "0.30em",
-                          textTransform: "uppercase",
-                          color: C.accent,
-                          display: "block",
-                          marginBottom: 5,
-                        }}
-                      >
-                        {BIERE?.tag}
-                      </span>
-                      <span style={{ fontSize: 14, color: "rgba(243,236,224,0.86)", fontWeight: 500 }}>
-                        {BIERE?.titre}
-                      </span>
-                    </motion.div>
-                  </div>
-                  <HairlineArrows onPrev={prev} onNext={next} color={C.white} className="" />
-                </div>
+                </a>
               </motion.div>
             </div>
 
-            {/* ── GESTE : ArcSwap ─────────────────────────────────────────
-                La bouteille balance autour de son pied : le pivot bas est
-                dans le composant du kit (transformOrigin 50 % 92 %). Sortie
-                accélérante 0,62 s, 0,42 s de scène vide, entrée 0,9 s
-                presque couchée qui se redresse. L'ombre au sol marque le
-                pivot ; aucun cadre autour de l'objet. */}
-            <div className="i380-flacon" style={{ position: "relative", height: "clamp(300px,38vw,440px)" }}>
+            {/* 2 — la bouteille qui balance : le geste, à sa place de colonne */}
+            <div className="i380-flacon" style={{ position: "relative", height: "clamp(240px,26vw,340px)" }}>
               <ArcSwap index={i} sweep={52} hold={0.42} className="">
-                <div style={{ height: "clamp(300px,38vw,440px)" }}>
+                <div style={{ height: "clamp(240px,26vw,340px)" }}>
                   <Bouteille robe={robe} etiquette={BIERE?.tag} nom={nom} />
                 </div>
               </ArcSwap>
@@ -929,6 +869,34 @@ export default function BrasserieHoublonPage() {
                   pointerEvents: "none",
                 }}
               />
+            </div>
+
+            {/* 3 — la fiche de la bière au tirage */}
+            <div className="i380-fiche">
+              <motion.div key={i} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: EASE }}>
+                <span style={{ fontSize: 10.5, letterSpacing: "0.30em", textTransform: "uppercase", color: C.accent, display: "block", marginBottom: 6 }}>
+                  {BIERE?.tag}
+                </span>
+                <span style={{ fontSize: 14.5, color: "rgba(243,236,224,0.9)", fontWeight: 500, lineHeight: 1.5 }}>
+                  {BIERE?.titre}
+                </span>
+              </motion.div>
+              {/*
+                La fraction ne disait pas ce qu'on regardait ; ces traits
+                mènent directement à chaque bière.
+              */}
+              <div style={{ display: "flex", gap: 8, marginTop: 14 }}>
+                {SERVICES.map((sv: any, n: number) => (
+                  <button
+                    key={sv.titre ?? n}
+                    type="button"
+                    onClick={() => go(n)}
+                    aria-label={sv.titre ?? `Bière ${n + 1}`}
+                    aria-current={n === i}
+                    style={{ width: 30, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === i ? C.accent : "rgba(243,236,224,0.28)", transition: "background .3s" }}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>

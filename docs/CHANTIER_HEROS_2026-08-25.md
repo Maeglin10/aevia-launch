@@ -100,8 +100,8 @@ d'écart, et jamais avec les mêmes proportions.
 | 376 | vitrier | `typo` | fait |
 | 377 | école de musique | `liste` | fait |
 | 378 | gestion de patrimoine | `devanture` | fait |
-| 379 | menuisier | `pleincadre` | à faire |
-| 380 | brasserie | `editorial` | à faire |
+| 379 | menuisier | `pleincadre` | fait |
+| 380 | brasserie | `editorial` | fait |
 | 381 | caviste | `bandeau` | à faire |
 | 382 | recrutement | `carte` | à faire |
 | 383 | toiletteur | `splitgauche` | à faire |
