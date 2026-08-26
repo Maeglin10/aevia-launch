@@ -92,8 +92,8 @@ d'écart, et jamais avec les mêmes proportions.
 | 368 | sage-femme | `devanture` | fait |
 | 369 | salle de réception | `pleincadre` | fait |
 | 370 | salle de réception | `editorial` | fait |
-| 371 | sécurité | `bandeau` | à faire |
-| 372 | sécurité | `carte` | à faire |
+| 371 | sécurité | `bandeau` | fait |
+| 372 | sécurité | `carte` | fait |
 | 373 | VTC | `splitgauche` | à faire |
 | 374 | VTC | `diagonale` | à faire |
 | 375 | vitrier | `chiffre` | à faire |
