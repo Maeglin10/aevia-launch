@@ -27,7 +27,7 @@ import { motion, useInView, useReducedMotion } from "framer-motion";
 import { ArrowRight, Clock, Mail, MapPin, PartyPopper, Phone, Tent, UtensilsCrossed } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { PushBlur } from "@/lib/templates/hero-kit-3";
 import {
   clientAddress,
@@ -564,7 +564,7 @@ export default function AtlantiqueMaterielsPage() {
   const reduce = useReducedMotion();
 
   /* Un seul index pilote tout le héros : la poussée, le titre, le compteur. */
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i, go } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
   /*
@@ -604,10 +604,39 @@ export default function AtlantiqueMaterielsPage() {
     <div style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip", WebkitFontSmoothing: "antialiased" }}>
       <style>{FONTS_CSS}</style>
       <style>{`
+        /*
+          ── Héros « grille éditoriale » ────────────────────────────────────
+          Bandeau de méta, titre pleine largeur, trois colonnes. Le plein
+          cadre est passé à impact-359, le voisin immédiat du même métier.
+        */
+        .i360-masthead {
+          position: relative;
+          z-index: 1;
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: clamp(14px, 2.2vw, 32px);
+          padding-bottom: clamp(14px, 2vw, 22px);
+          border-bottom: 1px solid ${C.border};
+        }
+        .i360-mcell + .i360-mcell { border-left: 1px solid ${C.border}; padding-left: clamp(14px, 2.2vw, 32px); }
+        .i360-colonnes {
+          position: relative;
+          z-index: 1;
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr) minmax(0, 0.65fr);
+          gap: clamp(20px, 3vw, 44px);
+          align-items: start;
+          padding-top: clamp(18px, 2.4vw, 28px);
+          border-top: 1px solid ${C.border};
+        }
+        .i360-fiche { border-left: 1px solid ${C.border}; padding-left: clamp(14px, 1.8vw, 26px); }
+
         @media (max-width: 1000px) { #i360-nav { display: none !important; } .i360-burger { display: flex !important; } }
         @media (max-width: 900px) {
-          .i360-herotext { padding: 0 22px 44px !important; max-width: none !important; }
-          .i360-herometa { gap: 12px !important; }
+          .i360-masthead { grid-template-columns: 1fr 1fr !important; row-gap: 16px; }
+          .i360-mcell:nth-child(odd) { border-left: none !important; padding-left: 0 !important; }
+          .i360-colonnes { grid-template-columns: minmax(0,1fr) !important; }
+          .i360-fiche { border-left: none !important; padding-left: 0 !important; border-top: 1px solid ${C.border}; padding-top: 20px; }
           .i360-crow { grid-template-columns: minmax(0,1fr) !important; gap: 12px !important; }
           .i360-split { grid-template-columns: minmax(0,1fr) !important; gap: 32px !important; }
           .i360-split > * { order: initial !important; }
@@ -684,118 +713,139 @@ export default function AtlantiqueMaterielsPage() {
         </div>
       )}
 
-      {/* ── HERO — H3 : plein cadre, titre en bas, la scène poussée ──────── */}
+      {/* ── HERO — grille éditoriale ──────────────────────────────────────
+             Bandeau de méta en tête, titre pleine largeur, puis trois
+             colonnes : le chapô, la scène photographiée, la fiche du moment.
+             Le plein cadre était juste, mais impact-359 — le voisin
+             immédiat, même métier de matériel — vient de le prendre : deux
+             voisins ne partagent jamais leur composition. Le geste PushBlur
+             reste, à l'échelle de la vignette. */}
       <section
         id="top"
+        className="i360-hero i360-pad"
         style={{
           position: "relative",
           minHeight: "100dvh",
-          /* fond de repli obligatoire sous toute section plein cadre */
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          gap: "clamp(20px,2.8vh,36px)",
           background: C.bgDark,
           overflow: "hidden",
-          display: "flex",
+          padding: "clamp(112px,13vh,150px) clamp(22px,5vw,72px) clamp(44px,6vh,72px)",
+          maxWidth: 1340,
+          margin: "0 auto",
         }}
       >
-        {/*
-          Le geste : la composition entière — photographie ET titre — sort par la
-          droite avec un flou directionnel pendant que la suivante entre par la
-          gauche. C'est la scène qu'on démonte et qu'on remonte, à l'échelle 1.
-        */}
-        <PushBlur index={i} amount={18} style={{ position: "absolute", inset: 0 }}>
-          <div style={{ position: "absolute", inset: 0 }}>
-            {S.img ? (
-              <img src={S.img} alt={`${marque} — ${S.alt}`} loading="eager" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-            ) : (
-              <div aria-hidden style={{ position: "absolute", inset: 0, background: S.repli }}>
-                <Nappe opacity={0.06} />
-                <div style={{ position: "absolute", inset: 0, background: S.halo }} />
-              </div>
-            )}
-            {/* scrim à quatre arrêts : le titre se lit sur n'importe quelle photo */}
-            <div
-              aria-hidden
-              style={{
-                position: "absolute",
-                inset: 0,
-                background:
-                  "linear-gradient(to top, rgba(6,8,10,0.94) 0%, rgba(6,8,10,0.74) 24%, rgba(6,8,10,0.28) 52%, rgba(6,8,10,0.06) 74%, rgba(6,8,10,0.42) 100%)",
-              }}
-            />
+        <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+          <Nappe opacity={0.05} />
+        </div>
 
-            {/* le titre, en bas du cadre */}
-            <div
-              className="i360-herotext i360-pad"
-              style={{
-                position: "absolute",
-                left: 0,
-                right: 0,
-                bottom: 0,
-                padding: "0 clamp(22px,5vw,72px) clamp(96px,11vw,132px)",
-                maxWidth: 1340,
-                margin: "0 auto",
-              }}
-            >
-              <Kicker>{clientEyebrow(sessionData) ?? <>Matériel de réception · {ville}</>}</Kicker>
-              <h1
-                style={{
-                  fontFamily: DISPLAY,
-                  fontWeight: 700,
-                  fontSize: "clamp(36px,6.2vw,88px)",
-                  color: C.ink,
-                  lineHeight: 0.98,
-                  letterSpacing: "-0.032em",
-                  margin: "clamp(16px,2vw,26px) 0 clamp(14px,1.6vw,22px)",
-                  maxWidth: 1080,
-                  textShadow: "0 2px 30px rgba(0,0,0,0.4)",
-                }}
-              >
-                {l1}
-                <br />
-                <em style={{ fontStyle: "italic", fontWeight: 500, color: C.accentDark }}>{l2}</em>
-              </h1>
-              <p style={{ fontFamily: SANS, fontSize: "clamp(15.5px,1.25vw,17.5px)", fontWeight: 300, color: "rgba(238,242,245,0.82)", lineHeight: 1.76, maxWidth: 560, margin: 0 }}>
-                {clientHeroSubtitle(sessionData) ??
-                  clientTagline(sessionData) ??
-                  "Tentes, tables, vaisselle, sono : le matériel de vos mariages, réceptions et séminaires, livré propre, monté à l'heure, repris sale — c'est notre métier de le laver."}
-              </p>
-              <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center", marginTop: "clamp(22px,2.8vw,34px)" }}>
-                <Btn href={telHref} filled>
-                  Chiffrer mon événement
-                </Btn>
-                <Btn href="#services">Le catalogue</Btn>
+        {/* ── Le bandeau de tête : quatre mentions séparées par des filets ── */}
+        <div className="i360-masthead">
+          {[
+            { l: "La maison", v: marque },
+            { l: "Le métier", v: clientEyebrow(sessionData) ?? "Matériel de réception" },
+            { l: "Où", v: ville },
+            { l: "La règle", v: "Livré propre, repris sale" },
+          ].map((m) => (
+            <div key={m.l} className="i360-mcell">
+              <div style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.3em", textTransform: "uppercase", color: C.textFaint, marginBottom: 7 }}>
+                {m.l}
+              </div>
+              <div style={{ fontFamily: DISPLAY, fontWeight: 500, fontSize: "clamp(13.5px, 1.15vw, 16px)", color: C.ink, lineHeight: 1.35, overflowWrap: "break-word" }}>
+                {m.v}
               </div>
             </div>
-          </div>
-        </PushBlur>
+          ))}
+        </div>
 
-        {/* La barre de scène : compteur, légende et flèches — hors de la poussée,
-            parce qu'un pilote qui part avec le décor n'est plus un pilote. */}
-        <div
-          className="i360-pad"
+        {/* ── Le titre tient toute la largeur, d'un seul tenant ──────────── */}
+        <h1
           style={{
-            position: "absolute",
-            left: 0,
-            right: 0,
-            bottom: 0,
-            zIndex: 3,
-            padding: "0 clamp(22px,5vw,72px) clamp(22px,2.6vw,34px)",
-            maxWidth: 1340,
-            margin: "0 auto",
+            fontFamily: DISPLAY,
+            fontWeight: 700,
+            fontSize: "clamp(34px,6vw,88px)",
+            color: C.ink,
+            lineHeight: 0.96,
+            letterSpacing: "-0.032em",
+            margin: 0,
+            maxWidth: 1180,
+            position: "relative",
+            zIndex: 1,
+            overflowWrap: "break-word",
           }}
         >
-          <Guirlande points={14} />
-          <div className="i360-herometa" style={{ display: "flex", alignItems: "center", gap: 18, flexWrap: "wrap", paddingTop: 14, borderTop: `1px solid ${C.border}` }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textMuted} className="" />
-            <motion.span
+          {l1} {l2}
+        </h1>
+
+        {/* ── Les trois colonnes ─────────────────────────────────────────── */}
+        <div className="i360-colonnes">
+          {/* 1 — le chapô et l'action */}
+          <div style={{ minWidth: 0 }}>
+            <p style={{ fontFamily: SANS, fontSize: "clamp(14.5px,1.25vw,16.5px)", fontWeight: 300, color: "rgba(238,242,245,0.82)", lineHeight: 1.78, margin: "0 0 clamp(20px,2.6vw,30px)" }}>
+              {clientHeroSubtitle(sessionData) ??
+                clientTagline(sessionData) ??
+                "Tentes, tables, vaisselle, sono : le matériel de vos mariages, réceptions et séminaires, livré propre, monté à l'heure, repris sale — c'est notre métier de le laver."}
+            </p>
+            {/* Une seule action pleine ; le catalogue reste un lien. */}
+            <div style={{ display: "flex", gap: "clamp(16px,2vw,26px)", flexWrap: "wrap", alignItems: "center" }}>
+              <Btn href={telHref} filled>
+                Chiffrer mon événement
+              </Btn>
+              <a href="#services" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+                Le catalogue
+              </a>
+            </div>
+          </div>
+
+          {/* 2 — la scène : le geste PushBlur, à l'échelle de la vignette */}
+          <div style={{ position: "relative", minWidth: 0, overflow: "hidden", border: `1px solid ${C.border}` }}>
+            <PushBlur index={i} amount={18} style={{ position: "relative", aspectRatio: "16 / 9" }}>
+              <div style={{ position: "absolute", inset: 0 }}>
+                {S.img ? (
+                  <img src={S.img} alt={`${marque} — ${S.alt}`} loading="eager" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                ) : (
+                  <div aria-hidden style={{ position: "absolute", inset: 0, background: S.repli }}>
+                    <Nappe opacity={0.06} />
+                    <div style={{ position: "absolute", inset: 0, background: S.halo }} />
+                  </div>
+                )}
+                <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(6,8,10,0.5) 0%, rgba(6,8,10,0.06) 46%, transparent 100%)" }} />
+              </div>
+            </PushBlur>
+            <div style={{ position: "absolute", left: 14, bottom: 12, zIndex: 2 }}>
+              <Guirlande points={8} />
+            </div>
+          </div>
+
+          {/* 3 — la fiche du moment : ce qu'on regarde, et où aller */}
+          <div className="i360-fiche">
+            <motion.div
               key={`meta-${i}`}
               initial={reduce ? { opacity: 0 } : { opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: reduce ? 0.2 : 0.55, ease: EASE }}
-              style={{ fontFamily: SANS, fontSize: 13, fontWeight: 300, color: C.textMuted, lineHeight: 1.6 }}
             >
-              <strong style={{ color: C.ink, fontWeight: 600 }}>{S.k}</strong> — {S.sub}
-            </motion.span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" />
+              <div style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: "clamp(16px,1.6vw,20px)", color: C.ink, lineHeight: 1.2, marginBottom: 8 }}>{S.k}</div>
+              <div style={{ fontFamily: SANS, fontSize: 12.5, fontWeight: 300, color: C.textMuted, lineHeight: 1.68 }}>{S.sub}</div>
+            </motion.div>
+            {/*
+              La fraction « 01 / 03 » ne disait pas ce qu'on regardait ; ces
+              traits nomment les scènes et y mènent directement.
+            */}
+            <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
+              {HERO.map((h: any, n: number) => (
+                <button
+                  key={h.k ?? n}
+                  type="button"
+                  onClick={() => go(n)}
+                  aria-label={h.k ?? `Scène ${n + 1}`}
+                  aria-current={n === i}
+                  style={{ width: 34, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === i ? C.accent : "rgba(238,242,245,0.24)", transition: "background .3s" }}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>

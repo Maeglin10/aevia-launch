@@ -80,8 +80,8 @@ d'écart, et jamais avec les mêmes proportions.
 | 356 | infirmier | `typo` | fait |
 | 357 | laboratoire | `liste` | fait |
 | 358 | laboratoire | `devanture` | fait |
-| 359 | location matériel | `pleincadre` | à faire |
-| 360 | location matériel | `editorial` | à faire |
+| 359 | location matériel | `pleincadre` | fait |
+| 360 | location matériel | `editorial` | fait |
 | 361 | peintre | `bandeau` | à faire |
 | 362 | peintre | `carte` | à faire |
 | 363 | podologue | `splitgauche` | à faire |
