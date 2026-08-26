@@ -545,6 +545,35 @@ export default function CabinetNaissancesPage() {
       <style>{`
         ${FONTS_CSS}
 
+        /*
+          ── Héros « liste immédiate » ──────────────────────────────────────
+          Le parcours des consultations est posé d'emblée ; l'orbe berce en
+          marge droite, il ne porte plus la page.
+        */
+        .i367-coin {
+          position: absolute;
+          top: clamp(90px, 12vh, 150px);
+          right: clamp(-60px, -3vw, -20px);
+          width: min(34vw, 360px);
+          aspect-ratio: 1;
+          pointer-events: none;
+          z-index: 0;
+        }
+        .i367-annonce {
+          display: grid;
+          grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.9fr);
+          gap: clamp(24px, 4vw, 64px);
+          align-items: end;
+        }
+        .i367-ligne { transition: background .3s ease, padding-left .3s ease; }
+        .i367-ligne:hover { background: ${C.accentLight}; padding-left: clamp(8px, 1.2vw, 18px); }
+
+        @media (max-width: 900px) {
+          .i367-annonce { grid-template-columns: minmax(0,1fr); row-gap: 24px; align-items: start; }
+          .i367-coin { opacity: 0.4; }
+          .i367-tag { display: none; }
+        }
+
         @media (max-width: 980px) { #i367-nav { display: none !important; } .i367-burger { display: flex !important; } }
 
         /* Prestations : rail de chiffres collant à gauche, sommaire à droite.
@@ -659,145 +688,125 @@ export default function CabinetNaissancesPage() {
           minHeight: "100dvh",
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
           justifyContent: "center",
-          textAlign: "center",
-          padding: "clamp(136px,14vw,180px) clamp(20px,6vw,80px) clamp(56px,7vw,92px)",
+          gap: "clamp(22px,3vh,38px)",
+          maxWidth: 1240,
+          margin: "0 auto",
+          padding: "clamp(120px,13vw,158px) clamp(20px,5vw,64px) clamp(44px,6vh,72px)",
           overflow: "hidden",
         }}
       >
-        {/* Le glow rosé : il pose l'orbe sur quelque chose, sinon le canevas
-            paraît découpé dans la page. */}
-        <span
-          aria-hidden
-          style={{
-            position: "absolute",
-            top: "46%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "min(96vw, 900px)",
-            aspectRatio: "1",
-            borderRadius: "50%",
-            background: `radial-gradient(circle at 50% 50%, ${C.accentLight} 0%, rgba(246,227,227,0.42) 42%, transparent 70%)`,
-            opacity: 0.9,
-            pointerEvents: "none",
-          }}
-        />
+        {/* ── HERO — liste immédiate ──────────────────────────────────────
+               L'accompagnement d'une sage-femme se lit comme un parcours —
+               grossesse, naissance, retour, après — pas comme une affiche :
+               les six consultations sont posées d'emblée, du test positif à
+               la gynéco de prévention. Le centré à orbe était la devanture
+               d'impact-358 et d'impact-337. L'orbe reste, en marge : il
+               berce toujours, il ne porte plus la page. */}
 
-        {/* L'ORBE — centré, derrière le titre. 900 points, 96 s le tour :
-            deux fois plus dense et une fois et demie plus lent que sur le 339,
-            où le même composant sert d'onde sonore. Ici il ne se propage pas,
-            il berce. */}
-        <ParticleOrb
-          color={C.berceau}
-          count={900}
-          seconds={96}
-          className=""
-          style={{
-            position: "absolute",
-            top: "46%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "min(84vw, 700px)",
-            aspectRatio: "1",
-            opacity: 0.42,
-            pointerEvents: "none",
-          }}
-        />
-
-        {/* L'arche qui berce l'orbe : c'est elle qui fait lire un berceau. */}
-        <div
-          aria-hidden
-          className="i367-berceau"
-          style={{
-            position: "absolute",
-            top: "calc(46% + min(30vw, 250px))",
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: "min(80vw, 640px)",
-            pointerEvents: "none",
-          }}
-        >
-          <Arche color={C.accent} opacity={0.28} height={120} />
+        {/* L'orbe et son arche, en marge droite — le berceau veille. */}
+        <div aria-hidden className="i367-coin">
+          <span
+            style={{
+              position: "absolute",
+              inset: "-30%",
+              borderRadius: "50%",
+              background: `radial-gradient(circle at 50% 50%, ${C.accentLight} 0%, rgba(246,227,227,0.42) 42%, transparent 70%)`,
+              opacity: 0.9,
+            }}
+          />
+          <ParticleOrb
+            color={C.berceau}
+            count={520}
+            seconds={96}
+            className=""
+            style={{ position: "absolute", inset: "6%", opacity: 0.4, pointerEvents: "none" }}
+          />
+          <div style={{ position: "absolute", left: "8%", right: "8%", bottom: "-12%" }}>
+            <Arche color={C.accent} opacity={0.28} height={70} />
+          </div>
         </div>
 
-        {/* Texture : un « 9 » fantôme — les neuf mois. */}
-        <span
-          aria-hidden
-          style={{
-            position: "absolute",
-            right: "clamp(-14px,-1vw,0px)",
-            top: "clamp(88px,11vw,150px)",
-            fontFamily: SERIF,
-            fontSize: "clamp(160px,26vw,380px)",
-            lineHeight: 0.72,
-            color: C.accent,
-            opacity: 0.06,
-            pointerEvents: "none",
-            userSelect: "none",
-          }}
-        >
-          9
-        </span>
+        {/* L'annonce : d'où l'on parle, et par où commencer. */}
+        <div className="i367-annonce" style={{ position: "relative", zIndex: 2 }}>
+          <div style={{ minWidth: 0 }}>
+            <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.12 }}>
+              <Kicker>{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
+            </motion.div>
 
-        <div style={{ position: "relative", zIndex: 2, maxWidth: 860, width: "100%" }}>
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.12 }} style={{ display: "flex", justifyContent: "center" }}>
-            <Kicker align="center">{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
+            {/*
+              Titre d'un seul tenant, d'une seule couleur : la seconde ligne
+              en italique d'un autre ton était la signature de gabarit de la
+              série.
+            */}
+            <motion.h1
+              initial={{ opacity: 0, y: 26 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.28, duration: 1, ease: EASE }}
+              style={{
+                fontFamily: SERIF,
+                fontSize: "clamp(30px,4.4vw,58px)",
+                fontWeight: 400,
+                color: C.ink,
+                lineHeight: 1.02,
+                letterSpacing: "-0.016em",
+                margin: "clamp(16px,2vw,26px) 0 0",
+                maxWidth: 720,
+                overflowWrap: "break-word",
+              }}
+            >
+              {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ??
+                c?.heroHeadline ??
+                clientHeroLine(sessionData, 0, 1, 42) ??
+                "Neuf mois, une naissance, et tout ce qui vient après."}
+            </motion.h1>
+          </div>
+
+          <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.42, duration: 0.9, ease: EASE }} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 16 }}>
+            <p style={{ fontFamily: SANS, fontSize: "clamp(14px,1.2vw,15.5px)", color: C.textMuted, lineHeight: 1.78, maxWidth: 380, margin: 0 }}>
+              {clientHeroSubtitle(sessionData) ??
+                c?.heroSubline ??
+                "Suivi de grossesse, préparation à la naissance, retour à la maison, rééducation : une sage-femme conventionnée vous accompagne du test positif aux premiers mois — et pour votre suivi gynécologique ensuite."}
+            </p>
+            {/* Une seule action pleine ; l'accompagnement reste un lien. */}
+            <div style={{ display: "flex", gap: "clamp(14px,2vw,24px)", flexWrap: "wrap", alignItems: "center" }}>
+              <CTA href={telHref} filled big>
+                Prendre rendez-vous
+              </CTA>
+              <a href="#services" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+                L'accompagnement
+              </a>
+            </div>
           </motion.div>
+        </div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 26 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.28, duration: 1, ease: EASE }}
-            style={{
-              fontFamily: SERIF,
-              fontSize: "clamp(42px,7vw,96px)",
-              fontWeight: 400,
-              color: C.ink,
-              lineHeight: 0.99,
-              letterSpacing: "-0.016em",
-              margin: "clamp(22px,2.8vw,38px) 0 clamp(18px,2vw,28px)",
-            }}
-          >
-            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (
-              <>
-                {c?.heroHeadline ?? (
-                  <>
-                    {clientHeroLine(sessionData, 0, 2, 24) ?? "Neuf mois, une naissance,"}
-                    <br />
-                    <em style={{ fontStyle: "italic", color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 24) ?? "et tout ce qui vient après."}</em>
-                  </>
-                )}
-              </>
-            )}
-          </motion.h1>
+        {/* ── LE PARCOURS — les six consultations, posées d'emblée ───────── */}
+        <nav aria-label="L'accompagnement" style={{ position: "relative", zIndex: 2, borderTop: `1px solid ${C.border}` }}>
+          {SERVICES_DEMO.slice(0, 6).map((sv: any, n: number) => (
+            <Reveal key={sv.titre ?? n} delay={0.5 + n * 0.05} y={10}>
+              <a
+                href="#services"
+                className="i367-ligne"
+                style={{ display: "grid", gridTemplateColumns: "clamp(28px,3.4vw,48px) minmax(0,1fr) auto", alignItems: "baseline", gap: "clamp(12px,2vw,26px)", padding: "clamp(9px,1.3vh,15px) 0", borderBottom: `1px solid ${C.border}`, textDecoration: "none", color: "inherit" }}
+              >
+                <span style={{ fontFamily: SANS, fontSize: 10.5, fontWeight: 600, letterSpacing: "0.2em", color: C.accentDark, fontVariantNumeric: "tabular-nums" }}>
+                  {String(n + 1).padStart(2, "0")}
+                </span>
+                <span style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(16px,1.9vw,25px)", lineHeight: 1.18, letterSpacing: "-0.012em", color: C.ink }}>
+                  {sv.titre}
+                </span>
+                <span className="i367-tag" style={{ fontFamily: SANS, fontSize: 10, fontWeight: 600, letterSpacing: "0.24em", textTransform: "uppercase", color: C.textFaint, whiteSpace: "nowrap" }}>
+                  {sv.tag ?? ""}
+                </span>
+              </a>
+            </Reveal>
+          ))}
+        </nav>
 
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.48, duration: 0.9, ease: EASE }}
-            style={{ fontFamily: SANS, fontSize: "clamp(15.5px,1.5vw,17px)", color: C.textMuted, lineHeight: 1.8, maxWidth: 520, margin: "0 auto clamp(28px,3.2vw,38px)" }}
-          >
-            {clientHeroSubtitle(sessionData) ??
-              c?.heroSubline ??
-              "Suivi de grossesse, préparation à la naissance, retour à la maison, rééducation : une sage-femme conventionnée vous accompagne du test positif aux premiers mois — et pour votre suivi gynécologique ensuite."}
-          </motion.p>
-
-          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.64, duration: 0.85, ease: EASE }} style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: "center" }}>
-            <CTA href={telHref} filled big>
-              Prendre rendez-vous
-            </CTA>
-            <CTA href="#services" big>
-              L'accompagnement
-            </CTA>
-          </motion.div>
-
-          {/* Le détail gratuit : une ligne qui dit quand appeler, posée sous
-              un filet. Elle ne vend rien, elle situe. */}
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.92, duration: 1, ease: EASE }} style={{ marginTop: "clamp(34px,4vw,56px)", display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
-            <Filet color={C.accent} width="min(100%, 260px)" style={{ opacity: 0.5 }} />
-            <span style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.28em", textTransform: "uppercase", color: C.textFaint }}>L'entretien prénatal, dès le 3e mois</span>
-          </motion.div>
+        {/* Le détail gratuit : une ligne qui dit quand appeler. */}
+        <div style={{ position: "relative", zIndex: 2, display: "flex", alignItems: "center", gap: 14 }}>
+          <Filet color={C.accent} width="min(100%, 200px)" style={{ opacity: 0.5 }} />
+          <span style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.28em", textTransform: "uppercase", color: C.textFaint }}>L'entretien prénatal, dès le 3e mois</span>
         </div>
       </section>
 

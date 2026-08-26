@@ -6,7 +6,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, CalendarHeart, CheckCircle, Clock, HeartPulse, Mail, MapPin, Phone, Star, Users } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { WipeReveal } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
@@ -174,7 +174,7 @@ export default function NeufMoisPage() {
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { i: slide, next, prev } = useSlides(HERO_SLIDES.length, DWELL.normal);
+  const { i: slide, go } = useSlides(HERO_SLIDES.length, DWELL.normal);
   
 
 
@@ -192,10 +192,13 @@ export default function NeufMoisPage() {
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
       <style>{`${FONTS_CSS}
 
+        /* La vitrine du héros : l'échographie en bandeau large. */
+        .i368-vitrine { width: 100%; }
+
         @media (max-width: 900px) { #i368-nav { display: none !important; } .i368-burger { display: flex !important; } }
         @media (max-width: 860px) {
-          .i368-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
-          .i368-card { max-width: 380px; margin: 0 auto; width: 100%; }
+          .i368-hero { padding: 118px 24px 40px !important; gap: 26px !important; }
+          .i368-vitrine > div { aspect-ratio: 4 / 3 !important; }
           .i368-split { grid-template-columns: 1fr !important; }
           .i368-stats { grid-template-columns: 1fr 1fr !important; row-gap: 8px; }
           .i368-stats .i368-statcell { border-right: none !important; }
@@ -240,32 +243,75 @@ export default function NeufMoisPage() {
         </div>
       )}
 
-      {/* ── HERO — H2 : média à gauche, texte à droite, mot en WipeReveal ── */}
-<section className="i368-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,0.92fr) minmax(0,1.08fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1260, margin: "0 auto" }}>
-        <div className="i368-card"><div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3.2", justifyContent: "center" , overflow: "hidden" }}><img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/7108415/pexels-photo-7108415.jpeg?auto=compress&cs=tinysrgb&w=1400"))} alt="Échographie de contrôle" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div></div>
-        <div>
+      {/* ── HERO — devanture centrée ──────────────────────────────────────
+             Une colonne unique au milieu, l'échographie en vitrine dessous,
+             d'un bord à l'autre du cadre. La version précédente rangeait
+             l'image à gauche et la parole à droite — la charpente de la
+             série, et son voisin de métier impact-367 vient de passer à la
+             liste. Le mot en WipeReveal reste, dans le titre. */}
+      <section className="i368-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center", gap: "clamp(24px, 3.2vh, 40px)", padding: "clamp(120px, 14vh, 152px) clamp(24px, 5vw, 64px) clamp(44px, 6vh, 70px)", maxWidth: 1260, margin: "0 auto" }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", width: "100%" }}>
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
             Cabinet de sages-femmes · {clientCity(sessionData) ?? "Caen"}
           </motion.span>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 18) ?? "Trois sages-femmes,"}<br /><em style={{ color: C.accentDark, display: "inline-block" }}><WipeReveal index={clientHeroLine(sessionData, 1, 2, 18) ? "client" : slide}>{clientHeroLine(sessionData, 1, 2, 18) ?? HERO_SLIDES[slide].mot}</WipeReveal></em></>)}
-          </>)}</motion.h1>
-          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(34px, 5vw, 66px)", color: C.text, lineHeight: 1.08, margin: "18px 0 18px", maxWidth: 860, overflowWrap: "break-word" }}>
+            {/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (
+              <>
+                {c?.heroHeadline ?? (
+                  <>
+                    {clientHeroLine(sessionData, 0, 2, 18) ?? "Trois sages-femmes,"}{" "}
+                    <em style={{ color: C.accentDark, fontStyle: "normal", display: "inline-block" }}>
+                      <WipeReveal index={clientHeroLine(sessionData, 1, 2, 18) ? "client" : slide}>{clientHeroLine(sessionData, 1, 2, 18) ?? HERO_SLIDES[slide].mot}</WipeReveal>
+                    </em>
+                  </>
+                )}
+              </>
+            )}
+          </motion.h1>
+          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: "clamp(14.5px, 1.3vw, 16.5px)", color: C.textMuted, lineHeight: 1.75, maxWidth: 640, margin: "0 auto 24px" }}>
             {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Un cabinet de groupe pensé pour les agendas réels : créneaux du soir et du samedi, urgences allaitement le jour même, cours en visio pour les alitées — et trois praticiennes qui partagent vos dossiers."}
           </motion.p>
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+          {/* Une seule action pleine ; les consultations restent un lien. */}
+          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center", justifyContent: "center" }}>
             <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
               Prendre rendez-vous <ArrowRight size={16} />
             </motion.a>
-            <motion.a href="#services" style={{ background: C.white, color: C.text, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ borderColor: C.accent }}>
+            <a href="#services" style={{ fontSize: 13, color: C.text, textDecoration: "none", borderBottom: `1px solid ${C.accentDark}`, paddingBottom: 3 }}>
               Nos consultations
-            </motion.a>
+            </a>
           </motion.div>
+        </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 42, flexWrap: "wrap" }}>
-            <SlideIndex i={slide} total={HERO_SLIDES.length} variant="fraction" color={C.textMuted} className="" />
-            <span style={{ fontSize: 13.5, color: C.textMuted, maxWidth: 380 }}>{HERO_SLIDES[slide].legende}</span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.text} className="" />
+        {/* ── LA VITRINE — l'échographie, en bandeau large ───────────────── */}
+        <div className="i368-vitrine">
+          <div style={{ position: "relative", borderRadius: 14, border: `1px solid ${C.border}`, background: C.accentLight, overflow: "hidden", aspectRatio: "21 / 8" }}>
+            <img
+              src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/7108415/pexels-photo-7108415.jpeg?auto=compress&cs=tinysrgb&w=1600"))}
+              alt="Échographie de contrôle"
+              loading="eager"
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
+            <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(59,42,49,0.5) 0%, rgba(59,42,49,0.05) 44%, transparent 72%)" }} />
+            {/* La légende de la diapositive, posée sur la vitrine. */}
+            <motion.div key={`lg-${slide}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} style={{ position: "absolute", left: "clamp(16px, 2.4vw, 28px)", bottom: 14, maxWidth: "70%", textAlign: "left", fontSize: 13.5, color: "rgba(255,255,255,0.92)", textShadow: "0 4px 18px rgba(0,0,0,0.5)" }}>
+              {HERO_SLIDES[slide].legende}
+            </motion.div>
+            {/*
+              La fraction « 01 / 03 » ne disait pas ce qu'on regardait ; ces
+              traits mènent directement à chaque temps du suivi.
+            */}
+            <div style={{ position: "absolute", right: "clamp(16px, 2.4vw, 28px)", bottom: 18, display: "flex", gap: 8 }}>
+              {HERO_SLIDES.map((h: any, n: number) => (
+                <button
+                  key={h.mot ?? n}
+                  type="button"
+                  onClick={() => go(n)}
+                  aria-label={h.mot ?? `Temps ${n + 1}`}
+                  aria-current={n === slide}
+                  style={{ width: 32, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === slide ? "#fff" : "rgba(255,255,255,0.4)", transition: "background .3s" }}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
