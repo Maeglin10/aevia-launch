@@ -351,11 +351,55 @@ export default function DuoPeinturesPage() {
   /* Le fond courant de la bascule : sert de couleur de texte aux boutons pleins
      du héros, qui sont donc lisibles du sombre au clair sans un hex fixe. */
   const fondCourant = (p: number) => `color-mix(in srgb, ${C.bg} ${Math.round(p * 100)}%, ${C.bgDark})`;
+  /* L'encre courante, calculée comme InvertSweep la calcule. Le bouton plein
+     écrivait `background: currentColor` en se donnant AUSSI `color:
+     fondCourant(...)` : or currentColor se résout à la couleur de l'élément
+     lui-même, pas à celle qu'il hérite — le fond du bouton devenait la
+     couleur de son texte, et le bouton disparaissait dans la carte. */
+  const encreCourante = (p: number) => `color-mix(in srgb, ${C.ink} ${Math.round(p * 100)}%, ${C.inkLight})`;
 
   return (
     <div style={{ background: C.bg, color: C.ink, fontFamily: BODY, overflowX: "clip" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Work+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;1,300;1,400&display=swap');
+
+        /*
+          ── Héros « carte flottante en débord » ────────────────────────────
+          Le cadre du chantier s'arrête avant le bord droit ; la carte le
+          franchit. Sans marge, rien ne peut déborder de rien.
+        */
+        .i362-hero {
+          position: relative;
+          min-height: 100dvh;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          padding: clamp(112px, 13vh, 152px) clamp(24px, 5vw, 64px) clamp(44px, 6vh, 72px);
+        }
+        .i362-cadre {
+          position: absolute;
+          top: clamp(84px, 10.5vh, 116px);
+          left: 0;
+          bottom: 0;
+          width: 68%;
+          overflow: hidden;
+        }
+        .i362-carte {
+          position: relative;
+          z-index: 2;
+          width: min(560px, 46%);
+          border: 1px solid;
+          box-shadow: 0 60px 120px -60px rgba(12,12,14,0.8);
+          padding: clamp(24px, 3vw, 40px);
+        }
+
+        @media (max-width: 900px) {
+          /* Sur un téléphone le cadre prend le haut de l'écran et la carte se
+             pose dessous, en le chevauchant d'un cran. */
+          .i362-hero { display: block; padding: 0 14px 20px; }
+          .i362-cadre { position: absolute; inset: 0 0 auto 0; top: 0; width: 100%; height: 44dvh; }
+          .i362-carte { width: auto; margin-top: calc(44dvh - 60px); }
+        }
 
         @media (max-width: 980px) { #i362-nav { display: none !important; } .i362-burger { display: flex !important; } }
         @media (max-width: 900px) {
@@ -458,22 +502,17 @@ export default function DuoPeinturesPage() {
         </div>
       )}
 
-      {/* ── HÉROS H6 — InvertSweep : la page bascule, avant → après.
-             Aucune couleur fixe ici : tout hérite, ou se calcule depuis
-             `invert`. C'est la condition pour que les deux extrémités de la
-             bascule restent lisibles. ─────────────────────────────────────── */}
+      {/* ── HÉROS — carte flottante en débord, sur la bascule InvertSweep ──
+             Le chantier photographié tient un cadre à gauche, qui s'arrête
+             avant le bord droit de l'écran ; la carte du devis se pose
+             dessus et franchit ce bord. Le geste du thème ne change pas : la
+             page bascule toujours du sombre au clair au fil du défilement,
+             et la carte comme le cadre héritent l'encre courante — aucun hex
+             figé, c'est la condition pour que les deux extrémités de la
+             bascule restent lisibles. */}
       <InvertSweep dark={C.bgDark} light={C.bg} textDark={C.inkLight} textLight={C.ink} accent={C.accent} className="">
         {(invert) => (
-          <div
-            style={{
-              position: "relative",
-              minHeight: "100dvh",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              padding: "clamp(126px, 16vh, 178px) clamp(24px, 5vw, 64px) clamp(48px, 7vh, 82px)",
-            }}
-          >
+          <div className="i362-hero">
             {/* Texture : la bâche de protection, hachures diagonales en
                 currentColor — visible sur les deux fonds par construction. */}
             <div
@@ -486,79 +525,88 @@ export default function DuoPeinturesPage() {
                 backgroundImage: "repeating-linear-gradient(-45deg, currentColor 0 1px, transparent 1px 26px)",
               }}
             />
-            {/* Mot fantôme : le second temps du métier. */}
-            <div
-              aria-hidden
-              style={{
-                position: "absolute",
-                left: "-2vw",
-                bottom: "4vh",
-                fontFamily: DISPLAY,
-                fontWeight: 800,
-                fontSize: "clamp(96px, 21vw, 300px)",
-                lineHeight: 0.76,
-                letterSpacing: "-0.05em",
-                color: "currentColor",
-                opacity: 0.055,
-                pointerEvents: "none",
-                userSelect: "none",
-              }}
-            >
-              APRÈS
+
+            {/* ── Le cadre : le chantier, ou la bâche dessinée ───────────── */}
+            <div className="i362-cadre">
+              {equipePhoto ? (
+                <img
+                  src={equipePhoto}
+                  alt={`${nom} — sur le chantier`}
+                  loading="eager"
+                  style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+                />
+              ) : (
+                <div aria-hidden style={{ position: "absolute", inset: 0, opacity: 0.14, backgroundImage: "repeating-linear-gradient(-45deg, currentColor 0 2px, transparent 2px 22px)" }} />
+              )}
+              {/* Le voile s'épaissit vers la droite, là où la carte se pose. */}
+              <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(100deg, rgba(12,12,14,0.16) 0%, rgba(12,12,14,0.05) 40%, rgba(12,12,14,0.6) 100%)" }} />
+              {/* Le mot du métier, posé sur le chantier. */}
+              <div
+                aria-hidden
+                style={{
+                  position: "absolute",
+                  left: "clamp(18px, 2.6vw, 34px)",
+                  bottom: "clamp(12px, 2vh, 22px)",
+                  fontFamily: DISPLAY,
+                  fontWeight: 800,
+                  fontSize: "clamp(40px, 6.5vw, 96px)",
+                  lineHeight: 0.8,
+                  letterSpacing: "-0.05em",
+                  color: "rgba(255,255,255,0.2)",
+                  textTransform: "uppercase",
+                  userSelect: "none",
+                }}
+              >
+                Avant
+              </div>
             </div>
 
-            <div style={{ maxWidth: 1180, margin: "0 auto", width: "100%", position: "relative" }}>
+            {/* ── LA CARTE — elle franchit le bord droit du cadre ────────── */}
+            <div className="i362-carte" style={{ background: fondCourant(invert), borderColor: "currentColor" }}>
               <Kicker tone="inherit">{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
 
+              {/*
+                Titre d'un seul tenant. La seconde ligne en italique fine
+                soulignée était la figure — mais aussi la signature de gabarit
+                de toute la série : le trait souligné suffit, sur une seule
+                ligne, à dire l'avant/après.
+              */}
               <h1
                 style={{
                   fontFamily: DISPLAY,
                   fontWeight: 800,
-                  fontSize: "clamp(42px, 7.4vw, 96px)",
-                  lineHeight: 0.94,
-                  letterSpacing: "-0.035em",
-                  margin: "clamp(22px, 3vw, 34px) 0 clamp(20px, 2.6vw, 30px)",
-                  maxWidth: 1020,
+                  fontSize: "clamp(30px, 3.8vw, 52px)",
+                  lineHeight: 0.98,
+                  letterSpacing: "-0.033em",
+                  margin: "clamp(16px, 2.2vw, 26px) 0 clamp(16px, 2vw, 24px)",
                   color: "currentColor",
                   textTransform: "uppercase",
+                  overflowWrap: "break-word",
                 }}
               >
                 {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (
                   <>
-                    <span style={{ display: "block" }}>{clientHeroLine(sessionData, 0, 2, 22) ?? "Avant, après :"}</span>
-                    {/* La seconde ligne est la figure du thème : italique fine,
-                        soulignée d'un trait qui suit la bascule. */}
-                    <span
-                      style={{
-                        display: "inline-block",
-                        fontFamily: BODY,
-                        fontStyle: "italic",
-                        fontWeight: 300,
-                        textTransform: "none",
-                        letterSpacing: "-0.02em",
-                        borderBottom: "2px solid currentColor",
-                        paddingBottom: "0.06em",
-                        opacity: 0.92,
-                      }}
-                    >
-                      {clientHeroLine(sessionData, 1, 2, 22) ?? "c'est tout notre métier."}
-                    </span>
+                    {clientHeroLine(sessionData, 0, 1, 40) ?? (
+                      <>
+                        Avant, après :{" "}
+                        <span style={{ borderBottom: "3px solid currentColor", paddingBottom: "0.04em" }}>c'est tout notre métier.</span>
+                      </>
+                    )}
                   </>
                 )}
               </h1>
 
-              <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: "clamp(15px, 1.6vw, 17.5px)", lineHeight: 1.8, opacity: 0.76, maxWidth: 560, margin: "0 0 clamp(28px, 3.6vw, 40px)", color: "currentColor" }}>
+              <p style={{ fontFamily: BODY, fontWeight: 300, fontSize: "clamp(14px, 1.25vw, 16px)", lineHeight: 1.78, opacity: 0.76, margin: "0 0 clamp(20px, 2.6vw, 28px)", color: "currentColor" }}>
                 {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Un père compagnon, une fille reprise d'entreprise : deux peintres qui rénovent cages d'escalier, appartements locatifs et maisons familiales — vite, proprement, au prix écrit."}
               </p>
 
-              <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center", marginBottom: "clamp(34px, 6vh, 62px)" }}>
-                {/* Bouton plein : fond = l'encre courante, texte = le fond
-                    courant. Deux valeurs calculées, aucun hex figé. */}
+              {/* Une seule action pleine ; les chantiers restent un lien. */}
+              <div style={{ display: "flex", gap: "clamp(16px, 2vw, 24px)", flexWrap: "wrap", alignItems: "center", marginBottom: "clamp(22px, 3vh, 32px)" }}>
                 <a
                   href={telHref}
                   className="i362-cta"
                   style={{
-                    background: "currentColor",
+                    background: encreCourante(invert),
                     color: fondCourant(invert),
                     padding: "16px 30px",
                     fontFamily: BODY,
@@ -574,7 +622,7 @@ export default function DuoPeinturesPage() {
                 </a>
                 <a
                   href="#services"
-                  style={{ border: "1px solid currentColor", color: "currentColor", padding: "15px 26px", fontFamily: BODY, fontSize: 14.5, fontWeight: 500, textDecoration: "none", opacity: 0.86 }}
+                  style={{ color: "currentColor", fontFamily: BODY, fontSize: 13, textDecoration: "none", borderBottom: "1px solid currentColor", paddingBottom: 3, opacity: 0.86 }}
                 >
                   Nos chantiers
                 </a>
