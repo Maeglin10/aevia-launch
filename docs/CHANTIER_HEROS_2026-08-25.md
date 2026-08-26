@@ -82,8 +82,8 @@ d'écart, et jamais avec les mêmes proportions.
 | 358 | laboratoire | `devanture` | fait |
 | 359 | location matériel | `pleincadre` | fait |
 | 360 | location matériel | `editorial` | fait |
-| 361 | peintre | `bandeau` | à faire |
-| 362 | peintre | `carte` | à faire |
+| 361 | peintre | `bandeau` | fait |
+| 362 | peintre | `carte` | fait |
 | 363 | podologue | `splitgauche` | à faire |
 | 364 | podologue | `diagonale` | à faire |
 | 365 | producteur | `chiffre` | à faire |

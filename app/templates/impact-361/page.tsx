@@ -24,7 +24,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, CheckCircle, Clock, Droplets, Mail, MapPin, Paintbrush, Palette, Phone, Star } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { WipeReveal } from "@/lib/templates/hero-kit-3";
 import {
   clientAddress,
@@ -438,7 +438,7 @@ export default function AtelierTeintesPage() {
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i, go } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
   useEffect(() => {
@@ -475,13 +475,39 @@ export default function AtelierTeintesPage() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Sora:wght@200;300;400;500;600;700&display=swap');
 
-        @media (max-width: 980px) { #i361-nav { display: none !important; } .i361-burger { display: flex !important; } }
-        @media (max-width: 1080px) {
-          .i361-over { width: 100% !important; }
-          .i361-panel { transform: none !important; }
+        /*
+          ── Héros « bandeau bas » ──────────────────────────────────────────
+          Le texte tient le haut ; la passe de peinture court d'un bord à
+          l'autre en pied d'écran, dévoilée par le rouleau (WipeReveal).
+        */
+        .i361-sousrit {
+          display: grid;
+          grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+          gap: clamp(24px, 4vw, 64px);
+          align-items: start;
+          margin-top: clamp(18px, 2.4vw, 28px);
+          padding-top: clamp(18px, 2.4vw, 26px);
+          border-top: 1px solid ${C.border};
         }
+        .i361-bandeau { position: relative; z-index: 2; width: 100vw; margin-left: calc(50% - 50vw); }
+        .i361-bandeau-img {
+          position: relative;
+          height: clamp(150px, 24vh, 260px);
+          overflow: hidden;
+          border-top: 1px solid ${C.border};
+        }
+        .i361-bandeau-img > *:first-child { position: absolute; inset: 0; }
+        .i361-bandeau-legende {
+          position: absolute;
+          left: clamp(24px, 5vw, 64px);
+          bottom: clamp(14px, 2.4vh, 24px);
+          z-index: 2;
+          max-width: min(560px, 70%);
+        }
+
+        @media (max-width: 980px) { #i361-nav { display: none !important; } .i361-burger { display: flex !important; } }
         @media (max-width: 900px) {
-          .i361-hero { grid-template-columns: minmax(0,1fr) !important; }
+          .i361-sousrit { grid-template-columns: minmax(0,1fr) !important; row-gap: 22px; }
           .i361-split { grid-template-columns: minmax(0,1fr) !important; }
           .i361-split > * { order: initial !important; }
           .i361-row { grid-template-columns: minmax(0,1fr) !important; gap: 14px !important; }
@@ -580,18 +606,24 @@ export default function AtelierTeintesPage() {
       )}
 
       {/* ── HÉROS H4 — le titre chevauche le panneau ; WipeReveal le dévoile ── */}
+      {/* ── HERO — bandeau bas ────────────────────────────────────────────
+             Le texte tient le haut ; la passe de peinture court en bandeau
+             d'un bord à l'autre, en pied d'écran, et le geste WipeReveal la
+             dévoile comme un rouleau qui passe. La version précédente
+             chevauchait un panneau posé à droite du titre : la charpente de
+             toute la série. */}
       <section
         className="i361-hero i361-pad"
         style={{
           position: "relative",
-          display: "grid",
-          gridTemplateColumns: "minmax(0,1.06fr) minmax(0,0.94fr)",
-          gap: "clamp(28px, 4vw, 64px)",
-          alignItems: "center",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          gap: "clamp(22px, 3vh, 38px)",
           minHeight: "100dvh",
           maxWidth: 1320,
           margin: "0 auto",
-          padding: "clamp(126px, 16vh, 176px) clamp(24px, 5vw, 64px) clamp(56px, 8vh, 92px)",
+          padding: "clamp(118px, 14vh, 158px) clamp(24px, 5vw, 64px) clamp(40px, 5vh, 64px)",
         }}
       >
         {/* Glow radial : la lumière d'atelier, sans image. */}
@@ -611,126 +643,116 @@ export default function AtelierTeintesPage() {
           }}
         />
 
-        <div style={{ position: "relative", zIndex: 3 }}>
+        <div className="i361-dire" style={{ position: "relative", zIndex: 3 }}>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, ease: EASE, delay: 0.12 }}>
             <Kicker>{clientEyebrow(sessionData) ?? `${metier} · ${ville}`}</Kicker>
           </motion.div>
 
+          {/*
+            Titre d'un seul tenant, d'une seule couleur : la seconde ligne en
+            italique d'un autre ton était la signature de gabarit de la série.
+          */}
           <motion.h1
-            className="i361-over"
             initial={{ opacity: 0, y: 34 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.15, ease: EASE, delay: 0.24 }}
             style={{
               fontFamily: SERIF,
               fontWeight: 500,
-              fontSize: "clamp(42px, 6.6vw, 88px)",
-              lineHeight: 0.98,
+              fontSize: "clamp(38px, 6.2vw, 86px)",
+              lineHeight: 0.99,
               letterSpacing: "-0.022em",
               color: C.ink,
-              margin: "clamp(22px, 3vw, 34px) 0 clamp(20px, 2.6vw, 30px)",
-              width: "calc(100% + 15%)",
-              position: "relative",
+              margin: "clamp(20px, 2.6vw, 32px) 0 0",
+              maxWidth: 920,
+              overflowWrap: "break-word",
             }}
           >
-            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (
-              <>
-                <span style={{ display: "block" }}>{clientHeroLine(sessionData, 0, 2, 20) ?? "La couleur juste,"}</span>
-                <em style={{ display: "block", fontStyle: "italic", color: C.accentDark }}>
-                  {clientHeroLine(sessionData, 1, 2, 20) ?? "posée juste."}
-                </em>
-              </>
-            )}
+            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ??
+              clientHeroLine(sessionData, 0, 1, 34) ??
+              "La couleur juste, posée juste."}
           </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.95, ease: EASE, delay: 0.42 }}
-            style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(15px, 1.6vw, 17px)", lineHeight: 1.78, color: C.textMuted, maxWidth: 486, margin: "0 0 clamp(26px, 3.4vw, 38px)" }}
-          >
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Peintures dépolluantes, enduits à la chaux, papiers peints panoramiques : un atelier de peintres décorateurs qui prépare les murs comme on prépare une toile — parce que c'est pareil."}
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: EASE, delay: 0.56 }}
-            style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}
-          >
-            <motion.a
-              href={telHref}
-              className="i361-cta"
-              style={{ background: C.accentDark, color: C.white, borderRadius: 3, padding: "16px 30px", fontFamily: SANS, fontSize: 14.5, fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10 }}
-              whileHover={{ scale: 1.02, y: -2 }}
+          <div className="i361-sousrit">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.95, ease: EASE, delay: 0.42 }}
+              style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(14.5px, 1.35vw, 16.5px)", lineHeight: 1.78, color: C.textMuted, margin: 0 }}
             >
-              Demander un devis <ArrowRight size={16} className="i361-fleche" aria-hidden />
-            </motion.a>
-            <a
-              href="#services"
-              style={{ border: `1px solid ${C.border}`, background: C.bgCard, color: C.ink, borderRadius: 3, padding: "15px 26px", fontFamily: SANS, fontSize: 14.5, fontWeight: 500, textDecoration: "none" }}
-            >
-              Nos finitions
-            </a>
-          </motion.div>
+              {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Peintures dépolluantes, enduits à la chaux, papiers peints panoramiques : un atelier de peintres décorateurs qui prépare les murs comme on prépare une toile — parce que c'est pareil."}
+            </motion.p>
 
-          {/* Chiffres intégrés au héros — un rail fin, pas une bande sombre. */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, ease: EASE, delay: 0.78 }}
-            style={{ marginTop: "clamp(38px, 5.5vh, 62px)", borderTop: `1px solid ${C.border}`, paddingTop: 22, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(128px, 100%), 1fr))", gap: "18px 10px" }}
-          >
-            {STATS.map((s: any) => (
-              <div key={s.label} style={{ minWidth: 0 }}>
-                <div style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(24px, 2.6vw, 32px)", lineHeight: 1, color: C.accentDark, letterSpacing: "-0.01em" }}>{s.value}</div>
-                <div style={{ fontFamily: SANS, fontWeight: 300, fontSize: 12, lineHeight: 1.5, color: C.textFaint, marginTop: 7 }}>{s.label}</div>
+            <motion.div
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease: EASE, delay: 0.56 }}
+              style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 16 }}
+            >
+              {/* Une seule action pleine ; les finitions restent un lien. */}
+              <div style={{ display: "flex", gap: "clamp(16px,2vw,26px)", flexWrap: "wrap", alignItems: "center" }}>
+                <motion.a
+                  href={telHref}
+                  className="i361-cta"
+                  style={{ background: C.accentDark, color: C.white, borderRadius: 3, padding: "16px 30px", fontFamily: SANS, fontSize: 14.5, fontWeight: 600, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 10 }}
+                  whileHover={{ scale: 1.02, y: -2 }}
+                >
+                  Demander un devis <ArrowRight size={16} className="i361-fleche" aria-hidden />
+                </motion.a>
+                <a href="#services" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accentDark}`, paddingBottom: 3 }}>
+                  Nos finitions
+                </a>
               </div>
-            ))}
-          </motion.div>
+              {/* Le nuancier vit avec l'action : c'est l'argument de l'atelier. */}
+              <Nuancier chips={CHIPS} compact />
+            </motion.div>
+          </div>
         </div>
 
-        {/* Le panneau — décalé vers le bas, sous le titre qui le chevauche. */}
-        <div className="i361-panel" style={{ position: "relative", zIndex: 2, transform: "translateY(6%)" }}>
-          <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: 6, overflow: "hidden", boxShadow: "0 30px 70px rgba(36,26,46,0.14), 0 6px 16px rgba(36,26,46,0.06)" }}>
+        {/* ── LE BANDEAU — la passe de peinture, d'un bord à l'autre ─────── */}
+        <div className="i361-bandeau">
+          <div className="i361-bandeau-img">
             <WipeReveal index={i} duration={0.95}>
-              <div style={{ aspectRatio: "4/3", background: `linear-gradient(140deg, ${C.accentLight} 0%, ${C.teinte} 58%, ${C.accent} 100%)`, position: "relative", overflow: "hidden" }}>
+              <div style={{ position: "absolute", inset: 0, background: `linear-gradient(140deg, ${C.accentLight} 0%, ${C.teinte} 58%, ${C.accent} 100%)`, overflow: "hidden" }}>
                 {heroPhoto ? (
-                  <img src={heroPhoto} alt={`${nom} — ${S.k}`} loading="eager" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                  <img src={heroPhoto} alt={`${nom} — ${S.k}`} loading="eager" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                 ) : (
                   /* Repli sans image : la passe de rouleau, en CSS. */
                   <div
                     aria-hidden
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      backgroundImage: "repeating-linear-gradient(90deg, rgba(255,255,255,0.16) 0 2px, transparent 2px 15px)",
-                    }}
+                    style={{ position: "absolute", inset: 0, backgroundImage: "repeating-linear-gradient(90deg, rgba(255,255,255,0.16) 0 2px, transparent 2px 15px)" }}
                   />
                 )}
+                <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to right, rgba(36,26,46,0.7) 0%, rgba(36,26,46,0.16) 44%, rgba(36,26,46,0.4) 100%)" }} />
               </div>
             </WipeReveal>
-            <div style={{ padding: "clamp(18px, 2.4vw, 26px) clamp(20px, 2.6vw, 28px) clamp(16px, 2vw, 22px)" }}>
+
+            {/* La finition du moment, posée sur la passe. */}
+            <div className="i361-bandeau-legende">
               <WipeReveal index={i} duration={0.85} delay={0.06}>
                 <div>
-                  <div style={{ fontFamily: SANS, fontSize: 10, fontWeight: 600, letterSpacing: "0.32em", textTransform: "uppercase", color: C.accentDark, marginBottom: 10 }}>{S.k}</div>
-                  <div style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(17px, 1.9vw, 21px)", lineHeight: 1.4, color: C.ink }}>{S.line}</div>
-                  <div style={{ fontFamily: SANS, fontWeight: 300, fontSize: 13, lineHeight: 1.65, color: C.textMuted, marginTop: 10 }}>{S.sub}</div>
+                  <div style={{ fontFamily: SANS, fontSize: 10, fontWeight: 600, letterSpacing: "0.32em", textTransform: "uppercase", color: "rgba(255,255,255,0.78)", marginBottom: 8 }}>{S.k}</div>
+                  <div style={{ fontFamily: SERIF, fontWeight: 400, fontSize: "clamp(16px, 1.8vw, 21px)", lineHeight: 1.35, color: C.white, textShadow: "0 6px 26px rgba(0,0,0,0.5)" }}>{S.line}</div>
                 </div>
               </WipeReveal>
             </div>
-            {/* Pied de panneau : le nuancier, en filet. */}
-            <div style={{ padding: "0 clamp(20px, 2.6vw, 28px) clamp(18px, 2.2vw, 24px)" }}>
-              <Nuancier chips={CHIPS} compact />
-            </div>
-          </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 18, flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textFaint} className="" />
-            <span style={{ fontFamily: SANS, fontWeight: 300, fontSize: 12.5, color: C.textMuted, flex: 1, minWidth: 140 }}>
-              Passe {i + 1} sur {HERO.length}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" />
+            {/*
+              « Passe 1 sur 3 » ne disait pas ce qu'on regardait ; ces traits
+              nomment les passes et y mènent directement.
+            */}
+            <div style={{ position: "absolute", right: "clamp(16px,2vw,26px)", bottom: 16, zIndex: 2, display: "flex", gap: 8 }}>
+              {HERO.map((h: any, n: number) => (
+                <button
+                  key={h.k ?? n}
+                  type="button"
+                  onClick={() => go(n)}
+                  aria-label={h.k ?? `Passe ${n + 1}`}
+                  aria-current={n === i}
+                  style={{ width: 32, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === i ? C.white : "rgba(255,255,255,0.38)", transition: "background .3s" }}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </section>
