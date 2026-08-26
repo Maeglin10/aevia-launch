@@ -27,8 +27,7 @@ import { motion, useInView, useReducedMotion } from "framer-motion";
 import { ArrowRight, Clock, HardHat, Mail, MapPin, Phone, TreePine, Truck, Wrench, Zap } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { BentoCascade, DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
-import { FixedRail } from "@/lib/templates/hero-kit-3";
+import { BentoCascade, DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import {
   clientAddress,
   clientAreas,
@@ -530,7 +529,7 @@ export default function LocamatPage() {
   const reduce = useReducedMotion();
 
   /* Un seul index pilote tout le héros : rail, titre, tuiles, compteur. */
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i, go } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
   /*
@@ -596,14 +595,41 @@ export default function LocamatPage() {
   /* Le bandeau du parc : la photo du client s'il en a fourni une, sinon un
      aplat d'acier rayé — le dépôt se tient très bien sans image. */
   const bandeau = photo(1, "");
+  /* Le héros est en fond perdu : la photographie du client d'abord, la
+     machine du thème ensuite — jamais un trou noir. */
+  const heroImg = photo(0, "https://images.pexels.com/photos/29502220/pexels-photo-29502220.jpeg?auto=compress&cs=tinysrgb&w=1600");
 
   return (
     <div style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip", WebkitFontSmoothing: "antialiased" }}>
       <style>{FONTS_CSS}</style>
       <style>{`
+        /*
+          ── Héros « plein cadre » ──────────────────────────────────────────
+          La machine tient tout l'écran, la parole se pose sur son bord bas.
+        */
+        .i359-parole {
+          position: relative;
+          z-index: 2;
+          width: 100%;
+          max-width: 1340px;
+          margin: 0 auto;
+          padding: clamp(118px,14vh,164px) clamp(22px,5vw,64px) clamp(40px,5.5vh,68px);
+        }
+        .i359-bas {
+          display: grid;
+          grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
+          gap: clamp(22px, 3.4vw, 52px);
+          align-items: end;
+          margin-top: clamp(20px, 2.6vw, 32px);
+          padding-top: clamp(18px, 2.4vw, 26px);
+          border-top: 1px solid rgba(255,255,255,0.14);
+        }
+        .i359-famille { border-left: 1px solid rgba(255,255,255,0.14); padding-left: clamp(16px, 2vw, 28px); }
+
         @media (max-width: 1000px) { #i359-nav { display: none !important; } .i359-burger { display: flex !important; } }
         @media (max-width: 900px) {
-          .i359-hero { grid-template-columns: minmax(0,1fr) !important; padding: 112px 22px 56px 60px !important; gap: 32px !important; }
+          .i359-bas { grid-template-columns: minmax(0,1fr) !important; row-gap: 24px; }
+          .i359-famille { border-left: none !important; padding-left: 0 !important; border-top: 1px solid rgba(255,255,255,0.16); padding-top: 20px; }
           .i359-hero > * { order: initial !important; }
           .i359-bento { grid-template-columns: minmax(0,1fr) !important; grid-template-rows: auto !important; }
           .i359-bento > div { grid-column: 1 / -1 !important; grid-row: auto !important; }
@@ -683,58 +709,50 @@ export default function LocamatPage() {
         </div>
       )}
 
-      {/* ── HERO — H5 : rail latéral fixe + titre monumental ─────────────── */}
+      {/* ── HERO — plein cadre, la parole posée en bas ────────────────────
+             La machine occupe tout l'écran ; le titre monumental et les
+             points du contrat se posent sur son bord bas. La version
+             précédente rangeait la parole à gauche, un bento de tuiles à
+             droite et un rail vertical en marge : trois colonnes pour un
+             loueur de machines dont le premier argument est la machine. */}
       <section
         id="top"
         className="i359-hero"
         style={{
           position: "relative",
           minHeight: "100dvh",
-          display: "grid",
-          gridTemplateColumns: "minmax(0,1.12fr) minmax(0,0.88fr)",
-          gap: "clamp(30px,4.5vw,64px)",
-          alignItems: "center",
-          padding: "clamp(126px,14vw,164px) clamp(22px,5vw,64px) clamp(58px,7vw,84px) clamp(74px,8vw,132px)",
-          maxWidth: 1340,
-          margin: "0 auto",
+          display: "flex",
+          alignItems: "flex-end",
+          background: C.bgDark,
           overflow: "hidden",
         }}
       >
-        {/* le rail de chantier : immobile, il ne change que de teinte */}
-        <FixedRail color={S.rail} side="left" width="clamp(38px,3.6vw,60px)">
-          <div style={{ position: "absolute", inset: 0, overflow: "hidden" }} aria-hidden>
-            <Rayures opacity={0.16} taille={18} />
-            <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to bottom, ${C.bg} 0%, transparent 16%, transparent 84%, ${C.bg} 100%)` }} />
+        {/* Le fond : la photo du client, ou la machine du thème. */}
+        <div aria-hidden style={{ position: "absolute", inset: 0 }}>
+          <img
+            src={heroImg}
+            alt=""
+            loading="eager"
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+          />
+          {/* Scrim à trois arrêts : le titre se lit quoi qu'il y ait derrière. */}
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(5,6,8,0.6) 0%, rgba(5,6,8,0.16) 32%, rgba(5,6,8,0.68) 66%, rgba(5,6,8,0.94) 100%)" }} />
+          {/* Les rayures de chantier, en liseré haut : la signature du métier. */}
+          <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 10, overflow: "hidden" }}>
+            <Rayures opacity={0.85} taille={18} />
           </div>
-          <div style={{ position: "relative", display: "grid", placeItems: "center", gap: 18 }}>
-            <SlideIndex i={i} total={HERO.length} variant="flat" color={C.accent} className="" />
-            <span
-              style={{
-                writingMode: "vertical-rl",
-                textOrientation: "mixed",
-                fontFamily: SANS,
-                fontSize: 10,
-                fontWeight: 600,
-                letterSpacing: "0.34em",
-                textTransform: "uppercase",
-                color: C.textFaint,
-                whiteSpace: "nowrap",
-              }}
-            >
-              {S.k}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.acier} vertical className="" />
-          </div>
-        </FixedRail>
+        </div>
 
-        <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(52% 44% at 26% 26%, rgba(224,138,30,0.11), transparent 68%)" }} />
-
-        {/* Colonne parole — le titre monumental */}
-        <div style={{ order: 1, position: "relative", zIndex: 1 }}>
+        <div className="i359-parole">
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.14, ease: EASE }}>
             <Kicker>{clientEyebrow(sessionData) ?? <>Location de matériel · {ville}</>}</Kicker>
           </motion.div>
 
+          {/*
+            Titre monumental d'un seul tenant, d'une seule couleur : la
+            seconde ligne en italique d'un autre ton était la signature de
+            gabarit de toute la série.
+          */}
           <motion.h1
             key={`h-${i}`}
             initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24 }}
@@ -743,57 +761,67 @@ export default function LocamatPage() {
             style={{
               fontFamily: DISPLAY,
               fontWeight: 900,
-              fontSize: "clamp(40px,7.4vw,108px)",
-              color: C.ink,
-              lineHeight: 0.9,
+              fontSize: "clamp(38px,6.8vw,96px)",
+              color: C.white,
+              lineHeight: 0.92,
               letterSpacing: "-0.035em",
               textTransform: "uppercase",
-              margin: "clamp(18px,2vw,28px) 0 clamp(16px,1.8vw,24px)",
+              margin: "clamp(16px,2vw,26px) 0 0",
+              maxWidth: 1000,
+              textShadow: "0 16px 60px rgba(0,0,0,0.6)",
+              overflowWrap: "break-word",
             }}
           >
-            {l1}
-            <br />
-            <em style={{ fontStyle: "italic", fontWeight: 400, color: C.accent }}>{l2}</em>
+            {l1} {l2}
           </motion.h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.85, delay: 0.4, ease: EASE }}
-            style={{ fontFamily: SANS, fontSize: "clamp(15.5px,1.25vw,17px)", fontWeight: 300, color: C.textMuted, lineHeight: 1.78, maxWidth: 500, marginBottom: "clamp(24px,3vw,34px)" }}
-          >
-            {clientHeroSubtitle(sessionData) ??
-              clientTagline(sessionData) ??
-              "Mini-pelles, plaques vibrantes, broyeurs, échafaudages : 400 références entretenues et contrôlées, à l'heure, à la journée ou au mois. Pros et particuliers, remorque comprise si besoin."}
-          </motion.p>
+          {/* ── La ligne du bas : la prose, l'action, la famille du moment ── */}
+          <div className="i359-bas">
+            <div style={{ minWidth: 0 }}>
+              <motion.p
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.85, delay: 0.4, ease: EASE }}
+                style={{ fontFamily: SANS, fontSize: "clamp(14.5px,1.3vw,16.5px)", fontWeight: 300, color: "rgba(255,255,255,0.8)", lineHeight: 1.78, margin: "0 0 clamp(20px,2.6vw,30px)" }}
+              >
+                {clientHeroSubtitle(sessionData) ??
+                  clientTagline(sessionData) ??
+                  "Mini-pelles, plaques vibrantes, broyeurs, échafaudages : 400 références entretenues et contrôlées, à l'heure, à la journée ou au mois. Pros et particuliers, remorque comprise si besoin."}
+              </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, delay: 0.54, ease: EASE }} style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
-            <Btn href={telHref} filled>
-              Réserver une machine
-            </Btn>
-            <Btn href="#parc">Voir le parc</Btn>
-          </motion.div>
+              {/* Une seule action pleine ; le parc reste un lien. */}
+              <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, delay: 0.54, ease: EASE }} style={{ display: "flex", gap: "clamp(16px,2vw,26px)", flexWrap: "wrap", alignItems: "center" }}>
+                <Btn href={telHref} filled>
+                  Réserver une machine
+                </Btn>
+                <a href="#parc" style={{ fontFamily: SANS, fontSize: 13, color: C.white, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+                  Voir le parc
+                </a>
+              </motion.div>
+            </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: "clamp(28px,3.6vw,44px)", paddingTop: 20, borderTop: `1px solid ${C.border}`, flexWrap: "wrap" }}>
-            <span style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: 13, letterSpacing: "0.06em", textTransform: "uppercase", color: C.accent }}>{S.k}</span>
-            <span aria-hidden style={{ width: 26, height: 1, background: C.border }} />
-            <span style={{ fontFamily: SANS, fontSize: 13, fontWeight: 300, color: C.textMuted }}>{S.sub}</span>
+            {/*
+              La famille du parc montrée, et de quoi passer aux autres. La
+              fraction du rail ne disait pas ce qu'on regardait ; ces traits
+              nomment les familles et y mènent directement.
+            */}
+            <div className="i359-famille">
+              <div style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: 13, letterSpacing: "0.06em", textTransform: "uppercase", color: C.accent, marginBottom: 8 }}>{S.k}</div>
+              <div style={{ fontFamily: SANS, fontSize: 12.5, fontWeight: 300, color: "rgba(255,255,255,0.72)", lineHeight: 1.65 }}>{S.sub}</div>
+              <div style={{ display: "flex", gap: 8, marginTop: 14 }}>
+                {HERO.map((h: any, n: number) => (
+                  <button
+                    key={h.k ?? n}
+                    type="button"
+                    onClick={() => go(n)}
+                    aria-label={h.k ?? `Famille ${n + 1}`}
+                    aria-current={n === i}
+                    style={{ width: 34, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === i ? C.accent : "rgba(255,255,255,0.28)", transition: "background .3s" }}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
-        </div>
-
-        {/* Colonne tuiles — le geste, en cascade verticale */}
-        <div style={{ order: 2, position: "relative", zIndex: 1 }}>
-          <BentoCascade
-            index={i}
-            tiles={tiles}
-            className="i359-bento"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(2, minmax(0,1fr))",
-              gridTemplateRows: "minmax(96px,auto) minmax(58px,auto) minmax(58px,auto)",
-              gap: 12,
-            }}
-          />
         </div>
       </section>
 
@@ -923,7 +951,7 @@ export default function LocamatPage() {
           <Reveal style={{ order: 1 }}>
             <div style={{ position: "relative", overflow: "hidden", background: C.bgDark, border: `1px solid ${C.border}` }}>
               <img
-                src={photo(0, "https://images.pexels.com/photos/29502220/pexels-photo-29502220.jpeg?auto=compress&cs=tinysrgb&w=1400")}
+                src={photo(2, "https://images.pexels.com/photos/8961214/pexels-photo-8961214.jpeg?auto=compress&cs=tinysrgb&w=1400")}
                 alt="Grue mobile disponible à la location"
                 loading="lazy"
                 style={{ width: "100%", aspectRatio: "4/3.4", objectFit: "cover", display: "block" }}
