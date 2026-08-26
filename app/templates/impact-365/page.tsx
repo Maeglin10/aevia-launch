@@ -6,7 +6,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, CheckCircle, Clock, Mail, MapPin, Phone, Sprout, Star } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, HeldSwap, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, HeldSwap, useSlides } from "@/lib/templates/hero-kit-2";
 import {
   clientAddress,
   clientCertifications,
@@ -503,7 +503,7 @@ export default function QuatreVentsPage() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   /* Un seul index pilote tout le héros : le médaillon, la chronique, le compteur. */
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i, go } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
   useEffect(() => {
@@ -525,14 +525,36 @@ export default function QuatreVentsPage() {
       <style>{`
         ${FONTS_CSS}
 
+        /*
+          ── Héros « chiffre en avant » ─────────────────────────────────────
+          « 0 km » tient la place du titre ; le médaillon l'accompagne sans
+          lui faire face.
+        */
+        .i365-chiffre {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) clamp(150px, 17vw, 216px);
+          gap: clamp(24px, 4vw, 64px);
+          align-items: center;
+        }
+        .i365-medaillon { position: relative; width: 100%; }
+        .i365-dire {
+          display: grid;
+          grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr);
+          gap: clamp(22px, 3.4vw, 52px);
+          align-items: start;
+        }
+        .i365-chronique { border-left: 1px solid ${C.border}; padding-left: clamp(16px, 2vw, 28px); min-width: 0; }
+
         @media (max-width: 960px) { #i365-nav { display: none !important; } .i365-burger { display: flex !important; } }
 
         /* Le bandeau média du héros : médaillon + chronique côte à côte, puis
            empilés — le médaillon garde sa taille, la chronique passe dessous. */
         @media (max-width: 860px) {
-          .i365-bandeau { grid-template-columns: minmax(0,1fr) !important; justify-items: start !important; gap: 22px !important; }
-          .i365-meta { grid-template-columns: minmax(0,1fr) !important; row-gap: 8px !important; }
-          .i365-meta .i365-metacell { border-left: none !important; padding-left: 0 !important; }
+          .i365-chiffre { grid-template-columns: minmax(0,1fr) !important; row-gap: 24px; }
+          .i365-medaillon { max-width: 200px; }
+          .i365-nombre { font-size: clamp(64px, 22vw, 110px) !important; }
+          .i365-dire { grid-template-columns: minmax(0,1fr) !important; row-gap: 24px; }
+          .i365-chronique { border-left: none !important; padding-left: 0 !important; border-top: 1px solid ${C.border}; padding-top: 20px; }
           .i365-une { grid-template-columns: minmax(0,1fr) !important; gap: 34px !important; }
           .i365-split { grid-template-columns: minmax(0,1fr) !important; gap: 34px !important; }
           .i365-contact { grid-template-columns: minmax(0,1fr) !important; gap: 34px !important; }
@@ -629,171 +651,137 @@ export default function QuatreVentsPage() {
           minHeight: "100dvh",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
+          justifyContent: "center",
+          gap: "clamp(22px,3vh,38px)",
           maxWidth: 1280,
           margin: "0 auto",
           padding: "clamp(104px,11vw,140px) clamp(20px,4.5vw,56px) clamp(36px,4vw,56px)",
           overflow: "hidden",
         }}
       >
-        {/* Texture : le grand « 4 » fantôme des Quatre Vents. */}
-        <span
-          aria-hidden
-          style={{
-            position: "absolute",
-            right: "clamp(-30px,-2vw,-6px)",
-            top: "clamp(70px,8vw,110px)",
-            fontFamily: SERIF,
-            fontStyle: "italic",
-            fontSize: "clamp(220px,30vw,460px)",
-            lineHeight: 0.8,
-            color: C.accent,
-            opacity: 0.055,
-            pointerEvents: "none",
-            userSelect: "none",
-          }}
-        >
-          4
-        </span>
+        {/* ── HERO — le chiffre en avant : « 0 km » ─────────────────────────
+               La distance entre le champ et la boutique est l'argument entier
+               d'une ferme en vente directe : elle prend la place du titre. La
+               une de gazette — méta-rangée, titre géant, bandeau — était la
+               composition d'impact-331 et d'impact-350. Le médaillon
+               HeldSwap reste, en regard du chiffre. */}
+
         {/* La rose des vents, en marge — le détail gratuit. */}
         <div aria-hidden className="i365-rose" style={{ position: "absolute", top: "clamp(96px,10vw,130px)", right: "clamp(22px,4vw,58px)" }}>
           <RoseDesVents size={54} color={C.accent} opacity={0.4} />
         </div>
 
-        <div>
-          {/* La méta-rangée : trois cellules filetées, comme l'ours d'une gazette. */}
-          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE, delay: 0.08 }}>
-            <div
-              className="i365-meta"
-              style={{
-                display: "grid",
-                gridTemplateColumns: "minmax(0,1.1fr) minmax(0,1fr) minmax(0,1fr)",
-                gap: 0,
-                borderTop: `1px solid ${C.ink}`,
-                borderBottom: `1px solid ${C.border}`,
-                padding: "12px 0",
-              }}
-            >
-              <div className="i365-metacell" style={{ fontFamily: SANS, fontSize: 10.5, fontWeight: 600, letterSpacing: "0.3em", textTransform: "uppercase", color: C.accentDark }}>
-                {clientEyebrow(sessionData) ?? "Ferme bio · Vallée du Lot"}
-              </div>
-              <div className="i365-metacell" style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase", color: C.textFaint, borderLeft: `1px solid ${C.border}`, paddingLeft: 18 }}>
-                Certifiée AB — vente directe et marchés
-              </div>
-              <div className="i365-metacell" style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.18em", textTransform: "uppercase", color: C.textFaint, borderLeft: `1px solid ${C.border}`, paddingLeft: 18 }}>
-                Boutique : Mer & Ven 16h–19h · Sam 9h–13h
-              </div>
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE, delay: 0.08 }}>
+          <span style={{ fontFamily: SANS, fontSize: 10.5, fontWeight: 600, letterSpacing: "0.3em", textTransform: "uppercase", color: C.accentDark }}>
+            {clientEyebrow(sessionData) ?? "Ferme bio · Vallée du Lot"}
+          </span>
+        </motion.div>
+
+        {/* ── LE CHIFFRE, et le médaillon en regard ──────────────────────── */}
+        <div className="i365-chiffre">
+          <motion.div
+            initial={{ opacity: 0, y: 26 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.18, duration: 1, ease: EASE }}
+            style={{ minWidth: 0 }}
+          >
+            <div className="i365-nombre" style={{ fontFamily: SERIF, fontSize: "clamp(88px,15vw,224px)", fontWeight: 400, lineHeight: 0.82, letterSpacing: "-0.04em", color: C.ink, marginLeft: "-0.04em" }}>
+              {STATS[3]?.value ?? "0 km"}
+            </div>
+            <div style={{ fontFamily: SANS, fontSize: "clamp(12px,1.15vw,14px)", letterSpacing: "0.22em", textTransform: "uppercase", color: C.textMuted, marginTop: "clamp(14px,1.8vw,22px)", lineHeight: 1.7, maxWidth: 340 }}>
+              {STATS[3]?.label ?? "Entre le champ et la boutique"}
             </div>
           </motion.div>
 
-          {/* Le titre géant de la une. */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.24, duration: 1, ease: EASE }}
-            style={{
-              fontFamily: SERIF,
-              fontSize: "clamp(42px,7.6vw,104px)",
-              fontWeight: 400,
-              color: C.ink,
-              lineHeight: 0.98,
-              letterSpacing: "-0.018em",
-              margin: "clamp(26px,3.4vw,48px) 0 clamp(16px,2vw,26px)",
-              maxWidth: 1080,
-            }}
-          >
-            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (
-              <>
-                {c?.heroHeadline ?? (
-                  <>
-                    {clientHeroLine(sessionData, 0, 2, 22) ?? "Ce que la terre donne,"}
-                    <br />
-                    <em style={{ fontStyle: "italic", color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 22) ?? "la semaine où elle le donne."}</em>
-                  </>
+          {/* LE MÉDAILLON — le geste. La récolte sort en basculant, la table
+              reste vide un demi-temps, la suivante se pose. */}
+          <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.34, duration: 0.95, ease: EASE }} className="i365-medaillon">
+            <span aria-hidden style={{ position: "absolute", inset: -12, borderRadius: "50%", border: `1px solid ${C.border}` }} />
+            <span aria-hidden style={{ position: "absolute", inset: -12, borderRadius: "50%", border: `1px dashed ${C.accent}`, opacity: 0.35, transform: "scale(1.09)" }} />
+            <HeldSwap index={i} tilt={8}>
+              <div
+                style={{
+                  borderRadius: "50%",
+                  overflow: "hidden",
+                  aspectRatio: "1",
+                  border: `4px solid ${C.white}`,
+                  boxShadow: "0 22px 48px -20px rgba(36,42,25,0.45), 0 2px 0 0 rgba(255,255,255,0.6)",
+                  background: `radial-gradient(circle at 40% 32%, ${C.accentLight} 0%, ${C.bgAlt} 78%)`,
+                }}
+              >
+                {S.img ? (
+                  <img src={S.img} alt={S.alt} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                ) : (
+                  <div style={{ width: "100%", height: "100%", display: "grid", placeItems: "center" }}>
+                    <RoseDesVents size={64} color={C.accent} opacity={0.45} />
+                  </div>
                 )}
-              </>
-            )}
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.46, duration: 0.9, ease: EASE }}
-            style={{ fontFamily: SANS, fontSize: "clamp(15.5px,1.5vw,17px)", color: C.textMuted, lineHeight: 1.78, maxWidth: 500, margin: "0 0 clamp(24px,2.8vw,34px)" }}
-          >
-            {clientHeroSubtitle(sessionData) ??
-              c?.heroSubline ??
-              "Maraîchage bio, œufs de plein air, poulets fermiers : la ferme vend en direct ce qu'elle produit, au rythme des saisons. Paniers de la semaine, boutique à la ferme et marché de Cahors."}
-          </motion.p>
-
-          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.62, duration: 0.85, ease: EASE }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <CTA href={telHref} filled big>
-              Réserver mon panier
-            </CTA>
-            <CTA href="#services" big>
-              Ce qu'on produit
-            </CTA>
+              </div>
+            </HeldSwap>
           </motion.div>
         </div>
 
-        {/* Le bandeau média du bas de une : médaillon HeldSwap + chronique. */}
-        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.95, ease: EASE }} style={{ marginTop: "clamp(36px,4.5vw,60px)" }}>
-          <Filet color={C.accent} style={{ opacity: 0.5, marginBottom: "clamp(20px,2.4vw,30px)" }} />
-          <div
-            className="i365-bandeau"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "auto minmax(0,1fr) auto",
-              gap: "clamp(20px,3vw,44px)",
-              alignItems: "center",
-            }}
-          >
-            {/* LE MÉDAILLON — le geste. La récolte sort en basculant, la table
-                reste vide un demi-temps, la suivante se pose. */}
-            <div style={{ position: "relative", width: "clamp(150px,17vw,216px)", flexShrink: 0 }}>
-              {/* l'assiette : un double cercle fileté sous le médaillon */}
-              <span aria-hidden style={{ position: "absolute", inset: -12, borderRadius: "50%", border: `1px solid ${C.border}` }} />
-              <span aria-hidden style={{ position: "absolute", inset: -12, borderRadius: "50%", border: `1px dashed ${C.accent}`, opacity: 0.35, transform: "scale(1.09)" }} />
-              <HeldSwap index={i} tilt={8}>
-                <div
-                  style={{
-                    borderRadius: "50%",
-                    overflow: "hidden",
-                    aspectRatio: "1",
-                    border: `4px solid ${C.white}`,
-                    boxShadow: "0 22px 48px -20px rgba(36,42,25,0.45), 0 2px 0 0 rgba(255,255,255,0.6)",
-                    background: `radial-gradient(circle at 40% 32%, ${C.accentLight} 0%, ${C.bgAlt} 78%)`,
-                  }}
-                >
-                  {S.img ? (
-                    <img src={S.img} alt={S.alt} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-                  ) : (
-                    <div style={{ width: "100%", height: "100%", display: "grid", placeItems: "center" }}>
-                      <RoseDesVents size={64} color={C.accent} opacity={0.45} />
-                    </div>
-                  )}
-                </div>
-              </HeldSwap>
-            </div>
+        {/* la règle qui sépare le chiffre de ce qu'il garantit */}
+        <span aria-hidden style={{ height: 1, background: `linear-gradient(90deg, ${C.accent}, ${C.border} 42%, transparent)` }} />
 
-            {/* La chronique liée au médaillon — même index. */}
-            <div style={{ minWidth: 0 }}>
-              <HeldSwap index={`t-${i}`} tilt={0}>
-                <div>
-                  <div style={{ fontFamily: SANS, fontSize: 10, fontWeight: 600, letterSpacing: "0.28em", textTransform: "uppercase", color: C.accentDark, marginBottom: 8 }}>{S.k}</div>
-                  <div style={{ fontFamily: SERIF, fontSize: "clamp(19px,2vw,26px)", fontWeight: 500, color: C.ink, lineHeight: 1.2, letterSpacing: "-0.008em" }}>{S.line}</div>
-                  <div style={{ fontFamily: SANS, fontSize: 13.5, color: C.textMuted, lineHeight: 1.65, marginTop: 8, maxWidth: 440 }}>{S.sub}</div>
-                </div>
-              </HeldSwap>
-            </div>
+        {/* ── Ce que le chiffre veut dire ────────────────────────────────── */}
+        <div className="i365-dire">
+          <div style={{ minWidth: 0 }}>
+            <motion.h1
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.9, ease: EASE }}
+              style={{ fontFamily: SERIF, fontSize: "clamp(26px,3.4vw,44px)", fontWeight: 400, color: C.ink, lineHeight: 1.05, letterSpacing: "-0.015em", margin: 0, overflowWrap: "break-word" }}
+            >
+              {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ??
+                c?.heroHeadline ??
+                clientHeroLine(sessionData, 0, 1, 40) ??
+                "Ce que la terre donne, la semaine où elle le donne."}
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.52, duration: 0.9, ease: EASE }}
+              style={{ fontFamily: SANS, fontSize: "clamp(14.5px,1.3vw,16.5px)", color: C.textMuted, lineHeight: 1.78, maxWidth: 500, margin: "clamp(14px,1.8vw,20px) 0 clamp(20px,2.6vw,28px)" }}
+            >
+              {clientHeroSubtitle(sessionData) ??
+                c?.heroSubline ??
+                "Maraîchage bio, œufs de plein air, poulets fermiers : la ferme vend en direct ce qu'elle produit, au rythme des saisons. Paniers de la semaine, boutique à la ferme et marché de Cahors."}
+            </motion.p>
+            {/* Une seule action pleine ; la production reste un lien. */}
+            <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.62, duration: 0.85, ease: EASE }} style={{ display: "flex", gap: "clamp(16px,2vw,26px)", flexWrap: "wrap", alignItems: "center" }}>
+              <CTA href={telHref} filled big>
+                Réserver mon panier
+              </CTA>
+              <a href="#services" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+                Ce qu'on produit
+              </a>
+            </motion.div>
+          </div>
 
-            {/* Compteur + flèches filaires. */}
-            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 10 }}>
-              <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textMuted} className="" />
-              <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" />
+          {/* La chronique de la récolte montrée, et de quoi passer aux autres. */}
+          <div className="i365-chronique">
+            <HeldSwap index={`t-${i}`} tilt={0}>
+              <div>
+                <div style={{ fontFamily: SANS, fontSize: 10, fontWeight: 600, letterSpacing: "0.28em", textTransform: "uppercase", color: C.accentDark, marginBottom: 8 }}>{S.k}</div>
+                <div style={{ fontFamily: SERIF, fontSize: "clamp(17px,1.8vw,23px)", fontWeight: 500, color: C.ink, lineHeight: 1.22, letterSpacing: "-0.008em" }}>{S.line}</div>
+                <div style={{ fontFamily: SANS, fontSize: 13, color: C.textMuted, lineHeight: 1.65, marginTop: 8 }}>{S.sub}</div>
+              </div>
+            </HeldSwap>
+            <div style={{ display: "flex", gap: 8, marginTop: 14 }}>
+              {HERO.map((h: any, n: number) => (
+                <button
+                  key={h.k ?? n}
+                  type="button"
+                  onClick={() => go(n)}
+                  aria-label={h.k ?? `Récolte ${n + 1}`}
+                  aria-current={n === i}
+                  style={{ width: 34, height: 3, padding: 0, border: "none", borderRadius: 2, cursor: "pointer", background: n === i ? C.accentDark : C.border, transition: "background .3s" }}
+                />
+              ))}
             </div>
           </div>
-        </motion.div>
+        </div>
       </section>
 
       {/* ══ RESPIRATION — une phrase, rien d'autre ════════════════════════ */}
