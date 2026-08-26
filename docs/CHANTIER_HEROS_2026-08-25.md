@@ -76,10 +76,10 @@ d'écart, et jamais avec les mêmes proportions.
 | 352 | couvreur | `carte` | fait |
 | 353 | crèche | `devanture` | fait |
 | 354 | crèche | `diagonale` | fait |
-| 355 | infirmier | `chiffre` | à faire |
-| 356 | infirmier | `typo` | à faire |
-| 357 | laboratoire | `liste` | à faire |
-| 358 | laboratoire | `devanture` | à faire |
+| 355 | infirmier | `chiffre` | fait |
+| 356 | infirmier | `typo` | fait |
+| 357 | laboratoire | `liste` | fait |
+| 358 | laboratoire | `devanture` | fait |
 | 359 | location matériel | `pleincadre` | à faire |
 | 360 | location matériel | `editorial` | à faire |
 | 361 | peintre | `bandeau` | à faire |

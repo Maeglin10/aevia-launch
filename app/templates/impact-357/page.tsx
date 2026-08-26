@@ -6,7 +6,7 @@ import { motion, useInView } from "framer-motion";
 import { Check, Clock, FlaskConical, Mail, MapPin, Phone } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { TrackingCollapse } from "@/lib/templates/hero-kit-3";
 import {
   clientAddress,
@@ -459,7 +459,7 @@ export default function AxisBioPage() {
   const [mobileOpen, setMobileOpen] = useState(false);
   /* Un seul index : le mot qui se resserre, la fraction, la ligne d'appui et
      le chiffre allumé du rail le lisent tous. */
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
   useEffect(() => {
@@ -497,9 +497,27 @@ export default function AxisBioPage() {
           #i357-nav { display: none !important; }
           .i357-burger { display: flex !important; }
         }
+        /*
+          ── Héros « liste immédiate » ──────────────────────────────────────
+          Les repères sont posés d'emblée, avec leur chiffre en regard, comme
+          un compte rendu. Le rail vertical n'en montrait qu'un à la fois, et
+          c'était une deuxième colonne de plus.
+        */
+        .i357-annonce {
+          display: grid;
+          grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.9fr);
+          gap: clamp(24px, 4vw, 64px);
+          align-items: end;
+        }
+        /* Chaque rangée s'éclaire au survol : c'est un tableau qui se lit,
+           pas une grille de cartes. */
+        .i357-ligne { transition: background .3s ease, padding-left .3s ease; }
+        .i357-ligne:hover { background: ${C.bgAlt}; padding-left: clamp(8px, 1.2vw, 18px); }
+
         @media (max-width: 900px) {
-          .i357-hero { grid-template-columns: minmax(0,1fr) !important; gap: 42px !important; padding-top: 122px !important; }
-          .i357-rail { border-left: none !important; padding-left: 0 !important; }
+          .i357-hero { gap: 30px !important; padding-top: 122px !important; }
+          .i357-annonce { grid-template-columns: minmax(0,1fr); row-gap: 26px; align-items: start; }
+          .i357-ligne { grid-template-columns: clamp(26px,7vw,38px) minmax(0,1fr) auto !important; }
           .i357-fiche { grid-template-columns: minmax(0,1fr) !important; gap: 30px !important; }
           .i357-fiche-titre { position: static !important; top: auto !important; }
           .i357-colonnes { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
@@ -584,131 +602,128 @@ export default function AxisBioPage() {
       )}
 
       {/* ══ HÉROS — H9 : double colonne + rail de chiffres ═══════════════ */}
+      {/* ── HERO — liste immédiate ────────────────────────────────────────
+             Un laboratoire se lit comme un tableau de résultats, pas comme
+             une affiche : les repères sont posés d'emblée, tous, avec leur
+             chiffre en regard. Le rail vertical de droite les faisait défiler
+             un par un derrière une fraction 01/03 — et c'était une deuxième
+             colonne de plus. */}
       <section
         className="i357-hero"
         style={{
           position: "relative",
-          display: "grid",
-          gridTemplateColumns: "minmax(0, 1.28fr) minmax(0, 0.72fr)",
-          gap: "clamp(32px, 5vw, 76px)",
-          alignItems: "center",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          gap: "clamp(22px, 3vh, 40px)",
           minHeight: "100dvh",
           maxWidth: 1280,
           margin: "0 auto",
-          padding: "clamp(132px, 15vh, 172px) clamp(20px, 5vw, 60px) clamp(80px, 10vw, 128px)",
+          padding: "clamp(122px, 14vh, 160px) clamp(20px, 5vw, 60px) clamp(48px, 7vh, 82px)",
           overflow: "hidden",
         }}
       >
-        <Ghost right opacity={0.05} top="2%" size="clamp(220px, 30vw, 460px)">
+        {/* Le numéro de la norme, en filigrane. À 460 px il traversait le
+            titre ET le tableau : réduit, et remonté hors du texte. */}
+        <Ghost right opacity={0.035} top="-4%" size="clamp(150px, 19vw, 300px)">
           15189
         </Ghost>
 
-        <div style={{ position: "relative", zIndex: 2 }}>
-          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.08 }}>
-            <Kicker>{clientEyebrow(sessionData) ?? `Biologie médicale · ${ville}`}</Kicker>
-          </motion.div>
+        {/* L'annonce : d'où l'on parle, et ce qu'on obtient. */}
+        <div className="i357-annonce" style={{ position: "relative", zIndex: 2 }}>
+          <div style={{ minWidth: 0 }}>
+            <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.08 }}>
+              <Kicker>{clientEyebrow(sessionData) ?? `Biologie médicale · ${ville}`}</Kicker>
+            </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 28 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1.15, ease: EASE, delay: 0.2 }}
-            style={{
-              fontFamily: SERIF,
-              fontWeight: 400,
-              fontSize: "clamp(38px, 5.8vw, 70px)",
-              lineHeight: 0.99,
-              letterSpacing: "-0.025em",
-              color: C.ink,
-              margin: "clamp(20px, 2.6vw, 30px) 0 clamp(14px, 1.8vw, 20px)",
-            }}
-          >
-            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (
-              <>
-                {clientHeroLine(sessionData, 0, 2, 18) ?? "Un résultat juste,"}
-                <br />
-                {/* Le geste : le mot arrive espacé, puis se resserre. */}
-                <TrackingCollapse word={S.word} index={i} from="0.34em" to="0.02em" style={{ color: C.accentDark, fontStyle: "italic" }} />
-              </>
-            )}
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: EASE, delay: 0.38 }}
-            style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(15.5px, 1.5vw, 17px)", lineHeight: 1.8, color: C.textMuted, maxWidth: 520, marginBottom: "clamp(26px, 3vw, 34px)" }}
-          >
-            {clientHeroPrestations(sessionData) ??
-              c?.heroSubline ??
-              "Sans rendez-vous dès 7 h, résultats du jour avant 17 h sur le serveur sécurisé, biologistes joignables pour interpréter. La biologie médicale accréditée COFRAC, au coin de la rue."}
-          </motion.p>
-
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: EASE, delay: 0.5 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-            <Bouton href={telHref} large>
-              Voir les horaires des sites
-            </Bouton>
-            <Bouton href="#services" variant="ligne" large>
-              Nos analyses
-            </Bouton>
-          </motion.div>
-
-          {/* La commande du geste : même index que le mot et que le rail. */}
-          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: "clamp(28px, 3.6vw, 44px)", flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textFaint} className="" />
-            <span style={{ fontFamily: SANS, fontWeight: 300, fontSize: 13, lineHeight: 1.6, color: C.textMuted, maxWidth: 400 }}>
-              <strong style={{ color: C.ink, fontWeight: 600 }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" labels={{ prev: "Repère précédent", next: "Repère suivant" }} />
+            {/*
+              Titre d'un seul tenant. Le geste du thème — le mot qui arrive
+              espacé puis se resserre — reste, mais sur la même ligne : c'est
+              la SECONDE ligne en italique d'une autre couleur, systématique,
+              qui faisait la signature de gabarit de la série.
+            */}
+            <motion.h1
+              initial={{ opacity: 0, y: 28 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1.15, ease: EASE, delay: 0.2 }}
+              style={{
+                fontFamily: SERIF,
+                fontWeight: 400,
+                fontSize: "clamp(30px, 4.4vw, 58px)",
+                lineHeight: 1.02,
+                letterSpacing: "-0.025em",
+                color: C.ink,
+                margin: "clamp(16px, 2.2vw, 26px) 0 0",
+                maxWidth: 780,
+                overflowWrap: "break-word",
+              }}
+            >
+              {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (
+                <>
+                  {clientHeroLine(sessionData, 0, 1, 22) ?? "Un résultat juste,"}{" "}
+                  <TrackingCollapse word={S.word} index={i} from="0.34em" to="0.02em" style={{ color: C.accentDark }} />
+                </>
+              )}
+            </motion.h1>
           </div>
+
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: EASE, delay: 0.38 }} style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 18 }}>
+            {/* Détail gratuit : la diode du serveur de résultats. */}
+            <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
+              <span className="i357-led" style={{ width: 7, height: 7, borderRadius: "50%", background: C.accent, display: "inline-block" }} />
+              <span style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.26em", textTransform: "uppercase", color: C.textFaint }}>Serveur de résultats en ligne</span>
+            </div>
+
+            <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(14px, 1.2vw, 15.5px)", lineHeight: 1.8, color: C.textMuted, maxWidth: 380, margin: 0 }}>
+              {clientHeroPrestations(sessionData) ??
+                c?.heroSubline ??
+                "Sans rendez-vous dès 7 h, résultats du jour avant 17 h sur le serveur sécurisé, biologistes joignables pour interpréter. La biologie médicale accréditée COFRAC, au coin de la rue."}
+            </p>
+
+            {/* Une seule action pleine ; les analyses restent un lien. */}
+            <div style={{ display: "flex", gap: "clamp(14px, 2vw, 24px)", flexWrap: "wrap", alignItems: "center" }}>
+              <Bouton href={telHref} large>
+                Voir les horaires des sites
+              </Bouton>
+              <a href="#services" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+                Nos analyses
+              </a>
+            </div>
+          </motion.div>
         </div>
 
-        {/* ── Le rail de chiffres, vertical : la signature de l'archétype ── */}
-        <motion.div
-          className="i357-rail"
-          initial={{ opacity: 0, x: 22 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1.2, ease: EASE, delay: 0.32 }}
-          style={{ position: "relative", zIndex: 2, borderLeft: `1px solid ${C.border}`, paddingLeft: "clamp(20px, 2.6vw, 36px)" }}
-        >
-          {/* Détail gratuit : la diode du serveur de résultats. */}
-          <div style={{ display: "flex", alignItems: "center", gap: 9, marginBottom: "clamp(18px, 2.4vw, 28px)" }}>
-            <span className="i357-led" style={{ width: 7, height: 7, borderRadius: "50%", background: C.accent, display: "inline-block" }} />
-            <span style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.26em", textTransform: "uppercase", color: C.textFaint }}>Serveur de résultats en ligne</span>
-          </div>
-
-          {STATS.map((s: any, idx: number) => {
-            const actif = idx === i % Math.max(STATS.length, 1);
-            return (
+        {/* ── LE TABLEAU — chaque repère, et son chiffre en regard ───────── */}
+        {/*
+          Le rail vertical n'en montrait qu'un à la fois. Ici tout est posé :
+          le repère à gauche, ce qu'il vaut à droite, comme un compte rendu.
+        */}
+        <div style={{ position: "relative", zIndex: 2, borderTop: `1px solid ${C.border}` }}>
+          {/*
+            Deux colonnes seulement : le repère et son chiffre. Une troisième
+            colonne de description avait été essayée en piochant dans les
+            diapositives par modulo — elle répétait la même phrase à la
+            première et à la quatrième ligne, et ne parlait pas du repère
+            d'en face. Un tableau qui ment est pire qu'un tableau court.
+          */}
+          {STATS.map((s: any, idx: number) => (
+            <Reveal key={s.label ?? idx} delay={0.4 + idx * 0.06} y={12}>
               <div
-                key={s.label}
-                style={{
-                  padding: "clamp(14px, 1.8vw, 20px) 0",
-                  borderTop: idx === 0 ? "none" : `1px solid ${C.border}`,
-                  position: "relative",
-                  transition: `opacity .6s ${EASE_CSS}`,
-                  opacity: actif ? 1 : 0.72,
-                }}
+                className="i357-ligne"
+                style={{ display: "grid", gridTemplateColumns: "clamp(30px, 3.6vw, 52px) minmax(0, 1fr) auto", alignItems: "baseline", gap: "clamp(12px, 2vw, 30px)", padding: "clamp(12px, 1.6vh, 19px) 0", borderBottom: `1px solid ${C.border}` }}
               >
-                <span
-                  aria-hidden
-                  style={{
-                    position: "absolute",
-                    left: "calc(clamp(20px, 2.6vw, 36px) * -1 - 1px)",
-                    top: idx === 0 ? 0 : 1,
-                    bottom: 0,
-                    width: 2,
-                    background: actif ? C.accent : "transparent",
-                    transition: `background .6s ${EASE_CSS}`,
-                  }}
-                />
-                <div style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(28px, 3.4vw, 40px)", lineHeight: 1.02, letterSpacing: "-0.02em", color: actif ? C.accentDark : C.ink, fontVariantNumeric: "tabular-nums", transition: `color .6s ${EASE_CSS}` }}>
+                <span style={{ fontFamily: SANS, fontSize: 11, fontWeight: 600, letterSpacing: "0.2em", color: C.accentDark, fontVariantNumeric: "tabular-nums" }}>
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
+                <span style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(17px, 2vw, 27px)", lineHeight: 1.16, letterSpacing: "-0.02em", color: C.ink }}>
+                  {s.label}
+                </span>
+                <span style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(19px, 2.2vw, 30px)", lineHeight: 1, letterSpacing: "-0.02em", color: C.accentDark, fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }}>
                   {s.value}
-                </div>
-                <div style={{ fontFamily: SANS, fontWeight: 300, fontSize: 12.5, lineHeight: 1.6, color: C.textMuted, marginTop: 7 }}>{s.label}</div>
+                </span>
               </div>
-            );
-          })}
-        </motion.div>
+            </Reveal>
+          ))}
+        </div>
       </section>
 
       {/* ══ RESPIRATION ═════════════════════════════════════════════════ */}

@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { ComposeIn } from "@/lib/templates/hero-kit-3";
 import {
   clientAddress,
@@ -524,7 +524,7 @@ export default function SoinsEstuairePage() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   /* Un seul index pour tout le héros : les tuiles, la fraction et les flèches. */
-  const { i, next, prev } = useSlides(HERO.length, DWELL.slow);
+  const { i, go } = useSlides(HERO.length, DWELL.slow);
   const S = HERO[i];
 
   useEffect(() => {
@@ -545,7 +545,11 @@ export default function SoinsEstuairePage() {
   const heroImg = photo(0, "https://images.pexels.com/photos/7345459/pexels-photo-7345459.jpeg?auto=compress&cs=tinysrgb&w=1400");
   /* Deuxième emplacement : sans photo confiée, panneau CSS (dégradé d'estuaire,
      filets d'horizon, halo). Aucune adresse d'image inventée. */
-  const cabinetImg = photo(1, "");
+  /* Le héros est passé en typographie seule : plus aucune photographie n'y
+     entre. Le portrait d'équipe prend donc la première photo du client quand
+     il n'en a fourni qu'une — sans quoi elle ne s'afficherait plus nulle
+     part. Aucun repli de stock ici : sans photo, l'aplat tient seul. */
+  const cabinetImg = photo(1, "") || photo(0, "");
 
   /* Les tuiles du geste : le contenu de la scène, le dessin du thème. */
   const tuiles = S.tiles.map((tile: any, n: number) => {
@@ -595,6 +599,17 @@ export default function SoinsEstuairePage() {
           .i356-marquee { animation: none !important; }
           .i356-piste { overflow-x: auto !important; }
         }
+        /* Le pied du héros typographique : la prose d'un côté, la tournée
+           du jour de l'autre. */
+        .i356-herobas {
+          display: grid;
+          grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+          gap: clamp(24px, 4vw, 60px);
+          align-items: start;
+          padding-top: clamp(20px, 2.6vw, 30px);
+          border-top: 1px solid rgba(255,255,255,0.14);
+        }
+
         @media (max-width: 980px) {
           #i356-nav { display: none !important; }
           .i356-burger { display: flex !important; }
@@ -687,117 +702,127 @@ export default function SoinsEstuairePage() {
       )}
 
       {/* ══ HÉROS — H3 plein cadre, titre en bas ═════════════════════════ */}
+      {/* ── HERO — typographie seule ──────────────────────────────────────
+             Aucune photographie. Le héros était plein cadre avec le titre
+             posé en bas : la composition qu'impact-349, impact-340 et
+             impact-328 portent déjà, et son voisin de métier impact-355
+             montre justement la sienne en vignette. Ici l'estuaire dessiné
+             tient le fond, le titre tient l'écran, et les scènes de tournée
+             se lisent en colonne à droite du titre plutôt qu'en tuiles
+             posées sur une image.
+
+             La photographie du client n'est pas perdue : le portrait
+             d'équipe, plus bas, la prend quand il n'en a fourni qu'une. */}
       <section
         style={{
           position: "relative",
           minHeight: "100dvh",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "flex-end",
-          /* Fond de repli obligatoire : le plein cadre ne dépend jamais
-             de l'arrivée d'une image. */
+          justifyContent: "center",
           background: C.bgDark,
           overflow: "hidden",
-          padding: "clamp(120px, 16vh, 180px) clamp(20px, 5vw, 62px) clamp(40px, 6vw, 68px)",
+          padding: "clamp(120px, 15vh, 172px) clamp(20px, 5vw, 62px) clamp(48px, 7vh, 84px)",
         }}
       >
-        {heroImg ? (
-          <img
-            src={heroImg}
-            alt="Visite infirmière au domicile"
-            loading="eager"
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-          />
-        ) : (
-          /* Sans image : l'estuaire en CSS — dégradé d'eau, bandes d'horizon,
-             halo bas. Rien ne manque à l'écran. */
-          <div aria-hidden style={{ position: "absolute", inset: 0 }}>
-            <span style={{ position: "absolute", inset: 0, background: `linear-gradient(168deg, ${C.bgDarkAlt} 0%, ${C.bgDark} 46%, var(--brand, #227c9d) 190%)` }} />
-            <span style={{ position: "absolute", inset: 0, background: `radial-gradient(72% 48% at 24% 82%, var(--brand, #227c9d) 0%, transparent 68%)`, opacity: 0.12 }} />
-            {[0.34, 0.46, 0.58, 0.7].map((y) => (
-              <span key={y} style={{ position: "absolute", left: 0, right: 0, top: `${y * 100}%`, height: 1, background: `linear-gradient(90deg, transparent, rgba(142,203,224,0.28), transparent)` }} />
-            ))}
-          </div>
-        )}
-
-        {/* Trois scrims : lisibilité du titre bas, profondeur, vignettage. */}
-        <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(10,28,39,0.72) 0%, rgba(10,28,39,0.18) 34%, rgba(10,28,39,0.62) 72%, rgba(10,28,39,0.94) 100%)" }} />
-        <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 82% at 22% 78%, transparent 30%, rgba(10,28,39,0.62) 100%)", mixBlendMode: "multiply" }} />
+        {/* L'estuaire en CSS — dégradé d'eau, bandes d'horizon, halo bas. */}
+        <div aria-hidden style={{ position: "absolute", inset: 0 }}>
+          <span style={{ position: "absolute", inset: 0, background: `linear-gradient(168deg, ${C.bgDarkAlt} 0%, ${C.bgDark} 46%, var(--brand, #227c9d) 190%)` }} />
+          <span style={{ position: "absolute", inset: 0, background: `radial-gradient(72% 48% at 24% 82%, var(--brand, #227c9d) 0%, transparent 68%)`, opacity: 0.12 }} />
+          {[0.34, 0.46, 0.58, 0.7].map((y) => (
+            <span key={y} style={{ position: "absolute", left: 0, right: 0, top: `${y * 100}%`, height: 1, background: `linear-gradient(90deg, transparent, rgba(142,203,224,0.28), transparent)` }} />
+          ))}
+        </div>
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(120% 82% at 22% 78%, transparent 30%, rgba(10,28,39,0.55) 100%)", mixBlendMode: "multiply" }} />
 
         <Ghost right color={C.ecume} opacity={0.07} top="8%" size="clamp(240px, 32vw, 500px)">
           6
         </Ghost>
 
         <div style={{ position: "relative", zIndex: 3, maxWidth: 1280, margin: "0 auto", width: "100%" }}>
-          <div className="i356-herobas" style={{ display: "grid", gridTemplateColumns: "minmax(0, 1.12fr) minmax(0, 0.88fr)", gap: "clamp(28px, 4vw, 60px)", alignItems: "flex-end" }}>
-            <div>
-              <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.1 }}>
-                <Kicker color={C.ecume}>{clientEyebrow(sessionData) ?? `Cabinet infirmier · ${ville}`}</Kicker>
-              </motion.div>
+          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.1 }}>
+            <Kicker color={C.ecume}>{clientEyebrow(sessionData) ?? `Cabinet infirmier · ${ville}`}</Kicker>
+          </motion.div>
 
-              <motion.h1
-                initial={{ opacity: 0, y: 34 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2, ease: EASE, delay: 0.22 }}
-                style={{
-                  fontFamily: SERIF,
-                  fontWeight: 300,
-                  fontSize: "clamp(42px, 7vw, 86px)",
-                  lineHeight: 0.98,
-                  letterSpacing: "-0.015em",
-                  color: C.white,
-                  margin: "clamp(18px, 2.4vw, 28px) 0 clamp(16px, 2vw, 22px)",
-                  textShadow: "0 14px 50px rgba(10,28,39,0.55)",
-                }}
-              >
-                {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (
-                  <>
-                    {clientHeroLine(sessionData, 0, 2, 24) ?? "Votre traitement suit,"}
-                    <br />
-                    <em style={{ color: C.ecume }}>{clientHeroLine(sessionData, 1, 2, 24) ?? "même quand la vie bouge."}</em>
-                  </>
-                )}
-              </motion.h1>
+          {/*
+            Le titre tient l'écran à lui seul, d'un seul tenant et d'une seule
+            couleur : la seconde ligne dans le ton clair était la signature de
+            gabarit de toute la série.
+          */}
+          <motion.h1
+            initial={{ opacity: 0, y: 34 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: EASE, delay: 0.22 }}
+            style={{
+              fontFamily: SERIF,
+              fontWeight: 300,
+              fontSize: "clamp(40px, 8vw, 112px)",
+              lineHeight: 0.96,
+              letterSpacing: "-0.018em",
+              color: C.white,
+              margin: "clamp(20px, 2.8vw, 36px) 0 clamp(22px, 2.8vw, 34px)",
+              maxWidth: 1080,
+              textShadow: "0 14px 50px rgba(10,28,39,0.55)",
+              overflowWrap: "break-word",
+            }}
+          >
+            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ??
+              clientHeroLine(sessionData, 0, 1, 46) ??
+              "Votre traitement suit, même quand la vie bouge."}
+          </motion.h1>
 
-              <motion.p
-                initial={{ opacity: 0, y: 22 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.05, ease: EASE, delay: 0.4 }}
-                style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(15px, 1.5vw, 17px)", lineHeight: 1.78, color: "rgba(255,255,255,0.78)", maxWidth: 500, marginBottom: "clamp(24px, 3vw, 34px)" }}
-              >
+          {/* ── La ligne du bas : la prose, l'action, la tournée du jour ─── */}
+          <div className="i356-herobas">
+            <motion.div initial={{ opacity: 0, y: 22 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.05, ease: EASE, delay: 0.4 }} style={{ minWidth: 0 }}>
+              <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(14.5px, 1.35vw, 16.5px)", lineHeight: 1.78, color: "rgba(255,255,255,0.78)", margin: "0 0 clamp(22px, 2.8vw, 32px)" }}>
                 {clientHeroSubtitle(sessionData) ??
                   c?.heroSubline ??
                   "Six infirmiers, une secrétaire qui décroche, une application de suivi pour les familles : le cabinet infirmier organisé comme il devrait l'être partout. Conventionné, tiers payant."}
-              </motion.p>
+              </p>
 
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, ease: EASE, delay: 0.54 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+              {/* Une seule action pleine ; les soins restent un lien. */}
+              <div style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center" }}>
                 <Bouton href={telHref} large>
                   Organiser des soins
                 </Bouton>
-                <Bouton href="#services" variant="ligne" large clair>
+                <a href="#services" style={{ fontFamily: SANS, fontSize: 13, color: C.white, textDecoration: "none", borderBottom: `1px solid ${C.ecume}`, paddingBottom: 3 }}>
                   Nos soins
-                </Bouton>
-              </motion.div>
-
-              {/* La commande du geste : la fraction et les flèches lisent le
-                  même index que les tuiles. */}
-              <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: "clamp(26px, 3.4vw, 40px)", flexWrap: "wrap", color: "rgba(255,255,255,0.72)" }}>
-                <SlideIndex i={i} total={HERO.length} variant="fraction" color="rgba(255,255,255,0.72)" className="" />
-                <span style={{ fontFamily: SANS, fontSize: 13, lineHeight: 1.55, maxWidth: 380 }}>
-                  <strong style={{ color: C.white, fontWeight: 600 }}>{S.k}</strong> — {S.sub}
-                </span>
-                <HairlineArrows onPrev={prev} onNext={next} color="rgba(255,255,255,0.8)" className="" labels={{ prev: "Scène précédente", next: "Scène suivante" }} />
+                </a>
               </div>
-            </div>
+            </motion.div>
 
             {/* ── Le geste : la scène se compose, tuile après tuile ── */}
-            <ComposeIn
-              index={i}
-              items={tuiles}
-              hold={1.1}
-              beat={0.16}
-              style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr)", gridTemplateRows: "repeat(3, minmax(84px, auto))", gap: 12 }}
-            />
+            <div style={{ minWidth: 0 }}>
+              <ComposeIn
+                index={i}
+                items={tuiles}
+                hold={1.1}
+                beat={0.16}
+                className="i356-tuiles"
+                style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr)", gridAutoRows: "minmax(76px, auto)", gap: 10 }}
+              />
+              {/*
+                La fraction « 01 / 03 » ne disait pas ce qu'on regardait ; ces
+                traits nomment les scènes de tournée et y mènent directement.
+              */}
+              <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 16, flexWrap: "wrap", color: "rgba(255,255,255,0.72)" }}>
+                <span style={{ fontFamily: SANS, fontSize: 12.5, lineHeight: 1.55, minWidth: 0 }}>
+                  <strong style={{ color: C.white, fontWeight: 600 }}>{S.k}</strong> — {S.sub}
+                </span>
+                <div style={{ display: "flex", gap: 8, flexShrink: 0, marginLeft: "auto" }}>
+                  {HERO.map((h: any, n: number) => (
+                    <button
+                      key={h.k ?? n}
+                      type="button"
+                      onClick={() => go(n)}
+                      aria-label={h.k ?? `Scène ${n + 1}`}
+                      aria-current={n === i}
+                      style={{ width: 32, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === i ? C.ecume : "rgba(255,255,255,0.26)", transition: "background .3s" }}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

@@ -28,7 +28,7 @@ import { motion, AnimatePresence, useInView, useReducedMotion } from "framer-mot
 import { ArrowRight, Clock, FlaskConical, Mail, MapPin, Microscope, Phone, Truck } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, LineMask, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, LineMask, useSlides } from "@/lib/templates/hero-kit-2";
 import {
   clientAddress,
   clientAreas,
@@ -650,7 +650,7 @@ export default function BioValleePage() {
   const reduce = useReducedMotion();
 
   /* Un seul index pilote tout le héros : lignes masquées, panneau, compteur. */
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i, go } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
   /*
@@ -692,7 +692,9 @@ export default function BioValleePage() {
       <style>{`
         @media (max-width: 1000px) { #i358-nav { display: none !important; } .i358-burger { display: flex !important; } }
         @media (max-width: 900px) {
-          .i358-hero { grid-template-columns: minmax(0,1fr) !important; padding: 116px 22px 56px !important; gap: 34px !important; }
+          .i358-hero { padding: 116px 22px 56px !important; gap: 26px !important; }
+          .i358-points { grid-template-columns: minmax(0,1fr) !important; }
+          .i358-points > li + li { border-left: none !important; border-top: 1px solid ${C.border}; }
           .i358-hero > * { order: initial !important; }
           .i358-heromedia { max-width: 480px; margin: 0 auto; width: 100%; }
           .i358-split { grid-template-columns: minmax(0,1fr) !important; gap: 34px !important; }
@@ -711,7 +713,38 @@ export default function BioValleePage() {
           .i358-anim { transition: none !important; animation: none !important; }
         }
         /* Le geste : la 2e ligne du titre prend l'accent et l'italique. */
-        .i358-hl > span:nth-child(2) > span { color: ${C.accent}; font-style: italic; }
+        /*
+          Le masque de ligne reste ; l'italique de seconde ligne part — la
+          signature de gabarit de toute la série, cinquante pour cent des
+          thèmes récents la portaient.
+        */
+        .i358-hl > span:nth-child(2) > span { color: ${C.accent}; }
+
+        /*
+          ── Héros « devanture centrée » ────────────────────────────────────
+          La vitrine : la façade photographique en bandeau, puis les trois
+          points du temps courant, côte à côte comme trois étagères.
+        */
+        .i358-vitrine {
+          position: relative;
+          z-index: 1;
+          width: 100%;
+          background: ${C.bgCard};
+          border: 1px solid ${C.border};
+          border-radius: 4px;
+          overflow: hidden;
+          box-shadow: 0 40px 78px -52px rgba(18,41,29,0.55), 0 8px 22px -16px rgba(18,41,29,0.28);
+        }
+        .i358-vitrine > div:first-child { height: clamp(120px, 17vh, 190px); }
+        .i358-points {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0,1fr));
+        }
+        .i358-points > li + li { border-left: 1px solid ${C.border}; }
+        @media (max-width: 860px) {
+          .i358-points { grid-template-columns: minmax(0,1fr); }
+          .i358-points > li + li { border-left: none; border-top: 1px solid ${C.border}; }
+        }
       `}</style>
 
       {/* ── NAV ─────────────────────────────────────────────────────────── */}
@@ -774,83 +807,35 @@ export default function BioValleePage() {
         </div>
       )}
 
-      {/* ── HERO — H2 : le panneau du circuit à GAUCHE, la parole à droite ─ */}
+      {/* ── HERO — devanture centrée ──────────────────────────────────────
+             Une colonne unique au milieu, et le circuit du prélèvement posé
+             dessous en vitrine : les trois points du temps courant, alignés.
+             Le panneau tenait une colonne à gauche de la parole — la
+             charpente de la série — et impact-357, son voisin de métier,
+             vient de passer à la liste : ici c'est la façade du laboratoire
+             qui accueille. */}
       <section
         id="top"
         className="i358-hero i358-pad"
         style={{
           minHeight: "100dvh",
-          display: "grid",
-          gridTemplateColumns: "minmax(0,0.92fr) minmax(0,1.08fr)",
-          gap: "clamp(30px,4.5vw,66px)",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
           alignItems: "center",
-          padding: "clamp(128px,14vw,166px) clamp(22px,5vw,64px) clamp(58px,7vw,84px)",
+          textAlign: "center",
+          gap: "clamp(24px,3.2vh,42px)",
+          padding: "clamp(120px,13vw,158px) clamp(22px,5vw,64px) clamp(48px,6vh,76px)",
           maxWidth: 1280,
           margin: "0 auto",
           position: "relative",
         }}
       >
-        <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(56% 44% at 20% 24%, rgba(127,178,106,0.12), transparent 68%)" }} />
+        <div aria-hidden style={{ position: "absolute", inset: 0, pointerEvents: "none", background: "radial-gradient(56% 44% at 50% 18%, rgba(127,178,106,0.12), transparent 68%)" }} />
 
-        {/* Colonne média — le panneau du circuit courant */}
-        <div className="i358-heromedia" style={{ order: 1, position: "relative", zIndex: 1 }}>
-          <div
-            style={{
-              background: C.bgCard,
-              border: `1px solid ${C.border}`,
-              borderRadius: 4,
-              overflow: "hidden",
-              boxShadow: "0 40px 78px -52px rgba(18,41,29,0.55), 0 8px 22px -16px rgba(18,41,29,0.28)",
-            }}
-          >
-            {/* en-tête : la photo du client, ou la paillasse dessinée */}
-            <div style={{ position: "relative", background: C.bgDark, height: "clamp(120px,15vw,168px)", overflow: "hidden" }}>
-              {heroImg ? (
-                <img src={heroImg} alt={`${marque} — ${S.k}`} loading="eager" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-              ) : (
-                <div aria-hidden style={{ position: "absolute", inset: 0, background: `linear-gradient(148deg, ${C.bgDark} 0%, #1a3b28 52%, ${C.bgDarkAlt} 100%)` }}>
-                  <Microplaque opacity={0.9} teinte="rgba(127,178,106,0.22)" />
-                  <div style={{ position: "absolute", inset: 0, background: "radial-gradient(70% 90% at 24% 18%, rgba(127,178,106,0.16), transparent 66%)" }} />
-                </div>
-              )}
-              <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(12,30,20,0.62) 0%, rgba(12,30,20,0.12) 42%, rgba(12,30,20,0) 72%, rgba(12,30,20,0.18) 100%)" }} />
-              <div style={{ position: "absolute", left: "clamp(16px,2vw,22px)", bottom: 14, display: "flex", alignItems: "center", gap: 12 }}>
-                <span aria-hidden style={{ width: 26, height: 1, background: C.reactif }} />
-                <span style={{ fontFamily: SANS, fontSize: 10, fontWeight: 600, letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(255,255,255,0.88)" }}>{S.k}</span>
-              </div>
-            </div>
-
-            {/* les trois points du temps courant */}
-            <ul style={{ listStyle: "none", margin: 0, padding: 0 }}>
-              {S.tiles.map(({ icon: Icon, t, d }: any, n: number) => (
-                <motion.li
-                  key={`${i}-${n}`}
-                  initial={reduce ? { opacity: 0 } : { opacity: 0, x: -14 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: reduce ? 0.2 : 0.62, ease: EASE, delay: reduce ? 0 : n * 0.055 }}
-                  style={{
-                    display: "flex",
-                    gap: 15,
-                    alignItems: "flex-start",
-                    padding: "clamp(15px,1.8vw,20px) clamp(16px,2vw,22px)",
-                    borderTop: n === 0 ? "none" : `1px solid ${C.border}`,
-                  }}
-                >
-                  <Icon size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 3 }} aria-hidden />
-                  <div style={{ minWidth: 0 }}>
-                    <div style={{ fontFamily: SANS, fontSize: 13.5, fontWeight: 600, color: C.ink, marginBottom: 5 }}>{t}</div>
-                    <div style={{ fontFamily: SANS, fontSize: 12.5, fontWeight: 300, color: C.textMuted, lineHeight: 1.66 }}>{d}</div>
-                  </div>
-                </motion.li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Colonne parole */}
-        <div style={{ order: 2, position: "relative", zIndex: 1 }}>
+        <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", width: "100%" }}>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.14, ease: EASE }}>
-            <Kicker>{clientEyebrow(sessionData) ?? <>Biologie médicale · {ville}</>}</Kicker>
+            <Kicker align="center">{clientEyebrow(sessionData) ?? <>Biologie médicale · {ville}</>}</Kicker>
           </motion.div>
 
           {/* Le geste : chaque ligne sort sous son masque, une seule fois par index */}
@@ -858,11 +843,12 @@ export default function BioValleePage() {
             style={{
               fontFamily: SERIF,
               fontWeight: 300,
-              fontSize: "clamp(38px,5.2vw,68px)",
+              fontSize: "clamp(36px,5.6vw,76px)",
               color: C.ink,
               lineHeight: 0.99,
               letterSpacing: "-0.024em",
-              margin: "clamp(18px,2vw,26px) 0 clamp(16px,1.8vw,24px)",
+              margin: "clamp(18px,2.2vw,28px) 0 0",
+              maxWidth: 920,
             }}
           >
             <LineMask lines={heroLignes} index={i} className="i358-hl" />
@@ -872,28 +858,77 @@ export default function BioValleePage() {
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.85, delay: 0.4, ease: EASE }}
-            style={{ fontFamily: SANS, fontSize: "clamp(15.5px,1.25vw,17px)", fontWeight: 300, color: C.textMuted, lineHeight: 1.78, maxWidth: 490, marginBottom: "clamp(24px,3vw,34px)" }}
+            style={{ fontFamily: SANS, fontSize: "clamp(14.5px,1.3vw,16.5px)", fontWeight: 300, color: C.textMuted, lineHeight: 1.78, maxWidth: 620, margin: "clamp(16px,2vw,24px) auto clamp(22px,2.6vw,30px)" }}
           >
             {clientHeroSubtitle(sessionData) ??
               clientTagline(sessionData) ??
               "Le laboratoire de la vallée : trois sites de prélèvement, une navette réfrigérée toutes les deux heures vers le plateau technique, et des biologistes qui rappellent quand un résultat mérite un mot."}
           </motion.p>
 
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, delay: 0.54, ease: EASE }} style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
+          {/* Une seule action pleine ; les analyses restent un lien. */}
+          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, delay: 0.54, ease: EASE }} style={{ display: "flex", gap: "clamp(16px,2vw,26px)", flexWrap: "wrap", alignItems: "center", justifyContent: "center" }}>
             <Btn href="#sites" filled>
               Trouver mon site
             </Btn>
-            <Btn href="#services">Nos analyses</Btn>
+            <a href="#services" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+              Nos analyses
+            </a>
           </motion.div>
+        </div>
 
-          {/* légende + compteur + flèches : le même index que les lignes */}
-          <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: "clamp(30px,4vw,46px)", flexWrap: "wrap", paddingTop: 22, borderTop: `1px solid ${C.border}` }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textFaint} className="" />
-            <span style={{ fontFamily: SANS, fontSize: 13, color: C.textMuted, lineHeight: 1.6 }}>
-              <strong style={{ color: C.ink, fontWeight: 600 }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.ink} className="" />
+        {/* ── LA VITRINE — le circuit du temps courant, d'un bord à l'autre ── */}
+        <div className="i358-vitrine">
+          {/* la façade : la photo du client, ou la paillasse dessinée */}
+          <div style={{ position: "relative", background: C.bgDark, overflow: "hidden" }}>
+            {heroImg ? (
+              <img src={heroImg} alt={`${marque} — ${S.k}`} loading="eager" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+            ) : (
+              <div aria-hidden style={{ position: "absolute", inset: 0, background: `linear-gradient(148deg, ${C.bgDark} 0%, #1a3b28 52%, ${C.bgDarkAlt} 100%)` }}>
+                <Microplaque opacity={0.9} teinte="rgba(127,178,106,0.22)" />
+                <div style={{ position: "absolute", inset: 0, background: "radial-gradient(70% 90% at 24% 18%, rgba(127,178,106,0.16), transparent 66%)" }} />
+              </div>
+            )}
+            <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(12,30,20,0.62) 0%, rgba(12,30,20,0.12) 42%, rgba(12,30,20,0) 72%, rgba(12,30,20,0.18) 100%)" }} />
+            <div style={{ position: "absolute", left: "clamp(16px,2vw,22px)", bottom: 14, display: "flex", alignItems: "center", gap: 12 }}>
+              <span aria-hidden style={{ width: 26, height: 1, background: C.reactif }} />
+              <span style={{ fontFamily: SANS, fontSize: 10, fontWeight: 600, letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(255,255,255,0.88)" }}>{S.k}</span>
+            </div>
+            {/*
+              La fraction « 01 / 03 » ne disait pas ce qu'on regardait ; ces
+              traits nomment les temps du circuit et y mènent directement.
+            */}
+            <div style={{ position: "absolute", right: "clamp(16px,2vw,22px)", bottom: 18, display: "flex", gap: 8 }}>
+              {HERO.map((h: any, n: number) => (
+                <button
+                  key={h.k ?? n}
+                  type="button"
+                  onClick={() => go(n)}
+                  aria-label={h.k ?? `Temps ${n + 1}`}
+                  aria-current={n === i}
+                  style={{ width: 32, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === i ? C.reactif : "rgba(255,255,255,0.32)", transition: "background .3s" }}
+                />
+              ))}
+            </div>
           </div>
+
+          {/* les trois points du temps courant, côte à côte */}
+          <ul className="i358-points" style={{ listStyle: "none", margin: 0, padding: 0 }}>
+            {S.tiles.map(({ icon: Icon, t, d }: any, n: number) => (
+              <motion.li
+                key={`${i}-${n}`}
+                initial={reduce ? { opacity: 0 } : { opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: reduce ? 0.2 : 0.62, ease: EASE, delay: reduce ? 0 : n * 0.055 }}
+                style={{ display: "flex", gap: 14, alignItems: "flex-start", padding: "clamp(15px,1.8vw,20px) clamp(16px,2vw,22px)", textAlign: "left" }}
+              >
+                <Icon size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 3 }} aria-hidden />
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontFamily: SANS, fontSize: 13.5, fontWeight: 600, color: C.ink, marginBottom: 5 }}>{t}</div>
+                  <div style={{ fontFamily: SANS, fontSize: 12.5, fontWeight: 300, color: C.textMuted, lineHeight: 1.66 }}>{d}</div>
+                </div>
+              </motion.li>
+            ))}
+          </ul>
         </div>
       </section>
 
