@@ -6,7 +6,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, CarFront, CheckCircle, Clock, Clock4, Mail, MapPin, Phone, Plane, Star } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { HardCutRebuild } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
@@ -179,7 +179,7 @@ export default function RivieraChauffeurPage() {
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i, go } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
 
@@ -245,32 +245,69 @@ export default function RivieraChauffeurPage() {
         </div>
       )}
 
-      {/* ── HERO ────────────────────────────────────────────────────────── */}
-
-      <section className="i373-hero" style={{ minHeight: "100dvh", display: "flex", flexDirection: "column", justifyContent: "center", padding: "140px 64px 70px", maxWidth: 1080, margin: "0 auto" }}>
-        <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>{clientEyebrow(sessionData) ?? "Chauffeur privé · Côte d'Azur"}</span>
-        <HardCutRebuild index={i} stagger={0.09}>
-              {[
-                <div key="k" style={{ fontSize: 13, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.accent, marginBottom: 12 }}>{S.k}</div>,
-                <h1 key="h" style={{ fontFamily: FONT_TITRE, fontSize: "clamp(36px, 5.4vw, 68px)", fontWeight: 800, color: C.text, lineHeight: 1.05, margin: "0 0 14px" }}>{S.line}</h1>,
-                <p key="d" style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 540, margin: 0 }}>{S.sub}</p>,
-              ]}
-            </HardCutRebuild>
-        <p style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 560, margin: "14px 0 32px" }}>
-          {c?.heroSubline ?? "Aéroport, gares, soirées, mise à disposition : un chauffeur VTC carté, une berline hybride impeccable, un prix annoncé avant de monter — et jamais de majoration surprise."}
-        </p>
-        <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-          <motion.a href={telHref} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
-            Réserver une course <ArrowRight size={16} />
-          </motion.a>
-          <motion.a href="#services" style={{ background: C.white, color: C.text, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ borderColor: C.accent }}>
-            Nos trajets
-          </motion.a>
+      {/* ── HERO — split inversé : la berline à gauche, la parole à droite ─
+             L'image ouvre la page ; le texte la suit — l'inverse du réflexe
+             de la série, et ce héros-ci en était le pire exemple : son
+             conteneur était identique AU CARACTÈRE PRÈS à ceux d'impact-376
+             et d'impact-382. Le geste HardCutRebuild reste : c'est la
+             colonne de droite qui coupe et se remonte. */}
+      <section className="i373-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,0.95fr) minmax(0,1.05fr)", gap: "clamp(28px, 4.5vw, 62px)", alignItems: "center", padding: "clamp(118px, 15vh, 150px) clamp(24px, 5vw, 64px) clamp(48px, 7vh, 70px)", maxWidth: 1240, margin: "0 auto" }}>
+        {/* ── La berline, à gauche ───────────────────────────────────────── */}
+        <div className="i373-berline" style={{ position: "relative", minWidth: 0 }}>
+          <div style={{ position: "relative", borderRadius: 14, overflow: "hidden", background: C.accentLight, aspectRatio: "4 / 4.4", boxShadow: "0 42px 80px -52px rgba(16,16,16,0.55)" }}>
+            <img
+              src={photo(0, "https://images.pexels.com/photos/15774577/pexels-photo-15774577.jpeg?auto=compress&cs=tinysrgb&w=1400")}
+              alt="Chauffeur et berline à la prise en charge"
+              loading="eager"
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
+            <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(16,16,16,0.55) 0%, rgba(16,16,16,0.06) 44%, transparent 72%)" }} />
+            {/* La course montrée, posée sur l'image. */}
+            <div style={{ position: "absolute", left: 18, right: 18, bottom: 14, display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 12 }}>
+              <motion.span key={`k-${i}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: "#fff", textShadow: "0 4px 18px rgba(0,0,0,0.6)" }}>
+                {S.k}
+              </motion.span>
+              {/*
+                La fraction « 01 / 03 » ne disait pas ce qu'on regardait ; ces
+                traits mènent directement à chaque course.
+              */}
+              <div style={{ display: "flex", gap: 7, flexShrink: 0 }}>
+                {HERO.map((h: any, n: number) => (
+                  <button
+                    key={h.k ?? n}
+                    type="button"
+                    onClick={() => go(n)}
+                    aria-label={h.k ?? `Course ${n + 1}`}
+                    aria-current={n === i}
+                    style={{ width: 30, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === i ? C.accent : "rgba(255,255,255,0.4)", transition: "background .3s" }}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
-        <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 44, flexWrap: "wrap" }}>
-          <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textMuted} className="" />
-          <span style={{ fontSize: 13.5, color: C.textMuted }}><strong style={{ color: C.text, fontWeight: 700 }}>{S.k}</strong> — {S.sub}</span>
-          <HairlineArrows onPrev={prev} onNext={next} color={C.text} className="" />
+
+        {/* ── La parole, à droite — elle coupe et se remonte ─────────────── */}
+        <div style={{ minWidth: 0 }}>
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>{clientEyebrow(sessionData) ?? "Chauffeur privé · Côte d'Azur"}</span>
+          <HardCutRebuild index={i} stagger={0.09}>
+            {[
+              <h1 key="h" style={{ fontFamily: FONT_TITRE, fontSize: "clamp(32px, 4.6vw, 60px)", fontWeight: 800, color: C.text, lineHeight: 1.05, margin: "16px 0 14px", overflowWrap: "break-word" }}>{S.line}</h1>,
+              <p key="d" style={{ fontSize: 16, color: C.textMuted, lineHeight: 1.75, maxWidth: 520, margin: 0 }}>{S.sub}</p>,
+            ]}
+          </HardCutRebuild>
+          <p style={{ fontSize: 15.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 540, margin: "14px 0 30px" }}>
+            {c?.heroSubline ?? "Aéroport, gares, soirées, mise à disposition : un chauffeur VTC carté, une berline hybride impeccable, un prix annoncé avant de monter — et jamais de majoration surprise."}
+          </p>
+          {/* Une seule action pleine ; les trajets restent un lien. */}
+          <div style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center" }}>
+            <motion.a href={telHref} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
+              Réserver une course <ArrowRight size={16} />
+            </motion.a>
+            <a href="#services" style={{ fontSize: 13, color: C.text, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+              Nos trajets
+            </a>
+          </div>
         </div>
       </section>
 
@@ -343,7 +380,7 @@ export default function RivieraChauffeurPage() {
       <section id="engagements" className="i373-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
         <div className="i373-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
           <Reveal>
-            <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3", justifyContent: "center" , overflow: "hidden" }}><img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/15774577/pexels-photo-15774577.jpeg?auto=compress&cs=tinysrgb&w=1400"))} alt="Chauffeur et berline à la prise en charge" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div>
+            <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3", justifyContent: "center" , overflow: "hidden" }}><img src={photo(1, "https://images.pexels.com/photos/1213294/pexels-photo-1213294.jpeg?auto=compress&cs=tinysrgb&w=1400")} alt="Intérieur de la berline, prêt pour la course" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div>
           </Reveal>
           <Reveal delay={0.15}>
             <div>

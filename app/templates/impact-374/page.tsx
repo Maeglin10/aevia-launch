@@ -351,7 +351,35 @@ export default function CapChauffeurPage() {
         html { scroll-behavior: smooth; }
         .i374-ease { transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
 
-        @keyframes i374-roule { 0% { top: 4%; } 100% { top: 92%; } }
+        /* La voiture suit désormais la route horizontale, pas l'axe vertical. */
+        @keyframes i374-roule { 0% { left: 4%; } 100% { left: 92%; } }
+
+        /*
+          ── Héros « diagonale asymétrique » ────────────────────────────────
+          La masse teintée traverse le pied de l'écran en biais — la route
+          qui file — et porte les jalons. La coupe monte de gauche à droite :
+          aucune des trois autres diagonales (334, 354, 364) ne traverse le
+          pied de page.
+        */
+        .i374-route {
+          position: relative;
+          background: linear-gradient(180deg, ${C.accentLight} 0%, rgba(51,81,143,0.08) 100%);
+          clip-path: polygon(0 34%, 100% 0, 100% 100%, 0 100%);
+          transform: none;
+          padding: clamp(44px, 7vh, 84px) clamp(24px, 6vw, 96px) clamp(20px, 3vh, 34px);
+        }
+        .i374-route > .i374-axe { top: calc(34% + 14px); transform: rotate(-2.9deg); transform-origin: right center; }
+        .i374-jalons {
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+          gap: clamp(14px, 2.6vw, 44px);
+          max-width: 1280px;
+          margin: 0 auto;
+        }
+        @media (max-width: 860px) {
+          .i374-jalons { grid-template-columns: 1fr 1fr; row-gap: 18px; }
+          .i374-jalon > span { display: none !important; }
+        }
         @keyframes i374-route { 0% { background-position-x: 0; } 100% { background-position-x: -64px; } }
 
         @media (max-width: 900px) {
@@ -449,24 +477,29 @@ export default function CapChauffeurPage() {
         </div>
       )}
 
-      {/* ════════ HERO — H9 : double colonne texte + rail de stats vertical ═════
-          Geste : DifferentialExit. Le titre part vite (depth 0.9), le
-          paragraphe à vitesse moyenne (0.55), le rail lentement (0.2), le
-          chiffre fantôme presque pas (0.05) : trois plans, trois vitesses —
-          la parallaxe qu'on voit par la vitre pendant le trajet. */}
       <section
         id="hero"
+        className="i374-herosec"
         style={{
           position: "relative",
           minHeight: "100dvh",
           display: "flex",
-          alignItems: "center",
+          alignItems: "flex-start",
           background: C.bg,
           overflow: "hidden",
-          padding: "clamp(118px,15vh,170px) clamp(24px,6vw,96px) clamp(56px,8vh,96px)",
+          padding: "clamp(112px,13vh,150px) clamp(24px,6vw,96px) 0",
         }}
       >
-        {/* Texture : voies horizontales très pâles, comme des files de circulation. */}
+        {/* ── HERO — diagonale asymétrique : la route coupe l'écran ────────
+               La masse teintée traverse le pied de page en biais, comme une
+               route qui file, et l'axe des jalons la suit : le rail vertical
+               de droite — une colonne de plus — devient la route elle-même.
+               Le texte vit dans le grand pan clair. La coupe monte de gauche
+               à droite : aucune des trois autres diagonales (334, 354, 364)
+               ne traverse le pied. Le geste DifferentialExit reste : trois
+               plans, trois vitesses. */}
+
+        {/* Texture : voies horizontales très pâles. */}
         <div
           aria-hidden
           style={{
@@ -476,46 +509,36 @@ export default function CapChauffeurPage() {
             pointerEvents: "none",
           }}
         />
-        {/* Chiffre fantôme — l'heure de la première prise en charge. Le fond, part lentement. */}
-        <DifferentialExit depth={0.05} style={{ position: "absolute", left: "-1%", bottom: "-6%", pointerEvents: "none", zIndex: 0 }}>
+        {/* Chiffre fantôme — l'heure de la première prise en charge. */}
+        <DifferentialExit depth={0.05} style={{ position: "absolute", right: "2%", top: "10%", pointerEvents: "none", zIndex: 0 }}>
           <div
             aria-hidden
             style={{
               fontFamily: SERIF,
               fontStyle: "italic",
-              fontWeight: 300,
-              fontSize: "clamp(10rem,24vw,24rem)",
-              lineHeight: 1,
+              fontSize: "clamp(140px,20vw,320px)",
+              lineHeight: 0.8,
               color: C.accent,
               opacity: 0.06,
               userSelect: "none",
-              whiteSpace: "nowrap",
             }}
           >
-            6h05
+            5h45
           </div>
         </DifferentialExit>
 
-        <div
-          className="i374-hero"
-          style={{
-            position: "relative",
-            zIndex: 2,
-            width: "100%",
-            maxWidth: 1240,
-            margin: "0 auto",
-            display: "grid",
-            gridTemplateColumns: "minmax(0,1.45fr) minmax(0,0.62fr)",
-            gap: "clamp(48px,6vw,100px)",
-            alignItems: "center",
-          }}
-        >
-          {/* Colonne texte — premier plan, part vite. */}
-          <div>
+        {/* ── Le pan de parole ───────────────────────────────────────────── */}
+        <div className="i374-pan" style={{ position: "relative", zIndex: 2, maxWidth: 1280, width: "100%", margin: "0 auto" }}>
+          <div style={{ maxWidth: 640 }}>
             <DifferentialExit depth={0.9}>
               <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, ease: EASE, delay: 0.05 }}>
                 <Eyebrow>{clientEyebrow(sessionData) ?? "VTC du quotidien · Rennes"}</Eyebrow>
               </motion.div>
+              {/*
+                Titre d'un seul tenant, d'une seule couleur : la seconde ligne
+                en italique d'un autre ton était la signature de gabarit de la
+                série.
+              */}
               <motion.h1
                 initial={{ opacity: 0, y: 42 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -523,22 +546,18 @@ export default function CapChauffeurPage() {
                 style={{
                   fontFamily: SERIF,
                   fontWeight: 500,
-                  fontSize: "clamp(2.6rem,5.6vw,5rem)",
-                  lineHeight: 0.99,
+                  fontSize: "clamp(2.3rem,5vw,4.4rem)",
+                  lineHeight: 1.0,
                   letterSpacing: "-0.015em",
                   color: C.ink,
-                  margin: "clamp(20px,2.6vw,32px) 0 clamp(18px,2.2vw,26px)",
-                  maxWidth: "17ch",
+                  margin: "clamp(18px,2.4vw,28px) 0 clamp(16px,2vw,24px)",
+                  overflowWrap: "break-word",
                 }}
-              >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (
-                (clientHeroLine(sessionData, 0, 2, 20) != null) ? (<>
-                  {clientHeroLine(sessionData, 0, 2, 20)}
-                  <br />
-                  <em style={{ fontStyle: "italic", color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 20)}</em>
-                </>) : (<>
-                  Le chauffeur des jours <em style={{ fontStyle: "italic", color: C.accent }}>où ça compte.</em>
-                </>)
-              )}</motion.h1>
+              >
+                {/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ??
+                  clientHeroLine(sessionData, 0, 1, 38) ??
+                  "Le chauffeur des jours où ça compte."}
+              </motion.h1>
             </DifferentialExit>
 
             <DifferentialExit depth={0.55}>
@@ -549,30 +568,33 @@ export default function CapChauffeurPage() {
                 style={{
                   fontFamily: SANS,
                   fontWeight: 400,
-                  fontSize: "clamp(1rem,1.5vw,1.15rem)",
+                  fontSize: "clamp(0.95rem,1.35vw,1.1rem)",
                   lineHeight: 1.75,
                   color: C.textMuted,
                   maxWidth: 500,
-                  margin: "0 0 clamp(26px,3.4vw,40px)",
+                  margin: "0 0 clamp(22px,2.8vw,32px)",
                 }}
               >
                 {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Rendez-vous médicaux, gares matinales, enfants à récupérer, parents à véhiculer : un VTC de confiance pour les trajets de la vraie vie — dont le transport médical assis conventionné."}
               </motion.p>
+              {/* Une seule action pleine ; les services restent un lien. */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.9, ease: EASE, delay: 0.56 }}
-                style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}
+                style={{ display: "flex", gap: "clamp(16px,2vw,26px)", flexWrap: "wrap", alignItems: "center" }}
               >
                 <CtaButton href={telHref}>Organiser mes trajets</CtaButton>
-                <CtaButton href="#services" filled={false}>Nos services</CtaButton>
+                <a href="#services" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
+                  Nos services
+                </a>
               </motion.div>
               {/* Le détail gratuit : la promesse SMS, avec son point de position. */}
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.9, ease: EASE, delay: 0.75 }}
-                style={{ display: "flex", alignItems: "center", gap: 10, marginTop: "clamp(22px,2.8vw,34px)" }}
+                style={{ display: "flex", alignItems: "center", gap: 10, marginTop: "clamp(20px,2.6vw,30px)" }}
               >
                 <span style={{ position: "relative", width: 8, height: 8, flexShrink: 0 }}>
                   <span style={{ position: "absolute", inset: 0, borderRadius: 999, background: C.jalon }} />
@@ -589,81 +611,57 @@ export default function CapChauffeurPage() {
               </motion.div>
             </DifferentialExit>
           </div>
+        </div>
 
-          {/* Rail de stats vertical — dessiné en axe de route : pointillés,
-              jalons kilométriques, et la voiture qui descend la ligne. */}
-          <DifferentialExit depth={0.2}>
-            <motion.div
-              className="i374-rail"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.0, ease: EASE, delay: 0.5 }}
+        {/* ── LA ROUTE — la masse en biais, et les jalons qui la suivent ─── */}
+        <DifferentialExit depth={0.2} style={{ position: "absolute", left: 0, right: 0, bottom: 0, zIndex: 1 }}>
+          <div className="i374-route">
+            {/* L'axe : la ligne discontinue du marquage, le long de la coupe. */}
+            <span
+              aria-hidden
+              className="i374-axe"
               style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "clamp(26px,3.6vh,44px)",
-                position: "relative",
-                paddingLeft: "clamp(26px,2.8vw,42px)",
+                position: "absolute",
+                left: 0,
+                right: 0,
+                top: 0,
+                height: 2,
+                background: `repeating-linear-gradient(90deg, ${C.accent} 0 18px, transparent 18px 38px)`,
+                opacity: 0.7,
               }}
-            >
-              {/* L'axe : ligne discontinue verticale, marquage au sol. */}
-              <span
-                aria-hidden
-                className="i374-axe"
-                style={{
-                  position: "absolute",
-                  left: 3,
-                  top: 0,
-                  bottom: 0,
-                  width: 2,
-                  background: `repeating-linear-gradient(180deg, ${C.border} 0 12px, transparent 12px 24px)`,
-                }}
-              />
-              {/* La voiture — un point qui roule le long de l'axe. */}
-              <span
-                className="i374-voiture"
-                aria-hidden
-                style={{
-                  position: "absolute",
-                  left: -1,
-                  top: "4%",
-                  width: 10,
-                  height: 10,
-                  borderRadius: 999,
-                  background: C.accent,
-                  boxShadow: `0 0 0 4px ${C.accentLight}`,
-                  animation: "i374-roule 9s cubic-bezier(0.16,1,0.3,1) infinite alternate",
-                }}
-              />
-              {STATS.map((s, i) => (
-                <div key={s.label + i} className="i374-jalon" style={{ position: "relative" }}>
+            />
+            {/* La voiture — un point qui suit la route. */}
+            <span
+              className="i374-voiture"
+              aria-hidden
+              /* Posée SOUS la coupe : au-dessus, elle serait rognée par le
+                 clip-path de la route. Elle suit la pente à l'œil. */
+              style={{
+                position: "absolute",
+                top: "calc(34% + 8px)",
+                left: "6%",
+                width: 10,
+                height: 10,
+                borderRadius: 999,
+                background: C.accent,
+                boxShadow: `0 0 0 4px ${C.accentLight}`,
+                animation: "i374-roule 9s cubic-bezier(0.16,1,0.3,1) infinite alternate",
+              }}
+            />
+            <div className="i374-jalons">
+              {STATS.map((s, n) => (
+                <div key={s.label + n} className="i374-jalon" style={{ position: "relative", minWidth: 0 }}>
                   <span
                     aria-hidden
-                    className="i374-dot"
-                    style={{
-                      position: "absolute",
-                      left: "calc(clamp(26px,2.8vw,42px) * -1)",
-                      top: 8,
-                      width: 8,
-                      height: 8,
-                      borderRadius: 999,
-                      border: `2px solid ${C.accent}`,
-                      background: C.bg,
-                    }}
+                    style={{ position: "absolute", left: 0, top: "calc(clamp(18px,2.6vh,30px) * -1 - 4px)", width: 8, height: 8, borderRadius: 999, border: `2px solid ${C.accent}`, background: C.bg }}
                   />
-                  <div style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(1.8rem,2.9vw,2.5rem)", lineHeight: 1, color: C.accent, letterSpacing: "-0.01em" }}>{s.value}</div>
-                  <div style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase", color: C.textFaint, marginTop: 8, fontWeight: 600, maxWidth: 200 }}>{s.label}</div>
+                  <div style={{ fontFamily: SERIF, fontWeight: 500, fontSize: "clamp(1.5rem,2.4vw,2.2rem)", lineHeight: 1, color: C.accent, letterSpacing: "-0.01em" }}>{s.value}</div>
+                  <div style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.14em", textTransform: "uppercase", color: C.textFaint, marginTop: 7, fontWeight: 600 }}>{s.label}</div>
                 </div>
               ))}
-            </motion.div>
-          </DifferentialExit>
-        </div>
-
-        {/* Cue défilement */}
-        <div className="i374-cue" style={{ position: "absolute", bottom: 24, left: "50%", transform: "translateX(-50%)", display: "flex", flexDirection: "column", alignItems: "center", gap: 6 }}>
-          <span style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.3em", textTransform: "uppercase", color: C.textFaint, fontWeight: 700 }}>Le trajet</span>
-          <motion.span animate={{ y: [0, 7, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }} style={{ width: 1, height: 30, background: `linear-gradient(${C.accent}, transparent)`, display: "block" }} />
-        </div>
+            </div>
+          </div>
+        </DifferentialExit>
       </section>
 
       {/* ── RESPIRATION — une phrase, avant le premier bloc dense ──────────── */}
