@@ -86,8 +86,8 @@ d'écart, et jamais avec les mêmes proportions.
 | 362 | peintre | `carte` | fait |
 | 363 | podologue | `splitgauche` | fait |
 | 364 | podologue | `diagonale` | fait |
-| 365 | producteur | `chiffre` | à faire |
-| 366 | producteur | `typo` | à faire |
+| 365 | producteur | `chiffre` | fait |
+| 366 | producteur | `typo` | fait |
 | 367 | sage-femme | `liste` | à faire |
 | 368 | sage-femme | `devanture` | à faire |
 | 369 | salle de réception | `pleincadre` | à faire |

@@ -6,8 +6,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, CheckCircle, Clock, Leaf, Mail, MapPin, Phone, Star, Tractor, Users } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
-import { CrossPush } from "@/lib/templates/hero-kit-3";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import {
   clientCertifications,
   clientAddress,
@@ -38,7 +37,7 @@ let bp: any = null;
 let sessionData: any = null;
 let brand: any = null;
 
-/* Producteur fermier, 2e variante, maraîchage moderne et AMAP. Signature : CrossPush — les saisons du champ qui se poussent plein cadre. Images nature/jardin déjà présentes dans le repo. */
+/* Producteur fermier, 2e variante, maraîchage moderne et AMAP. Héros typographique : le titre tient l'écran sur le vert profond, et les trois saisons descendent en pellicule de vignettes cliquables — le plein cadre CrossPush était la composition de quatre autres thèmes. */
 
 let C: Record<string, string> = {
   bg: "#f4f9f4",
@@ -169,7 +168,7 @@ export default function PotagerEstuairePage() {
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i, go } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
 
@@ -187,9 +186,28 @@ export default function PotagerEstuairePage() {
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
       <style>{`${FONTS_CSS}
 
+        /*
+          ── Héros typographique : le pied et la pellicule ──────────────────
+        */
+        .i366-pied {
+          display: grid;
+          grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+          gap: clamp(22px, 3.4vw, 52px);
+          align-items: end;
+          margin-top: clamp(20px, 2.6vw, 32px);
+          padding-top: clamp(18px, 2.4vw, 26px);
+          border-top: 1px solid rgba(255,255,255,0.16);
+        }
+        .i366-pellicule {
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+          gap: 12px;
+        }
+
         @media (max-width: 900px) { #i366-nav { display: none !important; } .i366-burger { display: flex !important; } }
         @media (max-width: 860px) {
-          .i366-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
+          .i366-hero { padding: 118px 24px 40px !important; gap: 24px !important; }
+          .i366-pied { grid-template-columns: minmax(0,1fr) !important; row-gap: 20px; }
           .i366-card { max-width: 380px; margin: 0 auto; width: 100%; }
           .i366-split { grid-template-columns: 1fr !important; }
           .i366-stats { grid-template-columns: 1fr 1fr !important; row-gap: 8px; }
@@ -235,34 +253,75 @@ export default function PotagerEstuairePage() {
         </div>
       )}
 
-      {/* ── HERO ────────────────────────────────────────────────────────── */}
+      {/* ── HERO — typographie seule, les saisons en pellicule ────────────
+             Le titre remplit l'écran sur le vert profond du thème ; plus de
+             photographie en fond perdu — le plein cadre CrossPush était la
+             composition d'impact-328, 340, 349 et 359. Les photos des
+             saisons ne se perdent pas : elles descendent en pellicule au
+             pied du héros, trois vignettes cliquables qui pilotent la
+             chronique. */}
+      <section id="hero" className="i366-hero" style={{ minHeight: "100dvh", position: "relative", display: "flex", flexDirection: "column", justifyContent: "center", gap: "clamp(22px, 3vh, 38px)", overflow: "hidden", background: C.bgDark, padding: "clamp(116px, 14vh, 156px) clamp(24px, 5vw, 72px) clamp(40px, 5vh, 64px)" }}>
+        {/* Les rangs du champ, dessinés : la seule texture du fond. */}
+        <div aria-hidden style={{ position: "absolute", inset: 0, opacity: 0.1, backgroundImage: `repeating-linear-gradient(100deg, ${C.hi} 0 1px, transparent 1px 64px)`, pointerEvents: "none" }} />
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "radial-gradient(70% 55% at 30% 80%, rgba(255,255,255,0.06), transparent 70%)", pointerEvents: "none" }} />
 
-      <section id="hero" style={{ height: "100dvh", minHeight: 640, position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden", background: C.bgDark }}>
-        <CrossPush images={HERO.map((s) => s.img)} index={i} overlay={0.5} />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(8,8,10,0.92) 0%, rgba(8,8,10,0.40) 46%, rgba(8,8,10,0.10) 100%)", pointerEvents: "none" }} />
-        <div className="i366-herotext" style={{ position: "relative", zIndex: 1, padding: "0 72px 76px", maxWidth: 860 }}>
-          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.hi }}>{clientEyebrow(sessionData) ?? "Maraîchage bio · Golfe du Morbihan"}</motion.span>
-          <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.45, duration: 0.9, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(36px, 5vw, 64px)", color: "#fff", lineHeight: 1.1, margin: "16px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>
-            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 14) ?? "Un champ, cent familles,"}<br /><em style={{ color: C.hi }}>{clientHeroLine(sessionData, 1, 2, 14) ?? "et les saisons pour contrat."}</em></>)}
-          </>)}</motion.h1>
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65 }} style={{ fontSize: 17, color: "rgba(255,255,255,0.78)", lineHeight: 1.75, marginBottom: 32, maxWidth: 520 }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Le Potager nourrit cent familles en AMAP et le marché du samedi : légumes bio plantés, cueillis et distribués par la même équipe. S'engager sur une saison, c'est ce qui fait tenir une ferme."}
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.85 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-            <motion.a href={telHref} style={{ background: C.accent, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>
-              Rejoindre l'AMAP <ArrowRight size={16} />
-            </motion.a>
-            <motion.a href="#services" style={{ background: "rgba(255,255,255,0.09)", color: "#fff", border: "1px solid rgba(255,255,255,0.25)", borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ background: "rgba(255,255,255,0.15)" }}>
-              Le champ
-            </motion.a>
-          </motion.div>
-          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 40, flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color="rgba(255,255,255,0.85)" className="" />
-            <span style={{ fontSize: 13.5, color: "rgba(255,255,255,0.78)" }}>
-              <strong style={{ color: "#fff", fontWeight: 700 }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color="#fff" className="" />
+        <div style={{ position: "relative", zIndex: 1, maxWidth: 1200, width: "100%", margin: "0 auto" }}>
+          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.hi }}>
+            {clientEyebrow(sessionData) ?? "Maraîchage bio · Golfe du Morbihan"}
+          </motion.span>
+
+          {/*
+            Le titre tient l'écran à lui seul, d'un seul tenant et d'une
+            seule couleur : la seconde ligne dans le ton clair était la
+            signature de gabarit de la série.
+          */}
+          <motion.h1 initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.9, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(38px, 7.6vw, 104px)", color: "#fff", lineHeight: 0.98, letterSpacing: "-0.02em", margin: "18px 0 0", maxWidth: 1060, overflowWrap: "break-word" }}>
+            {/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ??
+              c?.heroHeadline ??
+              clientHeroLine(sessionData, 0, 1, 44) ??
+              "Un champ, cent familles, et les saisons pour contrat."}
+          </motion.h1>
+
+          <div className="i366-pied">
+            <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: "clamp(14.5px, 1.3vw, 16.5px)", color: "rgba(255,255,255,0.78)", lineHeight: 1.75, margin: 0 }}>
+              {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Le Potager nourrit cent familles en AMAP et le marché du samedi : légumes bio plantés, cueillis et distribués par la même équipe. S'engager sur une saison, c'est ce qui fait tenir une ferme."}
+            </motion.p>
+            {/* Une seule action pleine ; le champ reste un lien. */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }} style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center" }}>
+              <motion.a href={telHref} style={{ background: C.accent, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.03 }}>
+                Rejoindre l'AMAP <ArrowRight size={16} />
+              </motion.a>
+              <a href="#services" style={{ fontSize: 13, color: "#fff", textDecoration: "none", borderBottom: `1px solid ${C.hi}`, paddingBottom: 3 }}>
+                Le champ
+              </a>
+            </motion.div>
           </div>
+        </div>
+
+        {/* ── LA PELLICULE — les trois saisons, en vignettes cliquables ──── */}
+        <div style={{ position: "relative", zIndex: 1, maxWidth: 1200, width: "100%", margin: "0 auto" }}>
+          <div className="i366-pellicule">
+            {HERO.map((h: any, n: number) => (
+              <button
+                key={h.k ?? n}
+                type="button"
+                onClick={() => go(n)}
+                aria-current={n === i}
+                aria-label={`Saison : ${h.k}`}
+                className="i366-vignette"
+                style={{ position: "relative", padding: 0, border: `2px solid ${n === i ? C.hi : "rgba(255,255,255,0.18)"}`, borderRadius: 10, overflow: "hidden", cursor: "pointer", background: "none", aspectRatio: "16 / 9", transition: "border-color .3s" }}
+              >
+                <img src={h.img} alt={h.alt} loading={n === 0 ? "eager" : "lazy"} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block", opacity: n === i ? 1 : 0.55, transition: "opacity .3s" }} />
+                <span style={{ position: "absolute", left: 10, bottom: 8, zIndex: 1, fontFamily: FONT_TITRE, fontSize: 13, fontWeight: 700, color: "#fff", textShadow: "0 2px 12px rgba(0,0,0,0.7)" }}>
+                  {h.k}
+                </span>
+              </button>
+            ))}
+          </div>
+          {/* La chronique de la saison montrée. */}
+          <motion.div key={`sub-${i}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} style={{ marginTop: 14, fontSize: 13.5, color: "rgba(255,255,255,0.72)", lineHeight: 1.6 }}>
+            <strong style={{ color: "#fff", fontWeight: 700 }}>{S.k}</strong> — {S.sub}
+          </motion.div>
         </div>
       </section>
 
