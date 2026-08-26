@@ -6,7 +6,7 @@ import { motion, useInView } from "framer-motion";
 import { ArrowRight, Award, CheckCircle, Clock, Hammer, Mail, MapPin, Phone, Star, TreeDeciduous } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { ArcSwap } from "@/lib/templates/hero-kit-3";
 import {
   clientTrade,
@@ -166,7 +166,7 @@ export default function EtabliMoreauPage() {
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i, go } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
 
@@ -183,6 +183,35 @@ export default function EtabliMoreauPage() {
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
       <style>{`
+        /*
+          ── Héros « plein cadre » ──────────────────────────────────────────
+          La pièce tient l'écran ; la parole se pose sur son bord bas.
+        */
+        .i379-arc { position: absolute; inset: 0; }
+
+        .i379-parole {
+          position: relative;
+          z-index: 2;
+          width: 100%;
+          max-width: 1260px;
+          margin: 0 auto;
+          padding: clamp(112px, 13vh, 150px) clamp(24px, 5vw, 64px) clamp(38px, 5vh, 62px);
+        }
+        .i379-bas {
+          display: grid;
+          grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr);
+          gap: clamp(22px, 3.4vw, 52px);
+          align-items: end;
+          margin-top: clamp(18px, 2.4vw, 28px);
+          padding-top: clamp(16px, 2.2vw, 24px);
+          border-top: 1px solid rgba(255,255,255,0.16);
+        }
+        .i379-piece { border-left: 1px solid rgba(255,255,255,0.16); padding-left: clamp(16px, 2vw, 28px); min-width: 0; }
+        @media (max-width: 860px) {
+          .i379-bas { grid-template-columns: minmax(0,1fr); row-gap: 20px; }
+          .i379-piece { border-left: none; padding-left: 0; border-top: 1px solid rgba(255,255,255,0.16); padding-top: 18px; }
+        }
+
         @media (max-width: 900px) { #i379-nav { display: none !important; } .i379-burger { display: flex !important; } }
         @media (max-width: 860px) {
           .i379-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
@@ -231,45 +260,84 @@ export default function EtabliMoreauPage() {
         </div>
       )}
 
-      {/* ── HERO ────────────────────────────────────────────────────────── */}
-<section className="i379-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.08fr) minmax(0,0.92fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1260, margin: "0 auto" }}>
-        <div>
-          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
+      {/* ── HERO — plein cadre : la pièce occupe tout l'écran ─────────────
+             Un ébéniste d'art se juge sur la pièce, pas sur le discours : la
+             photographie tient l'écran entier, le geste ArcSwap la fait
+             basculer comme un meuble qu'on présente, et la parole se pose en
+             bas. Le split texte-gauche / carte-droite était la charpente de
+             la série. */}
+      <section className="i379-hero" style={{ minHeight: "100dvh", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden", background: C.bgDark }}>
+        {/* La pièce, plein cadre, sous ArcSwap. */}
+        <div aria-hidden style={{ position: "absolute", inset: 0 }}>
+          {/*
+            ArcSwap n'accepte pas de prop style, et son motion.div porte un
+            transform : il devient le containing block des enfants absolus —
+            une image en inset: 0 s'y réduisait à zéro pixel. On le
+            dimensionne par sa className.
+          */}
+          <ArcSwap index={i} sweep={26} className="i379-arc">
+            <img src={S.img} alt={S.alt} loading="eager" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+          </ArcSwap>
+          {/* Scrim à trois arrêts : le titre se lit quoi qu'il y ait derrière. */}
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(30,26,18,0.6) 0%, rgba(30,26,18,0.14) 32%, rgba(30,26,18,0.68) 68%, rgba(30,26,18,0.94) 100%)" }} />
+        </div>
+
+        <div className="i379-parole">
+          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.hi }}>
             {clientTrade(sessionData) ?? "Ébéniste"} d'art · {clientCity(sessionData) ?? "Besançon"}
           </motion.span>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 14) ?? "Une pièce unique,"}<br /><em style={{ color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 14) ?? "pensée pour durer cent ans."}</em></>)}
-          </>)}</motion.h1>
-          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Meubles contemporains sur mesure, restauration de mobilier ancien, marqueterie : un établi, deux paires de mains, et des assemblages qui tiennent sans une vis apparente."}
-          </motion.p>
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
-            <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
-              Parler d'une pièce <ArrowRight size={16} />
-            </motion.a>
-            <motion.a href="#services" style={{ background: C.white, color: C.text, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ borderColor: C.accent }}>
-              L'atelier
-            </motion.a>
-          </motion.div>
-          
-          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 42, flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textMuted} className="" />
-            <span style={{ fontSize: 13.5, color: C.textMuted }}>
-              <strong style={{ color: C.text, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
-            </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.text} className="" />
-          </div>
-        </div>
-        <div className="i379-card">
-          <ArcSwap index={i} sweep={46}>
-            <div style={{ background: C.white, border: `1px solid ${C.border}`, borderRadius: 10, overflow: "hidden", boxShadow: "0 18px 52px rgba(0,0,0,0.18)" }}>
-              <img src={S.img} alt={S.alt} loading="lazy" style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block" }} />
-              <div style={{ padding: "22px 24px 24px", borderTop: `3px solid ${C.accent}` }}>
-                <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.accentDark, marginBottom: 8 }}>{S.k}</div>
-                <div style={{ fontFamily: FONT, fontSize: 19, color: C.text, lineHeight: 1.35 }}>{S.line}</div>
+          {/*
+            Titre d'un seul tenant, d'une seule couleur : la seconde ligne
+            dans l'accent était la signature de gabarit de la série.
+          */}
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT, fontSize: "clamp(32px, 5.2vw, 68px)", color: "#fff", lineHeight: 1.06, margin: "16px 0 0", maxWidth: 900, textShadow: "0 12px 48px rgba(0,0,0,0.55)", overflowWrap: "break-word" }}>
+            {/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ??
+              c?.heroHeadline ??
+              clientHeroLine(sessionData, 0, 1, 40) ??
+              "Une pièce unique, pensée pour durer cent ans."}
+          </motion.h1>
+
+          {/* ── La ligne du bas : la prose, l'action, la pièce du moment ─── */}
+          <div className="i379-bas">
+            <div style={{ minWidth: 0 }}>
+              <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: "clamp(14.5px, 1.3vw, 16.5px)", color: "rgba(255,255,255,0.82)", lineHeight: 1.75, margin: "0 0 22px" }}>
+                {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Meubles contemporains sur mesure, restauration de mobilier ancien, marqueterie : un établi, deux paires de mains, et des assemblages qui tiennent sans une vis apparente."}
+              </motion.p>
+              {/* Une seule action pleine ; l'atelier reste un lien. */}
+              <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center" }}>
+                <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
+                  Parler d'une pièce <ArrowRight size={16} />
+                </motion.a>
+                <a href="#services" style={{ fontSize: 13, color: "#fff", textDecoration: "none", borderBottom: `1px solid ${C.hi}`, paddingBottom: 3 }}>
+                  L'atelier
+                </a>
+              </motion.div>
+            </div>
+
+            {/* La pièce montrée, et de quoi passer aux autres. */}
+            <div className="i379-piece">
+              <motion.div key={`p-${i}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+                <div style={{ fontSize: 10.5, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", color: C.hi, marginBottom: 7 }}>{S.k}</div>
+                <div style={{ fontFamily: FONT, fontSize: "clamp(14.5px, 1.4vw, 17px)", color: "rgba(255,255,255,0.9)", lineHeight: 1.4 }}>{S.line}</div>
+              </motion.div>
+              {/*
+                La fraction « 01 / 03 » ne disait pas ce qu'on regardait ; ces
+                traits mènent directement à chaque pièce.
+              */}
+              <div style={{ display: "flex", gap: 8, marginTop: 14 }}>
+                {HERO.map((h: any, n: number) => (
+                  <button
+                    key={h.k ?? n}
+                    type="button"
+                    onClick={() => go(n)}
+                    aria-label={h.k ?? `Pièce ${n + 1}`}
+                    aria-current={n === i}
+                    style={{ width: 34, height: 3, padding: 0, border: "none", cursor: "pointer", background: n === i ? C.hi : "rgba(255,255,255,0.32)", transition: "background .3s" }}
+                  />
+                ))}
               </div>
             </div>
-          </ArcSwap>
+          </div>
         </div>
       </section>
 
