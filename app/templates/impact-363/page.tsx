@@ -6,7 +6,7 @@ import { motion, useInView } from "framer-motion";
 import { Activity, ArrowRight, CheckCircle, Clock, Footprints, Mail, MapPin, Phone, Scan, Star } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { MosaicPush } from "@/lib/templates/hero-kit-3";
 import {
   clientCertifications,
@@ -162,7 +162,7 @@ export default function PodoMarchePage() {
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { i, next, prev } = useSlides(HERO.length, DWELL.normal);
+  const { i, go } = useSlides(HERO.length, DWELL.normal);
   const S = HERO[i];
 
   const tiles = S.tiles.map(({ icon: Icon, t: tt, d, bg, fg }, n) => ({
@@ -192,10 +192,14 @@ export default function PodoMarchePage() {
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, overflowX: "clip" }}>
       <style>{`${FONTS_CSS}
 
+        /* La tuile du moment déborde du bord bas de la photographie. */
+        .i363-tuile { position: absolute; left: clamp(14px, 2vw, 26px); right: clamp(14px, 2vw, 26px); bottom: clamp(-26px, -2vw, -16px); z-index: 2; }
+
         @media (max-width: 900px) { #i363-nav { display: none !important; } .i363-burger { display: flex !important; } }
         @media (max-width: 560px) { .i363-navtrade { display: none !important; } }
         @media (max-width: 860px) {
-          .i363-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
+          .i363-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 30px !important; }
+          .i363-tuile { position: static !important; margin: -46px 14px 0 !important; }
           .i363-card { max-width: 380px; margin: 0 auto; width: 100%; }
           .i363-split { grid-template-columns: 1fr !important; }
           .i363-stats { grid-template-columns: 1fr 1fr !important; row-gap: 8px; }
@@ -241,36 +245,81 @@ export default function PodoMarchePage() {
         </div>
       )}
 
-      {/* ── HERO ────────────────────────────────────────────────────────── */}
-<section className="i363-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,1.08fr) minmax(0,0.92fr)", gap: 56, alignItems: "center", padding: "140px 64px 70px", maxWidth: 1260, margin: "0 auto" }}>
-        <div>
+      {/* ── HERO — split inversé : le soin à gauche, la parole à droite ────
+             L'image ouvre la page ; le texte la suit. C'est l'inverse du
+             réflexe de toute la série — texte à gauche, média à droite — et
+             l'œil rencontre le cabinet avant le discours. Les tuiles du
+             moment gardent leur geste MosaicPush, posées sur le bord bas de
+             la photographie. */}
+      <section className="i363-hero" style={{ minHeight: "100dvh", display: "grid", gridTemplateColumns: "minmax(0,0.95fr) minmax(0,1.05fr)", gap: "clamp(28px, 4.5vw, 64px)", alignItems: "center", padding: "clamp(120px, 15vh, 150px) clamp(24px, 5vw, 64px) clamp(48px, 7vh, 70px)", maxWidth: 1260, margin: "0 auto" }}>
+        {/* ── La colonne du soin : la photographie, et la tuile du moment ── */}
+        <div className="i363-soin" style={{ position: "relative", minWidth: 0 }}>
+          <div style={{ position: "relative", borderRadius: 16, overflow: "hidden", background: C.accentLight, aspectRatio: "4 / 4.6", boxShadow: "0 42px 80px -52px rgba(61,45,52,0.5)" }}>
+            <img
+              src={photo(0, "https://images.pexels.com/photos/5619447/pexels-photo-5619447.jpeg?auto=compress&cs=tinysrgb&w=1400")}
+              alt="Soin de pédicurie au cabinet"
+              loading="eager"
+              style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
+            <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(61,45,52,0.5) 0%, rgba(61,45,52,0.05) 42%, transparent 70%)" }} />
+          </div>
+
+          {/* La tuile du moment, en débord sur le bord bas de l'image. */}
+          <div className="i363-tuile">
+            <MosaicPush index={i} tiles={[{ ...tiles[0], area: { gridColumn: "1", gridRow: "1" } }]} stagger={0.09} style={{ display: "grid", gridTemplateColumns: "1fr", gridAutoRows: "minmax(96px, auto)" }} />
+          </div>
+        </div>
+
+        {/* ── La colonne de parole ───────────────────────────────────────── */}
+        <div style={{ minWidth: 0 }}>
           <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }} style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accentDark }}>
             {clientEyebrow(sessionData) ?? `Pédicure-podologue · ${clientCity(sessionData) ?? "Clermont-Ferrand"}`}
           </motion.span>
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(34px, 4.6vw, 60px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>
-            {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 23) ?? "Vos pieds portent tout."}<br /><em style={{ color: C.accentDark }}>{clientHeroLine(sessionData, 1, 2, 23) ?? "On s'occupe d'eux."}</em></>)}
-          </>)}</motion.h1>
-          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16.5, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 32 }}>
+          {/*
+            Titre d'un seul tenant, d'une seule couleur : la seconde ligne
+            dans l'accent était la signature de gabarit de la série.
+          */}
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35, duration: 0.85, ease: [0.16, 1, 0.3, 1] }} style={{ fontFamily: FONT_TITRE, fontSize: "clamp(32px, 4.4vw, 58px)", color: C.text, lineHeight: 1.1, margin: "18px 0 20px", overflowWrap: "break-word" }}>
+            {/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ??
+              c?.heroHeadline ??
+              clientHeroLine(sessionData, 0, 1, 40) ??
+              "Vos pieds portent tout. On s'occupe d'eux."}
+          </motion.h1>
+          <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55 }} style={{ fontSize: 16, color: C.textMuted, lineHeight: 1.75, maxWidth: 480, marginBottom: 30 }}>
             {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Analyse de la marche sur plateforme, semelles fabriquées au cabinet, soins de pédicurie médicale : deux podologues diplômés d'État pour marcher, courir et vieillir sans douleur."}
           </motion.p>
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
+          {/* Une seule action pleine ; les soins restent un lien. */}
+          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72 }} style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center" }}>
             <motion.a href={telHref} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "15px 30px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 9 }} whileHover={{ scale: 1.02 }}>
               Prendre rendez-vous <ArrowRight size={16} />
             </motion.a>
-            <motion.a href="#services" style={{ background: C.white, color: C.text, border: `1px solid ${C.border}`, borderRadius: 8, padding: "14px 26px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ borderColor: C.accent }}>
+            <a href="#services" style={{ fontSize: 13, color: C.text, textDecoration: "none", borderBottom: `1px solid ${C.accentDark}`, paddingBottom: 3 }}>
               Nos soins
-            </motion.a>
+            </a>
           </motion.div>
-          
-          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 42, flexWrap: "wrap" }}>
-            <SlideIndex i={i} total={HERO.length} variant="fraction" color={C.textMuted} className="" />
-            <span style={{ fontSize: 13.5, color: C.textMuted }}>
+
+          {/*
+            Le soin montré, et de quoi passer aux autres. La fraction
+            « 01 / 03 » ne disait pas ce qu'on regardait.
+          */}
+          <div style={{ display: "flex", alignItems: "center", gap: 18, marginTop: 36, paddingTop: 20, borderTop: `1px solid ${C.border}`, flexWrap: "wrap" }}>
+            <span style={{ fontSize: 13.5, color: C.textMuted, minWidth: 0 }}>
               <strong style={{ color: C.text, fontWeight: 700 }}>{S.k}</strong> — {S.sub}
             </span>
-            <HairlineArrows onPrev={prev} onNext={next} color={C.text} className="" />
+            <div style={{ display: "flex", gap: 8, flexShrink: 0, marginLeft: "auto" }}>
+              {HERO.map((h: any, n: number) => (
+                <button
+                  key={h.k ?? n}
+                  type="button"
+                  onClick={() => go(n)}
+                  aria-label={h.k ?? `Soin ${n + 1}`}
+                  aria-current={n === i}
+                  style={{ width: 34, height: 3, padding: 0, border: "none", borderRadius: 2, cursor: "pointer", background: n === i ? C.accentDark : C.border, transition: "background .3s" }}
+                />
+              ))}
+            </div>
           </div>
         </div>
-        <MosaicPush index={i} tiles={tiles} stagger={0.09} style={{ display: "grid", gridTemplateColumns: "1fr", gridTemplateRows: "repeat(3, minmax(112px, auto))", gap: 12 }} />
       </section>
 
       {/* ── STATS ───────────────────────────────────────────────────────── */}
@@ -356,7 +405,7 @@ export default function PodoMarchePage() {
       <section id="engagements" className="i363-pad" style={{ padding: "96px 64px", background: C.bgSection }}>
         <div className="i363-split" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1fr)", gap: 64, alignItems: "center" }}>
           <Reveal>
-            <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3", justifyContent: "center" , overflow: "hidden" }}><img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/5619447/pexels-photo-5619447.jpeg?auto=compress&cs=tinysrgb&w=1400"))} alt="Soin de pédicurie au cabinet" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div>
+            <div style={{ borderRadius: 12, border: `1px solid ${C.border}`, background: C.accentLight, aspectRatio: "4/3", justifyContent: "center" , overflow: "hidden" }}><img src={photo(1, "https://images.pexels.com/photos/5619451/pexels-photo-5619451.jpeg?auto=compress&cs=tinysrgb&w=1400")} alt="Analyse de la marche sur plateforme" loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} /></div>
           </Reveal>
           <Reveal delay={0.15}>
             <div>
