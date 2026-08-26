@@ -94,8 +94,8 @@ d'écart, et jamais avec les mêmes proportions.
 | 370 | salle de réception | `editorial` | fait |
 | 371 | sécurité | `bandeau` | fait |
 | 372 | sécurité | `carte` | fait |
-| 373 | VTC | `splitgauche` | à faire |
-| 374 | VTC | `diagonale` | à faire |
+| 373 | VTC | `splitgauche` | fait |
+| 374 | VTC | `diagonale` | fait |
 | 375 | vitrier | `chiffre` | à faire |
 | 376 | vitrier | `typo` | à faire |
 | 377 | école de musique | `liste` | à faire |
