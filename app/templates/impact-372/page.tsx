@@ -1361,7 +1361,7 @@ export default function HorizonProtectionPage() {
                 {nom}
               </div>
               <p style={{ color: "rgba(255,255,255,0.42)", fontSize: 13, lineHeight: 1.75, margin: 0, maxWidth: 380 }}>
-                {metier} · {clientCodePostalVille(sessionData) ?? ville}
+                {metier} · {clientCodePostalVille(sessionData, "", ville)}
                 <br />
                 Autorisation CNAPS AUT-031-2126-02-20-20260045678 — agents cartés
               </p>

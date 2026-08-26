@@ -1,6 +1,6 @@
 # Chantier « les thèmes se ressemblent tous » — les héros de 329 à 383
 
-Relevé du 25 août 2026, branche `claude/prompt-reprise-themes-316-383-y5lfwc`.
+Relevé des 25-26 août 2026 — chantier CLOS : 55/55 héros recomposés, branche `claude/prompt-reprise-themes-316-383-y5lfwc`.
 
 ## Ce qui se ressemblait
 
@@ -102,9 +102,9 @@ d'écart, et jamais avec les mêmes proportions.
 | 378 | gestion de patrimoine | `devanture` | fait |
 | 379 | menuisier | `pleincadre` | fait |
 | 380 | brasserie | `editorial` | fait |
-| 381 | caviste | `bandeau` | à faire |
-| 382 | recrutement | `carte` | à faire |
-| 383 | toiletteur | `splitgauche` | à faire |
+| 381 | caviste | `bandeau` | fait |
+| 382 | recrutement | `carte` | fait |
+| 383 | toiletteur | `splitgauche` | fait |
 
 Trois écarts assumés à la rotation, pour ne pas plier un métier à un tableau :
 

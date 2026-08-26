@@ -1373,7 +1373,8 @@ export default function DomaineCharmillesPage() {
                 {nom}
               </div>
               <p style={{ color: "rgba(255,255,255,0.42)", fontSize: 13, lineHeight: 1.75, margin: 0, maxWidth: 360 }}>
-                {metier} · {clientCodePostalVille(sessionData) ?? `${ville}, Val de Loire`}
+                {/* clientCodePostalVille exige ses trois arguments et rend toujours une chaîne : le ?? ne servait à rien et ne compilait pas. */}
+                {metier} · {clientCodePostalVille(sessionData, "", `${ville}, Val de Loire`)}
                 <br />
                 ERP contrôlé — capacité 220 convives assis
               </p>

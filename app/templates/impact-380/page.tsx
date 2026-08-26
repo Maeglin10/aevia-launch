@@ -1520,7 +1520,7 @@ export default function BrasserieHoublonPage() {
               <p style={{ color: C.textFaint, fontSize: 13, lineHeight: 1.75, margin: 0, maxWidth: 360 }}>
                 {/* TEXTE_SECTION */ clientText(sessionData, "pied.description") ?? (
                   <>
-                    Brasserie artisanale indépendante · {clientCodePostalVille(sessionData) ?? ville}
+                    Brasserie artisanale indépendante · {clientCodePostalVille(sessionData, "", ville)}
                     <br />
                     Bières non filtrées, non pasteurisées — vente directe et CHR
                   </>
