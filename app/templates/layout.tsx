@@ -1,4 +1,5 @@
 import { WebchatBridge } from "./WebchatBridge";
+import { BarreActionMobile } from "./BarreActionMobile";
 import { BrandColorVar } from "./BrandColorVar";
 import { SiteSchema } from "./SiteSchema";
 import { SiteImages } from "./SiteImages";
@@ -128,6 +129,15 @@ export default function TemplatesLayout({
           315 templates, so the skip link — the first stop for a keyboard or
           screen-reader user — went nowhere on every client site. */}
       <div id="main-content">{children}</div>
+      {/* La barre d'appel du pouce. Mesuré en 390 × 844 sur les 317 thèmes
+          antérieurs à la série 328-383 : 144 sans appel à l'action au premier
+          écran, 298 sans appel à l'action une fois la page défilée — le bouton
+          de la barre fixe vit dans le menu déroulant, qui passe en
+          display:none sur téléphone. Posée ici plutôt que dans trois cents
+          fichiers, comme les deux correctifs catalogue ci-dessus ; elle
+          s'efface d'elle-même sur les thèmes qui ont déjà un appel à l'action
+          épinglé. */}
+      <BarreActionMobile />
       <WebchatBridge />
     </>
   );
