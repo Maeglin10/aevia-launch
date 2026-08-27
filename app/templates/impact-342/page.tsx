@@ -8,6 +8,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { CrossPush } from "@/lib/templates/hero-kit-3";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientCertifications,
@@ -456,6 +457,7 @@ export default function PermisCapSudPage() {
         }
 
         @media (max-width: 900px) { #i342-nav { display: none !important; } .i342-burger { display: flex !important; } }
+          .aevia-action-mobile { display: inline-flex !important; }
         @media (max-width: 780px) {
           /* Sur un téléphone la carte prend toute la largeur et se pose au
              bas de l'écran : le débord latéral n'a plus de place. */
@@ -502,6 +504,12 @@ export default function PermisCapSudPage() {
             Inscription
           </motion.a>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={"#0e0e0e"}>
+          Appeler
+        </ActionMobile>
         <button className="i342-burger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu" style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}>
           <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "all .3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
           <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "all .3s", opacity: mobileOpen ? 0 : 1 }} />

@@ -26,6 +26,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { WipeReveal } from "@/lib/templates/hero-kit-3";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientCertifications,
@@ -506,6 +507,7 @@ export default function AtelierTeintesPage() {
         }
 
         @media (max-width: 980px) { #i361-nav { display: none !important; } .i361-burger { display: flex !important; } }
+          .aevia-action-mobile { display: inline-flex !important; }
         @media (max-width: 900px) {
           .i361-sousrit { grid-template-columns: minmax(0,1fr) !important; row-gap: 22px; }
           .i361-split { grid-template-columns: minmax(0,1fr) !important; }
@@ -581,6 +583,12 @@ export default function AtelierTeintesPage() {
             Devis gratuit <ArrowRight size={14} className="i361-fleche" aria-hidden />
           </motion.a>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={C.white}>
+          Appeler
+        </ActionMobile>
         <button
           className="i361-burger"
           onClick={() => setMobileOpen(!mobileOpen)}

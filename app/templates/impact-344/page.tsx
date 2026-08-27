@@ -22,6 +22,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { InvertSweep } from "@/lib/templates/hero-kit-3";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientAreas,
@@ -492,6 +493,7 @@ export default function AquaVertPressingPage() {
         .i344-coin { max-width: min(860px, 74%); }
 
         @media (max-width: 980px) { #i344-nav { display: none !important; } .i344-burger { display: flex !important; } }
+          .aevia-action-mobile { display: inline-flex !important; }
         @media (max-width: 900px) {
           /* Sous 900 la coupe se couche : elle passe entre le cadran et le
              texte au lieu de les séparer en biais, et le coin de parole
@@ -580,6 +582,12 @@ export default function AquaVertPressingPage() {
             Collecte à vélo
           </motion.a>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={C.white}>
+          Appeler
+        </ActionMobile>
         <button
           className="i344-burger"
           onClick={() => setMobileOpen(!mobileOpen)}

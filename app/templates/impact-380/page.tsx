@@ -8,6 +8,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { ArcSwap } from "@/lib/templates/hero-kit-3";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientCertifications,
@@ -602,6 +603,7 @@ export default function BrasserieHoublonPage() {
         @media (max-width: 900px) {
           #i380-nav { display: none !important; }
           .i380-burger { display: flex !important; }
+          .aevia-action-mobile { display: inline-flex !important; }
           .i380-split { grid-template-columns: 1fr !important; }
         }
         @media (max-width: 860px) {
@@ -677,6 +679,12 @@ export default function BrasserieHoublonPage() {
           ))}
           <BoutonCuivre href={telHref}>Visite & dégustation</BoutonCuivre>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={"#160e05"}>
+          Appeler
+        </ActionMobile>
         <button
           className="i380-burger"
           onClick={() => setMobileOpen(!mobileOpen)}

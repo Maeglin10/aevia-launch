@@ -213,3 +213,23 @@ body {
 .lien-evitement:focus {
   padding: 8px 16px !important;
 }
+
+/*
+  L'appel à l'action de la barre, sur téléphone.
+
+  Mesuré à l'écran sur la série 328-383 : la barre de navigation est fixe et
+  porte un bouton d'action, mais ce bouton vit dans le bloc du menu déroulant.
+  Sous le point de rupture, ce bloc passe en « display: none » — le bouton
+  mesure alors 0 × 0. Résultat en 390 × 844 : 55 thèmes sur 56 sans aucun
+  appel à l'action une fois la page défilée, et 6 sans appel à l'action même
+  au premier écran.
+
+  Le composant lib/templates/ActionMobile s'affiche à côté du bouton de menu.
+  Il est masqué par défaut ; c'est chaque thème qui le révèle, DANS la media
+  query qui fait déjà apparaître son propre bouton de menu — les points de
+  rupture vont de 900 à 1000 px selon les thèmes, et les deux doivent
+  paraître ensemble.
+*/
+.aevia-action-mobile {
+  display: none;
+}

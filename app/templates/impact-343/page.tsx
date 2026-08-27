@@ -22,6 +22,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { WipeReveal } from "@/lib/templates/hero-kit-3";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientCertifications,
@@ -510,6 +511,7 @@ export default function BlancNetPage() {
         @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300;1,9..40,400&display=swap');
 
         @media (max-width: 980px) { #i343-nav { display: none !important; } .i343-burger { display: flex !important; } }
+          .aevia-action-mobile { display: inline-flex !important; }
         /*
           ── Héros « grille éditoriale » ────────────────────────────────────
           Le titre tient toute la largeur, puis la page se divise comme un
@@ -619,6 +621,12 @@ export default function BlancNetPage() {
             Nous appeler
           </motion.a>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={C.white}>
+          Appeler
+        </ActionMobile>
         <button
           className="i343-burger"
           onClick={() => setMobileOpen(!mobileOpen)}

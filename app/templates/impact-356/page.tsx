@@ -19,6 +19,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { ComposeIn } from "@/lib/templates/hero-kit-3";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientCertifications,
@@ -613,6 +614,7 @@ export default function SoinsEstuairePage() {
         @media (max-width: 980px) {
           #i356-nav { display: none !important; }
           .i356-burger { display: flex !important; }
+          .aevia-action-mobile { display: inline-flex !important; }
         }
         @media (max-width: 900px) {
           .i356-herobas { grid-template-columns: minmax(0,1fr) !important; gap: 30px !important; }
@@ -676,6 +678,12 @@ export default function SoinsEstuairePage() {
           </Bouton>
         </div>
 
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={C.white}>
+          Appeler
+        </ActionMobile>
         <button
           className="i356-burger"
           onClick={() => setMobileOpen(!mobileOpen)}

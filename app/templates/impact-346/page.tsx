@@ -19,6 +19,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { MosaicPush } from "@/lib/templates/hero-kit-3";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientCertifications,
@@ -725,6 +726,7 @@ export default function HalleAuxFromagesPage() {
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@300;400;500;600;700&display=swap');
 
         @media (max-width: 980px) { #i346-nav { display: none !important; } .i346-burger { display: flex !important; } }
+          .aevia-action-mobile { display: inline-flex !important; }
         @media (max-width: 900px) {
           .i346-hero { gap: 28px !important; }
           /* L'étal en vitrine : quatre tuiles côte à côte deviennent quatre
@@ -823,6 +825,12 @@ export default function HalleAuxFromagesPage() {
             Commander un plateau
           </motion.a>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={"#101010"}>
+          Appeler
+        </ActionMobile>
         <button
           className="i346-burger"
           onClick={() => setMobileOpen(!mobileOpen)}

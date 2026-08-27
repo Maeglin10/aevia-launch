@@ -7,6 +7,7 @@ import { ArrowRight, Baby, CheckCircle, Clock, Mail, MapPin, Phone, Star } from 
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { ParticleOrb } from "@/lib/templates/hero-kit-3";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientAreas,
@@ -575,6 +576,7 @@ export default function CabinetNaissancesPage() {
         }
 
         @media (max-width: 980px) { #i367-nav { display: none !important; } .i367-burger { display: flex !important; } }
+          .aevia-action-mobile { display: inline-flex !important; }
 
         /* Prestations : rail de chiffres collant à gauche, sommaire à droite.
            Sous 980 px le rail redevient une bande horizontale et cesse d'être
@@ -656,6 +658,12 @@ export default function CabinetNaissancesPage() {
             Prendre RDV
           </CTA>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={"#101010"}>
+          Appeler
+        </ActionMobile>
         <button
           className="i367-burger"
           onClick={() => setMobileOpen(!mobileOpen)}

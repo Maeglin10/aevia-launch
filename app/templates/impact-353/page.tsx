@@ -8,6 +8,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { ComposeIn } from "@/lib/templates/hero-kit-3";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientCertifications,
@@ -314,6 +315,13 @@ function Nav() {
           </a>
         </div>
 
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        {/* Ce thème nomme sa cible d'appel « tel », pas « telHref ». */}
+          <ActionMobile href={tel} fond={C.accent} encre={"#101010"}>
+          Appeler
+        </ActionMobile>
         <button className="i353-burger" onClick={() => setOpen(!open)} aria-label="Menu" style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}>
           <span style={{ display: "block", width: 24, height: 2, borderRadius: 2, background: C.ink, transition: `transform .35s ${EASE_CSS}`, transform: open ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
           <span style={{ display: "block", width: 24, height: 2, borderRadius: 2, background: C.ink, opacity: open ? 0 : 1, transition: "opacity .3s" }} />
@@ -974,6 +982,7 @@ export default function PetitsCairnsPage() {
         @media (max-width: 980px) {
           #i353-nav { display: none !important; }
           .i353-burger { display: flex !important; }
+          .aevia-action-mobile { display: inline-flex !important; }
         }
         @media (max-width: 560px) { .i353-navtrade { display: none !important; } }
 

@@ -29,6 +29,7 @@ import { ArrowRight, Building, CheckCircle, Clock, Mail, MapPin, Paintbrush, Pho
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { InvertSweep } from "@/lib/templates/hero-kit-3";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientCertifications,
@@ -402,6 +403,7 @@ export default function DuoPeinturesPage() {
         }
 
         @media (max-width: 980px) { #i362-nav { display: none !important; } .i362-burger { display: flex !important; } }
+          .aevia-action-mobile { display: inline-flex !important; }
         @media (max-width: 900px) {
           .i362-split { grid-template-columns: minmax(0,1fr) !important; }
           .i362-split > * { order: initial !important; }
@@ -478,6 +480,12 @@ export default function DuoPeinturesPage() {
             Devis sous 48 h <ArrowRight size={14} className="i362-fleche" aria-hidden />
           </motion.a>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={C.white}>
+          Appeler
+        </ActionMobile>
         <button
           className="i362-burger"
           onClick={() => setMobileOpen(!mobileOpen)}

@@ -26,6 +26,7 @@ import { Anchor, Mail, MapPin, Phone } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { PanelRise } from "@/lib/templates/hero-kit-3";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientAreas,
@@ -405,6 +406,7 @@ export default function RivesBlanchesPage() {
         }
 
         @media (max-width: 980px) { #i335-nav { display: none !important; } .i335-burger { display: flex !important; } }
+          .aevia-action-mobile { display: inline-flex !important; }
         @media (max-width: 900px) {
           /* Le filet vertical n'a plus de sens quand les deux blocs
              s'empilent : il redevient horizontal. */
@@ -464,6 +466,12 @@ export default function RivesBlanchesPage() {
             Nous joindre
           </Btn>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={C.white}>
+          Appeler
+        </ActionMobile>
         <button
           className="i335-burger"
           onClick={() => setMobileOpen(!mobileOpen)}

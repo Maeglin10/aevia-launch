@@ -7,6 +7,7 @@ import { ArrowRight, Baby, Clock, Mail, MapPin, Moon, Phone, Quote, Sun } from "
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { ScrollGrow } from "@/lib/templates/hero-kit-3";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientCertifications,
@@ -326,6 +327,13 @@ function Nav() {
           </a>
         </div>
 
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        {/* Ce thème nomme sa cible d'appel « tel », pas « telHref ». */}
+          <ActionMobile href={tel} fond={C.accent} encre={"#101010"}>
+          Appeler
+        </ActionMobile>
         <button
           className="i354-burger"
           onClick={() => setOpen(!open)}
@@ -1070,6 +1078,7 @@ export default function NidDouilletPage() {
         @media (max-width: 980px) {
           #i354-nav { display: none !important; }
           .i354-burger { display: flex !important; }
+          .aevia-action-mobile { display: inline-flex !important; }
         }
         @media (max-width: 560px) { .i354-navtrade { display: none !important; } }
 

@@ -7,6 +7,7 @@ import { ArrowRight, Check, Glasses, Mail, MapPin, Phone } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { ScrollSpin } from "@/lib/templates/hero-kit-3";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientCertifications,
@@ -553,6 +554,7 @@ export default function RegardNordPage() {
         @media (max-width: 980px) {
           #i331-nav { display: none !important; }
           .i331-burger { display: flex !important; }
+          .aevia-action-mobile { display: inline-flex !important; }
           /* Trois colonnes de journal ne tiennent pas sous 980 : la prose
              passe pleine largeur, le sommaire et la vitrine se partagent la
              ligne suivante. */
@@ -627,6 +629,12 @@ export default function RegardNordPage() {
           </motion.a>
         </div>
 
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={C.white}>
+          Appeler
+        </ActionMobile>
         <button
           className="i331-burger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu" style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44, }}
         >

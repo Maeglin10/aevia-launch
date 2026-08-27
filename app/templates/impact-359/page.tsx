@@ -28,6 +28,7 @@ import { ArrowRight, Clock, HardHat, Mail, MapPin, Phone, TreePine, Truck, Wrenc
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { BentoCascade, DWELL, useSlides } from "@/lib/templates/hero-kit-2";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientAreas,
@@ -627,6 +628,7 @@ export default function LocamatPage() {
         .i359-famille { border-left: 1px solid rgba(255,255,255,0.14); padding-left: clamp(16px, 2vw, 28px); }
 
         @media (max-width: 1000px) { #i359-nav { display: none !important; } .i359-burger { display: flex !important; } }
+          .aevia-action-mobile { display: inline-flex !important; }
         @media (max-width: 900px) {
           .i359-bas { grid-template-columns: minmax(0,1fr) !important; row-gap: 24px; }
           .i359-famille { border-left: none !important; padding-left: 0 !important; border-top: 1px solid rgba(255,255,255,0.16); padding-top: 20px; }
@@ -687,6 +689,12 @@ export default function LocamatPage() {
             Réserver
           </Btn>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={"#141110"}>
+          Appeler
+        </ActionMobile>
         <button
           className="i359-burger"
           onClick={() => setMobileOpen(!mobileOpen)}

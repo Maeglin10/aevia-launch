@@ -28,6 +28,7 @@ import {
   clientTrade,
 } from "@/lib/templates/clientContent";
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 
 /* ════════════════════════════════════════════════════════════════════════════
    ALLURE & APPUI — Pédicure-podologue, cabinet bien-être · Pau
@@ -565,6 +566,7 @@ export default function AllureAppuiPage() {
         @media (max-width: 940px) {
           .i364-navlinks { display: none !important; }
           .i364-burger { display: flex !important; }
+          .aevia-action-mobile { display: inline-flex !important; }
         }
 
         /*
@@ -727,6 +729,12 @@ export default function AllureAppuiPage() {
           </a>
         </div>
 
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={C.white}>
+          Appeler
+        </ActionMobile>
         <button
           className="i364-burger"
           onClick={() => setMobileOpen(!mobileOpen)}

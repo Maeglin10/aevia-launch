@@ -7,6 +7,7 @@ import { ArrowRight, Check, Gauge, Mail, MapPin, Phone } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, GhostSolid, useSlides } from "@/lib/templates/hero-kit-2";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAccrocheRestante,
   clientAddress,
@@ -610,6 +611,7 @@ export default function ControleRhodanienPage() {
         @media (max-width: 1040px) {
           #i349-nav { display: none !important; }
           .i349-burger { display: flex !important; }
+          .aevia-action-mobile { display: inline-flex !important; }
           .i349-bas { grid-template-columns: 1fr; row-gap: 22px; }
           .i349-chiffres { grid-template-columns: 1fr 1fr; row-gap: 18px; }
           .i349-chiffres > * { border-left: none !important; padding-left: 0 !important; }
@@ -666,6 +668,12 @@ export default function ControleRhodanienPage() {
           </motion.a>
         </div>
 
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={"#15100a"}>
+          Appeler
+        </ActionMobile>
         <button className="i349-burger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu" style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44, }}>
           <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "transform .35s cubic-bezier(0.16, 1, 0.3, 1)", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
           <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "opacity .3s", opacity: mobileOpen ? 0 : 1 }} />

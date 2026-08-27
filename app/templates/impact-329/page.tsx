@@ -8,6 +8,7 @@ import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Truck, Packa
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientHeroLine,
   clientTrade,
@@ -488,6 +489,7 @@ export default function CapDemenagementsPage() {
         @media (max-width: 900px) {
           #i329-nav { display: none !important; }
           .i329-burger { display: flex !important; }
+          .aevia-action-mobile { display: inline-flex !important; }
           /* Le héros « chiffre en avant » : en étroit, la rangée haute et la
              rangée basse se rangent l'une sous l'autre plutôt que de se
              tasser aux deux bouts d'une ligne. */
@@ -552,6 +554,12 @@ export default function CapDemenagementsPage() {
           ))}
           <CtaBtn href={telHref}>Devis gratuit</CtaBtn>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={"#101010"}>
+          Appeler
+        </ActionMobile>
         <button className="i329-burger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu" style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}>
           <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
           <span style={{ display: "block", width: 24, height: 1.5, background: "#fff", transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />

@@ -19,6 +19,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { BentoCascade, DWELL, useSlides } from "@/lib/templates/hero-kit-2";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientCertifications,
@@ -735,6 +736,7 @@ export default function AlmaCompetencesPage() {
         @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Figtree:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&display=swap');
 
         @media (max-width: 980px) { #i348-nav { display: none !important; } .i348-burger { display: flex !important; } }
+          .aevia-action-mobile { display: inline-flex !important; }
         @media (max-width: 900px) {
           .i348-hero { gap: 26px !important; }
           .i348-pied { grid-template-columns: minmax(0,1fr) !important; row-gap: 26px; }
@@ -834,6 +836,12 @@ export default function AlmaCompetencesPage() {
             Réunion d'info
           </motion.a>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={"#101010"}>
+          Appeler
+        </ActionMobile>
         <button
           className="i348-burger"
           onClick={() => setMobileOpen(!mobileOpen)}

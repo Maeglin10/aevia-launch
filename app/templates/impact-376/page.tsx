@@ -28,6 +28,7 @@ import {
   clientText,
 } from "@/lib/templates/clientContent";
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -201,6 +202,7 @@ export default function VerreEtLumierePage() {
         }
 
         @media (max-width: 900px) { #i376-nav { display: none !important; } .i376-burger { display: flex !important; } }
+          .aevia-action-mobile { display: inline-flex !important; }
         @media (max-width: 860px) {
           .i376-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
           .i376-card { max-width: 380px; margin: 0 auto; width: 100%; }
@@ -233,6 +235,12 @@ export default function VerreEtLumierePage() {
             Projet sur mesure
           </motion.a>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={"#101010"}>
+          Appeler
+        </ActionMobile>
         <button className="i376-burger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu" style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}>
           <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
           <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />

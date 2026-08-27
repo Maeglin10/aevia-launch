@@ -39,6 +39,7 @@ import {
   clientTrade,
 } from "@/lib/templates/clientContent";
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -526,6 +527,7 @@ export default function PrismeFormationPage() {
         }
 
         @media (max-width: 980px) { #i347-nav { display: none !important; } .i347-burger { display: flex !important; } }
+          .aevia-action-mobile { display: inline-flex !important; }
         @media (max-width: 900px) {
           .i347-annonce { grid-template-columns: minmax(0,1fr); row-gap: 26px; align-items: start; }
           /* La description de la formation passerait à la ligne et casserait
@@ -617,6 +619,12 @@ export default function PrismeFormationPage() {
             Dossier CPF
           </motion.a>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={C.white}>
+          Appeler
+        </ActionMobile>
         <button
           className="i347-burger"
           onClick={() => setMobileOpen(!mobileOpen)}

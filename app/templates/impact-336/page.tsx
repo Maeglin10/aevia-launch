@@ -27,6 +27,7 @@ import { Clock, Cross, Mail, MapPin, Phone } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { StickyProgress } from "@/lib/templates/hero-kit-3";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientAreas,
@@ -507,6 +508,7 @@ export default function PharmacieHorlogePage() {
         .i336-ligne:hover { background: ${C.accentLight}; padding-left: clamp(8px, 1.2vw, 18px); }
 
         @media (max-width: 980px) { #i336-nav { display: none !important; } .i336-burger { display: flex !important; } }
+          .aevia-action-mobile { display: inline-flex !important; }
         @media (max-width: 900px) {
           .i336-hero { padding: 116px 22px 56px !important; gap: 26px !important; }
           .i336-annonce { grid-template-columns: minmax(0,1fr); row-gap: 26px; align-items: start; }
@@ -594,6 +596,12 @@ export default function PharmacieHorlogePage() {
             Envoyer mon ordonnance
           </Btn>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={C.white}>
+          Appeler
+        </ActionMobile>
         <button
           className="i336-burger"
           onClick={() => setMobileOpen(!mobileOpen)}
