@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { saveSession, saveSessionToBlob, getSession, getSessionFromBlob, type FormData, type GeneratedContent } from "@/lib/sessions";
-import { submitToIndexNow } from "@/lib/indexnow";
 import { contenuDepuisLeClient } from "@/lib/contenuDepuisLeClient";
 import { generateWithFreeProviders, extractMenuItems } from "@/lib/llmProviders";
 import { generateLegalPages } from "@/lib/legal/generateLegalPages";
@@ -142,12 +141,11 @@ export async function POST(req: NextRequest) {
       saveSession(sessionId, sessionData);
     }
 
-    // Ping Bing (IndexNow) so the freshly generated site gets crawled fast.
-    // Fire-and-forget — indexing must never delay or fail the response.
-    void submitToIndexNow([
-      `https://launch.aevia.services/preview/${sessionId}`,
-      `https://launch.aevia.services/site/${sessionId}`,
-    ]).catch(() => {});
+    // SECURITY: do NOT submit /preview/<sessionId> or /site/<sessionId> to
+    // IndexNow. The sessionId is the only capability protecting the session's
+    // read/write API; publishing it to search engines made ids harvestable at
+    // scale. Per-client sites get indexed under their own custom domain later,
+    // never via the raw session URL on launch.aevia.services.
 
     return NextResponse.json({
       success: true,
