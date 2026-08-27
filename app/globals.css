@@ -233,3 +233,15 @@ body {
 .aevia-action-mobile {
   display: none;
 }
+
+/*
+  La barre d'appel du pouce ne vaut que pour les écrans étroits. Le composant
+  ne s'y pose déjà qu'en dessous de 900 px, mais si la fenêtre s'élargit après
+  coup — un téléphone qu'on tourne, une fenêtre qu'on étire — le style tranche
+  sans attendre un nouvel examen.
+*/
+@media (min-width: 901px) {
+  .aevia-barre-action {
+    display: none !important;
+  }
+}
