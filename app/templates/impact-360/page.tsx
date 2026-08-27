@@ -29,6 +29,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { PushBlur } from "@/lib/templates/hero-kit-3";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientAreas,
@@ -632,6 +633,7 @@ export default function AtlantiqueMaterielsPage() {
         .i360-fiche { border-left: 1px solid ${C.border}; padding-left: clamp(14px, 1.8vw, 26px); }
 
         @media (max-width: 1000px) { #i360-nav { display: none !important; } .i360-burger { display: flex !important; } }
+          .aevia-action-mobile { display: inline-flex !important; }
         @media (max-width: 900px) {
           .i360-masthead { grid-template-columns: 1fr 1fr !important; row-gap: 16px; }
           .i360-mcell:nth-child(odd) { border-left: none !important; padding-left: 0 !important; }
@@ -691,6 +693,12 @@ export default function AtlantiqueMaterielsPage() {
             Devis événement
           </Btn>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={"#08161c"}>
+          Appeler
+        </ActionMobile>
         <button
           className="i360-burger"
           onClick={() => setMobileOpen(!mobileOpen)}

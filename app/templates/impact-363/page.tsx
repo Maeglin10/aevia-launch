@@ -8,6 +8,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { MosaicPush } from "@/lib/templates/hero-kit-3";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientCertifications,
   clientAddress,
@@ -196,6 +197,7 @@ export default function PodoMarchePage() {
         .i363-tuile { position: absolute; left: clamp(14px, 2vw, 26px); right: clamp(14px, 2vw, 26px); bottom: clamp(-26px, -2vw, -16px); z-index: 2; }
 
         @media (max-width: 900px) { #i363-nav { display: none !important; } .i363-burger { display: flex !important; } }
+          .aevia-action-mobile { display: inline-flex !important; }
         @media (max-width: 560px) { .i363-navtrade { display: none !important; } }
         @media (max-width: 860px) {
           .i363-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 30px !important; }
@@ -230,6 +232,12 @@ export default function PodoMarchePage() {
             Prendre RDV
           </motion.a>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={"#fff"}>
+          Appeler
+        </ActionMobile>
         <button className="i363-burger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu" style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}>
           <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
           <span style={{ display: "block", width: 24, height: 1.5, background: C.text, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />

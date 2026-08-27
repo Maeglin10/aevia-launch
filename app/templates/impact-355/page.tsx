@@ -16,6 +16,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { PanelRise } from "@/lib/templates/hero-kit-3";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientCertifications,
@@ -531,6 +532,7 @@ export default function TilleulsIdelPage() {
         @media (max-width: 980px) {
           #i355-nav { display: none !important; }
           .i355-burger { display: flex !important; }
+          .aevia-action-mobile { display: inline-flex !important; }
         }
         @media (max-width: 900px) {
           .i355-hero { gap: 30px !important; padding-top: 120px !important; }
@@ -595,6 +597,12 @@ export default function TilleulsIdelPage() {
           <Bouton href={telHref}>Nous appeler</Bouton>
         </div>
 
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={C.white}>
+          Appeler
+        </ActionMobile>
         <button
           className="i355-burger"
           onClick={() => setMobileOpen(!mobileOpen)}

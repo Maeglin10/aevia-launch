@@ -29,6 +29,7 @@ import { ArrowRight, Clock, FlaskConical, Mail, MapPin, Microscope, Phone, Truck
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, LineMask, useSlides } from "@/lib/templates/hero-kit-2";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientAreas,
@@ -691,6 +692,7 @@ export default function BioValleePage() {
       <style>{FONTS_CSS}</style>
       <style>{`
         @media (max-width: 1000px) { #i358-nav { display: none !important; } .i358-burger { display: flex !important; } }
+          .aevia-action-mobile { display: inline-flex !important; }
         @media (max-width: 900px) {
           .i358-hero { padding: 116px 22px 56px !important; gap: 26px !important; }
           .i358-points { grid-template-columns: minmax(0,1fr) !important; }
@@ -785,6 +787,12 @@ export default function BioValleePage() {
             Mes résultats
           </Btn>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={"#101010"}>
+          Appeler
+        </ActionMobile>
         <button
           className="i358-burger"
           onClick={() => setMobileOpen(!mobileOpen)}

@@ -7,6 +7,7 @@ import { ArrowRight, Check, Mail, MapPin, Phone, Scale } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, WordFlight, useSlides } from "@/lib/templates/hero-kit-2";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientCertifications,
@@ -563,6 +564,7 @@ export default function EtudeDuCanalPage() {
         @media (max-width: 1000px) {
           #i333-nav { display: none !important; }
           .i333-burger { display: flex !important; }
+          .aevia-action-mobile { display: inline-flex !important; }
           .i333-split { grid-template-columns: 1fr; }
           .i333-pied { grid-template-columns: 1fr 1fr; }
         }
@@ -622,6 +624,12 @@ export default function EtudeDuCanalPage() {
           </motion.a>
         </div>
 
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={C.onAccent}>
+          Appeler
+        </ActionMobile>
         <button
           className="i333-burger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu" style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44, }}
         >

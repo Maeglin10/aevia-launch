@@ -21,6 +21,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { CircularLabel, DWELL, HeldSwap, useSlides } from "@/lib/templates/hero-kit-2";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientCertifications,
@@ -482,6 +483,7 @@ export default function MaisonBertinPage() {
         .i345-piece { border-left: 1px solid ${C.borderSoft}; padding-left: clamp(16px, 2vw, 28px); }
 
         @media (max-width: 980px) { #i345-nav { display: none !important; } .i345-burger { display: flex !important; } }
+          .aevia-action-mobile { display: inline-flex !important; }
         @media (max-width: 900px) {
           .i345-hero { gap: 26px !important; }
           /* Empilés, le médaillon se recentre et le filet vertical de la
@@ -562,6 +564,12 @@ export default function MaisonBertinPage() {
             Commander
           </motion.a>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={C.bgDark}>
+          Appeler
+        </ActionMobile>
         <button
           className="i345-burger"
           onClick={() => setMobileOpen(!mobileOpen)}

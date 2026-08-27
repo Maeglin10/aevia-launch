@@ -8,6 +8,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { TrackingCollapse } from "@/lib/templates/hero-kit-3";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientCertifications,
@@ -410,6 +411,7 @@ export default function ConduiteZeroStressPage() {
         .i341-decal-2 { margin-top: 88px; }
 
         @media (max-width: 900px) { #i341-nav { display: none !important; } .i341-burger { display: flex !important; } }
+          .aevia-action-mobile { display: inline-flex !important; }
         @media (max-width: 1040px) {
           .i341-contact { grid-template-columns: 1fr !important; }
           .i341-avis { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
@@ -450,6 +452,12 @@ export default function ConduiteZeroStressPage() {
             Évaluation offerte
           </motion.a>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={"#101010"}>
+          Appeler
+        </ActionMobile>
         <button className="i341-burger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu" style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}>
           <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "all .3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
           <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "all .3s", opacity: mobileOpen ? 0 : 1 }} />

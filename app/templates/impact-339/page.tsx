@@ -8,6 +8,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { HairlineArrows, SlideIndex } from "@/lib/templates/hero-kit-2";
 import { ParticleOrb } from "@/lib/templates/hero-kit-3";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientAreas,
@@ -509,6 +510,7 @@ export default function MaisonAuditionPage() {
         ${FONTS_CSS}
 
         @media (max-width: 980px) { #i339-nav { display: none !important; } .i339-burger { display: flex !important; } }
+          .aevia-action-mobile { display: inline-flex !important; }
 
         /*
           ── Héros « split inversé » ────────────────────────────────────────
@@ -616,6 +618,12 @@ export default function MaisonAuditionPage() {
             Bilan auditif offert
           </CTA>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={"#101010"}>
+          Appeler
+        </ActionMobile>
         <button
           className="i339-burger"
           onClick={() => setMobileOpen(!mobileOpen)}

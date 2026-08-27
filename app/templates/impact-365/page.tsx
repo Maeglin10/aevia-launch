@@ -7,6 +7,7 @@ import { ArrowRight, CheckCircle, Clock, Mail, MapPin, Phone, Sprout, Star } fro
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, HeldSwap, useSlides } from "@/lib/templates/hero-kit-2";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientCertifications,
@@ -546,6 +547,7 @@ export default function QuatreVentsPage() {
         .i365-chronique { border-left: 1px solid ${C.border}; padding-left: clamp(16px, 2vw, 28px); min-width: 0; }
 
         @media (max-width: 960px) { #i365-nav { display: none !important; } .i365-burger { display: flex !important; } }
+          .aevia-action-mobile { display: inline-flex !important; }
 
         /* Le bandeau média du héros : médaillon + chronique côte à côte, puis
            empilés — le médaillon garde sa taille, la chronique passe dessous. */
@@ -617,6 +619,12 @@ export default function QuatreVentsPage() {
             Panier de la semaine
           </CTA>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={C.white}>
+          Appeler
+        </ActionMobile>
         <button
           className="i365-burger"
           onClick={() => setMobileOpen(!mobileOpen)}

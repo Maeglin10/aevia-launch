@@ -30,6 +30,7 @@ import {
   clientTrade,
 } from "@/lib/templates/clientContent";
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -596,6 +597,7 @@ export default function HorizonProtectionPage() {
         @media (max-width: 900px) {
           #i372-nav { display: none !important; }
           .i372-burger { display: flex !important; }
+          .aevia-action-mobile { display: inline-flex !important; }
           .i372-split { grid-template-columns: 1fr !important; }
           .i372-split > * { order: initial !important; }
         }
@@ -671,6 +673,12 @@ export default function HorizonProtectionPage() {
           ))}
           <BoutonConsigne href={telHref}>Devis dispositif</BoutonConsigne>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={"#fff"}>
+          Appeler
+        </ActionMobile>
         <button
           className="i372-burger"
           onClick={() => setMobileOpen(!mobileOpen)}

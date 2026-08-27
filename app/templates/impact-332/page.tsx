@@ -7,6 +7,7 @@ import { ArrowRight, Check, Lock, Mail, MapPin, Phone, Shield } from "lucide-rea
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { GhostSolid } from "@/lib/templates/hero-kit-2";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAccrocheRestante,
   clientAddress,
@@ -529,6 +530,7 @@ export default function FaubourgSerruresPage() {
         @media (max-width: 1000px) {
           #i332-nav { display: none !important; }
           .i332-burger { display: flex !important; }
+          .aevia-action-mobile { display: inline-flex !important; }
           /* Trois cylindres côte à côte deviennent trois traits illisibles :
              sous 1000 px la planche n'en garde qu'un, et la légende passe
              au-dessus. */
@@ -590,6 +592,12 @@ export default function FaubourgSerruresPage() {
           </motion.a>
         </div>
 
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={C.onAccent}>
+          Appeler
+        </ActionMobile>
         <button
           className="i332-burger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu" style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44, }}
         >

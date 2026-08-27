@@ -7,6 +7,7 @@ import { ArrowRight, Check, Ear, Mail, MapPin, Phone, Volume2 } from "lucide-rea
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, WordFlight, useSlides } from "@/lib/templates/hero-kit-2";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientCertifications,
@@ -573,6 +574,7 @@ export default function OctaveAuditionPage() {
         @media (max-width: 900px) {
           #i340-nav { display: none !important; }
           .i340-burger { display: flex !important; }
+          .aevia-action-mobile { display: inline-flex !important; }
         }
         @media (max-width: 980px) {
           /* Empilés, le filet vertical n'a plus de sens : il redevient
@@ -637,6 +639,12 @@ export default function OctaveAuditionPage() {
             Test auditif gratuit
           </motion.a>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={C.white}>
+          Appeler
+        </ActionMobile>
         <button
           className="i340-burger"
           onClick={() => setMobileOpen(!mobileOpen)}

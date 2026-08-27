@@ -7,6 +7,7 @@ import { ArrowRight, Clock, Factory, Mail, MapPin, Phone } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, ExpandFrame, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientCertifications,
@@ -537,6 +538,7 @@ export default function Halle1897Page() {
         @media (max-width: 900px) {
           #i370-nav { display: none !important; }
           .i370-burger { display: flex !important; }
+          .aevia-action-mobile { display: inline-flex !important; }
           .i370-bento { grid-template-columns: 1fr; }
           .i370-t-titre, .i370-t-media, .i370-t-texte, .i370-t-stats { grid-column: span 1 !important; grid-row: auto !important; }
           .i370-t-media { min-height: 300px; }
@@ -606,6 +608,12 @@ export default function Halle1897Page() {
           ))}
           <BoutonLaiton href={telHref}>Visiter la halle</BoutonLaiton>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={C.bgDark}>
+          Appeler
+        </ActionMobile>
         <button
           className="i370-burger"
           onClick={() => setMobileOpen(!mobileOpen)}

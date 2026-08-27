@@ -7,6 +7,7 @@ import { ArrowRight, Compass, Landmark, Mail, MapPin, Phone, Quote, Ruler } from
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { ScrollGrow } from "@/lib/templates/hero-kit-3";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientAreas,
@@ -333,6 +334,13 @@ function Nav() {
           </a>
         </div>
 
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        {/* Ce thème nomme sa cible d'appel « tel », pas « telHref ». */}
+          <ActionMobile href={tel} fond={C.accent} encre={C.white}>
+          Appeler
+        </ActionMobile>
         <button
           className="i352-burger"
           onClick={() => setOpen(!open)}
@@ -1316,6 +1324,7 @@ export default function ZincEtArdoisePage() {
         @media (max-width: 980px) {
           #i352-nav { display: none !important; }
           .i352-burger { display: flex !important; }
+          .aevia-action-mobile { display: inline-flex !important; }
         }
         @media (max-width: 560px) { .i352-navtrade { display: none !important; } }
 

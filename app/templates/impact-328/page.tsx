@@ -7,6 +7,7 @@ import { Phone, Mail, MapPin, Clock, CheckCircle, ArrowRight, Flower2 } from "lu
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides, SlideIndex, HeldSwap } from "@/lib/templates/hero-kit-2";
+import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientAddress,
   clientCertifications,
@@ -389,6 +390,7 @@ export default function MaisonEstevePage() {
       <style>{FONTS_CSS}</style>
       <style>{`
         @media (max-width: 900px) { #i328-nav { display: none !important; } .i328-burger { display: flex !important; } }
+          .aevia-action-mobile { display: inline-flex !important; }
         @media (max-width: 860px) {
           .i328-hero { grid-template-columns: 1fr !important; padding: 46px 24px 46px !important; gap: 34px !important; }
           .i328-heldcard { max-width: 380px; margin: 0 auto; }
@@ -444,6 +446,12 @@ export default function MaisonEstevePage() {
           ))}
           <CtaButton href={telHref}>Nous joindre</CtaButton>
         </div>
+        {/* L'appel à l'action sous le pouce : la barre est fixe, mais son
+            bouton vit dans le menu déroulant, en display:none sous le point
+            de rupture. Celui-ci paraît exactement avec le bouton de menu. */}
+        <ActionMobile href={telHref} fond={C.accent} encre={"#fff"}>
+          Appeler
+        </ActionMobile>
         <button className="i328-burger" onClick={() => setMobileOpen(!mobileOpen)} aria-label="Menu" style={{ display: "none", flexDirection: "column", justifyContent: "center", gap: 5, background: "none", border: "none", cursor: "pointer", padding: 10, minWidth: 44, minHeight: 44 }}>
           <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "all 0.3s", transform: mobileOpen ? "rotate(45deg) translate(4.5px, 4.5px)" : "none" }} />
           <span style={{ display: "block", width: 24, height: 1.5, background: C.ink, transition: "all 0.3s", opacity: mobileOpen ? 0 : 1 }} />
