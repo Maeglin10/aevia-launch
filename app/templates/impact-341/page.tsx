@@ -349,8 +349,8 @@ export default function ConduiteZeroStressPage() {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const phone = clientPhone(sessionData) ?? fd?.phone ?? "05 61 00 00 00";
-  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33561000000").replace(/\s/g, "")}`;
+  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 61 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33561000000").replace(/\s/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "inscription@conduite-zero-stress.fr";
   const ville = clientCity(sessionData) ?? "Toulouse";
   const maison = fd?.businessName ?? clientName(sessionData) ?? "Conduite Zéro Stress";

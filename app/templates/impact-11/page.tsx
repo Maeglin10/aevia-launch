@@ -463,7 +463,7 @@ return (
             </div>
             <p className="text-gray-400 text-sm leading-relaxed mb-5">La plateforme d'apprentissage en ligne pour les professionnels ambitieux.</p>
             <div className="text-gray-400 text-sm space-y-1.5">
-              <p className="m-0"><a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "01 76 42 08 15").replace(/\s/g, "")}`} className="hover:text-white transition-colors">{clientPhone(sessionData) ?? fd?.phone ?? "01 76 42 08 15"}</a></p>
+              <p className="m-0"><a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 76 42 08 15").replace(/\s/g, "")}`} className="hover:text-white transition-colors">{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 76 42 08 15"}</a></p>
               <p className="m-0"><a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "bonjour@edupath.fr"}`} className="hover:text-white transition-colors break-all">{clientEmail(sessionData) ?? fd?.email ?? "bonjour@edupath.fr"}</a></p>
               <p className="m-0">{clientCodePostalVille(sessionData, "75010", "Paris")}</p>
             </div>

@@ -488,8 +488,8 @@ export default function TilleulsIdelPage() {
 
   const nom = fd?.businessName ?? clientName(sessionData) ?? "Cabinet des Tilleuls";
   const ville = clientCity(sessionData) ?? "Limoges";
-  const phone = clientPhone(sessionData) ?? fd?.phone ?? "05 55 00 00 00";
-  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33555000000").replace(/[^+\d]/g, "")}`;
+  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 55 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33555000000").replace(/[^+\d]/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "cabinet@idel-tilleuls.fr";
   const adresse = clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "87000", "Limoges");
   const heroImg = photo(0, "https://images.pexels.com/photos/7653136/pexels-photo-7653136.jpeg?auto=compress&cs=tinysrgb&w=1400");

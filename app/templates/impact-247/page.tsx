@@ -14,9 +14,11 @@ import { ArrowRight, ChevronDown, Zap } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -1921,8 +1923,8 @@ function Footer() {
     },
     {
       title: 'Contact & Urgences',
-      items: ['📍 ' + (clientCity(sessionData) ?? 'Toulouse') + ' & agglomération', '📞 ' + (fd?.phone ?? '05 20 51 51 51'), '📧 ' + (fd?.email ?? 'contact@voltlux.fr'), '🚨 Urgences 24h/7j'],
-      hrefs: ['#devis', 'tel:+33520511332', 'mailto:contact@voltlux.fr', 'tel:+33520511332'],
+      items: ['📍 ' + (clientCity(sessionData) ?? 'Toulouse') + ' & agglomération', '📞 ' + (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? '05 20 51 51 51'), '📧 ' + (fd?.email ?? 'contact@voltlux.fr'), '🚨 Urgences 24h/7j'],
+      hrefs: ['#devis', 'tel:+33520511332', `mailto:${clientEmail(sessionData) ?? 'contact@voltlux.fr'}`, 'tel:+33520511332'],
     },
   ];
 
@@ -2046,7 +2048,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.38)',
         }}
       >
-        <span>© 2012–2026 Volt &amp; Lux · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2012–2026 {clientName(sessionData) ?? "Volt & Lux"} · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#vl-projet" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales

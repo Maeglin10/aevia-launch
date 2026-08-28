@@ -8,6 +8,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCertifications,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -243,7 +244,7 @@ export default function AquaThermPage() {
         <div id="mb228-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33320000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: C.accentDark }}>
+          <motion.a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33320000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: C.accentDark }}>
             <Phone size={14} /> Urgence 24h/24
           </motion.a>
       </div>
@@ -263,7 +264,7 @@ export default function AquaThermPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33320000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: C.accentDark }}>
+          <motion.a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33320000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: C.accentDark }}>
             <Phone size={14} /> Urgence 24h/24
           </motion.a>
         </div>
@@ -292,8 +293,8 @@ export default function AquaThermPage() {
             AquaTherm, plombier chauffagiste à {clientCity(sessionData) ?? "Lille"}. Urgences en moins d'une heure, devis gratuit, certifié RGE et Qualigaz. Plomberie, chauffage, PAC, climatisation.
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33320000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}44` }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "03 20 00 00 00"}
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33320000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}44` }} whileHover={{ scale: 1.03 }}>
+              <Phone size={18} /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "03 20 00 00 00"}
             </motion.a>
             <motion.a href="#services" style={{ background: "rgba(255,255,255,0.08)", color: "#fff", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 6, padding: "13px 28px", fontWeight: 500, fontSize: 15, textDecoration: "none" }} whileHover={{ background: "rgba(255,255,255,0.14)" }}>
               Nos services
@@ -350,7 +351,7 @@ export default function AquaThermPage() {
                 <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{g}</span>
               </div>
             ))}
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33320000000").replace(/[^+0-9]/g, "")}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 28, background: C.accent, color: C.white, borderRadius: 6, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none" }} whileHover={{ background: C.accentDark, scale: 1.02 }}>
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33320000000").replace(/[^+0-9]/g, "")}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 28, background: C.accent, color: C.white, borderRadius: 6, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none" }} whileHover={{ background: C.accentDark, scale: 1.02 }}>
               <Phone size={16} /> Devis gratuit
             </motion.a>
           </div></Reveal>
@@ -394,7 +395,7 @@ export default function AquaThermPage() {
         </div>
         <Reveal>
           <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33320000000").replace(/[^+0-9]/g, "")}`} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: C.white, borderRadius: 8, padding: "14px 30px", fontSize: 14, fontWeight: 700, textDecoration: "none", letterSpacing: 1, textTransform: "uppercase" }}>
+            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33320000000").replace(/[^+0-9]/g, "")}`} style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.accent, color: C.white, borderRadius: 8, padding: "14px 30px", fontSize: 14, fontWeight: 700, textDecoration: "none", letterSpacing: 1, textTransform: "uppercase" }}>
               <Phone size={16} /> Appeler maintenant
             </a>
           </div>
@@ -426,8 +427,8 @@ export default function AquaThermPage() {
           <h2 style={{ fontFamily: FONT, fontSize: "clamp(32px, 4.5vw, 60px)", letterSpacing: 1, color: C.text, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>PANNE OU PROJET ?<br /><span style={{ color: C.accent }}>APPELEZ.</span></>)}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 420, margin: "0 auto 36px", lineHeight: 1.7 }}>Urgences 24h/24 ou devis pour travaux — réponse garantie en moins de 2h en semaine.</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33320000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "03 20 00 00 00"}
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33320000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
+              <Phone size={18} /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "03 20 00 00 00"}
             </motion.a>
             <motion.a href={`mailto:${fd?.email ?? "contact@aquatherm-lille.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "13px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white }}>
               <Mail size={18} /> Écrire
@@ -443,7 +444,7 @@ export default function AquaThermPage() {
             <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>{clientTrade(sessionData) ?? "Plombier"} chauffagiste RGE · {clientCity(sessionData) ?? "Lille"}<br />Urgences 24h/24 · 7j/7</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Lille") + ", Nord" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "03 20 00 00 00") }, { icon: <Clock size={13} />, t: "Urgences 24h/24" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Lille") + ", Nord" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "03 20 00 00 00") }, { icon: <Clock size={13} />, t: "Urgences 24h/24" }].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.38)", fontSize: 13 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>

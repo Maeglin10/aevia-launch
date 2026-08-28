@@ -10,6 +10,7 @@ import Link from "next/link";
 import { Menu, X, ArrowRight, TrendingUp, BarChart3, Globe, Users, ChevronRight, Building2, DollarSign, Award, Mail, Phone, Calendar, Send } from "lucide-react";
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -572,7 +573,7 @@ function ContactPage() {
               </div>
               <div className="flex items-center gap-3 text-sm text-white/50">
                 <Phone className="w-4 h-4 text-[var(--brand,#C9A86C)] shrink-0" />
-                <span>{clientPhone(sessionData) ?? fd?.phone ?? "+33 1 49 00 00 00"}</span>
+                <span>{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33 1 49 00 00 00"}</span>
               </div>
             </div>
           </div>

@@ -14,9 +14,11 @@ import { ArrowRight, ChevronDown, Leaf, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -1838,7 +1840,7 @@ function Footer() {
     {
       title: 'Approche & Contact',
       href: '#philosophie',
-      items: ['Notre philosophie', 'Biodiversité', 'Garantie reprise 2 ans', (fd?.email ?? 'contact@atelierterranantes.fr'), (fd?.phone ?? '02 40 74 89 89')],
+      items: ['Notre philosophie', 'Biodiversité', 'Garantie reprise 2 ans', (fd?.email ?? 'contact@atelierterranantes.fr'), (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? '02 40 74 89 89')],
     },
   ];
 

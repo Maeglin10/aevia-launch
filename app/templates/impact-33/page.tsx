@@ -27,6 +27,7 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
@@ -688,7 +689,7 @@ function HorairesContact() {
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
             {[
               { icon: <MapPin size={20} color={C.accent} />, title: "Adresse", text: `42 Rue de la Roquette, 75011 ${clientCity(sessionData) ?? "Paris"}` },
-              { icon: <Phone size={20} color={C.accent} />, title: "Téléphone", text: (clientPhone(sessionData) ?? fd?.phone ?? "01 43 55 67 89") },
+              { icon: <Phone size={20} color={C.accent} />, title: "Téléphone", text: (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 43 55 67 89") },
               { icon: <Mail size={20} color={C.accent} />, title: "Email", text: (fd?.email ?? "bonjour@lafournee.paris") },
               { icon: <ShoppingBag size={20} color={C.accent} />, title: "Commande", text: "Disponible en ligne 24h/24" },
             ].map((item, i) => (

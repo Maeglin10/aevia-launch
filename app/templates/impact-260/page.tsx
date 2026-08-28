@@ -23,6 +23,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAccrocheRestante,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientName,
   clientPhone,
@@ -490,7 +491,7 @@ function Nav() {
         ))}
       </div>
       <a
-        href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0475166852").replace(/[^+0-9]/g, "")}`}
+        href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0475166852").replace(/[^+0-9]/g, "")}`}
         style={{ textDecoration: 'none' }}
         className="ac-navcta"
       >
@@ -2155,7 +2156,7 @@ function Footer() {
             }}
           >
             <a
-              href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0475166852").replace(/[^+0-9]/g, "")}`}
+              href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0475166852").replace(/[^+0-9]/g, "")}`}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -2168,7 +2169,7 @@ function Footer() {
               }}
             >
               <Phone size={13} strokeWidth={2} />
-              {clientPhone(sessionData) ?? fd?.phone ?? "04 75 16 68 52"}
+              {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 75 16 68 52"}
             </a>
             <div
               style={{

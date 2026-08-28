@@ -8,6 +8,7 @@ import { ArrowRight, MapPin, Mail, Phone, Clock, Star, Heart, Sun, Moon, X, Chec
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
@@ -556,8 +557,8 @@ export default function LumiereYogaPage() {
             >
               <Mail size={18} /> Réserver mon cours d'essai
             </motion.button>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33556000000").replace(/[^+0-9]/g, "")}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accentDark}`, borderRadius: 6, padding: "14px 30px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white, borderColor: C.accent }}>
-              <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "05 56 00 00 00"}
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33556000000").replace(/[^+0-9]/g, "")}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accentDark}`, borderRadius: 6, padding: "14px 30px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white, borderColor: C.accent }}>
+              <Phone size={18} /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 56 00 00 00"}
             </motion.a>
           </div>
         </Reveal>

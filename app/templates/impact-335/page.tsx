@@ -374,8 +374,8 @@ export default function RivesBlanchesPage() {
 
   const marque = fd?.businessName ?? clientName(sessionData) ?? "Rives Blanches";
   const ville = clientCity(sessionData) ?? "Nice";
-  const phone = clientPhone(sessionData) ?? fd?.phone ?? "04 93 00 00 00";
-  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33493000000").replace(/\s/g, "")}`;
+  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 93 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33493000000").replace(/\s/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "contact@rives-blanches.fr";
   const adresse = clientAddress(sessionData);
   const lieu = clientCodePostalVille(sessionData, "", ville).trim();

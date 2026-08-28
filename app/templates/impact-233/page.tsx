@@ -7,6 +7,7 @@ import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Zap } from "
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -497,8 +498,8 @@ export default function CabinetOsteopathiePage() {
           <div style={{ textAlign: "center", marginTop: 36 }}>
             <p style={{ fontSize: 13, color: C.textMuted, marginBottom: 14 }}>Vous préférez nous joindre directement ?</p>
             <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-              <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "11px 26px", minHeight: 44, fontWeight: 600, fontSize: 14, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 8, cursor: "pointer" }} whileHover={{ background: C.accent, color: C.white }}>
-                <Phone size={16} /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 00 00 00"}
+              <motion.a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "11px 26px", minHeight: 44, fontWeight: 600, fontSize: 14, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 8, cursor: "pointer" }} whileHover={{ background: C.accent, color: C.white }}>
+                <Phone size={16} /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 78 00 00 00"}
               </motion.a>
               <motion.a href={`mailto:${fd?.email ?? "contact@cabinet-equilibre.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "11px 26px", minHeight: 44, fontWeight: 600, fontSize: 14, textDecoration: "none", display: "inline-flex", alignItems: "center", gap: 8, cursor: "pointer" }} whileHover={{ background: C.accent, color: C.white }}>
                 <Mail size={16} /> Écrire
@@ -515,7 +516,7 @@ export default function CabinetOsteopathiePage() {
             <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Lucas Martin · Ostéopathe D.O.<br />Diplômé IFSO · ADELI N°xxxxxxx</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Lyon") + " — Rue de la République" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "04 78 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 8h30–19h30" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Lyon") + " — Rue de la République" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 78 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 8h30–19h30" }].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.38)", fontSize: 13 }}>
                 <span style={{color: brand ?? 'var(--brand,#7ec8e0)' }}>{item.icon}</span>{item.t}
               </div>

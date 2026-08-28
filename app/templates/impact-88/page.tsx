@@ -37,6 +37,7 @@ import {
   clientAccrocheRestante,
   clientAddress,
   clientCity,
+  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHours,
@@ -1527,9 +1528,9 @@ function ContactFooter() {
                   <span className="text-[11px] font-[600] uppercase tracking-[0.2em] text-[#F9A8D4]" style={{ fontFamily: "'Inter', sans-serif" }}>Contact</span>
                 </div>
                 <div className="space-y-3">
-                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33135561862").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-[13px]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33135561862").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-[13px]" style={{ fontFamily: "'Inter', sans-serif" }}>
                     <Phone className="w-3.5 h-3.5" />
-                    {clientPhone(sessionData) ?? fd?.phone ?? "+33 1 35 56 18 62"}
+                    {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33 1 35 56 18 62"}
                   </a>
                   <a href={`mailto:${fd?.email ?? "bonjour@velvetnails.fr"}`} className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-[13px]" style={{ fontFamily: "'Inter', sans-serif" }}>
                     <Mail className="w-3.5 h-3.5" />{fd?.email ?? "bonjour@velvetnails.fr"}</a>
@@ -1772,7 +1773,7 @@ function ContactSection() {
             <div className="space-y-4 font-[300] text-[#9D174D] text-[14px]" style={{ fontFamily: "'Inter', sans-serif" }}>
               <div className="flex items-center gap-3">
                 <Phone className="w-4 h-4 text-[var(--brand,#ec4899)]" />
-                <span>{clientPhone(sessionData) ?? fd?.phone ?? "+33 1 35 56 18 62"}</span>
+                <span>{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33 1 35 56 18 62"}</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-[var(--brand,#ec4899)]" />

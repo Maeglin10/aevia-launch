@@ -35,6 +35,7 @@ import {
   clientAddress,
   clientCertifications,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientList,
   clientName,
@@ -419,7 +420,7 @@ function HeroSection() {
           <a href="#devis" style={{ textDecoration: 'none' }}>
             <ForestButton filled>Devis sous 24h</ForestButton>
           </a>
-          <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33299000000").replace(/[^+0-9]/g, "")}`} style={{ textDecoration: 'none' }}>
+          <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33299000000").replace(/[^+0-9]/g, "")}`} style={{ textDecoration: 'none' }}>
             <ForestButton light>
               <Phone size={14} />
               Appeler maintenant
@@ -1664,7 +1665,7 @@ function DevisFormSection() {
                 <div
                   style={{ fontFamily: SERIF, fontSize: 22, fontWeight: 700, color: C.ink }}
                 >
-                  {clientPhone(sessionData) ?? fd?.phone ?? "02 99 00 00 00"}
+                  {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "02 99 00 00 00"}
                 </div>
               </div>
             </div>
@@ -2995,7 +2996,7 @@ function FooterSection() {
             {/* Contact */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <a
-                href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33299000000").replace(/[^+0-9]/g, "")}`}
+                href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33299000000").replace(/[^+0-9]/g, "")}`}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -3012,7 +3013,7 @@ function FooterSection() {
                     fontWeight: 600,
                   }}
                 >
-                  {clientPhone(sessionData) ?? fd?.phone ?? "02 99 00 00 00"}
+                  {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "02 99 00 00 00"}
                 </span>
               </a>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>

@@ -13,6 +13,7 @@ import { Reveal, ScrollImage, projects as projects_DEMO, services as services_DE
 import {
   clientAccrocheRestante,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientName,
   clientPhone,
@@ -722,7 +723,7 @@ export default function Home() {
                   </>}</p>
                   <div className="space-y-2 text-sm font-semibold">
                     <div>{fd?.email ?? "contact@brutco-architecture.com"}</div>
-                    <div>{clientPhone(sessionData) ?? fd?.phone ?? "+33 1 42 78 91 00"}</div>
+                    <div>{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33 1 42 78 91 00"}</div>
                     <div className="text-gray-400">Main Atelier: {clientCity(sessionData) ?? "Paris"}, France</div>
                   </div>
                 </div>

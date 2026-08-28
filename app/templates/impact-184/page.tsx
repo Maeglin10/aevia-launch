@@ -10,6 +10,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientAreas,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
@@ -194,8 +195,8 @@ export default function BrilloNetPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478123456").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#0d9488)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 12 34 56"}
+            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0478123456").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#0d9488)] font-bold text-sm">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 78 12 34 56"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#0d9488)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#0b7d73] transition-colors rounded-full">
               Devis gratuit
@@ -205,7 +206,7 @@ export default function BrilloNetPage() {
               <SheetContent side="right" className="bg-white border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#1c2b2b] hover:text-[var(--brand,#0d9488)] transition-colors">{l}</Link>)}
-                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#0d9488)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 12 34 56"}</a>
+                  <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0478123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#0d9488)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 78 12 34 56"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -246,7 +247,7 @@ export default function BrilloNetPage() {
             <button className="px-8 py-4 bg-[var(--brand,#0d9488)] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#0b7d73] transition-colors rounded-full">{c?.ctaText ?? <>
               Devis gratuit sous 2h
             </>}</button>
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#0d9488)]/50 hover:text-[#2dd4bf] transition-all rounded-full">
+            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0478123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#0d9488)]/50 hover:text-[#2dd4bf] transition-all rounded-full">
               <Phone className="w-4 h-4" /> Appeler maintenant
             </a>
           </motion.div>
@@ -439,8 +440,8 @@ export default function BrilloNetPage() {
               <button className="px-10 py-4 bg-white text-[var(--brand,#0d9488)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0fafa] transition-colors rounded-full shadow-lg">
                 Demander mon devis
               </button>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-full">
-                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 12 34 56"}
+              <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0478123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-full">
+                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 78 12 34 56"}
               </a>
             </div>
           </div>
@@ -457,7 +458,7 @@ export default function BrilloNetPage() {
           {[
             { t: "Services", ls: ["Ménage domicile", "Nettoyage bureaux", "Fin de chantier", "Nettoyage écologique", "Vitres & surfaces"] },
             { t: "Infos", ls: ["Qui sommes-nous", "Zone d'intervention", "Tarifs indicatifs", "Avis clients", "Blog nettoyage"] },
-            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "04 78 12 34 56"), (fd?.email ?? "contact@brillonet.fr"), (clientCity({ formData: fd }) ?? "Lyon") + " Métropole", "7j/7 8h-20h", "Devis gratuit en 2h"] },
+            { t: "Contact", ls: [(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 78 12 34 56"), (fd?.email ?? "contact@brillonet.fr"), (clientCity({ formData: fd }) ?? "Lyon") + " Métropole", "7j/7 8h-20h", "Devis gratuit en 2h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#0d9488)] mb-5">{col.t}</h4>

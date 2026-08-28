@@ -8,6 +8,7 @@ import { Eye, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight } from "
 import {
   clientCertifications,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -252,7 +253,7 @@ export default function VisionClairePage() {
         <div id="mb138-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 700, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33240000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>
+          <motion.a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33240000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>
             Prendre RDV
           </motion.a>
       </div>
@@ -272,7 +273,7 @@ export default function VisionClairePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 700, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33240000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>
+          <motion.a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33240000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>
             Prendre RDV
           </motion.a>
         </div>
@@ -310,7 +311,7 @@ export default function VisionClairePage() {
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33240000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.cyan, color: C.white, borderRadius: 8, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.cyan}44` }} whileHover={{ scale: 1.03 }}>
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33240000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.cyan, color: C.white, borderRadius: 8, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.cyan}44` }} whileHover={{ scale: 1.03 }}>
               Prendre rendez-vous
             </motion.a>
             <motion.a href="#offres" style={{ background: "rgba(255,255,255,0.10)", color: "#fff", border: "1px solid rgba(255,255,255,0.28)", borderRadius: 8, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)" }} whileHover={{ background: "rgba(255,255,255,0.18)" }}>
@@ -383,7 +384,7 @@ export default function VisionClairePage() {
                 </div>
               ))}
             </div>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33240000001").replace(/[^+0-9]/g, "")}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.accent, color: C.white, borderRadius: 8, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ background: C.accentDark, scale: 1.02 }}>
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33240000001").replace(/[^+0-9]/g, "")}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.accent, color: C.white, borderRadius: 8, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ background: C.accentDark, scale: 1.02 }}>
               Prendre rendez-vous <ArrowRight size={16} />
             </motion.a>
           </Reveal>
@@ -470,8 +471,8 @@ export default function VisionClairePage() {
             Réservez votre examen de vue ou venez découvrir nos montures. Tiers-payant intégral, accueil sans rendez-vous possible du mardi au samedi.
           </>}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33240000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "02 40 00 00 01"}
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33240000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
+              <Phone size={18} /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "02 40 00 00 01"}
             </motion.a>
             <motion.a href={`mailto:${fd?.email ?? "contact@visionclaire.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "13px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white }}>
               <Mail size={18} /> Nous écrire
@@ -488,7 +489,7 @@ export default function VisionClairePage() {
             <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>{clientTrade(sessionData) ?? "Opticien"} indépendant · {clientCity({ formData: fd }) ?? "Nantes"}<br />Mar–Sam 9h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Nantes") + ", Loire-Atlantique" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "02 40 00 00 01") }, { icon: <Clock size={13} />, t: "Mar–Sam 9h–19h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Nantes") + ", Loire-Atlantique" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "02 40 00 00 01") }, { icon: <Clock size={13} />, t: "Mar–Sam 9h–19h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
                 <span style={{ color: C.cyan }}>{item.icon}</span>{item.t}
               </div>

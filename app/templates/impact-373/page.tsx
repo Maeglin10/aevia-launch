@@ -190,8 +190,8 @@ export default function RivieraChauffeurPage() {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const phone = clientPhone(sessionData) ?? fd?.phone ?? "04 93 00 00 01";
-  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33493000001").replace(/\s/g, "")}`;
+  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 93 00 00 01";
+  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33493000001").replace(/\s/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "reservation@riviera-chauffeur.fr";
 
   return (
@@ -228,7 +228,7 @@ export default function RivieraChauffeurPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33493000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
+          <motion.a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33493000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Réserver
           </motion.a>
         </div>
@@ -249,7 +249,7 @@ export default function RivieraChauffeurPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} onClick={() => setMobileOpen(false)} style={{ color: C.text, fontSize: 16, fontWeight: 500, textDecoration: "none", padding: "12px 0" }}>{l}</a>
           ))}
-          <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33493000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Réserver</a>
+          <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33493000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: "#101010", borderRadius: 8, padding: "13px 22px", fontSize: 15, fontWeight: 700, textDecoration: "none", textAlign: "center", marginTop: 8 }}>Réserver</a>
         </div>
       )}
 

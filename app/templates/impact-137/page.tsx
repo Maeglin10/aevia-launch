@@ -466,7 +466,7 @@ export default function TorrefieCoffeePage() {
             <p className="text-sm text-[#f5f0ea]/30 leading-relaxed mb-6">Café de spécialité, torréfié avec précision, sourcé en conscience.</p>
             <div className="space-y-2 text-sm text-[#f5f0ea]/40">
               <div className="flex items-center gap-2"><MapPin className="w-3.5 h-3.5 text-[#c48a5a]" /> {clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "75011", "Paris")}</div>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33143000000").replace(/\s/g, "")}`} className="block hover:text-[#f5f0ea] transition-colors">{clientPhone(sessionData) ?? fd?.phone ?? "01 43 00 00 00"}</a>
+              <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33143000000").replace(/\s/g, "")}`} className="block hover:text-[#f5f0ea] transition-colors">{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 43 00 00 00"}</a>
               <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "bonjour@torrefie.fr"}`} className="block hover:text-[#f5f0ea] transition-colors">{clientEmail(sessionData) ?? fd?.email ?? "bonjour@torrefie.fr"}</a>
             </div>
           </div>

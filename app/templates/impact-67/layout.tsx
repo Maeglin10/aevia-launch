@@ -262,7 +262,7 @@ export default function VisionLayout({
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-10 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/10">
             <div className="flex items-center gap-10">
               <span>
-                &copy; {new Date().getFullYear()} Vision Real Estate SA.
+                &copy; {new Date().getFullYear()} {clientName(__layoutSession) ?? "Vision Real Estate SA"}.
               </span>
               <Link href="/templates/impact-67/legal" className="hover:text-white transition-colors" style={{ textDecoration: "none", color: "inherit" }}>
                 Regulatory_Terms

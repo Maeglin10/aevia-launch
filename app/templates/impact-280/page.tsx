@@ -3051,8 +3051,8 @@ function FooterSection() {
     {
       heading: 'Contact',
       links: [
-        { label: (clientPhone(sessionData) ?? '+33 3 88 00 00 00'), href: 'tel:+33388000000' },
-        { label: (clientEmail(sessionData) ?? 'contact@epousailles-alsace.fr'), href: 'mailto:contact@epousailles-alsace.fr' },
+        { label: (clientPhone(sessionData) ?? '+33 3 88 00 00 00'), href: `tel:${(clientPhone(sessionData) ?? '+33388000000').replace(/[^+0-9]/g, "")}` },
+        { label: (clientEmail(sessionData) ?? 'contact@epousailles-alsace.fr'), href: `mailto:${clientEmail(sessionData) ?? 'contact@epousailles-alsace.fr'}` },
         { label: (clientAddress(sessionData) ?? `12 rue du Mariage, ${clientCity(sessionData) ?? "Strasbourg"}`), href: "/templates/impact-280" },
         { label: 'Du lundi au vendredi 9h–18h', href: "/templates/impact-280" },
       ],

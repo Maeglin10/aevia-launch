@@ -601,8 +601,8 @@ export default function StudioCulinaPage() {
 
   const marque = fd?.businessName ?? clientName(sessionData) ?? "Studio Culina";
   const ville = clientCity(sessionData) ?? "Annecy";
-  const phone = clientPhone(sessionData) ?? fd?.phone ?? "04 50 00 00 00";
-  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33450000000").replace(/\s/g, "")}`;
+  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 50 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33450000000").replace(/\s/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "studio@culina-annecy.fr";
   const adresse = clientAddress(sessionData);
   const lieu = clientCodePostalVille(sessionData, "", ville).trim();

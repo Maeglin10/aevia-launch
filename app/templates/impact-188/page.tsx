@@ -10,6 +10,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAddress,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
@@ -214,8 +215,8 @@ export default function CliniqueBoisVertPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0561789012").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#3a7d44)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "05 61 78 90 12"}
+            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0561789012").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#3a7d44)] font-bold text-sm">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 61 78 90 12"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#3a7d44)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#2e6337] transition-colors rounded-xl">
               Prendre RDV
@@ -225,7 +226,7 @@ export default function CliniqueBoisVertPage() {
               <SheetContent side="right" className="bg-[#fdfaf6] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#2d2318] hover:text-[var(--brand,#3a7d44)] transition-colors" style={{ fontFamily: "'Lora', serif" }}>{l}</Link>)}
-                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0561789012").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#3a7d44)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "05 61 78 90 12"}</a>
+                  <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0561789012").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#3a7d44)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 61 78 90 12"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -264,8 +265,8 @@ export default function CliniqueBoisVertPage() {
             <button className="px-8 py-4 bg-[var(--brand,#3a7d44)] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#2e6337] transition-colors rounded-xl">{c?.ctaText ?? <>
               Prendre rendez-vous
             </>}</button>
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0561789012").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#6bbf78]/50 hover:text-[#6bbf78] transition-all rounded-xl">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "05 61 78 90 12"}
+            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0561789012").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#6bbf78]/50 hover:text-[#6bbf78] transition-all rounded-xl">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 61 78 90 12"}
             </a>
           </motion.div>
 
@@ -291,8 +292,8 @@ export default function CliniqueBoisVertPage() {
             <Clock className="w-5 h-5 text-white/70 shrink-0" />
             <span className="font-bold text-sm">Urgences vétérinaires 7j/7 — Lun-Sam jusqu'à 20h, Dim jusqu'à 18h</span>
           </div>
-          <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0561789012").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-2 px-6 py-2.5 bg-white text-[var(--brand,#3a7d44)] font-bold text-sm rounded-xl hover:bg-[#f0f9f1] transition-colors whitespace-nowrap">
-            <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "05 61 78 90 12"}
+          <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0561789012").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-2 px-6 py-2.5 bg-white text-[var(--brand,#3a7d44)] font-bold text-sm rounded-xl hover:bg-[#f0f9f1] transition-colors whitespace-nowrap">
+            <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 61 78 90 12"}
           </a>
         </div>
       </div>
@@ -414,8 +415,8 @@ export default function CliniqueBoisVertPage() {
             ))}
           </div>
           <Reveal>
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0561789012").replace(/[^+0-9]/g, "")}`} className="inline-flex items-center gap-3 px-9 py-4 bg-[var(--brand,#3a7d44)] text-white font-bold text-[10px] uppercase tracking-[0.25em] rounded-xl hover:opacity-90 transition-opacity">
-              <Phone className="w-4 h-4" /> Ligne d'urgence · {clientPhone(sessionData) ?? fd?.phone ?? "05 61 78 90 12"}
+            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0561789012").replace(/[^+0-9]/g, "")}`} className="inline-flex items-center gap-3 px-9 py-4 bg-[var(--brand,#3a7d44)] text-white font-bold text-[10px] uppercase tracking-[0.25em] rounded-xl hover:opacity-90 transition-opacity">
+              <Phone className="w-4 h-4" /> Ligne d'urgence · {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 61 78 90 12"}
             </a>
           </Reveal>
         </div>
@@ -506,8 +507,8 @@ export default function CliniqueBoisVertPage() {
               <button className="px-10 py-4 bg-white text-[var(--brand,#3a7d44)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0f9f1] transition-colors rounded-xl shadow-lg">
                 Prendre rendez-vous
               </button>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0561789012").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-xl">
-                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "05 61 78 90 12"}
+              <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0561789012").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-xl">
+                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 61 78 90 12"}
               </a>
             </div>
           </div>
@@ -550,8 +551,8 @@ export default function CliniqueBoisVertPage() {
             <address className="not-italic text-white/20 text-sm leading-relaxed space-y-2.5">
               <div>{clientAddress(sessionData) ?? "12 allée des Pins"}<br />31400 {clientCity(sessionData) ?? "Toulouse"}</div>
               <div>Lun — Sam 8h30 — 19h30<br />Dim : urgences</div>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0561789012").replace(/[^+0-9]/g, "")}`} className="inline-flex items-center gap-2 hover:text-white transition-colors">
-                <Phone className="w-3.5 h-3.5" />{clientPhone(sessionData) ?? fd?.phone ?? "05 61 78 90 12"}
+              <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0561789012").replace(/[^+0-9]/g, "")}`} className="inline-flex items-center gap-2 hover:text-white transition-colors">
+                <Phone className="w-3.5 h-3.5" />{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 61 78 90 12"}
               </a>
             </address>
           </div>

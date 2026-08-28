@@ -14,6 +14,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -1975,7 +1976,7 @@ export default function Impact198Page() {
               Prendre rendez-vous
             </MagneticButton>
             <MagneticButton
-              onClick={() => { window.location.href = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0140234567").replace(/[^+0-9]/g, "")}` }}
+              onClick={() => { window.location.href = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0140234567").replace(/[^+0-9]/g, "")}` }}
               style={{
                 background: "transparent",
                 color: "rgba(255,255,255,0.7)",

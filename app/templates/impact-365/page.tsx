@@ -515,8 +515,8 @@ export default function QuatreVentsPage() {
   }, []);
 
   /* ── Contact ───────────────────────────────────────────────────────────── */
-  const phone = clientPhone(sessionData) ?? fd?.phone ?? "05 65 00 00 00";
-  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33565000000").replace(/\s/g, "")}`;
+  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 65 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33565000000").replace(/\s/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "panier@ferme-quatre-vents.fr";
   const ferme = fd?.businessName ?? clientName(sessionData) ?? "Ferme des Quatre Vents";
   const ville = clientCity(sessionData) ?? "Cahors";

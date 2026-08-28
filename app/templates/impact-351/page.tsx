@@ -378,8 +378,8 @@ export default function ToitsDeLoirePage() {
   }, []);
 
   /* Le contrat d'abord (fiche d'entreprise puis formulaire), la démo ensuite. */
-  const phone = clientPhone(sessionData) ?? fd?.phone ?? "02 41 00 00 00";
-  const telHref = `tel:${clientPhone(sessionData) ?? fd?.phone ?? "+33241000000"}`;
+  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "02 41 00 00 00";
+  const telHref = `tel:${clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33241000000"}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "devis@toits-de-loire.fr";
 
   return (

@@ -278,7 +278,7 @@ function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const tel = `tel:${clientPhone(sessionData) ?? fd?.phone ?? "+33476000000"}`;
+  const tel = `tel:${clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33476000000"}`;
 
   return (
     <>
@@ -439,7 +439,7 @@ function Hero() {
 
         {/* Une seule action pleine ; la journée reste un lien. */}
         <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, ease: EASE, delay: 0.48 }} style={{ display: "flex", gap: "clamp(16px,2vw,26px)", flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
-          <RoundButton href={`tel:${clientPhone(sessionData) ?? fd?.phone ?? "+33476000000"}`} filled>
+          <RoundButton href={`tel:${clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33476000000"}`} filled>
             Demander une place
           </RoundButton>
           <a href="#methode" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
@@ -677,7 +677,7 @@ function Engagements() {
                 </>
               )}
             </h2>
-            <RoundButton href={`tel:${clientPhone(sessionData) ?? fd?.phone ?? "+33476000000"}`} filled>
+            <RoundButton href={`tel:${clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33476000000"}`} filled>
               Nous appeler
             </RoundButton>
           </div>
@@ -796,8 +796,8 @@ function Avis() {
    10 · CONTACT
    ════════════════════════════════════════════════════════════════════════════ */
 function Contact() {
-  const tel = clientPhone(sessionData) ?? fd?.phone ?? "04 76 00 00 00";
-  const telHref = `tel:${clientPhone(sessionData) ?? fd?.phone ?? "+33476000000"}`;
+  const tel = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 76 00 00 00";
+  const telHref = `tel:${clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33476000000"}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "inscription@petits-cairns.fr";
 
   return (
@@ -859,7 +859,7 @@ function Contact() {
    ════════════════════════════════════════════════════════════════════════════ */
 function Footer() {
   const nom = fd?.businessName ?? clientName(sessionData) ?? "Les Petits Cairns";
-  const tel = clientPhone(sessionData) ?? fd?.phone ?? "04 76 00 00 00";
+  const tel = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 76 00 00 00";
   return (
     <footer className="i353-pad" style={{ position: "relative", background: C.bgDarkAlt, color: "rgba(247,249,245,0.55)", padding: "clamp(50px,7vw,82px) clamp(20px,5vw,64px) 26px", overflow: "hidden" }}>
       <div aria-hidden style={{ position: "absolute", inset: 0, ...pebbleTexture(0.08), pointerEvents: "none" }} />

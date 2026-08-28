@@ -33,6 +33,7 @@ import {
   clientAddress,
   clientBookingUrl,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHours,
   clientName,
@@ -2212,7 +2213,7 @@ function PracticalInfoSection() {
                   Téléphone cabinet
                 </div>
                 <a
-                  href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33478123456").replace(/[^+0-9]/g, "")}`}
+                  href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33478123456").replace(/[^+0-9]/g, "")}`}
                   style={{
                     fontFamily: SERIF,
                     fontSize: 24,
@@ -2221,7 +2222,7 @@ function PracticalInfoSection() {
                     fontWeight: 600,
                   }}
                 >
-                  {clientPhone(sessionData) ?? fd?.phone ?? "04 78 12 34 56"}
+                  {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 78 12 34 56"}
                 </a>
               </div>
             </div>
@@ -2605,7 +2606,7 @@ function FooterSection() {
               }}
             >
               <Phone size={14} color="rgba(160,210,170,0.75)" strokeWidth={1.8} />
-              {clientPhone(sessionData) ?? fd?.phone ?? "04 78 12 34 56"}
+              {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 78 12 34 56"}
             </div>
           </div>
         </div>

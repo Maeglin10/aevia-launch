@@ -444,7 +444,7 @@ export default function ArcaneRealtyPage() {
             </p>
             <div className="space-y-2 text-sm text-white/40 mb-8">
               <div className="flex items-center gap-2"><MapPin className="w-3.5 h-3.5 text-white/40" /> {clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "33000", "Bordeaux")}</div>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33556000000").replace(/\s/g, "")}`} className="block hover:text-white transition-colors">{clientPhone(sessionData) ?? fd?.phone ?? "05 56 00 00 00"}</a>
+              <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33556000000").replace(/\s/g, "")}`} className="block hover:text-white transition-colors">{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 56 00 00 00"}</a>
               <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@arcane-immobilier.fr"}`} className="block hover:text-white transition-colors">{clientEmail(sessionData) ?? fd?.email ?? "contact@arcane-immobilier.fr"}</a>
             </div>
           </div>

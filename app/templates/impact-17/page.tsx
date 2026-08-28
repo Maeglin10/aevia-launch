@@ -11,6 +11,7 @@ import { Menu, X, ArrowRight, Building2, ChevronRight, MapPin, Mail, Phone, Awar
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientName,
   clientPhone,
@@ -711,7 +712,7 @@ function ContactPage() {
               </div>
               <div className="flex items-center gap-3 text-sm text-[#1A1510]/70">
                 <Phone className="w-4 h-4 text-[var(--brand,#C46A3E)] shrink-0" />
-                <span>{clientPhone(sessionData) ?? fd?.phone ?? "+33 1 42 00 00 00"}</span>
+                <span>{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33 1 42 00 00 00"}</span>
               </div>
             </div>
             <div className="border-t border-[#1A1510]/10 pt-4">
