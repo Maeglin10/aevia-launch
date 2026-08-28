@@ -19,6 +19,7 @@ import {
   clientHeroSubtitle,
   clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -3700,7 +3701,7 @@ function ContactPage() {
             </h2>
             <p style={{ color: "rgba(240,236,224,0.7)", fontSize: 15, lineHeight: 1.8, fontStyle: "italic" }}>
               Place Vendôme, 75001 {clientCity(sessionData) ?? "Paris"} (sur rendez-vous uniquement)<br />
-              Téléphone : +33 1 42 60 00 00<br />
+              Téléphone : {clientPhone(sessionData) ?? "+33 1 42 60 00 00"}<br />
               E-mail : {fd?.email ?? "contact@exemple.fr"}
             </p>
           </div>

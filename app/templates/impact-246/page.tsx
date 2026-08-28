@@ -752,7 +752,7 @@ function Hero() {
             animation: 'tf-pulse 1.8s ease-in-out infinite',
           }}
         />
-        24h/7j — 04 91 79 44 44
+        24h/7j — {clientPhone(sessionData) ?? "04 91 79 44 44"}
       </motion.div>
 
       {/* Contenu centré gauche */}

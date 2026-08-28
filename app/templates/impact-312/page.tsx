@@ -31,13 +31,14 @@ import {
 } from "lucide-react";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientHeroPrestations,
   clientAccrocheRestante,
   clientAddress,
   clientCity,
   clientFaq,
+  clientHeroPrestations,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -359,7 +360,7 @@ export default function GarageMinimalistTemplate() {
   );
 
   const businessName = fd.businessName || "Garage Minimalist";
-  const phone = fd.phone || "01 73 82 62 30";
+  const phone = clientPhone(sessionData) || fd.phone || "01 73 82 62 30";
   const email = fd.email || "contact@garageminimalist.fr";
   const address = fd.location || (clientAddress(sessionData) ?? "123 Avenue de l'Automobile, 75000 Paris");
 

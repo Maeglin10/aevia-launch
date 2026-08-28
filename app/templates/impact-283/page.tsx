@@ -1830,7 +1830,7 @@ function RdvFormSection() {
                     fontWeight: 500,
                   }}
                 >
-                  04 67 20 51 51 · {fd?.email ?? "cabinet@kinetherapeute-montpellier.fr"}
+                  {clientPhone(sessionData) ?? "04 67 20 51 51"} · {fd?.email ?? "cabinet@kinetherapeute-montpellier.fr"}
                 </div>
               </div>
             ) : (

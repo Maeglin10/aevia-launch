@@ -144,7 +144,7 @@ let SCIENCE = SCIENCE_SOURCE;
 const FAQ_ITEMS_DEMO = [
   {
     q: "Comment prendre rendez-vous pour une consultation ?",
-    a: "Vous pouvez utiliser notre formulaire de prise de rendez-vous en ligne ci-dessous, ou nous contacter par téléphone au +33 1 45 72 98 30. La première consultation de diagnostic est entièrement gratuite.",
+    a: "Vous pouvez utiliser notre formulaire de prise de rendez-vous en ligne ci-dessous, ou nous contacter par téléphone au " + (clientPhone(sessionData) ?? "+33 1 45 72 98 30") + ". La première consultation de diagnostic est entièrement gratuite.",
   },
   {
     q: "Quels sont les délais pour obtenir un rendez-vous ?",

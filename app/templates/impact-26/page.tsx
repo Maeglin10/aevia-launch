@@ -13,6 +13,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -1584,7 +1585,7 @@ function ContactPage() {
               Rue des Francs-Bourgeois, 75004 {clientCity({ formData: fd }) ?? "Paris"}<br />
               Du lundi au vendredi, de 10h à 18h.<br />
               E-mail : {fd?.email ?? "contact@ether-parfums.com"}<br />
-              Téléphone : +33 1 44 55 66 77
+              Téléphone : {clientPhone(sessionData) ?? "+33 1 44 55 66 77"}
             </p>
           </div>
         </div>

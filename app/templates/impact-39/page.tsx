@@ -453,7 +453,7 @@ return (
           <SectionReveal>
             <div style={{ textAlign: "center", marginBottom: 56 }}>
               <h2 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 900, color: C.navy, marginBottom: 12 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Questions fréquentes</>)}</h2>
-              <p style={{ fontSize: 16, color: C.textMuted }}>Une autre question ? Appelez-nous au +33 1 31 28 28 28 — 7j/7.</p>
+              <p style={{ fontSize: 16, color: C.textMuted }}>Une autre question ? Appelez-nous au {clientPhone(sessionData) ?? "+33 1 31 28 28 28"} — 7j/7.</p>
             </div>
           </SectionReveal>
           <div style={{ display: "flex", flexDirection: "column" }}>

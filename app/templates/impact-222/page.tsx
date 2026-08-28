@@ -27,6 +27,7 @@ import {
   clientCity,
   clientHeroLine,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -1944,7 +1945,7 @@ const Contact: React.FC = () => {
     {
       icon: <Phone size={18} />,
       label: 'Téléphone',
-      value: '+33 4 42 00 18 90',
+      value: clientPhone(sessionData) ?? '+33 4 42 00 18 90',
     },
     {
       icon: <Mail size={18} />,
@@ -1965,7 +1966,7 @@ const Contact: React.FC = () => {
     {
       icon: <Phone size={18} />,
       label: 'Téléphone',
-      value: '+33 4 42 00 18 90',
+      value: clientPhone(sessionData) ?? '+33 4 42 00 18 90',
     },
     {
       icon: <Mail size={18} />,
@@ -1987,7 +1988,7 @@ const Contact: React.FC = () => {
     {
       icon: <Phone size={18} />,
       label: 'Téléphone',
-      value: '+33 4 42 00 18 90',
+      value: clientPhone(sessionData) ?? '+33 4 42 00 18 90',
     },
     {
       icon: <Mail size={18} />,

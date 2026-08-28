@@ -1,6 +1,7 @@
 "use client";
 import {
   clientName,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
@@ -347,7 +348,7 @@ export default function Impact53Layout({
                 color: C.dim,
               }}
             >
-              +33 4 74 12 34 56
+              {clientPhone(__layoutSession) ?? "+33 4 74 12 34 56"}
             </span>
           </div>
 

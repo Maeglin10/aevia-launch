@@ -1718,7 +1718,7 @@ function AppointmentForm() {
           >
             Remplissez ce formulaire, nous vous confirmons votre
             rendez-vous sous 24h. Urgences : appelez directement le
-            +33 3 88 79 44 44.
+            {clientPhone(sessionData) ?? "+33 3 88 79 44 44"}.
           </p>
         </Reveal>
 

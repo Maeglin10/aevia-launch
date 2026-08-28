@@ -3,6 +3,7 @@
 import {
   clientCity,
   clientName,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence, useScroll } from "framer-motion"
@@ -163,7 +164,7 @@ export default function BlueprintLayout({ children }: { children: React.ReactNod
               <p className="text-[#F7F5F2] text-xs tracking-widest uppercase mb-5">Siège social</p>
               <p className="text-sm mb-2">8 avenue Hoche</p>
               <p className="text-sm mb-2">75008 {clientCity(__layoutSession) ?? "Paris"}, France</p>
-              <p className="text-sm mb-4">+33 1 44 15 62 00</p>
+              <p className="text-sm mb-4">{clientPhone(__layoutSession) ?? "+33 1 44 15 62 00"}</p>
               <p className="text-xs text-[#C9A86C]">SIREN : 342 789 001 · RCS {clientCity(__layoutSession) ?? "Paris"}</p>
             </div>
           </div>
