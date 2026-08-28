@@ -8,6 +8,7 @@ import Link from "next/link"
 import { ArrowRight, MapPin, Mail, Phone, Clock, Star, ChevronDown } from "lucide-react"
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -450,8 +451,8 @@ export default function StudioNomaPage() {
             <motion.a href={`mailto:${fd?.email ?? "contact@studionoma.fr"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "16px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
               <Mail size={18} /> Prendre rendez-vous
             </motion.a>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "14px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accent, color: C.white }}>
-              <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 00 00 00"}
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "14px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accent, color: C.white }}>
+              <Phone size={18} /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 78 00 00 00"}
             </motion.a>
           </div>
         </Reveal>

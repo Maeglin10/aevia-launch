@@ -292,7 +292,7 @@ export default function NovaSpacesPage() {
   }, []);
 
   const ville = clientCity(sessionData) ?? "Lyon";
-  const tel = clientPhone(sessionData) ?? fd?.phone ?? "04 72 40 18 62";
+  const tel = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 72 40 18 62";
   const telHref = `tel:${tel.replace(/\s/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "atelier@nova-interieurs.fr";
 

@@ -592,8 +592,8 @@ export default function AtlantiqueMaterielsPage() {
 
   const marque = fd?.businessName ?? clientName(sessionData) ?? "Atlantique Matériels";
   const ville = clientCity(sessionData) ?? "La Rochelle";
-  const phone = clientPhone(sessionData) ?? fd?.phone ?? "05 46 00 00 00";
-  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33546000000").replace(/\s/g, "")}`;
+  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 46 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33546000000").replace(/\s/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "devis@atlantique-materiels.fr";
   const adresse = clientAddress(sessionData);
   const lieu = clientCodePostalVille(sessionData, "", ville).trim();

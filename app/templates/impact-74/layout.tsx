@@ -1,6 +1,9 @@
 // @ts-nocheck
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -159,7 +162,7 @@ export default function CyberSecurityLayout({
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-10 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/10">
             <div className="flex items-center gap-10">
               <span>
-                &copy; {new Date().getFullYear()} Aevia Kitchen
+                &copy; {new Date().getFullYear()} {clientName(__layoutSession) ?? "Aevia Kitchen"}
               </span>
               <Link href="/templates/impact-74/legal" className="hover:text-white transition-colors">
                 Mentions légales

@@ -14,6 +14,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAddress,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -801,7 +802,7 @@ export default function Impact171Page() {
                   </div>
                   <div>
                     <p className="font-bold text-[#134E4A]" style={{ fontFamily: "'Figtree', sans-serif" }}>Téléphone</p>
-                    <p className="text-[#134E4A]/60 text-sm">{clientPhone(sessionData) ?? fd?.phone ?? "01 42 36 78 90"}</p>
+                    <p className="text-[#134E4A]/60 text-sm">{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 42 36 78 90"}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">

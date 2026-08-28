@@ -523,8 +523,8 @@ export default function HorizonProtectionPage() {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const phone = clientPhone(sessionData) ?? fd?.phone ?? "05 61 00 00 01";
-  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33561000001").replace(/\s+/g, "")}`;
+  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 61 00 00 01";
+  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33561000001").replace(/\s+/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "contact@horizon-protection.fr";
   const nom = fd?.businessName ?? clientName(sessionData) ?? "Horizon Protection";
   const ville = clientCity(sessionData) ?? "Toulouse";

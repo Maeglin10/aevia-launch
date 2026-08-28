@@ -9,6 +9,7 @@ import { Heart, Star, Phone, MapPin, Calendar, Sparkles, Music, Camera, Flower, 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -183,8 +184,8 @@ export default function MaisonElisePage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0493567890").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#c4a06a)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 93 56 78 90"}
+            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0493567890").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#c4a06a)] font-bold text-sm">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 93 56 78 90"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#c4a06a)] text-white text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-[#a88550] transition-colors">
               Consultation gratuite
@@ -194,7 +195,7 @@ export default function MaisonElisePage() {
               <SheetContent side="right" className="bg-[#fdfaf7] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#1a1018] hover:text-[var(--brand,#c4a06a)] transition-colors" style={{ fontFamily: "'Lora', serif" }}>{l}</Link>)}
-                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0493567890").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#c4a06a)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 93 56 78 90"}</a>
+                  <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0493567890").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#c4a06a)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 93 56 78 90"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -244,8 +245,8 @@ export default function MaisonElisePage() {
             <button className="px-9 py-4 bg-[var(--brand,#c4a06a)] text-white font-bold text-[10px] uppercase tracking-[0.28em] hover:bg-[#a88550] transition-colors">{c?.ctaText ?? <>
               Consultation gratuite
             </>}</button>
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0493567890").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-9 py-4 border border-[#fdfaf7]/12 text-[#fdfaf7]/38 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c4a06a)]/40 hover:text-[var(--brand,#c4a06a)] transition-all">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 93 56 78 90"}
+            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0493567890").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-9 py-4 border border-[#fdfaf7]/12 text-[#fdfaf7]/38 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c4a06a)]/40 hover:text-[var(--brand,#c4a06a)] transition-all">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 93 56 78 90"}
             </a>
           </motion.div>
         </motion.div>
@@ -407,8 +408,8 @@ export default function MaisonElisePage() {
               <button className="px-10 py-4 bg-[var(--brand,#c4a06a)] text-white font-bold text-[10px] uppercase tracking-[0.28em] hover:bg-[#a88550] transition-colors">
                 Consultation gratuite
               </button>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0493567890").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-[#fdfaf7]/12 text-[#fdfaf7]/35 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c4a06a)]/40 hover:text-[var(--brand,#c4a06a)] transition-all">
-                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 93 56 78 90"}
+              <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0493567890").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-[#fdfaf7]/12 text-[#fdfaf7]/35 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c4a06a)]/40 hover:text-[var(--brand,#c4a06a)] transition-all">
+                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 93 56 78 90"}
               </a>
             </div>
           </div>
@@ -426,7 +427,7 @@ export default function MaisonElisePage() {
           {[
             { t: "Formules", ls: ["Coordination jour J", "Clé en main", "Conception florale", "Mise en scène & styling", "Événements corporate"] },
             { t: "Infos", ls: ["L'équipe", "Notre philosophie", "Portfolio", "Blog mariages", "FAQ"] },
-            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "04 93 56 78 90"), (fd?.email ?? "hello@maison-elise.fr"), (clientCity({ formData: fd }) ?? "Nice") + " & Riviera", "France entière & étranger", "Consultation gratuite"] },
+            { t: "Contact", ls: [(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 93 56 78 90"), (fd?.email ?? "hello@maison-elise.fr"), (clientCity({ formData: fd }) ?? "Nice") + " & Riviera", "France entière & étranger", "Consultation gratuite"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c4a06a)]/35 mb-5">{col.t}</h4>

@@ -16,12 +16,13 @@ import {
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientPhone,
   clientCity,
+  clientEmail,
   clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -1667,7 +1668,7 @@ function BookingCTA() {
         <BlurReveal delay={0.4}>
           <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', justifyContent: 'center' }}>
             <a
-              href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33140000000").replace(/[^+0-9]/g, "")}`}
+              href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33140000000").replace(/[^+0-9]/g, "")}`}
               style={{
                 fontFamily: SANS,
                 fontSize: '0.65rem',
@@ -1679,7 +1680,7 @@ function BookingCTA() {
                 paddingBottom: '2px',
               }}
             >
-              {clientPhone(sessionData) ?? fd?.phone ?? "+33 1 40 00 00 00"}
+              {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33 1 40 00 00 00"}
             </a>
             <a
               href={`mailto:${fd?.email ?? "reservations@grandpalais.fr"}`}

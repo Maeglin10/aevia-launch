@@ -9,6 +9,7 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { Reveal, MagneticBtn, Counter, MENUS, WINE_PAIRINGS, ARTISANS } from "./shared";
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
@@ -526,11 +527,11 @@ return (
                 </MagneticBtn>
               </Link>
               <a
-                href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33142000000").replace(/[^+0-9]/g, "")}`}
+                href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33142000000").replace(/[^+0-9]/g, "")}`}
                 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#f5efe0]/30 hover:text-[#f5efe0] transition-colors"
                 style={{ textDecoration: "none" }}
               >
-                {clientPhone(sessionData) ?? fd?.phone ?? "+33 1 42 00 00 00"}
+                {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33 1 42 00 00 00"}
               </a>
             </div>
 

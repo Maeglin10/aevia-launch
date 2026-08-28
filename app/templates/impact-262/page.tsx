@@ -2077,7 +2077,7 @@ function Footer() {
         items: [
           { label: (clientCity(sessionData) ?? 'Paris') + ' Marais', href: '#reservation' },
           { label: 'Sur rendez-vous', href: '#reservation' },
-          { label: (clientEmail(sessionData) ?? 'studio@noirAbsolu.fr'), href: 'mailto:studio@noirAbsolu.fr' },
+          { label: (clientEmail(sessionData) ?? 'studio@noirAbsolu.fr'), href: `mailto:${clientEmail(sessionData) ?? 'studio@noirAbsolu.fr'}` },
           { label: 'Instagram', href: "/templates/impact-262" },
         ],
       },

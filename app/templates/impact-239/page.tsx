@@ -1946,8 +1946,8 @@ function Footer() {
       items: [
         { label: 'Prendre rendez-vous', href: '#contact' },
         { label: (clientCity(sessionData) ?? 'Paris'), href: '#contact' },
-        { label: (clientPhone(sessionData) ?? '+33 1 45 00 00 00'), href: 'tel:+33145000000' },
-        { label: (clientEmail(sessionData) ?? 'contact@mda-avocats.fr'), href: 'mailto:contact@mda-avocats.fr' },
+        { label: (clientPhone(sessionData) ?? '+33 1 45 00 00 00'), href: `tel:${(clientPhone(sessionData) ?? '+33145000000').replace(/[^+0-9]/g, "")}` },
+        { label: (clientEmail(sessionData) ?? 'contact@mda-avocats.fr'), href: `mailto:${clientEmail(sessionData) ?? 'contact@mda-avocats.fr'}` },
       ],
     },
   ];

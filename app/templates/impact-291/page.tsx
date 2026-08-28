@@ -28,6 +28,7 @@ import {
   clientBookingUrl,
   clientCity,
   clientCodePostalVille,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -2311,7 +2312,7 @@ function PracticalSection() {
 
           <Reveal delay={0.32}>
             <div style={{ paddingTop: 30 }}>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33388000000").replace(/[^+0-9]/g, "")}`} style={{ textDecoration: 'none' }}>
+              <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33388000000").replace(/[^+0-9]/g, "")}`} style={{ textDecoration: 'none' }}>
                 <div
                   style={{
                     display: 'inline-flex',
@@ -2329,7 +2330,7 @@ function PracticalSection() {
                   }}
                 >
                   <Phone size={16} strokeWidth={1.8} />
-                  {clientPhone(sessionData) ?? fd?.phone ?? "03 88 00 00 00"}
+                  {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "03 88 00 00 00"}
                 </div>
               </a>
             </div>

@@ -478,8 +478,8 @@ export default function BorealCourtagePage() {
   }, []);
 
   /* ── Contact ───────────────────────────────────────────────────────────── */
-  const phone = clientPhone(sessionData) ?? fd?.phone ?? "04 78 00 00 00";
-  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33478000000").replace(/\s/g, "")}`;
+  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 78 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33478000000").replace(/\s/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "risques@boreal-courtage.fr";
   const maison = fd?.businessName ?? clientName(sessionData) ?? "Boréal Courtage";
   const ville = clientCity(sessionData) ?? "Lyon";

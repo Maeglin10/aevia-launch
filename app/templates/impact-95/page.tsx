@@ -11,6 +11,7 @@ import { Menu, X, ArrowRight, CheckCircle, ChevronRight, Phone, Mail, Clock, Awa
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientEmail,
   clientEyebrow,
   clientFaq,
   clientHeroLine,
@@ -642,7 +643,7 @@ function ContactSection() {
                   </div>
                   <div>
                     <div className="text-xs tracking-widest uppercase text-[#8A8278] mb-1">Téléphone</div>
-                    <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33145729830").replace(/[^+0-9]/g, "")}`} className="text-sm text-[#181410] hover:text-[var(--brand,#3A8080)] transition-colors">{clientPhone(sessionData) ?? fd?.phone ?? "+33 1 45 72 98 30"}</a>
+                    <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33145729830").replace(/[^+0-9]/g, "")}`} className="text-sm text-[#181410] hover:text-[var(--brand,#3A8080)] transition-colors">{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33 1 45 72 98 30"}</a>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -1023,7 +1024,7 @@ export default function LumiereCliniquePage() {
               <p className="text-[#FAFAF8] text-xs tracking-widest uppercase mb-5">Contact</p>
               <p className="text-sm mb-2">Adresse sur demande</p>
               <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} className="text-sm mb-2 block hover:text-[#FAFAF8] transition-colors">{fd?.email ?? "contact@exemple.fr"}</a>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33145729830").replace(/[^+0-9]/g, "")}`} className="text-sm mb-2 block hover:text-[#FAFAF8] transition-colors">{clientPhone(sessionData) ?? fd?.phone ?? "+33 1 45 72 98 30"}</a>
+              <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33145729830").replace(/[^+0-9]/g, "")}`} className="text-sm mb-2 block hover:text-[#FAFAF8] transition-colors">{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33 1 45 72 98 30"}</a>
               <p className="text-sm text-[var(--brand,#3A8080)] mt-4 text-xs">Lun–Ven 9h–18h · Sam 9h–13h</p>
             </div>
           </div>

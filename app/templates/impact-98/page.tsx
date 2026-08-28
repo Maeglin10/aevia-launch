@@ -713,7 +713,7 @@ export default function ZenithWatchesPage() {
               <p className="text-white/30 max-w-md mb-16 text-[12px] tracking-wide leading-loose">
                 {clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "06000", "Nice") + ", boutique sur rendez-vous"}
                 <br />
-                {(clientPhone(sessionData) ?? fd?.phone ?? "04 93 00 00 00") + " · " + (clientEmail(sessionData) ?? fd?.email ?? "atelier@zenith-horlogerie.fr")}
+                {(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 93 00 00 00") + " · " + (clientEmail(sessionData) ?? fd?.email ?? "atelier@zenith-horlogerie.fr")}
               </p>
               <div className="flex gap-6">
                 {[Globe, Globe, Mail].map((Icon, i) => (

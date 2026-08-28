@@ -177,7 +177,7 @@ export default function IronXFitnessPage() {
   );
 
   const ville = clientCity(sessionData) ?? "Marseille";
-  const tel = clientPhone(sessionData) ?? fd?.phone ?? "04 91 20 45 45";
+  const tel = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 91 20 45 45";
   const telHref = `tel:${tel.replace(/\s/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "contact@ironx-fitness.fr";
   const S = SEANCES[seance];

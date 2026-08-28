@@ -472,8 +472,8 @@ export default function AxisBioPage() {
 
   const nom = fd?.businessName ?? clientName(sessionData) ?? "Axis Bio";
   const ville = clientCity(sessionData) ?? "Metz";
-  const phone = clientPhone(sessionData) ?? fd?.phone ?? "03 87 00 00 00";
-  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33387000000").replace(/[^+\d]/g, "")}`;
+  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "03 87 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33387000000").replace(/[^+\d]/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "accueil@axis-bio.fr";
   const adresse = clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "57000", "Metz");
   const laboImg = photo(0, "https://images.pexels.com/photos/8442509/pexels-photo-8442509.jpeg?auto=compress&cs=tinysrgb&w=1400");

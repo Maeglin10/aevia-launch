@@ -13,11 +13,13 @@ import {
 import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientEyebrow,
   clientCity,
+  clientEmail,
+  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientTagline,
@@ -1949,7 +1951,7 @@ function Footer() {
         'Fermé le lundi',
         (clientCity(sessionData) ?? 'Lyon') + ' arrondissement',
         'Métro : Hôtel de Ville',
-        (fd?.phone ?? '04 78 37 37 37'),
+        (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? '04 78 37 37 37'),
       ],
     },
     {

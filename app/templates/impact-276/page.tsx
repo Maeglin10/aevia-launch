@@ -35,13 +35,14 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientPhone,
   clientAccrocheRestante,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHours,
   clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -2990,7 +2991,7 @@ function FooterSection() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                 {[
                   { icon: MapPin, label: (clientCity(sessionData) ?? 'Bordeaux') + ' Caudéran, 33200' },
-                  { icon: Phone, label: (fd?.phone ?? '06 22 65 65 65') },
+                  { icon: Phone, label: (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? '06 22 65 65 65') },
                   { icon: Mail, label: (fd?.email ?? 'thomas@lebruncoach.fr') },
                   { icon: Clock, label: 'Lun–Sam · 7h–20h' },
                 ].map((c) => {

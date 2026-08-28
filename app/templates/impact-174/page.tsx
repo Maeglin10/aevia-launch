@@ -14,6 +14,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
@@ -602,7 +603,7 @@ export default function Impact174Page() {
               </div>
               <div className="flex items-center gap-2 justify-center">
                 <Phone className="w-4 h-4 text-[var(--brand,#84cc16)]" />
-                <span>{clientPhone(sessionData) ?? fd?.phone ?? "01 43 57 82 14"}</span>
+                <span>{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 43 57 82 14"}</span>
               </div>
             </div>
           </Reveal>

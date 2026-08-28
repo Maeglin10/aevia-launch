@@ -471,8 +471,8 @@ export default function CapDemenagementsPage() {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const phone = clientPhone(sessionData) ?? fd?.phone ?? "02 40 00 00 00";
-  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33240000000").replace(/[\s.]/g, "")}`;
+  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "02 40 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33240000000").replace(/[\s.]/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "devis@cap-demenagements.fr";
 
   /* Photo optionnelle du client dans le panneau engagements : jamais de stock

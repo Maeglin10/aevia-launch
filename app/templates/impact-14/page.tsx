@@ -52,6 +52,7 @@ import {
 import {
   clientAddress,
   clientCity,
+  clientEmail,
   clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
@@ -1259,7 +1260,7 @@ export default function HorizonMaritimePage() {
               }}
             >
               <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 3, textTransform: "uppercase" }}>
-                {clientPhone(sessionData) ?? fd?.phone ?? "+33 1 24 59 55 91"}
+                {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33 1 24 59 55 91"}
               </p>
             </div>
           </motion.div>
@@ -2455,12 +2456,12 @@ export default function HorizonMaritimePage() {
           >
             <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}>
               <a
-                href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33124595591").replace(/[^+0-9]/g, "")}`}
+                href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33124595591").replace(/[^+0-9]/g, "")}`}
                 style={{ display: "flex", alignItems: "center", gap: "0.5rem", textDecoration: "none" }}
               >
                 <Phone size={12} style={{color: brand ?? 'var(--brand,#c9a84c)' }} />
                 <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "rgba(240,236,224,0.5)" }}>
-                  {clientPhone(sessionData) ?? fd?.phone ?? "+33 1 24 59 55 91"}
+                  {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33 1 24 59 55 91"}
                 </span>
               </a>
               <a

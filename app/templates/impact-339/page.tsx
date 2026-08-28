@@ -495,8 +495,8 @@ export default function MaisonAuditionPage() {
   }, []);
 
   /* ── Contact ───────────────────────────────────────────────────────────── */
-  const phone = clientPhone(sessionData) ?? fd?.phone ?? "02 47 00 00 00";
-  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33247000000").replace(/\s/g, "")}`;
+  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "02 47 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33247000000").replace(/\s/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "rdv@maison-audition-tours.fr";
   const maison = fd?.businessName ?? clientName(sessionData) ?? "Maison de l'Audition";
   const ville = clientCity(sessionData) ?? "Tours";

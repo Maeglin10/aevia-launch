@@ -3,6 +3,7 @@ import {
   clientAccrocheRestante,
   clientAddress,
   clientCity,
+  clientEmail,
   clientEyebrow,
   clientFaq,
   clientHeroLine,
@@ -723,7 +724,7 @@ export default function CreativePortfolioSPA() {
               <ul className="space-y-4 text-white/50 text-sm">
                 <li><a href="#contact" className="hover:text-amber-400 transition-colors">{clientAddress({ businessProfile: bp }) ?? `12 Rue de Paradis, ${clientCity({ formData: fd }) ?? "Paris"}`}</a></li>
                 <li><a href="#contact" className="hover:text-amber-400 transition-colors">Aoyama, Minato City, Tokyo</a></li>
-                <li><a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33145678900").replace(/[^+0-9]/g, "")}`} className="hover:text-amber-400 transition-colors">+33 (0) 1 45 67 89 00</a></li>
+                <li><a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33145678900").replace(/[^+0-9]/g, "")}`} className="hover:text-amber-400 transition-colors">+33 (0) 1 45 67 89 00</a></li>
               </ul>
             </div>
 
@@ -749,7 +750,7 @@ export default function CreativePortfolioSPA() {
           </div>
 
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-white/10 text-xs text-white/30 uppercase tracking-widest font-mono">
-            <span>&copy; {new Date().getFullYear()} Elena Korr Studio</span>
+            <span>&copy; {new Date().getFullYear()} {clientName(sessionData) ?? "Elena Korr Studio"}</span>
             <div className="flex gap-6">
               <a href="#contact" className="hover:text-white transition-colors">Privacy</a>
               <a href="#contact" className="hover:text-white transition-colors">{tr({ formData: fd }, "Terms")}</a>

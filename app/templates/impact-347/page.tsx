@@ -493,8 +493,8 @@ export default function PrismeFormationPage() {
   const nom = clientName(sessionData) ?? fd?.businessName ?? "Prisme Formation";
   const ville = clientCity(sessionData) ?? "Paris";
   const metier = clientTrade(sessionData) ?? "Formation professionnelle";
-  const phone = clientPhone(sessionData) ?? fd?.phone ?? "01 43 00 00 00";
-  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33143000000").replace(/[^+\d]/g, "")}`;
+  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 43 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33143000000").replace(/[^+\d]/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "inscription@prisme-formation.fr";
   const adresse = clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "75011", "Paris");
   const horaires = "Lun–Ven 9h–18h";

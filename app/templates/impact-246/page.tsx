@@ -547,7 +547,7 @@ function Nav() {
 
       {/* CTA urgent */}
       <div className="tf-navcta">
-        <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0491000000").replace(/[^+0-9]/g, "")}`} style={{ textDecoration: 'none' }}>
+        <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0491000000").replace(/[^+0-9]/g, "")}`} style={{ textDecoration: 'none' }}>
           <BlueButton urgent>
             <Phone size={14} strokeWidth={2} /> Appel urgent
           </BlueButton>
@@ -818,7 +818,7 @@ function Hero() {
           transition={{ duration: 1.1, ease: EASE, delay: 0.68 }}
           style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}
         >
-          <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0491000000").replace(/[^+0-9]/g, "")}`} style={{ textDecoration: 'none' }}>
+          <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0491000000").replace(/[^+0-9]/g, "")}`} style={{ textDecoration: 'none' }}>
             <BlueButton urgent>
               <Phone size={15} strokeWidth={2} /> Appeler maintenant
             </BlueButton>
@@ -2160,11 +2160,11 @@ function Footer() {
     {
       title: 'Urgences & Contact',
       items: [
-        { label: (clientPhone(sessionData) ?? '04 91 79 44 44'), href: 'tel:0491000000' },
+        { label: (clientPhone(sessionData) ?? '04 91 79 44 44'), href: `tel:${(clientPhone(sessionData) ?? '0491000000').replace(/[^+0-9]/g, "")}` },
         { label: 'Devis en ligne', href: '#devis' },
         { label: 'Interventions 24h/7j', href: '#interventions' },
         { label: 'Certifications RGE', href: "/templates/impact-246" },
-        { label: (clientEmail(sessionData) ?? 'contact@thermofix-pro.fr'), href: 'mailto:contact@thermofix-pro.fr' },
+        { label: (clientEmail(sessionData) ?? 'contact@thermofix-pro.fr'), href: `mailto:${clientEmail(sessionData) ?? 'contact@thermofix-pro.fr'}` },
       ],
     },
   ];
@@ -2238,7 +2238,7 @@ function Footer() {
           {/* Orange urgent CTA */}
           <div style={{ marginTop: 28 }}>
             <a
-              href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0491000000").replace(/[^+0-9]/g, "")}`}
+              href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0491000000").replace(/[^+0-9]/g, "")}`}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',

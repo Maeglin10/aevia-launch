@@ -209,7 +209,7 @@ export default function ChronicleEditorialPage() {
   }, []);
 
   const ville = clientCity(sessionData) ?? "Paris";
-  const tel = clientPhone(sessionData) ?? fd?.phone ?? "01 84 60 12 34";
+  const tel = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 84 60 12 34";
   const telHref = `tel:${tel.replace(/\s/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "contact@chronicle-formation.fr";
 

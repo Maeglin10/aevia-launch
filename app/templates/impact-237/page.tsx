@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientBookingUrl,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -2085,7 +2086,7 @@ function Footer() {
               letterSpacing: '0.06em',
             }}
           >
-            {clientPhone(sessionData) ?? fd?.phone ?? "04 93 00 00 00"}
+            {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 93 00 00 00"}
           </div>
           <div
             style={{
