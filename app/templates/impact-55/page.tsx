@@ -11,6 +11,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -243,7 +244,7 @@ export default function CabinetRenardPage() {
         <div id="mb55-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33144000001"}`} style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "var(--brand,#b8952e)" }}>
+          <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33144000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "var(--brand,#b8952e)" }}>
             Consultation
           </motion.a>
       </div>
@@ -263,7 +264,7 @@ export default function CabinetRenardPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${fd?.phone ?? "+33144000001"}`} style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "var(--brand,#b8952e)" }}>
+          <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33144000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "var(--brand,#b8952e)" }}>
             Consultation
           </motion.a>
         </div>
@@ -295,7 +296,7 @@ export default function CabinetRenardPage() {
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <motion.a href={`tel:${fd?.phone ?? "+33144000001"}`} style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.gold}44` }} whileHover={{ background: "var(--brand,#b8952e)", scale: 1.03 }}>
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33144000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.gold}44` }} whileHover={{ background: "var(--brand,#b8952e)", scale: 1.03 }}>
               Prendre rendez-vous <ArrowRight size={16} />
             </motion.a>
             <motion.a href="#domaines" style={{ background: "rgba(255,255,255,0.08)", color: "#fff", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 4, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)" }} whileHover={{ background: "rgba(255,255,255,0.14)" }}>
@@ -391,7 +392,7 @@ export default function CabinetRenardPage() {
                 </div>
               ))}
             </div>
-            <motion.a href={`tel:${fd?.phone ?? "+33144000001"}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.gold, color: C.text, borderRadius: 4, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ background: "var(--brand,#b8952e)", scale: 1.02 }}>
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33144000001").replace(/[^+0-9]/g, "")}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.gold, color: C.text, borderRadius: 4, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ background: "var(--brand,#b8952e)", scale: 1.02 }}>
               Consultation <ArrowRight size={16} />
             </motion.a>
           </Reveal>
@@ -431,8 +432,8 @@ export default function CabinetRenardPage() {
             Premier entretien disponible sous 48h. Honoraires transparents communiqués avant toute intervention.
           </>}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`tel:${fd?.phone ?? "+33144000001"}`} style={{ background: C.accent, color: C.white, borderRadius: 4, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {fd?.phone ?? "01 44 00 00 01"}
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33144000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 4, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
+              <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "01 44 00 00 01"}
             </motion.a>
             <motion.a href={`mailto:${fd?.email ?? "contact@cabinet-renard.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 4, padding: "13px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white }}>
               <Mail size={18} /> Nous écrire
@@ -449,7 +450,7 @@ export default function CabinetRenardPage() {
             <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Cabinet d'avocats · {clientCity({ formData: fd }) ?? "Paris"}<br />Barreau de {clientCity(sessionData) ?? "Paris"}</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Paris") + ", Île-de-France" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "01 44 00 00 01") }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–18h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Paris") + ", Île-de-France" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "01 44 00 00 01") }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–18h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
                 <span style={{ color: C.gold }}>{item.icon}</span>{item.t}
               </div>

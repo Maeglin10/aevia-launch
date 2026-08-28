@@ -24,10 +24,11 @@ import {
 } from "lucide-react";
 import { Reveal, GridBackground } from "./shared";
 import {
-  clientHeroLine,
   clientCity,
   clientFaq,
+  clientHeroLine,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -50,7 +51,7 @@ const FAQ_INLINE_SOURCE = [
               { q: "Quelle est votre politique de retour ?", a: "30 jours de retour gratuit, sans questions. Si votre produit présente un défaut ou ne vous convient pas, nous prenons en charge l'enlèvement à domicile et le remboursement intégral sous 5 jours ouvrés. Aucun frais de restockage." },
               { q: "Vos produits sont-ils garantis ?", a: "Tous nos produits bénéficient d'une garantie constructeur de 2 ans minimum, extensible à 5 ans avec notre programme NeuroSafe. En cas de panne, nous vous remplaçons le produit sous 48h sans attendre la fin du diagnostic." },
               { q: "Proposez-vous des facilités de paiement ?", a: "Oui — paiement en 3x ou 12x sans frais disponible dès 150€ via notre partenaire Alma. Paiement en 24x pour les produits à partir de 1 000€. Aucun justificatif ni formulaire papier — tout se fait en 30 secondes à la caisse." },
-              { q: "Comment contacter le support ?", a: "Chat en direct disponible 7j/7 de 8h à 23h. Email avec réponse garantie en moins de 2h en semaine, 4h le week-end. Pour les produits sous garantie, ligne prioritaire au " + (fd?.phone ?? "01 88 32 31 28") + ". Notre NPS client est de 78 — on ne dit pas ça pour rien." }
+              { q: "Comment contacter le support ?", a: "Chat en direct disponible 7j/7 de 8h à 23h. Email avec réponse garantie en moins de 2h en semaine, 4h le week-end. Pour les produits sous garantie, ligne prioritaire au " + (clientPhone(sessionData) ?? fd?.phone ?? "01 88 32 31 28") + ". Notre NPS client est de 78 — on ne dit pas ça pour rien." }
 ];
 let FAQ_INLINE = FAQ_INLINE_SOURCE;
 

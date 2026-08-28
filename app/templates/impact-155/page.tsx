@@ -11,6 +11,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -417,8 +418,8 @@ export default function PierreCoPage() {
           <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(34px, 4vw, 58px)", fontWeight: 400, color: C.text, margin: "16px 0 18px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "estimation.titre") ?? (<>Découvrez la vraie valeur <em>de votre bien</em>.</>)}</h2>
           <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 500, margin: "0 auto 40px", lineHeight: 1.7 }}>Évaluation offerte en 48h. Aucun engagement, aucune pression — juste une expertise honnête.</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`tel:${fd?.phone ?? "+33140000000"}`} style={{ background: C.accent, color: C.text, borderRadius: 6, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accentDark, color: C.white, scale: 1.03 }}>
-              <Phone size={18} /> {fd?.phone ?? "01 40 00 00 00"}
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33140000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.text, borderRadius: 6, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accentDark, color: C.white, scale: 1.03 }}>
+              <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "01 40 00 00 00"}
             </motion.a>
             <motion.a href={`mailto:${fd?.email ?? "contact@pierreandco.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accentDark}`, borderRadius: 6, padding: "14px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, borderColor: C.accent }}>
               <Mail size={18} /> Nous écrire
@@ -435,7 +436,7 @@ export default function PierreCoPage() {
             <p style={{ color: "rgba(255,255,255,0.42)", fontSize: 14, lineHeight: 1.6, maxWidth: 260 }}>Immobilier de prestige à {clientCity({ formData: fd }) ?? "Paris"} et Île-de-France depuis 2004.</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {[{ icon: <MapPin size={14} />, t: (clientCity({ formData: fd }) ?? "Paris") + " & agences IDF" }, { icon: <Phone size={14} />, t: (fd?.phone ?? "01 40 00 00 00") }, { icon: <Mail size={14} />, t: (fd?.email ?? "contact@pierreandco.fr") }].map((item, i) => (
+            {[{ icon: <MapPin size={14} />, t: (clientCity({ formData: fd }) ?? "Paris") + " & agences IDF" }, { icon: <Phone size={14} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "01 40 00 00 00") }, { icon: <Mail size={14} />, t: (fd?.email ?? "contact@pierreandco.fr") }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.5)", fontSize: 14 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>

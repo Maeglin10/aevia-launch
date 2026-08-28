@@ -29,15 +29,16 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientSiret,
   clientCertifications,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientTagline,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -619,9 +620,9 @@ function HeroSection() {
           <BrickButton filled href="#devis">
             Demander un devis gratuit
           </BrickButton>
-          <BrickButton href={`tel:${fd?.phone ?? "+33561000000"}`}>
+          <BrickButton href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33561000000").replace(/[^+0-9]/g, "")}`}>
             <Phone size={15} strokeWidth={2} />
-            {fd?.phone ?? "05 61 00 00 00"}
+            {clientPhone(sessionData) ?? fd?.phone ?? "05 61 00 00 00"}
           </BrickButton>
         </motion.div>
       </motion.div>
@@ -1758,7 +1759,7 @@ function DevisFormSection() {
           >
             Remplissez le formulaire, nous vous répondons sous 48h avec un
             devis détaillé, sans engagement. Urgence ? Appelez directement le{' '}
-            <strong style={{color: brand ?? 'var(--brand,#e87070)' }}>{fd?.phone ?? "05 61 00 00 00"}</strong>.
+            <strong style={{color: brand ?? 'var(--brand,#e87070)' }}>{clientPhone(sessionData) ?? fd?.phone ?? "05 61 00 00 00"}</strong>.
           </p>
         </Reveal>
 
@@ -2425,7 +2426,7 @@ function UrgencySection() {
           </Reveal>
           <Reveal delay={0.26}>
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 56 }}>
-              <BrickButton filled href={`tel:${fd?.phone ?? "+33561000000"}`}>
+              <BrickButton filled href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33561000000").replace(/[^+0-9]/g, "")}`}>
                 <Phone size={16} strokeWidth={2} />
                 Appeler maintenant
               </BrickButton>
@@ -2589,7 +2590,7 @@ function FooterSection() {
             {clientCity(sessionData) ?? "Toulouse"} &amp; agglo (30 km)
           </div>
           <a
-            href={`tel:${fd?.phone ?? "+33561000000"}`}
+            href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33561000000").replace(/[^+0-9]/g, "")}`}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -2603,7 +2604,7 @@ function FooterSection() {
             }}
           >
             <Phone size={17} color={C.brick} strokeWidth={2} />
-            {fd?.phone ?? "05 61 00 00 00"}
+            {clientPhone(sessionData) ?? fd?.phone ?? "05 61 00 00 00"}
           </a>
           {/* Zones */}
           <div style={{ marginTop: 8 }}>
@@ -2753,7 +2754,7 @@ function FooterSection() {
               Urgence plomberie
             </div>
             <a
-              href={`tel:${fd?.phone ?? "+33561000000"}`}
+              href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33561000000").replace(/[^+0-9]/g, "")}`}
               style={{
                 fontFamily: SERIF,
                 fontSize: 20,
@@ -2766,7 +2767,7 @@ function FooterSection() {
               }}
             >
               <Phone size={16} strokeWidth={2} color="var(--brand,#e87070)" />
-              {fd?.phone ?? "05 61 00 00 00"}
+              {clientPhone(sessionData) ?? fd?.phone ?? "05 61 00 00 00"}
             </a>
             <div
               style={{

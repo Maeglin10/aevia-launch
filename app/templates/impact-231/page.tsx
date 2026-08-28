@@ -10,6 +10,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -439,8 +440,8 @@ return (
         <Reveal delay={0.2}>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", alignItems: "center", marginTop: 36 }}>
             <span style={{ fontSize: 13, color: C.textMuted }}>Vous préférez nous joindre directement ?</span>
-            <motion.a href={`tel:${fd?.phone ?? "+33456000000"}`} style={{ background: "transparent", color: C.text, border: `1.5px solid ${C.border}`, borderRadius: 6, padding: "13px 20px", fontWeight: 600, fontSize: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} whileHover={{ borderColor: C.accent, color: C.accent }}>
-              <Phone size={15} /> {fd?.phone ?? "04 56 00 00 00"}
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33456000000").replace(/[^+0-9]/g, "")}`} style={{ background: "transparent", color: C.text, border: `1.5px solid ${C.border}`, borderRadius: 6, padding: "13px 20px", fontWeight: 600, fontSize: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} whileHover={{ borderColor: C.accent, color: C.accent }}>
+              <Phone size={15} /> {clientPhone(sessionData) ?? fd?.phone ?? "04 56 00 00 00"}
             </motion.a>
             <motion.a href={`mailto:${fd?.email ?? "contact@nourrir-juste.fr"}`} style={{ background: "transparent", color: C.text, border: `1.5px solid ${C.border}`, borderRadius: 6, padding: "13px 20px", fontWeight: 600, fontSize: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} whileHover={{ borderColor: C.accent, color: C.accent }}>
               <Mail size={15} /> Écrire
@@ -456,7 +457,7 @@ return (
             <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Camille Renard · Diététicienne-Nutritionniste<br />Inscrite à l'UPDLF · N°ADELI</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Lyon") + " — Téléconsultation possible" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 56 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam sur RDV" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Lyon") + " — Téléconsultation possible" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "04 56 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam sur RDV" }].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.38)", fontSize: 13 }}>
                 <span style={{ color: C.sand }}>{item.icon}</span>{item.t}
               </div>

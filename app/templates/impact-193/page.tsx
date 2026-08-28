@@ -8,13 +8,14 @@ import { Heart, Wind, Hand, Star, Phone, MapPin, Clock, CheckCircle, Leaf, Circl
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
-  clientCodePostalVille,
   clientAddress,
   clientCity,
+  clientCodePostalVille,
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -208,8 +209,8 @@ export default function OsteoGaiaPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${fd?.phone ?? "0467891234"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#c26b4c)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> {fd?.phone ?? "04 67 89 12 34"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0467891234").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#c26b4c)] font-bold text-sm">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 67 89 12 34"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#c26b4c)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#a85a3c] transition-colors rounded-lg">
               Prendre RDV
@@ -219,7 +220,7 @@ export default function OsteoGaiaPage() {
               <SheetContent side="right" className="bg-[#f5f0e8] border-slate-200 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#3a2e28] hover:text-[var(--brand,#c26b4c)] transition-colors" style={{ fontFamily: "'Libre Baskerville', serif" }}>{l}</Link>)}
-                  <a href={`tel:${fd?.phone ?? "0467891234"}`} className="flex items-center gap-3 text-[var(--brand,#c26b4c)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "04 67 89 12 34"}</a>
+                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0467891234").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#c26b4c)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 67 89 12 34"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -257,8 +258,8 @@ export default function OsteoGaiaPage() {
             <button className="px-9 py-4 bg-[var(--brand,#c26b4c)] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#a85a3c] transition-colors rounded-lg">{c?.ctaText ?? <>
               Prendre rendez-vous
             </>}</button>
-            <a href={`tel:${fd?.phone ?? "0467891234"}`} className="flex items-center gap-3 px-9 py-4 border border-[#f5f0e8]/12 text-[#f5f0e8]/40 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c26b4c)]/40 hover:text-[#d4937a] transition-all rounded-lg">
-              <Phone className="w-4 h-4" /> {fd?.phone ?? "04 67 89 12 34"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0467891234").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-9 py-4 border border-[#f5f0e8]/12 text-[#f5f0e8]/40 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c26b4c)]/40 hover:text-[#d4937a] transition-all rounded-lg">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 67 89 12 34"}
             </a>
           </motion.div>
         </motion.div>
@@ -451,8 +452,8 @@ export default function OsteoGaiaPage() {
               <button className="px-10 py-4 bg-white text-[var(--brand,#c26b4c)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f5f0e8] transition-colors rounded-lg shadow-lg">
                 Prendre rendez-vous
               </button>
-              <a href={`tel:${fd?.phone ?? "0467891234"}`} className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-lg">
-                <Phone className="w-4 h-4" /> {fd?.phone ?? "04 67 89 12 34"}
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0467891234").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-lg">
+                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 67 89 12 34"}
               </a>
             </div>
           </div>
@@ -470,7 +471,7 @@ export default function OsteoGaiaPage() {
           {[
             { t: "Soins", ls: ["Lombalgies & dos", "Nourrissons & bébés", "Grossesse & post-partum", "Sportifs", "Céphalées", "Viscéral"] },
             { t: "Cabinet", ls: ["L'approche", "Mon parcours", "Tarifs & remboursements", "Avis patients", "FAQ"] },
-            { t: "RDV", ls: [(clientAddress(sessionData) ?? "8 rue de la Merci"), clientCodePostalVille(sessionData, "34000", "Montpellier"), "Mar-Sam 8h30-19h", (fd?.phone ?? "04 67 89 12 34"), (fd?.email ?? "contact@osteo-gaia.fr")] },
+            { t: "RDV", ls: [(clientAddress(sessionData) ?? "8 rue de la Merci"), clientCodePostalVille(sessionData, "34000", "Montpellier"), "Mar-Sam 8h30-19h", (clientPhone(sessionData) ?? fd?.phone ?? "04 67 89 12 34"), (fd?.email ?? "contact@osteo-gaia.fr")] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c26b4c)]/40 mb-5">{col.t}</h4>

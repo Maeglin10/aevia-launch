@@ -260,8 +260,27 @@ export function BarreActionMobile() {
       */
       const section = candidate && candidate.offsetTop > 200 ? candidate : null;
 
-      const relais =
+      /*
+        Et à défaut de section : le formulaire de contact.
+
+        Cinq thèmes du catalogue n'offrent que cela — pas de numéro, pas
+        d'adresse, un formulaire. C'est un moyen de joindre parfaitement
+        valable ; ne pas le reconnaître revenait à les compter comme
+        injoignables et à les laisser sans barre. On amène au formulaire.
+      */
+      const formulaire =
         lien || section
+          ? null
+          : (() => {
+              const f =
+                document.querySelector<HTMLElement>("form") ??
+                document.querySelector<HTMLInputElement>('input[type="email"]')?.closest<HTMLElement>("section, div") ??
+                null;
+              return f && f.offsetTop > 200 ? f : null;
+            })();
+
+      const relais =
+        lien || section || formulaire
           ? null
           : [...document.querySelectorAll<HTMLButtonElement>("button")].find((el) => {
               if (el.closest("[data-barre-action]")) return false;
@@ -270,7 +289,7 @@ export function BarreActionMobile() {
               return t.length > 2 && t.length < 40 && /contact|rendez-vous|rdv|devis|appel|commander|r[ée]serv/i.test(t);
             }) ?? null;
 
-      if (!lien && !section && !relais) return poser(null);
+      if (!lien && !section && !formulaire && !relais) return poser(null);
 
       const href = lien?.getAttribute("href") ?? null;
       const libelle = !href
@@ -302,8 +321,8 @@ export function BarreActionMobile() {
         href
           ? { href, libelle, fond, encre }
           : {
-              agir: section
-                ? () => section.scrollIntoView({ behavior: "smooth", block: "start" })
+              agir: (section ?? formulaire)
+                ? () => (section ?? formulaire)!.scrollIntoView({ behavior: "smooth", block: "start" })
                 : () => relais!.click(),
               libelle,
               fond,

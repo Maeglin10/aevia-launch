@@ -8,17 +8,18 @@ import { Phone, Star, MapPin, Clock, CheckCircle, Shield, Smile, Heart, Calendar
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
-  clientTrade,
   clientAddress,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTeam,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -331,8 +332,8 @@ export default function DrFontainePage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${fd?.phone ?? "0240567890"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#1d6fa4)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> {fd?.phone ?? "02 40 56 78 90"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0240567890").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#1d6fa4)] font-bold text-sm">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "02 40 56 78 90"}
             </a>
             <button onClick={() => openRdv(null)} className="hidden md:block min-h-[44px] px-5 py-2.5 bg-[var(--brand,#1d6fa4)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#155d8a] transition-colors rounded-xl cursor-pointer">
               Prendre RDV
@@ -342,7 +343,7 @@ export default function DrFontainePage() {
               <SheetContent side="right" className="bg-white border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#1a2332] hover:text-[var(--brand,#1d6fa4)] transition-colors">{l}</Link>)}
-                  <a href={`tel:${fd?.phone ?? "0240567890"}`} className="flex items-center gap-3 text-[var(--brand,#1d6fa4)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "02 40 56 78 90"}</a>
+                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0240567890").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#1d6fa4)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "02 40 56 78 90"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -380,8 +381,8 @@ export default function DrFontainePage() {
             <button onClick={() => openRdv(null)} className="min-h-[44px] px-8 py-4 bg-[var(--brand,#1d6fa4)] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#155d8a] transition-colors rounded-xl cursor-pointer">{c?.ctaText ?? <>
               Prendre rendez-vous
             </>}</button>
-            <a href={`tel:${fd?.phone ?? "0240567890"}`} className="min-h-[44px] flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#7bc3f5]/50 hover:text-[#7bc3f5] transition-all rounded-xl cursor-pointer">
-              <Phone className="w-4 h-4" /> {fd?.phone ?? "02 40 56 78 90"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0240567890").replace(/[^+0-9]/g, "")}`} className="min-h-[44px] flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#7bc3f5]/50 hover:text-[#7bc3f5] transition-all rounded-xl cursor-pointer">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "02 40 56 78 90"}
             </a>
           </motion.div>
         </motion.div>
@@ -451,8 +452,8 @@ export default function DrFontainePage() {
             <h2 className="text-2xl font-bold text-white">{/* TEXTE_SECTION */ clientText(sessionData, "urgences.titre") ?? (<>Douleur, fracture, chute de dent ?<br />Nous vous prenons en charge le jour même.</>)}</h2>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 shrink-0">
-            <a href={`tel:${fd?.phone ?? "0240567890"}`} className="flex items-center gap-3 px-7 py-4 bg-white text-[var(--brand,#1d6fa4)] font-bold text-sm rounded-xl hover:bg-[#e8f4fd] transition-colors whitespace-nowrap">
-              <Phone className="w-4 h-4" /> {fd?.phone ?? "02 40 56 78 90"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0240567890").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-7 py-4 bg-white text-[var(--brand,#1d6fa4)] font-bold text-sm rounded-xl hover:bg-[#e8f4fd] transition-colors whitespace-nowrap">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "02 40 56 78 90"}
             </a>
             <div className="flex items-center gap-2 px-7 py-4 border border-white/20 text-white/60 text-sm rounded-xl whitespace-nowrap">
               <Clock className="w-4 h-4" /> Lun-Sam dès 8h30
@@ -568,8 +569,8 @@ export default function DrFontainePage() {
               <button onClick={() => openRdv(null)} className="min-h-[44px] px-10 py-4 bg-[var(--brand,#1d6fa4)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#155d8a] transition-colors rounded-xl cursor-pointer">
                 Réserver en ligne
               </button>
-              <a href={`tel:${fd?.phone ?? "0240567890"}`} className="min-h-[44px] flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#7bc3f5]/40 hover:text-[#7bc3f5] transition-all rounded-xl cursor-pointer">
-                <Phone className="w-4 h-4" /> {fd?.phone ?? "02 40 56 78 90"}
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0240567890").replace(/[^+0-9]/g, "")}`} className="min-h-[44px] flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#7bc3f5]/40 hover:text-[#7bc3f5] transition-all rounded-xl cursor-pointer">
+                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "02 40 56 78 90"}
               </a>
             </div>
           </div>
@@ -612,8 +613,8 @@ export default function DrFontainePage() {
             <address className="not-italic text-white/20 text-sm leading-relaxed space-y-2.5">
               <div>{clientAddress(sessionData) ?? "14 rue Crébillon"}<br />44000 {clientCity(sessionData) ?? "Nantes"}</div>
               <div>Lun — Ven 8h30 — 19h<br />Sam 8h30 — 13h</div>
-              <a href={`tel:${fd?.phone ?? "0240567890"}`} className="inline-flex items-center gap-2 hover:text-white transition-colors">
-                <Phone className="w-3.5 h-3.5" />{fd?.phone ?? "02 40 56 78 90"}
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0240567890").replace(/[^+0-9]/g, "")}`} className="inline-flex items-center gap-2 hover:text-white transition-colors">
+                <Phone className="w-3.5 h-3.5" />{clientPhone(sessionData) ?? fd?.phone ?? "02 40 56 78 90"}
               </a>
             </address>
           </div>

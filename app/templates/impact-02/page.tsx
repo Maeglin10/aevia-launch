@@ -8,6 +8,7 @@ import {
   clientHeroLine,
   clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -722,7 +723,7 @@ export default function CreativePortfolioSPA() {
               <ul className="space-y-4 text-white/50 text-sm">
                 <li><a href="#contact" className="hover:text-amber-400 transition-colors">{clientAddress({ businessProfile: bp }) ?? `12 Rue de Paradis, ${clientCity({ formData: fd }) ?? "Paris"}`}</a></li>
                 <li><a href="#contact" className="hover:text-amber-400 transition-colors">Aoyama, Minato City, Tokyo</a></li>
-                <li><a href={`tel:${fd?.phone ?? "+33145678900"}`} className="hover:text-amber-400 transition-colors">+33 (0) 1 45 67 89 00</a></li>
+                <li><a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33145678900").replace(/[^+0-9]/g, "")}`} className="hover:text-amber-400 transition-colors">+33 (0) 1 45 67 89 00</a></li>
               </ul>
             </div>
 

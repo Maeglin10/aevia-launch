@@ -15,6 +15,7 @@ import {
   clientHeroSubtitle,
   clientHours,
   clientName,
+  clientPhone,
   clientPhotos,
   clientServices,
   clientStats,
@@ -894,7 +895,7 @@ function ContactSubPage() {
             </div>
             <div className="space-y-2">
               <h3 className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase">Téléphone</h3>
-              <p>{fd?.phone ?? "+33 1 42 60 00 00"}</p>
+              <p>{clientPhone(sessionData) ?? fd?.phone ?? "+33 1 42 60 00 00"}</p>
             </div>
             <div className="space-y-2">
               <h3 className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase">Email</h3>

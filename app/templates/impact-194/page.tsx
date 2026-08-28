@@ -8,15 +8,16 @@ import Link from "next/link"
 import { ChefHat, Star, Phone, MapPin, Clock, CheckCircle, Utensils, Wine, Users, Truck, Gift, Camera, Menu } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
-  clientSiret,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientText,
   clientTrade,
 } from "@/lib/templates/clientContent";
@@ -176,8 +177,8 @@ export default function TableExceptionPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${fd?.phone ?? "0478345678"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#d4a853)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> {fd?.phone ?? "04 78 34 56 78"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478345678").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#d4a853)] font-bold text-sm">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 34 56 78"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#d4a853)] text-white text-[10px] font-bold uppercase tracking-[0.22em] hover:bg-[#ba9040] transition-colors">
               Devis gratuit
@@ -187,7 +188,7 @@ export default function TableExceptionPage() {
               <SheetContent side="right" className="bg-[#fefcf8] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#1f1d1a] hover:text-[var(--brand,#d4a853)] transition-colors" style={{ fontFamily: "'Playfair Display', serif" }}>{l}</Link>)}
-                  <a href={`tel:${fd?.phone ?? "0478345678"}`} className="flex items-center gap-3 text-[var(--brand,#d4a853)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "04 78 34 56 78"}</a>
+                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478345678").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#d4a853)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 34 56 78"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -227,8 +228,8 @@ export default function TableExceptionPage() {
             <button className="px-9 py-4 bg-[var(--brand,#d4a853)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#ba9040] transition-colors">{c?.ctaText ?? <>
               Devis personnalisé
             </>}</button>
-            <a href={`tel:${fd?.phone ?? "0478345678"}`} className="flex items-center gap-3 px-9 py-4 border border-[#fefcf8]/12 text-[#fefcf8]/38 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#d4a853)]/40 hover:text-[var(--brand,#d4a853)] transition-all">
-              <Phone className="w-4 h-4" /> {fd?.phone ?? "04 78 34 56 78"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478345678").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-9 py-4 border border-[#fefcf8]/12 text-[#fefcf8]/38 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#d4a853)]/40 hover:text-[var(--brand,#d4a853)] transition-all">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 34 56 78"}
             </a>
           </motion.div>
 
@@ -414,8 +415,8 @@ export default function TableExceptionPage() {
               <button className="px-10 py-4 bg-white text-[#7c2d3e] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#fefcf8] transition-colors shadow-lg">
                 Demander un devis
               </button>
-              <a href={`tel:${fd?.phone ?? "0478345678"}`} className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all">
-                <Phone className="w-4 h-4" /> {fd?.phone ?? "04 78 34 56 78"}
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478345678").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all">
+                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 34 56 78"}
               </a>
             </div>
           </div>
@@ -433,7 +434,7 @@ export default function TableExceptionPage() {
           {[
             { t: "Formules", ls: ["Cocktails & réceptions", "Repas assis", "Plateaux repas", "Livraison & installation", "Cuisine du monde"] },
             { t: "Infos", ls: ["Notre chef", "Portfolio", "Zone d'intervention", "Tarifs", "FAQ"] },
-            { t: "Contact", ls: [(fd?.phone ?? "04 78 34 56 78"), (fd?.email ?? "contact@table-exception.fr"), (clientCity({ formData: fd }) ?? "Lyon") + " & Rhône-Alpes", "Lun-Sam 8h-19h", "Devis sous 24h"] },
+            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "04 78 34 56 78"), (fd?.email ?? "contact@table-exception.fr"), (clientCity({ formData: fd }) ?? "Lyon") + " & Rhône-Alpes", "Lun-Sam 8h-19h", "Devis sous 24h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4a853)]/35 mb-5">{col.t}</h4>

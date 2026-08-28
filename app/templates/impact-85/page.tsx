@@ -14,6 +14,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -931,7 +932,7 @@ export default function AetherLabsPage() {
                   </div>
                   <div>
                     <div className="text-xs text-[#8A7860] uppercase tracking-wider">Téléphone</div>
-                    <a href={`tel:${fd?.phone ?? "+33493000000"}`} className="text-[#1C1814] hover:underline">{fd?.phone ?? "+33 4 93 00 00 00"}</a>
+                    <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33493000000").replace(/[^+0-9]/g, "")}`} className="text-[#1C1814] hover:underline">{clientPhone(sessionData) ?? fd?.phone ?? "+33 4 93 00 00 00"}</a>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">

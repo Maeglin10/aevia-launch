@@ -14,12 +14,13 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import { Droplets, Bell } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientHeroLine,
   clientAddress,
   clientCity,
   clientFaq,
+  clientHeroLine,
   clientList,
   clientName,
+  clientPhone,
   clientReviews,
   clientServices,
   clientStats,
@@ -1463,7 +1464,7 @@ export default function AquaPrestigePage() {
         {/* CTA + Hamburger */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <a
-            href={`tel:${fd?.phone ?? "+33142000000"}`}
+            href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33142000000").replace(/[^+0-9]/g, "")}`}
             className="hide-mobile"
             style={{
               display: 'flex',
@@ -1549,7 +1550,7 @@ export default function AquaPrestigePage() {
               </a>
             ))}
             <a
-              href={`tel:${fd?.phone ?? "+33142000000"}`}
+              href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33142000000").replace(/[^+0-9]/g, "")}`}
               style={{
                 display: 'block',
                 marginTop: '1.5rem',
@@ -1679,7 +1680,7 @@ export default function AquaPrestigePage() {
             style={{ justifyContent: 'center' }}
           >
             <a
-              href={`tel:${fd?.phone ?? "+33142000000"}`}
+              href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33142000000").replace(/[^+0-9]/g, "")}`}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -1887,7 +1888,7 @@ export default function AquaPrestigePage() {
                   Notre équipe d&apos;urgence est disponible 24h/24, 7j/7, 365 jours par an. Intervention garantie en moins de 30 minutes dans {clientCity(sessionData) ?? "Paris"} et petite couronne.
                 </>}</p>
                 <a
-                  href={`tel:${fd?.phone ?? "+33142000000"}`}
+                  href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33142000000").replace(/[^+0-9]/g, "")}`}
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -1908,7 +1909,7 @@ export default function AquaPrestigePage() {
                   onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.transform = 'scale(1.04)')}
                   onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.transform = 'scale(1)')}
                 >
-                  {fd?.phone ?? "01 42 00 00 00"}
+                  {clientPhone(sessionData) ?? fd?.phone ?? "01 42 00 00 00"}
                 </a>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
@@ -2615,7 +2616,7 @@ export default function AquaPrestigePage() {
               </h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
                 <a
-                  href={`tel:${fd?.phone ?? "+33142000000"}`}
+                  href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33142000000").replace(/[^+0-9]/g, "")}`}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -2630,7 +2631,7 @@ export default function AquaPrestigePage() {
                     boxShadow: `0 4px 16px rgba(30,143,191,0.3)`,
                   }}
                 >
-                  {fd?.phone ?? "01 42 00 00 00"}
+                  {clientPhone(sessionData) ?? fd?.phone ?? "01 42 00 00 00"}
                 </a>
                 <div style={{ color: C.textMuted, fontSize: '0.83rem', lineHeight: 1.7 }}>
                   <div>{fd?.email ?? "contact@aquaprestige.fr"}</div>

@@ -8,11 +8,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, ArrowRight, Cloud, Cpu, Zap, Database, Lock, BarChart3, ChevronDown, CheckCircle, GitBranch, Globe, BookOpen, FileText, Tag, Clock, Users, Shield, Terminal, Code, Layers, Server, Eye, TrendingUp, Sparkles, ExternalLink } from "lucide-react";
 import {
+  clientAddress,
   clientCity,
+  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientReviews,
   clientServices,
   clientText,
@@ -439,6 +442,26 @@ return (
           <span>© 2026 {clientName(sessionData) ?? "NimbusAI."} All rights reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <span><Globe className="w-3 h-3 inline mr-1" />Cloud AI · 12 regions</span>
         </div>
+        {/* Les coordonnées. Ce thème n'affichait aucun moyen d'être joint —
+            ni numéro, ni adresse, ni formulaire. Elles viennent de la session
+            du client, jamais d'un exemple en dur, et le bloc disparaît si le
+            client n'en a renseigné aucune. Liens réels : sur un téléphone, un
+            numéro qu'on ne peut pas toucher ne sert à rien. */}
+        {(clientPhone(sessionData) || clientEmail(sessionData) || clientAddress(sessionData)) && (
+          <div className="aevia-contact-pied max-w-6xl mx-auto border-t border-white/5 pt-8 mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm text-white/50">
+            {clientPhone(sessionData) && (
+              <a href={`tel:${clientPhone(sessionData)!.replace(/[^+0-9]/g, "")}`} className="hover:text-[var(--brand,#06B6D4)] transition-colors">
+                {clientPhone(sessionData)}
+              </a>
+            )}
+            {clientEmail(sessionData) && (
+              <a href={`mailto:${clientEmail(sessionData)}`} className="hover:text-[var(--brand,#06B6D4)] transition-colors">
+                {clientEmail(sessionData)}
+              </a>
+            )}
+            {clientAddress(sessionData) && <span>{clientAddress(sessionData)}</span>}
+          </div>
+        )}
       </footer>
     </div>
   );

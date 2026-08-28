@@ -38,12 +38,13 @@ import {
   Palette,
 } from "lucide-react";
 import {
-  clientHeroPrestations,
   clientAccrocheRestante,
   clientCity,
   clientFaq,
+  clientHeroPrestations,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -1286,7 +1287,7 @@ return (
               >
                 <Mail size={18} />{fd?.email ?? "hello@verso-studio.ch"}</motion.a>
               <motion.a
-                href={`tel:${fd?.phone ?? "+41225000000"}`}
+                href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+41225000000").replace(/[^+0-9]/g, "")}`}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "transparent", color: C.text, padding: "16px 32px", borderRadius: 4, fontFamily: "'DM Sans', system-ui, sans-serif", fontWeight: 600, fontSize: 16, textDecoration: "none", border: `1px solid ${C.borderLight}` }}

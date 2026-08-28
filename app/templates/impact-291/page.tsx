@@ -24,13 +24,14 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientCodePostalVille,
   clientAddress,
   clientBookingUrl,
   clientCity,
+  clientCodePostalVille,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -2310,7 +2311,7 @@ function PracticalSection() {
 
           <Reveal delay={0.32}>
             <div style={{ paddingTop: 30 }}>
-              <a href={`tel:${fd?.phone ?? "+33388000000"}`} style={{ textDecoration: 'none' }}>
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33388000000").replace(/[^+0-9]/g, "")}`} style={{ textDecoration: 'none' }}>
                 <div
                   style={{
                     display: 'inline-flex',
@@ -2328,7 +2329,7 @@ function PracticalSection() {
                   }}
                 >
                   <Phone size={16} strokeWidth={1.8} />
-                  {fd?.phone ?? "03 88 00 00 00"}
+                  {clientPhone(sessionData) ?? fd?.phone ?? "03 88 00 00 00"}
                 </div>
               </a>
             </div>

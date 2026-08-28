@@ -11,6 +11,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -449,8 +450,8 @@ export default function StudioNomaPage() {
             <motion.a href={`mailto:${fd?.email ?? "contact@studionoma.fr"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "16px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
               <Mail size={18} /> Prendre rendez-vous
             </motion.a>
-            <motion.a href={`tel:${fd?.phone ?? "+33478000000"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "14px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accent, color: C.white }}>
-              <Phone size={18} /> {fd?.phone ?? "04 78 00 00 00"}
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "14px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accent, color: C.white }}>
+              <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 00 00 00"}
             </motion.a>
           </div>
         </Reveal>

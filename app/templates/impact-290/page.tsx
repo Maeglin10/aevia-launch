@@ -31,7 +31,6 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientSiret,
   clientAccrocheRestante,
   clientAddress,
   clientCertifications,
@@ -39,9 +38,11 @@ import {
   clientHeroLine,
   clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientStats,
   clientTagline,
   clientText,
@@ -418,7 +419,7 @@ function HeroSection() {
           <a href="#devis" style={{ textDecoration: 'none' }}>
             <ForestButton filled>Devis sous 24h</ForestButton>
           </a>
-          <a href={`tel:${fd?.phone ?? "+33299000000"}`} style={{ textDecoration: 'none' }}>
+          <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33299000000").replace(/[^+0-9]/g, "")}`} style={{ textDecoration: 'none' }}>
             <ForestButton light>
               <Phone size={14} />
               Appeler maintenant
@@ -1663,7 +1664,7 @@ function DevisFormSection() {
                 <div
                   style={{ fontFamily: SERIF, fontSize: 22, fontWeight: 700, color: C.ink }}
                 >
-                  {fd?.phone ?? "02 99 00 00 00"}
+                  {clientPhone(sessionData) ?? fd?.phone ?? "02 99 00 00 00"}
                 </div>
               </div>
             </div>
@@ -2994,7 +2995,7 @@ function FooterSection() {
             {/* Contact */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <a
-                href={`tel:${fd?.phone ?? "+33299000000"}`}
+                href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33299000000").replace(/[^+0-9]/g, "")}`}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -3011,7 +3012,7 @@ function FooterSection() {
                     fontWeight: 600,
                   }}
                 >
-                  {fd?.phone ?? "02 99 00 00 00"}
+                  {clientPhone(sessionData) ?? fd?.phone ?? "02 99 00 00 00"}
                 </span>
               </a>
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>

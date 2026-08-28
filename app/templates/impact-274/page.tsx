@@ -29,20 +29,21 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientTrade,
-  clientBookingUrl,
   clientAccrocheRestante,
   clientAddress,
+  clientBookingUrl,
   clientCity,
   clientHeroLine,
   clientHours,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientTeam,
   clientText,
+  clientTrade,
   clientWorks,
 } from "@/lib/templates/clientContent";
 
@@ -2211,7 +2212,7 @@ function PracticalInfoSection() {
                   Téléphone cabinet
                 </div>
                 <a
-                  href={`tel:${fd?.phone ?? "+33478123456"}`}
+                  href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33478123456").replace(/[^+0-9]/g, "")}`}
                   style={{
                     fontFamily: SERIF,
                     fontSize: 24,
@@ -2220,7 +2221,7 @@ function PracticalInfoSection() {
                     fontWeight: 600,
                   }}
                 >
-                  {fd?.phone ?? "04 78 12 34 56"}
+                  {clientPhone(sessionData) ?? fd?.phone ?? "04 78 12 34 56"}
                 </a>
               </div>
             </div>
@@ -2604,7 +2605,7 @@ function FooterSection() {
               }}
             >
               <Phone size={14} color="rgba(160,210,170,0.75)" strokeWidth={1.8} />
-              {fd?.phone ?? "04 78 12 34 56"}
+              {clientPhone(sessionData) ?? fd?.phone ?? "04 78 12 34 56"}
             </div>
           </div>
         </div>

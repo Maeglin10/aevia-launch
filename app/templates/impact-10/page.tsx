@@ -1667,7 +1667,7 @@ function BookingCTA() {
         <BlurReveal delay={0.4}>
           <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', justifyContent: 'center' }}>
             <a
-              href={`tel:${fd?.phone ?? "+33140000000"}`}
+              href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33140000000").replace(/[^+0-9]/g, "")}`}
               style={{
                 fontFamily: SANS,
                 fontSize: '0.65rem',
@@ -1679,7 +1679,7 @@ function BookingCTA() {
                 paddingBottom: '2px',
               }}
             >
-              {fd?.phone ?? "+33 1 40 00 00 00"}
+              {clientPhone(sessionData) ?? fd?.phone ?? "+33 1 40 00 00 00"}
             </a>
             <a
               href={`mailto:${fd?.email ?? "reservations@grandpalais.fr"}`}

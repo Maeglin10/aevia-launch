@@ -16,13 +16,14 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { DWELL, useSlides, GhostSolid, SlideIndex, HairlineArrows } from '@/lib/templates/hero-kit-2';
 import { HardCutRebuild, FixedRail } from '@/lib/templates/hero-kit-3';
 import {
-  clientHeroLine,
   clientAddress,
   clientCity,
   clientFaq,
+  clientHeroLine,
   clientHours,
   clientList,
   clientName,
+  clientPhone,
   clientReviews,
   clientServices,
   clientStats,
@@ -2166,7 +2167,7 @@ function FAQ() {
     {
       question: 'Comment obtenir un devis gratuit ?',
       answer:
-        "Remplissez le formulaire de contact ci-dessous ou appelez-nous directement au " + (fd?.phone ?? "04 78 73 82 82") + ". Un chef de chantier vous rappelle sous 24h pour planifier une visite technique gratuite. Le devis détaillé est remis sous 48h après la visite, sans engagement de votre part.",
+        "Remplissez le formulaire de contact ci-dessous ou appelez-nous directement au " + (clientPhone(sessionData) ?? fd?.phone ?? "04 78 73 82 82") + ". Un chef de chantier vous rappelle sous 24h pour planifier une visite technique gratuite. Le devis détaillé est remis sous 48h après la visite, sans engagement de votre part.",
     },
     {
       question: "Quelle est votre zone d\'intervention ?",
