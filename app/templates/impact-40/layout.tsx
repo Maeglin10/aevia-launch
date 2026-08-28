@@ -3,6 +3,7 @@ import {
   clientAddress,
   clientEmail,
   clientName,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
@@ -274,13 +275,19 @@ export default function GastronomyLayout({ children }: { children: React.ReactNo
                   <MapPin size={15} color={C.accent} style={{ flexShrink: 0, marginTop: "0.15rem" }} />
                   <span>Beaujolais, France (sur demande)</span>
                 </div>
-                <div style={{ display: "flex", gap: "0.5rem" }}>
-                  <Phone size={15} color={C.accent} />
-                  <span>+33 4 74 XX XX XX</span>
-                </div>
+                {/* Gabarit jamais rempli : le numéro du modèle s'affichait
+                    chez le client, lettres comprises, et n'était même pas
+                    cliquable. La ligne disparaît si le client n'a pas de
+                    numéro. */}
+                {clientPhone(__layoutSession) && (
+                  <div style={{ display: "flex", gap: "0.5rem" }}>
+                    <Phone size={15} color={C.accent} />
+                    <a href={`tel:${clientPhone(__layoutSession)!.replace(/[^+0-9]/g, "")}`} style={{ color: "inherit", textDecoration: "none" }}>{clientPhone(__layoutSession)}</a>
+                  </div>
+                )}
                 <div style={{ display: "flex", gap: "0.5rem" }}>
                   <Mail size={15} color={C.accent} />
-                  <span>{clientEmail(__layoutSession) ?? "contact@exemple.fr"}</span>
+                  <a href={`mailto:${clientEmail(__layoutSession) ?? "contact@exemple.fr"}`} style={{ color: "inherit", textDecoration: "none" }}>{clientEmail(__layoutSession) ?? "contact@exemple.fr"}</a>
                 </div>
               </div>
             </div>

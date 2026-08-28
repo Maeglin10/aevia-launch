@@ -2,6 +2,7 @@
 import {
   clientCity,
   clientName,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
@@ -218,7 +219,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
               {[
-                { icon: <Phone size={15} />, text: (fd?.phone ?? "04 72 34 56 78") },
+                { icon: <Phone size={15} />, text: (clientPhone(__layoutSession) ?? fd?.phone ?? "04 72 34 56 78") },
                 { icon: <Mail size={15} />, text: (fd?.email ?? "namaste@anandaflow.fr") },
                 { icon: <MapPin size={15} />, text: "18 Rue de la Paix, 69002 " + (clientCity(__layoutSession) ?? "Lyon") },
                 { icon: <Clock size={15} />, text: "Lun–Ven 7h–21h | Week-end 8h–19h" },

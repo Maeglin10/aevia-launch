@@ -27,17 +27,18 @@ import {
 } from '@/lib/templates/hero-kit-2';
 import { PortalZoom } from '@/lib/templates/hero-kit-3';
 import {
-  clientTrade,
   clientAccrocheRestante,
   clientAddress,
   clientCity,
   clientHeroLine,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -2140,7 +2141,7 @@ function Footer() {
               }}
             >
               <Phone size={13} color={C.accent} strokeWidth={1.6} />
-              {fd?.phone ?? "03 88 00 00 00"}
+              {clientPhone(sessionData) ?? fd?.phone ?? "03 88 00 00 00"}
             </div>
             <div
               style={{

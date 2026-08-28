@@ -17,6 +17,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -1974,7 +1975,7 @@ export default function Impact198Page() {
               Prendre rendez-vous
             </MagneticButton>
             <MagneticButton
-              onClick={() => { window.location.href = `tel:${fd?.phone ?? "0140234567"}` }}
+              onClick={() => { window.location.href = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0140234567").replace(/[^+0-9]/g, "")}` }}
               style={{
                 background: "transparent",
                 color: "rgba(255,255,255,0.7)",

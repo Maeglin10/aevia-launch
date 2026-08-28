@@ -8,16 +8,17 @@ import Link from "next/link"
 import { Scissors, Star, Phone, MapPin, Clock, ChevronRight, Shield, Calendar, Menu, X } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
-  clientSiret,
-  clientCodePostalVille,
   clientAddress,
   clientCity,
+  clientCodePostalVille,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientText,
   clientTrade,
 } from "@/lib/templates/clientContent";
@@ -335,8 +336,8 @@ export default function GentlemansCutPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${fd?.phone ?? "0556789012"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#c9a84c)] font-bold text-sm" style={{ fontFamily: "'DM Mono', monospace" }}>
-              <Phone className="w-4 h-4" /> {fd?.phone ?? "05 56 78 90 12"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0556789012").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#c9a84c)] font-bold text-sm" style={{ fontFamily: "'DM Mono', monospace" }}>
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "05 56 78 90 12"}
             </a>
             <button onClick={() => openBooking(null)} className="hidden md:block min-h-[44px] px-5 py-2.5 border border-[var(--brand,#c9a84c)] text-[var(--brand,#c9a84c)] text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-[var(--brand,#c9a84c)] hover:text-[#0a0908] transition-all cursor-pointer" style={{ fontFamily: "'DM Mono', monospace" }}>
               Réserver
@@ -346,7 +347,7 @@ export default function GentlemansCutPage() {
               <SheetContent side="right" className="bg-[#0f0e0c] border-[var(--brand,#c9a84c)]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#f5f0e8] hover:text-[var(--brand,#c9a84c)] transition-colors">{l}</Link>)}
-                  <a href={`tel:${fd?.phone ?? "0556789012"}`} className="flex items-center gap-3 text-[var(--brand,#c9a84c)] font-bold text-lg mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "05 56 78 90 12"}</a>
+                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0556789012").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#c9a84c)] font-bold text-lg mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "05 56 78 90 12"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -396,8 +397,8 @@ export default function GentlemansCutPage() {
             <button onClick={() => openBooking(null)} className="min-h-[44px] px-9 py-4 bg-[var(--brand,#c9a84c)] text-[#0a0908] font-bold text-[10px] uppercase tracking-[0.3em]  hover:bg-[#b8973d] transition-colors cursor-pointer" style={{ fontFamily: "'DM Mono', monospace" }}>{c?.ctaText ?? <>
               Prendre rendez-vous
             </>}</button>
-            <a href={`tel:${fd?.phone ?? "0556789012"}`} className="flex items-center gap-3 px-9 py-4 border border-[#f5f0e8]/12 text-[#f5f0e8]/50 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c9a84c)]/40 hover:text-[var(--brand,#c9a84c)] transition-all" style={{ fontFamily: "'DM Mono', monospace" }}>
-              <Phone className="w-4 h-4" /> {fd?.phone ?? "05 56 78 90 12"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0556789012").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-9 py-4 border border-[#f5f0e8]/12 text-[#f5f0e8]/50 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c9a84c)]/40 hover:text-[var(--brand,#c9a84c)] transition-all" style={{ fontFamily: "'DM Mono', monospace" }}>
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "05 56 78 90 12"}
             </a>
           </motion.div>
         </motion.div>
@@ -540,7 +541,7 @@ export default function GentlemansCutPage() {
                   {[
                     { icon: Clock, t: "Mar-Sam · 9h–19h" },
                     { icon: MapPin, t: (clientAddress(sessionData) ?? `12 rue du Pas Saint-Georges, 33000 ${clientCity({ formData: fd }) ?? "Bordeaux"}`) },
-                    { icon: Calendar, t: "Résa en ligne ou " + (fd?.phone ?? "05 56 78 90 12") },
+                    { icon: Calendar, t: "Résa en ligne ou " + (clientPhone(sessionData) ?? fd?.phone ?? "05 56 78 90 12") },
                   ].map((item, i) => (
                     <div key={i} className="flex items-center gap-4">
                       <item.icon className="w-4 h-4 text-[var(--brand,#c9a84c)]" />
@@ -603,7 +604,7 @@ export default function GentlemansCutPage() {
               <button onClick={() => openBooking(null)} className="min-h-[44px] px-10 py-4 bg-[var(--brand,#c9a84c)] text-[#0a0908] font-bold text-[10px] uppercase tracking-[0.3em] hover:bg-[#b8973d] transition-colors cursor-pointer" style={{ fontFamily: "'DM Mono', monospace" }}>
                 Réserver maintenant
               </button>
-              <a href={`tel:${fd?.phone ?? "0556789012"}`} className="min-h-[44px] flex items-center gap-3 px-10 py-4 border border-[#f5f0e8]/10 text-[#f5f0e8]/35 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c9a84c)]/40 hover:text-[var(--brand,#c9a84c)] transition-all cursor-pointer" style={{ fontFamily: "'DM Mono', monospace" }}>
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0556789012").replace(/[^+0-9]/g, "")}`} className="min-h-[44px] flex items-center gap-3 px-10 py-4 border border-[#f5f0e8]/10 text-[#f5f0e8]/35 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c9a84c)]/40 hover:text-[var(--brand,#c9a84c)] transition-all cursor-pointer" style={{ fontFamily: "'DM Mono', monospace" }}>
                 <Phone className="w-4 h-4" /> Appeler
               </a>
             </div>
@@ -623,7 +624,7 @@ export default function GentlemansCutPage() {
           {[
             { t: "Services", ls: ["Coupe classique", "Rasage traditionnel", "Combo barbe + coupe", "Taille de barbe", "Coloration & gris"] },
             { t: "Infos", ls: ["Notre histoire", "L'équipe", "FAQ", "Avis clients", "Politique hygiène"] },
-            { t: "Adresse", ls: [(clientAddress(sessionData) ?? "12 rue du Pas Saint-Georges"), clientCodePostalVille(sessionData, "33000", "Bordeaux"), "Mar-Sam 9h–19h", (fd?.phone ?? "05 56 78 90 12"), (fd?.email ?? "contact@gentlemanscut.fr")] },
+            { t: "Adresse", ls: [(clientAddress(sessionData) ?? "12 rue du Pas Saint-Georges"), clientCodePostalVille(sessionData, "33000", "Bordeaux"), "Mar-Sam 9h–19h", (clientPhone(sessionData) ?? fd?.phone ?? "05 56 78 90 12"), (fd?.email ?? "contact@gentlemanscut.fr")] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c9a84c)]/50 mb-5" style={{ fontFamily: "'DM Mono', monospace" }}>{col.t}</h4>

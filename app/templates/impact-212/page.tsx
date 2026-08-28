@@ -16,15 +16,16 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import { Flame } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientSiret,
   clientCity,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
   clientName,
+  clientPhone,
   clientReviews,
   clientServices,
+  clientSiret,
   clientStats,
   clientTeam,
   clientText,
@@ -1068,13 +1069,13 @@ return (
                 onMouseLeave={e => (e.currentTarget.style.color = C.textMuted)}
               >{link.label}</a>
             ))}
-            <a href={`tel:${fd?.phone ?? "+33478000000"}`} style={{
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{
               background: `linear-gradient(135deg, ${C.accent}, ${C.accentDark})`,
               color: C.white, textDecoration: 'none',
               padding: '10px 20px', borderRadius: 50,
               fontSize: 13.5, fontWeight: 700,
               boxShadow: `0 4px 20px ${C.accent}44`, whiteSpace: 'nowrap',
-            }}>{fd?.phone ?? "04 78 00 00 00"}</a>
+            }}>{clientPhone(sessionData) ?? fd?.phone ?? "04 78 00 00 00"}</a>
           </div>
 
           {/* Hamburger */}
@@ -1115,7 +1116,7 @@ return (
                       borderBottom: `1px solid ${C.border}`,
                     }}>{link.label}</a>
                 ))}
-                <a href={`tel:${fd?.phone ?? "+33478000000"}`} style={{
+                <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{
                   background: `linear-gradient(135deg, ${C.accent}, ${C.accentDark})`,
                   color: C.white, textDecoration: 'none',
                   padding: '14px 20px', borderRadius: 10,
@@ -1205,7 +1206,7 @@ return (
                 boxShadow: `0 8px 30px ${C.accent}55`,
                 display: 'inline-flex', alignItems: 'center', gap: 8,
               }}>{c?.ctaText ?? <>Devis gratuit en 48h</>}</a>
-              <a href={`tel:${fd?.phone ?? "+33478000000"}`} style={{
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{
                 background: 'none', border: `2px solid ${C.border}`,
                 color: C.white, textDecoration: 'none',
                 padding: '16px 32px', borderRadius: 50,
@@ -1724,14 +1725,14 @@ return (
               <p style={{ color: C.textMuted, fontSize: 13.5, lineHeight: 1.75, maxWidth: 280, marginBottom: '1.5rem' }}>
                 Votre expert en chauffage, climatisation et pompes à chaleur dans la métropole lyonnaise depuis 2009. RGE certifié, qualité garantie.
               </p>
-              <a href={`tel:${fd?.phone ?? "+33478000000"}`} style={{
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 background: `linear-gradient(135deg, ${C.accent}, ${C.accentDark})`,
                 color: C.white, textDecoration: 'none',
                 padding: '11px 18px', borderRadius: 50,
                 fontSize: 13.5, fontWeight: 700,
                 boxShadow: `0 4px 18px ${C.accent}44`,
-              }}>{fd?.phone ?? "04 78 00 00 00"} — 24h/7j</a>
+              }}>{clientPhone(sessionData) ?? fd?.phone ?? "04 78 00 00 00"} — 24h/7j</a>
             </div>
 
             {/* Services */}

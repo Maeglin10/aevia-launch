@@ -11,9 +11,12 @@ import { Menu, X, ArrowRight, Camera, Eye, Award, ChevronRight, MapPin, Mail, Ta
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
-  clientHeroLine,
+  clientAddress,
   clientCity,
+  clientEmail,
+  clientHeroLine,
   clientName,
+  clientPhone,
   clientPhotos,
   clientServices,
   clientText,
@@ -355,12 +358,35 @@ return (
       {/* Footer */}
       <footer className="bg-[#060402] border-t border-white/5 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-white/20 font-mono">
-          <span className="text-[var(--brand,#C9A86C)]" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>Obscura · {clientTrade(sessionData) ?? "Photographe"} {clientCity(sessionData) ?? "Paris"}</span>
+          {/* Le nom de la démonstration était écrit en dur : le pied de page
+              annonçait « Obscura » sur le site de n'importe quel client,
+              alors que la barre du haut portait bien son nom à lui. */}
+          <span className="text-[var(--brand,#C9A86C)]" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? clientName(sessionData) ?? "Obscura"} · {clientTrade(sessionData) ?? "Photographe"} {clientCity(sessionData) ?? "Paris"}</span>
           <div className="flex gap-6">
             <a href="/templates/impact-16" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Mentions légales</a>
             <a href="/templates/impact-16" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Politique de Confidentialité</a>
           </div>
         </div>
+        {/* Les coordonnées. Ce thème n'affichait aucun moyen d'être joint —
+            ni numéro, ni adresse, ni formulaire. Elles viennent de la session
+            du client, jamais d'un exemple en dur, et le bloc disparaît si le
+            client n'en a renseigné aucune. Liens réels : sur un téléphone, un
+            numéro qu'on ne peut pas toucher ne sert à rien. */}
+        {(clientPhone(sessionData) || clientEmail(sessionData) || clientAddress(sessionData)) && (
+          <div className="aevia-contact-pied max-w-6xl mx-auto border-t border-white/5 pt-8 mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm text-white/50">
+            {clientPhone(sessionData) && (
+              <a href={`tel:${clientPhone(sessionData)!.replace(/[^+0-9]/g, "")}`} className="hover:text-[var(--brand,#C9A86C)] transition-colors">
+                {clientPhone(sessionData)}
+              </a>
+            )}
+            {clientEmail(sessionData) && (
+              <a href={`mailto:${clientEmail(sessionData)}`} className="hover:text-[var(--brand,#C9A86C)] transition-colors">
+                {clientEmail(sessionData)}
+              </a>
+            )}
+            {clientAddress(sessionData) && <span>{clientAddress(sessionData)}</span>}
+          </div>
+        )}
       </footer>
     </div>
   )

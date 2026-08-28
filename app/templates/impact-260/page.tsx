@@ -21,14 +21,15 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientSiret,
   clientAccrocheRestante,
   clientCity,
   clientHeroLine,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientTagline,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -489,7 +490,7 @@ function Nav() {
         ))}
       </div>
       <a
-        href={`tel:${fd?.phone ?? "0475166852"}`}
+        href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0475166852").replace(/[^+0-9]/g, "")}`}
         style={{ textDecoration: 'none' }}
         className="ac-navcta"
       >
@@ -2154,7 +2155,7 @@ function Footer() {
             }}
           >
             <a
-              href={`tel:${fd?.phone ?? "0475166852"}`}
+              href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0475166852").replace(/[^+0-9]/g, "")}`}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -2167,7 +2168,7 @@ function Footer() {
               }}
             >
               <Phone size={13} strokeWidth={2} />
-              {fd?.phone ?? "04 75 16 68 52"}
+              {clientPhone(sessionData) ?? fd?.phone ?? "04 75 16 68 52"}
             </a>
             <div
               style={{

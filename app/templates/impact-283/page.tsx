@@ -2914,7 +2914,7 @@ function PracticalSection() {
             </div>
             <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
               <a
-                href={`tel:${fd?.phone ?? "+33467000000"}`}
+                href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33467000000").replace(/[^+0-9]/g, "")}`}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',

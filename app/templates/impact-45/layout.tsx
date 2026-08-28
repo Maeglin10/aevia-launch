@@ -1,7 +1,10 @@
 "use client";
 import {
+  clientAddress,
   clientCity,
+  clientEmail,
   clientName,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
@@ -192,11 +195,31 @@ export default function TattooStudioLayout({ children }: { children: React.React
               <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: 13, color: C.white, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 20 }}>Contact</h4>
               <ul style={{ listStyle: "none", padding: 0, margin: 0, fontFamily: "'Barlow', system-ui", fontSize: 14, color: C.textMuted }}>
                 <li style={{ marginBottom: 12, display: "flex", alignItems: "center", gap: 8 }}>
-                  <MapPin size={14} color={C.accent} /> 18 Rue Oberkampf, {clientCity(__layoutSession) ?? "Paris"}
+                  <MapPin size={14} color={C.accent} /> {clientAddress(__layoutSession) ?? `18 Rue Oberkampf, ${clientCity(__layoutSession) ?? "Paris"}`}
                 </li>
+                {/*
+                  Le numéro venait d'être écrit en dur : « +33 1 42 00 00 00 »
+                  s'affichait sur le site du client quel que soit le sien, et
+                  n'était pas cliquable. Il prend celui de la session, et le
+                  lien tel: le rend appelable d'un doigt.
+                */}
                 <li style={{ marginBottom: 12, display: "flex", alignItems: "center", gap: 8 }}>
-                  <Phone size={14} color={C.accent} /> +33 1 42 00 00 00
+                  <Phone size={14} color={C.accent} />
+                  <a
+                    href={`tel:${(clientPhone(__layoutSession) ?? "+33142000000").replace(/[\s.]/g, "")}`}
+                    style={{ color: "inherit", textDecoration: "none" }}
+                  >
+                    {clientPhone(__layoutSession) ?? "+33 1 42 00 00 00"}
+                  </a>
                 </li>
+                {clientEmail(__layoutSession) ? (
+                  <li style={{ marginBottom: 12, display: "flex", alignItems: "center", gap: 8 }}>
+                    <Mail size={14} color={C.accent} />
+                    <a href={`mailto:${clientEmail(__layoutSession)}`} style={{ color: "inherit", textDecoration: "none" }}>
+                      {clientEmail(__layoutSession)}
+                    </a>
+                  </li>
+                ) : null}
                 <li style={{ marginBottom: 12, display: "flex", alignItems: "center", gap: 8 }}>
                   <Clock size={14} color={C.accent} /> Tue–Sat, 10h–20h
                 </li>

@@ -8,16 +8,17 @@ import { Key, Lock, Shield, Zap, Clock, Phone, Star, MapPin, CheckCircle, AlertT
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientSiret,
   clientAreas,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientText,
   clientTrade,
 } from "@/lib/templates/clientContent";
@@ -214,8 +215,8 @@ export default function SecurFastPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${fd?.phone ?? "0388234567"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#2563eb)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> {fd?.phone ?? "03 88 23 45 67"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0388234567").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#2563eb)] font-bold text-sm">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "03 88 23 45 67"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#2563eb)] text-white text-[10px] font-bold uppercase tracking-[0.22em] hover:bg-[#1d4ed8] transition-colors">
               Urgence 24h/24
@@ -225,7 +226,7 @@ export default function SecurFastPage() {
               <SheetContent side="right" className="bg-[#111d30] border-[var(--brand,#2563eb)]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#f0f4ff] hover:text-[var(--brand,#2563eb)] transition-colors">{l}</Link>)}
-                  <a href={`tel:${fd?.phone ?? "0388234567"}`} className="flex items-center gap-3 text-[var(--brand,#2563eb)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "03 88 23 45 67"}</a>
+                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0388234567").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#2563eb)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "03 88 23 45 67"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -238,7 +239,7 @@ export default function SecurFastPage() {
         <div className="bg-[var(--brand,#2563eb)] py-2.5 text-center text-[10px] font-bold uppercase tracking-[0.3em] text-white flex items-center justify-center gap-4">
           <Zap className="w-3.5 h-3.5" />
           Disponible 24h/24 — 7j/7 — Intervention sous 30 min à {clientCity({ formData: fd }) ?? "Strasbourg"}
-          <a href={`tel:${fd?.phone ?? "0388234567"}`} className="underline ml-2">{fd?.phone ?? "03 88 23 45 67"}</a>
+          <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0388234567").replace(/[^+0-9]/g, "")}`} className="underline ml-2">{clientPhone(sessionData) ?? fd?.phone ?? "03 88 23 45 67"}</a>
         </div>
       </div>
 
@@ -264,8 +265,8 @@ export default function SecurFastPage() {
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-4 mb-8">
-            <a href={`tel:${fd?.phone ?? "0388234567"}`} className="flex items-center gap-3 px-9 py-4 bg-[var(--brand,#2563eb)] text-white font-bold text-sm uppercase tracking-[0.1em] hover:bg-[#1d4ed8] transition-colors">
-              <Phone className="w-4 h-4" /> {fd?.phone ?? "03 88 23 45 67"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0388234567").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-9 py-4 bg-[var(--brand,#2563eb)] text-white font-bold text-sm uppercase tracking-[0.1em] hover:bg-[#1d4ed8] transition-colors">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "03 88 23 45 67"}
             </a>
             <button className="px-9 py-4 border border-[#f0f4ff]/12 text-[#f0f4ff]/40 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#2563eb)]/40 hover:text-[var(--brand,#2563eb)] transition-all">
               Devis gratuit en ligne
@@ -357,8 +358,8 @@ export default function SecurFastPage() {
             ))}
           </div>
           <Reveal>
-            <a href={`tel:${fd?.phone ?? "0388234567"}`} className="inline-flex items-center gap-3 px-9 py-4 bg-[var(--brand,#2563eb)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:opacity-90 transition-opacity">
-              <Phone className="w-4 h-4" /> Ligne d'urgence · {fd?.phone ?? "03 88 23 45 67"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0388234567").replace(/[^+0-9]/g, "")}`} className="inline-flex items-center gap-3 px-9 py-4 bg-[var(--brand,#2563eb)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:opacity-90 transition-opacity">
+              <Phone className="w-4 h-4" /> Ligne d'urgence · {clientPhone(sessionData) ?? fd?.phone ?? "03 88 23 45 67"}
             </a>
           </Reveal>
         </div>
@@ -445,8 +446,8 @@ export default function SecurFastPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-5">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Un appel suffit.<br />On s'occupe du reste.</>)}</h2>
             <p className="text-white/55 mb-10 text-sm">Intervention sous 30 min · {clientCity({ formData: fd }) ?? "Strasbourg"} & Bas-Rhin · Devis avant travaux</p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <a href={`tel:${fd?.phone ?? "0388234567"}`} className="flex items-center gap-3 px-10 py-4 bg-white text-[var(--brand,#2563eb)] font-bold text-sm hover:bg-[#f0f4ff] transition-colors shadow-lg">
-                <Phone className="w-5 h-5" /> {fd?.phone ?? "03 88 23 45 67"}
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0388234567").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 bg-white text-[var(--brand,#2563eb)] font-bold text-sm hover:bg-[#f0f4ff] transition-colors shadow-lg">
+                <Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "03 88 23 45 67"}
               </a>
               <button className="px-10 py-4 border-2 border-white/30 text-white font-bold text-[10px] uppercase tracking-widest hover:border-white/60 transition-all">
                 Devis en ligne
@@ -466,7 +467,7 @@ export default function SecurFastPage() {
           {[
             { t: "Services", ls: ["Urgence 24h/24", "Changement serrure", "Porte blindée", "Contrôle d'accès", "Coffre-fort"] },
             { t: "Infos", ls: ["Agréments & certifications", "Zone d'intervention", "Tarifs & devis", "Avis clients", "FAQ"] },
-            { t: "Contact", ls: [(fd?.phone ?? "03 88 23 45 67"), (fd?.email ?? "contact@securfast.fr"), (clientCity({ formData: fd }) ?? "Strasbourg") + " & 67", "24h/24 — 7j/7", "Devis gratuit"] },
+            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "03 88 23 45 67"), (fd?.email ?? "contact@securfast.fr"), (clientCity({ formData: fd }) ?? "Strasbourg") + " & 67", "24h/24 — 7j/7", "Devis gratuit"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2563eb)]/40 mb-5">{col.t}</h4>

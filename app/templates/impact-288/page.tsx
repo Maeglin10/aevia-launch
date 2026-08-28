@@ -30,7 +30,6 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientSiret,
   clientAccrocheRestante,
   clientAddress,
   clientCertifications,
@@ -38,9 +37,11 @@ import {
   clientHeroLine,
   clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientTagline,
   clientText,
   clientTrade,
@@ -607,10 +608,10 @@ function HeroSection() {
           <a href="#devis" style={{ textDecoration: 'none' }}>
             <GreenButton filled>Devis gratuit</GreenButton>
           </a>
-          <a href={`tel:${fd?.phone ?? "0240000000"}`} style={{ textDecoration: 'none' }}>
+          <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0240000000").replace(/[^+0-9]/g, "")}`} style={{ textDecoration: 'none' }}>
             <GreenButton>
               <Phone size={15} />
-              {fd?.phone ?? "02 40 00 00 00"}
+              {clientPhone(sessionData) ?? fd?.phone ?? "02 40 00 00 00"}
             </GreenButton>
           </a>
         </motion.div>
@@ -1877,7 +1878,7 @@ function DevisFormSection() {
               <div style={{ marginTop: 8, display: 'flex', gap: 12, alignItems: 'center' }}>
                 <Phone size={16} color={C.green} />
                 <span style={{ fontFamily: SANS, fontSize: 15, color: 'rgba(255,255,255,0.80)' }}>
-                  Besoin urgent ? <strong style={{ color: C.green }}>{fd?.phone ?? "02 40 00 00 00"}</strong>
+                  Besoin urgent ? <strong style={{ color: C.green }}>{clientPhone(sessionData) ?? fd?.phone ?? "02 40 00 00 00"}</strong>
                 </span>
               </div>
             </motion.div>
@@ -2734,7 +2735,7 @@ function CertifSection() {
               <a href="#devis" style={{ textDecoration: 'none' }}>
                 <GreenButton filled>Demander un devis</GreenButton>
               </a>
-              <a href={`tel:${fd?.phone ?? "0240000000"}`} style={{ textDecoration: 'none' }}>
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0240000000").replace(/[^+0-9]/g, "")}`} style={{ textDecoration: 'none' }}>
                 <GreenButton>
                   <Phone size={15} />
                   Appeler maintenant
@@ -2975,7 +2976,7 @@ function FooterSection() {
             <div style={heading}>Contact</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <a
-                href={`tel:${fd?.phone ?? "0240000000"}`}
+                href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0240000000").replace(/[^+0-9]/g, "")}`}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -2991,7 +2992,7 @@ function FooterSection() {
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = C.white; }}
               >
                 <Phone size={16} color={C.green} />
-                {fd?.phone ?? "02 40 00 00 00"}
+                {clientPhone(sessionData) ?? fd?.phone ?? "02 40 00 00 00"}
               </a>
               <div
                 style={{

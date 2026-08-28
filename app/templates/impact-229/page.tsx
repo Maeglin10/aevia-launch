@@ -10,6 +10,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -504,7 +505,7 @@ export default function EclatSpaPage() {
                   </div>
                   <p style={{ fontSize: 12, color: C.textMuted, textAlign: "center", marginTop: 18 }}>
                     Vous pouvez aussi nous appeler directement au{" "}
-                    <a href={`tel:${fd?.phone ?? "+33493000000"}`} style={{ color: C.accent, fontWeight: 600, textDecoration: "none" }}>{fd?.phone ?? "04 93 00 00 00"}</a>.
+                    <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33493000000").replace(/[^+0-9]/g, "")}`} style={{ color: C.accent, fontWeight: 600, textDecoration: "none" }}>{clientPhone(sessionData) ?? fd?.phone ?? "04 93 00 00 00"}</a>.
                   </p>
                 </motion.form>
               )}
@@ -519,8 +520,8 @@ export default function EclatSpaPage() {
           <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Offrez-vous<br /><em>un moment rien qu'à vous.</em></>)}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 420, margin: "0 auto 36px", lineHeight: 1.7 }}>Réservation par téléphone ou email. Coffrets cadeaux disponibles — parfaits pour offrir.</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`tel:${fd?.phone ?? "+33493000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {fd?.phone ?? "04 93 00 00 00"}
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33493000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
+              <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "04 93 00 00 00"}
             </motion.a>
             <motion.a href={`mailto:${fd?.email ?? "bonjour@eclatspa.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "13px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white }}>
               <Mail size={18} />{fd?.email ?? "bonjour@eclatspa.fr"}</motion.a>
@@ -535,7 +536,7 @@ export default function EclatSpaPage() {
             <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Institut beauté & spa · {clientCity({ formData: fd }) ?? "Nice"}<br />Mar–Sam 9h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Nice") + ", Alpes-Maritimes" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 93 00 00 00") }, { icon: <Clock size={13} />, t: "Mar–Sam 9h–19h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Nice") + ", Alpes-Maritimes" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "04 93 00 00 00") }, { icon: <Clock size={13} />, t: "Mar–Sam 9h–19h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.38)", fontSize: 13 }}>
                 <span style={{ color: C.rose }}>{item.icon}</span>{item.t}
               </div>

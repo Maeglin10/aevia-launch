@@ -455,11 +455,23 @@ export default function StudioPelikanPage() {
                   Nous recevons chaque projet avec la même attention. Qu&apos;il s&apos;agisse d&apos;un premier court-métrage ou d&apos;une coproduction internationale.
                 </>}</p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <button className="bg-[var(--brand,#C9A05A)] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B89049] transition-colors cursor-pointer">
+                  {/*
+                    Deux <button> sans action : « Nous écrire » ne faisait
+                    rien, et l'adresse d'à côté n'était pas cliquable. Sur un
+                    téléphone, une adresse qu'on ne peut pas toucher ne sert à
+                    rien. Les deux deviennent des liens mailto.
+                  */}
+                  <a
+                    href={`mailto:${fd?.email ?? "hello@studio-pelikan.fr"}`}
+                    className="bg-[var(--brand,#C9A05A)] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B89049] transition-colors cursor-pointer inline-flex items-center"
+                  >
                     Nous écrire
-                  </button>
-                  <button className="border border-white/15 text-white text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-white/5 transition-colors cursor-pointer flex items-center gap-2">
-                    <Globe className="w-4 h-4" />{fd?.email ?? "hello@studio-pelikan.fr"}</button>
+                  </a>
+<a
+                    href={`mailto:${fd?.email ?? "hello@studio-pelikan.fr"}`}
+                    className="border border-white/15 text-white text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-white/5 transition-colors cursor-pointer flex items-center gap-2"
+                  >
+                    <Globe className="w-4 h-4" />{fd?.email ?? "hello@studio-pelikan.fr"}</a>
                 </div>
               </Reveal>
             </div>
@@ -995,7 +1007,7 @@ export default function StudioPelikanPage() {
                 <Reveal key={section.title} delay={i * 0.08}>
                   <div>
                     <h2 className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">{section.title}</h2>
-                    {section.content.split("\n").map((line, j) => (
+                    {section.content.split("\n").map((line: string, j: number) => (
                       <p key={j} className="text-white/50 text-sm leading-relaxed">{line}</p>
                     ))}
                   </div>

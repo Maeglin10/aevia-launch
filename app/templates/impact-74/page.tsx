@@ -13,6 +13,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -874,7 +875,7 @@ export default function AeviaKitchenPage() {
                 <p className="text-white/40 text-sm leading-relaxed mb-10">
                   Pour toute demande spéciale ou réservation de plus de 8 couverts,
                   contactez-nous directement au{" "}
-                  <span className="text-[var(--brand,#c9a855)]">{fd?.phone ?? "01 42 56 78 90"}</span>.
+                  <span className="text-[var(--brand,#c9a855)]">{clientPhone(sessionData) ?? fd?.phone ?? "01 42 56 78 90"}</span>.
                 </p>
 
                 <div className="space-y-6">

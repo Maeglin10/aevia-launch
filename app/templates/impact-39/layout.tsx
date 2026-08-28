@@ -113,9 +113,12 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
             {/* the anchor had no nowrap/flexShrink guard, so under tight tablet
                 width it wrapped onto a second line and broke out of the 72px
                 nav row, overlapping the row below it */}
-            <a href={`tel:${fd?.phone ?? "+33100000000"}`} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 14, fontWeight: 700, color: C.navy, textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0 }}>
+            <a href={`tel:${(clientPhone(__layoutSession) ?? fd?.phone ?? "+33 1 84 25 60 40").replace(/[^+0-9]/g, "")}`} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 14, fontWeight: 700, color: C.navy, textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0 }}>
               <Phone size={15} color={C.orange} />
-              +33 1 XX XX XX XX
+              {/* Le gabarit du modèle partait tel quel chez le client : le
+                  lien composait bien son numéro, mais l'étiquette lue à
+                  l'écran restait celle du modèle, pleine de lettres. */}
+              {clientPhone(__layoutSession) ?? fd?.phone ?? "+33 1 84 25 60 40"}
             </a>
             <Link href="/templates/impact-39/devis" style={{ textDecoration: "none" }}>
               <span
@@ -155,9 +158,9 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
               </Link>
             ))}
             <div style={{ padding: "12px 0 0", display: "flex", flexDirection: "column", gap: 12 }}>
-              <a href={`tel:${fd?.phone ?? "+33100000000"}`} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 16, fontWeight: 700, color: C.navy, textDecoration: "none" }}>
+              <a href={`tel:${(clientPhone(__layoutSession) ?? fd?.phone ?? "+33 1 84 25 60 40").replace(/[^+0-9]/g, "")}`} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 16, fontWeight: 700, color: C.navy, textDecoration: "none" }}>
                 <Phone size={16} color={C.orange} />
-                +33 1 XX XX XX XX
+                {clientPhone(__layoutSession) ?? fd?.phone ?? "+33 1 84 25 60 40"}
               </a>
               <Link href="/templates/impact-39/devis" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: "none" }}>
                 <button

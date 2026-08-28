@@ -3,6 +3,7 @@ import {
   clientCity,
   clientEmail,
   clientName,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
@@ -436,7 +437,24 @@ export default function OrbitLayout({
             © {new Date().getFullYear()} {clientName(__layoutSession) ?? "Orbit Studio. All"} rights reserved.
           </p>
           <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "12px", color: C.textMuted }}>
-            {clientCity(__layoutSession) ?? "Paris"} · {clientEmail(__layoutSession) ?? "contact@exemple.fr"} · +33 1 XX XX XX XX
+            {/*
+              « +33 1 XX XX XX XX » était un gabarit : il serait parti tel quel
+              sur le site d'un client. Le numéro vient de la session, et les
+              deux coordonnées deviennent cliquables — sur un téléphone, une
+              adresse qu'on ne peut pas toucher ne sert à rien.
+            */}
+            {clientCity(__layoutSession) ?? "Paris"} ·{" "}
+            <a href={`mailto:${clientEmail(__layoutSession) ?? "contact@exemple.fr"}`} style={{ color: "inherit" }}>
+              {clientEmail(__layoutSession) ?? "contact@exemple.fr"}
+            </a>
+            {clientPhone(__layoutSession) ? (
+              <>
+                {" · "}
+                <a href={`tel:${clientPhone(__layoutSession)!.replace(/[\s.]/g, "")}`} style={{ color: "inherit" }}>
+                  {clientPhone(__layoutSession)}
+                </a>
+              </>
+            ) : null}
           </p>
         </div>
       </footer>

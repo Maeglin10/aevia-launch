@@ -18,6 +18,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -2084,7 +2085,7 @@ function Footer() {
               letterSpacing: '0.06em',
             }}
           >
-            {fd?.phone ?? "04 93 00 00 00"}
+            {clientPhone(sessionData) ?? fd?.phone ?? "04 93 00 00 00"}
           </div>
           <div
             style={{

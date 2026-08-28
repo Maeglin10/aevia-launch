@@ -68,3 +68,4 @@ next-env.d.ts
 
 # Local audit/report artifacts
 audit-results/
+captures/
