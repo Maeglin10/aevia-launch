@@ -34,6 +34,7 @@ import {
   clientCity,
   clientFaq,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -416,7 +417,7 @@ export default function Page({ session: initialSession }) {
     if (p[7]) PHOTOS.gallery3 = p[7];
     if (p[8]) PHOTOS.gallery4 = p[8];
   }, [fd]);
-  const phone = fd?.phone || "01 75 16 68 52";
+  const phone = clientPhone(sessionData) || fd?.phone || "01 75 16 68 52";
   const email = fd?.email || "contact@plomberie-confort.fr";
   const address = fd?.address || (clientAddress(sessionData) ?? "15 Rue de la Paix, 75002 Paris");
 

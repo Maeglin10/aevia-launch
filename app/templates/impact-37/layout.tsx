@@ -2,6 +2,7 @@
 import {
   clientEmail,
   clientName,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
@@ -382,7 +383,7 @@ export default function ClosDuSoirLayout({ children }: { children: React.ReactNo
                 }}
               >
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <Phone size={14} color={C.gold} /> +33 1 42 60 80 20
+                  <Phone size={14} color={C.gold} /> {clientPhone(__layoutSession) ?? "+33 1 42 60 80 20"}
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <Mail size={14} color={C.gold} /> {clientEmail(__layoutSession) ?? "contact@exemple.fr"}

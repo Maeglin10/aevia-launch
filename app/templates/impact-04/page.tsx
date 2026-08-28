@@ -781,7 +781,7 @@ return (
               {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
                 { icon: <MapPin className="w-5 h-5" />, label: "Location", value: `42 Rue du Faubourg\nSaint-Honoré, 75008 ${clientCity(sessionData) ?? "Paris"}` },
                 { icon: <Clock className="w-5 h-5" />, label: "Hours", value: "Tue–Sat: 19:00–23:00\nSun: 12:00–15:00" },
-                { icon: <Phone className="w-5 h-5" />, label: "Contact", value: "+33 1 42 65 15 16\nreserve@letoile." + (clientCity(sessionData) ?? "Paris") },
+                { icon: <Phone className="w-5 h-5" />, label: "Contact", value: (clientPhone(sessionData) ?? "+33 1 42 65 15 16") + "\nreserve@letoile." + (clientCity(sessionData) ?? "Paris") },
               ]).map((item, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="text-center group">

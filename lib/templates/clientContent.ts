@@ -834,6 +834,13 @@ export function clientEmailOr(repli: string): string {
   return clientEmail(sessionCourante) ?? repli;
 }
 
+/** Le numéro du client, ou celui du modèle. Le pendant manquant de
+    clientEmailOr : les fichiers shared.tsx n'ont pas de variable de session
+    sous la main, et affichaient donc un numéro figé. */
+export function clientPhoneOr(repli: string): string {
+  return clientPhone(sessionCourante) ?? repli;
+}
+
 /** La photo du client à cet emplacement, ou celle du thème. */
 export function clientPhotoAt(i: number, repli: string): string {
   return clientPhotos(sessionCourante)[i] || repli;

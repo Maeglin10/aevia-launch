@@ -2,6 +2,7 @@
 import {
   clientCity,
   clientName,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
@@ -257,7 +258,7 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
             <div style={{ display: "flex", gap: 20, flexWrap: "wrap" as const }}>
               {[
                 { Icon: MapPin, text: "18 Rue du Marché, " + (clientCity(__layoutSession) ?? "Paris") + " 11e" },
-                { Icon: Phone, text: "+33 1 43 00 00 00" },
+                { Icon: Phone, text: clientPhone(__layoutSession) ?? "+33 1 43 00 00 00" },
                 { Icon: Clock, text: "Mar–Sam, 9h–19h" },
               ].map(({ Icon, text }) => (
                 <div key={text} style={{ display: "flex", alignItems: "center", gap: 8 }}>

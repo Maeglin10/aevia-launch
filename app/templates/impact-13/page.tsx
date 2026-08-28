@@ -431,7 +431,7 @@ return (
                   <div className="grid md:grid-cols-3 gap-8">
                     {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
                       { icon: <MapPin className="w-4 h-4" />, label: "Showroom " + (clientCity(sessionData) ?? "Paris"), value: "18 Place Vendôme, 75001" },
-                      { icon: <Phone className="w-4 h-4" />, label: "Téléphone", value: "+33 1 42 60 00 00" },
+                      { icon: <Phone className="w-4 h-4" />, label: "Téléphone", value: clientPhone(sessionData) ?? "+33 1 42 60 00 00" },
                       { icon: <Clock className="w-4 h-4" />, label: "Horaires", value: "Lun–Sam 10h–19h" },
                     ]).map(c => (
                       <div key={c.label}>

@@ -287,7 +287,7 @@ function FAQS_DEMO_LIVE() {
   },
   {
     q: "Proposez-vous des consultations en boutique ?",
-    a: "Notre boutique est située au 24, rue de la Paix, " + (clientCity(sessionData) ?? "Paris") + " 75002, sur rendez-vous. Consultations disponibles du mardi au samedi de 10h à 19h. Pour les clients internationaux, nous proposons des consultations en visio avec présentation des pièces en direct. Prise de rendez-vous via notre site ou au +33 1 42 60 20 51.",
+    a: "Notre boutique est située au 24, rue de la Paix, " + (clientCity(sessionData) ?? "Paris") + " 75002, sur rendez-vous. Consultations disponibles du mardi au samedi de 10h à 19h. Pour les clients internationaux, nous proposons des consultations en visio avec présentation des pièces en direct. Prise de rendez-vous via notre site ou au " + (clientPhone(sessionData) ?? "+33 1 42 60 20 51") + ".",
   },
 ];
 }

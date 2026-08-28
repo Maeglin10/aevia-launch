@@ -14,6 +14,7 @@ import {
   clientHours,
   clientList,
   clientName,
+  clientPhone,
   clientReviews,
   clientServices,
   clientStats,
@@ -3224,7 +3225,7 @@ function ContactPage() {
           <div>
             {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
               { label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
-              { label: "Téléphone", value: "+33 4 91 00 00 00" },
+              { label: "Téléphone", value: clientPhone(sessionData) ?? "+33 4 91 00 00 00" },
               { label: "Ville", value: (clientCity(sessionData) ?? "Marseille") + ", France" },
               { label: "Horaires", value: "Lun – Ven · 9h – 18h" },
             ]).map(item => (

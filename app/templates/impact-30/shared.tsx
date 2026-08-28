@@ -1,5 +1,6 @@
 "use client";
 
+import { clientPhoneOr } from "@/lib/templates/clientContent";
 import { motion } from "framer-motion";
 import { Smile, Star, Award, Users, ThumbsUp, Shield, Heart } from "lucide-react";
 
@@ -237,6 +238,6 @@ export const FAQS = [
   },
   {
     q: "Acceptez-vous les urgences dentaires ?",
-    a: "Oui, nous réservons des créneaux d'urgence chaque jour. En cas de douleur aiguë ou de traumatisme, appelez-nous au 01 42 56 78 90 — nous vous prendrons en charge dans les plus brefs délais.",
+    a: "Oui, nous réservons des créneaux d'urgence chaque jour. En cas de douleur aiguë ou de traumatisme, appelez-nous au " + clientPhoneOr("01 42 56 78 90") + " — nous vous prendrons en charge dans les plus brefs délais.",
   },
 ];

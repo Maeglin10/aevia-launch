@@ -42,6 +42,7 @@ import {
   clientHours,
   clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -1487,7 +1488,7 @@ function ContactSection() {
             <div className="space-y-6 mb-12">
               {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
                 { icon: MapPin, label: "Adresse", value: `12 Rue de la Paix, 75001 ${clientCity(sessionData) ?? "Paris"}` },
-                { icon: Phone, label: "Téléphone", value: "+33 1 42 60 29 14" },
+                { icon: Phone, label: "Téléphone", value: clientPhone(sessionData) ?? "+33 1 42 60 29 14" },
                 { icon: Mail, label: "Email", value: (fd?.email ?? "contact@aurelia-joaillerie.fr") },
                 { icon: Clock, label: "Horaires", value: "Lun–Sam 10h–19h · Dim sur RDV" },
               ]).map(({ icon: Icon, label, value }) => (
