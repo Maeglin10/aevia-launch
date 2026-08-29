@@ -2086,7 +2086,7 @@ function Footer() {
               letterSpacing: '0.06em',
             }}
           >
-            {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 93 00 00 00"}
+            {clientPhone(sessionData) ?? fd?.phone ?? "04 93 00 00 00"}
           </div>
           <div
             style={{
@@ -2096,7 +2096,7 @@ function Footer() {
               color: 'rgba(255,255,255,0.45)',
               marginTop: 6,
             }}
-          >{fd?.email ?? "contact@sorrento-dentaire.fr"}</div>
+          >{clientEmail(sessionData) ?? fd?.email ?? "contact@sorrento-dentaire.fr"}</div>
         </div>
 
         {/* Colonnes */}

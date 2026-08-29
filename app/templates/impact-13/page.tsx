@@ -896,11 +896,11 @@ function ContactSubPage() {
             </div>
             <div className="space-y-2">
               <h3 className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase">Téléphone</h3>
-              <p>{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33 1 42 60 00 00"}</p>
+              <p>{clientPhone(sessionData) ?? fd?.phone ?? "+33 1 42 60 00 00"}</p>
             </div>
             <div className="space-y-2">
               <h3 className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase">Email</h3>
-              <p>{fd?.email ?? "contact@atelier-mecanique.com"}</p>
+              <p>{clientEmail(sessionData) ?? fd?.email ?? "contact@atelier-mecanique.com"}</p>
             </div>
           </div>
 
@@ -993,7 +993,7 @@ function LegalSubPage() {
               Le site Atelier Mécanique est édité par :<br />
               <strong>Aevia WS — Valentin Milliand</strong><br />
               Entrepreneur individuel — SIREN : <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
-              <strong>Contact :</strong>{fd?.email ?? "contact@exemple.fr"}<br />
+              <strong>Contact :</strong>{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}<br />
               <strong>Adresse physique :</strong> communiquée sur demande.
             </p>
           </div>

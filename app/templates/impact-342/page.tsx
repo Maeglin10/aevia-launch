@@ -388,8 +388,8 @@ export default function PermisCapSudPage() {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 67 00 00 00";
-  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33467000000").replace(/\s/g, "")}`;
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "04 67 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33467000000").replace(/\s/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "go@permis-cap-sud.fr";
   const ville = clientCity(sessionData) ?? "Montpellier";
   const maison = fd?.businessName ?? clientName(sessionData) ?? "Permis Cap Sud";

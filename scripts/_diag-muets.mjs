@@ -5,7 +5,7 @@ const nav = await chromium.launch();
 const ctx = await nav.newContext({ viewport: { width: 1280, height: 900 } });
 await ctx.route("**/api/sessions**", (r) => r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(SESSION) }));
 const p = await ctx.newPage();
-for (const n of ["impact-30", "impact-300", "impact-305", "impact-317", "impact-375", "impact-379"]) {
+for (const n of ["impact-58", "impact-71", "impact-81", "impact-105"]) {
   await p.goto(`http://localhost:3000/templates/${n}?session=v`, { waitUntil: "domcontentloaded", timeout: 90000 });
   await p.waitForTimeout(4000);
   const r = await p.evaluate((nom) => {

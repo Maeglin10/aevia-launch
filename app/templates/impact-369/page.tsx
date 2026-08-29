@@ -575,8 +575,8 @@ export default function DomaineCharmillesPage() {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "02 47 00 00 01";
-  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33247000001").replace(/\s+/g, "")}`;
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "02 47 00 00 01";
+  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33247000001").replace(/\s+/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "evenements@domaine-charmilles.fr";
   const nom = fd?.businessName ?? clientName(sessionData) ?? "Domaine des Charmilles";
   const ville = clientCity(sessionData) ?? "Amboise";

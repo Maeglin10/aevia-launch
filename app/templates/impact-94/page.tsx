@@ -37,6 +37,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
@@ -1172,7 +1173,7 @@ export default function Impact94Page() {
                   </div>
                   <div>
                     <div className="text-sm font-medium text-[#0C0A09]">Email</div>
-                    <div className="text-sm text-[#0C0A09]/60">{fd?.email ?? "contact@botanica-atelier.fr"}</div>
+                    <div className="text-sm text-[#0C0A09]/60">{clientEmail(sessionData) ?? fd?.email ?? "contact@botanica-atelier.fr"}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">

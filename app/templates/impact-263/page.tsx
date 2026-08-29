@@ -14,6 +14,7 @@ import { ArrowRight, ChevronDown, Leaf, MapPin, Send } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -1997,7 +1998,7 @@ function Footer() {
         { label: 'Devis gratuit', href: '#devis' },
         { label: (clientCity(sessionData) ?? 'Bordeaux'), href: '#devis' },
         { label: 'Dordogne · L47', href: '#devis' },
-        { label: (fd?.email ?? 'contact@jardins-vivants.fr'), href: '#devis' },
+        { label: (clientEmail(sessionData) ?? fd?.email ?? 'contact@jardins-vivants.fr'), href: '#devis' },
       ],
     },
   ];

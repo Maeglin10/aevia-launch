@@ -3,6 +3,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAccrocheRestante,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHours,
   clientName,
@@ -1897,7 +1898,7 @@ return (
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               {[
                 { label: "Telefono", value: "+39 06 9876 543" },
-                { label: "Email", value: (fd?.email ?? "info@aureliano.roma") },
+                { label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "info@aureliano.roma") },
                 { label: "Indirizzo", value: "Via della Lungaretta, 82\n00153 Roma" },
               ].map((c) => (
                 <div key={c.label}>

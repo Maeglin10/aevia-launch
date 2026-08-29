@@ -2713,12 +2713,12 @@ function PracticalSection() {
     {
       icon: Phone,
       label: 'Téléphone',
-      lines: [(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? '04 91 21 58 58'), 'Du lundi au vendredi', '9h – 18h30'],
+      lines: [(clientPhone(sessionData) ?? fd?.phone ?? '04 91 21 58 58'), 'Du lundi au vendredi', '9h – 18h30'],
     },
     {
       icon: Mail,
       label: 'Email',
-      lines: [(fd?.email ?? 'contact@cabinet-faure.fr'), 'Réponse sous 24h ouvrées'],
+      lines: [(clientEmail(sessionData) ?? fd?.email ?? 'contact@cabinet-faure.fr'), 'Réponse sous 24h ouvrées'],
     },
   ];
 

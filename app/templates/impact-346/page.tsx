@@ -714,8 +714,8 @@ export default function HalleAuxFromagesPage() {
   const nom = clientName(sessionData) ?? fd?.businessName ?? "La Halle aux Fromages";
   const ville = clientCity(sessionData) ?? "Chambéry";
   const metier = clientTrade(sessionData) ?? "Fromager-affineur";
-  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 79 00 00 00";
-  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33479000000").replace(/[^+\d]/g, "")}`;
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "04 79 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33479000000").replace(/[^+\d]/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "cave@halle-aux-fromages.fr";
   const adresse = clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "73000", "Chambéry");
   const horaires = "Mar–Sam 8h30–13h / 15h–19h30 · Dim 8h30–12h30";

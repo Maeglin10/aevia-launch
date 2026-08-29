@@ -7,6 +7,7 @@ import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Camera, X } 
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -586,8 +587,8 @@ return (
             <motion.button onClick={() => openConsult(null)} style={{ background: C.accent, color: "#0d0d0d", border: "none", borderRadius: 4, padding: "15px 36px", fontWeight: 700, fontSize: 16, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, minHeight: 44 }} whileHover={{ scale: 1.03 }}>
               Demander une consultation <ArrowRight size={18} />
             </motion.button>
-            <motion.a href={`mailto:${fd?.email ?? "contact@encrenoire-paris.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.border}`, borderRadius: 4, padding: "13px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, minHeight: 44 }} whileHover={{ borderColor: C.accent, color: C.accent }}>
-              <Mail size={17} />{fd?.email ?? "contact@encrenoire-paris.fr"}</motion.a>
+            <motion.a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@encrenoire-paris.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.border}`, borderRadius: 4, padding: "13px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, minHeight: 44 }} whileHover={{ borderColor: C.accent, color: C.accent }}>
+              <Mail size={17} />{clientEmail(sessionData) ?? fd?.email ?? "contact@encrenoire-paris.fr"}</motion.a>
             <motion.a href={`https://instagram.com/${fd?.instagram ?? "encrenoire.paris"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.border}`, borderRadius: 4, padding: "13px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, minHeight: 44 }} whileHover={{ borderColor: C.accent, color: C.accent }}>
               <Camera size={17} /> @encrenoire.paris
             </motion.a>
@@ -604,7 +605,7 @@ return (
             <p style={{ color: "rgba(245,240,232,0.30)", fontSize: 13, lineHeight: 1.6 }}>Studio de tatouage · {clientCity(sessionData) ?? "Paris"}<br />Mar–Sam 10h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Paris") + ", Île-de-France" }, { icon: <Mail size={13} />, t: (fd?.email ?? "contact@encrenoire-paris.fr") }, { icon: <Clock size={13} />, t: "Mar–Sam 10h–19h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Paris") + ", Île-de-France" }, { icon: <Mail size={13} />, t: (clientEmail(sessionData) ?? fd?.email ?? "contact@encrenoire-paris.fr") }, { icon: <Clock size={13} />, t: "Mar–Sam 10h–19h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(245,240,232,0.35)", fontSize: 13 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>

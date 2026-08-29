@@ -529,8 +529,8 @@ export default function AllureAppuiPage() {
   }, [AVIS.length, avisActif]);
 
   /* ── Contact ──────────────────────────────────────────────────────────── */
-  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 59 00 00 00";
-  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33559000000").replace(/\s/g, "")}`;
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "05 59 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33559000000").replace(/\s/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "cabinet@allure-appui.fr";
   const marque = fd?.businessName ?? clientName(sessionData) ?? "Allure & Appui";
   const ville = clientCity(sessionData) ?? "Pau";

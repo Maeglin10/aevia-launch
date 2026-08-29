@@ -266,8 +266,8 @@ export default function AquanovaPiscinesPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0478987654").replace(/[^+0-9]/g, "")}`} className={`hidden md:flex items-center gap-2 font-bold text-sm ${scrolled ? "text-[var(--brand)]" : "text-white"}`}>
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 78 98 76 54"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478987654").replace(/[^+0-9]/g, "")}`} className={`hidden md:flex items-center gap-2 font-bold text-sm ${scrolled ? "text-[var(--brand)]" : "text-white"}`}>
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 98 76 54"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand)] text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded hover:bg-[#0284c7] transition-colors">
               Devis Gratuit
@@ -279,8 +279,8 @@ export default function AquanovaPiscinesPage() {
                   {NAV.map(({ l, h }) => (
                     <Link key={l} href={h} className="text-3xl font-bold text-[#0f172a] hover:text-[var(--brand)] transition-colors">{l}</Link>
                   ))}
-                  <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0478987654").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand)] font-bold text-xl mt-4">
-                    <Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 78 98 76 54"}
+                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478987654").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand)] font-bold text-xl mt-4">
+                    <Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 98 76 54"}
                   </a>
                 </div>
               </SheetContent>
@@ -312,7 +312,7 @@ export default function AquanovaPiscinesPage() {
             <button className="px-8 py-4 bg-[var(--brand)] text-white font-bold text-[10px] uppercase tracking-[0.2em] rounded hover:bg-[#0284c7] transition-colors">{c?.ctaText ?? <>
               Devis gratuit sous 48h
             </>}</button>
-            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0478987654").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-8 py-4 bg-white/10 backdrop-blur border border-white/20 text-white font-bold text-[10px] uppercase tracking-[0.15em] rounded hover:bg-white/20 transition-all">
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478987654").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-8 py-4 bg-white/10 backdrop-blur border border-white/20 text-white font-bold text-[10px] uppercase tracking-[0.15em] rounded hover:bg-white/20 transition-all">
               <Phone className="w-4 h-4" /> Nous appeler
             </a>
           </motion.div>
@@ -332,8 +332,8 @@ export default function AquanovaPiscinesPage() {
           </div>
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-2 text-white/80 text-sm font-semibold"><Clock className="w-4 h-4" /> Devis sous 48h</span>
-            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0478987654").replace(/[^+0-9]/g, "")}`} className="bg-white text-[var(--brand)] px-5 py-2 rounded font-bold text-sm hover:bg-[#f0f9ff] transition-colors">
-              {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 78 98 76 54"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478987654").replace(/[^+0-9]/g, "")}`} className="bg-white text-[var(--brand)] px-5 py-2 rounded font-bold text-sm hover:bg-[#f0f9ff] transition-colors">
+              {clientPhone(sessionData) ?? fd?.phone ?? "04 78 98 76 54"}
             </a>
           </div>
         </div>
@@ -521,8 +521,8 @@ export default function AquanovaPiscinesPage() {
               <button className="px-10 py-4 bg-[var(--brand)] text-white font-bold text-[10px] uppercase tracking-[0.2em] rounded hover:bg-[#0284c7] transition-colors">
                 Demander un devis
               </button>
-              <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0478987654").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-[0.15em] rounded hover:border-[var(--brand-light)]/50 hover:text-[var(--brand-light)] transition-all">
-                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 78 98 76 54"}
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478987654").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-[0.15em] rounded hover:border-[var(--brand-light)]/50 hover:text-[var(--brand-light)] transition-all">
+                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 98 76 54"}
               </a>
             </div>
           </div>
@@ -544,7 +544,7 @@ export default function AquanovaPiscinesPage() {
           {[
             { t: "Services", ls: ["Construction sur-mesure", "Rénovation de piscine", "Sécurité & conformité", "Local technique", "Entretien & hivernage"] },
             { t: "Informations", ls: ["Qui sommes-nous", "Certifications & garanties", "Zone d'intervention", "Témoignages", "Conseils piscine"] },
-            { t: "Contact", ls: [(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 78 98 76 54"), (fd?.email ?? "contact@aquanova.fr"), "Zone Grand " + (clientCity({ formData: fd }) ?? "Lyon"), "Étude 3D offerte", "Devis gratuit sous 48h"] },
+            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "04 78 98 76 54"), (clientEmail(sessionData) ?? fd?.email ?? "contact@aquanova.fr"), "Zone Grand " + (clientCity({ formData: fd }) ?? "Lyon"), "Étude 3D offerte", "Devis gratuit sous 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand-light)] mb-5">{col.t}</h4>

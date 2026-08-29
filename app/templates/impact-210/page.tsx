@@ -23,6 +23,7 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import {
   clientBookingUrl,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -2081,7 +2082,7 @@ function ContactSection({ accentColor }: { accentColor: string }) {
             { icon: '📍', label: 'Adresse', value: '12 Rue du Faubourg\nSaint-Honoré, ' + (clientCity(sessionData) ?? 'Paris') },
             { icon: '📞', label: 'Téléphone', value: clientPhone(sessionData) ?? '+33 1 42 56 78 90' },
             { icon: '🕐', label: 'Horaires', value: 'Mar–Sam : 10h–19h\nDimanche : 11h–17h' },
-            { icon: '✉️', label: 'Email', value: (fd?.email ?? 'contact@studionail.fr') },
+            { icon: '✉️', label: 'Email', value: (clientEmail(sessionData) ?? fd?.email ?? 'contact@studionail.fr') },
           ].map((info) => (
             <motion.div
               key={info.label}

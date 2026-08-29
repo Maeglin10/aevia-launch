@@ -527,8 +527,8 @@ export default function CabinetNaissancesPage() {
   }, []);
 
   /* ── Contact ───────────────────────────────────────────────────────────── */
-  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 42 00 00 00";
-  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33442000000").replace(/\s/g, "")}`;
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "04 42 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33442000000").replace(/\s/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "rdv@cabinet-naissances.fr";
   const cabinet = fd?.businessName ?? clientName(sessionData) ?? "Cabinet Naissances";
   const ville = clientCity(sessionData) ?? "Aix-en-Provence";

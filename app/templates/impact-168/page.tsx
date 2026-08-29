@@ -8,6 +8,7 @@ import { ShoppingBag, Heart, Search, User, ArrowRight, Check, Star, Package, Ref
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
@@ -3224,7 +3225,7 @@ function ContactPage() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: "clamp(32px, 5vw, 64px)", maxWidth: 1000, margin: "0 auto" }}>
           <div>
             {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
-              { label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
+              { label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr") },
               { label: "Téléphone", value: clientPhone(sessionData) ?? "+33 4 91 00 00 00" },
               { label: "Ville", value: (clientCity(sessionData) ?? "Marseille") + ", France" },
               { label: "Horaires", value: "Lun – Ven · 9h – 18h" },
@@ -3325,8 +3326,8 @@ function LegalPage({ variant }: { variant: "cgv" | "mentions" }) {
             </p>
             <p style={para}>Directeur de la publication : <strong style={{ color: C.cream }}>Valentin Milliand</strong>.</p>
             <p style={para}>SIREN : <strong style={{ color: C.cream }}><LegalIdentity /></strong> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}.</p>
-            <p style={para}>Contact : <strong style={{ color: C.cream }}>{fd?.email ?? "contact@exemple.fr"}</strong></p>
-            <p style={para}>Adresse du siège social communiquée sur demande à {fd?.email ?? "contact@exemple.fr"}.</p>
+            <p style={para}>Contact : <strong style={{ color: C.cream }}>{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</strong></p>
+            <p style={para}>Adresse du siège social communiquée sur demande à {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}.</p>
 
             <h2 style={sectionTitle}>TVA</h2>
             <p style={para}>TVA non applicable, art. 293 B du CGI.</p>
@@ -3346,7 +3347,7 @@ function LegalPage({ variant }: { variant: "cgv" | "mentions" }) {
             <h2 style={sectionTitle}>Données personnelles</h2>
             <p style={para}>
               Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression des données vous
-              concernant. Pour exercer ce droit, écrivez à {fd?.email ?? "contact@exemple.fr"}.
+              concernant. Pour exercer ce droit, écrivez à {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}.
             </p>
           </div>
         </section>

@@ -13,6 +13,7 @@ import { Reveal, ScrollImage, projects, skills, timeline, stats, services, proce
 import {
   clientAccrocheRestante,
   clientCity,
+  clientEmail,
   clientEyebrow,
   clientHeroLine,
   clientName,
@@ -571,8 +572,8 @@ return (
               Available for staff/principal engineering contracts, technical advisory, and open source. Based in {clientCity({ formData: fd }) ?? "Paris"}, remote-first.
             </p>
             <div className="space-y-4">
-              <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} className="block w-full bg-[#00F5D4] text-[#0A0E1A] font-bold text-sm py-4 hover:bg-[#00E5C4] transition-colors cursor-pointer text-center">
-                {fd?.email ?? "contact@exemple.fr"} →
+              <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}`} className="block w-full bg-[#00F5D4] text-[#0A0E1A] font-bold text-sm py-4 hover:bg-[#00E5C4] transition-colors cursor-pointer text-center">
+                {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"} →
               </a>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="border border-[#00F5D4]/20 text-[#00F5D4] text-sm py-4 hover:bg-[#00F5D4]/10 transition-colors cursor-pointer flex items-center justify-center gap-2">

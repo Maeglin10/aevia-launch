@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
   clientName,
 } from "@/lib/templates/clientContent";
 
@@ -220,8 +221,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
               {[
-                { icon: <Mail size={15} />, text: (fd?.email ?? "contact@pawcare-bordeaux.fr") },
-                { icon: <MapPin size={15} />, text: "Adresse communiquée sur demande à " + (fd?.email ?? "contact@exemple.fr") },
+                { icon: <Mail size={15} />, text: (clientEmail(__layoutSession) ?? fd?.email ?? "contact@pawcare-bordeaux.fr") },
+                { icon: <MapPin size={15} />, text: "Adresse communiquée sur demande à " + (clientEmail(__layoutSession) ?? fd?.email ?? "contact@exemple.fr") },
                 { icon: <Clock size={15} />, text: "Lun–Sam 8h–20h | Urgences 24h/7j" },
               ].map((item, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.62)", fontSize: 14 }}>

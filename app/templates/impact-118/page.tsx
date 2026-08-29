@@ -13,6 +13,7 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAccrocheRestante,
   clientCity,
+  clientEmail,
   clientEyebrow,
   clientHeroLine,
   clientName,
@@ -992,7 +993,7 @@ function LegalPage() {
             <p className="space-y-1">
               <strong>Publisher:</strong> {clientName(sessionData) ?? "Aevia WS — Valentin Milliand"}<br />
               Sole Proprietorship — SIREN <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
-              <strong>Email:</strong>{fd?.email ?? "contact@exemple.fr"}<br />
+              <strong>Email:</strong>{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}<br />
               <strong>Address:</strong> communicated upon request<br />
               <strong>Host:</strong> Vercel Inc.
             </p>

@@ -478,8 +478,8 @@ export default function PharmacieHorlogePage() {
 
   const marque = fd?.businessName ?? clientName(sessionData) ?? "Pharmacie de l'Horloge";
   const ville = clientCity(sessionData) ?? "Besançon";
-  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "03 81 00 00 00";
-  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33381000000").replace(/\s/g, "")}`;
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "03 81 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33381000000").replace(/\s/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "ordonnances@pharmacie-horloge.fr";
   const adresse = clientAddress(sessionData);
   const lieu = clientCodePostalVille(sessionData, "", ville).trim();

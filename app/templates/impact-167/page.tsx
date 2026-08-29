@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAreas,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -1949,7 +1950,7 @@ export default function Impact167Page() {
               {[
                 { label: "Agence", value: "12 Rue de l'Université, 75007 " + (clientCity(sessionData) ?? "Paris") },
                 { label: "Téléphone", value: clientPhone(sessionData) ?? "+33 1 45 48 23 67" },
-                { label: "Email", value: (fd?.email ?? "contact@rivegauche-immo.fr") },
+                { label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "contact@rivegauche-immo.fr") },
               ].map((item) => (
                 <div key={item.label} style={{ marginBottom: 20 }}>
                   <div

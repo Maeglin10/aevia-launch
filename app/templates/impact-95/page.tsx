@@ -142,7 +142,8 @@ function SCIENCE_SOURCE_LIVE() {
 let SCIENCE_SOURCE = SCIENCE_SOURCE_LIVE();
 let SCIENCE = SCIENCE_SOURCE;
 
-const FAQ_ITEMS_DEMO = [
+function FAQ_ITEMS_DEMO_VIVANT() {
+  return [
   {
     q: "Comment prendre rendez-vous pour une consultation ?",
     a: "Vous pouvez utiliser notre formulaire de prise de rendez-vous en ligne ci-dessous, ou nous contacter par téléphone au " + (clientPhone(sessionData) ?? "+33 1 45 72 98 30") + ". La première consultation de diagnostic est entièrement gratuite.",
@@ -163,7 +164,9 @@ const FAQ_ITEMS_DEMO = [
     q: "Quelle est votre politique d'annulation ?",
     a: "En cas d'empêchement, nous vous demandons de bien vouloir nous prévenir au moins 24 heures à l'avance afin de libérer le créneau pour un autre patient.",
   },
-]
+];
+}
+let FAQ_ITEMS_DEMO = FAQ_ITEMS_DEMO_VIVANT();
 let FAQ_ITEMS = FAQ_ITEMS_DEMO;
 
 // ─── Sub-pages refactored to Sections ──────────────────────────────────────────
@@ -634,7 +637,7 @@ function ContactSection() {
                   </div>
                   <div>
                     <div className="text-xs tracking-widest uppercase text-[#8A8278] mb-1">Email</div>
-                    <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} className="text-sm text-[#181410] hover:text-[var(--brand,#3A8080)] transition-colors">{fd?.email ?? "contact@exemple.fr"}</a>
+                    <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}`} className="text-sm text-[#181410] hover:text-[var(--brand,#3A8080)] transition-colors">{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</a>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -643,7 +646,7 @@ function ContactSection() {
                   </div>
                   <div>
                     <div className="text-xs tracking-widest uppercase text-[#8A8278] mb-1">Téléphone</div>
-                    <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33145729830").replace(/[^+0-9]/g, "")}`} className="text-sm text-[#181410] hover:text-[var(--brand,#3A8080)] transition-colors">{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33 1 45 72 98 30"}</a>
+                    <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33145729830").replace(/[^+0-9]/g, "")}`} className="text-sm text-[#181410] hover:text-[var(--brand,#3A8080)] transition-colors">{clientPhone(sessionData) ?? fd?.phone ?? "+33 1 45 72 98 30"}</a>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -810,6 +813,10 @@ export default function LumiereCliniquePage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  /* Le tableau lit la session : il doit être reconstruit ICI, au rendu.
+     Écrit en constante de module, il était évalué à l'import, quand la
+     session valait encore null — le repli gagnait toujours. */
+  FAQ_ITEMS_DEMO = FAQ_ITEMS_DEMO_VIVANT();
   SCIENCE_SOURCE = SCIENCE_SOURCE_LIVE();
 
   SCIENCE = resolveList(
@@ -1023,8 +1030,8 @@ export default function LumiereCliniquePage() {
             <div>
               <p className="text-[#FAFAF8] text-xs tracking-widest uppercase mb-5">Contact</p>
               <p className="text-sm mb-2">Adresse sur demande</p>
-              <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} className="text-sm mb-2 block hover:text-[#FAFAF8] transition-colors">{fd?.email ?? "contact@exemple.fr"}</a>
-              <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33145729830").replace(/[^+0-9]/g, "")}`} className="text-sm mb-2 block hover:text-[#FAFAF8] transition-colors">{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33 1 45 72 98 30"}</a>
+              <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}`} className="text-sm mb-2 block hover:text-[#FAFAF8] transition-colors">{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</a>
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33145729830").replace(/[^+0-9]/g, "")}`} className="text-sm mb-2 block hover:text-[#FAFAF8] transition-colors">{clientPhone(sessionData) ?? fd?.phone ?? "+33 1 45 72 98 30"}</a>
               <p className="text-sm text-[var(--brand,#3A8080)] mt-4 text-xs">Lun–Ven 9h–18h · Sam 9h–13h</p>
             </div>
           </div>

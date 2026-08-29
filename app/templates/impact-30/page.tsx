@@ -1265,7 +1265,8 @@ function Pricing() {
 }
 
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
-const FAQS_DEMO = [
+function FAQS_DEMO_VIVANT() {
+  return [
   {
     q: "Le blanchiment dentaire est-il remboursé par la Sécurité Sociale ?",
     a: "Non, le blanchiment esthétique n'est pas pris en charge par la Sécurité Sociale. Certaines mutuelles offrent cependant une prise en charge partielle. Nous vous fournissons un devis détaillé et proposons des solutions de financement adaptées.",
@@ -1284,9 +1285,11 @@ const FAQS_DEMO = [
   },
   {
     q: "Acceptez-vous les urgences dentaires ?",
-    a: "Oui, nous réservons des créneaux d'urgence chaque jour. En cas de douleur aiguë ou de traumatisme, appelez-nous au " + (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 42 56 78 90") + " — nous vous prendrons en charge dans les plus brefs délais.",
+    a: "Oui, nous réservons des créneaux d'urgence chaque jour. En cas de douleur aiguë ou de traumatisme, appelez-nous au " + (clientPhone(sessionData) ?? fd?.phone ?? "01 42 56 78 90") + " — nous vous prendrons en charge dans les plus brefs délais.",
   },
 ];
+}
+let FAQS_DEMO = FAQS_DEMO_VIVANT();
 
 function FAQ() {
   const ref = useRef<HTMLElement>(null);
@@ -1428,6 +1431,10 @@ export default function Impact30() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  /* Le tableau lit la session : il doit être reconstruit ICI, au rendu.
+     Écrit en constante de module, il était évalué à l'import, quand la
+     session valait encore null — le repli gagnait toujours. */
+  FAQS_DEMO = FAQS_DEMO_VIVANT();
   memoriserSession(sessionData);
   PLANS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),

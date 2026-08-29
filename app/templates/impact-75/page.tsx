@@ -47,13 +47,16 @@ let fd: any = null;
 
 // La FAQ, jusqu'ici écrit(e) dans le rendu :
 // le client pouvait les saisir, le thème ne les lisait pas.
-const FAQ_INLINE_SOURCE = [
+function FAQ_INLINE_SOURCE_VIVANT() {
+  return [
   { q: "Quels sont les délais de livraison ?", a: "Livraison standard : 2-3 jours ouvrés gratuite dès 200€. Express 24h disponible pour 12€ en France métropolitaine. Les produits en stock partent le jour même si la commande est passée avant 14h. Livraison internationale disponible dans 38 pays." },
               { q: "Quelle est votre politique de retour ?", a: "30 jours de retour gratuit, sans questions. Si votre produit présente un défaut ou ne vous convient pas, nous prenons en charge l'enlèvement à domicile et le remboursement intégral sous 5 jours ouvrés. Aucun frais de restockage." },
               { q: "Vos produits sont-ils garantis ?", a: "Tous nos produits bénéficient d'une garantie constructeur de 2 ans minimum, extensible à 5 ans avec notre programme NeuroSafe. En cas de panne, nous vous remplaçons le produit sous 48h sans attendre la fin du diagnostic." },
               { q: "Proposez-vous des facilités de paiement ?", a: "Oui — paiement en 3x ou 12x sans frais disponible dès 150€ via notre partenaire Alma. Paiement en 24x pour les produits à partir de 1 000€. Aucun justificatif ni formulaire papier — tout se fait en 30 secondes à la caisse." },
-              { q: "Comment contacter le support ?", a: "Chat en direct disponible 7j/7 de 8h à 23h. Email avec réponse garantie en moins de 2h en semaine, 4h le week-end. Pour les produits sous garantie, ligne prioritaire au " + (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 88 32 31 28") + ". Notre NPS client est de 78 — on ne dit pas ça pour rien." }
+              { q: "Comment contacter le support ?", a: "Chat en direct disponible 7j/7 de 8h à 23h. Email avec réponse garantie en moins de 2h en semaine, 4h le week-end. Pour les produits sous garantie, ligne prioritaire au " + (clientPhone(sessionData) ?? fd?.phone ?? "01 88 32 31 28") + ". Notre NPS client est de 78 — on ne dit pas ça pour rien." }
 ];
+}
+let FAQ_INLINE_SOURCE = FAQ_INLINE_SOURCE_VIVANT();
 let FAQ_INLINE = FAQ_INLINE_SOURCE;
 
 let c: any = null;
@@ -682,6 +685,10 @@ export default function OrbitAIPage() {
 
 
   sessionData = session;
+  /* Le tableau lit la session : il doit être reconstruit ICI, au rendu.
+     Écrit en constante de module, il était évalué à l'import, quand la
+     session valait encore null — le repli gagnait toujours. */
+  FAQ_INLINE_SOURCE = FAQ_INLINE_SOURCE_VIVANT();
 
 
 

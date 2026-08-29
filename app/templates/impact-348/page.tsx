@@ -724,8 +724,8 @@ export default function AlmaCompetencesPage() {
   const nom = clientName(sessionData) ?? fd?.businessName ?? "Alma Compétences";
   const ville = clientCity(sessionData) ?? "Bordeaux";
   const metier = clientTrade(sessionData) ?? "Reconversions professionnelles";
-  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 56 00 00 00";
-  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33556000000").replace(/[^+\d]/g, "")}`;
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "05 56 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33556000000").replace(/[^+\d]/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "projet@alma-competences.fr";
   const adresse = clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "33000", "Bordeaux");
   const horaires = "Lun–Ven 8h30–18h30";

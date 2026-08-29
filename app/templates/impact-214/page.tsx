@@ -1465,7 +1465,7 @@ export default function AquaPrestigePage() {
         {/* CTA + Hamburger */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <a
-            href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33142000000").replace(/[^+0-9]/g, "")}`}
+            href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33142000000").replace(/[^+0-9]/g, "")}`}
             className="hide-mobile"
             style={{
               display: 'flex',
@@ -1551,7 +1551,7 @@ export default function AquaPrestigePage() {
               </a>
             ))}
             <a
-              href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33142000000").replace(/[^+0-9]/g, "")}`}
+              href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33142000000").replace(/[^+0-9]/g, "")}`}
               style={{
                 display: 'block',
                 marginTop: '1.5rem',
@@ -1681,7 +1681,7 @@ export default function AquaPrestigePage() {
             style={{ justifyContent: 'center' }}
           >
             <a
-              href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33142000000").replace(/[^+0-9]/g, "")}`}
+              href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33142000000").replace(/[^+0-9]/g, "")}`}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -1889,7 +1889,7 @@ export default function AquaPrestigePage() {
                   Notre équipe d&apos;urgence est disponible 24h/24, 7j/7, 365 jours par an. Intervention garantie en moins de 30 minutes dans {clientCity(sessionData) ?? "Paris"} et petite couronne.
                 </>}</p>
                 <a
-                  href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33142000000").replace(/[^+0-9]/g, "")}`}
+                  href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33142000000").replace(/[^+0-9]/g, "")}`}
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -1910,7 +1910,7 @@ export default function AquaPrestigePage() {
                   onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.transform = 'scale(1.04)')}
                   onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.transform = 'scale(1)')}
                 >
-                  {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 42 00 00 00"}
+                  {clientPhone(sessionData) ?? fd?.phone ?? "01 42 00 00 00"}
                 </a>
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
@@ -2184,8 +2184,8 @@ export default function AquaPrestigePage() {
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                 {[
-                  { icon: '📞', label: 'Téléphone', value: (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? '01 42 00 00 00'), sub: 'Urgences 24h/24' },
-                  { icon: '📧', label: 'Email', value: (fd?.email ?? 'contact@aquaprestige.fr'), sub: 'Réponse sous 2h en journée' },
+                  { icon: '📞', label: 'Téléphone', value: (clientPhone(sessionData) ?? fd?.phone ?? '01 42 00 00 00'), sub: 'Urgences 24h/24' },
+                  { icon: '📧', label: 'Email', value: (clientEmail(sessionData) ?? fd?.email ?? 'contact@aquaprestige.fr'), sub: 'Réponse sous 2h en journée' },
                   { icon: '📍', label: 'Adresse', value: '15 Rue de la Pompe, ' + (clientCity(sessionData) ?? 'Paris'), sub: 'Bureau ouvert lun-sam 8h-19h' },
                 ].map((info) => (
                   <div key={info.label} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
@@ -2617,7 +2617,7 @@ export default function AquaPrestigePage() {
               </h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
                 <a
-                  href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33142000000").replace(/[^+0-9]/g, "")}`}
+                  href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33142000000").replace(/[^+0-9]/g, "")}`}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -2632,10 +2632,10 @@ export default function AquaPrestigePage() {
                     boxShadow: `0 4px 16px rgba(30,143,191,0.3)`,
                   }}
                 >
-                  {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 42 00 00 00"}
+                  {clientPhone(sessionData) ?? fd?.phone ?? "01 42 00 00 00"}
                 </a>
                 <div style={{ color: C.textMuted, fontSize: '0.83rem', lineHeight: 1.7 }}>
-                  <div>{fd?.email ?? "contact@aquaprestige.fr"}</div>
+                  <div>{clientEmail(sessionData) ?? fd?.email ?? "contact@aquaprestige.fr"}</div>
                   <div style={{ marginTop: '0.4rem' }}>{clientAddress(sessionData) ?? "15 Rue de la Pompe, Paris 16e"}</div>
                   <div style={{ marginTop: '0.4rem' }}>Lun–Sam : 8h – 19h</div>
                   <div>Urgences : 24h/24</div>

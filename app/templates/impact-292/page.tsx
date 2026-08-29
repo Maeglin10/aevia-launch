@@ -1161,7 +1161,7 @@ return (
                     </div>
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Téléphone</div>
-                      <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33520511332").replace(/[^+0-9]/g, "")}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>+33 (0)5 00 00 00 00</a>
+                      <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33520511332").replace(/[^+0-9]/g, "")}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>+33 (0)5 00 00 00 00</a>
                     </div>
                   </div>
 
@@ -1181,7 +1181,7 @@ return (
                     </div>
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Adresse E-mail</div>
-                      <a href={`mailto:${fd?.email ?? "contact@mysite.com"}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>{fd?.email ?? "contact@burgerco.com"}</a>
+                      <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@mysite.com"}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>{clientEmail(sessionData) ?? fd?.email ?? "contact@burgerco.com"}</a>
                     </div>
                   </div>
 

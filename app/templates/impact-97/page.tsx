@@ -735,7 +735,7 @@ export default function HorizonYachtPage() {
               <p className="text-white/30 max-w-md mb-10 text-[12px] tracking-wide leading-loose">
                 {clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "31000", "Toulouse") + ", au bord du canal"}
                 <br />
-                {(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 61 00 00 00") + " · " + (clientEmail(sessionData) ?? fd?.email ?? "sejour@horizon-canal.fr")}
+                {(clientPhone(sessionData) ?? fd?.phone ?? "05 61 00 00 00") + " · " + (clientEmail(sessionData) ?? fd?.email ?? "sejour@horizon-canal.fr")}
                 <br />
                 Réception 7 j/7 · arrivées jusqu'à 22 h
               </p>

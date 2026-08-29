@@ -2142,7 +2142,7 @@ function Footer() {
               }}
             >
               <Phone size={13} color={C.accent} strokeWidth={1.6} />
-              {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "03 88 00 00 00"}
+              {clientPhone(sessionData) ?? fd?.phone ?? "03 88 00 00 00"}
             </div>
             <div
               style={{
@@ -2154,7 +2154,7 @@ function Footer() {
                 color: 'rgba(255,255,255,0.54)',
               }}
             >
-              <Mail size={13} color={C.accent} strokeWidth={1.6} />{fd?.email ?? "contact@dr-beaumont.fr"}</div>
+              <Mail size={13} color={C.accent} strokeWidth={1.6} />{clientEmail(sessionData) ?? fd?.email ?? "contact@dr-beaumont.fr"}</div>
           </div>
         </div>
 

@@ -14,6 +14,7 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import {
   clientAccrocheRestante,
   clientCity,
+  clientEmail,
   clientFaq,
   clientHeroPrestations,
   clientHeroSubtitle,
@@ -1529,7 +1530,7 @@ function ContactSection() {
             </p>
             {/* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ label: h.day, value: h.hours })), [
               { icon: '📞', label: 'Téléphone',  value: clientPhone(sessionData) ?? '+33 1 84 88 92 10' },
-              { icon: '✉️', label: 'Email',      value: (fd?.email ?? 'contact@meridian-freight.fr') },
+              { icon: '✉️', label: 'Email',      value: (clientEmail(sessionData) ?? fd?.email ?? 'contact@meridian-freight.fr') },
               { icon: '🕐', label: 'Horaires',   value: 'Lun–Ven 8h–19h | Sam 9h–13h' },
             ]).map((info, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>

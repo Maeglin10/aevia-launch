@@ -277,7 +277,7 @@ export default function TextRevealPage() {
   }, []);
 
   const ville = clientCity(sessionData) ?? "Bordeaux";
-  const tel = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 56 81 44 07";
+  const tel = clientPhone(sessionData) ?? fd?.phone ?? "05 56 81 44 07";
   const telHref = `tel:${tel.replace(/\s/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "bonjour@studio-interieur.fr";
 

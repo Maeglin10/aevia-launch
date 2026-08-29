@@ -202,7 +202,7 @@ export default function MaisonVLookbook() {
   const textX = useTransform(scrollYProgress, [0, 0.5], [0, -100])
 
   const ville = clientCity(sessionData) ?? "Rennes";
-  const tel = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "02 99 45 12 08";
+  const tel = clientPhone(sessionData) ?? fd?.phone ?? "02 99 45 12 08";
   const telHref = `tel:${tel.replace(/\s/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "bonjour@maison-v.fr";
 

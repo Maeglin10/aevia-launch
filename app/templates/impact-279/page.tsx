@@ -2168,8 +2168,8 @@ function PracticalSection() {
       icon: <Phone size={26} color={C.terra} strokeWidth={1.4} />,
       title: 'Contact',
       lines: [
-        (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? '04 78 25 86 86'),
-        (fd?.email ?? 'cabinet.soler@gmail.com'),
+        (clientPhone(sessionData) ?? fd?.phone ?? '04 78 25 86 86'),
+        (clientEmail(sessionData) ?? fd?.email ?? 'cabinet.soler@gmail.com'),
         'Urgences : via Doctolib',
         'Réponse sous 24h',
       ],

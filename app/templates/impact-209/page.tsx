@@ -19,6 +19,7 @@ import {
   clientBookingUrl,
   clientCity,
   clientCodePostalVille,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -1702,7 +1703,7 @@ export default function Page() {
             {[
               { icon: '📍', label: 'Adresse', lines: [(clientAddress(sessionData) ? '' : '14 rue de Varenne'), clientCodePostalVille(sessionData, "75007", "Paris")] },
               { icon: '📞', label: 'Téléphone', lines: [clientPhone(sessionData) ?? '+33 1 42 22 33 44'] },
-              { icon: '✉️', label: 'Email', lines: [(fd?.email ?? 'contact@latelier-coiffure.fr')] },
+              { icon: '✉️', label: 'Email', lines: [(clientEmail(sessionData) ?? fd?.email ?? 'contact@latelier-coiffure.fr')] },
               { icon: '🕐', label: 'Horaires', lines: ['Mar–Sam : 9h – 19h', 'Dim–Lun : Fermé'] },
             ].map((item) => (
               <motion.div

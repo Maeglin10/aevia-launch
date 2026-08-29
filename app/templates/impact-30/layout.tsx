@@ -245,8 +245,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
               {[
-                { icon: <Phone size={15} />, text: (clientPhone(__layoutSession) ?? clientEmail(__layoutSession) ?? fd?.email ?? "01 42 56 78 90") },
-                { icon: <Mail size={15} />, text: (fd?.email ?? "contact@smilestudio.paris") },
+                { icon: <Phone size={15} />, text: (clientPhone(__layoutSession) ?? fd?.phone ?? "01 42 56 78 90") },
+                { icon: <Mail size={15} />, text: (clientEmail(__layoutSession) ?? fd?.email ?? "contact@smilestudio.paris") },
                 { icon: <MapPin size={15} />, text: "42 Av. des Champs-Élysées, 75008 " + (clientCity(__layoutSession) ?? "Paris") },
               ].map((item, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.62)", fontSize: 14 }}>

@@ -419,8 +419,8 @@ export default function PharmacieDuParcPage() {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "03 20 00 00 00";
-  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33320000000").replace(/[\s.]/g, "")}`;
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "03 20 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33320000000").replace(/[\s.]/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "ordonnances@pharmacieduparc-lille.fr";
 
   /* Photo optionnelle de l'officine : jamais de stock à la place — sans

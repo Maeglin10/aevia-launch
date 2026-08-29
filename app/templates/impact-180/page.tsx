@@ -228,8 +228,8 @@ export default function ThermotekChauffagePage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0556123456").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#ea580c)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 56 12 34 56"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0556123456").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#ea580c)] font-bold text-sm">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "05 56 12 34 56"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#ea580c)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#f97316] transition-colors">
               Devis Gratuit
@@ -239,7 +239,7 @@ export default function ThermotekChauffagePage() {
               <SheetContent side="right" className="bg-[#0a0906] border-[var(--brand,#ea580c)]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold hover:text-[var(--brand,#ea580c)] transition-colors">{l}</Link>)}
-                  <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0556123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#ea580c)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 56 12 34 56"}</a>
+                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0556123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#ea580c)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "05 56 12 34 56"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -270,7 +270,7 @@ export default function ThermotekChauffagePage() {
             <button className="px-8 py-4 bg-[var(--brand,#ea580c)] text-white font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-[#f97316] transition-colors">{c?.ctaText ?? <>
               Devis gratuit
             </>}</button>
-            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0556123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#ea580c)]/50 hover:text-[var(--brand,#ea580c)] transition-all">
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0556123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#ea580c)]/50 hover:text-[var(--brand,#ea580c)] transition-all">
               <Phone className="w-4 h-4" /> Urgence 4h
             </a>
           </motion.div>
@@ -287,7 +287,7 @@ export default function ThermotekChauffagePage() {
           <span className="font-bold text-sm text-white">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.texte") ?? (<>Panne de chauffage ? Astreinte 7j/7 de novembre à mars</>)}</span>
           <div className="flex items-center gap-5">
             <span className="flex items-center gap-2 text-white/85 font-semibold text-sm"><Clock className="w-4 h-4" /> &lt; 4h d'intervention</span>
-            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0556123456").replace(/[^+0-9]/g, "")}`} className="bg-white text-[var(--brand,#ea580c)] px-5 py-2 font-bold text-sm hover:bg-orange-50 transition-colors">{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 56 12 34 56"}</a>
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0556123456").replace(/[^+0-9]/g, "")}`} className="bg-white text-[var(--brand,#ea580c)] px-5 py-2 font-bold text-sm hover:bg-orange-50 transition-colors">{clientPhone(sessionData) ?? fd?.phone ?? "05 56 12 34 56"}</a>
           </div>
         </div>
       </section>
@@ -449,8 +449,8 @@ export default function ThermotekChauffagePage() {
               <button className="px-10 py-4 bg-white text-[var(--brand,#ea580c)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-orange-50 transition-colors">
                 Demander un devis
               </button>
-              <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0556123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-white/30 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all">
-                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 56 12 34 56"}
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0556123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-white/30 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all">
+                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "05 56 12 34 56"}
               </a>
             </div>
           </div>
@@ -470,7 +470,7 @@ export default function ThermotekChauffagePage() {
           {[
             { t: "Services", ls: ["Chaudière gaz/condensation", "Pompe à chaleur", "Plancher chauffant", "VMC double flux", "Entretien annuel", "Dépannage urgent"] },
             { t: "Aides", ls: ["MaPrimeRénov'", "CEE (Certificats Économie Énergie)", "Eco-prêt taux zéro", "TVA à 5,5%", "Dossiers pris en charge"] },
-            { t: "Contact", ls: [(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 56 12 34 56"), (fd?.email ?? "contact@thermotek.fr"), (clientCity(sessionData) ?? "Bordeaux") + " Métropole", "Astreinte hiver 24h/24", "Devis gratuit 24h"] },
+            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "05 56 12 34 56"), (clientEmail(sessionData) ?? fd?.email ?? "contact@thermotek.fr"), (clientCity(sessionData) ?? "Bordeaux") + " Métropole", "Astreinte hiver 24h/24", "Devis gratuit 24h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#ea580c)] mb-5" style={{ fontFamily: "'Fira Code', monospace" }}>{col.t}</h4>

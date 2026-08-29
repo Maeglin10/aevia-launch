@@ -520,8 +520,8 @@ export default function BrasserieHoublonPage() {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "03 20 00 00 02";
-  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33320000002").replace(/\s+/g, "")}`;
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "03 20 00 00 02";
+  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33320000002").replace(/\s+/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "taproom@houblon-franc.fr";
   const nom = fd?.businessName ?? clientName(sessionData) ?? "Brasserie du Houblon Franc";
   const ville = clientCity(sessionData) ?? "Lille";

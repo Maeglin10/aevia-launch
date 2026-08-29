@@ -1815,7 +1815,7 @@ function ContactFormSection() {
                 {
                   Icon: Mail,
                   label: 'Email',
-                  val: (fd?.email ?? 'contact@epousailles-alsace.fr'),
+                  val: (clientEmail(sessionData) ?? fd?.email ?? 'contact@epousailles-alsace.fr'),
                 },
                 {
                   Icon: MapPin,

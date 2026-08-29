@@ -560,7 +560,7 @@ return (
                  {/* Le contact que ce thème n'avait pas : l'atelier se joint. */}
                  <div className="space-y-4 mb-12 text-[11px] tracking-widest text-white/40 normal-case not-italic">
                     <div className="flex items-center gap-3"><MapPin className="w-4 h-4 text-[var(--brand,#c4a661)]" /> {clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "33000", "Bordeaux") + " — atelier sur rendez-vous"}</div>
-                    <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33556000000").replace(/\s/g, "")}`} className="flex items-center gap-3 hover:text-white transition-colors"><Clock className="w-4 h-4 text-[var(--brand,#c4a661)]" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 56 00 00 00"} · mar–sam 10h–19h</a>
+                    <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33556000000").replace(/\s/g, "")}`} className="flex items-center gap-3 hover:text-white transition-colors"><Clock className="w-4 h-4 text-[var(--brand,#c4a661)]" /> {clientPhone(sessionData) ?? fd?.phone ?? "05 56 00 00 00"} · mar–sam 10h–19h</a>
                     <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "atelier@chronos-lab.fr"}`} className="flex items-center gap-3 hover:text-white transition-colors"><PenTool className="w-4 h-4 text-[var(--brand,#c4a661)]" /> {clientEmail(sessionData) ?? fd?.email ?? "atelier@chronos-lab.fr"}</a>
                  </div>
               </div>

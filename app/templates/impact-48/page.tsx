@@ -17,6 +17,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAccrocheRestante,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientList,
   clientServices,
@@ -2418,7 +2419,7 @@ function ContactSection() {
                 {[
                   { label: (clientCity(sessionData) ?? 'Paris') + ' Studio', val: `14 Rue du Dragon, 75006 ${clientCity(sessionData) ?? "Paris"}` },
                   { label: 'Geneva Office', val: '12 Quai du Mont-Blanc, 1201 Geneva' },
-                  { label: 'Email', val: (fd?.email ?? 'contact@exemple.fr') },
+                  { label: 'Email', val: (clientEmail(sessionData) ?? fd?.email ?? 'contact@exemple.fr') },
                   { label: 'Horaires', val: 'Lun – Ven · 9h – 19h' },
                 ].map((item) => (
                   <div key={item.label} style={{ display: 'flex', gap: 20 }}>

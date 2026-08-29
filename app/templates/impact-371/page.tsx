@@ -471,8 +471,8 @@ export default function SentinellePage() {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
-  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 91 00 00 01";
-  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33491000001").replace(/\s+/g, "")}`;
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "04 91 00 00 01";
+  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33491000001").replace(/\s+/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "operations@sentinelle-sud.fr";
   const nom = fd?.businessName ?? clientName(sessionData) ?? "Sentinelle Sud";
   const ville = clientCity(sessionData) ?? "Marseille";

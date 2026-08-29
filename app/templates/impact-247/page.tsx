@@ -1923,8 +1923,8 @@ function Footer() {
     },
     {
       title: 'Contact & Urgences',
-      items: ['📍 ' + (clientCity(sessionData) ?? 'Toulouse') + ' & agglomération', '📞 ' + (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? '05 20 51 51 51'), '📧 ' + (fd?.email ?? 'contact@voltlux.fr'), '🚨 Urgences 24h/7j'],
-      hrefs: ['#devis', 'tel:+33520511332', `mailto:${clientEmail(sessionData) ?? 'contact@voltlux.fr'}`, 'tel:+33520511332'],
+      items: ['📍 ' + (clientCity(sessionData) ?? 'Toulouse') + ' & agglomération', '📞 ' + (clientPhone(sessionData) ?? fd?.phone ?? '05 20 51 51 51'), '📧 ' + (clientEmail(sessionData) ?? fd?.email ?? 'contact@voltlux.fr'), '🚨 Urgences 24h/7j'],
+      hrefs: ['#devis', `tel:${(clientPhone(sessionData) ?? '+33520511332').replace(/[^+0-9]/g, "")}`, `mailto:${clientEmail(sessionData) ?? 'contact@voltlux.fr'}`, `tel:${(clientPhone(sessionData) ?? '+33520511332').replace(/[^+0-9]/g, "")}`],
     },
   ];
 

@@ -31,13 +31,14 @@ import {
   ChevronDown,
 } from "lucide-react";
 import {
-  clientPhone,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
   clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -2000,7 +2001,7 @@ return (
               }}
             >
               <a
-                href={`mailto:${fd?.email ?? "hello@impact.studio"}`}
+                href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "hello@impact.studio"}`}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -2021,7 +2022,7 @@ return (
                 onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.82")}
                 onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
               >
-                <Mail size={16} /> {fd?.email ?? "hello@impact.studio"}
+                <Mail size={16} /> {clientEmail(sessionData) ?? fd?.email ?? "hello@impact.studio"}
               </a>
               <button
                 onClick={() => scrollTo("contact")}
@@ -2066,7 +2067,7 @@ return (
               }}
             >
               {[
-                { icon: <Mail size={14} />, value: (fd?.email ?? "hello@impact.studio") },
+                { icon: <Mail size={14} />, value: (clientEmail(sessionData) ?? fd?.email ?? "hello@impact.studio") },
                 { icon: <Phone size={14} />, value: (clientPhone(sessionData) ?? "+33 1 42 86 00 00") },
                 { icon: <MapPin size={14} />, value: (clientCity({ formData: fd }) ?? "Paris") + ", France" },
               ].map((item, i) => (
@@ -2287,7 +2288,7 @@ function Footer({ goTo }: { goTo: (p: AgencyPage) => void }) {
           <div style={colTitle}>Connect</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <a
-              href={`mailto:${fd?.email ?? "contact@exemple.fr"}`}
+              href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}`}
               style={{
                 fontFamily: FONT_BODY,
                 fontSize: "0.85rem",
@@ -2297,7 +2298,7 @@ function Footer({ goTo }: { goTo: (p: AgencyPage) => void }) {
               }}
               onMouseEnter={(e) => (e.currentTarget.style.color = T.text)}
               onMouseLeave={(e) => (e.currentTarget.style.color = T.muted)}
-            >{fd?.email ?? "contact@exemple.fr"}</a>
+            >{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</a>
             <a
               href="https://www.linkedin.com"
               target="_blank"
@@ -3993,7 +3994,7 @@ function ContactPage() {
           {/* Info */}
           <div>
             {/* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ label: h.day, value: h.hours })), [
-              { icon: <Mail size={18} />, label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
+              { icon: <Mail size={18} />, label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr") },
               { icon: <MapPin size={18} />, label: "Studio", value: (clientCity({ formData: fd }) ?? "Paris") + ", France" },
               {
                 icon: <Phone size={18} />,
@@ -4233,10 +4234,10 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               SIREN: <span style={strong}><LegalIdentity /></span> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}.
             </p>
             <p style={para}>
-              Contact: <span style={strong}>{fd?.email ?? "contact@exemple.fr"}</span>
+              Contact: <span style={strong}>{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</span>
             </p>
             <p style={para}>
-              Registered office address available on request at {fd?.email ?? "contact@exemple.fr"}.
+              Registered office address available on request at {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}.
             </p>
 
             <h2 style={sectionTitle}>VAT</h2>
@@ -4278,7 +4279,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
           <p style={para}>
             The controller of personal data is{" "}
             <span style={strong}>Aevia WS</span>, the site publisher. For any question,
-            write to <span style={strong}>{fd?.email ?? "contact@exemple.fr"}</span>.
+            write to <span style={strong}>{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</span>.
           </p>
 
           <h2 style={sectionTitle}>Data collected</h2>
@@ -4306,7 +4307,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
           <p style={para}>
             Under the GDPR, you have the right to access, rectify, erase, port, and object
             to the processing of your data. To exercise these rights, write to
-            {fd?.email ?? "contact@exemple.fr"}.
+            {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}.
           </p>
 
           <h2 style={sectionTitle}>Cookies</h2>

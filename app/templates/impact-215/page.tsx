@@ -232,7 +232,8 @@ function EXTRA_TESTIMONIALS_SOURCE_LIVE() {
 let EXTRA_TESTIMONIALS_SOURCE = EXTRA_TESTIMONIALS_SOURCE_LIVE();
 let EXTRA_TESTIMONIALS = EXTRA_TESTIMONIALS_SOURCE;
 
-const FAQS_DEMO = [
+function FAQS_DEMO_VIVANT() {
+  return [
   {
     q: 'Quels sont les délais de livraison ?',
     a: 'Nous livrons en 48h ouvrées en France métropolitaine pour la majorité de nos produits en stock. Pour les commandes sur mesure ou les produits en précommande, comptez 2 à 3 semaines. Un email de suivi vous est envoyé dès l\'expédition.'
@@ -255,13 +256,15 @@ const FAQS_DEMO = [
   },
   {
     q: 'Puis-je retourner un produit si je ne suis pas satisfait ?',
-    a: 'Conformément à la loi française, vous disposez de 14 jours de rétractation à compter de la livraison. Le produit doit être retourné dans son emballage d\'origine et non installé. Pour les appareils déjà posés, nous étudions chaque situation au cas par cas. Contactez notre service client au ' + (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? '01 75 16 68 52') + '.'
+    a: 'Conformément à la loi française, vous disposez de 14 jours de rétractation à compter de la livraison. Le produit doit être retourné dans son emballage d\'origine et non installé. Pour les appareils déjà posés, nous étudions chaque situation au cas par cas. Contactez notre service client au ' + (clientPhone(sessionData) ?? fd?.phone ?? '01 75 16 68 52') + '.'
   },
   {
     q: 'Les appareils Flamme Verte ouvrent-ils droit à des crédits d\'impôt ?',
     a: 'Oui ! Les appareils labellisés Flamme Verte 5 étoiles et plus ouvrent droit à MaPrimeRénov\'. Pour la campagne 2025, les montants d\'aide peuvent atteindre 2 000 à 3 000€ selon votre tranche de revenu et le type d\'appareil. Nous vous fournirons tous les documents nécessaires à votre demande.'
   },
 ];
+}
+let FAQS_DEMO = FAQS_DEMO_VIVANT();
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 function fmt(n: number): string {
@@ -1846,6 +1849,10 @@ export default function FlammeEtCoPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  /* Le tableau lit la session : il doit être reconstruit ICI, au rendu.
+     Écrit en constante de module, il était évalué à l'import, quand la
+     session valait encore null — le repli gagnait toujours. */
+  FAQS_DEMO = FAQS_DEMO_VIVANT();
   EXTRA_TESTIMONIALS_SOURCE = EXTRA_TESTIMONIALS_SOURCE_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
@@ -2604,7 +2611,7 @@ export default function FlammeEtCoPage() {
                 Vous ne trouvez pas votre réponse ?
               </p>
               <motion.a
-                href={`mailto:${fd?.email ?? "contact@flammeetco.fr"}`}
+                href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@flammeetco.fr"}`}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
                 style={{
@@ -2819,7 +2826,7 @@ export default function FlammeEtCoPage() {
                   padding: '1rem',
                 }}>
                   <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', marginBottom: '0.35rem' }}>Service client</p>
-                  <p style={{ color: C.text, fontFamily: 'Inter, sans-serif', fontSize: '1rem', fontWeight: 700 }}>{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 75 16 68 52"}</p>
+                  <p style={{ color: C.text, fontFamily: 'Inter, sans-serif', fontSize: '1rem', fontWeight: 700 }}>{clientPhone(sessionData) ?? fd?.phone ?? "01 75 16 68 52"}</p>
                   <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.73rem', marginTop: '0.2rem' }}>Lun–Ven, 9h–18h</p>
                 </div>
               </div>

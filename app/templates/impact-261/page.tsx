@@ -14,6 +14,7 @@ import { ArrowRight, ChevronDown, TrendingUp } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -2010,7 +2011,7 @@ function Footer() {
               fontSize: 13,
               color: 'rgba(200,224,208,0.55)',
             }}
-          >{fd?.email ?? "contact@axiomconseil.fr"}</div>
+          >{clientEmail(sessionData) ?? fd?.email ?? "contact@axiomconseil.fr"}</div>
         </div>
 
         {/* Colonnes nav */}

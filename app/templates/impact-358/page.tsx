@@ -674,8 +674,8 @@ export default function BioValleePage() {
 
   const marque = fd?.businessName ?? clientName(sessionData) ?? "BioVallée Analyses";
   const ville = clientCity(sessionData) ?? "Avignon";
-  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 90 00 00 00";
-  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33490000000").replace(/\s/g, "")}`;
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "04 90 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33490000000").replace(/\s/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "contact@biovallee-analyses.fr";
   const adresse = clientAddress(sessionData);
   const lieu = clientCodePostalVille(sessionData, "", ville).trim();

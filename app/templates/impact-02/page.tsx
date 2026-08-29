@@ -693,7 +693,7 @@ export default function CreativePortfolioSPA() {
               Available for commissions, editorial work, and creative collaborations worldwide. Bookings open for Q4 2026.
             </p>
             
-            <a href={`mailto:${fd?.email ?? "hello@elenakorr.com"}`} className="inline-flex items-center gap-4 bg-black text-white px-10 py-5 rounded-full text-lg font-bold hover:bg-white hover:text-black hover:scale-105 transition-all duration-300">{fd?.email ?? "hello@elenakorr.com"}<ArrowUpRight className="w-5 h-5" />
+            <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "hello@elenakorr.com"}`} className="inline-flex items-center gap-4 bg-black text-white px-10 py-5 rounded-full text-lg font-bold hover:bg-white hover:text-black hover:scale-105 transition-all duration-300">{clientEmail(sessionData) ?? fd?.email ?? "hello@elenakorr.com"}<ArrowUpRight className="w-5 h-5" />
             </a>
           </Reveal>
         </div>
@@ -724,7 +724,7 @@ export default function CreativePortfolioSPA() {
               <ul className="space-y-4 text-white/50 text-sm">
                 <li><a href="#contact" className="hover:text-amber-400 transition-colors">{clientAddress({ businessProfile: bp }) ?? `12 Rue de Paradis, ${clientCity({ formData: fd }) ?? "Paris"}`}</a></li>
                 <li><a href="#contact" className="hover:text-amber-400 transition-colors">Aoyama, Minato City, Tokyo</a></li>
-                <li><a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33145678900").replace(/[^+0-9]/g, "")}`} className="hover:text-amber-400 transition-colors">+33 (0) 1 45 67 89 00</a></li>
+                <li><a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33145678900").replace(/[^+0-9]/g, "")}`} className="hover:text-amber-400 transition-colors">+33 (0) 1 45 67 89 00</a></li>
               </ul>
             </div>
 

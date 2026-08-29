@@ -18,18 +18,19 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientTrade,
-  clientAddress,
-  clientPhone,
   clientAccrocheRestante,
+  clientAddress,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -2130,7 +2131,7 @@ function Footer() {
           >
             <div>📍 {clientAddress(sessionData) ?? <>12 rue de la Paix, 44000 {clientCity(sessionData) ?? "Nantes"}</>}</div>
             <div style={{ marginTop: 6 }}>📞 {clientPhone(sessionData) ?? "02 40 75 16 16"}</div>
-            <div style={{ marginTop: 6 }}>✉️ {fd?.email ?? "contact@marchand-partners.fr"}</div>
+            <div style={{ marginTop: 6 }}>✉️ {clientEmail(sessionData) ?? fd?.email ?? "contact@marchand-partners.fr"}</div>
           </div>
         </div>
 

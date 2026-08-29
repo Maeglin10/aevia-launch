@@ -1951,7 +1951,7 @@ function Footer() {
         'Fermé le lundi',
         (clientCity(sessionData) ?? 'Lyon') + ' arrondissement',
         'Métro : Hôtel de Ville',
-        (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? '04 78 37 37 37'),
+        (clientPhone(sessionData) ?? fd?.phone ?? '04 78 37 37 37'),
       ],
     },
     {

@@ -448,11 +448,11 @@ export default function StudioNomaPage() {
             Une consultation de 45 minutes offerte pour présenter votre projet et explorer les possibilités ensemble.
           </>}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`mailto:${fd?.email ?? "contact@studionoma.fr"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "16px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
+            <motion.a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@studionoma.fr"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "16px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
               <Mail size={18} /> Prendre rendez-vous
             </motion.a>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "14px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accent, color: C.white }}>
-              <Phone size={18} /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 78 00 00 00"}
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "14px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accent, color: C.white }}>
+              <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 00 00 00"}
             </motion.a>
           </div>
         </Reveal>
@@ -466,7 +466,7 @@ export default function StudioNomaPage() {
             <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 14, lineHeight: 1.6, maxWidth: 260 }}>Architecture d'intérieur & décoration à {clientCity(sessionData) ?? "Lyon"} depuis 2012.</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {[{ icon: <MapPin size={14} />, t: (clientCity(sessionData) ?? "Lyon") + ", Rhône-Alpes" }, { icon: <Mail size={14} />, t: (fd?.email ?? "contact@studionoma.fr") }, { icon: <Clock size={14} />, t: "Lun–Ven 9h–18h" }].map((item, i) => (
+            {[{ icon: <MapPin size={14} />, t: (clientCity(sessionData) ?? "Lyon") + ", Rhône-Alpes" }, { icon: <Mail size={14} />, t: (clientEmail(sessionData) ?? fd?.email ?? "contact@studionoma.fr") }, { icon: <Clock size={14} />, t: "Lun–Ven 9h–18h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.55)", fontSize: 14 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>

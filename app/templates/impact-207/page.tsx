@@ -17,6 +17,7 @@ import { TemplateIcon } from '@/components/TemplateIcon'
 import {
   clientAccrocheRestante,
   clientCity,
+  clientEmail,
   clientHeroPrestations,
   clientHeroSubtitle,
   clientList,
@@ -1895,7 +1896,7 @@ function ContactSection() {
                 {
                   icon: "✉️",
                   label: "Email",
-                  value: (fd?.email ?? "sales@nexusfreight.com"),
+                  value: (clientEmail(sessionData) ?? fd?.email ?? "sales@nexusfreight.com"),
                 },
                 {
                   icon: "⏱",
