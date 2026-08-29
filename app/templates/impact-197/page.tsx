@@ -11,12 +11,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import {
-  clientPhone,
   clientCity,
+  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -1525,7 +1526,7 @@ function LegalPage() {
             <p>
               <strong>Éditeur :</strong> {clientName(sessionData) ?? "Aevia WS — Valentin Milliand"}<br />
               Entrepreneur individuel — SIREN <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
-              <strong>Contact :</strong>{fd?.email ?? "contact@exemple.fr"}<br />
+              <strong>Contact :</strong>{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}<br />
               <strong>Hébergeur :</strong> Vercel Inc., 650 2nd St, San Francisco, CA 94107, USA.<br />
               <strong>Adresse physique :</strong> communiquée sur demande.
             </p>

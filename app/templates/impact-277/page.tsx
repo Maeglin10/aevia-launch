@@ -1260,7 +1260,7 @@ function ProcessSection() {
                     letterSpacing: '0.04em',
                   }}
                 >
-                  {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 23 72 22 65"}
+                  {clientPhone(sessionData) ?? fd?.phone ?? "01 23 72 22 65"}
                 </div>
                 <div
                   style={{
@@ -2307,7 +2307,7 @@ function UrgencySection() {
         {/* Numéro d'urgence mis en avant */}
         <Reveal delay={0.2}>
           <a
-            href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0123722265").replace(/[^+0-9]/g, "")}`}
+            href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0123722265").replace(/[^+0-9]/g, "")}`}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -2330,7 +2330,7 @@ function UrgencySection() {
                   letterSpacing: '0.04em',
                 }}
               >
-                {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 23 72 22 65"}
+                {clientPhone(sessionData) ?? fd?.phone ?? "01 23 72 22 65"}
               </div>
               <div
                 style={{
@@ -2546,7 +2546,7 @@ function FooterSection() {
 
           {/* Numéro urgence footer */}
           <a
-            href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0123722265").replace(/[^+0-9]/g, "")}`}
+            href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0123722265").replace(/[^+0-9]/g, "")}`}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -2565,7 +2565,7 @@ function FooterSection() {
                 letterSpacing: '0.06em',
               }}
             >
-              {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 23 72 22 65"}
+              {clientPhone(sessionData) ?? fd?.phone ?? "01 23 72 22 65"}
             </span>
           </a>
         </div>

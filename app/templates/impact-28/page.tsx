@@ -722,8 +722,8 @@ export default function Home() {
                     Every project starts with a conversation. Tell us what you want to build and we'll tell you if we're the right firm.
                   </>}</p>
                   <div className="space-y-2 text-sm font-semibold">
-                    <div>{fd?.email ?? "contact@brutco-architecture.com"}</div>
-                    <div>{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33 1 42 78 91 00"}</div>
+                    <div>{clientEmail(sessionData) ?? fd?.email ?? "contact@brutco-architecture.com"}</div>
+                    <div>{clientPhone(sessionData) ?? fd?.phone ?? "+33 1 42 78 91 00"}</div>
                     <div className="text-gray-400">Main Atelier: {clientCity(sessionData) ?? "Paris"}, France</div>
                   </div>
                 </div>

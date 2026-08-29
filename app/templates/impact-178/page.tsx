@@ -344,7 +344,7 @@ export default function AltaTransactionsPage() {
     setModalSubject(subject)
     setModalOpen(true)
   }, [])
-  const phoneDisplay = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 44 87 65 43"
+  const phoneDisplay = clientPhone(sessionData) ?? fd?.phone ?? "01 44 87 65 43"
 
   return (
     <div className="bg-[#fefdfb] text-[#11182a] overflow-x-hidden" style={{ fontFamily: "'Inter', system-ui, sans-serif" }}>
@@ -373,7 +373,7 @@ export default function AltaTransactionsPage() {
             ))}
           </div>
           <div className="hidden md:flex items-center gap-4">
-            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0144876543").replace(/[^+0-9]/g, "")}`} className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#b8944a)]">{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 44 87 65 43"}</a>
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0144876543").replace(/[^+0-9]/g, "")}`} className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#b8944a)]">{clientPhone(sessionData) ?? fd?.phone ?? "01 44 87 65 43"}</a>
             <button onClick={() => openInquiry(null)} className="min-h-[44px] px-6 py-2.5 bg-[var(--brand,#b8944a)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#cdab66] transition-colors duration-300 cursor-pointer">
               Estimer mon bien
             </button>
@@ -577,8 +577,8 @@ export default function AltaTransactionsPage() {
             <button onClick={() => openInquiry(null)} className="min-h-[44px] px-10 py-5 bg-[#11182a] text-white text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-[var(--brand,#b8944a)] transition-colors duration-500 cursor-pointer">
               Demander une estimation
             </button>
-            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0144876543").replace(/[^+0-9]/g, "")}`} className="min-h-[44px] flex items-center gap-3 px-10 py-5 border border-[#11182a]/15 text-[#11182a] text-[10px] font-bold uppercase tracking-[0.2em] hover:border-[var(--brand,#b8944a)] transition-all cursor-pointer">
-              <Phone className="w-4 h-4 text-[var(--brand,#b8944a)]" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 44 87 65 43"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0144876543").replace(/[^+0-9]/g, "")}`} className="min-h-[44px] flex items-center gap-3 px-10 py-5 border border-[#11182a]/15 text-[#11182a] text-[10px] font-bold uppercase tracking-[0.2em] hover:border-[var(--brand,#b8944a)] transition-all cursor-pointer">
+              <Phone className="w-4 h-4 text-[var(--brand,#b8944a)]" /> {clientPhone(sessionData) ?? fd?.phone ?? "01 44 87 65 43"}
             </a>
           </div>
         </Reveal>
@@ -599,7 +599,7 @@ export default function AltaTransactionsPage() {
           {[
             { t: "Acheter", ls: ["Appartements", "Maisons & villas", "Programme neuf", "Investissement locatif"] },
             { t: "Vendre", ls: ["Estimation gratuite", "Marketing premium", "Compte rendu hebdo", "Honoraires transparents"] },
-            { t: "Agence", ls: ["Notre équipe", "Nos références", "Blog & conseils", (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 44 87 65 43")] },
+            { t: "Agence", ls: ["Notre équipe", "Nos références", "Blog & conseils", (clientPhone(sessionData) ?? fd?.phone ?? "01 44 87 65 43")] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#b8944a)] mb-6">{col.t}</h4>

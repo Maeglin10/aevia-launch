@@ -22,8 +22,10 @@ import {
   clientAddress,
   clientBookingUrl,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -1639,7 +1641,7 @@ function Footer() {
     {
       heading: 'Contact',
       href: '#contact',
-      links: ['Prendre RDV', (clientAddress(sessionData) ?? ('12 avenue Hoche, ' + (clientCity(sessionData) ?? 'Paris'))), (fd?.email ?? 'contact@ateliervoss.fr'), '+33 1 44 77 30 30'],
+      links: ['Prendre RDV', (clientAddress(sessionData) ?? ('12 avenue Hoche, ' + (clientCity(sessionData) ?? 'Paris'))), (clientEmail(sessionData) ?? fd?.email ?? 'contact@ateliervoss.fr'), (clientPhone(sessionData) ?? '+33 1 44 77 30 30')],
     },
   ];
 

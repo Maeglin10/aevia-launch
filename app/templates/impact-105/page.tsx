@@ -268,19 +268,29 @@ export default function AtelierBloomPage() {
           />
         ) : (
           <div>
-            <span style={{ fontFamily: FONT_SERIF, fontSize: 22, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>Atelier</span>
-            <span style={{ fontFamily: FONT_SERIF, fontSize: 22, color: scrolled ? C.peach : "rgba(255,255,255,0.85)" }}> Bloom</span>
+            {/* Le logo portait « Atelier Bloom » en dur : le nom de la
+                démonstration, à l'endroit le plus visible de la page, sur le
+                site de n'importe quel client. Sans client, les deux teintes
+                d'origine reviennent. */}
+            {clientName(sessionData) ? (
+              <span style={{ fontFamily: FONT_SERIF, fontSize: 22, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>{clientName(sessionData)}</span>
+            ) : (
+              <>
+                <span style={{ fontFamily: FONT_SERIF, fontSize: 22, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>Atelier</span>
+                <span style={{ fontFamily: FONT_SERIF, fontSize: 22, color: scrolled ? C.peach : "rgba(255,255,255,0.85)" }}> Bloom</span>
+              </>
+            )}
           </div>
         )}
         <div id="mb105-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33388000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#1e3318" }}>
+          <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33388000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#1e3318" }}>
             Commander
           </motion.a>
       </div>
         <div className="mb105-mobile-actions" style={{ display: "none", alignItems: "center", gap: 12 }}>
-          <motion.a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33388000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "8px 16px", fontSize: 13, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#1e3318" }}>
+          <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33388000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "8px 16px", fontSize: 13, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#1e3318" }}>
             Commander
           </motion.a>
           <button
@@ -300,7 +310,7 @@ export default function AtelierBloomPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33388000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#1e3318" }}>
+          <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33388000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#1e3318" }}>
             Commander
           </motion.a>
         </div>
@@ -330,7 +340,7 @@ export default function AtelierBloomPage() {
             <motion.a href="#creations" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}55` }} whileHover={{ scale: 1.03 }}>
               Voir les créations <ArrowRight size={16} />
             </motion.a>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33388000000").replace(/[^+0-9]/g, "")}`} style={{ background: "rgba(255,255,255,0.10)", color: "#fff", border: "1px solid rgba(255,255,255,0.28)", borderRadius: 8, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: "rgba(255,255,255,0.18)" }}>
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33388000000").replace(/[^+0-9]/g, "")}`} style={{ background: "rgba(255,255,255,0.10)", color: "#fff", border: "1px solid rgba(255,255,255,0.28)", borderRadius: 8, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: "rgba(255,255,255,0.18)" }}>
               <Phone size={16} /> Commander
             </motion.a>
           </motion.div>
@@ -397,7 +407,7 @@ export default function AtelierBloomPage() {
                 </div>
               ))}
             </div>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33388000000").replace(/[^+0-9]/g, "")}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.peach, color: C.white, borderRadius: 8, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ scale: 1.03 }}>
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33388000000").replace(/[^+0-9]/g, "")}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.peach, color: C.white, borderRadius: 8, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ scale: 1.03 }}>
               Passer commande <ArrowRight size={16} />
             </motion.a>
           </Reveal>
@@ -483,11 +493,11 @@ export default function AtelierBloomPage() {
             Livraison le jour même à {clientCity({ formData: fd }) ?? "Strasbourg"} pour toute commande passée avant 11h. Bouquets à partir de 35€.
           </>}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33388000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "03 88 00 00 00"}
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33388000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
+              <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "03 88 00 00 00"}
             </motion.a>
-            <motion.a href={`mailto:${fd?.email ?? "hello@atelierbloom.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.peach}`, borderRadius: 8, padding: "13px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.peach, color: C.white, borderColor: C.peach }}>
-              <Mail size={18} />{fd?.email ?? "hello@atelierbloom.fr"}</motion.a>
+            <motion.a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "hello@atelierbloom.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.peach}`, borderRadius: 8, padding: "13px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.peach, color: C.white, borderColor: C.peach }}>
+              <Mail size={18} />{clientEmail(sessionData) ?? fd?.email ?? "hello@atelierbloom.fr"}</motion.a>
           </div>
         </Reveal>
       </section>
@@ -500,7 +510,7 @@ export default function AtelierBloomPage() {
             <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.6 }}>{clientTrade(sessionData) ?? "Fleuriste"} artisanale · {clientCity({ formData: fd }) ?? "Strasbourg"}<br />Lun–Sam 9h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Strasbourg") + ", Bas-Rhin" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "03 88 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 9h–19h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Strasbourg") + ", Bas-Rhin" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "03 88 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 9h–19h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13 }}>
                 <span style={{ color: C.peach }}>{item.icon}</span>{item.t}
               </div>
@@ -508,7 +518,7 @@ export default function AtelierBloomPage() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-          <span style={{ color: "rgba(255,255,255,0.22)", fontSize: 12 }}>© 2026 Atelier Bloom — Site par Aevia WS{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.22)", fontSize: 12 }}>© 2026 {clientName(sessionData) ?? "Atelier Bloom"} — Site par Aevia WS{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
           <a href="#contact" style={{ color: "rgba(255,255,255,0.22)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

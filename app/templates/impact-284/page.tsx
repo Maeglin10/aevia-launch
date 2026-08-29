@@ -2735,7 +2735,7 @@ function FooterSection() {
               </div>
             </div>
             <GoldButton filled>
-              <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33556215858").replace(/[^+0-9]/g, "")}`} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33556215858").replace(/[^+0-9]/g, "")}`} style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', gap: 8 }}>
                 Appeler maintenant
               </a>
             </GoldButton>

@@ -924,7 +924,7 @@ export default function AetherLabsPage() {
                   </div>
                   <div>
                     <div className="text-xs text-[#8A7860] uppercase tracking-wider">Email</div>
-                    <a href={`mailto:${fd?.email ?? "contact@aetherlabs.fr"}`} className="text-[#1C1814] hover:underline">{fd?.email ?? "contact@aetherlabs.fr"}</a>
+                    <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@aetherlabs.fr"}`} className="text-[#1C1814] hover:underline">{clientEmail(sessionData) ?? fd?.email ?? "contact@aetherlabs.fr"}</a>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
@@ -933,7 +933,7 @@ export default function AetherLabsPage() {
                   </div>
                   <div>
                     <div className="text-xs text-[#8A7860] uppercase tracking-wider">Téléphone</div>
-                    <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33493000000").replace(/[^+0-9]/g, "")}`} className="text-[#1C1814] hover:underline">{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33 4 93 00 00 00"}</a>
+                    <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33493000000").replace(/[^+0-9]/g, "")}`} className="text-[#1C1814] hover:underline">{clientPhone(sessionData) ?? fd?.phone ?? "+33 4 93 00 00 00"}</a>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">

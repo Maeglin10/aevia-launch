@@ -10,6 +10,7 @@ import Image from "next/image"
 import { ArrowRight, Heart, ChevronLeft, ChevronRight, Star, Leaf, Droplets, Wind, ShoppingBag, X, Check } from "lucide-react"
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -1584,7 +1585,7 @@ function ContactPage() {
             <p style={{ color: "#F5EDE8", opacity: 0.6, fontSize: 14, lineHeight: 1.7 }}>
               Rue des Francs-Bourgeois, 75004 {clientCity({ formData: fd }) ?? "Paris"}<br />
               Du lundi au vendredi, de 10h à 18h.<br />
-              E-mail : {fd?.email ?? "contact@ether-parfums.com"}<br />
+              E-mail : {clientEmail(sessionData) ?? fd?.email ?? "contact@ether-parfums.com"}<br />
               Téléphone : {clientPhone(sessionData) ?? "+33 1 44 55 66 77"}
             </p>
           </div>
@@ -1620,7 +1621,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
               SIREN : <LegalIdentity /><br />
               {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}<br />
               Adresse : communiquée sur demande<br />
-              E-mail : {fd?.email ?? "contact@exemple.fr"}
+              E-mail : {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}
             </p>
           </div>
           <div>

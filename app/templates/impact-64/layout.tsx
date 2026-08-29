@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
   clientName,
 } from "@/lib/templates/clientContent";
 
@@ -256,7 +257,7 @@ export default function NeuronSecLayout({
               ] },
               { title: "Contact", links: [
                 { name: (clientCity(__layoutSession) ?? "Paris") + " — 10ème arr.", href: "/templates/impact-64/contact" },
-                { name: (fd?.email ?? "soc@neuronsec.fr"), href: "/templates/impact-64/contact" },
+                { name: (clientEmail(__layoutSession) ?? fd?.email ?? "soc@neuronsec.fr"), href: "/templates/impact-64/contact" },
                 { name: "Urgence cyber", href: "/templates/impact-64/contact" },
               ] },
             ].map((col) => (

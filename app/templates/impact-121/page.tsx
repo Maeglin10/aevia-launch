@@ -19,6 +19,7 @@ import { Separator } from "@/components/ui/separator"
 import { ArrowUpRight, CheckCircle2, Menu, X, Play, ArrowRight, Circle, Square, Triangle, Hexagon, Star, Award, Trophy, Medal } from "lucide-react"
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -642,7 +643,7 @@ export default function FolioStudioPage() {
               </>)}</h2>
               <div className="flex justify-center mb-24">
                 <Magnetic strength={0.3}>
-                  <Link href={`mailto:${fd?.email ?? "hello@foliostudio.com"}`} className="group flex items-center justify-center w-40 h-40 md:w-48 md:h-48 bg-white text-zinc-900 rounded-full text-xl font-medium hover:scale-110 transition-transform duration-500 shadow-2xl">
+                  <Link href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "hello@foliostudio.com"}`} className="group flex items-center justify-center w-40 h-40 md:w-48 md:h-48 bg-white text-zinc-900 rounded-full text-xl font-medium hover:scale-110 transition-transform duration-500 shadow-2xl">
                     {tr({ formData: fd }, "Get in touch")}
                   </Link>
                 </Magnetic>
@@ -677,7 +678,7 @@ export default function FolioStudioPage() {
                   111 43 Stockholm<br />
                   Sweden
                 </address>
-                <div className="mt-6 text-lg font-medium">{fd?.email ?? "hello@foliostudio.com"}</div>
+                <div className="mt-6 text-lg font-medium">{clientEmail(sessionData) ?? fd?.email ?? "hello@foliostudio.com"}</div>
               </div>
             </div>
 

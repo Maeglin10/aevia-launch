@@ -715,7 +715,7 @@ export default function WanderlustPage() {
               </p>
               <div className="space-y-2 text-sm text-stone-500">
                 <div>{clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "06000", "Nice")}</div>
-                <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33493000000").replace(/\s/g, "")}`} className="block hover:text-amber-500 transition-colors">{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 93 00 00 00"}</a>
+                <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33493000000").replace(/\s/g, "")}`} className="block hover:text-amber-500 transition-colors">{clientPhone(sessionData) ?? fd?.phone ?? "04 93 00 00 00"}</a>
                 <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "sejour@wanderlust-hotel.fr"}`} className="block hover:text-amber-500 transition-colors">{clientEmail(sessionData) ?? fd?.email ?? "sejour@wanderlust-hotel.fr"}</a>
               </div>
             </div>

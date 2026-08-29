@@ -748,13 +748,16 @@ function Pricing() {
 }
 
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
-const FAQS_DEMO = [
-  { q: "Comment prendre rendez-vous en urgence ?", a: "Appelez directement notre ligne urgences au " + (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 56 78 90 12") + ", disponible 24h/24 et 7j/7. Pour les urgences vitales, notre équipe d'astreinte intervient en moins de 30 minutes." },
+function FAQS_DEMO_VIVANT() {
+  return [
+  { q: "Comment prendre rendez-vous en urgence ?", a: "Appelez directement notre ligne urgences au " + (clientPhone(sessionData) ?? fd?.phone ?? "05 56 78 90 12") + ", disponible 24h/24 et 7j/7. Pour les urgences vitales, notre équipe d'astreinte intervient en moins de 30 minutes." },
   { q: "Acceptez-vous les animaux exotiques (lapins, oiseaux, reptiles) ?", a: "Oui ! Dr. Nadia Sall est spécialisée NAC (Nouveaux Animaux de Compagnie). Elle reçoit lapins, cobayes, oiseaux, reptiles et poissons du lundi au vendredi sur rendez-vous." },
   { q: "Travaillez-vous avec les assurances animaux ?", a: "Nous collaborons avec les principaux assureurs vétérinaires : Agria, Santévet, Assur O'Poil et April. Nous émettons les factures dans le format requis pour vos remboursements." },
   { q: "Proposez-vous la téléconsultation ?", a: "Oui, la téléconsultation est disponible pour les abonnés Complete Care et Premium Care. Idéale pour les questions de suivi, l'interprétation de résultats ou les conseils comportementaux." },
   { q: "Quelle est la durée d'une consultation standard ?", a: "Une consultation standard dure entre 20 et 30 minutes. Les consultations spécialisées (cardiologie, dermatologie) peuvent durer jusqu'à 45 minutes. Nous ne consultons jamais en flux tendu." },
 ];
+}
+let FAQS_DEMO = FAQS_DEMO_VIVANT();
 
 function FAQ() {
   const FAQS = resolveList(clientFaq(sessionData), FAQS_DEMO);
@@ -846,6 +849,10 @@ export default function Impact32() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  /* Le tableau lit la session : il doit être reconstruit ICI, au rendu.
+     Écrit en constante de module, il était évalué à l'import, quand la
+     session valait encore null — le repli gagnait toujours. */
+  FAQS_DEMO = FAQS_DEMO_VIVANT();
   memoriserSession(sessionData);
   PLANS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),

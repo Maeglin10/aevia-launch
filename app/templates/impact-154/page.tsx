@@ -28,8 +28,9 @@ import {
   UserCheck, Globe2, AlertCircle, Mail, Check
 } from "lucide-react"
 import {
-  clientHeroLine,
   clientCity,
+  clientEmail,
+  clientHeroLine,
   clientHours,
   clientList,
   clientName,
@@ -1366,7 +1367,7 @@ function ContactPage() {
             {/* Info */}
             <div>
                {/* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ label: h.day, value: h.hours })), [
-                 { icon: Mail, label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
+                 { icon: Mail, label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr") },
                  { icon: MapPin, label: "Siège", value: "Adresse communiquée sur demande" },
                  { icon: Clock, label: "Horaires", value: "Lun – Ven · 9h – 19h" },
                  { icon: ShieldCheck, label: "Confidentialité", value: "Discrétion absolue garantie" }
@@ -1466,8 +1467,8 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               <Para><Strong>Aevia WS</Strong> — entrepreneur individuel (auto-entrepreneur).</Para>
               <Para>Directeur de la publication : <Strong>Valentin Milliand</Strong>.</Para>
               <Para>SIREN : <Strong><LegalIdentity /></Strong> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}.</Para>
-              <Para>Contact : <Strong>{fd?.email ?? "contact@exemple.fr"}</Strong></Para>
-              <Para>Adresse du siège social communiquée sur demande à {fd?.email ?? "contact@exemple.fr"}.</Para>
+              <Para>Contact : <Strong>{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</Strong></Para>
+              <Para>Adresse du siège social communiquée sur demande à {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}.</Para>
 
               <Heading>TVA</Heading>
               <Para>TVA non applicable, art. 293 B du CGI.</Para>
@@ -1503,7 +1504,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
             <Heading>Responsable du traitement</Heading>
             <Para>
                Le responsable du traitement des données personnelles est <Strong>Aevia WS</Strong>, éditeur du site.
-               Pour toute question, écrivez à <Strong>{fd?.email ?? "contact@exemple.fr"}</Strong>.
+               Pour toute question, écrivez à <Strong>{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</Strong>.
             </Para>
 
             <Heading>Données collectées</Heading>

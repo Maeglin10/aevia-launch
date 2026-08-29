@@ -247,8 +247,8 @@ export default function BatirSolidePage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0491234567").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#d4a96a)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 91 23 45 67"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0491234567").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#d4a96a)] font-bold text-sm">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 91 23 45 67"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#d4a96a)] text-[#1a1008] text-[10px] font-black uppercase tracking-[0.2em] hover:bg-[#e8bf85] transition-colors">
               Devis Gratuit
@@ -258,7 +258,7 @@ export default function BatirSolidePage() {
               <SheetContent side="right" className="bg-[#1a1008] border-[var(--brand,#d4a96a)]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {["Savoir-faire", "Chantiers", "Contact"].map(l => <Link key={l} href={ l === "LinkedIn" || l === "Linkedin" ? "https://linkedin.com" : l === "Contact" || l === "contact" ? "#contact" : `#${l.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-3xl font-black uppercase text-white hover:text-[var(--brand,#d4a96a)] transition-colors">{l}</Link>)}
-                  <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0491234567").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#d4a96a)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 91 23 45 67"}</a>
+                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0491234567").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#d4a96a)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 91 23 45 67"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -296,8 +296,8 @@ export default function BatirSolidePage() {
             <button className="px-9 py-4 bg-[var(--brand,#d4a96a)] text-[#1a1008] font-black text-[10px] uppercase tracking-[0.25em] hover:bg-[#e8bf85] transition-colors">
               Devis gratuit sous 48h
             </button>
-            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0491234567").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-9 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#d4a96a)]/50 hover:text-[var(--brand,#d4a96a)] transition-all">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 91 23 45 67"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0491234567").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-9 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#d4a96a)]/50 hover:text-[var(--brand,#d4a96a)] transition-all">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 91 23 45 67"}
             </a>
           </motion.div>
         </motion.div>
@@ -459,8 +459,8 @@ export default function BatirSolidePage() {
               <button className="px-10 py-4 bg-[var(--brand,#d4a96a)] text-[#1a1008] font-black text-[10px] uppercase tracking-[0.25em] hover:bg-[#e8bf85] transition-colors">
                 Demander un devis
               </button>
-              <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0491234567").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#d4a96a)]/50 hover:text-[var(--brand,#d4a96a)] transition-all">
-                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 91 23 45 67"}
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0491234567").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#d4a96a)]/50 hover:text-[var(--brand,#d4a96a)] transition-all">
+                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 91 23 45 67"}
               </a>
             </div>
           </div>
@@ -477,7 +477,7 @@ export default function BatirSolidePage() {
           {[
             { t: "Savoir-faire", ls: ["Gros œuvre", "Extensions", "Ravalement ITE", "Rénovation structurelle", "Dallage & terrassement"] },
             { t: "Certifications", ls: ["Qualibat 3311", "Garantie Décennale", "RGE ITE", "MaPrimeRénov' éligible", "Assurance civile"] },
-            { t: "Contact", ls: [(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 91 23 45 67"), (fd?.email ?? "devis@batirsolide.fr"), (clientCity(sessionData) ?? "Marseille") + " & PACA", "Lundi-Vendredi 7h-18h", "Devis gratuit 48h"] },
+            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "04 91 23 45 67"), (clientEmail(sessionData) ?? fd?.email ?? "devis@batirsolide.fr"), (clientCity(sessionData) ?? "Marseille") + " & PACA", "Lundi-Vendredi 7h-18h", "Devis gratuit 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4a96a)] mb-5">{col.t}</h4>

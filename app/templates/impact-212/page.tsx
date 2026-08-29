@@ -924,7 +924,7 @@ export default function ThermaProPage() {
     },
     {
       q: 'Ma chaudière tombe en panne la nuit, comment vous joindre ?',
-      a: 'Notre service d\'urgence est disponible 24h/24, 7j/7, y compris les jours fériés. Appelez le ' + (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? '04 78 00 00 00') + ', notre astreinte répond en moins de 5 minutes. Un technicien est dépêché chez vous en 2h maximum dans la métropole lyonnaise. Ce service est inclus dans nos contrats d\'entretien et disponible à la demande pour les autres clients.',
+      a: 'Notre service d\'urgence est disponible 24h/24, 7j/7, y compris les jours fériés. Appelez le ' + (clientPhone(sessionData) ?? fd?.phone ?? '04 78 00 00 00') + ', notre astreinte répond en moins de 5 minutes. Un technicien est dépêché chez vous en 2h maximum dans la métropole lyonnaise. Ce service est inclus dans nos contrats d\'entretien et disponible à la demande pour les autres clients.',
     },
     {
       q: 'Quelle est la différence entre une PAC air/air et air/eau ?',
@@ -1070,13 +1070,13 @@ return (
                 onMouseLeave={e => (e.currentTarget.style.color = C.textMuted)}
               >{link.label}</a>
             ))}
-            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{
               background: `linear-gradient(135deg, ${C.accent}, ${C.accentDark})`,
               color: C.white, textDecoration: 'none',
               padding: '10px 20px', borderRadius: 50,
               fontSize: 13.5, fontWeight: 700,
               boxShadow: `0 4px 20px ${C.accent}44`, whiteSpace: 'nowrap',
-            }}>{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 78 00 00 00"}</a>
+            }}>{clientPhone(sessionData) ?? fd?.phone ?? "04 78 00 00 00"}</a>
           </div>
 
           {/* Hamburger */}
@@ -1117,7 +1117,7 @@ return (
                       borderBottom: `1px solid ${C.border}`,
                     }}>{link.label}</a>
                 ))}
-                <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{
+                <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{
                   background: `linear-gradient(135deg, ${C.accent}, ${C.accentDark})`,
                   color: C.white, textDecoration: 'none',
                   padding: '14px 20px', borderRadius: 10,
@@ -1207,7 +1207,7 @@ return (
                 boxShadow: `0 8px 30px ${C.accent}55`,
                 display: 'inline-flex', alignItems: 'center', gap: 8,
               }}>{c?.ctaText ?? <>Devis gratuit en 48h</>}</a>
-              <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{
                 background: 'none', border: `2px solid ${C.border}`,
                 color: C.white, textDecoration: 'none',
                 padding: '16px 32px', borderRadius: 50,
@@ -1511,9 +1511,9 @@ return (
 
               <div className="contact-info-cards" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                 {[
-                  { icon: '📞', title: 'Urgence chauffage',    val: (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? '04 78 00 00 00'),    sub: 'Disponible 24h/7j'    },
+                  { icon: '📞', title: 'Urgence chauffage',    val: (clientPhone(sessionData) ?? fd?.phone ?? '04 78 00 00 00'),    sub: 'Disponible 24h/7j'    },
                   { icon: '📍', title: 'Zone d\'intervention', val: 'Métropole de ' + (clientCity(sessionData) ?? 'Lyon'), sub: 'Ain, Isère, Rhône'    },
-                  { icon: '✉️', title: 'Email',               val: (fd?.email ?? 'contact@thermapro.fr'), sub: 'Réponse sous 24h'  },
+                  { icon: '✉️', title: 'Email',               val: (clientEmail(sessionData) ?? fd?.email ?? 'contact@thermapro.fr'), sub: 'Réponse sous 24h'  },
                 ].map(info => (
                   <div key={info.title} style={{
                     display: 'flex', gap: 16, alignItems: 'flex-start',
@@ -1726,14 +1726,14 @@ return (
               <p style={{ color: C.textMuted, fontSize: 13.5, lineHeight: 1.75, maxWidth: 280, marginBottom: '1.5rem' }}>
                 Votre expert en chauffage, climatisation et pompes à chaleur dans la métropole lyonnaise depuis 2009. RGE certifié, qualité garantie.
               </p>
-              <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 background: `linear-gradient(135deg, ${C.accent}, ${C.accentDark})`,
                 color: C.white, textDecoration: 'none',
                 padding: '11px 18px', borderRadius: 50,
                 fontSize: 13.5, fontWeight: 700,
                 boxShadow: `0 4px 18px ${C.accent}44`,
-              }}>{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 78 00 00 00"} — 24h/7j</a>
+              }}>{clientPhone(sessionData) ?? fd?.phone ?? "04 78 00 00 00"} — 24h/7j</a>
             </div>
 
             {/* Services */}

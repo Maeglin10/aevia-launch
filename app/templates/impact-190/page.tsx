@@ -190,8 +190,8 @@ export default function AutoExpertPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0299345678").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#dc2626)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "02 99 34 56 78"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0299345678").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#dc2626)] font-bold text-sm">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "02 99 34 56 78"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#dc2626)] text-white text-[10px] font-bold uppercase tracking-[0.22em] hover:bg-[#c01f1f] transition-colors">
               Devis gratuit
@@ -201,7 +201,7 @@ export default function AutoExpertPage() {
               <SheetContent side="right" className="bg-[#141820] border-[var(--brand,#dc2626)]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#f1f3f5] hover:text-[var(--brand,#dc2626)] transition-colors">{l}</Link>)}
-                  <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0299345678").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#dc2626)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "02 99 34 56 78"}</a>
+                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0299345678").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#dc2626)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "02 99 34 56 78"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -241,8 +241,8 @@ export default function AutoExpertPage() {
             <button className="px-9 py-4 bg-[var(--brand,#dc2626)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#c01f1f] transition-colors">{c?.ctaText ?? <>
               Devis gratuit 30 min
             </>}</button>
-            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0299345678").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-9 py-4 border border-[#f1f3f5]/10 text-[#f1f3f5]/40 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#dc2626)]/40 hover:text-[var(--brand,#dc2626)] transition-all">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "02 99 34 56 78"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0299345678").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-9 py-4 border border-[#f1f3f5]/10 text-[#f1f3f5]/40 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#dc2626)]/40 hover:text-[var(--brand,#dc2626)] transition-all">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "02 99 34 56 78"}
             </a>
           </motion.div>
 
@@ -316,7 +316,7 @@ export default function AutoExpertPage() {
             <button className="px-7 py-3.5 bg-white text-[var(--brand,#dc2626)] font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#f1f3f5] transition-colors whitespace-nowrap">
               Demander un devis
             </button>
-            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0299345678").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-2 px-7 py-3.5 border-2 border-white/30 text-white font-bold text-[10px] uppercase tracking-widest hover:border-white transition-all whitespace-nowrap">
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0299345678").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-2 px-7 py-3.5 border-2 border-white/30 text-white font-bold text-[10px] uppercase tracking-widest hover:border-white transition-all whitespace-nowrap">
               <Phone className="w-4 h-4" /> Appeler
             </a>
           </div>
@@ -342,7 +342,7 @@ export default function AutoExpertPage() {
             ))}
           </div>
           <Reveal>
-            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0299345678").replace(/[^+0-9]/g, "")}`} className="inline-flex items-center gap-3 px-9 py-4 bg-[var(--brand,#dc2626)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:opacity-90 transition-opacity">
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0299345678").replace(/[^+0-9]/g, "")}`} className="inline-flex items-center gap-3 px-9 py-4 bg-[var(--brand,#dc2626)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:opacity-90 transition-opacity">
               <Phone className="w-4 h-4" /> Demander un devis
             </a>
           </Reveal>
@@ -435,8 +435,8 @@ export default function AutoExpertPage() {
               <button className="px-10 py-4 bg-[var(--brand,#dc2626)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#c01f1f] transition-colors">
                 Devis gratuit maintenant
               </button>
-              <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0299345678").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-[#f1f3f5]/10 text-[#f1f3f5]/35 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#dc2626)]/40 hover:text-[var(--brand,#dc2626)] transition-all">
-                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "02 99 34 56 78"}
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0299345678").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-[#f1f3f5]/10 text-[#f1f3f5]/35 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#dc2626)]/40 hover:text-[var(--brand,#dc2626)] transition-all">
+                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "02 99 34 56 78"}
               </a>
             </div>
           </div>
@@ -456,7 +456,7 @@ export default function AutoExpertPage() {
           {[
             { t: "Services", ls: ["Entretien & révision", "Carrosserie & peinture", "Diagnostic électronique", "Véhicules électriques", "Dépannage 7j/7"] },
             { t: "Infos", ls: ["Qui sommes-nous", "Nos agréments", "Prise en charge assurance", "Tarifs", "FAQ"] },
-            { t: "Adresse", ls: [(clientAddress(sessionData) ? "" : "45 zone Industrielle Nord"), clientCodePostalVille(sessionData, "35000", "Rennes"), "Lun-Ven 8h-18h30", "Sam 8h-17h", (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "02 99 34 56 78")] },
+            { t: "Adresse", ls: [(clientAddress(sessionData) ? "" : "45 zone Industrielle Nord"), clientCodePostalVille(sessionData, "35000", "Rennes"), "Lun-Ven 8h-18h30", "Sam 8h-17h", (clientPhone(sessionData) ?? fd?.phone ?? "02 99 34 56 78")] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#dc2626)]/40 mb-5">{col.t}</h4>

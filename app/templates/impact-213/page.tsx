@@ -2168,7 +2168,7 @@ function FAQ() {
     {
       question: 'Comment obtenir un devis gratuit ?',
       answer:
-        "Remplissez le formulaire de contact ci-dessous ou appelez-nous directement au " + (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 78 73 82 82") + ". Un chef de chantier vous rappelle sous 24h pour planifier une visite technique gratuite. Le devis détaillé est remis sous 48h après la visite, sans engagement de votre part.",
+        "Remplissez le formulaire de contact ci-dessous ou appelez-nous directement au " + (clientPhone(sessionData) ?? fd?.phone ?? "04 78 73 82 82") + ". Un chef de chantier vous rappelle sous 24h pour planifier une visite technique gratuite. Le devis détaillé est remis sous 48h après la visite, sans engagement de votre part.",
     },
     {
       question: "Quelle est votre zone d\'intervention ?",
@@ -2346,8 +2346,8 @@ function ContactForm() {
             </p>
 
             {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
-              { icon: '📞', label: 'Téléphone', value: (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? '04 78 73 82 82'), sub: 'Du lundi au vendredi, 8h–18h' },
-              { icon: '✉️', label: 'E-mail', value: (fd?.email ?? 'contact@batisseurs-durand.fr'), sub: 'Réponse sous 24h' },
+              { icon: '📞', label: 'Téléphone', value: (clientPhone(sessionData) ?? fd?.phone ?? '04 78 73 82 82'), sub: 'Du lundi au vendredi, 8h–18h' },
+              { icon: '✉️', label: 'E-mail', value: (clientEmail(sessionData) ?? fd?.email ?? 'contact@batisseurs-durand.fr'), sub: 'Réponse sous 24h' },
               { icon: '📍', label: 'Siège social', value: (clientAddress(sessionData) ?? `14 rue des Bâtisseurs, 69009 ${clientCity(sessionData) ?? "Lyon"}`), sub: (clientCity(sessionData) ?? 'Lyon') + ' — France' },
             ]).map((item) => (
               <div

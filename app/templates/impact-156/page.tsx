@@ -557,8 +557,8 @@ export default function LumiereYogaPage() {
             >
               <Mail size={18} /> Réserver mon cours d'essai
             </motion.button>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33556000000").replace(/[^+0-9]/g, "")}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accentDark}`, borderRadius: 6, padding: "14px 30px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white, borderColor: C.accent }}>
-              <Phone size={18} /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "05 56 00 00 00"}
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33556000000").replace(/[^+0-9]/g, "")}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accentDark}`, borderRadius: 6, padding: "14px 30px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white, borderColor: C.accent }}>
+              <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "05 56 00 00 00"}
             </motion.a>
           </div>
         </Reveal>
@@ -572,7 +572,7 @@ export default function LumiereYogaPage() {
             <p style={{ color: "rgba(255,255,255,0.40)", fontSize: 13, lineHeight: 1.6, maxWidth: 240 }}>Studio de yoga & méditation à {clientCity(sessionData) ?? "Bordeaux"}. Ouvert 7j/7.</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Bordeaux") + ", Gironde" }, { icon: <Mail size={13} />, t: (fd?.email ?? "contact@lumiereyoga.fr") }, { icon: <Clock size={13} />, t: "Lun–Dim 6h30–21h00" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Bordeaux") + ", Gironde" }, { icon: <Mail size={13} />, t: (clientEmail(sessionData) ?? fd?.email ?? "contact@lumiereyoga.fr") }, { icon: <Clock size={13} />, t: "Lun–Dim 6h30–21h00" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.48)", fontSize: 13 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>

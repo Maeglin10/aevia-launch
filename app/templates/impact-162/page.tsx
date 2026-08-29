@@ -513,7 +513,7 @@ return (
                   Venez nous <em>rendre visite</em>
                 </>)}</h2>
                 <div className="space-y-5 mb-10">
-                  {[{ Icon: MapPin, text: `34 rue de la Roquette, 75011 ${clientCity(sessionData) ?? "Paris"}` }, { Icon: Phone, text: (clientPhone(sessionData) ?? "+33 1 43 48 22 10") }, { Icon: Mail, text: (fd?.email ?? "bonjour@lematindore.fr") }, { Icon: Instagram, text: "@lematindore" }].map(({ Icon, text }) => (
+                  {[{ Icon: MapPin, text: `34 rue de la Roquette, 75011 ${clientCity(sessionData) ?? "Paris"}` }, { Icon: Phone, text: (clientPhone(sessionData) ?? "+33 1 43 48 22 10") }, { Icon: Mail, text: (clientEmail(sessionData) ?? fd?.email ?? "bonjour@lematindore.fr") }, { Icon: Instagram, text: "@lematindore" }].map(({ Icon, text }) => (
                     <div key={text} className="flex items-center gap-4 text-sm text-[#6B5A40]">
                       <Icon className="w-4 h-4 text-[var(--brand,#8B5E3C)] flex-shrink-0" />
                       {text}
@@ -648,7 +648,7 @@ return (
               <p className="text-[#FDFAF5] text-xs tracking-widest uppercase mb-5">Contact</p>
               <p className="text-sm mb-2">{clientAddress(sessionData) ?? "34 rue de la Roquette"}</p>
               <p className="text-sm mb-2">75011 {clientCity(sessionData) ?? "Paris"}</p>
-              <p className="text-sm mb-4">{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33 1 43 48 22 10"}</p>
+              <p className="text-sm mb-4">{clientPhone(sessionData) ?? fd?.phone ?? "+33 1 43 48 22 10"}</p>
               <Link href="#contact" className="flex items-center gap-2 text-sm hover:text-[#C9A86C] transition-colors cursor-pointer"><Instagram className="w-4 h-4" /> @lematindore</Link>
             </div>
           </div>

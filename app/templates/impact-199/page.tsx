@@ -32,15 +32,16 @@ import {
 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
-  clientBookingUrl,
-  clientPhone,
   clientAddress,
+  clientBookingUrl,
   clientCity,
+  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -1359,7 +1360,7 @@ export default function Impact199Page() {
                   {
                     icon: <Mail className="w-5 h-5" />,
                     label: "Email",
-                    value: (fd?.email ?? "contact@encre-ame.fr"),
+                    value: (clientEmail(sessionData) ?? fd?.email ?? "contact@encre-ame.fr"),
                     sub: "Réponse sous 24h",
                   },
                   {

@@ -32,13 +32,14 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientPhone,
   clientAddress,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -2627,7 +2628,7 @@ function FooterSection() {
                 gap: 8,
               }}
             >
-              <Mail size={13} color={C.wheat} strokeWidth={1.5} />{fd?.email ?? "contact@beffroi-boulangerie.fr"}</div>
+              <Mail size={13} color={C.wheat} strokeWidth={1.5} />{clientEmail(sessionData) ?? fd?.email ?? "contact@beffroi-boulangerie.fr"}</div>
           </div>
 
           {/* Badge MOF */}

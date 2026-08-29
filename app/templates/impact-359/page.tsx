@@ -587,8 +587,8 @@ export default function LocamatPage() {
 
   const marque = fd?.businessName ?? clientName(sessionData) ?? "Locamat";
   const ville = clientCity(sessionData) ?? "Nancy";
-  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "03 83 00 00 00";
-  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33383000000").replace(/\s/g, "")}`;
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "03 83 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33383000000").replace(/\s/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "resa@locamat-nancy.fr";
   const adresse = clientAddress(sessionData);
   const lieu = clientCodePostalVille(sessionData, "", ville).trim();

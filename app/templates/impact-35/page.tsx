@@ -126,7 +126,7 @@ export default function CarreDavielPage() {
   /* Un seul index : la photo, la légende et le compteur. */
   const { i: vue, next, prev } = useSlides(VUES.length, DWELL.slow);
 
-  const tel = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 42 61 08 30";
+  const tel = clientPhone(sessionData) ?? fd?.phone ?? "01 42 61 08 30";
   const telHref = `tel:${tel.replace(/\s/g, "")}`;
   const ville = clientCity(sessionData) ?? "Paris";
 

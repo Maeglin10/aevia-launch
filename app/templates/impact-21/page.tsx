@@ -1,6 +1,9 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientCertifications } from "@/lib/templates/clientContent";
+import {
+  clientCertifications,
+  clientEmail,
+} from "@/lib/templates/clientContent";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -544,7 +547,7 @@ return (
                 <h2 className="text-gray-900 text-5xl font-bold mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>Vous avez un projet ?</>)}</h2>
                 <p className="text-gray-500 text-lg max-w-md mx-auto mb-10">On est curieux. Parlez-nous de votre produit, de vos contraintes et de vos ambitions.</p>
                 <button onClick={() => goTo("contact")} className="bg-gray-900 text-white font-bold px-10 py-4 rounded-xl hover:bg-[var(--brand,#F97316)] transition-colors cursor-pointer text-lg flex items-center gap-2 mx-auto">
-                  <Mail className="w-5 h-5" />{fd?.email ?? "hello@formedstudio.fr"}</button>
+                  <Mail className="w-5 h-5" />{clientEmail(sessionData) ?? fd?.email ?? "hello@formedstudio.fr"}</button>
               </Reveal>
             </div>
           </section>
@@ -1027,7 +1030,7 @@ return (
                           <Mail className="w-5 h-5 text-[var(--brand,#F97316)]" />
                           <h4 className="text-gray-900 font-bold">Email</h4>
                         </div>
-                        <p className="text-gray-500 text-sm">{fd?.email ?? "hello@formedstudio.fr"}</p>
+                        <p className="text-gray-500 text-sm">{clientEmail(sessionData) ?? fd?.email ?? "hello@formedstudio.fr"}</p>
                       </div>
                       <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
                         <div className="flex items-center gap-3 mb-3">
@@ -1115,7 +1118,7 @@ return (
                     <p className="text-gray-600 leading-relaxed">
                       Aevia WS — Valentin Milliand, entrepreneur individuel.<br />
                       SIREN : <LegalIdentity /> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}.<br />
-                      Contact : <span className="text-[var(--brand,#F97316)]">{fd?.email ?? "contact@exemple.fr"}</span>
+                      Contact : <span className="text-[var(--brand,#F97316)]">{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</span>
                     </p>
                   </div>
 

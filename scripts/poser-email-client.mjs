@@ -36,8 +36,14 @@ for (const d of fs.readdirSync(racine).filter((x) => /^impact-\d+$/.test(x)).sor
     /* Les expressions à corriger : fd?.email en tête de chaîne, sans clientEmail. */
     /* Les deux styles de guillemets : le premier passage n'acceptait que les
        guillemets doubles et laissait passer toutes les chaînes en apostrophes. */
-    const cibles = [...src.matchAll(/fd\?\.phone\s*\?\?\s*("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g)]
-      .filter((m) => !src.slice(Math.max(0, m.index - 60), m.index).includes("clientEmail"));
+    const cibles = [...src.matchAll(/fd\?\.email\s*\?\?\s*("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')/g)]
+      .filter((m) => {
+        const contexte = src.slice(Math.max(0, m.index - 60), m.index);
+        /* Refuser tout site DÉJÀ câblé, pas seulement par clientEmail : un
+           motif mal échappé avait fait réécrire des sites de téléphone en
+           adresses, produisant « clientPhone(s) ?? clientEmail(s) ?? … ». */
+        return !contexte.includes("clientEmail") && !contexte.includes("clientPhone");
+      });
     if (!cibles.length) continue;
 
     const s = nomSession(src);

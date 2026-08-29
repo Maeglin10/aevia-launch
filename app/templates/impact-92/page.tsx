@@ -28,6 +28,7 @@ import "../premium.css";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
@@ -803,7 +804,7 @@ export default function SkylineConciergePage() {
                 </div>
                 <div>
                   <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">EMAIL DESK</div>
-                  <div className="text-sm font-bold">{fd?.email ?? "advisory@skylineconcierge.com"}</div>
+                  <div className="text-sm font-bold">{clientEmail(sessionData) ?? fd?.email ?? "advisory@skylineconcierge.com"}</div>
                 </div>
               </div>
               <div className="flex items-center gap-6">

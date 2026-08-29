@@ -717,7 +717,7 @@ export default function SonicPlayerPage() {
               </p>
               <div className="space-y-2 text-sm text-slate-500 mb-8">
                 <div>{clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "69100", "Villeurbanne")}</div>
-                <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33472000000").replace(/\s/g, "")}`} className="block hover:text-white transition-colors">{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "04 72 00 00 00"}</a>
+                <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33472000000").replace(/\s/g, "")}`} className="block hover:text-white transition-colors">{clientPhone(sessionData) ?? fd?.phone ?? "04 72 00 00 00"}</a>
                 <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "hello@studio-gamme.fr"}`} className="block hover:text-white transition-colors">{clientEmail(sessionData) ?? fd?.email ?? "hello@studio-gamme.fr"}</a>
               </div>
               <div className="flex gap-4">

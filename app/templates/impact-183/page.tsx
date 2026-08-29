@@ -228,8 +228,8 @@ return (
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0320456789").replace(/[^+0-9]/g, "")}`} className={`hidden md:flex items-center gap-2 font-bold text-sm ${scrolled ? "text-[var(--brand,#4d7c5f)]" : "text-white"}`}>
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "03 20 45 67 89"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0320456789").replace(/[^+0-9]/g, "")}`} className={`hidden md:flex items-center gap-2 font-bold text-sm ${scrolled ? "text-[var(--brand,#4d7c5f)]" : "text-white"}`}>
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "03 20 45 67 89"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#4d7c5f)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#3d6b50] transition-colors rounded-sm">
               Devis Gratuit
@@ -239,7 +239,7 @@ return (
               <SheetContent side="right" className="bg-white border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#1a1a2e] hover:text-[var(--brand,#4d7c5f)] transition-colors">{l}</Link>)}
-                  <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0320456789").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#4d7c5f)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "03 20 45 67 89"}</a>
+                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0320456789").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#4d7c5f)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "03 20 45 67 89"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -269,8 +269,8 @@ return (
             <button className="px-8 py-4 bg-[var(--brand,#4d7c5f)] text-white font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-[#3d6b50] transition-colors rounded-sm">
               Devis gratuit sous 24h
             </button>
-            <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0320456789").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-8 py-4 border border-white/20 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#7db88f]/50 hover:text-[#7db88f] transition-all">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "03 20 45 67 89"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0320456789").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-8 py-4 border border-white/20 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#7db88f]/50 hover:text-[#7db88f] transition-all">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "03 20 45 67 89"}
             </a>
           </motion.div>
         </motion.div>
@@ -435,8 +435,8 @@ return (
               <button className="px-10 py-4 bg-white text-[var(--brand,#4d7c5f)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0f7f3] transition-colors">
                 Demander un devis
               </button>
-              <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0320456789").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-white/30 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all">
-                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "03 20 45 67 89"}
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0320456789").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-white/30 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all">
+                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "03 20 45 67 89"}
               </a>
             </div>
           </div>
@@ -453,7 +453,7 @@ return (
           {[
             { t: "Services", ls: ["Construction sur-mesure", "Revêtement & finitions", "Rénovation de bassin", "Aménagement extérieur", "Entretien & hivernage"] },
             { t: "Infos", ls: ["Qui sommes-nous", "Nos réalisations", "Zone d'intervention", "Avis clients", "Conseils piscine"] },
-            { t: "Contact", ls: [(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "03 20 45 67 89"), (fd?.email ?? "contact@couleurs-co.fr"), (clientCity({ formData: fd }) ?? "Lille") + " Métropole", "Lundi-Vendredi 8h-18h", "Devis gratuit 24h"] },
+            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "03 20 45 67 89"), (clientEmail(sessionData) ?? fd?.email ?? "contact@couleurs-co.fr"), (clientCity({ formData: fd }) ?? "Lille") + " Métropole", "Lundi-Vendredi 8h-18h", "Devis gratuit 24h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#4d7c5f)] mb-5">{col.t}</h4>

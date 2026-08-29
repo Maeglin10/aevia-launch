@@ -7,12 +7,13 @@ import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import { ArrowRight, ArrowUpRight, X, Menu, Check } from "lucide-react";
 import {
-  clientHeroLine,
-  clientPhone,
   clientCity,
+  clientEmail,
   clientFaq,
+  clientHeroLine,
   clientList,
   clientName,
+  clientPhone,
   clientReviews,
   clientServices,
   clientStats,
@@ -966,12 +967,12 @@ return (
         <div style={{ padding: "48px 44px", borderRight: `1px solid ${C.borderLight}` }}>
           <div style={{ fontFamily: C.mono, fontSize: 14, letterSpacing: 4, fontWeight: 700, textTransform: "uppercase", marginBottom: 12 }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "BUREAU"))}</div>
           <div style={{ fontFamily: C.mono, fontSize: 10, color: C.textMuted, lineHeight: 1.8, letterSpacing: 1 }}>
-            Agence créative indépendante.<br />{clientCity({ formData: fd }) ?? "Paris"} 11e, France.<br />{fd?.email ?? "hello@bureau.co"}</div>
+            Agence créative indépendante.<br />{clientCity({ formData: fd }) ?? "Paris"} 11e, France.<br />{clientEmail(sessionData) ?? fd?.email ?? "hello@bureau.co"}</div>
         </div>
         {[
           { title: "Services", links: ["Branding", "Web & Dev", "Campagnes", "Direction Art", "UX Design"] },
           { title: "Agence", links: ["À propos", "Travaux", "Manifeste", "Carrières", "Blog"] },
-          { title: "Contact", links: ["Réserver un call", (fd?.email ?? "hello@bureau.co"), (clientPhone(sessionData) ?? "+33 1 78 37 77 85"), (clientCity({ formData: fd }) ?? "Paris") + " 75011"] },
+          { title: "Contact", links: ["Réserver un call", (clientEmail(sessionData) ?? fd?.email ?? "hello@bureau.co"), (clientPhone(sessionData) ?? "+33 1 78 37 77 85"), (clientCity({ formData: fd }) ?? "Paris") + " 75011"] },
         ].map((col, i) => (
           <div key={i} style={{ padding: "48px 44px", borderRight: i < 2 ? `1px solid ${C.borderLight}` : undefined }}>
             <div style={{ fontFamily: C.mono, fontSize: 10, letterSpacing: 4, color: C.accent, marginBottom: 20, textTransform: "uppercase", fontWeight: 700 }}>{col.title}</div>

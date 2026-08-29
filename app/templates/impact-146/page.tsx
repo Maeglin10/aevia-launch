@@ -460,7 +460,7 @@ export default function KuroOmakasePage() {
                  « Dans le silence de la salle, la seule histoire racontée est celle de la saison. »
                  <br />
                  {clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "75002", "Paris")}
-                 {" · "}{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 42 00 00 00"}
+                 {" · "}{clientPhone(sessionData) ?? fd?.phone ?? "01 42 00 00 00"}
                  {" · "}{clientEmail(sessionData) ?? fd?.email ?? "table@kuro-omakase.fr"}
               </p>
               <div className="flex gap-10">

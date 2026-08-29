@@ -14,6 +14,7 @@ import { ArrowRight, ChevronDown, Trophy, Dumbbell, MapPin } from 'lucide-react'
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -2017,7 +2018,7 @@ function Footer() {
     },
     {
       title: 'Contact',
-      items: ['Séance offerte', 'Réserver', (clientCity(sessionData) ?? 'Marseille') + ' · Aix · Aubagne', (fd?.email ?? 'contact@forcebrute.fr')],
+      items: ['Séance offerte', 'Réserver', (clientCity(sessionData) ?? 'Marseille') + ' · Aix · Aubagne', (clientEmail(sessionData) ?? fd?.email ?? 'contact@forcebrute.fr')],
       hrefs: ['#contact', '#contact', '#contact', '#contact'],
     },
   ];

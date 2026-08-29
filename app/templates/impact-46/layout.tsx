@@ -210,7 +210,7 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
           <div style={{ borderTop: `1px solid ${C.borderDark}`, paddingTop: 32, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap" as const, gap: 16 }}>
             <div style={{ display: "flex", gap: 24, flexWrap: "wrap" as const }}>
               {[
-                { Icon: Mail, text: (fd?.email ?? "contact@exemple.fr") },
+                { Icon: Mail, text: (clientEmail(__layoutSession) ?? fd?.email ?? "contact@exemple.fr") },
                 { Icon: Clock, text: "Lun–Ven, 9h–19h" },
               ].map(({ Icon, text }) => (
                 <div key={text} style={{ display: "flex", alignItems: "center", gap: 8 }}>

@@ -2,6 +2,7 @@
 import {
   clientAddress,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientList,
   clientName,
@@ -2325,7 +2326,7 @@ export default function WineryTemplate() {
               {[
                 { label: "Adresse", value: (clientAddress(sessionData) ?? "Château de Valroc, Route des Graves, 33760 Escoussans") },
                 { label: "Téléphone", value: clientPhone(sessionData) ?? "+33 5 56 23 78 90" },
-                { label: "Email", value: (fd?.email ?? "contact@chateau-valroc.fr") },
+                { label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "contact@chateau-valroc.fr") },
               ].map((c) => (
                 <div key={c.label} style={{ marginBottom: 20 }}>
                   <p

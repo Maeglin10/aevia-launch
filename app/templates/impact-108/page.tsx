@@ -850,8 +850,8 @@ export default function LedgerPage() {
               <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 2 }}>
                 {clientAddress({ businessProfile: bp }) ?? "14 allée de Tourny"}<br />
                 33000 {clientCity({ formData: fd }) ?? "Bordeaux"}<br />
-                <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33556000000").replace(/[^+0-9]/g, "")}`} style={{color: brand ?? 'var(--brand,#93c5fd)', textDecoration: "none" }}>{clientPhone(sessionData) ?? "05 56 76 23 23"}</a><br />
-                <a href={`mailto:${fd?.email ?? "contact@ledger-associes.fr"}`} style={{color: brand ?? 'var(--brand,#93c5fd)', textDecoration: "none" }}>{fd?.email ?? "contact@ledger-associes.fr"}</a>
+                <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33556000000").replace(/[^+0-9]/g, "")}`} style={{color: brand ?? 'var(--brand,#93c5fd)', textDecoration: "none" }}>{clientPhone(sessionData) ?? "05 56 76 23 23"}</a><br />
+                <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@ledger-associes.fr"}`} style={{color: brand ?? 'var(--brand,#93c5fd)', textDecoration: "none" }}>{clientEmail(sessionData) ?? fd?.email ?? "contact@ledger-associes.fr"}</a>
               </p>
             </div>
             <div>

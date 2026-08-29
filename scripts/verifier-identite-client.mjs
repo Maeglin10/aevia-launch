@@ -27,10 +27,13 @@ const SESSION = {
 };
 const NU = TEL.replace(/\D/g, "");
 
+/* Le NOM DE DOSSIER, pas le nombre : « impact-02 » converti en nombre donne
+   « impact-2 », une URL qui n'existe pas. La page 404 n'affiche évidemment
+   le nom d'aucun client — le relevé annonçait alors neuf thèmes muets qui
+   n'avaient jamais été rendus. */
 const themes = fs.readdirSync("app/templates")
   .filter((d) => /^impact-\d+$/.test(d))
-  .map((d) => Number(d.split("-")[1]))
-  .sort((a, b) => a - b);
+  .sort((a, b) => Number(a.split("-")[1]) - Number(b.split("-")[1]));
 
 const nav = await chromium.launch();
 const ctx = await nav.newContext({ viewport: { width: 1280, height: 900 } });
@@ -43,8 +46,8 @@ const tel = [], nom = [], muets = [];
 for (const n of themes) {
   for (let essai = 1; essai <= 2; essai++) {
     try {
-      await p.goto(`http://localhost:3000/templates/impact-${n}?session=verif-identite`, { waitUntil: "domcontentloaded", timeout: 60000 });
-      await p.waitForTimeout(1900);
+      await p.goto(`http://localhost:3000/templates/${n}?session=verif-identite`, { waitUntil: "domcontentloaded", timeout: 60000 });
+      await p.waitForTimeout(4000);
       const r = await p.evaluate(([nomAttendu, nu]) => {
         const plat = (s) => (s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
         const chiffres = (s) => (s || "").replace(/\D/g, "");
@@ -57,11 +60,22 @@ for (const n of themes) {
         const pied = pieds[pieds.length - 1] ?? null;
 
         const texte = document.body.innerText || "";
-        const vus = [...texte.matchAll(/(?:\+33|0)[\s.\-]?[1-9](?:[\s.\-]?\d{2}){4}/g)].map((m) => m[0].trim());
+        /* Pas de tiret comme séparateur : « 01-15-2026 » est une date, et le
+           relevé la comptait comme un numéro. Un numéro français s'écrit
+           avec des espaces ou des points. */
+        /* Bornes : sans elles, le motif attrape dix chiffres à l'intérieur
+           d'un identifiant plus long — un RPPS (« RPPS 10234567890 ») ou une
+           autorisation CNAPS (« AUT-013-2126-01-15-20260012345 ») étaient
+           comptés comme le numéro d'un inconnu. */
+        const vus = [...texte.matchAll(/(?<![\d\-])(?:\+33[\s.]?|0)[1-9](?:[\s.]?\d{2}){4}(?![\d\-])/g)].map((m) => m[0].trim());
         const liens = [...document.querySelectorAll('a[href^="tel:"]')].map((a) => a.getAttribute("href").slice(4));
-        const etrangers = [...new Set([...vus, ...liens])].filter((t) => !meme(t));
+        /* Les numéros d'urgence (15, 18, 112) ne sont ceux de personne. */
+        const etrangers = [...new Set([...vus, ...liens])]
+          .filter((t) => chiffres(t).length > 4)
+          .filter((t) => !meme(t));
 
         return {
+          page404: /404|This page could not be found|introuvable/i.test((document.title || "") + " " + texte.slice(0, 200)),
           etrangers: etrangers.slice(0, 3),
           sien: vus.some(meme) || liens.some(meme),
           hautOk: plat(texte).includes(plat(nomAttendu)),
@@ -70,12 +84,13 @@ for (const n of themes) {
         };
       }, [NOM, NU]);
 
-      if (r.etrangers.length) { tel.push([n, r.etrangers, r.sien]); console.log(`impact-${n} : TEL ÉTRANGER ${r.etrangers.join(" · ")}${r.sien ? "" : " (le sien ABSENT)"}`); }
-      if (r.piedOk === false && r.hautOk) { nom.push([n, r.piedDebut]); console.log(`impact-${n} : PIED AU NOM D'UN AUTRE · « ${r.piedDebut} »`); }
-      if (!r.hautOk) { muets.push(n); console.log(`impact-${n} : le nom du client n'apparaît NULLE PART`); }
+      if (r.etrangers.length) { tel.push([n, r.etrangers, r.sien]); console.log(`${n} : TEL ÉTRANGER ${r.etrangers.join(" · ")}${r.sien ? "" : " (le sien ABSENT)"}`); }
+      if (r.piedOk === false && r.hautOk) { nom.push([n, r.piedDebut]); console.log(`${n} : PIED AU NOM D'UN AUTRE · « ${r.piedDebut} »`); }
+      if (r.page404) { console.log(`${n} : PAGE INTROUVABLE (404)`); break; }
+      if (!r.hautOk) { muets.push(n); console.log(`${n} : le nom du client n'apparaît NULLE PART`); }
       break;
     } catch (e) {
-      if (essai === 2) console.log(`impact-${n} : ${String(e).split("\n")[0].slice(0, 60)}`);
+      if (essai === 2) console.log(`${n} : ${String(e).split("\n")[0].slice(0, 60)}`);
     }
   }
 }

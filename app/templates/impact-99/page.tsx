@@ -613,10 +613,10 @@ function ReservationPage() {
 
               <div className="p-12 border border-white/5 bg-white/[0.01] rounded-sm space-y-8">
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
-                  <Phone className="w-5 h-5 text-[var(--brand,#ff4d00)]" /> {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 37 70 24 84"}
+                  <Phone className="w-5 h-5 text-[var(--brand,#ff4d00)]" /> {clientPhone(sessionData) ?? fd?.phone ?? "01 37 70 24 84"}
                 </div>
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
-                  <Mail className="w-5 h-5 text-[var(--brand,#ff4d00)]" />{fd?.email ?? "contact@exemple.fr"}</div>
+                  <Mail className="w-5 h-5 text-[var(--brand,#ff4d00)]" />{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</div>
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
                   <MapPin className="w-5 h-5 text-[var(--brand,#ff4d00)]" /> Adresse communiquée
                   sur demande
@@ -862,7 +862,7 @@ function ContactPage() {
                     </span>
                   </div>
                   <p className="text-sm text-white/40 font-light uppercase tracking-widest italic leading-loose">
-                    Adresse communiquée sur demande à {fd?.email ?? "contact@exemple.fr"}
+                    Adresse communiquée sur demande à {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}
                   </p>
                 </div>
                 <Separator className="bg-white/5" />
@@ -874,7 +874,7 @@ function ContactPage() {
                     </span>
                   </div>
                   <p className="text-sm text-white/40 font-light uppercase tracking-widest italic">
-                    {clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "01 37 70 24 84"}
+                    {clientPhone(sessionData) ?? fd?.phone ?? "01 37 70 24 84"}
                   </p>
                 </div>
                 <Separator className="bg-white/5" />
@@ -885,7 +885,7 @@ function ContactPage() {
                       Email
                     </span>
                   </div>
-                  <p className="text-sm text-white/40 font-light uppercase tracking-widest italic">{fd?.email ?? "contact@exemple.fr"}</p>
+                  <p className="text-sm text-white/40 font-light uppercase tracking-widest italic">{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</p>
                 </div>
               </div>
             </div>
@@ -996,9 +996,9 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               <LegalBlock title="Immatriculation">
                 SIREN <LegalIdentity /> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}
               </LegalBlock>
-              <LegalBlock title="Contact">{fd?.email ?? "contact@exemple.fr"}</LegalBlock>
+              <LegalBlock title="Contact">{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</LegalBlock>
               <LegalBlock title="Siège social">
-                Adresse du siège social communiquée sur demande à {fd?.email ?? "contact@exemple.fr"}
+                Adresse du siège social communiquée sur demande à {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}
               </LegalBlock>
               <LegalBlock title="TVA">
                 TVA non applicable, art. 293 B du CGI
@@ -1012,7 +1012,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               <LegalBlock title="Responsable du traitement">
                 Aevia WS, représentée par Valentin Milliand, est responsable du
                 traitement des données collectées sur ce site. Contact :
-                {fd?.email ?? "contact@exemple.fr"}.
+                {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}.
               </LegalBlock>
               <LegalBlock title="Données collectées">
                 Les informations transmises via les formulaires de réservation et de

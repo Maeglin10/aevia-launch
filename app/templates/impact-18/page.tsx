@@ -714,7 +714,7 @@ function LegalPage() {
               Entrepreneur individuel<br />
               SIREN : <LegalIdentity /><br />
               {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}<br />
-              Email : {fd?.email ?? "contact@exemple.fr"}<br />
+              Email : {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}<br />
               Adresse : Communiquée sur demande
             </p>
           </div>

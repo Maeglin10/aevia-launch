@@ -2991,8 +2991,8 @@ function FooterSection() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                 {[
                   { icon: MapPin, label: (clientCity(sessionData) ?? 'Bordeaux') + ' Caudéran, 33200' },
-                  { icon: Phone, label: (clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? '06 22 65 65 65') },
-                  { icon: Mail, label: (fd?.email ?? 'thomas@lebruncoach.fr') },
+                  { icon: Phone, label: (clientPhone(sessionData) ?? fd?.phone ?? '06 22 65 65 65') },
+                  { icon: Mail, label: (clientEmail(sessionData) ?? fd?.email ?? 'thomas@lebruncoach.fr') },
                   { icon: Clock, label: 'Lun–Sam · 7h–20h' },
                 ].map((c) => {
                   const Icon = c.icon;

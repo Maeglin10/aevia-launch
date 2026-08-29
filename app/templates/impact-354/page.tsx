@@ -281,7 +281,7 @@ function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const tel = `tel:${clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33326000000"}`;
+  const tel = `tel:${clientPhone(sessionData) ?? fd?.phone ?? "+33326000000"}`;
 
   return (
     <>
@@ -480,7 +480,7 @@ function Hero() {
           transition={{ duration: 0.9, ease: EASE, delay: 0.46 }}
           style={{ display: "flex", gap: "clamp(16px,2vw,26px)", flexWrap: "wrap", alignItems: "center" }}
         >
-          <PillButton href={`tel:${clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33326000000"}`} filled>
+          <PillButton href={`tel:${clientPhone(sessionData) ?? fd?.phone ?? "+33326000000"}`} filled>
             Rencontrer l'équipe
           </PillButton>
           <a href="#services" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
@@ -725,7 +725,7 @@ function Engagements() {
               ))}
             </div>
             <div style={{ marginTop: 26 }}>
-              <PillButton href={`tel:${clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33326000000"}`} filled>
+              <PillButton href={`tel:${clientPhone(sessionData) ?? fd?.phone ?? "+33326000000"}`} filled>
                 Nous appeler
               </PillButton>
             </div>
@@ -861,8 +861,8 @@ function Avis() {
    9 · CONTACT — portes ouvertes + cartouche coordonnées
    ════════════════════════════════════════════════════════════════════════════ */
 function Contact() {
-  const tel = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "03 26 00 00 00";
-  const telHref = `tel:${clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33326000000"}`;
+  const tel = clientPhone(sessionData) ?? fd?.phone ?? "03 26 00 00 00";
+  const telHref = `tel:${clientPhone(sessionData) ?? fd?.phone ?? "+33326000000"}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "familles@nid-douillet.fr";
 
   return (
@@ -936,7 +936,7 @@ function Contact() {
    ════════════════════════════════════════════════════════════════════════════ */
 function Footer() {
   const nom = fd?.businessName ?? clientName(sessionData) ?? "Le Nid Douillet";
-  const tel = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "03 26 00 00 00";
+  const tel = clientPhone(sessionData) ?? fd?.phone ?? "03 26 00 00 00";
   const mail = clientEmail(sessionData) ?? fd?.email ?? "familles@nid-douillet.fr";
   return (
     <footer className="i354-pad" style={{ position: "relative", background: C.bgDarkAlt, color: "rgba(250,245,243,0.5)", padding: "clamp(48px,6vw,76px) clamp(20px,5vw,60px) 24px", overflow: "hidden" }}>

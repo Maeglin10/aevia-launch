@@ -569,11 +569,11 @@ function ContactPage() {
               </div>
               <div className="flex items-center gap-3 text-sm text-white/50">
                 <Mail className="w-4 h-4 text-[var(--brand,#C9A86C)] shrink-0" />
-                <span>{fd?.email ?? "pitch@summit-capital.vc"}</span>
+                <span>{clientEmail(sessionData) ?? fd?.email ?? "pitch@summit-capital.vc"}</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-white/50">
                 <Phone className="w-4 h-4 text-[var(--brand,#C9A86C)] shrink-0" />
-                <span>{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33 1 49 00 00 00"}</span>
+                <span>{clientPhone(sessionData) ?? fd?.phone ?? "+33 1 49 00 00 00"}</span>
               </div>
             </div>
           </div>
@@ -616,7 +616,7 @@ function LegalPage() {
               Entrepreneur individuel<br />
               SIREN : <LegalIdentity /><br />
               {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}<br />
-              Email : {fd?.email ?? "contact@exemple.fr"}<br />
+              Email : {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}<br />
               Adresse : Communiquée sur demande
             </p>
           </div>

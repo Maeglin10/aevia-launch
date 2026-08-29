@@ -1281,14 +1281,14 @@ return (
             </p>
             <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
               <motion.a
-                href={`mailto:${fd?.email ?? "hello@verso-studio.ch"}`}
+                href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "hello@verso-studio.ch"}`}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.emeraldGlow, color: C.bg, padding: "16px 32px", borderRadius: 4, fontFamily: "'DM Sans', system-ui, sans-serif", fontWeight: 700, fontSize: 16, textDecoration: "none" }}
               >
-                <Mail size={18} />{fd?.email ?? "hello@verso-studio.ch"}</motion.a>
+                <Mail size={18} />{clientEmail(sessionData) ?? fd?.email ?? "hello@verso-studio.ch"}</motion.a>
               <motion.a
-                href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+41225000000").replace(/[^+0-9]/g, "")}`}
+                href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+41225000000").replace(/[^+0-9]/g, "")}`}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "transparent", color: C.text, padding: "16px 32px", borderRadius: 4, fontFamily: "'DM Sans', system-ui, sans-serif", fontWeight: 600, fontSize: 16, textDecoration: "none", border: `1px solid ${C.borderLight}` }}
@@ -1324,7 +1324,7 @@ return (
             {[
               { title: "Studio", links: ["À propos", "L'équipe", "Méthode", "Clients"] },
               { title: "Services", links: ["Brand Identity", "Digital Experience", "Art Direction", "Packaging"] },
-              { title: "Contact", links: [(fd?.email ?? "hello@verso-studio.ch"), "+41 22 500 00 00", "Geneva, Suisse", "Disponibilités"] },
+              { title: "Contact", links: [(clientEmail(sessionData) ?? fd?.email ?? "hello@verso-studio.ch"), "+41 22 500 00 00", "Geneva, Suisse", "Disponibilités"] },
             ].map((col, i) => (
               <div key={i}>
                 <h4 style={{ color: C.textMuted, fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 600, marginBottom: 20 }}>{col.title}</h4>

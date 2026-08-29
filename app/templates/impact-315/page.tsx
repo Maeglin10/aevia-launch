@@ -1236,7 +1236,7 @@ export default function Page() {
                     </div>
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Téléphone</div>
-                      <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33176237163").replace(/[^+0-9]/g, "")}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>{clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33 (0)1 00 00 00 00"}</a>
+                      <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33176237163").replace(/[^+0-9]/g, "")}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>{clientPhone(sessionData) ?? fd?.phone ?? "+33 (0)1 00 00 00 00"}</a>
                     </div>
                   </div>
 
@@ -1249,7 +1249,7 @@ export default function Page() {
                     </div>
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>E-mail</div>
-                      <a href={`mailto:${fd?.email ?? "contact@mysite.com"}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>{fd?.email ?? "contact@brisedeproprete.fr"}</a>
+                      <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@mysite.com"}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>{clientEmail(sessionData) ?? fd?.email ?? "contact@brisedeproprete.fr"}</a>
                     </div>
                   </div>
 

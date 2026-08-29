@@ -547,7 +547,7 @@ function Nav() {
 
       {/* CTA urgent */}
       <div className="tf-navcta">
-        <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0491000000").replace(/[^+0-9]/g, "")}`} style={{ textDecoration: 'none' }}>
+        <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0491000000").replace(/[^+0-9]/g, "")}`} style={{ textDecoration: 'none' }}>
           <BlueButton urgent>
             <Phone size={14} strokeWidth={2} /> Appel urgent
           </BlueButton>
@@ -818,7 +818,7 @@ function Hero() {
           transition={{ duration: 1.1, ease: EASE, delay: 0.68 }}
           style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}
         >
-          <a href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0491000000").replace(/[^+0-9]/g, "")}`} style={{ textDecoration: 'none' }}>
+          <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0491000000").replace(/[^+0-9]/g, "")}`} style={{ textDecoration: 'none' }}>
             <BlueButton urgent>
               <Phone size={15} strokeWidth={2} /> Appeler maintenant
             </BlueButton>
@@ -2238,7 +2238,7 @@ function Footer() {
           {/* Orange urgent CTA */}
           <div style={{ marginTop: 28 }}>
             <a
-              href={`tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "0491000000").replace(/[^+0-9]/g, "")}`}
+              href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0491000000").replace(/[^+0-9]/g, "")}`}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',

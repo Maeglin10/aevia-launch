@@ -13,8 +13,8 @@ import {
 import { ArrowRight, ChevronDown, Heart, Leaf, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientTrade,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -23,6 +23,7 @@ import {
   clientServices,
   clientTagline,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1935,7 +1936,7 @@ function Footer() {
         { label: 'Prendre RDV', href: '#rdv' },
         { label: 'Téléconsultation', href: '#rdv' },
         { label: (clientCity(sessionData) ?? 'Bordeaux') + ' · Chartrons', href: '#rdv' },
-        { label: (fd?.email ?? 'dr.moulin@exemple.fr'), href: '#rdv' },
+        { label: (clientEmail(sessionData) ?? fd?.email ?? 'dr.moulin@exemple.fr'), href: '#rdv' },
       ],
     },
   ];

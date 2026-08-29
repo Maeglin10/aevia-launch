@@ -537,8 +537,8 @@ export default function SoinsEstuairePage() {
 
   const nom = fd?.businessName ?? clientName(sessionData) ?? "Soins de l'Estuaire";
   const ville = clientCity(sessionData) ?? "Saint-Nazaire";
-  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "02 40 00 00 01";
-  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33240000001").replace(/[^+\d]/g, "")}`;
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "02 40 00 00 01";
+  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33240000001").replace(/[^+\d]/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "secretariat@soins-estuaire.fr";
   const adresse = clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "44600", "Saint-Nazaire");
   /* Plein cadre : la photo du client d'abord, celle du thème ensuite. Le fond

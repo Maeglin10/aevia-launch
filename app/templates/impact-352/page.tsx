@@ -285,7 +285,7 @@ function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const tel = `tel:${clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33235000000"}`;
+  const tel = `tel:${clientPhone(sessionData) ?? fd?.phone ?? "+33235000000"}`;
 
   return (
     <>
@@ -491,7 +491,7 @@ function Hero() {
           transition={{ duration: 0.9, ease: EASE, delay: 0.52 }}
           style={{ display: "flex", gap: "clamp(16px,2vw,26px)", flexWrap: "wrap", alignItems: "center" }}
         >
-          <LineButton href={`tel:${clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33235000000"}`} filled>
+          <LineButton href={`tel:${clientPhone(sessionData) ?? fd?.phone ?? "+33235000000"}`} filled>
             Parler de votre toiture
           </LineButton>
           <a href="#services" style={{ fontFamily: SANS, fontSize: 13, color: C.ink, textDecoration: "none", borderBottom: `1px solid ${C.accent}`, paddingBottom: 3 }}>
@@ -885,7 +885,7 @@ function Engagements() {
               ))}
               <div style={{ borderTop: `1px solid ${C.border}`, marginBottom: 28 }} />
             </div>
-            <LineButton href={`tel:${clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33235000000"}`} filled>
+            <LineButton href={`tel:${clientPhone(sessionData) ?? fd?.phone ?? "+33235000000"}`} filled>
               Nous appeler
             </LineButton>
           </div>
@@ -1060,8 +1060,8 @@ function Avis() {
    10 · CONTACT — zones desservies, téléphone, courriel, adresse
    ════════════════════════════════════════════════════════════════════════════ */
 function Contact() {
-  const tel = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "02 35 00 00 00";
-  const telHref = `tel:${clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33235000000"}`;
+  const tel = clientPhone(sessionData) ?? fd?.phone ?? "02 35 00 00 00";
+  const telHref = `tel:${clientPhone(sessionData) ?? fd?.phone ?? "+33235000000"}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "atelier@zinc-et-ardoise.fr";
   const zones = clientAreas(sessionData);
 
@@ -1176,7 +1176,7 @@ function Contact() {
    ════════════════════════════════════════════════════════════════════════════ */
 function Footer() {
   const nom = fd?.businessName ?? clientName(sessionData) ?? "Zinc & Ardoise";
-  const tel = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "02 35 00 00 00";
+  const tel = clientPhone(sessionData) ?? fd?.phone ?? "02 35 00 00 00";
   return (
     <footer
       className="i352-pad"

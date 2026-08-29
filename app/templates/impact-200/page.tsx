@@ -34,13 +34,14 @@ import {
 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
-  clientPhone,
   clientAddress,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -1414,7 +1415,7 @@ export default function Impact200Page() {
                   {
                     icon: <Mail className="w-5 h-5" />,
                     label: "Email",
-                    value: (fd?.email ?? "bonjour@ceremonie.fr"),
+                    value: (clientEmail(sessionData) ?? fd?.email ?? "bonjour@ceremonie.fr"),
                     sub: "Réponse sous 24h",
                   },
                   {

@@ -647,8 +647,8 @@ export default function CapAssurancesPage() {
   }, []);
 
   /* ── Contact ───────────────────────────────────────────────────────────── */
-  const phone = clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "02 98 00 00 00";
-  const telHref = `tel:${(clientPhone(sessionData) ?? clientEmail(sessionData) ?? fd?.email ?? "+33298000000").replace(/\s/g, "")}`;
+  const phone = clientPhone(sessionData) ?? fd?.phone ?? "02 98 00 00 00";
+  const telHref = `tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33298000000").replace(/\s/g, "")}`;
   const mail = clientEmail(sessionData) ?? fd?.email ?? "conseil@cap-assurances.fr";
   const maison = fd?.businessName ?? clientName(sessionData) ?? "Cap Assurances";
   const ville = clientCity(sessionData) ?? "Brest";

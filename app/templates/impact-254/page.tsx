@@ -15,9 +15,11 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -1890,7 +1892,7 @@ function Footer() {
     },
     {
       title: 'Contact',
-      items: ['Prendre rendez-vous', (clientAddress(sessionData) ?? ('9 rue de Monceau, ' + (clientCity(sessionData) ?? 'Paris'))), (fd?.email ?? 'cabinet@vaillant-assoc.fr'), '+33 1 40 00 00 00'],
+      items: ['Prendre rendez-vous', (clientAddress(sessionData) ?? ('9 rue de Monceau, ' + (clientCity(sessionData) ?? 'Paris'))), (clientEmail(sessionData) ?? fd?.email ?? 'cabinet@vaillant-assoc.fr'), (clientPhone(sessionData) ?? '+33 1 40 00 00 00')],
     },
   ];
 

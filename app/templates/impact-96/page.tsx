@@ -32,13 +32,14 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
-  clientPhone,
   clientCity,
+  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
   clientName,
+  clientPhone,
   clientReviews,
   clientServices,
   clientStats,
@@ -2352,7 +2353,7 @@ return (
               }}
             >
               <motion.a
-                href={`mailto:${fd?.email ?? "contact@urbanpulse.fr"}`}
+                href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@urbanpulse.fr"}`}
                 whileHover={{
                   scale: 1.04,
                   boxShadow: `0 0 48px ${C.amberGlow}`,
@@ -2410,7 +2411,7 @@ return (
               {[
                 { icon: MapPin, label: (clientAddress(sessionData) ?? `12 rue Oberkampf, 75011 ${clientCity({ formData: fd }) ?? "Paris"}`) },
                 { icon: Phone, label: (clientPhone(sessionData) ?? "+33 1 48 34 49 49") },
-                { icon: Mail, label: (fd?.email ?? "contact@urbanpulse.fr") },
+                { icon: Mail, label: (clientEmail(sessionData) ?? fd?.email ?? "contact@urbanpulse.fr") },
               ].map(({ icon: Icon, label }) => (
                 <div
                   key={label}

@@ -8,15 +8,16 @@ import Link from "next/link"
 import { Menu, X, ArrowRight, Scale, Shield, Briefcase, Users, Building, FileText, Phone, Mail, MapPin, ChevronRight, Award, Globe } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
-  clientSiret,
   clientAddress,
-  clientPhone,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientServices,
+  clientSiret,
   clientTeam,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -555,7 +556,7 @@ export default function LegrandPage() {
               </Reveal>
               <Reveal delay={0.1}>
                 <div className="space-y-5">
-                  {[{ Icon: MapPin, text: (clientAddress(sessionData) ?? `14 avenue Montaigne, 75008 ${clientCity(sessionData) ?? "Paris"}`) }, { Icon: Phone, text: (clientPhone(sessionData) ?? "+33 1 44 20 00 00") }, { Icon: Mail, text: (fd?.email ?? "contact@legrand-associes.fr") }, { Icon: Globe, text: "Également à " + (clientCity(sessionData) ?? "Bruxelles") + " & Luxembourg" }].map(({ Icon, text }) => (
+                  {[{ Icon: MapPin, text: (clientAddress(sessionData) ?? `14 avenue Montaigne, 75008 ${clientCity(sessionData) ?? "Paris"}`) }, { Icon: Phone, text: (clientPhone(sessionData) ?? "+33 1 44 20 00 00") }, { Icon: Mail, text: (clientEmail(sessionData) ?? fd?.email ?? "contact@legrand-associes.fr") }, { Icon: Globe, text: "Également à " + (clientCity(sessionData) ?? "Bruxelles") + " & Luxembourg" }].map(({ Icon, text }) => (
                     <div key={text} className="flex items-center gap-4 text-sm text-[#8A7860]">
                       <Icon className="w-4 h-4 text-[var(--brand,#C9A855)] flex-shrink-0" />
                       {text}
@@ -574,7 +575,7 @@ export default function LegrandPage() {
                     </div>
                   ))}
                 </div>
-                {[["Société / Organisation", "text", "Votre société"], ["Email professionnel", "email", (fd?.email ?? "votre@societe.fr")], ["Téléphone", "tel", "+33 1..."]].map(([label, type, ph]) => (
+                {[["Société / Organisation", "text", "Votre société"], ["Email professionnel", "email", (clientEmail(sessionData) ?? fd?.email ?? "votre@societe.fr")], ["Téléphone", "tel", "+33 1..."]].map(([label, type, ph]) => (
                   <div key={label}>
                     <label className="block text-xs tracking-widest uppercase text-[#5A5040] mb-2">{label}</label>
                     <input type={type} className="w-full bg-transparent border border-[#3A3020] px-4 py-3 text-sm text-[#F9F6F0] focus:outline-none focus:border-[var(--brand,#C9A855)] transition-colors" placeholder={ph} />
