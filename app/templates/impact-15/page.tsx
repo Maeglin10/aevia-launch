@@ -10,6 +10,7 @@ import {
   clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
+  clientName,
   clientPhone,
   clientPhotos,
   clientReviews,
@@ -253,12 +254,18 @@ return (
         transition: "all 0.4s ease",
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          {/* La barre portait le nom du modèle, à l'endroit le plus visible de
+              la page. Le client a donné le sien : c'est celui-là qu'on montre,
+              dans le style du libellé d'origine. Sans client, la composition du
+              modèle revient telle quelle. */}
           {fd?.logoBase64 ? (
             <img
               src={fd.logoBase64}
               alt={fd?.businessName ?? 'logo'}
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
+          ) : clientName(sessionData) ? (
+            <span style={{ fontSize: 18, fontWeight: 700, color: scrolled ? C.dark : "#fff" }}>{clientName(sessionData)}</span>
           ) : (
             <>
           <div style={{ background: C.accent, borderRadius: 8, padding: 8, display: "flex" }}>

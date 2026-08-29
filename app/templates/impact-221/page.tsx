@@ -193,6 +193,10 @@ function Nav() {
       <nav style={navStyle}>
         {/* Logo */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }}>
+          {/* La barre portait le nom du modèle, à l'endroit le plus visible de
+              la page. Le client a donné le sien : c'est celui-là qu'on montre,
+              dans le style du libellé d'origine. Sans client, la composition du
+              modèle revient telle quelle. */}
           {fd?.logoBase64 ? (
             // Client logo (uploaded in the brief) replaces the placeholder mark —
             // essential for the client to recognise their brand in the render.
@@ -201,6 +205,8 @@ function Nav() {
               alt={fd?.businessName ?? 'logo'}
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
+          ) : clientName(sessionData) ? (
+            <span style={{ fontWeight: 900, fontSize: '1.4rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, color: C.white }}>{clientName(sessionData)}</span>
           ) : (
             <>
               <div style={logoMarkStyle}>

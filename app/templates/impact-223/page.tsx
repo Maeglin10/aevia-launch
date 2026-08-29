@@ -215,6 +215,10 @@ export default function VoltProPage() {
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#080a0c]/95 backdrop-blur-xl border-b border-[#facc15]/10 py-3" : "bg-transparent py-7"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#hero" className="flex items-center gap-3">
+            {/* La barre portait le nom du modèle, à l'endroit le plus visible de
+                la page. Le client a donné le sien : c'est celui-là qu'on montre,
+                dans le style du libellé d'origine. Sans client, la composition du
+                modèle revient telle quelle. */}
             {fd?.logoBase64 ? (
               // Client logo (uploaded in the brief) replaces the placeholder mark —
               // essential for the client to recognise their brand in the render.
@@ -223,6 +227,8 @@ export default function VoltProPage() {
                 alt={fd?.businessName ?? 'logo'}
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
+            ) : clientName(sessionData) ? (
+              <span className="text-lg font-extrabold tracking-[0.15em] uppercase" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)" }}>{clientName(sessionData)}</span>
             ) : (
               <>
                 <div className="w-8 h-8 bg-[#facc15] flex items-center justify-center">

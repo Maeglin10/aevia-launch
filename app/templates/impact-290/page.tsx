@@ -3425,7 +3425,7 @@ function Nav290() {
                   letterSpacing: '-0.01em',
                 }}
               >
-                Eau &amp; Habitat Bretagne
+                {clientName(sessionData) ?? "Eau & Habitat Bretagne"}
               </div>
               <div
                 style={{

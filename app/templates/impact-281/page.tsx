@@ -365,7 +365,9 @@ function Nav() {
         ) : (
           <>
             <Scissors size={18} color={C.gold} strokeWidth={1.3} />
-            Maison&nbsp;Céleste
+            {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
+                portait « Maison Céleste » sur le site de n'importe quel client. */}
+            {clientName(sessionData) ?? "Maison Céleste"}
           </>
         )}
       </div>

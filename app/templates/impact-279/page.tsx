@@ -342,7 +342,9 @@ function Nav() {
         ) : (
           <>
             <span style={dot} />
-            Cabinet&nbsp;Soler
+            {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
+                portait « Cabinet Soler » sur le site de n'importe quel client. */}
+            {clientName(sessionData) ?? "Cabinet Soler"}
           </>
         )}
       </div>

@@ -333,7 +333,9 @@ export default function SkylineConciergePage() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-xl font-black tracking-tighter uppercase leading-none">
-                    Skyline
+                    {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
+                        portait « Skyline » sur le site de n'importe quel client. */}
+                    {clientName(sessionData) ?? "Skyline"}
                   </span>
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a96e)] -mt-1">
                     Concierge Group

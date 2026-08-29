@@ -1200,7 +1200,9 @@ export default function EmberGrillPage() {
             ) : (
               <>
                 <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none italic text-white">
-                  Ember
+                  {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
+                      portait « Ember » sur le site de n'importe quel client. */}
+                  {clientName(sessionData) ?? "Ember"}
                 </span>
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#ff4d00)] -mt-1 ml-1">
                   Grill & Cellar

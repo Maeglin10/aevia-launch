@@ -602,12 +602,18 @@ function Nav() {
         <div className="max-w-[1280px] mx-auto px-6 lg:px-10 h-[68px] flex items-center justify-between">
           {/* Logo */}
           <Link href="#hero" className="flex items-center gap-2.5">
+            {/* La barre portait le nom du modèle, à l'endroit le plus visible de
+                la page. Le client a donné le sien : c'est celui-là qu'on montre,
+                dans le style du libellé d'origine. Sans client, la composition du
+                modèle revient telle quelle. */}
             {fd?.logoBase64 ? (
               <img
                 src={fd.logoBase64}
                 alt={fd?.businessName ?? 'logo'}
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
+            ) : clientName(sessionData) ? (
+              <span className="text-[22px] font-[500] italic text-[var(--brand-light,#831843)] tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }} >{clientName(sessionData)}</span>
             ) : (
               <>
                 <Sparkles className="w-5 h-5 text-[var(--brand,#ec4899)]" />

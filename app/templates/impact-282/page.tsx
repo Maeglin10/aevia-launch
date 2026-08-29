@@ -319,7 +319,9 @@ function Nav() {
         ) : (
           <>
             <Wheat size={22} color={C.wheat} strokeWidth={1.4} />
-            Boulangerie&nbsp;du&nbsp;Beffroi
+            {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
+                portait « Boulangerie du Beffroi » sur le site de n'importe quel client. */}
+            {clientName(sessionData) ?? "Boulangerie du Beffroi"}
           </>
         )}
       </div>

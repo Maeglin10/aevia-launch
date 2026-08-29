@@ -400,6 +400,10 @@ return (
         transition: "all 0.4s ease",
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          {/* La barre portait le nom du modèle, à l'endroit le plus visible de
+              la page. Le client a donné le sien : c'est celui-là qu'on montre,
+              dans le style du libellé d'origine. Sans client, la composition du
+              modèle revient telle quelle. */}
           {fd?.logoBase64 ? (
             // Client logo (uploaded in the brief) replaces the placeholder mark —
             // essential for the client to recognise their brand in the render.
@@ -408,6 +412,8 @@ return (
               alt={fd?.businessName ?? 'logo'}
               style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
+          ) : clientName(sessionData) ? (
+            <span style={{ fontFamily: FONT, fontSize: 20, color: scrolled ? C.text : "#fff" }}>{clientName(sessionData)}</span>
           ) : (
             <>
               <Scissors size={18} color={scrolled ? C.accent : "#fff"} />
