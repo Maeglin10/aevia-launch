@@ -14,6 +14,7 @@ import { ArrowRight, ChevronDown, Heart, Leaf, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientMethode,
@@ -506,7 +507,9 @@ function Nav() {
         ) : (
           <>
             <Leaf size={18} color={C.accent} strokeWidth={1.5} />
-            Dr.&nbsp;Moulin
+            {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
+                portait « Dr. Moulin » sur le site de n'importe quel client. */}
+            {clientName(sessionData) ?? "Dr. Moulin"}
           </>
         )}
       </a>
@@ -1937,7 +1940,7 @@ function Footer() {
         { label: 'Prendre RDV', href: '#rdv' },
         { label: 'Téléconsultation', href: '#rdv' },
         { label: (clientCity(sessionData) ?? 'Bordeaux') + ' · Chartrons', href: '#rdv' },
-        { label: (fd?.email ?? 'dr.moulin@exemple.fr'), href: '#rdv' },
+        { label: (clientEmail(sessionData) ?? fd?.email ?? 'dr.moulin@exemple.fr'), href: '#rdv' },
       ],
     },
   ];

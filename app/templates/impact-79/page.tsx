@@ -407,7 +407,9 @@ export default function BoulangerieNoirePage() {
             ) : (
               <>
                 <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-stone-600 mb-1">
-                  Artisanal.
+                  {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
+                      portait « Artisanal. » sur le site de n'importe quel client. */}
+                  {clientName(sessionData) ?? "Artisanal."}
                 </span>
                 <span className="text-xl md:text-2xl font-black tracking-tighter uppercase text-white">
                   BOULANGERIE<span className="text-stone-800">.NOIRE</span>

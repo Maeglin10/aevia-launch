@@ -12,9 +12,11 @@ import { Menu, X, ArrowRight, Building2, ChevronRight, MapPin, Mail, Phone, Awar
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientMethode,
   clientName,
+  clientPhone,
   clientPhotos,
   clientServices,
   clientStats,
@@ -725,11 +727,11 @@ function ContactPage() {
               </div>
               <div className="flex items-center gap-3 text-sm text-[#1A1510]/70">
                 <Mail className="w-4 h-4 text-[var(--brand,#C46A3E)] shrink-0" />
-                <span>{fd?.email ?? "contact@keops-archi.fr"}</span>
+                <span>{clientEmail(sessionData) ?? fd?.email ?? "contact@keops-archi.fr"}</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-[#1A1510]/70">
                 <Phone className="w-4 h-4 text-[var(--brand,#C46A3E)] shrink-0" />
-                <span>{fd?.phone ?? "+33 1 42 00 00 00"}</span>
+                <span>{clientPhone(sessionData) ?? fd?.phone ?? "+33 1 42 00 00 00"}</span>
               </div>
             </div>
             <div className="border-t border-[#1A1510]/10 pt-4">
@@ -779,7 +781,7 @@ function LegalPage() {
               Entrepreneur individuel<br />
               SIREN : <LegalIdentity /><br />
               {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
-              Email : {fd?.email ?? "contact@exemple.fr"}<br />
+              Email : {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}<br />
               Adresse : Communiquée sur demande
             </p>
           </div>

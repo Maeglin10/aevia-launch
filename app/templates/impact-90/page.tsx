@@ -17,12 +17,14 @@ import { DWELL, useSlides, AnchoredBackdrop, SlideIndex, HairlineArrows } from "
 import { PanelDrop } from "@/lib/templates/hero-kit-3";
 import {
   clientCity,
+  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
   clientMethode,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -888,8 +890,8 @@ function ContactSection() {
               Une question sur nos ateliers, une commande spéciale pour un événement ou simplement envie de nous dire bonjour ? Remplissez le formulaire ci-contre et nous vous répondrons sous 24h.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 16, fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.brown }}>
-              <p>📞 <strong>Téléphone :</strong> {fd?.phone ?? "+33 4 78 28 00 00"}</p>
-              <p>✉ <strong>Email :</strong>{fd?.email ?? "contact@maisonlaval.fr"}</p>
+              <p>📞 <strong>Téléphone :</strong> {clientPhone(sessionData) ?? fd?.phone ?? "+33 4 78 28 00 00"}</p>
+              <p>✉ <strong>Email :</strong>{clientEmail(sessionData) ?? fd?.email ?? "contact@maisonlaval.fr"}</p>
               <p>📍 <strong>Adresse :</strong> 47 Grande Rue de la Croix-Rousse, 69004 {clientCity(sessionData) ?? "Lyon"}</p>
             </div>
           </div>
@@ -1411,7 +1413,7 @@ export default function Page() {
       <footer style={{ borderTop: `1px solid ${C.border}`, padding: "28px 40px", background: C.bgWarm }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 14, color: C.brown, fontStyle: "italic" }}>{clientName(sessionData) ?? "Maison Laval"} · depuis 1987</p>
-          <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 11, color: C.muted, letterSpacing: "0.05em" }}>© 2025 — Boulangerie Artisanale{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
+          <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 11, color: C.muted, letterSpacing: "0.05em" }}>© 2025 — {clientName(sessionData) ?? "Boulangerie Artisanale"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
           <div style={{ display: "flex", gap: 20 }}>
             <Link href="#contact" style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: C.muted, textDecoration: "none" }}>{c?.ctaText ?? <>
               Mentions légales

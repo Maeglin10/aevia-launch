@@ -30,6 +30,7 @@ import {
   clientAddress,
   clientCity,
   clientCodePostalVille,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -2167,8 +2168,8 @@ function PracticalSection() {
       icon: <Phone size={26} color={C.terra} strokeWidth={1.4} />,
       title: 'Contact',
       lines: [
-        (fd?.phone ?? '04 78 25 86 86'),
-        (fd?.email ?? 'cabinet.soler@gmail.com'),
+        (clientPhone(sessionData) ?? fd?.phone ?? '04 78 25 86 86'),
+        (clientEmail(sessionData) ?? fd?.email ?? 'cabinet.soler@gmail.com'),
         'Urgences : via Doctolib',
         'Réponse sous 24h',
       ],
@@ -2356,8 +2357,8 @@ function FooterSection() {
       items: [
         { label: (clientCity(sessionData) ?? 'Lyon') + ' — Brotteaux', href: '#cabinet' },
         { label: 'Métro A — Foch', href: '#cabinet' },
-        { label: (clientPhone(sessionData) ?? '04 78 25 86 86'), href: 'tel:+33478000000' },
-        { label: 'Email', href: 'mailto:cabinet.soler@gmail.com' },
+        { label: (clientPhone(sessionData) ?? '04 78 25 86 86'), href: `tel:${(clientPhone(sessionData) ?? '+33478000000').replace(/[^+0-9]/g, "")}` },
+        { label: 'Email', href: `mailto:${clientEmail(sessionData) ?? 'cabinet.soler@gmail.com'}` },
       ],
     },
   ];

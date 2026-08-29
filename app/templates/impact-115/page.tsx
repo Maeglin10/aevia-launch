@@ -20,6 +20,7 @@ import {
 } from "framer-motion";
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientList,
   clientName,
@@ -2081,7 +2082,7 @@ export default function Impact115Page() {
                 Contact
               </div>
               <a
-                href={`mailto:${fd?.email ?? "hello@rostova.studio"}`}
+                href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "hello@rostova.studio"}`}
                 style={{
                   display: "block",
                   fontFamily: C.fontSans,
@@ -2092,7 +2093,7 @@ export default function Impact115Page() {
                   marginBottom: 10,
                 }}
               >
-                {fd?.email ?? "hello@rostova.studio"}
+                {clientEmail(sessionData) ?? fd?.email ?? "hello@rostova.studio"}
               </a>
               <div
                 style={{

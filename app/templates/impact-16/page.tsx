@@ -12,6 +12,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientName,
   clientPhotos,
@@ -633,7 +634,7 @@ function ProposPage() {
             </p>
             
             <div className="flex gap-4">
-              <a href={`mailto:${fd?.email ?? "contact@obscura.fr"}`} className="bg-[var(--brand,#C9A86C)] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B8975E] transition-colors flex items-center gap-2 font-mono"><Mail className="w-4 h-4" />{fd?.email ?? "contact@obscura.fr"}</a>
+              <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@obscura.fr"}`} className="bg-[var(--brand,#C9A86C)] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B8975E] transition-colors flex items-center gap-2 font-mono"><Mail className="w-4 h-4" />{clientEmail(sessionData) ?? fd?.email ?? "contact@obscura.fr"}</a>
               <a href="#contact" className="border border-white/10 text-white text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-white/5 transition-colors flex items-center gap-2 font-mono"><Instagram className="w-4 h-4" /> @obscuraphoto</a>
             </div>
           </div>
@@ -691,7 +692,7 @@ function LegalPage() {
                 {clientName(sessionData) ? "" : "Entrepreneur Individuel"}<br />
                 SIREN : <LegalIdentity /><br />
                 {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
-                Email : {fd?.email ?? "contact@exemple.fr"}<br />
+                Email : {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}<br />
                 Adresse : Communiquée sur demande
              </p>
           </div>

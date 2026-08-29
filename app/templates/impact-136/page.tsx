@@ -19,6 +19,7 @@ import { ArrowRight, ArrowUpRight, Play, Maximize, X, Globe, ArrowDown, Sparkles
 import "../premium.css";
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientMethode,
@@ -684,10 +685,10 @@ export default function TextRevealPage() {
                   <span className="text-zinc-500">Collaborate.</span>
                 </h2>
                 <a
-                  href={`mailto:${fd?.email ?? "hello@reveal.studio"}`}
+                  href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "hello@reveal.studio"}`}
                   className="text-2xl md:text-4xl font-light hover:text-zinc-400 transition-colors border-b border-zinc-700 pb-2"
                 >
-                  {fd?.email ?? "hello@reveal.studio"}
+                  {clientEmail(sessionData) ?? fd?.email ?? "hello@reveal.studio"}
                 </a>
               </Reveal>
             </div>

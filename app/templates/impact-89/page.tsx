@@ -38,6 +38,7 @@ import {
 import {
   clientAccrocheRestante,
   clientCity,
+  clientEmail,
   clientFaq,
   clientHeroLine,
   clientList,
@@ -1971,7 +1972,7 @@ return (
               {[
                 { Icon: MapPin, text: "24 Rue de la Roquette\nParis 11e, 75011" },
                 { Icon: Phone, text: (clientPhone(sessionData) ?? "+33 1 43 56 78 90") },
-                { Icon: Mail, text: (fd?.email ?? "contact@inkandironstudio.fr") },
+                { Icon: Mail, text: (clientEmail(sessionData) ?? fd?.email ?? "contact@inkandironstudio.fr") },
                 { Icon: Clock, text: "Mar–Sam : 11h–20h\nDim–Lun : fermé" },
               ].map(({ Icon, text }) => (
                 <div key={text} style={{ display: "flex", gap: 12, marginBottom: 16, alignItems: "flex-start" }}>

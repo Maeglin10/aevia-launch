@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientEmail,
   clientName,
 } from "@/lib/templates/clientContent";
 
@@ -219,7 +220,7 @@ export default function OriginRoastLayout({ children }: { children: React.ReactN
                 Contact
               </h4>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} style={{ fontSize: 13, color: "var(--brand, #7a5c3a)", textDecoration: "none", fontWeight: 300 }}>{fd?.email ?? "contact@exemple.fr"}</a>
+                <a href={`mailto:${clientEmail(__layoutSession) ?? fd?.email ?? "contact@exemple.fr"}`} style={{ fontSize: 13, color: "var(--brand, #7a5c3a)", textDecoration: "none", fontWeight: 300 }}>{clientEmail(__layoutSession) ?? fd?.email ?? "contact@exemple.fr"}</a>
                 <Link href="/templates/impact-38/contact"
                   style={{ textDecoration: "none", fontSize: 13, color: "var(--brand, #7a5c3a)", textAlign: "left", padding: 0, fontWeight: 300 }}>
                   Nous écrire

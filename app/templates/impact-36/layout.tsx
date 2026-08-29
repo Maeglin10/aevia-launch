@@ -1,6 +1,7 @@
 "use client"
 
 import {
+  clientEmail,
   clientName,
 } from "@/lib/templates/clientContent";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
@@ -370,7 +371,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 Contact
               </h4>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} style={{ fontSize: 14, color: "var(--brand, #64748b)", textDecoration: "none" }}>{fd?.email ?? "contact@exemple.fr"}</a>
+                <a href={`mailto:${clientEmail(__layoutSession) ?? fd?.email ?? "contact@exemple.fr"}`} style={{ fontSize: 14, color: "var(--brand, #64748b)", textDecoration: "none" }}>{clientEmail(__layoutSession) ?? fd?.email ?? "contact@exemple.fr"}</a>
                 <span style={{ fontSize: 14, color: "var(--brand, #64748b)" }}>+1 212 555 0190</span>
                 <span style={{ fontSize: 14, color: "var(--brand, #64748b)" }}>New York, NY 10022</span>
                 <span style={{ fontSize: 14, color: "var(--brand, #64748b)" }}>Mon-Fri 8am-7pm ET</span>

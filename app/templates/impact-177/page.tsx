@@ -1,9 +1,11 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -263,7 +265,7 @@ return (
             <span className="block w-[22px] h-[2px] bg-current rounded-sm transition-opacity duration-300" style={{ opacity: mobileOpen ? 0 : 1 }} />
             <span className="block w-[22px] h-[2px] bg-current rounded-sm transition-transform duration-300" style={{ transform: mobileOpen ? 'rotate(-45deg) translate(0, -7px)' : 'none' }} />
           </button>
-          <a href={`tel:${fd?.phone ?? "0478123456"}`} style={{ display: "none", fontFamily: C.sans, fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: C.terra, textDecoration: "none" }} className="hidden md:block">
+          <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478123456").replace(/[^+0-9]/g, "")}`} style={{ display: "none", fontFamily: C.sans, fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: C.terra, textDecoration: "none" }} className="hidden md:block">
             Prendre RDV
           </a>
         </div>
@@ -451,8 +453,8 @@ return (
               <button style={{ padding: "1.1rem 2.5rem", background: C.terra, color: "#fff", fontFamily: C.sans, fontWeight: 700, fontSize: "0.65rem", textTransform: "uppercase", letterSpacing: "0.2em", border: "none", cursor: "pointer" }}>
                 Prendre rendez-vous
               </button>
-              <a href={`tel:${fd?.phone ?? "0478123456"}`} style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", padding: "1.1rem 2.5rem", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.6)", fontFamily: C.sans, fontWeight: 700, fontSize: "0.65rem", textTransform: "uppercase", letterSpacing: "0.2em", textDecoration: "none" }}>
-                <Phone style={{ width: 14, height: 14 }} /> {fd?.phone ?? "04 78 12 34 56"}
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478123456").replace(/[^+0-9]/g, "")}`} style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", padding: "1.1rem 2.5rem", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.6)", fontFamily: C.sans, fontWeight: 700, fontSize: "0.65rem", textTransform: "uppercase", letterSpacing: "0.2em", textDecoration: "none" }}>
+                <Phone style={{ width: 14, height: 14 }} /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 12 34 56"}
               </a>
             </div>
           </div>
@@ -468,7 +470,7 @@ return (
           </div>
           {[
             { t: "Services", ls: ["Construction sur-mesure", "Conception & étude 3D", "Rénovation de bassin", "Aménagement & pool house"] },
-            { t: "Contact", ls: [(fd?.phone ?? "04 78 12 34 56"), (fd?.email ?? "contact@maelledumas.fr"), (clientCity(sessionData) ?? "Lyon") + " · Auvergne-Rhône-Alpes", "Devis sous 48h"] },
+            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "04 78 12 34 56"), (clientEmail(sessionData) ?? fd?.email ?? "contact@maelledumas.fr"), (clientCity(sessionData) ?? "Lyon") + " · Auvergne-Rhône-Alpes", "Devis sous 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <div style={{ fontFamily: C.sans, fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.3em", color: C.terra, marginBottom: "1.25rem" }}>{col.t}</div>

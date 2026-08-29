@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientEmail,
   clientName,
 } from "@/lib/templates/clientContent";
 
@@ -384,11 +385,11 @@ export default function GhostProtocolLayout({ children }: { children: React.Reac
               <div style={{ fontSize: 10, color: C.green, letterSpacing: "0.4em", marginBottom: 20 }}>CONTACT</div>
               <div style={{ fontSize: 11, color: C.textDim, letterSpacing: "0.05em", lineHeight: 1.8 }}>
                 <div>PARTNERSHIPS:</div>
-                <div style={{ color: C.textMid }}>{fd?.email ?? "business@ghostprotocol.gg"}</div>
+                <div style={{ color: C.textMid }}>{clientEmail(__layoutSession) ?? fd?.email ?? "business@ghostprotocol.gg"}</div>
                 <div style={{ marginTop: 12 }}>RECRUITMENT:</div>
-                <div style={{ color: C.textMid }}>{fd?.email ?? "tryout@ghostprotocol.gg"}</div>
+                <div style={{ color: C.textMid }}>{clientEmail(__layoutSession) ?? fd?.email ?? "tryout@ghostprotocol.gg"}</div>
                 <div style={{ marginTop: 12 }}>PRESS:</div>
-                <div style={{ color: C.textMid }}>{fd?.email ?? "press@ghostprotocol.gg"}</div>
+                <div style={{ color: C.textMid }}>{clientEmail(__layoutSession) ?? fd?.email ?? "press@ghostprotocol.gg"}</div>
               </div>
             </div>
           </div>

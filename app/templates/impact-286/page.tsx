@@ -31,6 +31,7 @@ import {
   clientHeroSubtitle,
   clientMethode,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -2178,10 +2179,10 @@ function PracticalSection() {
         <span key="a2" style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 12 }}>
           <Phone size={16} color={C.gold} strokeWidth={1.5} style={{ flexShrink: 0 }} />
           <a
-            href={`tel:${fd?.phone ?? "+33472000000"}`}
+            href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33472000000").replace(/[^+0-9]/g, "")}`}
             style={{ color: 'inherit', textDecoration: 'none' }}
           >
-            {fd?.phone ?? "04 72 00 00 00"}
+            {clientPhone(sessionData) ?? fd?.phone ?? "04 72 00 00 00"}
           </a>
         </span>,
         <span key="a3" style={{ display: 'block', marginTop: 8 }}>

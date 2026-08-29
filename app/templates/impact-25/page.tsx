@@ -7,9 +7,11 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Code2, Phone, Mail, MapPin, Star, CheckCircle, ArrowRight, Layers, Sparkles, Globe } from "lucide-react"
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -517,10 +519,10 @@ export default function PixelRepublicPage() {
             Un premier échange de 30 minutes pour comprendre vos enjeux et vous proposer une stratégie sur mesure. Sans engagement.
           </>}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`mailto:${fd?.email ?? "hello@pixelrepublic.fr"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
-              <Mail size={18} />{fd?.email ?? "hello@pixelrepublic.fr"}</motion.a>
-            <motion.a href={`tel:${fd?.phone ?? "+33144000000"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "13px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT }} whileHover={{ background: C.accent, color: C.white }}>
-              <Phone size={18} /> {fd?.phone ?? "01 44 00 00 00"}
+            <motion.a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "hello@pixelrepublic.fr"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
+              <Mail size={18} />{clientEmail(sessionData) ?? fd?.email ?? "hello@pixelrepublic.fr"}</motion.a>
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33144000000").replace(/[^+0-9]/g, "")}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "13px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT }} whileHover={{ background: C.accent, color: C.white }}>
+              <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "01 44 00 00 00"}
             </motion.a>
           </div>
         </Reveal>
@@ -534,7 +536,7 @@ export default function PixelRepublicPage() {
             <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Agence digitale · {clientCity(sessionData) ?? "Paris"}<br />Lun–Ven 9h–18h30</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Paris") + ", Île-de-France" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "01 44 00 00 00") }, { icon: <Mail size={13} />, t: (fd?.email ?? "hello@pixelrepublic.fr") }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Paris") + ", Île-de-France" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "01 44 00 00 00") }, { icon: <Mail size={13} />, t: (clientEmail(sessionData) ?? fd?.email ?? "hello@pixelrepublic.fr") }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>

@@ -3,6 +3,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
@@ -1719,7 +1720,7 @@ export default function Impact211Page() {
               <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
                 {[
                   { label: "Réservations", value: (clientPhone(sessionData) ?? "+33 1 42 61 71 68") },
-                  { label: "Email", value: (fd?.email ?? "table@maisoneclat.fr") },
+                  { label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "table@maisoneclat.fr") },
                   { label: "Adresse", value: (clientAddress(sessionData) ?? `14 rue de Varenne, 75007 ${clientCity(sessionData) ?? "Paris"}`) },
                 ].map((item) => (
                   <div key={item.label}>

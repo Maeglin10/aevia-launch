@@ -1726,7 +1726,7 @@ function RdvFormSection() {
           <Reveal delay={0.28}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               {[
-                { icon: Phone, text: (fd?.phone ?? '04 67 20 51 51') + ' — Lun-Ven 8h–19h' },
+                { icon: Phone, text: (clientPhone(sessionData) ?? fd?.phone ?? '04 67 20 51 51') + ' — Lun-Ven 8h–19h' },
                 { icon: MapPin, text: `12 Avenue de Palavas, 34000 ${clientCity(sessionData) ?? "Montpellier"}` },
                 { icon: FileText, text: 'Ordonnance médicale requise' },
                 { icon: CreditCard, text: clientPayments(sessionData)?.join(", ") ?? 'Secteur 1 & 2 — CB, chèque, espèces' },
@@ -1831,7 +1831,7 @@ function RdvFormSection() {
                     fontWeight: 500,
                   }}
                 >
-                  04 67 20 51 51 · {fd?.email ?? "cabinet@kinetherapeute-montpellier.fr"}
+                  04 67 20 51 51 · {clientEmail(sessionData) ?? fd?.email ?? "cabinet@kinetherapeute-montpellier.fr"}
                 </div>
               </div>
             ) : (
@@ -2915,7 +2915,7 @@ function PracticalSection() {
             </div>
             <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
               <a
-                href={`tel:${fd?.phone ?? "+33467000000"}`}
+                href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33467000000").replace(/[^+0-9]/g, "")}`}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -2935,7 +2935,7 @@ function PracticalSection() {
                 {clientPhone(sessionData) ?? "04 67 20 51 51"}
               </a>
               <a
-                href={`mailto:${fd?.email ?? "cabinet@kinetherapeute-montpellier.fr"}`}
+                href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "cabinet@kinetherapeute-montpellier.fr"}`}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -2989,7 +2989,7 @@ function FooterSection() {
     {
       titre: 'Contact',
       liens: [
-        { label: (clientPhone(sessionData) ?? '04 67 20 51 51'), href: 'tel:+33467000000' },
+        { label: (clientPhone(sessionData) ?? '04 67 20 51 51'), href: `tel:${(clientPhone(sessionData) ?? '+33467000000').replace(/[^+0-9]/g, "")}` },
         { label: clientEmail(sessionData) ?? ('cabinet@kinetherapeute-' + (clientCity(sessionData) ?? 'Montpellier') + '.fr'), href: 'mailto:' + (clientEmail(sessionData) ?? ('cabinet@kinetherapeute-' + (clientCity(sessionData) ?? 'Montpellier') + '.fr')) },
         { label: '12 Av. de Palavas, Antigone', href: '#pratique' },
         { label: 'Urgences : Hôpital Lapeyronie', href: "/templates/impact-283" },

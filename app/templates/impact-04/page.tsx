@@ -785,7 +785,7 @@ return (
               <button onClick={() => setReservationOpen(true)} className="px-12 py-5 bg-amber-700 hover:bg-amber-600 text-[11px] uppercase tracking-[0.3em] font-sans font-bold transition-all duration-200 inline-flex items-center gap-3 cursor-pointer">
                 <CalendarDays className="w-4 h-4" /> Make a Reservation
               </button>
-              <a href={`tel:${fd?.phone ?? "+33142651516"}`} className="px-12 py-5 border border-white/10 hover:border-amber-700/40 text-[11px] uppercase tracking-[0.3em] font-sans font-semibold transition-all duration-200 inline-flex items-center gap-3 cursor-pointer">
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33142651516").replace(/[^+0-9]/g, "")}`} className="px-12 py-5 border border-white/10 hover:border-amber-700/40 text-[11px] uppercase tracking-[0.3em] font-sans font-semibold transition-all duration-200 inline-flex items-center gap-3 cursor-pointer">
                 <Phone className="w-4 h-4" /> {tr(sessionData, "Call Us")}
               </a>
             </div>
@@ -1128,7 +1128,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
                 <EditeurDuSite /><br />
                 Entrepreneur individuel<br />
                 SIREN <LegalIdentity /><br />
-                {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />{fd?.email ?? "contact@exemple.fr"}</p>
+                {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</p>
             </div>
             <div>
               <h2 style={{ fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 300, color: 'rgb(217, 119, 6)', marginBottom: 12 }} className="text-amber-500">Hébergeur</h2>

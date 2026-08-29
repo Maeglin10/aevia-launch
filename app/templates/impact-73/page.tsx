@@ -8,9 +8,11 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Music, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Guitar } from "lucide-react"
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -477,10 +479,10 @@ export default function ConservatoireAccordPage() {
             Cours d'essai gratuit pour tout nouvel élève. Inscriptions possibles en cours d'année sous réserve de disponibilités.
           </>}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`tel:${fd?.phone ?? "+33478000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {fd?.phone ?? "04 78 00 00 00"}
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
+              <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 00 00 00"}
             </motion.a>
-            <motion.a href={`mailto:${fd?.email ?? "contact@conservatoire-accord.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "13px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white }}>
+            <motion.a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@conservatoire-accord.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "13px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white }}>
               <Mail size={18} /> Nous écrire
             </motion.a>
           </div>
@@ -495,7 +497,7 @@ export default function ConservatoireAccordPage() {
             <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>École de musique · {clientCity(sessionData) ?? "Lyon"} 6e<br />Lun–Sam 10h–20h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Lyon") + ", Rhône" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 78 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 10h–20h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Lyon") + ", Rhône" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "04 78 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 10h–20h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
                 <span style={{ color: C.amber }}>{item.icon}</span>{item.t}
               </div>
