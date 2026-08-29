@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import {
   clientCity,
+  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
@@ -2700,7 +2701,7 @@ return (
               }}
             >
               <motion.a
-                href={`mailto:${fd?.email ?? "julie@terreetgeste.fr"}`}
+                href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "julie@terreetgeste.fr"}`}
                 whileHover={{
                   scale: 1.04,
                   boxShadow: "0 0 40px rgba(155,74,40,0.4)",
@@ -2757,7 +2758,7 @@ return (
               {[
                 { Icon: MapPin, t: "Atelier · Beaune, Bourgogne" },
                 { Icon: Phone, t: (clientPhone(sessionData) ?? "+33 3 80 71 68 68") },
-                { Icon: Mail, t: (fd?.email ?? "julie@terreetgeste.fr") },
+                { Icon: Mail, t: (clientEmail(sessionData) ?? fd?.email ?? "julie@terreetgeste.fr") },
               ].map(({ Icon, t }) => (
                 <div
                   key={t}

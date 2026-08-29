@@ -33,6 +33,7 @@ import {
 } from "lucide-react"
 import {
   clientCity,
+  clientEmail,
   clientInstagram,
   clientMethode,
   clientName,
@@ -1185,7 +1186,7 @@ export default function Impact114Page() {
                 {[
                   { icon: Instagram, label: "@" + (clientInstagram(sessionData) ?? "terra.moreau") },
                   { icon: Globe, label: "terra-photo.com" },
-                  { icon: Mail, label: (fd?.email ?? "contact@terra-photo.com") },
+                  { icon: Mail, label: (clientEmail(sessionData) ?? fd?.email ?? "contact@terra-photo.com") },
                 ].map((item) => {
                   const Icon = item.icon
                   return (
@@ -1496,7 +1497,7 @@ export default function Impact114Page() {
 
             <div className="space-y-5">
               {[
-                { icon: Mail, label: "Email", value: (fd?.email ?? "contact@terra-photo.com") },
+                { icon: Mail, label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "contact@terra-photo.com") },
                 { icon: Instagram, label: "Instagram", value: "@" + (clientInstagram(sessionData) ?? "terra.moreau") },
                 { icon: Globe, label: "Web", value: "terra-photo.com" },
                 { icon: MapPin, label: "Studio", value: (clientCity(sessionData) ?? "Paris") + ", France" },

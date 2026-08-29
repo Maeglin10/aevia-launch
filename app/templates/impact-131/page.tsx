@@ -2,6 +2,7 @@
 import {
   clientAddress,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientList,
   clientName,
@@ -1271,12 +1272,18 @@ export default function WineryTemplate() {
           height: 72,
         }}
       >
+        {/* La barre portait le nom du modèle, à l'endroit le plus visible de
+            la page. Le client a donné le sien : c'est celui-là qu'on montre,
+            dans le style du libellé d'origine. Sans client, la composition du
+            modèle revient telle quelle. */}
         {fd?.logoBase64 ? (
           <img
             src={fd.logoBase64}
             alt={fd?.businessName ?? 'logo'}
             style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
+        ) : clientName(sessionData) ? (
+          <span style={{ fontFamily: C.fontSerif, fontSize: 20, fontWeight: 700, color: C.burgundy, letterSpacing: "0.06em", lineHeight: 1, }} >{clientName(sessionData)}</span>
         ) : (
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <svg width={24} height={24} viewBox="0 0 24 24" fill="none">
@@ -2341,7 +2348,7 @@ export default function WineryTemplate() {
               {[
                 { label: "Adresse", value: (clientAddress(sessionData) ?? "Château de Valroc, Route des Graves, 33760 Escoussans") },
                 { label: "Téléphone", value: "+33 5 56 23 78 90" },
-                { label: "Email", value: (fd?.email ?? "contact@chateau-valroc.fr") },
+                { label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "contact@chateau-valroc.fr") },
               ].map((c) => (
                 <div key={c.label} style={{ marginBottom: 20 }}>
                   <p

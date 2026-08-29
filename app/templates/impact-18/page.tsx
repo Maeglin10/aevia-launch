@@ -11,6 +11,7 @@ import Link from "next/link";
 import { Menu, X, ArrowRight, Zap, BarChart3, Users, CheckCircle, ChevronDown, Globe, Layers, Bell, Shield, Code2, TrendingUp, Cpu, Server, Lock, HelpCircle } from "lucide-react";
 import {
   clientCity,
+  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
@@ -704,7 +705,7 @@ function LegalPage() {
               Entrepreneur individuel<br />
               SIREN : <LegalIdentity /><br />
               {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
-              Email : {fd?.email ?? "contact@exemple.fr"}<br />
+              Email : {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}<br />
               Adresse : Communiquée sur demande
             </p>
           </div>

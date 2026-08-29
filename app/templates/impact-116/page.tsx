@@ -18,6 +18,7 @@ import { Progress } from "@/components/ui/progress"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientList,
   clientMethode,
@@ -717,7 +718,7 @@ export default function KineticStudio() {
           <div className="space-y-4 text-white/70 mb-12">
             <div>
               <p className="font-light text-[var(--brand,#ff5500)] text-sm">Email</p>
-              <p>{fd?.email ?? "hello@kineticstudio.com"}</p>
+              <p>{clientEmail(sessionData) ?? fd?.email ?? "hello@kineticstudio.com"}</p>
             </div>
             <div>
               <p className="font-light text-[var(--brand,#ff5500)] text-sm">Phone</p>

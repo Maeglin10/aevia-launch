@@ -10,10 +10,12 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAreas,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -231,8 +233,8 @@ export default function JardinsVivantsPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${fd?.phone ?? "0450123456"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#2d5a27)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> {fd?.phone ?? "04 50 12 34 56"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0450123456").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#2d5a27)] font-bold text-sm">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 50 12 34 56"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#2d5a27)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#1f3e1b] transition-colors rounded-lg">
               Devis gratuit
@@ -242,7 +244,7 @@ export default function JardinsVivantsPage() {
               <SheetContent side="right" className="bg-[#fafaf7] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#1e2a1c] hover:text-[var(--brand,#2d5a27)] transition-colors" style={{ fontFamily: "'Cardo', serif" }}>{l}</Link>)}
-                  <a href={`tel:${fd?.phone ?? "0450123456"}`} className="flex items-center gap-3 text-[var(--brand,#2d5a27)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "04 50 12 34 56"}</a>
+                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0450123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#2d5a27)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 50 12 34 56"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -279,8 +281,8 @@ export default function JardinsVivantsPage() {
             <button className="px-9 py-4 bg-[var(--brand,#2d5a27)] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#1f3e1b] transition-colors rounded-lg">{c?.ctaText ?? <>
               Devis gratuit 48h
             </>}</button>
-            <a href={`tel:${fd?.phone ?? "0450123456"}`} className="flex items-center gap-3 px-9 py-4 border border-white/12 text-white/45 font-bold text-[10px] uppercase tracking-widest hover:border-[#a8d5a0]/40 hover:text-[#a8d5a0] transition-all rounded-lg">
-              <Phone className="w-4 h-4" /> {fd?.phone ?? "04 50 12 34 56"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0450123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-9 py-4 border border-white/12 text-white/45 font-bold text-[10px] uppercase tracking-widest hover:border-[#a8d5a0]/40 hover:text-[#a8d5a0] transition-all rounded-lg">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 50 12 34 56"}
             </a>
           </motion.div>
 
@@ -448,8 +450,8 @@ export default function JardinsVivantsPage() {
               <button className="px-10 py-4 bg-white text-[var(--brand,#2d5a27)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0f7f0] transition-colors rounded-lg shadow-lg">
                 Demander un devis
               </button>
-              <a href={`tel:${fd?.phone ?? "0450123456"}`} className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-lg">
-                <Phone className="w-4 h-4" /> {fd?.phone ?? "04 50 12 34 56"}
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0450123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-lg">
+                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 50 12 34 56"}
               </a>
             </div>
           </div>
@@ -466,7 +468,7 @@ export default function JardinsVivantsPage() {
           {[
             { t: "Prestations", ls: ["Création jardin", "Entretien régulier", "Élagage & abattage", "Potager & verger", "Arrosage automatique"] },
             { t: "Infos", ls: ["Qui sommes-nous", "Portfolio réalisations", "Zone d'intervention", "Tarifs", "Blog jardinage"] },
-            { t: "Contact", ls: [(fd?.phone ?? "04 50 12 34 56"), (fd?.email ?? "contact@jardins-vivants.fr"), (clientCity(sessionData) ?? "Annecy") + " & Haute-Savoie", "Lun-Sam 7h30-18h", "Devis gratuit 48h"] },
+            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "04 50 12 34 56"), (clientEmail(sessionData) ?? fd?.email ?? "contact@jardins-vivants.fr"), (clientCity(sessionData) ?? "Annecy") + " & Haute-Savoie", "Lun-Sam 7h30-18h", "Devis gratuit 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2d5a27)]/60 mb-5">{col.t}</h4>

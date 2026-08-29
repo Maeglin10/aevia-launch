@@ -1,15 +1,16 @@
 "use client";
 import {
-  clientTrade,
-  clientPhone,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientText,
+  clientTrade,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
@@ -812,8 +813,8 @@ export default function LumiereDoreePage() {
               </p>
               <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 2 }}>
                 {clientCity(sessionData) ?? "Paris"} 11e<br />
-                <a href={`tel:${fd?.phone ?? "+33672755919"}`} style={{ color: C.accent, textDecoration: "none" }}>{clientPhone(sessionData) ?? "06 12 72 75 75"}</a><br />
-                <a href={`mailto:${fd?.email ?? "contact@lumieredoree.fr"}`} style={{ color: C.accent, textDecoration: "none" }}>{fd?.email ?? "contact@lumieredoree.fr"}</a>
+                <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33672755919").replace(/[^+0-9]/g, "")}`} style={{ color: C.accent, textDecoration: "none" }}>{clientPhone(sessionData) ?? "06 12 72 75 75"}</a><br />
+                <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@lumieredoree.fr"}`} style={{ color: C.accent, textDecoration: "none" }}>{clientEmail(sessionData) ?? fd?.email ?? "contact@lumieredoree.fr"}</a>
               </p>
             </div>
             <div>

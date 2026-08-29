@@ -14,6 +14,7 @@ import {
 } from "framer-motion";
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
@@ -30,7 +31,7 @@ let sessionData: any = null;
 // saisir, le thème ne les lisait pas.
 function STATS_INLINE_SOURCE_LIVE() {
   return [
-  { label: "email", value: (fd?.email ?? "rafael@moreau.dev") },
+  { label: "email", value: (clientEmail(sessionData) ?? fd?.email ?? "rafael@moreau.dev") },
                 { label: "linkedin", value: "/in/rafael-moreau" },
                 { label: "github", value: "@rafael-moreau" },
                 { label: "location", value: (clientCity(sessionData) ?? "Paris") + ", France (remote OK)" }

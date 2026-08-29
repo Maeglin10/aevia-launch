@@ -31,6 +31,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientReviews,
   clientServices,
   clientStats,
@@ -750,7 +751,7 @@ function Pricing() {
    démonstration restait affiché. */
 function FAQS_DEMO_LIVE() {
   return [
-  { q: "Comment prendre rendez-vous en urgence ?", a: "Appelez directement notre ligne urgences au " + (fd?.phone ?? "05 56 78 90 12") + ", disponible 24h/24 et 7j/7. Pour les urgences vitales, notre équipe d'astreinte intervient en moins de 30 minutes." },
+  { q: "Comment prendre rendez-vous en urgence ?", a: "Appelez directement notre ligne urgences au " + (clientPhone(sessionData) ?? fd?.phone ?? "05 56 78 90 12") + ", disponible 24h/24 et 7j/7. Pour les urgences vitales, notre équipe d'astreinte intervient en moins de 30 minutes." },
   { q: "Acceptez-vous les animaux exotiques (lapins, oiseaux, reptiles) ?", a: "Oui ! Dr. Nadia Sall est spécialisée NAC (Nouveaux Animaux de Compagnie). Elle reçoit lapins, cobayes, oiseaux, reptiles et poissons du lundi au vendredi sur rendez-vous." },
   { q: "Travaillez-vous avec les assurances animaux ?", a: "Nous collaborons avec les principaux assureurs vétérinaires : Agria, Santévet, Assur O'Poil et April. Nous émettons les factures dans le format requis pour vos remboursements." },
   { q: "Proposez-vous la téléconsultation ?", a: "Oui, la téléconsultation est disponible pour les abonnés Complete Care et Premium Care. Idéale pour les questions de suivi, l'interprétation de résultats ou les conseils comportementaux." },

@@ -9,9 +9,11 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAreas,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -271,8 +273,8 @@ export default function ToitPierrePiscinesPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${fd?.phone ?? "0240123456"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#b91c1c)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> {fd?.phone ?? "02 40 12 34 56"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0240123456").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#b91c1c)] font-bold text-sm">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "02 40 12 34 56"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[#374151] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#1f2937] transition-colors">
               Devis Gratuit
@@ -282,7 +284,7 @@ export default function ToitPierrePiscinesPage() {
               <SheetContent side="right" className="bg-[#f9f8f6] border-slate-200 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#1f2937] hover:text-[var(--brand,#b91c1c)] transition-colors">{l}</Link>)}
-                  <a href={`tel:${fd?.phone ?? "0240123456"}`} className="flex items-center gap-3 text-[var(--brand,#b91c1c)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "02 40 12 34 56"}</a>
+                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0240123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#b91c1c)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "02 40 12 34 56"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -320,8 +322,8 @@ export default function ToitPierrePiscinesPage() {
             <button className="px-8 py-4 bg-[var(--brand,#b91c1c)] text-white font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-[#dc2626] transition-colors">{c?.ctaText ?? <>
               Devis gratuit
             </>}</button>
-            <a href={`tel:${fd?.phone ?? "0240123456"}`} className="flex items-center gap-3 px-8 py-4 border border-white/20 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#fca5a5]/50 hover:text-[#fca5a5] transition-all">
-              <Phone className="w-4 h-4" /> {fd?.phone ?? "02 40 12 34 56"}
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0240123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-8 py-4 border border-white/20 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#fca5a5]/50 hover:text-[#fca5a5] transition-all">
+              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "02 40 12 34 56"}
             </a>
           </motion.div>
         </motion.div>
@@ -484,8 +486,8 @@ export default function ToitPierrePiscinesPage() {
               <button className="px-10 py-4 bg-[var(--brand,#b91c1c)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#dc2626] transition-colors">
                 Demander un devis gratuit
               </button>
-              <a href={`tel:${fd?.phone ?? "0240123456"}`} className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#fca5a5]/50 hover:text-[#fca5a5] transition-all">
-                <Phone className="w-4 h-4" /> {fd?.phone ?? "02 40 12 34 56"}
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0240123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#fca5a5]/50 hover:text-[#fca5a5] transition-all">
+                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "02 40 12 34 56"}
               </a>
             </div>
           </div>
@@ -505,7 +507,7 @@ export default function ToitPierrePiscinesPage() {
           {[
             { t: "Prestations", ls: ["Construction sur-mesure", "Rénovation de bassin", "Sécurité & couverture", "Recherche de fuite", "Local technique", "Entretien & hivernage"] },
             { t: "Matériaux", ls: ["Béton projeté", "Coque polyester", "Bloc à bancher", "Liner armé", "Carrelage & mosaïque"] },
-            { t: "Contact", ls: [(fd?.phone ?? "02 40 12 34 56"), (fd?.email ?? "devis@toitpierre.fr"), "Pays de la Loire", "Étude 3D offerte", "Devis gratuit sous 48h"] },
+            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "02 40 12 34 56"), (clientEmail(sessionData) ?? fd?.email ?? "devis@toitpierre.fr"), "Pays de la Loire", "Étude 3D offerte", "Devis gratuit sous 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#b91c1c)] mb-5">{col.t}</h4>

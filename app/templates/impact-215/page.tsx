@@ -15,11 +15,13 @@ import { PartyPopper } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
   clientName,
+  clientPhone,
   clientReviews,
   clientServices,
   clientStats,
@@ -256,7 +258,7 @@ function FAQS_DEMO_LIVE() {
   },
   {
     q: 'Puis-je retourner un produit si je ne suis pas satisfait ?',
-    a: 'Conformément à la loi française, vous disposez de 14 jours de rétractation à compter de la livraison. Le produit doit être retourné dans son emballage d\'origine et non installé. Pour les appareils déjà posés, nous étudions chaque situation au cas par cas. Contactez notre service client au ' + (fd?.phone ?? '01 75 16 68 52') + '.'
+    a: 'Conformément à la loi française, vous disposez de 14 jours de rétractation à compter de la livraison. Le produit doit être retourné dans son emballage d\'origine et non installé. Pour les appareils déjà posés, nous étudions chaque situation au cas par cas. Contactez notre service client au ' + (clientPhone(sessionData) ?? fd?.phone ?? '01 75 16 68 52') + '.'
   },
   {
     q: 'Les appareils Flamme Verte ouvrent-ils droit à des crédits d\'impôt ?',
@@ -2619,7 +2621,7 @@ export default function FlammeEtCoPage() {
                 Vous ne trouvez pas votre réponse ?
               </p>
               <motion.a
-                href={`mailto:${fd?.email ?? "contact@flammeetco.fr"}`}
+                href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@flammeetco.fr"}`}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
                 style={{
@@ -2834,7 +2836,7 @@ export default function FlammeEtCoPage() {
                   padding: '1rem',
                 }}>
                   <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', marginBottom: '0.35rem' }}>Service client</p>
-                  <p style={{ color: C.text, fontFamily: 'Inter, sans-serif', fontSize: '1rem', fontWeight: 700 }}>{fd?.phone ?? "01 75 16 68 52"}</p>
+                  <p style={{ color: C.text, fontFamily: 'Inter, sans-serif', fontSize: '1rem', fontWeight: 700 }}>{clientPhone(sessionData) ?? fd?.phone ?? "01 75 16 68 52"}</p>
                   <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.73rem', marginTop: '0.2rem' }}>Lun–Ven, 9h–18h</p>
                 </div>
               </div>

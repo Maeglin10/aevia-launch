@@ -11,6 +11,7 @@ import { Menu, X, ArrowRight, Film, Camera, ChevronRight, Award, Globe, Users, P
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
@@ -471,7 +472,7 @@ export default function StudioPelikanPage() {
                     Nous écrire
                   </button>
                   <button className="border border-white/15 text-white text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-white/5 transition-colors cursor-pointer flex items-center gap-2">
-                    <Globe className="w-4 h-4" />{fd?.email ?? "hello@studio-pelikan.fr"}</button>
+                    <Globe className="w-4 h-4" />{clientEmail(sessionData) ?? fd?.email ?? "hello@studio-pelikan.fr"}</button>
                 </div>
               </Reveal>
             </div>
@@ -999,7 +1000,7 @@ export default function StudioPelikanPage() {
             <div className="max-w-4xl mx-auto space-y-12">
               {[
                 { title: "Éditeur du site", content: (clientName(sessionData) ?? "Aevia WS") + ", entrepreneur individuel.\nRCS " + (clientCity(sessionData) ?? "Bourg-en-Bresse") + "." },
-                { title: "Contact", content: (fd?.email ?? "contact@exemple.fr") },
+                { title: "Contact", content: (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr") },
                 { title: "Hébergement", content: "Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA." },
                 { title: "Propriété intellectuelle", content: "L'ensemble des contenus (textes, images, code, design) est protégé. Toute reproduction non autorisée est interdite." },
                 { title: "Données personnelles", content: "Aucune donnée personnelle n'est collectée sans consentement explicite. Conformité RGPD." },

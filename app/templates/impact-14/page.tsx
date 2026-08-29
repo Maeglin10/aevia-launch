@@ -52,11 +52,13 @@ import {
 import {
   clientAddress,
   clientCity,
+  clientEmail,
   clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -1272,7 +1274,7 @@ export default function HorizonMaritimePage() {
               }}
             >
               <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 3, textTransform: "uppercase" }}>
-                {fd?.phone ?? "+33 1 24 59 55 91"}
+                {clientPhone(sessionData) ?? fd?.phone ?? "+33 1 24 59 55 91"}
               </p>
             </div>
           </motion.div>
@@ -2468,20 +2470,20 @@ export default function HorizonMaritimePage() {
           >
             <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}>
               <a
-                href={`tel:${fd?.phone ?? "+33124595591"}`}
+                href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33124595591").replace(/[^+0-9]/g, "")}`}
                 style={{ display: "flex", alignItems: "center", gap: "0.5rem", textDecoration: "none" }}
               >
                 <Phone size={12} style={{color: brand ?? 'var(--brand,#c9a84c)' }} />
                 <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "rgba(240,236,224,0.5)" }}>
-                  {fd?.phone ?? "+33 1 24 59 55 91"}
+                  {clientPhone(sessionData) ?? fd?.phone ?? "+33 1 24 59 55 91"}
                 </span>
               </a>
               <a
-                href={`mailto:${fd?.email ?? "voyages@horizonmaritime.com"}`}
+                href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "voyages@horizonmaritime.com"}`}
                 style={{ display: "flex", alignItems: "center", gap: "0.5rem", textDecoration: "none" }}
               >
                 <Mail size={12} style={{color: brand ?? 'var(--brand,#c9a84c)' }} />
-                <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "rgba(240,236,224,0.5)" }}>{fd?.email ?? "voyages@horizonmaritime.com"}</span>
+                <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "rgba(240,236,224,0.5)" }}>{clientEmail(sessionData) ?? fd?.email ?? "voyages@horizonmaritime.com"}</span>
               </a>
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                 <MapPin size={12} style={{color: brand ?? 'var(--brand,#c9a84c)' }} />
@@ -3136,9 +3138,9 @@ function ExperiencePage({ goTo }: { goTo: (p: ActivePage) => void }) {
 
 function ContactPage() {
   const offices = [
-    { city: "Monaco", address: (clientAddress(sessionData) ?? "Port Hercules, 98000 Monaco"), phone: "+377 93 25 45 67", email: (fd?.email ?? "monaco@horizonmaritime.com") },
-    { city: "Geneva", address: "Rue du Rhône 42, 1204 " + (clientCity(sessionData) ?? "Genève") + ", Switzerland", phone: "+41 22 310 12 34", email: (fd?.email ?? "geneva@horizonmaritime.com") },
-    { city: "Singapore", address: "Marina Bay Sands Office, 018956 Singapore", phone: "+65 6688 8888", email: (fd?.email ?? "singapore@horizonmaritime.com") },
+    { city: "Monaco", address: (clientAddress(sessionData) ?? "Port Hercules, 98000 Monaco"), phone: "+377 93 25 45 67", email: (clientEmail(sessionData) ?? fd?.email ?? "monaco@horizonmaritime.com") },
+    { city: "Geneva", address: "Rue du Rhône 42, 1204 " + (clientCity(sessionData) ?? "Genève") + ", Switzerland", phone: "+41 22 310 12 34", email: (clientEmail(sessionData) ?? fd?.email ?? "geneva@horizonmaritime.com") },
+    { city: "Singapore", address: "Marina Bay Sands Office, 018956 Singapore", phone: "+65 6688 8888", email: (clientEmail(sessionData) ?? fd?.email ?? "singapore@horizonmaritime.com") },
   ];
 
   return (
@@ -3276,7 +3278,7 @@ function LegalPage() {
             <p style={{ margin: 0 }}>
               <strong>Publisher:</strong> {clientName(sessionData) ?? "Aevia WS — Valentin Milliand"}<br />
               Sole Proprietorship — SIREN <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
-              <strong>Contact Email:</strong>{fd?.email ?? "contact@exemple.fr"}<br />
+              <strong>Contact Email:</strong>{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}<br />
               <strong>Address:</strong> communicated upon request<br />
               <strong>Host:</strong> Vercel Inc.
             </p>
