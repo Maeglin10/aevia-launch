@@ -298,7 +298,9 @@ function Nav() {
         ) : (
           <>
             <Grape size={20} color={C.gold} strokeWidth={1.4} />
-            Domaine&nbsp;Miroir
+            {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
+                portait « Domaine Miroir » sur le site de n'importe quel client. */}
+            {clientName(sessionData) ?? "Domaine Miroir"}
           </>
         )}
       </div>

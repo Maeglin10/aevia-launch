@@ -175,12 +175,17 @@ export default function KuroOmakasePage() {
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ${scrolled ? "bg-black/95 backdrop-blur-xl border-b border-white/5 py-4" : "bg-transparent py-8"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#hero" className="flex items-center gap-4 group">
+            {/* La barre portait « Kuro Omakase », le nom du modèle, à l'endroit
+                le plus visible de la page. Le carré à initiale reste au modèle :
+                une initiale prise d'un autre nom ne veut plus rien dire. */}
             {fd?.logoBase64 ? (
               <img
                 src={fd.logoBase64}
                 alt={fd?.businessName ?? 'logo'}
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
+            ) : clientName(sessionData) ? (
+              <span className="text-xl font-light tracking-[0.4em] uppercase text-white italic">{clientName(sessionData)}</span>
             ) : (
               <>
             <div className="w-8 h-8 bg-white flex items-center justify-center group-hover:rotate-90 transition-transform duration-700">

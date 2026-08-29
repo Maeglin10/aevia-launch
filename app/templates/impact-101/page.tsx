@@ -287,8 +287,14 @@ export default function BlockBasePage() {
             href="#hero"
             className="group flex items-center gap-3 text-xl font-black tracking-tighter"
           >
+            {/* La barre portait le nom du modèle, à l'endroit le plus visible de
+                la page. Le client a donné le sien : c'est celui-là qu'on montre,
+                dans le style du libellé d'origine. Sans client, la composition du
+                modèle revient telle quelle. */}
             {fd?.logoBase64 ? (
               <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
+            ) : clientName(sessionData) ? (
+              <span className="group-hover:text-[#00f2ff] transition-colors">{clientName(sessionData)}</span>
             ) : (
               <>
                 <div className="w-8 h-8 bg-gradient-to-br from-[#00f2ff] to-[#7000ff] rounded flex items-center justify-center text-black">

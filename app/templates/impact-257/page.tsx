@@ -505,7 +505,9 @@ function Nav() {
         ) : (
           <>
             <Leaf size={18} color={C.accent} strokeWidth={1.5} />
-            Dr.&nbsp;Moulin
+            {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
+                portait « Dr. Moulin » sur le site de n'importe quel client. */}
+            {clientName(sessionData) ?? "Dr. Moulin"}
           </>
         )}
       </a>

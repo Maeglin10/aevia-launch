@@ -330,7 +330,9 @@ function Nav() {
         ) : (
           <>
             <Zap size={20} color={C.green} strokeWidth={2.5} />
-            Ampère&nbsp;&amp;&nbsp;Fils
+            {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
+                portait « Ampère & Fils » sur le site de n'importe quel client. */}
+            {clientName(sessionData) ?? "Ampère & Fils"}
           </>
         )}
       </a>

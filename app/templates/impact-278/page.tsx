@@ -340,7 +340,9 @@ function Nav() {
         ) : (
           <>
             <Droplets size={22} color={C.brick} strokeWidth={2} />
-            Plomberie&nbsp;Garonne
+            {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
+                portait « Plomberie Garonne » sur le site de n'importe quel client. */}
+            {clientName(sessionData) ?? "Plomberie Garonne"}
           </>
         )}
       </a>

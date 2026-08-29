@@ -325,7 +325,9 @@ function Nav() {
         ) : (
           <>
             <Stethoscope size={20} color={C.salmon} strokeWidth={1.8} />
-            Dr.&nbsp;Lecomte
+            {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
+                portait « Dr. Lecomte » sur le site de n'importe quel client. */}
+            {clientName(sessionData) ?? "Dr. Lecomte"}
           </>
         )}
       </div>
