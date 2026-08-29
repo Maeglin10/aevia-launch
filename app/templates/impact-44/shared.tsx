@@ -1,134 +1,383 @@
 "use client";
 
-/*
-  impact-44 — Espace Studio · Marseille. Jetons, données de démonstration et
-  composants partagés entre l'accueil et les sous-pages (prestations, studio,
-  réalisations, sélection, contact). L'ex-organisation esport a été réécrite :
-  le catalogue vendait déjà « Espace Studio », studio de décoration.
-  Fontes P6 Archivo + Inter · palette #101012 / #d8c8a8 (sable).
-*/
-
 import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
-// ─── JETONS ──────────────────────────────────────────────────────────────────
+// ─── DESIGN TOKENS ────────────────────────────────────────────────────────────
 export const C = {
-  bg: "#101012",
-  gray: "#18181c",
-  grayAlt: "#1e1e23",
-  sable: "var(--brand, #d8c8a8)",
-  sableFixe: "#d8c8a8",
-  white: "#f2ede4",
-  textMid: "#a8a294",
-  textDim: "#6d6a62",
-  line: "rgba(242,237,228,0.08)",
+  bg: '#060a06',
+  green: 'var(--brand, #00ff64)',
+  red: 'var(--brand,#ff3c00)',
+  darkGreen: '#003318',
+  midGreen: '#00cc50',
+  gray: '#1a2a1a',
+  textDim: '#4a6a4a',
+  textMid: '#7aaa7a',
+  white: '#e8ffe8',
 };
 
-// ─── DONNÉES ─────────────────────────────────────────────────────────────────
+// ─── DATA ─────────────────────────────────────────────────────────────────────
 export const NAV_LINKS = [
-  { label: "Prestations", href: "/templates/impact-44/modes" },
-  { label: "Le studio", href: "/templates/impact-44/team" },
-  { label: "Réalisations", href: "/templates/impact-44/bracket" },
-  { label: "La sélection", href: "/templates/impact-44/merch" },
+  { label: 'MODES', href: '/templates/impact-44/modes' },
+  { label: 'TEAM', href: '/templates/impact-44/team' },
+  { label: 'BRACKET', href: '/templates/impact-44/bracket' },
+  { label: 'MERCH', href: '/templates/impact-44/merch' },
+  { label: 'JOIN', href: '/templates/impact-44/recruit' },
 ];
 
-export const PRESTATIONS = [
+export const GAME_MODES = [
   {
     id: 1,
-    tag: "Prestation 01",
-    title: "Conseil couleur & matières",
-    sub: "Une visite, un nuancier, une direction",
-    desc: "Deux heures chez vous, un carnet de teintes et de matières adapté à votre lumière, et la liste exacte de quoi acheter où. Le plus court chemin vers un lieu cohérent.",
-    stat: ["2 h", "chez vous"],
-    prix: "dès 320 €",
+    tag: '// MODE_01',
+    title: 'BATTLE ROYALE',
+    sub: 'LAST SQUAD STANDING',
+    desc: 'Drop into a 150-player warzone. Shrinking exclusion zones. Dynamic weather systems. Every match rewritten by chaos theory.',
+    stat: ['150', 'PLAYERS'],
+    color: C.red,
   },
   {
     id: 2,
-    tag: "Prestation 02",
-    title: "Décoration pièce par pièce",
-    sub: "Du plan d'aménagement à la pose",
-    desc: "Plan, mobilier, luminaires, rideaux et accessoires — une pièce entière repensée, chinée et installée. Vous partez un vendredi, vous rentrez dans une autre maison.",
-    stat: ["1", "pièce entière"],
-    prix: "dès 90 €/m²",
+    tag: '// MODE_02',
+    title: 'RANKED SIEGE',
+    sub: '5v5 TACTICAL DOMINATION',
+    desc: 'Precision over firepower. Map control, economy management, and perfect team comms separate legends from corpses.',
+    stat: ['5v5', 'FORMAT'],
+    color: C.green,
   },
   {
     id: 3,
-    tag: "Prestation 03",
-    title: "Rénovation & suivi de chantier",
-    sub: "Un seul interlocuteur, du croquis aux clés",
-    desc: "Plans, artisans, commandes et passage hebdomadaire sur le chantier. Le studio porte le projet en entier — vous décidez, il exécute.",
-    stat: ["7-12", "semaines"],
-    prix: "sur devis",
+    tag: '// MODE_03',
+    title: 'HEIST PROTOCOL',
+    sub: 'ASYMMETRIC OBJECTIVES',
+    desc: 'Attackers execute the plan. Defenders improvise the response. 12 mission maps. Zero respawns. Pure consequence.',
+    stat: ['12', 'MAPS'],
+    color: '#ff9900',
   },
   {
     id: 4,
-    tag: "Prestation 04",
-    title: "Home staging avant vente",
-    sub: "Vendre mieux, plus vite",
-    desc: "Désencombrement, lumière, touches de couleur : le bien photographié comme il mérite de l'être, en deux semaines maximum.",
-    stat: ["2", "semaines max"],
-    prix: "dès 590 €",
+    tag: '// MODE_04',
+    title: 'GHOST HUNT',
+    sub: 'SOLO ELIMINATION BRACKET',
+    desc: 'One life. One gun. One hundred enemies. The server does not care about your rank. Neither do we.',
+    stat: ['∞', 'PRESSURE'],
+    color: '#cc00ff',
   },
 ];
 
-export const STUDIO_STATS = [
-  { value: 130, label: "Lieux livrés", suffix: "+" },
-  { value: 9, label: "Années de pratique", suffix: "" },
-  { value: 40, label: "Artisans partenaires", suffix: "" },
-  { value: 96, label: "Clients qui recommandent", suffix: " %" },
+export const TEAM_STATS = [
+  { value: 847, label: 'TOURNAMENT WINS', suffix: '' },
+  { value: 23, label: 'WORLD TITLES', suffix: '' },
+  { value: 4200000, label: 'PRIZE MONEY', suffix: '$', format: (v: number) => `$${(v / 1000000).toFixed(1)}M` },
+  { value: 312, label: 'ACTIVE PLAYERS', suffix: '' },
 ];
 
-export const EQUIPE = [
-  { nom: "Inès Roman", role: "Fondatrice · direction artistique", detail: "La couleur, la matière, la lumière" },
-  { nom: "Paul Berthon", role: "Architecte d'intérieur", detail: "Les plans et les volumes" },
-  { nom: "Léa Costa", role: "Cheffe de projet", detail: "Les chantiers et les artisans" },
-  { nom: "Marc Aillaud", role: "Ébéniste partenaire", detail: "Le mobilier sur mesure" },
-  { nom: "Sofia Njami", role: "Styliste déco", detail: "La couche finale" },
+export const ROSTER = [
+  { handle: 'WRAITHX', role: 'IGL', real: 'Marcus Chen', kills: '4.8', kd: '12.4', country: 'KR' },
+  { handle: 'NULLBYTE', role: 'AWP', real: 'Lena Voigt', kills: '5.2', kd: '14.1', country: 'DE' },
+  { handle: 'GHOSTNET', role: 'ENTRY', real: 'Rafa Santos', kills: '6.1', kd: '10.8', country: 'BR' },
+  { handle: 'HEXFIRE', role: 'SUPPORT', real: 'Yuki Tanaka', kills: '3.9', kd: '11.3', country: 'JP' },
+  { handle: 'VOIDPILOT', role: 'LURK', real: 'Amir Nazari', kills: '4.4', kd: '13.7', country: 'IR' },
 ];
 
-export const SELECTION = [
-  { name: "Vase grès de Provence", price: "65", tag: "Pièce unique", hot: true },
-  { name: "Lampe à poser Ocre", price: "140", tag: "Série courte", hot: false },
-  { name: "Plaid laine des Pyrénées", price: "95", tag: "Sélection", hot: true },
-  { name: "Miroir laiton brossé", price: "210", tag: "Nouveauté", hot: false },
+export const MERCH = [
+  { name: 'GHOST PROTOCOL JERSEY', price: '89', tag: 'LIMITED DROP', hot: true },
+  { name: 'NULL-BYTE HOODIE', price: '120', tag: 'SEASON 6', hot: false },
+  { name: 'WRAITHX SIGNATURE CAP', price: '45', tag: 'BESTSELLER', hot: true },
+  { name: 'TEAM BACKPACK V2', price: '95', tag: 'NEW ARRIVAL', hot: false },
 ];
 
-export const REALISATIONS = [
-  { nom: "Appartement Vieux-Port", type: "Rénovation complète", duree: "11 semaines" },
-  { nom: "Maison du Roucas", type: "Décoration pièce par pièce", duree: "5 semaines" },
-  { nom: "Cabinet d'architectes", type: "Espaces professionnels", duree: "7 semaines" },
-  { nom: "Studio Cours Julien", type: "Home staging", duree: "2 semaines" },
+export const BRACKET = [
+  { round: 'QF', matches: [['NULLCORE', 'GHOST.GG'], ['WRAITHX', 'BYTE_FORCE'], ['HEXFIRE', 'DARKNET'], ['VOIDPILOT', 'ZERO_DAY']] },
+  { round: 'SF', matches: [['NULLCORE', 'WRAITHX'], ['HEXFIRE', 'VOIDPILOT']] },
+  { round: 'FINAL', matches: [['NULLCORE', 'HEXFIRE']] },
 ];
 
-/* Les trois ambiances du moodboard du héros — chacune retint la pièce
-   dessinée et change le panneau de matières (PanelDrop). */
-export const AMBIANCES = [
-  {
-    nom: "Minérale",
-    teinte: "#b7b2a6",
-    fonce: "#8f8a7d",
-    desc: "Chaux, pierre et lin : la lumière du sud, sans l'éblouir.",
-    matieres: ["Chaux ferrée", "Pierre de Cassis", "Lin lavé"],
-  },
-  {
-    nom: "Terracotta",
-    teinte: "#b2643f",
-    fonce: "#8a4b2e",
-    desc: "Terres cuites et bois blond : la chaleur qui ne se démode pas.",
-    matieres: ["Tomette ancienne", "Chêne blond", "Laine bouclée"],
-  },
-  {
-    nom: "Nuit",
-    teinte: "#3d4654",
-    fonce: "#2c333e",
-    desc: "Bleus profonds et laiton : la pièce du soir, feutrée et précise.",
-    matieres: ["Zellige nuit", "Laiton brossé", "Velours côtelé"],
-  },
-];
+// ─── COMPONENTS ──────────────────────────────────────────────────────────────
 
-// ─── COMPOSANTS ──────────────────────────────────────────────────────────────
+export function CRTBoot({ onDone }: { onDone: () => void }) {
+  const [phase, setPhase] = useState(0);
+  const [lines, setLines] = useState<string[]>([]);
+  const BOOT_LINES = [
+    '> INITIALIZING VOIDCORE ENGINE v7.4.2...',
+    '> LOADING COMBAT SUBSYSTEMS...',
+    '> CONNECTING TO TOURNAMENT SERVERS...',
+    '> VERIFYING PLAYER CREDENTIALS...',
+    '> RENDERING PIPELINE: ACTIVE',
+    '> ALL SYSTEMS NOMINAL',
+    '> ENTERING THE VOID.',
+  ];
 
-/* Compteur posé : il grimpe une fois, quand il entre à l'écran. */
-export function StatCounter({ value, label, suffix = "", format }: { value: number; label: string; suffix?: string; format?: (v: number) => string }) {
+  useEffect(() => {
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < BOOT_LINES.length) {
+        setLines(prev => [...prev, BOOT_LINES[i]]);
+        i++;
+      } else {
+        clearInterval(interval);
+        setTimeout(() => setPhase(1), 300);
+        setTimeout(onDone, 800);
+      }
+    }, 110);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <AnimatePresence>
+      {phase === 0 && (
+        <motion.div
+          key="crt-boot"
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 0, scale: 1.02 }}
+          transition={{ duration: 0.3 }}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: C.bg,
+            zIndex: 99999,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontFamily: "'Courier New', monospace",
+            animation: 'crt-flicker 1.2s ease-out forwards',
+          }}
+        >
+          <div style={{ marginBottom: 40, textAlign: 'center' }}>
+            <div style={{ fontSize: 11, color: C.textDim, letterSpacing: '0.4em', marginBottom: 8 }}>
+              VOIDCORE SYSTEMS
+            </div>
+            <div
+              className="glitch-text"
+              data-text="GHOST PROTOCOL"
+              style={{
+                fontSize: 42,
+                fontWeight: 900,
+                color: C.green,
+                letterSpacing: '0.2em',
+                textShadow: `0 0 20px ${C.green}`,
+              }}
+            >
+              GHOST PROTOCOL
+            </div>
+          </div>
+          <div style={{ width: 480, maxWidth: '90vw' }}>
+            {lines.map((line, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.15 }}
+                style={{
+                  color: i === lines.length - 1 ? C.green : C.textMid,
+                  fontSize: 12,
+                  letterSpacing: '0.05em',
+                  marginBottom: 6,
+                  paddingLeft: 8,
+                  borderLeft: i === lines.length - 1 ? `2px solid ${C.green}` : '2px solid transparent',
+                }}
+              >
+                {line}
+                {i === lines.length - 1 && (
+                  <span style={{ animation: 'blink 0.8s infinite', marginLeft: 4 }}>_</span>
+                )}
+              </motion.div>
+            ))}
+          </div>
+          <div style={{ marginTop: 40, width: 480, maxWidth: '90vw' }}>
+            <div style={{ height: 1, background: `linear-gradient(90deg, transparent, ${C.green}, transparent)`, opacity: 0.4 }} />
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8, fontSize: 10, color: C.textDim, letterSpacing: '0.15em' }}>
+              <span>BUILD 2026.05.18</span>
+              <span>REGION: EU-WEST</span>
+              <span>LATENCY: 4ms</span>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+export function CharacterSilhouette({ scrollProgress }: { scrollProgress: number }) {
+  const x = scrollProgress * 60;
+  const [bobY, setBobY] = useState(0);
+
+  useEffect(() => {
+    let active = true;
+    const tick = () => {
+      if (!active) return;
+      setBobY(Math.sin(Date.now() / 400) * 3);
+      requestAnimationFrame(tick);
+    };
+    tick();
+    return () => { active = false; };
+  }, []);
+
+  return (
+    <div
+      style={{
+        transform: `translateX(${x}%) translateY(${bobY}px)`,
+        transition: 'transform 0.05s linear',
+        animation: 'char-walk 0.8s ease-in-out infinite',
+        transformOrigin: 'bottom center',
+        position: 'relative',
+        width: 80,
+        height: 180,
+      }}
+    >
+      {/* Head */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: 28,
+        height: 28,
+        background: C.green,
+        clipPath: 'polygon(20% 0, 80% 0, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0 80%, 0 20%)',
+        boxShadow: `0 0 20px ${C.green}`,
+      }} />
+      {/* Visor */}
+      <div style={{
+        position: 'absolute',
+        top: 8,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: 22,
+        height: 10,
+        background: C.bg,
+        clipPath: 'polygon(0 0, 100% 0, 85% 100%, 15% 100%)',
+        boxShadow: `0 0 8px ${C.red}, inset 0 0 6px ${C.red}`,
+        zIndex: 1,
+      }} />
+      {/* Torso */}
+      <div style={{
+        position: 'absolute',
+        top: 32,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: 40,
+        height: 60,
+        background: `linear-gradient(180deg, ${C.darkGreen} 0%, ${C.gray} 100%)`,
+        clipPath: 'polygon(10% 0, 90% 0, 100% 15%, 100% 85%, 90% 100%, 10% 100%, 0 85%, 0 15%)',
+        border: `1px solid ${C.green}`,
+        boxShadow: `0 0 12px rgba(0,255,100,0.3)`,
+      }} />
+      {/* Chest detail */}
+      <div style={{
+        position: 'absolute',
+        top: 42,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: 20,
+        height: 4,
+        background: C.green,
+        boxShadow: `0 0 8px ${C.green}`,
+        zIndex: 1,
+      }} />
+      {/* Left arm */}
+      <div style={{
+        position: 'absolute',
+        top: 35,
+        left: 2,
+        width: 12,
+        height: 50,
+        background: C.darkGreen,
+        border: `1px solid ${C.green}`,
+        transform: 'rotate(-8deg)',
+        transformOrigin: 'top center',
+      }} />
+      {/* Right arm — holding gun */}
+      <div style={{
+        position: 'absolute',
+        top: 35,
+        right: -6,
+        width: 12,
+        height: 55,
+        background: C.darkGreen,
+        border: `1px solid ${C.green}`,
+        transform: 'rotate(12deg)',
+        transformOrigin: 'top center',
+      }} />
+      {/* Gun */}
+      <div style={{
+        position: 'absolute',
+        top: 68,
+        right: -22,
+        width: 28,
+        height: 8,
+        background: '#333',
+        border: `1px solid ${C.textMid}`,
+        transform: 'rotate(12deg)',
+      }} />
+      <div style={{
+        position: 'absolute',
+        top: 64,
+        right: -30,
+        width: 12,
+        height: 4,
+        background: C.red,
+        boxShadow: `0 0 8px ${C.red}`,
+        transform: 'rotate(12deg)',
+      }} />
+      {/* Left leg */}
+      <div style={{
+        position: 'absolute',
+        top: 92,
+        left: 10,
+        width: 16,
+        height: 60,
+        background: C.darkGreen,
+        border: `1px solid rgba(0,255,100,0.4)`,
+        transform: 'rotate(4deg)',
+        transformOrigin: 'top center',
+      }} />
+      {/* Right leg */}
+      <div style={{
+        position: 'absolute',
+        top: 92,
+        right: 10,
+        width: 16,
+        height: 60,
+        background: C.darkGreen,
+        border: `1px solid rgba(0,255,100,0.4)`,
+        transform: 'rotate(-4deg)',
+        transformOrigin: 'top center',
+      }} />
+      {/* Boots */}
+      <div style={{
+        position: 'absolute',
+        bottom: 0,
+        left: 4,
+        width: 22,
+        height: 10,
+        background: '#111',
+        border: `1px solid ${C.textMid}`,
+      }} />
+      <div style={{
+        position: 'absolute',
+        bottom: 0,
+        right: 4,
+        width: 22,
+        height: 10,
+        background: '#111',
+        border: `1px solid ${C.textMid}`,
+      }} />
+      {/* Glow shadow */}
+      <div style={{
+        position: 'absolute',
+        bottom: -10,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: 60,
+        height: 10,
+        background: `radial-gradient(ellipse, rgba(0,255,100,0.3) 0%, transparent 70%)`,
+      }} />
+    </div>
+  );
+}
+
+export function NeonStatCounter({ value, label, format }: { value: number; label: string; format?: (v: number) => string }) {
   const ref = useRef<HTMLDivElement>(null);
   const [count, setCount] = useState(0);
   const [started, setStarted] = useState(false);
@@ -144,61 +393,45 @@ export function StatCounter({ value, label, suffix = "", format }: { value: numb
 
   useEffect(() => {
     if (!started) return;
-    const duration = 1400;
-    const steps = 50;
+    const duration = 1800;
+    const steps = 60;
     const increment = value / steps;
+    let current = 0;
     let step = 0;
     const timer = setInterval(() => {
       step++;
-      setCount(Math.min(value, Math.round(increment * step)));
+      current = Math.min(value, Math.round(increment * step));
+      setCount(current);
       if (step >= steps) clearInterval(timer);
     }, duration / steps);
     return () => clearInterval(timer);
   }, [started, value]);
 
-  const display = format ? format(count) : `${count.toLocaleString("fr-FR")}${suffix}`;
+  const display = format ? format(count) : count.toLocaleString();
 
   return (
-    <div ref={ref} style={{ textAlign: "center", padding: "32px 24px" }}>
+    <div ref={ref} style={{ textAlign: 'center', padding: '32px 24px' }}>
       <div
-        className="i44-titre"
+        className="neon-num"
         style={{
-          fontSize: "clamp(36px, 5vw, 64px)",
-          fontWeight: 800,
-          letterSpacing: "-0.02em",
+          fontSize: 'clamp(36px, 5vw, 64px)',
+          fontWeight: 900,
+          fontFamily: "'Courier New', monospace",
+          letterSpacing: '0.05em',
           marginBottom: 12,
-          color: C.sable,
         }}
       >
         {display}
       </div>
       <div style={{
-        fontSize: 11,
+        fontSize: 10,
         color: C.textDim,
-        letterSpacing: "0.3em",
-        textTransform: "uppercase",
-        fontWeight: 700,
+        letterSpacing: '0.35em',
+        textTransform: 'uppercase',
+        fontFamily: "'Courier New', monospace",
       }}>
         {label}
       </div>
-    </div>
-  );
-}
-
-/* Le nuancier — trois pastilles de matière, dessinées. */
-export function Nuancier({ teintes }: { teintes: string[] }) {
-  return (
-    <div style={{ display: "flex", gap: 10 }} aria-hidden>
-      {teintes.map((t, i) => (
-        <div key={i} style={{
-          width: 26,
-          height: 26,
-          borderRadius: "50%",
-          background: t,
-          border: `1px solid ${C.line}`,
-          boxShadow: "inset 0 2px 6px rgba(0,0,0,0.25)",
-        }} />
-      ))}
     </div>
   );
 }
