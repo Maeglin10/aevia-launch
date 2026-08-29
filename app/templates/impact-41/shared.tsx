@@ -3,6 +3,7 @@ import {
   clientCityOr,
   clientEmail,
   clientEmailOr,
+  clientPhoneOr,
 } from "@/lib/templates/clientContent";
 
 import React, { useRef, useState, useEffect } from 'react';
@@ -1063,7 +1064,7 @@ export function ContactSection({ scene }: { scene: (typeof SCENES)[number] }) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
           {[
             { label: 'Presse & Médias', value: clientEmailOr('presse@vm-maison.com') },
-            { label: 'Boutiques & Commandes', value: '+33 1 44 72 90 00' },
+            { label: 'Boutiques & Commandes', value: clientPhoneOr('+33 1 44 72 90 00') },
             { label: 'Atelier ' + clientCityOr('Paris'), value: '12 rue du Faubourg Saint-Honoré' },
           ].map((item) => (
             <div

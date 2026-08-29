@@ -291,16 +291,24 @@ export default function ZenithWatchesPage() {
       >
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#hero" className="group flex flex-col items-center">
+            {/* La barre portait le nom du modèle, à l'endroit le plus visible de
+                la page. Le client a donné le sien : c'est celui-là qu'on montre,
+                dans le style du libellé d'origine. Sans client, la composition du
+                modèle revient telle quelle. */}
             {fd?.logoBase64 ? (
               <img
                 src={fd.logoBase64}
                 alt={fd?.businessName ?? 'logo'}
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
+            ) : clientName(sessionData) ? (
+              <span className="text-3xl font-black tracking-[0.2em] uppercase leading-none italic">{clientName(sessionData)}</span>
             ) : (
               <>
                 <span className="text-3xl font-black tracking-[0.2em] uppercase leading-none italic">
-                  Zenith
+                  {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
+                      portait « Zenith » sur le site de n'importe quel client. */}
+                  {clientName(sessionData) ?? "Zenith"}
                 </span>
                 <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#d4af37)] -mt-1 ml-1">
                   Swiss Horology

@@ -2214,7 +2214,7 @@ export default function Impact170Page() {
               textAlign: "center",
             }}
           >
-            © 2025 · Built with Next.js 15 + TypeScript · No trackers, no cookies{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2025 {clientName(sessionData) ?? "Rafael Moreau"} · Built with Next.js 15 + TypeScript · No trackers, no cookies{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
           <div style={{ display: "flex", gap: 24 }}>
             {["github", "linkedin", "twitter"].map((s) => (
