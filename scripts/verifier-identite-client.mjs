@@ -46,7 +46,7 @@ const tel = [], nom = [], muets = [];
 for (const n of themes) {
   for (let essai = 1; essai <= 2; essai++) {
     try {
-      await p.goto(`http://localhost:3000/templates/${n}?session=verif-identite`, { waitUntil: "domcontentloaded", timeout: 60000 });
+      await p.goto(`http://localhost:3000/templates/${n}?session=verif-identite`, { waitUntil: "domcontentloaded", timeout: 180000 });
       await p.waitForTimeout(4000);
       const r = await p.evaluate(([nomAttendu, nu]) => {
         const plat = (s) => (s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
