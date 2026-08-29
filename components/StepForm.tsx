@@ -18,6 +18,7 @@ import {
 } from "@/lib/templates/sectors";
 import { SECTOR_EXTRA_QUESTIONS } from "@/lib/templates/sector-questions";
 import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
+import { saveEditToken, editTokenHeader } from "@/lib/editToken";
 import { NICHE_ARCHETYPE, SANTE_NICHES } from "@/lib/wizard/archetypes";
 import { ServicesCatalogue } from "@/components/wizard/ServicesCatalogue";
 import { ThemeBlocks } from "@/components/wizard/ThemeBlocks";
@@ -574,7 +575,10 @@ export function StepForm() {
       body: JSON.stringify({ formData: { locale, sector, industry, businessType: libelleDuSecteur(sector, locale) } }),
     })
       .then((res) => res.json())
-      .then((data: { sessionId: string }) => setSessionId(data.sessionId))
+      .then((data: { sessionId: string; editToken?: string }) => {
+        setSessionId(data.sessionId);
+        saveEditToken(data.sessionId, data.editToken);
+      })
       .catch(() => {});
   };
 
@@ -656,7 +660,7 @@ export function StepForm() {
         // captured after step 4's auto-save last fired, aren't lost.
         await fetch(`/api/sessions?id=${currentSessionId}`, {
           method: "PATCH",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", ...editTokenHeader(currentSessionId) },
           body: JSON.stringify({ formData, businessProfile: form.businessProfile }),
         });
       } else {
@@ -665,7 +669,9 @@ export function StepForm() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ formData }),
         });
-        ({ sessionId: currentSessionId } = await sessionRes.json());
+        const created = (await sessionRes.json()) as { sessionId?: string; editToken?: string };
+        currentSessionId = created.sessionId ?? null;
+        if (currentSessionId) saveEditToken(currentSessionId, created.editToken);
         /*
           Deux parcours sur cinquante et un ont été redirigés vers
           « /preview/undefined » : la création de session avait échoué en

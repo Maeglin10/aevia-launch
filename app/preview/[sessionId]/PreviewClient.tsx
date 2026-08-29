@@ -8,6 +8,7 @@ import { EditPanel } from "@/components/EditPanel";
 import type { SessionData, GeneratedContent, FormData } from "@/lib/sessions";
 import { useLang, LOCALE_META, type Locale } from "@/lib/LangContext";
 import { tierForTemplate } from "@/lib/templates/templateTier";
+import { editTokenHeader } from "@/lib/editToken";
 
 type EditableData = {
   generatedContent: Partial<GeneratedContent>;
@@ -236,7 +237,7 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
   const handleEditSave = async (data: EditableData) => {
     await fetch(`/api/sessions?id=${sessionId}`, {
       method: "PATCH",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", ...editTokenHeader(sessionId) },
       body: JSON.stringify(data),
     });
     setSession((prev) =>

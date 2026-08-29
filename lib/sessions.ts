@@ -133,6 +133,14 @@ export interface SessionData {
   // widget and auto-embed it, no manual snippet copy-paste needed.
   accountId?: string;
   /*
+    Jeton d'édition secret, frappé à la création (POST) et rendu au seul créateur.
+    PATCH l'exige : sans lui, quiconque connaît l'`id` (dans un lien d'aperçu
+    partagé) pouvait écraser le site. JAMAIS renvoyé par GET — sinon lire la
+    session revient à voler le jeton. Les sessions anciennes sans jeton restent
+    modifiables (compat) ; les nouvelles sont protégées.
+  */
+  editToken?: string;
+  /*
     Les retouches du client, section par section.
 
     La clé est stable et lisible : « contact.titre », « methode.sous-titre ». Le

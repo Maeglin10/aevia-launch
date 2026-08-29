@@ -51,7 +51,10 @@ export async function GET(req: NextRequest) {
   const session = await getSessionFromBlob(id);
   if (!session) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  return NextResponse.json(session);
+  // Never expose the edit token — returning it would let any reader of a shared
+  // preview link steal write access to the session.
+  const { editToken: _editToken, ...safe } = session;
+  return NextResponse.json(safe);
 }
 
 export async function POST(req: NextRequest) {
@@ -69,7 +72,11 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json();
   const id = crypto.randomUUID();
-  const data = { id, formData: body.formData, createdAt: new Date() };
+  // Secret write capability, returned to the creator only (stored client-side in
+  // localStorage). PATCH requires it — see below — so a leaked/shared session id
+  // no longer lets a stranger overwrite the site.
+  const editToken = crypto.randomUUID();
+  const data = { id, formData: body.formData, createdAt: new Date(), editToken };
 
   // Persist to Blob so the session survives across serverless instances.
   // Without this, /api/generate (next call) lands on a different instance
@@ -81,7 +88,7 @@ export async function POST(req: NextRequest) {
     saveSession(id, data);
   }
 
-  return NextResponse.json({ sessionId: id });
+  return NextResponse.json({ sessionId: id, editToken });
 }
 
 // PATCH — update generatedContent and/or formData fields for an existing session.
@@ -101,6 +108,16 @@ export async function PATCH(req: NextRequest) {
 
   const session = await getSessionFromBlob(id);
   if (!session) return NextResponse.json({ error: "Not found" }, { status: 404 });
+
+  // Write authorization: a session minted with an editToken may only be modified
+  // by a caller presenting it (the creator, via localStorage). Sessions created
+  // before this existed carry no token and stay editable (backward compat).
+  if (session.editToken) {
+    const presented = req.headers.get("x-edit-token");
+    if (presented !== session.editToken) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+  }
 
   const body = await req.json() as {
     generatedContent?: Partial<GeneratedContent>;

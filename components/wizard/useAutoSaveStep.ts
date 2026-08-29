@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { editTokenHeader } from "@/lib/editToken";
 
 // Fires a debounced PATCH to /api/sessions whenever `data` changes, so a
 // client who abandons mid-wizard still has their progress captured for a
@@ -14,7 +15,7 @@ export function useAutoSaveStep(sessionId: string | null, key: "formData" | "bus
     timer.current = setTimeout(() => {
       fetch(`/api/sessions?id=${sessionId}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...editTokenHeader(sessionId) },
         body: JSON.stringify({ [key]: data }),
       }).catch((err) => console.error("[wizard] auto-save failed", err));
     }, 800);

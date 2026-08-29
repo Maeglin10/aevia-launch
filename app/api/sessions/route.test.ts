@@ -42,4 +42,54 @@ describe("PATCH /api/sessions", () => {
     expect(updated.businessProfile?.services).toEqual([{ name: "Coupe", price: "35€" }]);
     expect(updated.businessProfile?.team).toEqual([{ name: "Alice", role: "Coiffeuse" }]);
   });
+
+  const withToken = (id: string) =>
+    mockSessions.set(id, {
+      id,
+      formData: {} as SessionData["formData"],
+      createdAt: new Date(),
+      editToken: "secret-123",
+    });
+
+  it("rejects a PATCH with no edit token when the session carries one (anti-hijack)", async () => {
+    const id = "sess-tok";
+    withToken(id);
+    const req = new NextRequest(`http://localhost/api/sessions?id=${id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ formData: { businessName: "Hijacked" } }),
+    });
+    expect((await PATCH(req)).status).toBe(403);
+  });
+
+  it("rejects a PATCH presenting the wrong edit token", async () => {
+    const id = "sess-tok2";
+    withToken(id);
+    const req = new NextRequest(`http://localhost/api/sessions?id=${id}`, {
+      method: "PATCH",
+      headers: { "x-edit-token": "wrong" },
+      body: JSON.stringify({ formData: { businessName: "Hijacked" } }),
+    });
+    expect((await PATCH(req)).status).toBe(403);
+  });
+
+  it("allows a PATCH presenting the correct edit token", async () => {
+    const id = "sess-tok3";
+    withToken(id);
+    const req = new NextRequest(`http://localhost/api/sessions?id=${id}`, {
+      method: "PATCH",
+      headers: { "x-edit-token": "secret-123" },
+      body: JSON.stringify({ businessProfile: { services: [{ name: "X", price: "1€" }] } }),
+    });
+    expect((await PATCH(req)).status).toBe(200);
+  });
+
+  it("still allows a PATCH on a legacy session with no token (backward compat)", async () => {
+    const id = "sess-legacy";
+    mockSessions.set(id, { id, formData: {} as SessionData["formData"], createdAt: new Date() });
+    const req = new NextRequest(`http://localhost/api/sessions?id=${id}`, {
+      method: "PATCH",
+      body: JSON.stringify({ formData: { businessName: "Legacy OK" } }),
+    });
+    expect((await PATCH(req)).status).toBe(200);
+  });
 });
