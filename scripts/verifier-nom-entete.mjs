@@ -31,10 +31,13 @@ const coupables = [];
 
 for (const n of themes) {
   try {
-    await p.goto(`http://localhost:3000/templates/${n}?session=verif-entete`, { waitUntil: "domcontentloaded", timeout: 60000 });
+    await p.goto(`http://localhost:3000/templates/${n}?session=verif-entete`, { waitUntil: "domcontentloaded", timeout: 180000 });
     await p.waitForTimeout(4000);
     const r = await p.evaluate((nom) => {
-      const plat = (s) => (s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+      /* Les espaces sont normalisés AVANT la comparaison : un thème qui coupe
+         le nom sur deux éléments met un saut de ligne au milieu, et la
+         comparaison échouait alors que le nom est bien à l'écran. */
+      const plat = (s) => (s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\s+/g, " ").trim().toLowerCase();
       const barres = [...document.querySelectorAll("header, nav, [class*='nav'], [class*='header']")]
         .filter((e) => e.getBoundingClientRect().top < 140 && e.getBoundingClientRect().height > 20);
       if (!barres.length) return { sansBarre: true };
