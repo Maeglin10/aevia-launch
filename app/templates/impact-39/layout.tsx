@@ -208,7 +208,7 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
               </div>
               <div style={{ marginTop: 20, display: "flex", alignItems: "center", gap: 8 }}>
                 <Phone size={15} color={C.orange} />
-                <a href={`tel:${(clientPhone(__layoutSession) ?? fd?.phone ?? "+33100000000").replace(/[^+0-9]/g, "")}`} style={{ fontSize: 16, fontWeight: 800, color: C.white, textDecoration: "none" }}>+33 1 XX XX XX XX</a>
+                <a href={`tel:${(clientPhone(__layoutSession) ?? fd?.phone ?? "+33100000000").replace(/[^+0-9]/g, "")}`} style={{ fontSize: 16, fontWeight: 800, color: C.white, textDecoration: "none" }}>{clientPhone(__layoutSession) ?? fd?.phone ?? "+33 1 84 25 60 40"}</a>
               </div>
             </div>
             <div>

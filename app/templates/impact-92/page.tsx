@@ -33,6 +33,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -826,7 +827,7 @@ export default function SkylineConciergePage() {
                 </div>
                 <div>
                   <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">SECURE VOICE</div>
-                  <div className="text-sm font-bold">+377 97 97 XX XX (Monaco)</div>
+                  <div className="text-sm font-bold">{clientPhone(sessionData) ?? "+377 97 97 00 00"} (Monaco)</div>
                 </div>
               </div>
               <div className="flex items-center gap-6">

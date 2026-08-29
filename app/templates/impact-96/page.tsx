@@ -42,6 +42,7 @@ import {
   clientPhone,
   clientReviews,
   clientServices,
+  clientSiret,
   clientStats,
   clientTeam,
   clientText,
@@ -2656,7 +2657,7 @@ return (
             }}
           >
             <div style={{ fontSize: "0.73rem", color: C.muted }}>
-              © 2026 {clientName(sessionData) ?? "Urban Pulse SAS"} · 12 rue Oberkampf, 75011 {clientCity(sessionData) ?? "Paris"} · SIRET 512 XXX XXX 00024{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2026 {clientName(sessionData) ?? "Urban Pulse SAS"} · 12 rue Oberkampf, 75011 {clientCity(sessionData) ?? "Paris"} · {clientSiret(sessionData) ? `SIRET ${clientSiret(sessionData)}` : ""}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </div>
             <div style={{ display: "flex", gap: 24 }}>
               {[

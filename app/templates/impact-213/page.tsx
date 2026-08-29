@@ -28,6 +28,7 @@ import {
   clientPhone,
   clientReviews,
   clientServices,
+  clientSiret,
   clientStats,
   clientTagline,
   clientTeam,
@@ -2764,10 +2765,15 @@ function Footer() {
                   {l}
                 </a>
               ))}
-              <div style={{ marginTop: 16, padding: '12px 16px', background: C.bgCard, border: `1px solid ${C.border}` }}>
-                <div style={{ fontSize: 10, color: C.textMuted, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 4 }}>Numéro SIRET</div>
-                <div style={{ fontSize: 13, color: C.text, fontFamily: 'Oswald, sans-serif', letterSpacing: 1 }}>502 XXX XXX 00012</div>
-              </div>
+              {/* Un SIRET inventé sur le site d'un client est pire qu'un SIRET
+                  absent : c'est un identifiant légal faux, opposable. Le bloc
+                  disparaît tant que le client n'a pas donné le sien. */}
+              {clientSiret(sessionData) && (
+                <div style={{ marginTop: 16, padding: '12px 16px', background: C.bgCard, border: `1px solid ${C.border}` }}>
+                  <div style={{ fontSize: 10, color: C.textMuted, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 4 }}>Numéro SIRET</div>
+                  <div style={{ fontSize: 13, color: C.text, fontFamily: 'Oswald, sans-serif', letterSpacing: 1 }}>{clientSiret(sessionData)}</div>
+                </div>
+              )}
             </div>
           </div>
         </div>

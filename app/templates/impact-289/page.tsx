@@ -35,6 +35,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientStats,
   clientTagline,
   clientText,
@@ -2459,7 +2460,7 @@ function FooterSection() {
                   display: 'inline-block',
                 }}
               />
-              SIRET : 412 XXX XXX 00014
+              {clientSiret(sessionData) ? `SIRET : ${clientSiret(sessionData)}` : ""}
             </div>
             <div
               style={{
