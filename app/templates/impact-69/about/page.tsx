@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
@@ -133,7 +134,7 @@ export default function AboutPage() {
           For editorial licensing, commercial usage, or private commissions, get in touch directly. For print enquiries, visit the shop.
         </p>
         <MagneticButton onClick={handleEmailClick} style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 14, color: C.bg, background: C.cream, padding: "18px 48px", borderRadius: 2, letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 700 }}>
-          {fd?.email ?? "contact@exemple.fr"}
+          {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}
         </MagneticButton>
       </section>
     </div>

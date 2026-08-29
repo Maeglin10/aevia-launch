@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 
@@ -88,7 +89,7 @@ export default function ContactPage() {
                   <Mail size={20} color={C.accent} />
                   <div>
                     <div style={{ fontFamily: FONT_LABEL, fontSize: 10, color: C.accent, textTransform: "uppercase" }}>Email</div>
-                    <div style={{ fontSize: 15, color: C.text }}>{fd?.email ?? "rendezvous@aureliusheritage.com"}</div>
+                    <div style={{ fontSize: 15, color: C.text }}>{clientEmail(sessionData) ?? fd?.email ?? "rendezvous@aureliusheritage.com"}</div>
                   </div>
                 </div>
               </div>

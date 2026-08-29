@@ -1,5 +1,8 @@
 "use client";
-import { memoriserSession } from "@/lib/templates/clientContent";
+import {
+  clientEmail,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 // @ts-nocheck
 
@@ -165,7 +168,7 @@ export default function ContactPage() {
                 <Mail className="w-5 h-5 text-[#c9a84c]" />
                 <div>
                   <h4 className="text-[10px] text-stone-300">Direct Message</h4>
-                  <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} className="text-[#33302c] hover:text-[#c9a84c] transition-colors">{fd?.email ?? "contact@exemple.fr"}</a>
+                  <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}`} className="text-[#33302c] hover:text-[#c9a84c] transition-colors">{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</a>
                 </div>
               </div>
               <div className="flex items-center gap-4 p-4 bg-white border border-stone-200/50 rounded-2xl">

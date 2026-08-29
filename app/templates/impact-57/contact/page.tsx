@@ -1,6 +1,7 @@
 'use client';
 import {
   clientCity,
+  clientEmail,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 
@@ -590,7 +591,7 @@ export default function ContactPage() {
                 >
                   <Mail size={14} color={C.accent} style={{ flexShrink: 0 }} />
                   <a
-                    href={`mailto:${fd?.email ?? "hello@mask-unit.com"}`}
+                    href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "hello@mask-unit.com"}`}
                     style={{
                       fontFamily: "'Space Mono', monospace",
                       fontSize: '0.8rem',
@@ -601,7 +602,7 @@ export default function ContactPage() {
                     onMouseEnter={(e) => { e.currentTarget.style.color = C.accent; }}
                     onMouseLeave={(e) => { e.currentTarget.style.color = C.text; }}
                   >
-                    {fd?.email ?? "hello@mask-unit.com"}
+                    {clientEmail(sessionData) ?? fd?.email ?? "hello@mask-unit.com"}
                   </a>
                 </div>
               </div>

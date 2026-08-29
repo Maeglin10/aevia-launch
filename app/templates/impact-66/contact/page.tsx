@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
@@ -99,7 +100,7 @@ export default function ContactPage() {
                     75008 {clientCity(sessionData) ?? "Paris"}, France
                   </p>
                   <p className="text-xs text-[#1a1814]/40 mt-1 italic">
-                    Adresse physique communiquée sur simple demande à {fd?.email ?? "contact@exemple.fr"}.
+                    Adresse physique communiquée sur simple demande à {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}.
                   </p>
                 </div>
               </div>
@@ -132,7 +133,7 @@ export default function ContactPage() {
                 <div>
                   <h4 className="text-xs font-black uppercase tracking-widest text-[#1a1814]/40 mb-2">Email</h4>
                   <p className="text-lg font-light text-[#1a1814]">
-                    {fd?.email ?? "contact@exemple.fr"}
+                    {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}
                   </p>
                 </div>
               </div>

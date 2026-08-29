@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 
@@ -181,9 +182,9 @@ export default function ContactPage() {
           <div>
             <h4 style={{ fontFamily: "'Archivo', sans-serif", fontSize: "0.85rem", fontWeight: 700, letterSpacing: "0.05em", color: C.text, marginBottom: "1rem" }}>CONTACT GÉNÉRAL</h4>
             <p style={{ fontSize: "0.9rem", color: C.textMuted, lineHeight: 1.6 }}>
-              Projets: {fd?.email ?? "contact@segment-architectes.fr"}<br />
-              Presse: {fd?.email ?? "press@segment-architectes.fr"}<br />
-              Recrutement: {fd?.email ?? "jobs@segment-architectes.fr"}
+              Projets: {clientEmail(sessionData) ?? fd?.email ?? "contact@segment-architectes.fr"}<br />
+              Presse: {clientEmail(sessionData) ?? fd?.email ?? "press@segment-architectes.fr"}<br />
+              Recrutement: {clientEmail(sessionData) ?? fd?.email ?? "jobs@segment-architectes.fr"}
             </p>
           </div>
         </div>

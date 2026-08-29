@@ -2,6 +2,7 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientEmail,
   clientName,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -833,7 +834,7 @@ function LegalPage() {
                 {clientName(sessionData) ? "" : "Entrepreneur Individuel"}<br />
                 SIREN : <LegalIdentity /><br />
                 {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
-                Email : {fd?.email ?? "contact@exemple.fr"}<br />
+                Email : {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}<br />
                 Adresse : Communiquée sur demande
              </p>
           </div>

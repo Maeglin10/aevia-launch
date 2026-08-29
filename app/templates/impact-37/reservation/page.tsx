@@ -1,5 +1,8 @@
 "use client";
-import { memoriserSession } from "@/lib/templates/clientContent";
+import {
+  clientEmail,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { Phone, Mail, MapPin } from "lucide-react";
@@ -283,7 +286,7 @@ export default function ReservationPage() {
                     color: "#c4a882",
                   }}
                 >
-                  <Mail size={16} color={C.gold} /> {fd?.email ?? "contact@exemple.fr"}
+                  <Mail size={16} color={C.gold} /> {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}
                 </div>
                 <div
                   style={{

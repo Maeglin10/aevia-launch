@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
   clientHours,
   memoriserSession,
 } from "@/lib/templates/clientContent";
@@ -75,7 +76,7 @@ export default function Contact() {
           {/* Info */}
           <div>
             {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
-              { Icon: Mail, label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
+              { Icon: Mail, label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr") },
               { Icon: MapPin, label: "Cabinet", value: (clientCity(sessionData) ?? "Paris") + ", France" },
               { Icon: Clock, label: "Horaires", value: "Lun – Ven · 9h – 19h" },
               { Icon: Shield, label: "Confidentialité", value: "Secret professionnel garanti" },

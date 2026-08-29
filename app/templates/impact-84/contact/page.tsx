@@ -1,5 +1,8 @@
 "use client";
-import { memoriserSession } from "@/lib/templates/clientContent";
+import {
+  clientEmail,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { Mail, Phone, Clock, Heart } from "lucide-react";
@@ -67,9 +70,9 @@ export default function ContactPage() {
             <Reveal delay={0.1}>
               <div className="space-y-5 mb-10">
                 {[
-                  { Icon: Mail, label: "Adresse", text: "Adresse physique communiquée sur simple demande à " + (fd?.email ?? "contact@exemple.fr") },
+                  { Icon: Mail, label: "Adresse", text: "Adresse physique communiquée sur simple demande à " + (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr") },
                   { Icon: Phone, label: "Téléphone", text: "+33 1 45 01 82 00" },
-                  { Icon: Mail, label: "Email", text: (fd?.email ?? "rdv@cypherclinic.fr") },
+                  { Icon: Mail, label: "Email", text: (clientEmail(sessionData) ?? fd?.email ?? "rdv@cypherclinic.fr") },
                   { Icon: Clock, label: "Horaires", text: "Lun – Ven : 9h – 19h · Sam : 9h – 16h" },
                 ].map(({ Icon, label, text }) => (
                   <div key={label} className="flex items-start gap-4 text-sm">
@@ -111,7 +114,7 @@ export default function ContactPage() {
                     </div>
                   ))}
                 </div>
-                {[["Email", "email", (fd?.email ?? "votre@email.fr")], ["Téléphone", "tel", "+33 6..."]].map(([label, type, ph]) => (
+                {[["Email", "email", (clientEmail(sessionData) ?? fd?.email ?? "votre@email.fr")], ["Téléphone", "tel", "+33 6..."]].map(([label, type, ph]) => (
                   <div key={label}>
                     <label className="block text-[10px] tracking-widest uppercase text-[#3A3028] mb-2">{label}</label>
                     <input type={type} className="w-full bg-transparent border border-[#2A2520] px-4 py-3 text-sm text-[#F0EBE0] focus:outline-none focus:border-[#C9A86C] transition-colors" placeholder={ph} />

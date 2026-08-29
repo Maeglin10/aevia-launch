@@ -1,5 +1,8 @@
 "use client";
-import { memoriserSession } from "@/lib/templates/clientContent";
+import {
+  clientEmail,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
@@ -124,7 +127,7 @@ export default function ContactPage() {
               style={{ display: "flex", gap: "16px", flexWrap: "wrap", alignItems: "center" }}
             >
               <a
-                href={`mailto:${fd?.email ?? "contact@exemple.fr"}`}
+                href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}`}
                 style={{
                   fontFamily: "'Space Grotesk', sans-serif",
                   fontSize: "15px",
@@ -150,7 +153,7 @@ export default function ContactPage() {
                 }}
               >
                 <Mail size={16} />
-                {fd?.email ?? "contact@exemple.fr"}
+                {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}
               </a>
               <div
                 style={{

@@ -2,6 +2,7 @@
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEmail,
   clientFaq,
   memoriserSession,
 } from "@/lib/templates/clientContent";
@@ -614,7 +615,7 @@ export default function ContactPage() {
                     {
                       icon: <Mail className="w-4 h-4 text-[#9B5CF6]" />,
                       label: "Email",
-                      value: (fd?.email ?? "hello@vertexstudio.io"),
+                      value: (clientEmail(sessionData) ?? fd?.email ?? "hello@vertexstudio.io"),
                     },
                     {
                       icon: <MapPin className="w-4 h-4 text-[#9B5CF6]" />,

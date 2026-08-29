@@ -1,5 +1,8 @@
 "use client";
-import { memoriserSession } from "@/lib/templates/clientContent";
+import {
+  clientEmail,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { Mail, MessageSquare, Terminal, Send } from "lucide-react";
@@ -151,8 +154,8 @@ export default function ContactPage() {
                     <p style={{ fontSize: 13, color: "rgba(232,232,255,0.45)", lineHeight: 1.5, marginBottom: 8 }}>
                       For custom cluster quotes and on-prem SLA configurations:
                     </p>
-                    <a href={`mailto:${fd?.email ?? "support@artgen.studio"}`} style={{ color: "#00ffd1", fontSize: 13, textDecoration: "none" }}>
-                      {fd?.email ?? "support@artgen.studio"}
+                    <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "support@artgen.studio"}`} style={{ color: "#00ffd1", fontSize: 13, textDecoration: "none" }}>
+                      {clientEmail(sessionData) ?? fd?.email ?? "support@artgen.studio"}
                     </a>
                   </div>
                 </div>

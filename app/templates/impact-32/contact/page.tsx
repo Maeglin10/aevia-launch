@@ -1,8 +1,10 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
   clientFaq,
   clientHours,
+  clientPhone,
   clientTeam,
   memoriserSession,
 } from "@/lib/templates/clientContent";
@@ -155,7 +157,7 @@ function CONTACT_INFO_LIVE() {
   {
     icon: <Mail size={20} color={C.accent} />,
     title: "Email",
-    details: ["Réponse sous 4h ouvrées", (fd?.email ?? "contact@pawcare-bordeaux.fr")],
+    details: ["Réponse sous 4h ouvrées", (clientEmail(sessionData) ?? fd?.email ?? "contact@pawcare-bordeaux.fr")],
     urgent: false,
   },
   {
@@ -210,7 +212,7 @@ function ContactHero() {
 
         {/* Emergency call strip */}
         <motion.a
-          href={`tel:${fd?.phone ?? "+33556000001"}`}
+          href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33556000001").replace(/[^+0-9]/g, "")}`}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
@@ -887,7 +889,7 @@ function AppointmentForm() {
               <p style={{ fontSize: 13, color: C.textMuted, margin: 0, lineHeight: 1.55 }}>
                 Vos données sont utilisées uniquement pour la gestion de votre rendez-vous. Aucune
                 donnée n'est partagée avec des tiers. Conformément au RGPD, vous pouvez exercer vos
-                droits à {fd?.email ?? "contact@pawcare-bordeaux.fr"}
+                droits à {clientEmail(sessionData) ?? fd?.email ?? "contact@pawcare-bordeaux.fr"}
               </p>
             </div>
 

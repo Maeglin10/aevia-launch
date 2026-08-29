@@ -1,5 +1,8 @@
 "use client";
-import { memoriserSession } from "@/lib/templates/clientContent";
+import {
+  clientEmail,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -279,7 +282,7 @@ export default function ContactPage() {
         >
           {[
             { label: "Phone", value: "+33 4 76 12 34 56" },
-            { label: "Email", value: (fd?.email ?? "reservations@serene-retreat.com") },
+            { label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "reservations@serene-retreat.com") },
             { label: "Location", value: "Chartreuse Massif, Isère" },
           ].map((item) => (
             <div key={item.label} style={{ textAlign: "center" }}>

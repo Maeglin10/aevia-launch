@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import {
   clientCity,
+  clientEmail,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle2 } from "lucide-react"
@@ -85,7 +86,7 @@ export default function ContactPage() {
                 {[
                   { Icon: MapPin, label: "Adresse du siège", val: "8 avenue Hoche, 75008 " + (clientCity(sessionData) ?? "Paris") },
                   { Icon: Phone, label: "Téléphone", val: "+33 1 44 15 62 00" },
-                  { Icon: Mail, label: "Adresse e-mail", val: (fd?.email ?? "contact@blueprint-dev.fr") },
+                  { Icon: Mail, label: "Adresse e-mail", val: (clientEmail(sessionData) ?? fd?.email ?? "contact@blueprint-dev.fr") },
                   { Icon: Clock, label: "Heures d'ouverture", val: "Lundi au Vendredi — 8h30 à 19h00" }
                 ].map(({ Icon, label, val }) => (
                   <div key={label} className="flex gap-4 items-start text-sm">

@@ -1,5 +1,8 @@
 "use client";
-import { memoriserSession } from "@/lib/templates/clientContent";
+import {
+  clientEmail,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
@@ -88,10 +91,10 @@ export default function ContactPage() {
                 {
                   Icon: MapPin,
                   label: "Adresse",
-                  value: "Adresse communiquée sur demande à " + (fd?.email ?? "contact@exemple.fr"),
+                  value: "Adresse communiquée sur demande à " + (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"),
                 },
                 { Icon: Phone, label: "Téléphone", value: "+33 1 42 60 80 20" },
-                { Icon: Mail, label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
+                { Icon: Mail, label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr") },
                 { Icon: Clock, label: "Horaires", value: "Mardi – Dimanche · 18h30 – 23h30" },
               ].map(({ Icon, label, value }) => (
                 <div key={label}>

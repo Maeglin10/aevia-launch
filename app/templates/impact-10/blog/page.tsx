@@ -3,7 +3,9 @@ import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEmail,
   clientName,
+  clientPhone,
   clientServices,
 } from "@/lib/templates/clientContent";
 
@@ -1366,7 +1368,7 @@ function LocationSection() {
                 {[
                   { icon: '◎', label: 'Address', val: '8 Avenue de la Paix, 75009 ' + (clientCity(sessionData) ?? 'Paris') },
                   { icon: '◎', label: 'Telephone', val: '+33 1 40 00 00 00' },
-                  { icon: '◎', label: 'Reservations', val: (fd?.email ?? 'reservations@grandpalais.fr') },
+                  { icon: '◎', label: 'Reservations', val: (clientEmail(sessionData) ?? fd?.email ?? 'reservations@grandpalais.fr') },
                   { icon: '◎', label: 'Concierge', val: 'Available 24 hours' },
                 ].map(({ icon, label, val }) => (
                   <div key={label} style={{ display: 'flex', gap: '1.25rem', alignItems: 'flex-start' }}>
@@ -1645,7 +1647,7 @@ function BookingCTA() {
         <BlurReveal delay={0.4}>
           <div style={{ display: 'flex', gap: '2rem', flexWrap: 'wrap', justifyContent: 'center' }}>
             <a
-              href={`tel:${fd?.phone ?? "+33140000000"}`}
+              href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33140000000").replace(/[^+0-9]/g, "")}`}
               style={{
                 fontFamily: SANS,
                 fontSize: '0.65rem',
@@ -1660,7 +1662,7 @@ function BookingCTA() {
               +33 1 40 00 00 00
             </a>
             <a
-              href={`mailto:${fd?.email ?? "reservations@grandpalais.fr"}`}
+              href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "reservations@grandpalais.fr"}`}
               style={{
                 fontFamily: SANS,
                 fontSize: '0.65rem',
@@ -1672,7 +1674,7 @@ function BookingCTA() {
                 paddingBottom: '2px',
               }}
             >
-              {fd?.email ?? "reservations@grandpalais.fr"}
+              {clientEmail(sessionData) ?? fd?.email ?? "reservations@grandpalais.fr"}
             </a>
           </div>
         </BlurReveal>
@@ -2254,7 +2256,7 @@ function ContactPage() {
           <div>
             {[
               { label: 'Telephone', val: '+33 1 40 00 00 00' },
-              { label: 'Reservations', val: (fd?.email ?? 'reservations@grandpalais.fr') },
+              { label: 'Reservations', val: (clientEmail(sessionData) ?? fd?.email ?? 'reservations@grandpalais.fr') },
               { label: 'Address', val: '8 Avenue de la Paix, 75009 ' + (clientCity(sessionData) ?? 'Paris') },
               { label: 'Concierge', val: 'Available 24 hours a day' },
             ].map((item) => (
@@ -2344,8 +2346,8 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
             <p style={para}><span style={strong}>Aevia WS</span> — sole trader (auto-entrepreneur).</p>
             <p style={para}>Publication director: <span style={strong}><EditeurDuSite /></span>.</p>
             <p style={para}>SIREN: <span style={strong}><LegalIdentity /></span> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}.</p>
-            <p style={para}>Contact: <span style={strong}>{fd?.email ?? "contact@exemple.fr"}</span></p>
-            <p style={para}>Registered office address provided on request at {fd?.email ?? "contact@exemple.fr"}.</p>
+            <p style={para}>Contact: <span style={strong}>{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</span></p>
+            <p style={para}>Registered office address provided on request at {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}.</p>
 
             <h2 style={sectionTitle}>VAT</h2>
             <p style={para}>VAT not applicable, art. 293 B of the French Tax Code (CGI).</p>
@@ -2384,7 +2386,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
           <h2 style={{ ...sectionTitle, marginTop: '1.5rem' }}>Data controller</h2>
           <p style={para}>
             The controller of personal data is <span style={strong}>Aevia WS</span>, publisher of the site. For any
-            question, write to <span style={strong}>{fd?.email ?? "contact@exemple.fr"}</span>.
+            question, write to <span style={strong}>{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</span>.
           </p>
 
           <h2 style={sectionTitle}>Data collected</h2>
@@ -2408,7 +2410,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
           <h2 style={sectionTitle}>Your rights</h2>
           <p style={para}>
             In accordance with the GDPR, you have the right to access, rectify, erase, port and object to the processing of
-            your data. To exercise these rights, write to {fd?.email ?? "contact@exemple.fr"}.
+            your data. To exercise these rights, write to {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}.
           </p>
 
           <h2 style={sectionTitle}>Cookies</h2>

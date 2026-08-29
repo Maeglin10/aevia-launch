@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 
@@ -94,7 +95,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <h4 style={{ fontFamily: mono, fontSize: "0.9rem", fontWeight: 700, color: C.text, marginBottom: "0.25rem" }}>EMAIL DE CONTACT</h4>
-                <p style={{ fontFamily: mono, fontSize: "1.1rem", color: C.text }}>{fd?.email ?? "soc@neuronsec.fr"}</p>
+                <p style={{ fontFamily: mono, fontSize: "1.1rem", color: C.text }}>{clientEmail(sessionData) ?? fd?.email ?? "soc@neuronsec.fr"}</p>
                 <p style={{ fontFamily: sans, fontSize: "0.8rem", color: C.textMuted, marginTop: "0.25rem" }}>Pour toute demande commerciale ou demande de POC SOC.</p>
               </div>
             </div>
@@ -106,7 +107,7 @@ export default function ContactPage() {
               <div>
                 <h4 style={{ fontFamily: mono, fontSize: "0.9rem", fontWeight: 700, color: C.text, marginBottom: "0.25rem" }}>SIÈGE & SOC</h4>
                 <p style={{ fontFamily: sans, fontSize: "1rem", color: C.textMuted }}>75010 {clientCity(sessionData) ?? "Paris"}, France</p>
-                <p style={{ fontFamily: sans, fontSize: "0.8rem", color: C.textMuted, marginTop: "0.25rem" }}>Adresse physique communiquée sur demande à {fd?.email ?? "contact@exemple.fr"}.</p>
+                <p style={{ fontFamily: sans, fontSize: "0.8rem", color: C.textMuted, marginTop: "0.25rem" }}>Adresse physique communiquée sur demande à {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}.</p>
               </div>
             </div>
           </div>

@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
 import {
   clientCity,
+  clientEmail,
   clientName,
   clientServices,
   clientTagline,
@@ -83,7 +84,7 @@ export default function ContactPage() {
                 <Mail className="w-5 h-5 text-rose-500" />
                 <div>
                   <h4 className="text-white/60 mb-1">Direct Message</h4>
-                  <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} className="text-white hover:text-rose-500 transition-colors">{fd?.email ?? "contact@exemple.fr"}</a>
+                  <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}`} className="text-white hover:text-rose-500 transition-colors">{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</a>
                 </div>
               </div>
               <div className="flex items-center gap-4 p-4 bg-white/[0.01] border border-white/5 rounded-xl">
@@ -159,7 +160,7 @@ export default function ContactPage() {
                   </div>
                   <h4 className="text-xl font-black uppercase text-white">Transmission Successful</h4>
                   <p className="text-xs text-white/40 max-w-sm mx-auto leading-relaxed italic">
-                    Your transmission has been securely routed to {fd?.email ?? "contact@exemple.fr"}. Our communications department will review it.
+                    Your transmission has been securely routed to {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}. Our communications department will review it.
                   </p>
                 </div>
               )}

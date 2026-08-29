@@ -2,7 +2,9 @@
 import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import {
   clientCity,
+  clientEmail,
   clientName,
+  clientPhone,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 
@@ -85,10 +87,10 @@ export default function ContactPage() {
                   content: (clientCity(sessionData) ? `${clientCity(sessionData)} et alentours` : "Île-de-France + France entière")
                     + "\n" + (clientName(sessionData) ?? "Aevia WS")
                     + " — RCS " + (clientCity(sessionData) ?? "Bourg-en-Bresse")
-                    + "\n(adresse communiquée sur demande à " + (fd?.email ?? "contact@exemple.fr") + ")"
+                    + "\n(adresse communiquée sur demande à " + (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr") + ")"
                 },
-                { icon: Phone, title: "Téléphone", content: "+33 1 XX XX XX XX" },
-                { icon: Mail, title: "Email", content: (fd?.email ?? "contact@exemple.fr") },
+                { icon: Phone, title: "Téléphone", content: (clientPhone(sessionData) ?? "+33 1 84 25 60 40") },
+                { icon: Mail, title: "Email", content: (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr") },
                 { icon: Clock, title: "Horaires", content: "Lundi – Samedi : 8 h – 19 h\nDimanche : fermé" },
               ].map(({ icon: Icon, title, content }) => (
                 <SectionReveal key={title}>

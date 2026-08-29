@@ -1,6 +1,8 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
+  clientPhone,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
@@ -77,17 +79,17 @@ export default function ContactPage() {
               <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
                 <div style={{ padding: "1.75rem", background: C.bgCard, border: `1px solid ${C.border}` }}>
                   <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.textDim, marginBottom: "0.5rem" }}>ADRESSE</div>
-                  <div style={{ fontSize: "1rem", color: C.textMuted, lineHeight: 1.65 }}>Adresse communiquée sur demande à<br /><span style={{ color: C.gold }}>{fd?.email ?? "contact@exemple.fr"}</span></div>
+                  <div style={{ fontSize: "1rem", color: C.textMuted, lineHeight: 1.65 }}>Adresse communiquée sur demande à<br /><span style={{ color: C.gold }}>{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</span></div>
                 </div>
 
                 <div style={{ padding: "1.75rem", background: C.bgCard, border: `1px solid ${C.border}` }}>
                   <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.textDim, marginBottom: "0.5rem" }}>EMAIL</div>
-                  <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} style={{ fontSize: "1rem", color: C.gold, textDecoration: "none" }}>{fd?.email ?? "contact@exemple.fr"}</a>
+                  <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}`} style={{ fontSize: "1rem", color: C.gold, textDecoration: "none" }}>{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</a>
                 </div>
 
                 <div style={{ padding: "1.75rem", background: C.bgCard, border: `1px solid ${C.border}` }}>
                   <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.textDim, marginBottom: "0.5rem" }}>TÉLÉPHONE</div>
-                  <a href={`tel:${fd?.phone ?? "+41220000000"}`} style={{ fontSize: "1rem", color: C.textMuted, textDecoration: "none" }}>+41 22 000 00 00</a>
+                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+41220000000").replace(/[^+0-9]/g, "")}`} style={{ fontSize: "1rem", color: C.textMuted, textDecoration: "none" }}>+41 22 000 00 00</a>
                   <div style={{ fontSize: "0.8rem", color: C.textDim, marginTop: "0.25rem" }}>Lundi – Samedi, 9h – 18h (CET)</div>
                 </div>
 

@@ -1,6 +1,7 @@
 'use client';
 import {
   clientCity,
+  clientEmail,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 
@@ -136,7 +137,7 @@ function SuccessScreen() {
           marginTop: '0.5rem',
         }}
       >
-        {fd?.email ?? "brief@skewos.studio"}
+        {clientEmail(sessionData) ?? fd?.email ?? "brief@skewos.studio"}
       </div>
     </motion.div>
   );
@@ -556,7 +557,7 @@ export default function ContactPage() {
                 </span>
               </div>
               <a
-                href={`mailto:${fd?.email ?? "brief@skewos.studio"}`}
+                href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "brief@skewos.studio"}`}
                 style={{
                   fontFamily: "'Syne Mono', monospace",
                   fontSize: '0.75rem',
@@ -568,7 +569,7 @@ export default function ContactPage() {
                 onMouseEnter={(e) => (e.currentTarget.style.color = C.violetLight)}
                 onMouseLeave={(e) => (e.currentTarget.style.color = C.violet)}
               >
-                {fd?.email ?? "brief@skewos.studio"}
+                {clientEmail(sessionData) ?? fd?.email ?? "brief@skewos.studio"}
               </a>
             </div>
 

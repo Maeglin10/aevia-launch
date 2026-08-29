@@ -1,5 +1,8 @@
 "use client";
-import { memoriserSession } from "@/lib/templates/clientContent";
+import {
+  clientEmail,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 
 import React, { useEffect, useState } from "react";
@@ -81,7 +84,7 @@ export default function ContactPage() {
               <div>
                 <h4 className="font-bold text-[#1E1B4B] mb-1">Email</h4>
                 <p className="text-sm text-[#6B7280] font-medium mb-1">
-                  {fd?.email ?? "support@skillbridge.fr"}
+                  {clientEmail(sessionData) ?? fd?.email ?? "support@skillbridge.fr"}
                 </p>
                 <p className="text-xs text-[#9CA3AF]">
                   Réponse moyenne sous 2 heures

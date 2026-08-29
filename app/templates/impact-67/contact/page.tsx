@@ -1,5 +1,9 @@
 "use client";
-import { memoriserSession } from "@/lib/templates/clientContent";
+import {
+  clientEmail,
+  clientPhone,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { Mail, Phone, MapPin, Radio, Shield } from "lucide-react";
@@ -77,8 +81,8 @@ export default function ContactPage() {
 
               <div className="space-y-8">
                 {[
-                  { label: "Secure Email", val: (fd?.email ?? "contact@exemple.fr"), icon: <Mail className="w-4 h-4 text-rose-600" /> },
-                  { label: "Secure Line", val: "+33 1 XX XX XX XX", icon: <Phone className="w-4 h-4 text-rose-600" /> },
+                  { label: "Secure Email", val: (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"), icon: <Mail className="w-4 h-4 text-rose-600" /> },
+                  { label: "Secure Line", val: (clientPhone(sessionData) ?? "+33 1 43 00 00 00"), icon: <Phone className="w-4 h-4 text-rose-600" /> },
                   { label: "Central Node", val: "Bourg-en-Bresse, France", icon: <MapPin className="w-4 h-4 text-rose-600" /> },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-6 group pl-4 border-l border-white/5 hover:border-rose-600 transition-all">

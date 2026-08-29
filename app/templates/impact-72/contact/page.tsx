@@ -1,5 +1,8 @@
 "use client";
-import { memoriserSession } from "@/lib/templates/clientContent";
+import {
+  clientEmail,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
@@ -76,7 +79,7 @@ export default function ContactPage() {
               COORDONNÉES
             </div>
             <p style={{ fontSize: "0.85rem", color: C.textMuted, lineHeight: 1.6 }}>
-              Email : <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} style={{ color: C.text, textDecoration: "none" }}>{fd?.email ?? "contact@exemple.fr"}</a><br />
+              Email : <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}`} style={{ color: C.text, textDecoration: "none" }}>{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</a><br />
               HQ : <EditeurDuSite quoi="ville" />, France<br />
               SPI N° <LegalIdentity />
             </p>

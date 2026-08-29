@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
   clientTagline,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -117,7 +118,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <div style={{ fontSize: "0.875rem", marginBottom: 4 }}>Email Us</div>
-                    <div style={{ color: T.text, fontWeight: 500 }}>{fd?.email ?? "hello@impact-agency.com"}</div>
+                    <div style={{ color: T.text, fontWeight: 500 }}>{clientEmail(sessionData) ?? fd?.email ?? "hello@impact-agency.com"}</div>
                   </div>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 16, color: T.muted }}>

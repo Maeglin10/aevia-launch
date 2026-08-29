@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
 import {
   clientCity,
+  clientEmail,
   clientName,
   clientServices,
   clientTagline,
@@ -94,7 +95,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-sm">Email support</h3>
-                    <p className="text-xs text-white/40">{fd?.email ?? "contact@exemple.fr"}</p>
+                    <p className="text-xs text-white/40">{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</p>
                   </div>
                 </div>
 

@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion"
 import {
   clientCity,
+  clientEmail,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
@@ -81,8 +82,8 @@ function channels_LIVE() {
   {
     icon: Mail,
     label: "Email",
-    value: (fd?.email ?? "contact@exemple.fr"),
-    href: `mailto:${fd?.email ?? "contact@exemple.fr"}`,
+    value: (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"),
+    href: `mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}`,
     note: "Response within 1 business day",
     primary: true,
   },
@@ -501,7 +502,7 @@ export default function ContactPage() {
               </div>
               <div className="p-6 text-sm space-y-2">
                 {[
-                  { p: "$ ", t: "send-message --to " + (fd?.email ?? "contact@exemple.fr") + " --priority high", c: "text-[#00F5D4]" },
+                  { p: "$ ", t: "send-message --to " + (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr") + " --priority high", c: "text-[#00F5D4]" },
                   { p: "  ", t: "Connecting to mail server...", c: "text-[#475569]" },
                   { p: "✓ ", t: "Message queued for delivery", c: "text-emerald-400" },
                   { p: "  ", t: "Expected response time: < 24h", c: "text-[#475569]" },

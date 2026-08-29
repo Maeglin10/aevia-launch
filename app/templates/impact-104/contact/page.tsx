@@ -1,7 +1,9 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
   clientName,
+  clientPhone,
   clientTagline,
   clientText,
   memoriserSession,
@@ -334,8 +336,8 @@ export default function LumiereDoreeContactPage() {
             </h3>
             <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, color: C.textMuted, lineHeight: 1.8 }}>
               {clientCity(sessionData) ?? "Paris"} (Bastille)<br />
-              <a href={`tel:${fd?.phone ?? "+33612345678"}`} style={{ color: C.accent, textDecoration: "none" }}>06 12 XX XX XX</a><br />
-              <a href={`mailto:${fd?.email ?? "contact@lumieredoree.fr"}`} style={{ color: C.accent, textDecoration: "none" }}>{fd?.email ?? "contact@lumieredoree.fr"}</a>
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33612345678").replace(/[^+0-9]/g, "")}`} style={{ color: C.accent, textDecoration: "none" }}>06 12 XX XX XX</a><br />
+              <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@lumieredoree.fr"}`} style={{ color: C.accent, textDecoration: "none" }}>{clientEmail(sessionData) ?? fd?.email ?? "contact@lumieredoree.fr"}</a>
             </p>
           </div>
           <div>

@@ -1,5 +1,8 @@
 "use client";
-import { memoriserSession } from "@/lib/templates/clientContent";
+import {
+  clientEmail,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -71,7 +74,7 @@ export default function ContactPage() {
                   <Mail className="w-5 h-5 text-[#ff00ff] flex-shrink-0" />
                   <div>
                     <div className="text-[10px] font-bold uppercase tracking-widest text-white/30">Secure Routing Address</div>
-                    <div className="text-sm font-bold text-white/70 mt-1">{fd?.email ?? "contact@exemple.fr"}</div>
+                    <div className="text-sm font-bold text-white/70 mt-1">{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</div>
                   </div>
                 </div>
                 <div className="flex gap-6 items-center pl-6 border-l border-white/5 hover:border-[#ff00ff] transition-all">

@@ -2,6 +2,7 @@
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEmail,
   clientName,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -230,7 +231,7 @@ export default function ContactPage() {
                       <Mail className="w-5 h-5 text-[#F97316]" />
                       <h4 className="text-gray-900 font-bold">Email</h4>
                     </div>
-                    <p className="text-gray-500 text-sm">{fd?.email ?? "hello@formedstudio.fr"}</p>
+                    <p className="text-gray-500 text-sm">{clientEmail(sessionData) ?? fd?.email ?? "hello@formedstudio.fr"}</p>
                   </div>
                   <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
                     <div className="flex items-center gap-3 mb-3">

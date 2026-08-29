@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 
@@ -114,7 +115,7 @@ export default function ContactPage() {
                   <MapPin className="w-4 h-4 text-[#b8860b]" /> SATORI {clientCity(sessionData) ?? "PARIS"}
                 </h4>
                 <p>18 Rue Troyon, 75017 {clientCity(sessionData) ?? "Paris"}, France</p>
-                <p>{fd?.email ?? "paris@satori-gastronomy.com"} · +33 1 42 68 90 20</p>
+                <p>{clientEmail(sessionData) ?? fd?.email ?? "paris@satori-gastronomy.com"} · +33 1 42 68 90 20</p>
               </div>
 
               <div className="border-l-2 border-[#b8860b]/30 pl-6 space-y-2">
@@ -122,7 +123,7 @@ export default function ContactPage() {
                   <MapPin className="w-4 h-4 text-[#b8860b]" /> SATORI TOKYO
                 </h4>
                 <p>5-chōme-2-1 Ginza, Chuo City, Tokyo 104-0061, Japan</p>
-                <p>{fd?.email ?? "tokyo@satori-gastronomy.com"} · +81 3 5562 9010</p>
+                <p>{clientEmail(sessionData) ?? fd?.email ?? "tokyo@satori-gastronomy.com"} · +81 3 5562 9010</p>
               </div>
 
               <div className="border-l-2 border-[#b8860b]/30 pl-6 space-y-2">
@@ -130,7 +131,7 @@ export default function ContactPage() {
                   <MapPin className="w-4 h-4 text-[#b8860b]" /> SATORI GENEVA
                 </h4>
                 <p>Quai du Mont-Blanc 19, 1201 Geneva, Switzerland</p>
-                <p>{fd?.email ?? "geneva@satori-gastronomy.com"} · +41 22 908 7050</p>
+                <p>{clientEmail(sessionData) ?? fd?.email ?? "geneva@satori-gastronomy.com"} · +41 22 908 7050</p>
               </div>
             </div>
           </div>

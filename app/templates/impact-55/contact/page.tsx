@@ -79,10 +79,10 @@ export default function ContactPage() {
 
         <TerminalWindow title="ping.sh — establish connection">
           <div style={{ marginBottom: "28px", fontSize: "13px", color: "#008F11", letterSpacing: "0.06em" }}>
-            <div>ghost@shell:~$ ping {fd?.email ?? "ghost@shell.io"}</div>
-            <div style={{ color: "#005500", marginTop: "6px" }}>PING {fd?.email ?? "ghost@shell.io"} 56 bytes of data.</div>
-            <div style={{ color: "#005500" }}>64 bytes from {fd?.email ?? "ghost@shell.io"}: icmp_seq=0 ttl=64 time=0.42 ms</div>
-            <div style={{ color: "#00FF41", marginTop: "6px" }}>--- {fd?.email ?? "ghost@shell.io"} ping statistics ---</div>
+            <div>ghost@shell:~$ ping {clientEmail(sessionData) ?? fd?.email ?? "ghost@shell.io"}</div>
+            <div style={{ color: "#005500", marginTop: "6px" }}>PING {clientEmail(sessionData) ?? fd?.email ?? "ghost@shell.io"} 56 bytes of data.</div>
+            <div style={{ color: "#005500" }}>64 bytes from {clientEmail(sessionData) ?? fd?.email ?? "ghost@shell.io"}: icmp_seq=0 ttl=64 time=0.42 ms</div>
+            <div style={{ color: "#00FF41", marginTop: "6px" }}>--- {clientEmail(sessionData) ?? fd?.email ?? "ghost@shell.io"} ping statistics ---</div>
             <div style={{ color: "#005500" }}>1 packets transmitted, 1 received, 0.0% packet loss</div>
           </div>
 

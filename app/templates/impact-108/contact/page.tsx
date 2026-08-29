@@ -1,7 +1,9 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
   clientName,
+  clientPhone,
   clientTagline,
   clientText,
   memoriserSession,
@@ -342,8 +344,8 @@ export default function LedgerContactPage() {
             <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, color: C.textMuted, lineHeight: 2 }}>
               14 allée de Tourny<br />
               33000 {clientCity(sessionData) ?? "Bordeaux"}<br />
-              <a href={`tel:${fd?.phone ?? "+33556000000"}`} style={{ color: C.accent, textDecoration: "none", fontWeight: 700 }}>05 56 XX XX XX</a><br />
-              <a href={`mailto:${fd?.email ?? "contact@ledger-associes.fr"}`} style={{ color: C.accent, textDecoration: "none", fontWeight: 700 }}>{fd?.email ?? "contact@ledger-associes.fr"}</a>
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33556000000").replace(/[^+0-9]/g, "")}`} style={{ color: C.accent, textDecoration: "none", fontWeight: 700 }}>05 56 XX XX XX</a><br />
+              <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@ledger-associes.fr"}`} style={{ color: C.accent, textDecoration: "none", fontWeight: 700 }}>{clientEmail(sessionData) ?? fd?.email ?? "contact@ledger-associes.fr"}</a>
             </p>
           </div>
           <div>

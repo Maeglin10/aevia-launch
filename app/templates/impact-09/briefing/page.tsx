@@ -1,7 +1,9 @@
 
 "use client";
 import {
-  clientName } from "@/lib/templates/clientContent";
+  clientEmail,
+  clientName,
+} from "@/lib/templates/clientContent";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -824,7 +826,7 @@ function LegalPage() {
                 {clientName(sessionData) ? "" : "Entrepreneur Individuel"}<br />
                 SIREN : <LegalIdentity /><br />
                 {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
-                Email : {fd?.email ?? "contact@exemple.fr"}<br />
+                Email : {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}<br />
                 Adresse : Communiquée sur demande
              </p>
           </div>

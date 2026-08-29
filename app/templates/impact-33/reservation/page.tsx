@@ -1,6 +1,8 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
+  clientPhone,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 
@@ -210,14 +212,14 @@ export default function ReservationPage() {
           <div style={{ background: C.bgSection, borderRadius: 18, height: 200, marginBottom: 28, display: "flex", alignItems: "center", justifyContent: "center", border: `1px solid ${C.border}`, flexDirection: "column", gap: 10 }}>
             <MapPin size={32} color={C.accent} />
             <span style={{ fontSize: 14, color: C.textMuted, fontWeight: 600 }}>{clientCity(sessionData) ?? "Paris"}, Île-de-France</span>
-            <span style={{ fontSize: 13, color: C.textMuted }}>Adresse communiquée sur demande à {fd?.email ?? "contact@exemple.fr"}</span>
+            <span style={{ fontSize: 13, color: C.textMuted }}>Adresse communiquée sur demande à {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</span>
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
             {[
-              { icon: <MapPin size={18} />, label: "Adresse", text: "Siège social sur demande à " + (fd?.email ?? "contact@exemple.fr") },
-              { icon: <Phone size={18} />, label: "Téléphone", text: (fd?.phone ?? "01 43 55 67 89") },
-              { icon: <Mail size={18} />, label: "Email", text: (fd?.email ?? "contact@exemple.fr") },
+              { icon: <MapPin size={18} />, label: "Adresse", text: "Siège social sur demande à " + (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr") },
+              { icon: <Phone size={18} />, label: "Téléphone", text: (clientPhone(sessionData) ?? fd?.phone ?? "01 43 55 67 89") },
+              { icon: <Mail size={18} />, label: "Email", text: (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr") },
               { icon: <Clock size={18} />, label: "Horaires", text: "Mar–Sam 7h–19h | Dim 7h–13h" }
             ].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 16, alignItems: "flex-start" }}>

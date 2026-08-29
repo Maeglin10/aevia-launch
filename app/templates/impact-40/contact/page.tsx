@@ -2,8 +2,10 @@
 import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import {
   clientCity,
+  clientEmail,
   clientHours,
   clientName,
+  clientPhone,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
@@ -82,11 +84,11 @@ export default function ContactPage() {
                     icon: <MapPin size={18} />,
                     label: "Adresse",
                     value: (clientName(sessionData) ?? "Aevia WS") + ", RCS " + (clientCity(sessionData) ?? "Bourg-en-Bresse")
-                      + " (adresse communiquée sur demande à " + (fd?.email ?? "contact@exemple.fr") + ") — "
+                      + " (adresse communiquée sur demande à " + (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr") + ") — "
                       + (clientCity(sessionData) ?? "Beaujolais") + ", France"
                   },
-                  { icon: <Phone size={18} />, label: "Téléphone", value: "+33 4 74 XX XX XX" },
-                  { icon: <Mail size={18} />, label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
+                  { icon: <Phone size={18} />, label: "Téléphone", value: (clientPhone(sessionData) ?? "+33 4 74 12 34 56") },
+                  { icon: <Mail size={18} />, label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr") },
                 ].map((item, i) => (
                   <div key={i} style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
                     <div

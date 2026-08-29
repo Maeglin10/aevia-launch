@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEmail,
   clientHours,
   memoriserSession,
 } from "@/lib/templates/clientContent";
@@ -25,7 +26,7 @@ function offices_LIVE() {
     label: "Main Atelier",
     address: "14 Rue de la Roquette, 75011 " + (clientCity(sessionData) ?? "Paris"),
     phone: "+33 1 42 78 91 00",
-    email: (fd?.email ?? "paris@brutco-architecture.com"),
+    email: (clientEmail(sessionData) ?? fd?.email ?? "paris@brutco-architecture.com"),
     hours: "Mon – Fri, 09:00 – 18:30",
     img: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&h=500&fit=crop&crop=center",
   },
@@ -34,7 +35,7 @@ function offices_LIVE() {
     label: "South-East Bureau",
     address: "3 Quai Saint-Vincent, 69001 " + (clientCity(sessionData) ?? "Lyon"),
     phone: "+33 4 72 41 88 60",
-    email: (fd?.email ?? "lyon@brutco-architecture.com"),
+    email: (clientEmail(sessionData) ?? fd?.email ?? "lyon@brutco-architecture.com"),
     hours: "Mon – Fri, 09:00 – 18:00",
     img: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&h=500&fit=crop&crop=center",
   },
@@ -43,7 +44,7 @@ function offices_LIVE() {
     label: "Mediterranean Studio",
     address: "7 Rue de la République, 13001 " + (clientCity(sessionData) ?? "Marseille"),
     phone: "+33 4 91 33 72 50",
-    email: (fd?.email ?? "marseille@brutco-architecture.com"),
+    email: (clientEmail(sessionData) ?? fd?.email ?? "marseille@brutco-architecture.com"),
     hours: "Mon – Thu, 09:30 – 17:30",
     img: "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800&h=500&fit=crop&crop=center",
   },
@@ -213,7 +214,7 @@ export default function ContactPage() {
           {[
             { icon: Clock, label: "Response time", val: "48 hours" },
             { icon: MapPin, label: "Offices", val: (clientCity(sessionData) ?? "Paris") + " · Lyon · Marseille" },
-            { icon: Mail, label: "General enquiries", val: (fd?.email ?? "contact@brutco-architecture.com") },
+            { icon: Mail, label: "General enquiries", val: (clientEmail(sessionData) ?? fd?.email ?? "contact@brutco-architecture.com") },
             { icon: Phone, label: "Phone (" + (clientCity(sessionData) ?? "Paris") + ")", val: "+33 1 42 78 91 00" },
           ].map(({ icon: Icon, label, val }) => (
             <div key={label} className="py-6 px-6 first:pl-0 last:pr-0">

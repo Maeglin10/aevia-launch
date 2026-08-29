@@ -2,6 +2,7 @@
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientEmail,
   clientName,
   clientServices,
 } from "@/lib/templates/clientContent";
@@ -202,7 +203,7 @@ export default function Page() {
                   </div>
                   <div className="flex items-center gap-3 text-sm text-white/50">
                     <Mail className="w-4 h-4 text-[#C9A86C] shrink-0" />
-                    <span>{fd?.email ?? "pitch@summit-capital.vc"}</span>
+                    <span>{clientEmail(sessionData) ?? fd?.email ?? "pitch@summit-capital.vc"}</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm text-white/50">
                     <Phone className="w-4 h-4 text-[#C9A86C] shrink-0" />

@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
   clientName,
   clientTagline,
   clientText,
@@ -112,7 +113,7 @@ export default function ContactPage() {
               {/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? clientTagline(sessionData) ?? "Prenez rendez-vous avec l'un de nos conseillers dans notre boutique parisienne ou                contactez-nous pour toute création sur mesure."}
             </p>
             <p>
-              Email : {fd?.email ?? "contact@maison-elara.fr"}<br />
+              Email : {clientEmail(sessionData) ?? fd?.email ?? "contact@maison-elara.fr"}<br />
               Téléphone : +33 1 23 45 67 89<br />
               Adresse : 15 Place Vendôme, 75001 {clientCity(sessionData) ?? "Paris"}, France
             </p>

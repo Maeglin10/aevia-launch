@@ -27,10 +27,22 @@ function nomSession(src) {
   return null;
 }
 
+/* Les SOUS-pages aussi. La première version ne regardait que la racine du
+   thème : /contact, /devis, /tarifs affichaient donc encore le numéro de la
+   démonstration. Mesuré après coup : 25 sites de téléphone et 171 d'adresse
+   dans les seules sous-pages. */
+function fichiersDuTheme(dossier) {
+  const out = [];
+  for (const e of fs.readdirSync(dossier, { withFileTypes: true })) {
+    const p = path.join(dossier, e.name);
+    if (e.isDirectory()) out.push(...fichiersDuTheme(p));
+    else if (e.name.endsWith(".tsx")) out.push(p);
+  }
+  return out;
+}
+
 for (const d of fs.readdirSync(racine).filter((x) => /^impact-\d+$/.test(x)).sort()) {
-  for (const nom of ["page.tsx", "layout.tsx"]) {
-    const f = path.join(racine, d, nom);
-    if (!fs.existsSync(f)) continue;
+  for (const f of fichiersDuTheme(path.join(racine, d))) {
     let src = fs.readFileSync(f, "utf8");
 
     /* Les expressions à corriger : fd?.email en tête de chaîne, sans clientEmail. */

@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 
@@ -162,7 +163,7 @@ export default function ContactPage() {
                   75010 {clientCity(sessionData) ?? "Paris"}, France.
                 </p>
                 <p className="text-xs font-light italic leading-relaxed mt-4 opacity-50">
-                  Adresse physique communiquée sur simple demande à {fd?.email ?? "contact@exemple.fr"}.
+                  Adresse physique communiquée sur simple demande à {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}.
                 </p>
               </div>
             </div>

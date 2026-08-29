@@ -1,5 +1,8 @@
 "use client";
-import { memoriserSession } from "@/lib/templates/clientContent";
+import {
+  clientEmail,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { CheckCircle } from "lucide-react";
@@ -161,7 +164,7 @@ export default function RdvPage() {
               </div>
 
               <p className="text-[10px] text-[#3A3028] leading-relaxed">
-                Les informations recueillies sont destinées à Cypher Clinic afin de traiter votre demande de rendez-vous. Conformément au RGPD, vous disposez d&apos;un droit d&apos;accès et de suppression — {fd?.email ?? "contact@exemple.fr"}.
+                Les informations recueillies sont destinées à Cypher Clinic afin de traiter votre demande de rendez-vous. Conformément au RGPD, vous disposez d&apos;un droit d&apos;accès et de suppression — {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}.
               </p>
 
               <button type="submit" className="w-full border border-[#C9A86C] text-[#C9A86C] py-4 text-xs tracking-widest uppercase hover:bg-[#C9A86C] hover:text-[#0C0C0A] transition-all duration-300 cursor-pointer">

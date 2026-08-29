@@ -1,7 +1,9 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
   clientName,
+  clientPhone,
   clientServices,
   clientTagline,
   clientText,
@@ -304,11 +306,11 @@ export default function IronClubContactPage() {
             <p style={{ fontFamily: FONT_BODY, fontSize: 15, color: C.textMuted, lineHeight: 1.8 }}>
               12 rue de la Guillotière<br />
               69007 {clientCity(sessionData) ?? "Lyon"}<br />
-              <a href={`tel:${fd?.phone ?? "+33478000000"}`} style={{ color: C.accent, textDecoration: "none", fontWeight: 600 }}>
-                04 78 XX XX XX
+              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{ color: C.accent, textDecoration: "none", fontWeight: 600 }}>
+                {clientPhone(sessionData) ?? "04 78 00 00 00"}
               </a><br />
-              <a href={`mailto:${fd?.email ?? "contact@ironclub-lyon.fr"}`} style={{ color: C.accent, textDecoration: "none", fontWeight: 600 }}>
-                {fd?.email ?? "contact@ironclub-lyon.fr"}
+              <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@ironclub-lyon.fr"}`} style={{ color: C.accent, textDecoration: "none", fontWeight: 600 }}>
+                {clientEmail(sessionData) ?? fd?.email ?? "contact@ironclub-lyon.fr"}
               </a>
             </p>
           </div>

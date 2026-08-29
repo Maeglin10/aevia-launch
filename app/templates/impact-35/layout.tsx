@@ -380,7 +380,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 Contact
               </h4>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} style={{ fontSize: 14, color: "var(--brand, #94a3b8)", textDecoration: "none" }}>
+                <a href={`mailto:${clientEmail(__layoutSession) ?? fd?.email ?? "contact@exemple.fr"}`} style={{ fontSize: 14, color: "var(--brand, #94a3b8)", textDecoration: "none" }}>
                   {clientEmail(__layoutSession) ?? "contact@exemple.fr"}
                 </a>
                 <span style={{ fontSize: 14, color: "var(--brand, #94a3b8)" }}>{clientPhone(__layoutSession) ?? "+33 1 23 45 67 89"}</span>

@@ -1,9 +1,11 @@
 "use client";
 import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import {
+  clientEmail,
   clientFaq,
   clientHours,
   clientName,
+  clientPhone,
   clientServices,
   memoriserSession,
 } from "@/lib/templates/clientContent";
@@ -121,7 +123,7 @@ function SUBSCRIPTION_FAQ_DEMO_ANNEXE_LIVE() {
   },
   {
     q: "Comment modifier ma mouture en cours d'abonnement ?",
-    a: "Depuis votre espace client, vous pouvez changer la mouture à tout moment — le changement est pris en compte dès le prochain cycle. Vous pouvez aussi nous écrire à " + (fd?.email ?? "contact@originroast.co") + " et nous l'appliquons manuellement si vous avez un délai serré.",
+    a: "Depuis votre espace client, vous pouvez changer la mouture à tout moment — le changement est pris en compte dès le prochain cycle. Vous pouvez aussi nous écrire à " + (clientEmail(sessionData) ?? fd?.email ?? "contact@originroast.co") + " et nous l'appliquons manuellement si vous avez un délai serré.",
   },
   {
     q: "Livrez-vous en dehors de France ?",
@@ -129,7 +131,7 @@ function SUBSCRIPTION_FAQ_DEMO_ANNEXE_LIVE() {
   },
   {
     q: "Mon café arrive cassé ou manquant — que faire ?",
-    a: "Photographiez le colis dès réception et envoyez-nous l'email dans les 48h à " + (fd?.email ?? "contact@originroast.co") + ". Nous expédions un remplacement sous 72h sans frais supplémentaires. Les problèmes liés au transporteur sont couverts par notre assurance colis.",
+    a: "Photographiez le colis dès réception et envoyez-nous l'email dans les 48h à " + (clientEmail(sessionData) ?? fd?.email ?? "contact@originroast.co") + ". Nous expédions un remplacement sous 72h sans frais supplémentaires. Les problèmes liés au transporteur sont couverts par notre assurance colis.",
   },
 ];
 }
@@ -324,8 +326,8 @@ export default function ContactPage() {
                   {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
                   Adresse communiquée sur rendez-vous.
                 </p>
-                <a href={`mailto:${fd?.email ?? "contact@originroast.co"}`} style={{ fontSize: 13, color: C.caramel, fontWeight: 600, textDecoration: "none" }}>
-                  {fd?.email ?? "contact@originroast.co"}
+                <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@originroast.co"}`} style={{ fontSize: 13, color: C.caramel, fontWeight: 600, textDecoration: "none" }}>
+                  {clientEmail(sessionData) ?? fd?.email ?? "contact@originroast.co"}
                 </a>
               </div>
             </SectionReveal>
@@ -388,11 +390,11 @@ export default function ContactPage() {
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   <div>
                     <div style={{ fontSize: 11, fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>Email</div>
-                    <a href={`mailto:${fd?.email ?? "contact@originroast.co"}`} style={{ fontSize: 14, color: C.caramel, fontWeight: 600, textDecoration: "none" }}>{fd?.email ?? "contact@originroast.co"}</a>
+                    <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@originroast.co"}`} style={{ fontSize: 14, color: C.caramel, fontWeight: 600, textDecoration: "none" }}>{clientEmail(sessionData) ?? fd?.email ?? "contact@originroast.co"}</a>
                   </div>
                   <div>
                     <div style={{ fontSize: 11, fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>B2B uniquement</div>
-                    <a href={`tel:${fd?.phone ?? "+33600000000"}`} style={{ fontSize: 14, color: C.textMuted, fontWeight: 400, textDecoration: "none" }}>+33 (0)6 00 00 00 00</a>
+                    <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33600000000").replace(/[^+0-9]/g, "")}`} style={{ fontSize: 14, color: C.textMuted, fontWeight: 400, textDecoration: "none" }}>+33 (0)6 00 00 00 00</a>
                   </div>
                   <div style={{ paddingTop: 10, borderTop: `1px solid ${C.borderLight}` }}>
                     <div style={{ fontSize: 12, color: C.textMuted, fontWeight: 300, lineHeight: 1.6 }}>

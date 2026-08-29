@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
   clientName,
 } from "@/lib/templates/clientContent";
 
@@ -86,7 +87,7 @@ export default function ContactPage() {
               </div>
               <div className="flex items-center gap-3 text-sm text-[#1A1510]/70">
                 <Mail className="w-4 h-4 text-[#C46A3E] shrink-0" />
-                <span>{fd?.email ?? "contact@keops-archi.fr"}</span>
+                <span>{clientEmail(sessionData) ?? fd?.email ?? "contact@keops-archi.fr"}</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-[#1A1510]/70">
                 <Phone className="w-4 h-4 text-[#C46A3E] shrink-0" />

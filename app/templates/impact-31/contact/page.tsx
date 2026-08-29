@@ -1,7 +1,9 @@
 "use client";
 import {
   clientCity,
+  clientEmail,
   clientHours,
+  clientPhone,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
@@ -475,8 +477,8 @@ function InfoPanel() {
         <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {[
             { icon: <MapPin size={18} color={C.accent} />, label: "Adresse", value: "18 Rue de la Paix, 69002 " + (clientCity(sessionData) ?? "Lyon") },
-            { icon: <Phone size={18} color={C.accent} />, label: "Téléphone", value: (fd?.phone ?? "04 72 34 56 78") },
-            { icon: <Mail size={18} color={C.accent} />, label: "Email", value: (fd?.email ?? "namaste@anandaflow.fr") },
+            { icon: <Phone size={18} color={C.accent} />, label: "Téléphone", value: (clientPhone(sessionData) ?? fd?.phone ?? "04 72 34 56 78") },
+            { icon: <Mail size={18} color={C.accent} />, label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "namaste@anandaflow.fr") },
           ].map((item) => (
             <div key={item.label} style={{ display: "flex", gap: 12, alignItems: "flex-start" }}>
               <div style={{ width: 38, height: 38, borderRadius: 10, background: C.accentLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
@@ -642,16 +644,16 @@ function CTAStrip() {
           <p style={{ color: "rgba(255,255,255,0.75)", fontSize: 15 }}>Notre équipe est disponible Lun–Ven de 9h à 19h pour vous orienter.</p>
         </div>
         <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-          <a href={`tel:${fd?.phone ?? "+33472345678"}`} style={{ textDecoration: "none" }}>
+          <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33472345678").replace(/[^+0-9]/g, "")}`} style={{ textDecoration: "none" }}>
             <motion.button
               style={{ background: C.white, color: C.accent, border: "none", borderRadius: 25, padding: "13px 28px", fontWeight: 700, fontSize: 15, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_BODY }}
               whileHover={{ scale: 1.05, boxShadow: "0 6px 24px rgba(0,0,0,0.15)" }}
               whileTap={{ scale: 0.97 }}
             >
-              <Phone size={16} /> {fd?.phone ?? "04 72 34 56 78"}
+              <Phone size={16} /> {clientPhone(sessionData) ?? fd?.phone ?? "04 72 34 56 78"}
             </motion.button>
           </a>
-          <a href={`mailto:${fd?.email ?? "namaste@anandaflow.fr"}`} style={{ textDecoration: "none" }}>
+          <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "namaste@anandaflow.fr"}`} style={{ textDecoration: "none" }}>
             <motion.button
               style={{ background: "transparent", color: C.white, border: "1.5px solid rgba(255,255,255,0.5)", borderRadius: 25, padding: "12px 24px", fontWeight: 600, fontSize: 15, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_BODY }}
               whileHover={{ borderColor: C.white, background: "rgba(255,255,255,0.1)" }}

@@ -1,5 +1,8 @@
 "use client";
-import { memoriserSession } from "@/lib/templates/clientContent";
+import {
+  clientEmail,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import { Mail, MessageSquare, Phone } from "lucide-react";
@@ -209,7 +212,7 @@ export default function ContactPage() {
               {
                 icon: <Mail style={{ width: 18, height: 18, color: T.accent }} />,
                 title: "Email Channels",
-                value: (fd?.email ?? "hello@nexus.io"),
+                value: (clientEmail(sessionData) ?? fd?.email ?? "hello@nexus.io"),
                 desc: "General inquiries, developer reports, partnerships.",
               },
               {
