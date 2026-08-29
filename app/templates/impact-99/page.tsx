@@ -1,11 +1,10 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientName,
-  clientPhone,
   clientPhotos,
   clientServices,
   clientStats,
@@ -613,10 +612,10 @@ function ReservationPage() {
 
               <div className="p-12 border border-white/5 bg-white/[0.01] rounded-sm space-y-8">
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
-                  <Phone className="w-5 h-5 text-[var(--brand,#ff4d00)]" /> {clientPhone(sessionData) ?? fd?.phone ?? "01 37 70 24 84"}
+                  <Phone className="w-5 h-5 text-[var(--brand,#ff4d00)]" /> {fd?.phone ?? "01 37 70 24 84"}
                 </div>
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
-                  <Mail className="w-5 h-5 text-[var(--brand,#ff4d00)]" />{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</div>
+                  <Mail className="w-5 h-5 text-[var(--brand,#ff4d00)]" />{fd?.email ?? "contact@exemple.fr"}</div>
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
                   <MapPin className="w-5 h-5 text-[var(--brand,#ff4d00)]" /> Adresse communiquée
                   sur demande
@@ -862,7 +861,7 @@ function ContactPage() {
                     </span>
                   </div>
                   <p className="text-sm text-white/40 font-light uppercase tracking-widest italic leading-loose">
-                    Adresse communiquée sur demande à {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}
+                    Adresse communiquée sur demande à {fd?.email ?? "contact@exemple.fr"}
                   </p>
                 </div>
                 <Separator className="bg-white/5" />
@@ -874,7 +873,7 @@ function ContactPage() {
                     </span>
                   </div>
                   <p className="text-sm text-white/40 font-light uppercase tracking-widest italic">
-                    {clientPhone(sessionData) ?? fd?.phone ?? "01 37 70 24 84"}
+                    {fd?.phone ?? "01 37 70 24 84"}
                   </p>
                 </div>
                 <Separator className="bg-white/5" />
@@ -885,7 +884,7 @@ function ContactPage() {
                       Email
                     </span>
                   </div>
-                  <p className="text-sm text-white/40 font-light uppercase tracking-widest italic">{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</p>
+                  <p className="text-sm text-white/40 font-light uppercase tracking-widest italic">{fd?.email ?? "contact@exemple.fr"}</p>
                 </div>
               </div>
             </div>
@@ -991,14 +990,14 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
                 Aevia WS — entrepreneur individuel (auto-entrepreneur)
               </LegalBlock>
               <LegalBlock title="Directeur de la publication">
-                Valentin Milliand
+                <EditeurDuSite />
               </LegalBlock>
               <LegalBlock title="Immatriculation">
-                SIREN <LegalIdentity /> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}
+                SIREN <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}
               </LegalBlock>
-              <LegalBlock title="Contact">{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</LegalBlock>
+              <LegalBlock title="Contact">{fd?.email ?? "contact@exemple.fr"}</LegalBlock>
               <LegalBlock title="Siège social">
-                Adresse du siège social communiquée sur demande à {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}
+                Adresse du siège social communiquée sur demande à {fd?.email ?? "contact@exemple.fr"}
               </LegalBlock>
               <LegalBlock title="TVA">
                 TVA non applicable, art. 293 B du CGI
@@ -1010,9 +1009,9 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
           ) : (
             <>
               <LegalBlock title="Responsable du traitement">
-                Aevia WS, représentée par Valentin Milliand, est responsable du
+                <EditeurDuSite />, est responsable du
                 traitement des données collectées sur ce site. Contact :
-                {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}.
+                {fd?.email ?? "contact@exemple.fr"}.
               </LegalBlock>
               <LegalBlock title="Données collectées">
                 Les informations transmises via les formulaires de réservation et de
@@ -1101,10 +1100,21 @@ export default function EmberGrillPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -1200,9 +1210,7 @@ export default function EmberGrillPage() {
             ) : (
               <>
                 <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none italic text-white">
-                  {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
-                      portait « Ember » sur le site de n'importe quel client. */}
-                  {clientName(sessionData) ?? "Ember"}
+                  Ember
                 </span>
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#ff4d00)] -mt-1 ml-1">
                   Grill & Cellar
@@ -1695,8 +1703,8 @@ export default function EmberGrillPage() {
       `}</style>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-99"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "Ember Grill"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>
   );

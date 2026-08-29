@@ -135,10 +135,21 @@ export default function NimbusAIPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -188,7 +199,7 @@ return (
             ) : (
               <>
                 <div className="w-8 h-8 bg-gradient-to-br from-[var(--brand,#06B6D4)] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Cloud className="w-4 h-4 text-white" /></div>
-                <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "NimbusAI"))}</span>
+                <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "NimbusAI"))}</span>
               </>
             )}
           </button>
@@ -216,7 +227,7 @@ return (
                   style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-white font-bold text-xl">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "NimbusAI"))}</span>
+                <span className="text-white font-bold text-xl">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "NimbusAI"))}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
@@ -244,7 +255,7 @@ return (
                 </>}</h1>
               </Reveal>
               <Reveal delay={0.2}>
-                <p className="text-gray-400 text-xl max-w-2xl mx-auto mb-10 leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                <p className="text-gray-400 text-xl max-w-2xl mx-auto mb-10 leading-relaxed">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                   Inférence GPU à la demande, models-as-a-service, vector DB intégrée. Scalez de 0 à production en 5 minutes.
                 </>}</p>
               </Reveal>
@@ -416,7 +427,7 @@ return (
       <footer className="bg-[#060B16] border-t border-white/5 py-16 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10 mb-12">
           <div>
-            <div className="flex items-center gap-2 mb-4"><div className="w-8 h-8 bg-gradient-to-br from-[var(--brand,#06B6D4)] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Cloud className="w-4 h-4 text-white" /></div><span className="text-white font-bold">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "NimbusAI"))}</span></div>
+            <div className="flex items-center gap-2 mb-4"><div className="w-8 h-8 bg-gradient-to-br from-[var(--brand,#06B6D4)] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Cloud className="w-4 h-4 text-white" /></div><span className="text-white font-bold">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "NimbusAI"))}</span></div>
             <p className="text-gray-500 text-sm">Cloud AI infrastructure pour les équipes qui construisent les produits de demain.</p>
           </div>
           {[
@@ -439,7 +450,7 @@ return (
           ))}
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex justify-between text-xs text-gray-600">
-          <span>© 2026 {clientName(sessionData) ?? "NimbusAI."} All rights reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "NimbusAI."} All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span><Globe className="w-3 h-3 inline mr-1" />Cloud AI · 12 regions</span>
         </div>
         {/* Les coordonnées. Ce thème n'affichait aucun moyen d'être joint —

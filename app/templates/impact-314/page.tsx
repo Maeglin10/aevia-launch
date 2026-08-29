@@ -34,7 +34,6 @@ import {
   clientCity,
   clientFaq,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -297,10 +296,21 @@ export default function Page({ session: initialSession }) {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   useEffect(() => {
@@ -417,7 +427,7 @@ export default function Page({ session: initialSession }) {
     if (p[7]) PHOTOS.gallery3 = p[7];
     if (p[8]) PHOTOS.gallery4 = p[8];
   }, [fd]);
-  const phone = clientPhone(sessionData) || fd?.phone || "01 75 16 68 52";
+  const phone = fd?.phone || "01 75 16 68 52";
   const email = fd?.email || "contact@plomberie-confort.fr";
   const address = fd?.address || (clientAddress(sessionData) ?? "15 Rue de la Paix, 75002 Paris");
 
@@ -633,7 +643,7 @@ export default function Page({ session: initialSession }) {
                   color: C.white,
                   lineHeight: 1.1,
                   marginBottom: "24px"
-                }}>{/* ACCROCHE */ clientTagline({ formData: fd }) ?? (<>
+                }}>{/* ACCROCHE */ clientTagline(sessionData) ?? (<>
                   L'Expertise Sanitaire <br/> & <span style={{ color: C.primary }}>Thermique</span>.
                 </>)}</h1>
               </Reveal>
@@ -1147,8 +1157,8 @@ export default function Page({ session: initialSession }) {
       </footer>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-314"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "impact-314"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>
   );

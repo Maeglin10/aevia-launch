@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -150,10 +151,21 @@ export default function NoirCouturePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -162,8 +174,8 @@ export default function NoirCouturePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  looks = looks_LIVE();
   editorials = editorials_LIVE();
+  looks = looks_LIVE();
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
@@ -343,7 +355,7 @@ export default function NoirCouturePage() {
                     </>}</h1>
                   </Reveal>
                   <Reveal delay={0.2}>
-                    <p className="text-white/60 text-sm leading-relaxed max-w-xs mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                    <p className="text-white/60 text-sm leading-relaxed max-w-xs mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                       L'art de la silhouette. Chaque pièce est une déclaration. Chaque collection, un manifeste.
                     </>}</p>
                   </Reveal>
@@ -469,7 +481,7 @@ export default function NoirCouturePage() {
             <div className="max-w-2xl mx-auto text-center">
               <Reveal>
                 <h2 className="text-black text-4xl mb-4" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>L'avant-première</>)}</h2>
-                <p className="text-black/50 text-sm leading-relaxed mb-8">Soyez les premiers informés des nouvelles collections, des défilés et des événements exclusifs Noir Couture.</p>
+                <p className="text-black/50 text-sm leading-relaxed mb-8">Soyez les premiers informés des nouvelles collections, des défilés et des événements exclusifs {clientName(sessionData) ?? "Noir Couture"}.</p>
                 <div className="flex gap-3 max-w-md mx-auto">
                   <input type="email" placeholder="votre@email.com" className="flex-1 border border-black/20 px-4 py-3 text-sm outline-none focus:border-black" />
                   <button className="bg-black text-white text-xs tracking-widest uppercase px-6 py-3 hover:bg-black/80 transition-colors cursor-pointer">S'inscrire</button>
@@ -1048,7 +1060,7 @@ function BoutiqueSubPage({ onAddToCart }: { onAddToCart: (item: { name: string; 
     { name: "Manteau Asymétrique", price: "2 400€", category: "Prêt-à-porter", src: photo(21, "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&q=80"), desc: "Coupe décontractée asymétrique en laine bouillie italienne. Entièrement doublé soie." },
     { name: "Robe Colonne", price: "1 800€", category: "Prêt-à-porter", src: photo(22, "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80"), desc: "Robe longue en crêpe de soie noir mat. Dos nu architectural et fente latérale." },
     { name: "Tailleur Structuré", price: "3 200€", category: "Prêt-à-porter", src: photo(23, "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&q=80"), desc: "Veste épaulée à double boutonnage et pantalon droit assorti en laine vierge." },
-    { name: "Sac Seau en Cuir", price: "1 200€", category: "Accessoires", src: photo(24, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=600&q=80"), desc: "Cuir de veau tannage végétal noir profond. Détails métalliques gravés Noir Couture." },
+    { name: "Sac Seau en Cuir", price: "1 200€", category: "Accessoires", src: photo(24, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=600&q=80"), desc: `Cuir de veau tannage végétal noir profond. Détails métalliques gravés ${clientName(sessionData) ?? "Noir Couture"}.` },
     { name: "Veste Couture Déstructurée", price: "2 900€", category: "Prêt-à-porter", src: photo(25, "https://images.unsplash.com/photo-1534126416832-a88fdf2911c2?w=600&q=80"), desc: "Veste d'atelier déstructurée en cachemire mélangé noir charbon." },
     { name: "Pantalon Fluide Noir", price: "950€", category: "Prêt-à-porter", src: photo(26, "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&q=80"), desc: "Pantalon ample fluide en satin de soie. Ceinture ajustable intégrée." }
   ];
@@ -1147,7 +1159,7 @@ function AtelierSubPage({ goTo }: { goTo: (p: any) => void }) {
               L'Art du Sur-Mesure
             </h2>
             <p className="text-black/60 text-sm leading-relaxed">
-              Fondée en 1998, Noir Couture perpétue la haute tradition tailleur parisienne. Chaque silhouette sur-mesure nécessite plus de 120 heures de travail manuel. Nous collaborons directement avec les tisseurs les plus prestigieux de Lyon et d'Italie du Nord pour créer des toiles et des étoffes exclusives.
+              Fondée en 1998, {clientName(sessionData) ?? "Noir Couture"} perpétue la haute tradition tailleur parisienne. Chaque silhouette sur-mesure nécessite plus de 120 heures de travail manuel. Nous collaborons directement avec les tisseurs les plus prestigieux de Lyon et d'Italie du Nord pour créer des toiles et des étoffes exclusives.
             </p>
             <div className="border-l-2 border-black/20 pl-4 space-y-2 text-xs text-black/50">
               <p><strong>Bâtissage :</strong> Réalisé entièrement au fil de coton naturel pour ajuster les volumes sur le mannequin d'atelier.</p>
@@ -1166,7 +1178,7 @@ function AtelierSubPage({ goTo }: { goTo: (p: any) => void }) {
           <div>
             <h3 className="text-xl font-light mb-4" style={{ fontFamily: "'Playfair Display', serif" }}>La Coupe Rigoureuse</h3>
             <p className="text-black/60 text-xs leading-relaxed">
-              Le patronage d'une veste Noir Couture respecte des règles géométriques très strictes. L'asymétrie est calculée pour équilibrer parfaitement les épaules et affiner la silhouette.
+              Le patronage d'une veste {clientName(sessionData) ?? "Noir Couture"} respecte des règles géométriques très strictes. L'asymétrie est calculée pour équilibrer parfaitement les épaules et affiner la silhouette.
             </p>
           </div>
           <div>
@@ -1318,8 +1330,8 @@ function LegalSubPage() {
           <div>
             <h3 className="text-black font-semibold text-base mb-2">Éditeur du site</h3>
             <p>
-              Le site Noir Couture est édité par :<br />
-              <strong>Aevia WS — Valentin Milliand</strong><br />
+              Le site {clientName(sessionData) ?? "Noir Couture"} est édité par :<br />
+              <strong><EditeurDuSite /></strong><br />
               Entrepreneur individuel — SIREN : <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
               <strong>Contact :</strong>{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}<br />
               <strong>Adresse physique :</strong> communiquée sur demande.

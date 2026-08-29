@@ -19,6 +19,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -27,10 +28,11 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ZINC & ARDOISE — Couverture patrimoniale · Rouen
+   {clientName(sessionData) ?? "Zinc & Ardoise"} — Couverture patrimoniale · Rouen
 
    Archétype H7 « magazine » : méta-rangée en tête, titre serif géant, bandeau
    média en bas de cadre. Geste de signature UNIQUE : ScrollGrow — le titre
@@ -388,7 +390,7 @@ function Hero() {
 
   const l1 = clientHeroLine(sessionData, 0, 2, 22) ?? HERO_DEMO.l1;
   const l2 = clientHeroLine(sessionData, 1, 2, 22) ?? HERO_DEMO.l2;
-  const sub = clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? HERO_DEMO.sub;
+  const sub = c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? HERO_DEMO.sub;
 
   return (
     <section
@@ -1243,10 +1245,21 @@ export default function ZincEtArdoisePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   /* Les variables de module d'abord : tout helper appelé plus bas les lit. */
@@ -1254,11 +1267,16 @@ export default function ZincEtArdoisePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    fusionnerEtapes(METHODE_DEMO, clientMethode(sessionData)),
+    METHODE_DEMO,
+  );
+  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   brand = fd?.brandColor ?? null;
   if (brand) C = { ...C, accent: brand };
 
   /* Les blocs vivants, ré-évalués à chaque rendu. */
-  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...SERVICES_SOURCE[i % SERVICES_SOURCE.length],

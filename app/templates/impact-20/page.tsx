@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -922,10 +923,21 @@ export default function LuxuryJewelryTemplate() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -1111,7 +1123,7 @@ export default function LuxuryJewelryTemplate() {
                   animation: "shimmer 4s linear infinite",
                 }}
               >{/* NOM_LOGO */ clientName(sessionData) ?? (<>
-                MAISON ÉLARA
+                {clientName(sessionData) ?? "MAISON ÉLARA"}
               </>)}</span>
             )}
           </div>
@@ -1265,7 +1277,7 @@ export default function LuxuryJewelryTemplate() {
                       letterSpacing: "0.18em",
                     }}
                   >
-                    MAISON ÉLARA
+                    {clientName(sessionData) ?? "MAISON ÉLARA"}
                   </span>
                 )}
               </span>
@@ -1478,7 +1490,7 @@ export default function LuxuryJewelryTemplate() {
                   fontFamily: "Georgia, serif",
                   fontStyle: "italic",
                 }}
-              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Chaque pièce naît d'un dialogue entre la lumière et la matière.
                 Façonnée à la main par nos maîtres joailliers, elle porte une
                 histoire qui traverse les générations.
@@ -2617,7 +2629,7 @@ export default function LuxuryJewelryTemplate() {
                   marginBottom: 12,
                 }}
               >
-                Maison Élara
+                {clientName(sessionData) ?? "MAISON ÉLARA"}
               </div>
               <p
                 style={{
@@ -3207,7 +3219,7 @@ function AtelierPage() {
 
       <div style={{ display: "flex", flexDirection: "column", gap: 48, fontSize: 16, lineHeight: 1.9, color: "rgba(240,236,224,0.75)" }}>
         <p style={{ fontStyle: "italic" }}>
-          Depuis sa fondation en 1947, la Maison Élara s'est imposée comme le gardien d'un savoir-faire d'exception.
+          Depuis sa fondation en 1947, la {clientName(sessionData) ?? "MAISON ÉLARA"} s'est imposée comme le gardien d'un savoir-faire d'exception.
           Installé dans un hôtel particulier historique à quelques pas de la Place Vendôme, notre atelier réunit
           douze maîtres joailliers dévoués à l'excellence.
         </p>
@@ -3782,7 +3794,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
           <div>
             <h3 style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Éditeur du site</h3>
             <p>
-              Aevia WS — Valentin Milliand<br />
+              <EditeurDuSite /><br />
               Entrepreneur individuel<br />
               SIREN : <LegalIdentity /><br />
               {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
@@ -3830,7 +3842,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
           <div>
             <h3 style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>1. Objet</h3>
             <p>
-              Les présentes Conditions Générales de Vente régissent les relations contractuelles pour toute demande ou commande effectuée auprès de la Maison Élara.
+              Les présentes Conditions Générales de Vente régissent les relations contractuelles pour toute demande ou commande effectuée auprès de la {clientName(sessionData) ?? "MAISON ÉLARA"}.
             </p>
           </div>
           <div>
@@ -3875,7 +3887,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
         <div>
           <h3 style={{color: brand ?? 'var(--brand,#d4af6b)', fontSize: 18, fontStyle: "italic", marginBottom: 12, fontWeight: 400 }}>Collecte des données</h3>
           <p>
-            Les données recueillies via nos formulaires de contact ou d'inscription (nom, e-mail) sont destinées exclusivement au traitement de vos demandes d'informations et au suivi de vos relations avec la Maison Élara.
+            Les données recueillies via nos formulaires de contact ou d'inscription (nom, e-mail) sont destinées exclusivement au traitement de vos demandes d'informations et au suivi de vos relations avec la {clientName(sessionData) ?? "MAISON ÉLARA"}.
           </p>
         </div>
         <div>

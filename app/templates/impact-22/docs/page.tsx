@@ -1,7 +1,11 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientFaq, clientServices } from "@/lib/templates/clientContent";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientFaq,
+  clientName,
+  clientServices,
+  clientSlug,
+} from "@/lib/templates/clientContent";
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -66,12 +70,17 @@ const pipeline = [
   { step: "Réponse", code: '{\n  "completion": "...",\n  "usage": {...},\n  "latency_ms": 88\n}', desc: "Résultat structuré avec métriques" },
 ];
 
-const faqs_DEMO_ANNEXE = [
-  { q: "Quelle est la différence avec Azure OpenAI ou Bedrock ?", a: "Nimbus est model-agnostic : vous pouvez swapper des modèles open-source et propriétaires via une seule API. Pas de vendor lock-in, coûts jusqu'à 80% inférieurs." },
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function faqs_DEMO_ANNEXE_LIVE() {
+  return [
+  { q: "Quelle est la différence avec Azure OpenAI ou Bedrock ?", a: `${clientName(sessionData) ?? "Nimbus"} est model-agnostic : vous pouvez swapper des modèles open-source et propriétaires via une seule API. Pas de vendor lock-in, coûts jusqu'à 80% inférieurs.` },
   { q: "Comment fonctionne la facturation ?", a: "Pay-as-you-go par token / image / seconde d'audio. Aucun engagement minimum. Volume discounts automatiques dès 10M tokens/mois." },
   { q: "Peut-on déployer nos propres modèles fine-tunés ?", a: "Oui. Upload via CLI ou S3-compatible API. Format GGUF, SafeTensors, ONNX. Votre modèle est privé et isolé dans votre namespace." },
   { q: "Quelle est la SLA uptime ?", a: "99.99% sur les endpoints production avec failover multi-région automatique. Compensations crédit si violation SLA." },
 ];
+}
+let faqs_DEMO_ANNEXE = faqs_DEMO_ANNEXE_LIVE();
 function faqs_LIVE() {
   return resolveList(clientFaq(sessionData)?.map((f: any, i: number) => ({ ...faqs_DEMO_ANNEXE[i % faqs_DEMO_ANNEXE.length], q: f.q, a: f.a })), faqs_DEMO_ANNEXE);
 }
@@ -114,13 +123,26 @@ export default function NimbusAIDocsPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+
+  faqs_DEMO_ANNEXE = faqs_DEMO_ANNEXE_LIVE();
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
@@ -211,7 +233,7 @@ export default function NimbusAIDocsPage() {
                   <span className="w-8 h-8 bg-[#06B6D4] rounded-full text-black text-sm font-bold flex items-center justify-center">1</span>
                   <h2 className="text-white text-2xl font-bold">Installation</h2>
                 </div>
-                <p className="text-gray-400 text-sm mb-4">Installez le SDK NimbusAI via votre package manager préféré.</p>
+                <p className="text-gray-400 text-sm mb-4">Installez le SDK {clientName(sessionData) ?? "NimbusAI"} via votre package manager préféré.</p>
                 <div className="bg-[#0D1525] border border-white/5 rounded-2xl overflow-hidden">
                   <div className="flex items-center gap-2 px-4 py-2.5 border-b border-white/5">
                     <Terminal className="w-4 h-4 text-gray-500" />
@@ -219,9 +241,9 @@ export default function NimbusAIDocsPage() {
                   </div>
                   <div className="p-4 font-mono text-sm">
                     <p className="text-gray-500 mb-1"># npm</p>
-                    <p className="text-[#06B6D4] mb-3">npm install @nimbusai/sdk</p>
+                    <p className="text-[#06B6D4] mb-3">npm install @{clientSlug(sessionData) ?? "nimbusai"}/sdk</p>
                     <p className="text-gray-500 mb-1"># pip</p>
-                    <p className="text-[#06B6D4] mb-3">pip install nimbusai</p>
+                    <p className="text-[#06B6D4] mb-3">pip install {clientSlug(sessionData) ?? "nimbusai"}</p>
                     <p className="text-gray-500 mb-1"># curl (sans SDK)</p>
                     <p className="text-[#06B6D4]">curl -X POST https://api.nimbus.ai/v1/inference \</p>
                     <p className="text-[#06B6D4] pl-4">-H &quot;Authorization: Bearer $NIMBUS_API_KEY&quot; \</p>
@@ -244,9 +266,9 @@ export default function NimbusAIDocsPage() {
                     <Code className="w-4 h-4 text-gray-500" />
                     <span className="text-gray-500 text-xs font-medium">Python</span>
                   </div>
-                  <div className="p-4 font-mono text-sm text-[#06B6D4] whitespace-pre-line">{`from nimbusai import NimbusClient
+                  <div className="p-4 font-mono text-sm text-[#06B6D4] whitespace-pre-line">{`from ${clientSlug(sessionData) ?? "nimbusai"} import ${(clientName(sessionData) ?? "Nimbus").replace(/[^A-Za-zÀ-ÿ0-9]/g, "")}Client
 
-client = NimbusClient(
+client = ${(clientName(sessionData) ?? "Nimbus").replace(/[^A-Za-zÀ-ÿ0-9]/g, "")}Client(
     api_key="nb_sk_...",  # ou env NIMBUS_API_KEY
     region="eu-west-1"
 )
@@ -415,7 +437,7 @@ app.post("/webhooks/nimbus", (req, res) => {
           ))}
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex justify-between text-xs text-gray-600">
-          <span>© 2026 NimbusAI. All rights reserved.</span>
+          <span>© 2026 {clientName(sessionData) ?? "NimbusAI"}. All rights reserved.</span>
           <span><Globe className="w-3 h-3 inline mr-1" />Cloud AI · 12 regions</span>
         </div>
       </footer>

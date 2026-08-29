@@ -17,10 +17,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(__setLayoutSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setLayoutSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
   const fd = __layoutSession?.formData;
 
@@ -79,7 +90,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <TemplateIcon emoji="🥖" size={20} color="#fff" />
             </div>
             <div>
-              <div style={{ fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 20, color: C.text, lineHeight: 1 }}>La Fournée</div>
+              <div style={{ fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 20, color: C.text, lineHeight: 1 }}>{clientName(__layoutSession) ?? "La Fournée"}</div>
               <div style={{ fontSize: 10, color: C.textMuted, letterSpacing: 1.5, textTransform: "uppercase" }}>Artisan Boulanger</div>
             </div>
           </>)}</motion.div></>
@@ -190,7 +201,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <TemplateIcon emoji="🥖" size={20} color="#fff" />
               </div>
               <div>
-                <div style={{ fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 20, color: C.white }}>La Fournée</div>
+                <div style={{ fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 20, color: C.white }}>{clientName(__layoutSession) ?? "La Fournée"}</div>
                 <div style={{ fontSize: 10, color: "rgba(255,255,255,0.5)", letterSpacing: 1.5, textTransform: "uppercase" }}>Artisan Boulanger</div>
               </div>
             </div>

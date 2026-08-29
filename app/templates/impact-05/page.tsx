@@ -289,10 +289,21 @@ export default function NovaPlatformSaaS() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -400,7 +411,7 @@ return (
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--brand,#8b5cf6)] to-fuchsia-500 flex items-center justify-center">
                   <Zap className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-lg font-bold tracking-tight">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "NovaPlatform SaaS"))}</span>
+                <span className="text-lg font-bold tracking-tight">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "NovaPlatform SaaS"))}</span>
               </>
             )}
           </Link>
@@ -430,7 +441,7 @@ return (
                     <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-[var(--brand,#8b5cf6)] to-fuchsia-500 flex items-center justify-center">
                       <Zap className="w-3.5 h-3.5" />
                     </div>
-                    <span className="font-bold">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "NovaPlatform SaaS"))}</span>
+                    <span className="font-bold">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "NovaPlatform SaaS"))}</span>
                   </>
                 )}
               </div>
@@ -470,7 +481,7 @@ return (
             </>}</motion.h1>
           </div>
 
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }} className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.1 }} className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto mb-10 leading-relaxed">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             The all-in-one platform that replaces your entire infrastructure toolkit. Build, deploy, and scale to millions of users without changing your workflow.
           </>}</motion.p>
 
@@ -849,7 +860,7 @@ return (
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--brand,#8b5cf6)] to-fuchsia-500 flex items-center justify-center">
                 <Zap className="w-4 h-4" />
               </div>
-              <span className="text-lg font-bold">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "NovaPlatform SaaS"))}</span>
+              <span className="text-lg font-bold">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "NovaPlatform SaaS"))}</span>
             </div>
             <p className="text-sm text-zinc-500 leading-relaxed max-w-xs mb-5">The all-in-one platform for modern engineering teams. Build, deploy, and scale without limits.</p>
             <div className="flex gap-3">
@@ -914,9 +925,9 @@ return (
 
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
 
-        {clientName({ formData: fd }) ?? "impact-05"}
+        {clientName(sessionData) ?? "Nova Platform SaaS"}
 
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
 
       </footer>
 

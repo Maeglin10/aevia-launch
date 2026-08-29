@@ -35,6 +35,7 @@ import {
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -43,6 +44,7 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -56,7 +58,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   NETTOYAGE EXTRÊME — après sinistre, fin de chantier, désinfection. Lille.
+   {clientName(sessionData) ?? "Nettoyage Extrême"} — après sinistre, fin de chantier, désinfection. Lille.
    Réécriture premium (reprise 316–383, famille I).
    Geste signature : InvertSweep — TOUTE la page du héros bascule du sombre au
    clair pendant le défilement : l'avant (le sinistre) devient l'après (le
@@ -118,7 +120,7 @@ const STATS_SOURCE = [
 ];
 let STATS = STATS_SOURCE;
 
-const METHODE = [
+let METHODE = [
   { n: "01", t: "Diagnostic terrain", d: "Évaluation sur site en moins de 2h. Identification des risques, périmètre d'intervention, devis immédiat.", icon: Target },
   { n: "02", t: "Sécurisation", d: "Mise en sécurité de la zone, balisage, extraction des matériaux dangereux et ventilation forcée.", icon: ShieldCheck },
   { n: "03", t: "Nettoyage technique", d: "Équipement haute pression, extracteurs, produits professionnels certifiés. Traitement surface par surface.", icon: Sparkles },
@@ -313,16 +315,32 @@ export default function NettoyageExtremePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    fusionnerEtapes(METHODE, clientMethode(sessionData)),
+    METHODE,
+  );
 
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
@@ -501,7 +519,7 @@ export default function NettoyageExtremePage() {
               </h1>
 
               <p style={{ fontFamily: BODY, fontSize: "clamp(15px, 1.6vw, 17.5px)", fontWeight: 300, lineHeight: 1.75, opacity: 0.78, maxWidth: 520, margin: "0 0 34px" }}>
-                {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Intervention rapide 24h/24. Dégât des eaux, incendie, fin de chantier, décontamination. Équipement professionnel et protocoles certifiés."}
+                {c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? "Intervention rapide 24h/24. Dégât des eaux, incendie, fin de chantier, décontamination. Équipement professionnel et protocoles certifiés."}
               </p>
 
               <div style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>

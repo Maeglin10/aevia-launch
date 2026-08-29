@@ -111,10 +111,21 @@ export default function VisionHomePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -134,6 +145,10 @@ export default function VisionHomePage() {
       val: s.value,
 
       label: s.label,
+
+      /* Le chiffre est celui du client : l'unité de la démonstration ne le suit pas. */
+
+      suffix: "",
 
     })),
 
@@ -196,7 +211,7 @@ return (
           <Reveal>
             <h1 style={{ /* TITRE_DEGAGE */ marginTop: 103 }} className="text-7xl md:text-9xl lg:text-[11rem] font-black leading-[1.15] tracking-tighter mb-12 uppercase italic pb-4">{<>{clientHeroLine(sessionData, 0, 2, 8) ?? "Space"}<br /> <span className="text-[var(--brand,#e11d48)]">{clientHeroLine(sessionData, 1, 2, 8) ?? "As Data."}</span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-white/30 leading-relaxed font-bold mb-12 uppercase tracking-tight">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-white/30 leading-relaxed font-bold mb-12 uppercase tracking-tight">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Sub-millimeter LiDAR scanning and neural radiance fields for
               immersive real estate experiences at the speed of thought.
             </>}</p>
@@ -458,7 +473,7 @@ return (
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName(sessionData) ?? "impact-67"}
+        {clientName(sessionData) ?? "Vision Home"}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>

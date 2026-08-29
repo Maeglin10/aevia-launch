@@ -39,7 +39,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -59,7 +58,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ==========================================================================
-   ASTRUM REACH ORBITAL DATASET (ULTRA DENSITY)
+   {clientName(sessionData) ?? "ASTRUM REACH ORBITAL"} DATASET (ULTRA DENSITY)
    ========================================================================== */
 
 function MISSIONS_DEMO_SOURCE_LIVE() {
@@ -245,10 +244,21 @@ export default function AstrumReachPremium() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -321,8 +331,8 @@ return (
                 alt={fd?.businessName ?? 'logo'}
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
-            ) : (/* NOM_LOGO */ clientName({ formData: fd }) ? (
-              <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none group-hover:text-indigo-400 transition-colors">{clientName({ formData: fd })}</span>
+            ) : (/* NOM_LOGO */ clientName(sessionData) ? (
+              <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none group-hover:text-indigo-400 transition-colors">{clientName(sessionData)}</span>
             ) : (<>
               <>
             <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none group-hover:text-indigo-400 transition-colors">Astrum.</span>
@@ -405,7 +415,7 @@ return (
                      </>}</>)}</motion.h1>
 
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-24 items-end text-left max-w-5xl">
-                        <p className="text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-widest">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                        <p className="text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-widest">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                            Nous maîtrisons le transit orbital commercial. Conçu pour l'élite évolutive, notre service assure une sécurité absolue vers les destinations lointaines.
                         </>}</p>
                         <div className="flex flex-col sm:flex-row gap-8 justify-end">
@@ -658,7 +668,7 @@ return (
 
             <div className="pt-24 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.5em] text-white/10 italic">
                <div className="flex flex-wrap gap-8 font-mono">
-                  <span>©2026 {clientName(sessionData) ?? "ASTRUM REACH ORBITAL."}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+                  <span>©2026 {clientName(sessionData) ?? "ASTRUM REACH ORBITAL."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
                   <span className="hidden md:inline">//</span>
                   <a href="/templates/impact-09" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-indigo-400 transition-colors">MENTIONS LEGALES</a>
                </div>
@@ -902,11 +912,11 @@ function LegalPage() {
           <div className="border-b border-white/10 pb-4">
              <div className="text-white/30 text-[10px] font-black uppercase mb-2">EDITEUR</div>
              <p className="text-white font-medium uppercase">
-                {clientName({ formData: fd }) ?? "Aevia WS — Valentin Milliand"}<br />
-                {clientName({ formData: fd }) ? "" : "Entrepreneur Individuel"}<br />
+                {clientName(sessionData) ?? "Aevia WS — Valentin Milliand"}<br />
+                {clientName(sessionData) ? "" : "Entrepreneur Individuel"}<br />
                 SIREN : <LegalIdentity /><br />
-                {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}<br />
-                Email : {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}<br />
+                {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
+                Email : {fd?.email ?? "contact@exemple.fr"}<br />
                 Adresse : Communiquée sur demande
              </p>
           </div>
@@ -923,7 +933,7 @@ function LegalPage() {
           <div>
              <div className="text-white/30 text-[10px] font-black uppercase mb-2">PROPRIETE INTELLECTUELLE</div>
              <p className="text-white/50 font-medium uppercase leading-relaxed font-sans">
-                Toutes les marques, images, logos, structures de code et fichiers multimédias présents sur ce site sont la propriété exclusive d'Astrum Reach Orbital Group ou de ses représentants autorisés. Toute reproduction sans accord écrit préalable fera l'objet de poursuites pénales.
+                Toutes les marques, images, logos, structures de code et fichiers multimédias présents sur ce site sont la propriété exclusive d'{clientName(sessionData) ?? "ASTRUM REACH ORBITAL"} Group ou de ses représentants autorisés. Toute reproduction sans accord écrit préalable fera l'objet de poursuites pénales.
              </p>
           </div>
         </div>

@@ -16,6 +16,7 @@ import {
   clientHeroLine,
   clientHeroPrestations,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -24,6 +25,7 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 import { ActionMobile } from "@/lib/templates/ActionMobile";
@@ -39,7 +41,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   SENTINELLE SUD — sécurité privée · Marseille
+   {clientName(sessionData) ?? "Sentinelle Sud"} — sécurité privée · Marseille
 
    Archétype H3 (plein cadre, titre en bas, fond de repli C.bgDark
    OBLIGATOIRE) · paire P6 (Archivo + Inter) · palette nuit #0b0f12 / bleu de
@@ -127,7 +129,7 @@ const SERVICES_SOURCE = [
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const METHODE = [
+let METHODE = [
   {
     n: "01",
     t: "Audit du site",
@@ -385,18 +387,34 @@ export default function SentinellePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    fusionnerEtapes(METHODE, clientMethode(sessionData)),
+    METHODE,
+  );
   STATS_DEMO = STATS_DEMO_LIVE();
+
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...SERVICES_SOURCE[i % SERVICES_SOURCE.length],

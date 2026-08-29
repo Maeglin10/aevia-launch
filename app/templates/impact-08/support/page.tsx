@@ -1,4 +1,5 @@
 "use client"
+import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useRef, useState } from "react";
 import { 
@@ -95,7 +96,7 @@ function HUD_Telemetry() {
   return (
     <div className="fixed top-24 right-12 z-40 hidden xl:flex flex-col gap-8 items-end pointer-events-none">
        <div className="flex flex-col items-end border-r-2 border-blue-500/30 pr-6 py-2">
-          <div className="text-[10px] font-black tracking-widest text-blue-500 uppercase mb-2">Vulcan_System_V4.2</div>
+          <div className="text-[10px] font-black tracking-widest text-blue-500 uppercase mb-2">{clientName(sessionData) ?? "Vulcan"}_System_V4.2</div>
           <div className="text-2xl font-mono text-white tracking-tighter">44.12.08</div>
           <div className="text-[10px] font-bold text-white/30 uppercase mt-1">Modena // Italy</div>
        </div>
@@ -126,10 +127,21 @@ export default function SupportPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
@@ -145,7 +157,7 @@ export default function SupportPage() {
       
       <nav className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-8 py-6 border-b border-white/5 bg-black/80 backdrop-blur-md">
          <Link href="/templates/impact-08" className="flex flex-col cursor-pointer">
-            <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">Vulcan</span>
+            <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">{clientName(sessionData) ?? "VULCAN"}</span>
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-blue-500 -mt-1 ml-1">Motor Group Modena</span>
          </Link>
          <div className="hidden md:flex gap-10 text-[10px] font-black uppercase tracking-widest text-white/40">
@@ -215,10 +227,10 @@ export default function SupportPage() {
 
             <Accordion type="single" collapsible className="w-full space-y-4 mb-24">
               {[
-                { q: "What is the typical wait time for a bespoke unit?", a: "Each Vulcan unit is hand-assembled in Modena. Production typically takes between 14 to 22 months from design freeze." },
+                { q: "What is the typical wait time for a bespoke unit?", a: `Each ${clientName(sessionData) ?? "VULCAN"} unit is hand-assembled in Modena. Production typically takes between 14 to 22 months from design freeze.` },
                 { q: "Do you offer international delivery?", a: "Yes. Every owner is assigned a dedicated Flying Technician and global concierge who manages white-glove transport." },
                 { q: "Is the Stratos E road-legal?", a: "The Stratos E is homologated for road use in the EU, UK, and USA. Track-only variants are also available." },
-                { q: "What is the maintenance cycle of a Vulcan engine?", a: "A complete diagnostic is performed every 10,000 km or annually by a certified Vulcan Flying Technician, who is dispatched to your private garage anywhere in the world." }
+                { q: `What is the maintenance cycle of a ${clientName(sessionData) ?? "VULCAN"} engine?`, a: `A complete diagnostic is performed every 10,000 km or annually by a certified ${clientName(sessionData) ?? "VULCAN"} Flying Technician, who is dispatched to your private garage anywhere in the world.` }
               ].map((item, i) => (
                 <AccordionItem key={i} value={`item-${i}`} className="border-2 border-black/5 bg-black/[0.02] px-10 rounded-sm hover:border-black/20 transition-all">
                    <AccordionTrigger className="text-xs font-black uppercase tracking-[0.3em] py-10 no-underline italic text-left">
@@ -247,7 +259,7 @@ export default function SupportPage() {
                <div className="lg:col-span-7">
                   <Reveal>
                      <Link href="/templates/impact-08" className="flex flex-col mb-16 cursor-pointer inline-block">
-                        <span className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase leading-[0.7] italic">Vulcan</span>
+                        <span className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase leading-[0.7] italic">{clientName(sessionData) ?? "VULCAN"}</span>
                         <span className="text-[12px] font-bold uppercase tracking-[0.8em] text-blue-500 ml-2">Motor Group Modena</span>
                      </Link>
                      <p className="text-white/20 max-w-md mb-20 text-sm font-light uppercase tracking-widest leading-loose italic">
@@ -298,7 +310,7 @@ export default function SupportPage() {
 
             <div className="pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.4em] text-white/10 italic">
                <div className="flex flex-wrap gap-8">
-                  <span>©2026 VULCAN MOTOR GROUP MODENA.</span>
+                  <span>©2026 {clientName(sessionData) ?? "VULCAN"} MOTOR GROUP MODENA.</span>
                   <span className="hidden md:inline">//</span>
                   <Link href="/templates/impact-08/legal" className="hover:text-blue-500 transition-colors">MENTIONS LEGALES</Link>
                </div>

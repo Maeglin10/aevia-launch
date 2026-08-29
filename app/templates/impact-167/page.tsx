@@ -18,12 +18,14 @@ import {
   clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
   clientReviews,
   clientStats,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -160,7 +162,7 @@ function NEIGHBORHOODS_DEMO_LIVE() {
 let NEIGHBORHOODS_DEMO = NEIGHBORHOODS_DEMO_LIVE();;
 let NEIGHBORHOODS = NEIGHBORHOODS_DEMO;
 
-const PROCESS_STEPS = [
+let PROCESS_STEPS = [
   {
     number: "01",
     title: "Écoute & Qualification",
@@ -827,10 +829,21 @@ export default function Impact167Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -838,10 +851,15 @@ export default function Impact167Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  PROPERTIES_DEMO = PROPERTIES_DEMO_LIVE();
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
-  NEIGHBORHOODS_DEMO = NEIGHBORHOODS_DEMO_LIVE();
+  /* La méthode du client remplace les étapes de la démonstration. */
+  PROCESS_STEPS = resolveList(
+    fusionnerEtapes(PROCESS_STEPS, clientMethode(sessionData)),
+    PROCESS_STEPS,
+  );
   STATS_DEMO = STATS_DEMO_LIVE();
+  NEIGHBORHOODS_DEMO = NEIGHBORHOODS_DEMO_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  PROPERTIES_DEMO = PROPERTIES_DEMO_LIVE();
 
 
 
@@ -1290,7 +1308,7 @@ export default function Impact167Page() {
                   maxWidth: 420,
                   marginBottom: 44,
                 }}
-              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Vingt-huit années à rechercher, négocier et transmettre les biens les plus rares de {clientCity(sessionData) ?? "Paris"}. Un accès privilégié au marché invisible.
               </>}</p>
             </TextReveal>

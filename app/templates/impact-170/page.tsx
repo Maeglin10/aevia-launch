@@ -14,7 +14,6 @@ import {
 } from "framer-motion";
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
@@ -31,7 +30,7 @@ let sessionData: any = null;
 // saisir, le thème ne les lisait pas.
 function STATS_INLINE_SOURCE_LIVE() {
   return [
-  { label: "email", value: (clientEmail(sessionData) ?? fd?.email ?? "rafael@moreau.dev") },
+  { label: "email", value: (fd?.email ?? "rafael@moreau.dev") },
                 { label: "linkedin", value: "/in/rafael-moreau" },
                 { label: "github", value: "@rafael-moreau" },
                 { label: "location", value: (clientCity(sessionData) ?? "Paris") + ", France (remote OK)" }
@@ -966,10 +965,21 @@ export default function Impact170Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -1150,8 +1160,8 @@ export default function Impact170Page() {
               alt={fd?.businessName ?? 'logo'}
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
-          ) : (/* NOM_LOGO */ clientName({ formData: fd }) ? (
-              <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  opacity: 0.92 }}>{clientName({ formData: fd })}</span>
+          ) : (/* NOM_LOGO */ clientName(sessionData) ? (
+              <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  opacity: 0.92 }}>{clientName(sessionData)}</span>
             ) : (<>
             <>
           rafael.moreau<span style={{ opacity: 0.5 }}>@dev</span>
@@ -1430,7 +1440,7 @@ export default function Impact170Page() {
                 marginBottom: 40,
                 maxWidth: 480,
               }}
-            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               8 ans d'expérience sur des systèmes distribués à haute disponibilité.
               Je construis des APIs qui tiennent à l'échelle, des frontends qui se
               chargent en 80ms, et des équipes qui livrent sans drama.
@@ -2203,7 +2213,7 @@ export default function Impact170Page() {
               textAlign: "center",
             }}
           >
-            © 2025 {clientName(sessionData) ?? "Rafael Moreau"} · Built with Next.js 15 + TypeScript · No trackers, no cookies{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2025 · Built with Next.js 15 + TypeScript · No trackers, no cookies{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
           <div style={{ display: "flex", gap: 24 }}>
             {["github", "linkedin", "twitter"].map((s) => (

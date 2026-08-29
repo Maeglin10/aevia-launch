@@ -23,6 +23,7 @@ import {
   clientHeroLine,
   clientHours,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientReviews,
@@ -31,6 +32,7 @@ import {
   clientTagline,
   clientTeam,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1178,7 +1180,7 @@ function Process() {
           </>)}</h2>
         </div>
         <div className="grid-process">
-          {steps.map((s, i) => (
+          {resolveList(fusionnerEtapes(steps, clientMethode(sessionData)), steps).map((s, i) => (
             <ProcessStep
               key={i}
               number={s.number}
@@ -1365,7 +1367,7 @@ function APropos() {
               <span style={{ color: C.accent }}>du bâti lyonnais</span>
             </>)}</h2>
             <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.8, marginBottom: 20 }}>
-              Fondée en 2002 par Marc Durand, compagnon du devoir, l'entreprise Bâtisseurs Durand s'est
+              Fondée en 2002 par Marc Durand, compagnon du devoir, l'entreprise {clientName(sessionData) ?? "Bâtisseurs Durand"} s'est
               bâtie sur un principe simple : un chantier bien fait, c'est un chantier dont le client est
               fier. Vingt-deux ans plus tard, nos équipes interviennent sur tout le bassin lyonnais, de
               Villefranche-sur-Saône à Vienne, en passant par Bourgoin-Jallieu et l'Isère.
@@ -1951,7 +1953,7 @@ function Testimonials() {
       rating: 5,
     },
     {
-      text: "Extension de notre maison de 45 m² : fondations, murs, toiture et isolation ITE. Délai tenu à la semaine près. Les finitions sont impeccables. Nous recommandons Bâtisseurs Durand à tous nos voisins.",
+      text: `Extension de notre maison de 45 m² : fondations, murs, toiture et isolation ITE. Délai tenu à la semaine près. Les finitions sont impeccables. Nous recommandons ${clientName(sessionData) ?? "Bâtisseurs Durand"} à tous nos voisins.`,
       author: 'Thierry & Nathalie Blanc',
       role: 'Particuliers — Caluire-et-Cuire',
       rating: 5,
@@ -1963,19 +1965,19 @@ function Testimonials() {
       rating: 5,
     },
     {
-      text: "Notre restaurant avait des problèmes d'infiltration sur la toiture-terrasse depuis 3 ans. Deux entreprises n'avaient pas réussi. Bâtisseurs Durand a diagnostiqué le problème en une heure et réparé définitivement. Merci !",
+      text: `Notre restaurant avait des problèmes d'infiltration sur la toiture-terrasse depuis 3 ans. Deux entreprises n'avaient pas réussi. ${clientName(sessionData) ?? "Bâtisseurs Durand"} a diagnostiqué le problème en une heure et réparé définitivement. Merci !`,
       author: 'Aurélien Gastaud',
       role: 'Restaurateur — Vieux-' + (clientCity(sessionData) ?? 'Lyon'),
       rating: 5,
     },
     {
-      text: "Dallage industriel de notre entrepôt de 2 000 m². Délai incroyablement court (3 semaines), surface parfaitement plane vérifiée au laser. Les équipes Bâtisseurs Durand sont des professionnels du haut niveau.",
+      text: `Dallage industriel de notre entrepôt de 2 000 m². Délai incroyablement court (3 semaines), surface parfaitement plane vérifiée au laser. Les équipes ${clientName(sessionData) ?? "Bâtisseurs Durand"} sont des professionnels du haut niveau.`,
       author: 'Directeur exploitation',
       role: 'Société de logistique — Bourgoin-Jallieu',
       rating: 5,
     },
     {
-      text: "Nous avons fait appel à Bâtisseurs Durand pour la démolition et restructuration de nos bureaux en open space. Travaux réalisés le week-end pour ne pas perturber l'activité. Propre, rapide et dans les prix.",
+      text: `Nous avons fait appel à ${clientName(sessionData) ?? "Bâtisseurs Durand"} pour la démolition et restructuration de nos bureaux en open space. Travaux réalisés le week-end pour ne pas perturber l'activité. Propre, rapide et dans les prix.`,
       author: 'Marie-Claire Peyroux',
       role: 'Dirigeante PME — ' + (clientCity(sessionData) ?? 'Villeurbanne'),
       rating: 4,
@@ -2178,7 +2180,7 @@ function FAQ() {
     {
       question: 'Êtes-vous couverts par une assurance décennale ?',
       answer:
-        "Oui, Bâtisseurs Durand est assurée en responsabilité décennale (garantie de 10 ans sur les ouvrages réalisés) et en responsabilité civile professionnelle. Nous sommes également qualifiés Qualibat RGE pour les travaux d'isolation thermique par l'extérieur, ce qui vous permet de bénéficier des aides MaPrimeRénov' et de l'Éco-PTZ.",
+        `Oui, ${clientName(sessionData) ?? "Bâtisseurs Durand"} est assurée en responsabilité décennale (garantie de 10 ans sur les ouvrages réalisés) et en responsabilité civile professionnelle. Nous sommes également qualifiés Qualibat RGE pour les travaux d'isolation thermique par l'extérieur, ce qui vous permet de bénéficier des aides MaPrimeRénov' et de l'Éco-PTZ.`,
     },
     {
       question: 'Faut-il un permis de construire pour mon projet ?',
@@ -2783,7 +2785,7 @@ function Footer() {
           }}
         >
           <p style={{ fontSize: 12, color: C.textMuted }}>
-            © {currentYear} Bâtisseurs Durand SARL — Tous droits réservés. Maçonnerie {clientCity(sessionData) ?? "Lyon"}.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {currentYear} {clientName(sessionData) ?? "Bâtisseurs Durand"} SARL — Tous droits réservés. Maçonnerie {clientCity(sessionData) ?? "Lyon"}.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </p>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
             {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? ['Qualibat RGE', 'Décennale', '4.9/5 Google']).map((badge) => (
@@ -2838,10 +2840,21 @@ export default function Impact213Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;

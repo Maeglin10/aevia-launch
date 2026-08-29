@@ -1,6 +1,5 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { StickyProgress } from "@/lib/templates/hero-kit-3";
 // @ts-nocheck
 
 import React, {useRef, useState, useEffect} from 'react';
@@ -9,8 +8,6 @@ import { ArrowRight, Phone, Shield, Zap, Star, Check, CheckCircle, Calendar, Map
 import Link from "next/link";
 import {
   C,
-  SANS,
-  HOW_IT_WORKS,
   SERVICES_DATA,
   STATS,
   PRICING_CARDS,
@@ -18,16 +15,15 @@ import {
   FAQS,
   SectionReveal,
   FAQItem,
+  StepTimeline,
   StatCard,
   TruckSVG,
 } from "./shared";
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientReviews,
   clientServices,
   clientStats,
@@ -80,10 +76,21 @@ export default function SwiftMovePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -118,35 +125,6 @@ export default function SwiftMovePage() {
   
   // Dynamic Services & Testimonials Mutation for Session Data
   
-  const OFFRES = resolveList(
-    clientServices(sessionData)?.map((sv: any, i: number) => ({
-      ...SERVICES_DATA[i % SERVICES_DATA.length],
-      name: sv.title,
-      desc: sv.desc || SERVICES_DATA[i % SERVICES_DATA.length].desc,
-      shortDesc: sv.desc || SERVICES_DATA[i % SERVICES_DATA.length].shortDesc,
-      ...(sv.price ? { from: sv.price } : {}),
-    })),
-    SERVICES_DATA,
-  );
-  const FORMULES = resolveList(
-    clientServices(sessionData)?.slice(0, 3).map((sv: any, i: number) => ({
-      ...PRICING_CARDS[i % PRICING_CARDS.length],
-      name: sv.title,
-      ...(sv.price ? { price: sv.price, suffix: "", period: "" } : {}),
-    })),
-    PRICING_CARDS,
-  );
-  const AVIS = resolveList(
-    clientReviews(sessionData)?.slice(0, 3).map((r: any, i: number) => ({
-      ...TESTIMONIALS[i % TESTIMONIALS.length],
-      text: r.text,
-      name: r.author,
-      role: r.detail || TESTIMONIALS[i % TESTIMONIALS.length].role,
-      avatar: (r.author || "·").split(/\s+/).map((m: string) => m[0]).slice(0, 2).join("").toUpperCase(),
-    })),
-    TESTIMONIALS,
-  );
-
 return (
     <div style={{ background: C.bg, color: C.text }}>
       <style>{`
@@ -182,7 +160,7 @@ return (
                 <span style={{ color: C.orange }}>{clientHeroLine(sessionData, 1, 3, 9) ?? "serein"}</span>{" "}{clientHeroLine(sessionData, 2, 3, 9) ?? "& bien fait"}</>}</>)}</motion.h1>
 
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.25 }}
-                style={{fontSize: 18, color: brand ?? '#a9c3b1', lineHeight: 1.8, marginBottom: 40, maxWidth: 460, fontWeight: 400 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                style={{fontSize: 18, color: brand ?? 'var(--brand,#93c5fd)', lineHeight: 1.8, marginBottom: 40, maxWidth: 460, fontWeight: 400 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Déménagement local, longue distance, international, garde-meuble. Équipes professionnelles, estimation ferme sous 24 h.
               </>}</motion.p>
 
@@ -195,7 +173,7 @@ return (
                     Devis gratuit <ArrowRight size={18} />
                   </span>
                 </Link>
-                <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33131287618").replace(/[^+0-9]/g, "")}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: C.white, padding: "16px 32px", borderRadius: 10, fontWeight: 700, fontSize: 16, textDecoration: "none", border: "1.5px solid rgba(255,255,255,0.25)" }}>
+                <a href={`tel:${fd?.phone ?? "+33131287618"}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "transparent", color: C.white, padding: "16px 32px", borderRadius: 10, fontWeight: 700, fontSize: 16, textDecoration: "none", border: "1.5px solid rgba(255,255,255,0.25)" }}>
                   <Phone size={16} /> Appeler
                 </a>
               </motion.div>
@@ -205,7 +183,7 @@ return (
                 {STATS_INLINE.map((s) => (
                   <div key={s.label}>
                     <div style={{ fontSize: 22, fontWeight: 900, color: C.orange }}>{s.val}</div>
-                    <div style={{fontSize: 13, color: brand ?? '#a9c3b1', marginTop: 4 }}>{s.label}</div>
+                    <div style={{fontSize: 13, color: brand ?? 'var(--brand,#93c5fd)', marginTop: 4 }}>{s.label}</div>
                   </div>
                 ))}
               </motion.div>
@@ -279,7 +257,7 @@ return (
           </SectionReveal>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: 20 }} className="grid lg:grid-cols-2 md:grid-cols-1">
-            {OFFRES.slice(0, 4).map((service, i) => (
+            {SERVICES_DATA.slice(0, 4).map((service, i) => (
               <SectionReveal key={service.name} delay={i * 0.1}>
                 <Link href="/templates/impact-39/services" style={{ textDecoration: "none" }}>
                   <div
@@ -317,30 +295,17 @@ return (
         </div>
       </section>
 
-      {/* LA MÉTHODE — StickyProgress : le titre reste, les étapes défilent */}
+      {/* HOW IT WORKS */}
       <section style={{ padding: "100px 5%", background: C.bgAlt }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <StickyProgress
-            className="i39-sticky"
-            style={{ display: "grid", gridTemplateColumns: "0.85fr 1.15fr", gap: "clamp(28px,4vw,72px)" }}
-            steps={HOW_IT_WORKS.map((e) => ({ n: e.step, title: e.title, body: e.desc }))}
-            renderTitle={(active) => (
-              <div>
-                <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 700, color: C.navy, marginBottom: 14, lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Comment ça marche</>)}</h2>
-                <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 380, lineHeight: 1.7, marginBottom: 28 }}>Quatre étapes simples. Zéro surprise. Vos affaires déplacées avec soin.</p>
-                <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-                  <span style={{ fontFamily: SANS, fontSize: 14, fontWeight: 700, color: C.orangeDark, fontVariantNumeric: "tabular-nums" }}>
-                    0{active + 1} / 0{HOW_IT_WORKS.length}
-                  </span>
-                  <div style={{ flex: 1, maxWidth: 180, height: 3, background: C.border, borderRadius: 99, overflow: "hidden" }}>
-                    <div style={{ width: `${((active + 1) / HOW_IT_WORKS.length) * 100}%`, height: "100%", background: C.orange, transition: "width 0.5s ease" }} />
-                  </div>
-                </div>
-              </div>
-            )}
-          />
+          <SectionReveal>
+            <div style={{ textAlign: "center", marginBottom: 72 }}>
+              <h2 style={{ fontSize: "clamp(30px, 4vw, 46px)", fontWeight: 900, color: C.navy, marginBottom: 14 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Comment ça marche</>)}</h2>
+              <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 440, margin: "0 auto", lineHeight: 1.7 }}>Quatre étapes simples. Zéro surprise. Vos affaires déplacées avec soin.</p>
+            </div>
+          </SectionReveal>
+          <StepTimeline session={sessionData} />
         </div>
-        <style>{`@media (max-width: 860px) { .i39-sticky { grid-template-columns: 1fr !important; } }`}</style>
       </section>
 
       {/* STATS */}
@@ -363,7 +328,7 @@ return (
             </div>
           </SectionReveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(360px, 100%), 1fr))", gap: 24 }} className="grid md:grid-cols-1">
-            {AVIS.map((t, i) => (
+            {TESTIMONIALS.map((t, i) => (
               <SectionReveal key={t.name} delay={i * 0.1}>
                 <div style={{ background: C.bgAlt, borderRadius: 16, padding: 32, border: `1px solid ${C.border}`, display: "flex", flexDirection: "column", gap: 18 }}>
                   <div style={{ display: "flex", gap: 4 }}>
@@ -396,7 +361,7 @@ return (
             </div>
           </SectionReveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: 24, maxWidth: 900, margin: "0 auto" }} className="grid md:grid-cols-1">
-            {FORMULES.map((plan, i) => (
+            {PRICING_CARDS.map((plan, i) => (
               <SectionReveal key={plan.name} delay={i * 0.12}>
                 <div style={{ background: plan.highlight ? C.navy : C.white, borderRadius: 16, padding: 32, border: plan.highlight ? `2px solid ${C.orange}` : `1px solid ${C.border}`, display: "flex", flexDirection: "column", position: "relative", height: "100%" }}>
                   {plan.highlight && (
@@ -405,9 +370,9 @@ return (
                     </div>
                   )}
                   <h3 style={{ fontSize: 18, fontWeight: 800, color: plan.highlight ? C.white : C.navy, marginBottom: 4 }}>{plan.name}</h3>
-                  <div style={{ fontSize: 12, color: plan.highlight ? "#a9c3b1" : C.textMuted, marginBottom: 20 }}>{plan.period}</div>
+                  <div style={{ fontSize: 12, color: plan.highlight ? "var(--brand,#93c5fd)" : C.textMuted, marginBottom: 20 }}>{plan.period}</div>
                   <div style={{ marginBottom: 24 }}>
-                    <span style={{ fontSize: 11, color: plan.highlight ? "#a9c3b1" : C.textMuted, textTransform: "uppercase", fontWeight: 700 }}>{plan.suffix} </span>
+                    <span style={{ fontSize: 11, color: plan.highlight ? "var(--brand,#93c5fd)" : C.textMuted, textTransform: "uppercase", fontWeight: 700 }}>{plan.suffix} </span>
                     <span style={{ fontSize: 36, fontWeight: 900, color: plan.highlight ? C.orange : C.navy }}>{plan.price}</span>
                   </div>
                   <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 10, marginBottom: 28 }}>
@@ -454,7 +419,7 @@ return (
           <SectionReveal>
             <div style={{ textAlign: "center", marginBottom: 56 }}>
               <h2 style={{ fontSize: "clamp(28px, 4vw, 44px)", fontWeight: 900, color: C.navy, marginBottom: 12 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Questions fréquentes</>)}</h2>
-              <p style={{ fontSize: 16, color: C.textMuted }}>Une autre question ? Appelez-nous au {clientPhone(sessionData) ?? "+33 1 31 28 28 28"} — 7j/7.</p>
+              <p style={{ fontSize: 16, color: C.textMuted }}>Une autre question ? Appelez-nous au +33 1 31 28 28 28 — 7j/7.</p>
             </div>
           </SectionReveal>
           <div style={{ display: "flex", flexDirection: "column" }}>
@@ -472,8 +437,8 @@ return (
           opacity: 0.55,
         }}
       >
-        {clientName({ formData: fd }) ?? "impact-39"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "Swift Move"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>
   );

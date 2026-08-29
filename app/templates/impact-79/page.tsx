@@ -47,6 +47,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -54,6 +55,7 @@ import {
   clientStats,
   clientText,
   clientWorks,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -297,10 +299,21 @@ export default function BoulangerieNoirePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -394,9 +407,7 @@ export default function BoulangerieNoirePage() {
             ) : (
               <>
                 <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-stone-600 mb-1">
-                  {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
-                      portait « Artisanal. » sur le site de n'importe quel client. */}
-                  {clientName(sessionData) ?? "Artisanal."}
+                  Artisanal.
                 </span>
                 <span className="text-xl md:text-2xl font-black tracking-tighter uppercase text-white">
                   BOULANGERIE<span className="text-stone-800">.NOIRE</span>
@@ -511,7 +522,7 @@ export default function BoulangerieNoirePage() {
             <h1 style={{ /* TITRE_DEGAGE */ marginTop: 55 }} className="text-4xl sm:text-5xl md:text-9xl lg:text-[7.5rem] xl:text-[9.5rem] 2xl:text-[10.5rem] font-black leading-[1.15] tracking-tighter mb-8 md:mb-12 uppercase pb-4 break-words">{<>{clientHeroLine(sessionData, 0, 2, 16) ?? "The Architecture"}<br />{" "}
               <span className="text-stone-800 italic">{clientHeroLine(sessionData, 1, 2, 16) ?? "of Crust."}</span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-8 md:mb-12 uppercase tracking-tight italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-8 md:mb-12 uppercase tracking-tight italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               High-hydration molecular baking. Stone hearth methodology.
               Precision-engineered for the modern palate.
             </>}</p>
@@ -641,7 +652,7 @@ export default function BoulangerieNoirePage() {
 
             <div className="lg:col-span-7">
               <Reveal className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {TECHNIQUE.map((t, i) => (
+                {resolveList(fusionnerEtapes(TECHNIQUE, clientMethode(sessionData)), TECHNIQUE).map((t, i) => (
                   <div
                     key={i}
                     className="p-10 bg-white/[0.02] border border-white/5 rounded-none hover:border-stone-800 transition-all group"
@@ -983,8 +994,8 @@ export default function BoulangerieNoirePage() {
       `}</style>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-79"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "Boulangerie Noire"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>
   );

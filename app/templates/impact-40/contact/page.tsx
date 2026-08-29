@@ -1,5 +1,11 @@
 "use client";
-import { clientHours } from "@/lib/templates/clientContent";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
+import {
+  clientCity,
+  clientHours,
+  clientName,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 import { useEffect, useState } from "react";
 
@@ -27,13 +33,25 @@ export default function ContactPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
@@ -63,10 +81,12 @@ export default function ContactPage() {
                   {
                     icon: <MapPin size={18} />,
                     label: "Adresse",
-                    value: "Valentin Milliand, SIREN <LegalIdentity />, RCS Bourg-en-Bresse (adresse communiquée sur demande à " + (fd?.email ?? "valentinmilliand@aevia.services") + ") — Beaujolais, France"
+                    value: (clientName(sessionData) ?? "Aevia WS") + ", RCS " + (clientCity(sessionData) ?? "Bourg-en-Bresse")
+                      + " (adresse communiquée sur demande à " + (fd?.email ?? "contact@exemple.fr") + ") — "
+                      + (clientCity(sessionData) ?? "Beaujolais") + ", France"
                   },
                   { icon: <Phone size={18} />, label: "Téléphone", value: "+33 4 74 XX XX XX" },
-                  { icon: <Mail size={18} />, label: "Email", value: (fd?.email ?? "valentinmilliand@aevia.services") },
+                  { icon: <Mail size={18} />, label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
                 ].map((item, i) => (
                   <div key={i} style={{ display: "flex", gap: "1rem", alignItems: "flex-start" }}>
                     <div

@@ -46,7 +46,7 @@ let bp: any = null;
 let c: any = null;
 
 /* ==========================================================================
-   ASTRUM REACH ORBITAL DATASET (ULTRA DENSITY)
+   {clientName(sessionData) ?? "ASTRUM REACH ORBITAL"} DATASET (ULTRA DENSITY)
    ========================================================================== */
 
 const MISSIONS = [
@@ -206,10 +206,21 @@ export default function AstrumReachPremiumEngineering() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
@@ -576,7 +587,7 @@ export default function AstrumReachPremiumEngineering() {
 
             <div className="pt-24 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.5em] text-white/10 italic">
                <div className="flex flex-wrap gap-8 font-mono">
-                  <span>©2026 ASTRUM REACH ORBITAL.</span>
+                  <span>©2026 {clientName(sessionData) ?? "ASTRUM REACH ORBITAL"}.</span>
                   <span className="hidden md:inline">//</span>
                   <a href="/templates/impact-09" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-indigo-400 transition-colors">MENTIONS LEGALES</a>
                </div>
@@ -708,7 +719,7 @@ function MaisonPage({ goTo }: { goTo: (p: ActivePage) => void }) {
   const steps = [
     { name: "Centrifuge Training", details: "Soumission des futurs spationautes à des charges de 3G et 5G pour tester leur résistance cardio-vasculaire aux accélérations de poussée." },
     { name: "Tokyo Training Pool", details: "Entraînement en piscine pressurisée simulant la microgravité et permettant de répéter les sorties extra-véhiculaires (EVA)." },
-    { name: "Atmospheric Chambers", details: "Familiarisation avec les procédures de pressurisation rapide et d'utilisation des combinaisons spatiales pressurisées Astrum." }
+    { name: "Atmospheric Chambers", details: `Familiarisation avec les procédures de pressurisation rapide et d'utilisation des combinaisons spatiales pressurisées ${clientName(sessionData) ?? "Astrum."}` }
   ];
 
   return (
@@ -813,7 +824,7 @@ function LegalPage() {
                 {clientName(sessionData) ? "" : "Entrepreneur Individuel"}<br />
                 SIREN : <LegalIdentity /><br />
                 {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
-                Email : {fd?.email ?? "valentinmilliand@aevia.services"}<br />
+                Email : {fd?.email ?? "contact@exemple.fr"}<br />
                 Adresse : Communiquée sur demande
              </p>
           </div>
@@ -830,7 +841,7 @@ function LegalPage() {
           <div>
              <div className="text-white/30 text-[10px] font-black uppercase mb-2">PROPRIETE INTELLECTUELLE</div>
              <p className="text-white/50 font-medium uppercase leading-relaxed font-sans">
-                Toutes les marques, images, logos, structures de code et fichiers multimédias présents sur ce site sont la propriété exclusive d'Astrum Reach Orbital Group ou de ses représentants autorisés. Toute reproduction sans accord écrit préalable fera l'objet de poursuites pénales.
+                Toutes les marques, images, logos, structures de code et fichiers multimédias présents sur ce site sont la propriété exclusive d'{clientName(sessionData) ?? "ASTRUM REACH ORBITAL"} Group ou de ses représentants autorisés. Toute reproduction sans accord écrit préalable fera l'objet de poursuites pénales.
              </p>
           </div>
         </div>

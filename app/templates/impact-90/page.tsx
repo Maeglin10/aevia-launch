@@ -17,17 +17,17 @@ import { DWELL, useSlides, AnchoredBackdrop, SlideIndex, HairlineArrows } from "
 import { PanelDrop } from "@/lib/templates/hero-kit-3";
 import {
   clientCity,
-  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -888,8 +888,8 @@ function ContactSection() {
               Une question sur nos ateliers, une commande spéciale pour un événement ou simplement envie de nous dire bonjour ? Remplissez le formulaire ci-contre et nous vous répondrons sous 24h.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 16, fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.brown }}>
-              <p>📞 <strong>Téléphone :</strong> {clientPhone(sessionData) ?? fd?.phone ?? "+33 4 78 28 00 00"}</p>
-              <p>✉ <strong>Email :</strong>{clientEmail(sessionData) ?? fd?.email ?? "contact@maisonlaval.fr"}</p>
+              <p>📞 <strong>Téléphone :</strong> {fd?.phone ?? "+33 4 78 28 00 00"}</p>
+              <p>✉ <strong>Email :</strong>{fd?.email ?? "contact@maisonlaval.fr"}</p>
               <p>📍 <strong>Adresse :</strong> 47 Grande Rue de la Croix-Rousse, 69004 {clientCity(sessionData) ?? "Lyon"}</p>
             </div>
           </div>
@@ -1019,10 +1019,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -1030,8 +1041,8 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  HERO_BREADS_DEMO_SOURCE = HERO_BREADS_DEMO_SOURCE_LIVE();
   TESTIMONIALS_90_DEMO = TESTIMONIALS_90_DEMO_LIVE();
+  HERO_BREADS_DEMO_SOURCE = HERO_BREADS_DEMO_SOURCE_LIVE();
 
   HERO_BREADS_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...HERO_BREADS_DEMO_SOURCE[i % HERO_BREADS_DEMO_SOURCE.length], name: s.title, price: s.price ?? HERO_BREADS_DEMO_SOURCE[i % HERO_BREADS_DEMO_SOURCE.length].price })),
@@ -1211,7 +1222,7 @@ export default function Page() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 1.1 }}
             style={{ fontFamily: "'Cabin', sans-serif", fontSize: 16, color: C.muted, lineHeight: 1.75, maxWidth: 520, margin: "0 auto 48px", fontWeight: 400 }}
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Boulangerie artisanale à {clientCity(sessionData) ?? "Lyon"} depuis 1987. Pains au levain, viennoiseries feuilletées, et ateliers de boulangerie. Tout est fait à la main, dans le respect du temps.
           </>}</motion.p>
 
@@ -1331,7 +1342,7 @@ export default function Page() {
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-            {PROCESS.map((step, i) => (
+            {resolveList(fusionnerEtapes(PROCESS, clientMethode(sessionData)), PROCESS).map((step, i) => (
               <ProcessStep key={step.step} step={step} index={i} />
             ))}
           </div>
@@ -1399,8 +1410,8 @@ export default function Page() {
       {/* ── Footer ── */}
       <footer style={{ borderTop: `1px solid ${C.border}`, padding: "28px 40px", background: C.bgWarm }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 14, color: C.brown, fontStyle: "italic" }}>Maison Laval · depuis 1987</p>
-          <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 11, color: C.muted, letterSpacing: "0.05em" }}>© 2025 — {clientName(sessionData) ?? "Boulangerie Artisanale"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
+          <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 14, color: C.brown, fontStyle: "italic" }}>{clientName(sessionData) ?? "Maison Laval"} · depuis 1987</p>
+          <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 11, color: C.muted, letterSpacing: "0.05em" }}>© 2025 — Boulangerie Artisanale{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
           <div style={{ display: "flex", gap: 20 }}>
             <Link href="#contact" style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: C.muted, textDecoration: "none" }}>{c?.ctaText ?? <>
               Mentions légales

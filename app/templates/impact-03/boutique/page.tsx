@@ -1,7 +1,13 @@
 'use client';
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientProducts } from "@/lib/templates/clientContent";
-import { clientCity } from "@/lib/templates/clientContent";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientCity,
+  clientName,
+  clientProducts,
+  clientTagline,
+  clientText,
+} from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
@@ -235,10 +241,21 @@ export default function BoutiquePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
@@ -378,7 +395,7 @@ export default function BoutiquePage() {
                   letterSpacing: '-0.02em',
                 }}
               >
-                {selectedProduct.name}
+               {/* TEXTE_SECTION */ clientText(sessionData, "boutique.titre") ?? "{selectedProduct.name}"}
               </h1>
               <div
                 style={{
@@ -398,8 +415,7 @@ export default function BoutiquePage() {
                   marginBottom: 40,
                 }}
               >
-                {selectedProduct.desc}
-              </p>
+            {/* TEXTE_SECTION */ clientText(sessionData, "boutique.texte") ?? clientTagline(sessionData) ?? "{selectedProduct.desc}"}</p>
 
               <div style={{ marginBottom: 28 }}>
                 <div style={{ fontSize: 10, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(10,10,10,0.45)', marginBottom: 10 }}>
@@ -486,6 +502,8 @@ export default function BoutiquePage() {
               <ArrowLeft size={14} />
               Back to Home
             </Link>
+            {/* L'identité du client, là où le thème n'affichait que « Back to Home ». */}
+            <EnteteAnnexe session={sessionData} repli="Atelier NOIR" accueil="/templates/impact-03" />
             <button
               onClick={() => setCartOpen(true)}
               aria-label={`Bag (${cart.length})`}

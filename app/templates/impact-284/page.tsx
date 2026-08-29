@@ -333,7 +333,7 @@ function NavBar() {
       </div>
       <div className="r284-navcta">
         <a href="#bilan" style={{ textDecoration: 'none' }}>
-          <GoldButton small filled>{clientName(sessionData) ?? "Bilan gratuit"}</GoldButton>
+          <GoldButton small filled>Bilan gratuit</GoldButton>
         </a>
       </div>
       
@@ -2762,7 +2762,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2024 {clientName(sessionData) ?? "Cabinet Dent&apos"};Or — Dr. Mathieu Prévost. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2024 {clientName(sessionData) ?? "Cabinet Dent&apos;Or"} — Dr. Mathieu Prévost. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span>
           Acte médical soumis au secret professionnel · Résultat non garanti · À titre
@@ -2812,10 +2812,21 @@ export default function Impact284Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;

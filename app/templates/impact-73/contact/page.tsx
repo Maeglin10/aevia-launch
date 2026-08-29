@@ -1,7 +1,18 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 // @ts-nocheck
 
 import { useEffect, useState } from "react";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientCity,
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+  clientTrade,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { Mail, Globe, MapPin, Check } from "lucide-react";
 import { Reveal } from "../shared";
 
@@ -23,13 +34,25 @@ export default function ContactPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
@@ -38,6 +61,7 @@ export default function ContactPage() {
 
   return (
     <div className="py-20 bg-[#08080c] min-h-dvh">
+      <EnteteAnnexe session={sessionData} repli="StreamHub" accueil="/templates/impact-73" />
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
           {/* Info Col */}
@@ -59,14 +83,14 @@ export default function ContactPage() {
                 <Mail className="w-5 h-5 text-rose-500" />
                 <div>
                   <h4 className="text-white/60 mb-1">Direct Message</h4>
-                  <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} className="text-white hover:text-rose-500 transition-colors">contact@exemple.fr</a>
+                  <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} className="text-white hover:text-rose-500 transition-colors">{fd?.email ?? "contact@exemple.fr"}</a>
                 </div>
               </div>
               <div className="flex items-center gap-4 p-4 bg-white/[0.01] border border-white/5 rounded-xl">
                 <MapPin className="w-5 h-5 text-rose-500" />
                 <div>
                   <h4 className="text-white/60 mb-1">HQ Address</h4>
-                  <span className="text-white">Bourg-en-Bresse, France</span>
+                  <span className="text-white"><EditeurDuSite quoi="ville" />, France</span>
                 </div>
               </div>
               <div className="flex items-center gap-4 p-4 bg-white/[0.01] border border-white/5 rounded-xl">

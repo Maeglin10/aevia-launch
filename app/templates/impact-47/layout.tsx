@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientInstagram,
   clientName,
   clientPhone,
 } from "@/lib/templates/clientContent";
@@ -42,10 +43,21 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(__setLayoutSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setLayoutSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
   const fd = __layoutSession?.formData;
 
@@ -132,7 +144,7 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
                 </svg>
               </div>
               <div>
-                <div style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: 17, fontWeight: 700, color: C.accent, letterSpacing: "0.02em" }}>Pétales & Co</div>
+                <div style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: 17, fontWeight: 700, color: C.accent, letterSpacing: "0.02em" }}>{clientName(__layoutSession) ?? "Pétales & Co"}</div>
                 <div style={{ fontFamily: "'Poppins', system-ui", fontSize: 10, color: C.sage, letterSpacing: "0.18em", textTransform: "uppercase" as const }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? "Artisan Florist"}</div>
               </div>
             </div></>
@@ -224,7 +236,7 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
                     ))}
                   </svg>
                   <div>
-                    <div style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: 17, fontWeight: 700, color: C.white }}>Pétales & Co</div>
+                    <div style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: 17, fontWeight: 700, color: C.white }}>{clientName(__layoutSession) ?? "Pétales & Co"}</div>
                     <div style={{ fontFamily: "'Poppins', system-ui", fontSize: 10, color: C.rose, letterSpacing: "0.16em", textTransform: "uppercase" as const }}>Artisan Florist</div>
                   </div>
                 </div>
@@ -232,7 +244,7 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
               <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 14, color: "rgba(255,255,255,0.45)", lineHeight: 1.7, maxWidth: 260, marginBottom: 20 }}>Hand-crafted floral arrangements, seasonal subscriptions, and wedding floral direction. {clientCity(__layoutSession) ?? "Paris"}, France.</p>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <MessageSquare size={14} color={C.rose} />
-                <span style={{ fontFamily: "'Poppins', system-ui", fontSize: 13, color: "rgba(255,255,255,0.4)" }}>@petalesandco</span>
+                <span style={{ fontFamily: "'Poppins', system-ui", fontSize: 13, color: "rgba(255,255,255,0.4)" }}>@{clientInstagram(__layoutSession) ?? "petalesandco"}</span>
               </div>
             </div>
 

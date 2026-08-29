@@ -1,4 +1,5 @@
 "use client";
+import { MARQUE_DEMO, MARQUE_DEMO_COLLEE } from "@/lib/templates/marquesDemo";
 
 import { useEffect } from "react";
 
@@ -434,9 +435,20 @@ function ajusterAuCadre(e: HTMLElement) {
 function rendreLeCopyright(nom: string | undefined) {
   if (!nom || nom.trim().length < 2) return;
   const propre = nom.trim();
-  const motif = /(©\s*\d{4}\s+)([^·—|\n]{2,60}?)(\s*(?:·|—|\||$))/;
+  /*
+     Le millésime peut être une plage : « © 2011–2026 Maison Brûlot ». Le motif
+     ne lisait qu'une année, et douze pieds de page gardaient donc le nom de la
+     démonstration — juste sous le nom du client affiché partout ailleurs. Le
+     séparateur peut être un tiret court, long ou une barre oblique.
+  */
+  const motif = /(©\s*\d{4}(?:\s*[–—\-\/]\s*\d{4})?\s+)([^·—|\n]{2,60}?)(\s*(?:·|—|\||\.|$))/;
 
-  for (const e of document.querySelectorAll<HTMLElement>("footer *, footer")) {
+  /*
+     Tout ce qui porte un « © », et pas seulement ce qui vit dans un <footer>.
+     Beaucoup de thèmes composent leur bas de page avec un <div> ou une <section>
+     — « © 2026 Le Barber Club — Site par Aevia WS » n'était donc jamais réécrit.
+  */
+  for (const e of document.querySelectorAll<HTMLElement>("body *")) {
     if (e.children.length > 0 || e.dataset.copyrightRendu) continue;
     const t = (e.textContent ?? "").replace(/\s+/g, " ").trim();
     if (!t.includes("©")) continue;
@@ -535,6 +547,1256 @@ function poserLeContact(donnees: Record<string, unknown> | undefined) {
  * On recopie donc le fond de l'enveloppe sur `html` et `body`. Rien ne change
  * quand le thème est clair ; sur les thèmes sombres, la bande disparaît.
  */
+/*
+  Le lexique d'interface, dans les quatre langues que nous vendons.
+
+  Établi sur le corpus réel : les libellés relevés à l'écran sur les 373
+  thèmes, triés par fréquence. Ce sont les mots que le client ne peut pas
+  changer lui-même — navigation, boutons, titres de section.
+*/
+const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
+  fr: {
+    "all rights reserved.": "Tous droits réservés.",
+    ". all rights reserved.": ". Tous droits réservés.",
+    "terms of service": "Conditions générales",
+    "start a project": "Démarrer un projet",
+    "initiate project": "Démarrer un projet",
+    "start engagement": "Démarrer la mission",
+    "start free trial": "Essayer gratuitement",
+    "start free week": "Une semaine offerte",
+    "get started free": "Commencer gratuitement",
+    "buy now": "Acheter",
+    "apply now": "Postuler",
+    "get tickets": "Réserver une place",
+    "book this package": "Réserver cette formule",
+    "book consultation": "Prendre rendez-vous",
+    "next slide": "Suivant",
+    "previous slide": "Précédent",
+    "scroll to explore": "Faites défiler",
+    "view projects": "Voir les réalisations",
+    "view work": "Voir les réalisations",
+    "all projects": "Toutes les réalisations",
+    "selected works": "Réalisations choisies",
+    "works": "Réalisations",
+    "view profile": "Voir le profil",
+    "discover more": "En savoir plus",
+    "read case study": "Lire l'étude de cas",
+    "get directions": "Itinéraire",
+    "our philosophy": "Notre philosophie",
+    "how we work": "Comment nous travaillons",
+    "what we do": "Ce que nous faisons",
+    "guest reviews": "Avis des clients",
+    "best-seller": "Le plus demandé",
+    "the experience": "L'expérience",
+    "the journal": "Le journal",
+    "the atelier": "L'atelier",
+    "unlimited projects": "Projets illimités",
+    "opening hours": "Horaires d'ouverture",
+    "our clients": "Nos clients",
+    "our approach": "Notre approche",
+    "the process": "La méthode",
+    "our expertise": "Notre savoir-faire",
+    "meet the team": "Faire connaissance",
+    "case studies": "Études de cas",
+    "send a message": "Envoyer un message",
+    "request access": "Demander un accès",
+    "get early access": "Accès anticipé",
+    "choose your plan": "Choisir sa formule",
+    "most popular": "Le plus choisi",
+    "coming soon": "Bientôt disponible",
+    "view all projects": "Voir toutes les réalisations",
+    "back to top": "Haut de page",
+    "services built for impact.": "Des prestations qui comptent.",
+    "our process, step by step.": "Notre méthode, étape par étape.",
+    "let's talk": "Parlons-en",
+    "recent projects.": "Réalisations récentes.",
+    "ready to build something great?": "Un projet en tête ?",
+    "what our clients say": "Ce que disent nos clients",
+    "made by hand, with intention.": "Fait main, avec intention.",
+    "questions & answers": "Questions et réponses",
+    "everything you need.": "Tout ce qu'il vous faut.",
+    "nothing you don't.": "Rien de superflu.",
+    "how it works": "Comment ça se passe",
+    "the story": "L'histoire",
+    "our story": "Notre histoire",
+    "get in touch": "Nous écrire",
+    "selected work": "Réalisations choisies",
+    "view case": "Voir le projet",
+    "trusted by": "Ils nous font confiance",
+    "home": "Accueil",
+    "about": "À propos",
+    "about us": "À propos",
+    "services": "Prestations",
+    "our services": "Nos prestations",
+    "pricing": "Tarifs",
+    "prices": "Tarifs",
+    "plans": "Formules",
+    "team": "Équipe",
+    "our team": "Notre équipe",
+    "the team": "L'équipe",
+    "testimonials": "Avis",
+    "reviews": "Avis",
+    "gallery": "Galerie",
+    "portfolio": "Réalisations",
+    "work": "Réalisations",
+    "our work": "Nos réalisations",
+    "recent projects": "Réalisations récentes",
+    "projects": "Projets",
+    "process": "Méthode",
+    "our process": "Notre méthode",
+    "features": "Ce qui est inclus",
+    "questions": "Questions",
+    "faq": "Questions fréquentes",
+    "frequently asked questions": "Questions fréquentes",
+    "common questions": "Questions fréquentes",
+    "contact": "Contact",
+    "contact us": "Nous contacter",
+    "book now": "Réserver",
+    "book": "Réserver",
+    "book a call": "Prendre rendez-vous",
+    "get started": "Commencer",
+    "start free": "Essayer gratuitement",
+    "learn more": "En savoir plus",
+    "read more": "Lire la suite",
+    "view all": "Tout voir",
+    "see more": "Voir plus",
+    "all": "Tout",
+    "discover": "Découvrir",
+    "explore": "Explorer",
+    "menu": "Carte",
+    "blog": "Blog",
+    "news": "Actualités",
+    "journal": "Journal",
+    "hours": "Horaires",
+    "location": "Adresse",
+    "find us": "Nous trouver",
+    "follow us": "Nous suivre",
+    "call us": "Nous appeler",
+    "email us": "Nous écrire",
+    "request a quote": "Demander un devis",
+    "get a quote": "Demander un devis",
+    "free quote": "Devis gratuit",
+    "why choose us": "Pourquoi nous choisir",
+    "our values": "Nos valeurs",
+    "certifications": "Certifications",
+    "guarantees": "Garanties",
+    "legal": "Mentions légales",
+    "legal notice": "Mentions légales",
+    "privacy": "Confidentialité",
+    "privacy policy": "Politique de confidentialité",
+    "terms": "Conditions",
+    "all rights reserved": "Tous droits réservés",
+    "send": "Envoyer",
+    "send message": "Envoyer le message",
+    "your name": "Votre nom",
+    "your email": "Votre e-mail",
+    "your message": "Votre message",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "close": "Fermer",
+    "back": "Retour",
+    "more": "Plus",
+    "details": "Détails",
+    "our history": "Notre histoire",
+    "the method": "La méthode",
+    "the firm": "Le cabinet",
+    "the people": "L'équipe",
+    "the practitioners": "Les praticiens",
+    "the partners": "Les associés",
+    "our partners": "Nos partenaires",
+    "our manifesto": "Notre manifeste",
+    "the collection": "La collection",
+    "the archive": "Les archives",
+    "the review": "La revue",
+    "the journey": "Le parcours",
+    "the protocol": "Le protocole",
+    "the cellar": "La cave",
+    "the fleet": "La flotte",
+    "the movement": "Le mouvement",
+    "terms of use": "Conditions d'utilisation",
+    "read whitepaper": "Lire le livre blanc",
+    "watch demo": "Voir la démonstration",
+    "start a conversation": "Entamer la conversation",
+    "best value": "Le meilleur rapport",
+    "sold out": "Complet",
+    "members only": "Réservé aux membres",
+    "response time": "Délai de réponse",
+    "years in practice": "Années d'exercice",
+    "years of experience": "Années d'expérience",
+    "all systems operational": "Tous les systèmes fonctionnent",
+    "new enquiry": "Nouvelle demande",
+    "see the fees": "Voir les tarifs",
+    "expertise report": "Rapport d'expertise",
+    "open source": "Code ouvert",
+    "open data": "Données ouvertes",
+    "practice areas": "Domaines d'intervention",
+    "senior partners": "Les associés",
+    "what we publish": "Nos publications",
+    "what we closed": "Nos dossiers",
+    "a legacy of": "Un héritage d'",
+    "featured work": "Réalisations choisies",
+    "trusted by top brands": "Ils nous font confiance",
+    "by the numbers": "En chiffres",
+    "project workflow": "Notre méthode",
+    "awards & recognition": "Distinctions",
+    "pricing guide": "Nos tarifs",
+    "typical project ranges": "Fourchettes indicatives",
+    "package includes": "Ce qui est compris",
+    "the raw materials": "Les matières",
+    "the first three trials": "Les trois premiers essais",
+    "our mission": "Notre mission",
+    "read the issue": "Lire le numéro",
+    "the weekly dispatch": "La lettre hebdomadaire",
+    "shop the drop": "Voir la collection",
+    "materials that age with you": "Des matières qui vieillissent avec vous",
+    "what we build": "Ce que nous construisons",
+    "view our work": "Voir nos réalisations",
+    "start building for free": "Commencer gratuitement",
+    "plan your voyage": "Préparer votre séjour",
+    "enter the atelier": "Entrer dans l'atelier",
+    "the thermal circuit": "Le parcours thermal",
+    "scroll": "Faites défiler",
+    "careers": "Recrutement",
+    "press": "Presse",
+    "support": "Assistance",
+    "docs": "Documentation",
+    "technology": "Technologie",
+    "bespoke": "Sur mesure",
+    "lookbook": "Catalogue",
+    "business": "Économie",
+    "apply": "Candidater",
+    "subscribe": "S'abonner",
+    "sign in": "Se connecter",
+    "log in": "Se connecter",
+    "sign up": "Créer un compte",
+    "register": "S'inscrire",
+    "shop": "Boutique",
+    "learn": "Apprendre",
+    "magazine": "Magazine",
+    "craft": "Savoir-faire",
+    "politics": "Politique",
+    "drops": "Nouveautés",
+    "acquire": "Acquérir",
+    "account": "Mon compte",
+    "stories": "Récits",
+    "limited": "Édition limitée",
+    "done": "Terminé",
+    "finish": "Terminer",
+    "join": "Rejoindre",
+    "cart": "Panier",
+    "checkout": "Commander",
+    "search": "Rechercher",
+    "browse": "Parcourir",
+    "watch": "Regarder",
+    "share": "Partager",
+    "submit": "Envoyer",
+    "cancel": "Annuler",
+  },
+  es: {
+    "all rights reserved.": "Todos los derechos reservados.",
+    ". all rights reserved.": ". Todos los derechos reservados.",
+    "terms of service": "Condiciones del servicio",
+    "start a project": "Empezar un proyecto",
+    "initiate project": "Iniciar el proyecto",
+    "start engagement": "Iniciar el encargo",
+    "start free trial": "Prueba gratuita",
+    "start free week": "Semana gratis",
+    "get started free": "Empezar gratis",
+    "buy now": "Comprar",
+    "apply now": "Postular",
+    "get tickets": "Comprar entradas",
+    "book this package": "Reservar este paquete",
+    "book consultation": "Reservar consulta",
+    "next slide": "Siguiente",
+    "previous slide": "Anterior",
+    "scroll to explore": "Desplázate",
+    "view projects": "Ver proyectos",
+    "view work": "Ver trabajos",
+    "all projects": "Todos los proyectos",
+    "selected works": "Trabajos seleccionados",
+    "works": "Trabajos",
+    "view profile": "Ver perfil",
+    "discover more": "Descubrir más",
+    "read case study": "Leer el caso",
+    "get directions": "Cómo llegar",
+    "our philosophy": "Nuestra filosofía",
+    "how we work": "Cómo trabajamos",
+    "what we do": "Lo que hacemos",
+    "guest reviews": "Opiniones de los huéspedes",
+    "best-seller": "Más vendido",
+    "the experience": "La experiencia",
+    "the journal": "El diario",
+    "the atelier": "El taller",
+    "unlimited projects": "Proyectos ilimitados",
+    "opening hours": "Horario de apertura",
+    "our clients": "Nuestros clientes",
+    "our approach": "Nuestro enfoque",
+    "the process": "El método",
+    "our expertise": "Nuestra experiencia",
+    "meet the team": "Conoce al equipo",
+    "case studies": "Casos prácticos",
+    "send a message": "Enviar un mensaje",
+    "request access": "Solicitar acceso",
+    "get early access": "Acceso anticipado",
+    "choose your plan": "Elige tu plan",
+    "most popular": "El más popular",
+    "coming soon": "Próximamente",
+    "view all projects": "Ver todos los proyectos",
+    "back to top": "Volver arriba",
+    "services built for impact.": "Servicios que cuentan.",
+    "our process, step by step.": "Nuestro método, paso a paso.",
+    "let's talk": "Hablemos",
+    "recent projects.": "Proyectos recientes.",
+    "ready to build something great?": "¿Tienes un proyecto?",
+    "what our clients say": "Lo que dicen nuestros clientes",
+    "made by hand, with intention.": "Hecho a mano, con intención.",
+    "questions & answers": "Preguntas y respuestas",
+    "everything you need.": "Todo lo que necesitas.",
+    "nothing you don't.": "Nada de más.",
+    "how it works": "Cómo funciona",
+    "the story": "La historia",
+    "our story": "Nuestra historia",
+    "get in touch": "Escríbenos",
+    "selected work": "Trabajos seleccionados",
+    "view case": "Ver el caso",
+    "trusted by": "Confían en nosotros",
+    "home": "Inicio",
+    "about": "Sobre nosotros",
+    "about us": "Sobre nosotros",
+    "services": "Servicios",
+    "our services": "Nuestros servicios",
+    "pricing": "Tarifas",
+    "prices": "Tarifas",
+    "plans": "Planes",
+    "team": "Equipo",
+    "our team": "Nuestro equipo",
+    "the team": "El equipo",
+    "testimonials": "Opiniones",
+    "reviews": "Opiniones",
+    "gallery": "Galería",
+    "portfolio": "Portafolio",
+    "work": "Trabajos",
+    "our work": "Nuestros trabajos",
+    "recent projects": "Proyectos recientes",
+    "projects": "Proyectos",
+    "process": "Método",
+    "our process": "Nuestro método",
+    "features": "Características",
+    "questions": "Preguntas",
+    "faq": "Preguntas frecuentes",
+    "frequently asked questions": "Preguntas frecuentes",
+    "common questions": "Preguntas frecuentes",
+    "contact": "Contacto",
+    "contact us": "Contáctanos",
+    "book now": "Reservar",
+    "book": "Reservar",
+    "book a call": "Agendar una llamada",
+    "get started": "Empezar",
+    "start free": "Prueba gratis",
+    "learn more": "Saber más",
+    "read more": "Leer más",
+    "view all": "Ver todo",
+    "see more": "Ver más",
+    "all": "Todo",
+    "discover": "Descubrir",
+    "explore": "Explorar",
+    "menu": "Carta",
+    "blog": "Blog",
+    "news": "Noticias",
+    "journal": "Diario",
+    "hours": "Horario",
+    "location": "Dirección",
+    "find us": "Encuéntranos",
+    "follow us": "Síguenos",
+    "call us": "Llámanos",
+    "email us": "Escríbenos",
+    "request a quote": "Solicitar presupuesto",
+    "get a quote": "Solicitar presupuesto",
+    "free quote": "Presupuesto gratuito",
+    "why choose us": "Por qué elegirnos",
+    "our values": "Nuestros valores",
+    "certifications": "Certificaciones",
+    "guarantees": "Garantías",
+    "legal": "Aviso legal",
+    "legal notice": "Aviso legal",
+    "privacy": "Privacidad",
+    "privacy policy": "Política de privacidad",
+    "terms": "Condiciones",
+    "all rights reserved": "Todos los derechos reservados",
+    "send": "Enviar",
+    "send message": "Enviar mensaje",
+    "your name": "Tu nombre",
+    "your email": "Tu correo",
+    "your message": "Tu mensaje",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "close": "Cerrar",
+    "back": "Volver",
+    "more": "Más",
+    "details": "Detalles",
+    "our history": "Nuestra historia",
+    "the method": "El método",
+    "the firm": "El despacho",
+    "the people": "El equipo",
+    "the practitioners": "Los profesionales",
+    "the partners": "Los socios",
+    "our partners": "Nuestros socios",
+    "our manifesto": "Nuestro manifiesto",
+    "the collection": "La colección",
+    "the archive": "El archivo",
+    "the review": "La revista",
+    "the journey": "El recorrido",
+    "the protocol": "El protocolo",
+    "the cellar": "La bodega",
+    "the fleet": "La flota",
+    "the movement": "El movimiento",
+    "terms of use": "Condiciones de uso",
+    "read whitepaper": "Leer el informe",
+    "watch demo": "Ver la demostración",
+    "start a conversation": "Iniciar la conversación",
+    "best value": "La mejor relación",
+    "sold out": "Agotado",
+    "members only": "Solo para socios",
+    "response time": "Tiempo de respuesta",
+    "years in practice": "Años de ejercicio",
+    "years of experience": "Años de experiencia",
+    "all systems operational": "Todos los sistemas operativos",
+    "new enquiry": "Nueva solicitud",
+    "see the fees": "Ver las tarifas",
+    "expertise report": "Informe de peritaje",
+    "open source": "Código abierto",
+    "open data": "Datos abiertos",
+    "practice areas": "Áreas de práctica",
+    "senior partners": "Los socios",
+    "what we publish": "Nuestras publicaciones",
+    "what we closed": "Nuestros casos",
+    "a legacy of": "Un legado de",
+    "featured work": "Trabajos destacados",
+    "trusted by top brands": "Confían en nosotros",
+    "by the numbers": "En cifras",
+    "project workflow": "Nuestro método",
+    "awards & recognition": "Reconocimientos",
+    "pricing guide": "Nuestras tarifas",
+    "typical project ranges": "Rangos indicativos",
+    "package includes": "Qué incluye",
+    "the raw materials": "Las materias",
+    "the first three trials": "Los tres primeros ensayos",
+    "our mission": "Nuestra misión",
+    "read the issue": "Leer el número",
+    "the weekly dispatch": "El boletín semanal",
+    "shop the drop": "Ver la colección",
+    "materials that age with you": "Materiales que envejecen con usted",
+    "what we build": "Lo que construimos",
+    "view our work": "Ver nuestros trabajos",
+    "start building for free": "Empezar gratis",
+    "plan your voyage": "Planifique su viaje",
+    "enter the atelier": "Entrar en el taller",
+    "the thermal circuit": "El circuito termal",
+    "scroll": "Desplace",
+    "careers": "Empleo",
+    "press": "Prensa",
+    "support": "Soporte",
+    "docs": "Documentación",
+    "technology": "Tecnología",
+    "bespoke": "A medida",
+    "lookbook": "Catálogo",
+    "business": "Economía",
+    "apply": "Presentar candidatura",
+    "subscribe": "Suscribirse",
+    "sign in": "Iniciar sesión",
+    "log in": "Iniciar sesión",
+    "sign up": "Crear una cuenta",
+    "register": "Registrarse",
+    "shop": "Tienda",
+    "learn": "Aprender",
+    "magazine": "Revista",
+    "craft": "Oficio",
+    "politics": "Política",
+    "drops": "Novedades",
+    "acquire": "Adquirir",
+    "account": "Mi cuenta",
+    "stories": "Relatos",
+    "limited": "Edición limitada",
+    "done": "Hecho",
+    "finish": "Terminar",
+    "join": "Unirse",
+    "cart": "Carrito",
+    "checkout": "Pagar",
+    "search": "Buscar",
+    "browse": "Explorar",
+    "watch": "Ver",
+    "share": "Compartir",
+    "submit": "Enviar",
+    "cancel": "Cancelar",
+  },
+  de: {
+    "all rights reserved.": "Alle Rechte vorbehalten.",
+    ". all rights reserved.": ". Alle Rechte vorbehalten.",
+    "terms of service": "Nutzungsbedingungen",
+    "start a project": "Projekt starten",
+    "initiate project": "Projekt starten",
+    "start engagement": "Auftrag starten",
+    "start free trial": "Kostenlos testen",
+    "start free week": "Gratiswoche",
+    "get started free": "Kostenlos starten",
+    "buy now": "Jetzt kaufen",
+    "apply now": "Jetzt bewerben",
+    "get tickets": "Tickets sichern",
+    "book this package": "Dieses Paket buchen",
+    "book consultation": "Termin vereinbaren",
+    "next slide": "Weiter",
+    "previous slide": "Zurück",
+    "scroll to explore": "Nach unten scrollen",
+    "view projects": "Projekte ansehen",
+    "view work": "Arbeiten ansehen",
+    "all projects": "Alle Projekte",
+    "selected works": "Ausgewählte Arbeiten",
+    "works": "Arbeiten",
+    "view profile": "Profil ansehen",
+    "discover more": "Mehr entdecken",
+    "read case study": "Fallstudie lesen",
+    "get directions": "Route berechnen",
+    "our philosophy": "Unsere Philosophie",
+    "how we work": "Wie wir arbeiten",
+    "what we do": "Was wir tun",
+    "guest reviews": "Gästebewertungen",
+    "best-seller": "Bestseller",
+    "the experience": "Das Erlebnis",
+    "the journal": "Das Journal",
+    "the atelier": "Das Atelier",
+    "unlimited projects": "Unbegrenzte Projekte",
+    "opening hours": "Öffnungszeiten",
+    "our clients": "Unsere Kunden",
+    "our approach": "Unser Ansatz",
+    "the process": "Der Ablauf",
+    "our expertise": "Unsere Expertise",
+    "meet the team": "Das Team kennenlernen",
+    "case studies": "Fallstudien",
+    "send a message": "Nachricht senden",
+    "request access": "Zugang anfordern",
+    "get early access": "Früher Zugang",
+    "choose your plan": "Paket wählen",
+    "most popular": "Am beliebtesten",
+    "coming soon": "Demnächst",
+    "view all projects": "Alle Projekte ansehen",
+    "back to top": "Nach oben",
+    "services built for impact.": "Leistungen, die zählen.",
+    "our process, step by step.": "Unser Ablauf, Schritt für Schritt.",
+    "let's talk": "Sprechen wir",
+    "recent projects.": "Aktuelle Projekte.",
+    "ready to build something great?": "Ein Projekt im Kopf?",
+    "what our clients say": "Was unsere Kunden sagen",
+    "made by hand, with intention.": "Handgemacht, mit Absicht.",
+    "questions & answers": "Fragen und Antworten",
+    "everything you need.": "Alles, was Sie brauchen.",
+    "nothing you don't.": "Nichts Überflüssiges.",
+    "how it works": "So läuft es ab",
+    "the story": "Die Geschichte",
+    "our story": "Unsere Geschichte",
+    "get in touch": "Schreiben Sie uns",
+    "selected work": "Ausgewählte Arbeiten",
+    "view case": "Projekt ansehen",
+    "trusted by": "Vertrauen uns",
+    "home": "Startseite",
+    "about": "Über uns",
+    "about us": "Über uns",
+    "services": "Leistungen",
+    "our services": "Unsere Leistungen",
+    "pricing": "Preise",
+    "prices": "Preise",
+    "plans": "Pakete",
+    "team": "Team",
+    "our team": "Unser Team",
+    "the team": "Das Team",
+    "testimonials": "Stimmen",
+    "reviews": "Bewertungen",
+    "gallery": "Galerie",
+    "portfolio": "Portfolio",
+    "work": "Arbeiten",
+    "our work": "Unsere Arbeiten",
+    "recent projects": "Aktuelle Projekte",
+    "projects": "Projekte",
+    "process": "Ablauf",
+    "our process": "Unser Ablauf",
+    "features": "Leistungsmerkmale",
+    "questions": "Fragen",
+    "faq": "Häufige Fragen",
+    "frequently asked questions": "Häufige Fragen",
+    "common questions": "Häufige Fragen",
+    "contact": "Kontakt",
+    "contact us": "Kontakt aufnehmen",
+    "book now": "Jetzt buchen",
+    "book": "Buchen",
+    "book a call": "Termin vereinbaren",
+    "get started": "Loslegen",
+    "start free": "Kostenlos testen",
+    "learn more": "Mehr erfahren",
+    "read more": "Weiterlesen",
+    "view all": "Alle ansehen",
+    "see more": "Mehr sehen",
+    "all": "Alle",
+    "discover": "Entdecken",
+    "explore": "Erkunden",
+    "menu": "Speisekarte",
+    "blog": "Blog",
+    "news": "Aktuelles",
+    "journal": "Journal",
+    "hours": "Öffnungszeiten",
+    "location": "Adresse",
+    "find us": "So finden Sie uns",
+    "follow us": "Folgen Sie uns",
+    "call us": "Rufen Sie uns an",
+    "email us": "Schreiben Sie uns",
+    "request a quote": "Angebot anfordern",
+    "get a quote": "Angebot anfordern",
+    "free quote": "Kostenloses Angebot",
+    "why choose us": "Warum wir",
+    "our values": "Unsere Werte",
+    "certifications": "Zertifizierungen",
+    "guarantees": "Garantien",
+    "legal": "Impressum",
+    "legal notice": "Impressum",
+    "privacy": "Datenschutz",
+    "privacy policy": "Datenschutzerklärung",
+    "terms": "AGB",
+    "all rights reserved": "Alle Rechte vorbehalten",
+    "send": "Senden",
+    "send message": "Nachricht senden",
+    "your name": "Ihr Name",
+    "your email": "Ihre E-Mail",
+    "your message": "Ihre Nachricht",
+    "next": "Weiter",
+    "previous": "Zurück",
+    "close": "Schließen",
+    "back": "Zurück",
+    "more": "Mehr",
+    "details": "Details",
+    "our history": "Unsere Geschichte",
+    "the method": "Die Methode",
+    "the firm": "Die Kanzlei",
+    "the people": "Das Team",
+    "the practitioners": "Die Fachkräfte",
+    "the partners": "Die Partner",
+    "our partners": "Unsere Partner",
+    "our manifesto": "Unser Manifest",
+    "the collection": "Die Kollektion",
+    "the archive": "Das Archiv",
+    "the review": "Die Revue",
+    "the journey": "Der Weg",
+    "the protocol": "Das Protokoll",
+    "the cellar": "Der Weinkeller",
+    "the fleet": "Die Flotte",
+    "the movement": "Die Bewegung",
+    "terms of use": "Nutzungsbedingungen",
+    "read whitepaper": "Whitepaper lesen",
+    "watch demo": "Demo ansehen",
+    "start a conversation": "Gespräch beginnen",
+    "best value": "Bestes Verhältnis",
+    "sold out": "Ausverkauft",
+    "members only": "Nur für Mitglieder",
+    "response time": "Antwortzeit",
+    "years in practice": "Jahre im Beruf",
+    "years of experience": "Jahre Erfahrung",
+    "all systems operational": "Alle Systeme betriebsbereit",
+    "new enquiry": "Neue Anfrage",
+    "see the fees": "Preise ansehen",
+    "expertise report": "Gutachten",
+    "open source": "Open Source",
+    "open data": "Offene Daten",
+    "practice areas": "Tätigkeitsbereiche",
+    "senior partners": "Die Partner",
+    "what we publish": "Unsere Veröffentlichungen",
+    "what we closed": "Unsere Mandate",
+    "a legacy of": "Ein Erbe der",
+    "featured work": "Ausgewählte Arbeiten",
+    "trusted by top brands": "Sie vertrauen uns",
+    "by the numbers": "In Zahlen",
+    "project workflow": "Unsere Methode",
+    "awards & recognition": "Auszeichnungen",
+    "pricing guide": "Unsere Preise",
+    "typical project ranges": "Übliche Preisspannen",
+    "package includes": "Im Preis enthalten",
+    "the raw materials": "Die Rohstoffe",
+    "the first three trials": "Die ersten drei Versuche",
+    "our mission": "Unsere Mission",
+    "read the issue": "Ausgabe lesen",
+    "the weekly dispatch": "Der Wochenbrief",
+    "shop the drop": "Zur Kollektion",
+    "materials that age with you": "Materialien, die mit Ihnen altern",
+    "what we build": "Was wir bauen",
+    "view our work": "Unsere Arbeiten ansehen",
+    "start building for free": "Kostenlos loslegen",
+    "plan your voyage": "Reise planen",
+    "enter the atelier": "Zum Atelier",
+    "the thermal circuit": "Der Thermalparcours",
+    "scroll": "Scrollen",
+    "careers": "Karriere",
+    "press": "Presse",
+    "support": "Hilfe",
+    "docs": "Doku",
+    "technology": "Technologie",
+    "bespoke": "Maßarbeit",
+    "lookbook": "Katalog",
+    "business": "Wirtschaft",
+    "apply": "Bewerben",
+    "subscribe": "Abonnieren",
+    "sign in": "Anmelden",
+    "log in": "Anmelden",
+    "sign up": "Registrieren",
+    "register": "Registrieren",
+    "shop": "Shop",
+    "learn": "Lernen",
+    "magazine": "Magazin",
+    "craft": "Handwerk",
+    "politics": "Politik",
+    "drops": "Neuheiten",
+    "acquire": "Erwerben",
+    "account": "Mein Konto",
+    "stories": "Geschichten",
+    "limited": "Limitiert",
+    "done": "Fertig",
+    "finish": "Beenden",
+    "join": "Beitreten",
+    "cart": "Warenkorb",
+    "checkout": "Zur Kasse",
+    "search": "Suchen",
+    "browse": "Durchsehen",
+    "watch": "Ansehen",
+    "share": "Teilen",
+    "submit": "Absenden",
+    "cancel": "Abbrechen",
+  },
+  pt: {
+    "all rights reserved.": "Todos os direitos reservados.",
+    ". all rights reserved.": ". Todos os direitos reservados.",
+    "terms of service": "Termos de serviço",
+    "start a project": "Iniciar um projeto",
+    "initiate project": "Iniciar projeto",
+    "start engagement": "Iniciar o trabalho",
+    "start free trial": "Testar gratuitamente",
+    "start free week": "Semana grátis",
+    "get started free": "Começar grátis",
+    "buy now": "Comprar",
+    "apply now": "Candidatar-se",
+    "get tickets": "Comprar bilhetes",
+    "book this package": "Reservar este pacote",
+    "book consultation": "Marcar consulta",
+    "next slide": "Seguinte",
+    "previous slide": "Anterior",
+    "scroll to explore": "Deslize para ver",
+    "view projects": "Ver projetos",
+    "view work": "Ver trabalhos",
+    "all projects": "Todos os projetos",
+    "selected works": "Trabalhos selecionados",
+    "works": "Trabalhos",
+    "view profile": "Ver perfil",
+    "discover more": "Saber mais",
+    "read case study": "Ler o estudo de caso",
+    "get directions": "Como chegar",
+    "our philosophy": "A nossa filosofia",
+    "how we work": "Como trabalhamos",
+    "what we do": "O que fazemos",
+    "guest reviews": "Avaliações dos hóspedes",
+    "best-seller": "Mais vendido",
+    "the experience": "A experiência",
+    "the journal": "O jornal",
+    "the atelier": "O ateliê",
+    "unlimited projects": "Projetos ilimitados",
+    "opening hours": "Horário de funcionamento",
+    "our clients": "Os nossos clientes",
+    "our approach": "A nossa abordagem",
+    "the process": "O método",
+    "our expertise": "A nossa experiência",
+    "meet the team": "Conheça a equipa",
+    "case studies": "Estudos de caso",
+    "send a message": "Enviar mensagem",
+    "request access": "Pedir acesso",
+    "get early access": "Acesso antecipado",
+    "choose your plan": "Escolha o seu plano",
+    "most popular": "Mais escolhido",
+    "coming soon": "Em breve",
+    "view all projects": "Ver todos os projetos",
+    "back to top": "Voltar ao topo",
+    "services built for impact.": "Serviços que contam.",
+    "our process, step by step.": "O nosso método, passo a passo.",
+    "let's talk": "Vamos falar",
+    "recent projects.": "Projetos recentes.",
+    "ready to build something great?": "Tem um projeto?",
+    "what our clients say": "O que dizem os nossos clientes",
+    "made by hand, with intention.": "Feito à mão, com intenção.",
+    "questions & answers": "Perguntas e respostas",
+    "everything you need.": "Tudo o que precisa.",
+    "nothing you don't.": "Nada a mais.",
+    "how it works": "Como funciona",
+    "the story": "A história",
+    "our story": "A nossa história",
+    "get in touch": "Fale connosco",
+    "selected work": "Trabalhos selecionados",
+    "view case": "Ver o caso",
+    "trusted by": "Confiam em nós",
+    "home": "Início",
+    "about": "Sobre nós",
+    "about us": "Sobre nós",
+    "services": "Serviços",
+    "our services": "Os nossos serviços",
+    "pricing": "Preços",
+    "prices": "Preços",
+    "plans": "Planos",
+    "team": "Equipa",
+    "our team": "A nossa equipa",
+    "the team": "A equipa",
+    "testimonials": "Testemunhos",
+    "reviews": "Avaliações",
+    "gallery": "Galeria",
+    "portfolio": "Portefólio",
+    "work": "Trabalhos",
+    "our work": "Os nossos trabalhos",
+    "recent projects": "Projetos recentes",
+    "projects": "Projetos",
+    "process": "Método",
+    "our process": "O nosso método",
+    "features": "Funcionalidades",
+    "questions": "Perguntas",
+    "faq": "Perguntas frequentes",
+    "frequently asked questions": "Perguntas frequentes",
+    "common questions": "Perguntas frequentes",
+    "contact": "Contacto",
+    "contact us": "Contacte-nos",
+    "book now": "Reservar",
+    "book": "Reservar",
+    "book a call": "Marcar uma chamada",
+    "get started": "Começar",
+    "start free": "Começar grátis",
+    "learn more": "Saber mais",
+    "read more": "Ler mais",
+    "view all": "Ver tudo",
+    "see more": "Ver mais",
+    "all": "Tudo",
+    "discover": "Descobrir",
+    "explore": "Explorar",
+    "menu": "Ementa",
+    "blog": "Blog",
+    "news": "Notícias",
+    "journal": "Jornal",
+    "hours": "Horário",
+    "location": "Morada",
+    "find us": "Encontre-nos",
+    "follow us": "Siga-nos",
+    "call us": "Ligue-nos",
+    "email us": "Envie-nos um email",
+    "request a quote": "Pedir orçamento",
+    "get a quote": "Pedir orçamento",
+    "free quote": "Orçamento grátis",
+    "why choose us": "Porquê escolher-nos",
+    "our values": "Os nossos valores",
+    "certifications": "Certificações",
+    "guarantees": "Garantias",
+    "legal": "Aviso legal",
+    "legal notice": "Aviso legal",
+    "privacy": "Privacidade",
+    "privacy policy": "Política de privacidade",
+    "terms": "Condições",
+    "all rights reserved": "Todos os direitos reservados",
+    "send": "Enviar",
+    "send message": "Enviar mensagem",
+    "your name": "O seu nome",
+    "your email": "O seu email",
+    "your message": "A sua mensagem",
+    "next": "Seguinte",
+    "previous": "Anterior",
+    "close": "Fechar",
+    "back": "Voltar",
+    "more": "Mais",
+    "details": "Detalhes",
+    "our history": "A nossa história",
+    "the method": "O método",
+    "the firm": "A firma",
+    "the people": "A equipa",
+    "the practitioners": "Os profissionais",
+    "the partners": "Os sócios",
+    "our partners": "Os nossos parceiros",
+    "our manifesto": "O nosso manifesto",
+    "the collection": "A coleção",
+    "the archive": "O arquivo",
+    "the review": "A revista",
+    "the journey": "O percurso",
+    "the protocol": "O protocolo",
+    "the cellar": "A cave",
+    "the fleet": "A frota",
+    "the movement": "O movimento",
+    "terms of use": "Condições de utilização",
+    "read whitepaper": "Ler o relatório",
+    "watch demo": "Ver a demonstração",
+    "start a conversation": "Iniciar a conversa",
+    "best value": "Melhor relação",
+    "sold out": "Esgotado",
+    "members only": "Reservado a membros",
+    "response time": "Tempo de resposta",
+    "years in practice": "Anos de exercício",
+    "years of experience": "Anos de experiência",
+    "all systems operational": "Todos os sistemas operacionais",
+    "new enquiry": "Novo pedido",
+    "see the fees": "Ver os preços",
+    "expertise report": "Relatório de peritagem",
+    "open source": "Código aberto",
+    "open data": "Dados abertos",
+    "practice areas": "Áreas de atuação",
+    "senior partners": "Os sócios",
+    "what we publish": "As nossas publicações",
+    "what we closed": "Os nossos processos",
+    "a legacy of": "Um legado de",
+    "featured work": "Trabalhos em destaque",
+    "trusted by top brands": "Confiam em nós",
+    "by the numbers": "Em números",
+    "project workflow": "O nosso método",
+    "awards & recognition": "Distinções",
+    "pricing guide": "Os nossos preços",
+    "typical project ranges": "Faixas indicativas",
+    "package includes": "O que está incluído",
+    "the raw materials": "As matérias",
+    "the first three trials": "Os três primeiros ensaios",
+    "our mission": "A nossa missão",
+    "read the issue": "Ler a edição",
+    "the weekly dispatch": "A carta semanal",
+    "shop the drop": "Ver a coleção",
+    "materials that age with you": "Materiais que envelhecem consigo",
+    "what we build": "O que construímos",
+    "view our work": "Ver os nossos trabalhos",
+    "start building for free": "Começar gratuitamente",
+    "plan your voyage": "Planeie a sua viagem",
+    "enter the atelier": "Entrar no atelier",
+    "the thermal circuit": "O circuito termal",
+    "scroll": "Deslize",
+    "careers": "Recrutamento",
+    "press": "Imprensa",
+    "support": "Apoio",
+    "docs": "Documentação",
+    "technology": "Tecnologia",
+    "bespoke": "Por medida",
+    "lookbook": "Catálogo",
+    "business": "Economia",
+    "apply": "Candidatar-se",
+    "subscribe": "Subscrever",
+    "sign in": "Iniciar sessão",
+    "log in": "Iniciar sessão",
+    "sign up": "Criar conta",
+    "register": "Registar-se",
+    "shop": "Loja",
+    "learn": "Aprender",
+    "magazine": "Revista",
+    "craft": "Ofício",
+    "politics": "Política",
+    "drops": "Novidades",
+    "acquire": "Adquirir",
+    "account": "A minha conta",
+    "stories": "Histórias",
+    "limited": "Edição limitada",
+    "done": "Concluído",
+    "finish": "Terminar",
+    "join": "Juntar-se",
+    "cart": "Carrinho",
+    "checkout": "Finalizar compra",
+    "search": "Pesquisar",
+    "browse": "Explorar",
+    "watch": "Ver",
+    "share": "Partilhar",
+    "submit": "Enviar",
+    "cancel": "Cancelar",
+  },
+};
+
+/*
+  Traduire les libellés du thème dans la langue du client.
+
+  Soixante-treize thèmes portent une démonstration en anglais, et le catalogue
+  est vendu en cinq langues. Un couvreur d'Annecy recevait un site dont la
+  navigation, les boutons et les titres de sections restaient anglais —
+  « Services », « Learn more », « What Our Clients Say » — sans qu'il puisse y
+  changer quoi que ce soit : le formulaire ne les demande nulle part.
+
+  On ne traduit qu'un nœud de texte dont le contenu entier correspond à une
+  entrée du lexique. Jamais un fragment : « Contact » se traduit, « Contactez
+  Marie » ne se touche pas. Sans langue connue, on ne traduit rien — traduire au
+  hasard serait pire.
+*/
+/*
+  Effacer le nom de la démonstration partout où il reste écrit en dur.
+
+  Les thèmes lisent le nom du client à l'endroit qui compte — l'en-tête, le
+  pied, le titre d'accueil — mais leur prose garde le leur : « At Neuralis, we
+  believe… », « Année de fondation de Terre Vivante », « now included in every
+  WaveForm plan ». Ces phrases vivent dans un témoignage, une question
+  fréquente, des conditions générales : des centaines d'endroits, dans des
+  centaines de fichiers.
+
+  Un passage sur le texte affiché les prend tous d'un coup, et prendra aussi
+  ceux qu'on écrira demain. On ne touche qu'aux nœuds de texte, jamais aux
+  attributs ni au balisage, et l'on borne le nom sur les lettres — accents
+  compris, puisque « é » n'est pas une lettre pour les bornes de mot de
+  JavaScript, si bien que « Éclat » se couperait avant son « c ».
+
+  Les noms d'un seul mot courant — « Atelier », « Table », « Terre » — sont déjà
+  écartés de la carte : les remplacer dans une phrase l'abîmerait.
+*/
+const LETTRE_MARQUE = /[A-Za-zÀ-ÖØ-öø-ÿ0-9]/;
+
+function effacerLaMarqueDeDemonstration(nom: string | undefined) {
+  if (!nom || nom.trim().length < 2) return;
+  const propre = nom.trim();
+
+  const chemin = window.location.pathname.match(/\/templates\/(impact-[\w-]+)/);
+  if (!chemin) return;
+  const seul = MARQUE_DEMO[chemin[1]];
+  if (!seul || seul === propre) return;
+  /* Le client s'appelle déjà comme la démonstration : rien à remplacer. */
+  if (propre.toLowerCase().includes(seul.toLowerCase())) return;
+
+  /*
+     Le nom collé passe en premier : « AnandaFlow » contient « Ananda », et
+     traiter le court d'abord laisserait « Cabinet Rive-GaucheFlow ».
+  */
+  const noms = [...(MARQUE_DEMO_COLLEE[chemin[1]] ?? []), seul]
+    .sort((a, b) => b.length - a.length);
+
+  const marcheur = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const aRefaire: Array<[Text, string]> = [];
+  for (let n = marcheur.nextNode(); n; n = marcheur.nextNode()) {
+    const parent = (n as Text).parentElement;
+    if (!parent || parent.closest("style,script,noscript,template")) continue;
+
+    let valeur = n.nodeValue ?? "";
+    let deplace = false;
+    for (const demo of noms) {
+      if (!valeur.includes(demo)) continue;
+      let sortie = "", reste = valeur;
+      for (let i = reste.indexOf(demo); i >= 0; i = reste.indexOf(demo)) {
+        const avant = reste[i - 1] ?? " ";
+        const apres = reste[i + demo.length] ?? " ";
+        const entier = !LETTRE_MARQUE.test(avant) && !LETTRE_MARQUE.test(apres);
+        sortie += reste.slice(0, i) + (entier ? propre : demo);
+        if (entier) deplace = true;
+        reste = reste.slice(i + demo.length);
+      }
+      valeur = sortie + reste;
+    }
+    if (deplace) aRefaire.push([n as Text, valeur]);
+  }
+  /* On écrit après la lecture : modifier pendant le parcours le fait dérailler. */
+  for (const [n, valeur] of aRefaire) n.nodeValue = valeur;
+}
+
+/*
+  Effacer la queue d'une marque coupée en deux.
+
+  Certains thèmes écrivent leur nom en deux éléments — « Clinique » dans le
+  premier, « du Bois Vert » dans le second — et seul le premier lit le nom du
+  client. Le visiteur voyait donc « Cabinet Rive-Gauche du Bois Vert ».
+
+  On ne touche qu'au cas non ambigu : deux éléments frères, seuls sous leur
+  parent, le premier portant exactement le nom du client, le second un fragment
+  court qui commence par un article ou une préposition — jamais une phrase.
+  Ailleurs, on laisse : un nom suivi d'un vrai texte est fréquent, et l'effacer
+  ferait disparaître du contenu.
+*/
+const QUEUE = /^(?:de|du|des|d'|d’|la|le|les|et|&)\b[^.!?]{0,22}$/i;
+
+function effacerLaQueueDeLaMarque(nom: string | undefined) {
+  if (!nom || nom.trim().length < 2) return;
+  const propre = nom.trim();
+
+  for (const e of document.querySelectorAll<HTMLElement>("body *")) {
+    if (e.dataset.queueRendue) continue;
+    if ((e.textContent ?? "").trim() !== propre) continue;
+
+    const suivant = e.nextElementSibling as HTMLElement | null;
+    if (!suivant || suivant.children.length > 0) continue;
+    /* Les deux éléments doivent être seuls sous leur parent. */
+    if (e.parentElement && e.parentElement.children.length !== 2) continue;
+
+    const queue = (suivant.textContent ?? "").trim();
+    if (!queue || queue.length > 24 || !QUEUE.test(queue)) continue;
+
+    e.dataset.queueRendue = "1";
+    suivant.style.display = "none";
+  }
+}
+
+/*
+  La prose de démonstration du thème, dans la langue du visiteur.
+
+  Le lexique global ne porte que des libellés — « Contact », « Nos tarifs » — et
+  s'arrête à soixante caractères. Ce qui reste en anglais sur une page française
+  n'est pas du libellé : ce sont les paragraphes que le thème écrit en dur,
+  propres à lui seul. « Our master nose blends the rare absolutes… » ne se
+  partage avec aucun autre thème.
+
+  Chaque thème porte donc son propre dictionnaire, chargé avec lui et avec lui
+  seul : mille cent trente-six paragraphes en cinq langues dans un lexique
+  global pèseraient sur toutes les pages pour ne servir qu'à une.
+
+  Ces phrases disparaissent dès que le client remplit le bloc correspondant.
+  Les traduire n'est donc pas un pis-aller : c'est ce qui tient la page pendant
+  qu'il ne l'a pas encore rempli.
+*/
+let traductionsDuTheme: Record<string, Record<string, string>> | null = null;
+let themeCharge = "";
+
+async function chargerLesTraductions(theme: string) {
+  if (themeCharge === theme) return traductionsDuTheme;
+  themeCharge = theme;
+  traductionsDuTheme = null;
+  try {
+    const mod = await import(`./${theme}/traductions`);
+    traductionsDuTheme = (mod as { TRADUCTIONS?: Record<string, Record<string, string>> }).TRADUCTIONS ?? null;
+  } catch {
+    /* Un thème sans dictionnaire n'en a pas besoin : rien à traduire. */
+  }
+  return traductionsDuTheme;
+}
+
+/*
+  Les chiffres à l'anglaise sur une page qui ne l'est pas.
+
+  Un site de fleuriste français annonçait « 4,000+ arrangements créés » — la
+  virgule des milliers est anglaise, le français met une espace. Une page de
+  logiciel affichait « $124.5K » de chiffre d'affaires : un visiteur européen
+  n'y lit pas sa monnaie.
+
+  Ces chiffres sont des chiffres de démonstration ; ils disparaissent dès que le
+  client remplit ses propres chiffres clés. Tant qu'ils sont là, ils doivent au
+  moins s'écrire dans la langue de la page.
+
+  Une seule passe pour les trois cent soixante-treize thèmes : deux cent
+  soixante-sept séparateurs et quatre-vingt-quatre montants vivent dans cinq
+  cent soixante-huit fichiers, qu'on ne va pas réécrire un à un.
+*/
+const SEPARATEUR: Record<string, string> = { fr: "\u202f", es: ".", de: ".", pt: "." };
+
+function chiffresDeLaLangue(locale: string | undefined) {
+  if (!locale || locale === "en") return;
+  const mille = SEPARATEUR[locale];
+  if (!mille) return;
+
+  const marcheur = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const aReecrire: [Text, string][] = [];
+  for (let n = marcheur.nextNode(); n; n = marcheur.nextNode()) {
+    const brut = n.nodeValue ?? "";
+    if (!/\d/.test(brut)) continue;
+    const e = n.parentElement;
+    if (!e || e.closest("style,script,noscript,template,input,textarea")) continue;
+
+    let sortie = brut;
+    /* Le dollar devient l'euro : ces montants sont du décor, pas une conversion. */
+    sortie = sortie.replace(/\$\s?(\d[\d.,]*\s?[KMB]?)/g, (_, n) => `${n} €`);
+    /* La virgule des milliers devient le séparateur de la langue. On exige
+       exactement trois chiffres derrière, pour ne pas toucher aux décimales
+       écrites « 1,5 ». Deux passes : « 1,234,567 » a deux virgules qui se
+       chevauchent, et un seul remplacement en laisserait une. */
+    for (let i = 0; i < 2; i++) sortie = sortie.replace(/(\d),(\d{3})\b/g, `$1${mille}$2`);
+
+    if (sortie !== brut) aReecrire.push([n as Text, sortie]);
+  }
+  for (const [n, valeur] of aReecrire) n.nodeValue = valeur;
+}
+
+function traduireLaProse(locale: string | undefined, dico: Record<string, string> | undefined) {
+  if (!locale || locale === "en" || !dico) return;
+
+  const marcheur = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const aTraduire: [Text, string][] = [];
+  for (let n = marcheur.nextNode(); n; n = marcheur.nextNode()) {
+    const brut = n.nodeValue ?? "";
+    const texte = brut.trim();
+    if (!texte) continue;
+    const e = n.parentElement;
+    if (!e || e.closest("style,script,noscript,template,input,textarea")) continue;
+    const trouve = dico[texte.toLowerCase()];
+    if (!trouve) continue;
+    aTraduire.push([n as Text, brut.replace(texte, trouve)]);
+  }
+  /* On écrit dans le nœud existant : `textContent = …` détruirait ce que React
+     tient, comme on l'a appris sur impact-380. */
+  for (const [n, valeur] of aTraduire) n.nodeValue = valeur;
+
+  /* Un paragraphe coupé entre deux éléments, comme pour les libellés. */
+  const ecraser = (t: string) => t.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
+  const parForme: Record<string, string> = {};
+  for (const [k, v] of Object.entries(dico)) parForme[ecraser(k)] = v;
+
+  for (const e of document.querySelectorAll<HTMLElement>("h1,h2,h3,h4,p,span,a,button,li,blockquote")) {
+    const entier = (e.textContent ?? "").replace(/\s+/g, " ").trim();
+    if (!entier) continue;
+    const trouve = dico[entier.toLowerCase()] ?? parForme[ecraser(entier)];
+    if (!trouve) continue;
+    if (e.closest("input,textarea,style,script")) continue;
+    const noeuds: Text[] = [];
+    const m = document.createTreeWalker(e, NodeFilter.SHOW_TEXT);
+    for (let n = m.nextNode(); n; n = m.nextNode()) if ((n.nodeValue ?? "").trim()) noeuds.push(n as Text);
+    if (noeuds.length < 2) continue;
+    noeuds[0].nodeValue = trouve;
+    for (let i = 1; i < noeuds.length; i++) noeuds[i].nodeValue = "";
+  }
+}
+
+function traduireLesLibelles(locale: string | undefined) {
+  if (!locale || locale === "en") return;
+  const dict = LEXIQUE_INTERFACE[locale];
+  if (!dict) return;
+
+  const casseDe = (source: string, traduit: string) => {
+    if (source === source.toUpperCase() && source !== source.toLowerCase()) return traduit.toUpperCase();
+    if (source[0] === source[0]?.toUpperCase()) return traduit[0].toUpperCase() + traduit.slice(1);
+    return traduit.toLowerCase();
+  };
+
+  const marcheur = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  const aTraduire: [Text, string][] = [];
+  for (let n = marcheur.nextNode(); n; n = marcheur.nextNode()) {
+    const brut = n.nodeValue ?? "";
+    const texte = brut.trim();
+    if (!texte || texte.length > 60) continue;
+    const e = n.parentElement;
+    if (!e || e.closest("style,script,noscript,template,input,textarea")) continue;
+    const trouve = dict[texte.toLowerCase()];
+    if (!trouve) continue;
+    aTraduire.push([n as Text, brut.replace(texte, casseDe(texte, trouve))]);
+  }
+  /* On écrit dans le nœud existant : `textContent = …` détruirait ce que React
+     tient, comme on l'a appris sur impact-380. */
+  for (const [n, valeur] of aTraduire) n.nodeValue = valeur;
+
+  /*
+     Les titres coupés entre deux éléments.
+
+     « Services built for impact. » s'écrit souvent en deux morceaux pour
+     colorer la seconde moitié : aucun nœud de texte ne porte la phrase
+     entière, et le lexique passe à côté. On regarde donc aussi le texte
+     complet des titres, et l'on réécrit le premier nœud en vidant les autres.
+  */
+  /*
+     La clé est écrasée : sans espaces ni ponctuation. Deux éléments collés
+     rendent « Services builtfor impact. » — l'espace manque entre les balises,
+     et une comparaison littérale passe à côté.
+  */
+  const ecraser = (t: string) => t.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
+  const parForme: Record<string, string> = {};
+  for (const [k, v] of Object.entries(dict)) parForme[ecraser(k)] = v;
+
+  for (const e of document.querySelectorAll<HTMLElement>("h1,h2,h3,h4,p,span,a,button")) {
+    const entier = (e.textContent ?? "").replace(/\s+/g, " ").trim();
+    if (!entier || entier.length > 60) continue;
+    const trouve = dict[entier.toLowerCase()] ?? parForme[ecraser(entier)];
+    if (!trouve) continue;
+    if (e.closest("input,textarea,style,script")) continue;
+    const noeuds: Text[] = [];
+    const m = document.createTreeWalker(e, NodeFilter.SHOW_TEXT);
+    for (let n = m.nextNode(); n; n = m.nextNode()) if ((n.nodeValue ?? "").trim()) noeuds.push(n as Text);
+    if (noeuds.length < 2) continue;
+    noeuds[0].nodeValue = casseDe(entier, trouve);
+    for (let i = 1; i < noeuds.length; i++) noeuds[i].nodeValue = "";
+  }
+}
+
 function prolongerLeFond() {
   const corps = document.body;
   if (!corps || corps.dataset.fondProlonge) return;
@@ -760,15 +2022,62 @@ function heureCourte(h: string): string {
  * ligne condensée, une ligne par jour garde sa ligne. Sans horaires saisis,
  * rien ne bouge.
  */
+/*
+  Les jours que le client a écrits.
+
+  Le formulaire demande le jour en texte libre, et personne n'écrit un jour à la
+  fois : « Lundi au vendredi », « Lun–Ven », « Du lundi au samedi », « Lundi,
+  mardi, jeudi ». Ce passage n'acceptait qu'un nom de jour seul et rendait la
+  main sans rien écrire — les horaires du client n'arrivaient donc jamais à
+  l'écran, et le thème gardait ceux de sa démonstration. Mesuré sur impact-32 :
+  le cabinet ouvre « Lundi — vendredi 8h–19h », la page affichait « Lun–Sam
+  8h–20h », l'horaire de l'exemple.
+
+  On lit donc une plage, une énumération, ou un jour seul. Un intervalle qui
+  repart en arrière — « vendredi au lundi » — fait le tour de la semaine, comme
+  l'écrit un commerce ouvert le week-end.
+*/
+function indexDuJour(mot: string): number {
+  const propre = mot.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  const plein = JOURS.indexOf(propre);
+  if (plein >= 0) return plein;
+  return ABREGE.findIndex((a) => propre === a || propre === `${a}.`);
+}
+
+function joursDe(brut: string | undefined): number[] {
+  const texte = String(brut ?? "").trim();
+  if (!texte) return [];
+
+  const mots = texte.toLowerCase().split(/[^a-zà-ÿ.]+/).filter(Boolean);
+  const separateurRange = /\b(?:au|a|à|to|jusqu.au)\b|[-–—\/]/.test(texte);
+
+  const index = mots.map(indexDuJour).filter((i) => i >= 0);
+  if (index.length === 0) return [];
+  if (index.length === 1) return index;
+
+  if (separateurRange && index.length === 2) {
+    const [debut, fin] = index;
+    const out: number[] = [];
+    for (let i = debut; ; i = (i + 1) % 7) {
+      out.push(i);
+      if (i === fin || out.length > 7) break;
+    }
+    return out;
+  }
+  /* Une énumération : « lundi, mardi, jeudi ». */
+  return [...new Set(index)];
+}
+
 function rendreLesHoraires(horaires: Array<{ day?: string; open?: string; close?: string; closed?: boolean }> | undefined) {
   if (!Array.isArray(horaires) || horaires.length === 0) return;
 
   const parJour = new Map<number, string>();
   for (const h of horaires) {
-    const i = JOURS.indexOf(String(h?.day ?? "").trim().toLowerCase());
-    if (i < 0) continue;
+    const jours = joursDe(h?.day);
+    if (jours.length === 0) continue;
     const ferme = h?.closed || (!h?.open && !h?.close);
-    parJour.set(i, ferme ? "Fermé" : `${heureCourte(h.open ?? "")}–${heureCourte(h.close ?? "")}`);
+    const valeur = ferme ? "Fermé" : `${heureCourte(h.open ?? "")}–${heureCourte(h.close ?? "")}`;
+    for (const i of jours) parJour.set(i, valeur);
   }
   if (parJour.size === 0) return;
 
@@ -1182,9 +2491,16 @@ export function BrandColorVar() {
       if (id) sessionStorage.setItem(cleSession, id);
       else id = sessionStorage.getItem(cleSession);
     } catch {}
-    if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
+    /*
+      Sans session — la galerie publique — les passes tournent quand même, sur
+      les seuls textes de démonstration : traduction, chiffres, lisibilité.
+      Le garde `return` coupait tout, et la vitrine restait anglaise là où
+      l'aperçu du même thème était déjà traduit.
+    */
+    (id
+      ? fetch(`/api/sessions?id=${id}`).then((r) => r.json()).catch(() => undefined)
+      : Promise.resolve(undefined)
+    )
       .then((d) => {
         const c: string | undefined = d?.formData?.brandColor;
         if (c && /^#?[0-9a-f]{6}$/i.test(c.trim())) {
@@ -1209,8 +2525,28 @@ export function BrandColorVar() {
           rendreLesMotsEntiers();
           rendreLeCopyright(d?.formData?.businessName);
           poserLeContact(d?.formData);
+          effacerLaMarqueDeDemonstration(d?.formData?.businessName);
+          effacerLaQueueDeLaMarque(d?.formData?.businessName);
+          /*
+            Sans session — la galerie publique des thèmes — la page se lit en
+            français : c'est la langue de la boutique. Un visiteur qui choisit
+            son thème voyait « EXPEDITIONS · GEAR » là où l'aperçu, lui, était
+            déjà traduit. La langue du navigateur décide entre nos cinq langues,
+            le français en repli.
+          */
+          const langue = d?.formData?.locale
+            ?? (["fr", "es", "de", "pt", "en"].find((l) => navigator.language?.startsWith(l)) ?? "fr");
+          traduireLesLibelles(langue);
+          traduireLaProse(langue, traductionsDuTheme?.[langue]);
+          chiffresDeLaLangue(langue);
           prolongerLeFond();
         };
+        /* Le dictionnaire du thème arrive de façon asynchrone : on repasse dès
+           qu'il est là. Posé APRÈS la définition de `passer` — le référencer
+           plus haut le mettrait dans sa zone morte. */
+        const theme = window.location.pathname.match(/\/templates\/(impact-[\w-]+)/)?.[1];
+        if (theme) void chargerLesTraductions(theme).then(() => passer());
+
         requestAnimationFrame(() => requestAnimationFrame(passer));
         /*
           Une dernière passe tardive : sur une connexion lente, ou sur un thème

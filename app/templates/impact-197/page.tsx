@@ -16,6 +16,7 @@ import {
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -23,6 +24,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -148,7 +150,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     origin: "Lyon",
     trip: "Maldives Privées, 10 nuits",
     rating: 5,
-    text: "Évasion Dorée a transformé notre voyage de noces en quelque chose d'absolument irréel. La villa sur pilotis, le dîner privé sur le lagon au coucher du soleil, la plongée avec les raies mantas… chaque détail était parfait.",
+    text: `${clientName(sessionData) ?? "Évasion Dorée"} a transformé notre voyage de noces en quelque chose d'absolument irréel. La villa sur pilotis, le dîner privé sur le lagon au coucher du soleil, la plongée avec les raies mantas… chaque détail était parfait.`,
     avatar: "HF",
   },
   {
@@ -172,7 +174,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     origin: (clientCity(sessionData) ?? "Genève"),
     trip: "Grèce des Cyclades, 8 nuits",
     rating: 5,
-    text: "Le voilier privatisé était une idée absolument parfaite. Santorin sans les foules à l'aube, Folegandros que personne ne connaît, une baie secrète à Amorgos… Évasion Dorée connaît vraiment la Grèce.",
+    text: `Le voilier privatisé était une idée absolument parfaite. Santorin sans les foules à l'aube, Folegandros que personne ne connaît, une baie secrète à Amorgos… ${clientName(sessionData) ?? "Évasion Dorée"} connaît vraiment la Grèce.`,
     avatar: "MD",
   },
   {
@@ -188,7 +190,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     origin: "Nantes",
     trip: "Patagonie, 14 nuits",
     rating: 5,
-    text: "Patagonie avec lodge privatisé, randonnées guidées dans Torres del Paine au lever du soleil, et le glacier Perito Moreno en bateau privé. Évasion Dorée m'a envoyé au bout du monde avec une organisation sans faille.",
+    text: `Patagonie avec lodge privatisé, randonnées guidées dans Torres del Paine au lever du soleil, et le glacier Perito Moreno en bateau privé. ${clientName(sessionData) ?? "Évasion Dorée"} m'a envoyé au bout du monde avec une organisation sans faille.`,
     avatar: "AR",
   },
 ];
@@ -205,7 +207,7 @@ const SERVICES_DETAIL_DEMO = [
   { icon: Award, title: "Sélection hôtelière", desc: "Chaque hébergement est visité et validé par notre équipe. Seuls les 5% les plus exceptionnels intègrent notre carnet." },
 ];
 
-const PROCESS_STEPS = [
+let PROCESS_STEPS = [
   { num: "01", title: "Consultation découverte", desc: "Un appel de 30 minutes avec votre conseiller dédié pour comprendre vos envies, votre style de voyage, votre budget et vos contraintes." },
   { num: "02", title: "Proposition personnalisée", desc: "Sous 72h, vous recevez 2 à 3 itinéraires sur mesure avec détail des hébergements, expériences et tarifs transparents." },
   { num: "03", title: "Affinage et validation", desc: "Nous peaufinons ensemble chaque détail jusqu'à ce que l'itinéraire soit exactement ce que vous imaginiez — sans compromis." },
@@ -416,16 +418,32 @@ export default function EvasionDoree() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  PROCESS_STEPS = resolveList(
+    fusionnerEtapes(PROCESS_STEPS, clientMethode(sessionData)),
+    PROCESS_STEPS,
+  );
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(
@@ -634,7 +652,7 @@ return (
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
             style={{ fontSize: "clamp(16px, 2vw, 20px)", color: "rgba(255,255,255,0.65)", fontFamily: "system-ui", lineHeight: 1.8, marginBottom: 48, maxWidth: 520, fontWeight: 300 }}
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Voyages sur mesure en classe affaires et première. Expériences exclusives inaccessibles au grand public. Conciergerie 24h/24 sur tous les continents.
           </>}</motion.p>
 
@@ -1336,7 +1354,7 @@ function ConceptPage({ goTo }: { goTo: (p: ActivePage) => void }) {
               Notre Engagement Qualité
             </h3>
             <p>
-              Depuis 2006, Évasion Dorée crée des expériences de voyage d'exception pour une clientèle exigeante. Nous ne proposons pas de circuits standardisés. Chaque voyageur se voit attribuer un créateur de voyage dédié qui étudie ses préférences pour façonner un itinéraire sur mesure.
+              Depuis 2006, {clientName(sessionData) ?? "Évasion Dorée"} crée des expériences de voyage d'exception pour une clientèle exigeante. Nous ne proposons pas de circuits standardisés. Chaque voyageur se voit attribuer un créateur de voyage dédié qui étudie ses préférences pour façonner un itinéraire sur mesure.
             </p>
           </div>
 
@@ -1535,14 +1553,14 @@ function LegalPage() {
           <div>
             <h4 style={{ fontSize: 16, color: C.marine, marginBottom: 8, fontFamily: "'Cormorant Garamond', Georgia, serif" }}>Propriété Intellectuelle</h4>
             <p>
-              L'intégralité du site Évasion Dorée (textes, images, codes source, structure générale) est protégée par le droit d'auteur. Toute reproduction totale ou partielle sans accord préalable écrit de l'éditeur est strictement interdite.
+              L'intégralité du site {clientName(sessionData) ?? "Évasion Dorée"} (textes, images, codes source, structure générale) est protégée par le droit d'auteur. Toute reproduction totale ou partielle sans accord préalable écrit de l'éditeur est strictement interdite.
             </p>
           </div>
 
           <div>
             <h4 style={{ fontSize: 16, color: C.marine, marginBottom: 8, fontFamily: "'Cormorant Garamond', Georgia, serif" }}>Protection des Données Personnelles</h4>
             <p>
-              Les données personnelles transmises via notre formulaire de contact sont uniquement traitées par Évasion Dorée pour la gestion de votre projet de voyage. Conformément à la réglementation RGPD, vous disposez d'un droit d'accès, de modification et de suppression de vos données sur simple demande par email.
+              Les données personnelles transmises via notre formulaire de contact sont uniquement traitées par {clientName(sessionData) ?? "Évasion Dorée"} pour la gestion de votre projet de voyage. Conformément à la réglementation RGPD, vous disposez d'un droit d'accès, de modification et de suppression de vos données sur simple demande par email.
             </p>
           </div>
         </div>

@@ -16,6 +16,7 @@ import {
   clientAccrocheRestante,
   clientCity,
   clientHeroLine,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -23,6 +24,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -40,7 +42,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   STUDIO ATHLETIC — {clientTrade(sessionData) ?? "Coach sportif"} personnel · {clientCity(sessionData) ?? "Lyon"}
+   {clientName(sessionData) ?? "STUDIO ATHLETIC"} — {clientTrade(sessionData) ?? "Coach sportif"} personnel · {clientCity(sessionData) ?? "Lyon"}
    Photographie réelle + chorégraphie de défilement éditoriale (athletic ×
    performance × coaching premium). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -193,7 +195,7 @@ function EDIT_ROWS_DEMO_LIVE() {
     eyebrow: 'Votre transformation',
     ghostNumber: '01',
     img: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/33846716/pexels-photo-33846716.jpeg?auto=compress&cs=tinysrgb&w=800'),
-    imgAlt: 'Séance de coaching privé au Studio Athletic ' + (clientCity(sessionData) ?? 'Lyon'),
+    imgAlt: `Séance de coaching privé au ${clientName(sessionData) ?? "STUDIO ATHLETIC"} ` + (clientCity(sessionData) ?? 'Lyon'),
     title: (
       <>
         PAS DE MIRACLE.{' '}
@@ -207,7 +209,7 @@ function EDIT_ROWS_DEMO_LIVE() {
     eyebrow: 'Le studio',
     ghostNumber: '02',
     img: `${PHOTO_BASE}1571019613454-1cb2f99b2d8b?q=80&w=800&auto=format&fit=crop`,
-    imgAlt: 'Studio Athletic ' + (clientCity(sessionData) ?? 'Lyon') + ' — équipements professionnels',
+    imgAlt: `${clientName(sessionData) ?? "STUDIO ATHLETIC"} ` + (clientCity(sessionData) ?? 'Lyon') + ' — équipements professionnels',
     title: (
       <>
         {clientCity(sessionData) ?? "LYON"} 6E,{' '}
@@ -617,7 +619,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/33846716/pexels-photo-33846716.jpeg?auto=compress&cs=tinysrgb&w=2000')}
-          alt="Séance de coaching au Studio Athletic Lyon 6e"
+          alt={`Séance de coaching au ${clientName(sessionData) ?? "STUDIO ATHLETIC"} Lyon 6e`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1399,7 +1401,7 @@ function MethodPanel() {
           <div style={{ overflow: 'hidden', aspectRatio: '4 / 5' }}>
             <img
               src={`${PHOTO_BASE}1571019613454-1cb2f99b2d8b?q=80&w=900&auto=format&fit=crop`}
-              alt="Coach Studio Athletic Lyon — méthode d'entraînement"
+              alt={`Coach ${clientName(sessionData) ?? "STUDIO ATHLETIC"} Lyon — méthode d'entraînement`}
               loading="lazy"
               style={{
                 width: '100%',
@@ -1467,7 +1469,7 @@ function MethodPanel() {
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {METHOD_ITEMS.map((item, i) => (
+            {resolveList(fusionnerEtapes(METHOD_ITEMS, clientMethode(sessionData)), METHOD_ITEMS).map((item, i) => (
               <Reveal key={item.key} delay={0.05 * i}>
                 <div
                   style={{
@@ -2195,10 +2197,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;

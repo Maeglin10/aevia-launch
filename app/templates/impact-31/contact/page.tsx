@@ -2,6 +2,7 @@
 import {
   clientCity,
   clientHours,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 
@@ -47,12 +48,17 @@ const LEVELS = ["Débutant absolu", "Quelques cours déjà", "Intermédiaire", "
 
 const SLOTS = ["Matin (7h–12h)", "Midi (12h–14h)", "Après-midi (14h–17h)", "Soir (17h–21h)", "Week-end"];
 
-const HOURS = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, time: h.hours })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function HOURS_LIVE() {
+  return /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, time: h.hours })), [
   { day: "Lundi – Vendredi", time: "07h00 – 21h00" },
   { day: "Samedi", time: "08h00 – 19h00" },
   { day: "Dimanche", time: "09h00 – 18h00" },
   { day: "Jours fériés", time: "10h00 – 16h00" },
 ]);
+}
+let HOURS = HOURS_LIVE();
 
 // ─── Hero Contact ──────────────────────────────────────────────────────────────
 function ContactHero() {
@@ -368,7 +374,7 @@ function ContactForm() {
                   </div>
                 </div>
                 <span style={{ fontSize: 13, color: C.textMuted, lineHeight: 1.55 }}>
-                  J'accepte que mes données soient utilisées pour traiter ma demande d'inscription et être contacté(e) par Ananda Flow. Conformément au RGPD, vous pouvez exercer vos droits à tout moment via{" "}
+                  J'accepte que mes données soient utilisées pour traiter ma demande d'inscription et être contacté(e) par {fd?.businessName ?? "Ananda Flow"}. Conformément au RGPD, vous pouvez exercer vos droits à tout moment via{" "}
                   <Link href="/templates/impact-31/legal" style={{ color: C.accent, textDecoration: "none" }}>notre politique de confidentialité</Link>. *
                 </span>
               </label>
@@ -525,7 +531,7 @@ function InfoPanel() {
           allowFullScreen
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
-          title="Localisation Ananda Flow Studio — Lyon 2e"
+          title={`Localisation ${fd?.businessName ?? "Ananda Flow Studio"} — ${fd?.city ?? "Lyon 2e"}`}
         />
       </motion.div>
 
@@ -673,13 +679,27 @@ export default function ContactPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+  HOURS = HOURS_LIVE();
+
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;

@@ -1,5 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientCity,
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+  clientTrade,
+} from "@/lib/templates/clientContent";
 
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -23,10 +32,21 @@ export default function LookbookPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
@@ -44,6 +64,7 @@ export default function LookbookPage() {
         padding: "120px 40px",
       }}
     >
+      <EnteteAnnexe session={sessionData} repli={`${clientName(sessionData) ?? "Maison Élara"}`} accueil="/templates/impact-20" />
       <div style={{ maxWidth: 800, margin: "0 auto" }}>
         <Link 
           href="/templates/impact-20"
@@ -75,9 +96,7 @@ export default function LookbookPage() {
               textTransform: "uppercase",
               marginBottom: 16,
             }}
-          >
-            Maison Élara
-          </p>
+          >{clientName(sessionData) ?? (clientName(sessionData) ?? "Maison Élara")}</p>
           <h1
             style={{
               color: "#f0ece0",
@@ -88,12 +107,11 @@ export default function LookbookPage() {
               lineHeight: 1.1,
             }}
           >
-            Lookbook
+            {/* TEXTE_SECTION */ clientText(sessionData, "lookbook.titre") ?? "Lookbook"}
           </h1>
           <div style={{ color: "rgba(240,236,224,0.7)", fontSize: 16, lineHeight: 1.8 }}>
             <p style={{ marginBottom: 24 }}>
-              Découvrez nos pièces d'exception portées. Une galerie de nos plus belles créations 
-              pour vous inspirer.
+              {/* TEXTE_SECTION */ clientText(sessionData, "lookbook.texte") ?? clientTagline(sessionData) ?? "Découvrez nos pièces d'exception portées. Une galerie de nos plus belles créations                pour vous inspirer."}
             </p>
             <p>
               Des parures impériales aux bagues de fiançailles, laissez-vous transporter par la 

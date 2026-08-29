@@ -6,9 +6,9 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import { Search, User, ArrowRight, BookOpen, Clock, MessageSquare, Check, Link2, Camera, Bookmark, ChevronLeft, ChevronRight, Play } from "lucide-react";
 import {
-  clientHeroLine,
   clientCity,
   clientFaq,
+  clientHeroLine,
   clientName,
   clientReviews,
   clientServices,
@@ -154,7 +154,7 @@ function AUTHORS_SOURCE_LIVE() {
   {
     name: "Théo Marchand",
     role: "Économiste & Journaliste",
-    bio: "Chercheur associé à Sciences Po " + (clientCity({ formData: fd }) ?? "Paris") + ". Couvre les mutations du travail, l'économie comportementale.",
+    bio: "Chercheur associé à Sciences Po " + (clientCity(sessionData) ?? "Paris") + ". Couvre les mutations du travail, l'économie comportementale.",
     articles: 78,
     initials: "TM",
     color: "var(--brand,#1D4ED8)",
@@ -183,9 +183,9 @@ let AUTHORS = AUTHORS_SOURCE;
 function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
-    quote: "Fréquence est la seule newsletter que j'ouvre en premier le lundi matin. Pas de superflu, des idées qui tiennent et qui transforment ma manière de penser le business.",
+    quote: `${clientName(sessionData) ?? "Fréquence"} est la seule newsletter que j'ouvre en premier le lundi matin. Pas de superflu, des idées qui tiennent et qui transforment ma manière de penser le business.`,
     name: "Alexandre M.",
-    role: "Directeur Produit, Scale-up " + (clientCity({ formData: fd }) ?? "Paris"),
+    role: "Directeur Produit, Scale-up " + (clientCity(sessionData) ?? "Paris"),
     stars: 5,
   },
   {
@@ -197,7 +197,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   {
     quote: "Enfin du contenu qui respecte l'intelligence du lecteur. Pas de listes de 10 conseils inutiles. Des analyses, des chiffres, des nuances.",
     name: "Romain L.",
-    role: `VC Partner, ${clientCity({ formData: fd }) ?? "Paris"}`,
+    role: `VC Partner, ${clientCity(sessionData) ?? "Paris"}`,
     stars: 5,
   },
   {
@@ -265,7 +265,10 @@ const ARCHIVE_MONTHS = [
   { month: "Décembre 2024", issues: 3, highlights: ["Bilan 2024", "Tendances 2025", "Best-of articles"] },
 ];
 
-const FAQS_DEMO = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function FAQS_DEMO_LIVE() {
+  return [
   {
     q: "À quelle fréquence publiez-vous ?",
     a: "Chaque lundi — une grande analyse (2 000–3 000 mots) + 3 brèves commentées. Parfois un hors-série le jeudi sur un sujet brûlant.",
@@ -287,10 +290,12 @@ const FAQS_DEMO = [
     a: "Oui — disponible pour les abonnés Lecteur. L'éditeur commente l'édition en 20 minutes denses chaque lundi dès 7h.",
   },
   {
-    q: "Comment rejoindre la communauté Fréquence ?",
+    q: `Comment rejoindre la communauté ${clientName(sessionData) ?? "Fréquence"} ?`,
     a: "L'abonnement Lecteur donne accès à notre Discord privé (2 400 membres) et aux sessions mensuelles Q&A avec les auteurs.",
   },
 ];
+}
+let FAQS_DEMO = FAQS_DEMO_LIVE();
 let FAQS = FAQS_DEMO;
 
 const STATS_DEMO = [
@@ -469,15 +474,27 @@ export default function ImpactFrequencePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   sessionData = session;
   c = session?.generatedContent;
+  FAQS_DEMO = FAQS_DEMO_LIVE();
   AUTHORS_SOURCE = AUTHORS_SOURCE_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
@@ -631,7 +648,7 @@ export default function ImpactFrequencePage() {
                   color: C.red,
                   lineHeight: 1,
                 }}
-              >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Fréquence"))}</span>
+              >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Fréquence"))}</span>
             )}
           </motion.div>
 
@@ -1896,7 +1913,7 @@ export default function ImpactFrequencePage() {
                 marginBottom: 16,
                 letterSpacing: -0.5,
               }}
-            >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Fréquence"))}</div>
+            >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Fréquence"))}</div>
             <p
               style={{
                 fontFamily: C.sans,
@@ -1983,7 +2000,7 @@ export default function ImpactFrequencePage() {
             letterSpacing: 1,
           }}
         >
-          <span>© 2025 {clientName(sessionData) ?? "Fréquence"} · HEBDOMADAIRE · INDÉPENDANT · DEPUIS 2019{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2025 {clientName(sessionData) ?? "Fréquence"} · HEBDOMADAIRE · INDÉPENDANT · DEPUIS 2019{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span>Confidentialité · Mentions légales · CGU</span>
         </div>
       </footer>

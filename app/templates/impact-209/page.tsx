@@ -19,11 +19,9 @@ import {
   clientBookingUrl,
   clientCity,
   clientCodePostalVille,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -153,7 +151,7 @@ function STYLISTS_LIVE() {
     title: 'Directrice Artistique',
     specialty: 'Balayage & Colorimétrie',
     color: 'var(--brand-light,#c9a0a0)',
-    bio: "Formée à l\'École Nationale Supérieure de Coiffure, Camille a perfectionné son art chez Dessange à " + (clientCity({ formData: fd }) ?? "Paris") + " avant de fonder L\'Atelier. Sa signature : des couleurs qui semblent nées du soleil.",
+    bio: "Formée à l\'École Nationale Supérieure de Coiffure, Camille a perfectionné son art chez Dessange à " + (clientCity(sessionData) ?? "Paris") + " avant de fonder L\'Atelier. Sa signature : des couleurs qui semblent nées du soleil.",
     years: 15,
   },
   {
@@ -1055,10 +1053,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -1168,7 +1177,7 @@ export default function Page() {
         {fd?.logoBase64 ? (
           <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
         ) : (
-        <div>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
+        <div>{/* NOM_LOGO */ clientName(sessionData) ?? (<>
           <span style={{ ...headingFont, fontSize: '20px', color: DARK, letterSpacing: '0.06em' }}>
             L'Atelier
           </span>
@@ -1362,7 +1371,7 @@ export default function Page() {
             transition={{ duration: 0.8, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
           >
             <GoldDivider />
-            <p style={{ ...bodyFont, fontSize: '15px', color: GRAY_MID, lineHeight: 1.8, maxWidth: '460px', margin: '0 auto 40px', letterSpacing: '0.02em' }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p style={{ ...bodyFont, fontSize: '15px', color: GRAY_MID, lineHeight: 1.8, maxWidth: '460px', margin: '0 auto 40px', letterSpacing: '0.02em' }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Un salon d'exception au cœur de {clientCity(sessionData) ?? "Paris"}. Chaque rendez-vous est une rencontre entre votre personnalité et l'expertise de nos artisans coiffeurs.
             </>}</p>
             <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' as const }}>
@@ -1445,7 +1454,7 @@ export default function Page() {
           <span style={{ ...headingFont, fontSize: '36px', color: GOLD, display: 'block' }}>15</span>
           <span style={{ ...bodyFont, fontSize: '10px', color: GRAY_MID, letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block' }}>Ans d'Excellence</span>
           <div style={{ width: '30px', height: '1px', background: GOLD, margin: '8px auto' }} />
-          <span style={{ ...bodyFont, fontSize: '10px', color: GRAY_MID, letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block' }}>{clientCity({ formData: fd }) ?? "Paris"} VII</span>
+          <span style={{ ...bodyFont, fontSize: '10px', color: GRAY_MID, letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block' }}>{clientCity(sessionData) ?? "Paris"} VII</span>
         </motion.div>
       </section>
 
@@ -1702,8 +1711,8 @@ export default function Page() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(200px, 100%), 1fr))', gap: '40px', marginBottom: '60px' }}>
             {[
               { icon: '📍', label: 'Adresse', lines: [(clientAddress(sessionData) ? '' : '14 rue de Varenne'), clientCodePostalVille(sessionData, "75007", "Paris")] },
-              { icon: '📞', label: 'Téléphone', lines: [clientPhone(sessionData) ?? '+33 1 42 22 33 44'] },
-              { icon: '✉️', label: 'Email', lines: [(clientEmail(sessionData) ?? fd?.email ?? 'contact@latelier-coiffure.fr')] },
+              { icon: '📞', label: 'Téléphone', lines: ['+33 1 42 22 33 44'] },
+              { icon: '✉️', label: 'Email', lines: [(fd?.email ?? 'contact@latelier-coiffure.fr')] },
               { icon: '🕐', label: 'Horaires', lines: ['Mar–Sam : 9h – 19h', 'Dim–Lun : Fermé'] },
             ].map((item) => (
               <motion.div
@@ -1762,9 +1771,9 @@ export default function Page() {
       <footer style={{ padding: '48px 40px', background: '#0f0a05', borderTop: `1px solid rgba(184,150,90,0.15)` }}>
         <div style={{ maxWidth: '1100px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' as const, gap: '20px' }}>
           <div>
-            <span style={{ ...headingFont, fontSize: '22px', color: '#fff' }}>L'Atelier</span>
+            <span style={{ ...headingFont, fontSize: '22px', color: '#fff' }}>{clientName(sessionData) ?? "L'Atelier"}</span>
             <p style={{ ...bodyFont, fontSize: '11px', color: GRAY_MID, margin: '4px 0 0', letterSpacing: '0.1em' }}>
-              Coiffure & Beauté · {clientCity({ formData: fd }) ?? "Paris"} VII
+              Coiffure & Beauté · {clientCity(sessionData) ?? "Paris"} VII
             </p>
           </div>
           <div style={{ display: 'flex', gap: '24px' }}>
@@ -1787,7 +1796,7 @@ export default function Page() {
             ))}
           </div>
           <p style={{ ...bodyFont, fontSize: '11px', color: GRAY_MID, margin: 0 }}>
-            © 2024 {clientName(sessionData) ?? "L'Atelier Coiffure"} · Mentions légales · Politique de confidentialité{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2024 {clientName(sessionData) ?? "L'Atelier Coiffure"} · Mentions légales · Politique de confidentialité{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </p>
         </div>
       </footer>

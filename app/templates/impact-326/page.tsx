@@ -396,10 +396,21 @@ export default function EtudeNotarialePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -558,7 +569,7 @@ export default function EtudeNotarialePage() {
             {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 23) ?? "Un acte qui engage,"}<br /><em style={{ color: C.accent, fontWeight: 400 }}>{clientHeroLine(sessionData, 1, 2, 23) ?? "un conseil qui protège."}</em></>)}
           </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.55, duration: 0.85, ease: EASE }} style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(15.5px, 1.5vw, 17px)", color: C.textMuted, lineHeight: 1.78, maxWidth: 490, marginBottom: "clamp(26px, 3.4vw, 38px)" }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Immobilier, famille, entreprise : deux notaires associés reçoivent, expliquent et sécurisent chacun de vos engagements — au tarif réglementé, le même partout en France."}
+            {c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? "Immobilier, famille, entreprise : deux notaires associés reçoivent, expliquent et sécurisent chacun de vos engagements — au tarif réglementé, le même partout en France."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.72, duration: 0.85, ease: EASE }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <CtaButton href={telHref}>Prendre rendez-vous</CtaButton>
@@ -788,7 +799,7 @@ export default function EtudeNotarialePage() {
           <div aria-hidden style={{ height: 1, background: "linear-gradient(90deg, transparent, rgba(207,179,122,0.30), transparent)" }} />
           <div style={{ paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ fontFamily: SANS, fontWeight: 300, color: "rgba(255,255,255,0.24)", fontSize: 12, letterSpacing: "0.04em" }}>
-              © 2026 {fd?.businessName ?? "Vasseur & Delmas"} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity fallback="852 546 225" kind="siren" />
+              © 2026 {fd?.businessName ?? "Vasseur & Delmas"} — Site réalisé par {clientName(sessionData) ?? "Aevia WS"} · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity fallback="852 546 225" kind="siren" />
             </span>
             <span style={{ fontFamily: SANS, fontWeight: 300, color: "rgba(255,255,255,0.24)", fontSize: 12, letterSpacing: "0.04em" }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>

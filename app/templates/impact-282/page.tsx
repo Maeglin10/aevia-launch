@@ -38,6 +38,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -45,6 +46,7 @@ import {
   clientServices,
   clientTagline,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1223,7 +1225,7 @@ function ProcessSection() {
             </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {PROCESS_ETAPES.map((e, i) => (
+            {resolveList(fusionnerEtapes(PROCESS_ETAPES, clientMethode(sessionData)), PROCESS_ETAPES).map((e, i) => (
               <Reveal key={e.num} delay={0.06 * i}>
                 <div
                   style={{
@@ -2200,7 +2202,10 @@ function AgriculteurSection() {
    ════════════════════════════════════════════════════════════════════════════ */
 type JourHoraire = { jour: string; heures: string; ferme?: boolean };
 
-const HORAIRES: JourHoraire[] = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ jour: h.day, heures: h.hours })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function HORAIRES_LIVE(): JourHoraire[] {
+  return /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ jour: h.day, heures: h.hours })), [
   { jour: 'Lundi', heures: 'Fermé', ferme: true },
   { jour: 'Mardi', heures: '7h00 – 19h30' },
   { jour: 'Mercredi', heures: '7h00 – 19h30' },
@@ -2209,6 +2214,8 @@ const HORAIRES: JourHoraire[] = /* HORAIRES */ resolveList(clientHours(sessionDa
   { jour: 'Samedi', heures: '7h00 – 20h00' },
   { jour: 'Dimanche', heures: '7h30 – 13h00' },
 ]);
+}
+let HORAIRES: JourHoraire[] = HORAIRES_LIVE();
 
 function HorairesSection() {
   const sec: React.CSSProperties = {
@@ -2804,10 +2811,21 @@ export default function Impact282Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2815,6 +2833,7 @@ export default function Impact282Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  HORAIRES = HORAIRES_LIVE();
   PHOTO = PHOTO_LIVE();
 
   PRODUCTEURS = resolveList(

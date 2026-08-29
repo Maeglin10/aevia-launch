@@ -1,5 +1,6 @@
 
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
@@ -13,6 +14,7 @@ import {
   clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -20,7 +22,34 @@ import {
   clientServices,
   clientStats,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
+
+/* Les étapes de la démonstration, sorties du rendu pour que la méthode du
+   client puisse s'y substituer ligne à ligne. */
+const METHODE_DEMO_26 = [
+          {
+            num: "01",
+            title: "Le Sourcing Éthique",
+            desc: "Chaque fleur de Grasse, chaque bois d'oud précieux d'Asie et chaque résine d'Éthiopie est issu d'un approvisionnement direct et éco-responsable auprès de petits producteurs partenaires.",
+          },
+          {
+            num: "02",
+            title: "La Formulation d'Auteur",
+            desc: "Notre processus commence par une formulation libre de toute contrainte de coût ou de temps. Hélène Varenne teste des centaines d'accords pour capturer l'esprit exact d'un instant ou d'un souvenir.",
+          },
+          {
+            num: "03",
+            title: "La Macération en Cuve",
+            desc: "Les concentrés parfumés reposent dans nos cuves entre 6 et 8 semaines. Ce repos permet aux matières de fusionner et de développer leur sillage caractéristique, stable et complexe.",
+          },
+          {
+            num: "04",
+            title: "Le Flaconnage à la Main",
+            desc: "Chaque flacon est rempli, bouché et cacheté manuellement dans notre atelier parisien, scellant un produit d'artisanat français d'exception.",
+          },
+        ];
+
 let sessionData: any = null;
 
 // Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
@@ -140,7 +169,7 @@ function formatEUR(n: number): string {
 
 function testimonials_SOURCE_LIVE() {
   return [
-  { text: "Un parfum qui raconte une histoire. Nuit Absolue est devenu mon identité olfactive.", name: "Camille R.", location: (clientCity({ formData: fd }) ?? "Paris") },
+  { text: "Un parfum qui raconte une histoire. Nuit Absolue est devenu mon identité olfactive.", name: "Camille R.", location: (clientCity(sessionData) ?? "Paris") },
   { text: "La qualité des matières premières est incomparable. Je ne peux plus porter autre chose.", name: "Thomas V.", location: "Lyon" },
   { text: "Éther comprend ce que la parfumerie de niche devrait être — art, pas commerce.", name: "Isabelle M.", location: "Bordeaux" },
 ];
@@ -190,10 +219,21 @@ export default function Impact26() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -338,7 +378,7 @@ export default function Impact26() {
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Éther"))
+              fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Éther"))
             )}
           </div>
           <div className="hidden md:flex items-center gap-10 text-xs tracking-widest uppercase text-[#F5EDE8]/50">
@@ -454,7 +494,7 @@ export default function Impact26() {
         <motion.div style={{ y: heroY, opacity: heroOpacity }} className="absolute inset-0">
           <Image
             src={photo(4, "https://images.unsplash.com/photo-1590736704728-f4730bb30770?w=1600&h=900&fit=crop&crop=center")}
-            alt="Éther Parfums"
+            alt={`${clientName(sessionData) ?? "Éther Parfums"}`}
             fill
             className="object-cover opacity-40"
           />
@@ -467,7 +507,7 @@ export default function Impact26() {
             transition={{ duration: 0.8 }}
             className="text-[var(--brand,#c9956a)] text-xs tracking-[0.4em] uppercase mb-6"
           >
-            Parfumerie de Niche · {clientCity({ formData: fd }) ?? "Paris"}
+            Parfumerie de Niche · {clientCity(sessionData) ?? "Paris"}
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 40 }}
@@ -483,7 +523,7 @@ export default function Impact26() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
             className="text-[#F5EDE8]/60 text-lg max-w-xl mb-10 leading-relaxed"
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Chaque flacon est une œuvre. Chaque note, une promesse. Éther compose des parfums pour ceux qui refusent l'ordinaire.
           </>}</motion.p>
           <motion.div
@@ -641,7 +681,7 @@ export default function Impact26() {
                 </div>
                 <div className="absolute bottom-6 left-6 bg-[#1A0F1E]/90 backdrop-blur-sm border border-[var(--brand,#c9956a)]/20 p-6">
                   <div className="text-3xl text-[var(--brand,#c9956a)]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>1987</div>
-                  <div className="text-[#F5EDE8]/50 text-xs tracking-widest uppercase mt-1">Fondé à {clientCity({ formData: fd }) ?? "Paris"}</div>
+                  <div className="text-[#F5EDE8]/50 text-xs tracking-widest uppercase mt-1">Fondé à {clientCity(sessionData) ?? "Paris"}</div>
                 </div>
               </div>
             </Reveal>
@@ -790,7 +830,7 @@ export default function Impact26() {
       {/* Footer */}
       <footer className="border-t border-[var(--brand,#c9956a)]/10 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="text-xl tracking-[0.3em] uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Éther"))}</div>
+          <div className="text-xl tracking-[0.3em] uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Éther"))}</div>
           <div className="flex flex-wrap gap-6 text-xs tracking-widest uppercase text-[#F5EDE8]/30">
             {[
               { label: "Collection", key: "collection" as const },
@@ -811,7 +851,7 @@ export default function Impact26() {
               </button>
             ))}
           </div>
-          <p className="text-[#F5EDE8]/20 text-xs tracking-widest">© 2026 {clientName(sessionData) ?? "Éther Parfums"}, {clientCity(sessionData) ?? "Paris"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</p>
+          <p className="text-[#F5EDE8]/20 text-xs tracking-widest">© 2026 {clientName(sessionData) ?? "Éther Parfums"}, {clientCity(sessionData) ?? "Paris"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
         </div>
       </footer>
     </div>
@@ -1370,7 +1410,7 @@ function MaisonPage() {
           "Le parfum est la forme la plus intense du souvenir. C'est l'art de l'invisible."
         </p>
         <p>
-          Fondée en 1987 à {clientCity({ formData: fd }) ?? "Paris"} par la nez Hélène Varenne, la Maison Éther est née d'un désir de liberté créative absolue. Éloignée des diktats de la parfumerie industrielle, elle explore des contrées olfactives singulières où les émotions brutes guident le nez.
+          Fondée en 1987 à {clientCity(sessionData) ?? "Paris"} par la nez Hélène Varenne, la Maison Éther est née d'un désir de liberté créative absolue. Éloignée des diktats de la parfumerie industrielle, elle explore des contrées olfactives singulières où les émotions brutes guident le nez.
         </p>
         <p>
           Notre atelier historique, situé au cœur du Marais parisien, abrite nos formules et nos secrets de macération. C'est là que chaque flacon prend vie, fruit d'un minutieux assemblage de molécules naturelles et synthétiques soigneusement sélectionnées.
@@ -1406,28 +1446,7 @@ function SavoirFairePage() {
       </div>
 
       <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 48 }}>
-        {[
-          {
-            num: "01",
-            title: "Le Sourcing Éthique",
-            desc: "Chaque fleur de Grasse, chaque bois d'oud précieux d'Asie et chaque résine d'Éthiopie est issu d'un approvisionnement direct et éco-responsable auprès de petits producteurs partenaires.",
-          },
-          {
-            num: "02",
-            title: "La Formulation d'Auteur",
-            desc: "Notre processus commence par une formulation libre de toute contrainte de coût ou de temps. Hélène Varenne teste des centaines d'accords pour capturer l'esprit exact d'un instant ou d'un souvenir.",
-          },
-          {
-            num: "03",
-            title: "La Macération en Cuve",
-            desc: "Les concentrés parfumés reposent dans nos cuves entre 6 et 8 semaines. Ce repos permet aux matières de fusionner et de développer leur sillage caractéristique, stable et complexe.",
-          },
-          {
-            num: "04",
-            title: "Le Flaconnage à la Main",
-            desc: "Chaque flacon est rempli, bouché et cacheté manuellement dans notre atelier parisien, scellant un produit d'artisanat français d'exception.",
-          },
-        ].map((step) => (
+        {resolveList(fusionnerEtapes(METHODE_DEMO_26, clientMethode(sessionData)), METHODE_DEMO_26).map((step) => (
           <div key={step.num} style={{ display: "flex", gap: 32, paddingBottom: 32, borderBottom: "1px solid rgba(201, 149, 106, 0.1)" }}>
             <span style={{fontFamily: "'Cormorant Garamond', serif", fontSize: 36, color: brand ?? 'var(--brand,#c9956a)', opacity: 0.5, lineHeight: 1 }}>
               {step.num}
@@ -1583,7 +1602,7 @@ function ContactPage() {
               L'Atelier Le Marais
             </h2>
             <p style={{ color: "#F5EDE8", opacity: 0.6, fontSize: 14, lineHeight: 1.7 }}>
-              Rue des Francs-Bourgeois, 75004 {clientCity({ formData: fd }) ?? "Paris"}<br />
+              Rue des Francs-Bourgeois, 75004 {clientCity(sessionData) ?? "Paris"}<br />
               Du lundi au vendredi, de 10h à 18h.<br />
               E-mail : {clientEmail(sessionData) ?? fd?.email ?? "contact@ether-parfums.com"}<br />
               Téléphone : {clientPhone(sessionData) ?? "+33 1 44 55 66 77"}
@@ -1616,10 +1635,10 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
           <div>
             <h3 style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Éditeur du site</h3>
             <p>
-              Aevia WS — Valentin Milliand<br />
+              <EditeurDuSite /><br />
               Entrepreneur individuel<br />
               SIREN : <LegalIdentity /><br />
-              {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}<br />
+              {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
               Adresse : communiquée sur demande<br />
               E-mail : {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}
             </p>

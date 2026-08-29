@@ -107,10 +107,21 @@ export default function OasisWellnessPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -166,7 +177,7 @@ export default function OasisWellnessPage() {
                 <div className="w-10 h-10 rounded-full bg-[var(--brand,#2c3e2d)] flex items-center justify-center group-hover:scale-110 transition-transform duration-700">
                   <Flower2 className="w-5 h-5 text-[#faf9f6]" />
                 </div>
-                <span className="text-xl font-light tracking-[0.2em] uppercase">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Oasis <span className="font-bold text-[var(--brand,#2c3e2d)]">Wellness</span></>)}</span>
+                <span className="text-xl font-light tracking-[0.2em] uppercase">{/* NOM_LOGO */ clientName(sessionData) ?? (<>Oasis <span className="font-bold text-[var(--brand,#2c3e2d)]">Wellness</span></>)}</span>
               </>
             )}
           </Link>
@@ -214,7 +225,7 @@ export default function OasisWellnessPage() {
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-col md:flex-row items-center justify-center gap-8">
-                <p className="text-lg text-[var(--brand,#2c3e2d)]/60 font-light max-w-sm leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                <p className="text-lg text-[var(--brand,#2c3e2d)]/60 font-light max-w-sm leading-relaxed">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                   A sanctuary dedicated to biological restoration and deep mindfulness. Rediscover your essence in the heart of the city.
                 </>}</p>
                 <div className="w-[1px] h-20 bg-[var(--brand,#2c3e2d)]/10 hidden md:block" />
@@ -500,7 +511,7 @@ export default function OasisWellnessPage() {
         </div>
         
         <div className="max-w-[1600px] mx-auto pt-12 border-t border-[var(--brand,#2c3e2d)]/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#2c3e2d)]/30">
-          <span>© 2026 {clientName(sessionData) ?? "OASIS WELLNESS COLLECTIVE."}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "OASIS WELLNESS COLLECTIVE."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-10">
             <Link href="#contact" className="hover:text-[var(--brand,#2c3e2d)] transition-colors">Mentions légales</Link>
             <Link href="#contact" className="hover:text-[var(--brand,#2c3e2d)] transition-colors">Confidentialité</Link>

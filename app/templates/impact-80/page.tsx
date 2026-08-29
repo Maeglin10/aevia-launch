@@ -17,6 +17,7 @@ import {
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -25,6 +26,7 @@ import {
   clientTeam,
   clientText,
   clientWorks,
+  fusionnerEtapes,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -211,16 +213,29 @@ export default function SymmetryStudioPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
 
 
   sessionData = session;
+  TEAM_DEMO = TEAM_DEMO_LIVE();
+  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 
 
   memoriserSession(sessionData);
@@ -228,8 +243,6 @@ export default function SymmetryStudioPage() {
 
   rafraichirPartage();
   c = session?.generatedContent;
-  TEAM_DEMO = TEAM_DEMO_LIVE();
-  PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 
 
   PRESTATIONS_INLINE = resolveList(
@@ -298,7 +311,7 @@ return (
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-col gap-16">
-                <p className="text-2xl text-black/40 font-light max-w-lg leading-relaxed italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                <p className="text-2xl text-black/40 font-light max-w-lg leading-relaxed italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                   Architectural interventions that harmonize human ritual with the
                   absolute geometry of nature.
                 </>}</p>
@@ -521,7 +534,7 @@ return (
             </>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-16 gap-y-20">
-            {PROCESS.map((p, i) => (
+            {resolveList(fusionnerEtapes(PROCESS, clientMethode(sessionData)), PROCESS).map((p, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div>
                   <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/10 italic mb-6">{p.step}</div>
@@ -721,8 +734,8 @@ return (
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-80"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "Symmetry Studio"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </main>
   );

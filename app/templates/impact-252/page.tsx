@@ -37,7 +37,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   SMILE & CO — Cabinet Dentaire Esthétique · {clientCity(sessionData) ?? "Lyon"}
+   {clientName(sessionData) ?? "Smile & Co"} — Cabinet Dentaire Esthétique · {clientCity(sessionData) ?? "Lyon"}
    Chorégraphie de défilement premium, crossfade sticky 320vh, panneau tech
    collant, formulaire de RDV. 'use client'. Auto-suffisant.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -217,7 +217,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     quote:
-      "J'avais évité les dentistes pendant dix ans à cause d'une phobie intense. Smile & Co a tout changé — une équipe d'une patience et d'une douceur rares. Aujourd'hui je souris sans me cacher. Je ne pensais pas que c'était encore possible.",
+      `J'avais évité les dentistes pendant dix ans à cause d'une phobie intense. ${clientName(sessionData) ?? "Smile & Co"} a tout changé — une équipe d'une patience et d'une douceur rares. Aujourd'hui je souris sans me cacher. Je ne pensais pas que c'était encore possible.`,
     name: 'Camille D.',
     role: 'Patiente · ' + (clientCity(sessionData) ?? 'Lyon'),
   },
@@ -604,7 +604,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || unsplash((clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/6473194/pexels-photo-6473194.jpeg?auto=compress&cs=tinysrgb&w=1600'), 2000)}
-          alt="Cabinet dentaire Smile & Co Lyon 6e"
+          alt={`Cabinet dentaire ${clientName(sessionData) ?? "Smile & Co"} Lyon 6e`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="high"
         />
@@ -1310,7 +1310,7 @@ function TechPanel() {
           >
             <img
               src={unsplash((clientPhotos(sessionData)[7] || 'https://images.pexels.com/photos/5355863/pexels-photo-5355863.jpeg?auto=compress&cs=tinysrgb&w=1600'), 900)}
-              alt="Équipement technologique cabinet Smile & Co"
+              alt={`Équipement technologique cabinet ${clientName(sessionData) ?? "Smile & Co"}`}
               loading="lazy"
               style={{
                 width: '100%',
@@ -1893,7 +1893,7 @@ function Footer() {
               gap: 9,
             }}
           >
-            Smile &amp; Co
+            {clientName(sessionData) ?? "Smile & Co"}
             <span
               style={{
                 width: 7,
@@ -2054,10 +2054,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2066,9 +2077,9 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  EDIT_ROWS = EDIT_ROWS_LIVE();
-  TREATMENTS_DEMO = TREATMENTS_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  TREATMENTS_DEMO = TREATMENTS_DEMO_LIVE();
+  EDIT_ROWS = EDIT_ROWS_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),

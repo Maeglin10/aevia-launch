@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -137,10 +138,21 @@ export default function AtelierMecaniquePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -277,7 +289,7 @@ return (
           {/* Hero */}
           <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden">
             <motion.div className="absolute inset-0" style={{ y: heroY }}>
-              <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=1600&q=85"))} alt="Atelier Mécanique — Horlogerie de prestige" fill className="object-cover" priority />
+              <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=1600&q=85"))} alt={`${clientName(sessionData) ?? "Atelier Mécanique"} — Horlogerie de prestige`} fill className="object-cover" priority />
               <div className="absolute inset-0 bg-gradient-to-r from-[#0C0B09]/90 via-[#0C0B09]/50 to-transparent" />
             </motion.div>
             <motion.div className="relative z-10 h-full flex items-center px-6" style={{ opacity: heroOpacity }}>
@@ -290,7 +302,7 @@ return (
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.2}>
-                  <p className="text-white/60 text-lg max-w-md leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                  <p className="text-white/60 text-lg max-w-md leading-relaxed mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                     Chaque montre est une œuvre de précision. Assemblée à la main par nos maîtres horlogers dans notre manufacture de La Vallée de Joux.
                   </>}</p>
                 </Reveal>
@@ -990,8 +1002,8 @@ function LegalSubPage() {
           <div>
             <h3 className="text-black font-semibold text-base mb-2">Éditeur du site</h3>
             <p>
-              Le site Atelier Mécanique est édité par :<br />
-              <strong>Aevia WS — Valentin Milliand</strong><br />
+              Le site {clientName(sessionData) ?? "Atelier Mécanique"} est édité par :<br />
+              <strong><EditeurDuSite /></strong><br />
               Entrepreneur individuel — SIREN : <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
               <strong>Contact :</strong>{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}<br />
               <strong>Adresse physique :</strong> communiquée sur demande.

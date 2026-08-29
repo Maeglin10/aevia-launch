@@ -65,8 +65,28 @@ export async function POST(req: NextRequest) {
         .vercel.app — le domaine est une option, jamais un péage.
       */
       domaine?: { nom?: unknown; prix?: unknown };
+      /*
+        Le code de parrainage, tel que le client l'a tapé ou tel que le lien
+        « ?ref= » l'a apporté. Il ne change rien au prix : il dit seulement qui a
+        amené ce client, et c'est le moteur de commissions d'Inbox — la seule
+        base qui connaisse les vendeurs — qui en tirera les conséquences quand
+        Stripe confirmera l'encaissement.
+      */
+      ref?: unknown;
+      /** La session d'aperçu déjà vue par le client. */
+      sessionApercu?: unknown;
     };
     const { type, name, theme, maintenance, branding, currency, brief, domaine } = body;
+
+    /*
+      Normalisé comme Inbox le stocke : majuscules, lettres et chiffres. Un code
+      dicté au téléphone arrive en minuscules, avec un espace de trop, parfois
+      avec un tiret. Vingt-quatre caractères au plus : au-delà, ce n'est pas un
+      code, c'est une tentative.
+    */
+    const codeParrainage = typeof body.ref === "string"
+      ? body.ref.trim().toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 24)
+      : "";
 
     // Validate required fields
     const siteType = (typeof type === "string" && type) ? type : "landing";
@@ -80,7 +100,14 @@ export async function POST(req: NextRequest) {
     const stripeCcy = STRIPE_CCY[ccy];
 
     const siteInfo = SITE_PRICES[siteType] ?? SITE_PRICES["landing"];
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
+    /*
+       Sur une préversion, `NEXT_PUBLIC_BASE_URL` n'est pas défini : l'adresse
+       change à chaque déploiement. Le paiement y répondait donc 500 — personne
+       ne pouvait éprouver un achat ailleurs qu'en production, sur de l'argent
+       réel. Vercel expose l'adresse du déploiement courant ; on s'en sert.
+    */
+    const adresseVercel = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : null;
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? adresseVercel ?? "http://localhost:3000";
 
     // In production, refuse to create a checkout session with a localhost
     // redirect — the customer would pay and land on a dead URL.
@@ -93,10 +120,26 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    /*
+       L'identifiant de l'aperçu, tel quel. Il sert à deux choses : le courriel
+       du client pointe vers la page qu'il a déjà vue, et le webhook peut lier
+       l'achat au compte de l'écosystème sans en fabriquer une autre.
+    */
+    const sessionApercu = typeof body.sessionApercu === "string"
+      ? body.sessionApercu.trim().replace(/[^A-Za-z0-9-]/g, "").slice(0, 64)
+      : "";
+
+    /*
+       `session_id` est celui de Stripe : la page de confirmation ne peut pas en
+       tirer l'adresse de l'aperçu. Sans `sessionId`, son bouton « voir mon
+       site » n'a aucune adresse et ne mène nulle part — le client vient de
+       payer et repart sans lien.
+    */
     const successUrl =
       `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}` +
       `&name=${encodeURIComponent(siteName)}` +
-      `&type=${encodeURIComponent(siteType)}`;
+      `&type=${encodeURIComponent(siteType)}` +
+      (sessionApercu ? `&sessionId=${encodeURIComponent(sessionApercu)}` : "");
 
     const cancelUrl =
       `${baseUrl}/order` +
@@ -237,6 +280,13 @@ export async function POST(req: NextRequest) {
         domain: (domaineNom && tarifDomaine ? domaineNom
           : typeof brief?.domain === "string" ? (brief.domain as string) : "").slice(0, 100),
         domainePaye: domaineNom && tarifDomaine ? "1" : "0",
+        ...(codeParrainage ? { ref: codeParrainage } : {}),
+        ...(sessionApercu
+          ? {
+              sessionApercu,
+              previewUrl: `${baseUrl}/preview/${sessionApercu}`,
+            }
+          : {}),
       },
       // Force Stripe to collect customer email (even though Checkout collects by default in payment mode)
       customer_email: undefined, // let Stripe collect it

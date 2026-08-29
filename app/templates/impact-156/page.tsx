@@ -97,14 +97,19 @@ const TARIFS_DEMO = [
 ];
 let TARIFS = TARIFS_DEMO;
 
-const COURS_DEMO = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ nom: h.day, horaire: h.hours })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function COURS_DEMO_LIVE() {
+  return /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ nom: h.day, horaire: h.hours })), [
   { nom: "Vinyasa Flow", niveau: "Tous niveaux", duree: "60 min", horaire: "Lun · Mar · Jeu 7h30", desc: "Enchaînement fluide de postures synchronisées avec la respiration. Renforce et libère.", icon: <Sun size={20} color={C.accent} /> },
   { nom: "Yin Yoga", niveau: "Tous niveaux", duree: "75 min", horaire: "Mer · Ven 18h30", desc: "Postures tenues en profondeur pour relâcher les fascias et cultiver l'introspection.", icon: <Moon size={20} color={C.accent} /> },
   { nom: "Yoga Prénatal", niveau: "Gestantes", duree: "60 min", horaire: "Mar · Jeu 10h00", desc: "Pratique douce et sécurisée pour accompagner chaque étape de la grossesse avec sérénité.", icon: <Heart size={20} color={C.warm} /> },
   { nom: "Ashtanga", niveau: "Intermédiaire", duree: "90 min", horaire: "Lun · Mer 6h30", desc: "Série codifiée de postures pratiquée dans un ordre précis. Discipline, force et endurance.", icon: <Sun size={20} color={C.warm} /> },
   { nom: "Méditation guidée", niveau: "Tous niveaux", duree: "45 min", horaire: "Mar · Jeu · Sam 12h30", desc: "Techniques de pleine conscience, respiration pranayama et relaxation profonde Yoga Nidra.", icon: <Moon size={20} color={C.accent} /> },
   { nom: "Yoga Restauratif", niveau: "Débutant / Récup", duree: "60 min", horaire: "Sam 11h00 · Dim 10h00", desc: "Postures soutenues par des accessoires pour une récupération active et un système nerveux apaisé.", icon: <Heart size={20} color={C.accent} /> },
-])
+]);
+}
+let COURS_DEMO = COURS_DEMO_LIVE();
 
 const APPROCHE_SOURCE = [
   { titre: "Pratique authentique", desc: "Transmis dans la lignée de l'Ashtanga traditionnel, chaque cours s'adapte pourtant au corps et au rythme de chacun." },
@@ -165,16 +170,28 @@ export default function LumiereYogaPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  COURS_DEMO = COURS_DEMO_LIVE();
   APPROCHE = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...APPROCHE_SOURCE[i % APPROCHE_SOURCE.length], titre: s.title, desc: s.desc || "" || "" })),
     APPROCHE_SOURCE,
@@ -353,7 +370,7 @@ export default function LumiereYogaPage() {
           </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Lumière Yoga accueille tous les niveaux dans un espace chaleureux et bienveillant à {clientCity(sessionData) ?? "Bordeaux"}. Vinyasa, Yin, méditation — une pratique complète pour le corps et l'esprit.
           </>}</motion.p>
 

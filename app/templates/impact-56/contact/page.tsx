@@ -1,4 +1,5 @@
 "use client";
+import { memoriserSession } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
@@ -23,13 +24,25 @@ export default function ContactPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
@@ -78,7 +91,7 @@ export default function ContactPage() {
                   <div>
                     <div className="text-xs uppercase tracking-widest text-zinc-400 font-bold mb-1">Adresse</div>
                     <p className="text-zinc-700 text-sm leading-relaxed">
-                      Adresse communiquée sur demande à <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} className="text-[#2D1B0E] underline underline-offset-2">contact@exemple.fr</a>.<br />
+                      Adresse communiquée sur demande à <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} className="text-[#2D1B0E] underline underline-offset-2">{fd?.email ?? "contact@exemple.fr"}</a>.<br />
                       Appellation Margaux-Cantenac, Gironde, France.
                     </p>
                   </div>
@@ -123,7 +136,7 @@ export default function ContactPage() {
               <div className="bg-[#2D1B0E]/5 border border-[#2D1B0E]/10 p-6">
                 <div className="text-xs uppercase tracking-widest text-[#C4A265] font-bold font-sans mb-3">Commandes Professionnelles</div>
                 <p className="text-sm text-zinc-600 font-sans leading-relaxed">
-                  Pour les commandes professionnelles (négoce, restauration, grandes surfaces spécialisées), contactez notre service caveau directement à <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} className="text-[#2D1B0E] underline underline-offset-2">contact@exemple.fr</a>.
+                  Pour les commandes professionnelles (négoce, restauration, grandes surfaces spécialisées), contactez notre service caveau directement à <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} className="text-[#2D1B0E] underline underline-offset-2">{fd?.email ?? "contact@exemple.fr"}</a>.
                 </p>
               </div>
             </div>

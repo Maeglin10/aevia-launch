@@ -37,7 +37,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   OSTÉO ATLANTIQUE — Cabinet d'Ostéopathie & Thérapies Manuelles · {clientCity(sessionData) ?? "Nantes"}
+   {clientName(sessionData) ?? "Ostéo Atlantique"} — Cabinet d'Ostéopathie & Thérapies Manuelles · {clientCity(sessionData) ?? "Nantes"}
    Chorégraphie de défilement éditoriale. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -571,7 +571,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[10] || `https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=2000&auto=format&fit=crop`)}
-          alt="Cabinet Ostéo Atlantique — salle de soin lumineuse"
+          alt={`Cabinet ${clientName(sessionData) ?? "Ostéo Atlantique"} — salle de soin lumineuse`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1295,7 +1295,7 @@ function PrinciplesPanel() {
           >
             <img
               src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[11] || `https://images.unsplash.com/photo-1519824145371-296894a0daa9?q=80&w=900&auto=format&fit=crop`)}
-              alt="Soin ostéopathique doux — Ostéo Atlantique"
+              alt={`Soin ostéopathique doux — ${clientName(sessionData) ?? "Ostéo Atlantique"}`}
               loading="lazy"
               style={{
                 width: '100%',
@@ -2076,10 +2076,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2087,9 +2098,9 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  DOMAINS_DEMO = DOMAINS_DEMO_LIVE();
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS_DEMO = EDIT_ROWS_DEMO_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  DOMAINS_DEMO = DOMAINS_DEMO_LIVE();
 
 
   TESTIMONIALS_DEMO = resolveList(

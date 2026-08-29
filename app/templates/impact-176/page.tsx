@@ -1145,10 +1145,21 @@ export default function Impact176Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -1305,7 +1316,7 @@ export default function Impact176Page() {
                   color: C.text,
                   letterSpacing: "-0.3px",
                 }}
-              >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Metric"))}</span>
+              >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Metric"))}</span>
             </>
           )}
         </div>
@@ -1498,7 +1509,7 @@ export default function Impact176Page() {
               marginBottom: 48,
               maxWidth: 460,
             }}
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Metric turns raw data into actionable insights.
             Dashboards, alerts, and automated reports — all in one platform built for serious teams.
           </>}</motion.p>
@@ -2155,7 +2166,7 @@ export default function Impact176Page() {
                   fontSize: 17,
                   color: C.accent,
                 }}
-              >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Metric"))}</span>
+              >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Metric"))}</span>
             </div>
             <p
               style={{
@@ -2225,7 +2236,7 @@ export default function Impact176Page() {
               color: C.subdued,
             }}
           >
-            © 2026 {clientName(sessionData) ?? "Metric Analytics"} · All rights reserved · GDPR · Privacy Policy{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2026 {clientName(sessionData) ?? "Metric Analytics"} · All rights reserved · GDPR · Privacy Policy{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
             <div

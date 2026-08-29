@@ -40,12 +40,11 @@ import {
 import {
   clientAccrocheRestante,
   clientCity,
-  clientEmail,
   clientFaq,
   clientHeroPrestations,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -54,6 +53,7 @@ import {
   clientTeam,
   clientText,
   clientWorks,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -254,7 +254,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   {
     name: "Mathieu Rosset",
     role: "CEO, Folio Maison",
-    city: (clientCity({ formData: fd }) ?? "Genève"),
+    city: (clientCity(sessionData) ?? "Genève"),
     avatar: "MR",
     rating: 5,
     text: "Verso a transformé notre marque centenaire en identité contemporaine sans trahir notre héritage. Un travail d'orfèvre, une écoute exceptionnelle.",
@@ -294,7 +294,7 @@ function TEAM_DEMO_LIVE() {
   {
     name: "Lucas Berger",
     role: "Creative Director & Fondateur",
-    bio: "15 ans de direction artistique entre Paris, Berlin et " + (clientCity({ formData: fd }) ?? "Genève") + ". Ex-Pentagram, ex-BBDO.",
+    bio: "15 ans de direction artistique entre Paris, Berlin et " + (clientCity(sessionData) ?? "Genève") + ". Ex-Pentagram, ex-BBDO.",
     initials: "LB",
   },
   {
@@ -324,7 +324,7 @@ function FAQS_DEMO_LIVE() {
   return [
   {
     q: "Travaillez-vous uniquement avec des entreprises suisses ?",
-    a: "Non — notre portfolio s'étend à la France, l'Allemagne et le Royaume-Uni. Nous travaillons à distance avec une aisance totale. Les ateliers de brief peuvent se tenir en présentiel à " + (clientCity({ formData: fd }) ?? "Genève") + " ou via Zoom.",
+    a: "Non — notre portfolio s'étend à la France, l'Allemagne et le Royaume-Uni. Nous travaillons à distance avec une aisance totale. Les ateliers de brief peuvent se tenir en présentiel à " + (clientCity(sessionData) ?? "Genève") + " ou via Zoom.",
   },
   {
     q: "Quelle est votre disponibilité actuelle ?",
@@ -646,10 +646,21 @@ export default function Impact130Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -791,7 +802,7 @@ return (
               <div style={{ width: 28, height: 28, background: C.emeraldGlow, borderRadius: 4, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <div style={{ width: 12, height: 12, background: C.bg, borderRadius: 1 }} />
               </div>
-              <span style={{ fontSize: 18, fontWeight: 700, color: C.text, letterSpacing: "-0.02em" }}>{clientName({ formData: fd }) ?? "Verso"}</span>
+              <span style={{ fontSize: 18, fontWeight: 700, color: C.text, letterSpacing: "-0.02em" }}>{clientName(sessionData) ?? "Verso"}</span>
             </div>
           )}
         </a>
@@ -1075,7 +1086,7 @@ return (
             {/* Timeline line */}
             <div style={{ position: "absolute", left: 24, top: 40, bottom: 40, width: 1, background: C.border }} />
 
-            {PROCESS.map((step, i) => {
+            {resolveList(fusionnerEtapes(PROCESS, clientMethode(sessionData)), PROCESS).map((step, i) => {
               const ref = useRef(null);
               const inView = useInView(ref, { once: true, margin: "-80px" });
               return (
@@ -1281,14 +1292,14 @@ return (
             </p>
             <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
               <motion.a
-                href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "hello@verso-studio.ch"}`}
+                href={`mailto:${fd?.email ?? "hello@verso-studio.ch"}`}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 style={{ display: "inline-flex", alignItems: "center", gap: 10, background: C.emeraldGlow, color: C.bg, padding: "16px 32px", borderRadius: 4, fontFamily: "'DM Sans', system-ui, sans-serif", fontWeight: 700, fontSize: 16, textDecoration: "none" }}
               >
-                <Mail size={18} />{clientEmail(sessionData) ?? fd?.email ?? "hello@verso-studio.ch"}</motion.a>
+                <Mail size={18} />{fd?.email ?? "hello@verso-studio.ch"}</motion.a>
               <motion.a
-                href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+41225000000").replace(/[^+0-9]/g, "")}`}
+                href={`tel:${fd?.phone ?? "+41225000000"}`}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "transparent", color: C.text, padding: "16px 32px", borderRadius: 4, fontFamily: "'DM Sans', system-ui, sans-serif", fontWeight: 600, fontSize: 16, textDecoration: "none", border: `1px solid ${C.borderLight}` }}
@@ -1297,7 +1308,7 @@ return (
               </motion.a>
             </div>
             <div style={{ display: "flex", justifyContent: "center", gap: 32, marginTop: 48, paddingTop: 40, borderTop: `1px solid ${C.borderLight}` }}>
-              {[{ icon: <MapPin size={15} />, text: "Rue du Rhône 24, 1204 " + (clientCity({ formData: fd }) ?? "Genève") }, { icon: <Clock size={15} />, text: "Lun–Ven 9h–18h" }].map((item, i) => (
+              {[{ icon: <MapPin size={15} />, text: "Rue du Rhône 24, 1204 " + (clientCity(sessionData) ?? "Genève") }, { icon: <Clock size={15} />, text: "Lun–Ven 9h–18h" }].map((item, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, color: C.textMuted, fontSize: 14 }}>
                   <span style={{ color: C.emeraldGlow }}>{item.icon}</span>
                   {item.text}
@@ -1319,12 +1330,12 @@ return (
                 </div>
                 <span style={{ fontSize: 16, fontWeight: 700, color: C.text }}>Verso</span>
               </div>
-              <p style={{ color: C.textMuted, fontSize: 14, lineHeight: 1.6, maxWidth: 220 }}>Studio de design basé à {clientCity({ formData: fd }) ?? "Genève"}. Identités visuelles, digital, direction artistique.</p>
+              <p style={{ color: C.textMuted, fontSize: 14, lineHeight: 1.6, maxWidth: 220 }}>Studio de design basé à {clientCity(sessionData) ?? "Genève"}. Identités visuelles, digital, direction artistique.</p>
             </div>
             {[
               { title: "Studio", links: ["À propos", "L'équipe", "Méthode", "Clients"] },
               { title: "Services", links: ["Brand Identity", "Digital Experience", "Art Direction", "Packaging"] },
-              { title: "Contact", links: [(clientEmail(sessionData) ?? fd?.email ?? "hello@verso-studio.ch"), "+41 22 500 00 00", "Geneva, Suisse", "Disponibilités"] },
+              { title: "Contact", links: [(fd?.email ?? "hello@verso-studio.ch"), "+41 22 500 00 00", "Geneva, Suisse", "Disponibilités"] },
             ].map((col, i) => (
               <div key={i}>
                 <h4 style={{ color: C.textMuted, fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 600, marginBottom: 20 }}>{col.title}</h4>
@@ -1342,7 +1353,7 @@ return (
             ))}
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderTop: `1px solid ${C.border}`, paddingTop: 32 }}>
-            <p style={{ color: C.textDim, fontSize: 13 }}>© 2025 {clientName(sessionData) ?? "Verso Studio SA"}, {clientCity(sessionData) ?? "Genève"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</p>
+            <p style={{ color: C.textDim, fontSize: 13 }}>© 2025 {clientName(sessionData) ?? "Verso Studio SA"}, {clientCity(sessionData) ?? "Genève"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
             <div style={{ display: "flex", gap: 20 }}>
               {[{ icon: <MessageSquare size={16} />, label: "Twitter" }, { icon: <Camera size={16} />, label: "Instagram" }, { icon: <Link2 size={16} />, label: "LinkedIn" }].map((s, i) => (
                 <a key={i} href="#stats" style={{ color: C.textDim, transition: "color 0.2s" }}

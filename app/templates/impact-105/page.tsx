@@ -7,11 +7,9 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight } from "lucide-react"
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -89,7 +87,7 @@ function ENTREPRISES_LIVE() {
   { t: "Événements d'entreprise", p: "sur devis", d: "Inaugurations, séminaires, remises de prix. Installation en dehors des heures d'ouverture." },
   { t: "Cadeaux clients", p: "à partir de 28 € l'unité", d: "Bouquets identiques, livrés le même jour sur plusieurs adresses, avec votre carte." },
   { t: "Facturation mensuelle", p: "—", d: "Une facture par mois, virement à 30 jours. Bon de commande accepté." },
-  { t: "Livraison sur " + (clientCity({ formData: fd }) ?? "Strasbourg"), p: "incluse", d: "Comprise dans l'abonnement en centre-ville, à la Krutenau et à la Robertsau. Hors zone, 12 € par passage." },
+  { t: "Livraison sur " + (clientCity(sessionData) ?? "Strasbourg"), p: "incluse", d: "Comprise dans l'abonnement en centre-ville, à la Krutenau et à la Robertsau. Hors zone, 12 € par passage." },
 ];
 }
 let ENTREPRISES = ENTREPRISES_LIVE();;
@@ -100,26 +98,26 @@ function CREATIONS_LIVE() {
   clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
   { titre: "Bouquets & compositions", desc: "Bouquets de fleurs fraîches de saison, compositions table, centres de table et décorations personnalisées pour toutes occasions.", tag: "Frais" },
   { titre: "Mariage & cérémonie", desc: "Bouquet de mariée, boutonnières, décoration de salle et de cérémonie. Consultation offerte pour chaque projet mariage.", tag: "Mariage" },
-  { titre: "Deuil & funérailles", desc: "Couronnes, gerbes et compositions florales sobres et élégantes. Livraison directe en chambre funéraire sur " + (clientCity({ formData: fd }) ?? "Strasbourg") + ".", tag: "Recueillement" },
+  { titre: "Deuil & funérailles", desc: "Couronnes, gerbes et compositions florales sobres et élégantes. Livraison directe en chambre funéraire sur " + (clientCity(sessionData) ?? "Strasbourg") + ".", tag: "Recueillement" },
   { titre: "Abonnements entreprises", desc: "Décoration florale hebdomadaire ou bimensuelle pour accueil, salles de réunion et espaces de travail. Entretien inclus.", tag: "Entreprises" },
   { titre: "Fleurs séchées & éternelles", desc: "Compositions en fleurs séchées, pampassi, eucalyptus et gypsophile — déco longue durée au style bohème ou minimaliste.", tag: "Séchées" },
-  { titre: "Livraison & abonnements", desc: "Livraison à domicile sur " + (clientCity({ formData: fd }) ?? "Strasbourg") + " et alentours. Surprise florale mensuelle avec sélection de saison pour les amoureux des fleurs.", tag: "Livraison" },
+  { titre: "Livraison & abonnements", desc: "Livraison à domicile sur " + (clientCity(sessionData) ?? "Strasbourg") + " et alentours. Surprise florale mensuelle avec sélection de saison pour les amoureux des fleurs.", tag: "Livraison" },
 ])[i % ([
   { titre: "Bouquets & compositions", desc: "Bouquets de fleurs fraîches de saison, compositions table, centres de table et décorations personnalisées pour toutes occasions.", tag: "Frais" },
   { titre: "Mariage & cérémonie", desc: "Bouquet de mariée, boutonnières, décoration de salle et de cérémonie. Consultation offerte pour chaque projet mariage.", tag: "Mariage" },
-  { titre: "Deuil & funérailles", desc: "Couronnes, gerbes et compositions florales sobres et élégantes. Livraison directe en chambre funéraire sur " + (clientCity({ formData: fd }) ?? "Strasbourg") + ".", tag: "Recueillement" },
+  { titre: "Deuil & funérailles", desc: "Couronnes, gerbes et compositions florales sobres et élégantes. Livraison directe en chambre funéraire sur " + (clientCity(sessionData) ?? "Strasbourg") + ".", tag: "Recueillement" },
   { titre: "Abonnements entreprises", desc: "Décoration florale hebdomadaire ou bimensuelle pour accueil, salles de réunion et espaces de travail. Entretien inclus.", tag: "Entreprises" },
   { titre: "Fleurs séchées & éternelles", desc: "Compositions en fleurs séchées, pampassi, eucalyptus et gypsophile — déco longue durée au style bohème ou minimaliste.", tag: "Séchées" },
-  { titre: "Livraison & abonnements", desc: "Livraison à domicile sur " + (clientCity({ formData: fd }) ?? "Strasbourg") + " et alentours. Surprise florale mensuelle avec sélection de saison pour les amoureux des fleurs.", tag: "Livraison" },
+  { titre: "Livraison & abonnements", desc: "Livraison à domicile sur " + (clientCity(sessionData) ?? "Strasbourg") + " et alentours. Surprise florale mensuelle avec sélection de saison pour les amoureux des fleurs.", tag: "Livraison" },
 ]).length], titre: s.title, desc: s.desc || '' })),
 
   [
   { titre: "Bouquets & compositions", desc: "Bouquets de fleurs fraîches de saison, compositions table, centres de table et décorations personnalisées pour toutes occasions.", tag: "Frais" },
   { titre: "Mariage & cérémonie", desc: "Bouquet de mariée, boutonnières, décoration de salle et de cérémonie. Consultation offerte pour chaque projet mariage.", tag: "Mariage" },
-  { titre: "Deuil & funérailles", desc: "Couronnes, gerbes et compositions florales sobres et élégantes. Livraison directe en chambre funéraire sur " + (clientCity({ formData: fd }) ?? "Strasbourg") + ".", tag: "Recueillement" },
+  { titre: "Deuil & funérailles", desc: "Couronnes, gerbes et compositions florales sobres et élégantes. Livraison directe en chambre funéraire sur " + (clientCity(sessionData) ?? "Strasbourg") + ".", tag: "Recueillement" },
   { titre: "Abonnements entreprises", desc: "Décoration florale hebdomadaire ou bimensuelle pour accueil, salles de réunion et espaces de travail. Entretien inclus.", tag: "Entreprises" },
   { titre: "Fleurs séchées & éternelles", desc: "Compositions en fleurs séchées, pampassi, eucalyptus et gypsophile — déco longue durée au style bohème ou minimaliste.", tag: "Séchées" },
-  { titre: "Livraison & abonnements", desc: "Livraison à domicile sur " + (clientCity({ formData: fd }) ?? "Strasbourg") + " et alentours. Surprise florale mensuelle avec sélection de saison pour les amoureux des fleurs.", tag: "Livraison" },
+  { titre: "Livraison & abonnements", desc: "Livraison à domicile sur " + (clientCity(sessionData) ?? "Strasbourg") + " et alentours. Surprise florale mensuelle avec sélection de saison pour les amoureux des fleurs.", tag: "Livraison" },
 ],
 
 );
@@ -130,7 +128,7 @@ function ATOUTS_LIVE() {
   return [
   "Fleurs sourcées auprès de producteurs locaux et certifiés",
   "Création sur mesure selon vos couleurs et votre budget",
-  "Livraison le jour même sur " + (clientCity({ formData: fd }) ?? "Strasbourg") + " (commande avant 11h)",
+  "Livraison le jour même sur " + (clientCity(sessionData) ?? "Strasbourg") + " (commande avant 11h)",
   "Conseil personnalisé par nos fleuristes passionnées",
 ];
 }
@@ -140,7 +138,7 @@ function AVIS_SOURCE_LIVE() {
   return [
   { texte: "Le bouquet de mariée était exactement dans mes rêves. L'équipe a su capturer ce que je voulais dès le premier rendez-vous. Des fleurs magnifiques et un service hors pair.", auteur: "Juliette B.", detail: "Mariage, juin 2025" },
   { texte: "Abonnement floral mensuel pour notre cabinet dentaire depuis 1 an. Toujours ponctuels, créatifs et avec des compositions qui durent. Nos patients adorent.", auteur: "Cabinet Dr. Engel", detail: "Abonnement entreprise" },
-  { texte: "Je commande régulièrement pour offrir. Chaque bouquet est soigné, bien emballé et les fleurs tiennent au moins 10 jours. Une vraie adresse de qualité à " + (clientCity({ formData: fd }) ?? "Strasbourg") + ".", auteur: "Sophie K.", detail: "Cliente régulière" },
+  { texte: "Je commande régulièrement pour offrir. Chaque bouquet est soigné, bien emballé et les fleurs tiennent au moins 10 jours. Une vraie adresse de qualité à " + (clientCity(sessionData) ?? "Strasbourg") + ".", auteur: "Sophie K.", detail: "Cliente régulière" },
 ];
 }
 let AVIS_SOURCE = AVIS_SOURCE_LIVE();
@@ -190,20 +188,31 @@ export default function AtelierBloomPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  ATOUTS = ATOUTS_LIVE();
-  ENTREPRISES = ENTREPRISES_LIVE();
-  AVIS_SOURCE = AVIS_SOURCE_LIVE();
   CREATIONS = CREATIONS_LIVE();
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
+  ENTREPRISES = ENTREPRISES_LIVE();
+  ATOUTS = ATOUTS_LIVE();
 
 
 
@@ -268,29 +277,19 @@ export default function AtelierBloomPage() {
           />
         ) : (
           <div>
-            {/* Le logo portait « Atelier Bloom » en dur : le nom de la
-                démonstration, à l'endroit le plus visible de la page, sur le
-                site de n'importe quel client. Sans client, les deux teintes
-                d'origine reviennent. */}
-            {clientName(sessionData) ? (
-              <span style={{ fontFamily: FONT_SERIF, fontSize: 22, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>{clientName(sessionData)}</span>
-            ) : (
-              <>
-                <span style={{ fontFamily: FONT_SERIF, fontSize: 22, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>Atelier</span>
-                <span style={{ fontFamily: FONT_SERIF, fontSize: 22, color: scrolled ? C.peach : "rgba(255,255,255,0.85)" }}> Bloom</span>
-              </>
-            )}
+            <span style={{ fontFamily: FONT_SERIF, fontSize: 22, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>Atelier</span>
+            <span style={{ fontFamily: FONT_SERIF, fontSize: 22, color: scrolled ? C.peach : "rgba(255,255,255,0.85)" }}> Bloom</span>
           </div>
         )}
         <div id="mb105-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33388000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#1e3318" }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33388000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#1e3318" }}>
             Commander
           </motion.a>
       </div>
         <div className="mb105-mobile-actions" style={{ display: "none", alignItems: "center", gap: 12 }}>
-          <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33388000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "8px 16px", fontSize: 13, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#1e3318" }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33388000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "8px 16px", fontSize: 13, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#1e3318" }}>
             Commander
           </motion.a>
           <button
@@ -310,7 +309,7 @@ export default function AtelierBloomPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33388000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#1e3318" }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33388000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "#1e3318" }}>
             Commander
           </motion.a>
         </div>
@@ -332,7 +331,7 @@ export default function AtelierBloomPage() {
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Créations florales sur mesure pour vos moments de vie — mariages, anniversaires, deuils et décoration. Fleurs fraîches de saison, sourçage local, passion artisanale.
           </>}</motion.p>
 
@@ -340,7 +339,7 @@ export default function AtelierBloomPage() {
             <motion.a href="#creations" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}55` }} whileHover={{ scale: 1.03 }}>
               Voir les créations <ArrowRight size={16} />
             </motion.a>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33388000000").replace(/[^+0-9]/g, "")}`} style={{ background: "rgba(255,255,255,0.10)", color: "#fff", border: "1px solid rgba(255,255,255,0.28)", borderRadius: 8, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: "rgba(255,255,255,0.18)" }}>
+            <motion.a href={`tel:${fd?.phone ?? "+33388000000"}`} style={{ background: "rgba(255,255,255,0.10)", color: "#fff", border: "1px solid rgba(255,255,255,0.28)", borderRadius: 8, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: "rgba(255,255,255,0.18)" }}>
               <Phone size={16} /> Commander
             </motion.a>
           </motion.div>
@@ -407,7 +406,7 @@ export default function AtelierBloomPage() {
                 </div>
               ))}
             </div>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33388000000").replace(/[^+0-9]/g, "")}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.peach, color: C.white, borderRadius: 8, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ scale: 1.03 }}>
+            <motion.a href={`tel:${fd?.phone ?? "+33388000000"}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.peach, color: C.white, borderRadius: 8, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ scale: 1.03 }}>
               Passer commande <ArrowRight size={16} />
             </motion.a>
           </Reveal>
@@ -490,14 +489,14 @@ export default function AtelierBloomPage() {
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.peach }}>Commander</span>
           <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, margin: "14px 0 16px" }}>{c?.aboutTitle ?? fd?.businessName ?? <>Offrez quelque chose <em>de vivant</em>.</>}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 460, margin: "0 auto 36px", lineHeight: 1.7 }}>{c?.aboutText ?? <>
-            Livraison le jour même à {clientCity({ formData: fd }) ?? "Strasbourg"} pour toute commande passée avant 11h. Bouquets à partir de 35€.
+            Livraison le jour même à {clientCity(sessionData) ?? "Strasbourg"} pour toute commande passée avant 11h. Bouquets à partir de 35€.
           </>}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33388000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "03 88 00 00 00"}
+            <motion.a href={`tel:${fd?.phone ?? "+33388000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
+              <Phone size={18} /> {fd?.phone ?? "03 88 00 00 00"}
             </motion.a>
-            <motion.a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "hello@atelierbloom.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.peach}`, borderRadius: 8, padding: "13px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.peach, color: C.white, borderColor: C.peach }}>
-              <Mail size={18} />{clientEmail(sessionData) ?? fd?.email ?? "hello@atelierbloom.fr"}</motion.a>
+            <motion.a href={`mailto:${fd?.email ?? "hello@atelierbloom.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.peach}`, borderRadius: 8, padding: "13px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.peach, color: C.white, borderColor: C.peach }}>
+              <Mail size={18} />{fd?.email ?? "hello@atelierbloom.fr"}</motion.a>
           </div>
         </Reveal>
       </section>
@@ -506,11 +505,11 @@ export default function AtelierBloomPage() {
       <footer style={{ background: C.text, padding: "48px 80px 24px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
-            <div style={{fontFamily: FONT_SERIF, fontSize: 20, fontStyle: "italic", color: brand ?? 'var(--brand,#a8d498)', marginBottom: 8 }}>{clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Atelier Bloom"))}</div>
-            <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.6 }}>{clientTrade(sessionData) ?? "Fleuriste"} artisanale · {clientCity({ formData: fd }) ?? "Strasbourg"}<br />Lun–Sam 9h–19h</p>
+            <div style={{fontFamily: FONT_SERIF, fontSize: 20, fontStyle: "italic", color: brand ?? 'var(--brand,#a8d498)', marginBottom: 8 }}>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Atelier Bloom"))}</div>
+            <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.6 }}>{clientTrade(sessionData) ?? "Fleuriste"} artisanale · {clientCity(sessionData) ?? "Strasbourg"}<br />Lun–Sam 9h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Strasbourg") + ", Bas-Rhin" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "03 88 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 9h–19h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Strasbourg") + ", Bas-Rhin" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "03 88 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 9h–19h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13 }}>
                 <span style={{ color: C.peach }}>{item.icon}</span>{item.t}
               </div>
@@ -518,7 +517,7 @@ export default function AtelierBloomPage() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-          <span style={{ color: "rgba(255,255,255,0.22)", fontSize: 12 }}>© 2026 {clientName(sessionData) ?? "Atelier Bloom"} — Site par Aevia WS{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.22)", fontSize: 12 }}>© 2026 Atelier Bloom — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="#contact" style={{ color: "rgba(255,255,255,0.22)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

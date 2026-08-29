@@ -9,11 +9,9 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAreas,
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -33,7 +31,7 @@ let bp: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   TOIT & PIERRE PISCINES — Pisciniste / Constructeur de piscines ({clientCity({ formData: fd }) ?? "Nantes"})
+   TOIT & PIERRE PISCINES — Pisciniste / Constructeur de piscines ({clientCity(sessionData) ?? "Nantes"})
    Palette : blanc cassé / ardoise profonde #374151 / rouge tuile #b91c1c
    Fonts : Raleway (titres) + Inter (corps)
    Style : artisanal premium, solide, fiable
@@ -82,7 +80,7 @@ const MATERIAUX = [
 
 function ZONES_DEMO_LIVE() {
   return [
-  { v: (clientCity({ formData: fd }) ?? "Nantes") + " et périphérie", d: "Création, rénovation et entretien" },
+  { v: (clientCity(sessionData) ?? "Nantes") + " et périphérie", d: "Création, rénovation et entretien" },
   { v: "Saint-Nazaire · La Baule", d: "Chantiers côtiers, contraintes de vent étudiées" },
   { v: "Angers · Cholet", d: "Création et rénovation, hors entretien hebdomadaire" },
   { v: "Vannes · Redon", d: "Sur étude, à partir d'un bassin complet" },
@@ -162,7 +160,7 @@ export default function ToitPierrePiscinesPage() {
       s: r.stars ?? r.rating ?? 5,
     })),
     [
-      { q: "Notre piscine béton a été livrée en respectant chaque délai. Chantier propre, équipe à l'écoute, finitions impeccables. Un vrai savoir-faire d'artisan.", n: "Sandrine M.", l: (clientCity({ formData: fd }) ?? "Nantes"), s: 5 },
+      { q: "Notre piscine béton a été livrée en respectant chaque délai. Chantier propre, équipe à l'écoute, finitions impeccables. Un vrai savoir-faire d'artisan.", n: "Sandrine M.", l: (clientCity(sessionData) ?? "Nantes"), s: 5 },
       { q: "Rénovation complète de notre bassin : liner, margelles et filtration. Le résultat dépasse nos attentes. On profite enfin de notre piscine.", n: "Patrick & Aurélie F.", l: "Saint-Herblain", s: 5 },
       { q: "Installation d'un volet immergé et mise aux normes de sécurité. Travail soigné, conseils précieux. Je recommande sans hésiter.", n: "Luc B.", l: "Rezé", s: 5 },
     ]
@@ -177,10 +175,21 @@ export default function ToitPierrePiscinesPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -262,8 +271,8 @@ export default function ToitPierrePiscinesPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0240123456").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#b91c1c)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "02 40 12 34 56"}
+            <a href={`tel:${fd?.phone ?? "0240123456"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#b91c1c)] font-bold text-sm">
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "02 40 12 34 56"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[#374151] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#1f2937] transition-colors">
               Devis Gratuit
@@ -273,7 +282,7 @@ export default function ToitPierrePiscinesPage() {
               <SheetContent side="right" className="bg-[#f9f8f6] border-slate-200 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#1f2937] hover:text-[var(--brand,#b91c1c)] transition-colors">{l}</Link>)}
-                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0240123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#b91c1c)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "02 40 12 34 56"}</a>
+                  <a href={`tel:${fd?.phone ?? "0240123456"}`} className="flex items-center gap-3 text-[var(--brand,#b91c1c)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "02 40 12 34 56"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -303,7 +312,7 @@ export default function ToitPierrePiscinesPage() {
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Construction, rénovation, sécurité, couverture et entretien de piscines. Pisciniste qualifié depuis 20 ans. Devis gratuit, garantie décennale.
           </>}</motion.p>
 
@@ -311,8 +320,8 @@ export default function ToitPierrePiscinesPage() {
             <button className="px-8 py-4 bg-[var(--brand,#b91c1c)] text-white font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-[#dc2626] transition-colors">{c?.ctaText ?? <>
               Devis gratuit
             </>}</button>
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0240123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-8 py-4 border border-white/20 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#fca5a5]/50 hover:text-[#fca5a5] transition-all">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "02 40 12 34 56"}
+            <a href={`tel:${fd?.phone ?? "0240123456"}`} className="flex items-center gap-3 px-8 py-4 border border-white/20 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#fca5a5]/50 hover:text-[#fca5a5] transition-all">
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "02 40 12 34 56"}
             </a>
           </motion.div>
         </motion.div>
@@ -475,8 +484,8 @@ export default function ToitPierrePiscinesPage() {
               <button className="px-10 py-4 bg-[var(--brand,#b91c1c)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#dc2626] transition-colors">
                 Demander un devis gratuit
               </button>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0240123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#fca5a5]/50 hover:text-[#fca5a5] transition-all">
-                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "02 40 12 34 56"}
+              <a href={`tel:${fd?.phone ?? "0240123456"}`} className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#fca5a5]/50 hover:text-[#fca5a5] transition-all">
+                <Phone className="w-4 h-4" /> {fd?.phone ?? "02 40 12 34 56"}
               </a>
             </div>
           </div>
@@ -496,7 +505,7 @@ export default function ToitPierrePiscinesPage() {
           {[
             { t: "Prestations", ls: ["Construction sur-mesure", "Rénovation de bassin", "Sécurité & couverture", "Recherche de fuite", "Local technique", "Entretien & hivernage"] },
             { t: "Matériaux", ls: ["Béton projeté", "Coque polyester", "Bloc à bancher", "Liner armé", "Carrelage & mosaïque"] },
-            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "02 40 12 34 56"), (clientEmail(sessionData) ?? fd?.email ?? "devis@toitpierre.fr"), "Pays de la Loire", "Étude 3D offerte", "Devis gratuit sous 48h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "02 40 12 34 56"), (fd?.email ?? "devis@toitpierre.fr"), "Pays de la Loire", "Étude 3D offerte", "Devis gratuit sous 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#b91c1c)] mb-5">{col.t}</h4>
@@ -507,7 +516,7 @@ export default function ToitPierrePiscinesPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
-          <span>© 2026 {fd?.businessName ?? "Toit & Pierre Piscines"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 456 789 012 00067"} · Garantie Décennale · Assurance RC Pro{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {fd?.businessName ?? "Toit & Pierre Piscines"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 456 789 012 00067"} · Garantie Décennale · Assurance RC Pro{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#b91c1c)]/30">{clientTrade(sessionData) ?? "Pisciniste"} certifié · Pays de la Loire</span>
         </div>
       </footer>

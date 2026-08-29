@@ -10,18 +10,28 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientAreas,
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientSiret,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
+
+/* Les étapes de la démonstration, sorties du rendu pour que la méthode du
+   client puisse s'y substituer ligne à ligne. */
+const METHODE_DEMO_184 = [
+              { n: "01", t: "Devis en ligne", d: "Remplissez le formulaire ou appelez. Réponse sous 2h avec tarif et disponibilités." },
+              { n: "02", t: "On s'organise", d: "On choisit ensemble la fréquence, les horaires et les pièces à traiter." },
+              { n: "03", t: "Premier passage", d: "Une intervenante formée se présente à l'heure. Badge, blouse, matériel inclus." },
+              { n: "04", t: "Vous validez", d: "Satisfaction garantie. Retouche gratuite si quoi que ce soit ne vous convient pas." },
+            ];
+
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
@@ -32,7 +42,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   BRILLO NET — Entreprise de ménage & nettoyage professionnel ({clientCity({ formData: fd }) ?? "Lyon"})
+   BRILLO NET — Entreprise de ménage & nettoyage professionnel ({clientCity(sessionData) ?? "Lyon"})
    Palette : blanc pur / turquoise frais #0d9488 / fond doux #f0fafa / charbon #1c2b2b
    Fonts : Plus Jakarta Sans (titres) + Inter (corps)
    Style : ultra propre, aéré, confiance, professionnel
@@ -67,7 +77,7 @@ let TARIFS = TARIFS_DEMO;
 
 function ZONES_DEMO_LIVE() {
   return [
-  { v: (clientCity({ formData: fd }) ?? "Lyon") + " — 9e", d: "Tous arrondissements, sans supplément" },
+  { v: (clientCity(sessionData) ?? "Lyon") + " — 9e", d: "Tous arrondissements, sans supplément" },
   { v: (clientCity(sessionData) ?? "Villeurbanne"), d: "Sans supplément" },
   { v: "Caluire · Rillieux", d: "Sans supplément" },
   { v: "Écully · Tassin · Sainte-Foy", d: "Sans supplément" },
@@ -84,7 +94,7 @@ function SERVICES_SOURCE_LIVE() {
   { icon: Building, title: "Nettoyage bureaux", desc: "Locaux professionnels, open spaces, salles de réunion, sanitaires. Intervention en soirée ou week-end pour ne pas perturber l'activité." },
   { icon: Sparkles, title: "Nettoyage fin de chantier", desc: "Déblayage et nettoyage complet post-travaux. Vitres, plinthes, enduits, carrelage. Rendu prêt à emménager en 1 intervention." },
   { icon: Leaf, title: "Ménage écologique", desc: "Produits certifiés Ecocert / Ecolabel uniquement. Zéro toxique, zéro résidu chimique. Idéal familles avec enfants en bas âge ou allergiques." },
-  { icon: Clock, title: "Ménage express & ponctuel", desc: "Avant/après emménagement, avant une réception, entre deux locataires Airbnb. Intervention rapide sous 24h sur " + (clientCity({ formData: fd }) ?? "Lyon") + " Métropole." },
+  { icon: Clock, title: "Ménage express & ponctuel", desc: "Avant/après emménagement, avant une réception, entre deux locataires Airbnb. Intervention rapide sous 24h sur " + (clientCity(sessionData) ?? "Lyon") + " Métropole." },
   { icon: Shield, title: "Vitres & surfaces vitrées", desc: "Lavage de vitres intérieures et extérieures jusqu'au 3ème étage. Velux, baies, vérandas. Sans traces garanties, finition cristal." },
 ];
 }
@@ -124,10 +134,21 @@ export default function BrilloNetPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -185,7 +206,7 @@ export default function BrilloNetPage() {
             ) : (
               <>
                 <Sparkles className="w-4 h-4 text-[var(--brand,#0d9488)]" />
-                <span className={`font-bold ${scrolled ? "text-[#1c2b2b]" : "text-white"} tracking-tight text-sm`}>{clientName({ formData: fd }) ?? "Brillo"}<span className="text-[var(--brand,#0d9488)]">Net</span></span>
+                <span className={`font-bold ${scrolled ? "text-[#1c2b2b]" : "text-white"} tracking-tight text-sm`}>{clientName(sessionData) ?? "Brillo"}<span className="text-[var(--brand,#0d9488)]">Net</span></span>
               </>
             )}
           </div>
@@ -195,8 +216,8 @@ export default function BrilloNetPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478123456").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#0d9488)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 12 34 56"}
+            <a href={`tel:${fd?.phone ?? "0478123456"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#0d9488)] font-bold text-sm">
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "04 78 12 34 56"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#0d9488)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#0b7d73] transition-colors rounded-full">
               Devis gratuit
@@ -206,7 +227,7 @@ export default function BrilloNetPage() {
               <SheetContent side="right" className="bg-white border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#1c2b2b] hover:text-[var(--brand,#0d9488)] transition-colors">{l}</Link>)}
-                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#0d9488)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 12 34 56"}</a>
+                  <a href={`tel:${fd?.phone ?? "0478123456"}`} className="flex items-center gap-3 text-[var(--brand,#0d9488)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "04 78 12 34 56"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -231,7 +252,7 @@ export default function BrilloNetPage() {
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-3 mb-8">
               <div className="w-6 h-[1px] bg-[var(--brand,#0d9488)]" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#2dd4bf]">Ménage & Nettoyage Pro · {clientCity({ formData: fd }) ?? "Lyon"} Métropole</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#2dd4bf]">Ménage & Nettoyage Pro · {clientCity(sessionData) ?? "Lyon"} Métropole</span>
             </div>
           </motion.div>
 
@@ -239,15 +260,15 @@ export default function BrilloNetPage() {
             className="text-5xl md:text-7xl lg:text-[82px] font-bold leading-[0.88] tracking-tight mb-8 text-white">{<>{clientHeroLine(sessionData, 0, 2, 16) ?? "Votre intérieur,"}<br />{clientHeroLine(sessionData, 1, 2, 16) ?? "impeccable."}</>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
-            className="max-w-md text-sm text-white/38 leading-relaxed mb-10" style={{ fontFamily: "'Inter', sans-serif" }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            Entreprise de ménage et nettoyage sur {clientCity({ formData: fd }) ?? "Lyon"}. Domicile, bureaux, fin de chantier. Intervenantes formées, assurées, ponctualité garantie. Premier passage sans engagement.
+            className="max-w-md text-sm text-white/38 leading-relaxed mb-10" style={{ fontFamily: "'Inter', sans-serif" }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
+            Entreprise de ménage et nettoyage sur {clientCity(sessionData) ?? "Lyon"}. Domicile, bureaux, fin de chantier. Intervenantes formées, assurées, ponctualité garantie. Premier passage sans engagement.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.98 }} className="flex flex-wrap gap-3 mb-8">
             <button className="px-8 py-4 bg-[var(--brand,#0d9488)] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#0b7d73] transition-colors rounded-full">{c?.ctaText ?? <>
               Devis gratuit sous 2h
             </>}</button>
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#0d9488)]/50 hover:text-[#2dd4bf] transition-all rounded-full">
+            <a href={`tel:${fd?.phone ?? "0478123456"}`} className="flex items-center gap-3 px-8 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#0d9488)]/50 hover:text-[#2dd4bf] transition-all rounded-full">
               <Phone className="w-4 h-4" /> Appeler maintenant
             </a>
           </motion.div>
@@ -379,12 +400,7 @@ export default function BrilloNetPage() {
             <h2 className="text-4xl font-bold text-[#1c2b2b]">{/* TEXTE_SECTION */ clientText(sessionData, "process.titre") ?? (<>Comment ça marche ?</>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-            {[
-              { n: "01", t: "Devis en ligne", d: "Remplissez le formulaire ou appelez. Réponse sous 2h avec tarif et disponibilités." },
-              { n: "02", t: "On s'organise", d: "On choisit ensemble la fréquence, les horaires et les pièces à traiter." },
-              { n: "03", t: "Premier passage", d: "Une intervenante formée se présente à l'heure. Badge, blouse, matériel inclus." },
-              { n: "04", t: "Vous validez", d: "Satisfaction garantie. Retouche gratuite si quoi que ce soit ne vous convient pas." },
-            ].map((s, i) => (
+            {resolveList(fusionnerEtapes(METHODE_DEMO_184, clientMethode(sessionData)), METHODE_DEMO_184).map((s, i) => (
               <Reveal key={i} delay={i * 0.09}>
                 <div className="bg-white rounded-2xl p-7 shadow-sm h-full">
                   <div className="text-4xl font-bold text-[var(--brand,#0d9488)]/15 mb-4 tracking-tight">{s.n}</div>
@@ -406,9 +422,9 @@ export default function BrilloNetPage() {
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
-              { q: "Intervenante ponctuelle, souriante, impeccable. Notre appartement n'a jamais été aussi propre. On renouvelle chaque semaine sans hésitation.", n: "Claire & Thomas M.", l: (clientCity({ formData: fd }) ?? "Lyon") },
+              { q: "Intervenante ponctuelle, souriante, impeccable. Notre appartement n'a jamais été aussi propre. On renouvelle chaque semaine sans hésitation.", n: "Claire & Thomas M.", l: (clientCity(sessionData) ?? "Lyon") },
               { q: "Nettoyage fin de chantier parfait. La cuisine et les vitres étincelaient. Équipe rapide, pro et avec les bons produits. Vraiment recommandé.", n: "Mathieu V.", l: (clientCity(sessionData) ?? "Villeurbanne") },
-              { q: "Nos bureaux sont nettoyés 3 fois par semaine. Zéro problème depuis 2 ans, intervenantes discrètes, travail remarquable. C'est pas donné à tout le monde.", n: "Agence ARBO", l: (clientCity({ formData: fd }) ?? "Lyon") },
+              { q: "Nos bureaux sont nettoyés 3 fois par semaine. Zéro problème depuis 2 ans, intervenantes discrètes, travail remarquable. C'est pas donné à tout le monde.", n: "Agence ARBO", l: (clientCity(sessionData) ?? "Lyon") },
             ].map((t, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="p-8 rounded-2xl bg-[#f0fafa] border border-[var(--brand,#0d9488)]/10 h-full flex flex-col">
@@ -434,14 +450,14 @@ export default function BrilloNetPage() {
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/45 mb-6">Premier passage</div>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Sans engagement,<br />sans contrat forcé.</>)}</h2>
             <p className="text-white/55 mb-10 text-sm leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>
-              Devis gratuit en 2h · Premier passage sur {clientCity({ formData: fd }) ?? "Lyon"} Métropole · Résiliation libre à tout moment
+              Devis gratuit en 2h · Premier passage sur {clientCity(sessionData) ?? "Lyon"} Métropole · Résiliation libre à tout moment
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-white text-[var(--brand,#0d9488)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0fafa] transition-colors rounded-full shadow-lg">
                 Demander mon devis
               </button>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478123456").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-full">
-                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 12 34 56"}
+              <a href={`tel:${fd?.phone ?? "0478123456"}`} className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-full">
+                <Phone className="w-4 h-4" /> {fd?.phone ?? "04 78 12 34 56"}
               </a>
             </div>
           </div>
@@ -452,13 +468,13 @@ export default function BrilloNetPage() {
       <footer className="bg-[#1c2b2b] pt-20 pb-10 px-6">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="flex items-center gap-2 mb-5"><Sparkles className="w-4 h-4 text-[var(--brand,#0d9488)]" /><span className="font-bold text-white text-sm">BrilloNet</span></div>
-            <p className="text-white/20 text-sm leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>Ménage & nettoyage professionnel sur {clientCity({ formData: fd }) ?? "Lyon"}. Particuliers et professionnels. Produits éco certifiés.</p>
+            <div className="flex items-center gap-2 mb-5"><Sparkles className="w-4 h-4 text-[var(--brand,#0d9488)]" /><span className="font-bold text-white text-sm">{clientName(sessionData) ?? "BrilloNet"}</span></div>
+            <p className="text-white/20 text-sm leading-relaxed" style={{ fontFamily: "'Inter', sans-serif" }}>Ménage & nettoyage professionnel sur {clientCity(sessionData) ?? "Lyon"}. Particuliers et professionnels. Produits éco certifiés.</p>
           </div>
           {[
             { t: "Services", ls: ["Ménage domicile", "Nettoyage bureaux", "Fin de chantier", "Nettoyage écologique", "Vitres & surfaces"] },
             { t: "Infos", ls: ["Qui sommes-nous", "Zone d'intervention", "Tarifs indicatifs", "Avis clients", "Blog nettoyage"] },
-            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "04 78 12 34 56"), (clientEmail(sessionData) ?? fd?.email ?? "contact@brillonet.fr"), (clientCity({ formData: fd }) ?? "Lyon") + " Métropole", "7j/7 8h-20h", "Devis gratuit en 2h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "04 78 12 34 56"), (fd?.email ?? "contact@brillonet.fr"), (clientCity(sessionData) ?? "Lyon") + " Métropole", "7j/7 8h-20h", "Devis gratuit en 2h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#0d9488)] mb-5">{col.t}</h4>
@@ -469,8 +485,8 @@ export default function BrilloNetPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 {clientName(sessionData) ?? "BrilloNet"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 789 012 345 00067"} · RC Pro · Assurance décennale{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
-          <span className="text-[var(--brand,#0d9488)]/30">Ménage professionnel · {clientCity({ formData: fd }) ?? "Lyon"}</span>
+          <span>© 2026 {clientName(sessionData) ?? "BrilloNet"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 789 012 345 00067"} · RC Pro · Assurance décennale{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span className="text-[var(--brand,#0d9488)]/30">Ménage professionnel · {clientCity(sessionData) ?? "Lyon"}</span>
         </div>
       </footer>
     </div>

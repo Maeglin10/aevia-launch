@@ -41,7 +41,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   PEAU & PLUME — Atelier de Tatouage & Illustration · {clientCity(sessionData) ?? "Lille"}
+   {clientName(sessionData) ?? "Peau & Plume"} — Atelier de Tatouage & Illustration · {clientCity(sessionData) ?? "Lille"}
    Scroll choreography éditoriale : crossfade 320vh · sticky SafetyPanel ·
    formulaire interactif · 10 sous-composants nommés. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -206,7 +206,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   {
     eyebrow: 'Notre univers',
     img: ph((clientPhotos(sessionData)[8] || 'https://images.pexels.com/photos/7005675/pexels-photo-7005675.jpeg?auto=compress&cs=tinysrgb&w=1600'), 800),
-    alt: 'Illustration et tatouage — Peau & Plume',
+    alt: `Illustration et tatouage — ${clientName(sessionData) ?? "Peau & Plume"}`,
     numeral: '01',
     title: (
       <>
@@ -219,7 +219,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   {
     eyebrow: (clientCity(sessionData) ?? 'Lille'),
     img: ph((clientPhotos(sessionData)[9] || 'https://images.pexels.com/photos/29547854/pexels-photo-29547854.jpeg?auto=compress&cs=tinysrgb&w=1600'), 800),
-    alt: 'Atelier lumineux Peau & Plume — Vieux-Lille',
+    alt: `Atelier lumineux ${clientName(sessionData) ?? "Peau & Plume"} — Vieux-Lille`,
     numeral: '02',
     title: (
       <>
@@ -621,7 +621,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || ph((clientPhotos(sessionData)[10] || 'https://images.pexels.com/photos/7005675/pexels-photo-7005675.jpeg?auto=compress&cs=tinysrgb&w=1600'), 2000)}
-          alt="Tatouage nature et plumes — Peau & Plume Lille"
+          alt={`Tatouage nature et plumes — ${clientName(sessionData) ?? "Peau & Plume"} Lille`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1406,7 +1406,7 @@ function SafetyPanel() {
             >
               <img
                 src={fd?.photoUrls?.[1] || ph((clientPhotos(sessionData)[11] || 'https://images.pexels.com/photos/20531496/pexels-photo-20531496.jpeg?auto=compress&cs=tinysrgb&w=1600'), 900)}
-                alt="Hygiène irréprochable — Peau & Plume"
+                alt={`Hygiène irréprochable — ${clientName(sessionData) ?? "Peau & Plume"}`}
                 loading="lazy"
                 style={{
                   width: '100%',
@@ -1565,7 +1565,7 @@ function Testimonials() {
       >
         <Reveal>
           <Eyebrow color={C.accent} align="center">
-            Ils portent Peau &amp; Plume
+            Ils portent {clientName(sessionData) ?? "Peau & Plume"}
           </Eyebrow>
         </Reveal>
         <Reveal delay={0.08}>
@@ -2018,7 +2018,7 @@ function Footer() {
             }}
           >
             <Feather size={20} color={C.accent} strokeWidth={1.5} />
-            Peau &amp; Plume
+            {clientName(sessionData) ?? "Peau & Plume"}
           </div>
           <p
             style={{
@@ -2172,10 +2172,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2185,10 +2196,10 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  BASE = BASE_LIVE();
-  ARTISTS_DEMO = ARTISTS_DEMO_LIVE();
-  STYLES_DEMO = STYLES_DEMO_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
+  STYLES_DEMO = STYLES_DEMO_LIVE();
+  ARTISTS_DEMO = ARTISTS_DEMO_LIVE();
+  BASE = BASE_LIVE();
 
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),

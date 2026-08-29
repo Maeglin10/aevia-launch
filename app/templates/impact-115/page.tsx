@@ -20,7 +20,6 @@ import {
 } from "framer-motion";
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientList,
   clientName,
@@ -600,10 +599,21 @@ export default function Impact115Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -779,7 +789,7 @@ export default function Impact115Page() {
               <line x1="11" y1="17" x2="7" y2="14" stroke={C.bg} strokeWidth="0.8" />
               <line x1="11" y1="13" x2="15" y2="10" stroke={C.bg} strokeWidth="0.8" />
             </svg>
-            {/* NOM_LOGO */ clientName({ formData: fd }) ?? "Rostova Studio"}
+            {/* NOM_LOGO */ clientName(sessionData) ?? "Rostova Studio"}
           </div>
         )}
 
@@ -2071,7 +2081,7 @@ export default function Impact115Page() {
                 Contact
               </div>
               <a
-                href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "hello@rostova.studio"}`}
+                href={`mailto:${fd?.email ?? "hello@rostova.studio"}`}
                 style={{
                   display: "block",
                   fontFamily: C.fontSans,
@@ -2082,7 +2092,7 @@ export default function Impact115Page() {
                   marginBottom: 10,
                 }}
               >
-                {clientEmail(sessionData) ?? fd?.email ?? "hello@rostova.studio"}
+                {fd?.email ?? "hello@rostova.studio"}
               </a>
               <div
                 style={{
@@ -2116,7 +2126,7 @@ export default function Impact115Page() {
                 letterSpacing: "0.06em",
               }}
             >
-              © {new Date().getFullYear()} {clientName(sessionData) ?? "Rostova Architecture Studio."} All rights reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © {new Date().getFullYear()} {clientName(sessionData) ?? "Rostova Architecture Studio."} All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
             <div style={{ display: "flex", gap: 28 }}>
               {["Privacy", "Terms", "Cookies"].map((item) => (

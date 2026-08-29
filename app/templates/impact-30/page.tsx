@@ -29,12 +29,10 @@ import {
 } from "@/lib/templates/hero-kit";
 import {
   clientCity,
-  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -481,7 +479,7 @@ function Hero() {
               transition={{ duration: 0.55, ease: EASE_3, delay: BEAT.second }}
               className="hero-lede"
               style={{ fontSize: 16, color: C.textMuted, lineHeight: 1.75, maxWidth: 440, margin: "0 0 26px" }}
-            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Soins conservateurs, esthétique et implantologie. Devis détaillé avant chaque acte, sans engagement.
             </>}</motion.p>
 
@@ -1265,7 +1263,9 @@ function Pricing() {
 }
 
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
-function FAQS_DEMO_VIVANT() {
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function FAQS_DEMO_LIVE() {
   return [
   {
     q: "Le blanchiment dentaire est-il remboursé par la Sécurité Sociale ?",
@@ -1285,11 +1285,11 @@ function FAQS_DEMO_VIVANT() {
   },
   {
     q: "Acceptez-vous les urgences dentaires ?",
-    a: "Oui, nous réservons des créneaux d'urgence chaque jour. En cas de douleur aiguë ou de traumatisme, appelez-nous au " + (clientPhone(sessionData) ?? fd?.phone ?? "01 42 56 78 90") + " — nous vous prendrons en charge dans les plus brefs délais.",
+    a: "Oui, nous réservons des créneaux d'urgence chaque jour. En cas de douleur aiguë ou de traumatisme, appelez-nous au " + (fd?.phone ?? "01 42 56 78 90") + " — nous vous prendrons en charge dans les plus brefs délais.",
   },
 ];
 }
-let FAQS_DEMO = FAQS_DEMO_VIVANT();
+let FAQS_DEMO = FAQS_DEMO_LIVE();
 
 function FAQ() {
   const ref = useRef<HTMLElement>(null);
@@ -1421,20 +1421,28 @@ export default function Impact30() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  /* Le tableau lit la session : il doit être reconstruit ICI, au rendu.
-     Écrit en constante de module, il était évalué à l'import, quand la
-     session valait encore null — le repli gagnait toujours. */
-  FAQS_DEMO = FAQS_DEMO_VIVANT();
+  FAQS_DEMO = FAQS_DEMO_LIVE();
   memoriserSession(sessionData);
   PLANS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),

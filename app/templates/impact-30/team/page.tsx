@@ -1,7 +1,11 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientTeam } from "@/lib/templates/clientContent";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+  clientTeam,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
@@ -26,13 +30,25 @@ export default function TeamPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
@@ -95,7 +111,7 @@ export default function TeamPage() {
         <div style={{ borderBottom: `2px solid ${C.border}`, paddingBottom: 32, marginBottom: 48 }}>
           <span style={{ color: C.accent, fontWeight: 700, textTransform: "uppercase", fontSize: 13, letterSpacing: 1, display: "block", marginBottom: 8 }}>Découvrez nos Experts</span>
           <h1 style={{ fontSize: "clamp(32px, 4vw, 52px)", fontWeight: 800, color: C.text, letterSpacing: -1.5, lineHeight: 1.1 }}>
-            L'Équipe Médicale Smile Studio
+            L'Équipe Médicale {clientName(sessionData) ?? "Smile Studio"}
           </h1>
           <p style={{ color: C.textMuted, fontSize: 16, marginTop: 12, maxWidth: 620 }}>
             Nos dentistes et orthodontistes sont diplômés des plus grandes universités et se forment continuellement aux protocoles médicaux les plus avancés.

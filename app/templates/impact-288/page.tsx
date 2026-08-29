@@ -34,11 +34,10 @@ import {
   clientAddress,
   clientCertifications,
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientList,
+  clientMethode,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -46,6 +45,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -60,7 +60,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   AMPÈRE & FILS — {clientTrade(sessionData) ?? "Électricien"} artisan · {clientCity(sessionData) ?? "Nantes"} & Loire-Atlantique
+   {clientName(sessionData) ?? "Ampère & Fils"} — {clientTrade(sessionData) ?? "Électricien"} artisan · {clientCity(sessionData) ?? "Nantes"} & Loire-Atlantique
    Template premium calqué sur impact-218. Auto-suffisant. 'use client'.
    10 sous-composants : Hero · Crossfade · Services · Process · Testimonials
                         DevisForm · IRVE · Solaire · Certif · Footer
@@ -330,8 +330,6 @@ function Nav() {
         ) : (
           <>
             <Zap size={20} color={C.green} strokeWidth={2.5} />
-            {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
-                portait « Ampère & Fils » sur le site de n'importe quel client. */}
             {clientName(sessionData) ?? "Ampère & Fils"}
           </>
         )}
@@ -492,7 +490,7 @@ function HeroSection() {
       >
         <img
           src={PHOTO.tableau}
-          alt="Tableau de distribution électrique Ampère et Fils"
+          alt={`Tableau de distribution électrique ${clientName(sessionData) ?? "Ampère & Fils"}`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="true"
         />
@@ -611,10 +609,10 @@ function HeroSection() {
           <a href="#devis" style={{ textDecoration: 'none' }}>
             <GreenButton filled>Devis gratuit</GreenButton>
           </a>
-          <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0240000000").replace(/[^+0-9]/g, "")}`} style={{ textDecoration: 'none' }}>
+          <a href={`tel:${fd?.phone ?? "0240000000"}`} style={{ textDecoration: 'none' }}>
             <GreenButton>
               <Phone size={15} />
-              {clientPhone(sessionData) ?? fd?.phone ?? "02 40 00 00 00"}
+              {fd?.phone ?? "02 40 00 00 00"}
             </GreenButton>
           </a>
         </motion.div>
@@ -719,10 +717,13 @@ type CrossfadeSlide = {
   sub: string;
 };
 
-const SLIDES: CrossfadeSlide[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function SLIDES_LIVE(): CrossfadeSlide[] {
+  return [
   {
     src: PHOTO.tableau,
-    alt: 'Installation tableau électrique Ampère et Fils',
+    alt: `Installation tableau électrique ${clientName(sessionData) ?? "Ampère & Fils"}`,
     index: '01',
     title: 'Installation & rénovation',
     sub: 'Mise aux normes NF C 15-100, tableaux modulaires, câblage neuf ou rénovation complète.',
@@ -742,6 +743,8 @@ const SLIDES: CrossfadeSlide[] = [
     sub: "Poses de panneaux photovoltaïques, autoconsommation, revente EDF, aides MaPrimeRénov'.",
   },
 ];
+}
+let SLIDES: CrossfadeSlide[] = SLIDES_LIVE();
 
 function SlideImage({
   slide,
@@ -1187,7 +1190,7 @@ function ServicesSection() {
               lineHeight: 1.7,
             }}
           >
-            De la mise aux normes à l'installation solaire, Ampère &amp; Fils
+            De la mise aux normes à l'installation solaire, {clientName(sessionData) ?? "Ampère & Fils"}
             couvre l'ensemble de vos besoins électriques à {clientCity(sessionData) ?? "Nantes"} et en
             Loire-Atlantique.
           </p>
@@ -1229,11 +1232,14 @@ function ServicesSection() {
    4 · PROCESS SECTION
    Left sticky photo technicien + Right scroll 4 étapes
    ════════════════════════════════════════════════════════════════════════════ */
-const STEPS = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function STEPS_LIVE() {
+  return [
   {
     num: '01',
     title: 'Visite technique',
-    desc: "Un technicien Ampère & Fils se déplace chez vous, gratuitement, pour évaluer votre installation existante et comprendre vos besoins. Diagnostic complet inclus.",
+    desc: `Un technicien ${clientName(sessionData) ?? "Ampère & Fils"} se déplace chez vous, gratuitement, pour évaluer votre installation existante et comprendre vos besoins. Diagnostic complet inclus.`,
     icon: Home,
   },
   {
@@ -1254,7 +1260,9 @@ const STEPS = [
     desc: "Nous vous accompagnons pour l'obtention de l'attestation CONSUEL et la mise en service. Votre installation est vérifiée, conforme et opérationnelle.",
     icon: Shield,
   },
-] as const;
+];
+}
+let STEPS = STEPS_LIVE();
 
 function StepBlock({ step, i }: { step: (typeof STEPS)[number]; i: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -1403,7 +1411,7 @@ function ProcessSection() {
           >
             <img
               src={PHOTO.technicien}
-              alt="Électricien Ampère et Fils au travail"
+              alt={`Électricien ${clientName(sessionData) ?? "Ampère & Fils"} au travail`}
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
@@ -1432,7 +1440,7 @@ function ProcessSection() {
                   lineHeight: 1.2,
                 }}
               >
-                Ampère &amp; Fils
+                {clientName(sessionData) ?? "Ampère & Fils"}
               </div>
               <div
                 style={{
@@ -1478,7 +1486,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     name: 'Sophie M.',
     city: (clientCity(sessionData) ?? 'Nantes') + ' (44000)',
     project: 'Rénovation électrique complète',
-    text: "Ampère & Fils a refait l'intégralité de notre installation dans une maison de 1972. Travail soigné, tableau flambant neuf, CONSUEL obtenu en une semaine. Tarif juste et équipe très pro. Je recommande sans hésitation !",
+    text: `${clientName(sessionData) ?? "Ampère & Fils"} a refait l'intégralité de notre installation dans une maison de 1972. Travail soigné, tableau flambant neuf, CONSUEL obtenu en une semaine. Tarif juste et équipe très pro. Je recommande sans hésitation !`,
     stars: 5,
   },
   {
@@ -1876,12 +1884,12 @@ function DevisFormSection() {
               >
                 Merci {form.prenom} ! Nous avons bien reçu votre demande de devis
                 pour <strong style={{ color: C.green }}>{form.projet || 'votre projet'}</strong>.
-                Un technicien Ampère &amp; Fils vous contactera sous 48h ouvrées.
+                Un technicien {clientName(sessionData) ?? "Ampère & Fils"} vous contactera sous 48h ouvrées.
               </p>
               <div style={{ marginTop: 8, display: 'flex', gap: 12, alignItems: 'center' }}>
                 <Phone size={16} color={C.green} />
                 <span style={{ fontFamily: SANS, fontSize: 15, color: 'rgba(255,255,255,0.80)' }}>
-                  Besoin urgent ? <strong style={{ color: C.green }}>{clientPhone(sessionData) ?? fd?.phone ?? "02 40 00 00 00"}</strong>
+                  Besoin urgent ? <strong style={{ color: C.green }}>{fd?.phone ?? "02 40 00 00 00"}</strong>
                 </span>
               </div>
             </motion.div>
@@ -2110,7 +2118,7 @@ function IrveSection() {
                   marginBottom: 28,
                 }}
               >
-                Ampère &amp; Fils est agréé <strong style={{ color: C.navy }}>IRVE P1/P2/P3</strong> par l'INERIS.
+                {clientName(sessionData) ?? "Ampère & Fils"} est agréé <strong style={{ color: C.navy }}>IRVE P1/P2/P3</strong> par l'INERIS.
                 Nous installons des bornes de recharge pour tous types de véhicules
                 électriques et hybrides rechargeables — chez le particulier, en
                 copropriété et pour les flottes d'entreprise.
@@ -2154,7 +2162,7 @@ function IrveSection() {
                     }}
                   >
                     Le programme ADVENIR finance jusqu'à 50 % du coût de votre borne
-                    en copropriété ou en entreprise. Ampère &amp; Fils constitue le
+                    en copropriété ou en entreprise. {clientName(sessionData) ?? "Ampère & Fils"} constitue le
                     dossier pour vous, gratuitement.
                   </p>
                 </div>
@@ -2222,7 +2230,7 @@ function IrveSection() {
             >
               <img
                 src={PHOTO.borne}
-                alt="Borne de recharge véhicule électrique installée par Ampère et Fils"
+                alt={`Borne de recharge véhicule électrique installée par ${clientName(sessionData) ?? "Ampère & Fils"}`}
                 loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
@@ -2309,7 +2317,7 @@ function SolaireSection() {
             >
               <img
                 src={PHOTO.solaire}
-                alt="Panneaux solaires photovoltaïques posés par Ampère et Fils Loire-Atlantique"
+                alt={`Panneaux solaires photovoltaïques posés par ${clientName(sessionData) ?? "Ampère & Fils"} Loire-Atlantique`}
                 loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
@@ -2673,7 +2681,7 @@ function CertifSection() {
               lineHeight: 1.7,
             }}
           >
-            Ampère & Fils détient toutes les certifications nécessaires pour
+            {clientName(sessionData) ?? "Ampère & Fils"} détient toutes les certifications nécessaires pour
             vous ouvrir l'accès aux aides et subventions de l'État. Vous êtes
             entre de bonnes mains.
           </p>
@@ -2738,7 +2746,7 @@ function CertifSection() {
               <a href="#devis" style={{ textDecoration: 'none' }}>
                 <GreenButton filled>Demander un devis</GreenButton>
               </a>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0240000000").replace(/[^+0-9]/g, "")}`} style={{ textDecoration: 'none' }}>
+              <a href={`tel:${fd?.phone ?? "0240000000"}`} style={{ textDecoration: 'none' }}>
                 <GreenButton>
                   <Phone size={15} />
                   Appeler maintenant
@@ -2762,7 +2770,7 @@ function CertifSection() {
 
 /* ════════════════════════════════════════════════════════════════════════════
    10 · FOOTER SECTION
-   Logo Ampère & Fils, zones Loire-Atlantique, mentions RGE/IRVE, SIRET
+   Logo {clientName(sessionData) ?? "Ampère & Fils"}, zones Loire-Atlantique, mentions RGE/IRVE, SIRET
    ════════════════════════════════════════════════════════════════════════════ */
 function ZONES_LIVE() {
   return [
@@ -2860,7 +2868,7 @@ function FooterSection() {
                     lineHeight: 1,
                   }}
                 >
-                  Ampère & Fils
+                  {clientName(sessionData) ?? "Ampère & Fils"}
                 </div>
                 <div
                   style={{
@@ -2979,7 +2987,7 @@ function FooterSection() {
             <div style={heading}>Contact</div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <a
-                href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0240000000").replace(/[^+0-9]/g, "")}`}
+                href={`tel:${fd?.phone ?? "0240000000"}`}
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -2995,7 +3003,7 @@ function FooterSection() {
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = C.white; }}
               >
                 <Phone size={16} color={C.green} />
-                {clientPhone(sessionData) ?? fd?.phone ?? "02 40 00 00 00"}
+                {fd?.phone ?? "02 40 00 00 00"}
               </a>
               <div
                 style={{
@@ -3010,14 +3018,14 @@ function FooterSection() {
                 8h – 18h · Urgences 24h/7j
               </div>
               <a
-                href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@ampere-fils.fr"}`}
+                href={`mailto:${fd?.email ?? "contact@ampere-fils.fr"}`}
                 style={{
                   fontFamily: SANS,
                   fontSize: 13,
                   color: C.green,
                   textDecoration: 'none',
                 }}
-              >{clientEmail(sessionData) ?? fd?.email ?? "contact@ampere-fils.fr"}</a>
+              >{fd?.email ?? "contact@ampere-fils.fr"}</a>
               <div
                 style={{
                   marginTop: 8,
@@ -3140,10 +3148,21 @@ export default function Impact288Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -3151,6 +3170,13 @@ export default function Impact288Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SLIDES = SLIDES_LIVE();
+  STEPS = STEPS_LIVE();
+  /* La méthode du client remplace les étapes de la démonstration. */
+  STEPS = resolveList(
+    fusionnerEtapes(STEPS, clientMethode(sessionData)),
+    STEPS,
+  );
   PHOTO = PHOTO_LIVE();
   ZONES = ZONES_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();

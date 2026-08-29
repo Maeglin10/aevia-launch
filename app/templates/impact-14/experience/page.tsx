@@ -1,9 +1,12 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientServices } from "@/lib/templates/clientContent";
 import {
+  clientAddress,
   clientCity,
-  clientName, clientAddress, clientPhone,} from "@/lib/templates/clientContent";
+  clientName,
+  clientPhone,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import {
@@ -238,7 +241,7 @@ function testimonials_LIVE() {
   {
     name: "Édouard de Villeneuve",
     title: "Family Charter, " + (clientCity(sessionData) ?? "Paris"),
-    text: "We have chartered through three agencies over twenty years. Horizon Maritime is categorically different — a concierge service that happens to include the most beautiful vessel we have ever stepped aboard.",
+    text: `We have chartered through three agencies over twenty years. ${clientName(sessionData) ?? "Horizon Maritime"} is categorically different — a concierge service that happens to include the most beautiful vessel we have ever stepped aboard.`,
     yacht: "S/Y Ariel — 42m",
     stars: 5,
   },
@@ -791,10 +794,21 @@ export default function HorizonMaritimePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
@@ -2213,9 +2227,7 @@ export default function HorizonMaritimePage() {
                   <Anchor size={14} style={{ color: "#c9a84c", transform: "rotate(-45deg)" }} />
                 </div>
                 <div>
-                  <p style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "1.2rem", color: "#f0ece0", letterSpacing: 2, textTransform: "uppercase" }}>
-                    Horizon Maritime
-                  </p>
+                  <p style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "1.2rem", color: "#f0ece0", letterSpacing: 2, textTransform: "uppercase" }}>{clientName(sessionData) ?? (clientName(sessionData) ?? "Horizon Maritime")}</p>
                 </div>
               </div>
               <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 12, fontWeight: 300, color: "rgba(240,236,224,0.4)", lineHeight: 1.8, maxWidth: 280 }}>
@@ -2350,7 +2362,7 @@ export default function HorizonMaritimePage() {
             }}
           >
             <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.25)", letterSpacing: 1 }}>
-              © 2026 Horizon Maritime Group S.A.M. · All rights reserved · Monaco
+              © 2026 {clientName(sessionData) ?? "Horizon Maritime Group S.A.M"}. · All rights reserved · Monaco
             </p>
             <div style={{ display: "flex", gap: "2rem" }}>
               {["Privacy Policy", "Terms of Charter", "Cookie Policy", "Legal Mentions"].map((l) => (
@@ -2997,7 +3009,7 @@ function LegalPage() {
             <p style={{ margin: 0 }}>
               <strong>Publisher:</strong> {clientName(sessionData) ?? "Aevia WS — Valentin Milliand"}<br />
               Sole Proprietorship — SIREN <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
-              <strong>Contact Email:</strong> {fd?.email ?? "valentinmilliand@aevia.services"}<br />
+              <strong>Contact Email:</strong> {fd?.email ?? "contact@exemple.fr"}<br />
               <strong>Address:</strong> communicated upon request<br />
               <strong>Host:</strong> Vercel Inc.
             </p>

@@ -1,6 +1,16 @@
 "use client"
 
 import { useEffect, useState } from "react";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientCity,
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+  clientTrade,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { Mail, MessageSquare, Zap } from "lucide-react"
 import { Reveal } from "../shared"
 
@@ -22,13 +32,25 @@ export default function ContactPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
@@ -37,6 +59,7 @@ export default function ContactPage() {
 
   return (
     <div className="relative w-full overflow-hidden pb-24">
+      <EnteteAnnexe session={sessionData} repli="Nexus" accueil="/templates/impact-25" />
       {/* Glow effects */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[#6C47FF]/10 rounded-full blur-3xl" />
@@ -60,7 +83,7 @@ export default function ContactPage() {
               
               <Reveal delay={0.1}>
                 <p className="text-lg text-white/55 leading-relaxed">
-                  Have questions about analytics, custom pricing, or how Prism fits into your current stack? Drop us a line.
+                  {/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? clientTagline(sessionData) ?? "Have questions about analytics, custom pricing, or how Prism fits into your current stack? Drop us a line."}
                 </p>
               </Reveal>
 

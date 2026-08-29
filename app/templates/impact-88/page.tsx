@@ -41,6 +41,7 @@ import {
   clientFaq,
   clientHeroLine,
   clientHours,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -126,7 +127,10 @@ const NAV_LINKS = ["Concept", "Portfolio", "Services", "Artistes", "FAQ", "Conta
 
 const PORTFOLIO_FILTERS = ["Tout", "Gel", "Nail Art", "French", "Extensions", "Seasonal"]
 
-const PORTFOLIO_ITEMS = /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function PORTFOLIO_ITEMS_LIVE() {
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   { id: 1, category: "Nail Art", title: "Fleurs de Cerisier", desc: "Aquarelle sur base nude rosée", accent: "#FBCFE8", img: "photo-1604654894610-df63bc536371" },
   { id: 2, category: "Gel",      title: "Rose Velours",       desc: "Gel couleur longue tenue",      accent: "var(--brand,#ec4899)", img: "photo-1522337360788-8b13dee7a37e" },
   { id: 3, category: "French",   title: "French Classique",   desc: "Pointe blanche parfaite",       accent: "#FDF4FF", img: "photo-1604654894610-df63bc536371" },
@@ -136,7 +140,9 @@ const PORTFOLIO_ITEMS = /* REALISATIONS */ resolveList(clientWorks(sessionData)?
   { id: 7, category: "Gel",      title: "Bordeaux Intense",   desc: "Gel semi-permanent vibrant",   accent: "#BE185D", img: "photo-1604654894610-df63bc536371" },
   { id: 8, category: "French",   title: "French Ombré",       desc: "Fondu rose à ivoire",          accent: "#F0ABFC", img: "photo-1522337360788-8b13dee7a37e" },
   { id: 9, category: "Seasonal", title: "Hiver Nacré",        desc: "Nacre & paillettes fines",     accent: "#C084FC", img: "photo-1604654894610-df63bc536371" },
-])
+]);
+}
+let PORTFOLIO_ITEMS = PORTFOLIO_ITEMS_LIVE();
 
 const SERVICES_SOURCE = [
   { id: 1, name: "Pose Gel Couleur",    price: "45€",  duration: "60 min",  desc: "Application longue tenue avec finition brillante ou mate. Tient 3 semaines sans éclats." },
@@ -621,13 +627,13 @@ function Nav() {
                   className="text-[22px] font-[500] italic text-[var(--brand-light,#831843)] tracking-wide"
                   style={{ fontFamily: "'Playfair Display', serif" }}
                 >
-                  VELVET
+                  {(clientName(sessionData) ?? "Velvet Nails").split(" ")[0]}
                 </span>
                 <span
                   className="text-[10px] font-[600] uppercase tracking-[0.3em] text-[#BE185D] mt-1"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
-                  Nails
+                  {(clientName(sessionData) ?? "Velvet Nails").split(" ").slice(1).join(" ")}
                 </span>
               </>
             )}
@@ -1650,7 +1656,7 @@ function AboutSection() {
             <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden shadow-[0_4px_30px_rgba(236,72,153,0.1)]">
               <Image
                 src={photo(3, "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=80")}
-                alt="Velvet Nails concept"
+                alt={`${clientName(sessionData) ?? "Velvet Nails"} concept`}
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -1676,7 +1682,7 @@ function AboutSection() {
                 className="text-[15px] text-[#9D174D] leading-[1.8] font-[300] mb-6"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
-                Chez Velvet Nails, nous croyons que la manucure est une extension de votre personnalité. Notre salon parisien a été pensé comme un havre de détente où le soin de l'ongle naturel rencontre l'excellence artistique.
+                Chez {clientName(sessionData) ?? "Velvet Nails"}, nous croyons que la manucure est une extension de votre personnalité. Notre salon parisien a été pensé comme un havre de détente où le soin de l'ongle naturel rencontre l'excellence artistique.
               </p>
               <p
                 className="text-[15px] text-[#9D174D] leading-[1.8] font-[300] mb-8"
@@ -1898,18 +1904,30 @@ export default function Impact88Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  PORTFOLIO_ITEMS = PORTFOLIO_ITEMS_LIVE();
   BOOKING_STEPS = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...BOOKING_STEPS_SOURCE[i % BOOKING_STEPS_SOURCE.length], label: s.title, desc: s.desc || "" || "" })),
+    (clientMethode(sessionData) ?? clientServices(sessionData))?.map((s: any, i: number) => ({ ...BOOKING_STEPS_SOURCE[i % BOOKING_STEPS_SOURCE.length], label: s.title, desc: s.desc || "" || "" })),
     BOOKING_STEPS_SOURCE,
   );
   SERVICES_DEMO = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], name: s.title , ...(s.price ? { price: s.price } : {})})), SERVICES_SOURCE);

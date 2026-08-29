@@ -37,7 +37,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   AXIOM CONSEIL — Expert-Comptable & Conseil en Gestion · {clientCity(sessionData) ?? "Bordeaux"}
+   {clientName(sessionData) ?? "Axiom Conseil"} — Expert-Comptable & Conseil en Gestion · {clientCity(sessionData) ?? "Bordeaux"}
    Photographie réelle + chorégraphie de défilement éditoriale.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -198,7 +198,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
         <span style={{ fontStyle: 'italic' }}>depuis 2015.</span>
       </>
     ),
-    body: "Installé dans le quartier des Chartrons, Axiom Conseil réunit 8 collaborateurs experts. Nous accompagnons 180 clients — de la startup en amorçage à l'ETI à 20 M€ de CA. Membres de l'OEC " + (clientCity(sessionData) ?? "Bordeaux") + ".",
+    body: `Installé dans le quartier des Chartrons, ${clientName(sessionData) ?? "Axiom Conseil"} réunit 8 collaborateurs experts. Nous accompagnons 180 clients — de la startup en amorçage à l'ETI à 20 M€ de CA. Membres de l'OEC ` + (clientCity(sessionData) ?? "Bordeaux") + ".",
   },
 ];
 }
@@ -607,7 +607,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || photo('1554224155-6726b3ff858f', 2000)}
-          alt="Cabinet Axiom Conseil Bordeaux"
+          alt={`Cabinet ${clientName(sessionData) ?? "Axiom Conseil"} Bordeaux`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1327,7 +1327,7 @@ function PillarPanel() {
           >
             <img
               src={fd?.photoUrls?.[1] || photo('1551135049-8a33b5883817', 900)}
-              alt="L'équipe Axiom Conseil Bordeaux"
+              alt={`L'équipe ${clientName(sessionData) ?? "Axiom Conseil"} Bordeaux`}
               loading="lazy"
               style={{
                 width: '100%',
@@ -1355,7 +1355,7 @@ function PillarPanel() {
                 fontWeight: 500,
               }}
             >
-              Axiom Conseil · {clientCity(sessionData) ?? "Bordeaux"}
+              {clientName(sessionData) ?? "Axiom Conseil"} · {clientCity(sessionData) ?? "Bordeaux"}
             </div>
             <div
               style={{
@@ -2088,7 +2088,7 @@ function Footer() {
           color: 'rgba(200,224,208,0.38)',
         }}
       >
-        <span>© 2015–2026 Axiom Conseil. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2015–2026 {clientName(sessionData) ?? "Axiom Conseil"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2141,18 +2141,29 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
 
 
   EDIT_ROWS = resolveList(

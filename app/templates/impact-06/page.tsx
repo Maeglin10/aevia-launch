@@ -181,10 +181,21 @@ export default function NeuralisPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -263,7 +274,7 @@ export default function NeuralisPage() {
                <img src={fd.logoBase64} alt={fd?.businessName ?? 'logo'} style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }} />
              ) : (
                <>
-                 <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Neuralis"))}</span>
+                 <span className="text-3xl font-black tracking-[-0.05em] uppercase leading-none">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Neuralis"))}</span>
                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#00f2ff] -mt-1 ml-1">Augmentation Lab</span>
                </>
              )}
@@ -312,7 +323,7 @@ export default function NeuralisPage() {
           <Reveal>
              <h1 className="hero-ecran-court text-5xl sm:text-6xl md:text-[11rem] font-black leading-[0.9] md:leading-[0.8] tracking-tight md:tracking-tighter mb-12 uppercase text-white break-words">{<>{clientHeroLine(sessionData, 0, 2, 10) ?? "Tame Your"}<br/> <span className="text-[#00f2ff]">{clientHeroLine(sessionData, 1, 2, 10) ?? "Biology."}</span>
              </>}</h1>
-             <p className="max-w-md text-xl text-white/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+             <p className="max-w-md text-xl text-white/40 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                The apex of neuro-synthetic integration. Engineered for the evolutionary elite.
              </>}</p>
              <div className="flex flex-col sm:flex-row gap-6">
@@ -764,7 +775,7 @@ export default function NeuralisPage() {
            <div className="lg:col-span-6">
               <Reveal>
                  <div className="flex flex-col mb-12">
-                    <span className="text-4xl font-black tracking-[-0.05em] uppercase leading-none">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Neuralis"))}</span>
+                    <span className="text-4xl font-black tracking-[-0.05em] uppercase leading-none">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Neuralis"))}</span>
                     <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#00f2ff] -mt-1 ml-1">Augmentation Lab</span>
                  </div>
                  <p className="text-white/20 max-w-md mb-16 text-[11px] font-bold uppercase tracking-[0.2em] leading-loose italic">
@@ -832,8 +843,8 @@ export default function NeuralisPage() {
       `}</style>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-06"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "Neuralis"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>
   );

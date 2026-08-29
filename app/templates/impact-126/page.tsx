@@ -493,10 +493,21 @@ export default function ImpactRestaurantPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -676,7 +687,7 @@ return (
                 alt={fd?.businessName ?? 'logo'}
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
-            ) : (/* NOM_LOGO */ clientName({ formData: fd }) ? (
+            ) : (/* NOM_LOGO */ clientName(sessionData) ? (
               <span style={{
                     fontFamily: C.fontDisplay,
                     fontSize: "clamp(18px, 2vw, 24px)",
@@ -684,7 +695,7 @@ return (
                     letterSpacing: "0.28em",
                     textTransform: "uppercase",
                     color: C.dark,
-                  }}>{clientName({ formData: fd })}</span>
+                  }}>{clientName(sessionData)}</span>
             ) : (<>
               <>
                 {/* Terracotta logomark circle */}
@@ -2050,7 +2061,7 @@ return (
               letterSpacing: "0.1em",
             }}
           >
-            <span>© {new Date().getFullYear()} {clientName(sessionData) ?? "Ristorante Aureliano."} Tutti i diritti riservati.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+            <span>© {new Date().getFullYear()} {clientName(sessionData) ?? "Ristorante Aureliano."} Tutti i diritti riservati.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
             <div style={{ display: "flex", gap: 28 }}>
               {["Privacy Policy", "Cookie", "Legal"].map((l) => (
                 <a

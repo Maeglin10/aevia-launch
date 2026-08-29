@@ -17,12 +17,14 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -37,7 +39,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   BOULANGERIE DES CHARTRONS — Boulangerie-Pâtisserie & Café · {clientCity(sessionData) ?? "Bordeaux"}
+   {clientName(sessionData) ?? "Boulangerie des Chartrons"} — Boulangerie-Pâtisserie & Café · {clientCity(sessionData) ?? "Bordeaux"}
    Photographie réelle + chorégraphie de défilement éditoriale.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -635,7 +637,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/31484077/pexels-photo-31484077.jpeg?auto=compress&cs=tinysrgb&w=2000')}
-          alt="Devanture de la Boulangerie des Chartrons à Bordeaux"
+          alt={`Devanture de la ${clientName(sessionData) ?? "Boulangerie des Chartrons"} à Bordeaux`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1423,7 +1425,7 @@ function CraftPanel() {
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {CRAFT_STEPS.map((step, i) => (
+            {resolveList(fusionnerEtapes(CRAFT_STEPS, clientMethode(sessionData)), CRAFT_STEPS).map((step, i) => (
               <Reveal key={step.num} delay={0.06 * i}>
                 <div
                   style={{
@@ -2150,7 +2152,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2007–2026 Boulangerie des Chartrons. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2007–2026 {clientName(sessionData) ?? "Boulangerie des Chartrons"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#commander" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2205,10 +2207,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2217,9 +2230,9 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
-  PHASES = PHASES_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  PHASES = PHASES_LIVE();
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
 
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),

@@ -14,13 +14,11 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import {
   clientAccrocheRestante,
   clientCity,
-  clientEmail,
   clientFaq,
   clientHeroPrestations,
   clientHeroSubtitle,
   clientHours,
   clientName,
-  clientPhone,
   clientReviews,
   clientServices,
   clientSiret,
@@ -614,9 +612,9 @@ function SHIPMENTS_LIVE() {
     steps: ['Enlèvement', 'Tri CDG', 'En route', 'Livraison'], currentStep: 2,
   },
   {
-    id: 'MF-2406-4437', from: (clientCity({ formData: fd }) ?? 'Bordeaux'), to: (clientCity(sessionData) ?? 'Lille') + ' Métropole',
+    id: 'MF-2406-4437', from: (clientCity(sessionData) ?? 'Bordeaux'), to: (clientCity(sessionData) ?? 'Lille') + ' Métropole',
     status: 'En cours de tri', progress: 34, eta: 'Demain 10h00',
-    steps: ['Enlèvement', 'Tri ' + (clientCity({ formData: fd }) ?? 'Bordeaux'), 'En route', 'Livraison'], currentStep: 1,
+    steps: ['Enlèvement', 'Tri ' + (clientCity(sessionData) ?? 'Bordeaux'), 'En route', 'Livraison'], currentStep: 1,
   },
   {
     id: 'MF-2406-9904', from: (clientCity(sessionData) ?? 'Strasbourg'), to: (clientCity(sessionData) ?? 'Marseille'),
@@ -1049,7 +1047,7 @@ function AGENCIES_LIVE() {
   { name: (clientCity(sessionData) ?? 'Paris'),      cx: 370, cy: 210, main: true },
   { name: (clientCity(sessionData) ?? 'Lyon'),       cx: 420, cy: 345, main: true },
   { name: (clientCity(sessionData) ?? 'Marseille'),  cx: 415, cy: 455, main: true },
-  { name: (clientCity({ formData: fd }) ?? 'Bordeaux'),   cx: 235, cy: 390, main: false },
+  { name: (clientCity(sessionData) ?? 'Bordeaux'),   cx: 235, cy: 390, main: false },
   { name: (clientCity(sessionData) ?? 'Lille'),      cx: 355, cy: 130, main: false },
   { name: (clientCity(sessionData) ?? 'Strasbourg'), cx: 525, cy: 195, main: false },
   { name: 'Nantes',     cx: 210, cy: 290, main: false },
@@ -1529,8 +1527,8 @@ function ContactSection() {
               Remplissez le formulaire et notre équipe commerciale vous contacte sous 2h ouvrées pour une simulation tarifaire personnalisée et sans engagement.
             </p>
             {/* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ label: h.day, value: h.hours })), [
-              { icon: '📞', label: 'Téléphone',  value: clientPhone(sessionData) ?? '+33 1 84 88 92 10' },
-              { icon: '✉️', label: 'Email',      value: (clientEmail(sessionData) ?? fd?.email ?? 'contact@meridian-freight.fr') },
+              { icon: '📞', label: 'Téléphone',  value: '+33 1 84 88 92 10' },
+              { icon: '✉️', label: 'Email',      value: (fd?.email ?? 'contact@meridian-freight.fr') },
               { icon: '🕐', label: 'Horaires',   value: 'Lun–Ven 8h–19h | Sam 9h–13h' },
             ]).map((info, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
@@ -1696,7 +1694,7 @@ function Footer() {
             display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 14,
           }}>
             <p style={{ fontFamily: C.fontBody, fontSize: 12, color: C.textMuted }}>
-              © 2024 Meridian Freight SAS · RCS Paris 841 234 567{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 84123456700014"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2024 Meridian Freight SAS · RCS Paris 841 234 567{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 84123456700014"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
               {['Mentions légales', 'CGV', 'Confidentialité', 'Cookies'].map((l) => (
@@ -1739,10 +1737,21 @@ export default function MeridianFreightPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -1767,7 +1776,7 @@ export default function MeridianFreightPage() {
     clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
     TESTIMONIALS_SOURCE,
   );
-  STATS_DATA = resolveList(clientStats(session)?.map((s: any) => ({ ...s, value: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, "") })), STATS_DATA_DEMO);
+  STATS_DATA = resolveList(clientStats(session)?.map((s: any) => ({ ...s, value: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, decimals: /[.,]\d/.test(String(s.value ?? "")) ? 2 : 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, "") })), STATS_DATA_DEMO);
   TESTIMONIALS = resolveList(
     clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),
     TESTIMONIALS_DEMO,

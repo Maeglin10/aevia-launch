@@ -8,15 +8,17 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { C, TextReveal, MagneticButton, Marquee, StackedCards, FILMS, ServiceCard, SERVICES, PRESS } from "./shared";
 import {
-  clientHeroPrestations,
   clientAccrocheRestante,
   clientCity,
+  clientHeroPrestations,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  fusionnerEtapes,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
@@ -58,10 +60,21 @@ export default function StackUnitHome() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -367,7 +380,7 @@ return (
 
           {/* Steps grid — 4 columns desktop */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(260px, 100%), 1fr))", gap: "0" }}>
-            {PROCESS_STEPS.map((step, i) => (
+            {resolveList(fusionnerEtapes(PROCESS_STEPS, clientMethode(sessionData)), PROCESS_STEPS).map((step, i) => (
               <motion.div
                 key={step.num}
                 initial={{ opacity: 0, y: 30 }}
@@ -571,8 +584,8 @@ return (
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-72"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "Stack Unit Home"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>
   );

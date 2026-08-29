@@ -1,5 +1,8 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+} from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -34,10 +37,21 @@ export default function BlogPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
@@ -51,7 +65,7 @@ export default function BlogPage() {
   const posts = [
     { title: "Comment réduire le temps de réunion de 40%", desc: "Découvrez nos techniques agiles et l'utilisation de tableaux de bord Kanban pour dynamiser la communication d'équipe.", date: "10 juin 2026" },
     { title: "Intégrer Salesforce & Slack sans écrire de code", desc: "Guide pas-à-pas pour synchroniser vos opportunités commerciales vers vos canaux d'alertes en 5 minutes.", date: "2 juin 2026" },
-    { title: "Lancement de Streamline v3.0 : Rapidité décuplée", desc: "Découvrez notre nouveau moteur d'exécution asynchrone qui accélère le temps de réponse global de 50%.", date: "18 mai 2026" }
+    { title: `Lancement de ${clientName(sessionData) ?? "Streamline"} v3.0 : Rapidité décuplée`, desc: "Découvrez notre nouveau moteur d'exécution asynchrone qui accélère le temps de réponse global de 50%.", date: "18 mai 2026" }
   ];
 
   return (
@@ -60,7 +74,7 @@ export default function BlogPage() {
         <div className="max-w-6xl mx-auto bg-[#0D1117]/90 backdrop-blur-md border border-white/10 rounded-2xl px-6 py-4 flex items-center justify-between">
           <Link href="/templates/impact-18" className="flex items-center gap-2 cursor-pointer">
             <div className="w-8 h-8 bg-gradient-to-br from-[#3B82F6] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Layers className="w-4 h-4 text-white" /></div>
-            <span className="text-white font-bold text-lg">Streamline</span>
+            <span className="text-white font-bold text-lg">{clientName(sessionData) ?? "Streamline"}</span>
           </Link>
           <div className="hidden md:flex items-center gap-8 text-gray-400 text-sm font-medium">
             <Link href="/templates/impact-18/features" className="hover:text-white transition-colors">Fonctionnalités</Link>
@@ -81,7 +95,7 @@ export default function BlogPage() {
         {mobileOpen && (
           <motion.div className="fixed inset-0 z-[100] bg-[#0D1117] flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
             <div className="flex items-center justify-between mb-12">
-              <span className="text-white font-bold text-xl">Streamline</span>
+              <span className="text-white font-bold text-xl">{clientName(sessionData) ?? "Streamline"}</span>
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
             <Link href="/templates/impact-18" className="block text-white text-2xl font-bold mb-6">Accueil</Link>
@@ -124,7 +138,7 @@ export default function BlogPage() {
           <div className="md:col-span-2">
             <Link href="/templates/impact-18" className="flex items-center gap-2 mb-4 cursor-pointer">
               <div className="w-8 h-8 bg-gradient-to-br from-[#3B82F6] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Layers className="w-4 h-4 text-white" /></div>
-              <span className="text-white font-bold text-lg">Streamline</span>
+              <span className="text-white font-bold text-lg">{clientName(sessionData) ?? "Streamline"}</span>
             </Link>
             <p className="text-gray-500 text-sm leading-relaxed">La plateforme de productivité pour les équipes modernes. Gérez tout votre travail en un seul endroit.</p>
           </div>
@@ -152,7 +166,7 @@ export default function BlogPage() {
           </div>
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex justify-between text-xs text-gray-600">
-          <span>© 2026 Streamline. Tous droits réservés.</span>
+          <span>© 2026 {clientName(sessionData) ?? "Streamline"}. Tous droits réservés.</span>
           <span>Made in 🇫🇷 {clientCity(sessionData) ?? "Paris"}</span>
         </div>
       </footer>

@@ -17,6 +17,19 @@ export interface IndustryInfo {
 /** 2-level taxonomy: broad industries → specialties. */
 export const INDUSTRIES: IndustryInfo[] = [
   {
+    id: 'tech',
+    label: 'Tech & Agences',
+    labels: { en: 'Tech & Agencies', es: 'Tecnología y agencias', de: 'Tech & Agenturen', pt: 'Tecnologia e agências' },
+    emoji: '💻',
+    specialties: [
+      { id: 'saas',          label: 'Éditeur de logiciel', labels: { en: 'Software company', es: 'Editor de software', de: 'Softwareanbieter', pt: 'Editor de software' } , emoji: '💾', accentColor: '#1e3a5f' },
+      { id: 'agence_web',    label: 'Agence web',          labels: { en: 'Web agency',       es: 'Agencia web',        de: 'Webagentur',       pt: 'Agência web' } , emoji: '🌐', accentColor: '#4338ca' },
+      { id: 'studio_design', label: 'Studio de design',    labels: { en: 'Design studio',    es: 'Estudio de diseño',  de: 'Designstudio',     pt: 'Estúdio de design' } , emoji: '🎨', accentColor: '#7c3aed' },
+      { id: 'conseil_tech',  label: 'Conseil et data',     labels: { en: 'Consulting & data', es: 'Consultoría y datos', de: 'Beratung & Daten', pt: 'Consultoria e dados' } , emoji: '📊', accentColor: '#0f766e' },
+      { id: 'startup',       label: 'Startup',             labels: { en: 'Startup',          es: 'Startup',            de: 'Startup',          pt: 'Startup' } , emoji: '🚀', accentColor: '#c2410c' },
+    ],
+  },
+  {
     id: 'sante',
     label: 'Santé',
     labels: { en: 'Health', es: 'Salud', de: 'Gesundheit', pt: 'Saúde' },
@@ -171,46 +184,46 @@ export const SECTORS: SectorInfo[] = INDUSTRIES.flatMap((ind) => ind.specialties
 
 /** Map sector id → ordered template IDs (best first). */
 export const SECTOR_TEMPLATES: Record<string, string[]> = {
-  medecin:             ['impact-243', 'impact-257', 'impact-274', 'impact-285', 'impact-297', 'impact-171', 'impact-231', 'impact-95', "impact-30", "impact-31", "impact-209"],
-  dentiste:            ['impact-237', 'impact-252', 'impact-273', 'impact-284', 'impact-298', 'impact-30', "impact-31", "impact-95", "impact-171", "impact-209", "impact-210"],
-  kine:                ['impact-238', 'impact-253', 'impact-272', 'impact-283', 'impact-299', 'impact-210', 'impact-31', "impact-30", "impact-32", "impact-95", "impact-171"],
-  osteo:               ['impact-248', 'impact-264', 'impact-279', 'impact-291', 'impact-300', 'impact-233', "impact-30", "impact-31", "impact-32", "impact-95", "impact-171"],
-  avocat:              ['impact-239', 'impact-255', 'impact-275', 'impact-286', 'impact-301', 'impact-46', 'impact-172', 'impact-193', "impact-103", "impact-35", "impact-36"],
-  comptable:           ['impact-242', 'impact-254', 'impact-261', 'impact-289', 'impact-302', 'impact-48', 'impact-108', "impact-19", "impact-35", "impact-36", "impact-46"],
-  coach:               ['impact-240', 'impact-256', 'impact-276', 'impact-287', 'impact-303', 'impact-119', 'impact-139', 'impact-87', "impact-30"],
-  plombier:            ['impact-246', 'impact-260', 'impact-278', 'impact-290', 'impact-304', 'impact-212', 'impact-214', 'impact-215', 'impact-313', 'impact-314'],
+  medecin: ['impact-243', 'impact-257', 'impact-274', 'impact-285', 'impact-297', 'impact-171', 'impact-231', 'impact-95', "impact-30", "impact-31", "impact-209"],
+  dentiste:            ['impact-237', 'impact-252', 'impact-273', 'impact-284', 'impact-298', 'impact-30', "impact-31", "impact-95", "impact-171", "impact-209", "impact-210", 'impact-186'],
+  kine:                ['impact-196', 'impact-238', 'impact-253', 'impact-272', 'impact-283', 'impact-299', 'impact-210', 'impact-31', "impact-30", "impact-32", "impact-95", "impact-171"],
+  osteo:               ['impact-248', 'impact-264', 'impact-279', 'impact-291', 'impact-300', 'impact-233', "impact-30", "impact-31", "impact-32", "impact-95", "impact-171", 'impact-193'],
+  avocat: ['impact-50', 'impact-55', 'impact-239', 'impact-255', 'impact-275', 'impact-286', 'impact-301', 'impact-46', 'impact-172', "impact-103", "impact-35", "impact-36", 'impact-147'],
+  comptable: ['impact-242', 'impact-254', 'impact-261', 'impact-289', 'impact-302', 'impact-108', "impact-19", "impact-35", "impact-36", "impact-46"],
+  coach: ['impact-187', 'impact-240', 'impact-256', 'impact-276', 'impact-287', 'impact-303', 'impact-139', 'impact-87', "impact-30"],
+  plombier: ['impact-246', 'impact-260', 'impact-278', 'impact-290', 'impact-304', 'impact-212', 'impact-214', 'impact-215', 'impact-313', 'impact-314', 'impact-182', 'impact-180'],
   electricien:         ['impact-236', 'impact-247', 'impact-277', 'impact-288', 'impact-305', 'impact-223', 'impact-228'],
-  boulangerie:         ['impact-245', 'impact-259', 'impact-269', 'impact-282', 'impact-306', 'impact-33', 'impact-90', "impact-37", "impact-38"],
-  mariage:             ['impact-244', 'impact-251', 'impact-266', 'impact-280', 'impact-307', 'impact-175', 'impact-200', 'impact-322', 'impact-105', "impact-127"],
-  couture:             ['impact-235', 'impact-258', 'impact-265', 'impact-281', 'impact-308', 'impact-12', 'impact-184', "impact-112"],
+  boulangerie:         ['impact-79', 'impact-78', 'impact-245', 'impact-259', 'impact-269', 'impact-282', 'impact-306', 'impact-33', 'impact-90', "impact-37", "impact-38"],
+  mariage:             ['impact-244', 'impact-251', 'impact-266', 'impact-280', 'impact-307', 'impact-175', 'impact-200', 'impact-322', 'impact-105', "impact-127", 'impact-195'],
+  couture: ['impact-41', 'impact-235', 'impact-258', 'impact-265', 'impact-281', 'impact-308', 'impact-12', "impact-112"],
   tatoueur:            ['impact-249', 'impact-262', 'impact-267', 'impact-270', 'impact-309', 'impact-199', 'impact-226', 'impact-124', "impact-45", "impact-89"],
-  paysagiste:          ['impact-250', 'impact-263', 'impact-268', 'impact-271', 'impact-310', 'impact-232', "impact-359", "impact-14", "impact-39", "impact-114", "impact-115", "impact-132", "impact-142"],
+  paysagiste: ['impact-117', 'impact-250', 'impact-263', 'impact-268', 'impact-271', 'impact-310', 'impact-232', "impact-359", "impact-39", "impact-114", "impact-115", "impact-132", "impact-142", 'impact-191'],
   pisciniste:          ['impact-179', 'impact-181', 'impact-183', 'impact-15', 'impact-177'],
-  restaurant:          ['impact-04',  'impact-99',  'impact-189', 'impact-211', 'impact-126', 'impact-74', 'impact-201', "impact-146", "impact-66"],
+  restaurant:          ['impact-62', 'impact-194', 'impact-04', 'impact-99', 'impact-211', 'impact-126', 'impact-74', 'impact-201', "impact-146", "impact-66"],
   restauration_rapide: ['impact-292', 'impact-293', 'impact-294', 'impact-295', 'impact-296'],
   // Genuinely scarce in the current 315-template catalog even after a full
   // manual review — no more real matches exist without fabricating content.
-  veterinaire:         ['impact-32', 'impact-171', 'impact-231', 'impact-95', 'impact-30', 'impact-31'],
-  menage:              ['impact-178', 'impact-315', 'impact-316', 'impact-317', 'impact-318', 'impact-319', 'impact-191'],
-  garage_auto:         ['impact-311', 'impact-312', 'impact-139', 'impact-221', 'impact-39', 'impact-178', "impact-08"],
+  veterinaire: ['impact-32', 'impact-171', 'impact-231', 'impact-95', 'impact-30', 'impact-31', 'impact-188'],
+  menage: ['impact-315', 'impact-316', 'impact-317', 'impact-318', 'impact-319', 'impact-184'],
+  garage_auto: ['impact-190', 'impact-311', 'impact-312', 'impact-139', 'impact-221', 'impact-39', "impact-08"],
   // Genuinely scarce (see note above) — Studio Coach Sportif (impact-227) was
   // closer to 1:1 coaching and went to `coach` instead of here.
-  salle_sport:         ['impact-119', 'impact-174', 'impact-139', 'impact-87', 'impact-30'],
-  photographe:         ['impact-02',  'impact-16',  'impact-77',  'impact-96',  'impact-166', 'impact-104', 'impact-69', "impact-121", "impact-155"],
+  salle_sport: ['impact-174', 'impact-139', 'impact-87', 'impact-30'],
+  photographe: ['impact-02', 'impact-16', 'impact-77', 'impact-96', 'impact-166', 'impact-104', 'impact-69', "impact-121"],
   // Genuinely scarce (see note above).
-  fleuriste:           ['impact-47',  'impact-94', 'impact-175', 'impact-200', 'impact-105'],
+  fleuriste:           ['impact-47', 'impact-94', 'impact-175', 'impact-105'],
   // Genuinely scarce (see note above) — impact-198 is a dual-fit with
   // institut_beaute (multi-service beauty salons commonly do both in France).
-  coiffeur:            ['impact-180', 'impact-209', 'impact-198', 'impact-227', 'impact-84', 'impact-85'],
-  institut_beaute:     ['impact-84', 'impact-85', 'impact-86', 'impact-88', 'impact-95', 'impact-148', 'impact-191', 'impact-192', 'impact-198', 'impact-210', 'impact-229', 'impact-71', "impact-26", "impact-120", "impact-134"],
-  agent_immobilier:    ['impact-82',  'impact-92',  'impact-128', 'impact-167', 'impact-222', 'impact-241', 'impact-67', "impact-145"],
-  architecte:          ['impact-17',  'impact-28',  'impact-118', 'impact-147', 'impact-156', 'impact-186', "impact-80", "impact-153", "impact-132"],
+  coiffeur: ['impact-209', 'impact-198', 'impact-227', 'impact-84', 'impact-85', 'impact-185', 'impact-189'],
+  institut_beaute:     ['impact-110', 'impact-70', 'impact-84', 'impact-85', 'impact-86', 'impact-88', 'impact-95', 'impact-148', 'impact-198', 'impact-210', 'impact-229', 'impact-71', "impact-26", "impact-120", "impact-134"],
+  agent_immobilier: ['impact-82', 'impact-92', 'impact-128', 'impact-167', 'impact-222', 'impact-241', 'impact-67', "impact-145", 'impact-155', 'impact-178'],
+  architecte: ['impact-76', 'impact-111', 'impact-17', 'impact-28', 'impact-156', "impact-80", "impact-153", "impact-132", 'impact-48'],
   decorateur_interieur: ['impact-44', 'impact-100', 'impact-143', 'impact-149', 'impact-230', "impact-21", "impact-130", "impact-136"],
-  hotel:               ['impact-10',  'impact-182', 'impact-43', 'impact-93', 'impact-97', 'impact-140', 'impact-197'],
-  bijouterie:          ['impact-13', 'impact-20', 'impact-83', 'impact-91', 'impact-98', 'impact-157', 'impact-220', 'impact-151', 'impact-60', "impact-07", "impact-26", "impact-120", "impact-63", "impact-75"],
-  studio_creatif:      ['impact-23', 'impact-42', 'impact-106', 'impact-124', 'impact-188', "impact-01", "impact-121", "impact-154", "impact-164", "impact-21", "impact-27", "impact-29", "impact-170", "impact-155", "impact-144"],
-  boutique_mode:       ['impact-03', 'impact-150', 'impact-168', 'impact-217', 'impact-123', "impact-75", "impact-112", "impact-160", "impact-185", "impact-81", "impact-59"],
-  cafe_bar:            ['impact-37', 'impact-38', 'impact-116', 'impact-131', 'impact-137', 'impact-162', 'impact-218'],
+  hotel: ['impact-107', 'impact-158', 'impact-10', 'impact-43', 'impact-93', 'impact-97', 'impact-140', 'impact-197', 'impact-14'],
+  bijouterie: ['impact-13', 'impact-20', 'impact-83', 'impact-91', 'impact-98', 'impact-157', 'impact-220', 'impact-151', 'impact-60', "impact-07", "impact-26", "impact-120", "impact-63", "impact-75", 'impact-118'],
+  studio_creatif: ['impact-23', 'impact-42', 'impact-106', 'impact-124', "impact-01", "impact-121", "impact-154", "impact-164", "impact-21", "impact-27", "impact-29", "impact-170", "impact-144"],
+  boutique_mode: ['impact-03', 'impact-150', 'impact-168', 'impact-217', 'impact-123', "impact-75", "impact-112", "impact-160", "impact-81", "impact-59"],
+  cafe_bar:            ['impact-56', 'impact-37', 'impact-38', 'impact-116', 'impact-131', 'impact-137', 'impact-162', 'impact-218'],
   // Only 3 genuine matches found after a full manual review — real BTP/
   // construction content exists in the catalog but is thin. Below the
   // 5-minimum on purpose rather than padding with unrelated templates.
@@ -220,20 +233,20 @@ export const SECTOR_TEMPLATES: Record<string, string[]> = {
   // Sans ces lignes, les thèmes existent mais aucun secteur n'y mène :
   // la galerie et le formulaire n'ont rien à proposer à un notaire,
   // un opticien ou une pharmacie. Ordre : le plus abouti d'abord.
-  assurance:            ['impact-337', 'impact-338', 'impact-19', 'impact-48', 'impact-108'],
+  assurance: ['impact-337', 'impact-338', 'impact-19', 'impact-108'],
   audioprothesiste:     ['impact-339', 'impact-340', 'impact-138', 'impact-171', 'impact-231'],
-  auto_ecole:           ['impact-341', 'impact-342', 'impact-11', 'impact-49', 'impact-119'],
-  brasserie:            ['impact-380', 'impact-37', 'impact-04', 'impact-99', 'impact-189'],
+  auto_ecole: ['impact-341', 'impact-342', 'impact-11', 'impact-49'],
+  brasserie:            ['impact-380', 'impact-37', 'impact-04', 'impact-99'],
   caviste:              ['impact-381', 'impact-131', 'impact-218', 'impact-04', 'impact-99'],
   commerce_bouche:      ['impact-345', 'impact-346', 'impact-33', 'impact-90', 'impact-37'],
-  controle_technique:   ['impact-349', 'impact-350', 'impact-139', 'impact-221', 'impact-39', 'impact-178'],
+  controle_technique: ['impact-349', 'impact-350', 'impact-139', 'impact-221', 'impact-39'],
   couvreur:             ['impact-351', 'impact-352', 'impact-212', 'impact-214', 'impact-215'],
-  creche:               ['impact-353', 'impact-354', 'impact-11', 'impact-49', 'impact-119', 'impact-139'],
+  creche: ['impact-353', 'impact-354', 'impact-11', 'impact-49', 'impact-139'],
   cuisiniste:           ['impact-327', 'impact-334', 'impact-230', 'impact-17', 'impact-28'],
-  demenageur:           ['impact-329', 'impact-39', 'impact-178', 'impact-191', 'impact-192', "impact-207", "impact-216"],
-  ecole_musique:        ['impact-377', 'impact-11', 'impact-49', 'impact-119', 'impact-139', "impact-141"],
-  formation:            ['impact-347', 'impact-348', 'impact-11', 'impact-49', 'impact-119', 'impact-139', "impact-325", "impact-321", "impact-122", "impact-163", "impact-169"],
-  gestion_patrimoine:   ['impact-378', 'impact-48', 'impact-108', 'impact-19', 'impact-35'],
+  demenageur: ['impact-329', 'impact-39', "impact-207", "impact-216"],
+  ecole_musique: ['impact-377', 'impact-11', 'impact-49', 'impact-139', "impact-141"],
+  formation: ['impact-347', 'impact-348', 'impact-11', 'impact-49', 'impact-139', "impact-325", "impact-321", "impact-122", "impact-163", "impact-169"],
+  gestion_patrimoine: ['impact-378', 'impact-108', 'impact-19', 'impact-35'],
   infirmier:            ['impact-355', 'impact-356', 'impact-171', 'impact-231', 'impact-95'],
   laboratoire:          ['impact-357', 'impact-358', 'impact-171', 'impact-231', 'impact-95'],
   location_materiel:    ['impact-359', 'impact-360', 'impact-139', 'impact-221', 'impact-39'],
@@ -244,16 +257,23 @@ export const SECTOR_TEMPLATES: Record<string, string[]> = {
   pharmacie:            ['impact-330', 'impact-336', 'impact-171', 'impact-231', 'impact-95'],
   podologue:            ['impact-363', 'impact-364', 'impact-210', 'impact-31', 'impact-233'],
   pompes_funebres:      ['impact-328', 'impact-335', 'impact-46', 'impact-172', 'impact-193'],
-  pressing:             ['impact-343', 'impact-344', 'impact-178', 'impact-191', 'impact-235', 'impact-12'],
+  pressing: ['impact-343', 'impact-344', 'impact-191', 'impact-235', 'impact-12'],
   producteur:           ['impact-365', 'impact-366', 'impact-40', 'impact-33', 'impact-90', "impact-66"],
-  recrutement:          ['impact-36', 'impact-382', 'impact-48', 'impact-108', 'impact-46'],
+  recrutement: ['impact-36', 'impact-382', 'impact-108', 'impact-46'],
   sage_femme:           ['impact-367', 'impact-368', 'impact-171', 'impact-231', 'impact-95'],
-  salle_reception:      ['impact-369', 'impact-370', 'impact-175', 'impact-200', 'impact-105', "impact-324", "impact-325", "impact-127", "impact-321"],
+  salle_reception:      ['impact-73', 'impact-109', 'impact-369', 'impact-370', 'impact-175', 'impact-200', 'impact-105', "impact-324", "impact-325", "impact-127", "impact-321"],
   securite:             ['impact-371', 'impact-372', 'impact-192', 'impact-39', 'impact-212', 'impact-214'],
   serrurier:            ['impact-192', 'impact-332', 'impact-212', 'impact-214', 'impact-215'],
-  toiletteur:           ['impact-227', 'impact-383', 'impact-32', 'impact-180', 'impact-209'],
+  toiletteur:           ['impact-227', 'impact-383', 'impact-32', 'impact-209'],
   vitrier:              ['impact-375', 'impact-376', 'impact-212', 'impact-214', 'impact-215'],
-  vtc:                  ['impact-373', 'impact-374', 'impact-123', 'impact-221', 'impact-39', 'impact-178', "impact-216"],
+  vtc: ['impact-373', 'impact-374', 'impact-123', 'impact-221', 'impact-39', "impact-216"],
+  saas: ['impact-05', 'impact-18', 'impact-113', 'impact-161', 'impact-165', 'impact-61', 'impact-72', 'impact-119'],
+  agence_web: ['impact-25', 'impact-57', 'impact-68', 'impact-52', 'impact-64', 'impact-135'],
+  studio_design: ['impact-152', 'impact-53', 'impact-54', 'impact-176', 'impact-219', 'impact-58'],
+  conseil_tech: ['impact-22', 'impact-102', 'impact-65', 'impact-101', 'impact-129'],
+  startup: ['impact-06', 'impact-24', 'impact-34', 'impact-51', 'impact-09', 'impact-125', 'impact-159'],
+
+
 };
 
 /** Short display name per template for the step-2 card. */
@@ -261,7 +281,7 @@ export const TEMPLATE_CITY_LABELS: Record<string, string> = {
   // Legacy templates
   'impact-04':  "L'Étoile Restaurant · Paris",
   'impact-99':  'Ember Grill · Lyon',
-  'impact-189': 'Aura Dining · Bordeaux',
+  'impact-189': "ATELIER LÉONIE · Bordeaux",
   'impact-211': 'Maison Éclat · Nice',
   // Batch 2023/2024
   'impact-235': 'Atelier Voss · Paris',
@@ -279,7 +299,7 @@ export const TEMPLATE_CITY_LABELS: Record<string, string> = {
   'impact-247': 'Volt & Lux · Toulouse',
   'impact-248': 'Ostéo République · Paris',
   'impact-249': 'Dermis Studio · Montpellier',
-  'impact-250': 'Vert Nature · Nantes',
+  'impact-250': "Atelier Terra · Nantes",
   // Pisciniste
   'impact-179': 'AquaNova Piscines · Lyon',
   'impact-181': 'Toit & Pierre Piscines · Nantes',
@@ -349,17 +369,17 @@ export const TEMPLATE_CITY_LABELS: Record<string, string> = {
   'impact-309': 'Encre Délicate · Bordeaux',
   'impact-310': "Jardins de l'Hérault · Montpellier",
   // Cleaning / ménage
-  'impact-178': 'Essential Cleaning · Toulouse',
+  'impact-178': "Alta Transactions · Toulouse",
   'impact-315': 'Brise de Propreté · Nantes',
   'impact-316': 'Pro-Nettoyage Services · Île-de-France',
-  'impact-317': 'Sparkle Home · Marseille',
+  'impact-317': "Ménage Dynamique · Marseille",
   'impact-318': 'Nettoyage Extrême · Lille',
   'impact-319': 'Éco-Clean Habitat · Montpellier',
   // Garage auto
   'impact-311': 'Atelier Performance · Lyon',
   'impact-312': 'Garage Minimalist · Rennes',
   // Salle de sport
-  'impact-119': 'IronX Fitness · Marseille',
+  'impact-119': "NEBULA CLOUD TECHNOLOGIES INC · Marseille",
   'impact-174': 'FORGE · Lille',
   // Photographe
   'impact-02':  'Elena Korr · Paris',
@@ -373,7 +393,7 @@ export const TEMPLATE_CITY_LABELS: Record<string, string> = {
   'impact-47':  'Pétales & Co · Bordeaux',
   'impact-94':  'Botanica Flowers · Montpellier',
   // Coiffeur / Barbier
-  'impact-180': 'Essential Salon · Rennes',
+  'impact-180': "Thermotek Chauffage · Rennes",
   'impact-209': "L'Atelier Coiffure · Lille",
   'impact-227': 'Le Barber Club · Strasbourg',
   // Agence immobilière
@@ -385,61 +405,61 @@ export const TEMPLATE_CITY_LABELS: Record<string, string> = {
   // Architecte
   'impact-17':  'Kéops · Nantes',
   'impact-28':  'Brutco · Lille',
-  'impact-118': 'Formwerk Studio · Strasbourg',
-  'impact-147': 'Void Arch · Rennes',
+  'impact-118': "CHRONOS HOROLOGY SA · Strasbourg",
+  'impact-147': "VANGUARD STRATEGIC LEGAL DEFENSE · Rennes",
   'impact-156': 'Bio Form Arch · Nice',
-  'impact-186': 'ArchiTectura · Île-de-France',
+  'impact-186': "Dr · Île-de-France",
   // Décorateur d'intérieur
   'impact-44':  'Espace Studio · Marseille',
   'impact-100': 'Nova Spaces · Paris',
   'impact-143': 'Atelier Interior · Lyon',
   // Hôtel
   'impact-10':  'Grand Palais · Nice',
-  'impact-182': 'The Grand Hotel · Lille',
+  'impact-182': "Bâtir · Lille",
   // Vétérinaire
   'impact-32':  'PawCare Clinic · Nantes',
   // Full-catalog filter coverage audit — bijouterie, institut de beauté,
   // café & bar, studio créatif, boutique mode, BTP, hôtellerie & voyage,
   // plus backfills to existing niches (every id below reviewed individually).
   'impact-13': 'Atelier Mécanique · Paris',
-  'impact-20': 'Orens Jewelry · Lyon',
+  'impact-20': "MAISON ÉLARA · Lyon",
   'impact-83': 'Aurelius Heritage · Marseille',
   'impact-91': 'Aurelia Jewels · Toulouse',
   'impact-98': 'Zenith Watches · Nice',
   'impact-157': 'Aurum Jewelry · Nantes',
   'impact-220': 'Hora Viva · Strasbourg',
   'impact-151': 'Chronos Lab · Bordeaux',
-  'impact-60':  'Zenith — Horlogerie de prestige · Genève',
+  'impact-60':  'Zenith — Horlogerie de · Genève',
   'impact-84': 'Cypher Clinic · Lille',
   'impact-85': 'Aether Labs · Rennes',
   'impact-86': 'Aura Wellness · Montpellier',
   'impact-88': 'Velvet Nails · Île-de-France',
   'impact-95': 'Lumière Clinic · Paris',
-  'impact-148': 'Pureté Skincare · Lyon',
-  'impact-191': 'Nova Clinic · Marseille',
-  'impact-192': 'Lumina Beauty · Toulouse',
+  'impact-148': "NEON PULSE PROTOCOL · Lyon",
+  'impact-191': "Jardins Vivants · Marseille",
+  'impact-192': "SÉC'URFAST · Toulouse",
   'impact-198': 'Lumière Beauty · Nice',
   'impact-210': 'Studio Nail · Nantes',
-  'impact-229': 'Institut Beauté · Strasbourg',
-  'impact-71':  'ZenSpace — Spa & bien-être · Toulouse',
+  'impact-229': "Éclat Spa · Strasbourg",
+  'impact-71':  "Zen Space Home · Toulouse",
   'impact-37': 'Clos du Soir · Bordeaux',
   'impact-38': 'Origin Roast · Lille',
-  'impact-116': 'Kyoto Teahouse · Rennes',
-  'impact-131': 'Cuvée Prestige · Montpellier',
+  'impact-116': "KINETIC · Rennes",
+  'impact-131': "Château de Valroc · Montpellier",
   'impact-137': 'Torréfié Coffee · Île-de-France',
-  'impact-162': 'Essential Cafe · Paris',
+  'impact-162': "Le Matin Doré · Paris",
   'impact-218': 'Domaine Miroir · Lyon',
   'impact-23': 'Studio Pelikan · Marseille',
   'impact-42': 'Echo Chamber · Toulouse',
   'impact-106': 'Studio Versa · Nice',
   'impact-124': 'Morph Studio · Nantes',
-  'impact-188': 'Cinema Roster · Strasbourg',
-  'impact-03': 'Maison Dorée · Bordeaux',
-  'impact-150': 'Neon Unit Apparel · Lille',
-  'impact-160': 'Maison V Lookbook · Rennes',
+  'impact-188': "Clinique du Bois Vert · Strasbourg",
+  'impact-03': "Atelier NOIR · Bordeaux",
+  'impact-150': "Alderton & Sterling · Lille",
+  'impact-160': "THE MONOLITH · Rennes",
   'impact-168': 'Éclat · Montpellier',
   'impact-217': 'AirForge · Île-de-France',
-  'impact-123': 'Maison Fashion · Paris',
+  'impact-123': "Vulcan · Paris",
   'impact-43': 'Serene Retreat · Lyon',
   'impact-93': 'Velocity Jets · Marseille',
   'impact-97': 'Horizon Yacht · Toulouse',
@@ -451,30 +471,30 @@ export const TEMPLATE_CITY_LABELS: Record<string, string> = {
   'impact-08': 'Vulcan Motors · Rennes',
   'impact-139': 'Apex Automotive · Montpellier',
   'impact-221': 'Lumyx · Île-de-France',
-  'impact-149': 'Nørdic Furniture · Paris',
+  'impact-149': "AETHER WELLNESS GROUP · Paris",
   'impact-230': 'Atelier Ébénisterie · Lyon',
-  'impact-67': 'Plan 067 · Marseille',
-  'impact-226': 'Studio Encre Noire — Tatouage · Paris 11e',
+  'impact-67': "Vision Home · Marseille",
+  'impact-226': 'Studio Encre Noire — · Paris 11e',
   'impact-171': 'Vitalité Médical · Nice',
   'impact-231': 'Cabinet Diététique · Nantes',
   'impact-30': 'Smile Studio · Strasbourg',
   'impact-233': 'Cabinet Ostéopathie · Bordeaux',
   'impact-46': 'Dumont & Associates · Lille',
   'impact-172': 'Legrand & Associés · Rennes',
-  'impact-193': 'Sterling Partners · Montpellier',
-  'impact-48': 'Meridian Capital · Île-de-France',
-  'impact-223': 'ÉlectroPro · Paris',
-  'impact-228': 'ÉlectroPro Premium · Lyon',
+  'impact-193': "Ostéo Gaïa · Montpellier",
+  'impact-48': "Atelier Moreau·Leroy · Île-de-France",
+  'impact-223': "VoltPro Électricité · Paris",
+  'impact-228': "Aqua · Lyon",
   'impact-212': 'Therma Pro · Marseille',
   'impact-214': 'Aqua Prestige · Toulouse',
   'impact-215': 'Flamme & Co · Nice',
-  'impact-313': 'Urgence Plomberie 24/7 · Nantes',
+  'impact-313': "Plumber Dark Urgent · Nantes",
   'impact-314': 'Plomberie & Confort · Strasbourg',
-  'impact-232': 'Paysagiste Jardin · Bordeaux',
+  'impact-232': "Vert · Bordeaux",
   'impact-199': 'Encre & Âme · Lille',
   'impact-33': 'La Fournée · Rennes',
   'impact-90': 'Maison Laval · Montpellier',
-  'impact-126': 'Trattoria Menu · Île-de-France',
+  'impact-126': "Ristorante Aureliano · Île-de-France",
   'impact-74': 'Aevia Kitchen · Paris',
   'impact-201': 'Maison Saveur · Lyon',
   'impact-175': 'Confluence Events · Marseille',
@@ -482,3 +502,25 @@ export const TEMPLATE_CITY_LABELS: Record<string, string> = {
   'impact-322': 'Gala & Prestige · Nice',
   'impact-12': 'Noir Couture · Nantes',
 };
+
+/*
+  Le libellé d'un secteur, à partir de son identifiant.
+
+  Le formulaire envoyait l'identifiant comme métier du client : l'accroche des
+  sites annonçait « Medecin à Annecy » — sans accent — et « Saas à Nantes ».
+  L'identifiant est une clé technique ; ce que le visiteur doit lire, c'est le
+  libellé du catalogue.
+*/
+export function libelleDuSecteur(id: string | undefined, locale = "fr"): string {
+  if (!id) return "";
+  const s = SECTORS.find((x) => x.id === id);
+  if (!s) return id;
+  const libelle = (locale !== "fr" && s.labels?.[locale]) || s.label;
+  /*
+    Le libellé du catalogue nomme parfois deux métiers voisins — « Hôtel /
+    Voyage », « Coiffeur / Barbier ». En accroche, une page annoncerait
+    « Hôtel / Voyage à Beaune ». On garde le premier, qui est le métier
+    principal ; la liste du catalogue, elle, continue d'afficher les deux.
+  */
+  return libelle.split(" / ")[0].trim();
+}

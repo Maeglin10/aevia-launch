@@ -19,10 +19,21 @@ export default function CypherClinicLayout({
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(__setLayoutSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setLayoutSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
   const fd = __layoutSession?.formData;
 
@@ -69,7 +80,7 @@ export default function CypherClinicLayout({
             ) : (<>
               <>
             <span className="text-xl font-light tracking-[0.25em] uppercase" style={{ fontFamily: "'Bodoni Moda', serif" }}>
-              Cypher Clinic
+              {clientName(__layoutSession) ?? "Cypher Clinic"}
             </span>
             <span className="text-[10px] tracking-[0.4em] uppercase text-[#C9A86C] mt-0.5">Médecine Esthétique & Lasers</span>
           </>
@@ -103,7 +114,7 @@ export default function CypherClinicLayout({
           <motion.div className="fixed inset-0 z-[200] bg-[#0C0C0A] flex flex-col"
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <div className="flex items-center justify-between px-6 py-5 border-b border-[#2A2520]">
-              <span className="text-xl" style={{ fontFamily: "'Bodoni Moda', serif" }}>Cypher Clinic</span>
+              <span className="text-xl" style={{ fontFamily: "'Bodoni Moda', serif" }}>{clientName(__layoutSession) ?? "Cypher Clinic"}</span>
               <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5 text-white" /></button>
             </div>
             <div className="flex flex-col gap-10 p-10">
@@ -128,7 +139,7 @@ export default function CypherClinicLayout({
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div className="md:col-span-2">
-              <div className="text-[#F0EBE0] font-light text-2xl mb-2" style={{ fontFamily: "'Bodoni Moda', serif" }}>Cypher Clinic</div>
+              <div className="text-[#F0EBE0] font-light text-2xl mb-2" style={{ fontFamily: "'Bodoni Moda', serif" }}>{clientName(__layoutSession) ?? "Cypher Clinic"}</div>
               <div className="text-xs text-[#C9A86C] tracking-widest uppercase mb-4">Institut de Médecine Esthétique de Précision</div>
               <p className="text-sm text-[#5A5248] leading-relaxed max-w-sm">Une expertise médicale rigoureuse pour des résultats naturels et durables. Bilan morphologique personnalisé.</p>
             </div>

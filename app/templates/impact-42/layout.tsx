@@ -17,10 +17,21 @@ export default function EchoChamberLayout({ children }: { children: React.ReactN
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(__setLayoutSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setLayoutSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
   const fd = __layoutSession?.formData;
 
@@ -94,7 +105,7 @@ export default function EchoChamberLayout({ children }: { children: React.ReactN
           <div style={{ width: 36, height: 36, borderRadius: "8px", backgroundColor: C.accent, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 0 16px ${C.accentGlow}` }}>
             <Mic2 size={18} color={C.white} />
           </div>
-          <span style={{ fontFamily: C.headingFont, fontSize: "1.6rem", letterSpacing: "0.08em", color: C.white }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>ECHO CHAMBER</>)}</span>
+          <span style={{ fontFamily: C.headingFont, fontSize: "1.6rem", letterSpacing: "0.08em", color: C.white }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>{clientName(__layoutSession) ?? "Echo Chamber"}</>)}</span>
             </>
           )}
         </Link>
@@ -189,7 +200,7 @@ export default function EchoChamberLayout({ children }: { children: React.ReactN
                 <div style={{ width: 36, height: 36, borderRadius: "8px", backgroundColor: C.accent, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: `0 0 14px ${C.accentGlow}` }}>
                   <Mic2 size={18} color={C.white} />
                 </div>
-                <span style={{ fontFamily: C.headingFont, fontSize: "1.4rem", color: C.white, letterSpacing: "0.06em" }}>ECHO CHAMBER</span>
+                <span style={{ fontFamily: C.headingFont, fontSize: "1.4rem", color: C.white, letterSpacing: "0.06em" }}>{clientName(__layoutSession) ?? "Echo Chamber"}</span>
               </Link>
               <p style={{ fontFamily: C.bodyFont, fontSize: "0.86rem", color: C.textMuted, lineHeight: 1.8, maxWidth: 290 }}>
                 Studio d'enregistrement professionnel. SSL, Neve, Pro Tools HDX. Ouvert 7j/7, 10h–23h.

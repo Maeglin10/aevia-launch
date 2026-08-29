@@ -157,10 +157,21 @@ export default function WaveFXPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -229,7 +240,7 @@ export default function WaveFXPage() {
                 <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--brand,#6366f1)] to-blue-500 flex items-center justify-center">
                   <Code2 className="w-4 h-4 text-white" />
                 </div>
-                <span className="text-xl font-black tracking-tight">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Wave<span className="text-[var(--brand,#818cf8)]">FX</span></>)}</span>
+                <span className="text-xl font-black tracking-tight">{/* NOM_LOGO */ clientName(sessionData) ?? (<>Wave<span className="text-[var(--brand,#818cf8)]">FX</span></>)}</span>
               </>
             )}
           </Link>
@@ -273,7 +284,7 @@ export default function WaveFXPage() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-xl text-white/40 font-light max-w-lg mx-auto leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              <p className="text-xl text-white/40 font-light max-w-lg mx-auto leading-relaxed mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 The open-source framework for building real-time data pipelines. Type-safe, zero-copy, and absurdly fast.
               </>}</p>
             </Reveal>
@@ -461,7 +472,7 @@ export default function WaveFXPage() {
           ))}
         </div>
         <div className="max-w-[1000px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
-          <span>© 2026 {clientName(sessionData) ?? "WAVEFX LABS."}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "WAVEFX LABS."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span>MIT LICENSE · OPEN SOURCE</span>
         </div>
       </footer>

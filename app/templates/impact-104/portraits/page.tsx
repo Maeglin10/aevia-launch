@@ -1,5 +1,14 @@
 "use client";
 import { useEffect, useState } from "react";
+import {
+  clientCity,
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+  clientTrade,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 
 import React from "react";
 import Link from "next/link";
@@ -24,13 +33,25 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
@@ -60,13 +81,13 @@ export default function Page() {
 
         <div style={{ marginBottom: 60 }}>
           <span style={{ color: C.gold, fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", display: "block", marginBottom: 16 }}>
-            Lumière Dorée · Photographie
+            {clientName(sessionData) ?? (clientName(sessionData) ?? "Lumière Dorée")} · Photographie
           </span>
           <h1 style={{ fontSize: "clamp(36px, 5vw, 64px)", fontFamily: FONT, color: C.text, marginBottom: 24, fontStyle: "italic" }}>
-            Portraits & Studio
+            {/* TEXTE_SECTION */ clientText(sessionData, "portraits.titre") ?? "Portraits & Studio"}
           </h1>
           <p style={{ color: C.muted, fontSize: 16, maxWidth: 640, lineHeight: 1.8 }}>
-            Des portraits authentiques et raffinés capturant votre essence naturelle sous une lumière douce et travaillée.
+            {/* TEXTE_SECTION */ clientText(sessionData, "portraits.texte") ?? clientTagline(sessionData) ?? "Des portraits authentiques et raffinés capturant votre essence naturelle sous une lumière douce et travaillée."}
           </p>
         </div>
 

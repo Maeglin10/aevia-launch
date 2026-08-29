@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientName,
 } from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -30,7 +31,7 @@ function projects_LIVE() {
   return [
   { name: "La Maison du Vent", location: (clientCity(sessionData) ?? "Marseille"), type: "Résidentiel", area: "480 m²", year: "2025", src: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80" },
   { name: "Pavillon Zénith", location: (clientCity(sessionData) ?? "Lyon"), type: "Cultural", area: "2 200 m²", year: "2025", src: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80" },
-  { name: "Ateliers Kéops", location: (clientCity(sessionData) ?? "Paris") + " XIe", type: "Bureau mixte", area: "1 400 m²", year: "2024", src: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80" },
+  { name: `Ateliers ${clientName(sessionData) ?? "Kéops"}`, location: (clientCity(sessionData) ?? "Paris") + " XIe", type: "Bureau mixte", area: "1 400 m²", year: "2024", src: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80" },
   { name: "Villa Terracotta", location: (clientCity(sessionData) ?? "Nice"), type: "Résidentiel", area: "320 m²", year: "2024", src: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80" },
   { name: "Cour des Arts", location: (clientCity(sessionData) ?? "Bordeaux"), type: "Mixte culturel", area: "3 800 m²", year: "2023", src: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=600&q=80" },
   { name: "Bibliothèque Nomade", location: (clientCity(sessionData) ?? "Nantes"), type: "Public", area: "1 900 m²", year: "2023", src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80" },
@@ -52,10 +53,21 @@ export default function ProjetsPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
@@ -131,7 +143,7 @@ export default function ProjetsPage() {
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div className="max-w-6xl mx-auto bg-[#F5F2ED]/92 backdrop-blur-md border border-[#C46A3E]/20 rounded-2xl px-6 py-4 flex items-center justify-between shadow-sm">
           <Link href="/templates/impact-17" className="text-[#1A1510] tracking-wide text-lg font-medium cursor-pointer" style={{ fontFamily: "'Libre Baskerville', serif" }}>
-            Kéops
+            {clientName(sessionData) ?? "Kéops"}
           </Link>
           <div className="hidden md:flex items-center gap-8 text-[#1A1510]/60 text-sm font-medium">
             {[
@@ -161,7 +173,7 @@ export default function ProjetsPage() {
         {mobileOpen && (
           <motion.div className="fixed inset-0 z-[100] bg-[#F5F2ED] flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
             <div className="flex items-center justify-between mb-12">
-              <span className="text-[#1A1510] text-xl font-medium" style={{ fontFamily: "'Libre Baskerville', serif" }}>Kéops</span>
+              <span className="text-[#1A1510] text-xl font-medium" style={{ fontFamily: "'Libre Baskerville', serif" }}>{clientName(sessionData) ?? "Kéops"}</span>
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-[#1A1510]" /></button>
             </div>
             {[
@@ -196,7 +208,7 @@ export default function ProjetsPage() {
       <footer className="bg-[#1A1510] py-16 px-6">
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10 mb-12">
           <div>
-            <p className="text-white text-xl mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>Kéops</p>
+            <p className="text-white text-xl mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>{clientName(sessionData) ?? "Kéops"}</p>
             <p className="text-white/30 text-sm leading-relaxed">Agence d'architecture fondée à {clientCity(sessionData) ?? "Paris"}. Projets résidentiels, culturels et mixtes.</p>
           </div>
           {[
@@ -227,7 +239,7 @@ export default function ProjetsPage() {
           ))}
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between text-xs text-white/20 gap-4">
-          <span>© 2026 Kéops Architecture. Tous droits réservés.</span>
+          <span>© 2026 {clientName(sessionData) ?? "Kéops"} Architecture. Tous droits réservés.</span>
           <div className="flex gap-6">
             <Link href="/templates/impact-17/legal" className="hover:text-[#C46A3E] transition-colors">Mentions légales</Link>
             <Link href="/templates/impact-17/legal" className="hover:text-[#C46A3E] transition-colors">Confidentialité</Link>

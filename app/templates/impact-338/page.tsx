@@ -33,6 +33,7 @@ import {
   clientHeroLine,
   clientHeroPrestations,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -42,10 +43,11 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
-   BORÉAL COURTAGE — Courtage de risques d'entreprise & flottes · Lyon
+   {clientName(sessionData) ?? "Boréal Courtage"} — Courtage de risques d'entreprise & flottes · Lyon
    Geste signature : BentoCascade (hero-kit-2). Les tuiles inégales du héros se
    vident en cascade verticale puis se remplissent dans le même ordre : à
    mi-transition la grille est presque nue, et le programme d'assurance se
@@ -159,7 +161,7 @@ const METHODE_SOURCE = [
   { n: "03", t: "Programme unifié", d: "Un seul échéancier, des franchises cohérentes, zéro trou entre les contrats." },
   { n: "04", t: "Pilotage annuel", d: "Revue de sinistralité, ajustement des capitaux, renégociation à chaque échéance triennale." },
 ];
-const METHODE = METHODE_SOURCE;
+let METHODE = METHODE_SOURCE;
 
 const ENGAGEMENT_SOURCE = [
   "ORIAS n° 26 007 833, sous le contrôle de l'ACPR, RC professionnelle de courtage",
@@ -411,16 +413,32 @@ export default function BorealCourtagePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    fusionnerEtapes(METHODE_SOURCE, clientMethode(sessionData)),
+    METHODE_SOURCE,
+  );
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

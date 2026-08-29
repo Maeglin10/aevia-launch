@@ -16,12 +16,14 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -39,7 +41,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   MAISON NUPTIALE — Organisateur de Mariage & Événements · {clientCity(sessionData) ?? "Bordeaux"}
+   {clientName(sessionData) ?? "Maison Nuptiale"} — Organisateur de Mariage & Événements · {clientCity(sessionData) ?? "Bordeaux"}
    Chorégraphie de défilement éditoriale · Crossfade chapitré · Panneau collant
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -161,7 +163,10 @@ function CHAPTERS_LIVE() {
 }
 let CHAPTERS = CHAPTERS_LIVE();
 
-const SERVICES_SOURCE: Service[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function SERVICES_SOURCE_LIVE(): Service[] {
+  return [
   {
     title: 'Organisation complète',
     desc: 'De la première esquisse à la dernière danse — nous orchestrons chaque détail pour vous.',
@@ -174,7 +179,7 @@ const SERVICES_SOURCE: Service[] = [
   },
   {
     title: 'Décoration & scénographie',
-    desc: 'Un univers visuel cohérent, de la cérémonie à la salle de réception, signé Maison Nuptiale.',
+    desc: `Un univers visuel cohérent, de la cérémonie à la salle de réception, signé ${clientName(sessionData) ?? "Maison Nuptiale"}.`,
     icon: '✦',
   },
   {
@@ -193,6 +198,8 @@ const SERVICES_SOURCE: Service[] = [
     icon: '✦',
   },
 ];
+}
+let SERVICES_SOURCE: Service[] = SERVICES_SOURCE_LIVE();
 let SERVICES_DEMO = SERVICES_SOURCE;
 
 function EDIT_ROWS_SOURCE_LIVE() {
@@ -208,7 +215,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
     ),
     body: 'Chaque couple reçoit un wedding planner dédié, disponible 7j/7. Nous ne fabriquons pas des mariages en série — nous créons votre mariage. Maximum 12 couples par an, pour que chaque histoire reste unique.',
     img: PH((clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/29040997/pexels-photo-29040997.jpeg?auto=compress&cs=tinysrgb&w=1600'), 800),
-    alt: 'Cérémonie de mariage — Maison Nuptiale',
+    alt: `Cérémonie de mariage — ${clientName(sessionData) ?? "Maison Nuptiale"}`,
     reverse: false,
   },
   {
@@ -253,20 +260,25 @@ const PROCESS: ProcessStep[] = [
   },
 ];
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function TESTIMONIALS_SOURCE_LIVE(): Testimonial[] {
+  return [
   {
     quote:
-      "Notre mariage dans un château du Médoc, 120 invités, a été d'une fluidité absolue. L'équipe de Maison Nuptiale a tout géré avec une élégance et un calme remarquables. Chaque détail était exactement comme nous l'avions rêvé — souvent mieux.",
+      `Notre mariage dans un château du Médoc, 120 invités, a été d'une fluidité absolue. L'équipe de ${clientName(sessionData) ?? "Maison Nuptiale"} a tout géré avec une élégance et un calme remarquables. Chaque détail était exactement comme nous l'avions rêvé — souvent mieux.`,
     name: 'Camille & Julien Ferraud',
     role: 'Château du Médoc · 120 invités',
   },
   {
     quote:
-      "On voulait quelque chose d'intime : 20 personnes dans un jardin, une cérémonie civile sans chichis. Maison Nuptiale a transformé notre simplicité en quelque chose de magique. Une journée que nous n'oublierons jamais.",
+      `On voulait quelque chose d'intime : 20 personnes dans un jardin, une cérémonie civile sans chichis. ${clientName(sessionData) ?? "Maison Nuptiale"} a transformé notre simplicité en quelque chose de magique. Une journée que nous n'oublierons jamais.`,
     name: 'Sophie & Antoine Martel',
     role: 'Réception jardin · 20 invités',
   },
 ];
+}
+let TESTIMONIALS_SOURCE: Testimonial[] = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 // Live arrays — reassigned from the client's BusinessProfile in Page(), read by
@@ -641,7 +653,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || PH((clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/29040997/pexels-photo-29040997.jpeg?auto=compress&cs=tinysrgb&w=1600'), 2000)}
-          alt="Mariage élégant organisé par Maison Nuptiale à Bordeaux"
+          alt={`Mariage élégant organisé par ${clientName(sessionData) ?? "Maison Nuptiale"} à Bordeaux`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="high"
         />
@@ -1444,7 +1456,7 @@ function ProcessPanel() {
           >
             <img
               src={PH('1478146896981-b80fe463b330', 900)}
-              alt="Bouquet nuptial — Maison Nuptiale"
+              alt={`Bouquet nuptial — ${clientName(sessionData) ?? "Maison Nuptiale"}`}
               loading="lazy"
               style={{
                 width: '100%',
@@ -1506,7 +1518,7 @@ function ProcessPanel() {
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {PROCESS.map((step, i) => (
+            {resolveList(fusionnerEtapes(PROCESS, clientMethode(sessionData)), PROCESS).map((step, i) => (
               <Reveal key={step.num} delay={0.06 * i}>
                 <div
                   style={{
@@ -2209,10 +2221,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2220,6 +2243,8 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   CHAPTERS = CHAPTERS_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
 

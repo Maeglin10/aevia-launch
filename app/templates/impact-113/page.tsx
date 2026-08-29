@@ -26,6 +26,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientSlug,
   clientText,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -247,10 +248,21 @@ export default function NexusSaaSPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -426,7 +438,7 @@ export default function NexusSaaSPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-lg md:text-xl text-white/60 max-w-2xl mx-auto mb-12 leading-relaxed"
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Build, deploy, and scale globally distributed applications in
             seconds. We handle the infrastructure complexity so you can focus on
             writing code.
@@ -651,7 +663,7 @@ export default function NexusSaaSPage() {
               <div className="p-6 overflow-x-auto text-white/70">
                 <div className="text-pink-400">import</div> {"{ Nexus }"}{" "}
                 <div className="text-pink-400">from</div>{" "}
-                <div className="text-green-400">'@nexus/core'</div>;
+                <div className="text-green-400">'@' + (clientSlug(sessionData) ?? 'nexus') + '/core'</div>;
                 <br />
                 <br />
                 <div className="text-pink-400">export default</div>{" "}
@@ -1074,8 +1086,8 @@ export default function NexusSaaSPage() {
       </footer>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-113"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "Nexus SaaS"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>
   );

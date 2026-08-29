@@ -121,7 +121,7 @@ function PROJECTS_DEMO_LIVE() {
     client: "Arte France",
     title: "Les Heures Grises",
     format: "Long-métrage 100min — Festival Berlin",
-    desc: "Drame intime sur les espaces interstitiels de " + (clientCity({ formData: fd }) ?? "Paris") + ". Tournage sur pellicule 16mm.",
+    desc: "Drame intime sur les espaces interstitiels de " + (clientCity(sessionData) ?? "Paris") + ". Tournage sur pellicule 16mm.",
     accent: "#8FA89C",
   },
   {
@@ -195,7 +195,7 @@ function SERVICES_DEMO_LIVE() {
     icon: Award,
     title: "Post-Production",
     sub: "Étalonnage, son, VFX",
-    desc: "Studio intégré à " + (clientCity({ formData: fd }) ?? "Paris") + " : étalonnage 4K HDR Dolby Vision, mixage Atmos 7.1.4, VFX Unreal Engine, sous-titrage 28 langues. Prestation externe acceptée.",
+    desc: "Studio intégré à " + (clientCity(sessionData) ?? "Paris") + " : étalonnage 4K HDR Dolby Vision, mixage Atmos 7.1.4, VFX Unreal Engine, sous-titrage 28 langues. Prestation externe acceptée.",
     items: ["Étalonnage DCI 4K", "Mixage Dolby Atmos", "VFX Unreal Engine", "Localisation 28 langues"],
   },
 ];
@@ -204,7 +204,7 @@ let SERVICES_DEMO = SERVICES_DEMO_LIVE();;
 
 function STATS_DEMO_LIVE() {
   return [
-  { val: "2009", label: "Fondé à " + (clientCity({ formData: fd }) ?? "Paris") },
+  { val: "2009", label: "Fondé à " + (clientCity(sessionData) ?? "Paris") },
   { val: "280+", label: "Productions livrées" },
   { val: "22", label: "Festivals internationaux" },
   { val: "94%", label: "Clients fidèles" },
@@ -526,19 +526,30 @@ export default function UrbanPulsePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  STATS_DEMO = STATS_DEMO_LIVE();
-  SERVICES_DEMO = SERVICES_DEMO_LIVE();
   PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
+  SERVICES_DEMO = SERVICES_DEMO_LIVE();
+  STATS_DEMO = STATS_DEMO_LIVE();
 
 
 
@@ -682,7 +693,7 @@ return (
                     marginTop: 2,
                   }}
                 >
-                  Studio Cinéma · {clientCity({ formData: fd }) ?? "Paris"}
+                  Studio Cinéma · {clientCity(sessionData) ?? "Paris"}
                 </div>
               </div>
             </div>
@@ -896,7 +907,7 @@ return (
             whiteSpace: "nowrap",
           }}
         >
-          Urban Pulse Studio · Fondé 2009 · {clientCity({ formData: fd }) ?? "Paris"}, France
+          Urban Pulse Studio · Fondé 2009 · {clientCity(sessionData) ?? "Paris"}, France
         </div>
 
         <motion.div
@@ -975,7 +986,7 @@ return (
                 marginBottom: 44,
                 fontWeight: 400,
               }}
-            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Maison de production parisienne. Fiction, documentaire, publicité de prestige.
               Nous fabriquons des images qui traversent le temps.
             </>}</motion.p>
@@ -2409,7 +2420,7 @@ return (
               }}
             >
               {[
-                { icon: MapPin, label: (clientAddress(sessionData) ?? `12 rue Oberkampf, 75011 ${clientCity({ formData: fd }) ?? "Paris"}`) },
+                { icon: MapPin, label: (clientAddress(sessionData) ?? `12 rue Oberkampf, 75011 ${clientCity(sessionData) ?? "Paris"}`) },
                 { icon: Phone, label: (clientPhone(sessionData) ?? "+33 1 48 34 49 49") },
                 { icon: Mail, label: (clientEmail(sessionData) ?? fd?.email ?? "contact@urbanpulse.fr") },
               ].map(({ icon: Icon, label }) => (
@@ -2502,7 +2513,7 @@ return (
                       textTransform: "uppercase",
                     }}
                   >
-                    Studio Cinéma · {clientCity({ formData: fd }) ?? "Paris"}
+                    Studio Cinéma · {clientCity(sessionData) ?? "Paris"}
                   </div>
                 </div>
               </div>
@@ -2517,7 +2528,7 @@ return (
                 }}
               >
                 Maison de production cinéma, publicité et contenu de marque.
-                {clientCity({ formData: fd }) ?? "Paris"}, depuis 2009.
+                {clientCity(sessionData) ?? "Paris"}, depuis 2009.
               </p>
 
               <div style={{ display: "flex", gap: 10 }}>
@@ -2645,7 +2656,7 @@ return (
             }}
           >
             <div style={{ fontSize: "0.73rem", color: C.muted }}>
-              © 2026 {clientName(sessionData) ?? "Urban Pulse SAS"} · 12 rue Oberkampf, 75011 {clientCity(sessionData) ?? "Paris"} · SIRET 512 XXX XXX 00024{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2026 {clientName(sessionData) ?? "Urban Pulse SAS"} · 12 rue Oberkampf, 75011 {clientCity(sessionData) ?? "Paris"} · SIRET 512 XXX XXX 00024{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </div>
             <div style={{ display: "flex", gap: 24 }}>
               {[

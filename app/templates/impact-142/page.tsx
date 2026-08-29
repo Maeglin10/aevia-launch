@@ -120,10 +120,21 @@ export default function VerdantImpactPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -214,7 +225,7 @@ export default function VerdantImpactPage() {
             <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center">
               <Leaf className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold tracking-tight">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Verdant</>)}</span>
+            <span className="text-xl font-bold tracking-tight">{/* NOM_LOGO */ clientName(sessionData) ?? (<>Verdant</>)}</span>
           </>
             )}</Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#1a2e1a)]/40">
@@ -252,7 +263,7 @@ export default function VerdantImpactPage() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>
-              <p className="max-w-lg text-lg text-[var(--brand,#1a2e1a)]/50 font-light leading-relaxed mb-8">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              <p className="max-w-lg text-lg text-[var(--brand,#1a2e1a)]/50 font-light leading-relaxed mb-8">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Measurable climate action for individuals and businesses. Track your carbon footprint, offset with verified projects.
               </>}</p>
               <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-8 py-4 bg-emerald-600 text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-emerald-700 transition-colors">
@@ -477,7 +488,7 @@ export default function VerdantImpactPage() {
           ))}
         </div>
         <div className="max-w-[1200px] mx-auto pt-8 border-t border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/20 flex flex-col sm:flex-row justify-between gap-4">
-          <span>© 2026 {clientName(sessionData) ?? "VERDANT IMPACT. B-CORP CERTIFIED"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "VERDANT IMPACT. B-CORP CERTIFIED"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-6">
             <Link href="#contact" className="hover:text-white transition-colors">Mentions légales</Link>
             <Link href="#contact" className="hover:text-white transition-colors">Confidentialité</Link>

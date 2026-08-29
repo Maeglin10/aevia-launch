@@ -10,6 +10,7 @@ import {
   clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -306,10 +307,21 @@ export default function EncreNoirePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -435,8 +447,8 @@ return (
             style={{ fontFamily: FONT, fontSize: "clamp(42px, 5.5vw, 74px)", fontWeight: 400, color: C.text, lineHeight: 1.05, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 15) ?? "L'art sur peau,"}<br /><em style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 15) ?? "pour toujours."}</em>
           </>}</>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(245,240,232,0.65)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            Studio Encre Noire réunit 3 artistes tatoueurs spécialisés — blackwork, réalisme, japonais, aquarelle. Chaque pièce est unique, dessinée sur mesure, réalisée avec obsession du détail.
+            style={{ fontSize: 17, color: "rgba(245,240,232,0.65)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
+            Studio {clientName(sessionData) ?? "Encre"} Noire réunit 3 artistes tatoueurs spécialisés — blackwork, réalisme, japonais, aquarelle. Chaque pièce est unique, dessinée sur mesure, réalisée avec obsession du détail.
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
             <motion.button onClick={() => openConsult(null)} style={{ background: C.accent, color: "#0d0d0d", border: "none", borderRadius: 4, padding: "15px 32px", fontWeight: 700, fontSize: 15, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}30`, minHeight: 44 }} whileHover={{ scale: 1.03 }}>
@@ -504,7 +516,12 @@ return (
           <Reveal delay={0.15}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Notre hygiène</span>
             <h2 style={{ fontFamily: FONT, fontSize: "clamp(26px, 3vw, 44px)", color: C.text, margin: "12px 0 28px", lineHeight: 1.2 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Sécurité <em>absolue</em>,<br />zéro compromis.</>)}</h2>
-            {PROCESS.map((p, i) => (
+            {/* Ce thème écrit ses étapes en phrases, pas en objets : le titre
+                du client suffit, et sa description le complète s'il en a mis. */}
+            {resolveList(
+              clientMethode(sessionData)?.map((e: any) => [e.name, e.desc].filter(Boolean).join(" — ")),
+              PROCESS,
+            ).map((p, i) => (
               <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 12, marginBottom: 14 }}>
                 <CheckCircle size={17} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
                 <span style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.65 }}>{p}</span>
@@ -601,7 +618,7 @@ return (
       <footer style={{ background: "#050505", borderTop: `1px solid ${C.border}`, padding: "48px 80px 24px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
-            <div style={{ fontFamily: FONT, fontSize: 20, color: C.accent, marginBottom: 8 }}>Encre <em>Noire</em></div>
+            <div style={{ fontFamily: FONT, fontSize: 20, color: C.accent, marginBottom: 8 }}>{clientName(sessionData) ?? "Encre"} <em>Noire</em></div>
             <p style={{ color: "rgba(245,240,232,0.30)", fontSize: 13, lineHeight: 1.6 }}>Studio de tatouage · {clientCity(sessionData) ?? "Paris"}<br />Mar–Sam 10h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
@@ -613,7 +630,7 @@ return (
           </div>
         </div>
         <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-          <span style={{ color: "rgba(245,240,232,0.18)", fontSize: 12 }}>© 2026 Encre Noire Studio — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span style={{ color: "rgba(245,240,232,0.18)", fontSize: 12 }}>© 2026 {clientName(sessionData) ?? "Encre"} Noire Studio — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="#contact" style={{ color: "rgba(245,240,232,0.18)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

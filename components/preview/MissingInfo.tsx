@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { Pencil } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ChevronDown, Pencil } from "lucide-react";
 import type { BusinessProfile, SessionData } from "@/lib/sessions";
 import { blocksForTheme, type ContentBlock } from "@/lib/templates/capabilities";
 
@@ -93,31 +94,49 @@ const LABELS: Record<string, Partial<Record<ContentBlock, string>>> = {
   },
 };
 
-const COPY: Record<string, { title: string; body: string; cta: string }> = {
+const COPY: Record<
+  string,
+  { title: string; body: string; cta: string; reduire: string; rouvrir: string; manque: string }
+> = {
   fr: {
     title: "Ces sections montrent encore l'exemple du thème",
     body: "Nous n'inventons rien à votre place. Tant que vous ne les renseignez pas, elles gardent le contenu de démonstration — visible par vos visiteurs.",
     cta: "Compléter",
+    reduire: "Réduire",
+    rouvrir: "Voir ce qui manque",
+    manque: "à compléter",
   },
   en: {
     title: "These sections still show the theme's example",
     body: "We invent nothing on your behalf. Until you fill them in they keep the demo content — which your visitors will see.",
     cta: "Fill in",
+    reduire: "Minimise",
+    rouvrir: "See what's missing",
+    manque: "to fill in",
   },
   es: {
     title: "Estas secciones aún muestran el ejemplo del tema",
     body: "No inventamos nada por ti. Mientras no las completes conservan el contenido de demostración, visible para tus visitantes.",
     cta: "Completar",
+    reduire: "Reducir",
+    rouvrir: "Ver lo que falta",
+    manque: "por completar",
   },
   de: {
     title: "Diese Abschnitte zeigen noch das Beispiel des Themes",
     body: "Wir erfinden nichts für Sie. Solange Sie sie nicht ausfüllen, behalten sie den Demo-Inhalt — für Ihre Besucher sichtbar.",
     cta: "Ausfüllen",
+    reduire: "Verkleinern",
+    rouvrir: "Fehlendes anzeigen",
+    manque: "auszufüllen",
   },
   pt: {
     title: "Estas secções ainda mostram o exemplo do tema",
     body: "Não inventamos nada por si. Enquanto não as preencher, mantêm o conteúdo de demonstração — visível para os seus visitantes.",
     cta: "Preencher",
+    reduire: "Reduzir",
+    rouvrir: "Ver o que falta",
+    manque: "por preencher",
   },
 };
 
@@ -153,18 +172,83 @@ export function MissingInfo({
   locale?: string;
 }) {
   const missing = missingBlocks(session);
+
+  /*
+    Le panneau se réduit, il ne se ferme pas.
+
+    Il était posé au-dessus du site et le poussait vers le bas : sur un
+    téléphone — sept visites sur dix — il ne restait qu'une fenêtre étroite
+    pour voir son propre thème. Or c'est justement ce que le client vient
+    regarder.
+
+    Fermer pour de bon serait pire : il ne saurait plus que des sections
+    montrent encore l'exemple du thème, et croirait à une erreur de dossier.
+    Réduit, le panneau devient une pastille qui compte ce qui manque, et
+    revient d'un geste.
+
+    L'état se retient le temps de la visite : rouvrir à chaque retour de page
+    reviendrait à ne pas l'avoir réduit.
+  */
+  const cle = `apercu-manques-reduit:${session.id}`;
+  const [reduit, setReduit] = useState(false);
+  useEffect(() => {
+    try {
+      if (sessionStorage.getItem(cle) === "1") setReduit(true);
+    } catch {}
+  }, [cle]);
+
+  const basculer = (valeur: boolean) => {
+    setReduit(valeur);
+    try {
+      sessionStorage.setItem(cle, valeur ? "1" : "0");
+    } catch {}
+  };
+
   if (missing.length === 0) return null;
 
   const labels = LABELS[locale] ?? LABELS.fr;
   const copy = COPY[locale] ?? COPY.fr;
 
+  if (reduit) {
+    return (
+      <div className="mx-auto max-w-5xl px-4 pb-2">
+        <button
+          type="button"
+          onClick={() => basculer(false)}
+          aria-label={`${missing.length} ${copy.manque} — ${copy.rouvrir}`}
+          className="flex w-full items-center gap-2 rounded-full border border-amber-500/40 bg-amber-500/10 px-3 py-1.5 text-left text-xs text-amber-100 transition-colors hover:bg-amber-500/20"
+        >
+          <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-amber-500 text-[11px] font-bold text-zinc-900">
+            {missing.length}
+          </span>
+          <span className="min-w-0 flex-1 truncate">{copy.rouvrir}</span>
+          <ChevronDown size={14} className="shrink-0 rotate-180 opacity-70" />
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="mx-auto max-w-5xl px-4 pb-4">
       <div className="rounded-xl border border-amber-500/40 bg-amber-500/10 p-4">
-        <p className="text-sm font-semibold text-amber-200">{copy.title}</p>
+        <div className="flex items-start gap-3">
+          <p className="min-w-0 flex-1 text-sm font-semibold text-amber-200">{copy.title}</p>
+          <button
+            type="button"
+            onClick={() => basculer(true)}
+            aria-label={copy.reduire}
+            title={copy.reduire}
+            className="-mr-1 -mt-1 flex shrink-0 items-center gap-1 rounded-lg px-2 py-1 text-xs text-amber-200/80 transition-colors hover:bg-amber-500/20 hover:text-amber-100"
+          >
+            <span className="hidden sm:inline">{copy.reduire}</span>
+            <ChevronDown size={16} />
+          </button>
+        </div>
         <p className="mt-1 text-sm text-amber-100/80">{copy.body}</p>
         <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-          <ul className="flex min-w-0 flex-wrap gap-2">
+          {/* Sur un téléphone la liste peut être longue : on la borne et on la
+              fait défiler plutôt que de repousser le site hors de l'écran. */}
+          <ul className="flex max-h-24 min-w-0 flex-wrap gap-2 overflow-y-auto sm:max-h-none">
             {missing.map((b) => (
               <li
                 key={b}

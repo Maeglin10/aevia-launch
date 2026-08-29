@@ -1,4 +1,5 @@
 "use client";
+import { clientName } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 import React, { useCallback, useEffect, useState } from "react";
@@ -13,7 +14,7 @@ let bp: any = null;
 let c: any = null;
 
 /* ==========================================================================
-   AURELIA JEWELS — Design Tokens
+   {clientName(sessionData) ?? "AURELIA"} JEWELS — Design Tokens
    ========================================================================== */
 const C = {
   cream:     "#FAFAF9",
@@ -76,7 +77,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
                 color: scrolled ? C.navyDeep : C.cream,
               }}
             >
-              AURELIA
+              {clientName(sessionData) ?? "AURELIA"}
             </span>
           </Link>
 
@@ -125,7 +126,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
                 className="text-[26px] tracking-[0.12em] italic"
                 style={{ fontFamily: "'Cormorant Garamond', serif", color: C.cream, fontWeight: 600 }}
               >
-                AURELIA
+                {clientName(sessionData) ?? "AURELIA"}
               </span>
               <button onClick={() => setOpen(false)} className="p-2 text-[#A8A29E] hover:text-white transition-colors">
                 <X size={22} />
@@ -168,7 +169,7 @@ function Footer() {
               className="text-[28px] tracking-[0.12em] italic block mb-5"
               style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, color: C.cream }}
             >
-              AURELIA
+              {clientName(sessionData) ?? "AURELIA"}
             </span>
             <p
               className="text-[13px] leading-[2] mb-6 max-w-[320px]"
@@ -240,7 +241,7 @@ function Footer() {
             className="text-[11px] tracking-[0.08em]"
             style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 300, color: `${C.cream}40` }}
           >
-            © 2025 Aurelia Joaillerie. Tous droits réservés. Entreprise du Patrimoine Vivant.
+            © 2025 {clientName(sessionData) ?? "AURELIA"} Joaillerie. Tous droits réservés. Entreprise du Patrimoine Vivant.
           </p>
           <div className="flex gap-6">
             <Link
@@ -283,10 +284,21 @@ export default function AnnexPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
@@ -322,7 +334,7 @@ export default function AnnexPage() {
               className="text-[10px] tracking-[0.30em] uppercase mb-4"
               style={{ color: C.gold, fontWeight: 500 }}
             >
-              AURELIA
+              {clientName(sessionData) ?? "AURELIA"}
             </p>
             <h1
               className="mb-6"
@@ -352,7 +364,7 @@ export default function AnnexPage() {
               Notre maison s'engage à vous fournir toutes les informations nécessaires dans les plus brefs délais.
             </p>
             <p className="mb-6">
-              Depuis 1977, Aurelia Joaillerie perpétue les techniques de l'orfèvrerie française transmises de maître en apprenti.
+              Depuis 1977, {clientName(sessionData) ?? "AURELIA"} Joaillerie perpétue les techniques de l'orfèvrerie française transmises de maître en apprenti.
               Chaque création est le fruit d'un travail minutieux et d'une passion inébranlable pour l'excellence.
             </p>
             <div className="p-8 my-10 text-center border" style={{ borderColor: C.goldBorder, backgroundColor: `${C.gold}08` }}>

@@ -40,6 +40,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -47,6 +48,7 @@ import {
   clientServices,
   clientStats,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -71,7 +73,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ==========================================================================
-   CÉRÉMONIE — Wedding Planner (impact-200)
+   {clientName(sessionData) ?? "Cérémonie"} — Wedding Planner (impact-200)
    Design: blush pink #FDF2F8, primary #DB2777, gold #CA8A04, text #831843
    Fonts: Great Vibes (script) + Cormorant Infant (serif) + Playfair Display
    ========================================================================== */
@@ -210,7 +212,7 @@ function SERVICES_SOURCE_LIVE() {
   {
     title: "Animation Musicale",
     subtitle: "Quatuor à cordes & DJ",
-    desc: "Cérémonie en quatuor de violons, cocktail jazz acoustique, soirée avec DJ résident — chaque moment sonore est orchestré avec soin.",
+    desc: `${clientName(sessionData) ?? "Cérémonie"} en quatuor de violons, cocktail jazz acoustique, soirée avec DJ résident — chaque moment sonore est orchestré avec soin.`,
     icon: <Music className="w-6 h-6" />,
     image: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1525772764200-be829a350797?w=600&q=80"),
   },
@@ -347,7 +349,7 @@ const PACKAGES_DEMO = [
 ]
 let PACKAGES = PACKAGES_DEMO;
 
-const STEPS = [
+let STEPS = [
   {
     num: "01",
     title: "La Rencontre",
@@ -386,7 +388,7 @@ function TESTIMONIALS_DEMO_LIVE() {
     names: "Sophie & Mathieu",
     date: "14 Juin 2024",
     location: "Château de Vaux-le-Vicomte",
-    quote: "Cérémonie a transformé notre rêve en quelque chose de bien au-delà. Chaque détail respirait l'amour. Nous avons pleuré, dansé, ri — et n'avons eu à penser à rien. Une magie absolue.",
+    quote: `${clientName(sessionData) ?? "Cérémonie"} a transformé notre rêve en quelque chose de bien au-delà. Chaque détail respirait l'amour. Nous avons pleuré, dansé, ri — et n'avons eu à penser à rien. Une magie absolue.`,
     stars: 5,
     image: (clientPhotos(sessionData)[14] || "https://images.unsplash.com/photo-1519741497674-611481863552?w=200&q=80"),
   },
@@ -410,7 +412,7 @@ function TESTIMONIALS_DEMO_LIVE() {
     names: "Julie & Maxime",
     date: "22 Mars 2024",
     location: "Domaine de Chantilly",
-    quote: "Notre mariage était un défi logistique — 180 invités, des prestataires dans 4 pays. Cérémonie a tout orchestré avec une sérénité impressionnante. Résultat : une perfection.",
+    quote: `Notre mariage était un défi logistique — 180 invités, des prestataires dans 4 pays. ${clientName(sessionData) ?? "Cérémonie"} a tout orchestré avec une sérénité impressionnante. Résultat : une perfection.`,
     stars: 5,
     image: (clientPhotos(sessionData)[17] || "https://images.unsplash.com/photo-1519741497674-611481863552?w=200&q=80"),
   },
@@ -429,16 +431,21 @@ const PARTNERS = [
   "Mas Provençal",
 ]
 
-const MARQUEE_ITEMS = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function MARQUEE_ITEMS_LIVE() {
+  return [
   "Mariage",
   "Fiançailles",
   "Anniversaire de Noces",
   "Vœux de Mariage",
-  "Cérémonie Laïque",
+  `${clientName(sessionData) ?? "Cérémonie"} Laïque`,
   "Renouvellement",
   "Mariage Civil",
   "Réception de Gala",
-]
+];
+}
+let MARQUEE_ITEMS = MARQUEE_ITEMS_LIVE();
 
 /* ==========================================================================
    MAIN PAGE
@@ -477,10 +484,21 @@ export default function Impact200Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -489,6 +507,12 @@ export default function Impact200Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  STEPS = resolveList(
+    fusionnerEtapes(STEPS, clientMethode(sessionData)),
+    STEPS,
+  );
+  MARQUEE_ITEMS = MARQUEE_ITEMS_LIVE();
   TESTIMONIALS_DEMO = TESTIMONIALS_DEMO_LIVE();
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   GALLERY_ITEMS_DEMO = GALLERY_ITEMS_DEMO_LIVE();
@@ -795,7 +819,7 @@ export default function Impact200Page() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Nous orchestrons chaque détail de votre mariage avec une élégance méticuleuse, pour que ce jour reste gravé à jamais dans les mémoires.
             </>}</motion.p>
 

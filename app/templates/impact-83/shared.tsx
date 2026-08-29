@@ -118,7 +118,7 @@ export const COLLECTIONS = [
         stone: "Cadran squelette laqué",
         metal: "Or gris 18k",
         gem: "amethyst",
-        desc: "Architecture squelette ouverte révélant le Calibre AH-14. Décor côtes de " + clientCityOr("Genève") + " poli à la main, 40h de réserve.",
+        get desc() { return "Architecture squelette ouverte révélant le Calibre AH-14. Décor côtes de " + clientCityOr("Genève") + " poli à la main, 40h de réserve."; },
         limited: false,
       },
     ],
@@ -134,7 +134,7 @@ export const COLLECTIONS = [
         stone: "Pierre de votre choix",
         metal: "Métal de votre choix",
         gem: "diamond",
-        desc: "Nos maîtres joailliers créent votre pièce unique. Consultation privée à " + clientCityOr("Paris") + ", Monaco ou à domicile. Délai : 6 à 18 mois.",
+        get desc() { return "Nos maîtres joailliers créent votre pièce unique. Consultation privée à " + clientCityOr("Paris") + ", Monaco ou à domicile. Délai : 6 à 18 mois."; },
         limited: false,
       },
       {
@@ -174,7 +174,7 @@ export const COLLECTIONS = [
 export const TESTIMONIALS = [
   {
     name: "Isabelle de Montfort",
-    role: "Collectionneuse, " + clientCityOr("Paris") + " VIIe",
+    get role() { return "Collectionneuse, " + clientCityOr("Paris") + " VIIe"; },
     note: 5,
     text: "La Constellation Noir surpasse tout ce que j'ai vu chez Van Cleef ou Cartier. L'attention au détail est simplement bouleversante.",
     piece: "Constellation Noir",
@@ -195,7 +195,7 @@ export const TESTIMONIALS = [
   },
   {
     name: "Ibrahim Al-Rashidi",
-    role: "Ambassadeur, " + clientCityOr("Genève"),
+    get role() { return "Ambassadeur, " + clientCityOr("Genève"); },
     note: 5,
     text: "Aurelius Heritage est l'une des rares maisons à allier l'excellence horlogère suisse à l'art de la joaillerie française. Unique.",
     piece: "Solstice Dame",
@@ -260,13 +260,13 @@ export const TEAM = [
   {
     name: "Viktor Brandt",
     role: "Maître Horloger",
-    bio: "Ancien chef d'atelier chez Patek Philippe. Membre de l'Académie Horlogère de " + clientCityOr("Genève") + ". Spécialiste des complications grands feux.",
+    get bio() { return "Ancien chef d'atelier chez Patek Philippe. Membre de l'Académie Horlogère de " + clientCityOr("Genève") + ". Spécialiste des complications grands feux."; },
     exp: "34 ans",
   },
   {
     name: "Amélie Rousseau",
     role: "Designer Joaillier",
-    bio: "École Boulle, puis ESMA " + clientCityOr("Paris") + ". Primée au Grand Prix de la Création de la Ville de " + clientCityOr("Paris") + ". Auteure de 47 collections.",
+    get bio() { return "École Boulle, puis ESMA " + clientCityOr("Paris") + ". Primée au Grand Prix de la Création de la Ville de " + clientCityOr("Paris") + ". Auteure de 47 collections."; },
     exp: "15 ans",
   },
 ];

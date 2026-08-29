@@ -17,6 +17,7 @@ import {
   clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -24,6 +25,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -38,7 +40,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   FORCE BRUTE — Coach Sportif Personnel & Remise en Forme · {clientCity(sessionData) ?? "Marseille"}
+   {clientName(sessionData) ?? "FORCE"} BRUTE — Coach Sportif Personnel & Remise en Forme · {clientCity(sessionData) ?? "Marseille"}
    Chorégraphie de défilement premium × typographie éditoriale sportive.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -146,12 +148,15 @@ interface Testimonial {
    Data
    ════════════════════════════════════════════════════════════════════════════ */
 
-const PROGRAMS_DEMO: Program[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function PROGRAMS_DEMO_LIVE(): Program[] {
+  return [
   {
     id: 'force',
     romanNumeral: 'I',
-    label: 'FORCE & MUSCULATION',
-    title: 'Force & Musculation',
+    label: `${clientName(sessionData) ?? "FORCE"} & MUSCULATION`,
+    title: `${clientName(sessionData) ?? "FORCE"} & Musculation`,
     body: 'Prise de masse, définition musculaire, powerlifting — des programmes périodisés sur mesure.',
     img: PHOTO.weights,
   },
@@ -172,6 +177,8 @@ const PROGRAMS_DEMO: Program[] = [
     img: PHOTO.outdoor,
   },
 ];
+}
+let PROGRAMS_DEMO: Program[] = PROGRAMS_DEMO_LIVE();
 
 const OFFERS_DEMO: Offer[] = [
   {
@@ -649,7 +656,7 @@ function Hero() {
       >
         <img
           src={PHOTO.weights}
-          alt="Coach sportif Force Brute — entraînement de force à Marseille"
+          alt={`Coach sportif ${clientName(sessionData) ?? "FORCE"} Brute — entraînement de force à Marseille`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1471,7 +1478,7 @@ function PillarPanel() {
             >
               <img
                 src={PHOTO.hiitSticky}
-                alt="Méthode de coaching Force Brute"
+                alt={`Méthode de coaching ${clientName(sessionData) ?? "FORCE"} Brute`}
                 loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />
@@ -1529,7 +1536,7 @@ function PillarPanel() {
             </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {PILLARS.map((pillar, i) => (
+            {resolveList(fusionnerEtapes(PILLARS, clientMethode(sessionData)), PILLARS).map((pillar, i) => (
               <Reveal key={pillar.number} delay={0.06 * i}>
                 <div
                   style={{
@@ -2008,7 +2015,7 @@ function Footer() {
   const cols = [
     {
       title: 'Programmes',
-      items: ['Force & Musculation', 'Cardio & HIIT', 'Bien-être & Mobilité', 'Préparation compétition'],
+      items: [`${clientName(sessionData) ?? "FORCE"} & Musculation`, 'Cardio & HIIT', 'Bien-être & Mobilité', 'Préparation compétition'],
       hrefs: ['#programmes', '#programmes', '#programmes', '#tarifs'],
     },
     {
@@ -2058,7 +2065,7 @@ function Footer() {
             }}
           >
             <Dumbbell size={22} color={C.accent} strokeWidth={2} />
-            FORCE<span style={{ color: C.accent }}>&nbsp;BRUTE</span>
+            {(clientName(sessionData) ?? "FORCE BRUTE").split(" ")[0]}<span style={{ color: C.accent }}>&nbsp;{(clientName(sessionData) ?? "FORCE BRUTE").split(" ").slice(1).join(" ") || "BRUTE"}</span>
           </div>
           <p
             style={{
@@ -2215,10 +2222,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2226,6 +2244,7 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  PROGRAMS_DEMO = PROGRAMS_DEMO_LIVE();
   PHOTO = PHOTO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();

@@ -1,13 +1,15 @@
-"use client";
-// @ts-nocheck
-/*
-  impact-35 / spaces — « Le cabinet ». Les lieux et la façon d'y être reçu.
-  Photos du thème (remplacées par celles du client quand il en fournit).
-*/
+"use client"
+import { resolveList } from "@/lib/templates/resolveList";
+import {
+  clientServices,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 
-import React, { useEffect, useState } from "react";
-import { C, SERIF, SANS, PHOTOS_CABINET, SectionReveal, TitreSection } from "../shared";
-import { clientCity, clientCodePostalVille, clientPhotos, clientText } from "@/lib/templates/clientContent";
+import React from "react"
+import { useEffect, useState } from "react";
+import { Building2, Check, Clock, Users, ArrowRight, Layers } from "lucide-react"
+import Link from "next/link"
+import { C, SectionReveal, FloorPlan } from "../shared"
 
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
@@ -15,22 +17,71 @@ let fd: any = null;
 let bp: any = null;
 let c: any = null;
 
-const LIEUX = [
+const SPACES_DATA_DEMO_ANNEXE = [
   {
-    titre: "L'accueil",
-    texte: "On vous reçoit à l'heure dite — la salle d'attente sert rarement plus de cinq minutes.",
+    id: "openspace",
+    name: "Open Space",
+    tagline: "Hot desks & accès flexible",
+    photo: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80&fit=crop",
+    capacity: "Jusqu'à 60 personnes",
+    hours: "Lun–Ven 9h–19h",
+    equipment: ["WiFi 1 Gbps", "Café illimité", "Casier disponible", "Espaces de détente", "Impression 20 pages/j"],
+    cta: "Réserver un Day Pass",
+    href: "/templates/impact-35/pricing",
   },
   {
-    titre: "Les salles de réunion",
-    texte: "Deux salles closes, isolées phoniquement : ce qui s'y dit n'en sort pas.",
+    id: "bureau-dedie",
+    name: "Bureau Dédié",
+    tagline: "Bureau fermé 1–4 personnes",
+    photo: "https://images.unsplash.com/photo-1600508774634-4e11d34730e2?w=800&q=80&fit=crop",
+    capacity: "1 à 4 personnes",
+    hours: "Accès 24h/24 7j/7",
+    equipment: ["Adresse domiciliation", "Gestion courrier", "Accès 24/7", "Téléphone dédié", "Impression illimitée"],
+    cta: "Réserver ce bureau",
+    href: "/templates/impact-35/pricing",
   },
   {
-    titre: "Les bureaux des associés",
-    texte: "Chaque dossier a un associé référent, et une porte à laquelle frapper.",
+    id: "salle-reunion",
+    name: "Salle de Réunion",
+    tagline: "4 à 12 personnes",
+    photo: "https://images.unsplash.com/photo-1517502884422-41eaead166d4?w=800&q=80&fit=crop",
+    capacity: "4 à 12 personnes",
+    hours: "Réservation à l'heure",
+    equipment: ["Écran 75\"", "Visioconférence HD", "Tableau blanc", "Système son", "Café & eau inclus"],
+    cta: "Réserver à l'heure",
+    href: "/templates/impact-35/pricing",
+  },
+  {
+    id: "studio-podcast",
+    name: "Studio Podcast",
+    tagline: "Isolation acoustique totale",
+    photo: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=800&q=80&fit=crop",
+    capacity: "1 à 4 personnes",
+    hours: "Sur réservation",
+    equipment: ["Isolation acoustique", "Micro professionnel", "Table de mixage", "Streaming live", "Enregistrement HD"],
+    cta: "Réserver le studio",
+    href: "/templates/impact-35/pricing#visite",
+  },
+  {
+    id: "espace-event",
+    name: "Espace Événement",
+    tagline: "Jusqu'à 150 personnes",
+    photo: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80&fit=crop",
+    capacity: "150 personnes debout",
+    hours: "Sur réservation",
+    equipment: ["Scène modulable", "Système son professionnel", "Vidéoprojecteur 4K", "Catering possible", "Équipe technique"],
+    cta: "Organiser un événement",
+    href: "/templates/impact-35/pricing#visite",
   },
 ];
+function SPACES_DATA_LIVE() {
+  return resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...SPACES_DATA_DEMO_ANNEXE[i % SPACES_DATA_DEMO_ANNEXE.length], name: s.title, tagline: s.desc || SPACES_DATA_DEMO_ANNEXE[i % SPACES_DATA_DEMO_ANNEXE.length].tagline })), SPACES_DATA_DEMO_ANNEXE);
+}
+let SPACES_DATA = SPACES_DATA_DEMO_ANNEXE;
 
-export default function CabinetPage() {
+
+
+export default function SpacesPage() {
   const [__session, __setSession] = useState<any>(null);
   useEffect(() => {
     let id = new URLSearchParams(window.location.search).get("session");
@@ -41,62 +92,201 @@ export default function CabinetPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+  SPACES_DATA = SPACES_DATA_LIVE();
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
 
-  const photoVue = (i: number) => fd?.photoUrls?.[i] || clientPhotos(sessionData)[i] || PHOTOS_CABINET[i % PHOTOS_CABINET.length];
-
   return (
-    <div style={{ background: C.bg, color: C.text, minHeight: "60dvh", padding: "clamp(48px,7vh,90px) 5% clamp(80px,10vh,130px)" }}>
-      <div style={{ maxWidth: 1240, margin: "0 auto" }}>
+    <div style={{ padding: "60px 5%", background: C.bg, minHeight: "100dvh" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
+        {/* Title Section */}
         <SectionReveal>
-          <TitreSection surtitre="Le cabinet">{/* TEXTE_SECTION */ clientText(sessionData, "cabinet-page.titre") ?? (<>
-            Un lieu fait pour <em style={{ color: C.navy }}>parler librement.</em>
-          </>)}</TitreSection>
-          <p style={{ fontFamily: SANS, fontSize: 16, lineHeight: 1.8, color: C.textMuted, fontWeight: 300, maxWidth: 640, margin: "-20px 0 60px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "cabinet-page.texte") ?? (<>
-            À {clientCity(sessionData) ?? "Paris"}, {clientCodePostalVille(sessionData, "75002", "Paris")} — à cinq minutes du métro, avec une entrée discrète sur cour.
-          </>)}</p>
+          <div style={{ textAlign: "center", marginBottom: 64 }}>
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                background: C.accentLight,
+                borderRadius: 30,
+                padding: "6px 16px",
+                marginBottom: 16,
+              }}
+            >
+              <Building2 size={14} color={C.accentDark} />
+              <span style={{ color: C.accentDark, fontSize: 13, fontWeight: 600 }}>Nos Espaces</span>
+            </div>
+            <h1
+              style={{
+                fontSize: "clamp(32px, 4vw, 52px)",
+                fontWeight: 800,
+                color: C.slate,
+                marginBottom: 16,
+              }}
+            >
+              Des espaces pensés pour votre productivité
+            </h1>
+            <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 560, margin: "0 auto", lineHeight: 1.7 }}>
+              Du hot desk au studio podcast, chaque espace est conçu pour que vous soyez dans les meilleures conditions de travail.
+            </p>
+          </div>
         </SectionReveal>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px,100%), 1fr))", gap: 26 }}>
-          {LIEUX.map((l, i) => (
-            <SectionReveal key={l.titre} delay={i * 0.08}>
-              <figure style={{ margin: 0, background: C.white, border: `1px solid ${C.border}`, borderRadius: 4, overflow: "hidden", height: "100%", display: "flex", flexDirection: "column" }}>
-                <div style={{ aspectRatio: "4/3", overflow: "hidden", background: C.bgAlt }}>
-                  <img src={photoVue(i)} alt={l.titre} loading="lazy" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+        {/* Floor Plan Explorer */}
+        <SectionReveal delay={0.1}>
+          <div
+            style={{
+              background: C.white,
+              border: `1px solid ${C.border}`,
+              borderRadius: 24,
+              padding: 40,
+              marginBottom: 72,
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))",
+              gap: 48,
+              alignItems: "center",
+            }}
+          >
+            <div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
+                <Layers size={18} color={C.accent} />
+                <h2 style={{ fontSize: 22, fontWeight: 800, color: C.slate, margin: 0 }}>
+                  Explorez le Niveau 2
+                </h2>
+              </div>
+              <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.6, marginBottom: 24 }}>
+                Visualisez la disposition de nos espaces directement sur le plan d'étage. Survolez les différentes sections à droite pour identifier l'emplacement exact de chaque zone de travail et de détente.
+              </p>
+              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                <div style={{ fontSize: 13, color: C.text, display: "flex", alignItems: "center", gap: 8 }}>
+                  <span style={{ width: 12, height: 12, borderRadius: "50%", backgroundColor: C.accent, display: "inline-block" }} /> Open Space / Hot Desk
                 </div>
-                <figcaption style={{ padding: "24px 24px 28px", flex: 1 }}>
-                  <h2 style={{ fontFamily: SERIF, fontSize: 22, fontWeight: 600, margin: "0 0 8px" }}>{l.titre}</h2>
-                  <p style={{ fontFamily: SANS, fontSize: 14, lineHeight: 1.75, color: C.textMuted, fontWeight: 300, margin: 0 }}>{l.texte}</p>
-                </figcaption>
-              </figure>
-            </SectionReveal>
-          ))}
-        </div>
-
-        <SectionReveal delay={0.15}>
-          <div style={{ marginTop: 60, background: C.navyDark, color: "rgba(255,255,255,0.85)", borderRadius: 4, padding: "clamp(28px,4vw,48px)", display: "flex", flexWrap: "wrap", gap: "18px 48px", fontFamily: SANS, fontSize: 14, lineHeight: 2 }}>
-            <div>
-              <div style={{ fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: C.or, fontWeight: 700, marginBottom: 10 }}>Accès</div>
-              <div>{clientCodePostalVille(sessionData, "75002", "Paris")}</div>
-              <div>Sur rendez-vous, du lundi au vendredi, 9 h – 19 h</div>
+                <div style={{ fontSize: 13, color: C.text, display: "flex", alignItems: "center", gap: 8 }}>
+                  <span style={{ width: 12, height: 12, borderRadius: "50%", backgroundColor: "#3b82f6", display: "inline-block" }} /> Bureaux Dédiés
+                </div>
+                <div style={{ fontSize: 13, color: C.text, display: "flex", alignItems: "center", gap: 8 }}>
+                  <span style={{ width: 12, height: 12, borderRadius: "50%", backgroundColor: "#8b5cf6", display: "inline-block" }} /> Bureaux Privés
+                </div>
+              </div>
             </div>
-            <div>
-              <div style={{ fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: C.or, fontWeight: 700, marginBottom: 10 }}>À distance</div>
-              <div>Visioconférence, signature électronique</div>
-              <div>Espace documentaire sécurisé pour vos pièces</div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <FloorPlan />
             </div>
           </div>
         </SectionReveal>
+
+        {/* Detailed workspaces */}
+        <div style={{ display: "flex", flexDirection: "column", gap: 48 }}>
+          {SPACES_DATA.map((space, i) => (
+            <SectionReveal key={space.id} delay={i * 0.05}>
+              <div
+                style={{
+                  background: C.white,
+                  borderRadius: 24,
+                  overflow: "hidden",
+                  border: `1px solid ${C.border}`,
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))",
+                }}
+              >
+                <div style={{ order: i % 2 === 0 ? 1 : 2 }}>
+                  <img
+                    src={space.photo}
+                    alt={space.name}
+                    loading="lazy"
+                    style={{ width: "100%", height: "100%", minHeight: 320, objectFit: "cover", display: "block" }}
+                  />
+                </div>
+                <div style={{ padding: 48, display: "flex", flexDirection: "column", justifyContent: "center", order: i % 2 === 0 ? 2 : 1 }}>
+                  <div
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 6,
+                      background: C.accentLight,
+                      borderRadius: 20,
+                      padding: "4px 12px",
+                      marginBottom: 12,
+                      alignSelf: "flex-start",
+                    }}
+                  >
+                    <span style={{ fontSize: 12, fontWeight: 700, color: C.accentDark }}>{space.tagline}</span>
+                  </div>
+                  <h2 style={{ fontSize: 28, fontWeight: 800, color: C.slate, marginBottom: 8 }}>{space.name}</h2>
+                  <div style={{ display: "flex", gap: 20, marginBottom: 20 }}>
+                    <span style={{ fontSize: 13, color: C.textMuted, display: "flex", alignItems: "center", gap: 4 }}>
+                      <Users size={13} /> {space.capacity}
+                    </span>
+                    <span style={{ fontSize: 13, color: C.textMuted, display: "flex", alignItems: "center", gap: 4 }}>
+                      <Clock size={13} /> {space.hours}
+                    </span>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 28 }}>
+                    {space.equipment.map((eq) => (
+                      <div key={eq} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                        <div
+                          style={{
+                            width: 18,
+                            height: 18,
+                            borderRadius: "50%",
+                            background: C.accentLight,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            flexShrink: 0,
+                          }}
+                        >
+                          <Check size={10} color={C.accent} />
+                        </div>
+                        <span style={{ fontSize: 14, color: C.text }}>{eq}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <Link href={space.href} style={{ textDecoration: "none", alignSelf: "flex-start" }}>
+                    <span
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 8,
+                        background: C.accent,
+                        color: C.white,
+                        padding: "12px 24px",
+                        borderRadius: 10,
+                        fontWeight: 700,
+                        fontSize: 15,
+                        border: "none",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {space.cta} <ArrowRight size={16} />
+                    </span>
+                  </Link>
+                </div>
+              </div>
+            </SectionReveal>
+          ))}
+        </div>
       </div>
     </div>
-  );
+  )
 }

@@ -24,12 +24,14 @@ import {
   clientAccrocheRestante,
   clientCity,
   clientHeroLine,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -44,7 +46,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CENTRE KINÉ ATLANTIQUE — Cabinet de kinésithérapie · {clientCity(sessionData) ?? "Rennes"}
+   {clientName(sessionData) ?? "Centre Kiné Atlantique"} — Cabinet de kinésithérapie · {clientCity(sessionData) ?? "Rennes"}
    Template premium, scroll chorégraphié, composants décomposés.
    'use client' · Auto-suffisant · Polices Nunito + Merriweather.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -203,13 +205,16 @@ const SPECIALTIES_DEMO: Specialty[] = [
   },
 ];
 
-const EDIT_ROWS_SOURCE: EditRow[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function EDIT_ROWS_SOURCE_LIVE(): EditRow[] {
+  return [
   {
     eyebrow: 'Notre approche',
     img: PHOTO.approach,
     alt: 'Kinésithérapeute en consultation au cabinet',
     title: 'Traiter la cause, /pas le symptôme.',
-    body: "Chez Centre Kiné Atlantique, chaque prise en charge commence par un bilan postural complet. Nous analysons la biomécanique globale — pas uniquement la zone douloureuse — afin de corriger les déséquilibres à l'origine de la douleur. Résultat : moins de rechutes, des progrès durables.",
+    body: `Chez ${clientName(sessionData) ?? "Centre Kiné Atlantique"}, chaque prise en charge commence par un bilan postural complet. Nous analysons la biomécanique globale — pas uniquement la zone douloureuse — afin de corriger les déséquilibres à l'origine de la douleur. Résultat : moins de rechutes, des progrès durables.`,
     reverse: false,
     outline: '01',
   },
@@ -223,6 +228,8 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     outline: '02',
   },
 ];
+}
+let EDIT_ROWS_SOURCE: EditRow[] = EDIT_ROWS_SOURCE_LIVE();
 let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 const METHOD_ITEMS: Spec[] = [
@@ -628,7 +635,7 @@ function Hero() {
       >
         <img
           src={PHOTO.hero}
-          alt="Cabinet de kinésithérapie Centre Kiné Atlantique Rennes"
+          alt={`Cabinet de kinésithérapie ${clientName(sessionData) ?? "Centre Kiné Atlantique"} Rennes`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-hint="high"
         />
@@ -1525,7 +1532,7 @@ function MethodPanel() {
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {METHOD_ITEMS.map((item, i) => (
+            {resolveList(fusionnerEtapes(METHOD_ITEMS, clientMethode(sessionData)), METHOD_ITEMS).map((item, i) => (
               <Reveal key={item.step} delay={0.06 * i}>
                 <div
                   style={{
@@ -2249,10 +2256,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2260,6 +2278,7 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   PHOTO = PHOTO_LIVE();
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),

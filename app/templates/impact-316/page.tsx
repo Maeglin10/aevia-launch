@@ -30,6 +30,7 @@ import {
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -38,6 +39,7 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -50,7 +52,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   PRO-NETTOYAGE SERVICES — Nettoyage professionnel B2B (bureaux, copropriétés).
+   {clientName(sessionData) ?? "Pro-Nettoyage SERVICES"} — Nettoyage professionnel B2B (bureaux, copropriétés).
    Réécriture premium : héros H9 double colonne + rail de stats vertical,
    geste DifferentialExit (trois plans, trois vitesses au défilement),
    services en rangées éditoriales à filet, chiffres fantômes.
@@ -125,7 +127,7 @@ let ENGAGEMENTS = ENGAGEMENTS_SOURCE;
 
 function AVIS_SOURCE_LIVE() {
   return [
-    { name: "Laurent P.", role: "Directeur Général, TechCorp " + (clientCity(sessionData) ?? "Paris"), text: "Pro-Nettoyage assure l'entretien de nos 2 000 m² de bureaux depuis 3 ans. Fiabilité exemplaire, équipes discrètes et résultats constants.", detail: "Bureaux · contrat 3 ans" },
+    { name: "Laurent P.", role: "Directeur Général, TechCorp " + (clientCity(sessionData) ?? "Paris"), text: `${clientName(sessionData) ?? "Pro-Nettoyage"} assure l'entretien de nos 2 000 m² de bureaux depuis 3 ans. Fiabilité exemplaire, équipes discrètes et résultats constants.`, detail: "Bureaux · contrat 3 ans" },
     { name: "Nathalie F.", role: "Syndic, Résidence Les Érables", text: "Les parties communes n'ont jamais été aussi propres. Les résidents sont unanimes. Le reporting mensuel est un vrai plus.", detail: "Copropriété" },
     { name: "Stéphane R.", role: "DRH, Cabinet Juridique Bordeaux", text: "Passage quotidien impeccable, équipe stable et professionnelle. Notre cabinet a un standing irréprochable grâce à leur travail.", detail: "Passage quotidien" },
   ];
@@ -440,10 +442,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -641,7 +654,7 @@ export default function Page() {
                   margin: "0 0 clamp(28px,3.6vw,44px)",
                 }}
               >
-                {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Nettoyage de bureaux, copropriétés et locaux commerciaux. Équipes formées, certifiées et engagées pour un résultat irréprochable."}
+                {c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? "Nettoyage de bureaux, copropriétés et locaux commerciaux. Équipes formées, certifiées et engagées pour un résultat irréprochable."}
               </motion.p>
               <motion.div
                 initial={{ opacity: 0, y: 22 }}
@@ -886,7 +899,7 @@ export default function Page() {
           </Reveal>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(230px, 100%), 1fr))", gap: "clamp(18px,2.4vw,28px)" }}>
-            {METHODE_SOURCE.map((m, i) => (
+            {resolveList(fusionnerEtapes(METHODE_SOURCE, clientMethode(sessionData)), METHODE_SOURCE).map((m, i) => (
               <Reveal key={m.step} delay={i * 0.09}>
                 <div
                   style={{
@@ -984,7 +997,7 @@ export default function Page() {
             </Reveal>
             <Reveal delay={0.14}>
               <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(0.95rem,1.4vw,1.08rem)", lineHeight: 1.78, color: C.textMuted, maxWidth: 500, margin: "0 0 14px" }}>
-                {c?.aboutText ?? "Pro-Nettoyage Services accompagne les entreprises, syndics et collectivités dans l'entretien de leurs espaces. Notre engagement : des locaux impeccables, des équipes stables et un interlocuteur unique."}
+                {c?.aboutText ?? ((clientName(sessionData) ?? "Pro-Nettoyage") + " Services accompagne les entreprises, syndics et collectivités dans l'entretien de leurs espaces. Notre engagement : des locaux impeccables, des équipes stables et un interlocuteur unique.")}
               </p>
               <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(0.95rem,1.4vw,1.08rem)", lineHeight: 1.78, color: C.textMuted, maxWidth: 500, margin: "0 0 30px" }}>
                 {/* TEXTE_SECTION */ clientText(sessionData, "engagements.texte") ?? (<>

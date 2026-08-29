@@ -1,5 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientCity,
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+  clientTrade,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 import { ArrowRight } from "lucide-react";
@@ -23,19 +33,32 @@ export default function SolutionsPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
 
   return (
     <div className="py-20 bg-[#05060a]">
+      <EnteteAnnexe session={sessionData} repli={`${clientName(sessionData) ?? "Aevia Kitchen"}`} accueil="/templates/impact-74" />
       <div className="max-w-[1400px] mx-auto px-6 md:px-12">
         <Reveal className="mb-20 text-center">
           <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic text-white leading-[1.15] pb-4">
@@ -54,8 +77,7 @@ export default function SolutionsPage() {
                     {node.title}
                   </h3>
                   <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest leading-relaxed mb-10">
-                    {node.desc}
-                  </p>
+         {/* TEXTE_SECTION */ clientText(sessionData, "solutions.texte") ?? clientTagline(sessionData) ?? "{node.desc}"}</p>
                 </div>
                 <button className="text-[10px] font-black uppercase tracking-widest text-emerald-500 group-hover:text-white transition-colors flex items-center gap-2">
                   View_Documentation <ArrowRight className="w-3 h-3" />

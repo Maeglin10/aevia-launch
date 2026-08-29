@@ -38,10 +38,10 @@ import {
 import {
   clientAccrocheRestante,
   clientCity,
-  clientEmail,
   clientFaq,
   clientHeroLine,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -50,6 +50,7 @@ import {
   clientStats,
   clientText,
   clientWorks,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -198,7 +199,7 @@ function ARTISTS_LIVE() {
     name: "Viktor Rein",
     role: "Directeur artistique & Réalisme",
     exp: "14 ans",
-    city: (clientCity({ formData: fd }) ?? "Paris") + " — Ancien de Mumbai & Berlin",
+    city: (clientCity(sessionData) ?? "Paris") + " — Ancien de Mumbai & Berlin",
     bio: "Viktor travaille à la frontière entre l'hyperréalisme photographique et l'art noir. Ses portraits sont reconnaissables pour leur profondeur de noir et leurs dégradés impossible à distinguer d'une photo.",
     styles: ["Réaliste", "Japonais", "Blackwork"],
     wait: "12–16 semaines",
@@ -210,7 +211,7 @@ function ARTISTS_LIVE() {
     name: "Léa Morel",
     role: "Fine Line & Architecture géométrique",
     exp: "8 ans",
-    city: (clientCity({ formData: fd }) ?? "Paris") + " — Formation à Amsterdam",
+    city: (clientCity(sessionData) ?? "Paris") + " — Formation à Amsterdam",
     bio: "Léa pousse la précision du trait jusqu'aux limites physiques de l'aiguille. Ses compositions géométriques suivent des règles mathématiques propres, créant des pièces qui semblent générées par algorithme.",
     styles: ["Fine Line", "Géométrique", "Botanique"],
     wait: "8–10 semaines",
@@ -222,7 +223,7 @@ function ARTISTS_LIVE() {
     name: "James Wolfe",
     role: "Old School & Japonais traditionnel",
     exp: "11 ans",
-    city: (clientCity({ formData: fd }) ?? "Paris") + " — Apprentissage à San Francisco",
+    city: (clientCity(sessionData) ?? "Paris") + " — Apprentissage à San Francisco",
     bio: "James maîtrise le vocabulaire iconographique du tatouage traditionnel américain et japonais. Ses couleurs saturées et ses outlines épais sont la définition de l'old school à son meilleur.",
     styles: ["Old School", "Japonais", "Neo-Traditional"],
     wait: "6–8 semaines",
@@ -341,14 +342,14 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     name: "Maxime L.",
-    city: (clientCity({ formData: fd }) ?? "Paris"),
+    city: (clientCity(sessionData) ?? "Paris"),
     rating: 5,
     artist: "Viktor Rein",
     text: "Viktor a fait mon portrait de chien sur l'avant-bras. Les poils sont tellement fins qu'on croirait une photo. Trois ans plus tard, c'est encore parfait. Le studio est d'une propreté chirurgicale.",
   },
   {
     name: "Anais D.",
-    city: (clientCity({ formData: fd }) ?? "Paris"),
+    city: (clientCity(sessionData) ?? "Paris"),
     rating: 5,
     artist: "Léa Morel",
     text: "Ma géométrie sternal par Léa est une œuvre d'art. Elle a passé 2 semaines à concevoir le design avant de poser la moindre aiguille. Ce niveau de sérieux, ça se paie, et ça en vaut absolument la peine.",
@@ -369,7 +370,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   },
   {
     name: "Romain F.",
-    city: (clientCity({ formData: fd }) ?? "Paris"),
+    city: (clientCity(sessionData) ?? "Paris"),
     rating: 5,
     artist: "Viktor Rein",
     text: "Full back blackwork avec Viktor sur 3 sessions de 8h. Le noir est d'une saturation absolue, les zones détaillées sont nettes comme des gravures. C'est de la haute couture portée sur la peau.",
@@ -387,9 +388,12 @@ let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
-const FAQS_DEMO = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function FAQS_DEMO_LIVE() {
+  return [
   {
-    q: "Combien coûte un tatouage chez Ink & Iron ?",
+    q: `Combien coûte un tatouage chez ${clientName(sessionData) ?? "INK & Iron"} ?`,
     a: "Nos tarifs démarrent à €180 pour les petites pièces flash. Les sessions au taux horaire : Viktor à €100/h, Léa à €90/h, James à €95/h. Les projets complexes (sleeves, full back) sont devisés en session globale après consultation.",
   },
   {
@@ -413,6 +417,8 @@ const FAQS_DEMO = [
     a: "La cicatrisation superficielle dure 2 à 3 semaines. La peau se régénère en profondeur sur 2 à 3 mois. Nous fournissons un protocole complet écrit et répondons à vos questions pendant toute la période de soin.",
   },
 ];
+}
+let FAQS_DEMO = FAQS_DEMO_LIVE();
 let FAQS = FAQS_DEMO;
 
 function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
@@ -472,7 +478,7 @@ function AboutSection() {
               L'ART DANS<br /><span style={{ color: C.accent }}>LA PEAU.</span>
             </>)}</h2>
             <p style={{ fontFamily: FONT_BODY, fontSize: 16, color: C.textMuted, lineHeight: 1.8, fontWeight: 300, marginBottom: 24 }}>
-              Ink & Iron n'est pas un simple salon de tatouage ; c'est un sanctuaire d'expression artistique et de rigueur technique. Situé au cœur du 11e arrondissement de {clientCity(sessionData) ?? "Paris"}, notre atelier réunit trois artistes résidents de renommée internationale.
+              {clientName(sessionData) ?? "INK & Iron"} n'est pas un simple salon de tatouage ; c'est un sanctuaire d'expression artistique et de rigueur technique. Situé au cœur du 11e arrondissement de {clientCity(sessionData) ?? "Paris"}, notre atelier réunit trois artistes résidents de renommée internationale.
             </p>
             <p style={{ fontFamily: FONT_BODY, fontSize: 16, color: C.textMuted, lineHeight: 1.8, fontWeight: 300, marginBottom: 32 }}>
               Chaque pièce est une création sur-mesure unique, dessinée en étroite collaboration avec vous. Nous appliquons les standards d'hygiène les plus stricts de l'industrie (matériel à usage unique, stérilisation médicale) pour vous offrir une expérience d'exception en toute sécurité.
@@ -575,16 +581,29 @@ export default function Impact89Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
 
   sessionData = session;
+
   c = session?.generatedContent;
+  FAQS_DEMO = FAQS_DEMO_LIVE();
   PORTFOLIO_DEMO = PORTFOLIO_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   ARTISTS = ARTISTS_LIVE();
@@ -728,9 +747,13 @@ return (
                 display: "flex", alignItems: "center", justifyContent: "center",
                 clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)",
               }}>
-                <span style={{ fontFamily: FONT_HEADING, fontSize: 14, color: C.white, letterSpacing: 1 }}>I</span>
+                {/* Le monogramme est l'initiale du client, pas celle de la démonstration :
+                   un « I » posé à côté d'« Atelier Céleste » ne veut plus rien dire. */}
+                <span style={{ fontFamily: FONT_HEADING, fontSize: 14, color: C.white, letterSpacing: 1 }}>
+                  {(clientName(sessionData) ?? "INK").trim().charAt(0).toUpperCase()}
+                </span>
               </div>
-              <span style={{ fontFamily: FONT_HEADING, fontSize: 20, letterSpacing: 4, color: C.white }}>{clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "INK & IRON"))}</span>
+              <span style={{ fontFamily: FONT_HEADING, fontSize: 20, letterSpacing: 4, color: C.white }}>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "INK & IRON"))}</span>
             </div>
           )}
         </Link>
@@ -881,7 +904,7 @@ return (
               marginBottom: 8,
             }}
           >{c?.heroHeadline ?? <>{clientHeroLine(sessionData, 0, 2, 6) ?? (<>
-            INK
+            {clientName(sessionData) ?? "INK"}
           </>)}</>}</motion.h1>
           <motion.div
             initial={{ opacity: 0, scaleX: 0 }}
@@ -924,7 +947,7 @@ return (
               fontWeight: 300,
             }}
           >{clientAccrocheRestante(sessionData, 2, 6) ?? c?.heroSubline ?? <>
-            Tatouage luxury à {clientCity({ formData: fd }) ?? "Paris"}. Trois artistes. Un standard absolu d'excellence — de la consultation à la cicatrisation.
+            Tatouage luxury à {clientCity(sessionData) ?? "Paris"}. Trois artistes. Un standard absolu d'excellence — de la consultation à la cicatrisation.
           </>}</motion.p>
 
           <motion.div
@@ -1537,7 +1560,7 @@ return (
             }} />
 
             <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-              {PROCESS.map((step, i) => (
+              {resolveList(fusionnerEtapes(PROCESS, clientMethode(sessionData)), PROCESS).map((step, i) => (
                 <motion.div className="imx-mobstack"
                   key={step.step}
                   initial={{ opacity: 0, x: -30 }}
@@ -1891,10 +1914,10 @@ return (
           <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: 60, marginBottom: 64 }}>
             <div>
               <div style={{ fontFamily: FONT_HEADING, fontSize: 28, color: C.text, letterSpacing: 4, marginBottom: 20 }}>
-                {clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "INK & IRON"))}
+                {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "INK & IRON"))}
               </div>
               <p style={{ fontFamily: FONT_BODY, fontSize: 14, color: C.textMuted, lineHeight: 1.7, marginBottom: 24, maxWidth: 280 }}>
-                Studio de tatouage luxury à {clientCity({ formData: fd }) ?? "Paris"} depuis 2010. Trois artistes, un standard absolu. Rue de la Roquette, {clientCity({ formData: fd }) ?? "Paris"} 11e.
+                Studio de tatouage luxury à {clientCity(sessionData) ?? "Paris"} depuis 2010. Trois artistes, un standard absolu. Rue de la Roquette, {clientCity(sessionData) ?? "Paris"} 11e.
               </p>
               <div style={{ display: "flex", gap: 12 }}>
                 {[Camera, MessageSquare, Users2].map((Icon, i) => (
@@ -1948,7 +1971,7 @@ return (
               {[
                 { Icon: MapPin, text: "24 Rue de la Roquette\nParis 11e, 75011" },
                 { Icon: Phone, text: (clientPhone(sessionData) ?? "+33 1 43 56 78 90") },
-                { Icon: Mail, text: (clientEmail(sessionData) ?? fd?.email ?? "contact@inkandironstudio.fr") },
+                { Icon: Mail, text: (fd?.email ?? "contact@inkandironstudio.fr") },
                 { Icon: Clock, text: "Mar–Sam : 11h–20h\nDim–Lun : fermé" },
               ].map(({ Icon, text }) => (
                 <div key={text} style={{ display: "flex", gap: 12, marginBottom: 16, alignItems: "flex-start" }}>
@@ -1969,7 +1992,7 @@ return (
             gap: 16,
           }}>
             <span style={{ fontFamily: FONT_MONO, fontSize: 11, color: C.textDim, letterSpacing: 2 }}>
-              © 2025 {clientName(sessionData) ?? "INK"} & IRON STUDIO — {clientCity(sessionData) ?? "PARIS"} 11E{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2025 {clientName(sessionData) ?? "INK & IRON STUDIO"} — {clientCity(sessionData) ?? "PARIS"} 11E{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
             <div style={{ display: "flex", gap: 24 }}>
               {[

@@ -150,18 +150,29 @@ export default function AquaThermPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   URGENCE = URGENCE_LIVE();
+  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
 
 
   ENTRETIEN = resolveList(
@@ -289,7 +300,7 @@ export default function AquaThermPage() {
             {clientHeroLine(sessionData, 0, 2, 10) ?? "PANNE ?"}<br /><span style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 10) ?? "ON ARRIVE."}</span>
           </>}</>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             AquaTherm, plombier chauffagiste à {clientCity(sessionData) ?? "Lille"}. Urgences en moins d'une heure, devis gratuit, certifié RGE et Qualigaz. Plomberie, chauffage, PAC, climatisation.
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>

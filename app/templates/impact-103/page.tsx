@@ -147,10 +147,21 @@ export default function LuminaLawPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -246,7 +257,7 @@ export default function LuminaLawPage() {
                 <div className="w-10 h-10 bg-[var(--brand,#1a365d)] flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
                   <Scale className="w-5 h-5 text-white" />
                 </div>
-                <span className="text-2xl font-bold tracking-tighter text-[var(--brand,#1a365d)]">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Lumina<span className="font-light">Law</span></>)}</span>
+                <span className="text-2xl font-bold tracking-tighter text-[var(--brand,#1a365d)]">{/* NOM_LOGO */ clientName(sessionData) ?? (<>Lumina<span className="font-light">Law</span></>)}</span>
               </>
             )}
           </Link>
@@ -289,7 +300,7 @@ export default function LuminaLawPage() {
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.3}>
-                  <p className="text-base md:text-xl text-black/60 font-light max-w-lg leading-relaxed mb-6 md:mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                  <p className="text-base md:text-xl text-black/60 font-light max-w-lg leading-relaxed mb-6 md:mb-12">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                     Lumina Law is a high-stakes firm dedicated to complex litigation and corporate strategy. When the outcome defines your legacy, we are the standard.
                   </>}</p>
                 </Reveal>
@@ -588,7 +599,7 @@ export default function LuminaLawPage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-black/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-black/10">
-          <span>© 2026 {clientName(sessionData) ?? "LUMINA LAW GLOBAL PARTNERSHIP."} STRENGTH IN TRUTH.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "LUMINA LAW GLOBAL PARTNERSHIP."} STRENGTH IN TRUTH.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-12">
              <Link href="#contact" className="hover:text-black transition-colors flex items-center gap-2"><Globe className="w-3 h-3" /> LONDON · NEW YORK · SINGAPORE</Link>
              <Link href="#contact" className="hover:text-black transition-colors flex items-center gap-2"><FileText className="w-3 h-3" /> LEGAL TERMS</Link>

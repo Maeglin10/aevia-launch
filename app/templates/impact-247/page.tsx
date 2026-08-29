@@ -39,7 +39,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   VOLT & LUX — {clientTrade(sessionData) ?? "Électricien"} Certifié & Domotique · {clientCity(sessionData) ?? "Toulouse"}
+   {clientName(sessionData) ?? "Volt & Lux"} — {clientTrade(sessionData) ?? "Électricien"} Certifié & Domotique · {clientCity(sessionData) ?? "Toulouse"}
    Photographie réelle + chorégraphie de défilement éditoriale. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -446,7 +446,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || PHOTO.electricalHero}
-          alt="Tableau électrique professionnel Volt & Lux Toulouse"
+          alt={`Tableau électrique professionnel ${clientName(sessionData) ?? "Volt & Lux"} Toulouse`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="high"
         />
@@ -1483,7 +1483,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   },
   {
     quote:
-      "Panne électrique totale un vendredi soir dans notre restaurant — intervention en moins de 2h. Le lendemain, Volt & Lux revenait pour l\'upgrade LED de toute la salle. Professionnels, propres, efficaces.",
+      `Panne électrique totale un vendredi soir dans notre restaurant — intervention en moins de 2h. Le lendemain, ${clientName(sessionData) ?? "Volt & Lux"} revenait pour l\'upgrade LED de toute la salle. Professionnels, propres, efficaces.`,
     name: 'David Anselmi',
     role: `Gérant · Brasserie Le Capitole, ${clientCity(sessionData) ?? "Toulouse"}`,
     detail: 'Dépannage urgence + LED',
@@ -1756,7 +1756,7 @@ function QuoteForm() {
                   lineHeight: 1.65,
                 }}
               >
-                Un électricien Volt &amp; Lux prendra contact avec vous à l&apos;adresse{' '}
+                Un électricien {clientName(sessionData) ?? "Volt & Lux"} prendra contact avec vous à l&apos;adresse{' '}
                 <strong style={{ color: C.accentLight, fontWeight: 500 }}>{email}</strong>{' '}
                 pour affiner votre demande.
               </p>
@@ -1955,7 +1955,7 @@ function Footer() {
             }}
           >
             <Zap size={20} color={C.yellow} fill={C.yellow} strokeWidth={0} />
-            Volt &amp; Lux
+            {clientName(sessionData) ?? "Volt & Lux"}
           </div>
           <p
             style={{
@@ -2102,10 +2102,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;

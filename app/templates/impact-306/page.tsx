@@ -91,7 +91,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   LA MIETTE HEUREUSE — Boulangerie-pâtisserie {clientCity(sessionData) ?? "Montpellier"} — pains spéciaux, brunch, commandes événements. Libre Baskerville, ocre / vert.
+   {clientName(sessionData) ?? "La Miette Heureuse"} — Boulangerie-pâtisserie {clientCity(sessionData) ?? "Montpellier"} — pains spéciaux, brunch, commandes événements. Libre Baskerville, ocre / vert.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -280,10 +280,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -520,7 +531,7 @@ return (
         }}>
           <img 
             src={PHOTO.hero} 
-            alt="Hero image showing La Miette Heureuse core business" 
+            alt={`Hero image showing ${clientName(sessionData) ?? "La Miette Heureuse"} core business`} 
             style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
           />
           <div style={{
@@ -558,7 +569,7 @@ return (
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Farines biologiques, levain naturel, produits locaux. Brunchs le dimanche. {clientCity(sessionData) ?? "Montpellier"}.
             </>}</p>
           </Reveal>
@@ -692,7 +703,7 @@ return (
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  La Miette Heureuse travaille uniquement des farines biologiques Label Rouge avec un levain naturel de 8 ans. Chaque pain est façonné à la main, chaque viennoiserie est feuilletée au beurre AOP.
+                  {clientName(sessionData) ?? "La Miette Heureuse"} travaille uniquement des farines biologiques Label Rouge avec un levain naturel de 8 ans. Chaque pain est façonné à la main, chaque viennoiserie est feuilletée au beurre AOP.
                 </>}</p>
                 <p style={{
                   fontSize: 15,
@@ -1442,7 +1453,7 @@ return (
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable de publication: La Miette Heureuse<br />
+                Responsable de publication: {clientName(sessionData) ?? "La Miette Heureuse"}<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>

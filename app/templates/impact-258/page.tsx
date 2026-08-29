@@ -40,7 +40,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   MAISON SOLAL — Couture & Mode Sur-Mesure · {clientCity(sessionData) ?? "Marseille"}
+   {clientName(sessionData) ?? "Maison Solal"} — Couture & Mode Sur-Mesure · {clientCity(sessionData) ?? "Marseille"}
    Photographie réelle + chorégraphie de défilement éditoriale (style Maison
    de couture × élégance méditerranéenne). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -231,7 +231,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   },
   {
     quote:
-      "Je confie ma garde-robe de travail exclusivement à Maison Solal depuis quatre ans. La coupe a changé ma façon d\'entrer dans une pièce. C\'est un investissement dans qui l\'on veut être.",
+      `Je confie ma garde-robe de travail exclusivement à ${clientName(sessionData) ?? "Maison Solal"} depuis quatre ans. La coupe a changé ma façon d\'entrer dans une pièce. C\'est un investissement dans qui l\'on veut être.`,
     name: 'Isabelle M.',
     role: 'Directrice générale · Aix-en-Provence',
   },
@@ -593,7 +593,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[7] || `https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=2000&auto=format&fit=crop`)}
-          alt="Détail de couture — Maison Solal Marseille"
+          alt={`Détail de couture — ${clientName(sessionData) ?? "Maison Solal"} Marseille`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1343,7 +1343,7 @@ function AtélierPanel() {
           >
             <img
               src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[8] || `https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=900&auto=format&fit=crop`)}
-              alt="L'atelier Maison Solal — Le Panier, Marseille"
+              alt={`L'atelier ${clientName(sessionData) ?? "Maison Solal"} — Le Panier, Marseille`}
               loading="lazy"
               style={{
                 width: '100%',
@@ -2070,7 +2070,7 @@ function Footer() {
           color: 'rgba(232,220,200,0.42)',
         }}
       >
-        <span>© 2012–2026 Maison Solal. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2012–2026 {clientName(sessionData) ?? "Maison Solal"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2123,10 +2123,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2134,9 +2145,9 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  COLLECTIONS_DEMO = COLLECTIONS_DEMO_LIVE();
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  COLLECTIONS_DEMO = COLLECTIONS_DEMO_LIVE();
 
 
   EDIT_ROWS_DEMO = resolveList(

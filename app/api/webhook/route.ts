@@ -10,7 +10,7 @@ import {
   type FormData as SiteFormData,
   type GeneratedContent,
 } from "@/lib/sessions";
-import { generateMockContent } from "@/lib/mockContent";
+import { contenuDepuisLeClient } from "@/lib/contenuDepuisLeClient";
 
 // IMPORTANT: configure RESEND_FROM_EMAIL with a verified domain (e.g., noreply@aevia.io)
 export const runtime = "nodejs";
@@ -144,8 +144,14 @@ function orderEmailHtml(params: {
   sessionId: string;
   brief?: BriefMeta;
   previewUrl?: string;
+  /*
+    Le code de parrainage porté par la commande, s'il y en a un. Il ne change
+    pas le prix : il dit qui a amené ce client, et c'est la seule trace lisible
+    tant que le calcul des commissions de Launch n'est pas branché sur Inbox.
+  */
+  parrainage?: string;
 }): string {
-  const { name, typeLabel, maintenance, total, date, sessionId, brief, previewUrl } = params;
+  const { name, typeLabel, maintenance, total, date, sessionId, brief, previewUrl, parrainage } = params;
   const basePrice = SITE_PRICES[params.type] ?? total;
   const maintenancePrice = 20;
 
@@ -249,10 +255,13 @@ function orderEmailHtml(params: {
               </table>
 
               <p style="margin:0 0 16px;font-size:13px;color:#71717a;line-height:1.6;">
-                Action requise : démarrer la création et contacter le client sous 2 heures.
+                Le site est généré et l'aperçu envoyé au client. Vous n'avez rien à
+                faire : ce message est là pour que vous sachiez qu'une commande est passée.
               </p>
 
               ${previewUrl ? `
+              <!-- Le lien vient des métadonnées de la commande, qui portent
+                   désormais la session d'aperçu vue par le client. -->
               <a href="${escapeHtml(previewUrl)}" style="display:inline-block;padding:12px 24px;background:#7c3aed;color:#fff;font-weight:700;font-size:13px;border-radius:8px;text-decoration:none;margin-bottom:8px;">
                 Voir l'aperçu généré →
               </a>` : ""}
@@ -305,7 +314,10 @@ function orderEmailHtml(params: {
             </td>
           </tr>
 
-        </table>
+          ${parrainage ? `<tr><td style="padding:14px 36px;border-top:1px solid #27272a;">
+          <p style="margin:0;font-size:13px;color:#a1a1aa;">Parrainage — code <strong style="color:#fafafa;">${escapeHtml(parrainage)}</strong></p>
+        </td></tr>` : ""}
+      </table>
       </td>
     </tr>
   </table>
@@ -324,7 +336,17 @@ const AEVIA_BACKEND_URL =
  * this account already has an active Inbox webchat widget to auto-embed.
  * Best-effort — never throws into the caller (see .catch at call site).
  */
-async function linkPurchaseToAccount(sessionId: string, email: string, siteName: string) {
+async function linkPurchaseToAccount(
+  sessionId: string,
+  email: string,
+  siteName: string,
+  /**
+   * Le code de parrainage porté par la commande. C'est le moteur de commissions
+   * d'Inbox qui en tire les conséquences — la seule base qui connaisse les
+   * vendeurs — et il ne l'honore qu'une fois, au premier achat du compte.
+   */
+  ref?: string,
+) {
   const apiKey = process.env.AEVIA_BACKEND_API_KEY;
   if (!apiKey) {
     console.warn("[webhook] AEVIA_BACKEND_API_KEY not set, skipping account link");
@@ -334,7 +356,7 @@ async function linkPurchaseToAccount(sessionId: string, email: string, siteName:
   const res = await fetch(`${AEVIA_BACKEND_URL}/api/v1/aevia-bridge/link-launch-purchase`, {
     method: "POST",
     headers: { "Content-Type": "application/json", "x-api-key": apiKey },
-    body: JSON.stringify({ email, sessionId, siteName }),
+    body: JSON.stringify({ email, sessionId, siteName, ref: ref || undefined }),
   });
   if (!res.ok) {
     throw new Error(`link-launch-purchase failed: ${res.status} ${res.statusText}`);
@@ -560,6 +582,9 @@ export async function POST(req: NextRequest) {
       }
 
       // ── Preview-checkout path: content already generated, just send emails ──
+      /* La commande porte « sessionApercu » depuis le formulaire, et
+         « sessionId » quand elle vient du raccourci d'aperçu. */
+      if (!meta.sessionId && meta.sessionApercu) meta.sessionId = meta.sessionApercu;
       if (meta.sessionId && !meta.briefId) {
         const previewUrl = meta.previewUrl ?? `${process.env.NEXT_PUBLIC_BASE_URL ?? "https://launch.aevia.services"}/preview/${meta.sessionId}`;
         const clientEmail = session.customer_details?.email ?? session.customer_email ?? undefined;
@@ -570,7 +595,7 @@ export async function POST(req: NextRequest) {
         // widget and embed it — no manual snippet copy-paste required. Best
         // effort: a failure here must never block order emails from sending.
         if (clientEmail) {
-          void linkPurchaseToAccount(meta.sessionId, clientEmail, siteName).catch((err) =>
+          void linkPurchaseToAccount(meta.sessionId, clientEmail, siteName, meta.ref).catch((err) =>
             console.error("[webhook] account link failed", err),
           );
         }
@@ -597,6 +622,7 @@ export async function POST(req: NextRequest) {
               to: [process.env.ADMIN_EMAIL ?? "v.milliand@gmail.com"],
               subject: `[AeviaLaunch] Nouvelle commande — ${siteName} (${totalEuros}€)`,
               html: orderEmailHtml({
+                parrainage: (session.metadata ?? {}).ref,
                 name: siteName, type: siteType, typeLabel, maintenance: withMaint,
                 total: totalEuros, date, sessionId: meta.sessionId, previewUrl,
               }),
@@ -753,7 +779,6 @@ Génère du JSON avec exactement ces champs:
   "aboutTitle": "...",
   "aboutText": "...",
   "services": [{"title":"...","description":"..."},{"title":"...","description":"..."},{"title":"...","description":"..."}],
-  "testimonials": [{"name":"...","role":"...","text":"...","rating":5},{"name":"...","role":"...","text":"...","rating":5},{"name":"...","role":"...","text":"...","rating":5}],
   "ctaText": "...",
   "metaTitle": "Titre SEO 50-60 chars axé sur le SEO local avec la ville",
   "metaDescription": "Méta description SEO 140-160 chars axée sur la qualité des prestations et le SEO local"
@@ -806,7 +831,7 @@ Retourne uniquement du JSON valide, sans markdown.`;
           // Le repli reste, mais il est signalé : un contenu générique livré à
           // un client payant est un incident, pas un fonctionnement normal.
           console.error("[webhook] génération Gemini échouée, repli générique:", err);
-          generatedContent = generateMockContent(formData);
+          generatedContent = contenuDepuisLeClient(formData);
           if (resend) {
             void resend.emails
               .send({
@@ -820,7 +845,7 @@ Retourne uniquement du JSON valide, sans markdown.`;
         }
       } else {
         console.error("[webhook] GEMINI_API_KEY absente — contenu générique");
-        generatedContent = generateMockContent(formData);
+        generatedContent = contenuDepuisLeClient(formData);
       }
 
       const previewSessionId = crypto.randomUUID();
@@ -874,6 +899,7 @@ Retourne uniquement du JSON valide, sans markdown.`;
           to: "v.milliand@gmail.com",
           subject: `Nouvelle commande — ${siteName}`,
           html: orderEmailHtml({
+                parrainage: (session.metadata ?? {}).ref,
             name: siteName,
             type: siteType,
             typeLabel,
@@ -891,6 +917,16 @@ Retourne uniquement du JSON valide, sans markdown.`;
       // Skip the client email if the blob save failed — sending a dead preview
       // link to a paying customer is worse than no email at all.
       const clientEmail = session.customer_details?.email ?? email;
+      /*
+        Ce chemin — celui du formulaire complet — ne liait rien : l'acheteur
+        repartait sans compte de l'écosystème, et le parrainage se perdait.
+        Un compte pour les trois produits, ce qui est acheté est ce qui s'ouvre.
+      */
+      if (clientEmail) {
+        void linkPurchaseToAccount(previewSessionId, clientEmail, siteName, meta.ref).catch((err) =>
+          console.error("[webhook] account link failed", err),
+        );
+      }
       if (clientEmail && blobSaveOk) {
         await resend.emails.send({
           from: fromAddress,

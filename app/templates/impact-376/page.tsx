@@ -10,8 +10,8 @@ import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { LineScroll } from "@/lib/templates/hero-kit-3";
 import {
   clientAccrocheRestante,
-  clientCertifications,
   clientAddress,
+  clientCertifications,
   clientCity,
   clientTrade,
   clientPhone,
@@ -19,6 +19,7 @@ import {
   clientEmail,
   clientCodePostalVille,
   clientHeroLine,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -26,6 +27,7 @@ import {
   clientStats,
   clientTagline,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 import { ActionMobile } from "@/lib/templates/ActionMobile";
@@ -72,12 +74,17 @@ const HERO = [{"k": "Verrières", "lines": ["La lumière traverse,", "l'espace r
 
 const SERVICES_SOURCE = [{"titre": "Verrières d'atelier", "desc": "Acier fin ou aluminium thermolaqué, simple ou double vitrage, cintrages possibles : la verrière dessinée pour l'espace, pas au catalogue.", "tag": "Verrières"}, {"titre": "Garde-corps en verre", "desc": "Escaliers, mezzanines, terrasses : verre feuilleté trempé calculé selon les normes, profils encastrés ou pinces inox.", "tag": "Garde-corps"}, {"titre": "Cloisons & portes de verre", "desc": "Bureaux, cabinets, habitat : cloisons toute hauteur, portes pivot, films acoustiques et dépolis à la demande.", "tag": "Cloisons"}, {"titre": "Planchers & marches", "desc": "Dalles de verre feuilleté antidérapant sur structure calculée : la lumière descend d'un étage à l'autre.", "tag": "Structure"}, {"titre": "Miroiterie décorative", "desc": "Miroirs vieillis, verres teintés, crédences laquées au RAL exact : les finitions qui signent un projet.", "tag": "Décor"}, {"titre": "Accompagnement architectes", "desc": "Notes de calcul, échantillons, réservations chantier, pose coordonnée avec les autres corps d'état : un seul lot, tenu.", "tag": "Architectes"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "Faisabilité & calculs", "d": "Charges, normes (DTU 39, NF P01-012), supports : on valide la technique avant d'esquisser."}, {"n": "02", "t": "Modélisation 3D", "d": "L'ouvrage dans votre espace, aux cotes réelles : vous voyez la lumière avant de signer."}, {"n": "03", "t": "Fabrication pilotée", "d": "Verres et profils commandés aux façonniers agréés, contrôle qualité à réception, stockage sécurisé."}, {"n": "04", "t": "Pose millimétrée", "d": "Équipes propres, calage optique, joints parfaits : la réception se fait à la lumière rasante."}];
+let METHODE = [{"n": "01", "t": "Faisabilité & calculs", "d": "Charges, normes (DTU 39, NF P01-012), supports : on valide la technique avant d'esquisser."}, {"n": "02", "t": "Modélisation 3D", "d": "L'ouvrage dans votre espace, aux cotes réelles : vous voyez la lumière avant de signer."}, {"n": "03", "t": "Fabrication pilotée", "d": "Verres et profils commandés aux façonniers agréés, contrôle qualité à réception, stockage sécurisé."}, {"n": "04", "t": "Pose millimétrée", "d": "Équipes propres, calage optique, joints parfaits : la réception se fait à la lumière rasante."}];
 const ENGAGEMENT_DEMO = ["Notes de calcul fournies pour chaque ouvrage structurel — pas de verre « au jugé »", "Garantie décennale, verres certifiés, DTU 39 respecté et documenté", "Un interlocuteur unique du premier trait à la réception", "Showroom sur rendez-vous : touchez les verres, comparez les profils"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Verrière d'atelier (ml)", "p": "dès 900 €", "n": "Acier fin, vitrage clair, pose et finitions comprises."}, {"a": "Garde-corps verre (ml)", "p": "dès 650 €", "n": "Feuilleté trempé calculé, profil encastré aluminium."}, {"a": "Cloison toute hauteur (m²)", "p": "dès 320 €", "n": "Vitrage 10 mm, châssis discret, porte en option."}, {"a": "Étude + modélisation 3D", "p": "490 €", "n": "Note de calcul incluse, déduite à la commande."}];
 let TARIFS = TARIFS_DEMO;
-const AVIS_SOURCE = [{"texte": "La verrière entre cuisine et séjour a doublé la lumière du rez-de-chaussée. Modélisée en 3D d'abord, posée en une journée, joints parfaits. Un travail d'orfèvre.", "auteur": "Maison particulière, Colmar", "detail": "Verrière d'atelier"}, {"texte": "En tant qu'architecte, je cherche des miroitiers qui calculent : notes de calcul propres, réservations anticipées, pose coordonnée sans friction. Verre & Lumière est sur tous mes projets.", "auteur": "Architecte DPLG, Mulhouse", "detail": "Partenariat architecte"}, {"texte": "Garde-corps de mezzanine sans un montant : le vide est apprivoisé, le séjour respire. Les visiteurs demandent toujours qui l'a fait.", "auteur": "Loft réhabilité, Sélestat", "detail": "Garde-corps verre"}];
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function AVIS_SOURCE_LIVE() {
+  return [{"texte": "La verrière entre cuisine et séjour a doublé la lumière du rez-de-chaussée. Modélisée en 3D d'abord, posée en une journée, joints parfaits. Un travail d'orfèvre.", "auteur": "Maison particulière, Colmar", "detail": "Verrière d'atelier"}, {"texte": `En tant qu'architecte, je cherche des miroitiers qui calculent : notes de calcul propres, réservations anticipées, pose coordonnée sans friction. ${clientName(sessionData) ?? "Verre & Lumière"} est sur tous mes projets.`, "auteur": "Architecte DPLG, Mulhouse", "detail": "Partenariat architecte"}, {"texte": "Garde-corps de mezzanine sans un montant : le vide est apprivoisé, le séjour respire. Les visiteurs demandent toujours qui l'a fait.", "auteur": "Loft réhabilité, Sélestat", "detail": "Garde-corps verre"}];
+}
+let AVIS_SOURCE = AVIS_SOURCE_LIVE();
 let AVIS_DEMO = AVIS_SOURCE;
 const STATS_DEMO = [{"value": "120+", "label": "Projets d'architectes livrés"}, {"value": "DTU 39", "label": "Calculs et conformité vitrage"}, {"value": "10 ans", "label": "Décennale sur les ouvrages"}, {"value": "3D", "label": "Chaque projet modélisé avant"}];
 let STATS = STATS_DEMO;
@@ -108,10 +115,21 @@ export default function VerreEtLumierePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
 
@@ -119,6 +137,12 @@ export default function VerreEtLumierePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    fusionnerEtapes(METHODE, clientMethode(sessionData)),
+    METHODE,
+  );
+  AVIS_SOURCE = AVIS_SOURCE_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

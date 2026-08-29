@@ -1,0 +1,72 @@
+/*
+  La prose de démonstration de ce thème, dans les langues que nous proposons.
+
+  Ces phrases sont écrites en dur dans le thème : elles ne viennent d'aucun
+  champ du formulaire, et disparaissent dès que le client remplit le bloc
+  correspondant. Les traduire est ce qui tient la page tant qu'il ne l'a pas
+  fait — un site français ne montre pas de paragraphe anglais.
+
+  Chargé par BrandColorVar avec ce thème et avec lui seul.
+*/
+export const TRADUCTIONS: Record<string, Record<string, string>> = {
+  fr: {
+    "40% dark rye, light sour, dense and moist. exceptional with butter and smoked salmon.": "40 % seigle noir, léger aigre, dense et moelleux. Exceptionnel avec du beurre et du saumon fumé.",
+    "flour and water rest together before salt is added. gluten develops naturally, without force.": "La farine et l'eau reposent ensemble avant l'ajout du sel. Le gluten se développe naturellement, sans contrainte.",
+    "hand-shaped and placed in linen bannetons. cold retard overnight. the tension holds everything together.": "Façonné à la main et placé dans des bannetons en lin. Retard au froid toute la nuit. La tension maintient tout ensemble.",
+    "into the deck oven at 250°c with steam. the score blooms. the crust caramelises. the kitchen fills with bread.": "Dans le four à sole à 250°C avec de la vapeur. La grigne s'épanouit. La croûte caramélise. La cuisine se remplit de pain.",
+    "introduction to sourdough": "Introduction au Pain au Levain",
+    "laminated butter brioche — flaky, rich, golden. sells out by 10am every saturday.": "Brioche feuilletée au beurre — feuilletée, riche, dorée. Épuisée avant 10h chaque samedi.",
+    "of the same starter.": "du même levain.",
+    "our levain has been alive for 11 years, fed daily with spring water and organic flour. it's the soul of every loaf.": "Notre levain est vivant depuis 11 ans, nourri quotidiennement avec de l'eau de source et de la farine bio. C'est l'âme de chaque pain.",
+    "our levain is not a recipe — it's a living thing. fed every morning, kept at 18°c, it's been producing the same complex sour note since 2013. every loaf carries that history.": "Notre levain n'est pas une recette, c'est un être vivant. Nourri chaque matin, tenu à 18 °C, il donne la même acidité complexe depuis 2013. Chaque pain porte cette histoire.",
+    "pull-apart wheat stalk, soft crumb with a crisp crust. made fresh each morning.": "Épi de blé à déchirer, mie douce avec une croûte croustillante. Fait frais chaque matin.",
+    "the dough rises slowly at cool temperature. flavour develops. bubbles form. patience is the only ingredient.": "La pâte lève lentement à basse température. La saveur se développe. Des bulles se forment. La patience est le seul ingrédient.",
+    "the starter": "Le Levain",
+    "years of levain": "Années de levain",
+  },
+  es: {
+    "40% dark rye, light sour, dense and moist. exceptional with butter and smoked salmon.": "40 % centeno oscuro, ligero ácido, denso y húmedo. Excepcional con mantequilla y salmón ahumado.",
+    "flour and water rest together before salt is added. gluten develops naturally, without force.": "La harina y el agua reposan juntas antes de añadir la sal. El gluten se desarrolla de forma natural, sin forzar.",
+    "hand-shaped and placed in linen bannetons. cold retard overnight. the tension holds everything together.": "Modelado a mano y colocado en bannetons de lino. Retardo en frío durante la noche. La tensión mantiene todo unido.",
+    "into the deck oven at 250°c with steam. the score blooms. the crust caramelises. the kitchen fills with bread.": "En el horno de piso a 250°C con vapor. La puntuación florece. La corteza se carameliza. La cocina se llena de pan.",
+    "introduction to sourdough": "Introducción al Pan de Masa Madre",
+    "laminated butter brioche — flaky, rich, golden. sells out by 10am every saturday.": "Brioche laminada de mantequilla — hojaldrada, rica, dorada. Se agota antes de las 10 a.m. cada sábado.",
+    "of the same starter.": "de la misma masa madre.",
+    "our levain has been alive for 11 years, fed daily with spring water and organic flour. it's the soul of every loaf.": "Nuestro levain ha estado vivo durante 11 años, alimentado a diario con agua de manantial y harina orgánica. Es el alma de cada pan.",
+    "our levain is not a recipe — it's a living thing. fed every morning, kept at 18°c, it's been producing the same complex sour note since 2013. every loaf carries that history.": "Nuestra masa madre no es una receta: es un ser vivo. Alimentada cada mañana y mantenida a 18 °C, da la misma acidez compleja desde 2013. Cada hogaza lleva esa historia.",
+    "pull-apart wheat stalk, soft crumb with a crisp crust. made fresh each morning.": "Espiga de trigo desmenuzable, miga suave con una corteza crujiente. Hecho fresco cada mañana.",
+    "the dough rises slowly at cool temperature. flavour develops. bubbles form. patience is the only ingredient.": "La masa sube lentamente a baja temperatura. Se desarrolla el sabor. Se forman burbujas. La paciencia es el único ingrediente.",
+    "the starter": "El Inicio",
+    "years of levain": "Años de levain",
+  },
+  de: {
+    "40% dark rye, light sour, dense and moist. exceptional with butter and smoked salmon.": "40 % Roggenmehl, leicht sauer, dicht und feucht. Ausgezeichnet mit Butter und geräuchertem Lachs.",
+    "flour and water rest together before salt is added. gluten develops naturally, without force.": "Mehl und Wasser ruhen zusammen, bevor Salz hinzugefügt wird. Gluten entwickelt sich natürlich, ohne Druck.",
+    "hand-shaped and placed in linen bannetons. cold retard overnight. the tension holds everything together.": "Handgeformt und in Leinenbannetons gelegt. Kaltverzögerung über Nacht. Die Spannung hält alles zusammen.",
+    "into the deck oven at 250°c with steam. the score blooms. the crust caramelises. the kitchen fills with bread.": "In den Deckofen bei 250 °C mit Dampf. Die Einschnitte blühen auf. Die Kruste karamellisiert. Die Küche füllt sich mit Brot.",
+    "introduction to sourdough": "Einführung in Sauerteig",
+    "laminated butter brioche — flaky, rich, golden. sells out by 10am every saturday.": "Laminierte Butter-Brioche — blättrig, reichhaltig, goldbraun. Ausverkauft bis 10 Uhr jeden Samstag.",
+    "of the same starter.": "desselben Sauerteigs.",
+    "our levain has been alive for 11 years, fed daily with spring water and organic flour. it's the soul of every loaf.": "Unser Sauerteig lebt seit 11 Jahren, täglich mit Quellwasser und Bio-Mehl gefüttert. Es ist die Seele jedes Laibs.",
+    "our levain is not a recipe — it's a living thing. fed every morning, kept at 18°c, it's been producing the same complex sour note since 2013. every loaf carries that history.": "Unser Sauerteig ist kein Rezept, sondern ein Lebewesen. Jeden Morgen gefüttert, bei 18 °C gehalten, gibt er seit 2013 dieselbe komplexe Säure. Jedes Brot trägt diese Geschichte.",
+    "pull-apart wheat stalk, soft crumb with a crisp crust. made fresh each morning.": "Zerreißbares Weizenähren, weicher Teig mit knuspriger Kruste. Jeden Morgen frisch gemacht.",
+    "the dough rises slowly at cool temperature. flavour develops. bubbles form. patience is the only ingredient.": "Der Teig geht langsam bei kühler Temperatur auf. Der Geschmack entwickelt sich. Blasen bilden sich. Geduld ist die einzige Zutat.",
+    "the starter": "Der Starter",
+    "years of levain": "Jahre des Sauerteigs",
+  },
+  pt: {
+    "40% dark rye, light sour, dense and moist. exceptional with butter and smoked salmon.": "40 % centeio escuro, ligeiramente azedo, denso e húmido. Excepcional com manteiga e salmão fumado.",
+    "flour and water rest together before salt is added. gluten develops naturally, without force.": "A farinha e a água descansam juntas antes de adicionar o sal. O glúten desenvolve-se naturalmente, sem forçar.",
+    "hand-shaped and placed in linen bannetons. cold retard overnight. the tension holds everything together.": "Moldado à mão e colocado em bannetons de linho. Retardo a frio durante a noite. A tensão mantém tudo unido.",
+    "into the deck oven at 250°c with steam. the score blooms. the crust caramelises. the kitchen fills with bread.": "No forno de deck a 250°C com vapor. O corte floresce. A crosta carameliza. A cozinha enche-se de pão.",
+    "introduction to sourdough": "Introdução ao Pão de Fermento Natural",
+    "laminated butter brioche — flaky, rich, golden. sells out by 10am every saturday.": "Brioche laminada de manteiga — folhada, rica, dourada. Esgotada até às 10h todos os sábados.",
+    "of the same starter.": "do mesmo fermento.",
+    "our levain has been alive for 11 years, fed daily with spring water and organic flour. it's the soul of every loaf.": "O nosso fermento está vivo há 11 anos, alimentado diariamente com água de nascente e farinha biológica. É a alma de cada pão.",
+    "our levain is not a recipe — it's a living thing. fed every morning, kept at 18°c, it's been producing the same complex sour note since 2013. every loaf carries that history.": "O nosso fermento não é uma receita: é um ser vivo. Alimentado todas as manhãs e mantido a 18 °C, dá a mesma acidez complexa desde 2013. Cada pão carrega essa história.",
+    "pull-apart wheat stalk, soft crumb with a crisp crust. made fresh each morning.": "Espiga de trigo desfiável, miolo macio com uma crosta crocante. Feito fresco todas as manhãs.",
+    "the dough rises slowly at cool temperature. flavour develops. bubbles form. patience is the only ingredient.": "A massa cresce lentamente a baixa temperatura. O sabor desenvolve-se. Formam-se bolhas. A paciência é o único ingrediente.",
+    "the starter": "O Fermento",
+    "years of levain": "Anos de fermento",
+  },
+};

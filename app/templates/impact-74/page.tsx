@@ -178,7 +178,10 @@ const EXPERIENCES_SOURCE = [
 ];
 let EXPERIENCES = EXPERIENCES_SOURCE;
 
-const REVIEWS_SOURCE = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function REVIEWS_SOURCE_LIVE() {
+  return [
   {
     text: "Une expérience sensorielle complète. Le ris de veau aux morilles est d'une précision d'exécution rarissime. Service impeccable, cave exceptionnelle.",
     author: "M. Bertrand L.",
@@ -187,7 +190,7 @@ const REVIEWS_SOURCE = [
     occasion: "Menu Dégustation",
   },
   {
-    text: "Aevia Kitchen réunit tout ce que la grande cuisine française a de plus noble : technique sans ostentation, produits d'une qualité irréprochable, accueil sincère.",
+    text: `${clientName(sessionData) ?? "Aevia Kitchen"} réunit tout ce que la grande cuisine française a de plus noble : technique sans ostentation, produits d'une qualité irréprochable, accueil sincère.`,
     author: "Sophie D.",
     date: "Novembre 2025",
     stars: 5,
@@ -201,6 +204,8 @@ const REVIEWS_SOURCE = [
     occasion: "Déjeuner d'été",
   },
 ];
+}
+let REVIEWS_SOURCE = REVIEWS_SOURCE_LIVE();
 let REVIEWS_DEMO = REVIEWS_SOURCE;
 
 const TIME_SLOTS = ["12h00", "12h30", "14h00", "14h30", "19h30", "20h00", "21h00", "21h30"];
@@ -239,10 +244,21 @@ export default function AeviaKitchenPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -250,6 +266,7 @@ export default function AeviaKitchenPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  REVIEWS_SOURCE = REVIEWS_SOURCE_LIVE();
   GALLERY_PHOTOS_DEMO = GALLERY_PHOTOS_DEMO_LIVE();
   memoriserSession(sessionData);
 
@@ -386,7 +403,7 @@ export default function AeviaKitchenPage() {
         >
           <Image
             src={photo(6, "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2400&auto=format&fit=crop")}
-            alt="Salle gastronomique Aevia Kitchen"
+            alt={`Salle gastronomique ${clientName(sessionData) ?? "Aevia Kitchen"}`}
             fill
             className="object-cover brightness-[0.55]"
             priority
@@ -413,7 +430,7 @@ export default function AeviaKitchenPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-xl text-base md:text-lg text-white/45 leading-relaxed mb-12 font-light"
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Une cuisine de saison ancrée dans la tradition, portée par l&apos;excellence du produit et la passion de l&apos;artisanat culinaire. Table étoilée — 12 couverts par service.
           </>}</motion.p>
 
@@ -543,7 +560,7 @@ export default function AeviaKitchenPage() {
                 <div className="relative aspect-[4/5] overflow-hidden rounded-lg">
                   <Image
                     src={photo(7, "https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=1200&auto=format&fit=crop")}
-                    alt="Chef exécutif Aevia Kitchen"
+                    alt={`Chef exécutif ${clientName(sessionData) ?? "Aevia Kitchen"}`}
                     fill
                     className="object-cover object-center"
                   />
@@ -570,7 +587,7 @@ export default function AeviaKitchenPage() {
                 <div className="space-y-4 text-white/50 leading-relaxed text-sm">
                   <p>{c?.aboutText ?? <>
                     Formé auprès de Joël Robuchon et de Pierre Gagnaire, Thomas Mercier
-                    a fondé Aevia Kitchen en 2018 après quinze ans passés dans les plus
+                    a fondé {clientName(sessionData) ?? "Aevia Kitchen"} en 2018 après quinze ans passés dans les plus
                     grandes maisons d&apos;Europe. Sa philosophie est simple : laisser le
                     produit parler.
                   </>}</p>
@@ -582,7 +599,7 @@ export default function AeviaKitchenPage() {
                   </p>
                   <p>
                     Deux étoiles Michelin obtenues dès la deuxième année d&apos;existence,
-                    Aevia Kitchen figure aujourd&apos;hui parmi les cinquante meilleures tables
+                    {clientName(sessionData) ?? "Aevia Kitchen"} figure aujourd&apos;hui parmi les cinquante meilleures tables
                     de France selon le guide Lebey.
                   </p>
                 </div>
@@ -809,8 +826,8 @@ export default function AeviaKitchenPage() {
               <div className="space-y-8">
                 {[
                   { pub: "Le Monde", date: "Mars 2025", quote: "Une table qui réconcilie la haute gastronomie avec l'émotion. Chaque plat est une narration en soi." },
-                  { pub: "Vogue France", date: "Octobre 2024", quote: "L'adresse de l'année. Aevia Kitchen redéfinit ce que signifie dîner à " + (clientCity(sessionData) ?? "Paris") + "." },
-                  { pub: "Financial Times", date: "Septembre 2024", quote: "Rarely does a restaurant achieve this level of precision without sacrificing soul. Aevia Kitchen does both." },
+                  { pub: "Vogue France", date: "Octobre 2024", quote: `L'adresse de l'année. ${clientName(sessionData) ?? "Aevia Kitchen"} redéfinit ce que signifie dîner à ` + (clientCity(sessionData) ?? "Paris") + "." },
+                  { pub: "Financial Times", date: "Septembre 2024", quote: `Rarely does a restaurant achieve this level of precision without sacrificing soul. ${clientName(sessionData) ?? "Aevia Kitchen"} does both.` },
                   { pub: "Libération", date: "Juin 2024", quote: "Un lieu où l'on revient non pour ce qu'on a mangé, mais pour ce qu'on a ressenti." },
                 ].map((p, i) => (
                   <Reveal key={p.pub} delay={i * 0.1}>
@@ -1007,7 +1024,7 @@ export default function AeviaKitchenPage() {
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName(sessionData) ?? "impact-74"}
+        {clientName(sessionData) ?? "Aevia Kitchen"}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>

@@ -7,13 +7,12 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { C, FONT, FONT_BODY, STATS, MISSIONS, TEMOIGNAGES, Reveal } from "./shared";
 import { DWELL, useSlides, AnchoredBackdrop, WordFlight, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import {
-  clientAddress,
-  clientBookingUrl,
-  clientCity,
-  clientEmail,
   clientHeroLine,
-  clientName,
+  clientBookingUrl,
   clientPhone,
+  clientAddress,
+  clientCity,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -84,20 +83,31 @@ export default function LedgerPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
 
   sessionData = session;
+  HERO_MISSIONS_DEMO = HERO_MISSIONS_DEMO_LIVE();
 
   memoriserSession(sessionData);
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  HERO_MISSIONS_DEMO = HERO_MISSIONS_DEMO_LIVE();
 
 
 
@@ -185,7 +195,7 @@ export default function LedgerPage() {
               letterSpacing: -0.3,
               color: scrolled ? C.accent : C.white,
             }}
-          >{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
+          >{/* NOM_LOGO */ clientName(sessionData) ?? (<>
             Ledger <span style={{ fontWeight: 400, opacity: 0.7 }}>&amp; Associés</span>
           </>)}</div>
         )}
@@ -256,7 +266,7 @@ export default function LedgerPage() {
             }}
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 48 }}>
-              <span style={{ fontFamily: FONT, fontWeight: 700, fontSize: 18, color: C.white }}>Ledger &amp; Associés</span>
+              <span style={{ fontFamily: FONT, fontWeight: 700, fontSize: 18, color: C.white }}>{clientName(sessionData) ?? "Ledger & Associés"}</span>
               <button onClick={() => setMenuOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: C.white }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <line x1="18" y1="6" x2="6" y2="18" />
@@ -383,7 +393,7 @@ export default function LedgerPage() {
               maxWidth: 520,
             }}
           >{fd?.tagline ?? c?.heroSubline ?? <>
-            Cabinet d&apos;expertise comptable à {clientCity({ formData: fd }) ?? "Bordeaux"} depuis 25 ans. Nous transformons vos obligations comptables en leviers de décision pour votre entreprise.
+            Cabinet d&apos;expertise comptable à {clientCity(sessionData) ?? "Bordeaux"} depuis 25 ans. Nous transformons vos obligations comptables en leviers de décision pour votre entreprise.
           </>}</motion.p>
           <motion.div
             initial={{ opacity: 0, y: 28 }}
@@ -816,11 +826,11 @@ export default function LedgerPage() {
           <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr", gap: 48, marginBottom: 48 }}>
             <div>
               <div style={{ fontFamily: FONT, fontWeight: 700, fontSize: 20, color: C.white, marginBottom: 16 }}>
-                Ledger &amp; Associés
+                {clientName(sessionData) ?? "Ledger & Associés"}
               </div>
               <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 1.8 }}>
                 Cabinet d&apos;expertise comptable<br />
-                {clientCity({ formData: fd }) ?? "Bordeaux"} · Depuis 1999
+                {clientCity(sessionData) ?? "Bordeaux"} · Depuis 1999
               </p>
               <div
                 style={{
@@ -849,9 +859,9 @@ export default function LedgerPage() {
               </p>
               <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 2 }}>
                 {clientAddress({ businessProfile: bp }) ?? "14 allée de Tourny"}<br />
-                33000 {clientCity({ formData: fd }) ?? "Bordeaux"}<br />
-                <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33556000000").replace(/[^+0-9]/g, "")}`} style={{color: brand ?? 'var(--brand,#93c5fd)', textDecoration: "none" }}>{clientPhone(sessionData) ?? "05 56 76 23 23"}</a><br />
-                <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@ledger-associes.fr"}`} style={{color: brand ?? 'var(--brand,#93c5fd)', textDecoration: "none" }}>{clientEmail(sessionData) ?? fd?.email ?? "contact@ledger-associes.fr"}</a>
+                33000 {clientCity(sessionData) ?? "Bordeaux"}<br />
+                <a href={`tel:${fd?.phone ?? "+33556000000"}`} style={{color: brand ?? 'var(--brand,#93c5fd)', textDecoration: "none" }}>{clientPhone(sessionData) ?? "05 56 76 23 23"}</a><br />
+                <a href={`mailto:${fd?.email ?? "contact@ledger-associes.fr"}`} style={{color: brand ?? 'var(--brand,#93c5fd)', textDecoration: "none" }}>{fd?.email ?? "contact@ledger-associes.fr"}</a>
               </p>
             </div>
             <div>
@@ -877,7 +887,7 @@ export default function LedgerPage() {
               fontWeight: 300,
             }}
           >
-            <span>© 2025 {clientName(sessionData) ?? "Ledger & Associés"} — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+            <span>© 2025 {clientName(sessionData) ?? "Ledger & Associés"} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
             <div style={{ display: "flex", gap: 24 }}>
               <a href="/templates/impact-108/legal" style={{ color: "inherit", textDecoration: "none" }}>Mentions légales</a>
               <a href="/templates/impact-108/legal" style={{ color: "inherit", textDecoration: "none" }}>Confidentialité</a>

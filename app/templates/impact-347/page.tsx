@@ -29,6 +29,7 @@ import {
   clientEyebrow,
   clientHeroLine,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -37,6 +38,7 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 import { ActionMobile } from "@/lib/templates/ActionMobile";
@@ -421,19 +423,35 @@ export default function PrismeFormationPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    fusionnerEtapes(METHODE_SOURCE, clientMethode(sessionData)),
+    METHODE_SOURCE,
+  );
+  HERO = HERO_LIVE();
 
   /* Blocs vivants : recalculés à chaque rendu, une fois la session affectée. */
-  HERO = HERO_LIVE();
   STATS = resolveList(clientStats(sessionData), STATS_SOURCE);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_SOURCE);
   REPERES = resolveList(clientList(sessionData, "contact.reperes"), REPERES_SOURCE);

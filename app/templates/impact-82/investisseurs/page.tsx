@@ -1,4 +1,8 @@
 "use client"
+import {
+  clientName,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 
 import React from "react"
 import { useEffect, useState } from "react";
@@ -25,13 +29,25 @@ export default function InvestisseursPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
@@ -47,7 +63,7 @@ export default function InvestisseursPage() {
               Valoriser votre capital<br />dans l&apos;immobilier <em>d&apos;exception</em>
             </h1>
             <p className="text-[#6B5A40] text-lg mt-6 font-light leading-relaxed">
-              Blueprint Developments offre aux investisseurs institutionnels, banques de gestion privée et family offices des opportunités d&apos;investissement de premier plan. Nos projets ciblent des actifs stratégiques à forte valeur ajoutée.
+              {clientName(sessionData) ?? "Blueprint Developments"} offre aux investisseurs institutionnels, banques de gestion privée et family offices des opportunités d&apos;investissement de premier plan. Nos projets ciblent des actifs stratégiques à forte valeur ajoutée.
             </p>
             <p className="text-[#6B5A40] text-base mt-4 font-light leading-relaxed">
               Grâce à notre rigueur opérationnelle et notre notation financière de référence, nous offrons une structure de risques hautement maîtrisée.

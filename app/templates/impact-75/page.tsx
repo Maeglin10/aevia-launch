@@ -24,12 +24,10 @@ import {
 } from "lucide-react";
 import { Reveal, GridBackground } from "./shared";
 import {
-  clientCity,
-  clientEmail,
-  clientFaq,
   clientHeroLine,
+  clientCity,
+  clientFaq,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -47,16 +45,18 @@ let fd: any = null;
 
 // La FAQ, jusqu'ici écrit(e) dans le rendu :
 // le client pouvait les saisir, le thème ne les lisait pas.
-function FAQ_INLINE_SOURCE_VIVANT() {
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function FAQ_INLINE_SOURCE_LIVE() {
   return [
   { q: "Quels sont les délais de livraison ?", a: "Livraison standard : 2-3 jours ouvrés gratuite dès 200€. Express 24h disponible pour 12€ en France métropolitaine. Les produits en stock partent le jour même si la commande est passée avant 14h. Livraison internationale disponible dans 38 pays." },
               { q: "Quelle est votre politique de retour ?", a: "30 jours de retour gratuit, sans questions. Si votre produit présente un défaut ou ne vous convient pas, nous prenons en charge l'enlèvement à domicile et le remboursement intégral sous 5 jours ouvrés. Aucun frais de restockage." },
               { q: "Vos produits sont-ils garantis ?", a: "Tous nos produits bénéficient d'une garantie constructeur de 2 ans minimum, extensible à 5 ans avec notre programme NeuroSafe. En cas de panne, nous vous remplaçons le produit sous 48h sans attendre la fin du diagnostic." },
               { q: "Proposez-vous des facilités de paiement ?", a: "Oui — paiement en 3x ou 12x sans frais disponible dès 150€ via notre partenaire Alma. Paiement en 24x pour les produits à partir de 1 000€. Aucun justificatif ni formulaire papier — tout se fait en 30 secondes à la caisse." },
-              { q: "Comment contacter le support ?", a: "Chat en direct disponible 7j/7 de 8h à 23h. Email avec réponse garantie en moins de 2h en semaine, 4h le week-end. Pour les produits sous garantie, ligne prioritaire au " + (clientPhone(sessionData) ?? fd?.phone ?? "01 88 32 31 28") + ". Notre NPS client est de 78 — on ne dit pas ça pour rien." }
+              { q: "Comment contacter le support ?", a: "Chat en direct disponible 7j/7 de 8h à 23h. Email avec réponse garantie en moins de 2h en semaine, 4h le week-end. Pour les produits sous garantie, ligne prioritaire au " + (fd?.phone ?? "01 88 32 31 28") + ". Notre NPS client est de 78 — on ne dit pas ça pour rien." }
 ];
 }
-let FAQ_INLINE_SOURCE = FAQ_INLINE_SOURCE_VIVANT();
+let FAQ_INLINE_SOURCE = FAQ_INLINE_SOURCE_LIVE();
 let FAQ_INLINE = FAQ_INLINE_SOURCE;
 
 let c: any = null;
@@ -673,10 +673,21 @@ export default function OrbitAIPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -685,20 +696,21 @@ export default function OrbitAIPage() {
 
 
   sessionData = session;
-  /* Le tableau lit la session : il doit être reconstruit ICI, au rendu.
-     Écrit en constante de module, il était évalué à l'import, quand la
-     session valait encore null — le repli gagnait toujours. */
-  FAQ_INLINE_SOURCE = FAQ_INLINE_SOURCE_VIVANT();
+  FAQ_INLINE_SOURCE = FAQ_INLINE_SOURCE_LIVE();
+  BESTSELLERS_DEMO_SOURCE = BESTSELLERS_DEMO_SOURCE_LIVE();
+  MATERIALS_DEMO_SOURCE = MATERIALS_DEMO_SOURCE_LIVE();
+  PRODUCTS_SOURCE = PRODUCTS_SOURCE_LIVE();
+  HERO_PRODUCTS_DEMO_SOURCE = HERO_PRODUCTS_DEMO_SOURCE_LIVE();
+
+
+
+
 
 
 
 
   memoriserSession(sessionData);
   c = session?.generatedContent;
-  BESTSELLERS_DEMO_SOURCE = BESTSELLERS_DEMO_SOURCE_LIVE();
-  MATERIALS_DEMO_SOURCE = MATERIALS_DEMO_SOURCE_LIVE();
-  PRODUCTS_SOURCE = PRODUCTS_SOURCE_LIVE();
-  HERO_PRODUCTS_DEMO_SOURCE = HERO_PRODUCTS_DEMO_SOURCE_LIVE();
 
   HERO_PRODUCTS_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...HERO_PRODUCTS_DEMO_SOURCE[i % HERO_PRODUCTS_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? HERO_PRODUCTS_DEMO_SOURCE[i % HERO_PRODUCTS_DEMO_SOURCE.length].price })),
@@ -1377,8 +1389,8 @@ return (
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-75"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "OrbitAI"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>
   );

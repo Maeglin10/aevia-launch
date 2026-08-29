@@ -24,6 +24,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientSlug,
   clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -79,7 +80,7 @@ function BLOCK_MANIFESTS_LIVE() {
       desc: "Native TypeScript framework for zero-knowledge application development.",
       icon: <Code2 className="w-5 h-5" />,
       specs: ["Type-Safe", "ZK-Proof Native", "Auto-Gas Optimization"],
-      code: "npm install @blockbase/sdk",
+      code: "npm install @" + (clientSlug(sessionData) ?? "blockbase") + "/sdk",
     },
     {
       id: "api",
@@ -220,10 +221,21 @@ export default function BlockBasePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -377,7 +389,7 @@ export default function BlockBasePage() {
                   {clientHeroLine(sessionData, 2, 4, 13) ?? "Absolute"} <br />{" "}
                   <span className="text-white/20">{clientHeroLine(sessionData, 3, 4, 13) ?? "Frictionless."}</span>
                 </>}</h1>
-                <p className="max-w-xl text-base md:text-lg text-white/40 leading-relaxed font-light mb-6 md:mb-12 uppercase tracking-widest">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                <p className="max-w-xl text-base md:text-lg text-white/40 leading-relaxed font-light mb-6 md:mb-12 uppercase tracking-widest">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                   High-performance indexing and indexer infrastructure for the
                   next generation of decentralized computation. Engineering the
                   backbone of zero-knowledge privacy.
@@ -667,7 +679,7 @@ export default function BlockBasePage() {
               <div className="w-8 h-8 bg-white text-black rounded flex items-center justify-center">
                 <Box className="w-5 h-5" />
               </div>
-              <span>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "BLOCK // BASE"))}</span>
+              <span>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "BLOCK // BASE"))}</span>
             </Link>
             <p className="text-[10px] text-white/20 uppercase tracking-[0.2em] max-w-sm leading-relaxed mb-12">
               Engineering the foundation of high-performance decentralized systems. Built for the next billion users.
@@ -715,8 +727,8 @@ export default function BlockBasePage() {
       </footer>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-101"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "Block Base"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>
   );

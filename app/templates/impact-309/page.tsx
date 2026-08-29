@@ -48,12 +48,10 @@ import { CrossPush } from '@/lib/templates/hero-kit-3';
 import {
   clientBookingUrl,
   clientCity,
-  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -109,7 +107,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ENCRE DÉLICATE — Studio tatouage fineline {clientCity(sessionData) ?? "Bordeaux"} — aquarelle, fineline féminin, sur RDV. Playfair Display, blanc / rose poudré.
+   {clientName(sessionData) ?? "Encre Délicate"} — Studio tatouage fineline {clientCity(sessionData) ?? "Bordeaux"} — aquarelle, fineline féminin, sur RDV. Playfair Display, blanc / rose poudré.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -375,10 +373,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -672,7 +681,7 @@ return (
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Studio féminin sur rendez-vous. Fineline, aquarelle, tatouages délicats et durables. {clientCity(sessionData) ?? "Bordeaux"}.
             </>}</p>
           </Reveal>
@@ -819,7 +828,7 @@ return (
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  Encre Délicate est un studio féminin spécialisé dans le tatouage fineline et aquarelle. Chaque pièce est dessinée sur mesure, adaptée à votre anatomie et à votre sensibilité.
+                  {clientName(sessionData) ?? "Encre Délicate"} est un studio féminin spécialisé dans le tatouage fineline et aquarelle. Chaque pièce est dessinée sur mesure, adaptée à votre anatomie et à votre sensibilité.
                 </>}</p>
                 <p style={{
                   fontSize: 15,
@@ -1287,7 +1296,7 @@ return (
                     </div>
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Téléphone</div>
-                      <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33579448021").replace(/[^+0-9]/g, "")}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>+33 (0)5 00 00 00 00</a>
+                      <a href={`tel:${fd?.phone ?? "+33579448021"}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>+33 (0)5 00 00 00 00</a>
                     </div>
                   </div>
 
@@ -1307,7 +1316,7 @@ return (
                     </div>
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Adresse E-mail</div>
-                      <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@mysite.com"}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>contact@encredélicate.com</a>
+                      <a href={`mailto:${fd?.email ?? "contact@mysite.com"}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>{fd?.email ?? "contact@encredélicate.com"}</a>
                     </div>
                   </div>
 
@@ -1589,7 +1598,7 @@ return (
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable de publication: Encre Délicate<br />
+                Responsable de publication: {clientName(sessionData) ?? "Encre Délicate"}<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>

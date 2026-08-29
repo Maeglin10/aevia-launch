@@ -20,9 +20,9 @@ import {
   MotionValue,
 } from "framer-motion"
 import {
-  clientHeroPrestations,
   clientAccrocheRestante,
   clientCity,
+  clientHeroPrestations,
   clientHeroSubtitle,
   clientList,
   clientReviews,
@@ -129,7 +129,7 @@ function MATERIALS_LIVE(): Material[] {
     palette: ["var(--brand,#c084fc)","#a855f7","#7c3aed","#5b21b6","#3b0764","#1a0331"],
     applications: ["Athletic Biometrics","Military Comms","Medical Wearables","AR Interface Fabric"],
     weight: "38 g/m²",
-    origin: (clientCity({ formData: fd }) ?? "Paris") + " Synthesis Lab · 2025",
+    origin: (clientCity(sessionData) ?? "Paris") + " Synthesis Lab · 2025",
   },
   {
     id: "BM-88-LVX",
@@ -202,7 +202,7 @@ function MATERIALS_LIVE(): Material[] {
     palette: ["var(--brand,#c084fc)","#a855f7","#7c3aed","#5b21b6","#3b0764","#1a0331"],
     applications: ["Athletic Biometrics","Military Comms","Medical Wearables","AR Interface Fabric"],
     weight: "38 g/m²",
-    origin: (clientCity({ formData: fd }) ?? "Paris") + " Synthesis Lab · 2025",
+    origin: (clientCity(sessionData) ?? "Paris") + " Synthesis Lab · 2025",
   },
   {
     id: "BM-88-LVX",
@@ -277,7 +277,7 @@ function MATERIALS_LIVE(): Material[] {
     palette: ["var(--brand,#c084fc)","#a855f7","#7c3aed","#5b21b6","#3b0764","#1a0331"],
     applications: ["Athletic Biometrics","Military Comms","Medical Wearables","AR Interface Fabric"],
     weight: "38 g/m²",
-    origin: (clientCity({ formData: fd }) ?? "Paris") + " Synthesis Lab · 2025",
+    origin: (clientCity(sessionData) ?? "Paris") + " Synthesis Lab · 2025",
   },
   {
     id: "BM-88-LVX",
@@ -1954,7 +1954,7 @@ function CTASection() {
             letterSpacing: "0.2em",
           }}
         >
-          By submitting you accept our Material NDA Terms. Samples shipped from {clientCity({ formData: fd }) ?? "Paris"}.
+          By submitting you accept our Material NDA Terms. Samples shipped from {clientCity(sessionData) ?? "Paris"}.
         </p>
       </div>
     </section>
@@ -2098,7 +2098,7 @@ function Footer() {
               letterSpacing: "0.2em",
             }}
           >
-            © 2026 Aevia Materials AG · All rights reserved · Paris / Tokyo / Zürich{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2026 Aevia Materials AG · All rights reserved · Paris / Tokyo / Zürich{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: "flex", gap: 32 }}>
             {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste2") ?? ["STATUS: NOMINAL","REGISTRY v4.2.1","ISO 10993 CERTIFIED"]).map(s => (
@@ -2154,10 +2154,21 @@ export default function SmartTextilesPremium() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;

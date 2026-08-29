@@ -13,17 +13,17 @@ import {
 import { TemplateIcon } from '@/components/TemplateIcon';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientSiret,
-  clientPhone,
   clientCity,
   clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -245,7 +245,10 @@ const SAVOIR_FAIRE_DEMO = [
 ];
 let SAVOIR_FAIRE = SAVOIR_FAIRE_DEMO;
 
-const TESTIMONIALS_SOURCE = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     name: "Isabelle & Frédéric M.",
     role: "Dîner anniversaire",
@@ -261,7 +264,7 @@ const TESTIMONIALS_SOURCE = [
   {
     name: "Pierre B.",
     role: "Client fidèle — 12 dîners",
-    text: "Je fais appel à Maison Saveur pour tous mes dîners d'affaires. La présentation est digne d'un grand restaurant, et l'accord mets-vins est toujours une révélation.",
+    text: `Je fais appel à ${clientName(sessionData) ?? "Maison Saveur"} pour tous mes dîners d'affaires. La présentation est digne d'un grand restaurant, et l'accord mets-vins est toujours une révélation.`,
     initials: "PB",
   },
   {
@@ -277,6 +280,8 @@ const TESTIMONIALS_SOURCE = [
     initials: "TL",
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const FORM_FIELDS = [
@@ -747,16 +752,28 @@ export default function Impact201Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   STATS_INLINE = resolveList(
 
@@ -1226,7 +1243,7 @@ return (
                 maxWidth: 500,
                 fontWeight: 300,
               }}
-            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Antoine Lefèvre, formé chez Alain Passard et Anne-Sophie Pic,
               compose pour vous des menus d&apos;exception à domicile —
               produits locaux, technique irréprochable, émotions garanties.
@@ -2067,7 +2084,7 @@ return (
                   fontWeight: 300,
                 }}
               >
-                Chez Maison Saveur, rien n&apos;est laissé au hasard. Du choix
+                Chez {clientName(sessionData) ?? "Maison Saveur"}, rien n&apos;est laissé au hasard. Du choix
                 des producteurs à la mise en place finale, chaque détail est
                 pensé pour que vous et vos convives viviez un moment
                 d&apos;exception.

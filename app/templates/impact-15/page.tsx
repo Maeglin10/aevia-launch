@@ -7,11 +7,8 @@ import { Zap, Phone, Mail, MapPin, Clock, CheckCircle, Star, ArrowRight, Shield,
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
-  clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -71,7 +68,7 @@ function CHANTIERS_LIVE() {
   { t: "Couloir de nage 12 m", v: "Castanet-Tolosan", d: "Nage à contre-courant, volet immergé, chauffage par pompe à chaleur. Terrain en pente, soutènement inclus." },
   { t: "Piscine familiale 8 × 4 m", v: "Tournefeuille", d: "Escalier d'angle, plage en pierre reconstituée, abri bas télescopique. Le chantier le plus fréquent." },
   { t: "Spa de nage encastré", v: "Ramonville", d: "Installation sur dalle existante, raccordement électrique dédié, mise en service et formation à l'entretien." },
-  { t: "Sécurisation & mise aux normes", v: (clientCity({ formData: fd }) ?? "Toulouse") + " Nord", d: "Barrière NF P90-306 et alarme immergée sur un bassin hérité. Attestation de conformité remise au propriétaire." },
+  { t: "Sécurisation & mise aux normes", v: (clientCity(sessionData) ?? "Toulouse") + " Nord", d: "Barrière NF P90-306 et alarme immergée sur un bassin hérité. Attestation de conformité remise au propriétaire." },
 ];
 }
 let CHANTIERS = CHANTIERS_LIVE();;
@@ -113,7 +110,7 @@ const ATOUTS = [
 
 function AVIS_SOURCE_LIVE() {
   return [
-  { texte: "Construction de notre piscine béton livrée dans les délais, chantier propre et équipe à l'écoute. Le résultat dépasse toutes nos attentes. Un vrai savoir-faire.", auteur: "Marc D.", detail: `Construction, ${clientCity({ formData: fd }) ?? "Toulouse"}` },
+  { texte: "Construction de notre piscine béton livrée dans les délais, chantier propre et équipe à l'écoute. Le résultat dépasse toutes nos attentes. Un vrai savoir-faire.", auteur: "Marc D.", detail: `Construction, ${clientCity(sessionData) ?? "Toulouse"}` },
   { texte: "Rénovation complète de notre bassin des années 90 : nouveau liner, margelles et filtration au sel. On profite enfin d'une eau parfaite. Bravo !", auteur: "Christine M.", detail: "Rénovation, Colomiers" },
   { texte: "Local technique refait avec régulation automatique et éclairage LED. Conseils pertinents, finitions impeccables, délai tenu à la journée près.", auteur: "Famille Aubert", detail: "Local technique, Blagnac" },
 ];
@@ -183,18 +180,29 @@ export default function VoltPiscinesPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  CHANTIERS = CHANTIERS_LIVE();
   AVIS_SOURCE = AVIS_SOURCE_LIVE();
+  CHANTIERS = CHANTIERS_LIVE();
 
 
 
@@ -254,18 +262,12 @@ return (
         transition: "all 0.4s ease",
       }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          {/* La barre portait le nom du modèle, à l'endroit le plus visible de
-              la page. Le client a donné le sien : c'est celui-là qu'on montre,
-              dans le style du libellé d'origine. Sans client, la composition du
-              modèle revient telle quelle. */}
           {fd?.logoBase64 ? (
             <img
               src={fd.logoBase64}
               alt={fd?.businessName ?? 'logo'}
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
-          ) : clientName(sessionData) ? (
-            <span style={{ fontSize: 18, fontWeight: 700, color: scrolled ? C.dark : "#fff" }}>{clientName(sessionData)}</span>
           ) : (
             <>
           <div style={{ background: C.accent, borderRadius: 8, padding: 8, display: "flex" }}>
@@ -278,7 +280,7 @@ return (
         <div id="mb15-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33561000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.dark, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: C.accentDark }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33561000000"}`} style={{ background: C.accent, color: C.dark, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: C.accentDark }}>
             <Phone size={14} /> Urgence 24h/24
           </motion.a>
       </div>
@@ -298,7 +300,7 @@ return (
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33561000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.dark, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: C.accentDark }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33561000000"}`} style={{ background: C.accent, color: C.dark, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: C.accentDark }}>
             <Phone size={14} /> Urgence 24h/24
           </motion.a>
         </div>
@@ -324,12 +326,12 @@ return (
           </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            Construction, rénovation, sécurité et entretien de piscines à {clientCity({ formData: fd }) ?? "Toulouse"} et agglomération. Du bassin béton sur-mesure au contrat d'entretien — devis gratuit sous 48h.
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
+            Construction, rénovation, sécurité et entretien de piscines à {clientCity(sessionData) ?? "Toulouse"} et agglomération. Du bassin béton sur-mesure au contrat d'entretien — devis gratuit sous 48h.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33561000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.dark, borderRadius: 8, padding: "15px 32px", fontWeight: 800, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}55` }} whileHover={{ scale: 1.03 }}>
+            <motion.a href={`tel:${fd?.phone ?? "+33561000000"}`} style={{ background: C.accent, color: C.dark, borderRadius: 8, padding: "15px 32px", fontWeight: 800, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}55` }} whileHover={{ scale: 1.03 }}>
               <Phone size={18} /> Appeler maintenant
             </motion.a>
             <motion.a href="#services" style={{ background: "rgba(255,255,255,0.10)", color: "#fff", border: "1px solid rgba(255,255,255,0.28)", borderRadius: 8, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)" }} whileHover={{ background: "rgba(255,255,255,0.18)" }}>
@@ -456,7 +458,7 @@ return (
                 </div>
               ))}
             </div>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33561000000").replace(/[^+0-9]/g, "")}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.accent, color: C.dark, borderRadius: 8, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ background: C.accentDark, scale: 1.02 }}>
+            <motion.a href={`tel:${fd?.phone ?? "+33561000000"}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.accent, color: C.dark, borderRadius: 8, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ background: C.accentDark, scale: 1.02 }}>
               <Phone size={16} /> Devis gratuit
             </motion.a>
           </Reveal>
@@ -499,10 +501,10 @@ return (
             Intervention d'urgence 24h/24 ou devis pour vos travaux — réponse garantie sous 2 heures en semaine.
           </>}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33561000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.dark, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "05 61 00 00 00"}
+            <motion.a href={`tel:${fd?.phone ?? "+33561000000"}`} style={{ background: C.dark, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
+              <Phone size={18} /> {fd?.phone ?? "05 61 00 00 00"}
             </motion.a>
-            <motion.a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@voltpiscines.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.dark}`, borderRadius: 8, padding: "13px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.dark, color: C.white }}>
+            <motion.a href={`mailto:${fd?.email ?? "contact@voltpiscines.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.dark}`, borderRadius: 8, padding: "13px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.dark, color: C.white }}>
               <Mail size={18} /> Nous écrire
             </motion.a>
           </div>
@@ -514,10 +516,10 @@ return (
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
             <div style={{ fontSize: 20, fontWeight: 800, color: C.accent, marginBottom: 8 }}>{fd?.businessName ?? "Volt Piscines"}</div>
-            <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.6, maxWidth: 220 }}>{clientTrade(sessionData) ?? "Pisciniste"} certifié FPP<br />{clientCity({ formData: fd }) ?? "Toulouse"} & agglomération</p>
+            <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.6, maxWidth: 220 }}>{clientTrade(sessionData) ?? "Pisciniste"} certifié FPP<br />{clientCity(sessionData) ?? "Toulouse"} & agglomération</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Toulouse") + ", Haute-Garonne" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "05 61 00 00 00") }, { icon: <Clock size={13} />, t: "Urgences 7j/7 · 24h/24" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Toulouse") + ", Haute-Garonne" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "05 61 00 00 00") }, { icon: <Clock size={13} />, t: "Urgences 7j/7 · 24h/24" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>
@@ -525,7 +527,7 @@ return (
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-          <span style={{ color: "rgba(255,255,255,0.22)", fontSize: 12 }}>© 2026 {fd?.businessName ?? "Volt Piscines"} — Site réalisé par Aevia WS{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.22)", fontSize: 12 }}>© 2026 {fd?.businessName ?? "Volt Piscines"} — Site réalisé par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="/templates/impact-15/mentions-legales" style={{ color: "rgba(255,255,255,0.22)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

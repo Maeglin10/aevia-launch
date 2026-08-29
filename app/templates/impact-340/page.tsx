@@ -18,6 +18,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -27,6 +28,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -40,7 +42,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   OCTAVE AUDITION — audioprothésiste urbain · Nantes
+   {clientName(sessionData) ?? "Octave Audition"} — audioprothésiste urbain · Nantes
 
    Archétype héros H1 : split, média à droite. Paire de fontes P8
    (Newsreader / Manrope). Palette sable #f8f6f1 et ambre #b45309.
@@ -147,7 +149,7 @@ const SERVICES_SOURCE = [
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const METHODE = [
+let METHODE = [
   {
     n: "01",
     t: "Audiométrie complète",
@@ -414,16 +416,32 @@ export default function OctaveAuditionPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    fusionnerEtapes(METHODE, clientMethode(sessionData)),
+    METHODE,
+  );
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

@@ -41,6 +41,7 @@ import {
   clientHeroLine,
   clientHours,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -50,6 +51,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -79,7 +81,7 @@ const navHref = (label: unknown) =>
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   THOMAS LEBRUN COACH — {clientTrade(sessionData) ?? "Coach sportif"} & nutrition · {clientCity(sessionData) ?? "Bordeaux"} Caudéran
+   {clientName(sessionData) ?? "Thomas Lebrun Coach"} — {clientTrade(sessionData) ?? "Coach sportif"} & nutrition · {clientCity(sessionData) ?? "Bordeaux"} Caudéran
    Template Skylaunch premium · style sport/impact · 'use client' · auto-suffisant.
    Palette : noir intense / orange vif / blanc pur / gris acier
    ════════════════════════════════════════════════════════════════════════════ */
@@ -507,7 +509,7 @@ function HeroSection() {
         >
           <motion.img
             src={fd?.photoUrls?.[0] || PHOTO.gym}
-            alt="Salle de sport Thomas Lebrun Coach Bordeaux"
+            alt={`Salle de sport ${clientName(sessionData) ?? "Thomas Lebrun Coach"} Bordeaux`}
             style={{
               width: '100%',
               height: '100%',
@@ -710,10 +712,13 @@ type CrossfadeSlide = {
   tag: string;
 };
 
-const SLIDES: CrossfadeSlide[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function SLIDES_LIVE(): CrossfadeSlide[] {
+  return [
   {
     src: PHOTO.training,
-    alt: "Séance d'entraînement avec Thomas Lebrun Coach",
+    alt: `Séance d'entraînement avec ${clientName(sessionData) ?? "Thomas Lebrun Coach"}`,
     num: '01',
     tag: 'Entraînement',
     title: 'CHAQUE SÉANCE\nCOMPTE',
@@ -721,7 +726,7 @@ const SLIDES: CrossfadeSlide[] = [
   },
   {
     src: PHOTO.nutrition,
-    alt: 'Plan nutrition personnalisé Thomas Lebrun Coach',
+    alt: `Plan nutrition personnalisé ${clientName(sessionData) ?? "Thomas Lebrun Coach"}`,
     num: '02',
     tag: 'Nutrition',
     title: 'MANGER\nPOUR PERFORMER',
@@ -736,6 +741,8 @@ const SLIDES: CrossfadeSlide[] = [
     sub: 'Transformations réelles, chiffres concrets. Perte de poids, prise de masse, endurance — chaque objectif atteint avec méthode.',
   },
 ];
+}
+let SLIDES: CrossfadeSlide[] = SLIDES_LIVE();
 
 function SlideImage({
   slide,
@@ -1418,7 +1425,7 @@ function MethodSection() {
             <motion.div style={{ position: 'absolute', inset: '-8% 0', y: imgY }}>
               <img
                 src={fd?.photoUrls?.[1] || PHOTO.coach}
-                alt="Thomas Lebrun coach en action Bordeaux"
+                alt={`${clientName(sessionData) ?? "Thomas Lebrun"} coach en action ${clientCity(sessionData) ?? "Bordeaux"}`}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             </motion.div>
@@ -1468,7 +1475,7 @@ function MethodSection() {
           {/* Colonne droite : étapes */}
           <div className="r276-method-steps">
             <Reveal>
-              <Eyebrow>La méthode Thomas Lebrun</Eyebrow>
+              <Eyebrow>La méthode {clientName(sessionData) ?? "Thomas Lebrun"}</Eyebrow>
             </Reveal>
             <Reveal delay={0.1}>
               <h2
@@ -1488,7 +1495,7 @@ function MethodSection() {
             </Reveal>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-              {METHOD_STEPS.map((step, i) => {
+              {resolveList(fusionnerEtapes(METHOD_STEPS, clientMethode(sessionData)), METHOD_STEPS).map((step, i) => {
                 const Icon = step.icon;
                 return (
                   <Reveal key={step.num} delay={0.15 + i * 0.12}>
@@ -2285,7 +2292,10 @@ type ScheduleItem = {
   sessions: { time: string; label: string; duration: string }[];
 };
 
-const SCHEDULE: ScheduleItem[] = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, time: h.hours })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function SCHEDULE_LIVE(): ScheduleItem[] {
+  return /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, time: h.hours })), [
   {
     day: 'Lundi',
     type: 'individuel',
@@ -2339,6 +2349,8 @@ const SCHEDULE: ScheduleItem[] = /* HORAIRES */ resolveList(clientHours(sessionD
     ],
   },
 ]);
+}
+let SCHEDULE: ScheduleItem[] = SCHEDULE_LIVE();
 
 const TYPE_COLORS = {
   individuel: C.orange,
@@ -2659,7 +2671,7 @@ function NutritionSection() {
               >
                 <motion.img
                   src={PHOTO.nutrition}
-                  alt="Nutrition personnalisée Thomas Lebrun Coach Bordeaux"
+                  alt={`Nutrition personnalisée ${clientName(sessionData) ?? "Thomas Lebrun Coach"} Bordeaux`}
                   style={{
                     width: '100%',
                     height: '120%',
@@ -2881,8 +2893,8 @@ function FooterSection() {
                   marginBottom: 16,
                 }}
               >
-                Thomas<br />
-                <span style={{ color: C.orange }}>Lebrun</span>
+                {(clientName(sessionData) ?? "Thomas Lebrun").split(" ")[0]}<br />
+                <span style={{ color: C.orange }}>{(clientName(sessionData) ?? "Thomas Lebrun").split(" ").slice(1).join(" ")}</span>
                 <span style={{ color: C.muted, fontSize: 18, display: 'block', marginTop: 2 }}>
                   Coach
                 </span>
@@ -3176,10 +3188,21 @@ function Impact276Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -3187,8 +3210,10 @@ function Impact276Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  PHOTO = PHOTO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  PHOTO = PHOTO_LIVE();
+  SLIDES = SLIDES_LIVE();
+  SCHEDULE = SCHEDULE_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),

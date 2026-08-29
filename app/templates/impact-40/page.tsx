@@ -29,17 +29,15 @@ import {
 } from "lucide-react";
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
+  clientSiret,
   clientAddress,
   clientCity,
-  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientReviews,
   clientServices,
-  clientSiret,
   clientStats,
   clientText,
   memoriserSession,
@@ -641,10 +639,21 @@ export default function TerreVivantePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -750,7 +759,7 @@ export default function TerreVivantePage() {
               >
                 <Leaf size={18} color={C.accent} />
               </div>
-              <span style={{ fontFamily: C.headingFont, fontSize: "1.4rem", fontWeight: 700, color: scrolled ? C.bgDark : C.bg }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Terre Vivante"))}</span>
+              <span style={{ fontFamily: C.headingFont, fontSize: "1.4rem", fontWeight: 700, color: scrolled ? C.bgDark : C.bg }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Terre Vivante"))}</span>
             </>
           )}
         </div>
@@ -930,7 +939,7 @@ export default function TerreVivantePage() {
               margin: "0 auto 2.75rem",
               lineHeight: 1.8,
             }}
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Terre Vivante cultive 85 variétés de légumes, fruits et herbes dans le Beaujolais. Chaque panier raconte la saison, cueilli le matin même.
           </>}</motion.p>
 
@@ -1440,7 +1449,7 @@ export default function TerreVivantePage() {
                 >
                   <Leaf size={18} color={C.accent} />
                 </div>
-                <span style={{ fontFamily: C.headingFont, fontSize: "1.25rem", color: C.bg, fontWeight: 700 }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Terre Vivante"))}</span>
+                <span style={{ fontFamily: C.headingFont, fontSize: "1.25rem", color: C.bg, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Terre Vivante"))}</span>
               </div>
               <p style={{ fontFamily: C.bodyFont, fontSize: "0.86rem", color: "rgba(253,249,238,0.5)", lineHeight: 1.8, maxWidth: 290 }}>
                 Ferme biologique familiale dans le Beaujolais depuis 1998. Nous cultivons la terre avec amour et la partageons avec notre communauté.
@@ -1448,8 +1457,8 @@ export default function TerreVivantePage() {
               <div style={{ marginTop: "1.75rem", display: "flex", flexDirection: "column", gap: "0.55rem" }}>
                 {[
                   { icon: <MapPin size={13} />, text: (clientAddress(sessionData) ?? "Route de Belleville, 69220 Lancié") },
-                  { icon: <Phone size={13} />, text: (clientPhone(sessionData) ?? fd?.phone ?? "04 74 66 08 31") },
-                  { icon: <Mail size={13} />, text: (clientEmail(sessionData) ?? fd?.email ?? "contact@terrevivante.fr") },
+                  { icon: <Phone size={13} />, text: (fd?.phone ?? "04 74 66 08 31") },
+                  { icon: <Mail size={13} />, text: (fd?.email ?? "contact@terrevivante.fr") },
                 ].map((item) => (
                   <div key={item.text} style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                     <span style={{ color: C.accent }}>{item.icon}</span>
@@ -1496,7 +1505,7 @@ export default function TerreVivantePage() {
             }}
           >
             <p style={{ fontFamily: C.bodyFont, fontSize: "0.8rem", color: "rgba(253,249,238,0.3)" }}>
-              © 2026 {fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Terre Vivante"))} SARL. Tous droits réservés.{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " SIRET 422 890 123 00034"}.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Terre Vivante"))} SARL. Tous droits réservés.{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " SIRET 422 890 123 00034"}.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: "flex", gap: "1.75rem" }}>
               {["Mentions légales", "Confidentialité", "CGV"].map((l) => (

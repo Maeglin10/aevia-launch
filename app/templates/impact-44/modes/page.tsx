@@ -1,16 +1,9 @@
 "use client";
-// @ts-nocheck
-/*
-  impact-44 / modes — « Les prestations ». La liste choisit, le panneau
-  détaille. Câblée clientServices (titres, descriptions, prix du client).
-*/
+import { memoriserSession } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { C, PRESTATIONS } from "../shared";
-import { clientServices, clientText } from "@/lib/templates/clientContent";
-import { resolveList } from "@/lib/templates/resolveList";
+import { C, GAME_MODES } from "../shared";
 
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
 let sessionData: any = null;
@@ -19,7 +12,7 @@ let bp: any = null;
 let c: any = null;
 
 
-export default function PrestationsPage() {
+export default function GameModesPage() {
   const [__session, __setSession] = useState<any>(null);
   useEffect(() => {
     let id = new URLSearchParams(window.location.search).get("session");
@@ -30,109 +23,175 @@ export default function PrestationsPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
 
-  const OFFRES = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({
-      ...PRESTATIONS[i % PRESTATIONS.length],
-      id: i + 1,
-      tag: `Prestation ${String(i + 1).padStart(2, "0")}`,
-      title: s.title,
-      desc: s.desc || PRESTATIONS[i % PRESTATIONS.length].desc,
-      ...(s.price ? { prix: s.price } : {}),
-    })),
-    PRESTATIONS,
-  );
-
-  const [active, setActive] = useState(0);
-  const P = OFFRES[Math.min(active, OFFRES.length - 1)];
+  const [activeMode, setActiveMode] = useState(0);
 
   return (
-    <div style={{ background: C.bg, color: C.white, minHeight: "100dvh", padding: "60px 40px 120px" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-        <div style={{ fontSize: 11, color: C.textDim, letterSpacing: "0.35em", textTransform: "uppercase", fontWeight: 700, marginBottom: 16 }}>
-          <span style={{ color: C.sableFixe }}>02</span> / Prestations
-        </div>
-        <h1 style={{ fontSize: "clamp(36px, 5.5vw, 72px)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "-0.02em", lineHeight: 1, marginBottom: 18 }}>{/* TEXTE_SECTION */ clientText(sessionData, "prestations-page.titre") ?? (<>
-          Ce que le studio<br /><span style={{ color: C.sable }}>prend en charge.</span>
-        </>)}</h1>
-        <p style={{ color: C.textMid, fontSize: 16, lineHeight: 1.75, fontWeight: 300, maxWidth: 560, marginBottom: 64 }}>
-          Du conseil de deux heures à la rénovation menée de bout en bout — toujours au prix écrit d'avance, jamais à la surprise.
-        </p>
+    <div style={{ background: C.bg, color: C.white, minHeight: "100dvh", padding: "80px 40px 120px", fontFamily: "'Courier New', monospace", display: "flex", alignItems: "center", justifyContent: "center", position: "relative" }}>
+      {/* Section label */}
+      <div style={{
+        position: 'absolute',
+        top: 40,
+        left: 40,
+        color: C.textDim,
+        fontSize: 11,
+        letterSpacing: '0.4em',
+        textTransform: 'uppercase',
+      }}>
+        <span style={{ color: C.green }}>02</span> / GAME MODES
+      </div>
 
-        <div className="i44-prest" style={{ display: "grid", gridTemplateColumns: "0.9fr 1.1fr", gap: "clamp(28px,4vw,64px)", alignItems: "start" }}>
-          {/* La liste choisit */}
-          <div style={{ borderTop: `1px solid ${C.line}` }}>
-            {OFFRES.map((p: any, i: number) => (
+      {/* Mode indicators */}
+      <div style={{
+        position: 'absolute',
+        right: 40,
+        top: '50%',
+        transform: 'translateY(-50%)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 12,
+      }}>
+        {GAME_MODES.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setActiveMode(i)}
+            style={{
+              width: 4,
+              height: i === activeMode ? 40 : 12,
+              background: i === activeMode ? C.green : C.textDim,
+              boxShadow: i === activeMode ? `0 0 10px ${C.green}` : 'none',
+              transition: 'all 0.3s ease',
+              border: "none",
+              cursor: "pointer",
+            }}
+          />
+        ))}
+      </div>
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeMode}
+          initial={{ x: 80, opacity: 0, scale: 0.95 }}
+          animate={{ x: 0, opacity: 1, scale: 1 }}
+          exit={{ x: -80, opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          style={{
+            maxWidth: 800,
+            width: '100%',
+          }}
+        >
+          <div style={{
+            background: C.gray,
+            clipPath: 'polygon(0 0, 100% 0, 96% 100%, 0 100%)',
+            padding: '48px 56px',
+            border: `1px solid rgba(0,255,100,0.15)`,
+            position: 'relative',
+            overflow: 'hidden',
+          }}>
+            <div style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: 4,
+              height: '100%',
+              background: GAME_MODES[activeMode].color,
+              boxShadow: `0 0 20px ${GAME_MODES[activeMode].color}`,
+            }} />
+            <div style={{ fontSize: 11, color: GAME_MODES[activeMode].color, letterSpacing: '0.3em', marginBottom: 16 }}>
+              {GAME_MODES[activeMode].tag}
+            </div>
+            <h2
+              className="glitch-text"
+              data-text={GAME_MODES[activeMode].title}
+              style={{
+                fontSize: 'clamp(40px, 6vw, 72px)',
+                fontWeight: 900,
+                color: C.white,
+                letterSpacing: '0.06em',
+                textTransform: 'uppercase',
+                lineHeight: 1,
+                marginBottom: 8,
+              }}
+            >
+              {GAME_MODES[activeMode].title}
+            </h2>
+            <div style={{
+              fontSize: 13,
+              color: GAME_MODES[activeMode].color,
+              letterSpacing: '0.25em',
+              marginBottom: 32,
+              textTransform: 'uppercase',
+            }}>
+              {GAME_MODES[activeMode].sub}
+            </div>
+            <p style={{
+              fontSize: 15,
+              color: C.textMid,
+              lineHeight: 1.7,
+              maxWidth: 520,
+              marginBottom: 40,
+            }}>
+              {GAME_MODES[activeMode].desc}
+            </p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 40 }}>
+              <div>
+                <div style={{
+                  fontSize: 'clamp(32px, 5vw, 56px)',
+                  fontWeight: 900,
+                  color: GAME_MODES[activeMode].color,
+                  textShadow: `0 0 20px ${GAME_MODES[activeMode].color}`,
+                  letterSpacing: '0.05em',
+                }}>
+                  {GAME_MODES[activeMode].stat[0]}
+                </div>
+                <div style={{ fontSize: 11, color: C.textDim, letterSpacing: '0.3em' }}>
+                  {GAME_MODES[activeMode].stat[1]}
+                </div>
+              </div>
               <button
-                key={p.id ?? i}
-                onClick={() => setActive(i)}
+                onClick={() => alert(`Launching connection to tactical server for ${GAME_MODES[activeMode].title}...`)}
                 style={{
-                  display: "flex",
-                  alignItems: "baseline",
-                  justifyContent: "space-between",
-                  gap: 16,
-                  width: "100%",
-                  textAlign: "left",
-                  background: "transparent",
-                  border: "none",
-                  borderBottom: `1px solid ${C.line}`,
-                  padding: "22px 6px",
-                  cursor: "pointer",
-                  color: i === active ? C.white : C.textMid,
-                  transition: "color 0.25s",
-                  minHeight: 44,
+                  padding: '14px 32px',
+                  background: 'transparent',
+                  border: `1px solid ${GAME_MODES[activeMode].color}`,
+                  color: GAME_MODES[activeMode].color,
+                  fontFamily: "'Courier New', monospace",
+                  fontSize: 12,
+                  letterSpacing: '0.25em',
+                  textTransform: 'uppercase',
+                  cursor: 'pointer',
+                  boxShadow: `0 0 12px rgba(0,255,100,0.1)`,
+                  transition: 'all 0.2s',
                 }}
               >
-                <span className="i44-titre" style={{ fontSize: "clamp(17px,2vw,24px)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.01em" }}>
-                  {p.title}
-                </span>
-                <span style={{ fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", color: i === active ? C.sableFixe : C.textDim, whiteSpace: "nowrap", fontWeight: 700 }}>
-                  {p.prix}
-                </span>
+                PLAY NOW
               </button>
-            ))}
+            </div>
           </div>
-
-          {/* Le panneau détaille */}
-          <div style={{ border: `1px solid ${C.line}`, background: C.gray, padding: "clamp(26px,3.5vw,48px)", overflow: "hidden" }}>
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={active}
-                initial={{ opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -14, transition: { duration: 0.22 } }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <div style={{ fontSize: 10, letterSpacing: "0.3em", textTransform: "uppercase", color: C.textDim, fontWeight: 700, marginBottom: 16 }}>{P.tag}</div>
-                <h2 style={{ fontSize: "clamp(24px,3vw,38px)", fontWeight: 800, textTransform: "uppercase", lineHeight: 1.06, marginBottom: 8 }}>{P.title}</h2>
-                <div style={{ fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase", color: C.sableFixe, fontWeight: 700, marginBottom: 22 }}>{P.sub}</div>
-                <p style={{ color: C.textMid, fontSize: 15.5, lineHeight: 1.8, fontWeight: 300, marginBottom: 30 }}>{P.desc}</p>
-                <div style={{ display: "flex", alignItems: "center", gap: 28, flexWrap: "wrap", borderTop: `1px solid ${C.line}`, paddingTop: 24 }}>
-                  <div>
-                    <div className="i44-titre" style={{ fontSize: 30, fontWeight: 800, color: C.sableFixe }}>{P.stat[0]}</div>
-                    <div style={{ fontSize: 10, letterSpacing: "0.25em", textTransform: "uppercase", color: C.textDim, fontWeight: 700 }}>{P.stat[1]}</div>
-                  </div>
-                  <div style={{ flex: 1 }} />
-                  <Link href="/templates/impact-44/recruit" style={{ padding: "14px 30px", background: C.sable, color: C.bg, fontSize: 11, letterSpacing: "0.2em", textTransform: "uppercase", textDecoration: "none", fontWeight: 800 }}>
-                    Demander un devis
-                  </Link>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </div>
-      </div>
-      <style>{`@media (max-width: 900px) { .i44-prest { grid-template-columns: 1fr !important; } }`}</style>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }

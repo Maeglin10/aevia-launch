@@ -11,12 +11,9 @@ import { Menu, X, ArrowRight, Camera, Eye, Award, ChevronRight, MapPin, Mail, Ta
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
-  clientAddress,
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientName,
-  clientPhone,
   clientPhotos,
   clientServices,
   clientText,
@@ -139,10 +136,21 @@ export default function ObscuraPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -358,42 +366,19 @@ return (
       {/* Footer */}
       <footer className="bg-[#060402] border-t border-white/5 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-white/20 font-mono">
-          {/* Le nom de la démonstration était écrit en dur : le pied de page
-              annonçait « Obscura » sur le site de n'importe quel client,
-              alors que la barre du haut portait bien son nom à lui. */}
-          <span className="text-[var(--brand,#C9A86C)]" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? clientName(sessionData) ?? "Obscura"} · {clientTrade(sessionData) ?? "Photographe"} {clientCity(sessionData) ?? "Paris"}</span>
+          <span className="text-[var(--brand,#C9A86C)]" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{clientName(sessionData) ?? "Obscura"} · {clientTrade(sessionData) ?? "Photographe"} {clientCity(sessionData) ?? "Paris"}</span>
           <div className="flex gap-6">
             <a href="/templates/impact-16" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Mentions légales</a>
             <a href="/templates/impact-16" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Politique de Confidentialité</a>
           </div>
         </div>
-        {/* Les coordonnées. Ce thème n'affichait aucun moyen d'être joint —
-            ni numéro, ni adresse, ni formulaire. Elles viennent de la session
-            du client, jamais d'un exemple en dur, et le bloc disparaît si le
-            client n'en a renseigné aucune. Liens réels : sur un téléphone, un
-            numéro qu'on ne peut pas toucher ne sert à rien. */}
-        {(clientPhone(sessionData) || clientEmail(sessionData) || clientAddress(sessionData)) && (
-          <div className="aevia-contact-pied max-w-6xl mx-auto border-t border-white/5 pt-8 mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm text-white/50">
-            {clientPhone(sessionData) && (
-              <a href={`tel:${clientPhone(sessionData)!.replace(/[^+0-9]/g, "")}`} className="hover:text-[var(--brand,#C9A86C)] transition-colors">
-                {clientPhone(sessionData)}
-              </a>
-            )}
-            {clientEmail(sessionData) && (
-              <a href={`mailto:${clientEmail(sessionData)}`} className="hover:text-[var(--brand,#C9A86C)] transition-colors">
-                {clientEmail(sessionData)}
-              </a>
-            )}
-            {clientAddress(sessionData) && <span>{clientAddress(sessionData)}</span>}
-          </div>
-        )}
       </footer>
     </div>
   )
 }
 
 /* ==========================================================================
-   SUB-PAGE COMPONENTS (OBSCURA GOLD STYLE)
+   SUB-PAGE COMPONENTS ({clientName(sessionData) ?? "Obscura"} GOLD STYLE)
    ========================================================================= */
 
 function PortfolioPage({ activeCategory, setActiveCategory }: { activeCategory: string, setActiveCategory: (c: string) => void }) {
@@ -648,7 +633,7 @@ function ProposPage() {
             </p>
             
             <div className="flex gap-4">
-              <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@obscura.fr"}`} className="bg-[var(--brand,#C9A86C)] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B8975E] transition-colors flex items-center gap-2 font-mono"><Mail className="w-4 h-4" />{clientEmail(sessionData) ?? fd?.email ?? "contact@obscura.fr"}</a>
+              <a href={`mailto:${fd?.email ?? "contact@obscura.fr"}`} className="bg-[var(--brand,#C9A86C)] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B8975E] transition-colors flex items-center gap-2 font-mono"><Mail className="w-4 h-4" />{fd?.email ?? "contact@obscura.fr"}</a>
               <a href="#contact" className="border border-white/10 text-white text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-white/5 transition-colors flex items-center gap-2 font-mono"><Instagram className="w-4 h-4" /> @obscuraphoto</a>
             </div>
           </div>
@@ -706,7 +691,7 @@ function LegalPage() {
                 {clientName(sessionData) ? "" : "Entrepreneur Individuel"}<br />
                 SIREN : <LegalIdentity /><br />
                 {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
-                Email : {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}<br />
+                Email : {fd?.email ?? "contact@exemple.fr"}<br />
                 Adresse : Communiquée sur demande
              </p>
           </div>

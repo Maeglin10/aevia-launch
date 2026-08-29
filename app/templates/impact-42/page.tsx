@@ -89,10 +89,21 @@ export default function EchoChamberPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -181,7 +192,7 @@ export default function EchoChamberPage() {
 
           <motion.p initial={{ opacity: 0, y: 36 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, delay: 0.34 }}
             style={{ fontFamily: C.bodyFont, fontSize: "1.05rem", color: C.textLight, maxWidth: 540, margin: "0 auto 3rem", lineHeight: 1.75, letterSpacing: "0.01em" }}
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Trois studios indépendants. SSL, Neve, Pro Tools HDX. 200+ artistes enregistrés. Votre son mérite ce qu'il y a de mieux.
           </>}</motion.p>
 
@@ -427,7 +438,7 @@ export default function EchoChamberPage() {
           opacity: 0.55,
         }}
       >
-        {clientName(sessionData) ?? "impact-42"}
+        {clientName(sessionData) ?? "Echo Chamber"}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>

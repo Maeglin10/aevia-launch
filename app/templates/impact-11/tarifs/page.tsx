@@ -1,6 +1,10 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientServices, clientTeam } from "@/lib/templates/clientContent";
+import {
+  clientName,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 
@@ -22,13 +26,13 @@ const useFonts = () => {
     if (document.getElementById("edu-fonts")) return
     const s = document.createElement("style")
     s.id = "edu-fonts"
-    s.textContent = `@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap');`
+    s.textContent = `@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');`
     document.head.appendChild(s)
   }, [])
 }
 
 const COURSES_DEMO_ANNEXE = [
-  { title: "Data Science & IA", level: "Intermédiaire", duration: "48h", students: "12 400", rating: 4.9, price: "199€", tag: "Populaire", color: "#5b48c9", category: "Données" },
+  { title: "Data Science & IA", level: "Intermédiaire", duration: "48h", students: "12 400", rating: 4.9, price: "199€", tag: "Populaire", color: "#7C3AED", category: "Données" },
   { title: "UX Design System", level: "Débutant", duration: "32h", students: "8 200", rating: 4.8, price: "149€", tag: "Nouveau", color: "#0EA5E9", category: "Design" },
   { title: "Full-Stack React/Node", level: "Avancé", duration: "64h", students: "9 800", rating: 4.9, price: "249€", tag: "Bestseller", color: "#10B981", category: "Tech" },
   { title: "Marketing Digital", level: "Débutant", duration: "24h", students: "15 600", rating: 4.7, price: "99€", tag: "Certifiant", color: "#F59E0B", category: "Business" },
@@ -79,10 +83,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
@@ -98,10 +113,10 @@ export default function Page() {
 
   const PageContent = () => {
     return (
-      <section className="py-20 px-6 bg-gradient-to-br from-[#f1effa] to-white border-t border-gray-100">
+      <section className="py-20 px-6 bg-gradient-to-br from-[#F5F3FF] to-white border-t border-gray-100">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
-            <span className="text-[#5b48c9] text-sm font-semibold mb-3 uppercase tracking-wider block">Abonnement</span>
+            <span className="text-[#7C3AED] text-sm font-semibold mb-3 uppercase tracking-wider block">Abonnement</span>
             <h1 className="text-4xl md:text-6xl font-bold mb-6">Tarifs simples & transparents</h1>
             <p className="max-w-xl mx-auto text-gray-500">
               Choisissez la formule qui correspond à votre rythme d'apprentissage. Sans engagement, annulation en un clic.
@@ -110,7 +125,7 @@ export default function Page() {
 
           <div className="grid md:grid-cols-3 gap-8 items-stretch mb-20">
             {PLANS.map((plan, i) => (
-              <div key={plan.name} className={`rounded-3xl p-8 flex flex-col justify-between transition-all duration-300 ${plan.highlight ? "bg-[#5b48c9] text-white scale-105 shadow-2xl shadow-[#5b48c9]/30" : "bg-white border border-gray-200"}`}>
+              <div key={plan.name} className={`rounded-3xl p-8 flex flex-col justify-between transition-all duration-300 ${plan.highlight ? "bg-[#7C3AED] text-white scale-105 shadow-2xl shadow-[#7C3AED]/30" : "bg-white border border-gray-200"}`}>
                 <div>
                   <h3 className={`font-bold text-2xl mb-2 ${plan.highlight ? "text-white" : "text-gray-900"}`}>{plan.name}</h3>
                   <div className="mb-6">
@@ -120,13 +135,13 @@ export default function Page() {
                   <ul className="space-y-4 mb-8">
                     {plan.features.map(f => (
                       <li key={f} className="flex items-center gap-2.5 text-sm">
-                        <CheckCircle className={`w-4 h-4 shrink-0 ${plan.highlight ? "text-white" : "text-[#5b48c9]"}`} />
+                        <CheckCircle className={`w-4 h-4 shrink-0 ${plan.highlight ? "text-white" : "text-[#7C3AED]"}`} />
                         <span className={plan.highlight ? "text-white/90" : "text-gray-600 font-medium"}>{f}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
-                <button className={`w-full py-3.5 rounded-xl font-semibold text-sm transition-colors cursor-pointer ${plan.highlight ? "bg-white text-[#5b48c9] hover:bg-gray-50" : "bg-[#5b48c9] text-white hover:bg-[#4a3aa8]"}`}>
+                <button className={`w-full py-3.5 rounded-xl font-semibold text-sm transition-colors cursor-pointer ${plan.highlight ? "bg-white text-[#7C3AED] hover:bg-gray-50" : "bg-[#7C3AED] text-white hover:bg-[#6D28D9]"}`}>
                   {plan.cta}
                 </button>
               </div>
@@ -142,7 +157,7 @@ export default function Page() {
                 { q: "Proposez-vous des tarifs pour les étudiants ou demandeurs d'emploi ?", a: "Oui, nous offrons une réduction de 30% sur toutes nos formules pour les étudiants, alternants et demandeurs d'emploi sur présentation d'un justificatif en cours de validité." }
               ].map((faq, i) => (
                 <div key={i} className="bg-white rounded-2xl p-6 border border-gray-100 flex gap-4">
-                  <HelpCircle className="w-5 h-5 text-[#5b48c9] shrink-0 mt-0.5" />
+                  <HelpCircle className="w-5 h-5 text-[#7C3AED] shrink-0 mt-0.5" />
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-2">{faq.q}</h4>
                     <p className="text-gray-500 text-sm leading-relaxed">{faq.a}</p>
@@ -157,45 +172,45 @@ export default function Page() {
   }
 
   return (
-    <div className="min-h-dvh bg-white text-gray-900 selection:bg-[#5b48c9]/20 selection:text-[#5b48c9]" style={{ fontFamily: "'Inter', sans-serif" }}>
+    <div className="min-h-dvh bg-white text-gray-900 selection:bg-[#7C3AED]/20 selection:text-[#7C3AED]" style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
       {/* Nav */}
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div className="max-w-6xl mx-auto bg-white/95 backdrop-blur-md border border-gray-100 shadow-lg rounded-2xl px-6 py-4 flex items-center justify-between">
           <Link href="/templates/impact-11" className="flex items-center gap-2 cursor-pointer">
-            <div className="w-8 h-8 bg-[#5b48c9] rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 bg-[#7C3AED] rounded-lg flex items-center justify-center">
               <BookOpen className="w-4 h-4 text-white" />
             </div>
-            <span className="text-gray-900 font-bold text-lg">EduPath</span>
+            <span className="text-gray-900 font-bold text-lg">{clientName(sessionData) ?? "EduPath"}</span>
           </Link>
           <div className="hidden md:flex items-center gap-8 text-gray-600 text-sm font-medium">
 // @ts-ignore
-            <Link href="/templates/impact-11/cours" className={`hover:text-[#5b48c9] transition-colors cursor-pointer ${"tarifs" === "cours" ? "text-[#5b48c9] font-bold" : ""}`}>Cours</Link>
+            <Link href="/templates/impact-11/cours" className={`hover:text-[#7C3AED] transition-colors cursor-pointer ${"tarifs" === "cours" ? "text-[#7C3AED] font-bold" : ""}`}>Cours</Link>
 // @ts-ignore
-            <Link href="/templates/impact-11/mentoring" className={`hover:text-[#5b48c9] transition-colors cursor-pointer ${"tarifs" === "mentoring" ? "text-[#5b48c9] font-bold" : ""}`}>Mentoring</Link>
+            <Link href="/templates/impact-11/mentoring" className={`hover:text-[#7C3AED] transition-colors cursor-pointer ${"tarifs" === "mentoring" ? "text-[#7C3AED] font-bold" : ""}`}>Mentoring</Link>
 // @ts-ignore
-            <Link href="/templates/impact-11/tarifs" className={`hover:text-[#5b48c9] transition-colors cursor-pointer ${"tarifs" === "tarifs" ? "text-[#5b48c9] font-bold" : ""}`}>Tarifs</Link>
+            <Link href="/templates/impact-11/tarifs" className={`hover:text-[#7C3AED] transition-colors cursor-pointer ${"tarifs" === "tarifs" ? "text-[#7C3AED] font-bold" : ""}`}>Tarifs</Link>
           </div>
           <div className="hidden md:flex items-center gap-3">
             <Link href="/templates/impact-11/tarifs" className="text-gray-700 text-sm px-4 py-2 hover:bg-gray-100 rounded-xl transition-colors cursor-pointer">Se connecter</Link>
-            <Link href="/templates/impact-11/tarifs" className="bg-[#5b48c9] text-white text-sm px-5 py-2.5 rounded-xl hover:bg-[#4a3aa8] transition-colors cursor-pointer font-medium">Commencer</Link>
+            <Link href="/templates/impact-11/tarifs" className="bg-[#7C3AED] text-white text-sm px-5 py-2.5 rounded-xl hover:bg-[#6D28D9] transition-colors cursor-pointer font-medium">Commencer</Link>
           </div>
           <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
             <SheetTrigger className="md:hidden text-gray-900 cursor-pointer"><Menu className="w-5 h-5" /></SheetTrigger>
             <SheetContent side="right" className="bg-white border-gray-100 p-8">
                <div className="flex items-center gap-2 mb-12">
-                  <div className="w-8 h-8 bg-[#5b48c9] rounded-lg flex items-center justify-center"><BookOpen className="w-4 h-4 text-white" /></div>
-                  <span className="text-gray-900 font-bold text-lg">EduPath</span>
+                  <div className="w-8 h-8 bg-[#7C3AED] rounded-lg flex items-center justify-center"><BookOpen className="w-4 h-4 text-white" /></div>
+                  <span className="text-gray-900 font-bold text-lg">{clientName(sessionData) ?? "EduPath"}</span>
                </div>
                <div className="flex flex-col gap-6 font-medium">
-                  <Link href="/templates/impact-11" className="text-xl text-gray-600 hover:text-[#5b48c9] transition-colors">Accueil</Link>
+                  <Link href="/templates/impact-11" className="text-xl text-gray-600 hover:text-[#7C3AED] transition-colors">Accueil</Link>
 // @ts-ignore
-                  <Link href="/templates/impact-11/cours" className={`text-xl hover:text-[#5b48c9] transition-colors ${"tarifs" === "cours" ? "text-[#5b48c9] font-bold" : "text-gray-600"}`}>Cours</Link>
+                  <Link href="/templates/impact-11/cours" className={`text-xl hover:text-[#7C3AED] transition-colors ${"tarifs" === "cours" ? "text-[#7C3AED] font-bold" : "text-gray-600"}`}>Cours</Link>
 // @ts-ignore
-                  <Link href="/templates/impact-11/mentoring" className={`text-xl hover:text-[#5b48c9] transition-colors ${"tarifs" === "mentoring" ? "text-[#5b48c9] font-bold" : "text-gray-600"}`}>Mentoring</Link>
+                  <Link href="/templates/impact-11/mentoring" className={`text-xl hover:text-[#7C3AED] transition-colors ${"tarifs" === "mentoring" ? "text-[#7C3AED] font-bold" : "text-gray-600"}`}>Mentoring</Link>
 // @ts-ignore
-                  <Link href="/templates/impact-11/tarifs" className={`text-xl hover:text-[#5b48c9] transition-colors ${"tarifs" === "tarifs" ? "text-[#5b48c9] font-bold" : "text-gray-600"}`}>Tarifs</Link>
+                  <Link href="/templates/impact-11/tarifs" className={`text-xl hover:text-[#7C3AED] transition-colors ${"tarifs" === "tarifs" ? "text-[#7C3AED] font-bold" : "text-gray-600"}`}>Tarifs</Link>
 // @ts-ignore
-                  <Link href="/templates/impact-11/legal" className={`text-xl hover:text-[#5b48c9] transition-colors ${"tarifs" === "legal" ? "text-[#5b48c9] font-bold" : "text-gray-600"}`}>Mentions Légales</Link>
+                  <Link href="/templates/impact-11/legal" className={`text-xl hover:text-[#7C3AED] transition-colors ${"tarifs" === "legal" ? "text-[#7C3AED] font-bold" : "text-gray-600"}`}>Mentions Légales</Link>
                </div>
             </SheetContent>
          </Sheet>
@@ -211,8 +226,8 @@ export default function Page() {
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10 mb-12">
           <div>
             <Link href="/templates/impact-11" className="flex items-center gap-2 mb-4 cursor-pointer">
-              <div className="w-8 h-8 bg-[#5b48c9] rounded-lg flex items-center justify-center"><BookOpen className="w-4 h-4 text-white" /></div>
-              <span className="text-white font-bold text-lg">EduPath</span>
+              <div className="w-8 h-8 bg-[#7C3AED] rounded-lg flex items-center justify-center"><BookOpen className="w-4 h-4 text-white" /></div>
+              <span className="text-white font-bold text-lg">{clientName(sessionData) ?? "EduPath"}</span>
             </Link>
             <p className="text-gray-400 text-sm leading-relaxed">La plateforme d'apprentissage en ligne pour les professionnels ambitieux.</p>
           </div>
@@ -240,7 +255,7 @@ export default function Page() {
           </div>
         </div>
         <div className="max-w-6xl mx-auto border-t border-gray-800 pt-8 flex justify-between items-center text-xs text-gray-500">
-          <span>© 2026 EduPath. Tous droits réservés.</span>
+          <span>© 2026 {clientName(sessionData) ?? "EduPath"}. Tous droits réservés.</span>
           <Link href="/templates/impact-11/legal" className="hover:text-white transition-colors">Fait avec amour par Aevia WS</Link>
         </div>
       </footer>

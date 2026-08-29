@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { tr } from "@/lib/templates/uiStrings";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
@@ -17,7 +18,6 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientList,
   clientName,
@@ -1191,10 +1191,21 @@ export default function FashionEditorialTemplate() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -3483,10 +3494,10 @@ function LegalPage({ variant, accentColor }: { variant: 'cgv' | 'mentions'; acce
             <div>
               <h2 style={{ fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 300, color: '#0a0a0a', marginBottom: 12 }}>Éditeur</h2>
               <p>
-                Aevia WS — Valentin Milliand<br />
+                <EditeurDuSite /><br />
                 Entrepreneur individuel<br />
                 SIREN <LegalIdentity /><br />
-                {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</p>
+                {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />{fd?.email ?? "contact@exemple.fr"}</p>
             </div>
             <div>
               <h2 style={{ fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 300, color: '#0a0a0a', marginBottom: 12 }}>Hébergeur</h2>

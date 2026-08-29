@@ -16,10 +16,21 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(__setLayoutSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setLayoutSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
   const fd = __layoutSession?.formData;
 
@@ -99,7 +110,7 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
                 <Scale size={18} color={C.accent} />
               </div>
               <div>
-                <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 17, fontWeight: 700, color: C.white, letterSpacing: "0.04em" }}>Dumont & Associés</div>
+                <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 17, fontWeight: 700, color: C.white, letterSpacing: "0.04em" }}>{clientName(__layoutSession) ?? "Dumont & Associés"}</div>
                 <div style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 10, color: C.accent, letterSpacing: "0.16em", textTransform: "uppercase" as const }}>Avocats au Barreau de {clientCity(__layoutSession) ?? "Paris"}</div>
               </div>
             </>)}</div></>
@@ -177,7 +188,7 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
                     <Scale size={18} color={C.accent} />
                   </div>
                   <div>
-                    <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 16, fontWeight: 700, color: C.white }}>Dumont & Associés</div>
+                    <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 16, fontWeight: 700, color: C.white }}>{clientName(__layoutSession) ?? "Dumont & Associés"}</div>
                     <div style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 10, color: C.accent, letterSpacing: "0.12em", textTransform: "uppercase" as const }}>Avocats au Barreau de {clientCity(__layoutSession) ?? "Paris"}</div>
                   </div>
                 </div>

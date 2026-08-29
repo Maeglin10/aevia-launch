@@ -13,16 +13,18 @@ import {
 import { ArrowRight, ChevronDown, Scissors } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientBookingUrl,
   clientAccrocheRestante,
+  clientBookingUrl,
   clientCity,
   clientHeroLine,
   clientName,
+  clientNameOr,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -37,7 +39,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   L'ATELIER SOIE — Couture & Broderie sur-mesure · {clientCity(sessionData) ?? "Lyon"} 2e
+   {clientName(sessionData) ?? "L'Atelier Soie"} — Couture & Broderie sur-mesure · {clientCity(sessionData) ?? "Lyon"} 2e
    Photographie réelle + chorégraphie de défilement éditoriale (style maison
    de couture × patrimoine lyonnais × soie). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -179,7 +181,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
         </span>
       </>
     ),
-    body: "Lyon est la capitale mondiale de la soie depuis le XVIIIe siècle. L'Atelier Soie travaille en partenariat avec la Maison Prelle, fournisseur de soie grège de Croix-Rousse, pour perpétuer les techniques des canuts lyonnais — passeurs d'un savoir-faire textile sans équivalent.",
+    body: `Lyon est la capitale mondiale de la soie depuis le XVIIIe siècle. ${clientName(sessionData) ?? "L'Atelier Soie"} travaille en partenariat avec la Maison Prelle, fournisseur de soie grège de Croix-Rousse, pour perpétuer les techniques des canuts lyonnais — passeurs d'un savoir-faire textile sans équivalent.`,
     reverse: false,
   },
   {
@@ -227,7 +229,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     quote:
-      "Je chante à l'Opéra de " + (clientCity(sessionData) ?? "Lyon") + " depuis dix ans, et L'Atelier Soie habille tous mes rôles. Leurs costumes vibrent avec ma voix — la soie suit le souffle, le bustier tient sans jamais contraindre. Ce sont des artisanes qui comprennent le corps en mouvement.",
+      "Je chante à l'Opéra de " + (clientCity(sessionData) ?? "Lyon") + " depuis dix ans, et " + clientNameOr("L'Atelier Soie") + " habille tous mes rôles. Leurs costumes vibrent avec ma voix — la soie suit le souffle, le bustier tient sans jamais contraindre. Ce sont des artisanes qui comprennent le corps en mouvement.",
     name: 'Isabelle Carron',
     role: 'Soprano · Opéra de ' + (clientCity(sessionData) ?? 'Lyon'),
   },
@@ -1338,7 +1340,7 @@ function CraftPanel() {
           >
             <img
               src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[7] || 'https://images.pexels.com/photos/6358795/pexels-photo-6358795.jpeg?auto=compress&cs=tinysrgb&w=900')}
-              alt="Atelier L'Atelier Soie — savoir-faire lyonnais"
+              alt={`Atelier ${clientName(sessionData) ?? "L'Atelier Soie"} — savoir-faire lyonnais`}
               loading="lazy"
               style={{
                 width: '100%',
@@ -2058,7 +2060,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 {clientName(sessionData) ?? "L&rsquo"};Atelier Soie — {clientCity(sessionData) ?? "Lyon"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "L’Atelier Soie"} — {clientCity(sessionData) ?? "Lyon"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span>
           Couture &amp; Broderie sur-mesure · Haute Couture Lyonnaise
@@ -2107,19 +2109,31 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
-  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   CREATIONS_DEMO = CREATIONS_DEMO_LIVE();
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
+  memoriserSession(session);
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
 
 

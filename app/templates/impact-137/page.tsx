@@ -1,18 +1,14 @@
 "use client";
 import {
-  clientAddress,
   clientCity,
-  clientCodePostalVille,
-  clientEmail,
-  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
-  clientPhone,
   clientPhotos,
-  clientReviews,
   clientServices,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
@@ -23,9 +19,6 @@ import Link from "next/link"
 import { Coffee, Leaf, MapPin, Star, ArrowRight, Menu, Thermometer, Droplets, Mountain, Award, ChevronRight } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
-import { DWELL, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2"
-import { PanelDrop } from "@/lib/templates/hero-kit-3"
-import { LegalIdentity } from "@/app/templates/LegalIdentity";
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
@@ -34,9 +27,9 @@ let sessionData: any = null;
 let fd: any = null;
 // tarifs, jusqu'ici écrit dans le rendu sans constante nommée.
 const TARIFS_ANON_SOURCE = [
-                { name: "Découverte", price: "28 €", cadence: "/ quinzaine", qty: "250 g", desc: "Une origine unique, choisie par nos torréfacteurs à chaque cycle. Pour les curieux.", features: ["1 origine par cycle", "Fiche de dégustation", "Sachet compostable"], highlight: false },
-                { name: "Amateur", price: "52 €", cadence: "/ quinzaine", qty: "500 g", desc: "Deux origines accordées — les contrastes de terroir, d'altitude et de méthode.", features: ["2 origines par cycle", "Guide d'extraction", "Notes SCA en clair", "Livraison offerte"], highlight: true },
-                { name: "Maison", price: "96 €", cadence: "/ quinzaine", qty: "1 kg", desc: "L'expérience complète : quatre origines, accès aux lots avant sortie, dégustations au comptoir.", features: ["4 origines par cycle", "Accès aux lots rares", "Portraits de producteurs", "Livraison express offerte", "Dégustations privées"], highlight: false },
+                { name: "Découverte", price: "€28", cadence: "/ bi-weekly", qty: "200g", desc: "One single-origin, chosen by our Q-Graders each cycle. Perfect for the curious palate.", features: ["1 origin per cycle", "Tasting notes card", "Compostable packaging"], highlight: false },
+                { name: "Connoisseur", price: "€52", cadence: "/ bi-weekly", qty: "400g", desc: "Two carefully paired origins — explore contrasts of terroir, altitude, and process.", features: ["2 origins per cycle", "Brew guide included", "SCA score transparency", "Free shipping"], highlight: true },
+                { name: "Maison", price: "€96", cadence: "/ bi-weekly", qty: "1kg", desc: "The full Torréfié experience. Four origins, access to pre-release lots, priority allocation.", features: ["4 origins per cycle", "Pre-release access", "Direct farmer profiles", "Free express shipping", "Private tastings"], highlight: false },
               ];
 let TARIFS_ANON = TARIFS_ANON_SOURCE;
 
@@ -70,19 +63,19 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 
 function ORIGINS_DEMO_LIVE() {
   return [
-  { name: "Éthiopie Yirgacheffe", region: "Sidamo, Éthiopie", altitude: "1 800 m", process: "Lavé", notes: "Jasmin, bergamote, fruits à noyau", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=800&auto=format&fit=crop"), score: 92 },
-  { name: "Colombie Huila", region: "Huila, Colombie", altitude: "1 650 m", process: "Honey", notes: "Chocolat, caramel, agrumes", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=800"), score: 89 },
-  { name: "Kenya Nyeri AA", region: "Nyeri, Kenya", altitude: "1 700 m", process: "Lavé", notes: "Cassis, tomate confite, vineux", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1504630083234-14187a9df0f5?auto=format&fit=crop&q=80&w=800"), score: 91 },
-  { name: "Guatemala Antigua", region: "Antigua, Guatemala", altitude: "1 500 m", process: "Nature", notes: "Chocolat noir, épices, fumé", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=800"), score: 88 },
+  { name: "Ethiopian Yirgacheffe", region: "Sidamo, Ethiopia", altitude: "1,800m", process: "Washed", notes: "Jasmine, bergamot, stone fruit", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=800&auto=format&fit=crop"), score: 92 },
+  { name: "Colombian Huila", region: "Huila, Colombia", altitude: "1,650m", process: "Honey", notes: "Chocolate, caramel, citrus", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=800"), score: 89 },
+  { name: "Kenyan Nyeri AA", region: "Nyeri, Kenya", altitude: "1,700m", process: "Washed", notes: "Blackcurrant, tomato, wine", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1504630083234-14187a9df0f5?auto=format&fit=crop&q=80&w=800"), score: 91 },
+  { name: "Guatemala Antigua", region: "Antigua, Guatemala", altitude: "1,500m", process: "Natural", notes: "Dark chocolate, spice, smoke", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=800"), score: 88 },
 ];
 }
 let ORIGINS_DEMO = ORIGINS_DEMO_LIVE();
 
 const PROCESS = [
-  { step: "01", title: "Sourcer", desc: "Achat direct auprès de familles productrices, sur quatorze origines suivies d'année en année.", icon: Mountain },
-  { step: "02", title: "Torréfier", desc: "Profils au degré près, par lots de 12 kg, sur un Probat UG22 restauré — visible depuis le comptoir.", icon: Thermometer },
-  { step: "03", title: "Goûter", desc: "Chaque lot est noté à l'aveugle. En dessous de 85 points SCA, il ne passe pas le comptoir.", icon: Coffee },
-  { step: "04", title: "Servir", desc: "Au comptoir toute la journée, et torréfié à la commande pour la maison, expédié sous 24 h.", icon: Droplets },
+  { step: "01", title: "Source", desc: "Direct trade with fourth-generation farming families across 14 origins.", icon: Mountain },
+  { step: "02", title: "Roast", desc: "Precision-profiled in small 12kg batches on a restored Probat UG22.", icon: Thermometer },
+  { step: "03", title: "Cup", desc: "Every lot scored blind by three Q-Graders. Minimum 85 points to pass.", icon: Coffee },
+  { step: "04", title: "Ship", desc: "Roasted to order, shipped within 24 hours in fully compostable packaging.", icon: Droplets },
 ]
 
 
@@ -118,10 +111,21 @@ export default function TorrefieCoffeePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -174,29 +178,11 @@ export default function TorrefieCoffeePage() {
     ORIGINS_DEMO
   );
 
-  const AVIS_SOURCE = [
-    { quote: "Le Yirgacheffe a changé ma façon de boire le café. J'ai fait tous les torréfacteurs de " + (clientCity(sessionData) ?? "Paris") + " — celui-ci joue seul.", name: "Hélène Duval", location: clientCity(sessionData) ?? "Paris", origin: "Éthiopie Yirgacheffe" },
-    { quote: "Torréfié le mardi, sur ma table le jeudi. Le Kenya Nyeri est extraordinaire — le cassis n'est pas un argument marketing, il est dans la tasse.", name: "Marc Vasseur", location: "Vincennes", origin: "Kenya Nyeri AA" },
-    { quote: "Enfin un abonnement qui fait tourner les origines intelligemment. Mon palais a plus appris en trois mois qu'en trois ans.", name: "Claire Fontan", location: "Boulogne", origin: "Colombie Huila" },
-  ];
-  const AVIS_LISTE = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({
-      ...AVIS_SOURCE[i % AVIS_SOURCE.length],
-      quote: r.text ?? AVIS_SOURCE[i % AVIS_SOURCE.length].quote,
-      name: r.name ?? r.author ?? AVIS_SOURCE[i % AVIS_SOURCE.length].name,
-      location: r.location ?? r.role ?? AVIS_SOURCE[i % AVIS_SOURCE.length].location,
-    })),
-    AVIS_SOURCE,
-  );
-
   const [scrolled, setScrolled] = useState(false)
 
-  const { i: slide } = useSlides(3, DWELL.normal);
-  const HERO_SLIDES = [
-    { k: "Le comptoir", l1: "Du grain", l2: "à", l3: "l'âme.", sub: "Cafés de spécialité, torréfiés par petits lots dans notre atelier — et servis au comptoir toute la journée.", img: photo(4, "https://images.pexels.com/photos/7091096/pexels-photo-7091096.jpeg?auto=compress&cs=tinysrgb&w=1600") },
-    { k: "La torréfaction", l1: "Torréfié", l2: "sur", l3: "place.", sub: "Un Probat restauré, des profils au degré près, et l'odeur qui va avec — la torréfaction se fait devant vous.", img: photo(5, "https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=2400") },
-    { k: "L'abonnement", l1: "Chez vous,", l2: "tous les", l3: "quinze jours.", sub: "Torréfié à la commande, expédié sous 24 heures, en sachet compostable. Pause ou arrêt quand vous voulez.", img: photo(4, "https://images.pexels.com/photos/7091096/pexels-photo-7091096.jpeg?auto=compress&cs=tinysrgb&w=1600") },
-  ];
+  const { scrollYProgress } = useScroll()
+  const heroY = useTransform(scrollYProgress, [0, 0.2], ["0%", "30%"])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0])
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 60)
@@ -220,27 +206,27 @@ export default function TorrefieCoffeePage() {
             ) : (
               <>
                 <Coffee className="w-6 h-6 text-[var(--brand,#6b3a24)]" />
-                <span className="text-xl tracking-tight" style={{ fontFamily: "Georgia, serif" }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
+                <span className="text-xl tracking-tight" style={{ fontFamily: "Georgia, serif" }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>
                   <span className="font-light">Torré</span><span className="font-bold text-[var(--brand,#6b3a24)]">fié</span>
                 </>)}</span>
               </>
             )}
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[#2c1810]/40">
-            {[["Les origines", "#origines"], ["La méthode", "#methode"], ["Abonnements", "#tarifs"], ["Le comptoir", "#contact"]].map(([l, h]) => (
-              <Link key={l} href={h} className="hover:text-[var(--brand,#6b3a24)] transition-colors">{l}</Link>
+            {["Origins", "Process", "Shop", "About"].map(l => (
+              <Link key={l} href="#about" className="hover:text-[var(--brand,#6b3a24)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-6">
             <button className="hidden md:block px-8 py-3 bg-[#2c1810] text-[#f5f0ea] text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[var(--brand,#6b3a24)] transition-colors duration-500">
-              Commander du café
+              Shop Coffee
             </button>
             <Sheet>
               <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#f5f0ea] p-12">
                 <div className="flex flex-col gap-8 mt-16">
-                  {[["Les origines", "#origines"], ["La méthode", "#methode"], ["Abonnements", "#tarifs"], ["Le comptoir", "#contact"]].map(([l, h]) => (
-                    <Link key={l} href={h} className="text-3xl font-light hover:text-[var(--brand,#6b3a24)] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{l}</Link>
+                  {["Origins", "Process", "Shop", "About"].map(l => (
+                    <Link key={l} href="#about" className="text-3xl font-light hover:text-[var(--brand,#6b3a24)] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{l}</Link>
                   ))}
                 </div>
               </SheetContent>
@@ -250,55 +236,46 @@ export default function TorrefieCoffeePage() {
       </nav>
 
       <main>
-        {/* ── HERO — PanelDrop : le panneau descend comme un rideau, contenu
-            compris, pendant que la photo change derrière (v02 coffee-shop —
-            le geste d'origine du café). Un seul index pour tout. ── */}
-        <section id="hero" className="relative h-[100svh] min-h-[640px] flex items-center overflow-hidden">
-          <div className="absolute inset-0 bg-[#2c1810]">
-            {HERO_SLIDES.map((h, n) => (
-              <motion.div key={n} className="absolute inset-0" animate={{ opacity: n === slide ? 1 : 0 }} transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}>
-                <Image src={h.img} alt={h.k} fill className="object-cover" priority={n === 0} />
-              </motion.div>
-            ))}
+        {/* ── HERO ────────────────────────────── */}
+        <section id="hero" className="relative h-[110vh] min-h-[640px] flex items-center overflow-hidden">
+          <motion.div style={{ y: heroY }} className="absolute inset-0">
+            <Image src={photo(4, "https://images.pexels.com/photos/7091096/pexels-photo-7091096.jpeg?auto=compress&cs=tinysrgb&w=1600")} alt="Coffee" fill className="object-cover" priority />
             <div className="absolute inset-0 bg-gradient-to-r from-[#f5f0ea] via-[#f5f0ea]/60 to-transparent" />
-          </div>
+          </motion.div>
 
-          <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full">
-            <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#6b3a24)] block mb-6">
-              {clientEyebrow(sessionData) ?? `Torréfacteur & comptoir · ${clientCity(sessionData) ?? "Paris"}`}
-            </span>
-            <PanelDrop index={clientHeroLine(sessionData, 0, 3, 9) ? "client" : slide} style={{ minHeight: "min(46vh, 430px)" }}>
-              <div>
-                <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light tracking-tighter leading-[0.85] mb-8" style={{ fontFamily: "Georgia, serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 9) ?? HERO_SLIDES[slide].l1}<br/>{clientHeroLine(sessionData, 1, 3, 9) ?? HERO_SLIDES[slide].l2}{" "}<em className="text-[var(--brand,#6b3a24)]">{clientHeroLine(sessionData, 2, 3, 9) ?? HERO_SLIDES[slide].l3}</em>
-                </>}</h1>
-                <p className="max-w-lg text-lg text-[#2c1810]/50 font-light leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? HERO_SLIDES[slide].sub}</p>
+          <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12">
+            <Reveal delay={0.15} y={70}>
+              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light tracking-tighter leading-[0.85] mb-8" style={{ fontFamily: "Georgia, serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 9) ?? "From Seed"}<br/>{clientHeroLine(sessionData, 1, 3, 9) ?? "To"}{" "}<em className="text-[var(--brand,#6b3a24)]">{clientHeroLine(sessionData, 2, 3, 9) ?? "Soul."}</em>
+              </>}</h1>
+            </Reveal>
+            <Reveal delay={0.3}>
+              <p className="max-w-lg text-lg text-[#2c1810]/50 font-light leading-relaxed mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
+                Single-origin specialty coffee, roasted in small batches in our {clientCity(sessionData) ?? "Bordeaux"} atelier. Direct trade, traceable, scored 85+.
+              </>}</p>
+            </Reveal>
+            <Reveal delay={0.4}>
+              <div className="flex flex-wrap gap-4">
+                <button className="px-10 py-5 bg-[#2c1810] text-[#f5f0ea] font-bold rounded-full hover:bg-[var(--brand,#6b3a24)] transition-colors duration-500 flex items-center gap-3">
+                  Discover Origins <ArrowRight className="w-5 h-5" />
+                </button>
               </div>
-            </PanelDrop>
-            <div className="flex flex-wrap items-center gap-8">
-              <a href="#origines" className="px-10 py-5 bg-[#2c1810] text-[#f5f0ea] font-bold rounded-full hover:bg-[var(--brand,#6b3a24)] transition-colors duration-500 flex items-center gap-3">
-                Découvrir les origines <ArrowRight className="w-5 h-5" />
-              </a>
-              <div className="flex items-center gap-5">
-                <SlideIndex i={slide} total={HERO_SLIDES.length} variant="fraction" color="rgba(44,24,16,0.5)" className="" />
-                <span className="text-sm text-[#2c1810]/50"><strong className="text-[#2c1810] font-bold">{HERO_SLIDES[slide].k}</strong></span>
-              </div>
-            </div>
-          </div>
+            </Reveal>
+          </motion.div>
         </section>
 
         {/* ── PROCESS ────────────────────────────── */}
-        <section id="methode" className="py-32 bg-[#2c1810] text-[#f5f0ea]">
+        <section className="py-32 bg-[#2c1810] text-[#f5f0ea]">
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-24">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c48a5a] block mb-4">La méthode</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c48a5a] block mb-4">The Method</span>
                 <h2 className="text-5xl md:text-7xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
-                  Quatre gestes, <em className="text-[#c48a5a]">dans l'ordre.</em>
+                  Our <em className="text-[#c48a5a]">Process.</em>
                 </>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {PROCESS.map((p, i) => (
+              {resolveList(fusionnerEtapes(PROCESS, clientMethode(sessionData)), PROCESS).map((p, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="text-center group">
                     <div className="text-5xl font-light text-[#c48a5a]/20 mb-4" style={{ fontFamily: "Georgia, serif" }}>{p.step}</div>
@@ -315,14 +292,14 @@ export default function TorrefieCoffeePage() {
         </section>
 
         {/* ── ORIGINS GRID ─────────────────────── */}
-        <section id="origines" className="py-32 bg-[#f5f0ea]">
+        <section className="py-32 bg-[#f5f0ea]">
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex justify-between items-end mb-20">
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#6b3a24)] block mb-4">La sélection du moment</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#6b3a24)] block mb-4">Current Selection</span>
                   <h2 className="text-5xl md:text-7xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>
-                    Les <em className="text-[var(--brand,#6b3a24)]">origines.</em>
+                    Single <em className="text-[var(--brand,#6b3a24)]">Origins.</em>
                   </>)}</h2>
                 </div>
               </div>
@@ -365,14 +342,18 @@ export default function TorrefieCoffeePage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-20">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c48a5a] block mb-4">Ils y goûtent</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c48a5a] block mb-4">What Clients Say</span>
                 <h2 className="text-5xl md:text-6xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>
-                  Le comptoir <em className="text-[#c48a5a]">en parle.</em>
+                  The <em className="text-[#c48a5a]">Reviews.</em>
                 </>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {AVIS_LISTE.map((t, i) => (
+              {[
+                { quote: "The Ethiopian Yirgacheffe changed the way I think about coffee. I've tried every specialty roaster in " + (clientCity(sessionData) ?? "Paris") + " — Torréfié is in a class of its own.", name: "Hélène Duval", location: (clientCity(sessionData) ?? "Paris") + ", FR", origin: "Ethiopian Yirgacheffe" },
+                { quote: "Freshness is unreal. Roasted Tuesday, on my desk Thursday. The Kenyan Nyeri AA is extraordinary — the blackcurrant notes are no marketing gimmick.", name: "James Whitfield", location: "London, UK", origin: "Kenyan Nyeri AA" },
+                { quote: "Finally a subscription that actually rotates origins intelligently. My palate has evolved more in three months than in three years.", name: "Rafael Soto", location: "Barcelona, ES", origin: "Colombian Huila" },
+              ].map((t, i) => (
                 <Reveal key={i} delay={i * 0.12}>
                   <div className="p-10 border border-[#c48a5a]/20 flex flex-col gap-6 h-full">
                     <div className="flex gap-1">
@@ -396,12 +377,12 @@ export default function TorrefieCoffeePage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-20">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#6b3a24)] block mb-4">S'abonner</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#6b3a24)] block mb-4">{tr({ formData: fd }, "Subscribe")}</span>
                 <h2 className="text-5xl md:text-6xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>
-                  Votre <em className="text-[var(--brand,#6b3a24)]">formule.</em>
+                  Your <em className="text-[var(--brand,#6b3a24)]">Plan.</em>
                 </>)}</h2>
                 <p className="text-lg text-[#2c1810]/40 font-light max-w-md mx-auto mt-4">
-                  {/* TEXTE_SECTION */ clientText(sessionData, "tarifs.intro") ?? (<>Torréfié à la commande, expédié tous les quinze jours. Pause ou arrêt à tout moment.</>)}
+                  Roasted to order, shipped every two weeks. Pause or cancel anytime.
                 </p>
               </div>
             </Reveal>
@@ -424,7 +405,7 @@ export default function TorrefieCoffeePage() {
                       ))}
                     </ul>
                     <button className={`w-full py-4 font-bold text-[10px] uppercase tracking-[0.2em] rounded-full transition-all duration-500 ${plan.highlight ? "bg-[#c48a5a] text-white hover:bg-[#f5f0ea] hover:text-[#2c1810]" : "bg-[#2c1810] text-[#f5f0ea] hover:bg-[var(--brand,#6b3a24)]"}`}>
-                      Choisir {plan.name}
+                      Start {plan.name}
                     </button>
                   </div>
                 </Reveal>
@@ -441,14 +422,14 @@ export default function TorrefieCoffeePage() {
           </div>
           <div className="relative z-10 text-center text-[#f5f0ea] px-6">
             <Reveal>
-              <h2 className="text-5xl md:text-7xl font-light tracking-tighter mb-6" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "cta.titre") ?? c?.aboutTitle ?? <>
-                Goûtez la<br/><em>différence.</em>
+              <h2 className="text-5xl md:text-7xl font-light tracking-tighter mb-6" style={{ fontFamily: "Georgia, serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>
+                Taste The<br/><em>Difference.</em>
               </>}</h2>
-              <p className="text-lg text-[#f5f0ea]/60 font-light max-w-md mx-auto mb-10">{/* TEXTE_SECTION */ clientText(sessionData, "cta.texte") ?? c?.aboutText ?? <>
-                Abonnez-vous et recevez chez vous, tous les quinze jours, un café d'origine torréfié de la semaine.
+              <p className="text-lg text-[#f5f0ea]/60 font-light max-w-md mx-auto mb-10">{c?.aboutText ?? <>
+                Subscribe and receive freshly roasted single-origin coffee at your door every two weeks.
               </>}</p>
               <button className="px-12 py-5 bg-[#f5f0ea] text-[#2c1810] font-bold rounded-full hover:bg-[#c48a5a] hover:text-white transition-all duration-500">
-                Commencer l'abonnement
+                Start Your Subscription
               </button>
             </Reveal>
           </div>
@@ -463,17 +444,12 @@ export default function TorrefieCoffeePage() {
               <Coffee className="w-5 h-5 text-[#c48a5a]" />
               <span className="text-xl tracking-tight" style={{ fontFamily: "Georgia, serif" }}>Torré<span className="font-bold text-[#c48a5a]">fié</span></span>
             </div>
-            <p className="text-sm text-[#f5f0ea]/30 leading-relaxed mb-6">Café de spécialité, torréfié avec précision, sourcé en conscience.</p>
-            <div className="space-y-2 text-sm text-[#f5f0ea]/40">
-              <div className="flex items-center gap-2"><MapPin className="w-3.5 h-3.5 text-[#c48a5a]" /> {clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "75011", "Paris")}</div>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33143000000").replace(/\s/g, "")}`} className="block hover:text-[#f5f0ea] transition-colors">{clientPhone(sessionData) ?? fd?.phone ?? "01 43 00 00 00"}</a>
-              <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "bonjour@torrefie.fr"}`} className="block hover:text-[#f5f0ea] transition-colors">{clientEmail(sessionData) ?? fd?.email ?? "bonjour@torrefie.fr"}</a>
-            </div>
+            <p className="text-sm text-[#f5f0ea]/30 leading-relaxed">Specialty coffee, roasted with precision, sourced with conscience.</p>
           </div>
           {[
-            { title: "La boutique", links: ["Toutes les origines", "Abonnements", "Matériel", "Coffrets"] },
-            { title: "Apprendre", links: ["Guides d'extraction", "Histoires d'origines", "La notation SCA", "Le journal"] },
-            { title: "La maison", links: ["Notre histoire", "L'atelier", "Professionnels", "Contact"] },
+            { title: "Shop", links: ["All Origins", "Subscriptions", "Equipment", "Gift Sets"] },
+            { title: "Learn", links: ["Brew Guides", "Origin Stories", "Q-Grading", "Blog"] },
+            { title: "Company", links: ["Our Story", "The Roastery", "Wholesale", "Contact"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#c48a5a] mb-6">{col.title}</h4>
@@ -484,8 +460,8 @@ export default function TorrefieCoffeePage() {
           ))}
         </div>
         <div className="max-w-[1400px] mx-auto pt-8 border-t border-[#f5f0ea]/10 text-[10px] font-bold uppercase tracking-widest text-[#f5f0ea]/20 flex justify-between">
-          <span>© 2026 {fd?.businessName ?? clientName(sessionData) ?? "Torréfié"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
-          <span className="normal-case tracking-normal">Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" /> · éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
+          <span>© 2026 {clientName(sessionData) ?? "TORRÉFIÉ ROASTERS."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>{(clientCity(sessionData) ?? "Bordeaux").toUpperCase()}, FRANCE</span>
         </div>
       </footer>
     </div>

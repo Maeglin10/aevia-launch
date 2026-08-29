@@ -9,7 +9,13 @@ import {
 } from "lucide-react";
 import { useLang } from "@/lib/LangContext";
 import { iconeDe } from "@/lib/templates/sectorIcons";
-import { INDUSTRIES, SECTORS, SECTOR_TEMPLATES, TEMPLATE_CITY_LABELS } from "@/lib/templates/sectors";
+import {
+  INDUSTRIES,
+  SECTORS,
+  SECTOR_TEMPLATES,
+  TEMPLATE_CITY_LABELS,
+  libelleDuSecteur,
+} from "@/lib/templates/sectors";
 import { SECTOR_EXTRA_QUESTIONS } from "@/lib/templates/sector-questions";
 import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
 import { NICHE_ARCHETYPE, SANTE_NICHES } from "@/lib/wizard/archetypes";
@@ -341,6 +347,66 @@ export function StepForm() {
   // to auto-save against — previously only created at final submit.
   const [sessionId, setSessionId] = useState<string | null>(null);
 
+  /*
+    Reprendre une session en cours, à l'étape demandée.
+
+    Le panneau d'aperçu invite le client à compléter ses avis, ses tarifs, ses
+    horaires : le bouton « Compléter » pointe vers
+    `/configure?session=…&step=4`. `searchParams` était bien déclaré, et jamais
+    lu — le client retombait dans un formulaire vide à la première étape et
+    devait tout ressaisir. C'est le chemin par lequel ses vrais avis entrent :
+    il ne peut pas être une impasse.
+
+    Sans paramètre, rien ne change : le wizard s'ouvre neuf.
+  */
+  const repriseFaite = useRef(false);
+  useEffect(() => {
+    if (repriseFaite.current) return;
+    /*
+      `useSearchParams` rend une liste vide au premier rendu d'une page rendue
+      statiquement : l'effet partait, ne trouvait pas de session, et le garde
+      l'empêchait de repartir quand les paramètres arrivaient. On lit donc
+      l'URL du navigateur, qui est juste dès le premier rendu client.
+    */
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("session");
+    if (!id) return;
+    repriseFaite.current = true;
+
+    let vivant = true;
+    (async () => {
+      try {
+        const r = await fetch(`/api/sessions?id=${encodeURIComponent(id)}`, { cache: "no-store" });
+        if (!r.ok) throw new Error(String(r.status));
+        const d = await r.json();
+        if (!vivant || !d?.formData) throw new Error("session vide");
+
+        const fd = d.formData as Partial<FormState> & { benefits?: string[] };
+        setForm((f) => ({
+          ...f,
+          ...Object.fromEntries(Object.entries(fd).filter(([, v]) => v !== undefined && v !== null)),
+          /* Les bénéfices voyagent en tableau et se saisissent en trois champs. */
+          benefit1: fd.benefits?.[0] ?? f.benefit1,
+          benefit2: fd.benefits?.[1] ?? f.benefit2,
+          benefit3: fd.benefits?.[2] ?? f.benefit3,
+          businessProfile: d.businessProfile ?? f.businessProfile,
+        }));
+        setSessionId(id);
+
+        const demandee = Number(params.get("step"));
+        if (Number.isFinite(demandee) && demandee >= 1 && demandee <= 7) setStep(demandee);
+      } catch {
+        /* Session introuvable ou expirée : on laisse le formulaire neuf plutôt
+           que d'afficher une erreur pour un lien qu'on ne maîtrise pas. */
+      }
+    })();
+    return () => { vivant = false; };
+    /* Une seule reprise par montage : `repriseFaite` la garde, et l'effet ne
+       dépend donc plus de l'identité de `searchParams`, qui change à chaque
+       rendu et annulait la reprise en cours. */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Tracks whether the user attempted to advance a given step, so we only show
   // validation errors after an attempt (not on first render).
   const [attempted, setAttempted] = useState<Record<number, boolean>>({});
@@ -365,7 +431,8 @@ export function StepForm() {
         step: s,
         totalSteps: TOTAL_STEPS,
         industry: form.industry || undefined,
-        businessType: form.sector || undefined,
+        /* Le libellé, pas la clé : « Médecin », pas « medecin ». */
+        businessType: libelleDuSecteur(form.sector, locale) || undefined,
         completed,
       }),
       keepalive: true,
@@ -504,7 +571,7 @@ export function StepForm() {
     void fetch("/api/sessions", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ formData: { locale, sector, industry, businessType: sector } }),
+      body: JSON.stringify({ formData: { locale, sector, industry, businessType: libelleDuSecteur(sector, locale) } }),
     })
       .then((res) => res.json())
       .then((data: { sessionId: string }) => setSessionId(data.sessionId))
@@ -516,7 +583,24 @@ export function StepForm() {
     if (Object.keys(getStepErrors(step)).length === 0) {
       if (step === 1) createSessionEarly(form.sector, form.industry);
       setStep((s) => s + 1);
+      return;
     }
+    /*
+      Le bouton reste cliquable quand l'étape n'est pas complète — le rendre
+      inerte le retirerait du parcours au clavier. Mais un clic sans effet et
+      sans explication laisse le visiteur bloqué : il ne voit pas ce qui
+      manque, surtout si le champ fautif est plus haut que l'écran.
+
+      On amène donc à l'écran ce qui bloque, et l'on y met le curseur.
+    */
+    requestAnimationFrame(() => {
+      const fautif =
+        document.querySelector<HTMLElement>("[aria-invalid='true']") ??
+        document.querySelector<HTMLElement>("[data-manque]");
+      if (!fautif) return;
+      fautif.scrollIntoView({ behavior: "smooth", block: "center" });
+      if (typeof fautif.focus === "function") fautif.focus({ preventScroll: true });
+    });
   };
 
   const handleGenerate = async () => {
@@ -531,7 +615,7 @@ export function StepForm() {
         // La langue du wizard suit le client jusque dans le thème.
         locale,
         industry: form.industry, sector: form.sector,
-        businessType: form.sector, // FormData contract key
+        businessType: libelleDuSecteur(form.sector, locale), // le libellé, pas la clé
         template: form.template,
         businessName: form.businessName, tagline: form.tagline, city: form.city,
         // Pilot niches (service_rdv/food/immobilier) skip the generic
@@ -582,6 +666,19 @@ export function StepForm() {
           body: JSON.stringify({ formData }),
         });
         ({ sessionId: currentSessionId } = await sessionRes.json());
+        /*
+          Deux parcours sur cinquante et un ont été redirigés vers
+          « /preview/undefined » : la création de session avait échoué en
+          silence, et l'on poussait le client vers une page qui ne peut rien
+          afficher. Sans identifiant, on s'arrête et on le dit.
+        */
+        if (!currentSessionId) {
+          setLoading(false);
+          setError(
+            "La création de votre site n'a pas abouti. Réessayez dans un instant — rien n'est perdu.",
+          );
+          return;
+        }
       }
 
       // Generate content

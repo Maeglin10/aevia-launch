@@ -22,6 +22,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientReviews,
@@ -697,10 +698,21 @@ export default function ThermaProPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -717,6 +729,10 @@ export default function ThermaProPage() {
       val: s.value,
 
       label: s.label,
+
+      /* Le chiffre est celui du client : l'unité de la démonstration ne le suit pas. */
+
+      suffix: "",
 
     })),
 
@@ -808,7 +824,7 @@ export default function ThermaProPage() {
   ];
 
   const process = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
+    (clientMethode(sessionData) ?? clientServices(sessionData))?.map((s: any, i: number) => ({ ...([
     {
       num: '01', title: 'Diagnostic gratuit à domicile',
       desc: 'Un technicien certifié RGE se déplace chez vous pour évaluer votre installation existante, vos besoins énergétiques et la configuration du logement. Devis détaillé offert sous 48h.',
@@ -907,10 +923,10 @@ export default function ThermaProPage() {
   const testimonials_DEMO = [
     { name: 'Pierre M.',       city: (clientCity(sessionData) ?? 'Lyon') + ' 3e',           text: 'Intervention ultra rapide un dimanche soir pour une panne de chaudière. Technicien très compétent, prix honnête, chaudière réparée en 1h. Je recommande chaudement !',                                service: 'Urgence'      },
     { name: 'Nathalie B.',     city: (clientCity(sessionData) ?? "Villeurbanne"),      text: 'Installation d\'une PAC air/eau complète avec plancher chauffant. Chantier propre et dans les délais annoncés. Les économies sont au rendez-vous : −40% sur ma facture de gaz.',                     service: 'PAC'          },
-    { name: 'François T.',     city: 'Bron',              text: 'Therma Pro a géré l\'intégralité des démarches MaPrimeRénov\' pour moi. Simple, rapide, et l\'équipe est vraiment professionnelle. Je n\'ai eu qu\'à signer. Merci !',                             service: 'Financement'  },
+    { name: 'François T.',     city: 'Bron',              text: `${clientName(sessionData) ?? "THERMA PRO"} a géré l\'intégralité des démarches MaPrimeRénov\' pour moi. Simple, rapide, et l\'équipe est vraiment professionnelle. Je n\'ai eu qu\'à signer. Merci !`,                             service: 'Financement'  },
     { name: 'Isabelle C.',     city: 'Caluire-et-Cuire',  text: 'Devis clair et honnête, pas de mauvaise surprise à la facture. L\'installation de la clim réversible est parfaite, vraiment silencieuse, et économique. Top service !',                             service: 'Climatisation'},
     { name: 'Julien R.',       city: 'Écully',            text: 'Remplacement de ma vieille chaudière fuel par une PAC. Marc a été transparent sur tout depuis le début. Le résultat est bluffant — maison bien chaude et économies immédiates.',                     service: 'Rénovation'   },
-    { name: 'Marie-Anne D.',   city: 'Décines-Charpieu',  text: 'Contrat d\'entretien annuel depuis 3 ans, toujours ponctuel, toujours professionnel. On sent que ce sont des gens qui aiment leur métier. Bravo à toute l\'équipe de Therma Pro.',                   service: 'Entretien'    },
+    { name: 'Marie-Anne D.',   city: 'Décines-Charpieu',  text: `Contrat d\'entretien annuel depuis 3 ans, toujours ponctuel, toujours professionnel. On sent que ce sont des gens qui aiment leur métier. Bravo à toute l\'équipe de ${clientName(sessionData) ?? "THERMA PRO"}.`,                   service: 'Entretien'    },
   ];
 
   const faqs_DEMO = [
@@ -1187,7 +1203,7 @@ return (
                 color: C.textMuted, fontSize: 'clamp(15px, 2.2vw, 18px)', lineHeight: 1.7,
                 maxWidth: 540, marginBottom: 40,
               }}
-            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Spécialiste du chauffage, de la climatisation et des pompes à chaleur depuis 2009. Installation, entretien et dépannage 24h/7j dans toute la métropole lyonnaise.
             </>}</motion.p>
 
@@ -1506,7 +1522,7 @@ return (
                 fontWeight: 800, color: C.white, lineHeight: 1.1, marginBottom: 16,
               }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Parlons de<br /><span style={{ color: C.accent }}>Votre Projet</span></>)}</h2>
               <p style={{ color: C.textMuted, fontSize: 'clamp(14px, 1.8vw, 15.5px)', lineHeight: 1.75, marginBottom: '2.5rem' }}>
-                Remplissez ce formulaire et un conseiller Therma Pro vous rappelle sous 24h pour un diagnostic gratuit à domicile.
+                Remplissez ce formulaire et un conseiller {clientName(sessionData) ?? "THERMA PRO"} vous rappelle sous 24h pour un diagnostic gratuit à domicile.
               </p>
 
               <div className="contact-info-cards" style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
@@ -1573,7 +1589,7 @@ return (
                         fontSize: 28, fontWeight: 800, color: C.white, marginBottom: 12,
                       }}>Demande envoyée !</h3>
                       <p style={{ color: C.textMuted, fontSize: 15, lineHeight: 1.7 }}>
-                        Merci {formData.name.split(' ')[0] || ''} ! Un conseiller Therma Pro vous contactera dans les 24h pour organiser votre diagnostic gratuit.
+                        Merci {formData.name.split(' ')[0] || ''} ! Un conseiller {clientName(sessionData) ?? "THERMA PRO"} vous contactera dans les 24h pour organiser votre diagnostic gratuit.
                       </p>
                     </motion.div>
                   ) : (
@@ -1684,7 +1700,7 @@ return (
                       </button>
 
                       <p style={{ color: C.textMuted, fontSize: 11.5, textAlign: 'center', lineHeight: 1.6 }}>
-                        En soumettant ce formulaire, vous acceptez d'être recontacté par Therma Pro. Aucun démarchage, aucun spam.
+                        En soumettant ce formulaire, vous acceptez d'être recontacté par {clientName(sessionData) ?? "THERMA PRO"}. Aucun démarchage, aucun spam.
                       </p>
                     </motion.form>
                   )}

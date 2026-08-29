@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 /* ════════════════════════════════════════════════════════════════════════════
-   STUDIO CULINA — Cuisiniste de montagne · Annecy
+   {clientName(sessionData) ?? "Studio Culina"} — Cuisiniste de montagne · Annecy
    ─────────────────────────────────────────────────────────────────────────────
    Cuisiniste, 2e variante du catalogue (la 1re est impact-327, ExpandFrame).
    Celle-ci est un studio-showroom de montagne.
@@ -40,6 +40,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -49,6 +50,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -147,7 +149,7 @@ const SERVICES_SOURCE = [
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const METHODE = [
+let METHODE = [
   { n: "01", t: "Atelier conception — 2 h", d: "Au studio, autour des cuisines témoins. Vos habitudes, vos appareils, votre budget réel — avant tout dessin." },
   { n: "02", t: "Relevé laser & plans", d: "Relevé millimétré chez vous, plans techniques et perspectives réalistes. Trois révisions incluses." },
   { n: "03", t: "Devis ferme signé", d: "Poste par poste, électroménager compris. Aucun avenant surprise : l'imprévu est à notre charge." },
@@ -509,20 +511,36 @@ export default function StudioCulinaPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    fusionnerEtapes(METHODE, clientMethode(sessionData)),
+    METHODE,
+  );
   HERO_SOURCE = HERO_SOURCE_LIVE();
   AVIS_SOURCE = AVIS_SOURCE_LIVE();
   ZONES_SOURCE = ZONES_SOURCE_LIVE();
+
 
   const CLIENT_SERVICES = clientServices(sessionData);
 

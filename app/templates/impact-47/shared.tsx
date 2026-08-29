@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCityOr,
+  clientNameOr,
   clientPhotoAt,
 } from "@/lib/templates/clientContent";
 
@@ -148,9 +149,9 @@ export const occasions = [
 export const testimonials = [
   {
     name: "Isabelle Fontaine",
-    location: clientCityOr("Paris") + ", 7e",
+    get location() { return clientCityOr("Paris") + ", 7e"; },
     rating: 5,
-    text: "Pétales & Co did our entire wedding — 18 arrangements, 4 arches, bridal party bouquets. Every single piece was more beautiful than I imagined. They understood our vision perfectly.",
+    get text() { return `${clientNameOr("Pétales & Co")} did our entire wedding — 18 arrangements, 4 arches, bridal party bouquets. Every single piece was more beautiful than I imagined. They understood our vision perfectly.`; },
     occasion: "Wedding",
   },
   {
@@ -162,7 +163,7 @@ export const testimonials = [
   },
   {
     name: "Chloé Morin",
-    location: clientCityOr("Paris") + ", 16e",
+    get location() { return clientCityOr("Paris") + ", 16e"; },
     rating: 5,
     text: "We did the bouquet workshop for my sister's birthday. Eight of us, two hours, incredible instruction and a gorgeous takeaway. The best afternoon we've had together in years.",
     occasion: "Workshop",
@@ -182,7 +183,7 @@ export const subscriptionTiers = [
     price: "€48",
     duration: "per week",
     desc: "One artisan bouquet delivered each week. Seasonal selection, curated by our florists.",
-    includes: ["Seasonal arrangement", "Free delivery " + clientCityOr("Paris"), "Kraft wrapping + ribbon", "Care card"],
+    get includes() { return ["Seasonal arrangement", "Free delivery " + clientCityOr("Paris"), "Kraft wrapping + ribbon", "Care card"]; },
     cta: "Subscribe Weekly",
     featured: false,
   },
@@ -191,7 +192,7 @@ export const subscriptionTiers = [
     price: "€80",
     duration: "per month",
     desc: "Two bouquets per month — the perfect rhythm for those who love flowers but want flexibility.",
-    includes: ["2 seasonal arrangements", "Free delivery " + clientCityOr("Paris"), "Choice of style", "Care card + seasonal note"],
+    get includes() { return ["2 seasonal arrangements", "Free delivery " + clientCityOr("Paris"), "Choice of style", "Care card + seasonal note"]; },
     cta: "Subscribe Biweekly",
     featured: true,
   },
@@ -209,7 +210,7 @@ export const subscriptionTiers = [
 export const faqs = [
   {
     q: "What areas do you deliver to?",
-    a: "We deliver within " + clientCityOr("Paris") + " and the Île-de-France region. " + clientCityOr("Paris") + " deliveries are free for all subscriptions. Île-de-France deliveries have a €12 surcharge for one-off orders — free for monthly subscribers.",
+    get a() { return "We deliver within " + clientCityOr("Paris") + " and the Île-de-France region. " + clientCityOr("Paris") + " deliveries are free for all subscriptions. Île-de-France deliveries have a €12 surcharge for one-off orders — free for monthly subscribers."; },
   },
   {
     q: "Can I request specific flowers or colours?",
@@ -229,7 +230,7 @@ export const faqs = [
   },
   {
     q: "Do you do same-day delivery?",
-    a: "For in-stock arrangements ordered before 10h, we offer same-day delivery in " + clientCityOr("Paris") + " (€18 express fee). For custom orders or workshop bookings, advance notice is required.",
+    get a() { return "For in-stock arrangements ordered before 10h, we offer same-day delivery in " + clientCityOr("Paris") + " (€18 express fee). For custom orders or workshop bookings, advance notice is required."; },
   },
 ];
 
@@ -364,7 +365,7 @@ function BLOG_POSTS_LIVE() {
     coverImage: clientPhotoAt(24, "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=1200&h=600&fit=crop&q=80"),
     body: [
       "Une fleur de saison est cueillie à maturité, au plus près de sa floraison naturelle. Elle tient plus longtemps en vase, dégage un parfum plus intense et affiche des couleurs que les variétés forcées hors saison n'égalent jamais.",
-      "Travailler avec les saisons, c'est aussi soutenir les producteurs locaux et réduire l'empreinte du transport réfrigéré. Chez Pétales & Co, nous privilégions les petits cultivateurs français dès que la saison le permet.",
+      `Travailler avec les saisons, c'est aussi soutenir les producteurs locaux et réduire l'empreinte du transport réfrigéré. Chez ${clientNameOr("Pétales & Co")}, nous privilégions les petits cultivateurs français dès que la saison le permet.`,
       "Concrètement, cela signifie que nos compositions évoluent au fil de l'année : pivoines au printemps, tournesols en été, dahlias à l'automne, amaryllis en hiver. Chaque bouquet raconte le moment précis où il a été créé.",
     ],
   },

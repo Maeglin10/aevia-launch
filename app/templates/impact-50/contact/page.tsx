@@ -1,6 +1,15 @@
 "use client";
 import { Mail, MessageSquare, Phone } from "lucide-react";
 import { Reveal } from "../shared";
+import {
+  clientAddress,
+  clientCity,
+  clientEmail,
+  clientName,
+  clientPhone,
+  clientText,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 // Variables de module lues par toute la page : le contrat les reçoit au rendu.
@@ -21,13 +30,25 @@ export default function ContactPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
@@ -44,13 +65,17 @@ export default function ContactPage() {
       <Reveal>
         <div className="max-w-3xl mb-20">
           <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-cyan-400 mb-6 block">
-            GET IN TOUCH
+            {clientName(sessionData) ? `Nous écrire · ${clientName(sessionData)}` : "GET IN TOUCH"}
           </span>
           <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none mb-10">
-            CONNECT TO THE MESH.
+            {/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ??
+              (clientCity(sessionData) ? `Parlons de votre projet à ${clientCity(sessionData)}.` : "CONNECT TO THE MESH.")}
           </h1>
           <p className="text-xl text-white/60 font-light leading-relaxed italic">
-            Whether you want to deploy nodes, build applications, or query the decentralized layer, our core team is here to assist.
+            {/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ??
+              (clientName(sessionData)
+                ? "Un appel, un message : on vous répond dans la journée, et le devis est gratuit."
+                : "Whether you want to deploy nodes, build applications, or query the decentralized layer, our core team is here to assist.")}
           </p>
         </div>
       </Reveal>
@@ -122,21 +147,22 @@ export default function ContactPage() {
           {[
             {
               icon: <Mail className="w-6 h-6 text-cyan-400" />,
-              title: "Email Channels",
-              value: (fd?.email ?? "mesh@neuralmesh.org"),
-              desc: "For node operations, developer access, and security reports.",
+              title: clientName(sessionData) ? "Courriel" : "Email Channels",
+              value: clientEmail(sessionData) ?? fd?.email ?? "mesh@neuralmesh.org",
+              desc: clientName(sessionData) ? "Pour un devis, une question, une visite sur place." : "For node operations, developer access, and security reports.",
             },
             {
               icon: <Phone className="w-6 h-6 text-blue-400" />,
-              title: "Direct Access",
-              value: "+33 4 74 12 34 56",
-              desc: "Core developer escalation channel.",
+              title: clientName(sessionData) ? "Téléphone" : "Direct Access",
+              value: clientPhone(sessionData) ?? "+33 4 74 12 34 56",
+              desc: clientName(sessionData) ? "Du lundi au vendredi, et le samedi matin." : "Core developer escalation channel.",
             },
             {
               icon: <MessageSquare className="w-6 h-6 text-green-400" />,
-              title: "Community Forum",
-              value: "discord.gg/neuralmesh",
-              desc: "Join our active developers and node operators globally.",
+              /* L'adresse de l'atelier remplace le forum : un artisan n'a pas de Discord. */
+              title: clientName(sessionData) ? "Adresse" : "Community Forum",
+              value: clientAddress(sessionData) ?? clientCity(sessionData) ?? "discord.gg/neuralmesh",
+              desc: clientName(sessionData) ? "On vous reçoit sur rendez-vous." : "Join our active developers and node operators globally.",
             },
           ].map((info, idx) => (
             <Reveal key={idx} delay={idx * 0.1}>

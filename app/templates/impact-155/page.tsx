@@ -8,11 +8,9 @@ import Link from "next/link"
 import { ArrowRight, MapPin, Mail, Phone, BedDouble, Bath, Maximize, Star, TrendingUp } from "lucide-react"
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -69,12 +67,12 @@ let STATS = STATS_DEMO;
 
 function BIENS_DEMO_SOURCE_LIVE() {
   return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ titre: o.title, lieu: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
-  { titre: "Appartement de standing", lieu: (clientCity({ formData: fd }) ?? "Paris"), prix: "1 480 000 €", surface: "145 m²", pieces: 5, bains: 2, tag: "Exclusivité", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80") },
+  { titre: "Appartement de standing", lieu: (clientCity(sessionData) ?? "Paris"), prix: "1 480 000 €", surface: "145 m²", pieces: 5, bains: 2, tag: "Exclusivité", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80") },
   { titre: "Maison familiale", lieu: "Neuilly-sur-Seine", prix: "2 250 000 €", surface: "280 m²", pieces: 7, bains: 3, tag: "Coup de cœur", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80") },
-  { titre: "Penthouse vue Eiffel", lieu: (clientCity({ formData: fd }) ?? "Paris"), prix: "3 900 000 €", surface: "210 m²", pieces: 5, bains: 3, tag: "Prestige", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80") },
+  { titre: "Penthouse vue Eiffel", lieu: (clientCity(sessionData) ?? "Paris"), prix: "3 900 000 €", surface: "210 m²", pieces: 5, bains: 3, tag: "Prestige", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80") },
   { titre: "Villa contemporaine", lieu: "Saint-Cloud", prix: "1 850 000 €", surface: "320 m²", pieces: 8, bains: 4, tag: "Jardin", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80") },
-  { titre: "Loft design", lieu: (clientCity({ formData: fd }) ?? "Paris"), prix: "890 000 €", surface: "120 m²", pieces: 3, bains: 2, tag: "Atypique", img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=800&q=80") },
-  { titre: "Résidence Belle Époque", lieu: (clientCity({ formData: fd }) ?? "Paris"), prix: "2 650 000 €", surface: "195 m²", pieces: 6, bains: 3, tag: "Haussmannien", img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&q=80") },
+  { titre: "Loft design", lieu: (clientCity(sessionData) ?? "Paris"), prix: "890 000 €", surface: "120 m²", pieces: 3, bains: 2, tag: "Atypique", img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=800&q=80") },
+  { titre: "Résidence Belle Époque", lieu: (clientCity(sessionData) ?? "Paris"), prix: "2 650 000 €", surface: "195 m²", pieces: 6, bains: 3, tag: "Haussmannien", img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=800&q=80") },
 ]);
 }
 let BIENS_DEMO_SOURCE = BIENS_DEMO_SOURCE_LIVE();
@@ -91,9 +89,9 @@ let SERVICES = SERVICES_DEMO;
 
 function TEMOIGNAGES_SOURCE_LIVE() {
   return [
-  { texte: "Notre appartement parisien a été vendu en 18 jours au prix demandé. L'équipe Pierre & Co a géré tout le processus avec un professionnalisme remarquable. Je recommande sans hésiter.", auteur: "Catherine B.", detail: "Vente appartement 145 m², " + (clientCity({ formData: fd }) ?? "Paris") },
+  { texte: "Notre appartement parisien a été vendu en 18 jours au prix demandé. L'équipe Pierre & Co a géré tout le processus avec un professionnalisme remarquable. Je recommande sans hésiter.", auteur: "Catherine B.", detail: "Vente appartement 145 m², " + (clientCity(sessionData) ?? "Paris") },
   { texte: "Recherche longue et minutieuse, mais l'équipe ne s'est jamais découragée. Ils ont finalement trouvé notre maison de rêve à Neuilly — exactement ce que nous cherchions et dans notre budget.", auteur: "Famille Morin", detail: "Achat maison 280 m², Neuilly-sur-Seine" },
-  { texte: "Honnêteté et transparence du début à la fin. Pas de surprises, pas de pression. Pierre & Co m'a conseillé au mieux de mes intérêts et pas des leurs. C'est rare dans ce métier.", auteur: "Jean-François A.", detail: "Achat + revente simultanés, " + (clientCity({ formData: fd }) ?? "Paris") },
+  { texte: "Honnêteté et transparence du début à la fin. Pas de surprises, pas de pression. Pierre & Co m'a conseillé au mieux de mes intérêts et pas des leurs. C'est rare dans ce métier.", auteur: "Jean-François A.", detail: "Achat + revente simultanés, " + (clientCity(sessionData) ?? "Paris") },
 ];
 }
 let TEMOIGNAGES_SOURCE = TEMOIGNAGES_SOURCE_LIVE();
@@ -144,10 +142,21 @@ export default function PierreCoPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -244,8 +253,12 @@ export default function PierreCoPage() {
             />
           ) : (
             <>
-              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: FONT_SERIF, fontSize: 20, color: scrolled ? C.text : "#fff" }}>{clientName({ formData: fd }) ?? "Pierre"}</span>
-              <span style={{ fontSize: 12, color: C.accent, fontWeight: 700, letterSpacing: 2, marginLeft: 6 }}>&amp; CO</span>
+              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: FONT_SERIF, fontSize: 20, color: scrolled ? C.text : "#fff" }}>{clientName(sessionData) ?? "Pierre"}</span>
+              {/* La seconde moitié du mot-symbole : « Pierre » + « & CO ». Un client qui a
+                   un nom l'occupe entier — sinon on lit « Atelier Céleste & CO ». */}
+              {!clientName(sessionData) && (
+                <span style={{ fontSize: 12, color: C.accent, fontWeight: 700, letterSpacing: 2, marginLeft: 6 }}>&amp; CO</span>
+              )}
             </>
           )}
         </div>
@@ -295,7 +308,7 @@ export default function PierreCoPage() {
           </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Pierre & Co accompagne acheteurs et vendeurs exigeants depuis 2004. Transparence totale, évaluation précise, réseau sélect : votre transaction en mains expertes.
           </>}</motion.p>
 
@@ -419,10 +432,10 @@ export default function PierreCoPage() {
           <h2 style={{ fontFamily: FONT_SERIF, fontSize: "clamp(34px, 4vw, 58px)", fontWeight: 400, color: C.text, margin: "16px 0 18px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "estimation.titre") ?? (<>Découvrez la vraie valeur <em>de votre bien</em>.</>)}</h2>
           <p style={{ fontSize: 17, color: C.textMuted, maxWidth: 500, margin: "0 auto 40px", lineHeight: 1.7 }}>Évaluation offerte en 48h. Aucun engagement, aucune pression — juste une expertise honnête.</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33140000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.text, borderRadius: 6, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accentDark, color: C.white, scale: 1.03 }}>
-              <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "01 40 00 00 00"}
+            <motion.a href={`tel:${fd?.phone ?? "+33140000000"}`} style={{ background: C.accent, color: C.text, borderRadius: 6, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accentDark, color: C.white, scale: 1.03 }}>
+              <Phone size={18} /> {fd?.phone ?? "01 40 00 00 00"}
             </motion.a>
-            <motion.a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@pierreandco.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accentDark}`, borderRadius: 6, padding: "14px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, borderColor: C.accent }}>
+            <motion.a href={`mailto:${fd?.email ?? "contact@pierreandco.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accentDark}`, borderRadius: 6, padding: "14px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, borderColor: C.accent }}>
               <Mail size={18} /> Nous écrire
             </motion.a>
           </div>
@@ -434,10 +447,10 @@ export default function PierreCoPage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 40 }}>
           <div>
             <div style={{ fontFamily: FONT_SERIF, fontSize: 22, color: "#fff", marginBottom: 12 }}>Pierre <span style={{ color: C.accent }}>&amp; Co</span></div>
-            <p style={{ color: "rgba(255,255,255,0.42)", fontSize: 14, lineHeight: 1.6, maxWidth: 260 }}>Immobilier de prestige à {clientCity({ formData: fd }) ?? "Paris"} et Île-de-France depuis 2004.</p>
+            <p style={{ color: "rgba(255,255,255,0.42)", fontSize: 14, lineHeight: 1.6, maxWidth: 260 }}>Immobilier de prestige à {clientCity(sessionData) ?? "Paris"} et Île-de-France depuis 2004.</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {[{ icon: <MapPin size={14} />, t: (clientCity({ formData: fd }) ?? "Paris") + " & agences IDF" }, { icon: <Phone size={14} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "01 40 00 00 00") }, { icon: <Mail size={14} />, t: (clientEmail(sessionData) ?? fd?.email ?? "contact@pierreandco.fr") }].map((item, i) => (
+            {[{ icon: <MapPin size={14} />, t: (clientCity(sessionData) ?? "Paris") + " & agences IDF" }, { icon: <Phone size={14} />, t: (fd?.phone ?? "01 40 00 00 00") }, { icon: <Mail size={14} />, t: (fd?.email ?? "contact@pierreandco.fr") }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.5)", fontSize: 14 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>
@@ -445,7 +458,7 @@ export default function PierreCoPage() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 20, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-          <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 13 }}>© 2026 Pierre & Co Immobilier — Site réalisé par Aevia WS{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 13 }}>© 2026 Pierre & Co Immobilier — Site réalisé par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="#contact" style={{ color: "rgba(255,255,255,0.25)", fontSize: 13, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

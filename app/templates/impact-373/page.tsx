@@ -10,8 +10,8 @@ import { DWELL, useSlides } from "@/lib/templates/hero-kit-2";
 import { HardCutRebuild } from "@/lib/templates/hero-kit-3";
 import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
-  clientCertifications,
   clientAddress,
+  clientCertifications,
   clientCity,
   clientTrade,
   clientPhone,
@@ -19,6 +19,7 @@ import {
   clientEmail,
   clientCodePostalVille,
   clientEyebrow,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -26,6 +27,7 @@ import {
   clientStats,
   clientTagline,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -71,7 +73,7 @@ let HERO = HERO_SOURCE;
 
 const SERVICES_SOURCE = [{"titre": "Transferts aéroport", "desc": "Nice, Cannes-Mandelieu, Toulon-Hyères : vol suivi, 45 minutes d'attente incluses, accueil pancarte en salle d'arrivée.", "tag": "Aéroport"}, {"titre": "Gares & liaisons ville", "desc": "Nice-Ville, Antibes, Monaco : la correspondance sans stress, bagages portés, siège enfant sur demande.", "tag": "Gares"}, {"titre": "Mise à disposition", "desc": "À l'heure ou à la journée : rendez-vous professionnels enchaînés, shopping, visites — le chauffeur attend, vous vivez.", "tag": "Journée"}, {"titre": "Événements & mariages", "desc": "Cortèges coordonnés, navettes invités, retour des noctambules à 4 h : le transport de votre événement, planifié.", "tag": "Événements"}, {"titre": "Trajets longue distance", "desc": "Milan, Gênes, Lyon, Genève : le confort d'une berline plutôt que trois correspondances. Prix ferme avant départ.", "tag": "Longue distance"}, {"titre": "Entreprises & conciergeries", "desc": "Facturation mensuelle, chauffeurs référents, discrétion contractuelle : le partenaire transport de vos clients exigeants.", "tag": "Pro"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
-const METHODE = [{"n": "01", "t": "Réservez, recevez le prix", "d": "SMS, appel ou mail : itinéraire confirmé avec le prix ferme — celui-là, pas un autre."}, {"n": "02", "t": "Le chauffeur vous attend", "d": "En place 10 minutes avant, vol ou train suivi en temps réel : le retard n'est jamais votre problème."}, {"n": "03", "t": "La course, soignée", "d": "Berline hybride récente, eau fraîche, chargeurs, silence si vous préférez — dites-le, c'est votre trajet."}, {"n": "04", "t": "La facture, immédiate", "d": "Reçue par mail à la dépose, notes de frais simplifiées pour les pros."}];
+let METHODE = [{"n": "01", "t": "Réservez, recevez le prix", "d": "SMS, appel ou mail : itinéraire confirmé avec le prix ferme — celui-là, pas un autre."}, {"n": "02", "t": "Le chauffeur vous attend", "d": "En place 10 minutes avant, vol ou train suivi en temps réel : le retard n'est jamais votre problème."}, {"n": "03", "t": "La course, soignée", "d": "Berline hybride récente, eau fraîche, chargeurs, silence si vous préférez — dites-le, c'est votre trajet."}, {"n": "04", "t": "La facture, immédiate", "d": "Reçue par mail à la dépose, notes de frais simplifiées pour les pros."}];
 const ENGAGEMENT_DEMO = ["Chauffeur titulaire de la carte professionnelle VTC, entreprise inscrite au registre REVTC", "Assurance transport de personnes à titre onéreux — pas une assurance auto classique", "Prix ferme annoncé avant la course : aucune majoration nuit, pluie ou aéroport", "Berline hybride entretenue, contrôlée, nettoyée entre chaque course"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 function TARIFS_DEMO_LIVE() {
@@ -110,10 +112,21 @@ export default function RivieraChauffeurPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
 
@@ -121,6 +134,11 @@ export default function RivieraChauffeurPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    fusionnerEtapes(METHODE, clientMethode(sessionData)),
+    METHODE,
+  );
   TARIFS_DEMO = TARIFS_DEMO_LIVE();
 
 

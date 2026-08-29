@@ -8,7 +8,6 @@ import { motion, useScroll, useTransform, useInView, AnimatePresence } from "fra
 import { ArrowRight, ArrowUpRight, X, Menu, Check } from "lucide-react";
 import {
   clientCity,
-  clientEmail,
   clientFaq,
   clientHeroLine,
   clientList,
@@ -204,9 +203,12 @@ const TEAM_DEMO = [
 ];
 let TEAM = TEAM_DEMO;
 
-const TESTIMONIALS_SOURCE = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
-    quote: "Bureau a transformé notre positionnement en 6 semaines. On est passés de «une agence parmi d'autres» à «la référence» dans notre secteur. Chiffres à l'appui.",
+    quote: `${clientName(sessionData) ?? "Bureau"} a transformé notre positionnement en 6 semaines. On est passés de «une agence parmi d'autres» à «la référence» dans notre secteur. Chiffres à l'appui.`,
     name: "Camille Renard",
     role: "Fondatrice, Maison Leroux",
   },
@@ -216,7 +218,7 @@ const TESTIMONIALS_SOURCE = [
     role: "CMO, Volta Energy",
   },
   {
-    quote: "Créatifs, rigoureux, et ils disent non quand c'est nécessaire. C'est rare, et c'est précieux. On a recommandé Bureau à trois de nos partenaires.",
+    quote: `Créatifs, rigoureux, et ils disent non quand c'est nécessaire. C'est rare, et c'est précieux. On a recommandé ${clientName(sessionData) ?? "Bureau"} à trois de nos partenaires.`,
     name: "Léa Fontaine-Bernard",
     role: "CEO, Nude Beauté",
   },
@@ -226,6 +228,8 @@ const TESTIMONIALS_SOURCE = [
     role: "CTO, DataFlux",
   },
 ];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let TESTIMONIALS = TESTIMONIALS_DEMO;
 
@@ -357,15 +361,27 @@ export default function BureauPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   sessionData = session;
   c = session?.generatedContent;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   PLANS = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
@@ -457,7 +473,7 @@ return (
           />
         ) : (
           <span style={{ fontFamily: C.mono, fontSize: 14, letterSpacing: 4, textTransform: "uppercase", color: C.white, fontWeight: 700 }}>
-            {fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "BUREAU"))}
+            {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "BUREAU"))}
           </span>
         )}
         <div id="mb164-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {[
@@ -537,7 +553,7 @@ return (
         {/* Left: oversized headline */}
         <div className="imx-hero164-left" style={{ borderRight: `2px solid ${C.bgDark}`, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "80px 64px" }}>
           <div style={{ fontFamily: C.mono, fontSize: 11, letterSpacing: 4, color: C.textMuted, textTransform: "uppercase" }}>
-            Agence Créative Indépendante — {clientCity({ formData: fd }) ?? "Paris"}, depuis 2019
+            Agence Créative Indépendante — {clientCity(sessionData) ?? "Paris"}, depuis 2019
           </div>
 
           <motion.div style={{ scale: heroTextScale }}>
@@ -965,14 +981,14 @@ return (
       {/* FOOTER */}
       <footer style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", borderBottom: `1px solid ${C.borderLight}` }}>
         <div style={{ padding: "48px 44px", borderRight: `1px solid ${C.borderLight}` }}>
-          <div style={{ fontFamily: C.mono, fontSize: 14, letterSpacing: 4, fontWeight: 700, textTransform: "uppercase", marginBottom: 12 }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "BUREAU"))}</div>
+          <div style={{ fontFamily: C.mono, fontSize: 14, letterSpacing: 4, fontWeight: 700, textTransform: "uppercase", marginBottom: 12 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "BUREAU"))}</div>
           <div style={{ fontFamily: C.mono, fontSize: 10, color: C.textMuted, lineHeight: 1.8, letterSpacing: 1 }}>
-            Agence créative indépendante.<br />{clientCity({ formData: fd }) ?? "Paris"} 11e, France.<br />{clientEmail(sessionData) ?? fd?.email ?? "hello@bureau.co"}</div>
+            Agence créative indépendante.<br />{clientCity(sessionData) ?? "Paris"} 11e, France.<br />{fd?.email ?? "hello@bureau.co"}</div>
         </div>
         {[
           { title: "Services", links: ["Branding", "Web & Dev", "Campagnes", "Direction Art", "UX Design"] },
           { title: "Agence", links: ["À propos", "Travaux", "Manifeste", "Carrières", "Blog"] },
-          { title: "Contact", links: ["Réserver un call", (clientEmail(sessionData) ?? fd?.email ?? "hello@bureau.co"), (clientPhone(sessionData) ?? "+33 1 78 37 77 85"), (clientCity({ formData: fd }) ?? "Paris") + " 75011"] },
+          { title: "Contact", links: ["Réserver un call", (fd?.email ?? "hello@bureau.co"), (clientPhone(sessionData) ?? "+33 1 78 37 77 85"), (clientCity(sessionData) ?? "Paris") + " 75011"] },
         ].map((col, i) => (
           <div key={i} style={{ padding: "48px 44px", borderRight: i < 2 ? `1px solid ${C.borderLight}` : undefined }}>
             <div style={{ fontFamily: C.mono, fontSize: 10, letterSpacing: 4, color: C.accent, marginBottom: 20, textTransform: "uppercase", fontWeight: 700 }}>{col.title}</div>
@@ -985,7 +1001,7 @@ return (
         ))}
       </footer>
       <div style={{ padding: "20px 44px", display: "flex", justifyContent: "space-between", background: C.bg }}>
-        <span style={{ fontFamily: C.mono, fontSize: 10, color: C.borderLight, letterSpacing: 2, textTransform: "uppercase" }}>© 2026 {clientName(sessionData) ?? "Bureau"} — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+        <span style={{ fontFamily: C.mono, fontSize: 10, color: C.borderLight, letterSpacing: 2, textTransform: "uppercase" }}>© 2026 {clientName(sessionData) ?? "Bureau"} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ fontFamily: C.mono, fontSize: 10, color: C.borderLight, letterSpacing: 2, textTransform: "uppercase" }}>Mentions légales · Confidentialité</span>
       </div>
     </div>

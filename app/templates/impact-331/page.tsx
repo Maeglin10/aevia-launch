@@ -18,6 +18,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -26,10 +27,11 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
-   REGARD NORD — Opticiens · Lille centre
+   {clientName(sessionData) ?? "Regard Nord"} — Opticiens · Lille centre
 
    Archétype H4 : éditorial décalé. Le titre XXL déborde sur un panneau clair
    posé plus bas à droite ; la monture pivote au creux de ce recouvrement.
@@ -375,10 +377,21 @@ export default function RegardNordPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   /* Affectations AVANT tout appel de helper. */
@@ -386,9 +399,9 @@ export default function RegardNordPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  FOCALES = FOCALES_LIVE();
   brand = fd?.brandColor ?? null;
 
-  FOCALES = FOCALES_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...SERVICES_SOURCE[i % SERVICES_SOURCE.length],
@@ -422,7 +435,7 @@ export default function RegardNordPage() {
   );
   const SERVICES = SERVICES_DEMO;
   const AVIS = AVIS_DEMO;
-  const METHODE = METHODE_SOURCE;
+  const METHODE = resolveList(fusionnerEtapes(METHODE_SOURCE, clientMethode(sessionData)), METHODE_SOURCE);
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);

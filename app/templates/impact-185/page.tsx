@@ -11,11 +11,9 @@ import {
   clientAddress,
   clientCity,
   clientCodePostalVille,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -33,7 +31,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   GENTLEMAN'S CUT — Barbier premium ({clientCity(sessionData) ?? "Bordeaux"})
+   {clientName(sessionData) ?? "Gentleman's Cut"} — Barbier premium ({clientCity(sessionData) ?? "Bordeaux"})
    Palette : noir encre #0a0908 / or vintage #c9a84c / ivoire #f5f0e8 / charcoal #1e1c1a
    Fonts : Playfair Display (titres) + DM Mono (labels)
    Style : éditorial masculin, premium, brasserie chic, contrasté
@@ -229,7 +227,7 @@ function BookingModal({
 
 function TEMOIGNAGES_LIVE() {
   return [
-  { q: "Meilleur barbier de " + (clientCity({ formData: fd }) ?? "Bordeaux") + ", sans discussion. Rasage au rasoir droit parfait, ambiance vintage au top, et le gars sait vraiment écouter ce qu'on veut.", n: "Julien F.", l: (clientCity({ formData: fd }) ?? "Bordeaux") + " Centre" },
+  { q: "Meilleur barbier de " + (clientCity(sessionData) ?? "Bordeaux") + ", sans discussion. Rasage au rasoir droit parfait, ambiance vintage au top, et le gars sait vraiment écouter ce qu'on veut.", n: "Julien F.", l: (clientCity(sessionData) ?? "Bordeaux") + " Centre" },
   { q: "Je viens depuis 3 ans. On parle de moi d'un coup de ciseau à l'autre, et chaque fois c'est nickel. La fidélité se mérite — ici elle est bien méritée.", n: "Pierre-Louis B.", l: "Mérignac" },
   { q: "Barbier de confiance, propre, précis, discret. Le genre d'endroit où on revient pas pour l'ambiance (bien qu'elle soit top) mais pour le résultat.", n: "Karim T.", l: "Pessac" },
 ];
@@ -268,10 +266,21 @@ export default function GentlemansCutPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -327,7 +336,7 @@ export default function GentlemansCutPage() {
             ) : (
               <>
                 <Scissors className="w-4 h-4 text-[var(--brand,#c9a84c)]" />
-                <span className="font-bold text-[#f5f0e8] tracking-wide text-sm">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Gentleman's <span className="text-[var(--brand,#c9a84c)]">Cut</span></>)}</span>
+                <span className="font-bold text-[#f5f0e8] tracking-wide text-sm">{/* NOM_LOGO */ clientName(sessionData) ?? (<>{(clientName(sessionData) ?? "Gentleman's Cut").split(" ").slice(0, 1).join(" ")} <span className="text-[var(--brand,#c9a84c)]">{(clientName(sessionData) ?? "Gentleman's Cut").split(" ").slice(1).join(" ")}</span></>)}</span>
               </>
             )}
           </div>
@@ -337,8 +346,8 @@ export default function GentlemansCutPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0556789012").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#c9a84c)] font-bold text-sm" style={{ fontFamily: "'DM Mono', monospace" }}>
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "05 56 78 90 12"}
+            <a href={`tel:${fd?.phone ?? "0556789012"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#c9a84c)] font-bold text-sm" style={{ fontFamily: "'DM Mono', monospace" }}>
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "05 56 78 90 12"}
             </a>
             <button onClick={() => openBooking(null)} className="hidden md:block min-h-[44px] px-5 py-2.5 border border-[var(--brand,#c9a84c)] text-[var(--brand,#c9a84c)] text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-[var(--brand,#c9a84c)] hover:text-[#0a0908] transition-all cursor-pointer" style={{ fontFamily: "'DM Mono', monospace" }}>
               Réserver
@@ -348,7 +357,7 @@ export default function GentlemansCutPage() {
               <SheetContent side="right" className="bg-[#0f0e0c] border-[var(--brand,#c9a84c)]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#f5f0e8] hover:text-[var(--brand,#c9a84c)] transition-colors">{l}</Link>)}
-                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0556789012").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#c9a84c)] font-bold text-lg mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "05 56 78 90 12"}</a>
+                  <a href={`tel:${fd?.phone ?? "0556789012"}`} className="flex items-center gap-3 text-[var(--brand,#c9a84c)] font-bold text-lg mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "05 56 78 90 12"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -378,7 +387,7 @@ export default function GentlemansCutPage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-10">
               <div className="w-12 h-[1px] bg-[var(--brand,#c9a84c)]/60" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.55em] text-[var(--brand,#c9a84c)]/70" style={{ fontFamily: "'DM Mono', monospace" }}>{clientTrade(sessionData) ?? "Barbier"} Traditionnel · {clientCity({ formData: fd }) ?? "Bordeaux"}</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.55em] text-[var(--brand,#c9a84c)]/70" style={{ fontFamily: "'DM Mono', monospace" }}>{clientTrade(sessionData) ?? "Barbier"} Traditionnel · {clientCity(sessionData) ?? "Bordeaux"}</span>
             </div>
           </motion.div>
 
@@ -390,7 +399,7 @@ export default function GentlemansCutPage() {
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
-            className="max-w-sm text-sm text-[#f5f0e8]/30 leading-relaxed mb-12" style={{ fontFamily: "'DM Mono', monospace", fontStyle: "normal" }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            className="max-w-sm text-sm text-[#f5f0e8]/30 leading-relaxed mb-12" style={{ fontFamily: "'DM Mono', monospace", fontStyle: "normal" }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Coupe au ciseau, rasage droit, taille de barbe. Techniques ancestrales, produits artisanaux, précision chirurgicale.
           </>}</motion.p>
 
@@ -398,8 +407,8 @@ export default function GentlemansCutPage() {
             <button onClick={() => openBooking(null)} className="min-h-[44px] px-9 py-4 bg-[var(--brand,#c9a84c)] text-[#0a0908] font-bold text-[10px] uppercase tracking-[0.3em]  hover:bg-[#b8973d] transition-colors cursor-pointer" style={{ fontFamily: "'DM Mono', monospace" }}>{c?.ctaText ?? <>
               Prendre rendez-vous
             </>}</button>
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0556789012").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-9 py-4 border border-[#f5f0e8]/12 text-[#f5f0e8]/50 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c9a84c)]/40 hover:text-[var(--brand,#c9a84c)] transition-all" style={{ fontFamily: "'DM Mono', monospace" }}>
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "05 56 78 90 12"}
+            <a href={`tel:${fd?.phone ?? "0556789012"}`} className="flex items-center gap-3 px-9 py-4 border border-[#f5f0e8]/12 text-[#f5f0e8]/50 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c9a84c)]/40 hover:text-[var(--brand,#c9a84c)] transition-all" style={{ fontFamily: "'DM Mono', monospace" }}>
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "05 56 78 90 12"}
             </a>
           </motion.div>
         </motion.div>
@@ -415,7 +424,7 @@ export default function GentlemansCutPage() {
           <p className="text-xl md:text-2xl text-[#f5f0e8]/25 italic leading-relaxed">
             "Un homme bien coiffé n'a pas besoin de se justifier."
           </p>
-          <div className="mt-4 text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a84c)]/40" style={{ fontFamily: "'DM Mono', monospace" }}>— L'esprit Gentleman's Cut</div>
+          <div className="mt-4 text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a84c)]/40" style={{ fontFamily: "'DM Mono', monospace" }}>— L'esprit {clientName(sessionData) ?? "Gentleman's Cut"}</div>
         </div>
       </div>
 
@@ -541,8 +550,8 @@ export default function GentlemansCutPage() {
                 <div className="space-y-4">
                   {[
                     { icon: Clock, t: "Mar-Sam · 9h–19h" },
-                    { icon: MapPin, t: (clientAddress(sessionData) ?? `12 rue du Pas Saint-Georges, 33000 ${clientCity({ formData: fd }) ?? "Bordeaux"}`) },
-                    { icon: Calendar, t: "Résa en ligne ou " + (clientPhone(sessionData) ?? fd?.phone ?? "05 56 78 90 12") },
+                    { icon: MapPin, t: (clientAddress(sessionData) ?? `12 rue du Pas Saint-Georges, 33000 ${clientCity(sessionData) ?? "Bordeaux"}`) },
+                    { icon: Calendar, t: "Résa en ligne ou " + (fd?.phone ?? "05 56 78 90 12") },
                   ].map((item, i) => (
                     <div key={i} className="flex items-center gap-4">
                       <item.icon className="w-4 h-4 text-[var(--brand,#c9a84c)]" />
@@ -599,13 +608,13 @@ export default function GentlemansCutPage() {
               Prêt pour une<br /><span className="italic text-[var(--brand,#c9a84c)]">coupe parfaite ?</span>
             </>)}</h2>
             <p className="text-[#f5f0e8]/25 mb-10 text-sm" style={{ fontFamily: "'DM Mono', monospace" }}>
-              Disponible du mardi au samedi · {clientCity({ formData: fd }) ?? "Bordeaux"} Centre · Sur rendez-vous
+              Disponible du mardi au samedi · {clientCity(sessionData) ?? "Bordeaux"} Centre · Sur rendez-vous
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button onClick={() => openBooking(null)} className="min-h-[44px] px-10 py-4 bg-[var(--brand,#c9a84c)] text-[#0a0908] font-bold text-[10px] uppercase tracking-[0.3em] hover:bg-[#b8973d] transition-colors cursor-pointer" style={{ fontFamily: "'DM Mono', monospace" }}>
                 Réserver maintenant
               </button>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0556789012").replace(/[^+0-9]/g, "")}`} className="min-h-[44px] flex items-center gap-3 px-10 py-4 border border-[#f5f0e8]/10 text-[#f5f0e8]/35 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c9a84c)]/40 hover:text-[var(--brand,#c9a84c)] transition-all cursor-pointer" style={{ fontFamily: "'DM Mono', monospace" }}>
+              <a href={`tel:${fd?.phone ?? "0556789012"}`} className="min-h-[44px] flex items-center gap-3 px-10 py-4 border border-[#f5f0e8]/10 text-[#f5f0e8]/35 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c9a84c)]/40 hover:text-[var(--brand,#c9a84c)] transition-all cursor-pointer" style={{ fontFamily: "'DM Mono', monospace" }}>
                 <Phone className="w-4 h-4" /> Appeler
               </a>
             </div>
@@ -619,13 +628,13 @@ export default function GentlemansCutPage() {
       <footer className="bg-[#050403] pt-16 pb-8 px-6 border-t border-[var(--brand,#c9a84c)]/8">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="flex items-center gap-2.5 mb-5"><Scissors className="w-4 h-4 text-[var(--brand,#c9a84c)]" /><span className="font-bold text-[#f5f0e8] text-sm">Gentleman's Cut</span></div>
-            <p className="text-[#f5f0e8]/15 text-sm leading-relaxed" style={{ fontFamily: "'DM Mono', monospace" }}>{clientTrade(sessionData) ?? "Barbier"} traditionnel à {clientCity({ formData: fd }) ?? "Bordeaux"}. Coupe, rasage, barbe. Depuis 2011.</p>
+            <div className="flex items-center gap-2.5 mb-5"><Scissors className="w-4 h-4 text-[var(--brand,#c9a84c)]" /><span className="font-bold text-[#f5f0e8] text-sm">{clientName(sessionData) ?? "Gentleman's Cut"}</span></div>
+            <p className="text-[#f5f0e8]/15 text-sm leading-relaxed" style={{ fontFamily: "'DM Mono', monospace" }}>{clientTrade(sessionData) ?? "Barbier"} traditionnel à {clientCity(sessionData) ?? "Bordeaux"}. Coupe, rasage, barbe. Depuis 2011.</p>
           </div>
           {[
             { t: "Services", ls: ["Coupe classique", "Rasage traditionnel", "Combo barbe + coupe", "Taille de barbe", "Coloration & gris"] },
             { t: "Infos", ls: ["Notre histoire", "L'équipe", "FAQ", "Avis clients", "Politique hygiène"] },
-            { t: "Adresse", ls: [(clientAddress(sessionData) ?? "12 rue du Pas Saint-Georges"), clientCodePostalVille(sessionData, "33000", "Bordeaux"), "Mar-Sam 9h–19h", (clientPhone(sessionData) ?? fd?.phone ?? "05 56 78 90 12"), (clientEmail(sessionData) ?? fd?.email ?? "contact@gentlemanscut.fr")] },
+            { t: "Adresse", ls: [(clientAddress(sessionData) ?? "12 rue du Pas Saint-Georges"), clientCodePostalVille(sessionData, "33000", "Bordeaux"), "Mar-Sam 9h–19h", (fd?.phone ?? "05 56 78 90 12"), (fd?.email ?? "contact@gentlemanscut.fr")] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c9a84c)]/50 mb-5" style={{ fontFamily: "'DM Mono', monospace" }}>{col.t}</h4>
@@ -636,7 +645,7 @@ export default function GentlemansCutPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-6 border-t border-[var(--brand,#c9a84c)]/6 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f5f0e8]/8" style={{ fontFamily: "'DM Mono', monospace" }}>
-          <span>© 2026 {clientName(sessionData) ?? "Gentleman's Cut"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 890 123 456 00078"} · {clientCity({ formData: fd }) ?? "Bordeaux"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Gentleman's Cut"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 890 123 456 00078"} · {clientCity(sessionData) ?? "Bordeaux"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#c9a84c)]/20">The Art of Grooming</span>
         </div>
       </footer>

@@ -16,12 +16,14 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -224,7 +226,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     quote:
-      "Coureur amateur avec des douleurs récurrentes au genou, j'avais presque renoncé à courir. Après 8 séances chez KinéSport Élite, j'ai repris l'entraînement marathon. Leur approche biomécanique a tout changé.",
+      `Coureur amateur avec des douleurs récurrentes au genou, j'avais presque renoncé à courir. Après 8 séances chez ${clientName(sessionData) ?? "KinéSport Élite"}, j'ai repris l'entraînement marathon. Leur approche biomécanique a tout changé.`,
     name: 'Thomas R.',
     role: 'Coureur amateur · ' + (clientCity(sessionData) ?? 'Paris'),
   },
@@ -1383,7 +1385,7 @@ function MethodPanel() {
           >
             <img
               src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[7] || 'https://images.pexels.com/photos/20860616/pexels-photo-20860616.jpeg?auto=compress&cs=tinysrgb&w=900')}
-              alt="Rééducation sportive — méthode KinéSport Élite"
+              alt={`Rééducation sportive — méthode ${clientName(sessionData) ?? "KinéSport Élite"}`}
               loading="lazy"
               style={{
                 width: '100%',
@@ -1446,7 +1448,7 @@ function MethodPanel() {
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {METHOD_ITEMS.map((item, i) => (
+            {resolveList(fusionnerEtapes(METHOD_ITEMS, clientMethode(sessionData)), METHOD_ITEMS).map((item, i) => (
               <Reveal key={item.number} delay={i * 0.06}>
                 <div className="imx-mobstack"
                   style={{
@@ -2202,10 +2204,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2214,9 +2227,9 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  EDIT_ROWS = EDIT_ROWS_LIVE();
-  PROTOCOLS = PROTOCOLS_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  PROTOCOLS = PROTOCOLS_LIVE();
+  EDIT_ROWS = EDIT_ROWS_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),

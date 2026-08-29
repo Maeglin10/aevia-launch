@@ -1,10 +1,8 @@
 "use client";
 import {
   clientCity,
-  clientCodePostalVille,
   clientEmail,
   clientName,
-  clientPhone,
 } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
@@ -19,10 +17,21 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(__setLayoutSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setLayoutSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
   const fd = __layoutSession?.formData;
 
@@ -41,7 +50,6 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
 
   return (
     <div
-      className="i39"
       style={{
         fontFamily: SANS,
         background: C.bg,
@@ -54,8 +62,7 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
     >
       {/* Load Google Fonts */}
       <style jsx global>{`
-        @import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;0,700;1,500&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
-        .i39 h1, .i39 h2, .i39 h3 { font-family: 'Spectral', Georgia, serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800;900&display=swap');
       `}</style>
 
       {/* NAVBAR */}
@@ -113,12 +120,9 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
             {/* the anchor had no nowrap/flexShrink guard, so under tight tablet
                 width it wrapped onto a second line and broke out of the 72px
                 nav row, overlapping the row below it */}
-            <a href={`tel:${(clientPhone(__layoutSession) ?? fd?.phone ?? "+33 1 84 25 60 40").replace(/[^+0-9]/g, "")}`} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 14, fontWeight: 700, color: C.navy, textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0 }}>
+            <a href={`tel:${fd?.phone ?? "+33100000000"}`} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 14, fontWeight: 700, color: C.navy, textDecoration: "none", whiteSpace: "nowrap", flexShrink: 0 }}>
               <Phone size={15} color={C.orange} />
-              {/* Le gabarit du modèle partait tel quel chez le client : le
-                  lien composait bien son numéro, mais l'étiquette lue à
-                  l'écran restait celle du modèle, pleine de lettres. */}
-              {clientPhone(__layoutSession) ?? fd?.phone ?? "+33 1 84 25 60 40"}
+              +33 1 XX XX XX XX
             </a>
             <Link href="/templates/impact-39/devis" style={{ textDecoration: "none" }}>
               <span
@@ -158,9 +162,9 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
               </Link>
             ))}
             <div style={{ padding: "12px 0 0", display: "flex", flexDirection: "column", gap: 12 }}>
-              <a href={`tel:${(clientPhone(__layoutSession) ?? fd?.phone ?? "+33 1 84 25 60 40").replace(/[^+0-9]/g, "")}`} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 16, fontWeight: 700, color: C.navy, textDecoration: "none" }}>
+              <a href={`tel:${fd?.phone ?? "+33100000000"}`} style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 16, fontWeight: 700, color: C.navy, textDecoration: "none" }}>
                 <Phone size={16} color={C.orange} />
-                {clientPhone(__layoutSession) ?? fd?.phone ?? "+33 1 84 25 60 40"}
+                +33 1 XX XX XX XX
               </a>
               <Link href="/templates/impact-39/devis" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: "none" }}>
                 <button
@@ -188,7 +192,7 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
                   <div style={{ width: 38, height: 38, background: C.orange, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <Truck size={22} color={C.white} />
                   </div>
-                  <span style={{ fontWeight: 800, fontSize: 20, color: C.white }}>{clientName(__layoutSession) ?? "Swift Move"}</span>
+                  <span style={{ fontWeight: 800, fontSize: 20, color: C.white }}>Swift Move</span>
                 </div>
               </Link>
               <p style={{ fontSize: 14, color: "#64748b", lineHeight: 1.75, maxWidth: 260 }}>
@@ -201,13 +205,9 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
                   </a>
                 ))}
               </div>
-              <div style={{ marginTop: 20, display: "flex", flexDirection: "column", gap: 10 }}>
-                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <Phone size={15} color={C.orange} />
-                  <a href={`tel:${(clientPhone(__layoutSession) ?? fd?.phone ?? "01 84 25 60 40").replace(/\s/g, "")}`} style={{ fontSize: 16, fontWeight: 800, color: C.white, textDecoration: "none" }}>{clientPhone(__layoutSession) ?? fd?.phone ?? "01 84 25 60 40"}</a>
-                </div>
-                <a href={`mailto:${clientEmail(__layoutSession) ?? fd?.email ?? "devis@swift-move.fr"}`} style={{ fontSize: 14, color: "#94a3b8", textDecoration: "none", wordBreak: "break-all" }}>{clientEmail(__layoutSession) ?? fd?.email ?? "devis@swift-move.fr"}</a>
-                <span style={{ fontSize: 14, color: "#94a3b8" }}>{clientCodePostalVille(__layoutSession, "75011", "Paris")}</span>
+              <div style={{ marginTop: 20, display: "flex", alignItems: "center", gap: 8 }}>
+                <Phone size={15} color={C.orange} />
+                <a href={`tel:${fd?.phone ?? "+33100000000"}`} style={{ fontSize: 16, fontWeight: 800, color: C.white, textDecoration: "none" }}>+33 1 XX XX XX XX</a>
               </div>
             </div>
             <div>
@@ -251,7 +251,7 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
           </div>
 
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 32, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 16 }}>
-            <p style={{ fontSize: 13, color: "#334155" }}>© {clientName(__layoutSession) ?? "Swift Move"} · Site réalisé par Aevia WS — SIREN <LegalIdentity /></p>
+            <p style={{ fontSize: 13, color: "#334155" }}>© 2025 {clientName(__layoutSession) ?? "Aevia WS"} — SIREN <LegalIdentity /> — {clientEmail(__layoutSession) ?? "contact@exemple.fr"}</p>
             <div style={{ display: "flex", gap: 24 }}>
               <Link href="/templates/impact-39/legal" style={{ textDecoration: "none", fontSize: 13, color: "#334155" }}>
                 Mentions légales

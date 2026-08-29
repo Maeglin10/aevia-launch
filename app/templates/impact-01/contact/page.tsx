@@ -1,5 +1,10 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientTagline,
+  clientText,
+} from "@/lib/templates/clientContent";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -41,10 +46,21 @@ export default function ContactPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
@@ -54,6 +70,7 @@ export default function ContactPage() {
 
   return (
     <div style={{ minHeight: "100dvh", backgroundColor: T.bg, color: T.text, fontFamily: FONT_BODY }}>
+      <EnteteAnnexe session={sessionData} repli="IMPACT" accueil="/templates/impact-01" />
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "80px 24px" }}>
         <Link href="/templates/impact-01" style={{ display: "inline-flex", alignItems: "center", gap: 8, color: T.muted, textDecoration: "none", marginBottom: 60, fontSize: "0.9rem", transition: "color 0.2s" }} onMouseOver={(e) => (e.currentTarget.style.color = T.text)} onMouseOut={(e) => (e.currentTarget.style.color = T.muted)}>
           <ArrowLeft size={16} />
@@ -65,7 +82,7 @@ export default function ContactPage() {
             Let's start a <span style={{ color: T.accent }}>project.</span>
           </h1>
           <p style={{ color: T.muted, fontSize: "1.125rem", maxWidth: 600, lineHeight: 1.6, margin: "0 0 60px 0" }}>
-            Ready to elevate your digital presence? We're currently accepting new projects for Q3. Fill out the form below and we'll get back to you within 24 hours.
+            {/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? clientTagline(sessionData) ?? "Ready to elevate your digital presence? We're currently accepting new projects for Q3. Fill out the form below and we'll get back to you within 24 hours."}
           </p>
         </motion.div>
 

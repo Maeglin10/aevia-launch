@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
 
@@ -245,7 +246,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     verified: true,
   },
   {
-    quote: "Livraison le lendemain, emballage cadeau inclus et une petite note manuscrite. J'offre Éclat à toutes mes amies maintenant. La marque qui comprend le luxe accessible.",
+    quote: `Livraison le lendemain, emballage cadeau inclus et une petite note manuscrite. J'offre ${clientName(sessionData) ?? "Éclat"} à toutes mes amies maintenant. La marque qui comprend le luxe accessible.`,
     name: "Juliette D.",
     location: "Lyon",
     service: "Top Soie Côte d'Azur",
@@ -253,7 +254,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     verified: true,
   },
   {
-    quote: "Enfin une boutique qui a des tailles pour les vraies femmes. Les coupes sont d'une précision rare — le 38 d'Éclat, c'est vraiment un 38 européen.",
+    quote: `Enfin une boutique qui a des tailles pour les vraies femmes. Les coupes sont d'une précision rare — le 38 d'${clientName(sessionData) ?? "Éclat"}, c'est vraiment un 38 européen.`,
     name: "Amélie R.",
     location: "Bordeaux",
     service: "Blazer Sable",
@@ -310,7 +311,10 @@ const LOYALTY_TIERS = [
   },
 ];
 
-const FAQS_DEMO = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function FAQS_DEMO_LIVE() {
+  return [
   {
     q: "Quels sont les délais de livraison ?",
     a: "Livraison standard 2–3 jours ouvrés. Express J+1 disponible (avant 14h). Gratuit dès 150 € d'achat. International disponible vers 45 pays.",
@@ -333,9 +337,11 @@ const FAQS_DEMO = [
   },
   {
     q: "Comment fonctionne le programme fidélité ?",
-    a: "Chaque euro dépensé = 1 point Éclat. À partir de 300 points, accédez au niveau Or avec des avantages exclusifs. Le niveau Platine débute à 800 points annuels.",
+    a: `Chaque euro dépensé = 1 point ${clientName(sessionData) ?? "Éclat"}. À partir de 300 points, accédez au niveau Or avec des avantages exclusifs. Le niveau Platine débute à 800 points annuels.`,
   },
 ];
+}
+let FAQS_DEMO = FAQS_DEMO_LIVE();
 
 const STATS_DEMO = [
   { val: "4.92", label: "Note moyenne", sub: "2 840 avis vérifiés" },
@@ -812,19 +818,31 @@ export default function ImpactEclatPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  BLOG_POSTS = BLOG_POSTS_LIVE();
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   PRODUCTS_DEMO = PRODUCTS_DEMO_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  BLOG_POSTS = BLOG_POSTS_LIVE();
+  FAQS_DEMO = FAQS_DEMO_LIVE();
 
 
 
@@ -1255,7 +1273,7 @@ export default function ImpactEclatPage() {
                 maxWidth: 440,
                 fontWeight: 300,
               }}
-            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Lin, soie, tencel. Des matières qui respirent, des coupes qui durent.
               La mode éditoriale pour celles qui choisissent la qualité sur la quantité.
             </>}</p>
@@ -1753,7 +1771,7 @@ export default function ImpactEclatPage() {
               marginBottom: 16,
             }}
           >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
-            Éclat Fidélité
+            {clientName(sessionData) ?? "Éclat"} Fidélité
           </>)}</h2>
           <p style={{ fontSize: 16, color: C.creamDim, maxWidth: 520, margin: "0 auto", lineHeight: 1.7 }}>
             Plus vous achetez, plus vous accédez à des avantages exclusifs. Trois niveaux,
@@ -2441,7 +2459,7 @@ export default function ImpactEclatPage() {
 
 // ════════════════════════════════════════════════════════════════════════════
 // SUB-PAGE COMPONENTS — all styled exclusively from the `C` design tokens above
-// so they render natively inside Éclat. Shared <PageHero> gives every extra page
+// so they render natively inside {clientName(sessionData) ?? "Éclat"}. Shared <PageHero> gives every extra page
 // the same editorial dark header as the home sections.
 // ════════════════════════════════════════════════════════════════════════════
 
@@ -2533,7 +2551,7 @@ function BoutiquePage({
     <div>
       <PageHero
         eyebrow="Toute la boutique"
-        title="La boutique Éclat"
+        title={`La boutique ${clientName(sessionData) ?? "Éclat"}`}
         subtitle="L'intégralité de nos collections, du lin lavé à la soie grège. Cliquez sur une pièce pour découvrir sa fiche détaillée."
       />
       <section style={{ padding: "clamp(40px, 6vw, 72px) clamp(20px, 6vw, 64px) clamp(72px, 9vw, 100px)" }}>
@@ -2708,7 +2726,7 @@ function ShopCard({ p, i, onOpen }: { p: typeof PRODUCTS_DEMO[0]; i: number; onO
   );
 }
 
-// Product detail view — large visual + size selector + add-to-cart, Éclat styling.
+// Product detail view — large visual + size selector + add-to-cart, {clientName(sessionData) ?? "Éclat"} styling.
 function ProductDetail({
   p,
   onBack,
@@ -2841,7 +2859,7 @@ function ProductDetail({
             )}
           </div>
           <p style={{ fontSize: 15, color: C.creamDim, lineHeight: 1.8, marginBottom: 32, fontWeight: 300, fontFamily: C.sans, maxWidth: 460 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-12.texte") ?? (<>
-            Confectionnée en {p.material.toLowerCase()}, la pièce {p.name} incarne l'élégance intemporelle d'Éclat.
+            Confectionnée en {p.material.toLowerCase()}, la pièce {p.name} incarne l'élégance intemporelle d'{clientName(sessionData) ?? "Éclat"}.
             Coupe étudiée, finitions soignées et matière certifiée pour traverser les saisons sans jamais se démoder.
           </>)}</p>
 
@@ -3014,7 +3032,7 @@ function BlogPage({
             </p>
           ))}
           <div style={{ borderTop: `1px solid ${C.border}`, marginTop: 24, paddingTop: 24, fontSize: 13, color: C.muted, fontFamily: C.sans, fontStyle: "italic" }}>
-            Rédigé par l'équipe éditoriale Éclat.
+            Rédigé par l'équipe éditoriale {clientName(sessionData) ?? "Éclat"}.
           </div>
         </div>
       </section>
@@ -3024,7 +3042,7 @@ function BlogPage({
   return (
     <div>
       <PageHero
-        eyebrow="Journal Éclat"
+        eyebrow={`Journal ${clientName(sessionData) ?? "Éclat"}`}
         title="Le Blog"
         subtitle="Matières, style et coulisses. Nos réflexions sur une mode plus durable et intemporelle."
       />
@@ -3109,7 +3127,7 @@ function AboutPage({ goTo }: { goTo: (p: EclatPage) => void }) {
       <PageHero
         eyebrow="Notre histoire"
         title="L'élégance, avec intention."
-        subtitle="Éclat est née d'une conviction simple : on peut s'habiller avec goût sans compromettre la planète ni les artisans qui font nos vêtements."
+        subtitle={`${clientName(sessionData) ?? "Éclat"} est née d'une conviction simple : on peut s'habiller avec goût sans compromettre la planète ni les artisans qui font nos vêtements.`}
       />
       <section style={{ padding: "clamp(48px, 7vw, 80px) clamp(20px, 6vw, 64px)" }}>
         <div style={{ maxWidth: 720, margin: "0 auto" }}>
@@ -3324,7 +3342,7 @@ function LegalPage({ variant }: { variant: "cgv" | "mentions" }) {
             <p style={para}>
               <strong style={{ color: C.cream }}>Aevia WS</strong> — entrepreneur individuel (auto-entrepreneur).
             </p>
-            <p style={para}>Directeur de la publication : <strong style={{ color: C.cream }}>Valentin Milliand</strong>.</p>
+            <p style={para}>Directeur de la publication : <strong style={{ color: C.cream }}><EditeurDuSite /></strong>.</p>
             <p style={para}>SIREN : <strong style={{ color: C.cream }}><LegalIdentity /></strong> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}.</p>
             <p style={para}>Contact : <strong style={{ color: C.cream }}>{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</strong></p>
             <p style={para}>Adresse du siège social communiquée sur demande à {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}.</p>
@@ -3364,26 +3382,26 @@ function LegalPage({ variant }: { variant: "cgv" | "mentions" }) {
 
           <h2 style={sectionTitle}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Article 1 — Objet</>)}</h2>
           <p style={para}>
-            Les présentes conditions générales de vente régissent les relations contractuelles entre Éclat et tout client
+            Les présentes conditions générales de vente régissent les relations contractuelles entre {clientName(sessionData) ?? "Éclat"} et tout client
             effectuant un achat sur le site. Toute commande implique l'acceptation sans réserve des présentes CGV.
           </p>
 
           <h2 style={sectionTitle}>Article 2 — Prix</h2>
           <p style={para}>
-            Les prix sont indiqués en euros, toutes taxes comprises. Éclat se réserve le droit de modifier ses prix à tout
+            Les prix sont indiqués en euros, toutes taxes comprises. {clientName(sessionData) ?? "Éclat"} se réserve le droit de modifier ses prix à tout
             moment ; les articles sont facturés sur la base des tarifs en vigueur au moment de la validation de la commande.
           </p>
 
           <h2 style={sectionTitle}>Article 3 — Commande</h2>
           <p style={para}>
-            La commande est validée après confirmation du paiement. Un email récapitulatif est adressé au client. Éclat se
+            La commande est validée après confirmation du paiement. Un email récapitulatif est adressé au client. {clientName(sessionData) ?? "Éclat"} se
             réserve le droit d'annuler toute commande en cas de litige de paiement ou de rupture de stock.
           </p>
 
           <h2 style={sectionTitle}>Article 4 — Paiement</h2>
           <p style={para}>
             Le règlement s'effectue par carte bancaire via un prestataire de paiement sécurisé. Aucune donnée bancaire n'est
-            conservée par Éclat.
+            conservée par {clientName(sessionData) ?? "Éclat"}.
           </p>
 
           <h2 style={sectionTitle}>Article 5 — Livraison</h2>

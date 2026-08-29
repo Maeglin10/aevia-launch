@@ -30,7 +30,6 @@ import {
   clientAddress,
   clientCity,
   clientCodePostalVille,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -58,7 +57,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET SOLER — {clientTrade(sessionData) ?? "Ostéopathe"} D.O., {clientCity(sessionData) ?? "Lyon"} · Brotteaux
+   {clientName(sessionData) ?? "Cabinet Soler"} — {clientTrade(sessionData) ?? "Ostéopathe"} D.O., {clientCity(sessionData) ?? "Lyon"} · Brotteaux
    Template premium holistique. Palette forêt × beige lin × terracotta.
    Auto-suffisant. 'use client'. Calqué sur le style éditorial impact-218.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -342,8 +341,6 @@ function Nav() {
         ) : (
           <>
             <span style={dot} />
-            {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
-                portait « Cabinet Soler » sur le site de n'importe quel client. */}
             {clientName(sessionData) ?? "Cabinet Soler"}
           </>
         )}
@@ -2170,8 +2167,8 @@ function PracticalSection() {
       icon: <Phone size={26} color={C.terra} strokeWidth={1.4} />,
       title: 'Contact',
       lines: [
-        (clientPhone(sessionData) ?? fd?.phone ?? '04 78 25 86 86'),
-        (clientEmail(sessionData) ?? fd?.email ?? 'cabinet.soler@gmail.com'),
+        (fd?.phone ?? '04 78 25 86 86'),
+        (fd?.email ?? 'cabinet.soler@gmail.com'),
         'Urgences : via Doctolib',
         'Réponse sous 24h',
       ],
@@ -2359,8 +2356,8 @@ function FooterSection() {
       items: [
         { label: (clientCity(sessionData) ?? 'Lyon') + ' — Brotteaux', href: '#cabinet' },
         { label: 'Métro A — Foch', href: '#cabinet' },
-        { label: (clientPhone(sessionData) ?? '04 78 25 86 86'), href: `tel:${(clientPhone(sessionData) ?? '+33478000000').replace(/[^+0-9]/g, "")}` },
-        { label: 'Email', href: `mailto:${clientEmail(sessionData) ?? 'cabinet.soler@gmail.com'}` },
+        { label: (clientPhone(sessionData) ?? '04 78 25 86 86'), href: 'tel:+33478000000' },
+        { label: 'Email', href: 'mailto:cabinet.soler@gmail.com' },
       ],
     },
   ];
@@ -2401,7 +2398,7 @@ function FooterSection() {
                 flexShrink: 0,
               }}
             />
-            Cabinet Soler · D.O.
+            {clientName(sessionData) ?? "Cabinet Soler"} · D.O.
           </div>
           <p
             style={{
@@ -2592,10 +2589,21 @@ export default function Impact279Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;

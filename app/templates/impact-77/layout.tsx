@@ -19,10 +19,21 @@ export default function HorologsLayout({
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(__setLayoutSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setLayoutSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
   const fd = __layoutSession?.formData;
 
@@ -78,7 +89,7 @@ export default function HorologsLayout({
                 Celestial.
               </span>
               <span className="text-xl md:text-2xl font-black tracking-tighter uppercase text-white">
-                HOROLOGS<span className="text-stone-600">.LUXE</span>
+                {(clientName(__layoutSession) ?? "HOROLOGS.LUXE").split(".")[0]}<span className="text-stone-600">{(clientName(__layoutSession) ?? "HOROLOGS.LUXE").includes(".") ? "." + (clientName(__layoutSession) ?? "HOROLOGS.LUXE").split(".").slice(1).join(".") : ""}</span>
               </span>
             </>
               </>))}</Link>
@@ -173,7 +184,7 @@ export default function HorologsLayout({
                     Celestial.
                   </span>
                   <span className="text-2xl font-black tracking-tighter uppercase text-white">
-                    HOROLOGS<span className="text-stone-600">.LUXE</span>
+                    {(clientName(__layoutSession) ?? "HOROLOGS.LUXE").split(".")[0]}<span className="text-stone-600">{(clientName(__layoutSession) ?? "HOROLOGS.LUXE").includes(".") ? "." + (clientName(__layoutSession) ?? "HOROLOGS.LUXE").split(".").slice(1).join(".") : ""}</span>
                   </span>
                 </div>
                 <p className="text-white/20 max-w-sm mb-12 uppercase tracking-widest text-[10px] font-bold leading-relaxed italic">

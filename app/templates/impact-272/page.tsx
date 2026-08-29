@@ -13,16 +13,18 @@ import {
 import { ArrowRight, ChevronDown, Heart, MapPin, Quote } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientBookingUrl,
   clientAccrocheRestante,
+  clientBookingUrl,
   clientCity,
   clientHeroLine,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1490,7 +1492,7 @@ function MethodPanel() {
             </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {METHOD_ITEMS.map((item, i) => (
+            {resolveList(fusionnerEtapes(METHOD_ITEMS, clientMethode(sessionData)), METHOD_ITEMS).map((item, i) => (
               <Reveal key={item.num} delay={0.06 * i}>
                 <div
                   style={{
@@ -2233,10 +2235,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2245,9 +2258,9 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  BASE = BASE_LIVE();
-  P = P_LIVE();
   EDIT_ROWS = EDIT_ROWS_LIVE();
+  P = P_LIVE();
+  BASE = BASE_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),

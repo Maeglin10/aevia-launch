@@ -55,7 +55,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   AirForge — Premium Sneaker / Streetwear E-commerce
+   {clientName(sessionData) ?? "AirForge"} — Premium Sneaker / Streetwear E-commerce
    Real photography + reference-grade scroll choreography
    (Nike SNKRS × rideradian.com × Apple product pages)
    ════════════════════════════════════════════════════════════════════════════ */
@@ -561,7 +561,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || IMG.hero}
-          alt="AirForge sneaker hero"
+          alt={`${clientName(sessionData) ?? "AirForge"} sneaker hero`}
           loading="eager"
           style={{
             width: '100%',
@@ -1311,7 +1311,7 @@ function STORY_ROWS_LIVE() {
     img: IMG.story1,
     index: '01',
     title: 'Built in the workshop, not the boardroom',
-    body: 'AirForge started in a ' + (clientCity(sessionData) ?? 'Lyon') + ' garage with a heat press and an obsession. Every silhouette is prototyped by hand, stress-tested on real streets, and refined until it earns the name.',
+    body: `${clientName(sessionData) ?? "AirForge"} started in a ` + (clientCity(sessionData) ?? 'Lyon') + ' garage with a heat press and an obsession. Every silhouette is prototyped by hand, stress-tested on real streets, and refined until it earns the name.',
   },
   {
     img: IMG.story2,
@@ -1455,7 +1455,7 @@ function SpecShowcase() {
           <div style={{ position: 'relative', overflow: 'hidden', aspectRatio: '3 / 4' }}>
             <img
               src={IMG.spec}
-              alt="AirForge construction detail"
+              alt={`${clientName(sessionData) ?? "AirForge"} construction detail`}
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
@@ -1814,7 +1814,7 @@ function FinalCTA() {
       >
         <img
           src={IMG.cta}
-          alt="AirForge lifestyle"
+          alt={`${clientName(sessionData) ?? "AirForge"} lifestyle`}
           loading="lazy"
           style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
         />
@@ -2543,10 +2543,21 @@ export default function ImpactSneakerPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;

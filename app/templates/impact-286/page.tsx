@@ -27,17 +27,17 @@ import {
   clientAddress,
   clientBookingUrl,
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
   clientTagline,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -52,7 +52,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET VIDAL — Maître Clara Vidal · Avocate droit social & travail{" "}
+   {clientName(sessionData) ?? "Cabinet Vidal — Maître Clara Vidal"} · Avocate droit social & travail{" "}
    {clientCity(sessionData) ?? "Lyon"} Confluence · Design éditorial premium style Grand Palais × Barreau.
    Auto-suffisant. 'use client'. Pas d'imports externes sauf react/framer/lucide.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -309,8 +309,6 @@ function Nav() {
         ) : (
           <>
             <Scale size={18} color={C.gold} strokeWidth={1.4} />
-            {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
-                portait « Cabinet Vidal » sur le site de n'importe quel client. */}
             {clientName(sessionData) ?? "Cabinet Vidal"}
           </>
         )}
@@ -1042,7 +1040,7 @@ function DomainesSection() {
    ════════════════════════════════════════════════════════════════════════════ */
 type Etape = { num: string; titre: string; corps: string };
 
-const ETAPES: Etape[] = [
+let ETAPES: Etape[] = [
   {
     num: '01',
     titre: 'Analyse de situation',
@@ -2175,15 +2173,15 @@ function PracticalSection() {
       lignes: [
         <span key="a1" style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
           <MapPin size={16} color={C.gold} strokeWidth={1.5} style={{ flexShrink: 0, marginTop: 2 }} />
-          <span>Cabinet Vidal — Droit Social<br />{clientAddress(sessionData) ?? "14, quai Perrache"}<br />69002 {clientCity(sessionData) ?? "Lyon"} Confluence</span>
+          <span>{clientName(sessionData) ?? "Cabinet Vidal"} — Droit Social<br />{clientAddress(sessionData) ?? "14, quai Perrache"}<br />69002 {clientCity(sessionData) ?? "Lyon"} Confluence</span>
         </span>,
         <span key="a2" style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 12 }}>
           <Phone size={16} color={C.gold} strokeWidth={1.5} style={{ flexShrink: 0 }} />
           <a
-            href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33472000000").replace(/[^+0-9]/g, "")}`}
+            href={`tel:${fd?.phone ?? "+33472000000"}`}
             style={{ color: 'inherit', textDecoration: 'none' }}
           >
-            {clientPhone(sessionData) ?? fd?.phone ?? "04 72 00 00 00"}
+            {fd?.phone ?? "04 72 00 00 00"}
           </a>
         </span>,
         <span key="a3" style={{ display: 'block', marginTop: 8 }}>
@@ -2307,7 +2305,7 @@ function PracticalSection() {
 }
 
 /* ════════════════════════════════════════════════════════════════════════════
-   10 · PIED DE PAGE — Logo Cabinet Vidal, Barreau de {clientCity(sessionData) ?? "Lyon"}, mentions légales
+   10 · PIED DE PAGE — Logo {clientName(sessionData) ?? "Cabinet Vidal"}, Barreau de {clientCity(sessionData) ?? "Lyon"}, mentions légales
    ════════════════════════════════════════════════════════════════════════════ */
 function FooterSection() {
   const cols: { titre: string; items: { label: string; href: string }[] }[] = [
@@ -2512,7 +2510,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2026 {clientName(sessionData) ?? "Cabinet Vidal"} — Maître Clara Vidal, Avocate. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "Cabinet Vidal — Maître Clara Vidal, Avocate"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           <a
@@ -2584,10 +2582,21 @@ export default function Impact286Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2595,6 +2604,11 @@ export default function Impact286Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  ETAPES = resolveList(
+    fusionnerEtapes(ETAPES, clientMethode(sessionData)),
+    ETAPES,
+  );
   PHOTO = PHOTO_LIVE();
 
   useEffect(() => {

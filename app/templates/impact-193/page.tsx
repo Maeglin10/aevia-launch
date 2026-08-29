@@ -11,12 +11,10 @@ import {
   clientAddress,
   clientCity,
   clientCodePostalVille,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -36,7 +34,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   OSTÉO GAÏA — {clientTrade(sessionData) ?? "Ostéopathe"} D.O. ({clientCity(sessionData) ?? "Montpellier"})
+   {clientName(sessionData) ?? "Ostéo Gaïa"} — {clientTrade(sessionData) ?? "Ostéopathe"} D.O. ({clientCity(sessionData) ?? "Montpellier"})
    Palette : sable doux #f5f0e8 / terracotta #c26b4c / brun chaud #5a3825 / beige foncé #3a2e28
    Fonts : Libre Baskerville (titres humanistes) + Lato
    Style : bien-être, corps, soin, chaleureux, corporel, confiance
@@ -73,7 +71,10 @@ function TARIFS_DEMO_LIVE() {
 let TARIFS_DEMO = TARIFS_DEMO_LIVE();;
 let TARIFS = TARIFS_DEMO;
 
-const AGENDA = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ j: h.day, h: h.hours })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function AGENDA_LIVE() {
+  return /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ j: h.day, h: h.hours })), [
   { j: "Lundi", h: "9h — 19h" },
   { j: "Mardi", h: "9h — 19h" },
   { j: "Mercredi", h: "9h — 13h" },
@@ -81,6 +82,8 @@ const AGENDA = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any)
   { j: "Vendredi", h: "9h — 18h" },
   { j: "Samedi", h: "9h — 13h, un samedi sur deux" },
 ]);
+}
+let AGENDA = AGENDA_LIVE();
 
 const PRISES_EN_CHARGE_DEMO = [
   { icon: Wind, title: "Douleurs du dos & lombalgies", desc: "Cervicalgie, dorsalgie, lombalgie, sciatique. Traitement manuel des restrictions de mobilité articulaire et musculaire. Soins adaptés aux douleurs chroniques et aiguës." },
@@ -133,18 +136,30 @@ export default function OsteoGaiaPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  TARIFS_DEMO = TARIFS_DEMO_LIVE();
   AVIS_DEMO = AVIS_DEMO_LIVE();
+  TARIFS_DEMO = TARIFS_DEMO_LIVE();
+  AGENDA = AGENDA_LIVE();
 
 
   TARIFS = resolveList(
@@ -199,7 +214,7 @@ export default function OsteoGaiaPage() {
               <div className="font-bold text-[#3a2e28] text-sm" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Libre Baskerville', Georgia, serif" }}>{clientName(sessionData)}</div>
             ) : (<>
               <>
-                <div className="font-bold text-[#3a2e28] text-sm" style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>Ostéo Gaïa</div>
+                <div className="font-bold text-[#3a2e28] text-sm" style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>{clientName(sessionData) ?? "Ostéo Gaïa"}</div>
                 <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#c26b4c)]/60">{clientTrade(sessionData) ?? "Ostéopathe"} D.O. · {clientCity(sessionData) ?? "Montpellier"}</div>
               </>
             </>))}
@@ -210,8 +225,8 @@ export default function OsteoGaiaPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0467891234").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#c26b4c)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 67 89 12 34"}
+            <a href={`tel:${fd?.phone ?? "0467891234"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#c26b4c)] font-bold text-sm">
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "04 67 89 12 34"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#c26b4c)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#a85a3c] transition-colors rounded-lg">
               Prendre RDV
@@ -221,7 +236,7 @@ export default function OsteoGaiaPage() {
               <SheetContent side="right" className="bg-[#f5f0e8] border-slate-200 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#3a2e28] hover:text-[var(--brand,#c26b4c)] transition-colors" style={{ fontFamily: "'Libre Baskerville', serif" }}>{l}</Link>)}
-                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0467891234").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#c26b4c)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 67 89 12 34"}</a>
+                  <a href={`tel:${fd?.phone ?? "0467891234"}`} className="flex items-center gap-3 text-[var(--brand,#c26b4c)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "04 67 89 12 34"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -251,7 +266,7 @@ export default function OsteoGaiaPage() {
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-md text-sm text-[#f5f0e8]/30 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            className="max-w-md text-sm text-[#f5f0e8]/30 leading-relaxed mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Cabinet d'ostéopathie à {clientCity(sessionData) ?? "Montpellier"}. Douleurs du dos, nourrissons, sportifs, grossesse. Approche globale, douce et personnalisée. Prise en charge mutuelle partielle.
           </>}</motion.p>
 
@@ -259,8 +274,8 @@ export default function OsteoGaiaPage() {
             <button className="px-9 py-4 bg-[var(--brand,#c26b4c)] text-white font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#a85a3c] transition-colors rounded-lg">{c?.ctaText ?? <>
               Prendre rendez-vous
             </>}</button>
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0467891234").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-9 py-4 border border-[#f5f0e8]/12 text-[#f5f0e8]/40 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c26b4c)]/40 hover:text-[#d4937a] transition-all rounded-lg">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 67 89 12 34"}
+            <a href={`tel:${fd?.phone ?? "0467891234"}`} className="flex items-center gap-3 px-9 py-4 border border-[#f5f0e8]/12 text-[#f5f0e8]/40 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c26b4c)]/40 hover:text-[#d4937a] transition-all rounded-lg">
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "04 67 89 12 34"}
             </a>
           </motion.div>
         </motion.div>
@@ -453,8 +468,8 @@ export default function OsteoGaiaPage() {
               <button className="px-10 py-4 bg-white text-[var(--brand,#c26b4c)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f5f0e8] transition-colors rounded-lg shadow-lg">
                 Prendre rendez-vous
               </button>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0467891234").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-lg">
-                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 67 89 12 34"}
+              <a href={`tel:${fd?.phone ?? "0467891234"}`} className="flex items-center gap-3 px-10 py-4 border border-white/25 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all rounded-lg">
+                <Phone className="w-4 h-4" /> {fd?.phone ?? "04 67 89 12 34"}
               </a>
             </div>
           </div>
@@ -465,14 +480,14 @@ export default function OsteoGaiaPage() {
       <footer className="bg-[#231a14] pt-20 pb-10 px-6">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="font-bold text-[#f5f0e8] mb-1 text-sm" style={{ fontFamily: "'Libre Baskerville', serif" }}>Ostéo Gaïa</div>
+            <div className="font-bold text-[#f5f0e8] mb-1 text-sm" style={{ fontFamily: "'Libre Baskerville', serif" }}>{clientName(sessionData) ?? "Ostéo Gaïa"}</div>
             <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c26b4c)]/50 mb-5">Emma Dubois · D.O.</div>
             <p className="text-[#f5f0e8]/20 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Ostéopathe"} diplômée D.O. à {clientCity(sessionData) ?? "Montpellier"}. Dos, nourrissons, sportifs, grossesse, viscéral, crânio-sacré.</p>
           </div>
           {[
             { t: "Soins", ls: ["Lombalgies & dos", "Nourrissons & bébés", "Grossesse & post-partum", "Sportifs", "Céphalées", "Viscéral"] },
             { t: "Cabinet", ls: ["L'approche", "Mon parcours", "Tarifs & remboursements", "Avis patients", "FAQ"] },
-            { t: "RDV", ls: [(clientAddress(sessionData) ?? "8 rue de la Merci"), clientCodePostalVille(sessionData, "34000", "Montpellier"), "Mar-Sam 8h30-19h", (clientPhone(sessionData) ?? fd?.phone ?? "04 67 89 12 34"), (clientEmail(sessionData) ?? fd?.email ?? "contact@osteo-gaia.fr")] },
+            { t: "RDV", ls: [(clientAddress(sessionData) ?? "8 rue de la Merci"), clientCodePostalVille(sessionData, "34000", "Montpellier"), "Mar-Sam 8h30-19h", (fd?.phone ?? "04 67 89 12 34"), (fd?.email ?? "contact@osteo-gaia.fr")] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c26b4c)]/40 mb-5">{col.t}</h4>

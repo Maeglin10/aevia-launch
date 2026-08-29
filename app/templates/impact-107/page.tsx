@@ -114,10 +114,21 @@ export default function MeridianJourneyPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -199,7 +210,7 @@ export default function MeridianJourneyPage() {
             ) : (
               <>
                 <Compass className="w-6 h-6 text-[var(--brand,#2dd4bf)]" />
-                <span className="text-xl font-bold tracking-[0.2em] uppercase">{clientName({ formData: fd }) ?? "Meridian"}</span>
+                <span className="text-xl font-bold tracking-[0.2em] uppercase">{clientName(sessionData) ?? "Meridian"}</span>
               </>
             )}
           </Link>
@@ -246,7 +257,7 @@ export default function MeridianJourneyPage() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>
-              <p className="max-w-lg text-lg text-white/50 font-light leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              <p className="max-w-lg text-lg text-white/50 font-light leading-relaxed">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Guided expeditions to the world's most remote landscapes. Small teams, real challenge, permanent transformation.
               </>}</p>
             </Reveal>
@@ -461,7 +472,7 @@ export default function MeridianJourneyPage() {
           ))}
         </div>
         <div className="max-w-[1400px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
-          <span>© 2026 {clientName(sessionData) ?? "MERIDIAN EXPEDITIONS."}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "MERIDIAN EXPEDITIONS."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span>INTO THE UNKNOWN.</span>
         </div>
       </footer>

@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
@@ -9,16 +10,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { Menu, X, ArrowRight, Zap, BarChart3, Users, CheckCircle, ChevronDown, Globe, Layers, Bell, Shield, Code2, TrendingUp, Cpu, Server, Lock, HelpCircle } from "lucide-react";
 import {
-  clientAddress,
   clientCity,
-  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientReviews,
   clientServices,
+  clientSlug,
   clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -107,17 +106,17 @@ function testimonials_LIVE() {
   return resolveList(
 
   clientReviews({ formData: fd, businessProfile: bp, generatedContent: c })?.map((r: any, i: number) => ({ ...([
-  { name: "Aurélie Marchand", role: "COO — Fintech Scale-up", text: "Streamline a réduit notre temps de réunion de 40%. Tout le monde sait exactement quoi faire et quand. Indispensable.", rating: 5 },
+  { name: "Aurélie Marchand", role: "COO — Fintech Scale-up", text: `${clientName(sessionData) ?? "Streamline"} a réduit notre temps de réunion de 40%. Tout le monde sait exactement quoi faire et quand. Indispensable.`, rating: 5 },
   { name: "Thomas Leroy", role: "CTO — Agence digitale", text: "L'API est un chef-d'œuvre. On a construit notre propre couche d'automatisation en 2 semaines. Aucune autre plateforme n'offre ça.", rating: 5 },
   { name: "Sophie Chen", role: "VP Product — SaaS B2B", text: "Migration de Jira en 3 jours. L'équipe a adoré dès le premier jour. Le support a été réactif à chaque étape.", rating: 5 },
 ])[i % ([
-  { name: "Aurélie Marchand", role: "COO — Fintech Scale-up", text: "Streamline a réduit notre temps de réunion de 40%. Tout le monde sait exactement quoi faire et quand. Indispensable.", rating: 5 },
+  { name: "Aurélie Marchand", role: "COO — Fintech Scale-up", text: `${clientName(sessionData) ?? "Streamline"} a réduit notre temps de réunion de 40%. Tout le monde sait exactement quoi faire et quand. Indispensable.`, rating: 5 },
   { name: "Thomas Leroy", role: "CTO — Agence digitale", text: "L'API est un chef-d'œuvre. On a construit notre propre couche d'automatisation en 2 semaines. Aucune autre plateforme n'offre ça.", rating: 5 },
   { name: "Sophie Chen", role: "VP Product — SaaS B2B", text: "Migration de Jira en 3 jours. L'équipe a adoré dès le premier jour. Le support a été réactif à chaque étape.", rating: 5 },
 ]).length], text: r.text, name: r.author })),
 
   [
-  { name: "Aurélie Marchand", role: "COO — Fintech Scale-up", text: "Streamline a réduit notre temps de réunion de 40%. Tout le monde sait exactement quoi faire et quand. Indispensable.", rating: 5 },
+  { name: "Aurélie Marchand", role: "COO — Fintech Scale-up", text: `${clientName(sessionData) ?? "Streamline"} a réduit notre temps de réunion de 40%. Tout le monde sait exactement quoi faire et quand. Indispensable.`, rating: 5 },
   { name: "Thomas Leroy", role: "CTO — Agence digitale", text: "L'API est un chef-d'œuvre. On a construit notre propre couche d'automatisation en 2 semaines. Aucune autre plateforme n'offre ça.", rating: 5 },
   { name: "Sophie Chen", role: "VP Product — SaaS B2B", text: "Migration de Jira en 3 jours. L'équipe a adoré dès le premier jour. Le support a été réactif à chaque étape.", rating: 5 },
 ],
@@ -158,18 +157,29 @@ export default function StreamlinePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  testimonials = testimonials_LIVE();
   plans = plans_LIVE();
+  testimonials = testimonials_LIVE();
 
 
 
@@ -200,20 +210,20 @@ export default function StreamlinePage() {
     clientFaq({ formData: fd, businessProfile: bp, generatedContent: c })?.map((f: any, i: number) => ({ ...([
     { q: "Combien de temps dure l'essai gratuit ?", a: "14 jours, sans carte de crédit requise. Accès complet à toutes les fonctionnalités Growth." },
     { q: "Puis-je migrer depuis Jira, Asana ou Monday ?", a: "Oui. Notre outil d'import automatique gère Jira, Asana, Monday.com, Trello et Notion en quelques minutes." },
-    { q: "Streamline est-il conforme RGPD ?", a: "Oui. Données hébergées en Europe (Frankfurt), DPA disponible, droit à l'effacement et à la portabilité respectés." },
+    { q: `${clientName(sessionData) ?? "Streamline"} est-il conforme RGPD ?`, a: "Oui. Données hébergées en Europe (Frankfurt), DPA disponible, droit à l'effacement et à la portabilité respectés." },
     { q: "Y a-t-il un engagement de durée ?", a: "Non. Abonnement mensuel ou annuel (-20%), annulation à tout moment sans frais." },
     { q: "Quelle est la limite d'utilisateurs sur le plan Starter ?", a: "5 membres actifs sur le plan Starter. Passez à Growth pour des équipes illimitées." },
   ])[i % ([
     { q: "Combien de temps dure l'essai gratuit ?", a: "14 jours, sans carte de crédit requise. Accès complet à toutes les fonctionnalités Growth." },
     { q: "Puis-je migrer depuis Jira, Asana ou Monday ?", a: "Oui. Notre outil d'import automatique gère Jira, Asana, Monday.com, Trello et Notion en quelques minutes." },
-    { q: "Streamline est-il conforme RGPD ?", a: "Oui. Données hébergées en Europe (Frankfurt), DPA disponible, droit à l'effacement et à la portabilité respectés." },
+    { q: `${clientName(sessionData) ?? "Streamline"} est-il conforme RGPD ?`, a: "Oui. Données hébergées en Europe (Frankfurt), DPA disponible, droit à l'effacement et à la portabilité respectés." },
     { q: "Y a-t-il un engagement de durée ?", a: "Non. Abonnement mensuel ou annuel (-20%), annulation à tout moment sans frais." },
     { q: "Quelle est la limite d'utilisateurs sur le plan Starter ?", a: "5 membres actifs sur le plan Starter. Passez à Growth pour des équipes illimitées." },
   ]).length], q: f.q, a: f.a })),
     [
     { q: "Combien de temps dure l'essai gratuit ?", a: "14 jours, sans carte de crédit requise. Accès complet à toutes les fonctionnalités Growth." },
     { q: "Puis-je migrer depuis Jira, Asana ou Monday ?", a: "Oui. Notre outil d'import automatique gère Jira, Asana, Monday.com, Trello et Notion en quelques minutes." },
-    { q: "Streamline est-il conforme RGPD ?", a: "Oui. Données hébergées en Europe (Frankfurt), DPA disponible, droit à l'effacement et à la portabilité respectés." },
+    { q: `${clientName(sessionData) ?? "Streamline"} est-il conforme RGPD ?`, a: "Oui. Données hébergées en Europe (Frankfurt), DPA disponible, droit à l'effacement et à la portabilité respectés." },
     { q: "Y a-t-il un engagement de durée ?", a: "Non. Abonnement mensuel ou annuel (-20%), annulation à tout moment sans frais." },
     { q: "Quelle est la limite d'utilisateurs sur le plan Starter ?", a: "5 membres actifs sur le plan Starter. Passez à Growth pour des équipes illimitées." },
   ],
@@ -239,7 +249,7 @@ return (
             ) : (
               <>
                 <div className="w-8 h-8 bg-gradient-to-br from-[var(--brand,#3B82F6)] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Layers className="w-4 h-4 text-white" /></div>
-                <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Streamline"))}</span>
+                <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Streamline"))}</span>
               </>
             )}
           </div>
@@ -280,7 +290,7 @@ return (
                   style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-white font-bold text-xl">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Streamline"))}</span>
+                <span className="text-white font-bold text-xl">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Streamline"))}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
@@ -323,7 +333,7 @@ return (
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.2} className="text-center">
-                  <p className="text-gray-400 text-base sm:text-xl max-w-2xl mx-auto mb-6 md:mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>Projets, équipes, analytics, intégrations. Streamline centralise votre stack de productivité et automatise ce qui peut l'être.</>}</p>
+                  <p className="text-gray-400 text-base sm:text-xl max-w-2xl mx-auto mb-6 md:mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>Projets, équipes, analytics, intégrations. {clientName(sessionData) ?? "Streamline"} centralise votre stack de productivité et automatise ce qui peut l'être.</>}</p>
                 </Reveal>
                 <Reveal delay={0.3} className="flex flex-col sm:flex-row justify-center gap-3 md:gap-4">
                   <button onClick={() => goTo("tarifs")} className="bg-[var(--brand,#3B82F6)] text-white font-bold px-8 py-4 rounded-xl hover:bg-[#2563EB] transition-colors cursor-pointer flex items-center justify-center gap-2">
@@ -338,7 +348,7 @@ return (
                   <div className="bg-[#161B27] border border-white/10 rounded-2xl p-6 overflow-hidden">
                     <div className="flex items-center gap-3 mb-6">
                       <div className="flex gap-1.5"><div className="w-3 h-3 rounded-full bg-red-500/70" /><div className="w-3 h-3 rounded-full bg-yellow-500/70" /><div className="w-3 h-3 rounded-full bg-green-500/70" /></div>
-                      <span className="text-gray-500 text-xs">streamline — Vue Kanban</span>
+                      <span className="text-gray-500 text-xs">{clientSlug(sessionData) ?? "streamline"} — Vue Kanban</span>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 overflow-x-auto">
                       {kanban.map(col => (
@@ -442,7 +452,7 @@ return (
           <div className="md:col-span-2">
             <div onClick={() => goTo("home")} className="flex items-center gap-2 mb-4 cursor-pointer">
               <div className="w-8 h-8 bg-gradient-to-br from-[var(--brand,#3B82F6)] to-[#8B5CF6] rounded-lg flex items-center justify-center"><Layers className="w-4 h-4 text-white" /></div>
-              <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Streamline"))}</span>
+              <span className="text-white font-bold text-lg">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Streamline"))}</span>
             </div>
             <p className="text-gray-500 text-sm leading-relaxed">La plateforme de productivité pour les équipes modernes. Gérez tout votre travail en un seul endroit.</p>
           </div>
@@ -470,36 +480,16 @@ return (
           ))}
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex justify-between text-xs text-gray-600">
-          <span>© 2026 {clientName(sessionData) ?? "Streamline."} Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Streamline."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span>Made in 🇫🇷 {clientCity(sessionData) ?? "Paris"}</span>
         </div>
-        {/* Les coordonnées. Ce thème n'affichait aucun moyen d'être joint —
-            ni numéro, ni adresse, ni formulaire. Elles viennent de la session
-            du client, jamais d'un exemple en dur, et le bloc disparaît si le
-            client n'en a renseigné aucune. Liens réels : sur un téléphone, un
-            numéro qu'on ne peut pas toucher ne sert à rien. */}
-        {(clientPhone(sessionData) || clientEmail(sessionData) || clientAddress(sessionData)) && (
-          <div className="aevia-contact-pied max-w-6xl mx-auto border-t border-white/5 pt-8 mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm text-white/50">
-            {clientPhone(sessionData) && (
-              <a href={`tel:${clientPhone(sessionData)!.replace(/[^+0-9]/g, "")}`} className="hover:text-[var(--brand,#3B82F6)] transition-colors">
-                {clientPhone(sessionData)}
-              </a>
-            )}
-            {clientEmail(sessionData) && (
-              <a href={`mailto:${clientEmail(sessionData)}`} className="hover:text-[var(--brand,#3B82F6)] transition-colors">
-                {clientEmail(sessionData)}
-              </a>
-            )}
-            {clientAddress(sessionData) && <span>{clientAddress(sessionData)}</span>}
-          </div>
-        )}
       </footer>
     </div>
   );
 }
 
 /* ==========================================================================
-   SUB-PAGE COMPONENTS (STREAMLINE DARK SAAS STYLE)
+   SUB-PAGE COMPONENTS ({clientName(sessionData) ?? "Streamline"} DARK SAAS STYLE)
    ========================================================================= */
 
 function FeaturesPage() {
@@ -645,7 +635,7 @@ function DocsPage() {
               Requête API standard pour lister les tâches actives :
             </p>
             <pre className="bg-[#0D1117] p-4 rounded-xl text-xs text-gray-300 overflow-x-auto font-mono">
-              GET https://api.streamline.sh/v1/tasks?status=active
+              GET https://api.{clientSlug(sessionData) ?? "streamline"}.sh/v1/tasks?status=active
             </pre>
           </div>
         </div>
@@ -659,16 +649,16 @@ function BlogPage() {
     clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
     { title: "Comment réduire le temps de réunion de 40%", desc: "Découvrez nos techniques agiles et l'utilisation de tableaux de bord Kanban pour dynamiser la communication d'équipe.", date: "10 juin 2026" },
     { title: "Intégrer Salesforce & Slack sans écrire de code", desc: "Guide pas-à-pas pour synchroniser vos opportunités commerciales vers vos canaux d'alertes en 5 minutes.", date: "2 juin 2026" },
-    { title: "Lancement de Streamline v3.0 : Rapidité décuplée", desc: "Découvrez notre nouveau moteur d'exécution asynchrone qui accélère le temps de réponse global de 50%.", date: "18 mai 2026" }
+    { title: `Lancement de ${clientName(sessionData) ?? "Streamline"} v3.0 : Rapidité décuplée`, desc: "Découvrez notre nouveau moteur d'exécution asynchrone qui accélère le temps de réponse global de 50%.", date: "18 mai 2026" }
   ])[i % ([
     { title: "Comment réduire le temps de réunion de 40%", desc: "Découvrez nos techniques agiles et l'utilisation de tableaux de bord Kanban pour dynamiser la communication d'équipe.", date: "10 juin 2026" },
     { title: "Intégrer Salesforce & Slack sans écrire de code", desc: "Guide pas-à-pas pour synchroniser vos opportunités commerciales vers vos canaux d'alertes en 5 minutes.", date: "2 juin 2026" },
-    { title: "Lancement de Streamline v3.0 : Rapidité décuplée", desc: "Découvrez notre nouveau moteur d'exécution asynchrone qui accélère le temps de réponse global de 50%.", date: "18 mai 2026" }
+    { title: `Lancement de ${clientName(sessionData) ?? "Streamline"} v3.0 : Rapidité décuplée`, desc: "Découvrez notre nouveau moteur d'exécution asynchrone qui accélère le temps de réponse global de 50%.", date: "18 mai 2026" }
   ]).length], title: s.title, desc: s.desc || "" })),
     [
     { title: "Comment réduire le temps de réunion de 40%", desc: "Découvrez nos techniques agiles et l'utilisation de tableaux de bord Kanban pour dynamiser la communication d'équipe.", date: "10 juin 2026" },
     { title: "Intégrer Salesforce & Slack sans écrire de code", desc: "Guide pas-à-pas pour synchroniser vos opportunités commerciales vers vos canaux d'alertes en 5 minutes.", date: "2 juin 2026" },
-    { title: "Lancement de Streamline v3.0 : Rapidité décuplée", desc: "Découvrez notre nouveau moteur d'exécution asynchrone qui accélère le temps de réponse global de 50%.", date: "18 mai 2026" }
+    { title: `Lancement de ${clientName(sessionData) ?? "Streamline"} v3.0 : Rapidité décuplée`, desc: "Découvrez notre nouveau moteur d'exécution asynchrone qui accélère le temps de réponse global de 50%.", date: "18 mai 2026" }
   ],
   );
 
@@ -710,11 +700,11 @@ function LegalPage() {
           <div className="border-b border-white/5 pb-4">
             <div className="text-[var(--brand,#3B82F6)] text-[10px] font-bold uppercase mb-2">ÉDITEUR</div>
             <p className="leading-relaxed font-sans text-sm text-gray-300">
-              <strong>Aevia WS — Valentin Milliand</strong><br />
+              <strong><EditeurDuSite /></strong><br />
               Entrepreneur individuel<br />
               SIREN : <LegalIdentity /><br />
-              {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}<br />
-              Email : {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}<br />
+              {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
+              Email : {fd?.email ?? "contact@exemple.fr"}<br />
               Adresse : Communiquée sur demande
             </p>
           </div>
@@ -731,7 +721,7 @@ function LegalPage() {
           <div>
             <div className="text-[var(--brand,#3B82F6)] text-[10px] font-bold uppercase mb-2">PROPRIÉTÉ INTELLECTUELLE</div>
             <p className="leading-relaxed font-sans text-xs text-gray-500">
-              Le logiciel Streamline, les icônes, les marques ainsi que les codes de style présents sur cette plateforme sont la propriété exclusive d'Aevia WS ou de ses concédants de licence. Toute reproduction est soumise à approbation écrite.
+              Le logiciel {clientName(sessionData) ?? "Streamline"}, les icônes, les marques ainsi que les codes de style présents sur cette plateforme sont la propriété exclusive d'Aevia WS ou de ses concédants de licence. Toute reproduction est soumise à approbation écrite.
             </p>
           </div>
         </div>

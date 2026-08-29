@@ -37,6 +37,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -46,10 +47,11 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CAP ASSURANCES — Courtier en assurances · Brest
+   {clientName(sessionData) ?? "Cap Assurances"} — Courtier en assurances · Brest
    Geste signature : ComposeIn (hero-kit-3). La scène du hero part vide, puis
    les garanties arrivent une par une, chacune depuis son bord — c'est la
    couverture qui se compose devant l'assuré, pas un diaporama qui défile.
@@ -165,7 +167,7 @@ const METHODE_SOURCE = [
   { n: "03", t: "Souscription sans rupture", d: "Résiliations gérées par nos soins, aucune journée sans couverture, cartes vertes et attestations immédiates." },
   { n: "04", t: "Revue annuelle", d: "Chaque année, on vérifie que vos contrats suivent votre vie : déménagement, naissance, nouveau véhicule, nouvelle activité." },
 ];
-const METHODE = METHODE_SOURCE;
+let METHODE = METHODE_SOURCE;
 
 const ENGAGEMENT_SOURCE = [
   "Immatriculés à l'ORIAS (n° 26 004 512), contrôlés par l'ACPR",
@@ -576,16 +578,32 @@ export default function CapAssurancesPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    fusionnerEtapes(METHODE_SOURCE, clientMethode(sessionData)),
+    METHODE_SOURCE,
+  );
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

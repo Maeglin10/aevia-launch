@@ -40,6 +40,7 @@ import {
   clientHeroSubtitle,
   clientList,
   clientName,
+  clientNameOr,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -63,7 +64,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   LUMYX — Premium Electric Urban Mobility
+   {clientName(sessionData) ?? "Lumyx"} — Premium Electric Urban Mobility
    Real-photography scroll choreography
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -213,7 +214,7 @@ function Nav() {
                 <Zap size={16} color={C.bg} fill={C.bg} />
               </div>
               <span style={{ fontWeight: 900, fontSize: '1.4rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const, color: C.white }}>
-                LU<span style={{ color: C.blue }}>M</span>YX
+                {clientName(sessionData) ?? <>LU<span style={{ color: C.blue }}>M</span>YX</>}
               </span>
             </>
           )}
@@ -307,7 +308,7 @@ function Hero() {
       <motion.div style={{ position: 'absolute', inset: '-12%', scale: imgScale, y: imgY }}>
         <img
           src={IMG.hero}
-          alt="Lumyx — scooter électrique premium en ville"
+          alt={`${clientName(sessionData) ?? "Lumyx"} — scooter électrique premium en ville`}
           loading="eager"
           style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
         />
@@ -339,7 +340,7 @@ function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.55 }}
           style={{ fontSize: fl(1, 1.25), color: C.whiteOff, maxWidth: '480px', lineHeight: 1.65, marginBottom: '2.5rem' }}
-        >{clientHeroSubtitle(sessionData) ?? "Lumyx repense la mobilité électrique avec une ingénierie de précision et un design qui impose le respect."}</motion.p>
+        >{clientHeroSubtitle(sessionData) ?? ((clientName(sessionData) ?? "Lumyx") + " repense la mobilité électrique avec une ingénierie de précision et un design qui impose le respect.")}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -520,11 +521,16 @@ function StickyCrossfade() {
 /* ════════════════════════════════════════════════════════════════════════════
    MODELS
    ════════════════════════════════════════════════════════════════════════════ */
-const MODELS_SOURCE = [
-  { name: 'Lumyx ONE', tagline: "L'essentiel réinventé",      price: '2 490', range: '120 km', speed: '35 km/h', charge: '3.5 h', img: IMG.bike,     badge: 'Bestseller',      accent: C.blue },
-  { name: 'Lumyx PRO', tagline: 'Pour ceux qui vont plus loin',price: '3 890', range: '180 km', speed: '45 km/h', charge: '2.5 h', img: IMG.ride,     badge: 'Recommandé',      accent: '#7c3aed' },
-  { name: 'Lumyx GT',  tagline: 'La performance absolue',     price: '5 490', range: '230 km', speed: '45 km/h', charge: '1.8 h', img: IMG.hero,     badge: 'Édition limitée', accent: brand ?? 'var(--brand,#f59e0b)' },
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function MODELS_SOURCE_LIVE() {
+  return [
+  { name: `${clientName(sessionData) ?? "Lumyx"} ONE`, tagline: "L'essentiel réinventé",      price: '2 490', range: '120 km', speed: '35 km/h', charge: '3.5 h', img: IMG.bike,     badge: 'Bestseller',      accent: C.blue },
+  { name: `${clientName(sessionData) ?? "Lumyx"} PRO`, tagline: 'Pour ceux qui vont plus loin',price: '3 890', range: '180 km', speed: '45 km/h', charge: '2.5 h', img: IMG.ride,     badge: 'Recommandé',      accent: '#7c3aed' },
+  { name: `${clientName(sessionData) ?? "Lumyx"} GT`,  tagline: 'La performance absolue',     price: '5 490', range: '230 km', speed: '45 km/h', charge: '1.8 h', img: IMG.hero,     badge: 'Édition limitée', accent: brand ?? 'var(--brand,#f59e0b)' },
 ];
+}
+let MODELS_SOURCE = MODELS_SOURCE_LIVE();
 let MODELS = MODELS_SOURCE;
 
 type ModelType = typeof MODELS[0];
@@ -632,7 +638,10 @@ function Models() {
 /* ════════════════════════════════════════════════════════════════════════════
    TECH EDITORIAL
    ════════════════════════════════════════════════════════════════════════════ */
-const EDITORIAL_SOURCE = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function EDITORIAL_SOURCE_LIVE() {
+  return [
   {
     eyebrow: 'Ingénierie',
     title:   'Batterie longue portée Samsung 21700',
@@ -644,12 +653,14 @@ const EDITORIAL_SOURCE = [
   {
     eyebrow: 'Design',
     title:   'Cadre aluminium 6061-T6 brossé',
-    body:    "Chaque ligne du châssis Lumyx est le résultat de 18 mois de conception aérodynamique. Rigidité structurelle maximale pour un poids de 19,5 kg seulement.",
+    body:    `Chaque ligne du châssis ${clientName(sessionData) ?? "Lumyx"} est le résultat de 18 mois de conception aérodynamique. Rigidité structurelle maximale pour un poids de 19,5 kg seulement.`,
     img:     IMG.city,
     pills:   ['IP67 waterproof', 'Poids 19,5 kg', 'CNC usiné'],
     reverse: true,
   },
 ];
+}
+let EDITORIAL_SOURCE = EDITORIAL_SOURCE_LIVE();
 let EDITORIAL = EDITORIAL_SOURCE;
 
 type EditorialRowType = typeof EDITORIAL[0];
@@ -710,14 +721,19 @@ function TechEditorial() {
 /* ════════════════════════════════════════════════════════════════════════════
    STICKY SPEC
    ════════════════════════════════════════════════════════════════════════════ */
-const SPEC_BULLETS_SOURCE = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function SPEC_BULLETS_SOURCE_LIVE() {
+  return [
   { icon: <Battery size={20} />, title: 'Autonomie 230 km',   desc: 'Batterie 52V 25Ah — la plus longue autonomie du segment.' },
   { icon: <Gauge size={20} />,   title: '45 km/h en pointe',  desc: 'Moteur brushless 750W avec couple de démarrage instantané.' },
   { icon: <Zap size={20} />,     title: 'Charge rapide 1.8h', desc: 'Chargeur GaN 65W inclus. Compatible Fast Charge DC en option.' },
   { icon: <Shield size={20} />,  title: 'IP67 certifié',      desc: 'Résistant à la pluie battante. Traversez la ville en toute saison.' },
   { icon: <Leaf size={20} />,    title: 'Zéro émission',      desc: 'Bilan carbone neutre sur 3 ans vs voiture thermique équivalente.' },
-  { icon: <Globe size={20} />,   title: 'App connectée',      desc: 'GPS temps réel, diagnostics live, verrouillage à distance via app Lumyx.' },
+  { icon: <Globe size={20} />,   title: 'App connectée',      desc: `GPS temps réel, diagnostics live, verrouillage à distance via app ${clientName(sessionData) ?? "Lumyx"}.` },
 ];
+}
+let SPEC_BULLETS_SOURCE = SPEC_BULLETS_SOURCE_LIVE();
 let SPEC_BULLETS = SPEC_BULLETS_SOURCE;
 
 function SpecBullet({ bullet, index }: { bullet: typeof SPEC_BULLETS[0]; index: number }) {
@@ -753,10 +769,10 @@ function StickySpec() {
         {/* Sticky vehicle photo */}
         <div style={{ flex: '0 0 45%', position: 'sticky', top: '15vh', overflow: 'hidden', borderRadius: '4px' }}>
           <motion.div style={{ y: imgY }}>
-            <img src={IMG.detail} alt="Lumyx GT — détail technique" loading="lazy" style={{ width: '100%', height: '70vh', objectFit: 'cover', display: 'block', borderRadius: '4px' }} />
+            <img src={IMG.detail} alt={`${clientName(sessionData) ?? "Lumyx"} GT — détail technique`} loading="lazy" style={{ width: '100%', height: '70vh', objectFit: 'cover', display: 'block', borderRadius: '4px' }} />
           </motion.div>
           <div style={{ position: 'absolute', bottom: '1.5rem', left: '1.5rem', background: 'rgba(6,8,13,0.88)', backdropFilter: 'blur(12px)', border: `1px solid ${C.border}`, padding: '1rem 1.5rem', borderRadius: '2px' }}>
-            <div style={{ color: C.blue, fontSize: '0.68rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase' as const, marginBottom: '0.3rem' }}>Lumyx GT</div>
+            <div style={{ color: C.blue, fontSize: '0.68rem', fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase' as const, marginBottom: '0.3rem' }}>{clientName(sessionData) ?? "Lumyx"} GT</div>
             <div style={{ fontSize: '1.2rem', fontWeight: 900 }}>Fiche technique complète</div>
           </div>
         </div>
@@ -797,7 +813,7 @@ function Gallery() {
         <motion.div ref={ref} initial={{ opacity: 0, y: 30 }} animate={inView ? { opacity: 1, y: 0 } : {}} style={{ marginBottom: '3rem', textAlign: 'center' }}>
           <div style={{ color: C.blue, fontSize: '0.72rem', fontWeight: 800, letterSpacing: '0.2em', textTransform: 'uppercase' as const, marginBottom: '1rem' }}>Galerie</div>
           <h2 style={{ fontSize: fl(1.8, 3.5), fontWeight: 900, textTransform: 'uppercase' as const, letterSpacing: '-0.02em' }}>{/* TEXTE_SECTION */ clientText(sessionData, "galerie.titre") ?? (<>
-            Lumyx dans la <span style={{ color: C.blue }}>vraie vie</span>
+            {clientName(sessionData) ?? "Lumyx"} dans la <span style={{ color: C.blue }}>vraie vie</span>
           </>)}</h2>
         </motion.div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.75rem' }}>
@@ -819,7 +835,7 @@ function Gallery() {
             >
               <img
                 src={p.img}
-                alt={`Lumyx — galerie urbaine ${i + 1}`}
+                alt={`${clientName(sessionData) ?? "Lumyx"} — galerie urbaine ${i + 1}`}
                 loading="lazy"
                 style={{ width: '100%', height: `${p.h}px`, objectFit: 'cover', display: 'block', transition: 'transform 0.5s ease' }}
               />
@@ -836,11 +852,11 @@ function Gallery() {
    ════════════════════════════════════════════════════════════════════════════ */
 function TESTIMONIALS_SOURCE_LIVE() {
   return [
-  { quote: '"Je prends le Lumyx PRO tous les matins pour aller au bureau. 22 km aller-retour sans recharge depuis 6 mois. Je n\'ai plus touché ma voiture."', name: 'Camille D.', city: 'Lyon, 69', stars: 5 },
+  { quote: `"Je prends le ${clientName(sessionData) ?? "Lumyx"} PRO tous les matins pour aller au bureau. 22 km aller-retour sans recharge depuis 6 mois. Je n\'ai plus touché ma voiture."`, name: 'Camille D.', city: 'Lyon, 69', stars: 5 },
   { quote: '"Le design est dingue. Mes collègues pensaient que c\'était une moto italienne de luxe. Et l\'autonomie est réelle — pas juste sur papier."',  name: 'Thomas M.', city: 'Paris, 75', stars: 5 },
-  { quote: '"J\'habite en banlieue de ' + (clientCity(sessionData) ?? 'Bordeaux') + ' et le Lumyx ONE couvre mes 18 km de trajet chaque jour sans sourciller. La charge rapide le soir en 3h30, c\'est parfait pour mon rythme."', name: 'Sophie L.', city: (clientCity(sessionData) ?? 'Bordeaux') + ', 33', stars: 5 },
+  { quote: '"J\'habite en banlieue de ' + (clientCity(sessionData) ?? 'Bordeaux') + ' et le ' + (clientName(sessionData) ?? 'Lumyx') + ' ONE couvre mes 18 km de trajet chaque jour sans sourciller. La charge rapide le soir en 3h30, c\'est parfait pour mon rythme."', name: 'Sophie L.', city: (clientCity(sessionData) ?? 'Bordeaux') + ', 33', stars: 5 },
   { quote: '"La qualité de fabrication est bluffante. Cadre aluminium, finitions impeccables. On sent que c\'est fait pour durer. Je recommande sans hésitation."', name: 'Antoine R.', city: 'Strasbourg, 67', stars: 5 },
-  { quote: '"Passée du vélo classique au Lumyx GT et je ne reviendrai jamais en arrière. La montée du Vieux-' + (clientCity(sessionData) ?? 'Nantes') + ', les 45 km/h en palier — la liberté absolue."', name: 'Lucie B.', city: (clientCity(sessionData) ?? 'Nantes') + ', 44', stars: 5 },
+  { quote: `"Passée du vélo classique au ${clientName(sessionData) ?? "Lumyx"} GT et je ne reviendrai jamais en arrière. La montée du Vieux-` + (clientCity(sessionData) ?? 'Nantes') + ', les 45 km/h en palier — la liberté absolue."', name: 'Lucie B.', city: (clientCity(sessionData) ?? 'Nantes') + ', 44', stars: 5 },
   { quote: '"Le GPS intégré et l\'app sont vraiment bien foutus. Suivi temps réel, historique de trajets, verrouillage à distance. J\'ai même retrouvé mon scoot après une fausse alerte vol."', name: 'Maxime P.', city: 'Rennes, 35', stars: 5 },
 ];
 }
@@ -963,10 +979,10 @@ function ReserveForm() {
         </div>
 
         <h2 style={{ fontSize: fl(2, 4), fontWeight: 900, textTransform: 'uppercase' as const, letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '1.25rem' }}>{/* TEXTE_SECTION */ clientText(sessionData, "reserve.titre") ?? (<>
-          Réservez votre<br /><span style={{ color: C.blue, textShadow: `0 0 30px ${C.blueGlow}` }}>Lumyx maintenant</span>
+          Réservez votre<br /><span style={{ color: C.blue, textShadow: `0 0 30px ${C.blueGlow}` }}>{clientName(sessionData) ?? "Lumyx"} maintenant</span>
         </>)}</h2>
         <p style={{ color: C.whiteOff, fontSize: fl(0.95, 1.1), lineHeight: 1.65, marginBottom: '2.5rem' }}>
-          Réservez avec 0 € d'engagement. Livraison en septembre 2026. Vous serez parmi les premiers à rouler Lumyx en France.
+          Réservez avec 0 € d'engagement. Livraison en septembre 2026. Vous serez parmi les premiers à rouler {clientName(sessionData) ?? "Lumyx"} en France.
         </p>
 
         <AnimatePresence mode="wait">
@@ -1063,7 +1079,7 @@ function ReserveForm() {
               </div>
               <div style={{ fontSize: '1.3rem', fontWeight: 900 }}>Réservation confirmée</div>
               <div style={{ color: C.whiteOff, lineHeight: 1.6 }}>
-                Merci {name}. Votre {model} est réservée. Nous vous enverrons un email à <strong>{email}</strong>. Bienvenue dans la révolution Lumyx.
+                Merci {name}. Votre {model} est réservée. Nous vous enverrons un email à <strong>{email}</strong>. Bienvenue dans la révolution {clientName(sessionData) ?? "Lumyx"}.
               </div>
             </motion.div>
           )}
@@ -1093,7 +1109,7 @@ function ReserveForm() {
    ════════════════════════════════════════════════════════════════════════════ */
 function Footer() {
   const cols = [
-    { title: 'Produits',   links: ['Lumyx ONE', 'Lumyx PRO', 'Lumyx GT', 'Accessoires', 'App Lumyx'] },
+    { title: 'Produits',   links: [`${clientName(sessionData) ?? "Lumyx"} ONE`, `${clientName(sessionData) ?? "Lumyx"} PRO`, `${clientName(sessionData) ?? "Lumyx"} GT`, 'Accessoires', `App ${clientName(sessionData) ?? "Lumyx"}`] },
     { title: 'Entreprise', links: ["Notre vision", 'Presse', 'Partenaires', 'Carrières', 'Contact'] },
     { title: 'Support',    links: ['FAQ', 'Manuel utilisateur', 'Garantie', 'Réparation', 'Stations de charge'] },
   ];
@@ -1111,7 +1127,7 @@ function Footer() {
                 <Zap size={16} color={C.bg} fill={C.bg} />
               </div>
               <span style={{ fontWeight: 900, fontSize: '1.4rem', letterSpacing: '0.15em', textTransform: 'uppercase' as const }}>
-                LU<span style={{ color: C.blue }}>M</span>YX
+                {clientName(sessionData) ?? <>LU<span style={{ color: C.blue }}>M</span>YX</>}
               </span>
             </div>
             <p style={{ color: C.muted, fontSize: '0.9rem', lineHeight: 1.7, maxWidth: '280px', marginBottom: '1.5rem' }}>
@@ -1204,10 +1220,21 @@ export default function LumyxPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -1215,6 +1242,9 @@ export default function LumyxPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  SPEC_BULLETS_SOURCE = SPEC_BULLETS_SOURCE_LIVE();
+  MODELS_SOURCE = MODELS_SOURCE_LIVE();
+  EDITORIAL_SOURCE = EDITORIAL_SOURCE_LIVE();
   IMG = IMG_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 

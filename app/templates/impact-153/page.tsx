@@ -20,10 +20,10 @@ import {
 } from "framer-motion"
 import Link from "next/link"
 import {
-  clientBookingUrl,
-  clientHeroPrestations,
   clientAccrocheRestante,
+  clientBookingUrl,
   clientCity,
+  clientHeroPrestations,
   clientHeroSubtitle,
   clientReviews,
   clientServices,
@@ -2245,7 +2245,7 @@ function Footer() {
               letterSpacing: "0.03em",
             }}
           >
-            © {year} Atlas Expedition Logistics AG. All rights reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © {year} Atlas Expedition Logistics AG. All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: "flex", gap: 24 }}>
             {["Privacy", "Terms", "Safety"].map((l) => (
@@ -2303,10 +2303,21 @@ export default function ExpeditionTemplatePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;

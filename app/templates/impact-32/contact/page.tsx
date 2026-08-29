@@ -1,8 +1,10 @@
 "use client";
-import { clientTeam, clientFaq } from "@/lib/templates/clientContent";
 import {
   clientCity,
+  clientFaq,
   clientHours,
+  clientTeam,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 
@@ -166,12 +168,17 @@ function CONTACT_INFO_LIVE() {
 }
 let CONTACT_INFO = CONTACT_INFO_LIVE();
 
-const HOURS = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, hours: h.hours })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function HOURS_LIVE() {
+  return /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, hours: h.hours })), [
   { day: "Lundi – Vendredi", hours: "8h00 – 20h00", open: true },
   { day: "Samedi", hours: "8h00 – 18h00", open: true },
   { day: "Dimanche & Jours fériés", hours: "Sur urgence uniquement", open: false },
   { day: "Urgences", hours: "24h/24 — 7j/7", open: true, urgent: true },
 ]);
+}
+let HOURS = HOURS_LIVE();
 
 // ─── Contact Hero ─────────────────────────────────────────────────────────────
 function ContactHero() {
@@ -1286,20 +1293,34 @@ export default function ContactPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
-
-  fd = __session?.formData;
-  bp = __session?.businessProfile;
-  c = __session?.generatedContent;
+  HOURS = HOURS_LIVE();
   EMERGENCY_FAQ = EMERGENCY_FAQ_LIVE();
   GUARD_TEAM = GUARD_TEAM_LIVE();
+
+  memoriserSession(__session);
+
+  fd = __session?.formData;
   CONTACT_INFO = CONTACT_INFO_LIVE();
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
 
   return (
     <>

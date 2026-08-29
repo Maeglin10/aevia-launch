@@ -11,11 +11,9 @@ import {
   clientAddress,
   clientCity,
   clientCodePostalVille,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -36,7 +34,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   ATELIER LÉONIE — Salon de coiffure premium femmes ({clientCity(sessionData) ?? "Paris"})
+   {clientName(sessionData) ?? "ATELIER LÉONIE"} — Salon de coiffure premium femmes ({clientCity(sessionData) ?? "Paris"})
    Palette : crème #faf6f1 / vieux rose #c97b7b / or rosé #d4a5a5 / encre #1a1218
    Fonts : Bodoni Moda (titres élégants) + Lato (corps épuré)
    Style : luxe accessible, féminin, chaud, boudoir élégant
@@ -104,7 +102,7 @@ let PRESTATIONS = PRESTATIONS_DEMO;
 function TESTIMONIALS_DEMO_LIVE() {
   return [
   { q: "Léonie a transformé mes cheveux abîmés en quelque chose de sublime. Le balayage est naturel, la couleur exactement ce que je voulais. Enfin une vraie experte.", n: "Sophie M.", l: (clientCity(sessionData) ?? "Paris") },
-  { q: "Coiffure de mariée parfaite le jour J. L'essai en amont m'a permis d'ajuster chaque détail. On s'est senti chouchouté du début à la fin. Merci Atelier Léonie !", n: "Clémence R.", l: (clientCity(sessionData) ?? "Paris") + " 75" },
+  { q: `Coiffure de mariée parfaite le jour J. L'essai en amont m'a permis d'ajuster chaque détail. On s'est senti chouchouté du début à la fin. Merci ${clientName(sessionData) ?? "ATELIER LÉONIE"} !`, n: "Clémence R.", l: (clientCity(sessionData) ?? "Paris") + " 75" },
   { q: "Lissage brésilien impeccable. Résultat qui dure 4 mois, aucun problème aux repousses. Pour moi c'est devenu un rituel bi-annuel incontournable.", n: "Aïcha D.", l: "Neuilly-sur-Seine" },
 ];
 }
@@ -289,10 +287,21 @@ export default function AtelierLeoniePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -360,8 +369,8 @@ export default function AtelierLeoniePage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0145678901").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#c97b7b)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "01 45 67 89 01"}
+            <a href={`tel:${fd?.phone ?? "0145678901"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#c97b7b)] font-bold text-sm">
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "01 45 67 89 01"}
             </a>
             <button onClick={() => openBooking(null)} className="hidden md:block min-h-[44px] px-5 py-2.5 bg-[var(--brand,#c97b7b)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#b56868] transition-colors cursor-pointer">
               Réserver
@@ -371,7 +380,7 @@ export default function AtelierLeoniePage() {
               <SheetContent side="right" className="bg-[#faf6f1] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#1a1218] hover:text-[var(--brand,#c97b7b)] transition-colors" style={{ fontFamily: "'Bodoni Moda', serif" }}>{l}</Link>)}
-                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0145678901").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#c97b7b)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "01 45 67 89 01"}</a>
+                  <a href={`tel:${fd?.phone ?? "0145678901"}`} className="flex items-center gap-3 text-[var(--brand,#c97b7b)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "01 45 67 89 01"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -409,7 +418,7 @@ export default function AtelierLeoniePage() {
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
-            className="max-w-sm text-sm text-white/32 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            className="max-w-sm text-sm text-white/32 leading-relaxed mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Salon de coiffure premium à {clientCity(sessionData) ?? "Paris"}. Coupe, couleur, soins, extensions, coiffure de mariée. Stylistes passionnées, produits haut de gamme, résultat sur mesure.
           </>}</motion.p>
 
@@ -417,8 +426,8 @@ export default function AtelierLeoniePage() {
             <button onClick={() => openBooking(null)} className="min-h-[44px] px-9 py-4 bg-[var(--brand,#c97b7b)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#b56868] transition-colors cursor-pointer">{c?.ctaText ?? <>
               Prendre rendez-vous
             </>}</button>
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0145678901").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-9 py-4 border border-white/12 text-white/50 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c97b7b)]/40 hover:text-[#d4a5a5] transition-all">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "01 45 67 89 01"}
+            <a href={`tel:${fd?.phone ?? "0145678901"}`} className="flex items-center gap-3 px-9 py-4 border border-white/12 text-white/50 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c97b7b)]/40 hover:text-[#d4a5a5] transition-all">
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "01 45 67 89 01"}
             </a>
           </motion.div>
         </motion.div>
@@ -593,8 +602,8 @@ export default function AtelierLeoniePage() {
               <button onClick={() => openBooking(null)} className="min-h-[44px] px-10 py-4 bg-[var(--brand,#c97b7b)] text-white font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#b56868] transition-colors cursor-pointer">
                 Réserver maintenant
               </button>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0145678901").replace(/[^+0-9]/g, "")}`} className="min-h-[44px] flex items-center gap-3 px-10 py-4 border border-white/12 text-white/40 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c97b7b)]/40 hover:text-[#d4a5a5] transition-all cursor-pointer">
-                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "01 45 67 89 01"}
+              <a href={`tel:${fd?.phone ?? "0145678901"}`} className="min-h-[44px] flex items-center gap-3 px-10 py-4 border border-white/12 text-white/40 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c97b7b)]/40 hover:text-[#d4a5a5] transition-all cursor-pointer">
+                <Phone className="w-4 h-4" /> {fd?.phone ?? "01 45 67 89 01"}
               </a>
             </div>
           </div>
@@ -607,14 +616,14 @@ export default function AtelierLeoniePage() {
       <footer className="bg-[#110c10] pt-20 pb-10 px-6 border-t border-white/5">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="font-bold text-white mb-1 text-sm" style={{ fontFamily: "'Bodoni Moda', serif" }}>Atelier Léonie</div>
+            <div className="font-bold text-white mb-1 text-sm" style={{ fontFamily: "'Bodoni Moda', serif" }}>{clientName(sessionData) ?? "ATELIER LÉONIE"}</div>
             <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#c97b7b)]/40 mb-5">Salon · {clientCity(sessionData) ?? "Paris"}</div>
             <p className="text-white/20 text-sm leading-relaxed">Salon de coiffure premium. Coupe, couleur, soins, extensions, coiffure de mariée. Produits Kérastase & Olaplex.</p>
           </div>
           {[
             { t: "Prestations", ls: ["Coupe & brushing", "Couleur & balayage", "Soins & traitements", "Extensions", "Coiffure mariée"] },
             { t: "Salon", ls: ["L'équipe", "Nos produits", "Tarifs", "Galerie", "FAQ"] },
-            { t: "Nous trouver", ls: [(clientAddress(sessionData) ? "" : "38 av. Victor Hugo"), clientCodePostalVille(sessionData, "75016", "Paris"), "Mar-Sam 9h-19h", (clientPhone(sessionData) ?? fd?.phone ?? "01 45 67 89 01"), (clientEmail(sessionData) ?? fd?.email ?? "contact@atelier-leonie.fr")] },
+            { t: "Nous trouver", ls: [(clientAddress(sessionData) ? "" : "38 av. Victor Hugo"), clientCodePostalVille(sessionData, "75016", "Paris"), "Mar-Sam 9h-19h", (fd?.phone ?? "01 45 67 89 01"), (fd?.email ?? "contact@atelier-leonie.fr")] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c97b7b)]/40 mb-5">{col.t}</h4>

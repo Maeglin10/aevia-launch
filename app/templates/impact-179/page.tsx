@@ -10,10 +10,8 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAreas,
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -32,7 +30,7 @@ let bp: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   AQUANOVA PISCINES — Pisciniste / Constructeur de piscines ({clientCity({ formData: fd }) ?? "Lyon"})
+   AQUANOVA PISCINES — Pisciniste / Constructeur de piscines ({clientCity(sessionData) ?? "Lyon"})
    Palette : blanc / bleu atlantique var(--brand) / ardoise / acier
    Fonts : Outfit (titres) + Roboto Mono (accents)
    Style : clair, propre, professionnel, confiance
@@ -82,7 +80,7 @@ let TARIFS = TARIFS_DEMO;
 
 function ZONES_DEMO_LIVE() {
   return [
-  { v: (clientCity({ formData: fd }) ?? "Lyon") + " — 9e", d: "Intervention sous 2 h en urgence" },
+  { v: (clientCity(sessionData) ?? "Lyon") + " — 9e", d: "Intervention sous 2 h en urgence" },
   { v: (clientCity(sessionData) ?? "Villeurbanne") + " · Vaulx-en-Velin", d: "Sous 2 h" },
   { v: "Caluire · Rillieux", d: "Sous 3 h" },
   { v: "Écully · Tassin · Francheville", d: "Sous 3 h" },
@@ -162,9 +160,9 @@ export default function AquanovaPiscinesPage() {
       s: r.stars ?? r.rating ?? 5,
     })),
     [
-      { q: "Notre piscine miroir est une pure merveille. De l'étude 3D à la mise en eau, l'équipe a été d'un professionnalisme rare. Délais tenus, budget respecté.", n: "Sandrine M.", l: (clientCity({ formData: fd }) ?? "Lyon") + " 3ème", s: 5 },
+      { q: "Notre piscine miroir est une pure merveille. De l'étude 3D à la mise en eau, l'équipe a été d'un professionnalisme rare. Délais tenus, budget respecté.", n: "Sandrine M.", l: (clientCity(sessionData) ?? "Lyon") + " 3ème", s: 5 },
       { q: "Rénovation complète de notre bassin des années 90 : nouveau liner, margelles, filtration au sel. Résultat bluffant. On se croirait dans une piscine neuve.", n: "Patrick & Aurélie F.", l: (clientCity(sessionData) ?? "Villeurbanne"), s: 5 },
-      { q: "Couloir de nage installé en 6 semaines, chantier propre et bien organisé. Le système de nage à contre-courant est top. Je recommande les yeux fermés.", n: "Luc B.", l: (clientCity({ formData: fd }) ?? "Lyon") + " 6ème", s: 5 },
+      { q: "Couloir de nage installé en 6 semaines, chantier propre et bien organisé. Le système de nage à contre-courant est top. Je recommande les yeux fermés.", n: "Luc B.", l: (clientCity(sessionData) ?? "Lyon") + " 6ème", s: 5 },
     ]
   );
 
@@ -177,10 +175,21 @@ export default function AquanovaPiscinesPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -266,8 +275,8 @@ export default function AquanovaPiscinesPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478987654").replace(/[^+0-9]/g, "")}`} className={`hidden md:flex items-center gap-2 font-bold text-sm ${scrolled ? "text-[var(--brand)]" : "text-white"}`}>
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 98 76 54"}
+            <a href={`tel:${fd?.phone ?? "0478987654"}`} className={`hidden md:flex items-center gap-2 font-bold text-sm ${scrolled ? "text-[var(--brand)]" : "text-white"}`}>
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "04 78 98 76 54"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand)] text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded hover:bg-[#0284c7] transition-colors">
               Devis Gratuit
@@ -279,8 +288,8 @@ export default function AquanovaPiscinesPage() {
                   {NAV.map(({ l, h }) => (
                     <Link key={l} href={h} className="text-3xl font-bold text-[#0f172a] hover:text-[var(--brand)] transition-colors">{l}</Link>
                   ))}
-                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478987654").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand)] font-bold text-xl mt-4">
-                    <Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 98 76 54"}
+                  <a href={`tel:${fd?.phone ?? "0478987654"}`} className="flex items-center gap-3 text-[var(--brand)] font-bold text-xl mt-4">
+                    <Phone className="w-5 h-5" /> {fd?.phone ?? "04 78 98 76 54"}
                   </a>
                 </div>
               </SheetContent>
@@ -300,7 +309,7 @@ export default function AquanovaPiscinesPage() {
         <motion.div style={{ y: heroTextY, opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-28">
           <motion.h1 initial={{ opacity: 0, y: 55 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.48, ease: [0.16, 1, 0.3, 1] }}
             className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight mb-8 text-white">{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{c?.heroHeadline ?? <>
-            {clientHeroLine(sessionData, 0, 3, 13) ?? "Votre piscine"}<br />{clientHeroLine(sessionData, 1, 3, 13) ?? <>sur-<span className="text-[var(--brand-light)]">mesure</span></>}<br />{clientHeroLine(sessionData, 2, 3, 13) ?? <>à {clientCity({ formData: fd }) ?? "Lyon"}.</>}
+            {clientHeroLine(sessionData, 0, 3, 13) ?? "Votre piscine"}<br />{clientHeroLine(sessionData, 1, 3, 13) ?? <>sur-<span className="text-[var(--brand-light)]">mesure</span></>}<br />{clientHeroLine(sessionData, 2, 3, 13) ?? <>à {clientCity(sessionData) ?? "Lyon"}.</>}
           </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
@@ -312,7 +321,7 @@ export default function AquanovaPiscinesPage() {
             <button className="px-8 py-4 bg-[var(--brand)] text-white font-bold text-[10px] uppercase tracking-[0.2em] rounded hover:bg-[#0284c7] transition-colors">{c?.ctaText ?? <>
               Devis gratuit sous 48h
             </>}</button>
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478987654").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-8 py-4 bg-white/10 backdrop-blur border border-white/20 text-white font-bold text-[10px] uppercase tracking-[0.15em] rounded hover:bg-white/20 transition-all">
+            <a href={`tel:${fd?.phone ?? "0478987654"}`} className="flex items-center gap-3 px-8 py-4 bg-white/10 backdrop-blur border border-white/20 text-white font-bold text-[10px] uppercase tracking-[0.15em] rounded hover:bg-white/20 transition-all">
               <Phone className="w-4 h-4" /> Nous appeler
             </a>
           </motion.div>
@@ -332,8 +341,8 @@ export default function AquanovaPiscinesPage() {
           </div>
           <div className="flex items-center gap-6">
             <span className="flex items-center gap-2 text-white/80 text-sm font-semibold"><Clock className="w-4 h-4" /> Devis sous 48h</span>
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478987654").replace(/[^+0-9]/g, "")}`} className="bg-white text-[var(--brand)] px-5 py-2 rounded font-bold text-sm hover:bg-[#f0f9ff] transition-colors">
-              {clientPhone(sessionData) ?? fd?.phone ?? "04 78 98 76 54"}
+            <a href={`tel:${fd?.phone ?? "0478987654"}`} className="bg-white text-[var(--brand)] px-5 py-2 rounded font-bold text-sm hover:bg-[#f0f9ff] transition-colors">
+              {fd?.phone ?? "04 78 98 76 54"}
             </a>
           </div>
         </div>
@@ -521,8 +530,8 @@ export default function AquanovaPiscinesPage() {
               <button className="px-10 py-4 bg-[var(--brand)] text-white font-bold text-[10px] uppercase tracking-[0.2em] rounded hover:bg-[#0284c7] transition-colors">
                 Demander un devis
               </button>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478987654").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-[0.15em] rounded hover:border-[var(--brand-light)]/50 hover:text-[var(--brand-light)] transition-all">
-                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 98 76 54"}
+              <a href={`tel:${fd?.phone ?? "0478987654"}`} className="flex items-center gap-3 px-10 py-4 border border-white/15 text-white font-bold text-[10px] uppercase tracking-[0.15em] rounded hover:border-[var(--brand-light)]/50 hover:text-[var(--brand-light)] transition-all">
+                <Phone className="w-4 h-4" /> {fd?.phone ?? "04 78 98 76 54"}
               </a>
             </div>
           </div>
@@ -539,12 +548,12 @@ export default function AquanovaPiscinesPage() {
               </div>
               <span className="font-bold text-white text-sm">{fd?.businessName ?? "AquaNova Piscines"}</span>
             </div>
-            <p className="text-white/25 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Pisciniste"} certifié · Grand {clientCity({ formData: fd }) ?? "Lyon"}. Construction, rénovation et entretien de piscines depuis 2006.</p>
+            <p className="text-white/25 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Pisciniste"} certifié · Grand {clientCity(sessionData) ?? "Lyon"}. Construction, rénovation et entretien de piscines depuis 2006.</p>
           </div>
           {[
             { t: "Services", ls: ["Construction sur-mesure", "Rénovation de piscine", "Sécurité & conformité", "Local technique", "Entretien & hivernage"] },
             { t: "Informations", ls: ["Qui sommes-nous", "Certifications & garanties", "Zone d'intervention", "Témoignages", "Conseils piscine"] },
-            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "04 78 98 76 54"), (clientEmail(sessionData) ?? fd?.email ?? "contact@aquanova.fr"), "Zone Grand " + (clientCity({ formData: fd }) ?? "Lyon"), "Étude 3D offerte", "Devis gratuit sous 48h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "04 78 98 76 54"), (fd?.email ?? "contact@aquanova.fr"), "Zone Grand " + (clientCity(sessionData) ?? "Lyon"), "Étude 3D offerte", "Devis gratuit sous 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand-light)] mb-5">{col.t}</h4>
@@ -555,8 +564,8 @@ export default function AquanovaPiscinesPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
-          <span>© 2026 {fd?.businessName ?? "AquaNova Piscines"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 234 567 890 00056"} · Garantie Décennale · Assurance RC Pro{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
-          <span className="text-[var(--brand-light)]/30">{clientTrade(sessionData) ?? "Pisciniste"} certifié · Grand {clientCity({ formData: fd }) ?? "Lyon"}</span>
+          <span>© 2026 {fd?.businessName ?? "AquaNova Piscines"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 234 567 890 00056"} · Garantie Décennale · Assurance RC Pro{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span className="text-[var(--brand-light)]/30">{clientTrade(sessionData) ?? "Pisciniste"} certifié · Grand {clientCity(sessionData) ?? "Lyon"}</span>
         </div>
       </footer>
     </div>

@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 /* ════════════════════════════════════════════════════════════════════════════
-   LOCAMAT — Location de matériel BTP & espaces verts · Nancy
+   {clientName(sessionData) ?? "Locamat"} — Location de matériel BTP & espaces verts · Nancy
    ─────────────────────────────────────────────────────────────────────────────
    Location de matériel, 1re variante du catalogue (la 2e est impact-360, orientée
    réception). Celle-ci est le dépôt de chantier : acier, gasoil, VGP à jour.
@@ -39,6 +39,7 @@ import {
   clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -48,6 +49,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -158,7 +160,7 @@ function SERVICES_SOURCE_LIVE() {
 let SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const METHODE = [
+let METHODE = [
   { n: "01", t: "Réserver au téléphone", d: "On vérifie le calibre avec vous, la machine est bloquée à votre nom, caution annoncée d'avance." },
   { n: "02", t: "Prise en main au dépôt", d: "Démarrage, sécurités, gestes de base : dix minutes qui évitent la panne du samedi midi." },
   { n: "03", t: "Le chantier chez vous", d: "Carburant fourni au départ (plein/plein), assistance téléphonique aux heures d'ouverture." },
@@ -467,19 +469,35 @@ export default function LocamatPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    fusionnerEtapes(METHODE, clientMethode(sessionData)),
+    METHODE,
+  );
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   ZONES_SOURCE = ZONES_SOURCE_LIVE();
+
   HERO = HERO_SOURCE;
 
   const CLIENT_SERVICES = clientServices(sessionData);

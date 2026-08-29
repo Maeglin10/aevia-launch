@@ -7,24 +7,15 @@ import Image from "next/image"
 import Link from "next/link"
 import { MapPin, ArrowRight, Menu, Star, Shield, Key, Home, Building2, Map, ChevronRight, Maximize2, MoveRight } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { DWELL, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2"
-import { PushBlur } from "@/lib/templates/hero-kit-3"
-import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import {
-  clientAddress,
   clientCity,
-  clientCodePostalVille,
-  clientEmail,
-  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientText,
-  clientTrade,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -36,9 +27,9 @@ let fd: any = null;
 // Les avis, jusqu'ici écrit(e) dans le rendu :
 // le client pouvait les saisir, le thème ne les lisait pas.
 const AVIS_INLINE_SOURCE = [
-  { quote: "Notre hôtel particulier a été trouvé entièrement hors marché. Un réseau que nous n'avions rencontré nulle part ailleurs.", name: "H. de Brissac", origin: "Bordeaux · 2,4 M€" },
-                { quote: "Une discrétion absolue du premier appel à la signature. Un seul interlocuteur, et une transaction sans une seule friction.", name: "A. Reinhardt", origin: "Annecy · 1,85 M€" },
-                { quote: "Ils ne vendent pas des mètres carrés : ils comprennent la vie qu'on veut y mener. Nous avions acheté deux fois la mauvaise maison avant eux.", name: "S. Marchetti", origin: "Cap-Ferret · 3,1 M€" }
+  { quote: "Arcane found our Notting Hill townhouse entirely off-market. Their network is unlike anything we'd encountered at Knight Frank or Savills.", name: "H. Pemberton", origin: "London W11 · £9.4M" },
+                { quote: "The level of discretion was absolute. Three continents, one advisor — the whole transaction felt effortless.", name: "A. Reinhardt", origin: "Zurich · $18.2M" },
+                { quote: "Arcane doesn't just sell properties. They understand how your life should feel. We bought exactly the wrong house twice before them.", name: "S. Miyamoto", origin: "Tokyo · ¥2.1B" }
 ];
 let AVIS_INLINE = AVIS_INLINE_SOURCE;
 
@@ -71,9 +62,9 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 
 function PROPERTIES_DEMO_SOURCE_LIVE() {
   return [
-  { name: "Le Penthouse Obsidienne", loc: (clientCity(sessionData) ?? "Bordeaux"), price: "2 450 000 €", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=1200") },
-  { name: "La Villa des Falaises", loc: "Cap-Ferret", price: "3 100 000 €", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200") },
-  { name: "Le Domaine Véridian", loc: "Entre-deux-Mers", price: "1 850 000 €", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200") },
+  { name: "The Obsidian Penthouse", loc: "New York, NY", price: "$24,500,000", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=1200") },
+  { name: "Azure Cliff Villa", loc: "Santorini, GR", price: "$12,800,000", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200") },
+  { name: "Veridian Estate", loc: "Kyoto, JP", price: "$18,200,000", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200") },
 ];
 }
 let PROPERTIES_DEMO_SOURCE = PROPERTIES_DEMO_SOURCE_LIVE();
@@ -112,10 +103,21 @@ export default function ArcaneRealtyPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -166,13 +168,6 @@ export default function ArcaneRealtyPage() {
   });
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
-  const { i: scene } = useSlides(3, DWELL.slow);
-  const SCENES = [
-    { name: "Le Penthouse Obsidienne", l1: "Biens", l2: "rares.", sub: "Les adresses que l'on ne voit jamais en vitrine, réservées à ceux qui savent attendre la bonne.", img: photo(3, "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=2400") },
-    { name: "La Villa des Falaises", l1: "Hors", l2: "marché.", sub: "La plupart de nos ventes se signent sans annonce : le réseau d'abord, la discrétion toujours.", img: photo(4, "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200") },
-    { name: "Le Domaine Véridian", l1: "Un seul", l2: "conseiller.", sub: "De l'estimation à l'acte, un interlocuteur unique, joignable, qui connaît le dossier par cœur.", img: photo(3, "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=2400") },
-  ];
-
   const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
@@ -200,22 +195,22 @@ export default function ArcaneRealtyPage() {
             <div className="w-10 h-10 border border-white/20 flex items-center justify-center group-hover:border-white transition-all duration-700">
               <Building2 className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold tracking-[0.2em] uppercase">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Arcane <span className="font-light text-white/40">Immobilier</span></>)}</span>
+            <span className="text-xl font-bold tracking-[0.2em] uppercase">{/* NOM_LOGO */ clientName(sessionData) ?? (<>Arcane <span className="font-light text-white/40">Realty</span></>)}</span>
           </>
             )}</Link>
           <div className="hidden lg:flex gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">
-            {[["Les biens", "#biens"], ["Conciergerie", "#contact"], ["Les voix", "#avis"], ["Contact", "#realisations"]].map(([l, h]) => (
-              <Link key={l} href={h} className="hover:text-white transition-colors">{l}</Link>
+            {["Portfolio", "Concierge", "Locations", "Journal"].map(l => (
+              <Link key={l} href="#realisations" className="hover:text-white transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-8">
-            <button className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors">Espace vendeur</button>
-            <button className="px-8 py-3 bg-white text-black text-[10px] font-bold uppercase tracking-[0.3em] rounded-sm hover:bg-transparent hover:text-white hover:border-white border border-transparent transition-all duration-700">Demander une visite</button>
+            <button className="hidden md:block text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-white transition-colors">Seller Portal</button>
+            <button className="px-8 py-3 bg-white text-black text-[10px] font-bold uppercase tracking-[0.3em] rounded-sm hover:bg-transparent hover:text-white hover:border-white border border-transparent transition-all duration-700">Request Tour</button>
             <Sheet>
               <SheetTrigger className="lg:hidden p-2"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
               <SheetContent side="right" className="bg-black border-white/5 p-12 text-white">
                 <div className="flex flex-col gap-10 mt-16 text-left">
-                  {["Les biens", "Conciergerie", "La maison", "Contact"].map(l => (
+                  {["Collection", "Concierge", "About", "Contact"].map(l => (
                     <Link key={l} href="#contact" className="text-3xl font-light uppercase tracking-widest hover:text-white transition-all">{l}</Link>
                   ))}
                 </div>
@@ -226,55 +221,53 @@ export default function ArcaneRealtyPage() {
       </nav>
 
       <main>
-        {/* ── HERO — PushBlur : toute la composition part sur le côté,
-            photographie et titre ensemble, avec un flou directionnel pendant
-            le déplacement. Un seul index pour la scène, la légende et le
-            compteur. Fond de repli sombre : la page tient sans photo. ── */}
-        <section id="hero" className="relative h-dvh overflow-hidden pt-24 md:pt-0 bg-[#0a0a0a]">
-          <PushBlur index={clientHeroLine(sessionData, 0, 2, 9) ? "client" : scene} amount={18} style={{ position: "absolute", inset: 0 }}>
-            <div className="relative h-dvh flex items-center justify-center">
-              <div className="absolute inset-0">
-                 <Image src={SCENES[scene].img} alt={SCENES[scene].name} fill className="object-cover opacity-50 scale-105" priority />
-                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
-                 <div className="absolute inset-0 bg-black/30" />
-              </div>
-              <div className="relative z-10 max-w-[1200px] mx-auto px-6 text-center">
-                <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-[10rem] font-light tracking-tighter leading-[0.8] text-white mb-12 uppercase break-words">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? SCENES[scene].l1}<br/> <span className="font-bold italic">{clientHeroLine(sessionData, 1, 2, 9) ?? SCENES[scene].l2}</span>
-                </>}</h1>
-                <p className="text-xl text-white/40 font-light max-w-xl mx-auto leading-relaxed italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? SCENES[scene].sub}</p>
-              </div>
-            </div>
-          </PushBlur>
+        {/* ── HERO ──────────────────── */}
+        <section id="hero" className="relative h-dvh flex items-center justify-center overflow-hidden pt-24 md:pt-0">
+          <div className="absolute inset-0">
+             <Image src={photo(3, "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=2400")} alt="Luxury Property" fill className="object-cover opacity-50 scale-105" priority />
+             <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent" />
+             <div className="absolute inset-0 bg-black/30" />
+          </div>
 
-          <div className="absolute inset-x-0 bottom-0 z-10 pb-12 px-6">
-            <div className="max-w-[1200px] mx-auto flex flex-col items-center gap-10">
-              <div className="flex flex-wrap justify-center gap-8">
-                <a href="#biens" className="px-12 py-5 bg-white text-black font-bold uppercase tracking-widest text-[10px] hover:bg-transparent hover:text-white border border-white transition-all duration-700">
-                  Voir les biens
-                </a>
-                <a href="#realisations" className="px-12 py-5 border border-white/20 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-white/5 transition-all flex items-center gap-3">
-                  <Map className="w-3 h-3" /> Confier un bien
-                </a>
+          <div className="relative z-10 max-w-[1200px] mx-auto px-6 text-center">
+            <Reveal delay={0.2} y={70}>
+              <h1 className="text-5xl sm:text-6xl md:text-8xl lg:text-[10rem] font-light tracking-tighter leading-[0.8] text-white mb-12 uppercase break-words">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Rare"}<br/> <span className="font-bold italic">{clientHeroLine(sessionData, 1, 2, 9) ?? "Holdings."}</span>
+              </>}</h1>
+            </Reveal>
+            <Reveal delay={0.4}>
+              <div className="flex flex-col items-center justify-center gap-12">
+                <p className="text-xl text-white/40 font-light max-w-xl leading-relaxed italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
+                  Securing the world's most exclusive architectural masterpieces for the most discerning collectors.
+                </>}</p>
+                <div className="flex flex-wrap justify-center gap-8">
+                  <button className="px-12 py-5 bg-white text-black font-bold uppercase tracking-widest text-[10px] hover:bg-transparent hover:text-white border border-white transition-all duration-700">
+                    Explore Collection
+                  </button>
+                  <button className="px-12 py-5 border border-white/20 text-white font-bold uppercase tracking-widest text-[10px] hover:bg-white/5 transition-all flex items-center gap-3">
+                    <Map className="w-3 h-3" /> Digital Roadmap
+                  </button>
+                </div>
               </div>
-              <div className="w-full flex justify-between items-end">
-                <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 flex items-center gap-3"><MapPin className="w-3 h-3" /> {clientEyebrow(sessionData) ?? `Immobilier d'exception · ${clientCity(sessionData) ?? "Bordeaux"}`}</div>
-                <SlideIndex i={scene} total={SCENES.length} variant="fraction" color="rgba(255,255,255,0.35)" className="" />
-              </div>
-            </div>
+            </Reveal>
+          </div>
+          
+          <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end">
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 flex items-center gap-3"><MapPin className="w-3 h-3" /> GLOBAL ASSETS: 242</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20">ESTABLISHED 1992</div>
           </div>
         </section>
 
         {/* ── PORTFOLIO ─────────────── */}
-        <section id="biens" className="py-40 bg-[#0a0a0a]">
+        <section className="py-40 bg-[#0a0a0a]">
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex flex-col lg:flex-row items-end justify-between mb-32 gap-8 border-b border-white/5 pb-12">
                 <div className="max-w-2xl">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 block mb-4">À la vente</span>
-                  <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter text-white leading-none">{/* TEXTE_SECTION */ clientText(sessionData, "biens.titre") ?? (<>Des espaces <span className="italic font-bold">choisis.</span></>)}</h2>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 block mb-4">Active Listings</span>
+                  <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter text-white leading-none">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>Curated <span className="italic font-bold">Space.</span></>)}</h2>
                 </div>
                 <Link href="#hero" className="flex items-center gap-4 text-[10px] font-bold uppercase tracking-widest hover:text-white text-white/40 transition-colors group italic">
-                  Le portefeuille privé <MoveRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+                  Private Inventory <MoveRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
                 </Link>
               </div>
             </Reveal>
@@ -288,7 +281,7 @@ export default function ArcaneRealtyPage() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
                       <div className="absolute top-8 left-8 flex items-center gap-2">
                          <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                         <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Disponible</span>
+                         <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Available</span>
                       </div>
                     </div>
                     <div className="flex justify-between items-start">
@@ -311,13 +304,13 @@ export default function ArcaneRealtyPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
                <div>
                   <Reveal>
-                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 block mb-8">L'accompagnement</span>
-                    <h2 className="text-5xl md:text-8xl font-light uppercase tracking-tighter text-white italic mb-12">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Gants <br/> <span className="not-italic font-bold">blancs.</span></>)}</h2>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 block mb-8">The Experience</span>
+                    <h2 className="text-5xl md:text-8xl font-light uppercase tracking-tighter text-white italic mb-12">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>White <br/> <span className="not-italic font-bold">Glove.</span></>)}</h2>
                     <div className="space-y-12">
                        {[
-                         { icon: Shield, t: "Confidentialité stricte", d: "Accord de confidentialité dès le premier contact. Carte professionnelle (loi Hoguet), garantie financière, séquestre notarié." },
-                         { icon: Key, t: "Clés en main", d: "Conciergerie complète : déménagement, notaire, gestion locative, travaux — un seul fil conducteur." },
-                         { icon: Star, t: "Avant-premières privées", d: "Accès en premier aux biens hors marché, avant toute diffusion publique." }
+                         { icon: Shield, t: "Strict Confidentiality", d: "Non-disclosure agreements at the first point of contact. Your privacy is our highest priority." },
+                         { icon: Key, t: "Turnkey Transitions", d: "Full concierge service including international logistics, legal filing, and asset management." },
+                         { icon: Star, t: "Private Previews", d: "Exclusive first-access to off-market holdings before global public release." }
                        ].map((f, i) => (
                          <div key={i} className="flex gap-8 group">
                             <div className="w-16 h-16 shrink-0 border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:border-white transition-all duration-700">
@@ -343,13 +336,13 @@ export default function ArcaneRealtyPage() {
         </section>
 
         {/* ── TESTIMONIALS ──────────── */}
-        <section id="avis" className="py-40 bg-[#0a0a0a] border-t border-white/5">
+        <section className="py-40 bg-[#0a0a0a] border-t border-white/5">
           <div className="max-w-[1400px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex items-end justify-between mb-20 border-b border-white/5 pb-12">
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 block mb-4">Ils ont signé</span>
-                  <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter text-white leading-none">{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Avec leurs <span className="italic font-bold">mots.</span></>)}</h2>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 block mb-4">Client Voices</span>
+                  <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter text-white leading-none">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>In Their <span className="italic font-bold">Words.</span></>)}</h2>
                 </div>
               </div>
             </Reveal>
@@ -376,17 +369,17 @@ export default function ArcaneRealtyPage() {
             <Reveal>
               <div className="flex items-end justify-between mb-24 border-b border-white/5 pb-12">
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 block mb-4">Le cabinet</span>
-                  <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter text-white leading-none">{/* TEXTE_SECTION */ clientText(sessionData, "conseil.titre") ?? (<>Le <span className="italic font-bold">conseil.</span></>)}</h2>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/30 block mb-4">Private Advisory</span>
+                  <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter text-white leading-none">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>The <span className="italic font-bold">Council.</span></>)}</h2>
                 </div>
               </div>
             </Reveal>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
               {[
-                { name: "Margaux Delbos", role: "Directrice — Ventes", markets: [(clientCity(sessionData) ?? "Bordeaux"), "Cap-Ferret"], yrs: "19 ans" },
-                { name: "Elara Voss", role: "Acquisitions", markets: ["Rive gauche", "Bassin"], yrs: "16 ans" },
-                { name: "Thomas Reinier", role: "Domaines & vignobles", markets: ["Entre-deux-Mers", "Médoc"], yrs: "11 ans" },
-                { name: "Nadia Alaoui", role: "Gestion & location", markets: ["Centre", "Littoral"], yrs: "13 ans" },
+                { name: "Elara Voss", role: "Senior Acquisitions", markets: ["NYC", "London"], yrs: "16yr" },
+                { name: "Ryo Tanaka", role: "Asia Pacific Lead", markets: ["Tokyo", "Singapore"], yrs: "11yr" },
+                { name: "Margaux Delbos", role: "European Director", markets: [(clientCity(sessionData) ?? "Paris"), "Monaco"], yrs: "19yr" },
+                { name: "Omar Al Farsi", role: "MENA Portfolio", markets: ["Dubai", "Riyadh"], yrs: "13yr" },
               ].map((a, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="group cursor-default">
@@ -410,18 +403,18 @@ export default function ArcaneRealtyPage() {
         <section id="realisations" className="py-40 bg-white text-black text-center relative overflow-hidden">
           <div className="max-w-4xl mx-auto px-6 relative z-10">
             <Reveal>
-              <h2 className="text-6xl md:text-[10rem] font-light uppercase tracking-tighter leading-[0.8] mb-12">{/* TEXTE_SECTION */ clientText(sessionData, "cta.titre") ?? c?.aboutTitle ?? <>
-                Commencer <br/> <span className="font-bold italic">l'acquisition.</span>
+              <h2 className="text-6xl md:text-[10rem] font-light uppercase tracking-tighter leading-[0.8] mb-12">{c?.aboutTitle ?? fd?.businessName ?? <>
+                Begin The <br/> <span className="font-bold italic">Acquisition.</span>
               </>}</h2>
-              <p className="text-xl text-black/60 font-light mb-16 leading-relaxed italic">{/* TEXTE_SECTION */ clientText(sessionData, "cta.texte") ?? c?.aboutText ?? <>
-                Nos conseillers écoutent d'abord la vie que vous cherchez. Nous ne trouvons pas des maisons : nous installons des histoires.
+              <p className="text-xl text-black/60 font-light mb-16 leading-relaxed italic">{c?.aboutText ?? <>
+                Our advisors are ready to discuss your specific requirements. We don't find houses; we secure legacies.
               </>}</p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
                 <button className="px-16 py-6 bg-black text-white font-bold uppercase tracking-widest text-[10px] hover:px-20 transition-all duration-700 italic">
-                   Demander une estimation
+                   Request Private Audit
                 </button>
                 <button className="px-16 py-6 border-2 border-black text-black font-bold uppercase tracking-widest text-[10px] hover:bg-black hover:text-white transition-all duration-700 italic">
-                   Voir les biens
+                   View Portfolio
                 </button>
               </div>
             </Reveal>
@@ -437,22 +430,22 @@ export default function ArcaneRealtyPage() {
               <div className="w-10 h-10 border border-white/20 flex items-center justify-center">
                 <Building2 className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold tracking-[0.2em] uppercase text-white">{fd?.businessName ?? clientName(sessionData) ?? <>Arcane <span className="font-light text-white/40">Immobilier</span></>}</span>
+              <span className="text-xl font-bold tracking-[0.2em] uppercase text-white">Arcane <span className="font-light text-white/40">Realty</span></span>
             </Link>
-            <p className="text-white/20 max-w-sm leading-relaxed mb-8 text-sm font-light italic">
-              « Nous ne vendons pas des mètres carrés : nous installons des histoires. »
+            <p className="text-white/20 max-w-sm leading-relaxed mb-10 text-sm font-light italic">
+              "We architecturalize wealth through the acquisition of the world's most rare holdings."
             </p>
-            <div className="space-y-2 text-sm text-white/40 mb-8">
-              <div className="flex items-center gap-2"><MapPin className="w-3.5 h-3.5 text-white/40" /> {clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "33000", "Bordeaux")}</div>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33556000000").replace(/\s/g, "")}`} className="block hover:text-white transition-colors">{clientPhone(sessionData) ?? fd?.phone ?? "05 56 00 00 00"}</a>
-              <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@arcane-immobilier.fr"}`} className="block hover:text-white transition-colors">{clientEmail(sessionData) ?? fd?.email ?? "contact@arcane-immobilier.fr"}</a>
+            <div className="flex gap-10">
+               {["Camera", "Journal", "Technical Paper", "Contact"].map(s => (
+                 <Link key={s} href="#contact" className="text-[10px] font-bold uppercase tracking-widest text-white/30 hover:text-white transition-colors">{s}</Link>
+               ))}
             </div>
           </div>
           
           {[
-            { t: "Les biens", l: ["Résidentiel", "Domaines", "Hors marché", "Archives"] },
-            { t: "Services", l: ["Acquisition", "Gestion", "Conciergerie", "Estimation"] },
-            { t: "La maison", l: ["Notre histoire", "Le conseil", "Contact", "Le journal"] },
+            { t: "Holdings", l: ["Residential", "Commercial", "Private Islands", "Archive"] },
+            { t: "Services", l: ["Acquisition", "Management", "Concierge", "Tax Strategy"] },
+            { t: "Company", l: ["Our Legacy", "Advisors", "Contact", "Journal"] },
           ].map((col, i) => (
             <div key={i} className="space-y-10">
               <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40">{col.t}</h4>
@@ -464,10 +457,10 @@ export default function ArcaneRealtyPage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 {fd?.businessName ?? clientName(sessionData) ?? "Arcane Immobilier"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""} — {clientTrade(sessionData) ?? "Immobilier d'exception"} · carte professionnelle CPI</span>
-          <div className="flex gap-8 normal-case tracking-normal not-italic">
-             <span>Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" /></span>
-             <span>Éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
+          <span>© 2026 {clientName(sessionData) ?? "ARCANE REALTY GLOBAL HOLDINGS."} BUILT FOR THE INFINITE.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <div className="flex gap-12 italic">
+             <Link href="#contact" className="hover:text-white transition-colors">Privacy Circle</Link>
+             <Link href="#contact" className="hover:text-white transition-colors">Listing Verification</Link>
           </div>
         </div>
       </footer>

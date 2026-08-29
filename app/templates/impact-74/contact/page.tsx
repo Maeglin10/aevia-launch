@@ -2,6 +2,16 @@
 // @ts-nocheck
 
 import { useEffect, useState } from "react";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientCity,
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+  clientTrade,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { ShieldCheck, Send, Terminal, Key } from "lucide-react";
 import { Reveal, MagneticBtn } from "../shared";
 
@@ -23,13 +33,25 @@ export default function ContactPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
@@ -38,16 +60,17 @@ export default function ContactPage() {
 
   return (
     <div className="py-20 bg-[#05060a]">
+      <EnteteAnnexe session={sessionData} repli={`${clientName(sessionData) ?? "Aevia Kitchen"}`} accueil="/templates/impact-74" />
       <div className="max-w-[1000px] mx-auto px-6">
         <Reveal className="text-center mb-16">
           <span className="text-[10px] uppercase tracking-[0.5em] font-black text-emerald-500 mb-6 block">
             SECURE CHANNEL // ONBOARDING
           </span>
           <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic text-white leading-[1.15] pb-4">
-            Initiate_Audit.
+            {/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? "Initiate_Audit."}
           </h2>
           <p className="text-sm text-white/40 max-w-md mx-auto uppercase tracking-widest leading-relaxed mt-4">
-            Encrypt your inquiry through our defensive gateway. A security officer will contact you on a verified channel.
+            {/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? clientTagline(sessionData) ?? "Encrypt your inquiry through our defensive gateway. A security officer will contact you on a verified channel."}
           </p>
         </Reveal>
 

@@ -1,11 +1,9 @@
 "use client";
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -33,7 +31,7 @@ let bp: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   MAËLLE DUMAS PISCINES — Pisciniste / Concepteur de piscines ({clientCity({ formData: fd }) ?? "Lyon"})
+   MAËLLE DUMAS PISCINES — Pisciniste / Concepteur de piscines ({clientCity(sessionData) ?? "Lyon"})
    Palette : blanc chaud / terracotta / lin / noir doux
    Fonts : Cormorant Garamond (titres) + Inter (corps)
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -88,9 +86,9 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 
 function PROJECTS_DEMO_LIVE() {
   return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, city: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
-  { title: "Piscine miroir Presqu'île", city: (clientCity({ formData: fd }) ?? "Lyon") + " 2ème", surface: "10 × 4 m", style: "Béton sur-mesure", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=80&w=1200") },
+  { title: "Piscine miroir Presqu'île", city: (clientCity(sessionData) ?? "Lyon") + " 2ème", surface: "10 × 4 m", style: "Béton sur-mesure", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=80&w=1200") },
   { title: "Villa Les Pins", city: "Tassin-la-Demi-Lune", surface: "12 × 5 m", style: "Bassin à débordement", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=1200") },
-  { title: "Couloir de nage Croix-Rousse", city: (clientCity({ formData: fd }) ?? "Lyon") + " 4ème", surface: "12 × 2,5 m", style: "Contemporain", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200") },
+  { title: "Couloir de nage Croix-Rousse", city: (clientCity(sessionData) ?? "Lyon") + " 4ème", surface: "12 × 2,5 m", style: "Contemporain", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200") },
 ]);
 }
 let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
@@ -153,8 +151,8 @@ export default function MaelleDumasPiscinesPage() {
       loc: r.location ?? r.context ?? "",
     })),
     [
-      { quote: "Maëlle a conçu notre piscine miroir avec un goût sûr : intégration paysagère parfaite, matériaux nobles. Un vrai talent au service de nos envies.", name: "Claire & Antoine R.", loc: (clientCity({ formData: fd }) ?? "Lyon") + " 6ème" },
-      { quote: "Écoute parfaite, respect du budget, délais tenus. Notre couloir de nage est devenu le coeur de notre jardin. On en rêvait depuis des années.", name: "Thomas M.", loc: (clientCity({ formData: fd }) ?? "Lyon") + " 4ème" },
+      { quote: "Maëlle a conçu notre piscine miroir avec un goût sûr : intégration paysagère parfaite, matériaux nobles. Un vrai talent au service de nos envies.", name: "Claire & Antoine R.", loc: (clientCity(sessionData) ?? "Lyon") + " 6ème" },
+      { quote: "Écoute parfaite, respect du budget, délais tenus. Notre couloir de nage est devenu le coeur de notre jardin. On en rêvait depuis des années.", name: "Thomas M.", loc: (clientCity(sessionData) ?? "Lyon") + " 4ème" },
       { quote: "La rénovation de notre bassin a tout changé : nouveau liner, plage et éclairage. L'espace inspire calme et élégance. Au-delà de nos espérances.", name: "Dr. Sophie L.", loc: "Tassin-la-Demi-Lune" },
     ]
   );
@@ -168,10 +166,21 @@ export default function MaelleDumasPiscinesPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -235,7 +244,7 @@ return (
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: C.serif, fontSize: "1.4rem", fontWeight: 600, letterSpacing: "0.02em", fontStyle: "italic", color: C.dark }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maëlle Dumas Piscines"))}</span>
+            <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: C.serif, fontSize: "1.4rem", fontWeight: 600, letterSpacing: "0.02em", fontStyle: "italic", color: C.dark }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maëlle Dumas Piscines"))}</span>
           )}
           <div style={{ gap: "3rem" }} className="hidden lg:flex">
             {["Projets", "Prestations", "À propos", "Contact"].map(l => (
@@ -254,7 +263,7 @@ return (
             <span className="block w-[22px] h-[2px] bg-current rounded-sm transition-opacity duration-300" style={{ opacity: mobileOpen ? 0 : 1 }} />
             <span className="block w-[22px] h-[2px] bg-current rounded-sm transition-transform duration-300" style={{ transform: mobileOpen ? 'rotate(-45deg) translate(0, -7px)' : 'none' }} />
           </button>
-          <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478123456").replace(/[^+0-9]/g, "")}`} style={{ display: "none", fontFamily: C.sans, fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: C.terra, textDecoration: "none" }} className="hidden md:block">
+          <a href={`tel:${fd?.phone ?? "0478123456"}`} style={{ display: "none", fontFamily: C.sans, fontSize: "0.7rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: C.terra, textDecoration: "none" }} className="hidden md:block">
             Prendre RDV
           </a>
         </div>
@@ -289,7 +298,7 @@ return (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}>
             <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.5rem" }}>
               <div style={{ width: 40, height: 1, background: C.terra }} />
-              <span style={{ fontFamily: C.sans, fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.35em", color: C.terra }}>{clientTrade(sessionData) ?? "Pisciniste"} · {clientCity({ formData: fd }) ?? "Lyon"}</span>
+              <span style={{ fontFamily: C.sans, fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.35em", color: C.terra }}>{clientTrade(sessionData) ?? "Pisciniste"} · {clientCity(sessionData) ?? "Lyon"}</span>
             </div>
           </motion.div>
 
@@ -298,7 +307,7 @@ return (
           </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}
-            style={{ fontFamily: C.sans, fontSize: "0.9rem", color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 480, marginBottom: "2.5rem" }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            style={{ fontFamily: C.sans, fontSize: "0.9rem", color: "rgba(255,255,255,0.5)", lineHeight: 1.8, maxWidth: 480, marginBottom: "2.5rem" }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Conception, construction et rénovation de piscines en Auvergne-Rhône-Alpes. Du projet à la mise en eau, une approche sur-mesure et humaine.
           </>}</motion.p>
 
@@ -436,14 +445,14 @@ return (
               Parlons de votre<br /><span style={{ color: C.terraLight }}>prochain espace.</span>
             </>)}</h2>
             <p style={{ fontFamily: C.sans, fontSize: "0.85rem", color: "rgba(255,255,255,0.4)", lineHeight: 1.7, marginBottom: "3rem" }}>
-              Premier rendez-vous gratuit (1h). Disponible à {clientCity({ formData: fd }) ?? "Lyon"} et région Auvergne-Rhône-Alpes.
+              Premier rendez-vous gratuit (1h). Disponible à {clientCity(sessionData) ?? "Lyon"} et région Auvergne-Rhône-Alpes.
             </p>
             <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
               <button style={{ padding: "1.1rem 2.5rem", background: C.terra, color: "#fff", fontFamily: C.sans, fontWeight: 700, fontSize: "0.65rem", textTransform: "uppercase", letterSpacing: "0.2em", border: "none", cursor: "pointer" }}>
                 Prendre rendez-vous
               </button>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0478123456").replace(/[^+0-9]/g, "")}`} style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", padding: "1.1rem 2.5rem", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.6)", fontFamily: C.sans, fontWeight: 700, fontSize: "0.65rem", textTransform: "uppercase", letterSpacing: "0.2em", textDecoration: "none" }}>
-                <Phone style={{ width: 14, height: 14 }} /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 12 34 56"}
+              <a href={`tel:${fd?.phone ?? "0478123456"}`} style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", padding: "1.1rem 2.5rem", border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.6)", fontFamily: C.sans, fontWeight: 700, fontSize: "0.65rem", textTransform: "uppercase", letterSpacing: "0.2em", textDecoration: "none" }}>
+                <Phone style={{ width: 14, height: 14 }} /> {fd?.phone ?? "04 78 12 34 56"}
               </a>
             </div>
           </div>
@@ -454,12 +463,12 @@ return (
       <footer style={{ background: "#141210", padding: "4rem 2.5rem 2rem", borderTop: `1px solid rgba(255,255,255,0.05)` }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(200px, 100%), 1fr))", gap: "3rem", marginBottom: "3rem" }}>
           <div>
-            <div style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: C.serif, fontSize: "1.2rem", fontStyle: "italic", color: "#fff", marginBottom: "1rem" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maëlle Dumas Piscines"))}</div>
+            <div style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: C.serif, fontSize: "1.2rem", fontStyle: "italic", color: "#fff", marginBottom: "1rem" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maëlle Dumas Piscines"))}</div>
             <p style={{ fontFamily: C.sans, fontSize: "0.75rem", color: "rgba(255,255,255,0.3)", lineHeight: 1.7 }}>{clientTrade(sessionData) ?? "Pisciniste"} certifié. Conception, construction et rénovation de piscines en Auvergne-Rhône-Alpes.</p>
           </div>
           {[
             { t: "Services", ls: ["Construction sur-mesure", "Conception & étude 3D", "Rénovation de bassin", "Aménagement & pool house"] },
-            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "04 78 12 34 56"), (clientEmail(sessionData) ?? fd?.email ?? "contact@maelledumas.fr"), (clientCity({ formData: fd }) ?? "Lyon") + " · Auvergne-Rhône-Alpes", "Devis sous 48h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "04 78 12 34 56"), (fd?.email ?? "contact@maelledumas.fr"), (clientCity(sessionData) ?? "Lyon") + " · Auvergne-Rhône-Alpes", "Devis sous 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <div style={{ fontFamily: C.sans, fontSize: "0.6rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.3em", color: C.terra, marginBottom: "1.25rem" }}>{col.t}</div>
@@ -470,7 +479,7 @@ return (
           ))}
         </div>
         <div style={{ maxWidth: 1200, margin: "0 auto", paddingTop: "1.5rem", borderTop: "1px solid rgba(255,255,255,0.05)", display: "flex", justifyContent: "space-between", gap: "1rem" }}>
-          <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: C.sans, fontSize: "0.6rem", color: "rgba(255,255,255,0.15)", textTransform: "uppercase", letterSpacing: "0.15em" }}>© 2026 {fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maëlle Dumas Piscines"))}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 987 654 321 00045"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: C.sans, fontSize: "0.6rem", color: "rgba(255,255,255,0.15)", textTransform: "uppercase", letterSpacing: "0.15em" }}>© 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maëlle Dumas Piscines"))}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 987 654 321 00045"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span style={{ fontFamily: C.sans, fontSize: "0.6rem", color: C.terra + "60", textTransform: "uppercase", letterSpacing: "0.15em" }}>{clientTrade(sessionData) ?? "Pisciniste"} certifié FPP</span>
         </div>
       </footer>

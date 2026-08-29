@@ -1,5 +1,9 @@
 'use client';
-import { clientHours } from "@/lib/templates/clientContent";
+import {
+  clientHours,
+  clientInstagram,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 
 import React, { useEffect, useState } from "react";
@@ -24,13 +28,25 @@ export default function ContactPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
@@ -92,7 +108,7 @@ export default function ContactPage() {
             <h3 style={{ fontFamily: C.headingFont, fontSize: "1.2rem", color: C.white, letterSpacing: "0.06em", marginBottom: "1rem" }}>RÉSEAUX SOCIAUX</h3>
             <div style={{ display: "flex", gap: "1rem" }}>
               {[
-                { icon: <Share2 size={20} />, label: "Instagram", handle: "@echochamber.studio" },
+                { icon: <Share2 size={20} />, label: "Instagram", handle: "@" + (clientInstagram(sessionData) ?? "echochamber.studio") },
                 { icon: <Volume2 size={20} />, label: "SoundCloud", handle: "echochamber-studio" },
                 { icon: <Tv size={20} />, label: "YouTube", handle: "Echo Chamber Studio" },
               ].map((social) => (

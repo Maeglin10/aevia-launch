@@ -9,11 +9,9 @@ import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAreas,
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -33,7 +31,7 @@ let bp: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   COULEURS & CO PISCINES — Pisciniste / Constructeur de piscines ({clientCity({ formData: fd }) ?? "Lille"})
+   COULEURS & CO PISCINES — Pisciniste / Constructeur de piscines ({clientCity(sessionData) ?? "Lille"})
    Palette : blanc pur / vert sauge #4d7c5f / gris perle #e8e8e4 / encre #1a1a2e
    Fonts : Montserrat (titres) + Nunito (corps)
    Style : frais, propre, coloré, artisanal premium
@@ -92,7 +90,7 @@ const CHANTIERS = [
 
 function ZONES_DEMO_LIVE() {
   return [
-  { ville: (clientCity({ formData: fd }) ?? "Lille"), detail: "Métropole et première couronne" },
+  { ville: (clientCity(sessionData) ?? "Lille"), detail: "Métropole et première couronne" },
   { ville: "Roubaix · Tourcoing", detail: "Intervention sous 48 h" },
   { ville: "Villeneuve-d'Ascq", detail: "Entretien hebdomadaire possible" },
   { ville: "Armentières", detail: "Devis déplacement offert" },
@@ -150,7 +148,7 @@ export default function CouleursCOPiscinesPage() {
       l: r.location ?? r.context ?? "",
     })),
     [
-      { q: "Notre piscine béton avec liner bleu lagon est une réussite totale. Conseils précieux sur les finitions, chantier propre, délais tenus. Bluffés.", n: "Amélie B.", l: (clientCity({ formData: fd }) ?? "Lille") + " (59)" },
+      { q: "Notre piscine béton avec liner bleu lagon est une réussite totale. Conseils précieux sur les finitions, chantier propre, délais tenus. Bluffés.", n: "Amélie B.", l: (clientCity(sessionData) ?? "Lille") + " (59)" },
       { q: "Rénovation complète : nouveau liner, margelles et filtration au sel. La piscine a retrouvé une seconde jeunesse. Rapport qualité-prix excellent.", n: "Paul & Martine G.", l: "Roubaix (59)" },
       { q: "Construction d'un couloir de nage avec plage immergée et éclairage LED. Résultat magnifique, livré dans les temps. Très pro et à l'écoute.", n: "Karim D.", l: "Tourcoing (59)" },
     ]
@@ -165,10 +163,21 @@ export default function CouleursCOPiscinesPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -228,8 +237,8 @@ return (
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0320456789").replace(/[^+0-9]/g, "")}`} className={`hidden md:flex items-center gap-2 font-bold text-sm ${scrolled ? "text-[var(--brand,#4d7c5f)]" : "text-white"}`}>
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "03 20 45 67 89"}
+            <a href={`tel:${fd?.phone ?? "0320456789"}`} className={`hidden md:flex items-center gap-2 font-bold text-sm ${scrolled ? "text-[var(--brand,#4d7c5f)]" : "text-white"}`}>
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "03 20 45 67 89"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#4d7c5f)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#3d6b50] transition-colors rounded-sm">
               Devis Gratuit
@@ -239,7 +248,7 @@ return (
               <SheetContent side="right" className="bg-white border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#1a1a2e] hover:text-[var(--brand,#4d7c5f)] transition-colors">{l}</Link>)}
-                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0320456789").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#4d7c5f)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "03 20 45 67 89"}</a>
+                  <a href={`tel:${fd?.phone ?? "0320456789"}`} className="flex items-center gap-3 text-[var(--brand,#4d7c5f)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "03 20 45 67 89"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -261,7 +270,7 @@ return (
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10" style={{ fontFamily: "'Nunito', sans-serif" }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10" style={{ fontFamily: "'Nunito', sans-serif" }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Construction, rénovation, sécurité et entretien de piscines. Pisciniste qualifié, conseils personnalisés sur les finitions, chantiers soignés. Devis gratuit sous 48h.
           </>}</motion.p>
 
@@ -269,8 +278,8 @@ return (
             <button className="px-8 py-4 bg-[var(--brand,#4d7c5f)] text-white font-bold text-[10px] uppercase tracking-[0.2em] hover:bg-[#3d6b50] transition-colors rounded-sm">
               Devis gratuit sous 24h
             </button>
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0320456789").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-8 py-4 border border-white/20 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#7db88f]/50 hover:text-[#7db88f] transition-all">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "03 20 45 67 89"}
+            <a href={`tel:${fd?.phone ?? "0320456789"}`} className="flex items-center gap-3 px-8 py-4 border border-white/20 text-white font-bold text-[10px] uppercase tracking-widest hover:border-[#7db88f]/50 hover:text-[#7db88f] transition-all">
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "03 20 45 67 89"}
             </a>
           </motion.div>
         </motion.div>
@@ -435,8 +444,8 @@ return (
               <button className="px-10 py-4 bg-white text-[var(--brand,#4d7c5f)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0f7f3] transition-colors">
                 Demander un devis
               </button>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0320456789").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-white/30 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all">
-                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "03 20 45 67 89"}
+              <a href={`tel:${fd?.phone ?? "0320456789"}`} className="flex items-center gap-3 px-10 py-4 border border-white/30 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-white/10 transition-all">
+                <Phone className="w-4 h-4" /> {fd?.phone ?? "03 20 45 67 89"}
               </a>
             </div>
           </div>
@@ -453,7 +462,7 @@ return (
           {[
             { t: "Services", ls: ["Construction sur-mesure", "Revêtement & finitions", "Rénovation de bassin", "Aménagement extérieur", "Entretien & hivernage"] },
             { t: "Infos", ls: ["Qui sommes-nous", "Nos réalisations", "Zone d'intervention", "Avis clients", "Conseils piscine"] },
-            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "03 20 45 67 89"), (clientEmail(sessionData) ?? fd?.email ?? "contact@couleurs-co.fr"), (clientCity({ formData: fd }) ?? "Lille") + " Métropole", "Lundi-Vendredi 8h-18h", "Devis gratuit 24h"] },
+            { t: "Contact", ls: [(fd?.phone ?? "03 20 45 67 89"), (fd?.email ?? "contact@couleurs-co.fr"), (clientCity(sessionData) ?? "Lille") + " Métropole", "Lundi-Vendredi 8h-18h", "Devis gratuit 24h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#4d7c5f)] mb-5">{col.t}</h4>
@@ -464,7 +473,7 @@ return (
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
-          <span>© 2026 {fd?.businessName ?? "Couleurs & Co Piscines"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 678 901 234 00056"} · Garantie Décennale · Artisan pisciniste{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {fd?.businessName ?? "Couleurs & Co Piscines"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 678 901 234 00056"} · Garantie Décennale · Artisan pisciniste{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#4d7c5f)]/40">{clientTrade(sessionData) ?? "Pisciniste"} qualifié · Nord-Pas-de-Calais</span>
         </div>
       </footer>

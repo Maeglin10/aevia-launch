@@ -32,7 +32,9 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
+  clientInstagram,
   clientList,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -40,6 +42,7 @@ import {
   clientStats,
   clientTagline,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -67,7 +70,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CÔTE D'AZUR COACHING — Coach bien-être & remise en forme · {clientCity(sessionData) ?? "Nice"} Promenade
+   {clientName(sessionData) ?? "Côte d'Azur Coaching"} — Coach bien-être & remise en forme · {clientCity(sessionData) ?? "Nice"} Promenade
    Photographies plein cadre + chorégraphie de défilement méditerranéenne
    (style Riviera × énergie outdoor). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -1445,7 +1448,7 @@ function MethodSection() {
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-            {PILLARS.map((p, i) => (
+            {resolveList(fusionnerEtapes(PILLARS, clientMethode(sessionData)), PILLARS).map((p, i) => (
               <Reveal key={p.number} delay={0.06 * i}>
                 <div
                   style={{
@@ -2170,7 +2173,10 @@ type ClassItem = {
   icon: React.ReactNode;
 };
 
-const WEEKLY_CLASSES: ClassItem[] = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, time: h.hours })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function WEEKLY_CLASSES_LIVE(): ClassItem[] {
+  return /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, time: h.hours })), [
   {
     day: 'Lundi',
     dayShort: 'LUN',
@@ -2217,6 +2223,8 @@ const WEEKLY_CLASSES: ClassItem[] = /* HORAIRES */ resolveList(clientHours(sessi
     icon: <Mountain size={20} color={C.azure} strokeWidth={2} />,
   },
 ]);
+}
+let WEEKLY_CLASSES: ClassItem[] = WEEKLY_CLASSES_LIVE();
 
 function PlanningSection() {
   const sec: React.CSSProperties = {
@@ -2992,7 +3000,7 @@ function FooterSection() {
             }
           >
             <Camera size={16} strokeWidth={2} />
-            @cotedazurcoaching
+            @{clientInstagram(sessionData) ?? "cotedazurcoaching"}
           </a>
 
           {/* Certifications */}
@@ -3099,7 +3107,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2026 {clientName(sessionData) ?? "Côte"} d&apos;Azur Coaching · Thomas Morel · Coach diplômé
+          © 2026 {clientName(sessionData) ?? "Côte d’Azur Coaching · Thomas Morel · Coach diplômé"}
           d&apos;État{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 20 }}>
@@ -3167,10 +3175,21 @@ export default function Impact287Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -3178,6 +3197,7 @@ export default function Impact287Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  WEEKLY_CLASSES = WEEKLY_CLASSES_LIVE();
   PHOTO = PHOTO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   PROGRAMS_DEMO = PROGRAMS_DEMO_LIVE();

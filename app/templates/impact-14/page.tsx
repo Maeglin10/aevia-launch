@@ -52,13 +52,11 @@ import {
 import {
   clientAddress,
   clientCity,
-  clientEmail,
   clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -306,7 +304,7 @@ function testimonials_LIVE() {
   },
   {
     name: "Édouard de Villeneuve",
-    title: `Family Charter, ${clientCity({ formData: fd }) ?? "Paris"}`,
+    title: `Family Charter, ${clientCity(sessionData) ?? "Paris"}`,
     text: "We have chartered through three agencies over twenty years. Horizon Maritime is categorically different — a concierge service that happens to include the most beautiful vessel we have ever stepped aboard.",
     yacht: "S/Y Ariel — 42m",
     stars: 5,
@@ -328,7 +326,7 @@ function testimonials_LIVE() {
   },
   {
     name: "Édouard de Villeneuve",
-    title: `Family Charter, ${clientCity({ formData: fd }) ?? "Paris"}`,
+    title: `Family Charter, ${clientCity(sessionData) ?? "Paris"}`,
     text: "We have chartered through three agencies over twenty years. Horizon Maritime is categorically different — a concierge service that happens to include the most beautiful vessel we have ever stepped aboard.",
     yacht: "S/Y Ariel — 42m",
     stars: 5,
@@ -350,7 +348,7 @@ function testimonials_LIVE() {
   },
   {
     name: "Édouard de Villeneuve",
-    title: `Family Charter, ${clientCity({ formData: fd }) ?? "Paris"}`,
+    title: `Family Charter, ${clientCity(sessionData) ?? "Paris"}`,
     text: "We have chartered through three agencies over twenty years. Horizon Maritime is categorically different — a concierge service that happens to include the most beautiful vessel we have ever stepped aboard.",
     yacht: "S/Y Ariel — 42m",
     stars: 5,
@@ -922,10 +920,21 @@ export default function HorizonMaritimePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -937,7 +946,10 @@ export default function HorizonMaritimePage() {
 
 
   stats = resolveList(
-    clientStats(session)?.map((s: any, i: number) => ({ ...stats_SOURCE[i % stats_SOURCE.length], value: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, ""), label: s.label })),
+    clientStats(session)?.map((s: any, i: number) => ({ ...stats_SOURCE[i % stats_SOURCE.length], value: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, /* Le nombre de décimales vient de la démonstration : « 1974 » s'affichait
+           « 1 974,00 » et « 10 ans » « 10.00ans ». On le tire de la valeur du
+           client, qui n'en a presque jamais. */
+        decimals: /[.,]\d/.test(String(s.value ?? "")) ? 2 : 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, ""), label: s.label })),
     stats_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -1096,7 +1108,7 @@ export default function HorizonMaritimePage() {
                       lineHeight: 1,
                     }}
                   >
-                    {clientName({ formData: fd }) ?? "Horizon"}
+                    {clientName(sessionData) ?? "Horizon"}
                   </p>
                   <p
                     style={{fontFamily: "Montserrat, sans-serif",
@@ -1260,7 +1272,7 @@ export default function HorizonMaritimePage() {
               }}
             >
               <p style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 3, textTransform: "uppercase" }}>
-                {clientPhone(sessionData) ?? fd?.phone ?? "+33 1 24 59 55 91"}
+                {fd?.phone ?? "+33 1 24 59 55 91"}
               </p>
             </div>
           </motion.div>
@@ -1482,7 +1494,7 @@ export default function HorizonMaritimePage() {
                 lineHeight: 1.8,
                 marginBottom: "2.5rem",
               }}
-            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Bespoke yacht charters and private aviation transfers across the world's most
               extraordinary waters. Curated for those who demand perfection without effort.
             </>}</motion.p>
@@ -2456,20 +2468,20 @@ export default function HorizonMaritimePage() {
           >
             <div style={{ display: "flex", gap: "2rem", flexWrap: "wrap" }}>
               <a
-                href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33124595591").replace(/[^+0-9]/g, "")}`}
+                href={`tel:${fd?.phone ?? "+33124595591"}`}
                 style={{ display: "flex", alignItems: "center", gap: "0.5rem", textDecoration: "none" }}
               >
                 <Phone size={12} style={{color: brand ?? 'var(--brand,#c9a84c)' }} />
                 <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "rgba(240,236,224,0.5)" }}>
-                  {clientPhone(sessionData) ?? fd?.phone ?? "+33 1 24 59 55 91"}
+                  {fd?.phone ?? "+33 1 24 59 55 91"}
                 </span>
               </a>
               <a
-                href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "voyages@horizonmaritime.com"}`}
+                href={`mailto:${fd?.email ?? "voyages@horizonmaritime.com"}`}
                 style={{ display: "flex", alignItems: "center", gap: "0.5rem", textDecoration: "none" }}
               >
                 <Mail size={12} style={{color: brand ?? 'var(--brand,#c9a84c)' }} />
-                <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "rgba(240,236,224,0.5)" }}>{clientEmail(sessionData) ?? fd?.email ?? "voyages@horizonmaritime.com"}</span>
+                <span style={{ fontFamily: "Montserrat, sans-serif", fontSize: 11, color: "rgba(240,236,224,0.5)" }}>{fd?.email ?? "voyages@horizonmaritime.com"}</span>
               </a>
               <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
                 <MapPin size={12} style={{color: brand ?? 'var(--brand,#c9a84c)' }} />
@@ -2494,7 +2506,7 @@ export default function HorizonMaritimePage() {
             }}
           >
             <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.25)", letterSpacing: 1 }}>
-              © 2026 {clientName(sessionData) ?? "Horizon Maritime Group S.A.M."} · All rights reserved · Monaco{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2026 {clientName(sessionData) ?? "Horizon Maritime Group S.A.M."} · All rights reserved · Monaco{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: "flex", gap: "2rem" }}>
               {["Privacy Policy", "Terms of Charter", "Cookie Policy", "Legal Mentions"].map((l) => (
@@ -3124,9 +3136,9 @@ function ExperiencePage({ goTo }: { goTo: (p: ActivePage) => void }) {
 
 function ContactPage() {
   const offices = [
-    { city: "Monaco", address: (clientAddress(sessionData) ?? "Port Hercules, 98000 Monaco"), phone: "+377 93 25 45 67", email: (clientEmail(sessionData) ?? fd?.email ?? "monaco@horizonmaritime.com") },
-    { city: "Geneva", address: "Rue du Rhône 42, 1204 " + (clientCity(sessionData) ?? "Genève") + ", Switzerland", phone: "+41 22 310 12 34", email: (clientEmail(sessionData) ?? fd?.email ?? "geneva@horizonmaritime.com") },
-    { city: "Singapore", address: "Marina Bay Sands Office, 018956 Singapore", phone: "+65 6688 8888", email: (clientEmail(sessionData) ?? fd?.email ?? "singapore@horizonmaritime.com") },
+    { city: "Monaco", address: (clientAddress(sessionData) ?? "Port Hercules, 98000 Monaco"), phone: "+377 93 25 45 67", email: (fd?.email ?? "monaco@horizonmaritime.com") },
+    { city: "Geneva", address: "Rue du Rhône 42, 1204 " + (clientCity(sessionData) ?? "Genève") + ", Switzerland", phone: "+41 22 310 12 34", email: (fd?.email ?? "geneva@horizonmaritime.com") },
+    { city: "Singapore", address: "Marina Bay Sands Office, 018956 Singapore", phone: "+65 6688 8888", email: (fd?.email ?? "singapore@horizonmaritime.com") },
   ];
 
   return (
@@ -3262,9 +3274,9 @@ function LegalPage() {
               Publisher & Host Information
             </h3>
             <p style={{ margin: 0 }}>
-              <strong>Publisher:</strong> {clientName({ formData: fd }) ?? "Aevia WS — Valentin Milliand"}<br />
-              Sole Proprietorship — SIREN <LegalIdentity /> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}<br />
-              <strong>Contact Email:</strong>{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}<br />
+              <strong>Publisher:</strong> {clientName(sessionData) ?? "Aevia WS — Valentin Milliand"}<br />
+              Sole Proprietorship — SIREN <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
+              <strong>Contact Email:</strong>{fd?.email ?? "contact@exemple.fr"}<br />
               <strong>Address:</strong> communicated upon request<br />
               <strong>Host:</strong> Vercel Inc.
             </p>

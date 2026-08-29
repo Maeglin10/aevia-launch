@@ -13,31 +13,37 @@ import {
 import { ArrowRight, ChevronDown, Coffee, MapPin, Quote, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientBookingUrl,
   clientAccrocheRestante,
+  clientBookingUrl,
   clientCity,
   clientHeroLine,
   clientName,
+  clientNameOr,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
+/* La session, posée avant tout dégel : une donnée recalculée à l'import la lit.
+   Déclarée plus bas, elle rendait la page blanche sans un mot du build. */
 let fd: any = null;
+let sessionData: any = null;
+let brand: any = null;
+
 let c: any = null;
 let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
 // que fd/c/bp, pour les sous-composants qui n'ont pas de props.
-let sessionData: any = null;
-let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   LE FOURNIL DU PARLEMENT — Boulangerie-Café Bistronomique · {clientCity(sessionData) ?? "Strasbourg"}
+   {clientName(sessionData) ?? "Le Fournil du Parlement"} — Boulangerie-Café Bistronomique · {clientCity(sessionData) ?? "Strasbourg"}
    Chorégraphie scroll éditoriale : crossfade artisan 320vh, panneau sourcing
    collant, formulaire de réservation interactif. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -124,6 +130,9 @@ interface SourcingStep {
   origin: string;
   detail: string;
 }
+
+const photo = (id: string) =>
+  ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[5] || `https://images.unsplash.com/photo-${id}&q=80&w=1600&auto=format&fit=crop`));
 
 /* ════════════════════════════════════════════════════════════════════════════
    Données
@@ -275,7 +284,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   },
   {
     quote:
-      "Nous avons organisé un brunch d'entreprise pour 40 personnes. Zéro stress, qualité incroyable, équipe aux petits soins. Le Fournil a géré tout le buffet, de la viennoiserie au gâteau.",
+      "Nous avons organisé un brunch d'entreprise pour 40 personnes. Zéro stress, qualité incroyable, équipe aux petits soins. " + clientNameOr("Le Fournil") + " a géré tout le buffet, de la viennoiserie au gâteau.",
     name: 'Thomas K.',
     role: 'Directeur associé · Cabinet RH ' + (clientCity(sessionData) ?? 'Strasbourg'),
   },
@@ -285,8 +294,6 @@ let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();;
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 /* ── Utilitaire photo ────────────────────────────────────────────────────── */
-const photo = (id: string) =>
-  ((id).startsWith('http') ? (id) : (clientPhotos(sessionData)[5] || `https://images.unsplash.com/photo-${id}&q=80&w=1600&auto=format&fit=crop`));
 
 /* ════════════════════════════════════════════════════════════════════════════
    Primitives
@@ -430,7 +437,7 @@ function Nav() {
   }, []);
 
   const links = [
-    { label: 'Le Fournil', href: '#intro' },
+    { label: clientNameOr('Le Fournil'), href: '#intro' },
     { label: 'Créations', href: '#creations' },
     { label: 'La Carte', href: '#menu' },
     { label: 'Nos Sources', href: '#sourcing' },
@@ -482,7 +489,7 @@ function Nav() {
         ) : (
           fd?.businessName ?? (
           <>
-            Le Fournil<br />
+            {(clientName(sessionData) ?? "Le Fournil du Parlement").split(" ").slice(0, 2).join(" ")}<br />
             <span style={{ fontStyle: 'italic', fontSize: '0.78em', color: 'rgba(240,221,184,0.7)', letterSpacing: '0.04em' }}>
               du Parlement
             </span>
@@ -1986,7 +1993,7 @@ function Footer() {
 
   const cols: { title: string; items: { label: string; href: string }[] }[] = [
     {
-      title: 'Le Fournil',
+      title: clientNameOr('Le Fournil'),
       items: [
         { label: 'Notre histoire', href: '#intro' },
         { label: "L'équipe", href: '#intro' },
@@ -2040,7 +2047,7 @@ function Footer() {
               lineHeight: 1.3,
             }}
           >
-            Le Fournil
+            {(clientName(sessionData) ?? "Le Fournil du Parlement").split(" ").slice(0, 2).join(" ")}
             <br />
             <span style={{ fontStyle: 'italic', color: C.accentLight, fontSize: '0.82em' }}>
               du Parlement
@@ -2222,10 +2229,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2233,10 +2251,11 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  CREATIONS = CREATIONS_LIVE();
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
-  SOURCING = SOURCING_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
+  SOURCING = SOURCING_LIVE();
+  CREATIONS = CREATIONS_LIVE();
+  memoriserSession(session);
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
 
 

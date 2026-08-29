@@ -35,17 +35,17 @@ import {
   clientAccrocheRestante,
   clientCertifications,
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientList,
+  clientMethode,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -60,7 +60,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ÉLECTRICITÉ DUMONT — {clientTrade(sessionData) ?? "Électricien"} certifié · {clientCity(sessionData) ?? "Paris"}
+   {clientName(sessionData) ?? "Électricité Dumont"} — {clientTrade(sessionData) ?? "Électricien"} certifié · {clientCity(sessionData) ?? "Paris"}
    Photographie réelle + chorégraphie de défilement éditoriale (style Impact ×
    fiabilité artisanale × urgence). Fichier entièrement autonome. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -331,8 +331,6 @@ function Nav() {
         ) : (
           <>
             <Zap size={22} color={C.yellow} strokeWidth={2} />
-            {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
-                portait « Électricité Dumont » sur le site de n'importe quel client. */}
             {clientName(sessionData) ?? "Électricité Dumont"}
           </>
         )}
@@ -487,7 +485,7 @@ function HeroSection() {
       >
         <img
           src={PHOTO.panel}
-          alt="Tableau électrique — Électricité Dumont Paris"
+          alt={`Tableau électrique — ${clientName(sessionData) ?? "Électricité Dumont"} Paris`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -693,10 +691,13 @@ type CrossfadeChapter = {
   icon: React.ReactNode;
 };
 
-const CROSSFADE_CHAPTERS: CrossfadeChapter[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function CROSSFADE_CHAPTERS_LIVE(): CrossfadeChapter[] {
+  return [
   {
     src: PHOTO.panel,
-    alt: 'Installation de tableau électrique par Électricité Dumont',
+    alt: `Installation de tableau électrique par ${clientName(sessionData) ?? "Électricité Dumont"}`,
     index: '01',
     caption: 'Installation tableau',
     sub: 'Tableaux divisionnaires, disjoncteurs différentiels, mise en sécurité complète.',
@@ -719,6 +720,8 @@ const CROSSFADE_CHAPTERS: CrossfadeChapter[] = [
     icon: <Wifi size={28} color={C.yellow} strokeWidth={2} />,
   },
 ];
+}
+let CROSSFADE_CHAPTERS: CrossfadeChapter[] = CROSSFADE_CHAPTERS_LIVE();
 
 function CrossfadeImage({
   chapter,
@@ -1262,7 +1265,7 @@ function ProcessSection() {
                     letterSpacing: '0.04em',
                   }}
                 >
-                  {clientPhone(sessionData) ?? fd?.phone ?? "01 23 72 22 65"}
+                  {fd?.phone ?? "01 23 72 22 65"}
                 </div>
                 <div
                   style={{
@@ -2309,7 +2312,7 @@ function UrgencySection() {
         {/* Numéro d'urgence mis en avant */}
         <Reveal delay={0.2}>
           <a
-            href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0123722265").replace(/[^+0-9]/g, "")}`}
+            href={`tel:${fd?.phone ?? "0123722265"}`}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -2332,7 +2335,7 @@ function UrgencySection() {
                   letterSpacing: '0.04em',
                 }}
               >
-                {clientPhone(sessionData) ?? fd?.phone ?? "01 23 72 22 65"}
+                {fd?.phone ?? "01 23 72 22 65"}
               </div>
               <div
                 style={{
@@ -2548,7 +2551,7 @@ function FooterSection() {
 
           {/* Numéro urgence footer */}
           <a
-            href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0123722265").replace(/[^+0-9]/g, "")}`}
+            href={`tel:${fd?.phone ?? "0123722265"}`}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -2567,7 +2570,7 @@ function FooterSection() {
                 letterSpacing: '0.06em',
               }}
             >
-              {clientPhone(sessionData) ?? fd?.phone ?? "01 23 72 22 65"}
+              {fd?.phone ?? "01 23 72 22 65"}
             </span>
           </a>
         </div>
@@ -2643,7 +2646,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2009–2026 Électricité Dumont. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2009–2026 {clientName(sessionData) ?? "Électricité Dumont"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
           <span
@@ -2738,10 +2741,21 @@ export default function Impact277Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2749,10 +2763,16 @@ export default function Impact277Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  CROSSFADE_CHAPTERS = CROSSFADE_CHAPTERS_LIVE();
   PHOTO = PHOTO_LIVE();
   PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   STEPS = STEPS_LIVE();
+  /* La méthode du client remplace les étapes de la démonstration. */
+  STEPS = resolveList(
+    fusionnerEtapes(STEPS, clientMethode(sessionData)),
+    STEPS,
+  );
 
 
 

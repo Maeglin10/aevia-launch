@@ -17,6 +17,7 @@ import {
   clientHeroLine,
   clientHeroPrestations,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -26,12 +27,13 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 import { ActionMobile } from "@/lib/templates/ActionMobile";
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ALLURE & APPUI — Pédicure-podologue, cabinet bien-être · Pau
+   {clientName(sessionData) ?? "Allure & Appui"} — Pédicure-podologue, cabinet bien-être · Pau
 
    Archétype héros H4 — éditorial décalé : le titre XXL déborde sur un panneau
    posé à droite, qui porte le rail de chiffres. Serif dominant (Cormorant
@@ -408,10 +410,21 @@ export default function AllureAppuiPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   /* ── Affectations : avant tout appel de helper ────────────────────────── */
@@ -419,13 +432,18 @@ export default function AllureAppuiPage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    fusionnerEtapes(METHODE_SOURCE, clientMethode(sessionData)),
+    METHODE_SOURCE,
+  );
+  TARIFS_SOURCE = TARIFS_SOURCE_LIVE();
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };
   }
 
   /* ── Blocs de données rejoués à chaque rendu ──────────────────────────── */
-  TARIFS_SOURCE = TARIFS_SOURCE_LIVE();
 
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({

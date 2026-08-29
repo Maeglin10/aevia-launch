@@ -10,9 +10,9 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
+  clientInstagram,
   clientList,
   clientName,
   clientPhone,
@@ -30,6 +30,13 @@ let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
 // que fd/c/bp, pour les sous-composants qui n'ont pas de props.
 let sessionData: any = null;
+
+const TESTIMONIALS_SOURCE = [
+  { name: "Élise M.", text: "Le café idéal pour travailler le matin. La lumière, la musique, le café... Tout est parfait.", rating: 5 },
+  { name: "Thomas B.", text: "La brioche aux agrumes est un chef-d'œuvre. Je fais un détour de 20 minutes pour en avoir une le week-end.", rating: 5 },
+  { name: "Pauline R.", text: "Accueil chaleureux, cadre magnifique. On s'y sent comme à la maison, mais en beaucoup mieux.", rating: 5 },
+]
+let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 let brand: any = null;
 
 const Instagram = ({ className = "w-4 h-4" }: { className?: string }) => (
@@ -63,9 +70,12 @@ function Reveal({ children, delay = 0, y = 30 }: { children: React.ReactNode; de
   )
 }
 
-const MENU_ITEMS_DEMO = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function MENU_ITEMS_DEMO_LIVE() {
+  return [
   { category: "Cafés signature", items: [
-    { name: "Le Matin Doré", desc: "Espresso, lait entier vapeur, miel de fleurs sauvages, une touche de cannelle", price: "4,80 €" },
+    { name: `${clientName(sessionData) ?? "Le Matin Doré"}`, desc: "Espresso, lait entier vapeur, miel de fleurs sauvages, une touche de cannelle", price: "4,80 €" },
     { name: "Velours Noir", desc: "Double espresso, crème de cacao, lait végétal d'avoine, poudre de fève", price: "5,20 €" },
     { name: "Cardamome & Rose", desc: "Espresso, cardamome moulue, lait entier, eau de rose, sucre de canne brut", price: "5,50 €" },
   ]},
@@ -79,14 +89,9 @@ const MENU_ITEMS_DEMO = [
     { name: "Bowl du moment", desc: "Céréales anciennes, légumineuses, légumes crus et cuits, vinaigrette maison", price: "12,00 €" },
     { name: "Œufs bénédictine", desc: "Muffin anglais maison, jambon artisanal, œufs pochés, sauce hollandaise", price: "13,50 €" },
   ]},
-]
-
-const TESTIMONIALS_SOURCE = [
-  { name: "Élise M.", text: "Le café idéal pour travailler le matin. La lumière, la musique, le café... Tout est parfait.", rating: 5 },
-  { name: "Thomas B.", text: "La brioche aux agrumes est un chef-d'œuvre. Je fais un détour de 20 minutes pour en avoir une le week-end.", rating: 5 },
-  { name: "Pauline R.", text: "Accueil chaleureux, cadre magnifique. On s'y sent comme à la maison, mais en beaucoup mieux.", rating: 5 },
-]
-let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
+];
+}
+let MENU_ITEMS_DEMO = MENU_ITEMS_DEMO_LIVE();
 
 const HOURS = [
   { days: "Lundi — Vendredi", hours: "7h00 — 19h00" },
@@ -127,16 +132,28 @@ export default function EssentialCafePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  MENU_ITEMS_DEMO = MENU_ITEMS_DEMO_LIVE();
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
     TESTIMONIALS_SOURCE,
@@ -210,7 +227,7 @@ return (
             ) : (
               <>
                 <Coffee className="w-5 h-5 text-[var(--brand,#8B5E3C)]" />
-                <span className="text-xl font-normal" style={{ fontFamily: "'Playfair Display', serif" }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>Le Matin Doré</>)}</span>
+                <span className="text-xl font-normal" style={{ fontFamily: "'Playfair Display', serif" }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>{clientName(sessionData) ?? "Le Matin Doré"}</>)}</span>
               </>
             )}
           </Link>
@@ -244,7 +261,7 @@ return (
                 ) : (
                   <>
                     <Coffee className="w-5 h-5 text-[#C9A86C]" />
-                    <span style={{ fontFamily: "'Playfair Display', serif" }}>Le Matin Doré</span>
+                    <span style={{ fontFamily: "'Playfair Display', serif" }}>{clientName(sessionData) ?? "Le Matin Doré"}</span>
                   </>
                 )}
               </div>
@@ -266,7 +283,7 @@ return (
       {/* Hero */}
       <section id="hero" ref={heroRef} className="relative min-h-dvh overflow-hidden flex items-end">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
-          <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1600&q=85"))} alt="Le Matin Doré" fill className="object-cover" />
+          <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1600&q=85"))} alt={`${clientName(sessionData) ?? "Le Matin Doré"}`} fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1A0E05]/90 via-[#1A0E05]/30 to-transparent" />
         </motion.div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pb-24 pt-32 w-full">
@@ -278,7 +295,7 @@ return (
             </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#D4C9B0] text-lg max-w-md mb-10 leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="text-[#D4C9B0] text-lg max-w-md mb-10 leading-relaxed">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Chaque tasse est une promesse — de qualité, de soin, de présence. Bienvenue au Matin Doré.
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-5">
@@ -308,7 +325,7 @@ return (
             {[
               { icon: Coffee, title: "Café de spécialité", desc: "Grains sourcés directement auprès de producteurs partenaires. Torréfaction légère pour préserver les arômes d'origine." },
               { icon: Heart, title: "Fait maison chaque jour", desc: "Toutes nos pâtisseries sont préparées chaque matin à l'aide de recettes de saison et de produits locaux de qualité." },
-              { icon: Star, title: "Un lieu vivant", desc: "Expositions temporaires, musique live le dimanche, ateliers café. Le Matin Doré est aussi un espace de culture." },
+              { icon: Star, title: "Un lieu vivant", desc: `Expositions temporaires, musique live le dimanche, ateliers café. ${clientName(sessionData) ?? "Le Matin Doré"} est aussi un espace de culture.` },
             ].map((p, i) => {
               const Icon = p.icon
               return (
@@ -390,7 +407,7 @@ return (
                   Un rêve de<br /><em>café parfait</em><br />devenu réalité
                 </>}</h2>
                 <p className="text-[#6B5A40] leading-relaxed mb-6">{c?.aboutText ?? <>
-                  Le Matin Doré est né de l&apos;obsession de Sarah Morin pour le café de spécialité. Après des années à voyager de plantation en plantation, elle a voulu créer un lieu où chaque tasse serait une invitation au ralentissement.
+                  {clientName(sessionData) ?? "Le Matin Doré"} est né de l&apos;obsession de Sarah Morin pour le café de spécialité. Après des années à voyager de plantation en plantation, elle a voulu créer un lieu où chaque tasse serait une invitation au ralentissement.
                 </>}</p>
                 <p className="text-[#6B5A40] leading-relaxed mb-10">
                   Nous torréfions nous-mêmes nos grains, sélectionnés auprès de producteurs engagés dans une agriculture durable et juste. Nos pâtisseries changent selon les saisons et l&apos;humeur du chef.
@@ -418,7 +435,7 @@ return (
             <div className="flex items-center justify-between mb-10">
               <h2 className="text-3xl font-light" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "galerie.titre") ?? (<>L&apos;ambiance du lieu</>)}</h2>
               <Link href="#galerie" className="flex items-center gap-2 text-sm text-[var(--brand,#8B5E3C)] cursor-pointer hover:gap-3 transition-all duration-200">
-                <Instagram className="w-4 h-4" /> @lematindore
+                <Instagram className="w-4 h-4" /> @{clientInstagram(sessionData) ?? "lematindore"}
               </Link>
             </div>
           </Reveal>
@@ -513,7 +530,7 @@ return (
                   Venez nous <em>rendre visite</em>
                 </>)}</h2>
                 <div className="space-y-5 mb-10">
-                  {[{ Icon: MapPin, text: `34 rue de la Roquette, 75011 ${clientCity(sessionData) ?? "Paris"}` }, { Icon: Phone, text: (clientPhone(sessionData) ?? "+33 1 43 48 22 10") }, { Icon: Mail, text: (clientEmail(sessionData) ?? fd?.email ?? "bonjour@lematindore.fr") }, { Icon: Instagram, text: "@lematindore" }].map(({ Icon, text }) => (
+                  {[{ Icon: MapPin, text: `34 rue de la Roquette, 75011 ${clientCity(sessionData) ?? "Paris"}` }, { Icon: Phone, text: (clientPhone(sessionData) ?? "+33 1 43 48 22 10") }, { Icon: Mail, text: (fd?.email ?? "bonjour@lematindore.fr") }, { Icon: Instagram, text: "@" + (clientInstagram(sessionData) ?? "lematindore") }].map(({ Icon, text }) => (
                     <div key={text} className="flex items-center gap-4 text-sm text-[#6B5A40]">
                       <Icon className="w-4 h-4 text-[var(--brand,#8B5E3C)] flex-shrink-0" />
                       {text}
@@ -634,7 +651,7 @@ return (
             <div className="md:col-span-2">
               <div className="flex items-center gap-2 mb-4">
                 <Coffee className="w-5 h-5 text-[#C9A86C]" />
-                <span className="text-[#FDFAF5] text-xl font-normal" style={{ fontFamily: "'Playfair Display', serif" }}>Le Matin Doré</span>
+                <span className="text-[#FDFAF5] text-xl font-normal" style={{ fontFamily: "'Playfair Display', serif" }}>{clientName(sessionData) ?? "Le Matin Doré"}</span>
               </div>
               <p className="text-sm leading-relaxed max-w-xs">Café de spécialité, pâtisseries maison, et un accueil chaleureux. Depuis 2018 au cœur du 11e.</p>
             </div>
@@ -648,8 +665,8 @@ return (
               <p className="text-[#FDFAF5] text-xs tracking-widest uppercase mb-5">Contact</p>
               <p className="text-sm mb-2">{clientAddress(sessionData) ?? "34 rue de la Roquette"}</p>
               <p className="text-sm mb-2">75011 {clientCity(sessionData) ?? "Paris"}</p>
-              <p className="text-sm mb-4">{clientPhone(sessionData) ?? fd?.phone ?? "+33 1 43 48 22 10"}</p>
-              <Link href="#contact" className="flex items-center gap-2 text-sm hover:text-[#C9A86C] transition-colors cursor-pointer"><Instagram className="w-4 h-4" /> @lematindore</Link>
+              <p className="text-sm mb-4">{fd?.phone ?? "+33 1 43 48 22 10"}</p>
+              <Link href="#contact" className="flex items-center gap-2 text-sm hover:text-[#C9A86C] transition-colors cursor-pointer"><Instagram className="w-4 h-4" /> @{clientInstagram(sessionData) ?? "lematindore"}</Link>
             </div>
           </div>
           <div className="pt-8 border-t border-[#4A3520] flex flex-col md:flex-row justify-between gap-4 text-xs">

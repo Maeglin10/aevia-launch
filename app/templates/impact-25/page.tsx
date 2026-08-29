@@ -7,11 +7,9 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { Code2, Phone, Mail, MapPin, Star, CheckCircle, ArrowRight, Layers, Sparkles, Globe } from "lucide-react"
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -96,7 +94,7 @@ let SERVICES = SERVICES_DEMO;
 
 function REALISATIONS_DEMO_LIVE() {
   return [
-  { client: "MaisonDéco " + (clientCity({ formData: fd }) ?? "Paris"), sector: "E-commerce", desc: "Refonte UX + boutique Shopify. +68% de taux de conversion en 3 mois.", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&q=80") },
+  { client: "MaisonDéco " + (clientCity(sessionData) ?? "Paris"), sector: "E-commerce", desc: "Refonte UX + boutique Shopify. +68% de taux de conversion en 3 mois.", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&q=80") },
   { client: "Cabinet Forêt & Associés", sector: "Juridique", desc: "Site vitrine + SEO local. Page 1 sur 8 requêtes cibles en 4 mois.", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&q=80") },
   { client: "Startup Finly", sector: "FinTech", desc: "MVP SaaS de 0 à prod en 6 semaines. Levée de fonds facilités par la démo.", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80") },
 ];
@@ -162,18 +160,29 @@ export default function PixelRepublicPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   sessionData = session;
+  REALISATIONS_DEMO = REALISATIONS_DEMO_LIVE();
   memoriserSession(sessionData);
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  REALISATIONS_DEMO = REALISATIONS_DEMO_LIVE();
   OFFRES = OFFRES_LIVE();
 
 
@@ -273,7 +282,7 @@ export default function PixelRepublicPage() {
               <div style={{ width: 32, height: 32, background: `linear-gradient(135deg, ${C.accent}, ${C.violet2})`, borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <Code2 size={16} color="#fff" />
               </div>
-              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontSize: 18, fontWeight: 700, color: scrolled ? C.text : "#fff" }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Pixel<span style={{ color: C.accent }}>Republic</span></>)}</span>
+              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontSize: 18, fontWeight: 700, color: scrolled ? C.text : "#fff" }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>Pixel<span style={{ color: C.accent }}>Republic</span></>)}</span>
             </>
           )}
         </div>
@@ -332,7 +341,7 @@ export default function PixelRepublicPage() {
           </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 530 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 530 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Pixel Republic crée des sites web, applications et identités visuelles qui convertissent. Stratégie, design, développement — une seule équipe, de A à Z.
           </>}</motion.p>
 
@@ -508,10 +517,10 @@ export default function PixelRepublicPage() {
             Un premier échange de 30 minutes pour comprendre vos enjeux et vous proposer une stratégie sur mesure. Sans engagement.
           </>}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "hello@pixelrepublic.fr"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
-              <Mail size={18} />{clientEmail(sessionData) ?? fd?.email ?? "hello@pixelrepublic.fr"}</motion.a>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33144000000").replace(/[^+0-9]/g, "")}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "13px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT }} whileHover={{ background: C.accent, color: C.white }}>
-              <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "01 44 00 00 00"}
+            <motion.a href={`mailto:${fd?.email ?? "hello@pixelrepublic.fr"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
+              <Mail size={18} />{fd?.email ?? "hello@pixelrepublic.fr"}</motion.a>
+            <motion.a href={`tel:${fd?.phone ?? "+33144000000"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "13px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT }} whileHover={{ background: C.accent, color: C.white }}>
+              <Phone size={18} /> {fd?.phone ?? "01 44 00 00 00"}
             </motion.a>
           </div>
         </Reveal>
@@ -522,10 +531,10 @@ export default function PixelRepublicPage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
             <div style={{ fontFamily: FONT, fontSize: 20, fontWeight: 700, color: C.accent, marginBottom: 8 }}>PixelRepublic</div>
-            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Agence digitale · {clientCity({ formData: fd }) ?? "Paris"}<br />Lun–Ven 9h–18h30</p>
+            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Agence digitale · {clientCity(sessionData) ?? "Paris"}<br />Lun–Ven 9h–18h30</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Paris") + ", Île-de-France" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "01 44 00 00 00") }, { icon: <Mail size={13} />, t: (clientEmail(sessionData) ?? fd?.email ?? "hello@pixelrepublic.fr") }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Paris") + ", Île-de-France" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "01 44 00 00 00") }, { icon: <Mail size={13} />, t: (fd?.email ?? "hello@pixelrepublic.fr") }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>
@@ -533,7 +542,7 @@ export default function PixelRepublicPage() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-          <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 Pixel Republic — Site par Aevia WS{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 Pixel Republic — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="/templates/impact-25/legal" style={{ color: "rgba(255,255,255,0.20)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

@@ -165,10 +165,21 @@ export default function MorphStudioPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -300,7 +311,7 @@ export default function MorphStudioPage() {
                 <h1 className="text-6xl md:text-8xl lg:text-[7rem] font-black tracking-tighter leading-none text-white mb-8">{<>
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-[var(--brand,#22d3ee)] to-purple-500">{clientHeroLine(sessionData, 0, 2, 7) ?? "MORPH"}</span><br/>{clientHeroLine(sessionData, 1, 2, 7) ?? "STUDIO."}</>}</h1>
                 
-                <p className="max-w-xl text-lg md:text-xl text-zinc-400 leading-relaxed mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                <p className="max-w-xl text-lg md:text-xl text-zinc-400 leading-relaxed mb-12">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                   {MANIFEST.hero.desc}
                 </>}</p>
                 

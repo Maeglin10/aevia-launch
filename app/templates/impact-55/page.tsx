@@ -8,11 +8,9 @@ import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Shield } fro
 import {
   clientCertifications,
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -74,7 +72,7 @@ const NAV = [
 ];
 function EQUIPE_DEMO_LIVE() {
   return [
-  { n: "Maître Hélène Renard", r: "Associée fondatrice · Droit social", d: "Barreau de " + (clientCity({ formData: fd }) ?? "Paris") + " depuis 2001. Licenciements, ruptures conventionnelles, contentieux prud'homal. Plaide elle-même ses dossiers." },
+  { n: "Maître Hélène Renard", r: "Associée fondatrice · Droit social", d: "Barreau de " + (clientCity(sessionData) ?? "Paris") + " depuis 2001. Licenciements, ruptures conventionnelles, contentieux prud'homal. Plaide elle-même ses dossiers." },
   { n: "Maître Antoine Vasseur", r: "Associé · Droit des affaires", d: "Cessions, pactes d'associés, litiges commerciaux. Ancien juriste d'un groupe coté, passé au barreau en 2009." },
   { n: "Maître Claire Boutin", r: "Collaboratrice · Droit de la famille", d: "Divorces, résidence des enfants, successions conflictuelles. Formée à la médiation familiale." },
   { n: "Maître Samir Haddad", r: "Collaborateur · Droit pénal des affaires", d: "Enquêtes préliminaires, abus de biens sociaux, garde à vue. Astreinte assurée le week-end." },
@@ -97,7 +95,7 @@ let DOMAINES = DOMAINES_SOURCE;
 
 function ENGAGEMENTS_DEMO_LIVE() {
   return [
-  "Membre du Barreau de " + (clientCity({ formData: fd }) ?? "Paris") + " depuis 2002",
+  "Membre du Barreau de " + (clientCity(sessionData) ?? "Paris") + " depuis 2002",
   "Devis honoraires transparents avant tout engagement",
   "Convention d'honoraires systématique et détaillée",
   "Aide juridictionnelle acceptée sous conditions",
@@ -156,18 +154,29 @@ export default function CabinetRenardPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   sessionData = session;
-  memoriserSession(sessionData);
-  c = session?.generatedContent;
   EQUIPE_DEMO = EQUIPE_DEMO_LIVE();
   ENGAGEMENTS_DEMO = ENGAGEMENTS_DEMO_LIVE();
+  memoriserSession(sessionData);
+  c = session?.generatedContent;
 
 
 
@@ -237,7 +246,7 @@ export default function CabinetRenardPage() {
             style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
         ) : (
-          <div>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
+          <div>{/* NOM_LOGO */ clientName(sessionData) ?? (<>
             <span style={{ fontFamily: FONT, fontSize: 16, fontStyle: "italic", color: scrolled ? C.text : "#fff" }}>Maître Renard</span>
             <span style={{ fontSize: 13, color: scrolled ? C.textMuted : "rgba(255,255,255,0.65)", marginLeft: 6 }}>& Associés</span>
           </>)}</div>
@@ -245,7 +254,7 @@ export default function CabinetRenardPage() {
         <div id="mb55-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33144000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "var(--brand,#b8952e)" }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33144000001"}`} style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "var(--brand,#b8952e)" }}>
             Consultation
           </motion.a>
       </div>
@@ -265,7 +274,7 @@ export default function CabinetRenardPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33144000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "var(--brand,#b8952e)" }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33144000001"}`} style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: "var(--brand,#b8952e)" }}>
             Consultation
           </motion.a>
         </div>
@@ -292,12 +301,12 @@ export default function CabinetRenardPage() {
           </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Cabinet Renard & Associés — expertise en droit des affaires, droit du travail, droit de la famille et RGPD. 22 ans d'exercice au Barreau de {clientCity(sessionData) ?? "Paris"}.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33144000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.gold}44` }} whileHover={{ background: "var(--brand,#b8952e)", scale: 1.03 }}>
+            <motion.a href={`tel:${fd?.phone ?? "+33144000001"}`} style={{ background: C.gold, color: C.text, borderRadius: 4, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.gold}44` }} whileHover={{ background: "var(--brand,#b8952e)", scale: 1.03 }}>
               Prendre rendez-vous <ArrowRight size={16} />
             </motion.a>
             <motion.a href="#domaines" style={{ background: "rgba(255,255,255,0.08)", color: "#fff", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 4, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)" }} whileHover={{ background: "rgba(255,255,255,0.14)" }}>
@@ -393,7 +402,7 @@ export default function CabinetRenardPage() {
                 </div>
               ))}
             </div>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33144000001").replace(/[^+0-9]/g, "")}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.gold, color: C.text, borderRadius: 4, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ background: "var(--brand,#b8952e)", scale: 1.02 }}>
+            <motion.a href={`tel:${fd?.phone ?? "+33144000001"}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.gold, color: C.text, borderRadius: 4, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ background: "var(--brand,#b8952e)", scale: 1.02 }}>
               Consultation <ArrowRight size={16} />
             </motion.a>
           </Reveal>
@@ -433,10 +442,10 @@ export default function CabinetRenardPage() {
             Premier entretien disponible sous 48h. Honoraires transparents communiqués avant toute intervention.
           </>}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33144000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 4, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "01 44 00 00 01"}
+            <motion.a href={`tel:${fd?.phone ?? "+33144000001"}`} style={{ background: C.accent, color: C.white, borderRadius: 4, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
+              <Phone size={18} /> {fd?.phone ?? "01 44 00 00 01"}
             </motion.a>
-            <motion.a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@cabinet-renard.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 4, padding: "13px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white }}>
+            <motion.a href={`mailto:${fd?.email ?? "contact@cabinet-renard.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 4, padding: "13px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white }}>
               <Mail size={18} /> Nous écrire
             </motion.a>
           </div>
@@ -448,10 +457,10 @@ export default function CabinetRenardPage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
             <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", fontWeight: 300, color: C.gold, marginBottom: 8 }}>Maître Renard & Associés</div>
-            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Cabinet d'avocats · {clientCity({ formData: fd }) ?? "Paris"}<br />Barreau de {clientCity(sessionData) ?? "Paris"}</p>
+            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Cabinet d'avocats · {clientCity(sessionData) ?? "Paris"}<br />Barreau de {clientCity(sessionData) ?? "Paris"}</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Paris") + ", Île-de-France" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "01 44 00 00 01") }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–18h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Paris") + ", Île-de-France" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "01 44 00 00 01") }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–18h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
                 <span style={{ color: C.gold }}>{item.icon}</span>{item.t}
               </div>
@@ -459,7 +468,7 @@ export default function CabinetRenardPage() {
           </div>
         </div>
         <div style={{ borderTop: `1px solid ${C.gold}20`, paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-          <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 Cabinet Renard & Associés — Site par Aevia WS{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 Cabinet Renard & Associés — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="/templates/impact-55/legal" style={{ color: "rgba(255,255,255,0.20)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

@@ -30,6 +30,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -39,6 +40,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -52,7 +54,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ÉCO-CLEAN HABITAT — nettoyage écologique, Montpellier.
+   {clientName(sessionData) ?? "Éco-Clean Habitat"} — nettoyage écologique, Montpellier.
    Réécriture premium (reprise 316–383, famille I).
    Geste signature : ParticleOrb — une sphère de particules vertes respire
    derrière le titre ; au défilement le titre monte, l'orbe reste (séparation
@@ -257,10 +259,21 @@ export default function EcoCleanHabitatPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -525,7 +538,7 @@ export default function EcoCleanHabitatPage() {
           <div className="i319-timeline" style={{ position: "relative", paddingLeft: 38 }}>
             {/* Le fil de la timeline : filet dégradé 1 px. */}
             <span aria-hidden style={{ position: "absolute", left: 9, top: 8, bottom: 8, width: 1, background: `linear-gradient(180deg, transparent, ${C.leaf} 12%, ${C.leaf} 88%, transparent)` }} />
-            {METHODE.map((m, idx) => (
+            {resolveList(fusionnerEtapes(METHODE, clientMethode(sessionData)), METHODE).map((m, idx) => (
               <Reveal key={m.n} delay={idx * 0.1} y={20}>
                 <div style={{ position: "relative", paddingBottom: idx === METHODE.length - 1 ? 0 : "clamp(28px, 3.4vw, 44px)" }}>
                   <span aria-hidden style={{ position: "absolute", left: -34, top: 7, width: 11, height: 11, borderRadius: "50%", background: C.bg, border: `2px solid ${C.accent}`, boxShadow: `0 0 0 4px ${C.accentLight}` }} />
