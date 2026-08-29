@@ -18,6 +18,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -25,6 +26,7 @@ import {
   clientStats,
   clientText,
   clientWorks,
+  fusionnerEtapes,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -93,7 +95,7 @@ const EXPERTISE_SOURCE = [
 ];
 let EXPERTISE = EXPERTISE_SOURCE;
 
-const PROCESS_STEPS = [
+let PROCESS_STEPS = [
   {
     num: "01",
     title: "Extract",
@@ -176,21 +178,42 @@ export default function AetherRoasteryPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
 
   sessionData = session;
 
+  /* La méthode du client remplace les étapes de la démonstration. */
+
+  PROCESS_STEPS = resolveList(
+
+    fusionnerEtapes(PROCESS_STEPS, clientMethode(sessionData)),
+
+    PROCESS_STEPS,
+
+  );
+  WORK_REEL_DEMO = WORK_REEL_DEMO_LIVE();
+
   memoriserSession(sessionData);
 
   rafraichirPartage();
   c = session?.generatedContent;
-  WORK_REEL_DEMO = WORK_REEL_DEMO_LIVE();
 
   EXPERTISE = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...EXPERTISE_SOURCE[i % EXPERTISE_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
@@ -271,7 +294,7 @@ return (
             <h1 className="text-4xl sm:text-5xl md:text-8xl lg:text-9xl font-black leading-[1.15] tracking-tighter mb-8 uppercase pb-4 break-words">{<>{clientHeroLine(sessionData, 0, 2, 14) ?? "The Alchemy"}<br />{" "}
               <span className="text-[var(--brand,#7c2d12)] italic">{clientHeroLine(sessionData, 1, 2, 14) ?? "of Extraction."}</span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-8 uppercase tracking-tight italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-8 uppercase tracking-tight italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Precision-roasted molecular coffee. Sourced at origin. Analyzed in
               lab. Delivered in spectrum.
             </>}</p>
@@ -644,8 +667,8 @@ return (
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-78"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "Aether Roastery"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>
   );

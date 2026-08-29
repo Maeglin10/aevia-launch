@@ -1,5 +1,14 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+  clientTrade,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
@@ -23,13 +32,25 @@ export default function IronClubContactPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
@@ -43,6 +64,7 @@ export default function IronClubContactPage() {
 
   return (
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, minHeight: "100dvh" }}>
+      <EnteteAnnexe session={sessionData} repli={`${clientName(sessionData) ?? "Iron Club"}`} accueil="/templates/impact-87" />
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Inter:wght@400;500;600&display=swap');
         * { box-sizing: border-box; }
@@ -79,10 +101,10 @@ export default function IronClubContactPage() {
             lineHeight: 1,
           }}
         >
-          Nous contacter
+          {/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? "Nous contacter"}
         </h1>
         <p style={{ fontFamily: FONT_BODY, fontSize: 18, color: "rgba(255,255,255,0.65)", marginTop: 16 }}>
-          Réservez votre séance d&apos;essai ou posez-nous vos questions.
+          {/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? clientTagline(sessionData) ?? "Réservez votre séance d&apos;essai ou posez-nous vos questions."}
         </p>
       </div>
 

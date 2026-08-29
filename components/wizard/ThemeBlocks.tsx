@@ -5,6 +5,7 @@ import { ChevronDown, Plus, X } from "lucide-react";
 import type { BusinessProfile } from "@/lib/sessions";
 import { blocksForTheme, type ContentBlock } from "@/lib/templates/capabilities";
 import { copyFor } from "@/lib/wizard/lexicon";
+import CollerDesAvis from "./CollerDesAvis";
 
 /**
  * Les questions que le thème choisi rend nécessaires.
@@ -92,7 +93,9 @@ function Section({
   children,
 }: {
   title: string;
-  hint: string;
+  /* Le lexique ne garantit pas la précision : trois blocs — méthode,
+     réalisations, horaires — n'en ont pas encore. */
+  hint?: string;
   /** Nombre d'entrées renseignées, affiché sur le pli. */
   rempli: number;
   children: React.ReactNode;
@@ -162,6 +165,19 @@ export function ThemeBlocks({
           title={say("avis").label!}
           hint={`${say("avis").hint} Laissez vide si vous n'en avez pas encore : le thème gardera ses exemples et nous vous le rappellerons.`}
         >
+          {/* Coller d'abord, corriger ensuite : personne ne retape quarante avis. */}
+          <div className="mb-3">
+            <CollerDesAvis
+              onAjouter={(lus) =>
+                patch({
+                  reputation: {
+                    ...(profile.reputation ?? {}),
+                    featuredReviews: [...reviews.filter((r) => r.text?.trim()), ...lus],
+                  },
+                })
+              }
+            />
+          </div>
           <Repeater
             rows={reviews}
             empty={{ author: "", text: "", rating: 5, source: "" }}
@@ -335,6 +351,102 @@ export function ThemeBlocks({
               })
             }
             placeholder={say("zones").ph?.areas}
+          />
+        </Section>
+      )}
+
+      {/*
+         Les horaires et les réalisations : deux blocs que soixante-dix et cent
+         trente et un thèmes affichent, et que le formulaire ne demandait pas.
+         Leurs sections restaient donc sur l'exemple du thème quoi que fasse le
+         client — mesuré sur le parcours réel.
+      */}
+      {has("horaires") && (
+        <Section
+          rempli={(profile.openingHours ?? []).filter((h) => h.day?.trim()).length}
+          title={say("horaires").label!}
+          hint={say("horaires").hint}
+        >
+          <Repeater
+            rows={profile.openingHours ?? []}
+            empty={{ day: "", open: "", close: "" }}
+            onChange={(next) => patch({ openingHours: next })}
+            addLabel="Ajouter un horaire"
+            render={(h, set) => (
+              <>
+                <input
+                  className={input}
+                  value={h.day ?? ""}
+                  onChange={(e) => set({ day: e.target.value })}
+                  placeholder={say("horaires").ph?.day}
+                />
+                <input
+                  className={input}
+                  value={h.open ?? ""}
+                  onChange={(e) => set({ open: e.target.value })}
+                  placeholder={say("horaires").ph?.hours}
+                />
+              </>
+            )}
+          />
+        </Section>
+      )}
+
+      {/*
+         La méthode : cent quarante-neuf thèmes affichent « comment ça se
+         passe » et aucun ne pouvait le remplir. La section gardait donc les
+         étapes d'une agence web sur le site d'un couvreur.
+      */}
+      {has("methode") && (
+        <Section
+          rempli={(profile.methode ?? []).filter((e) => e.name?.trim()).length}
+          title={say("methode").label!}
+          hint={say("methode").hint}
+        >
+          <Repeater
+            rows={profile.methode ?? []}
+            empty={{ name: "", desc: "" }}
+            onChange={(next) => patch({ methode: next })}
+            addLabel="Ajouter une étape"
+            render={(e, set) => (
+              <>
+                <input
+                  className={input}
+                  value={e.name ?? ""}
+                  onChange={(x) => set({ name: x.target.value })}
+                  placeholder={say("methode").ph?.name}
+                />
+                <input
+                  className={input}
+                  value={e.desc ?? ""}
+                  onChange={(x) => set({ desc: x.target.value })}
+                  placeholder={say("methode").ph?.desc}
+                />
+              </>
+            )}
+          />
+        </Section>
+      )}
+
+      {has("realisations") && (
+        <Section
+          rempli={(profile.beforeAfter ?? []).filter((r) => r.caption?.trim()).length}
+          title={say("realisations").label!}
+          hint={say("realisations").hint}
+        >
+          <Repeater
+            rows={profile.beforeAfter ?? []}
+            empty={{ beforeUrl: "", afterUrl: "", caption: "" }}
+            onChange={(next) => patch({ beforeAfter: next })}
+            addLabel="Ajouter une réalisation"
+            render={(r, set) => (
+              <input
+                className={`${input} w-full`}
+                value={r.caption ?? ""}
+                onChange={(e) => set({ caption: e.target.value })}
+                placeholder={say("realisations").ph?.caption}
+              />
+            )}
           />
         </Section>
       )}

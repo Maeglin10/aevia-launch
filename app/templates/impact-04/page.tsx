@@ -1,5 +1,6 @@
 
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { tr } from "@/lib/templates/uiStrings";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
@@ -257,10 +258,21 @@ export default function LEtoileRestaurant() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -773,7 +785,7 @@ return (
               <button onClick={() => setReservationOpen(true)} className="px-12 py-5 bg-amber-700 hover:bg-amber-600 text-[11px] uppercase tracking-[0.3em] font-sans font-bold transition-all duration-200 inline-flex items-center gap-3 cursor-pointer">
                 <CalendarDays className="w-4 h-4" /> Make a Reservation
               </button>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33142651516").replace(/[^+0-9]/g, "")}`} className="px-12 py-5 border border-white/10 hover:border-amber-700/40 text-[11px] uppercase tracking-[0.3em] font-sans font-semibold transition-all duration-200 inline-flex items-center gap-3 cursor-pointer">
+              <a href={`tel:${fd?.phone ?? "+33142651516"}`} className="px-12 py-5 border border-white/10 hover:border-amber-700/40 text-[11px] uppercase tracking-[0.3em] font-sans font-semibold transition-all duration-200 inline-flex items-center gap-3 cursor-pointer">
                 <Phone className="w-4 h-4" /> {tr(sessionData, "Call Us")}
               </a>
             </div>
@@ -782,7 +794,7 @@ return (
               {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
                 { icon: <MapPin className="w-5 h-5" />, label: "Location", value: `42 Rue du Faubourg\nSaint-Honoré, 75008 ${clientCity(sessionData) ?? "Paris"}` },
                 { icon: <Clock className="w-5 h-5" />, label: "Hours", value: "Tue–Sat: 19:00–23:00\nSun: 12:00–15:00" },
-                { icon: <Phone className="w-5 h-5" />, label: "Contact", value: (clientPhone(sessionData) ?? "+33 1 42 65 15 16") + "\nreserve@letoile." + (clientCity(sessionData) ?? "Paris") },
+                { icon: <Phone className="w-5 h-5" />, label: "Contact", value: (clientPhone(sessionData) ?? "+33 1 42 65 15 16") + "\n" + (clientEmail(sessionData) ?? `reserve@letoile.${clientCity(sessionData) ?? "Paris"}`) },
               ]).map((item, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="text-center group">
@@ -1113,10 +1125,10 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
             <div>
               <h2 style={{ fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 300, color: 'rgb(217, 119, 6)', marginBottom: 12 }} className="text-amber-500">Éditeur</h2>
               <p>
-                Aevia WS — Valentin Milliand<br />
+                <EditeurDuSite /><br />
                 Entrepreneur individuel<br />
                 SIREN <LegalIdentity /><br />
-                {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</p>
+                {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />{fd?.email ?? "contact@exemple.fr"}</p>
             </div>
             <div>
               <h2 style={{ fontFamily: "'Georgia', serif", fontSize: 18, fontWeight: 300, color: 'rgb(217, 119, 6)', marginBottom: 12 }} className="text-amber-500">Hébergeur</h2>

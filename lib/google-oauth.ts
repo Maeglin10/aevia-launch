@@ -4,16 +4,32 @@
 // redirect URI registered for this domain. See docs/plans for the Console
 // setup steps (webmasters scope + redirect URI) required before this works.
 
+import { createHmac, timingSafeEqual } from "crypto";
+
 const AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth";
 const TOKEN_URL = "https://oauth2.googleapis.com/token";
 const ANALYTICS_ADMIN_BASE = "https://analyticsadmin.googleapis.com/v1beta";
 const SITE_VERIFICATION_BASE = "https://www.googleapis.com/siteVerification/v1";
 
-const SCOPES = [
+const SCOPES_BASE = [
   "https://www.googleapis.com/auth/analytics.edit",
   "https://www.googleapis.com/auth/webmasters",
   "https://www.googleapis.com/auth/userinfo.email",
-].join(" ");
+];
+
+/*
+  Le scope des avis ne s'ajoute que lorsque Google a accordé l'accès à l'API
+  Business Profile. Le demander avant fait refuser l'écran de consentement en
+  entier : le client perdrait Analytics et Search Console pour un scope qu'on ne
+  peut pas encore utiliser. Voir lib/google-avis.ts.
+*/
+function scopes(): string {
+  const avis =
+    process.env.GOOGLE_BUSINESS_REVIEWS === "1"
+      ? ["https://www.googleapis.com/auth/business.manage"]
+      : [];
+  return [...SCOPES_BASE, ...avis].join(" ");
+}
 
 function requireEnv(name: string): string {
   const value = process.env[name];
@@ -32,18 +48,39 @@ export function getGoogleAuthUrl(sessionId: string): string {
     client_id: clientId,
     redirect_uri: getRedirectUri(),
     response_type: "code",
-    scope: SCOPES,
+    scope: scopes(),
     access_type: "offline",
     prompt: "consent",
-    state: Buffer.from(sessionId).toString("base64url"),
+    state: signState(sessionId),
   });
   return `${AUTH_URL}?${params.toString()}`;
 }
 
+// The OAuth `state` carries the sessionId across the Google round-trip. It must
+// be signed so an attacker can't craft a state binding THEIR Google consent to a
+// victim's session (the callback writes ga4Id/gscVerification into that session).
+// HMAC key = the OAuth client secret (already required for this flow, server-only).
+function signState(sessionId: string): string {
+  const sig = createHmac("sha256", requireEnv("GOOGLE_OAUTH_CLIENT_SECRET"))
+    .update(sessionId)
+    .digest("base64url");
+  return `${Buffer.from(sessionId).toString("base64url")}.${sig}`;
+}
+
 export function decodeState(state: string): string {
-  const decoded = Buffer.from(state, "base64url").toString("utf-8");
-  if (!decoded) throw new Error("Invalid OAuth state");
-  return decoded;
+  const [idPart, sig] = (state ?? "").split(".");
+  if (!idPart || !sig) throw new Error("Invalid OAuth state");
+  const sessionId = Buffer.from(idPart, "base64url").toString("utf-8");
+  if (!sessionId) throw new Error("Invalid OAuth state");
+  const expected = createHmac("sha256", requireEnv("GOOGLE_OAUTH_CLIENT_SECRET"))
+    .update(sessionId)
+    .digest("base64url");
+  const a = Buffer.from(sig);
+  const b = Buffer.from(expected);
+  if (a.length !== b.length || !timingSafeEqual(a, b)) {
+    throw new Error("Invalid OAuth state signature");
+  }
+  return sessionId;
 }
 
 interface GoogleTokens {

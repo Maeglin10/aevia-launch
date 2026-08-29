@@ -274,7 +274,10 @@ const soinsList = [
 ];
 
 // ─── Réservation — créneaux & horaires ────────────────────────────────────────
-const horaires = /* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ day: h.day, hours: h.hours })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function horaires_LIVE() {
+  return /* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ day: h.day, hours: h.hours })), [
   { day: "Lundi", hours: "10h — 20h" },
   { day: "Mardi", hours: "10h — 20h" },
   { day: "Mercredi", hours: "10h — 21h" },
@@ -283,6 +286,8 @@ const horaires = /* HORAIRES */ resolveList(clientHours({ formData: fd, business
   { day: "Samedi", hours: "9h — 19h" },
   { day: "Dimanche", hours: "10h — 17h" },
 ]);
+}
+let horaires = horaires_LIVE();
 
 const creneaux = ["10h00", "11h30", "13h00", "14h30", "16h00", "17h30", "19h00"];
 
@@ -414,19 +419,31 @@ export default function AuraWellnessPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
 
   bp = session?.businessProfile;
-  blogArticles = blogArticles_LIVE();
   sessionData = session;
   c = session?.generatedContent;
   bp = session?.businessProfile;
+  horaires = horaires_LIVE();
+  blogArticles = blogArticles_LIVE();
 
 
   amenities = resolveList(
@@ -528,7 +545,7 @@ export default function AuraWellnessPage() {
             ) : (
               <>
                 <Leaf className="w-5 h-5 text-[var(--brand,#7C9E87)]" />
-                <span className="text-[#2C2820] tracking-widest text-sm uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Aura Wellness"))}</span>
+                <span className="text-[#2C2820] tracking-widest text-sm uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Aura Wellness"))}</span>
               </>
             )}
           </Link>
@@ -576,7 +593,7 @@ export default function AuraWellnessPage() {
                   style={{ height: 28, maxWidth: 140, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-[#2C2820] tracking-widest text-sm uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Aura Wellness"))}</span>
+                <span className="text-[#2C2820] tracking-widest text-sm uppercase" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Aura Wellness"))}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="text-[#2C2820] cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
@@ -603,7 +620,7 @@ export default function AuraWellnessPage() {
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
           <Image
             src={photo(4, "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=1600&q=85")}
-            alt="Aura Wellness sanctuary"
+            alt={`${clientName(sessionData) ?? "Aura Wellness"} sanctuary`}
             fill
             className="object-cover"
             priority
@@ -660,7 +677,7 @@ export default function AuraWellnessPage() {
         </Reveal>
         <Reveal delay={0.15}>
           <p className="text-[#6B5E52] text-base max-w-2xl mx-auto leading-relaxed">{c?.aboutText ?? <>
-            Fondé en 2014, Aura Wellness propose des soins conçus à partir d'ingrédients botaniques traçables, administrés par des thérapeutes formés aux traditions ayurvédiques, taoïstes et méditerranéennes.
+            Fondé en 2014, {clientName(sessionData) ?? "Aura Wellness"} propose des soins conçus à partir d'ingrédients botaniques traçables, administrés par des thérapeutes formés aux traditions ayurvédiques, taoïstes et méditerranéennes.
           </>}</p>
         </Reveal>
       </section>
@@ -795,13 +812,13 @@ export default function AuraWellnessPage() {
         >
           <Image
             src={photo(6, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1400&q=80")}
-            alt="Aura Wellness thermal pools"
+            alt={`${clientName(sessionData) ?? "Aura Wellness"} thermal pools`}
             fill
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#2C2820]/30 to-transparent" />
           <div className="absolute bottom-8 left-8">
-            <p className="text-white text-xs tracking-widest uppercase mb-1">{clientCity({ formData: fd }) ?? "Bordeaux"}, France</p>
+            <p className="text-white text-xs tracking-widest uppercase mb-1">{clientCity(sessionData) ?? "Bordeaux"}, France</p>
             <p
               className="text-white text-2xl"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
@@ -1105,12 +1122,12 @@ export default function AuraWellnessPage() {
             <div className="bg-[#EDE9E2] rounded-3xl border border-[#D8D0C4] p-8 md:p-10 h-full">
               <p className="text-[var(--brand,#7C9E87)] text-xs tracking-widest uppercase mb-3">Coordonnées</p>
               <h3 className="text-[#2C2820] text-2xl mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
-                Aura Wellness — {clientCity({ formData: fd }) ?? "Bordeaux"}
+                {clientName(sessionData) ?? "Aura Wellness"} — {clientCity(sessionData) ?? "Bordeaux"}
               </>)}</h3>
               <ul className="space-y-5 text-sm text-[#6B5E52]">
                 <li className="flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-[var(--brand,#7C9E87)] shrink-0 mt-0.5" />
-                  <span>Adresse communiquée sur demande<br /><span className="text-[#2C2820]/50 text-xs">{clientCity({ formData: fd }) ?? "Bordeaux"}, France</span></span>
+                  <span>Adresse communiquée sur demande<br /><span className="text-[#2C2820]/50 text-xs">{clientCity(sessionData) ?? "Bordeaux"}, France</span></span>
                 </li>
                 <li className="flex items-center gap-3">
                   <Phone className="w-5 h-5 text-[var(--brand,#7C9E87)] shrink-0" /> {clientPhone(sessionData) ?? fd?.phone ?? "+33 5 56 00 00 00"}
@@ -1180,10 +1197,10 @@ export default function AuraWellnessPage() {
               <span
                 className="text-[#2C2820] text-lg"
                 style={{ fontFamily: "'Cormorant Garamond', serif" }}
-              >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Aura Wellness"))}</span>
+              >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Aura Wellness"))}</span>
             </div>
             <p className="text-[#6B5E52] text-sm leading-relaxed mb-4">
-              Sanctuary de soins botaniques & rituels holistiques. {clientCity({ formData: fd }) ?? "Bordeaux"}, France.
+              Sanctuary de soins botaniques & rituels holistiques. {clientCity(sessionData) ?? "Bordeaux"}, France.
             </p>
             <div className="space-y-1 text-xs text-[#6B5E52]">
               <div className="flex items-center gap-2"><MapPin className="w-3 h-3" /> Adresse communiquée sur demande</div>
@@ -1211,7 +1228,7 @@ export default function AuraWellnessPage() {
           ))}
         </div>
         <div className="max-w-6xl mx-auto border-t border-[#D8D0C4] mt-10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-[#6B5E52]">
-          <span>© 2026 {clientName(sessionData) ?? "Aura Wellness."} Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Aura Wellness."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-6">
             <Link href="/templates/impact-86/mentions-legales" className="hover:text-[var(--brand,#7C9E87)] transition-colors cursor-pointer">Mentions légales</Link>
             <Link href="/templates/impact-86/cgu" className="hover:text-[var(--brand,#7C9E87)] transition-colors cursor-pointer">CGU</Link>

@@ -2,7 +2,21 @@
 // @ts-nocheck
 
 import React, { useRef, useState, useEffect } from "react";
-import { clientFaq } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientFaq,
+  clientHeroLine,
+  clientHeroSubtitle,
+  clientMethode,
+  clientName,
+  clientPhotos,
+  clientReviews,
+  clientServices,
+  clientStats,
+  clientText,
+  fusionnerEtapes,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { ArrowRight, Star, ChevronRight, Coffee, Leaf, Package, Flame, Clock, Zap, ChevronLeft, ChevronDown, Globe, Award, Heart, Users, TrendingUp, CheckCircle, Play } from "lucide-react";
 import Link from "next/link";
@@ -23,18 +37,6 @@ import {
   rafraichirPartage,
 } from "./shared";
 import { resolveList } from "@/lib/templates/resolveList";
-import {
-  clientPhotos,
-  clientCity,
-  clientHeroLine,
-  clientHeroSubtitle,
-  clientName,
-  clientReviews,
-  clientServices,
-  clientStats,
-  clientText,
-  memoriserSession,
-} from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -777,10 +779,21 @@ export default function OriginRoastPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -788,8 +801,8 @@ export default function OriginRoastPage() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  const FAQS_DU_CLIENT = resolveList(clientFaq(sessionData)?.map((x: any) => ({ q: x.q, a: x.a })), FAQS);
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  const FAQS_DU_CLIENT = resolveList(clientFaq(sessionData)?.map((x: any) => ({ q: x.q, a: x.a })), FAQS);
   memoriserSession(sessionData);
   rafraichirPartage();
   SUBSCRIPTION_HIGHLIGHTS = resolveList(
@@ -877,7 +890,7 @@ export default function OriginRoastPage() {
                 <span style={{ color: C.caramel, fontStyle: "italic" }}>{clientHeroLine(sessionData, 1, 2, 9) ?? "to Cup."}</span>
               </>}</>)}</motion.h1>
               <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.25 }}
-                style={{ fontFamily: SANS, fontSize: 18, color: C.sand, lineHeight: 1.8, marginBottom: 44, maxWidth: 480, fontWeight: 300 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                style={{ fontFamily: SANS, fontSize: 18, color: C.sand, lineHeight: 1.8, marginBottom: 44, maxWidth: 480, fontWeight: 300 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Café de spécialité en petits lots — 47 fermes partenaires, 18 pays. Torréfié à la commande et expédié au pic de fraîcheur.
               </>}</motion.p>
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.35 }}
@@ -1059,7 +1072,7 @@ export default function OriginRoastPage() {
           {/* Animated Timeline */}
           <div style={{ position: "relative" }}>
             <div style={{ position: "absolute", left: "50%", top: 0, bottom: 0, width: 2, background: `${C.caramel}30`, transform: "translateX(-50%)" }} />
-            {PROCESS_TIMELINE.map((step, i) => (
+            {resolveList(fusionnerEtapes(PROCESS_TIMELINE, clientMethode(sessionData)), PROCESS_TIMELINE).map((step, i) => (
               <SectionReveal key={step.step} delay={i * 0.15}>
                 <div style={{
                   display: "grid",
@@ -1365,7 +1378,7 @@ export default function OriginRoastPage() {
 
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
 
-        {clientName(sessionData) ?? "impact-38"}
+        {clientName(sessionData) ?? "Origin Roast"}
 
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
 

@@ -7,16 +7,16 @@ import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Leaf } from 
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -64,7 +64,7 @@ const ACCOMPAGNEMENTS_DEMO = [
   { titre: "Femmes & hormones", desc: "Grossesse, post-partum, ménopause, SOPK. Accompagnement adapté aux cycles hormonaux et aux besoins spécifiques des femmes.", tag: "Femmes" },
 ]
 
-const METHODE = [
+let METHODE = [
   "Bilan alimentaire complet lors de la 1ère consultation (1h)",
   "Plan personnalisé : pas de modèle standard, tout est fait pour vous",
   "Suivi mensuel avec ajustements selon vos retours et résultats",
@@ -162,16 +162,32 @@ export default function NutritherapiePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    fusionnerEtapes(METHODE, clientMethode(sessionData)),
+    METHODE,
+  );
   AVIS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
     AVIS_SOURCE,
@@ -276,7 +292,7 @@ return (
             style={{ fontFamily: FONT, fontSize: "clamp(40px, 5vw, 68px)", color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 17) ?? "Manger juste"}<br /><em style={{ color: C.sand }}>{clientHeroLine(sessionData, 1, 2, 17) ?? "pour vivre mieux."}</em>
           </>}</>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Camille Renard, diététicienne-nutritionniste à {clientCity(sessionData) ?? "Lyon"}. Un accompagnement individualisé pour votre poids, vos troubles digestifs, vos performances ou votre santé hormonale.
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -441,10 +457,10 @@ return (
         <Reveal delay={0.2}>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap", alignItems: "center", marginTop: 36 }}>
             <span style={{ fontSize: 13, color: C.textMuted }}>Vous préférez nous joindre directement ?</span>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33456000000").replace(/[^+0-9]/g, "")}`} style={{ background: "transparent", color: C.text, border: `1.5px solid ${C.border}`, borderRadius: 6, padding: "13px 20px", fontWeight: 600, fontSize: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} whileHover={{ borderColor: C.accent, color: C.accent }}>
-              <Phone size={15} /> {clientPhone(sessionData) ?? fd?.phone ?? "04 56 00 00 00"}
+            <motion.a href={`tel:${fd?.phone ?? "+33456000000"}`} style={{ background: "transparent", color: C.text, border: `1.5px solid ${C.border}`, borderRadius: 6, padding: "13px 20px", fontWeight: 600, fontSize: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} whileHover={{ borderColor: C.accent, color: C.accent }}>
+              <Phone size={15} /> {fd?.phone ?? "04 56 00 00 00"}
             </motion.a>
-            <motion.a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@nourrir-juste.fr"}`} style={{ background: "transparent", color: C.text, border: `1.5px solid ${C.border}`, borderRadius: 6, padding: "13px 20px", fontWeight: 600, fontSize: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} whileHover={{ borderColor: C.accent, color: C.accent }}>
+            <motion.a href={`mailto:${fd?.email ?? "contact@nourrir-juste.fr"}`} style={{ background: "transparent", color: C.text, border: `1.5px solid ${C.border}`, borderRadius: 6, padding: "13px 20px", fontWeight: 600, fontSize: 14, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, cursor: "pointer" }} whileHover={{ borderColor: C.accent, color: C.accent }}>
               <Mail size={15} /> Écrire
             </motion.a>
           </div>
@@ -458,7 +474,7 @@ return (
             <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Camille Renard · Diététicienne-Nutritionniste<br />Inscrite à l'UPDLF · N°ADELI</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Lyon") + " — Téléconsultation possible" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "04 56 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam sur RDV" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Lyon") + " — Téléconsultation possible" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 56 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam sur RDV" }].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.38)", fontSize: 13 }}>
                 <span style={{ color: C.sand }}>{item.icon}</span>{item.t}
               </div>

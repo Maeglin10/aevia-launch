@@ -13,11 +13,11 @@ import {
 import { ArrowRight, ChevronDown, Heart } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientPhone,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -40,7 +40,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ATELIER CÉLESTE — Wedding Planner & Design Floral · {clientCity(sessionData) ?? "Paris"}
+   {clientName(sessionData) ?? "Atelier Céleste"} — Wedding Planner & Design Floral · {clientCity(sessionData) ?? "Paris"}
    Chorégraphie de défilement éditoriale · Palettes rosées & terracotta.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -262,13 +262,13 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     quote:
-      "Atelier Céleste a transformé notre mariage au Château de Vaux-le-Vicomte en quelque chose d'absolument magique. Leur obsession du détail — chaque fleur, chaque bougie, chaque ruban — était visible. Nous vivions pleinement notre journée pendant qu'ils veillaient sur tout.",
+      `${clientName(sessionData) ?? "Atelier Céleste"} a transformé notre mariage au Château de Vaux-le-Vicomte en quelque chose d'absolument magique. Leur obsession du détail — chaque fleur, chaque bougie, chaque ruban — était visible. Nous vivions pleinement notre journée pendant qu'ils veillaient sur tout.`,
     name: 'Sophie & Alexandre M.',
     role: 'Mariés à Vaux-le-Vicomte · ' + (clientCity(sessionData) ?? 'Paris'),
   },
   {
     quote:
-      "Nous étions à Lyon et voulions un mariage en destination sur la Côte d'Azur. La coordination à distance d'Atelier Céleste a été sans faille. Les retours étaient toujours rapides, précis et rassurants. Le jour J a dépassé tout ce que nous imaginions.",
+      `Nous étions à Lyon et voulions un mariage en destination sur la Côte d'Azur. La coordination à distance d'${clientName(sessionData) ?? "Atelier Céleste"} a été sans faille. Les retours étaient toujours rapides, précis et rassurants. Le jour J a dépassé tout ce que nous imaginions.`,
     name: 'Camille & Thomas R.',
     role: "Mariage en destination · Côte d'Azur",
   },
@@ -903,7 +903,7 @@ function PhaseCaption({
           fontWeight: 500,
         }}
       >
-        Atelier Céleste · {phase.caption}
+        {clientName(sessionData) ?? "Atelier Céleste"} · {phase.caption}
       </div>
 
       {/* Roman numeral ghost */}
@@ -2079,10 +2079,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2090,9 +2101,9 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  PHASES = PHASES_LIVE();
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  PHASES = PHASES_LIVE();
 
 
   EDIT_ROWS = resolveList(

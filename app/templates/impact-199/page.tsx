@@ -40,6 +40,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -48,6 +49,7 @@ import {
   clientStats,
   clientTeam,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -105,7 +107,7 @@ const Instagram = ({ className = "w-4 h-4" }: { className?: string }) => (
 );
 
 /* ==========================================================================
-   ENCRE & ÂME — Artistic Tattoo Studio (impact-199)
+   {clientName(sessionData) ?? "ENCRE & ÂME"} — Artistic Tattoo Studio (impact-199)
    Design: OLED black, punk editorial, Bebas Neue + Space Grotesk
    ========================================================================== */
 
@@ -277,7 +279,7 @@ const FLASH_PIECES_DEMO = [
   { name: "Papillon Sombre", price: 160, size: "10cm", style: "Neo-Trad" },
 ]
 
-const STEPS = [
+let STEPS = [
   {
     num: "01",
     title: "Consultation",
@@ -424,10 +426,21 @@ export default function Impact199Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -437,6 +450,11 @@ export default function Impact199Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  STEPS = resolveList(
+    fusionnerEtapes(STEPS, clientMethode(sessionData)),
+    STEPS,
+  );
   GALLERY_IMAGES_DEMO = GALLERY_IMAGES_DEMO_LIVE();
   ARTISTS_DEMO = ARTISTS_DEMO_LIVE();
   STYLES_DEMO = STYLES_DEMO_LIVE();
@@ -691,7 +709,7 @@ export default function Impact199Page() {
         <motion.div className="absolute inset-0 z-0" style={{ y: heroY, opacity: heroOpacity }}>
           <Image
             src={photo(18, "https://images.pexels.com/photos/4125522/pexels-photo-4125522.jpeg?auto=compress&cs=tinysrgb&w=1920")}
-            alt="Studio Encre & Âme"
+            alt={`Studio ${clientName(sessionData) ?? "ENCRE & ÂME"}`}
             fill
             className="object-cover"
             priority
@@ -744,7 +762,7 @@ export default function Impact199Page() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Trois artistes d'exception, un seul objectif : transformer votre vision en œuvre permanente. Tatouage sur mesure à {clientCity(sessionData) ?? "Paris"} depuis 2014.
             </>}</motion.p>
 

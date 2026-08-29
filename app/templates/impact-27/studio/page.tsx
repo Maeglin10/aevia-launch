@@ -1,10 +1,14 @@
 "use client"
-import { clientCertifications } from "@/lib/templates/clientContent";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
+import {
+  clientCertifications,
+  clientCity,
+  clientTeam,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientTeam } from "@/lib/templates/clientContent";
 
 import { useEffect, useState } from "react";
-import { clientCity } from "@/lib/templates/clientContent";
 import { motion } from "framer-motion"
 import { Reveal, gridOverlay, monoStyle, Label } from "../shared"
 import {
@@ -25,7 +29,7 @@ let c: any = null;
 
 const crew_DEMO_ANNEXE = [
   {
-    name: "Valentin Milliand",
+    name: "Camille Ferrand",
     role: "Creative Director & Tech Lead",
     desc: "Architect of real-time web applications, specializing in shader optimization and WebGL graphics architectures. 8 years building spatial experiences for the open web.",
     img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
@@ -164,7 +168,7 @@ const values = [
 
 function timeline_LIVE() {
   return [
-  { year: "2016", event: "Vertex Studio founded by Valentin Milliand in " + (clientCity(sessionData) ?? "Paris") + ". First WebGL configurator shipped for a luxury watchmaker." },
+  { year: "2016", event: "Vertex Studio founded in " + (clientCity(sessionData) ?? "Paris") + ". First WebGL configurator shipped for a luxury watchmaker." },
   { year: "2018", event: "Expanded to a 4-person team. First WebAR project shipped. First Awwwards nomination." },
   { year: "2020", event: "Pandemic pivot: virtual showrooms for retail brands. Built architecture that now serves 10k concurrent users." },
   { year: "2022", event: "First medical AR project (Helio Medical). First Fortune 500 client. Expanded team to 8." },
@@ -313,21 +317,33 @@ export default function StudioPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
-
-  fd = __session?.formData;
-  bp = __session?.businessProfile;
-  c = __session?.generatedContent;
   awards = awards_LIVE();
   crew = crew_LIVE();
   techStack = techStack_LIVE();
   timeline = timeline_LIVE();
+  memoriserSession(__session);
+
+  fd = __session?.formData;
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
 
   return (
     <div className="relative min-h-dvh">
@@ -357,7 +373,7 @@ export default function StudioPage() {
                 <div className="w-8 h-8 rounded-full bg-[#9B5CF6] flex items-center justify-center">
                   <Star className="w-4 h-4 text-white fill-white" />
                 </div>
-                <span className="text-white/50 text-sm">Valentin Milliand, Founder</span>
+                <span className="text-white/50 text-sm"><EditeurDuSite />, Founder</span>
               </div>
             </div>
           </div>

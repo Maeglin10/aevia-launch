@@ -1,4 +1,8 @@
 "use client";
+import {
+  clientName,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import React from "react";
@@ -28,13 +32,25 @@ export default function About() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
@@ -46,7 +62,7 @@ export default function About() {
   ];
   return (
     <div>
-      <PageHero eyebrow="Notre histoire" title="Fait main, avec amour." subtitle="Pétales & Co est née d'une conviction simple : les fleurs ne devraient jamais être un détail. Elles racontent nos moments les plus précieux." />
+      <PageHero eyebrow="Notre histoire" title="Fait main, avec amour." subtitle={`${clientName(sessionData) ?? "Pétales & Co"} est née d'une conviction simple : les fleurs ne devraient jamais être un détail. Elles racontent nos moments les plus précieux.`} />
       <section style={{ background: C.bg, padding: "72px 24px" }}>
         <div style={{ maxWidth: 720, margin: "0 auto" }}>
           {[

@@ -34,7 +34,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   ALTA TRANSACTIONS — Agence immobilière premium ({clientCity(sessionData) ?? "Paris"})
+   {clientName(sessionData) ?? "Alta Transactions"} — Agence immobilière premium ({clientCity(sessionData) ?? "Paris"})
    Palette : bleu nuit profond / or champagne / blanc chaud
    Fonts : Libre Baskerville (titres) + Inter (corps) — Tailwind Reveal style
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -150,7 +150,7 @@ function InquiryModal({
                     Demande envoyée
                   </h3>
                   <p className="text-sm text-[#11182a]/50 leading-relaxed">
-                    Merci {name || ""}. Un conseiller Alta Transactions vous recontactera sous 24h{subject ? ` au sujet de « ${subject} »` : ""}.
+                    Merci {name || ""}. Un conseiller {clientName(sessionData) ?? "Alta Transactions"} vous recontactera sous 24h{subject ? ` au sujet de « ${subject} »` : ""}.
                   </p>
                 </div>
               ) : (
@@ -272,10 +272,21 @@ export default function AltaTransactionsPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -414,7 +425,7 @@ export default function AltaTransactionsPage() {
 
 
           <motion.p initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-lg text-sm text-white/45 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            className="max-w-lg text-sm text-white/45 leading-relaxed mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             15 ans d'expertise sur le marché parisien haut de gamme. 120 transactions par an. Une équipe de 6 experts totalement dédiés à vos ambitions patrimoniales.
           </>}</motion.p>
 

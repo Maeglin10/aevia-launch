@@ -20,15 +20,20 @@ import {
   clientText,
   clientWorks,
 } from "@/lib/templates/clientContent";
-let sessionData: any = null;
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
 // Global state variables for subpage compatibility
-let fd: any = null;
 
 // Les avis, jusqu'ici écrit(e) dans le rendu :
 // le client pouvait les saisir, le thème ne les lisait pas.
+/* La session, posée avant tout dégel : une donnée recalculée à l'import la lit.
+   Déclarée plus bas, elle rendait la page blanche sans un mot du build. */
+let sessionData: any = null;
+let fd: any = null;
+let brand: any = null;
+
 function AVIS_INLINE_SOURCE_LIVE() {
   return [
   { quote: "We installed the Studio Array in our film scoring stage. The first session, the composer wept. The clarity revealed things we had been missing for a decade.", name: "J. Wren", origin: "London · Scoring Stage B" },
@@ -40,7 +45,6 @@ let AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
 let AVIS_INLINE = AVIS_INLINE_SOURCE;
 
 let c: any = null;
-let brand: any = null;
 
 function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; delay?: number; y?: number }) {
   const ref = useRef(null)
@@ -114,10 +118,21 @@ export default function AetherSoundPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -198,7 +213,7 @@ export default function AetherSoundPage() {
                 <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center group-hover:border-white transition-all duration-700">
                   <Volume2 className="w-5 h-5 text-white" />
                 </div>
-                <span className="text-xl font-bold tracking-[0.2em] uppercase">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Aether <span className="font-light text-white/40">Sound</span></>)}</span>
+                <span className="text-xl font-bold tracking-[0.2em] uppercase">{/* NOM_LOGO */ clientName(sessionData) ?? (<>Aether <span className="font-light text-white/40">Sound</span></>)}</span>
               </>
             )}
           </Link>
@@ -245,7 +260,7 @@ export default function AetherSoundPage() {
             </Reveal>
             <Reveal delay={0.4}>
               <div className="flex flex-col items-center justify-center gap-12">
-                <p className="text-xl text-white/40 font-light max-w-xl leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                <p className="text-xl text-white/40 font-light max-w-xl leading-relaxed">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                   Luthier-grade acoustic engineering for the discerning audiophile. Experience the silence between the notes.
                 </>}</p>
                 <div className="flex flex-wrap justify-center gap-8">
@@ -478,7 +493,7 @@ export default function AetherSoundPage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 {clientName(sessionData) ?? "AETHER SOUND AG. ALL"} RIGHTS RESERVED.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "AETHER SOUND AG. ALL"} RIGHTS RESERVED.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-10">
              <Link href="#contact" className="hover:text-white transition-colors">Privacy Circle</Link>
              <Link href="#contact" className="hover:text-white transition-colors">Technical Terms</Link>

@@ -1,10 +1,13 @@
 "use client";
-import { clientFaq, clientServices } from "@/lib/templates/clientContent";
-import { resolveList } from "@/lib/templates/resolveList";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import {
+  clientFaq,
   clientHours,
   clientName,
+  clientServices,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
+import { resolveList } from "@/lib/templates/resolveList";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useEffect, useState } from "react";
@@ -32,11 +35,16 @@ const CONTACT_SUBJECTS = [
   "Autre",
 ];
 
-const HOURS = /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, time: h.hours })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function HOURS_LIVE() {
+  return /* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ day: h.day, time: h.hours })), [
   { day: "Lundi – Vendredi", time: "7h – 19h" },
   { day: "Samedi", time: "8h – 18h" },
   { day: "Dimanche", time: "9h – 14h" },
 ]);
+}
+let HOURS = HOURS_LIVE();
 
 const ROASTING_DAYS = [
   { day: "Mardi", time: "6h – 12h", lots: "Lots filtre & single origin" },
@@ -95,7 +103,10 @@ function WORKSHOP_CONTACT_OPTIONS_LIVE() {
 let WORKSHOP_CONTACT_OPTIONS = WORKSHOP_CONTACT_OPTIONS_DEMO_ANNEXE;
 
 
-const SUBSCRIPTION_FAQ_DEMO_ANNEXE = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function SUBSCRIPTION_FAQ_DEMO_ANNEXE_LIVE() {
+  return [
   {
     q: "Comment fonctionne la facturation de l'abonnement ?",
     a: "Votre abonnement est prélevé le 1er de chaque mois. Vous recevez une confirmation par email 3 jours avant chaque prélèvement. Vous pouvez modifier, suspendre ou annuler à tout moment depuis votre espace client, jusqu'à 48h avant le prélèvement.",
@@ -121,6 +132,8 @@ const SUBSCRIPTION_FAQ_DEMO_ANNEXE = [
     a: "Photographiez le colis dès réception et envoyez-nous l'email dans les 48h à " + (fd?.email ?? "contact@originroast.co") + ". Nous expédions un remplacement sous 72h sans frais supplémentaires. Les problèmes liés au transporteur sont couverts par notre assurance colis.",
   },
 ];
+}
+let SUBSCRIPTION_FAQ_DEMO_ANNEXE = SUBSCRIPTION_FAQ_DEMO_ANNEXE_LIVE();
 
 function SUBSCRIPTION_FAQ_LIVE() {
   return resolveList(clientFaq(sessionData)?.map((x: any) => ({ q: x.q, a: x.a })), SUBSCRIPTION_FAQ_DEMO_ANNEXE);
@@ -195,18 +208,34 @@ export default function ContactPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
-  fd = __session?.formData;
-  bp = __session?.businessProfile;
-  c = __session?.generatedContent;
+  HOURS = HOURS_LIVE();
   SUBSCRIPTION_FAQ = SUBSCRIPTION_FAQ_LIVE();
   WORKSHOP_CONTACT_OPTIONS = WORKSHOP_CONTACT_OPTIONS_LIVE();
+
+
+  memoriserSession(__session);
+  fd = __session?.formData;
+  SUBSCRIPTION_FAQ_DEMO_ANNEXE = SUBSCRIPTION_FAQ_DEMO_ANNEXE_LIVE();
+  bp = __session?.businessProfile;
+  c = __session?.generatedContent;
 
   const [submitted, setSubmitted] = useState(false);
   const [activeTab, setActiveTab] = useState<"general" | "b2b" | "workshop">("general");
@@ -291,7 +320,7 @@ export default function ContactPage() {
                   <h3 style={{ fontFamily: SERIF, fontSize: 16, fontWeight: 700, color: C.espresso, margin: 0 }}>Torréfaction & Showroom</h3>
                 </div>
                 <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.75, fontWeight: 300, marginBottom: 10 }}>
-                  Valentin Milliand, SIREN <LegalIdentity /><br />
+                  <EditeurDuSite />, SIREN <LegalIdentity /><br />
                   {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
                   Adresse communiquée sur rendez-vous.
                 </p>
@@ -359,7 +388,7 @@ export default function ContactPage() {
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   <div>
                     <div style={{ fontSize: 11, fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>Email</div>
-                    <a href={`mailto:${fd?.email ?? "contact@originroast.co"}`} style={{ fontSize: 14, color: C.caramel, fontWeight: 600, textDecoration: "none" }}>contact@originroast.co</a>
+                    <a href={`mailto:${fd?.email ?? "contact@originroast.co"}`} style={{ fontSize: 14, color: C.caramel, fontWeight: 600, textDecoration: "none" }}>{fd?.email ?? "contact@originroast.co"}</a>
                   </div>
                   <div>
                     <div style={{ fontSize: 11, fontWeight: 700, color: C.textMuted, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>B2B uniquement</div>

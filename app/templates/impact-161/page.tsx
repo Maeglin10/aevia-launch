@@ -142,10 +142,21 @@ export default function EssentialSaaSPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -268,7 +279,7 @@ export default function EssentialSaaSPage() {
           </>}</h1>
         </Reveal>
         <Reveal delay={0.2}>
-          <p className="text-xl text-slate-500 max-w-2xl mx-auto mb-10 leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          <p className="text-xl text-slate-500 max-w-2xl mx-auto mb-10 leading-relaxed">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Flowbase réunit vos projets, votre équipe et vos analytics dans une plateforme unique. Moins d&apos;outils, plus d&apos;impact.
           </>}</p>
         </Reveal>
@@ -596,7 +607,7 @@ export default function EssentialSaaSPage() {
             ))}
           </div>
           <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between gap-4 text-xs">
-            <span>© 2024 {fd?.businessName ?? "Flowbase"} · Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+            <span>© 2024 {fd?.businessName ?? "Flowbase"} · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
             <div className="flex gap-6">
               {[{ l: "Confidentialité", h: "/templates/impact-161/legal" }, { l: "CGU", h: "/templates/impact-161/legal" }, { l: "Cookies", h: "/templates/impact-161/legal" }].map(({ l, h }) => <Link key={l} href={h} className="hover:text-white transition-colors cursor-pointer">{l}</Link>)}
             </div>

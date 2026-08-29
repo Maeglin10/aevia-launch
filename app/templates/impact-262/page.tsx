@@ -14,8 +14,8 @@ import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientBookingUrl,
-  clientEmail,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
@@ -41,7 +41,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   STUDIO NOIR ABSOLU — Tatouage Fine Art & Illustration · {clientCity(sessionData) ?? "Paris"} Marais
+   {clientName(sessionData) ?? "Studio Noir Absolu"} — Tatouage Fine Art & Illustration · {clientCity(sessionData) ?? "Paris"} Marais
    Chorégraphie de défilement éditoriale : crossfade 320vh + panneau collant
    hygiènes + formulaire de réservation artistique. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -626,7 +626,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[10] || 'https://images.pexels.com/photos/4125586/pexels-photo-4125586.jpeg?auto=compress&cs=tinysrgb&w=2000')}
-          alt="Studio Noir Absolu — Fine Art Tattoo Paris 3e"
+          alt={`${clientName(sessionData) ?? "Studio Noir Absolu"} — Fine Art Tattoo Paris 3e`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-hint="high"
         />
@@ -1449,7 +1449,7 @@ function SafetyPanel() {
           >
             <img
               src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[11] || 'https://images.pexels.com/photos/19669303/pexels-photo-19669303.jpeg?auto=compress&cs=tinysrgb&w=900')}
-              alt="Hygiène et protocoles — Studio Noir Absolu"
+              alt={`Hygiène et protocoles — ${clientName(sessionData) ?? "Studio Noir Absolu"}`}
               loading="lazy"
               style={{
                 width: '100%',
@@ -2295,10 +2295,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2307,10 +2318,10 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  ARTISTS_DEMO = ARTISTS_DEMO_LIVE();
-  STYLES_DEMO_SOURCE = STYLES_DEMO_SOURCE_LIVE();
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  STYLES_DEMO_SOURCE = STYLES_DEMO_SOURCE_LIVE();
+  ARTISTS_DEMO = ARTISTS_DEMO_LIVE();
 
 
   STYLES_DEMO = resolveList(

@@ -16,10 +16,21 @@ export default function BlueprintLayout({ children }: { children: React.ReactNod
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(__setLayoutSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setLayoutSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
   const fd = __layoutSession?.formData;
 
@@ -148,7 +159,7 @@ export default function BlueprintLayout({ children }: { children: React.ReactNod
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-10 mb-10">
             <div className="md:col-span-2">
-              <div className="text-[#F7F5F2] font-normal text-xl mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>Blueprint Developments</div>
+              <div className="text-[#F7F5F2] font-normal text-xl mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>{clientName(__layoutSession) ?? "Blueprint Developments"}</div>
               <div className="text-xs text-[#C9A86C] tracking-widest uppercase mb-4">Promoteur Immobilier depuis 1989</div>
               <p className="text-sm leading-relaxed max-w-xs">Conception, réalisation et valorisation de programmes immobiliers d&apos;exception en France et en Europe.</p>
             </div>

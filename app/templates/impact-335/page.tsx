@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 /* ════════════════════════════════════════════════════════════════════════════
-   RIVES BLANCHES — Pompes funèbres · Nice
+   {clientName(sessionData) ?? "Rives Blanches"} — Pompes funèbres · Nice
    ─────────────────────────────────────────────────────────────────────────────
    Pompes funèbres, 2e variante (la 1re est impact-328, HeldSwap lent).
    Celle-ci est côtière et lumineuse.
@@ -38,6 +38,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -47,6 +48,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -108,7 +110,7 @@ function SERVICES_SOURCE_LIVE() {
 let SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const METHODE = [
+let METHODE = [
   { n: "I", t: "Une voix, pas un standard", d: "À toute heure, quelqu'un de la maison répond, se déplace et prend le relais immédiatement." },
   { n: "II", t: "Le devis avant tout", d: "Devis-type réglementé, gratuit, distinguant l'obligatoire de l'optionnel. Vous décidez à tête reposée." },
   { n: "III", t: "Une cérémonie fidèle", d: "Textes, musiques, gestes : préparés avec la famille, à son rythme, jamais standardisés." },
@@ -303,20 +305,36 @@ export default function RivesBlanchesPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    fusionnerEtapes(METHODE, clientMethode(sessionData)),
+    METHODE,
+  );
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   STATS_SOURCE = STATS_SOURCE_LIVE();
   ZONES_SOURCE = ZONES_SOURCE_LIVE();
+
 
   const CLIENT_SERVICES = clientServices(sessionData);
 

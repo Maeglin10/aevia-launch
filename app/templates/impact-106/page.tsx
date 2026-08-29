@@ -155,10 +155,21 @@ export default function StudioVersaPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -250,7 +261,7 @@ export default function StudioVersaPage() {
                 <div className="w-10 h-10 rounded-full bg-[var(--brand,#f97316)] flex items-center justify-center">
                   <PenTool className="w-5 h-5 text-white" />
                 </div>
-                <span className="text-xl font-light tracking-[0.15em] uppercase">{/* NOM_LOGO */ clientName(sessionData) ?? (<>Studio <span className="font-black text-[var(--brand,#f97316)]">Versa</span></>)}</span>
+                <span className="text-xl font-light tracking-[0.15em] uppercase">{/* NOM_LOGO */ clientName(sessionData) ?? (<>{(clientName(sessionData) ?? "STUDIO VERSA").split(" ").slice(0, 1).join(" ")} <span className="font-black text-[var(--brand,#f97316)]">{(clientName(sessionData) ?? "STUDIO VERSA").split(" ").slice(1).join(" ")}</span></>)}</span>
               </>
             )}
           </Link>
@@ -297,7 +308,7 @@ export default function StudioVersaPage() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-xl text-[#1a1a1a]/50 font-light max-w-lg leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              <p className="text-xl text-[#1a1a1a]/50 font-light max-w-lg leading-relaxed mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 We craft brand identities, digital products, and visual stories for companies that want to matter.
               </>}</p>
             </Reveal>
@@ -570,7 +581,7 @@ export default function StudioVersaPage() {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <div className="w-8 h-8 rounded-full bg-[var(--brand,#f97316)] flex items-center justify-center"><PenTool className="w-4 h-4 text-white" /></div>
-              <span className="font-light tracking-[0.15em] uppercase">Studio <span className="font-black text-[var(--brand,#fb923c)]">Versa</span></span>
+              <span className="font-light tracking-[0.15em] uppercase">{(clientName(sessionData) ?? "STUDIO VERSA").split(" ").slice(0, 1).join(" ")} <span className="font-black text-[var(--brand,#fb923c)]">{(clientName(sessionData) ?? "STUDIO VERSA").split(" ").slice(1).join(" ")}</span></span>
             </div>
             <p className="text-sm text-white/30 leading-relaxed">Multidisciplinary creative studio for ambitious brands.</p>
           </div>

@@ -37,7 +37,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   CLINIQUE DU BOIS VERT — {clientTrade(sessionData) ?? "Vétérinaire"} ({clientCity(sessionData) ?? "Toulouse"})
+   {clientName(sessionData) ?? "Clinique du Bois Vert"} — {clientTrade(sessionData) ?? "Vétérinaire"} ({clientCity(sessionData) ?? "Toulouse"})
    Palette : blanc chaud #fdfaf6 / vert nature #3a7d44 / vert clair #e8f5eb / brun doux #4a3728
    Fonts : Lora (serif chaleureux titres) + Source Sans 3 (corps)
    Style : chaleureux, naturel, confiance, bienveillant
@@ -125,10 +125,21 @@ export default function CliniqueBoisVertPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -257,7 +268,7 @@ export default function CliniqueBoisVertPage() {
 
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
-            className="max-w-md text-sm text-white/35 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            className="max-w-md text-sm text-white/35 leading-relaxed mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Clinique vétérinaire à {clientCity(sessionData) ?? "Toulouse"}. Consultations, chirurgie, urgences 7j/7 jusqu'à 20h. Une équipe bienveillante pour vos compagnons chats, chiens et NAC.
           </>}</motion.p>
 
@@ -521,7 +532,7 @@ export default function CliniqueBoisVertPage() {
           <div>
             <div className="flex items-center gap-2.5 mb-5">
               <div className="w-7 h-7 bg-[var(--brand,#3a7d44)] rounded-full flex items-center justify-center"><Heart className="w-3.5 h-3.5 text-white" /></div>
-              <span className="font-bold text-white text-sm" style={{ fontFamily: "'Lora', serif" }}>Clinique du Bois Vert</span>
+              <span className="font-bold text-white text-sm" style={{ fontFamily: "'Lora', serif" }}>{clientName(sessionData) ?? "Clinique du Bois Vert"}</span>
             </div>
             <p className="text-white/20 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Vétérinaire"} à {clientCity(sessionData) ?? "Toulouse"}. Consultations, chirurgie, urgences 7j/7. Chats, chiens, NAC.</p>
           </div>
@@ -558,7 +569,7 @@ export default function CliniqueBoisVertPage() {
           </div>
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 {clientName(sessionData) ?? "Clinique"} du Bois Vert{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 012 345 678 00090"} · Ordre National des Vétérinaires{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Clinique du Bois Vert"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 012 345 678 00090"} · Ordre National des Vétérinaires{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#3a7d44)]/25">Clinique vétérinaire · {clientCity(sessionData) ?? "Toulouse"}</span>
         </div>
       </footer>

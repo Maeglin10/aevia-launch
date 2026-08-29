@@ -17,10 +17,21 @@ export default function ZenithLayout({
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(__setLayoutSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setLayoutSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
   const fd = __layoutSession?.formData;
 
@@ -133,7 +144,7 @@ export default function ZenithLayout({
           ))}
         </div>
         <div className="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-8 border-t border-white/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
-          <span>© {new Date().getFullYear()} {clientName(__layoutSession) ?? "ZENITH WATCH ATELIER SA."} VALENTIN MILLIAND. TIME IS AN ART.</span>
+          <span>© {new Date().getFullYear()} {clientName(__layoutSession) ?? "ZENITH WATCH ATELIER SA. TIME IS AN ART."}</span>
           <div className="flex gap-12">
             <span>GENEVA</span>
             <span>ZURICH</span>

@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 /* ════════════════════════════════════════════════════════════════════════════
-   PHARMACIE DE L'HORLOGE — Officine de centre-ville · Besançon
+   {clientName(sessionData) ?? "Pharmacie de l'Horloge"} — Officine de centre-ville · Besançon
    ─────────────────────────────────────────────────────────────────────────────
    Pharmacie, 2e variante (la 1re est impact-330, MosaicPush).
 
@@ -39,6 +39,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -401,25 +402,38 @@ export default function PharmacieHorlogePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-
   ZONES_SOURCE = ZONES_SOURCE_LIVE();
+
 
   const CLIENT_SERVICES = clientServices(sessionData);
 
+  /* Le parcours est d'abord la méthode du client ; à défaut, ses prestations. */
+  const ETAPES_DU_CLIENT = clientMethode(sessionData) ?? CLIENT_SERVICES;
   PARCOURS = resolveList(
-    CLIENT_SERVICES?.slice(0, 4).map((s: any, i: number) => ({
+    ETAPES_DU_CLIENT?.slice(0, 4).map((s: any, i: number) => ({
       ...PARCOURS_SOURCE[i % PARCOURS_SOURCE.length],
-      title: s.title,
+      title: s.title ?? s.name,
       body: s.description || s.desc || PARCOURS_SOURCE[i % PARCOURS_SOURCE.length].body,
     })),
     PARCOURS_SOURCE,

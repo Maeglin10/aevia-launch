@@ -84,10 +84,21 @@ export default function NeonPulsePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -198,7 +209,7 @@ export default function NeonPulsePage() {
             <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 via-pink-500 to-[var(--brand,#22d3ee)] flex items-center justify-center group-hover:rotate-[360deg] transition-transform duration-1000 shadow-[0_0_20px_rgba(147,51,234,0.5)]">
               <Zap className="w-5 h-5 text-white fill-current" />
             </div>
-            <span className="text-lg sm:text-2xl font-black tracking-tighter uppercase italic whitespace-nowrap">{clientName({ formData: fd }) ?? "Neon"}<span className="text-[var(--brand,#22d3ee)]">Pulse</span></span>
+            <span className="text-lg sm:text-2xl font-black tracking-tighter uppercase italic whitespace-nowrap">{clientName(sessionData) ?? "Neon"}<span className="text-[var(--brand,#22d3ee)]">Pulse</span></span>
           </>
             )}</Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
@@ -246,7 +257,7 @@ export default function NeonPulsePage() {
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.3}>
-                  <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-12 italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                  <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-12 italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                     The ultra-high-fidelity marketplace for digital artists. Own a piece of the neon future on the most secure neural mesh.
                   </>}</p>
                 </Reveal>
@@ -541,7 +552,7 @@ export default function NeonPulsePage() {
            ))}
         </div>
         <div className="max-w-[1400px] mx-auto flex flex-col md:row justify-between items-center gap-8 border-t border-white/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
-           <span>© 2026 {clientName(sessionData) ?? "NEON PULSE PROTOCOL. OWN"} THE VOID.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+           <span>© 2026 {clientName(sessionData) ?? "NEON PULSE PROTOCOL. OWN"} THE VOID.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
            <div className="flex gap-12">
               <Link href="#contact" className="hover:text-[var(--brand,#22d3ee)] transition-all">SYSTEM: ONLINE</Link>
               <Link href="#contact" className="hover:text-[var(--brand,#22d3ee)] transition-all">PULSE: STABLE</Link>

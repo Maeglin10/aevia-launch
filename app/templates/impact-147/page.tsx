@@ -15,12 +15,9 @@ import {
   HairlineArrows,
 } from "@/lib/templates/hero-kit-2"
 import {
-  clientAddress,
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -205,10 +202,21 @@ export default function VanguardLegalPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -510,10 +518,7 @@ export default function VanguardLegalPage() {
                 <div className="w-10 h-10 border border-[#00ff41]/30 flex items-center justify-center">
                   <Shield className="w-5 h-5 text-[#00ff41]" />
                 </div>
-                {/* Le nom de la démonstration était en dur ici, alors que la
-                    barre du haut portait bien celui du client : le pied de
-                    page affichait « Vanguard Legal » chez tout le monde. */}
-                <span className="text-xl font-bold tracking-tighter uppercase text-white italic">{clientName(sessionData) ?? (<>Vanguard <span className="text-[#00ff41]">Legal</span></>)}</span>
+                <span className="text-xl font-bold tracking-tighter uppercase text-white italic">Vanguard <span className="text-[#00ff41]">Legal</span></span>
               </Link>
               <p className="text-white/20 max-w-sm leading-relaxed mb-12 text-[10px] font-bold uppercase italic">
                  "Conflict is inevitable. Neutralization is an choice. We are the choice of the prepared."
@@ -549,26 +554,6 @@ export default function VanguardLegalPage() {
               <Link href="/templates/impact-147/legal" className="hover:text-[#00ff41] transition-all">PRIVACY_PROTOCOL_ENABLED</Link>
            </div>
         </div>
-        {/* Les coordonnées. Ce thème n'affichait aucun moyen d'être joint —
-            ni numéro, ni adresse, ni formulaire. Elles viennent de la session
-            du client, jamais d'un exemple en dur, et le bloc disparaît si le
-            client n'en a renseigné aucune. Liens réels : sur un téléphone, un
-            numéro qu'on ne peut pas toucher ne sert à rien. */}
-        {(clientPhone(sessionData) || clientEmail(sessionData) || clientAddress(sessionData)) && (
-          <div className="aevia-contact-pied max-w-6xl mx-auto border-t border-white/5 pt-8 mt-8 flex flex-wrap gap-x-8 gap-y-3 text-sm text-white/50">
-            {clientPhone(sessionData) && (
-              <a href={`tel:${clientPhone(sessionData)!.replace(/[^+0-9]/g, "")}`} className="hover:text-[var(--brand,#00ff41)] transition-colors">
-                {clientPhone(sessionData)}
-              </a>
-            )}
-            {clientEmail(sessionData) && (
-              <a href={`mailto:${clientEmail(sessionData)}`} className="hover:text-[var(--brand,#00ff41)] transition-colors">
-                {clientEmail(sessionData)}
-              </a>
-            )}
-            {clientAddress(sessionData) && <span>{clientAddress(sessionData)}</span>}
-          </div>
-        )}
       </footer>
     </div>
   )

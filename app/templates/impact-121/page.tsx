@@ -232,10 +232,21 @@ export default function FolioStudioPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -299,7 +310,7 @@ export default function FolioStudioPage() {
             ) : (
               <>
                 <div className="w-6 h-6 bg-zinc-900 rounded-sm group-hover:rotate-45 transition-transform duration-500" />
-                {/* NOM_LOGO */ clientName({ formData: fd }) ?? "FOLIO"}
+                {/* NOM_LOGO */ clientName(sessionData) ?? "FOLIO"}
               </>
             )}
           </Link>
@@ -352,7 +363,7 @@ export default function FolioStudioPage() {
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-24 items-end">
               <div className="md:col-span-5 md:col-start-8">
                 <Reveal delay={0.2}>
-                  <p className="text-xl md:text-2xl text-zinc-600 leading-normal mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                  <p className="text-xl md:text-2xl text-zinc-600 leading-normal mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                     {MANIFEST.hero.sub}
                   </>}</p>
                   <div className="flex items-center gap-6">
@@ -683,7 +694,7 @@ export default function FolioStudioPage() {
             </div>
 
             <div className="mt-24 flex flex-col md:flex-row items-center justify-between text-zinc-500 font-medium">
-              <div>© 2026 {clientName(sessionData) ?? "Folio Studio."} All rights reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</div>
+              <div>© 2026 {clientName(sessionData) ?? "Folio Studio."} All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</div>
               <div className="flex gap-6 mt-4 md:mt-0">
                 <Link href="#contact" className="hover:text-white transition-colors">Privacy</Link>
                 <Link href="#contact" className="hover:text-white transition-colors">{tr({ formData: fd }, "Terms")}</Link>

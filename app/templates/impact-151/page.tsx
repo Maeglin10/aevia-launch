@@ -24,24 +24,15 @@ import {
 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { DWELL, LineMask, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2"
-import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import {
-  clientAddress,
   clientCity,
-  clientCodePostalVille,
-  clientEmail,
-  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
-  clientReviews,
   clientServices,
   clientStats,
   clientText,
-  clientTrade,
   clientWorks,
 } from "@/lib/templates/clientContent";
 
@@ -57,36 +48,36 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ==========================================================================
-   THE AETHELGARD DATASET (PREMIUM DENSITY)
+   THE {clientName(sessionData) ?? "AETHELGARD"} DATASET (PREMIUM DENSITY)
    ========================================================================== */
 
 function VINTAGES_DEMO_LIVE() {
   return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, type: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}) })), [
   {
     id: "v-2022",
-    name: "Sillage",
-    type: "Bague or jaune & saphir",
-    notes: ["Or 750", "Saphir de Ceylan", "Serti grain"],
-    score: "pièce unique",
-    stock: "À l'atelier",
+    name: "The Crimson Sovereign",
+    type: "Reserve Cabernet",
+    notes: ["Blackberry", "Leather", "Graphite"],
+    score: "98 pts",
+    stock: "Limited",
     image: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop")
   },
   {
     id: "v-2024",
-    name: "Lune Blanche",
-    type: "Collier or blanc & diamants",
-    notes: ["Or blanc", "Diamants tracés", "Maille forçat"],
-    score: "sur commande",
-    stock: "Sur commande",
+    name: "Lunar Blanc",
+    type: "Harvest Sauvignon",
+    notes: ["Citrus", "Wet Stone", "Elderflower"],
+    score: "96 pts",
+    stock: "Pre-order",
     image: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop")
   },
   {
     id: "s-spirit",
-    name: "Calibre 12",
-    type: "Montre d'atelier, remontage manuel",
-    notes: ["Réserve 48 h", "Verre saphir", "Numérotée"],
-    score: "série de 12",
-    stock: "En vitrine",
+    name: `${clientName(sessionData) ?? "AETHELGARD"} 12yr Single Malt`,
+    type: "Small Batch Whisky",
+    notes: ["Peat Smoke", "Sea Salt", "Dark Toffee"],
+    score: "Platinum",
+    stock: "In-Vault",
     image: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop")
   }
 ]);
@@ -94,10 +85,10 @@ function VINTAGES_DEMO_LIVE() {
 let VINTAGES_DEMO = VINTAGES_DEMO_LIVE();
 
 const TERROIR_DATA_SOURCE = [
-  { label: "Établis à l'atelier", value: "4", icon: <Layers className="w-4 h-4" /> },
-  { label: "Titre de l'or", value: "750 ‰ poinçonné", icon: <Award className="w-4 h-4" /> },
-  { label: "Marche des montres", value: "±2 s/jour", icon: <Clock className="w-4 h-4" /> },
-  { label: "Pierres", value: "Tracées, certifiées", icon: <ShieldCheck className="w-4 h-4" /> }
+  { label: "Elevation", value: "450m", icon: <Layers className="w-4 h-4" /> },
+  { label: "Soil Type", value: "Jurassic Limestone", icon: <Map className="w-4 h-4" /> },
+  { label: "Avg Temp", value: "18.4°C", icon: <Thermometer className="w-4 h-4" /> },
+  { label: "Hydration", value: "Clay-Filtered", icon: <Droplets className="w-4 h-4" /> }
 ]
 let TERROIR_DATA = TERROIR_DATA_SOURCE;
 
@@ -120,7 +111,7 @@ function Reveal({ children, delay = 0, y = 50 }: { children: React.ReactNode, de
   )
 }
 
-function SectionTitle({ subtitle, title, alignment = "center" }: { subtitle: string, title: React.ReactNode, alignment?: "center" | "left" }) {
+function SectionTitle({ subtitle, title, alignment = "center" }: { subtitle: string, title: string, alignment?: "center" | "left" }) {
   return (
     <div className={`mb-32 ${alignment === "center" ? "text-center" : "text-left"}`}>
        <Reveal>
@@ -136,7 +127,7 @@ function SectionTitle({ subtitle, title, alignment = "center" }: { subtitle: str
 }
 
 /* ==========================================================================
-   THE AETHELGARD ESTATE - MAIN PAGE
+   THE {clientName(sessionData) ?? "AETHELGARD"} ESTATE - MAIN PAGE
    ========================================================================== */
 
 
@@ -172,10 +163,21 @@ export default function AethelgardEstatePremium() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -222,13 +224,6 @@ export default function AethelgardEstatePremium() {
     VINTAGES_DEMO
   );
 
-  const DEVISES = [
-    { l1: "Le temps", l2: "se travaille." },
-    { l1: "L'or", l2: "se souvient." },
-    { l1: "La main", l2: "décide." },
-  ];
-  const { i: devise } = useSlides(DEVISES.length, DWELL.slow);
-
   const [activeVintage, setActiveVintage] = useState(0)
   const [memberPortal, setMemberPortal] = useState(false)
   const containerRef = useRef(null)
@@ -260,18 +255,18 @@ return (
               />
             ) : (
               <>
-               <span className="text-3xl font-light tracking-[0.4em] uppercase text-white group-hover:text-[var(--brand,#c4a661)] transition-colors">{fd?.businessName ?? clientName(sessionData) ?? "CHRONOS LAB"}</span>
-               <span className="text-[10px] font-black tracking-[0.6em] text-[var(--brand,#c4a661)]/40 uppercase italic">{clientTrade(sessionData) ?? "Horlogerie & joaillerie d'atelier"}</span>
+               <span className="text-3xl font-light tracking-[0.4em] uppercase text-white group-hover:text-[var(--brand,#c4a661)] transition-colors">{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "AETHELGARD"))}</span>
+               <span className="text-[10px] font-black tracking-[0.6em] text-[var(--brand,#c4a661)]/40 uppercase italic">The Estate & Spirits Group</span>
             </>
             )}</Link>
          </div>
 
          <div className="flex items-center gap-3 sm:gap-6 lg:gap-12 pointer-events-auto">
             <div className="hidden lg:flex gap-10 text-[10px] font-black uppercase tracking-[0.4em] text-white/20">
-               <Link href="#terroir" className="hover:text-white transition-colors">La matière</Link>
-               <Link href="#cellar" className="hover:text-white transition-colors">Les pièces</Link>
-               <Link href="#alchemist" className="hover:text-white transition-colors">L'établi</Link>
-               <Link href="#contact" className="hover:text-white transition-colors">Contact</Link>
+               <Link href="#terroir" className="hover:text-white transition-colors">The Terroir</Link>
+               <Link href="#cellar" className="hover:text-white transition-colors">The Cellar</Link>
+               <Link href="#alchemist" className="hover:text-white transition-colors">The Alchemist</Link>
+               <Link href="#circle" className="hover:text-white transition-colors">The Circle</Link>
             </div>
             <Sheet>
               <SheetTrigger className="lg:hidden w-10 h-10 sm:w-12 sm:h-12 border border-white/10 rounded-full flex items-center justify-center hover:bg-[var(--brand,#c4a661)] hover:text-white transition-all shadow-xl bg-black/40 backdrop-blur-xl shrink-0">
@@ -279,11 +274,11 @@ return (
               </SheetTrigger>
               <SheetContent side="right" className="bg-[#0a0a0b] border-white/10 p-12">
                 <div className="flex flex-col gap-8 mt-16">
-                  {[["La matière", "#terroir"], ["Les pièces", "#cellar"], ["L'établi", "#alchemist"], ["Contact", "#contact"]].map(([label, href]) => (
+                  {[["The Terroir", "#terroir"], ["The Cellar", "#cellar"], ["The Alchemist", "#alchemist"], ["The Circle", "#circle"]].map(([label, href]) => (
                     <Link key={href} href={href} className="text-2xl font-light uppercase tracking-widest text-white hover:text-[var(--brand,#c4a661)] transition-colors">{label}</Link>
                   ))}
                   <Link href="#circle" className="mt-4 px-8 py-4 bg-[var(--brand,#c4a661)] text-black text-center text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all">
-                    Rejoindre le cercle
+                    Join The Circle
                   </Link>
                 </div>
               </SheetContent>
@@ -306,7 +301,7 @@ return (
           <motion.div style={{ opacity: heroOpacity, scale: heroScale }} className="absolute inset-0 z-0">
              <Image 
                 src={photo(3, "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=2400&auto=format&fit=crop")} 
-                alt="L'atelier au petit matin" 
+                alt="Morning Mist over Vineyards" 
                 fill 
                 className="object-cover opacity-30 grayscale"
                 priority
@@ -316,25 +311,21 @@ return (
 
           <div className="relative z-10 text-center max-w-6xl px-8">
              <Reveal>
-                <h1 className="text-7xl md:text-[13vw] font-light italic leading-[0.84] tracking-tighter uppercase mb-16" style={{ fontFamily: "serif" }}>
-                  <LineMask lines={[clientHeroLine(sessionData, 0, 2, 14) ?? DEVISES[devise].l1]} index={clientHeroLine(sessionData, 0, 2, 14) ? "client" : devise} />
-                  <span className="not-italic font-black text-[var(--brand,#c4a661)]/60 block">
-                    <LineMask lines={[clientHeroLine(sessionData, 1, 2, 14) ?? DEVISES[devise].l2]} index={clientHeroLine(sessionData, 1, 2, 14) ? "client" : devise} />
-                  </span>
-                </h1>
+                <h1 className="text-7xl md:text-[14vw] font-light italic leading-[0.8] tracking-tighter uppercase mb-16" style={{ fontFamily: "serif" }}>{<>{clientHeroLine(sessionData, 0, 2, 14) ?? "Time"}<br/> <span className="not-italic font-black text-[var(--brand,#c4a661)]/5 italic">{clientHeroLine(sessionData, 1, 2, 14) ?? "Is_The_Master."}</span>
+                </>}</h1>
                 <div className="flex flex-col md:flex-row justify-center items-center gap-12 md:gap-32">
                    <div className="flex flex-col items-center">
-                      <span className="text-4xl font-light tracking-tighter">1987</span>
-                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20">La fondation</span>
+                      <span className="text-4xl font-light tracking-tighter">1842</span>
+                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20">Establishment</span>
                    </div>
                    <div className="w-px h-16 bg-white/10 hidden md:block" />
-                   <p className="max-w-xs text-xs text-white/40 leading-loose uppercase tracking-widest font-light italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-                      Dans le silence de l'atelier, chaque pièce s'écrit à la main — l'or, la pierre et le temps.
+                   <p className="max-w-xs text-xs text-white/40 leading-loose uppercase tracking-widest font-light italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
+                      Dans le silence de nos caves, chaque goutte écrit l'histoire d'un héritage inébranlable.
                    </>}</p>
                    <div className="w-px h-16 bg-white/10 hidden md:block" />
                    <div className="flex flex-col items-center">
-                      <span className="text-4xl font-light tracking-tighter">750 ‰</span>
-                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20">Poinçon garanti</span>
+                      <span className="text-4xl font-light tracking-tighter">Gold</span>
+                      <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20">Heritage Status</span>
                    </div>
                 </div>
              </Reveal>
@@ -346,7 +337,7 @@ return (
             ========================================== */}
         <section id="terroir" className="py-60 relative overflow-hidden">
            <div className="max-w-[1400px] mx-auto px-8 md:px-20">
-              <SectionTitle subtitle="Chapitre I // La matière" title={/* TEXTE_SECTION */ clientText(sessionData, "matiere.titre") ?? (<>Ce qui entre à l'atelier.</>)} alignment="left" />
+              <SectionTitle subtitle="Chapitre I // La Terre" title="The Terroir Analysis." alignment="left" />
               
               <div className="grid lg:grid-cols-2 gap-32 items-center">
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5">
@@ -363,14 +354,14 @@ return (
 
                  <div className="space-y-12">
                     <Reveal delay={0.3}>
-                       <p className="text-2xl font-light text-white/60 leading-relaxed italic">{/* TEXTE_SECTION */ clientText(sessionData, "matiere.texte") ?? c?.aboutText ?? <>
-                          « L'or est fondu et allié ici, les pierres arrivent tracées et certifiées : la matière décide, la main dispose. »
+                       <p className="text-2xl font-light text-white/60 leading-relaxed italic">{c?.aboutText ?? <>
+                          "Notre sol de calcaire jurassique insuffle à nos vins une tension minérale unique, signature indélébile de l'{clientName(sessionData) ?? "AETHELGARD"}."
                        </>}</p>
                        <div className="h-px w-32 bg-[var(--brand,#c4a661)] my-12" />
                        <div className="space-y-8">
                           {[
-                            { t: "La fonte à l'atelier", d: "L'or est refondu au creuset, allié et laminé sur place — rien ne part en sous-traitance." },
-                            { t: "La traçabilité", d: "Or recyclé et pierres certifiées d'origine, factures et certificats remis avec chaque pièce." }
+                            { t: "The Micro-Climate", d: "Une vallée protégée par des falaises de granit, retenant la chaleur solaire." },
+                            { t: "Organic Harmony", d: "Culture biodynamique sans aucun compromis chimique depuis 1992." }
                           ].map((item, i) => (
                             <div key={i} className="flex gap-8 group">
                                <span className="text-[10px] font-black text-[var(--brand,#c4a661)]">0{i+1}</span>
@@ -392,7 +383,7 @@ return (
             ========================================== */}
         <section id="cellar" className="py-60 bg-black/20 border-y border-white/5">
            <div className="max-w-[1600px] mx-auto px-8 md:px-20">
-              <SectionTitle subtitle="Chapitre II // La vitrine" title={/* TEXTE_SECTION */ clientText(sessionData, "pieces.titre") ?? (<>Les pièces d'atelier.</>)} />
+              <SectionTitle subtitle="Chapitre II // Le Cellier" title="Private Vintages." />
 
               <div className="grid md:grid-cols-3 gap-12">
                  {VINTAGES.map((vin, i) => (
@@ -423,7 +414,7 @@ return (
                             <div className="flex justify-between items-end border-t border-white/10 pt-8">
                                <span className="text-[10px] font-black uppercase tracking-widest text-white/20">{vin.type}</span>
                                <button className="text-[10px] font-black uppercase tracking-widest text-[var(--brand,#c4a661)] flex items-center gap-2 group-hover:translate-x-2 transition-transform">
-                                  Découvrir <ChevronRight className="w-4 h-4" />
+                                  Reserve <ChevronRight className="w-4 h-4" />
                                </button>
                             </div>
                          </div>
@@ -442,16 +433,16 @@ return (
               <div className="grid lg:grid-cols-2 gap-32 items-center">
                  <div className="order-2 lg:order-1">
                     <Reveal>
-                       <SectionTitle subtitle="Chapitre III // L'établi" title={/* TEXTE_SECTION */ clientText(sessionData, "etabli.titre") ?? (<>Cent heures par pièce.</>)} alignment="left" />
+                       <SectionTitle subtitle="Chapitre III // L'Alchimie" title={`Spirits of ${clientName(sessionData) ?? "AETHELGARD"}.`} alignment="left" />
                        <p className="text-xl font-light text-white/40 leading-relaxed italic mb-16 uppercase tracking-widest">{/* TEXTE_SECTION */ clientText(sessionData, "alchemist.texte") ?? (<>
-                          Le temps n'est pas un ennemi, c'est notre principal outil. Chaque pièce naît d'un dessin, d'une fonte et de cent heures d'établi — l'essence même de la patience.
+                          Le temps n'est pas un ennemi, c'est notre principal allié. Nos spiritueux sont élevés en fûts de chêne séculaires, capturant l'essence même de la patience.
                        </>)}</p>
                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                           {[
-                            { label: "La fonte", value: "Creuset à induction" },
-                            { label: "Le serti", value: "Grain, griffe, clos" },
-                            { label: "La finition", value: "Poli miroir à la main" },
-                            { label: "Le contrôle", value: "Binoculaire ×10" }
+                            { label: "Distillation", value: "Triple Copper Pot" },
+                            { label: "Aging", value: "Minimum 12 Years" },
+                            { label: "Finish", value: "Oloroso Cask" },
+                            { label: "Purity", value: "Non-Chill Filtered" }
                           ].map((stat, i) => (
                             <div key={i} className="border-b border-white/10 pb-6">
                                <div className="text-[10px] font-black text-[var(--brand,#c4a661)] uppercase tracking-[0.4em] mb-2">{stat.label}</div>
@@ -465,7 +456,7 @@ return (
                     <Reveal delay={0.3}>
                        <Image 
                           src={photo(4, "https://images.unsplash.com/photo-1504275107627-0c2ba7a43dba?q=80&w=1200&auto=format&fit=crop")} 
-                          alt="L'établi du sertisseur" 
+                          alt="Copper Still" 
                           fill 
                           className="object-cover grayscale"
                        />
@@ -480,62 +471,33 @@ return (
         </section>
 
         {/* ==========================================
-            4bis. LES VOIX (AVIS) — le chapitre que l'atelier
-            n'écrit pas lui-même
-            ========================================== */}
-        <section className="py-60 bg-black relative">
-           <div className="max-w-[1200px] mx-auto px-8 md:px-20">
-              <SectionTitle subtitle="Chapitre IV // Les voix" title={/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ce qu'on en dit.</>)} alignment="left" />
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-20 -mt-12">
-                 {resolveList(
-                   clientReviews(sessionData)?.slice(0, 3).map((r: any) => ({ text: r.text, author: r.author, detail: r.detail || undefined })),
-                   [
-                     { text: "Une montre reprise, réglée, rendue avec son carnet de mesures. Personne d'autre n'y touchera.", author: "H. Delcourt", detail: "révision d'un calibre ancien" },
-                     { text: "Du premier dessin à l'écrin, la bague a été pensée pour elle seule. Le sur mesure au sens propre.", author: "M. et A. Ferrand", detail: "création sur mesure" },
-                     { text: "L'atelier explique chaque geste, chaque heure passée. On sait ce qu'on paie, et pourquoi.", author: "S. Baron", detail: "transformation d'un héritage" },
-                   ],
-                 ).map((a: any, i: number) => (
-                   <Reveal key={i} delay={i * 0.12}>
-                     <figure className="h-full flex flex-col border-l border-[var(--brand,#c4a661)]/30 pl-8">
-                        <blockquote className="text-xl font-light italic text-white/60 leading-relaxed mb-10 flex-1">« {a.text} »</blockquote>
-                        <figcaption className="text-[10px] font-black uppercase tracking-[0.4em] text-white/25">
-                           {a.author}{a.detail ? <span className="block mt-2 text-[var(--brand,#c4a661)]/60 normal-case tracking-widest italic font-light">{a.detail}</span> : null}
-                        </figcaption>
-                     </figure>
-                   </Reveal>
-                 ))}
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
             5. THE CIRCLE (MEMBERSHIP)
             ========================================== */}
         <section id="circle" className="py-60 bg-white text-black relative">
            <div className="max-w-[1200px] mx-auto px-8 md:px-20 text-center">
               <Reveal>
-                 <SectionTitle subtitle="Privilège // Adhésion" title={/* TEXTE_SECTION */ clientText(sessionData, "cercle.titre") ?? (<>Rejoindre le cercle.</>)} />
+                 <SectionTitle subtitle="Privilège // Adhésion" title="Join The Circle." />
                  <p className="max-w-2xl mx-auto text-xl font-light text-black/40 leading-relaxed italic mb-20">{/* TEXTE_SECTION */ clientText(sessionData, "circle.texte") ?? (<>
-                    Accédez aux pièces uniques avant leur mise en vitrine, aux essayages privés à l'atelier et au service sur mesure — du premier dessin à l'écrin.
+                    Accédez à des millésimes exclusifs, des dégustations privées au domaine et une conciergerie dédiée à votre cave personnelle.
                  </>)}</p>
                  
                  <form className="max-w-xl mx-auto space-y-12" onSubmit={e => e.preventDefault()}>
                     <div className="grid md:grid-cols-2 gap-8">
                        <div className="border-b border-black/10 py-4 text-left">
-                          <label className="text-[10px] font-black uppercase tracking-[0.4em] text-black/20 block mb-2">Nom</label>
-                          <input type="text" className="w-full bg-transparent outline-none text-xl font-light italic" placeholder="Moreau" />
+                          <label className="text-[10px] font-black uppercase tracking-[0.4em] text-black/20 block mb-2">Surname</label>
+                          <input type="text" className="w-full bg-transparent outline-none text-xl font-light italic" placeholder="Sterling" />
                        </div>
                        <div className="border-b border-black/10 py-4 text-left">
-                          <label className="text-[10px] font-black uppercase tracking-[0.4em] text-black/20 block mb-2">Ville</label>
-                          <input type="text" className="w-full bg-transparent outline-none text-xl font-light italic" placeholder="Bordeaux" />
+                          <label className="text-[10px] font-black uppercase tracking-[0.4em] text-black/20 block mb-2">Location</label>
+                          <input type="text" className="w-full bg-transparent outline-none text-xl font-light italic" placeholder="London, UK" />
                        </div>
                     </div>
                     <div className="border-b border-black/10 py-4 text-left">
-                       <label className="text-[10px] font-black uppercase tracking-[0.4em] text-black/20 block mb-2">Courriel</label>
-                       <input type="email" className="w-full bg-transparent outline-none text-xl font-light italic" placeholder="vous@mail.fr" />
+                       <label className="text-[10px] font-black uppercase tracking-[0.4em] text-black/20 block mb-2">Digital Signature</label>
+                       <input type="email" className="w-full bg-transparent outline-none text-xl font-light italic" placeholder="alistair@sterling.com" />
                     </div>
                     <button className="w-full py-6 bg-black text-white text-[10px] font-black uppercase tracking-widest hover:bg-[var(--brand,#c4a661)] transition-all shadow-2xl">
-                       Demander une invitation
+                       Request Invitation
                     </button>
                  </form>
               </Reveal>
@@ -552,23 +514,22 @@ return (
                     <div className="w-10 h-10 bg-[var(--brand,#c4a661)] flex items-center justify-center rounded-sm">
                        <Landmark className="w-6 h-6 text-black" />
                     </div>
-                    <span className="text-3xl font-light tracking-[0.4em] uppercase">{fd?.businessName ?? clientName(sessionData) ?? "CHRONOS LAB"}</span>
+                    <span className="text-3xl font-light tracking-[0.4em] uppercase">{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "AETHELGARD"))}</span>
                  </div>
-                 <p className="text-white/20 text-[10px] font-black uppercase tracking-[0.4em] leading-loose max-w-sm mb-10 italic">
-                    « Le temps n'est pas un luxe, c'est notre matière première. »
+                 <p className="text-white/20 text-[10px] font-black uppercase tracking-[0.4em] leading-loose max-w-sm mb-16 italic">
+                    "Le temps n'est pas un luxe, c'est notre ingrédient secret." — Domaine {clientName(sessionData) ?? "AETHELGARD"} V.4
                  </p>
-                 {/* Le contact que ce thème n'avait pas : l'atelier se joint. */}
-                 <div className="space-y-4 mb-12 text-[11px] tracking-widest text-white/40 normal-case not-italic">
-                    <div className="flex items-center gap-3"><MapPin className="w-4 h-4 text-[var(--brand,#c4a661)]" /> {clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "33000", "Bordeaux") + " — atelier sur rendez-vous"}</div>
-                    <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33556000000").replace(/\s/g, "")}`} className="flex items-center gap-3 hover:text-white transition-colors"><Clock className="w-4 h-4 text-[var(--brand,#c4a661)]" /> {clientPhone(sessionData) ?? fd?.phone ?? "05 56 00 00 00"} · mar–sam 10h–19h</a>
-                    <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "atelier@chronos-lab.fr"}`} className="flex items-center gap-3 hover:text-white transition-colors"><PenTool className="w-4 h-4 text-[var(--brand,#c4a661)]" /> {clientEmail(sessionData) ?? fd?.email ?? "atelier@chronos-lab.fr"}</a>
+                 <div className="flex gap-12">
+                    {["Camera", "Vogue", "Decanter", "Forbes"].map(s => (
+                       <Link key={s} href="#terroir" className="text-[10px] font-black uppercase tracking-widest text-white/20 hover:text-[var(--brand,#c4a661)] transition-colors italic">{s}</Link>
+                    ))}
                  </div>
               </div>
 
               {[
-                { t: "LA MAISON", l: ["La matière", "Les pièces", "L'établi", "Le cercle"] },
-                { t: "SERVICES", l: ["Sur mesure", "Réparations", "Gravure", "Expertise"] },
-                { t: "PRATIQUE", l: ["Livraison assurée", "Retours", "CGV", "Contact"] }
+                { t: "DOMAINE", l: ["Terroir", "Heritage", "Vineyards", "Spirits"] },
+                { t: "SERVICES", l: ["Private Circle", "Concierge", "Cellar Mgmt", "Tastings"] },
+                { t: "SUPPORT", l: ["Shipments", "Returns", "Terms", "Contact"] }
               ].map((col, i) => (
                 <div key={i} className="flex flex-col gap-12">
                    <h4 className="text-[10px] font-black text-[var(--brand,#c4a661)] uppercase tracking-[0.5em] italic">{col.t}</h4>
@@ -582,10 +543,11 @@ return (
            </div>
 
            <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black text-white/10 uppercase tracking-[0.4em] italic">
-              <span>© 2026 {fd?.businessName ?? clientName(sessionData) ?? "Chronos Lab"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
-              <div className="flex gap-8 normal-case tracking-normal not-italic">
-                 <span>Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" /></span>
-                 <span>Éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
+              <span>© 2026 {clientName(sessionData) ?? "AETHELGARD ESTATE & SPIRITS GROUP"} SA. // ALL_RIGHTS_RESERVED{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+              <div className="flex gap-12">
+                 <span>{(clientCity(sessionData) ?? "Bordeaux").toUpperCase()}</span>
+                 <span>TUSCANY</span>
+                 <span>HIGHLANDS</span>
               </div>
            </div>
         </footer>
@@ -605,14 +567,14 @@ return (
                    <X className="w-8 h-8" />
                 </button>
                 <div className="flex flex-col items-center gap-12">
-                   <SectionTitle subtitle="Espace privé" title="Le portail." />
+                   <SectionTitle subtitle="Security // Handshake" title="The Portal." />
                    <div className="w-full space-y-8">
                       <div className="border-b border-white/10 pb-4">
-                         <label className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 block mb-2">Identifiant</label>
+                         <label className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 block mb-2">Key Identifier</label>
                          <input type="text" className="w-full bg-transparent outline-none text-2xl font-light italic text-white" placeholder="AE-7402-X" />
                       </div>
                       <button className="w-full py-6 bg-[var(--brand,#c4a661)] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all">
-                         Valider l'accès
+                         Validate Access
                       </button>
                    </div>
                 </div>

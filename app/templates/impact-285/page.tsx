@@ -34,21 +34,21 @@ import {
   Users,
 } from 'lucide-react';
 import {
-  clientTrade,
-  clientBookingUrl,
-  clientPhone,
   clientAccrocheRestante,
   clientAddress,
+  clientBookingUrl,
   clientCity,
   clientHeroLine,
   clientHours,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientTeam,
   clientText,
+  clientTrade,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -63,7 +63,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DR. MARC LECOMTE — Médecin généraliste & médecine du voyage · {clientCity(sessionData) ?? "Nantes"} Centre
+   {clientName(sessionData) ?? "Dr. Marc Lecomte"} — Médecin généraliste & médecine du voyage · {clientCity(sessionData) ?? "Nantes"} Centre
    Chorégraphie de défilement éditoriale. Fichier entièrement autonome.
    'use client'. Aucun import externe sauf react, framer-motion, lucide-react.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -481,7 +481,7 @@ function HeroSection() {
       >
         <img
           src={PHOTO.heroWide}
-          alt="Cabinet lumineux du Dr. Marc Lecomte, médecin généraliste à Nantes Centre"
+          alt={`Cabinet lumineux du ${clientName(sessionData) ?? "Dr. Marc Lecomte"}, médecin généraliste à Nantes Centre`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1163,7 +1163,7 @@ function ConsultationSection() {
           >
             <img
               src={PHOTO.medecin}
-              alt="Dr. Marc Lecomte en consultation"
+              alt={`${clientName(sessionData) ?? "Dr. Marc Lecomte"} en consultation`}
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
@@ -2816,10 +2816,21 @@ function Impact285Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2827,9 +2838,9 @@ function Impact285Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  PHOTO = PHOTO_LIVE();
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   TEAM_DEMO = TEAM_DEMO_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  PHOTO = PHOTO_LIVE();
 
 
   TESTIMONIALS_DEMO = resolveList(

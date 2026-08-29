@@ -1,7 +1,9 @@
 "use client";
-import { clientFaq } from "@/lib/templates/clientContent";
 import {
-  clientName, clientServices } from "@/lib/templates/clientContent";
+  clientFaq,
+  clientName,
+  clientServices,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
@@ -113,10 +115,21 @@ export default function NimbusAIPricingPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
@@ -362,7 +375,7 @@ export default function NimbusAIPricingPage() {
           ))}
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex justify-between text-xs text-gray-600">
-          <span>© 2026 NimbusAI. All rights reserved.</span>
+          <span>© 2026 {clientName(sessionData) ?? "NimbusAI"}. All rights reserved.</span>
           <span><Globe className="w-3 h-3 inline mr-1" />Cloud AI · 12 regions</span>
         </div>
       </footer>

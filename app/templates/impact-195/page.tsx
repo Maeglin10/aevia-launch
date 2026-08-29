@@ -9,11 +9,9 @@ import { Heart, Star, Phone, MapPin, Calendar, Sparkles, Music, Camera, Flower, 
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -31,7 +29,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   MAISON ÉLISE — Wedding planner & organisatrice événements ({clientCity({ formData: fd }) ?? "Nice"})
+   {clientName(sessionData) ?? "Maison Élise"} — Wedding planner & organisatrice événements ({clientCity(sessionData) ?? "Nice"})
    Palette : blanc ivoire #fdfaf7 / blush poudré #e8c5c5 / or rosé #c4a06a / nuit #1a1018
    Fonts : Didact Gothic (élégant, géométrique) + Lora (serif romantique)
    Style : romantique luxe, délicat, élégance intemporelle
@@ -125,10 +123,21 @@ export default function MaisonElisePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -173,8 +182,8 @@ export default function MaisonElisePage() {
               />
             ) : (
               <>
-                <div className="font-bold tracking-[0.2em] text-[#1a1018] text-sm uppercase" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Lora', Georgia, serif" }}>{clientName({ formData: fd }) ?? "Maison Élise"}</div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4a06a)]/60">Wedding Planner · {clientCity({ formData: fd }) ?? "Nice"} & Riviera</div>
+                <div className="font-bold tracking-[0.2em] text-[#1a1018] text-sm uppercase" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Lora', Georgia, serif" }}>{clientName(sessionData) ?? "Maison Élise"}</div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c4a06a)]/60">Wedding Planner · {clientCity(sessionData) ?? "Nice"} & Riviera</div>
               </>
             )}
           </div>
@@ -184,8 +193,8 @@ export default function MaisonElisePage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0493567890").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#c4a06a)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 93 56 78 90"}
+            <a href={`tel:${fd?.phone ?? "0493567890"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#c4a06a)] font-bold text-sm">
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "04 93 56 78 90"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#c4a06a)] text-white text-[10px] font-bold uppercase tracking-[0.25em] hover:bg-[#a88550] transition-colors">
               Consultation gratuite
@@ -195,7 +204,7 @@ export default function MaisonElisePage() {
               <SheetContent side="right" className="bg-[#fdfaf7] border-slate-100 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#1a1018] hover:text-[var(--brand,#c4a06a)] transition-colors" style={{ fontFamily: "'Lora', serif" }}>{l}</Link>)}
-                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0493567890").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#c4a06a)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 93 56 78 90"}</a>
+                  <a href={`tel:${fd?.phone ?? "0493567890"}`} className="flex items-center gap-3 text-[var(--brand,#c4a06a)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "04 93 56 78 90"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -215,7 +224,7 @@ export default function MaisonElisePage() {
         {/* Elegant vertical text */}
         <div className="absolute right-8 top-1/2 -translate-y-1/2 z-10 hidden xl:block">
           <div className="text-[10px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#c4a06a)]/25 writing-vertical" style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}>
-            {clientCity({ formData: fd }) ?? "Nice"} · Cannes · Monaco · Riviera
+            {clientCity(sessionData) ?? "Nice"} · Cannes · Monaco · Riviera
           </div>
         </div>
 
@@ -237,7 +246,7 @@ export default function MaisonElisePage() {
           </motion.div>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
-            className="max-w-sm text-sm text-[#fdfaf7]/28 leading-relaxed mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            className="max-w-sm text-sm text-[#fdfaf7]/28 leading-relaxed mb-12">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Wedding planner sur la Côte d'Azur. Coordination jour J, organisation clé en main, déco florale, corporate. Chaque événement mérite d'être extraordinaire.
           </>}</motion.p>
 
@@ -245,8 +254,8 @@ export default function MaisonElisePage() {
             <button className="px-9 py-4 bg-[var(--brand,#c4a06a)] text-white font-bold text-[10px] uppercase tracking-[0.28em] hover:bg-[#a88550] transition-colors">{c?.ctaText ?? <>
               Consultation gratuite
             </>}</button>
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0493567890").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-9 py-4 border border-[#fdfaf7]/12 text-[#fdfaf7]/38 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c4a06a)]/40 hover:text-[var(--brand,#c4a06a)] transition-all">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 93 56 78 90"}
+            <a href={`tel:${fd?.phone ?? "0493567890"}`} className="flex items-center gap-3 px-9 py-4 border border-[#fdfaf7]/12 text-[#fdfaf7]/38 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c4a06a)]/40 hover:text-[var(--brand,#c4a06a)] transition-all">
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "04 93 56 78 90"}
             </a>
           </motion.div>
         </motion.div>
@@ -403,13 +412,13 @@ export default function MaisonElisePage() {
             <h2 className="text-4xl md:text-5xl font-bold text-[#fdfaf7] mb-5" style={{ fontFamily: "'Lora', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Votre histoire<br /><span className="italic text-[var(--brand,#c4a06a)]">commence ici.</span>
             </>)}</h2>
-            <p className="text-[#fdfaf7]/28 mb-10 text-sm">Consultation gratuite · {clientCity({ formData: fd }) ?? "Nice"} & Côte d'Azur · Déplacements France entière & étranger</p>
+            <p className="text-[#fdfaf7]/28 mb-10 text-sm">Consultation gratuite · {clientCity(sessionData) ?? "Nice"} & Côte d'Azur · Déplacements France entière & étranger</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-[var(--brand,#c4a06a)] text-white font-bold text-[10px] uppercase tracking-[0.28em] hover:bg-[#a88550] transition-colors">
                 Consultation gratuite
               </button>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0493567890").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border border-[#fdfaf7]/12 text-[#fdfaf7]/35 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c4a06a)]/40 hover:text-[var(--brand,#c4a06a)] transition-all">
-                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 93 56 78 90"}
+              <a href={`tel:${fd?.phone ?? "0493567890"}`} className="flex items-center gap-3 px-10 py-4 border border-[#fdfaf7]/12 text-[#fdfaf7]/35 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#c4a06a)]/40 hover:text-[var(--brand,#c4a06a)] transition-all">
+                <Phone className="w-4 h-4" /> {fd?.phone ?? "04 93 56 78 90"}
               </a>
             </div>
           </div>
@@ -420,14 +429,14 @@ export default function MaisonElisePage() {
       <footer className="bg-[#100b0f] pt-20 pb-10 px-6 border-t border-white/5">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="font-bold text-[#fdfaf7] text-sm tracking-[0.18em] mb-1 uppercase" style={{ fontFamily: "'Lora', serif" }}>Maison Élise</div>
-            <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#c4a06a)]/40 mb-5">Wedding Planner · {clientCity({ formData: fd }) ?? "Nice"}</div>
+            <div className="font-bold text-[#fdfaf7] text-sm tracking-[0.18em] mb-1 uppercase" style={{ fontFamily: "'Lora', serif" }}>{clientName(sessionData) ?? "Maison Élise"}</div>
+            <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#c4a06a)]/40 mb-5">Wedding Planner · {clientCity(sessionData) ?? "Nice"}</div>
             <p className="text-[#fdfaf7]/15 text-sm leading-relaxed">Organisation mariages et événements sur la Côte d'Azur. Coordination, clé en main, floral, corporate.</p>
           </div>
           {[
             { t: "Formules", ls: ["Coordination jour J", "Clé en main", "Conception florale", "Mise en scène & styling", "Événements corporate"] },
             { t: "Infos", ls: ["L'équipe", "Notre philosophie", "Portfolio", "Blog mariages", "FAQ"] },
-            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "04 93 56 78 90"), (clientEmail(sessionData) ?? fd?.email ?? "hello@maison-elise.fr"), (clientCity({ formData: fd }) ?? "Nice") + " & Riviera", "France entière & étranger", "Consultation gratuite"] },
+            { t: "Contact", ls: [(fd?.phone ?? "04 93 56 78 90"), (fd?.email ?? "hello@maison-elise.fr"), (clientCity(sessionData) ?? "Nice") + " & Riviera", "France entière & étranger", "Consultation gratuite"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c4a06a)]/35 mb-5">{col.t}</h4>
@@ -438,7 +447,7 @@ export default function MaisonElisePage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#fdfaf7]/8">
-          <span>© 2026 {clientName(sessionData) ?? "Maison Élise"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 678 901 234 00055"} · {clientCity(sessionData) ?? "Nice"} (06){/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Maison Élise"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 678 901 234 00055"} · {clientCity(sessionData) ?? "Nice"} (06){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#c4a06a)]/18">Wedding Planner · Côte d'Azur</span>
         </div>
       </footer>

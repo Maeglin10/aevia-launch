@@ -16,6 +16,7 @@ import {
   clientAccrocheRestante,
   clientCity,
   clientHeroLine,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -23,6 +24,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -37,7 +39,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   VERT HORIZON — Paysagiste & Architecture de Jardin · Île-de-France
+   {clientName(sessionData) ?? "Vert Horizon"} — Paysagiste & Architecture de Jardin · Île-de-France
    Chorégraphie de défilement éditoriale, crossfade chapitré 320vh,
    panneau de méthodologie collant, formulaire de devis interactif.
    Auto-suffisant. 'use client'.
@@ -215,7 +217,7 @@ const DESIGN_STEPS: DesignStep[] = [
 function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
-    quote: "J\'avais une cour bétonnée de 40 m² à Neuilly — un no man\'s land gris. Vert Horizon l\'a transformée en jardin japonais luxuriant. Les voisins me demandent leur contact sans arrêt.",
+    quote: `J\'avais une cour bétonnée de 40 m² à Neuilly — un no man\'s land gris. ${clientName(sessionData) ?? "Vert Horizon"} l\'a transformée en jardin japonais luxuriant. Les voisins me demandent leur contact sans arrêt.`,
     name: 'Sophie M.',
     role: 'Propriétaire, Neuilly-sur-Seine',
   },
@@ -608,7 +610,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/1190903/pexels-photo-1190903.jpeg?auto=compress&cs=tinysrgb&w=2000')}
-          alt="Jardin contemporain Vert Horizon Île-de-France"
+          alt={`Jardin contemporain ${clientName(sessionData) ?? "Vert Horizon"} Île-de-France`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1321,7 +1323,7 @@ function DesignPanel() {
           >
             <img
               src={fd?.photoUrls?.[1] || photo('1578662996442-48f60103fc96', 900)}
-              alt="Terrasse végétalisée Vert Horizon"
+              alt={`Terrasse végétalisée ${clientName(sessionData) ?? "Vert Horizon"}`}
               loading="lazy"
               style={{
                 width: '100%',
@@ -1387,7 +1389,7 @@ function DesignPanel() {
           </Reveal>
 
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {DESIGN_STEPS.map((step, i) => (
+            {resolveList(fusionnerEtapes(DESIGN_STEPS, clientMethode(sessionData)), DESIGN_STEPS).map((step, i) => (
               <Reveal key={step.num} delay={0.05 * i}>
                 <div
                   style={{
@@ -2137,19 +2139,30 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
-  EDIT_ROWS = EDIT_ROWS_LIVE();
   PHASES_DEMO = PHASES_DEMO_LIVE();
+  EDIT_ROWS = EDIT_ROWS_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
 
 

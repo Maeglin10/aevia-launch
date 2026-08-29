@@ -16,6 +16,7 @@ import {
   clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -24,6 +25,7 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -165,7 +167,7 @@ function ATELIER_PHASES_LIVE() {
 }
 let ATELIER_PHASES = ATELIER_PHASES_LIVE();
 
-const METHODE = [
+let METHODE = [
   { n: "01", t: "Relevé & écoute", d: "Chez vous, au laser. On parle habitudes de cuisine, rangements, circulation — avant de parler meubles." },
   { n: "02", t: "Plan 3D & devis fermé", d: "Un projet photoréaliste et un devis ferme, poste par poste. Pas de « à partir de » : le prix signé est le prix payé." },
   { n: "03", t: "Fabrication française", d: "Caissons et façades fabriqués en France, quincaillerie allemande. Six semaines en moyenne entre commande et pose." },
@@ -492,16 +494,32 @@ export default function LignesEtBoisPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    fusionnerEtapes(METHODE, clientMethode(sessionData)),
+    METHODE,
+  );
   HERO_PROJETS_DEMO = HERO_PROJETS_DEMO_LIVE();
   ATELIER_PHASES = ATELIER_PHASES_LIVE();
   AVIS_SOURCE = AVIS_SOURCE_LIVE();
@@ -659,7 +677,7 @@ export default function LignesEtBoisPage() {
             {c?.heroHeadline ?? (<>{clientHeroLine(sessionData, 0, 2, 19) ?? "Du plan 3D"}<br /><em style={{ color: C.oak, fontWeight: 400 }}>{clientHeroLine(sessionData, 1, 2, 19) ?? "à la pièce à vivre."}</em></>)}
           </>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65, duration: 0.85, ease: EASE }} style={{ fontFamily: SANS, fontWeight: 400, fontSize: "clamp(15.5px, 1.6vw, 17.5px)", color: "rgba(255,255,255,0.78)", lineHeight: 1.75, marginBottom: "clamp(24px, 3.6vw, 36px)", maxWidth: 520 }}>
-            {clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? "Cuisines, dressings et agencements dessinés au millimètre, fabriqués en France, posés par nos menuisiers salariés. Devis ferme, garantie 10 ans."}
+            {c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? "Cuisines, dressings et agencements dessinés au millimètre, fabriqués en France, posés par nos menuisiers salariés. Devis ferme, garantie 10 ans."}
           </motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.85, duration: 0.85, ease: EASE }} style={{ display: "flex", gap: 14, flexWrap: "wrap", alignItems: "center" }}>
             <CtaButton href={telHref}>Réserver mon étude 3D</CtaButton>
@@ -881,7 +899,7 @@ export default function LignesEtBoisPage() {
           <div aria-hidden style={{ height: 1, background: "linear-gradient(90deg, transparent, rgba(201,159,106,0.28), transparent)" }} />
           <div style={{ paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ fontFamily: SANS, fontWeight: 300, color: "rgba(255,255,255,0.22)", fontSize: 12, letterSpacing: "0.04em" }}>
-              © 2026 {fd?.businessName ?? "Lignes & Bois"} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity fallback="852 546 225" kind="siren" />
+              © 2026 {fd?.businessName ?? "Lignes & Bois"} — Site réalisé par {clientName(sessionData) ?? "Aevia WS"} · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity fallback="852 546 225" kind="siren" />
             </span>
             <span style={{ fontFamily: SANS, fontWeight: 300, color: "rgba(255,255,255,0.22)", fontSize: 12, letterSpacing: "0.04em" }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>

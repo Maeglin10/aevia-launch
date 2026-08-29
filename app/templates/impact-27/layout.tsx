@@ -14,10 +14,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(__setLayoutSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setLayoutSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
   const fd = __layoutSession?.formData;
 
@@ -48,7 +59,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div className="w-8 h-8 bg-[#9B5CF6] rounded-xl flex items-center justify-center">
               <Box className="w-4 h-4 text-white" />
             </div>
-            <span className="font-bold text-lg tracking-tight">{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>Vertex Studio</>)}</span>
+            <span className="font-bold text-lg tracking-tight">{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>{clientName(__layoutSession) ?? "Vertex Studio"}</>)}</span>
           </>
           )}</Link>
           <div className="hidden md:flex items-center gap-8 text-sm text-white/55">
@@ -98,7 +109,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div className="w-7 h-7 bg-[#9B5CF6] rounded-xl flex items-center justify-center">
               <Box className="w-3.5 h-3.5 text-white" />
             </div>
-            <span className="font-bold">Vertex Studio</span>
+            <span className="font-bold">{clientName(__layoutSession) ?? "Vertex Studio"}</span>
           </Link>
           <div className="flex flex-wrap gap-6 text-sm text-white/30">
             <Link href="/templates/impact-27/work" className="hover:text-white transition-colors">Work</Link>

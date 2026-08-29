@@ -75,7 +75,12 @@ async function runProvider(name: ProviderName, prompt: string): Promise<Provider
 // Free tier quotas vary by project; we try the better model first, then the
 // lite model if quota is exhausted, so a single project can absorb more bursts.
 async function tryGemini(prompt: string): Promise<ProviderResult> {
-  const key = process.env.GEMINI_API_KEY;
+  /*
+    La clé payante d'abord. GEMINI_API_KEY est au palier gratuit — vingt
+    requêtes avant un 429 — ce qui suffisait aux essais mais pas au trafic.
+    L'ancienne reste en repli : on ajoute une clé, on n'en remplace aucune.
+  */
+  const key = process.env.GEMINI_API_KEY_LAUNCH_PAID ?? process.env.GEMINI_API_KEY;
   if (!key) return { ok: false, provider: "gemini", reason: "no_key" };
 
   const models = ["gemini-2.5-flash", "gemini-2.5-flash-lite"];
@@ -96,6 +101,17 @@ async function tryGemini(prompt: string): Promise<ProviderResult> {
           temperature: 0.7,
           maxOutputTokens: 2048,
           responseMimeType: "application/json",
+          /*
+            Sans budget de réflexion, 2.5-flash dépense la moitié de sa sortie à
+            réfléchir : mesuré 1964 jetons de pensée pour 66 de texte, l'appel
+            s'arrêtait sur MAX_TOKENS et rendait 239 caractères de JSON tronqué.
+            Le JSON invalide faisait échouer le fournisseur, et TOUS les sites
+            repliaient sur le contenu déterministe — aucun client ne recevait de
+            rédaction. Avec le budget à zéro : 826 jetons de texte, JSON complet,
+            et treize fois moins cher. Les deux autres appels Gemini du dépôt le
+            posaient déjà ; celui-ci, le principal, l'avait perdu.
+          */
+          thinkingConfig: { thinkingBudget: 0 },
         },
       }),
     });
@@ -204,7 +220,12 @@ Menu:
 export async function extractMenuItems(rawMenu: string): Promise<ExtractedMenuItem[] | null> {
   const menu = rawMenu.trim();
   if (!menu) return null;
-  const key = process.env.GEMINI_API_KEY;
+  /*
+    La clé payante d'abord. GEMINI_API_KEY est au palier gratuit — vingt
+    requêtes avant un 429 — ce qui suffisait aux essais mais pas au trafic.
+    L'ancienne reste en repli : on ajoute une clé, on n'en remplace aucune.
+  */
+  const key = process.env.GEMINI_API_KEY_LAUNCH_PAID ?? process.env.GEMINI_API_KEY;
   if (!key) return null;
 
   const url =
@@ -248,6 +269,20 @@ export async function extractMenuItems(rawMenu: string): Promise<ExtractedMenuIt
   }
 }
 
+  /*
+    Aucun témoignage inventé.
+
+    L'invite demandait « avis 25-40 mots, note 5 » et le modèle rendait des avis
+    nominatifs — « J. Dubois, Propriétaire à Annecy, 5★ » — au nom de
+    l'entreprise réelle du client. C'est un faux avis de consommateur : pratique
+    commerciale trompeuse au sens du Code de la consommation, et c'est le client
+    qui le publie sur son propre site. Trois cent quarante-deux thèmes sur trois
+    cent soixante-treize les affichaient dès que le client n'avait pas saisi les
+    siens.
+
+    Les avis viennent des clients, ou de nulle part. La place reste tenue par un
+    repli neutre et non nominatif, et le panneau d'aide invite à les saisir.
+  */
 // ─── Shared prompt builder ───────────────────────────────────────────────────
 function buildPrompt(formData: FormData): string {
   const sectorExtras = (formData as unknown as Record<string, unknown>).sectorData as Record<string, string> | undefined;
@@ -256,7 +291,17 @@ function buildPrompt(formData: FormData): string {
     : "";
   const rawMenu = sectorExtras?.menuItems?.trim();
 
-  return `Tu es un copywriter web expert. Génère le contenu d'un site pour ce business en français professionnel et percutant.
+  /*
+     La langue du site est celle que le visiteur a choisie au formulaire. Cette
+     consigne imposait le français : un client espagnol recevait un site
+     français, un client allemand un site français.
+  */
+  const LANGUES: Record<string, string> = {
+    fr: "français", en: "anglais", es: "espagnol", de: "allemand", pt: "portugais",
+  };
+  const langue = LANGUES[(formData.locale ?? "fr").slice(0, 2).toLowerCase()] ?? "français";
+
+  return `Tu es un copywriter web expert. Génère le contenu d'un site pour ce business en ${langue} professionnel et percutant. TOUT le contenu — accroche, à propos, prestations, avis, appel à action, méta — doit être rédigé en ${langue}, sans un mot d'une autre langue.
 - Nom: ${formData.businessName}
 - Type / métier: ${formData.businessType}
 - Thème visuel: ${formData.template ?? ""}
@@ -283,7 +328,6 @@ Réponds UNIQUEMENT avec un objet JSON valide (pas de \`\`\`json wrapper, pas d'
   "aboutTitle": "titre section à propos",
   "aboutText": "paragraphe à propos 40-60 mots",
   "services": [{"title":"...","description":"35-50 mots"},{"title":"...","description":"35-50 mots"},{"title":"...","description":"35-50 mots"}],
-  "testimonials": [{"name":"prénom + initiale","role":"contexte court","text":"avis 25-40 mots","rating":5},{"name":"...","role":"...","text":"...","rating":5},{"name":"...","role":"...","text":"...","rating":5}],
   "ctaText": "appel à action 4-7 mots",
   "metaTitle": "titre SEO 50-60 chars axé sur le SEO local avec la ville",
   "metaDescription": "méta description SEO 140-160 chars axée sur la qualité des prestations, le SEO local et la connexion Google Search Console & Analytics native"${rawMenu ? `,

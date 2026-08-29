@@ -20,6 +20,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -29,10 +30,11 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
-   MAISON DE L'AUDITION — Audioprothésistes D.E. · Tours
+   {clientName(sessionData) ?? "Maison de l'Audition"} — Audioprothésistes D.E. · Tours
    Geste signature : ParticleOrb (hero-kit-3), mais lu comme une ONDE et non
    comme une planète : l'orbe est posé à droite, à hauteur d'oreille, et des
    anneaux CSS s'en échappent — la source, puis la propagation. Rien n'est
@@ -114,7 +116,7 @@ const METHODE_SOURCE = [
   { n: "03", t: "Essai d'un mois", d: "Port réel à domicile, réglages à mi-parcours. Vous ne payez qu'à l'adoption, jamais à l'essai." },
   { n: "04", t: "Suivi de long terme", d: "Réglages illimités 4 ans, remplacement des pièces d'usure, contrôle annuel de l'audition." },
 ];
-const METHODE = METHODE_SOURCE;
+let METHODE = METHODE_SOURCE;
 
 const ENGAGEMENT_SOURCE = [
   "Audioprothésistes diplômés d'État — le titre est protégé, le nôtre est affiché",
@@ -426,16 +428,32 @@ export default function MaisonAuditionPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    fusionnerEtapes(METHODE_SOURCE, clientMethode(sessionData)),
+    METHODE_SOURCE,
+  );
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

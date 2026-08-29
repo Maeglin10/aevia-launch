@@ -26,17 +26,18 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientSiret,
   clientAddress,
-  clientPhone,
-  clientEmail,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientTagline,
   clientText,
   clientWorks,
@@ -571,7 +572,7 @@ function HeroSection() {
           style={{ marginTop: 46, display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}
         >
           <a href="#contact" style={{ textDecoration: 'none' }}>
-            <RoseButton filled>Consultation gratuite</RoseButton>
+            <RoseButton filled>{clientName(sessionData) ?? "Consultation gratuite"}</RoseButton>
           </a>
           <a href="#services" style={{ textDecoration: 'none' }}>
             <RoseButton>Nos formules</RoseButton>
@@ -1216,7 +1217,7 @@ function ServiceCard({
    ════════════════════════════════════════════════════════════════════════════ */
 function ProcessSection() {
   const steps = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
+    (clientMethode(sessionData) ?? clientServices(sessionData))?.map((s: any, i: number) => ({ ...([
     {
       num: '01',
       title: 'Consultation initiale',
@@ -3036,7 +3037,7 @@ function FooterSection() {
         { label: 'Organisation complète', href: '#services' },
         { label: 'Coordination Jour J', href: '#services' },
         { label: 'Décoration & Fleurs', href: '#services' },
-        { label: 'Consultation gratuite', href: '#contact' },
+        { label: `${clientName(sessionData) ?? "Consultation gratuite"}`, href: '#contact' },
       ],
     },
     {
@@ -3421,10 +3422,21 @@ export default function Impact280Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;

@@ -3,7 +3,7 @@
 
 /*
  * ══════════════════════════════════════════════════════════════════════
- * impact-321 — AI Horizons '26 · sommet conférences & salons, Station F
+ * impact-321 — {clientName(sessionData) ?? "AI Horizons '26"} · sommet conférences & salons, Station F
  * Réécriture famille I → squelette premium (plan REPRISE_316_383, lot B).
  * Geste signature : LineScroll (≠) — les lignes du titre monumental
  * roulent sous masque, entrent par la droite, sortent par la gauche.
@@ -34,6 +34,7 @@ import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import { DWELL, useSlides, SlideIndex, HairlineArrows } from "@/lib/templates/hero-kit-2";
 import { LineScroll, FixedRail, StickyProgress } from "@/lib/templates/hero-kit-3";
 import {
+  clientAddress,
   clientCity,
   clientEmail,
   clientEyebrow,
@@ -43,7 +44,6 @@ import {
   clientList,
   clientName,
   clientPhone,
-  clientAddress,
   clientPhotos,
   clientServices,
   clientStats,
@@ -495,10 +495,21 @@ export default function Impact321Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   useEffect(() => {

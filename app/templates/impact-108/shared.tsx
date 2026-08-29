@@ -1,4 +1,8 @@
 "use client";
+import {
+  clientName,
+  clientNameOr,
+} from "@/lib/templates/clientContent";
 
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
@@ -72,7 +76,7 @@ export const TEMOIGNAGES = [
   {
     nom: "Pierre Moreau",
     poste: "PDG, Moreau Distribution",
-    texte: "Ledger & Associés nous accompagne depuis 10 ans. Leur expertise fiscale nous a permis d'économiser des sommes considérables. Réactifs, précis, toujours disponibles.",
+    get texte() { return `${clientNameOr("Ledger & Associés")} nous accompagne depuis 10 ans. Leur expertise fiscale nous a permis d'économiser des sommes considérables. Réactifs, précis, toujours disponibles.`; },
     note: 5,
   },
   {

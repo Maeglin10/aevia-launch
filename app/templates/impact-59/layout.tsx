@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { clientName } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
@@ -18,10 +19,21 @@ export default function LuminalLayout({
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(__setLayoutSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setLayoutSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
   const fd = __layoutSession?.formData;
 
@@ -146,7 +158,7 @@ export default function LuminalLayout({
                   <div className="w-6 h-6 rounded-full bg-[#3d7a5e] flex items-center justify-center text-white">
                     <Leaf className="w-3 h-3" />
                   </div>
-                  LUMINAL
+                  {clientName(__layoutSession) ?? "LUMINAL"}
                 </div>
                 <p className="text-black/40 max-w-sm mb-12 uppercase tracking-widest text-[11px] leading-relaxed italic">
                   Immersive retreat experiences in the world&apos;s most
@@ -271,7 +283,7 @@ export default function LuminalLayout({
 
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-10 border-t border-black/5 text-[10px] font-bold uppercase tracking-widest text-black/20">
             <div className="flex items-center gap-10">
-              <span>&copy; {new Date().getFullYear()} {clientName(__layoutSession) ?? "Luminal Ltd."}</span>
+              <span>&copy; {new Date().getFullYear()} {clientName(__layoutSession) ?? "LUMINAL"} Ltd. &mdash; <EditeurDuSite /></span>
               <Link href="/templates/impact-59/legal" className="hover:text-black transition-colors" style={{ textDecoration: "none", color: "inherit" }}>
                 Privacy_Protocol
               </Link>

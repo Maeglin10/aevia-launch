@@ -63,7 +63,7 @@ let TEMOIGNAGES_DEMO = TEMOIGNAGES_SOURCE;
 
 function MEDECINS_DEMO_LIVE() {
   return [
-  { name: "Dr. Kenji Nakamura", spec: "Médecine esthétique faciale", exp: "14 ans", bio: "Formé à l'Académie de médecine esthétique de " + (clientCity({ formData: fd }) ?? "Paris") + ". Spécialiste des techniques d'injection ultra-précises et de la morphologie faciale.", badge: "Certifié AME" },
+  { name: "Dr. Kenji Nakamura", spec: "Médecine esthétique faciale", exp: "14 ans", bio: "Formé à l'Académie de médecine esthétique de " + (clientCity(sessionData) ?? "Paris") + ". Spécialiste des techniques d'injection ultra-précises et de la morphologie faciale.", badge: "Certifié AME" },
   { name: "Dr. Sophie Bellamy", spec: "Laser & Régénération cutanée", exp: "9 ans", bio: "Docteure en dermatologie, IDRM " + (clientCity(sessionData) ?? "Lausanne") + ". Experte des protocoles laser CO₂ et PRP pour les cicatrices et le vieillissement cutané.", badge: "Dermatologie" },
   { name: "Dr. Malik Osei", spec: "Corps & Médecine anti-âge", exp: "11 ans", bio: "Médecin du sport reconverti en esthétique corporelle. Approche globale alliant nutrition, hormonal et intervention pour des résultats durables.", badge: "Anti-âge" },
 ];
@@ -124,22 +124,33 @@ export default function CypherClinicPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
 
   sessionData = session;
+  MEDECINS_DEMO = MEDECINS_DEMO_LIVE();
+  HERO_VIEWS_DEMO = HERO_VIEWS_DEMO_LIVE();
 
   memoriserSession(sessionData);
 
   rafraichirPartage();
   c = session?.generatedContent;
-  HERO_VIEWS_DEMO = HERO_VIEWS_DEMO_LIVE();
-  MEDECINS_DEMO = MEDECINS_DEMO_LIVE();
 
 
   TEMOIGNAGES_DEMO = resolveList(
@@ -193,7 +204,7 @@ return (
             </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#8A8278] text-base md:text-lg max-w-xl mb-6 md:mb-12 leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="text-[#8A8278] text-base md:text-lg max-w-xl mb-6 md:mb-12 leading-relaxed">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Une harmonie mesurée entre rigueur scientifique et vision artistique du visage. Nos protocoles de pointe respectent votre morphologie naturelle pour des résultats invisibles et durables.
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-3 md:gap-5">
@@ -280,7 +291,7 @@ return (
                   Chez Cypher Clinic, nous rejetons l'idée de beauté standardisée. Chaque visage est un code unique que nous lisons avec précision avant d'intervenir. Notre protocole d'analyse morphologique en 14 points est réalisé par un médecin qualifié — jamais une esthéticienne.
                 </>}</p>
                 <p className="text-[#8A8278] leading-relaxed mb-10 text-base">
-                  Nos médecins sont formés dans les instituts de référence mondiale (Académie de médecine esthétique de {clientCity({ formData: fd }) ?? "Paris"}, IDRM {clientCity(sessionData) ?? "Lausanne"}). Chaque acte est documenté photographiquement avant et après pour un suivi rigoureux de votre évolution.
+                  Nos médecins sont formés dans les instituts de référence mondiale (Académie de médecine esthétique de {clientCity(sessionData) ?? "Paris"}, IDRM {clientCity(sessionData) ?? "Lausanne"}). Chaque acte est documenté photographiquement avant et après pour un suivi rigoureux de votre évolution.
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 border-t border-[#2A2820] pt-10">
                   {[{ v: "+2400", l: "Patients traités" }, { v: "14", l: "Points d'analyse" }, { v: "9 ans", l: "D'expertise" }].map((s, i) => (
@@ -371,8 +382,8 @@ return (
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-84"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "Cypher Clinic"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>
   );

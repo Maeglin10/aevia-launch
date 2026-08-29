@@ -33,7 +33,8 @@ import {
 } from "lucide-react"
 import {
   clientCity,
-  clientEmail,
+  clientInstagram,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -42,6 +43,7 @@ import {
   clientTagline,
   clientText,
   clientWorks,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 let sessionData: any = null;
@@ -284,7 +286,10 @@ const FIELD_NOTES = [
   },
 ]
 
-const PROCESS_STEPS = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function PROCESS_STEPS_LIVE() {
+  return [
   {
     n: "01",
     title: "Planification",
@@ -307,9 +312,11 @@ const PROCESS_STEPS = [
     n: "04",
     title: "Impression",
     icon: Star,
-    desc: "Chaque tirage est produit en atelier partenaire, contrôlé à la colorimétrie calibrée. Papiers archivaux Hahnemühle, encres pigmentaires longue durée. Un tirage Terra est fait pour durer cent ans.",
+    desc: `Chaque tirage est produit en atelier partenaire, contrôlé à la colorimétrie calibrée. Papiers archivaux Hahnemühle, encres pigmentaires longue durée. Un tirage ${clientName(sessionData) ?? "Terra"} est fait pour durer cent ans.`,
   },
-]
+];
+}
+let PROCESS_STEPS = PROCESS_STEPS_LIVE();
 
 /* ==========================================================================
    COMPONENTS
@@ -592,17 +599,36 @@ export default function Impact114Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
 
 
   sessionData = session;
+
+
   c = session?.generatedContent;
+  PROCESS_STEPS = PROCESS_STEPS_LIVE();
+  /* La méthode du client remplace les étapes de la démonstration. */
+  PROCESS_STEPS = resolveList(
+    fusionnerEtapes(PROCESS_STEPS, clientMethode(sessionData)),
+    PROCESS_STEPS,
+  );
   COLLECTIONS_DEMO = COLLECTIONS_DEMO_LIVE();
   SLIDES_DEMO_SOURCE = SLIDES_DEMO_SOURCE_LIVE();
 
@@ -624,6 +650,10 @@ export default function Impact114Page() {
       value: s.value,
 
       label: s.label,
+
+      /* Le chiffre est celui du client : l'unité de la démonstration ne le suit pas. */
+
+      suffix: "",
 
     })),
 
@@ -730,8 +760,8 @@ export default function Impact114Page() {
                 <span
                   className="text-lg md:text-2xl tracking-[0.15em] text-[var(--brand,#2d1b0e)]"
                   style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 500 }}
-                >{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
-                  TERRA
+                >{/* NOM_LOGO */ clientName(sessionData) ?? (<>
+                  {clientName(sessionData) ?? "Terra"}
                 </>)}</span>
               </>
             )}
@@ -1153,9 +1183,9 @@ export default function Impact114Page() {
 
               <div className="flex gap-6 flex-wrap">
                 {[
-                  { icon: Instagram, label: "@terra.moreau" },
+                  { icon: Instagram, label: "@" + (clientInstagram(sessionData) ?? "terra.moreau") },
                   { icon: Globe, label: "terra-photo.com" },
-                  { icon: Mail, label: (clientEmail(sessionData) ?? fd?.email ?? "contact@terra-photo.com") },
+                  { icon: Mail, label: (fd?.email ?? "contact@terra-photo.com") },
                 ].map((item) => {
                   const Icon = item.icon
                   return (
@@ -1365,7 +1395,7 @@ export default function Impact114Page() {
             >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
               Rejoignez la
               <br />
-              <span style={{ fontStyle: "italic" }}>Communauté Terra</span>
+              <span style={{ fontStyle: "italic" }}>Communauté {clientName(sessionData) ?? "Terra"}</span>
             </>)}</h2>
             <p
               className="text-[#8b7355] text-base leading-relaxed mb-10 max-w-md mx-auto"
@@ -1414,7 +1444,7 @@ export default function Impact114Page() {
                     className="text-[#3d5a3e] font-semibold text-lg"
                     style={{ fontFamily: "'Playfair Display', serif" }}
                   >
-                    Bienvenue dans la communauté Terra.
+                    Bienvenue dans la communauté {clientName(sessionData) ?? "Terra"}.
                   </p>
                   <p
                     className="text-[#8b7355] text-sm"
@@ -1461,13 +1491,13 @@ export default function Impact114Page() {
               className="text-[#8b7355] text-base leading-relaxed mb-12 max-w-md"
               style={{ fontFamily: "'Source Serif 4', serif" }}
             >
-              Pour les demandes de presse, d'exposition, de collaboration éditoriale ou d'acquisition de collections complètes — contactez l'atelier Terra directement.
+              Pour les demandes de presse, d'exposition, de collaboration éditoriale ou d'acquisition de collections complètes — contactez l'atelier {clientName(sessionData) ?? "Terra"} directement.
             </p>
 
             <div className="space-y-5">
               {[
-                { icon: Mail, label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "contact@terra-photo.com") },
-                { icon: Instagram, label: "Instagram", value: "@terra.moreau" },
+                { icon: Mail, label: "Email", value: (fd?.email ?? "contact@terra-photo.com") },
+                { icon: Instagram, label: "Instagram", value: "@" + (clientInstagram(sessionData) ?? "terra.moreau") },
                 { icon: Globe, label: "Web", value: "terra-photo.com" },
                 { icon: MapPin, label: "Studio", value: (clientCity(sessionData) ?? "Paris") + ", France" },
               ].map((item) => {
@@ -1598,7 +1628,7 @@ export default function Impact114Page() {
               className="text-xl tracking-[0.15em] text-[var(--brand,#2d1b0e)]/50"
               style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic" }}
             >
-              TERRA
+              {clientName(sessionData) ?? "Terra"}
             </span>
           </div>
 
@@ -1618,7 +1648,7 @@ export default function Impact114Page() {
             className="text-xs text-[#8b7355]/40"
             style={{ fontFamily: "'Source Serif 4', serif" }}
           >
-            © 2026 {clientName(sessionData) ?? "Terra"} · Julien Moreau Photography. Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2026 {clientName(sessionData) ?? "Terra"} · Julien Moreau Photography. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
         </div>
       </footer>

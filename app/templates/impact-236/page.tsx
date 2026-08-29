@@ -21,17 +21,18 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientTrade,
-  clientSiret,
-  clientName,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientName,
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientTagline,
   clientText,
+  clientTrade,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1025,7 +1026,11 @@ function WorkSequence() {
         }}
       >
         {/* Images layer */}
-        {PHASES.map((p, i) => (
+        {resolveList(
+            /* Les chantiers du client remplacent ceux de la démonstration. */
+            clientWorks(sessionData)?.map((o: any, i: number) => ({ ...PHASES[i % PHASES.length], caption: o.title, img: o.imageUrl || PHASES[i % PHASES.length].img })),
+            PHASES,
+          ).map((p, i) => (
           <PhaseImage
             key={p.id}
             phase={p}
@@ -1060,7 +1065,11 @@ function WorkSequence() {
 
         {/* Captions */}
         <div style={{ position: 'absolute', inset: 0, zIndex: 2 }}>
-          {PHASES.map((p, i) => (
+          {resolveList(
+            /* Les chantiers du client remplacent ceux de la démonstration. */
+            clientWorks(sessionData)?.map((o: any, i: number) => ({ ...PHASES[i % PHASES.length], caption: o.title, img: o.imageUrl || PHASES[i % PHASES.length].img })),
+            PHASES,
+          ).map((p, i) => (
             <PhaseCaption
               key={p.id}
               phase={p}
@@ -2161,10 +2170,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;

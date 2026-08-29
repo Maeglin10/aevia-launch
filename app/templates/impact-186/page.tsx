@@ -35,7 +35,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   DR. LÉA FONTAINE — Cabinet dentaire moderne ({clientCity(sessionData) ?? "Nantes"})
+   {clientName(sessionData) ?? "Dr. Léa Fontaine"} — Cabinet dentaire moderne ({clientCity(sessionData) ?? "Nantes"})
    Palette : blanc pur / bleu confiance #1d6fa4 / bleu clair #e8f4fd / anthracite #1a2332
    Fonts : Nunito (moderne, humain, arrondi) + Inter
    Style : médical moderne, rassurant, lumineux, accessible
@@ -259,10 +259,21 @@ export default function DrFontainePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -374,7 +385,7 @@ export default function DrFontainePage() {
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.72 }}
-            className="max-w-md text-sm text-white/35 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            className="max-w-md text-sm text-white/35 leading-relaxed mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Cabinet dentaire moderne à {clientCity(sessionData) ?? "Nantes"}. Soins conservateurs, implants, esthétique et orthodontie. Équipement numérique dernière génération. Prise de RDV en ligne 24h/24.
           </>}</motion.p>
 
@@ -476,7 +487,7 @@ export default function DrFontainePage() {
               sp: m.role ?? m.specialty ?? "",
               f: m.bio ?? m.credentials ?? m.specialty ?? "",
             })), [
-              { nom: "Dr. Léa Fontaine", sp: "Omnipratique & Esthétique", f: "Diplômée Faculté de " + (clientCity(sessionData) ?? "Nantes") + " 2006, DU Implantologie Tours 2010" },
+              { nom: `${clientName(sessionData) ?? "Dr. Léa Fontaine"}`, sp: "Omnipratique & Esthétique", f: "Diplômée Faculté de " + (clientCity(sessionData) ?? "Nantes") + " 2006, DU Implantologie Tours 2010" },
               { nom: "Dr. Antoine Merle", sp: "Orthodontie & Invisalign®", f: "Spécialiste orthodontie, formateur Invisalign® Provider certifié" },
               { nom: "Sophie C.", sp: "Assistante dentaire", f: "10 ans d'expérience, spécialisée chirurgie implantaire et accueil patient" },
             ] as any[]).map((p: any, i: number) => (
@@ -584,7 +595,7 @@ export default function DrFontainePage() {
       <footer className="bg-[#111827] pt-20 pb-10 px-6">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="font-bold text-white mb-1">Dr. Léa Fontaine</div>
+            <div className="font-bold text-white mb-1">{clientName(sessionData) ?? "Dr. Léa Fontaine"}</div>
             <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#1d6fa4)]/60 mb-5">{clientTrade(sessionData) ?? "Chirurgien-dentiste"} · {clientCity(sessionData) ?? "Nantes"}</div>
             <p className="text-white/20 text-sm leading-relaxed">Cabinet dentaire moderne. Omnipratique, implants, esthétique, orthodontie. Urgences tous les matins.</p>
           </div>

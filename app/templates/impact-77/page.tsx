@@ -36,7 +36,7 @@ let fd: any = null;
 // le client pouvait les saisir, le thème ne les lisait pas.
 function AVIS_INLINE_SOURCE_LIVE() {
   return [
-  { quote: "Luca's ability to extract the essential from a scene is unlike anything we have encountered. His Vogue campaign doubled our newsstand numbers.", name: "Claire Deschamps", role: "Art Director, Vogue " + (clientCity({ formData: fd }) ?? "Paris") },
+  { quote: "Luca's ability to extract the essential from a scene is unlike anything we have encountered. His Vogue campaign doubled our newsstand numbers.", name: "Claire Deschamps", role: "Art Director, Vogue " + (clientCity(sessionData) ?? "Paris") },
               { quote: "Working with Luca on the Wallpaper* architecture series was a revelation. He sees in geometry where others see in light.", name: "Tony Chambers", role: "Editorial Director, Wallpaper*" },
               { quote: "The Dior campaign we produced together remains the most-shared in our history. His eye for temporal precision is extraordinary.", name: "Olivier Bialobos", role: "CMO, Dior Parfums" }
 ];
@@ -210,23 +210,34 @@ export default function HorologsLuxePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
 
   sessionData = session;
+  GRID_PHOTOS_DEMO = GRID_PHOTOS_DEMO_LIVE();
+  AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
 
   memoriserSession(sessionData);
 
   rafraichirPartage();
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  GRID_PHOTOS_DEMO = GRID_PHOTOS_DEMO_LIVE();
-  AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
 
 
 
@@ -332,7 +343,7 @@ export default function HorologsLuxePage() {
             transition={{ duration: 0.9, delay: 0.78, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-xl text-base text-white/30 leading-relaxed font-light mb-12 uppercase tracking-widest italic"
             style={{ fontSize: "0.82rem" }}
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Hand-assembled manufacture movements for the discerning
             collector. Swiss precision, exceptional finishing — calibrated
             to perfection.
@@ -580,7 +591,7 @@ export default function HorologsLuxePage() {
               <div className="divide-y divide-white/5">
                 {[
                   { year: "2025", title: "Duration & Void", venue: "Foam Amsterdam" },
-                  { year: "2024", title: "Calibration Series", venue: `Galerie Perrotin, ${clientCity({ formData: fd }) ?? "Paris"}` },
+                  { year: "2024", title: "Calibration Series", venue: `Galerie Perrotin, ${clientCity(sessionData) ?? "Paris"}` },
                   { year: "2024", title: "Meridian Light", venue: "ICP New York" },
                   { year: "2023", title: "Alpine Grammar", venue: "C/O Berlin" },
                   { year: "2022", title: "The Silent Hour", venue: "Musée de l'Élysée, Lausanne" },

@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { tr } from "@/lib/templates/uiStrings";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
@@ -32,11 +33,11 @@ import {
 } from "lucide-react";
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -46,6 +47,7 @@ import {
   clientTeam,
   clientText,
   clientWorks,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 let bp: any = null;
 let sessionData: any = null;
@@ -175,7 +177,7 @@ function PROJECTS_DEMO_LIVE() {
 let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
 let PROJECTS = PROJECTS_DEMO;
 
-const PROCESS_STEPS = [
+let PROCESS_STEPS = [
   {
     number: "01",
     title: "Discover",
@@ -475,7 +477,7 @@ function TEAM_DEMO_LIVE() {
     name: "Léa Fontaine",
     role: "Creative Director",
     focus: "Art direction, Branding",
-    bio: "Léa drives the studio's creative vision. Fifteen years of experience between " + (clientCity({ formData: fd }) ?? "Paris") + " and London, serving brands that want to leave a mark.",
+    bio: "Léa drives the studio's creative vision. Fifteen years of experience between " + (clientCity(sessionData) ?? "Paris") + " and London, serving brands that want to leave a mark.",
   },
   {
     name: "Thomas Reyes",
@@ -809,10 +811,21 @@ export default function ImpactAgencyTemplate() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -821,6 +834,11 @@ export default function ImpactAgencyTemplate() {
 
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  PROCESS_STEPS = resolveList(
+    fusionnerEtapes(PROCESS_STEPS, clientMethode(sessionData)),
+    PROCESS_STEPS,
+  );
   c = session?.generatedContent;
   BLOG_POSTS_DEMO = BLOG_POSTS_DEMO_LIVE();
   WORK_DETAILS_DEMO = WORK_DETAILS_DEMO_LIVE();
@@ -1289,7 +1307,7 @@ return (
               maxWidth: 600,
               margin: "0 auto 56px",
             }}
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Full-service creative studio crafting immersive digital experiences,
             brand identities, and high-performance products for ambitious brands.
           </>}</motion.p>
@@ -2001,7 +2019,7 @@ return (
               }}
             >
               <a
-                href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "hello@impact.studio"}`}
+                href={`mailto:${fd?.email ?? "hello@impact.studio"}`}
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
@@ -2022,7 +2040,7 @@ return (
                 onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.82")}
                 onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
               >
-                <Mail size={16} /> {clientEmail(sessionData) ?? fd?.email ?? "hello@impact.studio"}
+                <Mail size={16} /> {fd?.email ?? "hello@impact.studio"}
               </a>
               <button
                 onClick={() => scrollTo("contact")}
@@ -2067,9 +2085,9 @@ return (
               }}
             >
               {[
-                { icon: <Mail size={14} />, value: (clientEmail(sessionData) ?? fd?.email ?? "hello@impact.studio") },
+                { icon: <Mail size={14} />, value: (fd?.email ?? "hello@impact.studio") },
                 { icon: <Phone size={14} />, value: (clientPhone(sessionData) ?? "+33 1 42 86 00 00") },
-                { icon: <MapPin size={14} />, value: (clientCity({ formData: fd }) ?? "Paris") + ", France" },
+                { icon: <MapPin size={14} />, value: (clientCity(sessionData) ?? "Paris") + ", France" },
               ].map((item, i) => (
                 <div
                   key={i}
@@ -2288,7 +2306,7 @@ function Footer({ goTo }: { goTo: (p: AgencyPage) => void }) {
           <div style={colTitle}>Connect</div>
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <a
-              href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}`}
+              href={`mailto:${fd?.email ?? "contact@exemple.fr"}`}
               style={{
                 fontFamily: FONT_BODY,
                 fontSize: "0.85rem",
@@ -2298,7 +2316,7 @@ function Footer({ goTo }: { goTo: (p: AgencyPage) => void }) {
               }}
               onMouseEnter={(e) => (e.currentTarget.style.color = T.text)}
               onMouseLeave={(e) => (e.currentTarget.style.color = T.muted)}
-            >{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</a>
+            >{fd?.email ?? "contact@exemple.fr"}</a>
             <a
               href="https://www.linkedin.com"
               target="_blank"
@@ -3994,8 +4012,8 @@ function ContactPage() {
           {/* Info */}
           <div>
             {/* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ label: h.day, value: h.hours })), [
-              { icon: <Mail size={18} />, label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr") },
-              { icon: <MapPin size={18} />, label: "Studio", value: (clientCity({ formData: fd }) ?? "Paris") + ", France" },
+              { icon: <Mail size={18} />, label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
+              { icon: <MapPin size={18} />, label: "Studio", value: (clientCity(sessionData) ?? "Paris") + ", France" },
               {
                 icon: <Phone size={18} />,
                 label: "Hours",
@@ -4228,16 +4246,16 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
               <span style={strong}>Aevia WS</span> — sole proprietor (auto-entrepreneur).
             </p>
             <p style={para}>
-              Publication director: <span style={strong}>Valentin Milliand</span>.
+              Publication director: <span style={strong}><EditeurDuSite /></span>.
             </p>
             <p style={para}>
-              SIREN: <span style={strong}><LegalIdentity /></span> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}.
+              SIREN: <span style={strong}><LegalIdentity /></span> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}.
             </p>
             <p style={para}>
-              Contact: <span style={strong}>{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</span>
+              Contact: <span style={strong}>{fd?.email ?? "contact@exemple.fr"}</span>
             </p>
             <p style={para}>
-              Registered office address available on request at {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}.
+              Registered office address available on request at {fd?.email ?? "contact@exemple.fr"}.
             </p>
 
             <h2 style={sectionTitle}>VAT</h2>
@@ -4279,7 +4297,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
           <p style={para}>
             The controller of personal data is{" "}
             <span style={strong}>Aevia WS</span>, the site publisher. For any question,
-            write to <span style={strong}>{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</span>.
+            write to <span style={strong}>{fd?.email ?? "contact@exemple.fr"}</span>.
           </p>
 
           <h2 style={sectionTitle}>Data collected</h2>
@@ -4307,7 +4325,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
           <p style={para}>
             Under the GDPR, you have the right to access, rectify, erase, port, and object
             to the processing of your data. To exercise these rights, write to
-            {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}.
+            {fd?.email ?? "contact@exemple.fr"}.
           </p>
 
           <h2 style={sectionTitle}>Cookies</h2>
@@ -4319,8 +4337,8 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-01"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "Impact Agency"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>
   );

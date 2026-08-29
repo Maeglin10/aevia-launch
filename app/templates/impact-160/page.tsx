@@ -1,41 +1,37 @@
 "use client";
+import { resolveList } from "@/lib/templates/resolveList";
 // @ts-nocheck
-/*
-  impact-160 — Maison V Lookbook · Rennes. Le data-center brutaliste devient
-  la maison de mode qu'on vendait : même densité monochrome, mêmes filets,
-  mais le registre des nœuds est désormais le vestiaire, les métriques
-  l'atelier, la console un essayage privé.
-  Geste : GhostSolid — la première ligne du titre en contour, la seconde
-  pleine dans l'os ; le monolithe du héros reste un aplomb typographique.
-  Fontes P6 Archivo + Inter · palette #0d0d0f / #e8e4da.
-*/
 
 import React, { useState, useEffect, useRef } from "react"
-import {
-  motion,
-  AnimatePresence,
-  useScroll,
-  useTransform,
-  useInView,
+import { 
+  motion, 
+  AnimatePresence, 
+  useScroll, 
+  useTransform, 
+  useInView, 
+  useSpring 
 } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import {
-  Scissors, Ruler, Feather, ChevronRight,
-  ArrowRight, ExternalLink, Phone, Mail, MapPin, Hash
+import { 
+  Server, Cpu, Database, Activity, 
+  ShieldCheck, Globe, Zap, HardDrive, 
+  Terminal, Lock, Key, Eye, 
+  Activity as ActivityIcon, Settings, Power, 
+  Info, AlertTriangle, ChevronRight, 
+  ArrowRight, Share2, Maximize2, 
+  Download, ExternalLink, Archive, 
+  Hash, Wifi, BarChart3, Microscope, 
+  Fingerprint, Scan, Brain, Layers, 
+  Frame, Box, Target, Orbit, 
+  Atom, Satellite, Milestone, Gauge, 
+  Timer, Cloud, Signal, Search,
+  Navigation, Code, Command, Grid
 } from "lucide-react"
-import { GhostSolid } from "@/lib/templates/hero-kit-2";
-import { LegalIdentity } from "@/app/templates/LegalIdentity";
-import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
-  clientCodePostalVille,
-  clientEmail,
-  clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
-  clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -46,56 +42,61 @@ let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
+// Global state variables for subpage compatibility
 let fd: any = null;
 let c: any = null;
 let brand: any = null;
 
 /* ==========================================================================
-   LE VESTIAIRE — la démonstration de la maison
+   THE MONOLITH DATASET (ULTRA DENSITY)
    ========================================================================== */
 
-const VESTIAIRE_DEMO = [
+const DATA_CENTERS = [
   {
-    id: "ligne-vestiaire",
-    name: "Le Vestiaire",
-    matiere: "Laine froide & popeline",
-    coupe: "Droite, épaule construite",
-    serie: "Série de 40",
-    prix: "180 — 520 €",
-    desc: "Tailleur, chemise, pantalon : la base raisonnée qui se porte dix ans.",
-    statut: "En boutique"
+    id: "node-arctic-01",
+    name: "Frost-Byte Bunker",
+    location: "Svalbard, Norway",
+    capacity: "420 PB",
+    latency: "18ms",
+    cooling: "Passive Arctic Air",
+    status: "Nominal"
   },
   {
-    id: "ligne-maille",
-    name: "La Maille",
-    matiere: "Mérinos & mohair français",
-    coupe: "Ample, finitions main",
-    serie: "Série de 25",
-    prix: "120 — 340 €",
-    desc: "Tricotée à plat, remaillée main — la pièce qui ne se déforme pas.",
-    statut: "En boutique"
+    id: "node-sea-04",
+    name: "Abyssal Grid",
+    location: "North Atlantic Shelf",
+    capacity: "1.2 EB",
+    latency: "24ms",
+    cooling: "Deep Water Siphon",
+    status: "Optimal"
   },
   {
-    id: "ligne-editions",
-    name: "Les Éditions",
-    matiere: "Fins de rouleaux choisies",
-    coupe: "Pièce unique numérotée",
-    serie: "Série de 8",
-    prix: "Sur demande",
-    desc: "Huit exemplaires par saison, numérotés au fer — jamais réédités.",
-    statut: "Sur rendez-vous"
+    id: "node-desert-09",
+    name: "Solar Flare Array",
+    location: "Sahara, Morocco",
+    capacity: "850 PB",
+    latency: "32ms",
+    cooling: "Liquid Nitrogen Loop",
+    status: "Syncing"
   }
 ]
 
-const ATELIER_DEMO = [
-  { label: "Pièces par collection", value: "68", trend: "Pas une de plus" },
-  { label: "Part façonnée en France", value: "92 %", trend: "Ateliers partenaires" },
-  { label: "Retouches offertes", value: "2 ans", trend: "Sur chaque pièce" },
-  { label: "Réassort", value: "0", trend: "Série close" }
+const SYSTEM_METRICS_SOURCE = [
+  { label: "Global Throughput", value: "4.2 Tbps", trend: "Stable" },
+  { label: "Storage Fill", value: "68.4%", trend: "Expanding" },
+  { label: "Request Velocity", value: "1.2M req/s", trend: "High" },
+  { label: "Security Handshake", value: "Verified", trend: "Secure" }
+]
+let SYSTEM_METRICS = SYSTEM_METRICS_SOURCE;
+
+const REDUNDANCY_LOGS = [
+  { timestamp: "12:04:42", shard: "S-142", node: "EU-WEST", status: "SYNCED" },
+  { timestamp: "12:04:45", shard: "S-143", node: "US-EAST", status: "REPLICATING" },
+  { timestamp: "12:04:48", shard: "S-144", node: "AS-SOUTH", status: "VERIFIED" }
 ]
 
 /* ==========================================================================
-   COMPOSANTS TECHNIQUES
+   TECHNICAL COMPONENTS
    ========================================================================== */
 
 function Reveal({ children, delay = 0, y = 40, x = 0 }: { children: React.ReactNode, delay?: number, y?: number, x?: number }) {
@@ -122,17 +123,36 @@ function GridBackground() {
   )
 }
 
+function BrutalistBlock({ title, value, icon: Icon }: { title: string, value: string, icon: any }) {
+  return (
+    <div className="p-12 border border-white/5 bg-white/[0.02] flex flex-col justify-between group hover:bg-white/[0.05] transition-all cursor-crosshair relative overflow-hidden">
+       <div className="absolute top-0 right-0 p-2 text-white/5 group-hover:text-white/10 transition-colors">
+          <Icon className="w-24 h-24" />
+       </div>
+       <div className="relative z-10">
+          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 mb-4 block italic">{title}</span>
+          <div className="text-4xl font-black tracking-tighter uppercase italic text-white group-hover:translate-x-2 transition-transform">
+             {value}
+          </div>
+       </div>
+       <div className="relative z-10 mt-12 flex items-center gap-4 text-[10px] font-bold text-white/10 uppercase tracking-widest italic">
+          <Activity className="w-3 h-3 text-cyan-400" /> System_Nominal_Check_Passed
+       </div>
+    </div>
+  )
+}
+
 /* ==========================================
-   MAISON V — INTERFACE PRINCIPALE
+   THE MONOLITH - MAIN INTERFACE
    ========================================== */
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
 // photo when the client did not upload one for that slot.
 function photo(i: number, fallback: string): string {
-  return fd?.photoUrls?.[i] || clientPhotos(sessionData)[i] || fallback;
+  return fd?.photoUrls?.[i] || fallback;
 }
-export default function MaisonVLookbook() {
+export default function MonolithPremium() {
   const [session, setSession] = useState<{
     formData?: {
       businessName?: string; businessType?: string; tagline?: string;
@@ -158,75 +178,63 @@ export default function MaisonVLookbook() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   sessionData = session;
   c = session?.generatedContent;
 
-  const VESTIAIRE = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({
-      ...VESTIAIRE_DEMO[i % VESTIAIRE_DEMO.length],
-      name: s.title,
-      desc: s.desc || VESTIAIRE_DEMO[i % VESTIAIRE_DEMO.length].desc,
-      ...(s.price ? { prix: s.price } : {}),
-    })),
-    VESTIAIRE_DEMO,
-  );
-  const ATELIER = resolveList(
-    clientStats(sessionData)?.map((s: any, i: number) => ({ ...ATELIER_DEMO[i % ATELIER_DEMO.length], value: s.value, label: s.label })),
-    ATELIER_DEMO,
-  );
-  const AVIS = resolveList(
-    clientReviews(sessionData)?.slice(0, 3).map((r: any) => ({ text: r.text, author: r.author, detail: r.detail || undefined })),
-    [
-      { text: "Une veste essayée un samedi, reprise aux épaules, rendue le jeudi. Elle tombe comme un gant depuis trois hivers.", author: "Élise R.", detail: "le vestiaire" },
-      { text: "Le pull en série de vingt-cinq : personne d'autre ne l'a, et il n'a pas bougé d'une maille.", author: "Camille G.", detail: "la maille" },
-      { text: "La pièce numérotée 4/8 de la saison dernière. On m'arrête encore dans la rue pour elle.", author: "Anna S.", detail: "les éditions" },
-    ],
+  SYSTEM_METRICS = resolveList(
+    clientStats(session)?.map((s: any, i: number) => ({ ...SYSTEM_METRICS_SOURCE[i % SYSTEM_METRICS_SOURCE.length], value: s.value, label: s.label })),
+    SYSTEM_METRICS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
-  const [isCabineOpen, setIsCabineOpen] = useState(false)
+  const [activeNode, setActiveNode] = useState(0)
+  const [isTerminalOpen, setIsTerminalOpen] = useState(false)
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll({ target: containerRef })
 
-  // Effets brutalistes au défilement — l'aplomb grandit, le texte glisse.
+  // Brutalist Scroll Effects
   const monolithScale = useTransform(scrollYProgress, [0, 0.3], [1, 1.5])
   const monolithRotate = useTransform(scrollYProgress, [0, 1], [0, 45])
   const heroOpacity = useTransform(scrollYProgress, [0, 0.2], [1, 0])
   const textX = useTransform(scrollYProgress, [0, 0.5], [0, -100])
 
-  const ville = clientCity(sessionData) ?? "Rennes";
-  const tel = clientPhone(sessionData) ?? fd?.phone ?? "02 99 45 12 08";
-  const telHref = `tel:${tel.replace(/\s/g, "")}`;
-  const mail = clientEmail(sessionData) ?? fd?.email ?? "bonjour@maison-v.fr";
-
+  
+  // Dynamic Services & Testimonials Mutation for Session Data
+  
 return (
-    <div ref={containerRef} className="i160 bg-[#0d0d0f] text-[#e8e4da] selection:bg-[#e8e4da] selection:text-black min-h-dvh overflow-x-clip" style={{ fontFamily: "'Inter', ui-sans-serif, system-ui, sans-serif" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,500;0,700;0,800;0,900;1,700;1,900&family=Inter:wght@400;500;600;700&display=swap');
-        .i160 h1, .i160 h2, .i160 h3, .i160 h4, .i160 h5, .i160 .titre { font-family: 'Archivo', Inter, sans-serif; }
-      `}</style>
-
-      {/* CADRE HUD — les coins du lookbook */}
-      <HUD_Overlay />
+    <div ref={containerRef} className="bg-[#050505] text-[#e0e2e5] font-mono selection:bg-white selection:text-black min-h-dvh overflow-x-hidden">
+      
+      {/* GLOBAL HUD OVERLAY */}
+      <HUD_Overlay isTerminalOpen={isTerminalOpen} />
 
       <main>
         {/* ==========================================
-            1. LE FRONTISPICE (HERO) — GhostSolid
+            1. BRUTALIST IGNITION (HERO)
             ========================================== */}
         <section id="hero" className="relative h-dvh flex flex-col justify-center items-center px-8 md:px-24 overflow-hidden pt-20">
           <GridBackground />
-
-          {/* L'aplomb — un pan de tissu dressé, dessiné, pas photographié. */}
-          <motion.div style={{ scale: monolithScale, rotate: monolithRotate, opacity: heroOpacity }} className="absolute z-0 pointer-events-none" aria-hidden>
-             <div className="w-[60vw] h-[80vh] bg-gradient-to-br from-[#1a1a1c] to-black border border-white/5 shadow-2xl relative">
-                <div className="absolute inset-0 opacity-15" style={{ backgroundImage: "repeating-linear-gradient(0deg, transparent 0 7px, rgba(232,228,218,0.05) 7px 8px)" }} />
+          
+          <motion.div style={{ scale: monolithScale, rotate: monolithRotate, opacity: heroOpacity }} className="absolute z-0 pointer-events-none">
+             <div className="w-[60vw] h-[80vh] bg-gradient-to-br from-[#1a1a1a] to-black border border-white/5 shadow-2xl relative">
+                <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
                 <div className="absolute top-1/4 left-0 w-full h-px bg-white/5" />
                 <div className="absolute top-1/2 left-0 w-full h-px bg-white/5" />
                 <div className="absolute top-3/4 left-0 w-full h-px bg-white/5" />
@@ -235,27 +243,22 @@ return (
 
           <div className="relative z-10 text-center max-w-7xl">
              <Reveal>
-                <motion.h1 style={{ x: textX }} className="text-7xl md:text-[15vw] font-black tracking-tighter uppercase mb-16 leading-[0.8] italic">
-                  <GhostSolid
-                    ghost={clientHeroLine(sessionData, 0, 2, 9) ?? "Maison"}
-                    solid={clientHeroLine(sessionData, 1, 2, 9) ?? "V."}
-                    accent="#e8e4da"
-                  />
-                </motion.h1>
+                <motion.h1 style={{ x: textX }} className="text-7xl md:text-[16vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic mix-blend-difference">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "The"}<br/> <span className="text-white/5 italic">{clientHeroLine(sessionData, 1, 2, 9) ?? "Monolith."}</span>
+                </>}</motion.h1>
                 <div className="grid md:grid-cols-3 gap-12 md:gap-24 text-left max-w-6xl mx-auto border-t border-white/5 pt-16">
                    <div className="space-y-6">
-                      <h3 className="text-[10px] font-black uppercase tracking-[0.5em] text-white/60">{clientEyebrow(sessionData) ?? `Prêt-à-porter · ${ville}`}</h3>
-                      <p className="text-[11px] text-white/25 leading-loose uppercase tracking-[0.4em] font-bold italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-                         Vestiaire raisonné, séries courtes, atelier en ville. Les pièces sont numérotées, jamais rééditées.
+                      <h3 className="text-[10px] font-black uppercase tracking-[0.5em] text-white/60">Core Directive</h3>
+                      <p className="text-[11px] text-white/20 leading-loose uppercase tracking-[0.4em] font-bold italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
+                         Architecture brutale pour une infrastructure de données immuable. Nous forgeons le stockage de l'éternité numérique.
                       </>}</p>
                    </div>
                    <div className="flex flex-col justify-end">
-                      <span className="text-6xl font-black tracking-tighter italic text-white/40 leading-none mb-2 titre">3 / an</span>
-                      <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20">Collections, série close</span>
+                      <span className="text-6xl font-black tracking-tighter italic text-white/40 leading-none mb-2">99.9%</span>
+                      <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20">Uptime Protocol</span>
                    </div>
                    <div className="flex flex-col justify-end">
-                      <span className="text-6xl font-black tracking-tighter italic text-white/40 leading-none mb-2 titre">N° 1—68</span>
-                      <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20">Pièces numérotées au fer</span>
+                      <span className="text-6xl font-black tracking-tighter italic text-white/40 leading-none mb-2">∞_TB</span>
+                      <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20">Expandable Storage</span>
                    </div>
                 </div>
              </Reveal>
@@ -263,72 +266,72 @@ return (
 
           <div className="absolute bottom-6 md:bottom-12 left-6 md:left-12 right-6 md:right-12 flex flex-col md:flex-row justify-between items-stretch md:items-end gap-4">
              <div className="flex flex-col sm:flex-row gap-4 md:gap-12">
-                <Link href="#vestiaire" className="px-6 md:px-12 py-4 md:py-6 bg-[#e8e4da] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all shadow-2xl flex items-center justify-center gap-4 italic">
-                   <Hash className="w-4 h-4" /> Voir le vestiaire
-                </Link>
+                <button className="px-6 md:px-12 py-4 md:py-6 bg-white text-black text-[10px] font-black uppercase tracking-widest hover:bg-white/80 transition-all shadow-2xl flex items-center justify-center gap-4 italic">
+                   <Target className="w-4 h-4" /> Provision Node
+                </button>
                 <button
-                  onClick={() => setIsCabineOpen(!isCabineOpen)}
-                  className="px-6 md:px-12 py-4 md:py-6 border border-white/10 text-[#e8e4da] text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center justify-center gap-4 italic"
+                  onClick={() => setIsTerminalOpen(!isTerminalOpen)}
+                  className="px-6 md:px-12 py-4 md:py-6 border border-white/10 text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all flex items-center justify-center gap-4 italic"
                 >
-                   <Ruler className="w-4 h-4" /> Essayage privé
+                   <Terminal className="w-4 h-4" /> Access Console
                 </button>
              </div>
              <div className="text-right hidden md:block">
-                <span className="text-[10px] font-black uppercase tracking-[0.6em] text-white/10 italic">Faire_Défiler_Pour_Ouvrir_Le_Lookbook</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.6em] text-white/10 italic">Scroll_Depth_To_Explore_Sub_Infrastructure</span>
              </div>
           </div>
         </section>
 
         {/* ==========================================
-            2. LE VESTIAIRE (GRILLE BRUTALISTE)
+            2. INFRASTRUCTURE MATRIX (BRUTALIST GRID)
             ========================================== */}
-        <section id="vestiaire" className="py-60 bg-[#0a0a0c] relative border-y border-white/5 overflow-hidden">
+        <section className="py-60 bg-[#080808] relative border-y border-white/5 overflow-hidden">
            <div className="max-w-[1600px] mx-auto px-8 md:px-24">
               <div className="flex flex-col md:flex-row items-end justify-between mb-40 gap-12">
                  <Reveal>
-                    <span className="text-[10px] font-black uppercase tracking-[0.6em] text-white/40 block mb-6 italic underline underline-offset-8 decoration-white/10">Collection // Série close</span>
-                    <h2 className="text-6xl md:text-[10vw] font-black uppercase tracking-tighter italic leading-none text-[#e8e4da]">{/* TEXTE_SECTION */ clientText(sessionData, "vestiaire.titre") ?? (<>Vestiaire.</>)}</h2>
+                    <span className="text-[10px] font-black uppercase tracking-[0.6em] text-white/40 block mb-6 italic underline underline-offset-8 decoration-white/10">Global // Server // Farm</span>
+                    <h2 className="text-6xl md:text-[10vw] font-black uppercase tracking-tighter italic leading-none text-white">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>Registry.</>)}</h2>
                  </Reveal>
                  <div className="text-right">
-                    <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 block mb-4 italic">Trois lignes // Une exigence</span>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">Le poids du tissu, pas du logo</p>
+                    <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 block mb-4 italic">Registry // Infrastructure_Audit</span>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">Le Poids de l'Information</p>
                  </div>
               </div>
 
               <div className="grid md:grid-cols-3 gap-px bg-white/5 border border-white/5 shadow-2xl">
-                 {VESTIAIRE.map((ligne, i) => (
-                   <Reveal key={ligne.id ?? i} delay={i * 0.1}>
-                      <div className="bg-[#0d0d0f] p-12 lg:p-20 flex flex-col h-full hover:bg-white/[0.02] transition-all group border-white/5 border-r last:border-r-0">
+                 {DATA_CENTERS.map((node, i) => (
+                   <Reveal key={node.id} delay={i * 0.1}>
+                      <div className="bg-[#050505] p-20 flex flex-col h-full hover:bg-white/[0.02] transition-all group cursor-crosshair border-white/5 border-r last:border-r-0">
                          <div className="flex justify-between items-start mb-16">
-                            <div className="w-16 h-16 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-[#e8e4da] group-hover:text-black transition-all duration-500">
-                               <Scissors className="w-8 h-8" />
+                            <div className="w-16 h-16 bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:text-black transition-all duration-500">
+                               <Server className="w-8 h-8" />
                             </div>
-                            <span className="px-4 py-2 bg-white/5 text-white/40 text-[10px] font-black uppercase tracking-[0.3em]">{ligne.statut}</span>
+                            <span className="px-4 py-2 bg-white/5 text-white/40 text-[10px] font-black uppercase tracking-[0.3em]">{node.status}</span>
                          </div>
-
-                         <h3 className="text-4xl lg:text-5xl font-black uppercase tracking-tighter mb-8 italic text-[#e8e4da] group-hover:translate-x-4 transition-transform">{ligne.name}</h3>
-                         <p className="text-[11px] font-bold text-white/30 uppercase tracking-[0.2em] leading-loose mb-12">{ligne.desc}</p>
-
+                         
+                         <h3 className="text-5xl font-black uppercase tracking-tighter mb-8 italic text-white group-hover:translate-x-4 transition-transform">{node.name}</h3>
+                         <div className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em] mb-12">{node.location}</div>
+                         
                          <div className="space-y-8 mb-20 border-l border-white/10 pl-8">
-                            <div className="flex justify-between items-center gap-4 text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Matière</span>
-                               <span className="text-[#e8e4da] text-right">{ligne.matiere}</span>
+                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
+                               <span className="text-white/20">Capacity</span>
+                               <span className="text-white group-hover:text-cyan-400 transition-colors">{node.capacity}</span>
                             </div>
-                            <div className="flex justify-between items-center gap-4 text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Coupe</span>
-                               <span className="text-[#e8e4da] text-right">{ligne.coupe}</span>
+                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
+                               <span className="text-white/20">Latency</span>
+                               <span className="text-white group-hover:text-cyan-400 transition-colors">{node.latency}</span>
                             </div>
-                            <div className="flex justify-between items-center gap-4 text-[11px] font-bold uppercase tracking-widest">
-                               <span className="text-white/20">Série</span>
-                               <span className="text-[#e8e4da] text-right">{ligne.serie}</span>
+                            <div className="flex justify-between items-center text-[11px] font-bold uppercase tracking-widest">
+                               <span className="text-white/20">Cooling</span>
+                               <span className="text-white group-hover:text-cyan-400 transition-colors">{node.cooling}</span>
                             </div>
                          </div>
 
-                         <div className="mt-auto pt-10 border-t border-white/5 flex justify-between items-center gap-4">
-                            <span className="text-[10px] font-black text-white/30 uppercase tracking-widest">{ligne.prix}</span>
-                            <Link href="#contact" className="text-[10px] font-black uppercase text-white/40 flex items-center gap-4 group-hover:text-[#e8e4da] transition-all whitespace-nowrap">
-                               En cabine <ChevronRight className="w-5 h-5" />
-                            </Link>
+                         <div className="mt-auto pt-10 border-t border-white/5 flex justify-between items-center">
+                            <span className="text-[10px] font-black text-white/10 uppercase tracking-widest">Ref: {node.id}</span>
+                            <button className="text-[10px] font-black uppercase text-white/40 flex items-center gap-4 group-hover:text-white transition-all">
+                               Node_Audit <ChevronRight className="w-5 h-5" />
+                            </button>
                          </div>
                       </div>
                    </Reveal>
@@ -338,74 +341,74 @@ return (
         </section>
 
         {/* ==========================================
-            3. L'ATELIER (CHIFFRES)
+            3. THROUGHPUT MONITOR (INTERACTIVE DATA)
             ========================================== */}
         <section className="py-60 bg-black relative border-y border-white/5 overflow-hidden">
            <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-24 lg:gap-40 items-center">
+              <div className="grid lg:grid-cols-2 gap-40 items-center">
                  <div>
                     <Reveal>
-                       <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/40 block mb-12 italic underline underline-offset-8 decoration-white/10">Atelier // Méthode</span>
-                       <h2 className="text-7xl md:text-[9vw] font-light italic leading-none text-[#e8e4da] mb-16 uppercase tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "atelier.titre") ?? (<>
-                          Peu, <br/> <span className="not-italic font-black text-white/5 italic">mais juste.</span>
-                       </>)}</h2>
-                       <p className="text-2xl font-light text-white/25 leading-relaxed mb-24 italic uppercase tracking-[0.2em] max-w-xl">{c?.aboutText ?? <>
-                          Chaque série est close le jour où elle est coupée. Pas de réassort, pas de solde — des pièces suivies, retouchées, portées longtemps.
+                       <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/40 block mb-12 italic underline underline-offset-8 decoration-white/10">Throughput // Analysis</span>
+                       <h2 className="text-7xl md:text-[9vw] font-light italic leading-none text-white mb-16 uppercase tracking-tighter">{c?.aboutTitle ?? fd?.businessName ?? <>
+                          The <br/> <span className="not-italic font-black text-white/5 italic">Global_Stream.</span>
+                       </>}</h2>
+                       <p className="text-2xl font-light text-white/20 leading-relaxed mb-24 italic uppercase tracking-[0.2em] max-w-xl">{c?.aboutText ?? <>
+                          Surveillance du flux de données en temps réel. Nos architectures de routage optimisent chaque paquet pour garantir une intégrité absolue, même sous charge extrême.
                        </>}</p>
-                       <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5 mb-8 shadow-2xl">
-                          {ATELIER.map((metric, i) => (
-                            <div key={i} className="p-10 lg:p-16 bg-[#0a0a0c] group hover:bg-white/[0.02] transition-all border-r border-b last:border-r-0 border-white/5">
+                       <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5 mb-24 shadow-2xl">
+                          {SYSTEM_METRICS.map((metric, i) => (
+                            <div key={i} className="p-16 bg-[#0a0a0c] group hover:bg-white/[0.02] transition-all border-r border-b last:border-r-0 border-white/5">
                                <div className="text-[10px] font-black uppercase text-white/20 mb-6 tracking-[0.4em]">{metric.label}</div>
-                               <div className="text-5xl font-black text-[#e8e4da] italic mb-6 tracking-tighter group-hover:translate-x-2 transition-transform titre">{metric.value}</div>
-                               <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.3em] text-white/20 italic">
-                                  <Feather className="w-4 h-4 text-[#e8e4da]/60" /> {metric.trend}
+                               <div className="text-5xl font-black text-white italic mb-6 tracking-tighter group-hover:translate-x-2 transition-transform">{metric.value}</div>
+                               <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.3em] text-white/10 italic">
+                                  <Activity className="w-4 h-4 text-cyan-400" /> {metric.trend}
                                </div>
                             </div>
                           ))}
                        </div>
                     </Reveal>
                  </div>
-
+                 
                  <div className="relative">
                     <Reveal delay={0.3} x={40}>
-                       <div className="aspect-square bg-[#0a0a0c] border border-white/10 p-12 lg:p-20 flex flex-col justify-between relative group overflow-hidden shadow-2xl">
-                          <div className="absolute top-0 right-0 p-80 bg-white opacity-[0.02] blur-[150px] rounded-full group-hover:opacity-[0.05] transition-opacity" aria-hidden />
-
+                       <div className="aspect-square bg-[#0a0a0c] border border-white/10 p-20 flex flex-col justify-between relative group overflow-hidden shadow-2xl">
+                          <div className="absolute top-0 right-0 p-80 bg-white opacity-[0.02] blur-[150px] rounded-full group-hover:opacity-[0.05] transition-opacity" />
+                          
                           <div className="flex justify-between items-start z-10">
                              <div className="flex flex-col gap-3">
-                                <span className="text-[10px] font-black text-white/20 uppercase tracking-[0.5em]">Cahier // de coupe</span>
-                                <span className="text-[12px] font-black text-white/40 uppercase tracking-[0.6em]">Saison en cours</span>
+                                <span className="text-[10px] font-black text-white/10 uppercase tracking-[0.5em]">System_ID // MONO-SYNC-v14</span>
+                                <span className="text-[12px] font-black text-white/40 uppercase tracking-[0.6em]">Traffic_Heat_Map</span>
                              </div>
-                             <Scissors className="w-6 h-6 text-white/20" />
+                             <Wifi className="w-6 h-6 text-white/20" />
                           </div>
-
-                          {/* Le mètre ruban — dessiné, en rotation lente. */}
+                          
+                          {/* NETWORK VISUALIZER (SVG) */}
                           <div className="relative z-10 flex flex-col items-center justify-center h-full">
                              <div className="w-48 h-48 border border-white/5 rounded-full flex items-center justify-center relative">
-                                <motion.div
+                                <motion.div 
                                   animate={{ rotate: 360 }}
-                                  transition={{ duration: 24, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-0 border-t-2 border-[#e8e4da]/25 rounded-full"
+                                  transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                                  className="absolute inset-0 border-t-2 border-white/20 rounded-full" 
                                 />
-                                <motion.div
+                                <motion.div 
                                   animate={{ rotate: -360 }}
-                                  transition={{ duration: 17, repeat: Infinity, ease: "linear" }}
-                                  className="absolute inset-4 border-b-2 border-white/10 rounded-full"
+                                  transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                                  className="absolute inset-4 border-b-2 border-white/10 rounded-full" 
                                 />
-                                <Ruler className="w-16 h-16 text-white/10" />
+                                <Database className="w-16 h-16 text-white/10" />
                              </div>
                              <div className="mt-16 text-center space-y-6">
-                                <div className="text-4xl font-black italic tracking-tighter text-white/40 titre uppercase">Toile · Coupe · Série</div>
-                                <span className="text-[11px] font-bold text-white/20 uppercase tracking-[0.6em] block">Atelier — {ville}</span>
+                                <div className="text-4xl font-black italic tracking-tighter text-white/40">TRAFFIC_NOMINAL</div>
+                                <span className="text-[11px] font-bold text-white/10 uppercase tracking-[0.6em] block">Auth_Node: ZÜRICH_CENTRAL_01</span>
                              </div>
                           </div>
 
                           <div className="relative z-10 flex gap-6">
                              <div className="flex-1 h-1 bg-white/5 overflow-hidden">
-                                <motion.div
-                                   animate={{ x: ["-100%", "100%"] }}
+                                <motion.div 
+                                   animate={{ x: ["-100%", "100%"] }} 
                                    transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                                   className="w-1/2 h-full bg-[#e8e4da]/25"
+                                   className="w-1/2 h-full bg-white/20"
                                 />
                              </div>
                           </div>
@@ -417,26 +420,26 @@ return (
         </section>
 
         {/* ==========================================
-            4. LE LOOKBOOK & LE SAVOIR-FAIRE
+            4. REDUNDANCY PROTOCOLS (BRUTALIST STORY)
             ========================================== */}
-        <section className="py-60 bg-[#0d0d0f] relative overflow-hidden border-t border-white/5">
+        <section id="contact" className="py-60 bg-[#050505] relative overflow-hidden border-t border-white/5">
            <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <div className="grid lg:grid-cols-2 gap-24 lg:gap-40 items-center">
+              <div className="grid lg:grid-cols-2 gap-40 items-center">
                  <div className="relative aspect-[3/4] overflow-hidden group border border-white/5 shadow-2xl">
-                    <Image
-                       src={photo(0, "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=1200&auto=format&fit=crop")}
-                       alt="Silhouette de la collection"
-                       fill
+                    <Image 
+                       src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=1200&auto=format&fit=crop"))} 
+                       alt="Server Room Corridor" 
+                       fill 
                        className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2000ms]"
                     />
                     <div className="absolute inset-0 bg-white/5 mix-blend-color group-hover:opacity-0 transition-opacity" />
-                    <div className="absolute inset-0 p-10 lg:p-20 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
-                       <div className="text-[#e8e4da]">
-                          <span className="text-[11px] font-black uppercase tracking-[0.6em] text-white/40 mb-8 block italic underline underline-offset-8 decoration-white/10">Lookbook // Silhouette 01</span>
-                          <h4 className="text-5xl lg:text-6xl font-black tracking-tighter uppercase italic mb-12">La tenue <br/> entière.</h4>
-                          <Link href="#contact" className="flex items-center gap-6 text-[11px] font-black uppercase tracking-[0.4em] border-b border-white/20 pb-4 hover:border-[#e8e4da] transition-all group w-fit">
-                             Réserver l'essayage <ExternalLink className="w-5 h-5 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />
-                          </Link>
+                    <div className="absolute inset-0 p-20 flex flex-col justify-end bg-gradient-to-t from-black via-black/40 to-transparent">
+                       <div className="text-white">
+                          <span className="text-[11px] font-black uppercase tracking-[0.6em] text-white/40 mb-8 block italic underline underline-offset-8 decoration-white/10">Global // Redundancy // Unit</span>
+                          <h4 className="text-6xl font-black tracking-tighter uppercase italic mb-12 mix-blend-difference">Structural <br/> Safety.</h4>
+                          <button className="flex items-center gap-6 text-[11px] font-black uppercase tracking-[0.4em] border-b border-white/20 pb-4 hover:border-white transition-all group">
+                             Redundancy Protocols <ExternalLink className="w-5 h-5 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform" />
+                          </button>
                        </div>
                     </div>
                  </div>
@@ -444,23 +447,23 @@ return (
                  <div>
                     <Reveal>
                        <div className="mb-24 text-left">
-                          <span className="text-[10px] font-black uppercase tracking-[0.6em] text-white/40 mb-8 block italic">Savoir-faire // De la toile à la pièce</span>
-                          <h2 className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase text-[#e8e4da] italic leading-none">{/* TEXTE_SECTION */ clientText(sessionData, "savoir.titre") ?? (<>La main.</>)}</h2>
+                          <span className="text-[10px] font-black uppercase tracking-[0.6em] text-white/40 mb-8 block italic">Chapitre III // Reliability</span>
+                          <h2 className="text-7xl md:text-[10vw] font-black tracking-tighter uppercase text-white italic leading-none">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Hard_State.</>)}</h2>
                        </div>
-                       <p className="text-2xl font-light text-white/25 leading-relaxed italic mb-20 uppercase tracking-[0.2em]">{/* TEXTE_SECTION */ clientText(sessionData, "savoir.texte") ?? (<>
-                          Une pièce n'entre au vestiaire qu'après trois passages : le dessin, la toile essayée sur corps, la série coupée d'un seul tissu.
-                       </>)}</p>
-                       <div className="space-y-12 lg:space-y-20">
+                       <p className="text-2xl font-light text-white/20 leading-relaxed italic mb-20 uppercase tracking-[0.2em]">
+                          La redondance n'est pas un luxe, c'est une fondation. Chaque fragment de donnée est répliqué instantanément à travers plusieurs fuseaux horaires pour une résilience absolue.
+                       </p>
+                       <div className="space-y-20">
                           {[
-                            { t: "Le dessin", d: "Chaque silhouette naît à la main, à l'encre, dans le cahier de saison — pas dans un logiciel de tendances." },
-                            { t: "La toile", d: "Essayée, reprise, réessayée sur corps vivants — la coupe est arrêtée quand elle tombe, pas quand c'est l'heure." },
-                            { t: "La série", d: "Coupée d'un seul tissu, numérotée au fer, close pour toujours. Votre numéro reste le vôtre." }
+                            { t: "Global Sharding", d: "Fragmentation intelligente des données à travers 128 nœuds géographiques indépendants." },
+                            { t: "Zero-Knowledge", d: "Cryptage asymétrique de bout en bout garantissant que seul le propriétaire peut déchiffrer les données." },
+                            { t: "Hot-Swap Backup", d: "Remplacement instantané des nœuds défaillants sans aucune interruption de service." }
                           ].map((step, i) => (
-                            <div key={i} className="group flex gap-8 lg:gap-12 border-b border-white/5 pb-10 lg:pb-16 hover:border-white/20 transition-all cursor-default">
-                               <div className="text-6xl font-black text-white/5 group-hover:text-white/20 transition-colors italic leading-none titre">0{i+1}</div>
+                            <div key={i} className="group flex gap-12 border-b border-white/5 pb-16 hover:border-white/20 transition-all cursor-default">
+                               <div className="text-6xl font-black text-white/5 group-hover:text-white/20 transition-colors italic leading-none">0{i+1}</div>
                                <div>
-                                  <h5 className="text-3xl font-black uppercase tracking-tight text-[#e8e4da] mb-6 italic group-hover:translate-x-2 transition-transform">{step.t}</h5>
-                                  <p className="text-[12px] text-white/25 uppercase tracking-[0.3em] font-bold leading-loose italic">{step.d}</p>
+                                  <h5 className="text-3xl font-black uppercase tracking-tight text-white mb-6 italic group-hover:translate-x-2 transition-transform">{step.t}</h5>
+                                  <p className="text-[12px] text-white/20 uppercase tracking-[0.3em] font-bold leading-loose italic">{step.d}</p>
                                </div>
                             </div>
                           ))}
@@ -471,59 +474,9 @@ return (
            </div>
         </section>
 
-        {/* ==========================================
-            5. LES CLIENTES (AVIS)
-            ========================================== */}
-        <section className="py-60 bg-black relative border-t border-white/5">
-           <div className="max-w-[1400px] mx-auto px-8 md:px-24">
-              <Reveal>
-                 <span className="text-[10px] font-black uppercase tracking-[0.6em] text-white/40 block mb-6 italic underline underline-offset-8 decoration-white/10">Portées // En ville</span>
-                 <h2 className="text-6xl md:text-[8vw] font-black uppercase tracking-tighter italic leading-none text-[#e8e4da] mb-32">{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Elles la portent.</>)}</h2>
-              </Reveal>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5 border border-white/5">
-                 {AVIS.map((a: any, i: number) => (
-                   <Reveal key={i} delay={i * 0.1}>
-                     <figure className="bg-[#0d0d0f] p-12 lg:p-16 h-full flex flex-col hover:bg-white/[0.02] transition-all">
-                        <blockquote className="text-xl font-light italic text-white/50 leading-relaxed mb-12 flex-1 normal-case">« {a.text} »</blockquote>
-                        <figcaption className="text-[10px] font-black uppercase tracking-[0.4em] text-white/25 border-t border-white/5 pt-8">
-                           {a.author}{a.detail ? <span className="block mt-2 text-[#e8e4da]/50">{a.detail}</span> : null}
-                        </figcaption>
-                     </figure>
-                   </Reveal>
-                 ))}
-              </div>
-           </div>
-        </section>
-
-        {/* ==========================================
-            6. LA BOUTIQUE (CONTACT)
-            ========================================== */}
-        <section id="contact" className="py-60 bg-[#0a0a0c] relative border-t border-white/5">
-           <div className="max-w-[1000px] mx-auto px-8 md:px-24 text-center">
-              <Reveal>
-                 <span className="text-[10px] font-black uppercase tracking-[0.6em] text-white/40 block mb-8 italic">Boutique // Cabine // Atelier</span>
-                 <h2 className="text-6xl md:text-[8vw] font-black uppercase tracking-tighter italic leading-none text-[#e8e4da] mb-16">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Passer<br/>la porte.</>)}</h2>
-                 <p className="text-xl font-light text-white/30 italic uppercase tracking-[0.2em] mb-20 max-w-xl mx-auto">
-                    Essayage libre en boutique, cabine privée sur rendez-vous — la retouche est prise sur place, à l'atelier.
-                 </p>
-                 <div className="flex flex-col sm:flex-row justify-center gap-6 mb-16">
-                    <a href={telHref} className="inline-flex items-center justify-center gap-4 px-12 py-6 bg-[#e8e4da] text-black text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all italic">
-                       <Phone className="w-4 h-4" /> {tel}
-                    </a>
-                    <a href={`mailto:${mail}`} className="inline-flex items-center justify-center gap-4 px-12 py-6 border border-white/10 text-[#e8e4da] text-[10px] font-black uppercase tracking-widest hover:bg-white/5 transition-all italic">
-                       <Mail className="w-4 h-4" /> Écrire
-                    </a>
-                 </div>
-                 <div className="text-[10px] font-black uppercase tracking-[0.4em] text-white/25 flex items-center justify-center gap-3">
-                    <MapPin className="w-4 h-4" /> {clientCodePostalVille(sessionData, "35000", "Rennes")}
-                 </div>
-              </Reveal>
-           </div>
-        </section>
-
         {/* MEGA FOOTER */}
         <footer className="bg-black pt-60 pb-12 px-8 md:px-24 relative z-50">
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-16 lg:gap-32 mb-40 text-[#e8e4da]">
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-32 mb-60 text-white">
               <div className="lg:col-span-2">
                  <div className="flex items-center gap-6 mb-16">
                     {fd?.logoBase64 ? (
@@ -535,81 +488,89 @@ return (
                       />
                     ) : (
                       <>
-                        <div className="w-16 h-16 bg-[#e8e4da] flex items-center justify-center">
-                          <Scissors className="w-10 h-10 text-black" />
+                        <div className="w-16 h-16 bg-white flex items-center justify-center">
+                          <Grid className="w-10 h-10 text-black" />
                         </div>
-                        <span className="text-4xl font-black uppercase tracking-tighter italic titre">
-                          {fd?.businessName ? fd.businessName : <>MAISON<span className="text-white/20">V.</span></>}
+                        <span className="text-4xl font-black uppercase tracking-tighter italic">
+                          {fd?.businessName ? fd.businessName : <>THE<span className="text-white/20">MONOLITH.</span></>}
                         </span>
                       </>
                     )}
                  </div>
-                 <p className="text-white/25 text-[11px] font-black uppercase tracking-[0.5em] leading-loose max-w-sm mb-20 italic">
-                    « Une garde-robe courte, coupée juste, portée longtemps. »
+                 <p className="text-white/20 text-[11px] font-black uppercase tracking-[0.5em] leading-loose max-w-sm mb-20 italic">
+                    "L'information est le seul monument qui ne s'effondre jamais." — Archive Monolith V.14
                  </p>
-                 <div className="flex flex-wrap gap-8 lg:gap-16">
-                    {[["Vestiaire", "#vestiaire"], ["Essayage", "#contact"], ["Instagram", "#contact"]].map(([s, a]) => (
-                      <Link key={s} href={a} className="text-[11px] font-black uppercase tracking-widest text-white/25 hover:text-[#e8e4da] transition-colors italic underline underline-offset-8 decoration-white/5">{s}</Link>
+                 <div className="flex gap-16">
+                    {["InfraLog", "NodeRegistry", "GitHub", "X_Protocol"].map(s => (
+                      <Link key={s} href={ s === "LinkedIn" || s === "Linkedin" ? "https://linkedin.com" : s === "Contact" || s === "contact" ? "#contact" : `#${s.toLowerCase().replace(/\s+/g, "").replace(/[éèê]/g, "e").replace(/[àâ]/g, "a")}` } className="text-[11px] font-black uppercase tracking-widest text-white/20 hover:text-white transition-colors italic underline underline-offset-8 decoration-white/5">{s}</Link>
                     ))}
                  </div>
               </div>
 
               {[
-                { t: "LA MAISON", l: [["Le vestiaire", "#vestiaire"], ["L'atelier", "#hero"], ["Le savoir-faire", "#hero"], ["Les clientes", "#hero"]] },
-                { t: "PRATIQUE", l: [["Essayage privé", "#contact"], ["Retouches", "#contact"], ["Nous trouver", "#contact"]] },
-                { t: "CONTACT", l: [[tel, telHref], [mail, `mailto:${mail}`], [clientCodePostalVille(sessionData, "35000", "Rennes"), "#contact"]] }
+                { t: "INFRASTRUCTURE", l: ["Bare Metal", "Arctic Nodes", "Abyssal Grid", "Solar Arrays"] },
+                { t: "SERVICES", l: ["Data Sharding", "Quantum Crypt", "API Gateway", "SLA 99.9%"] },
+                { t: "CONSOLE", l: ["Node Status", "Global Traffic", "Usage Audit", "Support"] }
               ].map((col, i) => (
                 <div key={i} className="flex flex-col gap-12">
                   <h4 className="text-[11px] font-black text-white/40 uppercase tracking-[0.6em] italic">{col.t}</h4>
                   <ul className="flex flex-col gap-8">
-                    {col.l.map(([link, href]) => (
-                      <li key={link}><a href={href} className="text-[11px] font-bold text-white/25 hover:text-[#e8e4da] transition-colors uppercase tracking-[0.3em] italic break-all">{link}</a></li>
+                    {col.l.map(link => (
+                      <li key={link} className="text-[11px] font-bold text-white/20 hover:text-white transition-colors cursor-pointer uppercase tracking-[0.4em] italic">{link}</li>
                     ))}
                   </ul>
                 </div>
               ))}
            </div>
 
-           <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-16 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-black text-white/20 uppercase tracking-[0.4em] italic">
-              <span>© {clientName(sessionData) ?? "Maison V"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""} · Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" /></span>
-              <div className="flex gap-8 lg:gap-16">
-                 <Link href="#contact" className="hover:text-[#e8e4da] transition-colors">Mentions légales</Link>
-                 <Link href="#contact" className="hover:text-[#e8e4da] transition-colors">CGV</Link>
+           <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-16 flex flex-col md:flex-row justify-between items-center gap-16 text-[10px] font-black text-white/10 uppercase tracking-[0.6em] italic">
+              <span>© 2026 {fd?.businessName ?? "THE MONOLITH"} GLOBAL INFRASTRUCTURE AG. // ALL_RIGHTS_RESERVED{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+              <div className="flex gap-16">
+                 <span>STATUS: IMMUTABLE</span>
+                 <span>LATENCY: 12ms (AVG)</span>
+                 <span>v14.4.0-STABLE</span>
               </div>
            </div>
         </footer>
       </main>
 
-      {/* CABINE PRIVÉE (MODALE) */}
+      {/* CONSOLE OVERLAY (SIMULATED) */}
       <AnimatePresence>
-        {isCabineOpen && (
+        {isTerminalOpen && (
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             className="fixed inset-0 z-[1000] bg-black/95 backdrop-blur-3xl flex items-center justify-center p-8"
           >
-             <div className="max-w-2xl w-full border border-white/10 p-10 lg:p-16 relative bg-[#0a0a0c] shadow-2xl">
-                <button onClick={() => setIsCabineOpen(false)} aria-label="Fermer" className="absolute top-8 right-8 w-11 h-11 flex items-center justify-center text-white/20 hover:text-white transition-colors">
+             <div className="max-w-2xl w-full border border-white/10 p-16 relative bg-[#0a0a0c] shadow-2xl">
+                <button onClick={() => setIsTerminalOpen(false)} className="absolute top-8 right-8 text-white/20 hover:text-white transition-colors">
                    <X className="w-10 h-10" />
                 </button>
-                <div className="flex flex-col gap-12">
+                <div className="flex flex-col gap-16">
                    <div className="flex items-center gap-6">
-                      <Ruler className="w-10 h-10 text-[#e8e4da]" />
+                      <Terminal className="w-10 h-10 text-white" />
                       <div>
-                         <h2 className="text-3xl font-black uppercase tracking-tighter italic text-[#e8e4da] leading-none">Essayage privé</h2>
-                         <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20">Cabine — sur rendez-vous</span>
+                         <h2 className="text-3xl font-black uppercase tracking-tighter italic text-white leading-none">Console_Auth</h2>
+                         <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20">System_ID: MONO-CON-v14</span>
                       </div>
                    </div>
-                   <div className="bg-white/5 p-8 text-[11px] leading-loose text-white/60 uppercase tracking-[0.2em] border border-white/5 font-bold">
-                      <div className="text-[#e8e4da] mb-4 underline underline-offset-4 decoration-white/20 font-black">Comment ça se passe :</div>
-                      <div>Une heure, la boutique fermée pour vous.</div>
-                      <div>Les trois lignes préparées à votre taille.</div>
-                      <div>Retouches épinglées sur place, sans frais.</div>
+                   <div className="bg-white/5 p-8 font-mono text-[11px] leading-relaxed text-white/60 uppercase tracking-[0.2em] border border-white/5">
+                      <div className="text-white mb-2 underline underline-offset-4 decoration-white/20 font-black">Boot Sequence:</div>
+                      <div>{">"} Initializing Shard Handshake... [OK]</div>
+                      <div>{">"} Syncing Global Node Registry... [OK]</div>
+                      <div>{">"} Verified Auth_Token: *********-42 [OK]</div>
+                      <div className="mt-6 flex items-center gap-4 animate-pulse">
+                         <span className="w-2 h-4 bg-white" />
+                         <span>Waiting for operator input...</span>
+                      </div>
                    </div>
-                   <div className="flex flex-col sm:flex-row gap-6">
-                      <a href={telHref} className="flex-1 py-6 bg-[#e8e4da] text-black text-[11px] font-black uppercase tracking-[0.3em] hover:bg-white transition-all italic text-center">{tel}</a>
-                      <a href={`mailto:${mail}`} className="flex-1 py-6 border border-white/10 text-[#e8e4da] text-[11px] font-black uppercase tracking-[0.3em] hover:bg-white/5 transition-all italic text-center">Écrire</a>
+                   <div className="space-y-6">
+                      <div className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 italic italic">Operator_Action_Required</div>
+                      <div className="flex gap-6">
+                         <button className="flex-1 py-6 bg-white text-black text-[11px] font-black uppercase tracking-[0.3em] hover:bg-white/80 transition-all italic">Provision_Node</button>
+                         <button className="flex-1 py-6 border border-white/10 text-white text-[11px] font-black uppercase tracking-[0.3em] hover:bg-white/5 transition-all italic">Flush_Cache</button>
+                      </div>
                    </div>
                 </div>
              </div>
@@ -621,34 +582,36 @@ return (
 }
 
 /* ==========================================
-   SOUS-COMPOSANTS
+   TECHNICAL SUB-COMPONENTS
    ========================================== */
 
-function HUD_Overlay() {
+function HUD_Overlay({ isTerminalOpen }: { isTerminalOpen: boolean }) {
   return (
     <div className="fixed inset-0 pointer-events-none z-[100]">
-       {/* Les coins du lookbook — le cadre de la page imprimée. */}
+       {/* Corner Brackets */}
        <div className="absolute top-12 left-12 w-20 h-20 border-t-2 border-l-2 border-white/10" />
        <div className="absolute top-12 right-12 w-20 h-20 border-t-2 border-r-2 border-white/10" />
        <div className="absolute bottom-12 left-12 w-20 h-20 border-b-2 border-l-2 border-white/10" />
        <div className="absolute bottom-12 right-12 w-20 h-20 border-b-2 border-r-2 border-white/10" />
 
-       {/* Bandeau de saison — masqué sous md, comme l'original. */}
+       {/* Top Status Bar — hidden below md: fixed-width, no wrap, huge
+           letter-spacing, designed for desktop only (unlike the Right
+           Rotation Info below, which already had a mobile hidden state). */}
        <div className="hidden md:flex absolute top-12 left-1/2 -translate-x-1/2 items-center gap-20 bg-black/60 backdrop-blur-2xl px-12 py-4 border border-white/10 rounded-none">
-          <div className="flex items-center gap-6 text-[#e8e4da]">
-             <div className="w-3 h-3 bg-[#e8e4da] animate-pulse" />
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Collection en cours // Séries closes</span>
+          <div className="flex items-center gap-6 text-white">
+             <div className="w-3 h-3 bg-white animate-pulse" />
+             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">System_Link: IMMUTABLE // Shards: SYNCED</span>
           </div>
           <div className="h-4 w-px bg-white/20" />
-          <div className="flex items-center gap-6 text-white/25">
-             <Scissors className="w-4 h-4" />
-             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Retouches offertes — 2 ans</span>
+          <div className="flex items-center gap-6 text-white/20">
+             <Wifi className="w-4 h-4" /> 
+             <span className="text-[10px] font-black uppercase tracking-[0.4em] italic leading-none">Global_Grid: SECURE</span>
           </div>
        </div>
 
-       {/* Tranche verticale droite */}
+       {/* Right Rotation Info */}
        <div className="absolute right-12 top-1/2 -translate-y-1/2 rotate-90 origin-right hidden lg:block">
-          <span className="text-[10px] font-black uppercase tracking-[0.8em] text-white/5 italic">Vestiaire_Raisonné_Séries_Courtes_Numérotées_Au_Fer_Jamais_Rééditées</span>
+          <span className="text-[10px] font-black uppercase tracking-[0.8em] text-white/5 italic">Unauthorized_Access_To_The_Core_Registry_Is_Strictly_Monitored_By_Global_Information_Security_Council</span>
        </div>
     </div>
   )
@@ -656,13 +619,13 @@ function HUD_Overlay() {
 
 function X({ className }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
+    <svg 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+      strokeLinejoin="round" 
       className={className}
     >
       <line x1="18" y1="6" x2="6" y2="18"></line>

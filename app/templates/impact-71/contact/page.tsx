@@ -1,4 +1,6 @@
 "use client";
+import { memoriserSession } from "@/lib/templates/clientContent";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 // @ts-nocheck
 
 import { useEffect, useState } from "react";
@@ -24,13 +26,25 @@ export default function ContactPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
@@ -151,14 +165,14 @@ export default function ContactPage() {
                 <Mail className="w-5 h-5 text-[#c9a84c]" />
                 <div>
                   <h4 className="text-[10px] text-stone-300">Direct Message</h4>
-                  <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} className="text-[#33302c] hover:text-[#c9a84c] transition-colors">contact@exemple.fr</a>
+                  <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} className="text-[#33302c] hover:text-[#c9a84c] transition-colors">{fd?.email ?? "contact@exemple.fr"}</a>
                 </div>
               </div>
               <div className="flex items-center gap-4 p-4 bg-white border border-stone-200/50 rounded-2xl">
                 <MapPin className="w-5 h-5 text-[#c9a84c]" />
                 <div>
                   <h4 className="text-[10px] text-stone-300">HQ Address</h4>
-                  <span className="text-[#33302c]">Bourg-en-Bresse, France</span>
+                  <span className="text-[#33302c]"><EditeurDuSite quoi="ville" />, France</span>
                 </div>
               </div>
               <div className="flex items-center gap-4 p-4 bg-white border border-stone-200/50 rounded-2xl">

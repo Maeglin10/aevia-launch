@@ -170,10 +170,21 @@ export default function PulseAppPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -307,7 +318,7 @@ export default function PulseAppPage() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-lg text-[#4B4570] leading-relaxed mb-8 max-w-lg">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              <p className="text-lg text-[#4B4570] leading-relaxed mb-8 max-w-lg">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Analytics temps réel, notifications intelligentes, collaboration native. Pulse connecte votre équipe et vos données dans une seule application mobile.
               </>}</p>
             </Reveal>
@@ -667,7 +678,7 @@ export default function PulseAppPage() {
             ))}
           </div>
           <div className="pt-8 border-t border-[#1a1740] flex flex-col md:flex-row justify-between gap-4 text-xs">
-            <span>© 2024 {fd?.businessName ?? "Pulse"} · Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+            <span>© 2024 {fd?.businessName ?? "Pulse"} · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
             <div className="flex gap-6">
               {[{ l: "Confidentialité", h: "/templates/impact-165/legal" }, { l: "CGU", h: "/templates/impact-165/legal" }, { l: "Cookies", h: "/templates/impact-165/legal" }].map(({ l, h }) => <Link key={l} href={h} className="hover:text-white transition-colors cursor-pointer">{l}</Link>)}
             </div>

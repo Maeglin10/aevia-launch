@@ -32,16 +32,17 @@ import {
 } from "lucide-react";
 import {
   clientCity,
-  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhone,
   clientReviews,
   clientServices,
   clientStats,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -181,7 +182,7 @@ let PRODUCTS = PRODUCTS_SOURCE;
 
 const COLLECTIONS = ["Tout voir", "Céramique", "Art de la table", "Jardin"];
 
-const PROCESS_STEPS = [
+let PROCESS_STEPS = [
   {
     n: "01",
     title: "La terre choisie",
@@ -209,25 +210,25 @@ function TESTIMONIALS_LIVE() {
   {
     q: "La tasse à thé que j'ai reçue est d'une finesse incroyable. Je ne pensais pas qu'on pouvait expédier de la porcelaine aussi bien protégée. Elle est parfaite depuis six mois d'usage quotidien.",
     name: "Mathilde Rousseau",
-    role: `Cliente, ${clientCity({ formData: fd }) ?? "Lyon"}`,
+    role: `Cliente, ${clientCity(sessionData) ?? "Lyon"}`,
     stars: 5,
   },
   {
     q: "J'ai commandé le plat à partager pour un cadeau de mariage. Les mariés m'ont écrit une lettre de remerciements à part — la pièce était si belle qu'ils ont voulu savoir qui la faisait. C'est dire.",
     name: "Arnaud Lefèvre",
-    role: `Client, ${clientCity({ formData: fd }) ?? "Bordeaux"}`,
+    role: `Client, ${clientCity(sessionData) ?? "Bordeaux"}`,
     stars: 5,
   },
   {
     q: "Le vase colonne trône dans mon salon depuis quatre mois avec des branches séchées. Il s'impose sans dominer — exactement ce que je cherchais. Le service client était impeccable aussi.",
     name: "Sophie Marchand",
-    role: `Cliente, ${clientCity({ formData: fd }) ?? "Paris"}`,
+    role: `Cliente, ${clientCity(sessionData) ?? "Paris"}`,
     stars: 5,
   },
   {
     q: "Impossible de choisir une seule pièce, j'ai commandé trois fois en deux mois. La régularité qualitative est impressionnante pour du fait-main. L'atelier a une vraie philosophie visible dans chaque objet.",
     name: "Pierre-Antoine Vidal",
-    role: `Client, ${clientCity({ formData: fd }) ?? "Nantes"}`,
+    role: `Client, ${clientCity(sessionData) ?? "Nantes"}`,
     stars: 5,
   },
 ];
@@ -1056,14 +1057,30 @@ export default function ArtisanMinimalPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  PROCESS_STEPS = resolveList(
+    fusionnerEtapes(PROCESS_STEPS, clientMethode(sessionData)),
+    PROCESS_STEPS,
+  );
   bp = session?.businessProfile;
   c = session?.generatedContent;
   PRODUCTS_SOURCE = PRODUCTS_SOURCE_LIVE();
@@ -1224,7 +1241,7 @@ return (
                   }}
                 />
               </div>
-              <div>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
+              <div>{/* NOM_LOGO */ clientName(sessionData) ?? (<>
                 <div
                   style={{
                     fontFamily: FONT,
@@ -1235,7 +1252,7 @@ return (
                     lineHeight: 1,
                   }}
                 >
-                  Terre & Geste
+                  {clientName(sessionData) ?? "Terre & Geste"}
                 </div>
                 <div
                   style={{
@@ -1446,7 +1463,7 @@ return (
                   maxWidth: 420,
                   marginBottom: 44,
                 }}
-              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Céramiques artisanales tournées à la main en Bourgogne. Grès,
                 porcelaine, émaux naturels. Chaque pièce est unique et livrée
                 avec son certificat d'authenticité.
@@ -2683,7 +2700,7 @@ return (
               }}
             >
               <motion.a
-                href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "julie@terreetgeste.fr"}`}
+                href={`mailto:${fd?.email ?? "julie@terreetgeste.fr"}`}
                 whileHover={{
                   scale: 1.04,
                   boxShadow: "0 0 40px rgba(155,74,40,0.4)",
@@ -2740,7 +2757,7 @@ return (
               {[
                 { Icon: MapPin, t: "Atelier · Beaune, Bourgogne" },
                 { Icon: Phone, t: (clientPhone(sessionData) ?? "+33 3 80 71 68 68") },
-                { Icon: Mail, t: (clientEmail(sessionData) ?? fd?.email ?? "julie@terreetgeste.fr") },
+                { Icon: Mail, t: (fd?.email ?? "julie@terreetgeste.fr") },
               ].map(({ Icon, t }) => (
                 <div
                   key={t}
@@ -2819,7 +2836,7 @@ return (
                       letterSpacing: "-0.01em",
                     }}
                   >
-                    Terre & Geste
+                    {clientName(sessionData) ?? "Terre & Geste"}
                   </div>
                   <div
                     style={{
@@ -2953,7 +2970,7 @@ return (
             }}
           >
             <div style={{ fontSize: "0.73rem", color: C.muted }}>
-              © 2026 {clientName(sessionData) ?? "Terre"} & Geste · Atelier de céramique · Beaune, Bourgogne · Micro-entreprise{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2026 {clientName(sessionData) ?? "Terre & Geste"} · Atelier de céramique · Beaune, Bourgogne · Micro-entreprise{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </div>
             <div style={{ display: "flex", gap: 24 }}>
               {["Mentions légales", "Confidentialité", "CGV"].map((link) => (

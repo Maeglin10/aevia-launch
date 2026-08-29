@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientInstagram,
   clientName,
 } from "@/lib/templates/clientContent";
 
@@ -19,10 +20,21 @@ export default function VogueNoireLayout({
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(__setLayoutSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setLayoutSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
   const fd = __layoutSession?.formData;
 
@@ -99,7 +111,7 @@ export default function VogueNoireLayout({
           <motion.div className="fixed inset-0 z-[200] bg-[#0A0A08] flex flex-col"
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
             <div className="flex items-center justify-between px-6 py-5 border-b border-[#2A2A20]">
-              <span className="text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Vogue Noire</span>
+              <span className="text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{clientName(__layoutSession) ?? "Vogue Noire"}</span>
               <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
             <div className="flex flex-col gap-10 p-10">
@@ -131,7 +143,7 @@ export default function VogueNoireLayout({
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-10 mb-12">
             <div className="md:col-span-2">
-              <div className="text-2xl font-light mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Vogue Noire</div>
+              <div className="text-2xl font-light mb-4" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{clientName(__layoutSession) ?? "Vogue Noire"}</div>
               <p className="text-sm text-[#6A6058] leading-relaxed max-w-xs">Magazine de mode, culture et création. Depuis 1998, la voix de la mode contemporaine.</p>
             </div>
             <div>
@@ -144,7 +156,7 @@ export default function VogueNoireLayout({
             </div>
             <div>
               <p className="text-[10px] tracking-widest uppercase text-[#3A3028] mb-5">Suivez-nous</p>
-              {[["Instagram", "@vogue.noire"], ["Twitter", "@VogueNoire"], ["Pinterest", "Vogue Noire"]].map(([network, handle]) => (
+              {[["Instagram", "@" + (clientInstagram(__layoutSession) ?? "vogue.noire")], ["Twitter", "@" + (clientInstagram(__layoutSession) ?? "VogueNoire")], ["Pinterest", clientName(__layoutSession) ?? "Vogue Noire"]].map(([network, handle]) => (
                 <p key={network} className="text-sm text-[#6A6058] mb-3">{network} <span className="text-[#C9A86C]">{handle}</span></p>
               ))}
             </div>

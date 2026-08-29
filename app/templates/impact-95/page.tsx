@@ -803,10 +803,21 @@ export default function LumiereCliniquePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -948,8 +959,8 @@ export default function LumiereCliniquePage() {
               <h1 className="text-5xl md:text-7xl font-light leading-[1.0] mb-8 max-w-2xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 14) ?? "La beauté"}<br /><em>{clientHeroLine(sessionData, 1, 3, 14) ?? "comme résultat"}</em><br />{clientHeroLine(sessionData, 2, 3, 14) ?? "de la science"}</>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-[#6B6560] text-lg leading-relaxed max-w-lg mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-                Lumière Clinic allie rigueur médicale et approche esthétique personnalisée. Chaque protocole est co-construit avec le patient, fondé sur des preuves scientifiques et exécuté avec précision.
+              <p className="text-[#6B6560] text-lg leading-relaxed max-w-lg mb-12">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
+                {clientName(sessionData) ?? "Lumière Clinic"} allie rigueur médicale et approche esthétique personnalisée. Chaque protocole est co-construit avec le patient, fondé sur des preuves scientifiques et exécuté avec précision.
               </>}</p>
             </Reveal>
             <Reveal delay={0.3}>
@@ -1036,7 +1047,7 @@ export default function LumiereCliniquePage() {
             </div>
           </div>
           <div className="pt-8 border-t border-[#2A1E12] flex flex-col md:flex-row justify-between gap-4 text-xs">
-            <span>© 2025 Lumière Clinic — Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity /> · Ordre National des Médecins</span>
+            <span>© 2025 {clientName(sessionData) ?? "Lumière Clinic"} — Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity /> · Ordre National des Médecins</span>
             <div className="flex gap-6">
               <Link href="#contact" className="hover:text-[#FAFAF8] transition-colors cursor-pointer">Mentions légales</Link>
               <Link href="#contact" className="hover:text-[#FAFAF8] transition-colors cursor-pointer">Confidentialité</Link>

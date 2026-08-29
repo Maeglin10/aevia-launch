@@ -29,7 +29,7 @@ import {
 } from 'lucide-react';
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET FAURE — Maître Isabelle Faure · Avocate droit de la famille & succession{" "}
+   {clientName(sessionData) ?? "Cabinet Faure — Maître Isabelle Faure"} · Avocate droit de la famille & succession{" "}
    {clientCity(sessionData) ?? "Marseille"} · Barreau de {clientCity(sessionData) ?? "Marseille"}
    Photographie réelle + chorégraphie de défilement éditoriale.
    Auto-suffisant. 'use client'.
@@ -41,14 +41,15 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
-  clientCodePostalVille,
-  clientPhone,
-  clientEmail,
   clientCity,
+  clientCodePostalVille,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -536,7 +537,7 @@ function HeroSection() {
       >
         <img
           src={fd?.photoUrls?.[0] || PHOTO.tribunal}
-          alt="Bibliothèque juridique, Cabinet Faure Marseille"
+          alt={`Bibliothèque juridique, ${clientName(sessionData) ?? "Cabinet Faure"} Marseille`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           loading="eager"
         />
@@ -734,8 +735,7 @@ function HeroSection() {
    2 · SCROLL CROSSFADE — 3 visuels en sticky + progress dots
    ════════════════════════════════════════════════════════════════════════════ */
 function ScrollCrossfade() {
-  
-const n = 3;
+  const n = 3;
   const progress = useMotionValue(0.5 / n);
   const [active, setActive] = useState(0);
   const goTo = (i: number) => {
@@ -767,7 +767,7 @@ const n = 3;
     },
     {
       photo: PHOTO.bureau,
-      alt: 'Bureau de l\'avocat, Cabinet Faure Marseille',
+      alt: `Bureau de l\'avocat, ${clientName(sessionData) ?? "Cabinet Faure"} Marseille`,
       eyebrow: 'Conseil',
       title: 'Un cabinet à votre écoute',
       text: 'Dans le cadre feutré du cabinet, votre situation est analysée avec précision. Chaque dossier est unique — nous prenons le temps de comprendre vos enjeux humains autant que juridiques.',
@@ -776,7 +776,7 @@ const n = 3;
     },
     {
       photo: PHOTO.reunion,
-      alt: 'Réunion avec le client, Cabinet Faure',
+      alt: `Réunion avec le client, ${clientName(sessionData) ?? "Cabinet Faure"}`,
       eyebrow: 'Accompagnement',
       title: 'La réunion client',
       text: 'La stratégie se construit ensemble. Maître Faure vous explique chaque étape, clarifie les options et vous accompagne dans chaque décision — sans jargon, avec transparence.',
@@ -1254,7 +1254,7 @@ function ExpertiseSection() {
    ════════════════════════════════════════════════════════════════════════════ */
 function ProcessSection() {
   const steps = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
+    (clientMethode(sessionData) ?? clientServices(sessionData))?.map((s: any, i: number) => ({ ...([
     {
       num: '01',
       title: 'Premier entretien',
@@ -2058,7 +2058,7 @@ function ConsultationFormSection() {
                   textTransform: 'uppercase',
                 }}
               >
-                Cabinet Faure · {clientCity(sessionData) ?? "Marseille"}
+                {clientName(sessionData) ?? "Cabinet Faure"} · {clientCity(sessionData) ?? "Marseille"}
               </div>
             </motion.div>
           ) : (
@@ -3242,10 +3242,21 @@ function Impact275Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -3264,6 +3275,10 @@ function Impact275Page() {
       val: s.value,
 
       label: s.label,
+
+      /* Le chiffre est celui du client : l'unité de la démonstration ne le suit pas. */
+
+      unit: "",
 
     })),
 

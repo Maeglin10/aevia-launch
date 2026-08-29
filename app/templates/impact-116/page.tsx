@@ -18,15 +18,16 @@ import { Progress } from "@/components/ui/progress"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientList,
+  clientMethode,
   clientName,
   clientPhotos,
   clientServices,
   clientStats,
   clientTeam,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -188,10 +189,21 @@ export default function KineticStudio() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -364,7 +376,12 @@ export default function KineticStudio() {
           <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>Our Process</>)}</h2>
         </Reveal>
         <Accordion type="single" collapsible className="max-w-4xl mx-auto">
-          {PROCESS.map((item, idx) => (
+          {resolveList(
+            /* Ce thème titre l'étape dans `step` — un nom que d'autres thèmes
+               réservent au numéro d'ordre, d'où l'écriture locale. */
+            fusionnerEtapes(PROCESS, clientMethode(sessionData))?.map((e: any) => ({ ...e, step: e.name })),
+            PROCESS,
+          ).map((item, idx) => (
             <AccordionItem key={idx} value={`step-${idx}`} className="border-[var(--brand,#ff5500)]/20">
               <AccordionTrigger className="text-white text-lg">
                 <span className="mr-4 flex items-center"><TemplateIcon emoji={item.icon} size={24} color="var(--brand,#ff5500)" /></span>
@@ -538,7 +555,12 @@ export default function KineticStudio() {
           <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Project Workflow</>)}</h2>
         </Reveal>
         <Accordion type="single" collapsible className="max-w-4xl mx-auto">
-          {PROCESS.map((item, idx) => (
+          {resolveList(
+            /* Ce thème titre l'étape dans `step` — un nom que d'autres thèmes
+               réservent au numéro d'ordre, d'où l'écriture locale. */
+            fusionnerEtapes(PROCESS, clientMethode(sessionData))?.map((e: any) => ({ ...e, step: e.name })),
+            PROCESS,
+          ).map((item, idx) => (
             <AccordionItem key={idx} value={`step-${idx}`} className="border-[var(--brand,#ff5500)]/20 mb-3">
               <AccordionTrigger className="text-white text-lg hover:text-[var(--brand,#ff5500)] transition-colors">
                 <span className="mr-4 flex items-center"><TemplateIcon emoji={item.icon} size={24} color="var(--brand,#ff5500)" /></span>
@@ -695,7 +717,7 @@ export default function KineticStudio() {
           <div className="space-y-4 text-white/70 mb-12">
             <div>
               <p className="font-light text-[var(--brand,#ff5500)] text-sm">Email</p>
-              <p>{clientEmail(sessionData) ?? fd?.email ?? "hello@kineticstudio.com"}</p>
+              <p>{fd?.email ?? "hello@kineticstudio.com"}</p>
             </div>
             <div>
               <p className="font-light text-[var(--brand,#ff5500)] text-sm">Phone</p>
@@ -722,7 +744,7 @@ export default function KineticStudio() {
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName(sessionData) ?? "impact-116"}
+        {clientName(sessionData) ?? "Kinetic Studio"}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>

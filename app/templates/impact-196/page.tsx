@@ -7,11 +7,9 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion"
 import { ArrowRight, MapPin, Mail, Phone, Clock, Star, CheckCircle, Calendar } from "lucide-react"
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -134,10 +132,21 @@ export default function CabinetKinePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -210,8 +219,8 @@ export default function CabinetKinePage() {
               alt={fd?.businessName ?? 'logo'}
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
-          ) : (/* NOM_LOGO */ clientName({ formData: fd }) ? (
-              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontSize: 18, fontWeight: 800, color: scrolled ? C.accent : "#fff" }}>{clientName({ formData: fd })}</span>
+          ) : (/* NOM_LOGO */ clientName(sessionData) ? (
+              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontSize: 18, fontWeight: 800, color: scrolled ? C.accent : "#fff" }}>{clientName(sessionData)}</span>
             ) : (<>
             <>
               <span style={{ fontSize: 18, fontWeight: 800, color: scrolled ? C.accent : "#fff" }}>Kiné</span>
@@ -270,7 +279,7 @@ export default function CabinetKinePage() {
           </>}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 530 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 530 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Kiné Mouvement accompagne chaque patient avec une approche personnalisée et bienveillante. Rééducation orthopédique, neurologique, sportive et respiratoire — nous sommes là à chaque étape.
           </>}</motion.p>
 
@@ -278,8 +287,8 @@ export default function CabinetKinePage() {
             <motion.a href="#contact" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}55` }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
               <Calendar size={18} /> Prendre rendez-vous
             </motion.a>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33240000000").replace(/[^+0-9]/g, "")}`} style={{ background: "rgba(255,255,255,0.10)", color: "#fff", border: "1px solid rgba(255,255,255,0.28)", borderRadius: 8, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, backdropFilter: "blur(8px)" }} whileHover={{ background: "rgba(255,255,255,0.18)" }}>
-              <Phone size={16} /> {clientPhone(sessionData) ?? fd?.phone ?? "02 40 00 00 00"}
+            <motion.a href={`tel:${fd?.phone ?? "+33240000000"}`} style={{ background: "rgba(255,255,255,0.10)", color: "#fff", border: "1px solid rgba(255,255,255,0.28)", borderRadius: 8, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, backdropFilter: "blur(8px)" }} whileHover={{ background: "rgba(255,255,255,0.18)" }}>
+              <Phone size={16} /> {fd?.phone ?? "02 40 00 00 00"}
             </motion.a>
           </motion.div>
         </motion.div>
@@ -388,10 +397,10 @@ export default function CabinetKinePage() {
             Prenez rendez-vous en ligne ou par téléphone. Nous acceptons tous les patients, avec ou sans ordonnance médicale.
           </>}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33240000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
-              <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "02 40 00 00 00"}
+            <motion.a href={`tel:${fd?.phone ?? "+33240000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "16px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
+              <Phone size={18} /> {fd?.phone ?? "02 40 00 00 00"}
             </motion.a>
-            <motion.a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@kine-mouvement.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accentDark}`, borderRadius: 8, padding: "14px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white, borderColor: C.accent }}>
+            <motion.a href={`mailto:${fd?.email ?? "contact@kine-mouvement.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accentDark}`, borderRadius: 8, padding: "14px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white, borderColor: C.accent }}>
               <Mail size={18} /> Nous écrire
             </motion.a>
           </div>
@@ -403,10 +412,10 @@ export default function CabinetKinePage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 40 }}>
           <div>
             <div style={{ fontSize: 20, fontWeight: 800, color: C.accentLight, marginBottom: 10 }}>Kiné Mouvement</div>
-            <p style={{ color: "rgba(255,255,255,0.42)", fontSize: 14, lineHeight: 1.6, maxWidth: 250 }}>Cabinet de kinésithérapie à {clientCity({ formData: fd }) ?? "Nantes"}. Lun–Sam 8h–20h.</p>
+            <p style={{ color: "rgba(255,255,255,0.42)", fontSize: 14, lineHeight: 1.6, maxWidth: 250 }}>Cabinet de kinésithérapie à {clientCity(sessionData) ?? "Nantes"}. Lun–Sam 8h–20h.</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Nantes") + ", Loire-Atlantique" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "02 40 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Ven 8h–20h | Sam 8h–13h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Nantes") + ", Loire-Atlantique" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "02 40 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Ven 8h–20h | Sam 8h–13h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.48)", fontSize: 13 }}>
                 <span style={{ color: C.accentLight }}>{item.icon}</span>{item.t}
               </div>
@@ -414,7 +423,7 @@ export default function CabinetKinePage() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 18, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-          <span style={{ color: "rgba(255,255,255,0.24)", fontSize: 12 }}>© 2026 Kiné Mouvement — Site réalisé par Aevia WS{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.24)", fontSize: 12 }}>© 2026 Kiné Mouvement — Site réalisé par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="#contact" style={{ color: "rgba(255,255,255,0.24)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

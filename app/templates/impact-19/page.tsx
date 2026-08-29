@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
@@ -10,11 +11,9 @@ import Link from "next/link";
 import { Menu, X, ArrowRight, TrendingUp, BarChart3, Globe, Users, ChevronRight, Building2, DollarSign, Award, Mail, Phone, Calendar, Send } from "lucide-react";
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -134,17 +133,27 @@ export default function SummitCapitalPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  team = team_LIVE();
 
 
 
@@ -158,6 +167,7 @@ export default function SummitCapitalPage() {
   );
 
   bp = (session as any)?.businessProfile;
+  team = team_LIVE();
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts();
@@ -199,7 +209,7 @@ return (
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <span className="text-[var(--brand,#C9A86C)] tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.15rem" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Summit Capital"))}</span>
+              <span className="text-[var(--brand,#C9A86C)] tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.15rem" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Summit Capital"))}</span>
             )}
           </div>
           <div className="hidden md:flex items-center gap-8 text-white/50 text-sm font-medium">
@@ -238,7 +248,7 @@ return (
                   style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-[var(--brand,#C9A86C)] text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Summit Capital"))}</span>
+                <span className="text-[var(--brand,#C9A86C)] text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Summit Capital"))}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
@@ -277,19 +287,19 @@ return (
                 of clipping, and the h1 is now sized to actually fit. */}
             <section id="hero" ref={heroRef} className="relative min-h-dvh overflow-hidden flex items-center py-24 md:py-0">
               <motion.div className="absolute inset-0 pointer-events-none" style={{ y: heroY }}>
-                <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=85"))} alt={fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Summit Capital"))} fill className="object-cover opacity-30" priority />
+                <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1600&q=85"))} alt={fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Summit Capital"))} fill className="object-cover opacity-30" priority />
                 <div className="absolute inset-0 bg-gradient-to-br from-[#09090B] via-[#09090B]/80 to-[#09090B]" />
               </motion.div>
               <motion.div className="relative z-10 max-w-6xl mx-auto px-6 w-full" style={{ opacity: heroOpacity }}>
                 <Reveal>
-                  <p className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-6">Venture Capital — {clientCity({ formData: fd }) ?? "Paris"} · Berlin · Dubai</p>
+                  <p className="text-[var(--brand,#C9A86C)] text-xs tracking-widest uppercase mb-6">Venture Capital — {clientCity(sessionData) ?? "Paris"} · Berlin · Dubai</p>
                 </Reveal>
                 <Reveal delay={0.1}>
                   <h1 className="text-white text-4xl sm:text-5xl md:text-8xl leading-tight md:leading-none mb-4 md:mb-8 break-words" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{<>{clientHeroLine(sessionData, 0, 4, 12) ?? "Financer les"}<br /><em>{clientHeroLine(sessionData, 1, 4, 12) ?? "champions"}</em>{" "}{clientHeroLine(sessionData, 2, 4, 12) ?? "de"}<br />{clientHeroLine(sessionData, 3, 4, 12) ?? "demain"}</>}</h1>
 
                 </Reveal>
                 <Reveal delay={0.2}>
-                  <p className="text-white/60 text-base sm:text-xl max-w-lg leading-relaxed mb-6 md:mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                  <p className="text-white/60 text-base sm:text-xl max-w-lg leading-relaxed mb-6 md:mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                     500M€ sous gestion. 47 participations actives. Un seul objectif : accompagner les entrepreneurs qui redéfinissent des marchés entiers.
                   </>}</p>
                 </Reveal>
@@ -359,13 +369,13 @@ return (
       {/* Footer */}
       <footer className="bg-[#09090B] border-t border-white/5 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-white/20">
-          <div onClick={() => goTo("home")} className="text-[var(--brand,#C9A86C)] text-lg cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Summit Capital"))}</div>
+          <div onClick={() => goTo("home")} className="text-[var(--brand,#C9A86C)] text-lg cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Summit Capital"))}</div>
           <div className="flex gap-8">
             <a href="/templates/impact-19" onClick={(e) => { e.preventDefault(); goTo("portefeuille"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Portefeuille</a>
             <a href="/templates/impact-19" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Mentions légales</a>
             <a href="/templates/impact-19" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Confidentialité</a>
           </div>
-          <span>© 2026 {clientName(sessionData) ?? "Summit Capital."} Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Summit Capital."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         </div>
       </footer>
     </div>
@@ -373,7 +383,7 @@ return (
 }
 
 /* ==========================================================================
-   SUB-PAGE COMPONENTS (SUMMIT CAPITAL GOLD & DARK STYLE)
+   SUB-PAGE COMPONENTS ({clientName(sessionData) ?? "Summit Capital"} GOLD & DARK STYLE)
    ========================================================================= */
 
 function ThesesPage() {
@@ -509,16 +519,16 @@ function BlogPage() {
     clientServices({ formData: fd, businessProfile: bp })?.map((s: any, i: number) => ({ ...([
     { title: "L'essor des infrastructures d'IA souveraines en Europe", desc: "Analyse trimestrielle du fonds sur la souveraineté technologique et les nouvelles architectures LLM locales.", date: "6 juin 2026" },
     { title: "Comment réussir son expansion commerciale aux USA", desc: "Conseils pratiques de notre pôle opérations pour les startups européennes en Série A.", date: "24 mai 2026" },
-    { title: "Summit Capital IV : 500M€ pour la Deep Tech", desc: "Annonce officielle du bouclage de notre quatrième fonds d'investissement à focus IA et infrastructure.", date: "10 mai 2026" }
+    { title: `${clientName(sessionData) ?? "Summit Capital"} IV : 500M€ pour la Deep Tech`, desc: "Annonce officielle du bouclage de notre quatrième fonds d'investissement à focus IA et infrastructure.", date: "10 mai 2026" }
   ])[i % ([
     { title: "L'essor des infrastructures d'IA souveraines en Europe", desc: "Analyse trimestrielle du fonds sur la souveraineté technologique et les nouvelles architectures LLM locales.", date: "6 juin 2026" },
     { title: "Comment réussir son expansion commerciale aux USA", desc: "Conseils pratiques de notre pôle opérations pour les startups européennes en Série A.", date: "24 mai 2026" },
-    { title: "Summit Capital IV : 500M€ pour la Deep Tech", desc: "Annonce officielle du bouclage de notre quatrième fonds d'investissement à focus IA et infrastructure.", date: "10 mai 2026" }
+    { title: `${clientName(sessionData) ?? "Summit Capital"} IV : 500M€ pour la Deep Tech`, desc: "Annonce officielle du bouclage de notre quatrième fonds d'investissement à focus IA et infrastructure.", date: "10 mai 2026" }
   ]).length], title: s.title, desc: s.desc || "" })),
     [
     { title: "L'essor des infrastructures d'IA souveraines en Europe", desc: "Analyse trimestrielle du fonds sur la souveraineté technologique et les nouvelles architectures LLM locales.", date: "6 juin 2026" },
     { title: "Comment réussir son expansion commerciale aux USA", desc: "Conseils pratiques de notre pôle opérations pour les startups européennes en Série A.", date: "24 mai 2026" },
-    { title: "Summit Capital IV : 500M€ pour la Deep Tech", desc: "Annonce officielle du bouclage de notre quatrième fonds d'investissement à focus IA et infrastructure.", date: "10 mai 2026" }
+    { title: `${clientName(sessionData) ?? "Summit Capital"} IV : 500M€ pour la Deep Tech`, desc: "Annonce officielle du bouclage de notre quatrième fonds d'investissement à focus IA et infrastructure.", date: "10 mai 2026" }
   ],
   );
 
@@ -565,15 +575,15 @@ function ContactPage() {
             <div className="space-y-4">
               <div className="flex items-center gap-3 text-sm text-white/50">
                 <Building2 className="w-4 h-4 text-[var(--brand,#C9A86C)] shrink-0" />
-                <span>{clientCity({ formData: fd }) ?? "Paris"} (Showroom), Berlin, Dubaï</span>
+                <span>{clientCity(sessionData) ?? "Paris"} (Showroom), Berlin, Dubaï</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-white/50">
                 <Mail className="w-4 h-4 text-[var(--brand,#C9A86C)] shrink-0" />
-                <span>{clientEmail(sessionData) ?? fd?.email ?? "pitch@summit-capital.vc"}</span>
+                <span>{fd?.email ?? "pitch@summit-capital.vc"}</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-white/50">
                 <Phone className="w-4 h-4 text-[var(--brand,#C9A86C)] shrink-0" />
-                <span>{clientPhone(sessionData) ?? fd?.phone ?? "+33 1 49 00 00 00"}</span>
+                <span>{fd?.phone ?? "+33 1 49 00 00 00"}</span>
               </div>
             </div>
           </div>
@@ -612,11 +622,11 @@ function LegalPage() {
           <div className="border-b border-white/5 pb-4">
             <div className="text-[var(--brand,#C9A86C)] text-[10px] font-bold uppercase mb-2">ÉDITEUR</div>
             <p className="leading-relaxed font-sans text-sm text-white/75">
-              <strong>Aevia WS — Valentin Milliand</strong><br />
+              <strong><EditeurDuSite /></strong><br />
               Entrepreneur individuel<br />
               SIREN : <LegalIdentity /><br />
-              {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}<br />
-              Email : {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}<br />
+              {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
+              Email : {fd?.email ?? "contact@exemple.fr"}<br />
               Adresse : Communiquée sur demande
             </p>
           </div>
@@ -633,7 +643,7 @@ function LegalPage() {
           <div>
             <div className="text-[var(--brand,#C9A86C)] text-[10px] font-bold uppercase mb-2">AGRÉMENTS FINANCIERS</div>
             <p className="leading-relaxed font-sans text-xs text-white/40">
-              Summit Capital est une marque détenue par Aevia WS. Ce site présente des informations indicatives et ne constitue pas une offre publique d'investissement, un conseil en gestion de patrimoine ou une sollicitation financière réglementée.
+              {clientName(sessionData) ?? "Summit Capital"} est une marque détenue par Aevia WS. Ce site présente des informations indicatives et ne constitue pas une offre publique d'investissement, un conseil en gestion de patrimoine ou une sollicitation financière réglementée.
             </p>
           </div>
         </div>

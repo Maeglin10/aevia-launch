@@ -34,7 +34,7 @@ export const THREATS = [
   {
     id: "TR-945",
     source: "Kiev, UA",
-    target: clientCityOr("Paris") + ", FR",
+    get target() { return clientCityOr("Paris") + ", FR"; },
     type: "Infiltration",
     intensity: "CRITICAL",
     timestamp: "14:23:10",

@@ -46,7 +46,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DOMAINE MIROIR — Domaine viticole français · vente par allocation
+   {clientName(sessionData) ?? "Domaine Miroir"} — Domaine viticole français · vente par allocation
    Photographie réelle + chorégraphie de défilement éditoriale (style Grand Cru
    × élégance chapitrée). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -298,8 +298,6 @@ function Nav() {
         ) : (
           <>
             <Grape size={20} color={C.gold} strokeWidth={1.4} />
-            {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
-                portait « Domaine Miroir » sur le site de n'importe quel client. */}
             {clientName(sessionData) ?? "Domaine Miroir"}
           </>
         )}
@@ -452,7 +450,7 @@ function Hero() {
       >
         <img
           src={PHOTO.vineyard}
-          alt="Vignoble du Domaine Miroir au crépuscule"
+          alt={`Vignoble du ${clientName(sessionData) ?? "Domaine Miroir"} au crépuscule`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -609,7 +607,7 @@ function Manifesto() {
             color: C.ink,
           }}
         >{/* TEXTE_SECTION */ clientText(sessionData, "domaine.texte") ?? (<>
-          Au cœur d&apos;un coteau exposé plein sud, le Domaine Miroir cultive{' '}
+          Au cœur d&apos;un coteau exposé plein sud, le {clientName(sessionData) ?? "Domaine Miroir"} cultive{' '}
           <span style={{ fontStyle: 'italic', color: C.burgundy }}>
             douze hectares
           </span>{' '}
@@ -643,29 +641,34 @@ type Chapter = {
   sub: string;
 };
 
-const CHAPTERS: Chapter[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function CHAPTERS_LIVE(): Chapter[] {
+  return [
   {
     src: PHOTO.rows,
-    alt: 'Rangs de vigne du Domaine Miroir',
+    alt: `Rangs de vigne du ${clientName(sessionData) ?? "Domaine Miroir"}`,
     index: 'I',
     caption: 'Le Terroir',
     sub: 'Argilo-calcaire, vieilles vignes, exposition sud.',
   },
   {
     src: PHOTO.bottle,
-    alt: 'Bouteille du Domaine Miroir',
+    alt: `Bouteille du ${clientName(sessionData) ?? "Domaine Miroir"}`,
     index: 'II',
     caption: 'La Vendange',
     sub: 'Récolte manuelle, tri parcelle par parcelle.',
   },
   {
     src: PHOTO.glass,
-    alt: 'Verre de vin du Domaine Miroir',
+    alt: `Verre de vin du ${clientName(sessionData) ?? "Domaine Miroir"}`,
     index: 'III',
     caption: 'La Dégustation',
     sub: 'Un fruit profond, une trame soyeuse, une finale infinie.',
   },
 ];
+}
+let CHAPTERS: Chapter[] = CHAPTERS_LIVE();
 
 function ChapterImage({
   chapter,
@@ -912,7 +915,10 @@ type Vintage = {
   scarcity: string;
 };
 
-const VINTAGES_DEMO: Vintage[] = /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function VINTAGES_DEMO_LIVE(): Vintage[] {
+  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   {
     year: '2018',
     name: 'Cuvée du Miroir',
@@ -938,6 +944,8 @@ const VINTAGES_DEMO: Vintage[] = /* REALISATIONS */ resolveList(clientWorks(sess
     scarcity: '210 caisses',
   },
 ]);
+}
+let VINTAGES_DEMO: Vintage[] = VINTAGES_DEMO_LIVE();
 
 function VintageCard({ v, i }: { v: Vintage; i: number }) {
   const [hover, setHover] = useState(false);
@@ -1153,7 +1161,10 @@ type EditRow = {
   alt: string;
 };
 
-const EDIT_ROWS_SOURCE: EditRow[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function EDIT_ROWS_SOURCE_LIVE(): EditRow[] {
+  return [
   {
     eyebrow: 'Le Terroir',
     title: (
@@ -1163,7 +1174,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     ),
     body: 'Nos parcelles reposent sur un socle argilo-calcaire vieux de plusieurs millions d’années. Cette roche imprime aux vins leur tension et leur fraîcheur, signature inimitable du coteau du Miroir.',
     img: PHOTO.vineyardWide,
-    alt: 'Vignoble en terrasses du Domaine Miroir',
+    alt: `Vignoble en terrasses du ${clientName(sessionData) ?? "Domaine Miroir"}`,
   },
   {
     eyebrow: 'Le Geste',
@@ -1174,9 +1185,11 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
     ),
     body: 'Vendanges entièrement manuelles, tri sur table, fermentations en levures indigènes. Chaque cuvée est élevée vingt-quatre mois en fûts de chêne français, dans le silence de nos caves voûtées.',
     img: PHOTO.cellar,
-    alt: 'Cave d’élevage du Domaine Miroir',
+    alt: `Cave d’élevage du ${clientName(sessionData) ?? "Domaine Miroir"}`,
   },
 ];
+}
+let EDIT_ROWS_SOURCE: EditRow[] = EDIT_ROWS_SOURCE_LIVE();
 let EDIT_ROWS = EDIT_ROWS_SOURCE;
 
 function EditorialRows() {
@@ -1344,7 +1357,7 @@ function TastingSticky() {
           >
             <img
               src={PHOTO.glass}
-              alt="Dégustation d’un verre du Domaine Miroir"
+              alt={`Dégustation d’un verre du ${clientName(sessionData) ?? "Domaine Miroir"}`}
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
@@ -1495,7 +1508,7 @@ function CellarExperience() {
       >
         <img
           src={PHOTO.cellar}
-          alt="Le chai d’élevage voûté du Domaine Miroir"
+          alt={`Le chai d’élevage voûté du ${clientName(sessionData) ?? "Domaine Miroir"}`}
           loading="lazy"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1603,7 +1616,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     quote:
-      'Je suis l’allocation du Domaine Miroir depuis huit ans. Aucun millésime ne ressemble au précédent, et pourtant chacun porte la même signature de droiture. C’est une cave que l’on garde.',
+      `Je suis l’allocation du ${clientName(sessionData) ?? "Domaine Miroir"} depuis huit ans. Aucun millésime ne ressemble au précédent, et pourtant chacun porte la même signature de droiture. C’est une cave que l’on garde.`,
     name: 'Hélène Vasseur',
     role: 'Collectionneuse · Genève',
   },
@@ -2114,7 +2127,7 @@ function Footer() {
         }}
       >
         <span>
-          © 1834–2026 Domaine Miroir. L&apos;abus d&apos;alcool est dangereux pour
+          © 1834–2026 {clientName(sessionData) ?? "Domaine Miroir"}. L&apos;abus d&apos;alcool est dangereux pour
           la santé. À consommer avec modération.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>
@@ -2172,10 +2185,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2183,6 +2207,9 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  VINTAGES_DEMO = VINTAGES_DEMO_LIVE();
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
+  CHAPTERS = CHAPTERS_LIVE();
   PHOTO = PHOTO_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 

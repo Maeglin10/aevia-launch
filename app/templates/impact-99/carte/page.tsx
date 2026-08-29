@@ -1,7 +1,11 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientServices } from "@/lib/templates/clientContent";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientEmail,
+  clientName,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import {
@@ -42,6 +46,10 @@ import "../../premium.css";
    every page. No new styling is introduced — only the theme's own tokens.
    ========================================================================= */
 
+/* La session, posée avant tout dégel : une donnée recalculée à l'import la lit.
+   Déclarée plus bas, elle rendait la page blanche sans un mot du build. */
+let sessionData: any = null;
+
 type EmberPage =
   | "home"
   | "carte"
@@ -66,7 +74,10 @@ const NAV_PAGES: { key: EmberPage; label: string }[] = [
    DATA STRUCTURES
    ========================================================================= */
 
-const MENU_HIGHLIGHTS = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function MENU_HIGHLIGHTS_LIVE() {
+  return [
   {
     id: 1,
     name: "Dry-Aged Wagyu",
@@ -77,7 +88,7 @@ const MENU_HIGHLIGHTS = [
   },
   {
     id: 2,
-    name: "Smoked Ember Octopus",
+    name: `Smoked ${clientName(sessionData) ?? "Ember"} Octopus`,
     category: "Appetizer",
     price: "$34",
     desc: "Wood-fired octopus tentacle with chorizo emulsion, squid ink tuile, and pickled mustard seeds.",
@@ -85,13 +96,15 @@ const MENU_HIGHLIGHTS = [
   },
   {
     id: 3,
-    name: "The Ember Cellar Selection",
+    name: `The ${clientName(sessionData) ?? "Ember"} Cellar Selection`,
     category: "Pairing",
     price: "$95",
     desc: "A curated flight of rare vintage reds, hand-selected to complement the intensity of wood-fired smoke.",
     img: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=1200&q=80",
   },
 ];
+}
+let MENU_HIGHLIGHTS = MENU_HIGHLIGHTS_LIVE();
 
 /*
   Les plats mis en avant : ceux du client quand il a rempli sa carte, ceux de
@@ -149,7 +162,10 @@ const STATS = [
 
 /* ── CARTE (full menu) — theme-native FR data ───────────────────────────── */
 
-const CARTE_SECTIONS = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function CARTE_SECTIONS_LIVE() {
+  return [
   {
     id: "entrees",
     label: "Entrées",
@@ -195,10 +211,12 @@ const CARTE_SECTIONS = [
       { name: "Châteauneuf-du-Pape Rouge", price: "24 € / verre", desc: "Grenache puissant, notes de garrigue et de cuir, accord idéal avec les pièces maturées." },
       { name: "Hermitage Rouge — Grand Cru", price: "180 € / btl", desc: "Syrah septentrionale, profondeur épicée taillée pour la fumée du bois de chêne." },
       { name: "Meursault Premier Cru Blanc", price: "32 € / verre", desc: "Chardonnay beurré et minéral, compagnon des poissons flambés au cerisier." },
-      { name: "Flight de la Cave Ember", price: "95 €", desc: "Sélection de trois grands crus rares, accordés à l'intensité de la flamme." },
+      { name: `Flight de la Cave ${clientName(sessionData) ?? "Ember"}`, price: "95 €", desc: "Sélection de trois grands crus rares, accordés à l'intensité de la flamme." },
     ],
   },
 ];
+}
+let CARTE_SECTIONS = CARTE_SECTIONS_LIVE();
 
 // Real menu from the client's wizard input (c?.menuItems) takes priority over
 // the demo CARTE_SECTIONS above. Categories are derived from the items'
@@ -225,7 +243,10 @@ function buildCarteSections(items: { name: string; price: string; description?: 
 
 /* ── BLOG — mock FR articles ─────────────────────────────────────────────── */
 
-const BLOG_POSTS = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function BLOG_POSTS_LIVE() {
+  return [
   {
     slug: "art-maturation",
     title: "L'Art de la Maturation à Sec",
@@ -263,12 +284,14 @@ const BLOG_POSTS = [
       "De l'apprentissage en brigade à la double étoile, le parcours de notre chef exécutif, gardien du laboratoire du feu.",
     img: "https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=1200&q=80",
     body: [
-      "Vingt années passées à apprivoiser la flamme. Notre chef exécutif a forgé sa maîtrise dans les plus grandes maisons avant de fonder Ember, avec une obsession : rendre au feu sa noblesse première.",
+      `Vingt années passées à apprivoiser la flamme. Notre chef exécutif a forgé sa maîtrise dans les plus grandes maisons avant de fonder ${clientName(sessionData) ?? "Ember"}, avec une obsession : rendre au feu sa noblesse première.`,
       "Le laboratoire du feu, comme il l'appelle, repose sur trois bois — hickory, cerisier et chêne — combinés pour composer un profil de fumée unique à chaque cuisson. Rien n'y est laissé au hasard : la densité de la braise, la distance à la flamme, le repos après la saisie.",
-      "Sa philosophie tient en une phrase : « Le feu ne se commande pas, il se comprend. » C'est cette compréhension, patiemment acquise, qui a valu à Ember sa seconde étoile.",
+      `Sa philosophie tient en une phrase : « Le feu ne se commande pas, il se comprend. » C'est cette compréhension, patiemment acquise, qui a valu à ${clientName(sessionData) ?? "Ember"} sa seconde étoile.`,
     ],
   },
 ];
+}
+let BLOG_POSTS = BLOG_POSTS_LIVE();
 
 /* ==========================================================================
    UTILITY COMPONENTS
@@ -618,7 +641,7 @@ function ReservationPage() {
                   <Phone className="w-5 h-5 text-[#ff4d00]" /> 01 23 45 67 89
                 </div>
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
-                  <Mail className="w-5 h-5 text-[#ff4d00]" /> contact@exemple.fr
+                  <Mail className="w-5 h-5 text-[#ff4d00]" /> {clientEmail(sessionData) ?? "contact@exemple.fr"}
                 </div>
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
                   <MapPin className="w-5 h-5 text-[#ff4d00]" /> Adresse communiquée
@@ -694,7 +717,7 @@ function BlogPage({
     <section className="pt-44 pb-32 px-6 md:px-12 min-h-dvh">
       <div className="max-w-[1600px] mx-auto">
         <PageHeader
-          kicker="Le Journal Ember"
+          kicker={`Le Journal ${clientName(sessionData) ?? "Ember"}`}
           title="Le"
           accent="Feu."
           sub="Récits de gastronomie, de vin et de flamme. Les coulisses du laboratoire du feu."
@@ -773,13 +796,13 @@ function AboutPage({ goTo }: { goTo: (p: EmberPage) => void }) {
           <Reveal delay={0.2}>
             <div className="space-y-8 text-white/40 text-lg leading-relaxed font-light italic">
               <p>
-                Ember est né d'une obsession : rendre au feu sa noblesse première.
+                {clientName(sessionData) ?? "Ember"} est né d'une obsession : rendre au feu sa noblesse première.
                 Là où la cuisine moderne multiplie les techniques, nous revenons à
                 l'élément le plus ancien — le bois, la flamme, la braise.
               </p>
               <p>
                 Notre chef exécutif a forgé sa maîtrise pendant vingt ans dans les
-                plus grandes maisons avant de fonder Ember. Son laboratoire du feu
+                plus grandes maisons avant de fonder {clientName(sessionData) ?? "Ember"}. Son laboratoire du feu
                 combine trois bois — hickory, cerisier et chêne — pour composer un
                 profil de fumée unique à chaque cuisson.
               </p>
@@ -889,7 +912,7 @@ function ContactPage() {
                     </span>
                   </div>
                   <p className="text-sm text-white/40 font-light uppercase tracking-widest italic">
-                    contact@exemple.fr
+                    {clientEmail(sessionData) ?? "contact@exemple.fr"}
                   </p>
                 </div>
               </div>
@@ -996,14 +1019,14 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
                 Aevia WS — entrepreneur individuel (auto-entrepreneur)
               </LegalBlock>
               <LegalBlock title="Directeur de la publication">
-                Valentin Milliand
+                <EditeurDuSite />
               </LegalBlock>
               <LegalBlock title="Immatriculation">
-                SIREN <LegalIdentity /> — RCS Bourg-en-Bresse
+                SIREN <LegalIdentity /> — RCS <EditeurDuSite quoi="ville" />
               </LegalBlock>
-              <LegalBlock title="Contact">valentinmilliand@aevia.services</LegalBlock>
+              <LegalBlock title="Contact">{clientEmail(sessionData) ?? "contact@exemple.fr"}</LegalBlock>
               <LegalBlock title="Siège social">
-                Adresse du siège social communiquée sur demande à valentinmilliand@aevia.services
+                Adresse du siège social communiquée sur demande à contact@exemple.fr
               </LegalBlock>
               <LegalBlock title="TVA">
                 TVA non applicable, art. 293 B du CGI
@@ -1015,9 +1038,9 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
           ) : (
             <>
               <LegalBlock title="Responsable du traitement">
-                Aevia WS, représentée par Valentin Milliand, est responsable du
+                <EditeurDuSite />, est responsable du
                 traitement des données collectées sur ce site. Contact :
-                valentinmilliand@aevia.services.
+                contact@exemple.fr.
               </LegalBlock>
               <LegalBlock title="Données collectées">
                 Les informations transmises via les formulaires de réservation et de
@@ -1075,6 +1098,7 @@ function LegalBlock({
 
 import { useRouter } from "next/navigation";
 
+
 // Global state variable for CartePage() compatibility (menu wiring only)
 let c: any = null;
 /*
@@ -1082,7 +1106,6 @@ let c: any = null;
   `generatedContent`, et `clientName(sessionData)` y référençait une variable
   qui n'existait pas — la page entière disparaissait.
 */
-let sessionData: any = null;
 /*
   Le profil du client, où vit sa carte. Cette page ne gardait que
   `generatedContent` : `bp?.menu` y désignait une variable inexistante et la
@@ -1108,15 +1131,29 @@ export default function EmberGrillPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   c = session?.generatedContent;
   sessionData = session;
   bp = session?.businessProfile;
+  MENU_HIGHLIGHTS = MENU_HIGHLIGHTS_LIVE();
+  CARTE_SECTIONS = CARTE_SECTIONS_LIVE();
+  BLOG_POSTS = BLOG_POSTS_LIVE();
   PHILOSOPHY = PHILOSOPHY_LIVE();
 
   const [page, setPage] = useState<EmberPage>("carte");
@@ -1626,7 +1663,7 @@ export default function EmberGrillPage() {
         <div className="max-w-[1600px] mx-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10">
           <div className="flex items-center gap-12">
             <span>
-              &copy; {new Date().getFullYear()} EMBER GRILL & CELLAR GROUP.
+              &copy; {new Date().getFullYear()} {clientName(sessionData) ?? "Ember"} GRILL & CELLAR GROUP.
             </span>
             <div className="flex gap-8">
               <span>USDA_PRIME_CERTIFIED</span>

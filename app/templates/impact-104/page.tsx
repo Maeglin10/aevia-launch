@@ -1,16 +1,15 @@
 "use client";
 import {
+  clientTrade,
+  clientPhone,
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientText,
-  clientTrade,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
@@ -98,10 +97,21 @@ export default function LumiereDoreePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -195,7 +205,7 @@ export default function LumiereDoreePage() {
               color: scrolled ? C.text : C.white,
             }}
           >
-            {clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Studio Lumière Dorée"))}
+            {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Lumière Dorée"))}
           </div>
         )}
         <div style={{ display: "flex", alignItems: "center", gap: 36 }} className="nav-links-desktop">
@@ -266,7 +276,7 @@ export default function LumiereDoreePage() {
             }}
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 48 }}>
-              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: FONT, fontStyle: "italic", fontSize: 20, color: C.white }}>{clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Studio Lumière Dorée"))}</span>
+              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: FONT, fontStyle: "italic", fontSize: 20, color: C.white }}>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Lumière Dorée"))}</span>
               <button onClick={() => setMenuOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: C.white }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <line x1="18" y1="6" x2="6" y2="18" />
@@ -395,8 +405,8 @@ export default function LumiereDoreePage() {
               marginBottom: 40,
               maxWidth: 500,
             }}
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            {clientTrade(sessionData) ?? "Photographe"} de mariage basée à {clientCity({ formData: fd }) ?? "Paris"}, je capture vos émotions avec discrétion et sensibilité pour des souvenirs qui durent toute une vie.
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
+            {clientTrade(sessionData) ?? "Photographe"} de mariage basée à {clientCity(sessionData) ?? "Paris"}, je capture vos émotions avec discrétion et sensibilité pour des souvenirs qui durent toute une vie.
           </>}</motion.p>
           <motion.div
             className="i104-hero-cta"
@@ -789,11 +799,11 @@ export default function LumiereDoreePage() {
           <div style={{ display: "grid", gridTemplateColumns: "1.5fr 1fr 1fr", gap: 48, marginBottom: 48 }}>
             <div>
               <div style={{ fontFamily: FONT, fontStyle: "italic", fontWeight: 300, fontSize: 22, color: C.white, marginBottom: 16 }}>
-                {clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Studio Lumière Dorée"))}
+                {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Lumière Dorée"))}
               </div>
               <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 1.8 }}>
                 {clientTrade(sessionData) ?? "Photographe"} mariage &amp; portraits.<br />
-                {clientCity({ formData: fd }) ?? "Paris"} &amp; déplacements France entière.
+                {clientCity(sessionData) ?? "Paris"} &amp; déplacements France entière.
               </p>
             </div>
             <div>
@@ -801,9 +811,9 @@ export default function LumiereDoreePage() {
                 Contact
               </p>
               <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 2 }}>
-                {clientCity({ formData: fd }) ?? "Paris"} 11e<br />
-                <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33672755919").replace(/[^+0-9]/g, "")}`} style={{ color: C.accent, textDecoration: "none" }}>{clientPhone(sessionData) ?? "06 12 72 75 75"}</a><br />
-                <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@lumieredoree.fr"}`} style={{ color: C.accent, textDecoration: "none" }}>{clientEmail(sessionData) ?? fd?.email ?? "contact@lumieredoree.fr"}</a>
+                {clientCity(sessionData) ?? "Paris"} 11e<br />
+                <a href={`tel:${fd?.phone ?? "+33672755919"}`} style={{ color: C.accent, textDecoration: "none" }}>{clientPhone(sessionData) ?? "06 12 72 75 75"}</a><br />
+                <a href={`mailto:${fd?.email ?? "contact@lumieredoree.fr"}`} style={{ color: C.accent, textDecoration: "none" }}>{fd?.email ?? "contact@lumieredoree.fr"}</a>
               </p>
             </div>
             <div>
@@ -830,7 +840,7 @@ export default function LumiereDoreePage() {
               fontWeight: 300,
             }}
           >
-            <span>© 2025 {clientName(sessionData) ?? "Studio Lumière Dorée"} — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+            <span>© 2025 {clientName(sessionData) ?? "Studio Lumière Dorée"} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
             <div style={{ display: "flex", gap: 24 }}>
               <a href="/templates/impact-104/legal" style={{ color: "inherit", textDecoration: "none" }}>Mentions légales</a>
               <a href="/templates/impact-104/legal" style={{ color: "inherit", textDecoration: "none" }}>Confidentialité</a>

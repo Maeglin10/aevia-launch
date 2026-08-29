@@ -221,7 +221,7 @@ function MANIFEST_LIVE() {
   ],
   testimonials: resolveList(clientReviews({ formData: fd, businessProfile: bp, generatedContent: c })?.map((r: any) => ({ text: r.text, name: r.author })), [
     { name: "J. L. Thorne", role: "Fragrance Critic", text: "Éclat has redefined the boundaries of niche perfumery. A masterclass in tension and release." },
-    { name: "M. Vreeland", role: "Vogue " + (clientCity({ formData: fd }) ?? "Paris"), text: "To wear Nocturne is to wrap oneself in an invisible armor of pure, liquid luxury." },
+    { name: "M. Vreeland", role: "Vogue " + (clientCity(sessionData) ?? "Paris"), text: "To wear Nocturne is to wrap oneself in an invisible armor of pure, liquid luxury." },
     { name: "A. Sterling", role: "Collector", text: "The longevity is simply supernatural. A single drop lasts well into the next sunrise." }
   ]),
   tiers: resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ name: s.title, price: s.price ?? '' })), [
@@ -298,10 +298,21 @@ export default function EclatLuxuryPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -452,7 +463,7 @@ export default function EclatLuxuryPage() {
                 <div className="w-10 h-10 rounded-full border border-fuchsia-900/50 flex items-center justify-center bg-fuchsia-900/10 group-hover:bg-fuchsia-900/30 transition-all duration-500">
                   <FlaskConical className="w-4 h-4 text-fuchsia-300" />
                 </div>
-                <span className="text-xl tracking-[0.3em] font-light text-white uppercase">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>ÉCLAT</>)}</span>
+                <span className="text-xl tracking-[0.3em] font-light text-white uppercase">{/* NOM_LOGO */ clientName(sessionData) ?? (<>ÉCLAT</>)}</span>
               </>
             )}
           </Link>
@@ -541,7 +552,7 @@ export default function EclatLuxuryPage() {
               animate={{ opacity: 1 }}
               transition={{ duration: 1, delay: 1 }}
               className="max-w-2xl mx-auto text-lg md:text-xl text-zinc-400 font-light italic tracking-wide"
-            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Architectural scent structures crafted in Grasse. Where botanical rarity meets quantum precision.
             </>}</motion.p>
           </div>
@@ -918,7 +929,7 @@ export default function EclatLuxuryPage() {
                 <span className="text-lg tracking-[0.3em] font-light text-white uppercase">ÉCLAT</span>
               </Link>
               <p className="text-xs text-zinc-500 uppercase tracking-[0.2em] leading-relaxed max-w-md italic">
-                Haute parfumerie crafted with uncompromising precision. {clientCity({ formData: fd }) ?? "Paris"}, Grasse, New York.
+                Haute parfumerie crafted with uncompromising precision. {clientCity(sessionData) ?? "Paris"}, Grasse, New York.
               </p>
             </div>
             
@@ -944,7 +955,7 @@ export default function EclatLuxuryPage() {
           </div>
 
           <div className="flex flex-col md:flex-row items-center justify-between gap-8 pt-8 border-t border-white/10 text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-600">
-            <div>© 2026 {clientName(sessionData) ?? "Éclat Parfums. All Rights"} Reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</div>
+            <div>© 2026 {clientName(sessionData) ?? "Éclat Parfums. All Rights"} Reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</div>
             <div className="flex items-center gap-8 text-white/50">
               <Link href="#boutique" className="hover:text-white transition-colors">Camera</Link>
               <Link href="#boutique" className="hover:text-white transition-colors">MessageSquare</Link>

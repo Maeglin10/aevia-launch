@@ -33,17 +33,19 @@ import {
   Moon,
 } from "lucide-react"
 import {
-  clientHeroPrestations,
   clientAccrocheRestante,
   clientCity,
+  clientHeroPrestations,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -55,7 +57,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ==========================================================================
-   LUMIÈRE BEAUTY — Design Tokens
+   {clientName(sessionData) ?? "Lumière Beauty"} — Design Tokens
    ========================================================================== */
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
 // used to derive primaryLight/primaryDark from the client's brand color.
@@ -1187,7 +1189,7 @@ function Hero() {
       >
         <Image
           src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=1200&auto=format&fit=crop"))}
-          alt="Lumière Beauty — Soins premium"
+          alt={`${clientName(sessionData) ?? "Lumière Beauty"} — Soins premium`}
           fill
           className="object-cover"
           priority
@@ -1423,7 +1425,7 @@ function RituelsSection() {
         <div className="flex flex-col lg:flex-row gap-12 items-start">
           {/* Steps list */}
           <div className="lg:w-[45%] space-y-4">
-            {RITUELS.map((r, i) => {
+            {resolveList(fusionnerEtapes(RITUELS, clientMethode(sessionData)), RITUELS).map((r, i) => {
               const Icon = r.icon
               return (
                 <Reveal key={r.step} delay={i * 0.08}>
@@ -1650,7 +1652,7 @@ function AtelierSection() {
             <div className="relative aspect-[3/4] rounded-3xl overflow-hidden">
               <Image
                 src={photo(3, "https://images.unsplash.com/photo-1598452963314-b09f397a5c48?q=80&w=800&auto=format&fit=crop")}
-                alt="Atelier Lumière Beauty"
+                alt={`Atelier ${clientName(sessionData) ?? "Lumière Beauty"}`}
                 fill
                 className="object-cover"
                 unoptimized
@@ -2299,7 +2301,7 @@ function Footer() {
             className="text-[11px]"
             style={{ fontFamily: "'Inter', sans-serif", fontWeight: 300, color: "rgba(255,255,255,0.35)" }}
           >
-            © 2025 {clientName(sessionData) ?? "Lumière Beauty."} Tous droits réservés. Formulé & fabriqué en France.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2025 {clientName(sessionData) ?? "Lumière Beauty."} Tous droits réservés. Formulé & fabriqué en France.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </p>
           <div className="flex gap-6">
             {["Mentions légales", "Confidentialité", "CGV"].map((item) => (
@@ -2352,10 +2354,21 @@ export default function Impact134Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;

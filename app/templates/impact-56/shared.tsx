@@ -183,8 +183,8 @@ function WINES_LIVE() {
   {
     id: "blanc",
     name: "Blanc du Domaine",
-    subtitle: clientCityOr("Bordeaux") + " Blanc Sec",
-    appellation: clientCityOr("Bordeaux") + " Blanc AOC",
+    get subtitle() { return clientCityOr("Bordeaux") + " Blanc Sec"; },
+    get appellation() { return clientCityOr("Bordeaux") + " Blanc AOC"; },
     millesimes: ["2023", "2022"],
     price: 65,
     priceRange: "65 €",

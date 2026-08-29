@@ -7,11 +7,9 @@ import { Sparkles, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, He
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -176,10 +174,21 @@ export default function EclatSpaPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -262,7 +271,7 @@ export default function EclatSpaPage() {
               style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <>{clientName({ formData: fd }) ?? "Éclat"}<span style={{ color: scrolled ? C.gold : "rgba(255,255,255,0.7)" }}>Spa</span></>
+            <>{clientName(sessionData) ?? "Éclat"}<span style={{ color: scrolled ? C.gold : "rgba(255,255,255,0.7)" }}>Spa</span></>
           )}
         </div>
         <div id="mb229-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
@@ -308,8 +317,8 @@ export default function EclatSpaPage() {
             style={{ fontFamily: FONT, fontSize: "clamp(42px, 5.2vw, 70px)", fontWeight: 300, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 20) ?? "Révélez votre éclat,"}<br /><em style={{ color: C.rose }}>{clientHeroLine(sessionData, 1, 2, 20) ?? "corps et âme."}</em>
           </>}</>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            Institut de beauté et spa à {clientCity({ formData: fd }) ?? "Nice"}. Soins visage, massages, épilation, maquillage — des rituels de bien-être avec des produits biologiques et une expertise de 14 ans.
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
+            Institut de beauté et spa à {clientCity(sessionData) ?? "Nice"}. Soins visage, massages, épilation, maquillage — des rituels de bien-être avec des produits biologiques et une expertise de 14 ans.
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
             <motion.a href="#reservation" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}44` }} whileHover={{ scale: 1.03 }}>
@@ -506,7 +515,7 @@ export default function EclatSpaPage() {
                   </div>
                   <p style={{ fontSize: 12, color: C.textMuted, textAlign: "center", marginTop: 18 }}>
                     Vous pouvez aussi nous appeler directement au{" "}
-                    <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33493000000").replace(/[^+0-9]/g, "")}`} style={{ color: C.accent, fontWeight: 600, textDecoration: "none" }}>{clientPhone(sessionData) ?? fd?.phone ?? "04 93 00 00 00"}</a>.
+                    <a href={`tel:${fd?.phone ?? "+33493000000"}`} style={{ color: C.accent, fontWeight: 600, textDecoration: "none" }}>{fd?.phone ?? "04 93 00 00 00"}</a>.
                   </p>
                 </motion.form>
               )}
@@ -521,11 +530,11 @@ export default function EclatSpaPage() {
           <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, marginBottom: 16 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Offrez-vous<br /><em>un moment rien qu'à vous.</em></>)}</h2>
           <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 420, margin: "0 auto 36px", lineHeight: 1.7 }}>Réservation par téléphone ou email. Coffrets cadeaux disponibles — parfaits pour offrir.</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33493000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "04 93 00 00 00"}
+            <motion.a href={`tel:${fd?.phone ?? "+33493000000"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
+              <Phone size={18} /> {fd?.phone ?? "04 93 00 00 00"}
             </motion.a>
-            <motion.a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "bonjour@eclatspa.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "13px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white }}>
-              <Mail size={18} />{clientEmail(sessionData) ?? fd?.email ?? "bonjour@eclatspa.fr"}</motion.a>
+            <motion.a href={`mailto:${fd?.email ?? "bonjour@eclatspa.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "13px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white }}>
+              <Mail size={18} />{fd?.email ?? "bonjour@eclatspa.fr"}</motion.a>
           </div>
         </Reveal>
       </section>
@@ -534,10 +543,10 @@ export default function EclatSpaPage() {
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 32 }}>
           <div>
             <div style={{ fontFamily: FONT, fontSize: 20, fontStyle: "italic", color: C.rose, marginBottom: 8 }}>Éclat Spa</div>
-            <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Institut beauté & spa · {clientCity({ formData: fd }) ?? "Nice"}<br />Mar–Sam 9h–19h</p>
+            <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Institut beauté & spa · {clientCity(sessionData) ?? "Nice"}<br />Mar–Sam 9h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Nice") + ", Alpes-Maritimes" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "04 93 00 00 00") }, { icon: <Clock size={13} />, t: "Mar–Sam 9h–19h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Nice") + ", Alpes-Maritimes" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "04 93 00 00 00") }, { icon: <Clock size={13} />, t: "Mar–Sam 9h–19h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.38)", fontSize: 13 }}>
                 <span style={{ color: C.rose }}>{item.icon}</span>{item.t}
               </div>
@@ -545,7 +554,7 @@ export default function EclatSpaPage() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-          <span style={{ color: "rgba(255,255,255,0.18)", fontSize: 12 }}>© 2026 Éclat Spa — Site par Aevia WS{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.18)", fontSize: 12 }}>© 2026 Éclat Spa — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="#contact" style={{ color: "rgba(255,255,255,0.18)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

@@ -2,11 +2,9 @@
 import {
   clientAddress,
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientList,
   clientName,
-  clientPhone,
   clientPhotos,
   clientServices,
   clientStats,
@@ -55,24 +53,30 @@ let brand: any = null;
 function HERO_CUVEES_LIVE() {
   return [
   {
-    left: "CHÂTEAU",
-    right: "DE VALROC",
-    name: (clientName({ formData: fd }) ?? "Cuvée Prestige"),
-    meta: "AOC " + (clientCity({ formData: fd }) ?? "Bordeaux") + " Grand Cru · 2020",
+    /* Le mot-symbole se lit en deux colonnes. Un client qui a un nom l'occupe
+       entier : la seconde colonne ne doit pas garder celui du domaine. */
+    left: `${clientName(sessionData) ?? "Château"}`,
+    right: clientName(sessionData) ? "" : "DE VALROC",
+    name: (clientName(sessionData) ?? "Cuvée Prestige"),
+    meta: "AOC " + (clientCity(sessionData) ?? "Bordeaux") + " Grand Cru · 2020",
     bottle: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1545608508-78f351665a1c?auto=format&fit=crop&q=85&w=620&h=1240"),
   },
   {
-    left: "CHÂTEAU",
-    right: "DE VALROC",
+    /* Le mot-symbole se lit en deux colonnes. Un client qui a un nom l'occupe
+       entier : la seconde colonne ne doit pas garder celui du domaine. */
+    left: `${clientName(sessionData) ?? "Château"}`,
+    right: clientName(sessionData) ? "" : "DE VALROC",
     name: "Cuvée Réserve",
-    meta: "AOC " + (clientCity({ formData: fd }) ?? "Bordeaux") + " · 2021",
+    meta: "AOC " + (clientCity(sessionData) ?? "Bordeaux") + " · 2021",
     bottle: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1598866971869-22782ffd918e?auto=format&fit=crop&q=85&w=620&h=1240"),
   },
   {
-    left: "CHÂTEAU",
-    right: "DE VALROC",
+    /* Le mot-symbole se lit en deux colonnes. Un client qui a un nom l'occupe
+       entier : la seconde colonne ne doit pas garder celui du domaine. */
+    left: `${clientName(sessionData) ?? "Château"}`,
+    right: clientName(sessionData) ? "" : "DE VALROC",
     name: "Blanc de Grâce",
-    meta: (clientCity({ formData: fd }) ?? "Bordeaux") + " Blanc · 2022",
+    meta: (clientCity(sessionData) ?? "Bordeaux") + " Blanc · 2022",
     bottle: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1714377676631-bef738815d62?auto=format&fit=crop&q=85&w=620&h=1240"),
   },
 ];
@@ -130,9 +134,9 @@ function WINES_DEMO_LIVE() {
   return [
   {
     id: "prestige",
-    name: (clientName({ formData: fd }) ?? "Cuvée Prestige"),
+    name: (clientName(sessionData) ?? "Cuvée Prestige"),
     vintage: "2020",
-    appellation: "AOC " + (clientCity({ formData: fd }) ?? "Bordeaux") + " Grand Cru",
+    appellation: "AOC " + (clientCity(sessionData) ?? "Bordeaux") + " Grand Cru",
     price: "€240",
     desc: "Le pinacle de notre domaine. Une robe pourpre intense aux reflets violines, un nez de fruits noirs confits, de cèdre et de réglisse. En bouche, la structure tannique est d'une finesse absolue.",
     notes: ["Cassis", "Cèdre", "Truffe"],
@@ -143,7 +147,7 @@ function WINES_DEMO_LIVE() {
     id: "reserve",
     name: "Cuvée Réserve",
     vintage: "2021",
-    appellation: "AOC " + (clientCity({ formData: fd }) ?? "Bordeaux"),
+    appellation: "AOC " + (clientCity(sessionData) ?? "Bordeaux"),
     price: "€95",
     desc: "L'expression la plus pure de notre terroir argilo-calcaire. Un vin de gastronomie, d'une élégance discrète et d'une persistance aromatique remarquable.",
     notes: ["Mûre", "Violette", "Épices"],
@@ -154,7 +158,7 @@ function WINES_DEMO_LIVE() {
     id: "blanc",
     name: "Blanc de Grâce",
     vintage: "2022",
-    appellation: (clientCity({ formData: fd }) ?? "Bordeaux") + " Blanc",
+    appellation: (clientCity(sessionData) ?? "Bordeaux") + " Blanc",
     price: "€68",
     desc: "Notre blanc de caractère issu de vieilles vignes de Sémillon et Sauvignon Blanc. Rond, généreux, avec une minéralité ciselée qui signe l'identité du domaine.",
     notes: ["Agrumes", "Fleur blanche", "Miel"],
@@ -165,7 +169,7 @@ function WINES_DEMO_LIVE() {
     id: "rose",
     name: "Rosé d'Une Nuit",
     vintage: "2023",
-    appellation: (clientCity({ formData: fd }) ?? "Bordeaux") + " Rosé",
+    appellation: (clientCity(sessionData) ?? "Bordeaux") + " Rosé",
     price: "€38",
     desc: "Macération pelliculaire de 18 heures sur Cabernet Franc et Merlot. Une robe saumonée, un nez de fraise des bois et de grenade, une bouche vive et saline.",
     notes: ["Fraise", "Grenade", "Pivoine"],
@@ -1082,10 +1086,21 @@ export default function WineryTemplate() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -1256,18 +1271,12 @@ export default function WineryTemplate() {
           height: 72,
         }}
       >
-        {/* La barre portait le nom du modèle, à l'endroit le plus visible de
-            la page. Le client a donné le sien : c'est celui-là qu'on montre,
-            dans le style du libellé d'origine. Sans client, la composition du
-            modèle revient telle quelle. */}
         {fd?.logoBase64 ? (
           <img
             src={fd.logoBase64}
             alt={fd?.businessName ?? 'logo'}
             style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
-        ) : clientName(sessionData) ? (
-          <span style={{ fontFamily: C.fontSerif, fontSize: 20, fontWeight: 700, color: C.burgundy, letterSpacing: "0.06em", lineHeight: 1, }} >{clientName(sessionData)}</span>
         ) : (
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <svg width={24} height={24} viewBox="0 0 24 24" fill="none">
@@ -1284,7 +1293,7 @@ export default function WineryTemplate() {
                 lineHeight: 1,
               }}
             >
-              Château de Valroc
+              {clientName(sessionData) ?? "Château de Valroc"}
             </span>
           </div>
         )}
@@ -2081,7 +2090,7 @@ export default function WineryTemplate() {
                 marginBottom: 24,
               }}
             >
-              Quatrième génération du domaine, Jean-Pierre a étudié l'oenologie à {clientCity(sessionData) ?? "Bordeaux"} et fait ses armes dans la vallée du Rhône avant de reprendre Château de Valroc en 2005. Sa philosophie : laisser parler le terroir, intervenir le moins possible.
+              Quatrième génération du domaine, Jean-Pierre a étudié l'oenologie à {clientCity(sessionData) ?? "Bordeaux"} et fait ses armes dans la vallée du Rhône avant de reprendre {clientName(sessionData) ?? "Château de Valroc"} en 2005. Sa philosophie : laisser parler le terroir, intervenir le moins possible.
             </p>
             <p
               style={{
@@ -2331,8 +2340,8 @@ export default function WineryTemplate() {
               {/* Contact details */}
               {[
                 { label: "Adresse", value: (clientAddress(sessionData) ?? "Château de Valroc, Route des Graves, 33760 Escoussans") },
-                { label: "Téléphone", value: clientPhone(sessionData) ?? "+33 5 56 23 78 90" },
-                { label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "contact@chateau-valroc.fr") },
+                { label: "Téléphone", value: "+33 5 56 23 78 90" },
+                { label: "Email", value: (fd?.email ?? "contact@chateau-valroc.fr") },
               ].map((c) => (
                 <div key={c.label} style={{ marginBottom: 20 }}>
                   <p
@@ -2571,7 +2580,7 @@ export default function WineryTemplate() {
                   letterSpacing: "0.04em",
                 }}
               >
-                Château de Valroc
+                {clientName(sessionData) ?? "Château de Valroc"}
               </span>
             </div>
             <p
@@ -2584,7 +2593,7 @@ export default function WineryTemplate() {
                 textTransform: "uppercase",
               }}
             >
-              © 2024 {clientName(sessionData) ?? "Château"} de Valroc — Tous droits réservés — L'abus d'alcool est dangereux pour la santé{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2024 {clientName(sessionData) ?? "Château de Valroc"} — Tous droits réservés — L'abus d'alcool est dangereux pour la santé{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: "flex", gap: 24 }}>
               {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? ["Instagram", "LinkedIn", "Newsletter"]).map((s) => (

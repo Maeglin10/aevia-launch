@@ -14,10 +14,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(__setLayoutSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setLayoutSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
   const fd = __layoutSession?.formData;
 
@@ -101,7 +112,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             className="font-black text-xl uppercase tracking-[0.2em] cursor-pointer hover:opacity-80" 
             style={{ fontFamily: "'Barlow Condensed', sans-serif" }}
           >
-            BRUTCO
+            {clientName(__layoutSession) ?? "BRUTCO"}
           </Link>
           {/* six links x gap-8 with no wrap ran past the right edge on a phone */}
           <div className="flex flex-wrap justify-center gap-x-5 gap-y-2 md:gap-8 text-xs font-bold uppercase tracking-widest text-white/40">

@@ -1,5 +1,12 @@
 "use client";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+  clientTagline,
+  clientText,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
@@ -23,13 +30,25 @@ export default function LumiereDoreeContactPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
@@ -44,6 +63,7 @@ export default function LumiereDoreeContactPage() {
   return (
       
     <div style={{ background: C.bg, color: C.text, fontFamily: FONT_BODY, minHeight: "100dvh" }}>
+      <EnteteAnnexe session={sessionData} repli="Lumière Dorée" accueil="/templates/impact-104" />
       <style>{CSS_VARIABLES}</style>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600;700&display=swap');
@@ -93,7 +113,7 @@ export default function LumiereDoreeContactPage() {
             lineHeight: 1.1,
           }}
         >
-          Parlons de votre projet
+          {/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? "Parlons de votre projet"}
         </h1>
       </div>
 
@@ -138,7 +158,7 @@ export default function LumiereDoreeContactPage() {
                 Message reçu !
               </h3>
               <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 15, color: C.textMuted, lineHeight: 1.7 }}>
-                Je vous recontacte sous 48h pour discuter de votre projet et vérifier la disponibilité de votre date.
+                {/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? clientTagline(sessionData) ?? "Je vous recontacte sous 48h pour discuter de votre projet et vérifier la disponibilité de votre date."}
               </p>
             </div>
           ) : (
@@ -315,7 +335,7 @@ export default function LumiereDoreeContactPage() {
             <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, color: C.textMuted, lineHeight: 1.8 }}>
               {clientCity(sessionData) ?? "Paris"} (Bastille)<br />
               <a href={`tel:${fd?.phone ?? "+33612345678"}`} style={{ color: C.accent, textDecoration: "none" }}>06 12 XX XX XX</a><br />
-              <a href={`mailto:${fd?.email ?? "contact@lumieredoree.fr"}`} style={{ color: C.accent, textDecoration: "none" }}>contact@lumieredoree.fr</a>
+              <a href={`mailto:${fd?.email ?? "contact@lumieredoree.fr"}`} style={{ color: C.accent, textDecoration: "none" }}>{fd?.email ?? "contact@lumieredoree.fr"}</a>
             </p>
           </div>
           <div>

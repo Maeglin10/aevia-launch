@@ -18,6 +18,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -26,8 +27,21 @@ import {
   clientTeam,
   clientText,
   clientWorks,
+  fusionnerEtapes,
   memoriserSession,
 } from "@/lib/templates/clientContent";
+
+/* Les étapes de la démonstration, sorties du rendu pour que la méthode du
+   client puisse s'y substituer ligne à ligne. */
+const METHODE_DEMO_76 = [
+              { num: "01", title: "Site_Analysis", body: "We begin with a forensic study of the site — topography, light vectors, wind exposure, subsurface conditions, and contextual syntax. No design decisions before the land speaks." },
+              { num: "02", title: "Concept_Generation", body: "Parametric models and structural simulations run concurrently with sketch exploration. We generate up to twelve volumetric proposals before selecting a direction for development." },
+              { num: "03", title: "Computational_Design", body: "Every facade panel, structural joint, and material specification is derived through generative algorithms optimized for performance and resource efficiency." },
+              { num: "04", title: "Engineering_Coordination", body: "Simultaneous BIM coordination with structural, MEP, and sustainability engineers. Clash detection at every stage. Zero site surprises." },
+              { num: "05", title: "Construction_Oversight", body: "Our architects visit the site weekly and issue formal observation reports. Material substitutions require studio approval. We do not accept shortcuts." },
+              { num: "06", title: "Post_Occupancy", body: "Six and twelve month evaluations against the original performance brief. Energy consumption, acoustic comfort, and spatial quality are all measured and documented." },
+            ];
+
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
@@ -169,16 +183,29 @@ export default function StructuraArchPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
 
 
   sessionData = session;
+  TEAM_DEMO = TEAM_DEMO_LIVE();
+  ARCHIVE_PROJECTS_DEMO = ARCHIVE_PROJECTS_DEMO_LIVE();
 
 
   memoriserSession(sessionData);
@@ -186,8 +213,6 @@ export default function StructuraArchPage() {
 
   rafraichirPartage();
   c = session?.generatedContent;
-  TEAM_DEMO = TEAM_DEMO_LIVE();
-  ARCHIVE_PROJECTS_DEMO = ARCHIVE_PROJECTS_DEMO_LIVE();
 
   SERVICES_DEMO = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
@@ -279,7 +304,7 @@ return (
             <h1 className="hero-ecran-court text-7xl md:text-9xl lg:text-[11rem] font-black leading-[1.15] tracking-tighter mb-12 uppercase pb-6">{<>{clientHeroLine(sessionData, 0, 2, 7) ?? "Void &"}<br />{" "}
               <span className="text-stone-500 italic">{clientHeroLine(sessionData, 1, 2, 7) ?? "Volume."}</span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-12 uppercase tracking-tight italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-12 uppercase tracking-tight italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Redefining the relationship between structure and environment.
               Pushing the limits of computational architecture.
             </>}</p>
@@ -522,14 +547,7 @@ return (
             <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>Method.</>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5">
-            {[
-              { num: "01", title: "Site_Analysis", body: "We begin with a forensic study of the site — topography, light vectors, wind exposure, subsurface conditions, and contextual syntax. No design decisions before the land speaks." },
-              { num: "02", title: "Concept_Generation", body: "Parametric models and structural simulations run concurrently with sketch exploration. We generate up to twelve volumetric proposals before selecting a direction for development." },
-              { num: "03", title: "Computational_Design", body: "Every facade panel, structural joint, and material specification is derived through generative algorithms optimized for performance and resource efficiency." },
-              { num: "04", title: "Engineering_Coordination", body: "Simultaneous BIM coordination with structural, MEP, and sustainability engineers. Clash detection at every stage. Zero site surprises." },
-              { num: "05", title: "Construction_Oversight", body: "Our architects visit the site weekly and issue formal observation reports. Material substitutions require studio approval. We do not accept shortcuts." },
-              { num: "06", title: "Post_Occupancy", body: "Six and twelve month evaluations against the original performance brief. Energy consumption, acoustic comfort, and spatial quality are all measured and documented." },
-            ].map((s, i) => (
+            {resolveList(fusionnerEtapes(METHODE_DEMO_76, clientMethode(sessionData)), METHODE_DEMO_76).map((s, i) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div className="bg-[#0a0a0c] p-10 h-full group hover:bg-[#0e0e11] transition-colors">
                   <div className="text-6xl font-black text-stone-500/15 mb-8 group-hover:text-stone-500/30 transition-colors font-mono">{s.num}</div>
@@ -634,8 +652,8 @@ return (
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-76"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "Structura Arch"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>
   );

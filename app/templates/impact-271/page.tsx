@@ -17,12 +17,14 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientNameOr,
   clientPhotos,
   clientReviews,
   clientServices,
   clientTagline,
   clientText,
   clientTrade,
+  memoriserSession,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -37,7 +39,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   JARDINS D'ALSACE — Paysagiste & Horticulture · {clientCity(sessionData) ?? "Strasbourg"} & Bas-Rhin
+   {clientName(sessionData) ?? "Jardins d'Alsace"} — Paysagiste & Horticulture · {clientCity(sessionData) ?? "Strasbourg"} & Bas-Rhin
    Photographie réelle + chorégraphie de défilement éditoriale.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -244,7 +246,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   },
   {
     quote:
-      "J\'avais besoin d\'une terrasse qui évoque l\'Alsace pour mes clients. Jardins d\'Alsace a créé un véritable écrin végétal avec géraniums, vignes vierges et buis sculptés. Notre terrasse est désormais dans plusieurs guides touristiques de la région.",
+      "J\'avais besoin d\'une terrasse qui évoque l\'Alsace pour mes clients. " + clientNameOr("Jardins d'Alsace") + " a créé un véritable écrin végétal avec géraniums, vignes vierges et buis sculptés. Notre terrasse est désormais dans plusieurs guides touristiques de la région.",
     name: 'Christophe Wagner',
     role: 'Restaurateur · ' + (clientCity(sessionData) ?? 'Strasbourg'),
   },
@@ -613,7 +615,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[6] || `https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2000&auto=format&fit=crop`)}
-          alt="Jardin alsacien fleuri par Jardins d'Alsace"
+          alt={`Jardin alsacien fleuri par ${clientName(sessionData) ?? "Jardins d'Alsace"}`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -2109,7 +2111,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2003–2026 Jardins d&apos;Alsace · SARL Reinhardt Paysage ·
+          © 2003–2026 {clientName(sessionData) ?? "Jardins d'Alsace"} · SARL Reinhardt Paysage ·
           {clientCity(sessionData) ?? "Strasbourg"}, Bas-Rhin{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
@@ -2165,10 +2167,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2177,8 +2190,9 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
   PHASES_DEMO = PHASES_DEMO_LIVE();
+  EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
+  memoriserSession(session);
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   EDIT_ROWS_DEMO = resolveList(

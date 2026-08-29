@@ -77,7 +77,7 @@ function EVENTS_DEMO_SOURCE_LIVE() {
   { title: "NEON PULSE", artist: "Nova Collective", date: "May 24, 2026", time: "21:00", venue: "Warehouse IX", city: "Berlin", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&q=80&w=1200"), price: "€45", status: "On Sale", genre: "Electronic" },
   { title: "MIDNIGHT CRESCENDO", artist: "The Archivists", date: "Jun 7, 2026", time: "20:00", venue: "Hall Meridian", city: "London", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?auto=format&fit=crop&q=80&w=1200"), price: "£65", status: "Selling Fast", genre: "Orchestral" },
   { title: "BASS COMMUNION", artist: "Drift Engine", date: "Jun 21, 2026", time: "23:00", venue: "Sublevel", city: "London", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&q=80&w=1200"), price: "£35", status: "On Sale", genre: "Techno" },
-  { title: "AURORA SESSIONS", artist: "Halcyon Drift", date: "Jul 5, 2026", time: "19:30", venue: "Le Ratio", city: (clientCity({ formData: fd }) ?? "Paris"), img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&q=80&w=1200"), price: "€55", status: "Limited", genre: "Indie" },
+  { title: "AURORA SESSIONS", artist: "Halcyon Drift", date: "Jul 5, 2026", time: "19:30", venue: "Le Ratio", city: (clientCity(sessionData) ?? "Paris"), img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&q=80&w=1200"), price: "€55", status: "Limited", genre: "Indie" },
 ]);
 }
 let EVENTS_DEMO_SOURCE = EVENTS_DEMO_SOURCE_LIVE();
@@ -92,7 +92,7 @@ function VENUES_LIVE() {
   { name: "Warehouse IX", city: "Berlin", capacity: "2 400", type: "Industrial", note: "Former turbine hall, 14m ceilings, a sound system built for low end." },
   { name: "Hall Meridian", city: "London", capacity: "5 200", type: "Concert hall", note: "Nineteenth-century acoustics, restored in 2019. Our seated programme lives here." },
   { name: "Sublevel", city: "London", capacity: "1 600", type: "Club", note: "Three rooms, no phones on the floor. Late licence until 08:00." },
-  { name: "Le Ratio", city: (clientCity({ formData: fd }) ?? "Paris"), capacity: "3 100", type: "Theatre", note: "Balcony horseshoe, velvet and gilt. Indie bills that deserve the room." },
+  { name: "Le Ratio", city: (clientCity(sessionData) ?? "Paris"), capacity: "3 100", type: "Theatre", note: "Balcony horseshoe, velvet and gilt. Indie bills that deserve the room." },
 ];
 }
 let VENUES = VENUES_LIVE();
@@ -152,10 +152,21 @@ export default function PulseEventsPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -241,7 +252,7 @@ export default function PulseEventsPage() {
                   <Music className="w-5 h-5 text-white" />
                   <motion.div className="absolute inset-0 rounded-full border-2 border-[var(--brand,#ec4899)]" animate={{ scale: [1, 1.5, 1], opacity: [0.5, 0, 0.5] }} transition={{ duration: 2, repeat: Infinity }} />
                 </div>
-                <span className="text-xl font-black tracking-tight">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>PULSE</>)}</span>
+                <span className="text-xl font-black tracking-tight">{/* NOM_LOGO */ clientName(sessionData) ?? (<>PULSE</>)}</span>
               </>
             )}
           </Link>
@@ -283,7 +294,7 @@ export default function PulseEventsPage() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.25}>
-              <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Curated live music experiences in the world's most iconic venues. Electronic, orchestral, indie — all unforgettable.
               </>}</p>
             </Reveal>
@@ -583,7 +594,7 @@ export default function PulseEventsPage() {
           ))}
         </div>
         <div className="max-w-[1200px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex justify-between">
-          <span>© 2026 {clientName(sessionData) ?? "PULSE EVENTS."}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "PULSE EVENTS."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span>FEEL THE FREQUENCY.</span>
         </div>
       </footer>

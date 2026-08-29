@@ -9,17 +9,27 @@ import { Zap, Target, TrendingUp, Timer, Users, Star, Phone, MapPin, ArrowRight,
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
+  clientMethode,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientSiret,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
+
+/* Les étapes de la démonstration, sorties du rendu pour que la méthode du
+   client puisse s'y substituer ligne à ligne. */
+const METHODE_DEMO_187 = [
+              { n: "01", t: "BILAN", d: "Composition corporelle, objectifs, historique, contraintes. On part de la réalité, pas d'une fiction." },
+              { n: "02", t: "PROGRAMME", d: "Plan 100% personnalisé. Entraînements, nutrition, récupération. Rien de générique." },
+              { n: "03", t: "EXÉCUTION", d: "On s'entraîne. Dur. Mais intelligemment. Progression linéaire, technique irréprochable." },
+              { n: "04", t: "RÉSULTATS", d: "Suivi hebdo, ajustements, mesures. Les chiffres ne mentent pas — et ils seront bons." },
+            ];
+
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
@@ -31,7 +41,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   MAX PERFORMANCE — {clientTrade(sessionData) ?? "Coach sportif"} personnel ({clientCity({ formData: fd }) ?? "Paris"})
+   {clientName(sessionData) ?? "Max Performance"} — {clientTrade(sessionData) ?? "Coach sportif"} personnel ({clientCity(sessionData) ?? "Paris"})
    Palette : noir #0a0a0a / orange électrique #f97316 / gris foncé #1a1a1a / blanc cassé #f8f5f0
    Fonts : Anton (titres impact) + Geist (corps)
    Style : énergie, impact, transformation, résultats
@@ -109,10 +119,21 @@ export default function MaxPerformancePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -156,7 +177,7 @@ export default function MaxPerformancePage() {
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <span className="font-black text-[#f8f5f0] tracking-widest text-sm uppercase" style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: "'Anton', impact, sans-serif" }}>{clientName({ formData: fd }) ?? "MAX"}<span className="text-[var(--brand,#f97316)]">.</span>PERF</span>
+              <span className="font-black text-[#f8f5f0] tracking-widest text-sm uppercase" style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: "'Anton', impact, sans-serif" }}>{clientName(sessionData) ?? "MAX"}<span className="text-[var(--brand,#f97316)]">.</span>PERF</span>
             )}
           </div>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.25em] text-[#f8f5f0]/25">
@@ -165,8 +186,8 @@ export default function MaxPerformancePage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0623722265").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#f97316)] font-bold text-sm">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "06 23 72 22 65"}
+            <a href={`tel:${fd?.phone ?? "0623722265"}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#f97316)] font-bold text-sm">
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "06 23 72 22 65"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#f97316)] text-[#0a0a0a] text-[10px] font-black uppercase tracking-[0.25em] hover:bg-[#ea650a] transition-colors">
               Séance offerte
@@ -176,7 +197,7 @@ export default function MaxPerformancePage() {
               <SheetContent side="right" className="bg-[#111] border-[var(--brand,#f97316)]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-black uppercase text-[#f8f5f0] hover:text-[var(--brand,#f97316)] transition-colors" style={{ fontFamily: "'Anton', sans-serif" }}>{l}</Link>)}
-                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0623722265").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#f97316)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "06 23 72 22 65"}</a>
+                  <a href={`tel:${fd?.phone ?? "0623722265"}`} className="flex items-center gap-3 text-[var(--brand,#f97316)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {fd?.phone ?? "06 23 72 22 65"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -206,7 +227,7 @@ export default function MaxPerformancePage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-8">
               <div className="w-10 h-[2px] bg-[var(--brand,#f97316)]" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#f97316)]/70">{clientTrade(sessionData) ?? "Coach sportif"} certifié · {clientCity({ formData: fd }) ?? "Paris"} & Online</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#f97316)]/70">{clientTrade(sessionData) ?? "Coach sportif"} certifié · {clientCity(sessionData) ?? "Paris"} & Online</span>
             </div>
           </motion.div>
 
@@ -224,15 +245,15 @@ export default function MaxPerformancePage() {
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
             className="max-w-sm text-sm text-[#f8f5f0]/30 leading-relaxed mb-10">{fd?.tagline ?? c?.heroSubline ?? <>
-            Coaching sportif personnalisé à {clientCity({ formData: fd }) ?? "Paris"}. Perte de poids, prise de masse, prépa trail/triathlon. 1ère séance offerte. Résultats visibles en 4 semaines ou remboursement.
+            Coaching sportif personnalisé à {clientCity(sessionData) ?? "Paris"}. Perte de poids, prise de masse, prépa trail/triathlon. 1ère séance offerte. Résultats visibles en 4 semaines ou remboursement.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-4">
             <button className="px-9 py-4 bg-[var(--brand,#f97316)] text-[#0a0a0a] font-black text-[11px] uppercase tracking-[0.3em] hover:bg-[#ea650a] transition-colors" style={{ fontFamily: "'Anton', sans-serif" }}>{c?.ctaText ?? <>
               1ère séance offerte
             </>}</button>
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0623722265").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-9 py-4 border border-[#f8f5f0]/10 text-[#f8f5f0]/40 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#f97316)]/40 hover:text-[var(--brand,#f97316)] transition-all">
-              <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "06 23 72 22 65"}
+            <a href={`tel:${fd?.phone ?? "0623722265"}`} className="flex items-center gap-3 px-9 py-4 border border-[#f8f5f0]/10 text-[#f8f5f0]/40 font-bold text-[10px] uppercase tracking-widest hover:border-[var(--brand,#f97316)]/40 hover:text-[var(--brand,#f97316)] transition-all">
+              <Phone className="w-4 h-4" /> {fd?.phone ?? "06 23 72 22 65"}
             </a>
           </motion.div>
         </motion.div>
@@ -296,12 +317,7 @@ export default function MaxPerformancePage() {
             <h2 className="font-black uppercase text-[#f8f5f0] text-4xl" style={{ fontFamily: "'Anton', sans-serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "methode.titre") ?? (<>4 semaines <span className="text-[var(--brand,#f97316)]">pour tout changer.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {[
-              { n: "01", t: "BILAN", d: "Composition corporelle, objectifs, historique, contraintes. On part de la réalité, pas d'une fiction." },
-              { n: "02", t: "PROGRAMME", d: "Plan 100% personnalisé. Entraînements, nutrition, récupération. Rien de générique." },
-              { n: "03", t: "EXÉCUTION", d: "On s'entraîne. Dur. Mais intelligemment. Progression linéaire, technique irréprochable." },
-              { n: "04", t: "RÉSULTATS", d: "Suivi hebdo, ajustements, mesures. Les chiffres ne mentent pas — et ils seront bons." },
-            ].map((s, i) => (
+            {resolveList(fusionnerEtapes(METHODE_DEMO_187, clientMethode(sessionData)), METHODE_DEMO_187).map((s, i) => (
               <Reveal key={i} delay={i * 0.09}>
                 <div className="bg-[#0a0a0a] border border-[#f8f5f0]/5 p-7 h-full">
                   <div className="font-black text-5xl text-[var(--brand,#f97316)]/10 mb-4" style={{ fontFamily: "'Anton', sans-serif" }}>{s.n}</div>
@@ -389,8 +405,8 @@ export default function MaxPerformancePage() {
               <button className="px-10 py-4 bg-[#0a0a0a] text-[#f8f5f0] font-black text-[11px] uppercase tracking-[0.3em] hover:bg-[#1a1a1a] transition-colors" style={{ fontFamily: "'Anton', sans-serif" }}>
                 Séance offerte maintenant
               </button>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0623722265").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 border-2 border-[#0a0a0a]/20 text-[#0a0a0a] font-bold text-[10px] uppercase tracking-widest hover:border-[#0a0a0a]/40 transition-all">
-                <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "06 23 72 22 65"}
+              <a href={`tel:${fd?.phone ?? "0623722265"}`} className="flex items-center gap-3 px-10 py-4 border-2 border-[#0a0a0a]/20 text-[#0a0a0a] font-bold text-[10px] uppercase tracking-widest hover:border-[#0a0a0a]/40 transition-all">
+                <Phone className="w-4 h-4" /> {fd?.phone ?? "06 23 72 22 65"}
               </a>
             </div>
           </div>
@@ -402,12 +418,12 @@ export default function MaxPerformancePage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="font-black uppercase text-[#f8f5f0] text-sm mb-5" style={{ fontFamily: "'Anton', sans-serif" }}>MAX<span className="text-[var(--brand,#f97316)]">.</span>PERF</div>
-            <p className="text-[#f8f5f0]/15 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Coach sportif"} certifié BPJEPS. {clientCity({ formData: fd }) ?? "Paris"} & online worldwide. Coaching privé, bootcamp, prépa compétition.</p>
+            <p className="text-[#f8f5f0]/15 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Coach sportif"} certifié BPJEPS. {clientCity(sessionData) ?? "Paris"} & online worldwide. Coaching privé, bootcamp, prépa compétition.</p>
           </div>
           {[
             { t: "Programmes", ls: ["Coaching privatif", "Bootcamp", "Prépa compétition", "Coaching en ligne", "Nutrition & récup"] },
             { t: "Infos", ls: ["Méthode MAX", "Mon parcours", "Certifications", "Avis clients", "FAQ"] },
-            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "06 23 72 22 65"), (clientEmail(sessionData) ?? fd?.email ?? "max@maxperf.fr"), (clientCity({ formData: fd }) ?? "Paris"), "Online worldwide", "1ère séance offerte"] },
+            { t: "Contact", ls: [(fd?.phone ?? "06 23 72 22 65"), (fd?.email ?? "max@maxperf.fr"), (clientCity(sessionData) ?? "Paris"), "Online worldwide", "1ère séance offerte"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#f97316)]/40 mb-5">{col.t}</h4>
@@ -418,7 +434,7 @@ export default function MaxPerformancePage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-6 border-t border-[var(--brand,#f97316)]/6 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f8f5f0]/8">
-          <span>© 2026 {clientName(sessionData) ?? "Max Performance"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 123 456 789 00100"} · BPJEPS AF · {clientCity({ formData: fd }) ?? "Paris"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Max Performance"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 123 456 789 00100"} · BPJEPS AF · {clientCity(sessionData) ?? "Paris"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#f97316)]/20">Stop Waiting. Start Performing.</span>
         </div>
       </footer>

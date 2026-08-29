@@ -1,9 +1,10 @@
 'use client';
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientServices } from "@/lib/templates/clientContent";
 import {
   clientCity,
   clientName,
+  clientServices,
 } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
@@ -177,7 +178,10 @@ type RoomFull = {
   amenities: string[];
 };
 
-const ROOMS_FULL_DEMO_ANNEXE = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function ROOMS_FULL_DEMO_ANNEXE_LIVE() {
+  return [
   {
     slug: 'prestige-room',
     name: 'Prestige Room',
@@ -186,7 +190,7 @@ const ROOMS_FULL_DEMO_ANNEXE = [
     price: '€480',
     tag: 'Most Requested',
     desc: 'A sanctuary of refined calm. Hand-stitched linen, aged oak flooring and a private terrace overlooking the sculpted garden.',
-    long: 'Nestled around the inner garden, the Prestige Room captures the art of living of the Grand Palais in its most essential form. Every material was chosen for touch as much as for the eye: hand-embroidered house linen, oak flooring softened by time, veined marble in the bathroom. A private terrace opens onto the sculpted garden — a refuge of silence at the heart of the city.',
+    long: `Nestled around the inner garden, the Prestige Room captures the art of living of the ${clientName(sessionData) ?? "Grand Palais"} in its most essential form. Every material was chosen for touch as much as for the eye: hand-embroidered house linen, oak flooring softened by time, veined marble in the bathroom. A private terrace opens onto the sculpted garden — a refuge of silence at the heart of the city.`,
     img: 'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1200&q=85',
     gallery: [
       'https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1200&q=85',
@@ -237,7 +241,7 @@ const ROOMS_FULL_DEMO_ANNEXE = [
     price: '€2,800',
     tag: 'Exceptional',
     desc: 'The ultimate expression of the stay. Two bedrooms, a library, a grand piano and a suspended garden terrace.',
-    long: 'On the top floor of the Grand Palais, the Presidential Suite extends across one hundred and eighty square metres of absolute elegance. Two principal bedrooms, a panelled library, a grand piano tuned each week and a suspended garden terrace offering a 360° view compose the setting of a stay without equal. A private chef, a chauffeured car and a personal concierge complete the experience.',
+    long: `On the top floor of the ${clientName(sessionData) ?? "Grand Palais"}, the Presidential Suite extends across one hundred and eighty square metres of absolute elegance. Two principal bedrooms, a panelled library, a grand piano tuned each week and a suspended garden terrace offering a 360° view compose the setting of a stay without equal. A private chef, a chauffeured car and a personal concierge complete the experience.`,
     img: 'https://images.unsplash.com/photo-1591088398332-8a7791972843?w=1200&q=85',
     gallery: [
       'https://images.unsplash.com/photo-1591088398332-8a7791972843?w=1200&q=85',
@@ -247,6 +251,8 @@ const ROOMS_FULL_DEMO_ANNEXE = [
     amenities: ['Two principal bedrooms', 'Library & grand piano', 'Suspended garden terrace', 'Private chef on request', 'Chauffeured car', 'Personal concierge'],
   },
 ];
+}
+let ROOMS_FULL_DEMO_ANNEXE = ROOMS_FULL_DEMO_ANNEXE_LIVE();
 function ROOMS_FULL_LIVE() {
   return resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...ROOMS_FULL_DEMO_ANNEXE[i % ROOMS_FULL_DEMO_ANNEXE.length], name: s.title, desc: s.desc || ROOMS_FULL_DEMO_ANNEXE[i % ROOMS_FULL_DEMO_ANNEXE.length].desc, price: s.price ?? ROOMS_FULL_DEMO_ANNEXE[i % ROOMS_FULL_DEMO_ANNEXE.length].price })), ROOMS_FULL_DEMO_ANNEXE);
 }
@@ -318,19 +324,22 @@ let SERVICES = SERVICES_DEMO_ANNEXE;
 
 
 // ─── Blog mock data (EN — art of living / travel / gastronomy) ────────────────
-const BLOG_POSTS = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function BLOG_POSTS_LIVE() {
+  return [
   {
     slug: 'art-of-the-table',
     title: 'The French Art of the Table, a Living Heritage',
     date: '5 June 2026',
     category: 'Art of Living',
     excerpt:
-      'From the fold of the cloth to the choice of crystal, the French table is a silent choreography. A look inside a craft the Grand Palais perpetuates every evening.',
+      `From the fold of the cloth to the choice of crystal, the French table is a silent choreography. A look inside a craft the ${clientName(sessionData) ?? "Grand Palais"} perpetuates every evening.`,
     img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=85',
     body: [
       'Setting a table is not a utilitarian gesture: it is a form of courtesy addressed to the one you receive. In the French manner, the arrangement obeys a precise grammar, inherited from the great houses and passed down from generation to generation.',
       'Everything begins with the cloth, whose central fold must run perfectly down the middle of the table. The cutlery is laid from the outside in, in the order of service; the glasses align on a diagonal, from largest to smallest, above the tip of the knife.',
-      "At the Grand Palais, our maîtres d\'hôtel uphold these codes without nostalgia. Cut crystal sits alongside contemporary porcelain, and every dinner becomes a discreet staging in which the comfort of the guest always prevails over display.",
+      `At the ${clientName(sessionData) ?? "Grand Palais"}, our maîtres d\'hôtel uphold these codes without nostalgia. Cut crystal sits alongside contemporary porcelain, and every dinner becomes a discreet staging in which the comfort of the guest always prevails over display.`,
       'For true luxury, at the table as elsewhere, is not ostentation: it is that acquired ease which makes everything appear simple, obvious, natural.',
     ],
   },
@@ -343,7 +352,7 @@ const BLOG_POSTS = [
       'Two hours from the palace, the châteaux of the Loire reveal formal gardens and troglodyte cellars. Our concierge composes the ideal day-long itinerary.',
     img: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1200&q=85',
     body: [
-      'When the longing for the horizon makes itself felt, the Loire Valley offers an enchanted interlude. Barely two hours from the Grand Palais, it unrolls its Renaissance châteaux along a royal river, listed as a World Heritage site.',
+      `When the longing for the horizon makes itself felt, the Loire Valley offers an enchanted interlude. Barely two hours from the ${clientName(sessionData) ?? "Grand Palais"}, it unrolls its Renaissance châteaux along a royal river, listed as a World Heritage site.`,
       'Our concierge composes a bespoke day for you: a private château visit at opening, before the groups arrive, lunch in a guest house, then a tasting in a troglodyte cellar carved straight into the tufa.',
       "Garden lovers will not miss the formal parterres, drawn with a string line, where the gardener\'s art rivals the architect\'s. History enthusiasts, for their part, will linger on the double-helix staircases attributed to Leonardo da Vinci.",
       'When evening comes, the car returns you to the palace, where a light dinner awaits. The Loire is the French art of travel: neither hurried nor demonstrative — simply right.',
@@ -355,10 +364,10 @@ const BLOG_POSTS = [
     date: '8 May 2026',
     category: 'Gastronomy',
     excerpt:
-      "Two stars, a kitchen garden fifty metres from the stoves and a philosophy of the season. A meeting with the chef of L\'Atelier, at the Grand Palais.",
+      `Two stars, a kitchen garden fifty metres from the stoves and a philosophy of the season. A meeting with the chef of L\'Atelier, at the ${clientName(sessionData) ?? "Grand Palais"}.`,
     img: 'https://images.unsplash.com/photo-1466637574441-749b8f19452f?w=1200&q=85',
     body: [
-      "\"A menu is, first of all, a season you listen to.\" So speaks Margaux Vernet, the two-star chef of L\'Atelier, the restaurant of the Grand Palais. In her world, the menu is never fixed: it breathes to the rhythm of the kitchen garden.",
+      `\"A menu is, first of all, a season you listen to.\" So speaks Margaux Vernet, the two-star chef of L\'Atelier, the restaurant of the ${clientName(sessionData) ?? "Grand Palais"}. In her world, the menu is never fixed: it breathes to the rhythm of the kitchen garden.`,
       'Fifty metres separate the stoves from the growing beds. That proximity changes everything: the herbs are picked at the last minute, the vegetables harvested at perfect ripeness, and waste tends towards zero. "The shortest distance between the earth and the plate," she sums up.',
       'Her cooking revisits the French canon with rare restraint. No flourishes, no technical excess: a sauce reduced with patience, an exact cooking time, a millimetric seasoning. The emotion is born of precision, never of demonstration.',
       'When asked for her definition of luxury, she smiles: "It is being able to offer a guest a tomato that tastes of a tomato. The rest is only décor."',
@@ -380,6 +389,8 @@ const BLOG_POSTS = [
     ],
   },
 ];
+}
+let BLOG_POSTS = BLOG_POSTS_LIVE();
 
 // ─── Hooks ───────────────────────────────────────────────────────────────────
 function useParallax(ref: React.RefObject<HTMLElement | null>, speed = 0.4) {
@@ -1417,7 +1428,7 @@ function LocationSection() {
 function TESTIMONIALS_LIVE() {
   return [
   { name: 'Sophie R.', origin: (clientCity(sessionData) ?? 'Paris'), text: 'An experience that redefined our expectations of hospitality. Every detail, every gesture — flawless.', stars: 5 },
-  { name: 'James W.', origin: 'London', text: 'The Grand Palais is beyond comparison. The suite views, the silence, the staff — we return every autumn.', stars: 5 },
+  { name: 'James W.', origin: 'London', text: `The ${clientName(sessionData) ?? "Grand Palais"} is beyond comparison. The suite views, the silence, the staff — we return every autumn.`, stars: 5 },
   { name: 'Hana T.', origin: 'Tokyo', text: 'The most extraordinary stay of our lives. Nothing prepares you for the quiet perfection of this place.', stars: 5 },
 ];
 }
@@ -1803,7 +1814,7 @@ function Footer({ goTo }: { goTo: (p: HotelPage) => void }) {
           }}
         >
           <span style={{ fontFamily: SANS, fontSize: '0.58rem', color: `${CREAM}35`, letterSpacing: '0.08em' }}>
-            © 2026 Grand Palais. All rights reserved.
+            © 2026 {clientName(sessionData) ?? "Grand Palais"}. All rights reserved.
           </span>
           <div style={{ display: 'flex', gap: '2rem' }}>
             {([
@@ -2060,7 +2071,7 @@ function ServicesPage({ goTo }: { goTo: (p: HotelPage) => void }) {
       <SubPageHero
         eyebrow="The Experience"
         title="Services & Experiences"
-        subtitle="Spa, gastronomy, concierge: every service at the Grand Palais is designed so that everything feels simple and natural."
+        subtitle={`Spa, gastronomy, concierge: every service at the ${clientName(sessionData) ?? "Grand Palais"} is designed so that everything feels simple and natural.`}
         img="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=1800&q=85"
       />
       <section style={{ background: DARK, padding: '7rem 0' }}>
@@ -2161,7 +2172,7 @@ function BlogPage({ blogSlug, setBlogSlug }: { blogSlug: string | null; setBlogS
               </p>
             ))}
             <div style={{ borderTop: `1px solid ${GOLD}40`, marginTop: '2rem', paddingTop: '1.5rem', fontFamily: SERIF, fontStyle: 'italic', fontSize: '0.95rem', color: `${DARK}70` }}>
-              Written by the editorial team of the Grand Palais. The Journal of the palace, published throughout the year.
+              Written by the editorial team of the {clientName(sessionData) ?? "Grand Palais"}. The Journal of the palace, published throughout the year.
             </div>
           </div>
         </section>
@@ -2336,10 +2347,10 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
           <div style={{ maxWidth: '44rem', margin: '0 auto', padding: '0 1.75rem' }}>
             <h2 style={{ ...sectionTitle, marginTop: 0 }}>Site publisher</h2>
             <p style={para}><span style={strong}>Aevia WS</span> — sole trader (auto-entrepreneur).</p>
-            <p style={para}>Publication director: <span style={strong}>Valentin Milliand</span>.</p>
+            <p style={para}>Publication director: <span style={strong}><EditeurDuSite /></span>.</p>
             <p style={para}>SIREN: <span style={strong}><LegalIdentity /></span> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}.</p>
-            <p style={para}>Contact: <span style={strong}>{fd?.email ?? "valentinmilliand@aevia.services"}</span></p>
-            <p style={para}>Registered office address provided on request at {fd?.email ?? "valentinmilliand@aevia.services"}.</p>
+            <p style={para}>Contact: <span style={strong}>{fd?.email ?? "contact@exemple.fr"}</span></p>
+            <p style={para}>Registered office address provided on request at {fd?.email ?? "contact@exemple.fr"}.</p>
 
             <h2 style={sectionTitle}>VAT</h2>
             <p style={para}>VAT not applicable, art. 293 B of the French Tax Code (CGI).</p>
@@ -2378,7 +2389,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
           <h2 style={{ ...sectionTitle, marginTop: '1.5rem' }}>Data controller</h2>
           <p style={para}>
             The controller of personal data is <span style={strong}>Aevia WS</span>, publisher of the site. For any
-            question, write to <span style={strong}>{fd?.email ?? "valentinmilliand@aevia.services"}</span>.
+            question, write to <span style={strong}>{fd?.email ?? "contact@exemple.fr"}</span>.
           </p>
 
           <h2 style={sectionTitle}>Data collected</h2>
@@ -2429,17 +2440,32 @@ export default function GrandPalaisPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
 
+
+
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
+  ROOMS_FULL_DEMO_ANNEXE = ROOMS_FULL_DEMO_ANNEXE_LIVE();
+  BLOG_POSTS = BLOG_POSTS_LIVE();
   ROOMS_FULL = ROOMS_FULL_LIVE();
   SERVICES = SERVICES_LIVE();
   EXPERIENCES = EXPERIENCES_LIVE();

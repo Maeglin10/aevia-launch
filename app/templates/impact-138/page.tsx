@@ -8,11 +8,9 @@ import { Eye, Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight } from "
 import {
   clientCertifications,
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -161,10 +159,21 @@ export default function VisionClairePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -246,14 +255,14 @@ export default function VisionClairePage() {
               <div style={{ background: C.cyan, borderRadius: 8, padding: "7px 9px", display: "flex" }}>
                 <Eye size={18} color="#fff" />
               </div>
-              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontSize: 18, fontWeight: 800, color: scrolled ? C.accent : "#fff" }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Vision<span style={{ color: C.cyan }}>Claire</span></>)}</span>
+              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontSize: 18, fontWeight: 800, color: scrolled ? C.accent : "#fff" }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>Vision<span style={{ color: C.cyan }}>Claire</span></>)}</span>
             </>
           )}
         </div>
         <div id="mb138-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 700, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33240000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33240000001"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>
             Prendre RDV
           </motion.a>
       </div>
@@ -273,7 +282,7 @@ export default function VisionClairePage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 700, textDecoration: "none" }}>{l}</a>
           ))}
-          <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33240000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>
+          <motion.a href={`tel:${fd?.phone ?? "+33240000001"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none" }} whileHover={{ background: C.accentDark }}>
             Prendre RDV
           </motion.a>
         </div>
@@ -306,12 +315,12 @@ export default function VisionClairePage() {
           </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            {clientTrade(sessionData) ?? "Opticien"} indépendant à {clientCity({ formData: fd }) ?? "Nantes"} depuis 20 ans. Lunettes, lentilles, examens de vue complets — tiers-payant toutes mutuelles, conseils personnalisés, délais rapides.
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
+            {clientTrade(sessionData) ?? "Opticien"} indépendant à {clientCity(sessionData) ?? "Nantes"} depuis 20 ans. Lunettes, lentilles, examens de vue complets — tiers-payant toutes mutuelles, conseils personnalisés, délais rapides.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33240000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.cyan, color: C.white, borderRadius: 8, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.cyan}44` }} whileHover={{ scale: 1.03 }}>
+            <motion.a href={`tel:${fd?.phone ?? "+33240000001"}`} style={{ background: C.cyan, color: C.white, borderRadius: 8, padding: "15px 32px", fontWeight: 700, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.cyan}44` }} whileHover={{ scale: 1.03 }}>
               Prendre rendez-vous
             </motion.a>
             <motion.a href="#offres" style={{ background: "rgba(255,255,255,0.10)", color: "#fff", border: "1px solid rgba(255,255,255,0.28)", borderRadius: 8, padding: "13px 28px", fontWeight: 600, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)" }} whileHover={{ background: "rgba(255,255,255,0.18)" }}>
@@ -384,7 +393,7 @@ export default function VisionClairePage() {
                 </div>
               ))}
             </div>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33240000001").replace(/[^+0-9]/g, "")}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.accent, color: C.white, borderRadius: 8, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ background: C.accentDark, scale: 1.02 }}>
+            <motion.a href={`tel:${fd?.phone ?? "+33240000001"}`} style={{ display: "inline-flex", alignItems: "center", gap: 8, marginTop: 32, background: C.accent, color: C.white, borderRadius: 8, padding: "13px 28px", fontWeight: 700, fontSize: 15, textDecoration: "none" }} whileHover={{ background: C.accentDark, scale: 1.02 }}>
               Prendre rendez-vous <ArrowRight size={16} />
             </motion.a>
           </Reveal>
@@ -471,10 +480,10 @@ export default function VisionClairePage() {
             Réservez votre examen de vue ou venez découvrir nos montures. Tiers-payant intégral, accueil sans rendez-vous possible du mardi au samedi.
           </>}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33240000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
-              <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "02 40 00 00 01"}
+            <motion.a href={`tel:${fd?.phone ?? "+33240000001"}`} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "15px 36px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
+              <Phone size={18} /> {fd?.phone ?? "02 40 00 00 01"}
             </motion.a>
-            <motion.a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@visionclaire.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "13px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white }}>
+            <motion.a href={`mailto:${fd?.email ?? "contact@visionclaire.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 8, padding: "13px 32px", fontWeight: 700, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ background: C.accent, color: C.white }}>
               <Mail size={18} /> Nous écrire
             </motion.a>
           </div>
@@ -486,10 +495,10 @@ export default function VisionClairePage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
             <div style={{ fontSize: 20, fontWeight: 800, color: C.cyan, marginBottom: 8 }}>VisionClaire</div>
-            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>{clientTrade(sessionData) ?? "Opticien"} indépendant · {clientCity({ formData: fd }) ?? "Nantes"}<br />Mar–Sam 9h–19h</p>
+            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>{clientTrade(sessionData) ?? "Opticien"} indépendant · {clientCity(sessionData) ?? "Nantes"}<br />Mar–Sam 9h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity({ formData: fd }) ?? "Nantes") + ", Loire-Atlantique" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "02 40 00 00 01") }, { icon: <Clock size={13} />, t: "Mar–Sam 9h–19h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Nantes") + ", Loire-Atlantique" }, { icon: <Phone size={13} />, t: (fd?.phone ?? "02 40 00 00 01") }, { icon: <Clock size={13} />, t: "Mar–Sam 9h–19h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
                 <span style={{ color: C.cyan }}>{item.icon}</span>{item.t}
               </div>
@@ -497,7 +506,7 @@ export default function VisionClairePage() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-          <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 VisionClaire — Site par Aevia WS{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 VisionClaire — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="#contact" style={{ color: "rgba(255,255,255,0.20)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

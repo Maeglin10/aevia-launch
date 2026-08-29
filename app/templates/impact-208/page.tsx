@@ -303,7 +303,7 @@ function BlueprintHero() {
           <Rise beat="first" style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
             <span style={{ width: 40, height: 2, background: C.yellow, display: "block" }} />
             <span style={{ fontFamily: FONT_BODY, fontSize: 11, letterSpacing: "0.3em", textTransform: "uppercase", color: C.yellow, fontWeight: 700 }}>
-              Ferretti Construction · Depuis 1986
+              {clientName(sessionData) ?? "Ferretti Construction"} · Depuis 1986
             </span>
           </Rise>
 
@@ -331,7 +331,7 @@ function BlueprintHero() {
             transition={{ duration: 0.55, ease: EASE_3, delay: BEAT.second }}
             className="hero-lede"
             style={{ fontFamily: FONT_BODY, fontSize: 16, color: `${C.cream}a6`, lineHeight: 1.7, maxWidth: 480, margin: "0 0 30px" }}
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Gros œuvre, infrastructure et immobilier d’entreprise. 347 chantiers livrés, aucun litige de réception depuis 2011.
           </>}</motion.p>
 
@@ -1823,7 +1823,7 @@ function Footer() {
             color: C.cream,
             marginBottom: 6,
           }}>
-            {fd?.businessName ? fd.businessName : <>FERRETTI <span style={{ color: C.yellow }}>CONSTRUCTION</span></>}
+            {fd?.businessName ? fd.businessName : <>{(clientName(sessionData) ?? "Ferretti Construction").split(" ").slice(0, 1).join(" ")} <span style={{ color: C.yellow }}>{(clientName(sessionData) ?? "Ferretti Construction").split(" ").slice(1).join(" ")}</span></>}
           </div>
           <div style={{
             fontFamily: 'monospace',
@@ -2012,10 +2012,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2032,7 +2043,7 @@ export default function Page() {
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,
   );
-  STATS = resolveList(clientStats(sessionData)?.map((s: any) => ({ ...s, value: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, "") })), STATS_DEMO);
+  STATS = resolveList(clientStats(sessionData)?.map((s: any) => ({ ...s, value: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, decimals: /[.,]\d/.test(String(s.value ?? "")) ? 2 : 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, "") })), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, yellow: brand };

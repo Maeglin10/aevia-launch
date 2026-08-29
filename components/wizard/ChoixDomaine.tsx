@@ -134,6 +134,22 @@ export function ChoixDomaine({
             <span className="shrink-0 text-sm text-white/80">0 €</span>
           </button>
 
+          {/*
+            Ce qui se passe après le paiement, dit avant.
+
+            L'enregistrement d'un nom de domaine n'est pas instantané chez nous :
+            une personne l'achète et le branche. Le client qui paie 29 € croyait
+            son adresse active à la seconde ; elle l'est sous un jour ouvré. Le
+            site, lui, est en ligne tout de suite — c'est ce qu'il faut dire.
+          */}
+          {valeur !== null && (
+            <p className="text-xs text-white/45">
+              Nous enregistrons et branchons ce nom sous un jour ouvré. Votre site est
+              en ligne immédiatement sur son adresse en .vercel.app, et bascule sur votre
+              nom dès qu'il est actif.
+            </p>
+          )}
+
           {!reponse.disponibiliteVerifiee && (
             <p className="text-xs text-white/40">
               La disponibilité n&apos;a pas pu être vérifiée à l&apos;instant. Nous la

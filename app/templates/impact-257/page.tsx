@@ -14,9 +14,9 @@ import { ArrowRight, ChevronDown, Heart, Leaf, MapPin } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -24,6 +24,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -505,9 +506,7 @@ function Nav() {
         ) : (
           <>
             <Leaf size={18} color={C.accent} strokeWidth={1.5} />
-            {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
-                portait « Dr. Moulin » sur le site de n'importe quel client. */}
-            {clientName(sessionData) ?? "Dr. Moulin"}
+            Dr.&nbsp;Moulin
           </>
         )}
       </a>
@@ -1442,7 +1441,7 @@ function ApproachPanel() {
             </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {APPROACH_ITEMS.map((item, i) => (
+            {resolveList(fusionnerEtapes(APPROACH_ITEMS, clientMethode(sessionData)), APPROACH_ITEMS).map((item, i) => (
               <Reveal key={item.num} delay={0.06 * i}>
                 <div
                   style={{
@@ -1938,7 +1937,7 @@ function Footer() {
         { label: 'Prendre RDV', href: '#rdv' },
         { label: 'Téléconsultation', href: '#rdv' },
         { label: (clientCity(sessionData) ?? 'Bordeaux') + ' · Chartrons', href: '#rdv' },
-        { label: (clientEmail(sessionData) ?? fd?.email ?? 'dr.moulin@exemple.fr'), href: '#rdv' },
+        { label: (fd?.email ?? 'dr.moulin@exemple.fr'), href: '#rdv' },
       ],
     },
   ];
@@ -2141,10 +2140,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;

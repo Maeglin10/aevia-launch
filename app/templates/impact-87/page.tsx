@@ -62,10 +62,21 @@ export default function IronClubPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -156,7 +167,7 @@ export default function IronClubPage() {
           />
         ) : (
           <div style={{ fontFamily: FONT, fontWeight: 900, fontSize: 24, letterSpacing: 1, color: scrolled ? C.text : C.white }}>
-            {clientName({ formData: fd }) ?? "IRON"}<span style={{ color: C.accent }}>CLUB</span>
+            {clientName(sessionData) ?? "IRON"}<span style={{ color: C.accent }}>CLUB</span>
           </div>
         )}
         <div style={{ display: "flex", alignItems: "center", gap: 32 }} className="nav-links-desktop">
@@ -230,7 +241,7 @@ export default function IronClubPage() {
           >
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 40 }}>
               <span style={{ fontFamily: FONT, fontWeight: 900, fontSize: 22, color: C.white }}>
-                IRON <span style={{ color: C.accent }}>CLUB</span>
+                {(clientName(sessionData) ?? "Iron Club").split(" ").slice(0, 1).join(" ")} <span style={{ color: C.accent }}>{(clientName(sessionData) ?? "Iron Club").split(" ").slice(1).join(" ")}</span>
               </span>
               <button onClick={() => setMenuOpen(false)} style={{ background: "none", border: "none", cursor: "pointer", color: C.white }}>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -300,7 +311,7 @@ export default function IronClubPage() {
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img
             src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920&q=80"))}
-            alt="Salle CrossFit Iron Club Lyon"
+            alt={`Salle CrossFit ${clientName(sessionData) ?? "Iron Club"} Lyon`}
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
         </motion.div>
@@ -361,8 +372,8 @@ export default function IronClubPage() {
               marginBottom: 36,
               maxWidth: 520,
             }}
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            La salle de sport et CrossFit de référence à {clientCity({ formData: fd }) ?? "Lyon"}. Une communauté soudée, des coachs certifiés, des résultats qui parlent d&apos;eux-mêmes.
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
+            La salle de sport et CrossFit de référence à {clientCity(sessionData) ?? "Lyon"}. Une communauté soudée, des coachs certifiés, des résultats qui parlent d&apos;eux-mêmes.
           </>}</motion.p>
           <motion.div
             className="i87-hero-cta"
@@ -796,11 +807,11 @@ export default function IronClubPage() {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 48, marginBottom: 48 }}>
             <div>
               <div style={{ fontFamily: FONT, fontWeight: 900, fontSize: 22, color: C.white, marginBottom: 16 }}>
-                IRON <span style={{ color: C.accent }}>CLUB</span>
+                {(clientName(sessionData) ?? "Iron Club").split(" ").slice(0, 1).join(" ")} <span style={{ color: C.accent }}>{(clientName(sessionData) ?? "Iron Club").split(" ").slice(1).join(" ")}</span>
               </div>
               <p style={{ fontFamily: FONT_BODY, fontSize: 14, lineHeight: 1.65 }}>
                 Salle de sport & CrossFit certifiée.<br />
-                {clientCity({ formData: fd }) ?? "Lyon"} 7e · Depuis 2019.
+                {clientCity(sessionData) ?? "Lyon"} 7e · Depuis 2019.
               </p>
             </div>
             <div>
@@ -809,7 +820,7 @@ export default function IronClubPage() {
               </p>
               <p style={{ fontFamily: FONT_BODY, fontSize: 14, lineHeight: 2 }}>{c?.aboutText ?? <>
                 {clientAddress({ businessProfile: bp }) ?? "12 rue de la Guillotière"}<br />
-                69007 {clientCity({ formData: fd }) ?? "Lyon"}<br />
+                69007 {clientCity(sessionData) ?? "Lyon"}<br />
                 {clientPhone(sessionData) ?? "04 78 34 49 49"}<br />{fd?.email ?? "contact@ironclub-lyon.fr"}</>}</p>
             </div>
             <div>
@@ -835,7 +846,7 @@ export default function IronClubPage() {
               fontFamily: FONT_BODY,
             }}
           >
-            <span>© 2025 {clientName(sessionData) ?? "Iron Club"} — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+            <span>© 2025 {clientName(sessionData) ?? "Iron Club"} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
             <div style={{ display: "flex", gap: 24 }}>
               <a href="/templates/impact-87/legal" style={{ color: "inherit", textDecoration: "none" }}>Mentions légales</a>
               <a href="/templates/impact-87/legal" style={{ color: "inherit", textDecoration: "none" }}>Politique de confidentialité</a>

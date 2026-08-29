@@ -13,10 +13,11 @@ import {
 } from "framer-motion";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientEmail,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
@@ -24,6 +25,7 @@ import {
   clientStats,
   clientText,
   clientWorks,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -535,10 +537,21 @@ export default function Impact175Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -988,7 +1001,7 @@ export default function Impact175Page() {
               margin: "0 auto 44px",
               lineHeight: 1.75,
             }}
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Nous créons des événements d'exception pour les maisons de prestige, les institutions et les particuliers exigeants.
           </>}</motion.p>
 
@@ -1484,7 +1497,7 @@ export default function Impact175Page() {
               </>}</motion.p>
             </div>
             <div>
-              {PROCESS.map((step, i) => (
+              {resolveList(fusionnerEtapes(PROCESS, clientMethode(sessionData)), PROCESS).map((step, i) => (
                 <ProcessStep key={i} step={step} index={i} />
               ))}
             </div>

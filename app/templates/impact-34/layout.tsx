@@ -15,10 +15,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(__setLayoutSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setLayoutSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
   const fd = __layoutSession?.formData;
 
@@ -77,7 +88,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <>
             <div className="relative flex items-center gap-1.5">{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
               <Radio className="w-5 h-5 text-[#F97316]" />
-              <span className="text-lg font-black tracking-tight text-white">WAVEFORM</span>
+              <span className="text-lg font-black tracking-tight text-white">{clientName(__layoutSession) ?? "WaveForm"}</span>
               {/* Pulse dot */}
               <span className="relative flex h-2 w-2 ml-0.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F97316] opacity-75" />
@@ -190,7 +201,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <div className="col-span-2">
               <div className="flex items-center gap-2.5 mb-4">
                 <Radio className="w-5 h-5 text-[#F97316]" />
-                <span className="text-lg font-black text-white">WAVEFORM</span>
+                <span className="text-lg font-black text-white">{clientName(__layoutSession) ?? "WaveForm"}</span>
                 <span className="relative flex h-2 w-2">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F97316] opacity-75" />
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-[#F97316]" />

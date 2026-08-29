@@ -1,5 +1,6 @@
 
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { resolveList } from "@/lib/templates/resolveList";
 import { tr } from "@/lib/templates/uiStrings";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
@@ -11,7 +12,6 @@ import Image from "next/image"
 import { ArrowRight, Zap, Users, TrendingUp, Globe, CheckCircle, ChevronDown, Rocket, Star, Clock, Briefcase, Target, BookOpen, Award, Calendar, MapPin, Mail, Shield } from "lucide-react"
 import {
   clientCity,
-  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
@@ -99,7 +99,7 @@ let mentors = mentors_SOURCE;
 function faqs_SOURCE_LIVE() {
   return [
   { q: "How much equity do you take?", a: "We take 7% equity in exchange for $500K and access to our full accelerator program." },
-  { q: "Is the program remote or in-person?", a: "The 12-week program is primarily in-person in " + (clientCity({ formData: fd }) ?? "Paris") + ", with optional remote tracks for select cohorts." },
+  { q: "Is the program remote or in-person?", a: "The 12-week program is primarily in-person in " + (clientCity(sessionData) ?? "Paris") + ", with optional remote tracks for select cohorts." },
   { q: "What stage do you invest at?", a: "We invest pre-seed and seed — ideally you have an MVP and first users, but exceptional teams can apply earlier." },
   { q: "When is the next application deadline?", a: "Applications for Cohort W24 close November 15th, 2026. We accept ~20 companies per cohort." },
 ];
@@ -142,10 +142,21 @@ export default function Impact24() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -254,7 +265,7 @@ return (
                 <div className="w-8 h-8 bg-[#A3E635] rounded-lg flex items-center justify-center">
                   <Rocket className="w-4 h-4 text-[#060A0F]" />
                 </div>
-                <span className="font-semibold text-lg">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Zero to One"))}</span>
+                <span className="font-semibold text-lg">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Zero to One"))}</span>
               </>
             )}
           </button>
@@ -314,8 +325,8 @@ return (
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
                 className="text-xl text-white/60 max-w-2xl mb-10 leading-relaxed"
-              >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-                Zero to One is a 12-week accelerator for pre-seed founders. We invest €500K, open our network, and help you build the company you imagined.
+              >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
+                {clientName(sessionData) ?? "Zero"} to One is a 12-week accelerator for pre-seed founders. We invest €500K, open our network, and help you build the company you imagined.
               </>}</motion.p>
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -420,7 +431,7 @@ return (
             <div className="max-w-6xl mx-auto">
               <Reveal className="text-center mb-16">
                 <p className="text-[#A3E635] text-sm font-semibold tracking-widest uppercase mb-4">The Program</p>
-                <h2 className="text-4xl md:text-5xl font-bold mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "program.titre") ?? (<>12 weeks. Zero fluff.</>)}</h2>
+                <h2 className="text-4xl md:text-5xl font-bold mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "program.titre") ?? (<>12 weeks. {clientName(sessionData) ?? "Zero"} fluff.</>)}</h2>
                 <p className="text-white/50 text-lg max-w-2xl mx-auto">A structured sprint from idea validation to Series A readiness. Every week has a purpose.</p>
               </Reveal>
 
@@ -472,7 +483,7 @@ return (
                   <p className="text-[#A3E635] text-sm font-semibold tracking-widest uppercase mb-4">What you get</p>
                   <h2 className="text-4xl md:text-5xl font-bold mb-6">{c?.aboutTitle ?? fd?.businessName ?? <>More than capital.</>}</h2>
                   <p className="text-white/50 text-lg mb-10 leading-relaxed">{c?.aboutText ?? <>
-                    We built Zero to One because we know what founders actually need. Not just money — but the right introductions, the hard feedback, and the community that keeps you going.
+                    We built {clientName(sessionData) ?? "Zero"} to One because we know what founders actually need. Not just money — but the right introductions, the hard feedback, and the community that keeps you going.
                   </>}</p>
                   <div className="space-y-4">
                     {PRESTATIONS_INLINE.map(({ icon, label, desc }) => (
@@ -493,7 +504,7 @@ return (
                     <div className="rounded-2xl overflow-hidden aspect-[4/5]">
                       <Image
                         src={photo(10, "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=1000&fit=crop&crop=center")}
-                        alt="Founders at Zero to One"
+                        alt={`Founders at ${clientName(sessionData) ?? "Zero"} to One`}
                         width={800}
                         height={1000}
                         className="w-full h-full object-cover"
@@ -506,7 +517,7 @@ return (
                         </div>
                         <div>
                           <div className="font-semibold text-sm">Next Demo Day</div>
-                          <div className="text-[#A3E635] text-xs">March 14, 2027 · {clientCity({ formData: fd }) ?? "Paris"}</div>
+                          <div className="text-[#A3E635] text-xs">March 14, 2027 · {clientCity(sessionData) ?? "Paris"}</div>
                         </div>
                         <div className="ml-auto text-xs text-white/40">500 attendees</div>
                       </div>
@@ -653,7 +664,7 @@ return (
                   growth: "18× ARR YoY",
                   founded: "2022",
                   hq: "San Francisco, CA",
-                  investors: "Sequoia, a16z, Zero to One",
+                  investors: `Sequoia, a16z, ${clientName(sessionData) ?? "Zero"} to One`,
                 },
                 {
                   ...companies[1],
@@ -662,7 +673,7 @@ return (
                   growth: "4.2× transaction volume YoY",
                   founded: "2022",
                   hq: "Lagos & London",
-                  investors: "Stripe, Y Combinator, Zero to One",
+                  investors: `Stripe, Y Combinator, ${clientName(sessionData) ?? "Zero"} to One`,
                 },
                 {
                   ...companies[2],
@@ -671,7 +682,7 @@ return (
                   growth: "320% user growth in 12 months",
                   founded: "2023",
                   hq: "Berlin, Germany",
-                  investors: "Index Ventures, Zero to One",
+                  investors: `Index Ventures, ${clientName(sessionData) ?? "Zero"} to One`,
                 },
                 {
                   ...companies[3],
@@ -680,7 +691,7 @@ return (
                   growth: "6× clinic partnerships in 6 months",
                   founded: "2021",
                   hq: "Boston, MA",
-                  investors: "General Catalyst, Zero to One",
+                  investors: `General Catalyst, ${clientName(sessionData) ?? "Zero"} to One`,
                 },
                 {
                   ...companies[4],
@@ -688,8 +699,8 @@ return (
                   teamSize: 72,
                   growth: "$8M ARR, doubling annually",
                   founded: "2021",
-                  hq: (clientCity({ formData: fd }) ?? "Paris") + ", France",
-                  investors: "Lowercarbon Capital, Breakthrough Energy, Zero to One",
+                  hq: (clientCity(sessionData) ?? "Paris") + ", France",
+                  investors: `Lowercarbon Capital, Breakthrough Energy, ${clientName(sessionData) ?? "Zero"} to One`,
                 },
                 {
                   ...companies[5],
@@ -698,7 +709,7 @@ return (
                   growth: "200% MoM in first 6 months post-launch",
                   founded: "2023",
                   hq: "Stockholm, Sweden",
-                  investors: "Accel, Zero to One",
+                  investors: `Accel, ${clientName(sessionData) ?? "Zero"} to One`,
                 },
               ].map((co, i) => (
                 <Reveal key={co.name} delay={i * 0.08}>
@@ -772,7 +783,7 @@ return (
                   { icon: <Globe className="w-5 h-5" />, label: "€500K", sub: "Direct investment" },
                   { icon: <Users className="w-5 h-5" />, label: "120+", sub: "Mentors & advisors" },
                   { icon: <Calendar className="w-5 h-5" />, label: "48", sub: "Workshops & sessions" },
-                  { icon: <MapPin className="w-5 h-5" />, label: (clientCity({ formData: fd }) ?? "Paris"), sub: "In-person program" },
+                  { icon: <MapPin className="w-5 h-5" />, label: (clientCity(sessionData) ?? "Paris"), sub: "In-person program" },
                 ].map(({ icon, label, sub }) => (
                   <div key={label} className="bg-white/5 border border-white/10 rounded-2xl p-6 text-center">
                     <div className="w-10 h-10 bg-[#A3E635]/10 text-[#A3E635] rounded-xl flex items-center justify-center mx-auto mb-3">{icon}</div>
@@ -1135,7 +1146,7 @@ return (
               </div>
               <h1 className="text-4xl md:text-5xl font-bold mb-4">{c?.heroHeadline ?? "Start your application"}</h1>
               <p className="text-white/50 text-sm max-w-md mx-auto">
-                Apply to the Zero to One 12-week accelerator. We invest €500K and help you scale. Takes ~15 minutes to complete.
+                Apply to the {clientName(sessionData) ?? "Zero"} to One 12-week accelerator. We invest €500K and help you scale. Takes ~15 minutes to complete.
               </p>
             </div>
 
@@ -1205,9 +1216,9 @@ return (
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
                   <h2 className="text-2xl font-bold mb-6 text-[#A3E635]">Site Publisher</h2>
                   <div className="space-y-3 text-white/60 text-sm leading-relaxed">
-                    <p><strong className="text-white">Publisher:</strong> Aevia WS — Valentin Milliand, sole proprietor.</p>
-                    <p><strong className="text-white">SIREN:</strong> <LegalIdentity /> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}, France.</p>
-                    <p><strong className="text-white">Contact:</strong> <span className="text-[#A3E635]">{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</span></p>
+                    <p><strong className="text-white">Publisher:</strong> <EditeurDuSite />, sole proprietor.</p>
+                    <p><strong className="text-white">SIREN:</strong> <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}, France.</p>
+                    <p><strong className="text-white">Contact:</strong> <span className="text-[#A3E635]">{fd?.email ?? "contact@exemple.fr"}</span></p>
                   </div>
                 </div>
 
@@ -1230,7 +1241,7 @@ return (
                   <div className="space-y-3 text-white/60 text-sm leading-relaxed">
                     <p>No personal data is collected without explicit consent. This site is fully GDPR compliant.</p>
                     <p>When you voluntarily submit your email address through the application form, it is used solely for the purpose of processing your application and communicating regarding program updates. Your data is never sold, shared with third parties for marketing purposes, or used beyond its stated purpose.</p>
-                    <p>You have the right to access, modify, or delete your personal data at any time by contacting us at <span className="text-[#A3E635]">{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</span>.</p>
+                    <p>You have the right to access, modify, or delete your personal data at any time by contacting us at <span className="text-[#A3E635]">{fd?.email ?? "contact@exemple.fr"}</span>.</p>
                   </div>
                 </div>
 
@@ -1262,7 +1273,7 @@ return (
             <div className="w-7 h-7 bg-[#A3E635] rounded-lg flex items-center justify-center">
               <Rocket className="w-3.5 h-3.5 text-[#060A0F]" />
             </div>
-            <span className="font-semibold text-white">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Zero to One"))}</span>
+            <span className="font-semibold text-white">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Zero to One"))}</span>
           </button>
           <div className="flex gap-8 text-sm text-white/40">
             <button onClick={() => goTo("portfolio")} className="hover:text-white transition-colors cursor-pointer bg-transparent border-none text-sm text-white/40">Portfolio</button>
@@ -1272,7 +1283,7 @@ return (
           </div>
           <div className="flex items-center gap-4">
             <button onClick={() => goTo("legal")} className="text-white/30 text-sm hover:text-white/60 transition-colors cursor-pointer bg-transparent border-none">Legal</button>
-            <p className="text-white/30 text-sm">© 2026 {clientName(sessionData) ?? "Zero"} to One Ventures{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</p>
+            <p className="text-white/30 text-sm">© 2026 {clientName(sessionData) ?? "Zero"} to One Ventures{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
           </div>
         </div>
       </footer>

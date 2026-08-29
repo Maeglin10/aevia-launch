@@ -7,8 +7,8 @@ import { useRef, useState, useEffect } from "react"
 import Link from "next/link"
 import { Atom, Cpu, Binary, Globe, ArrowRight, ExternalLink, Download, Menu, X } from "lucide-react"
 import {
-  clientEmail,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
@@ -230,17 +230,27 @@ export default function QBitLabsPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  TEAM = TEAM_LIVE();
 
 
 
@@ -258,6 +268,7 @@ export default function QBitLabsPage() {
   );
 
   bp = (session as any)?.businessProfile;
+  TEAM = TEAM_LIVE();
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const [menuOpen, setMenuOpen] = useState(false)
@@ -355,7 +366,7 @@ export default function QBitLabsPage() {
                     letterSpacing: "-0.01em",
                   }}
                 >
-                  QBit <span style={{ color: "var(--brand,#0f62fe)" }}>Labs</span>
+                  {(clientName(sessionData) ?? "QBit Labs").split(" ").slice(0, 1).join(" ")} <span style={{ color: "var(--brand,#0f62fe)" }}>{(clientName(sessionData) ?? "QBit Labs").split(" ").slice(1).join(" ")}</span>
                 </span>
               </>
             )}
@@ -509,8 +520,8 @@ export default function QBitLabsPage() {
                     maxWidth: 520,
                     margin: "0 0 40px",
                   }}
-                >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-                  QBit Labs is an independent quantum computing research institute
+                >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
+                  {clientName(sessionData) ?? "QBit Labs"} is an independent quantum computing research institute
                   advancing fault-tolerant processors, quantum algorithms, and the
                   foundational science of the post-classical era.
                 </>}</p>
@@ -1287,7 +1298,7 @@ export default function QBitLabsPage() {
                     margin: "0 0 32px",
                   }}
                 >{c?.aboutText ?? <>
-                  QBit Labs partners with universities, national labs, and industry
+                  {clientName(sessionData) ?? "QBit Labs"} partners with universities, national labs, and industry
                   researchers. Cloud access to our 127-qubit system is available via
                   our Research Gateway program.
                 </>}</p>
@@ -1568,7 +1579,7 @@ export default function QBitLabsPage() {
                     color: "#f4f4f4",
                   }}
                 >
-                  QBit <span style={{ color: "#78a9ff" }}>Labs</span>
+                  {(clientName(sessionData) ?? "QBit Labs").split(" ").slice(0, 1).join(" ")} <span style={{ color: "#78a9ff" }}>{(clientName(sessionData) ?? "QBit Labs").split(" ").slice(1).join(" ")}</span>
                 </span>
               </div>
               <p
@@ -1590,7 +1601,7 @@ export default function QBitLabsPage() {
                   color: "#525252",
                   letterSpacing: "0.06em",
                 }}
-              >{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "QUANTUM // COMPUTE"))}</p>
+              >{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "QUANTUM // COMPUTE"))}</p>
             </div>
 
             {/* Link columns */}
@@ -1618,7 +1629,7 @@ export default function QBitLabsPage() {
               {
                 title: "Company",
                 links: [
-                  "About QBit Labs",
+                  `About ${clientName(sessionData) ?? "QBit Labs"}`,
                   "Leadership",
                   "Careers",
                   "Press",
@@ -1672,7 +1683,7 @@ export default function QBitLabsPage() {
             }}
           >
             <span style={{ fontSize: 12, color: "#525252" }}>
-              © 2026 {clientName(sessionData) ?? "QBit Labs."} All rights reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2026 {clientName(sessionData) ?? "QBit Labs."} All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
             <div style={{ display: "flex", gap: 24 }}>
               {["Privacy Policy", "Terms of Use", "Accessibility"].map((l) => (

@@ -3,7 +3,6 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientHours,
@@ -442,10 +441,21 @@ export default function Impact211Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -600,7 +610,7 @@ export default function Impact211Page() {
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maison Éclat"))}</>
+            <>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maison Éclat"))}</>
           )}</motion.div>
 
           <nav className="nav-211-inner" style={{ display: "flex", gap: "2.5rem", alignItems: "center" }}>
@@ -874,7 +884,7 @@ export default function Impact211Page() {
             pointerEvents: "none",
           }}
         >
-          <motion.p style={{ ...eyebrowStyle, textAlign: "center" }}>{clientCity({ formData: fd }) ?? "Paris"} · Étoilé Michelin</motion.p>
+          <motion.p style={{ ...eyebrowStyle, textAlign: "center" }}>{clientCity(sessionData) ?? "Paris"} · Étoilé Michelin</motion.p>
           <h1 style={{
             fontFamily: font.serif,
             fontSize: "clamp(3rem, 8vw, 6rem)",
@@ -909,9 +919,9 @@ export default function Impact211Page() {
             fontWeight: 300,
             color: C.cream,
             marginBottom: "0.5rem",
-          }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maison Éclat"))}</>}</p>
+          }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maison Éclat"))}</>}</p>
           <p style={{ ...eyebrowStyle, textAlign: "center", marginBottom: "2rem" }}>
-            7ème arrondissement · {clientCity({ formData: fd }) ?? "Paris"}
+            7ème arrondissement · {clientCity(sessionData) ?? "Paris"}
           </p>
           <motion.div
             animate={{ y: [0, 8, 0] }}
@@ -975,14 +985,14 @@ export default function Impact211Page() {
           >
             <span style={eyebrowStyle}>Notre histoire</span>
             <h2 style={sectionTitleStyle}>{c?.aboutTitle ?? fd?.businessName ?? <>
-              L\'art de<br />la table française
+              L'art de<br />la table française
             </>}</h2>
             <GoldLine delay={0.2} />
             <p style={{ ...bodyStyle, marginBottom: "1.5rem" }}>{c?.aboutText ?? <>
-              Fondée en 1978 par le chef Jean-Pierre Mercier dans le 7ème arrondissement de {clientCity({ formData: fd }) ?? "Paris"}, la Maison Éclat incarne quatre décennies d\'excellence gastronomique. Nichée à deux pas du Musée d\'Orsay, notre maison cultive une philosophie singulière : honorer les produits d\'exception en leur donnant la parole.
+              Fondée en 1978 par le chef Jean-Pierre Mercier dans le 7ème arrondissement de {clientCity(sessionData) ?? "Paris"}, la {clientName(sessionData) ?? "Maison Éclat"} incarne quatre décennies d\'excellence gastronomique. Nichée à deux pas du Musée d\'Orsay, notre maison cultive une philosophie singulière : honorer les produits d\'exception en leur donnant la parole.
             </>}</p>
             <p style={bodyStyle}>
-              Aujourd\'hui portée par Adrien Mercier, fils du fondateur et formé chez Robuchon et Pierre Gagnaire, la Maison Éclat reçoit deux étoiles Michelin depuis 2019. Chaque assiette est une conversation entre la mémoire familiale et l\'audace contemporaine.
+              Aujourd'hui portée par Adrien Mercier, fils du fondateur et formé chez Robuchon et Pierre Gagnaire, la {clientName(sessionData) ?? "Maison Éclat"} reçoit deux étoiles Michelin depuis 2019. Chaque assiette est une conversation entre la mémoire familiale et l'audace contemporaine.
             </p>
 
             <motion.div
@@ -1029,7 +1039,7 @@ export default function Impact211Page() {
                 <line x1="30" y1="200" x2="270" y2="200" stroke={C.gold} strokeWidth="0.3" opacity="0.4" />
                 <line x1="150" y1="30" x2="150" y2="370" stroke={C.gold} strokeWidth="0.3" opacity="0.4" />
                 <path d="M 70 120 Q 150 80 230 120 Q 270 200 230 280 Q 150 320 70 280 Q 30 200 70 120 Z" fill="none" stroke={C.gold} strokeWidth="0.5" />
-                <text x="150" y="205" textAnchor="middle" fill={C.gold} fontSize="12" fontFamily={font.serif} fontStyle="italic" opacity="0.8">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maison Éclat"))}</text>
+                <text x="150" y="205" textAnchor="middle" fill={C.gold} fontSize="12" fontFamily={font.serif} fontStyle="italic" opacity="0.8">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maison Éclat"))}</text>
                 <text x="150" y="222" textAnchor="middle" fill={C.creamMuted} fontSize="7" fontFamily={font.sans} opacity="0.6" letterSpacing="3">{clientCity(sessionData) ?? "PARIS"} · MMXXVI</text>
               </svg>
 
@@ -1101,7 +1111,7 @@ export default function Impact211Page() {
               transition={{ duration: 0.8, delay: 0.2 }}
               style={{ ...bodyStyle, maxWidth: 520, margin: "0 auto 2rem", textAlign: "center" }}
             >
-              Un voyage en sept actes, composé selon les arrivages du marché et l\'inspiration du moment. Allergènes et régimes spéciaux sur demande.
+              Un voyage en sept actes, composé selon les arrivages du marché et l'inspiration du moment. Allergènes et régimes spéciaux sur demande.
             </motion.p>
 
             {!hasRealMenu && (
@@ -1157,10 +1167,10 @@ export default function Impact211Page() {
               </>)}</h2>
               <GoldLine />
               <p style={{ ...bodyStyle, marginBottom: "2rem" }}>
-                Chaque ingrédient porte en lui une histoire, un lieu, un homme. Nous travaillons en direct avec nos producteurs depuis plus de vingt ans, construisant des relations fondées sur la confiance, le respect du vivant et l\'excellence partagée.
+                Chaque ingrédient porte en lui une histoire, un lieu, un homme. Nous travaillons en direct avec nos producteurs depuis plus de vingt ans, construisant des relations fondées sur la confiance, le respect du vivant et l'excellence partagée.
               </p>
               <p style={bodyStyle}>
-                Cliquez sur les points pour découvrir nos partenaires producteurs et les ingrédients d\'exception qu\'ils nous confient.
+                Cliquez sur les points pour découvrir nos partenaires producteurs et les ingrédients d'exception qu'ils nous confient.
               </p>
 
               {/* Active dot info */}
@@ -1384,7 +1394,7 @@ export default function Impact211Page() {
                       }}
                     >
                       <p style={{ ...bodyStyle, fontSize: "0.82rem", color: C.cream }}>
-                        Formé chez Robuchon à Monaco et Gagnaire à {clientCity({ formData: fd }) ?? "Paris"}, Adrien Mercier incarne la troisième génération d\'une lignée de chefs passionnés par le produit brut et la précision technique.
+                        Formé chez Robuchon à Monaco et Gagnaire à {clientCity(sessionData) ?? "Paris"}, Adrien Mercier incarne la troisième génération d\'une lignée de chefs passionnés par le produit brut et la précision technique.
                       </p>
                     </motion.div>
                   )}
@@ -1409,14 +1419,14 @@ export default function Impact211Page() {
               <GoldLine />
 
               <p style={{ ...bodyStyle, marginBottom: "1.5rem" }}>
-                Né dans les cuisines de la Maison Éclat, Adrien Mercier a grandi entre les odeurs du beurre noisette et les discussions animées de son père avec les producteurs. À vingt-deux ans, il quitte {clientCity({ formData: fd }) ?? "Paris"} pour parfaire son art auprès des plus grands noms de la gastronomie mondiale.
+                Né dans les cuisines de la {clientName(sessionData) ?? "Maison Éclat"}, Adrien Mercier a grandi entre les odeurs du beurre noisette et les discussions animées de son père avec les producteurs. À vingt-deux ans, il quitte {clientCity(sessionData) ?? "Paris"} pour parfaire son art auprès des plus grands noms de la gastronomie mondiale.
               </p>
               <p style={{ ...bodyStyle, marginBottom: "1.5rem" }}>
-                Son retour en 2017 marque un tournant : il impose sa propre lecture de la gastronomie française, plus introspective, nourrie de voyages et d\'une obsession pour le terroir. En 2019, la Maison Éclat décroche sa deuxième étoile Michelin.
+                Son retour en 2017 marque un tournant : il impose sa propre lecture de la gastronomie française, plus introspective, nourrie de voyages et d'une obsession pour le terroir. En 2019, la {clientName(sessionData) ?? "Maison Éclat"} décroche sa deuxième étoile Michelin.
               </p>
               <p style={bodyStyle}>
                 <em style={{ fontFamily: font.serif, fontSize: "1.05rem", fontStyle: "italic", color: C.cream }}>
-                  &ldquo;Je ne cuisine pas pour épater, je cuisine pour émouvoir. Un repas réussi, c\'est celui dont on se souvient un an plus tard.&rdquo;
+                  &ldquo;Je ne cuisine pas pour épater, je cuisine pour émouvoir. Un repas réussi, c'est celui dont on se souvient un an plus tard.&rdquo;
                 </em>
               </p>
 
@@ -1549,7 +1559,7 @@ export default function Impact211Page() {
               transition={{ duration: 0.7, delay: 0.2 }}
               style={{ ...bodyStyle, maxWidth: 480, margin: "0 auto" }}
             >
-              La Maison Éclat reçoit douze couverts par service. Nous vous invitons à réserver au minimum 21 jours à l\'avance. Toute réservation est confirmée par notre équipe dans les 24 heures.
+              La {clientName(sessionData) ?? "Maison Éclat"} reçoit douze couverts par service. Nous vous invitons à réserver au minimum 21 jours à l'avance. Toute réservation est confirmée par notre équipe dans les 24 heures.
             </motion.p>
           </div>
 
@@ -1683,7 +1693,7 @@ export default function Impact211Page() {
             <style>{`@media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr !important; gap: 2rem !important; } }`}</style>
 
             <div>
-              <div style={{ fontFamily: font.serif, fontSize: "2rem", fontStyle: "italic", color: C.cream, marginBottom: "1.2rem" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Maison Éclat"))}</div>
+              <div style={{ fontFamily: font.serif, fontSize: "2rem", fontStyle: "italic", color: C.cream, marginBottom: "1.2rem" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maison Éclat"))}</div>
               <p style={{ ...bodyStyle, marginBottom: "1.5rem", maxWidth: 320 }}>
                 Un restaurant gastronomique parisien au cœur du 7ème arrondissement, entre tradition et innovation, produit et émotion.
               </p>
@@ -1709,8 +1719,8 @@ export default function Impact211Page() {
               <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem" }}>
                 {[
                   { label: "Réservations", value: (clientPhone(sessionData) ?? "+33 1 42 61 71 68") },
-                  { label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "table@maisoneclat.fr") },
-                  { label: "Adresse", value: (clientAddress(sessionData) ?? `14 rue de Varenne, 75007 ${clientCity({ formData: fd }) ?? "Paris"}`) },
+                  { label: "Email", value: (fd?.email ?? "table@maisoneclat.fr") },
+                  { label: "Adresse", value: (clientAddress(sessionData) ?? `14 rue de Varenne, 75007 ${clientCity(sessionData) ?? "Paris"}`) },
                 ].map((item) => (
                   <div key={item.label}>
                     <div style={{ fontFamily: font.sans, fontSize: "0.65rem", fontWeight: 400, letterSpacing: "0.15em", textTransform: "uppercase", color: C.gold, marginBottom: "0.2rem" }}>{item.label}</div>
@@ -1764,7 +1774,7 @@ export default function Impact211Page() {
           {/* Bottom bar */}
           <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: "2rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
             <p style={{ fontFamily: font.sans, fontSize: "0.72rem", fontWeight: 300, color: C.creamMuted, opacity: 0.5, letterSpacing: "0.06em" }}>
-              © 2026 {clientName(sessionData) ?? "Maison Éclat"} · Tous droits réservés{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 123 456 789 00010"}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+              © 2026 {clientName(sessionData) ?? "Maison Éclat"} · Tous droits réservés{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 123 456 789 00010"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: "flex", gap: "2rem" }}>
               {["Mentions légales", "Politique de confidentialité", "CGV"].map((link) => (
@@ -1805,7 +1815,7 @@ export default function Impact211Page() {
                 opacity: 0.4,
                 letterSpacing: "0.15em",
               }}>
-                Maison Éclat · {clientCity({ formData: fd }) ?? "Paris"}
+                {clientName(sessionData) ?? "Maison Éclat"} · {clientCity(sessionData) ?? "Paris"}
               </span>
             </div>
           </div>

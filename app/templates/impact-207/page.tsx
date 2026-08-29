@@ -17,12 +17,10 @@ import { TemplateIcon } from '@/components/TemplateIcon'
 import {
   clientAccrocheRestante,
   clientCity,
-  clientEmail,
   clientHeroPrestations,
   clientHeroSubtitle,
   clientList,
   clientName,
-  clientPhone,
   clientReviews,
   clientServices,
   clientStats,
@@ -103,7 +101,7 @@ const T = {
 // was colliding; the other hubs sit clear of the headline's footprint.
 function HUBS_LIVE() {
   return {
-  paris: { x: 472, y: 148, label: (clientCity({ formData: fd }) ?? "Paris"), hideLabel: true },
+  paris: { x: 472, y: 148, label: (clientCity(sessionData) ?? "Paris"), hideLabel: true },
   rotterdam: { x: 479, y: 138, label: "Rotterdam", hideLabel: true },
   dubai: { x: 580, y: 200, label: "Dubai" },
   singapore: { x: 720, y: 265, label: "Singapore" },
@@ -656,7 +654,7 @@ function CssTruck({ scale = 1, color = "#1e3a5f", opacity = 1 }: TruckProps) {
       {/* Trailer stripe */}
       <rect x="2" y="12" width="82" height="4" fill={T.accent} opacity="0.4"/>
       {/* Logo on trailer */}
-      <text x="28" y="35" fontFamily="Inter,sans-serif" fontSize="8" fontWeight="700" fill="#ffffff" opacity="0.5">{clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "NEXUSFREIGHT")}</text>
+      <text x="28" y="35" fontFamily="Inter,sans-serif" fontSize="8" fontWeight="700" fill="#ffffff" opacity="0.5">{clientName(sessionData) ?? (clientName(sessionData) ?? "NEXUSFREIGHT")}</text>
       {/* Rear wheels */}
       <circle cx="20" cy="46" r="8" fill="#0a0f1e" stroke="var(--brand,#2a4a6e)" strokeWidth="2"/>
       <circle cx="20" cy="46" r="4" fill="#1a2a45"/>
@@ -1886,17 +1884,17 @@ function ContactSection() {
                 {
                   icon: "📍",
                   label: "Headquarters",
-                  value: "15 Rue de la Paix, 75001 " + (clientCity({ formData: fd }) ?? "Paris") + ", France",
+                  value: "15 Rue de la Paix, 75001 " + (clientCity(sessionData) ?? "Paris") + ", France",
                 },
                 {
                   icon: "📞",
                   label: "Sales Hotline",
-                  value: (clientPhone(sessionData) ?? "+33 1 45 00 00 00") + " (24/7)",
+                  value: "+33 1 45 00 00 00 (24/7)",
                 },
                 {
                   icon: "✉️",
                   label: "Email",
-                  value: (clientEmail(sessionData) ?? fd?.email ?? "sales@nexusfreight.com"),
+                  value: (fd?.email ?? "sales@nexusfreight.com"),
                 },
                 {
                   icon: "⏱",
@@ -2280,7 +2278,7 @@ function Footer() {
           }}
         >
           <span style={{ fontSize: 13, color: T.textMuted }}>
-            © 2026 {fd?.businessName ?? "NexusFreight SAS"}. All rights reserved.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+            © 2026 {fd?.businessName ?? "NexusFreight SAS"}. All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: "flex", gap: 24 }}>
             {["Privacy Policy", "Terms of Service", "Cookie Settings"].map((item) => (
@@ -2330,10 +2328,21 @@ export default function Impact207() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2353,6 +2362,10 @@ export default function Impact207() {
       value: s.value,
 
       label: s.label,
+
+      /* Le chiffre est celui du client : l'unité de la démonstration ne le suit pas. */
+
+      suffix: "",
 
     })),
 

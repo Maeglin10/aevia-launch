@@ -39,7 +39,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DERMIS STUDIO — Tatouage & Piercing · {clientCity(sessionData) ?? "Montpellier"}
+   {clientName(sessionData) ?? "Dermis Studio"} — Tatouage & Piercing · {clientCity(sessionData) ?? "Montpellier"}
    Chorégraphie de défilement éditoriale. 'use client'. Auto-suffisant.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -603,7 +603,7 @@ function Hero() {
       >
         <img
           src={PHOTO.heroWide}
-          alt="Artiste tatoueur au travail, Dermis Studio Montpellier"
+          alt={`Artiste tatoueur au travail, ${clientName(sessionData) ?? "Dermis Studio"} Montpellier`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1409,7 +1409,7 @@ function SafetyPanel() {
           >
             <img
               src={PHOTO.safetyLeft}
-              alt="Matériel stérile et préparation au Dermis Studio"
+              alt={`Matériel stérile et préparation au ${clientName(sessionData) ?? "Dermis Studio"}`}
               loading="lazy"
               style={{
                 width: '100%',
@@ -2167,10 +2167,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;

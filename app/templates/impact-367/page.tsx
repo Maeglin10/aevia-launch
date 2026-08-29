@@ -19,6 +19,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -28,6 +29,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -41,7 +43,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET NAISSANCES — Sage-femme libérale · Aix-en-Provence
+   {clientName(sessionData) ?? "Cabinet Naissances"} — Sage-femme libérale · Aix-en-Provence
    Réécriture premium (reprise 316–383, famille II).
 
    Geste signature : ParticleOrb (hero-kit-3), lu comme un BERCEAU de points —
@@ -126,7 +128,7 @@ const METHODE_SOURCE = [
   { n: "03", t: "La naissance, préparée", d: "8 séances pour arriver le jour J en connaissant son corps, ses droits et ses options." },
   { n: "04", t: "L'après, accompagné", d: "Domicile la première semaine, allaitement, rééducation, contraception : on ne disparaît pas après l'accouchement." },
 ];
-const METHODE = METHODE_SOURCE;
+let METHODE = METHODE_SOURCE;
 
 const ENGAGEMENT_SOURCE = [
   "Sage-femme diplômée d'État, inscrite à l'Ordre — n° RPPS affiché au cabinet",
@@ -465,16 +467,32 @@ export default function CabinetNaissancesPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    fusionnerEtapes(METHODE_SOURCE, clientMethode(sessionData)),
+    METHODE_SOURCE,
+  );
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };

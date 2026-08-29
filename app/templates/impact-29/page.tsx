@@ -16,12 +16,14 @@ import {
   clientEmail,
   clientEyebrow,
   clientHeroLine,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientText,
   clientWorks,
+  fusionnerEtapes,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -65,10 +67,21 @@ export default function Home() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -394,7 +407,7 @@ return (
             <h2 className="font-bold text-3xl md:text-4xl">{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>Engagement Process</>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-0">
-            {process.map((step, i) => (
+            {resolveList(fusionnerEtapes(process, clientMethode(sessionData)), process).map((step, i) => (
               <Reveal key={step.step} delay={i * 0.1}>
                 <div className="border border-[#00F5D4]/15 p-8 border-r-0 last:border-r border-b md:border-b-0 relative hover:bg-[#0D1323] transition-colors">
                   {/* Connector dot */}
@@ -569,7 +582,7 @@ return (
             <div className="text-[#00F5D4] text-xs mb-4"><span className="text-[#475569]">// </span>get_in_touch</div>
             <h2 className="font-bold text-4xl md:text-5xl mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Let's build something great.</>)}</h2>
             <p className="text-[#94A3B8] text-lg mb-10 leading-relaxed">
-              Available for staff/principal engineering contracts, technical advisory, and open source. Based in {clientCity({ formData: fd }) ?? "Paris"}, remote-first.
+              Available for staff/principal engineering contracts, technical advisory, and open source. Based in {clientCity(sessionData) ?? "Paris"}, remote-first.
             </p>
             <div className="space-y-4">
               <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}`} className="block w-full bg-[#00F5D4] text-[#0A0E1A] font-bold text-sm py-4 hover:bg-[#00E5C4] transition-colors cursor-pointer text-center">
@@ -589,8 +602,8 @@ return (
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-29"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? ""}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>
   )

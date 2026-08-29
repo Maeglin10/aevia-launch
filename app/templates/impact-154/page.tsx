@@ -1,5 +1,6 @@
 
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { resolveList } from "@/lib/templates/resolveList";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
@@ -29,7 +30,6 @@ import {
 } from "lucide-react"
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHours,
   clientList,
@@ -71,7 +71,7 @@ function COLLECTIONS_SOURCE_LIVE() {
     title: "Celestial Marbles",
     period: "Classical Era",
     status: "In_Exhibition",
-    location: (clientCity({ formData: fd }) ?? "Paris") + " Annex",
+    location: (clientCity(sessionData) ?? "Paris") + " Annex",
     desc: "Sculptures hellénistiques retrouvées lors de l'expédition de 1924 en mer Égée.",
     image: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?q=80&w=1200&auto=format&fit=crop")
   },
@@ -127,7 +127,7 @@ function ARCHIVE_WORKS_DEMO_SOURCE_LIVE() {
     title: "Veduta of the Lost City",
     period: "18th Century",
     status: "In_Exhibition",
-    location: (clientCity({ formData: fd }) ?? "Paris") + " Annex",
+    location: (clientCity(sessionData) ?? "Paris") + " Annex",
     desc: "Vue capricieuse à l'huile d'une cité engloutie, étude topographique d'une précision saisissante.",
     image: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1549289524-06cf8837ace5?q=80&w=1200&auto=format&fit=crop")
   },
@@ -405,10 +405,21 @@ export default function IvoryArchivePremium() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -507,7 +518,7 @@ return (
               <>
             <span className="text-2xl md:text-3xl font-light tracking-[0.2em] uppercase text-white flex items-center gap-4">
                <Landmark className="w-7 h-7 md:w-8 md:h-8 text-[var(--brand,#b4925e)]" />
-               {clientName({ formData: fd }) ?? "IVORY"}<span className="text-[var(--brand,#b4925e)] font-black italic">.ARCHIVE</span>
+               {(clientName(sessionData) ?? "IVORY .ARCHIVE").split(" ")[0]}<span className="text-[var(--brand,#b4925e)] font-black italic">{(clientName(sessionData) ?? "IVORY .ARCHIVE").split(" ").slice(1).join(" ")}</span>
             </span>
             <span className="text-[10px] font-black tracking-[0.6em] text-white/20 uppercase italic hidden md:block">Elite Art Conservation & Private Registry</span>
               </>
@@ -911,7 +922,7 @@ return (
            </div>
 
            <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black text-white/10 uppercase tracking-[0.4em] italic">
-              <span>© 2026 {clientName(sessionData) ?? "THE IVORY ARCHIVE FOUNDATION."} // ALL_RIGHTS_RESERVED{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+              <span>© 2026 {clientName(sessionData) ?? "THE IVORY ARCHIVE FOUNDATION."} // ALL_RIGHTS_RESERVED{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
               <div className="flex gap-12">
                  <span>SECURITY: LVL_9</span>
                  <span>LATENCY: 14ms</span>
@@ -1229,7 +1240,7 @@ function AboutPage({ onContact }: { onContact: () => void }) {
   const ABOUT_PARAS = [
     "Fondée pour répondre à une exigence singulière — celle de conserver l'inestimable —, The Ivory Archive est une maison de conservation et de registre privé dédiée aux chefs-d'œuvre de l'histoire de l'art.",
     "Notre mandat ne se limite pas à la garde. Il engage une science : imagerie multispectrale, stabilisation atmosphérique, expertise métallurgique et pigmentaire. Chaque geste est documenté, chaque pièce est traçée du premier au dernier maillon de sa provenance.",
-    "Réparti sur quatre nodes de haute sécurité — Zurich, " + (clientCity({ formData: fd }) ?? "Paris") + ", Londres et Tokyo —, l'Archive opère dans la plus stricte confidentialité, au service des institutions muséales et des collectionneurs les plus exigeants."
+    "Réparti sur quatre nodes de haute sécurité — Zurich, " + (clientCity(sessionData) ?? "Paris") + ", Londres et Tokyo —, l'Archive opère dans la plus stricte confidentialité, au service des institutions muséales et des collectionneurs les plus exigeants."
   ]
   const VALUES = resolveList(
     clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
@@ -1249,7 +1260,7 @@ function AboutPage({ onContact }: { onContact: () => void }) {
   )
   const NODES = [
     { city: "Zurich", role: "High-Security Vault" },
-    { city: (clientCity({ formData: fd }) ?? "Paris"), role: "Exhibition Annex" },
+    { city: (clientCity(sessionData) ?? "Paris"), role: "Exhibition Annex" },
     { city: "London", role: "Conservation Lab" },
     { city: "Tokyo", role: "Private Node" }
   ]
@@ -1367,7 +1378,7 @@ function ContactPage() {
             {/* Info */}
             <div>
                {/* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ label: h.day, value: h.hours })), [
-                 { icon: Mail, label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr") },
+                 { icon: Mail, label: "Email", value: (fd?.email ?? "contact@exemple.fr") },
                  { icon: MapPin, label: "Siège", value: "Adresse communiquée sur demande" },
                  { icon: Clock, label: "Horaires", value: "Lun – Ven · 9h – 19h" },
                  { icon: ShieldCheck, label: "Confidentialité", value: "Discrétion absolue garantie" }
@@ -1465,10 +1476,10 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
            <div className="max-w-[820px] mx-auto px-8 md:px-12">
               <Heading>Éditeur</Heading>
               <Para><Strong>Aevia WS</Strong> — entrepreneur individuel (auto-entrepreneur).</Para>
-              <Para>Directeur de la publication : <Strong>Valentin Milliand</Strong>.</Para>
-              <Para>SIREN : <Strong><LegalIdentity /></Strong> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}.</Para>
-              <Para>Contact : <Strong>{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</Strong></Para>
-              <Para>Adresse du siège social communiquée sur demande à {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}.</Para>
+              <Para>Directeur de la publication : <Strong><EditeurDuSite /></Strong>.</Para>
+              <Para>SIREN : <Strong><LegalIdentity /></Strong> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}.</Para>
+              <Para>Contact : <Strong>{fd?.email ?? "contact@exemple.fr"}</Strong></Para>
+              <Para>Adresse du siège social communiquée sur demande à {fd?.email ?? "contact@exemple.fr"}.</Para>
 
               <Heading>TVA</Heading>
               <Para>TVA non applicable, art. 293 B du CGI.</Para>
@@ -1504,7 +1515,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
             <Heading>Responsable du traitement</Heading>
             <Para>
                Le responsable du traitement des données personnelles est <Strong>Aevia WS</Strong>, éditeur du site.
-               Pour toute question, écrivez à <Strong>{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</Strong>.
+               Pour toute question, écrivez à <Strong>{fd?.email ?? "contact@exemple.fr"}</Strong>.
             </Para>
 
             <Heading>Données collectées</Heading>

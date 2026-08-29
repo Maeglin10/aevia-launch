@@ -113,8 +113,8 @@ export let COLLECTIONS = COLLECTIONS_LIVE();
 export const HERITAGE = [
   {
     year: "1891",
-    title: "Fondation à " + clientCityOr("Genève"),
-    desc: "Édouard Drouet, maître horloger formé à l'École d'Horlogerie de " + clientCityOr("Genève") + ", ouvre son premier atelier rue de Rive. Cinq compagnons, un établi, l'ambition de l'excellence.",
+    get title() { return "Fondation à " + clientCityOr("Genève"); },
+    get desc() { return "Édouard Drouet, maître horloger formé à l'École d'Horlogerie de " + clientCityOr("Genève") + ", ouvre son premier atelier rue de Rive. Cinq compagnons, un établi, l'ambition de l'excellence."; },
   },
   {
     year: "1923",
@@ -177,7 +177,7 @@ export const PRESS = [
   {
     quote: "Entrer dans la Maison Drouet, c'est comprendre que la montre n'est pas un objet. C'est un argument philosophique sur le temps.",
     author: "Nicolas Foulc",
-    outlet: "Vogue " + clientCityOr("Paris"),
+    get outlet() { return "Vogue " + clientCityOr("Paris"); },
     year: "2024",
   },
 ];
@@ -203,7 +203,7 @@ export const BESPOKE_STEPS = [
   {
     n: "04",
     title: "Remise Solennelle",
-    desc: "Livraison en mains propres à " + clientCityOr("Genève") + " ou à domicile. Certificat d'authenticité numéroté, garantie à vie, passeport de service.",
+    get desc() { return "Livraison en mains propres à " + clientCityOr("Genève") + " ou à domicile. Certificat d'authenticité numéroté, garantie à vie, passeport de service."; },
   },
 ];
 

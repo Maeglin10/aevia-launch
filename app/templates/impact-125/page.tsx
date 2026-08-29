@@ -118,10 +118,21 @@ export default function AstrumReachPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -181,7 +192,7 @@ export default function AstrumReachPage() {
                 <div className="w-10 h-10 rounded-full bg-[var(--brand,#06b6d4)]/10 border border-[var(--brand,#06b6d4)]/30 flex items-center justify-center group-hover:bg-[var(--brand,#06b6d4)] transition-all duration-500">
                   <Rocket className="w-5 h-5 text-[var(--brand,#22d3ee)] group-hover:text-black" />
                 </div>
-                <span className="text-base sm:text-xl font-light tracking-[0.15em] sm:tracking-[0.4em] uppercase whitespace-nowrap">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Astrum <span className="text-[var(--brand,#06b6d4)] font-bold">Reach</span></>)}</span>
+                <span className="text-base sm:text-xl font-light tracking-[0.15em] sm:tracking-[0.4em] uppercase whitespace-nowrap">{/* NOM_LOGO */ clientName(sessionData) ?? (<>Astrum <span className="text-[var(--brand,#06b6d4)] font-bold">Reach</span></>)}</span>
               </>
             )}
           </Link>
@@ -224,7 +235,7 @@ export default function AstrumReachPage() {
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.3}>
-                  <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-12 italic">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                  <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-12 italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                     Reliable, cost-effective orbital transport for the next generation of space exploration. From LEO to deep space, we bridge the gap.
                   </>}</p>
                 </Reveal>
@@ -456,7 +467,7 @@ export default function AstrumReachPage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 {clientName(sessionData) ?? "ASTRUM REACH AEROSPACE. ALL"} STAGES NOMINAL.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "ASTRUM REACH AEROSPACE. ALL"} STAGES NOMINAL.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-10">
              <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-2">CAPE CANAVERAL, FL</Link>
              <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-2">STARBASE, TX</Link>

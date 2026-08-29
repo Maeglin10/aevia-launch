@@ -38,6 +38,7 @@ import {
   clientEmail,
   clientHeroLine,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -47,7 +48,41 @@ import {
   clientStats,
   clientTagline,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
+
+/* Les étapes de la démonstration, écrites une fois. */
+const ETAPES_DEMO_290 = [
+    {
+      Icon: ClipboardList,
+      num: '01',
+      title: 'Diagnostic énergétique',
+      text:
+        'Visite sur site gratuite. Évaluation thermique de votre logement, étude de vos besoins et mesure de la performance actuelle. Rapport détaillé remis sous 48h.',
+    },
+    {
+      Icon: Euro,
+      num: '02',
+      title: 'Devis aides déduites',
+      text:
+        "Devis transparent avec MaPrimeRénov', CEE et TVA réduite déduites d'emblée. Vous ne payez que le reste à charge réel — aucune avance sur aides à faire.",
+    },
+    {
+      Icon: Wrench,
+      num: '03',
+      title: 'Pose certifiée RGE',
+      text:
+        "Installation par nos techniciens certifiés. Chantier propre, respectueux de votre habitat. Mise en service complète et formation à l'utilisation.",
+    },
+    {
+      Icon: CalendarCheck,
+      num: '04',
+      title: 'Entretien annuel',
+      text:
+        'Contrat de maintenance annuel inclus la première année. Contrôle performances, nettoyage, réglages — pour garantir votre confort et votre garantie constructeur.',
+    },
+  ];
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -82,7 +117,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   EAU & HABITAT BRETAGNE — Plombier-chauffagiste {clientCity(sessionData) ?? "Rennes"} & agglo
+   {clientName(sessionData) ?? "Eau & Habitat Bretagne"} — Plombier-chauffagiste {clientCity(sessionData) ?? "Rennes"} & agglo
    Template premium autonome. 'use client'. Framer Motion + Lucide React.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -318,7 +353,7 @@ function HeroSection() {
       >
         <img
           src={PHOTO.bathroom}
-          alt="Salle de bain rénovée par Eau & Habitat Bretagne"
+          alt={`Salle de bain rénovée par ${clientName(sessionData) ?? "Eau & Habitat Bretagne"}`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1030,95 +1065,13 @@ function ServiceCard({
    ════════════════════════════════════════════════════════════════════════════ */
 function ProcessSection() {
   const steps = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
-    {
-      Icon: ClipboardList,
-      num: '01',
-      title: 'Diagnostic énergétique',
-      text:
-        'Visite sur site gratuite. Évaluation thermique de votre logement, étude de vos besoins et mesure de la performance actuelle. Rapport détaillé remis sous 48h.',
-    },
-    {
-      Icon: Euro,
-      num: '02',
-      title: 'Devis aides déduites',
-      text:
-        "Devis transparent avec MaPrimeRénov', CEE et TVA réduite déduites d'emblée. Vous ne payez que le reste à charge réel — aucune avance sur aides à faire.",
-    },
-    {
-      Icon: Wrench,
-      num: '03',
-      title: 'Pose certifiée RGE',
-      text:
-        "Installation par nos techniciens certifiés. Chantier propre, respectueux de votre habitat. Mise en service complète et formation à l'utilisation.",
-    },
-    {
-      Icon: CalendarCheck,
-      num: '04',
-      title: 'Entretien annuel',
-      text:
-        'Contrat de maintenance annuel inclus la première année. Contrôle performances, nettoyage, réglages — pour garantir votre confort et votre garantie constructeur.',
-    },
-  ])[i % ([
-    {
-      Icon: ClipboardList,
-      num: '01',
-      title: 'Diagnostic énergétique',
-      text:
-        'Visite sur site gratuite. Évaluation thermique de votre logement, étude de vos besoins et mesure de la performance actuelle. Rapport détaillé remis sous 48h.',
-    },
-    {
-      Icon: Euro,
-      num: '02',
-      title: 'Devis aides déduites',
-      text:
-        "Devis transparent avec MaPrimeRénov', CEE et TVA réduite déduites d'emblée. Vous ne payez que le reste à charge réel — aucune avance sur aides à faire.",
-    },
-    {
-      Icon: Wrench,
-      num: '03',
-      title: 'Pose certifiée RGE',
-      text:
-        "Installation par nos techniciens certifiés. Chantier propre, respectueux de votre habitat. Mise en service complète et formation à l'utilisation.",
-    },
-    {
-      Icon: CalendarCheck,
-      num: '04',
-      title: 'Entretien annuel',
-      text:
-        'Contrat de maintenance annuel inclus la première année. Contrôle performances, nettoyage, réglages — pour garantir votre confort et votre garantie constructeur.',
-    },
-  ]).length], title: s.title, text: s.desc || "" })),
-    [
-    {
-      Icon: ClipboardList,
-      num: '01',
-      title: 'Diagnostic énergétique',
-      text:
-        'Visite sur site gratuite. Évaluation thermique de votre logement, étude de vos besoins et mesure de la performance actuelle. Rapport détaillé remis sous 48h.',
-    },
-    {
-      Icon: Euro,
-      num: '02',
-      title: 'Devis aides déduites',
-      text:
-        "Devis transparent avec MaPrimeRénov', CEE et TVA réduite déduites d'emblée. Vous ne payez que le reste à charge réel — aucune avance sur aides à faire.",
-    },
-    {
-      Icon: Wrench,
-      num: '03',
-      title: 'Pose certifiée RGE',
-      text:
-        "Installation par nos techniciens certifiés. Chantier propre, respectueux de votre habitat. Mise en service complète et formation à l'utilisation.",
-    },
-    {
-      Icon: CalendarCheck,
-      num: '04',
-      title: 'Entretien annuel',
-      text:
-        'Contrat de maintenance annuel inclus la première année. Contrôle performances, nettoyage, réglages — pour garantir votre confort et votre garantie constructeur.',
-    },
-  ],
+    /* La méthode du client d'abord ; ses prestations à défaut. */
+    fusionnerEtapes(ETAPES_DEMO_290, (clientMethode(sessionData) ?? clientServices(sessionData)) as any)?.map((s: any) => ({
+      ...s,
+      title: s.title,
+      text: s.desc || "",
+    })),
+    ETAPES_DEMO_290,
   );
 
   return (
@@ -1172,7 +1125,7 @@ function ProcessSection() {
               >
                 <img
                   src={PHOTO.artisan}
-                  alt="Technicien Eau & Habitat Bretagne en intervention"
+                  alt={`Technicien ${clientName(sessionData) ?? "Eau & Habitat Bretagne"} en intervention`}
                   style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
                 {/* Badge flottant */}
@@ -3241,10 +3194,21 @@ function Impact290Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;

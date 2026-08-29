@@ -31,17 +31,17 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCertifications,
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientSiret,
   clientTagline,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -59,7 +59,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   PLOMBERIE GARONNE — Plombier-chauffagiste certifié · {clientCity(sessionData) ?? "Toulouse"} & agglo
+   {clientName(sessionData) ?? "Plomberie Garonne"} — Plombier-chauffagiste certifié · {clientCity(sessionData) ?? "Toulouse"} & agglo
    Photographie réelle + architecture éditoriale 10 sections.
    Fichier autonome : 'use client', pas d'imports externes sauf react,
    framer-motion, lucide-react.
@@ -340,8 +340,6 @@ function Nav() {
         ) : (
           <>
             <Droplets size={22} color={C.brick} strokeWidth={2} />
-            {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
-                portait « Plomberie Garonne » sur le site de n'importe quel client. */}
             {clientName(sessionData) ?? "Plomberie Garonne"}
           </>
         )}
@@ -500,7 +498,7 @@ function HeroSection() {
       >
         <img
           src={PHOTO.heroWide}
-          alt="Salle de bain moderne rénovée par Plomberie Garonne à Toulouse"
+          alt={`Salle de bain moderne rénovée par ${clientName(sessionData) ?? "Plomberie Garonne"} à Toulouse`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -623,9 +621,9 @@ function HeroSection() {
           <BrickButton filled href="#devis">
             Demander un devis gratuit
           </BrickButton>
-          <BrickButton href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33561000000").replace(/[^+0-9]/g, "")}`}>
+          <BrickButton href={`tel:${fd?.phone ?? "+33561000000"}`}>
             <Phone size={15} strokeWidth={2} />
-            {clientPhone(sessionData) ?? fd?.phone ?? "05 61 00 00 00"}
+            {fd?.phone ?? "05 61 00 00 00"}
           </BrickButton>
         </motion.div>
       </motion.div>
@@ -679,10 +677,13 @@ type CrossfadeSlide = {
   sub: string;
 };
 
-const CROSSFADE_SLIDES: CrossfadeSlide[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function CROSSFADE_SLIDES_LIVE(): CrossfadeSlide[] {
+  return [
   {
     src: PHOTO.chaudiere,
-    alt: 'Installation de chaudière à condensation par Plomberie Garonne',
+    alt: `Installation de chaudière à condensation par ${clientName(sessionData) ?? "Plomberie Garonne"}`,
     index: '01',
     caption: 'Chauffage',
     sub: 'Chaudière à condensation, pompe à chaleur, plancher chauffant — votre confort thermique entre de bonnes mains.',
@@ -696,12 +697,14 @@ const CROSSFADE_SLIDES: CrossfadeSlide[] = [
   },
   {
     src: PHOTO.tuyauterie,
-    alt: 'Tuyauterie cuivre installée par Plomberie Garonne',
+    alt: `Tuyauterie cuivre installée par ${clientName(sessionData) ?? "Plomberie Garonne"}`,
     index: '03',
     caption: 'Tuyauterie',
     sub: 'Remplacement de canalisations, détection de fuites, mise aux normes — une plomberie invisible et fiable.',
   },
 ];
+}
+let CROSSFADE_SLIDES: CrossfadeSlide[] = CROSSFADE_SLIDES_LIVE();
 
 function CrossfadeImage({
   slide,
@@ -1121,7 +1124,7 @@ function ServicesSection() {
               margin: '0 auto',
             }}
           >
-            Plomberie Garonne intervient sur l&apos;ensemble des corps de métier
+            {clientName(sessionData) ?? "Plomberie Garonne"} intervient sur l&apos;ensemble des corps de métier
             liés à l&apos;eau et au chauffage, du dépannage d&apos;urgence à la
             rénovation complète.
           </p>
@@ -1211,7 +1214,7 @@ function ProcessSection() {
           >
             <img
               src={PHOTO.plombier}
-              alt="Plombier Plomberie Garonne au travail à Toulouse"
+              alt={`Plombier ${clientName(sessionData) ?? "Plomberie Garonne"} au travail à Toulouse`}
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
@@ -1407,14 +1410,14 @@ function TESTIMONIALS278_DEMO_LIVE() {
   return [
   {
     quote:
-      'Plomberie Garonne a rénové notre salle de bain en 8 jours, exactement dans le budget prévu. Le résultat est magnifique — douche à l\'italienne, plan vasque suspendu, tout est parfait. Je recommande les yeux fermés.',
+      `${clientName(sessionData) ?? "Plomberie Garonne"} a rénové notre salle de bain en 8 jours, exactement dans le budget prévu. Le résultat est magnifique — douche à l\'italienne, plan vasque suspendu, tout est parfait. Je recommande les yeux fermés.`,
     name: 'Sophie M.',
     role: (clientCity(sessionData) ?? 'Toulouse') + ' — Quartier Saint-Aubin',
     work: 'Rénovation salle de bain complète',
   },
   {
     quote:
-      'Fuite sous l\'évier à 22h le dimanche soir. Appelé Plomberie Garonne, un technicien était chez moi 1h45 plus tard. Problème réglé en 40 minutes, tarif dimanche honnête et annoncé avant l\'intervention. Bluffant.',
+      `Fuite sous l\'évier à 22h le dimanche soir. Appelé ${clientName(sessionData) ?? "Plomberie Garonne"}, un technicien était chez moi 1h45 plus tard. Problème réglé en 40 minutes, tarif dimanche honnête et annoncé avant l\'intervention. Bluffant.`,
     name: 'Thomas R.',
     role: 'Colomiers — Quartier Plein Sud',
     work: 'Urgence fuite 7j/7',
@@ -1762,7 +1765,7 @@ function DevisFormSection() {
           >
             Remplissez le formulaire, nous vous répondons sous 48h avec un
             devis détaillé, sans engagement. Urgence ? Appelez directement le{' '}
-            <strong style={{color: brand ?? 'var(--brand,#e87070)' }}>{clientPhone(sessionData) ?? fd?.phone ?? "05 61 00 00 00"}</strong>.
+            <strong style={{color: brand ?? 'var(--brand,#e87070)' }}>{fd?.phone ?? "05 61 00 00 00"}</strong>.
           </p>
         </Reveal>
 
@@ -1943,29 +1946,34 @@ type Realization = {
   tag: string;
 };
 
-const REALIZATIONS: Realization[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function REALIZATIONS_LIVE(): Realization[] {
+  return [
   {
     src: PHOTO.salleBainDesign,
-    alt: 'Rénovation salle de bain design Toulouse — Plomberie Garonne',
+    alt: `Rénovation salle de bain design Toulouse — ${clientName(sessionData) ?? "Plomberie Garonne"}`,
     title: 'Salle de bain design',
     detail: 'Douche à l\'italienne, vasque suspendue, radiateur sèche-serviettes. Rénovation complète en 10 jours.',
     tag: 'Rénovation salle de bain',
   },
   {
     src: PHOTO.chaudiere,
-    alt: 'Installation chaudière gaz condensation — Plomberie Garonne Toulouse',
+    alt: `Installation chaudière gaz condensation — ${clientName(sessionData) ?? "Plomberie Garonne"} Toulouse`,
     title: 'Chaudière gaz à condensation',
     detail: 'Remplacement d\'une ancienne chaudière fioul par une chaudière gaz haute performance. Économie estimée 35% sur la facture.',
     tag: 'Chauffage',
   },
   {
     src: PHOTO.cuisine,
-    alt: 'Plomberie cuisine aménagée Toulouse — Plomberie Garonne',
+    alt: `Plomberie cuisine aménagée Toulouse — ${clientName(sessionData) ?? "Plomberie Garonne"}`,
     title: 'Cuisine équipée',
     detail: 'Raccordement plomberie cuisine complète — évier, lave-vaisselle, machine à café encastrée, alimentation îlot central.',
     tag: 'Plomberie générale',
   },
 ];
+}
+let REALIZATIONS: Realization[] = REALIZATIONS_LIVE();
 
 function RealizationCard({ r, i }: { r: Realization; i: number }) {
   const [hover, setHover] = useState(false);
@@ -2372,7 +2380,7 @@ function UrgencySection() {
       >
         <img
           src={PHOTO.tuyauterie}
-          alt="Intervention urgence plomberie Toulouse — Plomberie Garonne"
+          alt={`Intervention urgence plomberie Toulouse — ${clientName(sessionData) ?? "Plomberie Garonne"}`}
           loading="lazy"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -2429,7 +2437,7 @@ function UrgencySection() {
           </Reveal>
           <Reveal delay={0.26}>
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 56 }}>
-              <BrickButton filled href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33561000000").replace(/[^+0-9]/g, "")}`}>
+              <BrickButton filled href={`tel:${fd?.phone ?? "+33561000000"}`}>
                 <Phone size={16} strokeWidth={2} />
                 Appeler maintenant
               </BrickButton>
@@ -2593,7 +2601,7 @@ function FooterSection() {
             {clientCity(sessionData) ?? "Toulouse"} &amp; agglo (30 km)
           </div>
           <a
-            href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33561000000").replace(/[^+0-9]/g, "")}`}
+            href={`tel:${fd?.phone ?? "+33561000000"}`}
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -2607,7 +2615,7 @@ function FooterSection() {
             }}
           >
             <Phone size={17} color={C.brick} strokeWidth={2} />
-            {clientPhone(sessionData) ?? fd?.phone ?? "05 61 00 00 00"}
+            {fd?.phone ?? "05 61 00 00 00"}
           </a>
           {/* Zones */}
           <div style={{ marginTop: 8 }}>
@@ -2757,7 +2765,7 @@ function FooterSection() {
               Urgence plomberie
             </div>
             <a
-              href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33561000000").replace(/[^+0-9]/g, "")}`}
+              href={`tel:${fd?.phone ?? "+33561000000"}`}
               style={{
                 fontFamily: SERIF,
                 fontSize: 20,
@@ -2770,7 +2778,7 @@ function FooterSection() {
               }}
             >
               <Phone size={16} strokeWidth={2} color="var(--brand,#e87070)" />
-              {clientPhone(sessionData) ?? fd?.phone ?? "05 61 00 00 00"}
+              {fd?.phone ?? "05 61 00 00 00"}
             </a>
             <div
               style={{
@@ -2864,10 +2872,21 @@ function Impact278Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2875,10 +2894,17 @@ function Impact278Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  PHOTO = PHOTO_LIVE();
-  TESTIMONIALS278_DEMO = TESTIMONIALS278_DEMO_LIVE();
-  PROCESS_STEPS = PROCESS_STEPS_LIVE();
   SERVICES_DEMO = SERVICES_DEMO_LIVE();
+  PROCESS_STEPS = PROCESS_STEPS_LIVE();
+  /* La méthode du client remplace les étapes de la démonstration. */
+  PROCESS_STEPS = resolveList(
+    fusionnerEtapes(PROCESS_STEPS, clientMethode(sessionData)),
+    PROCESS_STEPS,
+  );
+  TESTIMONIALS278_DEMO = TESTIMONIALS278_DEMO_LIVE();
+  PHOTO = PHOTO_LIVE();
+  CROSSFADE_SLIDES = CROSSFADE_SLIDES_LIVE();
+  REALIZATIONS = REALIZATIONS_LIVE();
 
 
 

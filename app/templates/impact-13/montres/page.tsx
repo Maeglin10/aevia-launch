@@ -1,7 +1,10 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientProducts } from "@/lib/templates/clientContent";
-import { clientCity } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientName,
+  clientProducts,
+} from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -42,7 +45,7 @@ function Navbar() {
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div className="max-w-6xl mx-auto bg-[#0C0B09]/90 backdrop-blur-md border border-[#B49A6A]/20 rounded-2xl px-6 py-4 flex items-center justify-between">
           <Link href="/templates/impact-13" className="text-[#B49A6A] tracking-widest text-sm cursor-pointer text-decoration-none" style={{ fontFamily: "'Libre Baskerville', serif", fontSize: "1rem" }}>
-            Atelier Mécanique
+            {clientName(sessionData) ?? "Atelier Mécanique"}
           </Link>
           <div className="hidden md:flex items-center gap-8 text-white/50 text-xs tracking-widest uppercase">
             {[
@@ -68,7 +71,7 @@ function Navbar() {
         {mobileOpen && (
           <motion.div className="fixed inset-0 z-[100] bg-[#0C0B09] flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
             <div className="flex items-center justify-between mb-12">
-              <span className="text-[#B49A6A] text-xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>Atelier Mécanique</span>
+              <span className="text-[#B49A6A] text-xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>{clientName(sessionData) ?? "Atelier Mécanique"}</span>
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer bg-transparent border-0"><X className="w-6 h-6 text-white" /></button>
             </div>
             {[
@@ -96,7 +99,7 @@ function Footer() {
     <footer className="bg-[#080807] border-t border-white/5 py-16 px-6">
       <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10">
         <div>
-          <p className="text-[#B49A6A] text-lg mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>Atelier Mécanique</p>
+          <p className="text-[#B49A6A] text-lg mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>{clientName(sessionData) ?? "Atelier Mécanique"}</p>
           <p className="text-white/30 text-sm leading-relaxed">Manufacture horlogère. Place Vendôme, {clientCity(sessionData) ?? "Paris"} — Depuis 1887.</p>
         </div>
         {[
@@ -119,7 +122,7 @@ function Footer() {
         ))}
       </div>
       <div className="max-w-6xl mx-auto border-t border-white/5 mt-10 pt-8 flex justify-between items-center text-xs text-white/20">
-        <span>© 2026 Atelier Mécanique. Tous droits réservés.</span>
+        <span>© 2026 {clientName(sessionData) ?? "Atelier Mécanique"}. Tous droits réservés.</span>
         <Link href="/templates/impact-13/legal" className="hover:text-[#B49A6A] transition-colors cursor-pointer text-decoration-none">
           Mentions légales
         </Link>
@@ -140,10 +143,21 @@ export default function MontresPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;

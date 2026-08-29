@@ -110,7 +110,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   BRISE DE PROPRETÉ — Ménage à domicile, repassage, vitres. Quicksand, mint / blanc.
+   {clientName(sessionData) ?? "Brise de Propreté"} — Ménage à domicile, repassage, vitres. Quicksand, mint / blanc.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -327,10 +327,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -351,6 +362,10 @@ export default function Page() {
       value: s.value,
 
       label: s.label,
+
+      /* Le chiffre est celui du client : l'unité de la démonstration ne le suit pas. */
+
+      unit: "",
 
     })),
 
@@ -615,7 +630,7 @@ export default function Page() {
               color: C.textMuted,
               maxWidth: 600,
               margin: '0 auto 36px',
-            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Service de ménage à domicile professionnel. Personnel formé, assuré et vérifié. Réservation en ligne en 2 minutes.
             </>}</p>
           </Reveal>
@@ -728,7 +743,7 @@ export default function Page() {
                   color: C.textMuted,
                   marginBottom: 20,
                 }}>{c?.aboutText ?? <>
-                  Brise de Propreté intervient chez les particuliers pour un ménage régulier, un grand nettoyage ou du repassage à domicile. Chaque intervenant·e est formé·e, déclaré·e et assuré·e. Votre satisfaction est notre priorité absolue.
+                  {clientName(sessionData) ?? "Brise de Propreté"} intervient chez les particuliers pour un ménage régulier, un grand nettoyage ou du repassage à domicile. Chaque intervenant·e est formé·e, déclaré·e et assuré·e. Votre satisfaction est notre priorité absolue.
                 </>}</p>
                 <p style={{
                   fontSize: 15,
@@ -1460,7 +1475,7 @@ export default function Page() {
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable: Brise de Propreté<br />
+                Responsable: {clientName(sessionData) ?? "Brise de Propreté"}<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>
@@ -1473,7 +1488,7 @@ export default function Page() {
             fontSize: 11.5,
             letterSpacing: '0.05em',
           }}>
-            © {new Date().getFullYear()} {clientName(sessionData) ?? "Brise"} de Propreté. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Brise de Propreté"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

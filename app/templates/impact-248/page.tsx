@@ -43,7 +43,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   OSTÉO RÉPUBLIQUE — Cabinet d'Ostéopathie · {clientCity(sessionData) ?? "Paris"} 11e
+   {clientName(sessionData) ?? "Ostéo République"} — Cabinet d'Ostéopathie · {clientCity(sessionData) ?? "Paris"} 11e
    Chorégraphie éditoriale premium : crossfade sticky 320vh, panneau principe
    collant, formulaire RDV interactif. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -2156,7 +2156,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2024–2026 Ostéo République · {clientCity(sessionData) ?? "Paris"} 11e. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2024–2026 {clientName(sessionData) ?? "Ostéo République"} · {clientCity(sessionData) ?? "Paris"} 11e. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2211,10 +2211,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2222,8 +2233,8 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  PHASES = PHASES_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
+  PHASES = PHASES_LIVE();
 
   EDIT_ROWS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),

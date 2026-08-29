@@ -112,10 +112,21 @@ export default function VulcanMotorsPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -416,9 +427,9 @@ export default function VulcanMotorsPage() {
                 <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase italic leading-none mb-12">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>Born On <br /><span className="font-light not-italic text-white/20">Track.</span></>)}</h2>
                 <div className="space-y-8">
                   {[
-                    { icon: Timer, t: "Owner Track Days", d: "Quarterly invitations to Portimão, Spa, and Suzuka. Vulcan engineering crew on-site." },
+                    { icon: Timer, t: "Owner Track Days", d: `Quarterly invitations to Portimão, Spa, and Suzuka. ${clientName(sessionData) ?? "Vulcan"} engineering crew on-site.` },
                     { icon: Gauge, t: "Tailored Calibration", d: "Every car leaves the atelier pre-mapped to the owner's preferred circuit. Updates over-the-air." },
-                    { icon: Activity, t: "Telemetry Suite", d: "Real-time data transmitted to the Vulcan server farm. Lap coaching from ex-F1 engineers." },
+                    { icon: Activity, t: "Telemetry Suite", d: `Real-time data transmitted to the ${clientName(sessionData) ?? "Vulcan"} server farm. Lap coaching from ex-F1 engineers.` },
                   ].map((f, i) => (
                     <div key={i} className="flex gap-8 group">
                       <div className="w-16 h-16 shrink-0 border border-red-600/20 flex items-center justify-center group-hover:bg-red-600 group-hover:border-red-600 transition-all duration-700 -skew-x-6">
@@ -475,10 +486,10 @@ export default function VulcanMotorsPage() {
               <div className="w-10 h-10 bg-red-600 flex items-center justify-center -skew-x-12">
                 <Car className="w-6 h-6 text-black fill-current" />
               </div>
-              <span className="text-2xl font-black tracking-tighter uppercase italic">Vulcan<span className="text-red-600">Motors</span></span>
+              <span className="text-2xl font-black tracking-tighter uppercase italic">{clientName(sessionData) ?? "Vulcan"}<span className="text-red-600">Motors</span></span>
             </Link>
             <p className="text-white/20 max-w-sm leading-relaxed mb-10 text-sm italic font-light">{c?.aboutText ?? <>
-              Restoring the past, defining the future. Vulcan Motors is an atelier dedicated to the preservation and evolution of the hypercar.
+              Restoring the past, defining the future. {clientName(sessionData) ?? "Vulcan"} Motors is an atelier dedicated to the preservation and evolution of the hypercar.
             </>}</p>
             <div className="flex gap-8">
                {SOCIALS.map(s => (

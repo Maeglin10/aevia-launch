@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 /* ════════════════════════════════════════════════════════════════════════════
-   BIOVALLÉE ANALYSES — Laboratoire de biologie médicale rural · Avignon
+   {clientName(sessionData) ?? "BioVallée Analyses"} — Laboratoire de biologie médicale rural · Avignon
    ─────────────────────────────────────────────────────────────────────────────
    Laboratoire, 2e variante du catalogue (la 1re est impact-357, TrackingCollapse
    et rail de chiffres, ton urbain). Celle-ci est la biologie de la vallée :
@@ -41,6 +41,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -50,6 +51,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -197,7 +199,7 @@ function SERVICES_SOURCE_LIVE() {
 let SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const METHODE = [
+let METHODE = [
   { n: "01", t: "Prélever près de chez vous", d: "Trois sites et des tournées : personne ne fait 40 minutes de route pour une prise de sang." },
   { n: "02", t: "Transporter sous contrôle", d: "Navette réfrigérée toutes les deux heures, température loggée — la qualité commence dans le coffre." },
   { n: "03", t: "Analyser au plateau", d: "Automates mutualisés, contrôles COFRAC quotidiens, biologistes présents physiquement." },
@@ -574,21 +576,37 @@ export default function BioValleePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    fusionnerEtapes(METHODE, clientMethode(sessionData)),
+    METHODE,
+  );
   HERO_SOURCE = HERO_SOURCE_LIVE();
   SITES_SOURCE = SITES_SOURCE_LIVE();
   SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   ZONES_SOURCE = ZONES_SOURCE_LIVE();
+
 
   const CLIENT_SERVICES = clientServices(sessionData);
 

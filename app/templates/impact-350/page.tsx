@@ -19,6 +19,7 @@ import {
   clientHeroLine,
   clientHeroPrestations,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -27,10 +28,11 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CT DE LA LUMIÈRE — Centre de contrôle technique agréé · Lyon
+   {clientName(sessionData) ?? "CT de la Lumière"} — Centre de contrôle technique agréé · Lyon
 
    Contrôle technique, 2e variante (la 1re est impact-349, atelier sombre).
    Celle-ci s'adresse aux familles : créneaux du soir, coin enfants, rapport
@@ -368,10 +370,21 @@ export default function CTLumierePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   /* Affectations AVANT tout appel de helper : fd/c/bp/sessionData d'abord. */
@@ -416,7 +429,7 @@ export default function CTLumierePage() {
   );
   const SERVICES = SERVICES_DEMO;
   const AVIS = AVIS_DEMO;
-  const METHODE = METHODE_SOURCE;
+  const METHODE = resolveList(fusionnerEtapes(METHODE_SOURCE, clientMethode(sessionData)), METHODE_SOURCE);
 
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);

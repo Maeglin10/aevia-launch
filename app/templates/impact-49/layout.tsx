@@ -25,10 +25,21 @@ export default function Impact49Layout({
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(__setLayoutSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setLayoutSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
   const fd = __layoutSession?.formData;
 
@@ -74,7 +85,7 @@ export default function Impact49Layout({
               <BookOpen className="w-4 h-4 text-white" />
             </div>
             <span className="text-lg font-extrabold text-[#1E1B4B]">{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
-              SKILLBRIDGE
+              {clientName(__layoutSession) ?? "Skillbridge"}
             </>)}</span>
           </>
           )}</Link>
@@ -191,7 +202,7 @@ export default function Impact49Layout({
                   <BookOpen className="w-4 h-4 text-white" />
                 </div>
                 <span className="text-lg font-extrabold text-white">
-                  SKILLBRIDGE
+                  {clientName(__layoutSession) ?? "Skillbridge"}
                 </span>
               </div>
               <p className="text-sm text-[#A5B4FC] leading-relaxed mb-6">

@@ -111,10 +111,21 @@ export default function AtelierInteriorPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -244,7 +255,7 @@ export default function AtelierInteriorPage() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>
-              <p className="max-w-lg text-lg text-[#2a2520]/50 font-light leading-relaxed mb-8">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              <p className="max-w-lg text-lg text-[#2a2520]/50 font-light leading-relaxed mb-8">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Bespoke interior design for discerning clients. We create environments that elevate daily life into something extraordinary.
               </>}</p>
               <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="px-8 py-4 bg-[#2a2520] text-[#f5f0eb] text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-[var(--brand,#8b7355)] transition-colors">
@@ -378,7 +389,7 @@ export default function AtelierInteriorPage() {
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#8b7355)] block mb-4">Our Philosophy</span>
                   <h2 className="text-4xl md:text-5xl font-light tracking-tighter mb-6" style={{ fontFamily: "Georgia, serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>Crafting Space With <em className="text-[var(--brand,#8b7355)]">Intention.</em></>}</h2>
                   <p className="text-sm text-[#2a2520]/60 leading-relaxed mb-6">{c?.aboutText ?? <>
-                    At Atelier Interior, we believe your home should be a physical manifestation of your journey. Founded in {clientCity(sessionData) ?? "Paris"} in 2018, we work closely with local artisans to curate bespoke, tactile environments.
+                    At {clientName(sessionData) ?? "ATELIER INTERIOR"}, we believe your home should be a physical manifestation of your journey. Founded in {clientCity(sessionData) ?? "Paris"} in 2018, we work closely with local artisans to curate bespoke, tactile environments.
                   </>}</p>
                   <p className="text-sm text-[#2a2520]/60 leading-relaxed">
                     We select organic, sustainably sourced materials—travertine, brass, raw linen, and white oak—to construct spaces that age beautifully and feel deeply authentic.
@@ -429,7 +440,7 @@ export default function AtelierInteriorPage() {
       <footer className="bg-[#2a2520] text-[#f5f0eb] pt-24 pb-12 px-6">
         <div className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-16 mb-20">
           <div>
-            <span className="text-xl tracking-[0.2em] uppercase mb-6 block" style={{ fontFamily: "Georgia, serif" }}>Atelier <span className="font-bold text-[#c4a882]">Interior</span></span>
+            <span className="text-xl tracking-[0.2em] uppercase mb-6 block" style={{ fontFamily: "Georgia, serif" }}>{(clientName(sessionData) ?? "ATELIER INTERIOR").split(" ").slice(0, 1).join(" ")} <span className="font-bold text-[#c4a882]">{(clientName(sessionData) ?? "ATELIER INTERIOR").split(" ").slice(1).join(" ")}</span></span>
             <p className="text-sm text-[#f5f0eb]/30 leading-relaxed">Bespoke interiors crafted with intention and care.</p>
           </div>
           {[

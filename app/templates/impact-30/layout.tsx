@@ -18,10 +18,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(__setLayoutSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setLayoutSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
   const fd = __layoutSession?.formData;
 
@@ -96,7 +107,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Smile size={22} color={C.white} />
           </div>
           <span style={{ fontWeight: 800, fontSize: 20, color: C.text, letterSpacing: -0.5 }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
-            Smile<span style={{ color: C.accent }}>Studio</span>
+            {(clientName(__layoutSession) ?? "Smile Studio").split(" ").slice(0, 1).join(" ")}<span style={{ color: C.accent }}>{(clientName(__layoutSession) ?? "Smile Studio").split(" ").slice(1).join(" ")}</span>
           </>)}</span>
         </>
           )}</Link>

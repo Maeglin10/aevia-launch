@@ -79,19 +79,30 @@ export default function VogueNoirePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
 
   sessionData = session;
+  AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
   memoriserSession(sessionData);
   rafraichirPartage();
   c = session?.generatedContent;
-  AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();
 
 
   AVIS_INLINE = resolveList(
@@ -122,7 +133,7 @@ return (
       {/* Hero — asymmetric mosaic */}
       <section ref={heroRef} className="relative min-h-dvh overflow-hidden">
         <motion.div className="absolute inset-0" style={{ y: heroImgY }}>
-          <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=85"))} alt={fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Vogue Noire"))} fill className="object-cover" />
+          <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=85"))} alt={fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Vogue Noire"))} fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A08] via-[#0A0A08]/50 to-[#0A0A08]/20" />
         </motion.div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-32 min-h-dvh flex flex-col">
@@ -135,7 +146,7 @@ return (
               </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-[#A0988A] text-lg max-w-md leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              <p className="text-[#A0988A] text-lg max-w-md leading-relaxed mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 La saison Automne / Hiver 2025 porte en elle une nouvelle grammaire du corps. Entre retenue et explosion, les maisons réinventent leur vocabulaire.
               </>}</p>
               <Link href={`${basePath}/editoriaux`} className="inline-flex items-center gap-3 text-sm tracking-widest uppercase border-b border-[var(--brand,#C9A86C)] pb-1 text-[var(--brand,#C9A86C)] hover:text-[#F0EBE0] hover:border-[#F0EBE0] transition-colors cursor-pointer">
@@ -347,8 +358,8 @@ return (
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-81"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "Vogue Noire"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>
   );

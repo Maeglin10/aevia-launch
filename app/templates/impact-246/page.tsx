@@ -22,16 +22,16 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientSiret,
-  clientPhone,
-  clientEmail,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
+  clientSiret,
   clientTagline,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -48,7 +48,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   THERMOFIX PRO — Plombier-Chauffagiste & Climatisation · {clientCity(sessionData) ?? "Marseille"}
+   {clientName(sessionData) ?? "ThermoFix Pro"} — Plombier-Chauffagiste & Climatisation · {clientCity(sessionData) ?? "Marseille"}
    Photographie réelle + chorégraphie de défilement éditoriale (urgence pro
    × sérieux technique). Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -198,10 +198,13 @@ function SERVICES_DEMO_LIVE() {
 let SERVICES_DEMO = SERVICES_DEMO_LIVE();;
 
 /* ── Interventions (crossfade) ───────────────────────────────────────────── */
-const INTERVENTIONS: Intervention[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function INTERVENTIONS_LIVE(): Intervention[] {
+  return [
   {
     src: PHOTO.plumber,
-    alt: 'Intervention plomberie ThermoFix Pro',
+    alt: `Intervention plomberie ${clientName(sessionData) ?? "ThermoFix Pro"}`,
     index: 'I',
     label: 'Plomberie',
     title: 'PLOMBERIE',
@@ -209,7 +212,7 @@ const INTERVENTIONS: Intervention[] = [
   },
   {
     src: PHOTO.heating,
-    alt: 'Installation chauffage ThermoFix Pro',
+    alt: `Installation chauffage ${clientName(sessionData) ?? "ThermoFix Pro"}`,
     index: 'II',
     label: 'Chauffage',
     title: 'CHAUFFAGE',
@@ -217,13 +220,15 @@ const INTERVENTIONS: Intervention[] = [
   },
   {
     src: PHOTO.ac,
-    alt: 'Climatisation réversible ThermoFix Pro',
+    alt: `Climatisation réversible ${clientName(sessionData) ?? "ThermoFix Pro"}`,
     index: 'III',
     label: 'Climatisation',
     title: 'CLIMATISATION',
     sub: 'Climatisation réversible, pompes à chaleur — devis gratuit, pose certifiée RGE.',
   },
 ];
+}
+let INTERVENTIONS: Intervention[] = INTERVENTIONS_LIVE();
 
 /* ── Lignes éditoriales ──────────────────────────────────────────────────── */
 function EDIT_ROWS_SOURCE_LIVE() {
@@ -232,7 +237,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
     eyebrow: 'Notre engagement',
     numeral: 'I',
     src: PHOTO.plumberMd,
-    alt: "Plombier ThermoFix Pro à l'œuvre",
+    alt: `Plombier ${clientName(sessionData) ?? "ThermoFix Pro"} à l'œuvre`,
     title: (
       <>
         Urgence /{' '}
@@ -246,7 +251,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
     eyebrow: "Zone d'intervention",
     numeral: 'II',
     src: PHOTO.heatingMd,
-    alt: "Zone d'intervention ThermoFix Pro Marseille et alentours",
+    alt: `Zone d'intervention ${clientName(sessionData) ?? "ThermoFix Pro"} Marseille et alentours`,
     title: (
       <>
         {clientCity(sessionData) ?? "Marseille"} /{' '}
@@ -529,7 +534,7 @@ function Nav() {
         ) : (
           <>
             <Wrench size={20} color={C.accent} strokeWidth={2} />
-            ThermoFix&nbsp;<span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  color: C.accent }}>{clientName(sessionData) ?? "Pro"}</span>
+            {(clientName(sessionData) ?? "ThermoFix Pro").split(" ")[0]}&nbsp;<span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  color: C.accent }}>{(clientName(sessionData) ?? "ThermoFix Pro").split(" ").slice(1).join(" ")}</span>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: C.accent, display: 'inline-block', marginLeft: 2 }} />
           </>
         )}
@@ -694,7 +699,7 @@ function Hero() {
       >
         <img
           src={PHOTO.plumber}
-          alt="Plombier-chauffagiste ThermoFix Pro en intervention à Marseille"
+          alt={`Plombier-chauffagiste ${clientName(sessionData) ?? "ThermoFix Pro"} en intervention à Marseille`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="true"
         />
@@ -888,7 +893,7 @@ function Intro() {
       <Reveal>
         <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 30 }}>
           <Eyebrow color={C.accent} align="center">
-            ThermoFix Pro — {clientCity(sessionData) ?? "Marseille"}
+            {clientName(sessionData) ?? "ThermoFix Pro"} — {clientCity(sessionData) ?? "Marseille"}
           </Eyebrow>
         </div>
       </Reveal>
@@ -1508,7 +1513,7 @@ function TechPanel() {
           >
             <img
               src={PHOTO.acMd}
-              alt="Technicien certifié ThermoFix Pro"
+              alt={`Technicien certifié ${clientName(sessionData) ?? "ThermoFix Pro"}`}
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
@@ -2201,7 +2206,7 @@ function Footer() {
             }}
           >
             <Wrench size={20} color={C.accent} strokeWidth={2} />
-            ThermoFix&nbsp;<span style={{ color: C.accent }}>Pro</span>
+            {(clientName(sessionData) ?? "ThermoFix Pro").split(" ").slice(0, 1).join(" ")}&nbsp;<span style={{ color: C.accent }}>{(clientName(sessionData) ?? "ThermoFix Pro").split(" ").slice(1).join(" ")}</span>
           </div>
           <p
             style={{
@@ -2391,10 +2396,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2402,6 +2418,7 @@ export default function Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  INTERVENTIONS = INTERVENTIONS_LIVE();
   PHOTO = PHOTO_LIVE();
   SERVICES_DEMO = SERVICES_DEMO_LIVE();
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();

@@ -1,4 +1,8 @@
 "use client"
+import {
+  clientName,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 
 import React from "react"
 import { useEffect, useState } from "react";
@@ -24,13 +28,25 @@ export default function EntreprisePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
@@ -46,7 +62,7 @@ export default function EntreprisePage() {
               Bâtir avec <em>ambition</em><br />et intégrité
             </h1>
             <p className="text-[#6B5A40] text-lg mt-6 font-light leading-relaxed">
-              Fondé en 1989, Blueprint Developments s&apos;est imposé comme un acteur de référence de la promotion immobilière haut de gamme et institutionnelle en France. Notre force réside dans la maîtrise de l&apos;ensemble de la chaîne de valeur.
+              Fondé en 1989, {clientName(sessionData) ?? "Blueprint Developments"} s&apos;est imposé comme un acteur de référence de la promotion immobilière haut de gamme et institutionnelle en France. Notre force réside dans la maîtrise de l&apos;ensemble de la chaîne de valeur.
             </p>
             <p className="text-[#6B5A40] text-base mt-4 font-light leading-relaxed">
               De la recherche foncière à la livraison des programmes, nous associons rigueur technique, équilibre financier et audace architecturale pour livrer des immeubles à haute valeur d&apos;usage.

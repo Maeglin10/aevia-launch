@@ -1,8 +1,21 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientCertifications,
-  clientEmail,
+  clientCity,
+  clientHeroLine,
+  clientHeroSubtitle,
+  clientMethode,
+  clientName,
+  clientPhotos,
+  clientReviews,
+  clientServices,
+  clientStats,
+  clientText,
+  clientWorks,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
@@ -11,19 +24,6 @@ import { motion, useScroll, useTransform, AnimatePresence, useInView } from "fra
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Menu, X, ArrowRight, Layers, Cpu, Package, Eye, ChevronRight, Globe, Award, Users, Mail, Clock, Send, Calendar, CheckCircle, Star, Lightbulb, Target, Heart, Palette, Ruler, Cog, BookOpen } from "lucide-react";
-import {
-  clientAddress,
-  clientCity,
-  clientHeroLine,
-  clientHeroSubtitle,
-  clientName,
-  clientPhotos,
-  clientReviews,
-  clientServices,
-  clientStats,
-  clientText,
-  clientWorks,
-} from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
@@ -166,7 +166,7 @@ let projectDetails = projectDetails_SOURCE;
 
 function timeline_LIVE() {
   return [
-  { year: "2014", title: "Fondation", desc: "Création de Forme Studio à " + (clientCity({ formData: fd }) ?? "Paris") + " par deux designers industriels passionnés par le design durable." },
+  { year: "2014", title: "Fondation", desc: `Création de ${clientName(sessionData) ?? "Forme Studio"} à ` + (clientCity(sessionData) ?? "Paris") + " par deux designers industriels passionnés par le design durable." },
   { year: "2016", title: "Premier prix", desc: "Red Dot Design Award pour le projet « Aéro » — ventilateur sans pale en bambou." },
   { year: "2017", title: "Expansion", desc: "Ouverture de l'atelier de prototypage dans le 11ᵉ arrondissement, équipé d'imprimantes 3D industrielles." },
   { year: "2019", title: "International", desc: "Premiers projets export avec Cassina (Italie) et Sony Design (Japon). Équipe de 6 designers." },
@@ -243,10 +243,21 @@ export default function FormeStudioPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -257,11 +268,11 @@ export default function FormeStudioPage() {
 
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  const awards_DU_CLIENT = resolveList(clientCertifications(sessionData)?.map((x: any, i: number) => ({ ...awards[i % awards.length], name: typeof x === "string" ? x : (x.name ?? x.title) })), awards);
   projectDetails_SOURCE = projectDetails_SOURCE_LIVE();
   projects = projects_LIVE();
   timeline = timeline_LIVE();
   pricingTiers = pricingTiers_LIVE();
+  const awards_DU_CLIENT = resolveList(clientCertifications(sessionData)?.map((x: any, i: number) => ({ ...awards[i % awards.length], name: typeof x === "string" ? x : (x.name ?? x.title) })), awards);
 
 
 
@@ -354,7 +365,7 @@ return (
             ) : (
               <>
                 <div className="w-7 h-7 bg-[var(--brand,#F97316)] rounded-lg" />
-                <span className="text-gray-900 font-bold text-lg tracking-tight">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Forme Studio"))}</span>
+                <span className="text-gray-900 font-bold text-lg tracking-tight">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Forme Studio"))}</span>
               </>
             )}
           </button>
@@ -383,7 +394,7 @@ return (
                   style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span className="text-gray-900 font-bold text-xl">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Forme Studio"))}</span>
+                <span className="text-gray-900 font-bold text-xl">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Forme Studio"))}</span>
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6" /></button>
             </div>
@@ -412,8 +423,8 @@ return (
                 </>}</h1>
               </Reveal>
               <Reveal delay={0.2}>
-                <p className="text-gray-500 text-xl max-w-lg leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-                  Packaging, mobilier, objets tech. Forme Studio crée des produits qui se distinguent, se vendent, et résistent au temps.
+                <p className="text-gray-500 text-xl max-w-lg leading-relaxed mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
+                  Packaging, mobilier, objets tech. {clientName(sessionData) ?? "Forme Studio"} crée des produits qui se distinguent, se vendent, et résistent au temps.
                 </>}</p>
               </Reveal>
               <Reveal delay={0.3}>
@@ -516,7 +527,7 @@ return (
                 <h2 className="text-white text-4xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Du brief au lancement</>)}</h2>
               </Reveal>
               <div className="grid md:grid-cols-4 gap-6">
-                {process.map((step, i) => (
+                {resolveList(fusionnerEtapes(process, clientMethode(sessionData)), process).map((step, i) => (
                   <Reveal key={step.n} delay={i * 0.1}>
                     <div className="relative">
                       <div className="text-5xl font-black text-white/5 mb-4 leading-none">{step.n}</div>
@@ -547,7 +558,7 @@ return (
                 <h2 className="text-gray-900 text-5xl font-bold mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>Vous avez un projet ?</>)}</h2>
                 <p className="text-gray-500 text-lg max-w-md mx-auto mb-10">On est curieux. Parlez-nous de votre produit, de vos contraintes et de vos ambitions.</p>
                 <button onClick={() => goTo("contact")} className="bg-gray-900 text-white font-bold px-10 py-4 rounded-xl hover:bg-[var(--brand,#F97316)] transition-colors cursor-pointer text-lg flex items-center gap-2 mx-auto">
-                  <Mail className="w-5 h-5" />{clientEmail(sessionData) ?? fd?.email ?? "hello@formedstudio.fr"}</button>
+                  <Mail className="w-5 h-5" />{fd?.email ?? "hello@formedstudio.fr"}</button>
               </Reveal>
             </div>
           </section>
@@ -815,7 +826,7 @@ return (
               </Reveal>
               <Reveal delay={0.2}>
                 <p className="text-gray-500 text-xl max-w-2xl leading-relaxed">
-                  Fondé en 2014, Forme Studio est un collectif de designers industriels, ingénieurs et artisans qui croient que le beau objet est aussi l'objet utile.
+                  Fondé en 2014, {clientName(sessionData) ?? "Forme Studio"} est un collectif de designers industriels, ingénieurs et artisans qui croient que le beau objet est aussi l'objet utile.
                 </p>
               </Reveal>
             </div>
@@ -930,7 +941,7 @@ return (
                 </div>
                 <h2 className="text-gray-900 text-4xl font-bold mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "section-17.titre") ?? (<>Design durable</>)}</h2>
                 <p className="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed mb-10">
-                  Depuis 2021, Forme Studio est certifié B Corp. Nous avons réduit de 40% l'empreinte carbone de nos processus de prototypage en adoptant des matériaux biosourcés et des filières de recyclage locales. Chaque projet intègre une analyse de cycle de vie dès la phase de concept.
+                  Depuis 2021, {clientName(sessionData) ?? "Forme Studio"} est certifié B Corp. Nous avons réduit de 40% l'empreinte carbone de nos processus de prototypage en adoptant des matériaux biosourcés et des filières de recyclage locales. Chaque projet intègre une analyse de cycle de vie dès la phase de concept.
                 </p>
               </Reveal>
               <Reveal delay={0.2}>
@@ -1030,7 +1041,7 @@ return (
                           <Mail className="w-5 h-5 text-[var(--brand,#F97316)]" />
                           <h4 className="text-gray-900 font-bold">Email</h4>
                         </div>
-                        <p className="text-gray-500 text-sm">{clientEmail(sessionData) ?? fd?.email ?? "hello@formedstudio.fr"}</p>
+                        <p className="text-gray-500 text-sm">{fd?.email ?? "hello@formedstudio.fr"}</p>
                       </div>
                       <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
                         <div className="flex items-center gap-3 mb-3">
@@ -1044,7 +1055,7 @@ return (
                           <Globe className="w-5 h-5 text-[var(--brand,#F97316)]" />
                           <h4 className="text-gray-900 font-bold">Studio</h4>
                         </div>
-                        <p className="text-gray-500 text-sm">{clientAddress({ businessProfile: bp }) ?? "42 rue Oberkampf"}<br />75011 {clientCity({ formData: fd }) ?? "Paris"}, France</p>
+                        <p className="text-gray-500 text-sm">{clientAddress({ businessProfile: bp }) ?? "42 rue Oberkampf"}<br />75011 {clientCity(sessionData) ?? "Paris"}, France</p>
                       </div>
                       <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
                         <div className="flex items-center gap-3 mb-3">
@@ -1116,9 +1127,9 @@ return (
                   <div className="bg-gray-50 rounded-2xl p-8 border border-gray-100">
                     <h3 className="text-gray-900 text-lg font-bold mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Éditeur du site</>)}</h3>
                     <p className="text-gray-600 leading-relaxed">
-                      Aevia WS — Valentin Milliand, entrepreneur individuel.<br />
-                      SIREN : <LegalIdentity /> — {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}.<br />
-                      Contact : <span className="text-[var(--brand,#F97316)]">{clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}</span>
+                      <EditeurDuSite />, entrepreneur individuel.<br />
+                      SIREN : <LegalIdentity /> — {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}.<br />
+                      Contact : <span className="text-[var(--brand,#F97316)]">{fd?.email ?? "contact@exemple.fr"}</span>
                     </p>
                   </div>
 
@@ -1151,12 +1162,12 @@ return (
       {/* Footer — always visible */}
       <footer className="bg-gray-900 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
-          <button onClick={() => goTo("home")} className="flex items-center gap-2 cursor-pointer bg-transparent border-none p-0"><div className="w-5 h-5 bg-[var(--brand,#F97316)] rounded" /><span className="text-white font-bold">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Forme Studio"))}</span></button>
+          <button onClick={() => goTo("home")} className="flex items-center gap-2 cursor-pointer bg-transparent border-none p-0"><div className="w-5 h-5 bg-[var(--brand,#F97316)] rounded" /><span className="text-white font-bold">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Forme Studio"))}</span></button>
           <div className="flex gap-8">
             <button onClick={() => goTo("legal")} className="hover:text-[var(--brand,#F97316)] transition-colors cursor-pointer bg-transparent border-none p-0 text-xs text-gray-500">Politique de conf.</button>
             <button onClick={() => goTo("legal")} className="hover:text-[var(--brand,#F97316)] transition-colors cursor-pointer bg-transparent border-none p-0 text-xs text-gray-500">Mentions légales</button>
           </div>
-          <span>© 2026 {clientName(sessionData) ?? "Forme Studio."} Tous droits réservés.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Forme Studio."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         </div>
       </footer>
     </div>

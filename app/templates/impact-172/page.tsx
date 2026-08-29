@@ -144,10 +144,21 @@ export default function LegrandPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -307,8 +318,8 @@ export default function LegrandPage() {
               <em>{clientHeroLine(sessionData, 0, 3, 10) ?? "L'excellence"}</em><br />{clientHeroLine(sessionData, 1, 3, 10) ?? "juridique au service"}<br />{clientHeroLine(sessionData, 2, 3, 10) ?? "de vos ambitions"}</>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#C8B89A] text-lg max-w-lg mb-12 font-light leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-              Cabinet d&apos;avocats d&apos;affaires indépendant, Legrand & Associés conseille les entreprises et les institutions dans leurs opérations les plus complexes depuis plus de trente ans.
+            <p className="text-[#C8B89A] text-lg max-w-lg mb-12 font-light leading-relaxed">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
+              Cabinet d&apos;avocats d&apos;affaires indépendant, {clientName(sessionData) ?? "Legrand & Associés"} conseille les entreprises et les institutions dans leurs opérations les plus complexes depuis plus de trente ans.
             </>}</p>
           </Reveal>
           <Reveal delay={0.3}>
@@ -619,7 +630,7 @@ export default function LegrandPage() {
             ))}
           </div>
           <div className="text-xs">
-            <p>© 2024 {clientName(sessionData) ?? "Legrand"} & Associés · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
+            <p>© 2024 {clientName(sessionData) ?? "Legrand & Associés"} · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
             <p className="mt-1">Barreau de {clientCity(sessionData) ?? "Paris"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 382 912 847 00025"}</p>
           </div>
         </div>

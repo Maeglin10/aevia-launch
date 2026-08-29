@@ -24,20 +24,22 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
-  clientTrade,
-  clientPhone,
-  clientEmail,
   clientAddress,
   clientCity,
+  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
   clientTagline,
   clientText,
+  clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -52,7 +54,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   SCHREIBER & ASSOCIÉS — Expert-comptable & commissaires aux comptes{" "}
+   {clientName(sessionData) ?? "Schreiber & Associés"} — Expert-comptable & commissaires aux comptes{" "}
    {clientCity(sessionData) ?? "Strasbourg"} Neudorf · Alsace-Moselle
    Page premium auto-suffisante. 'use client'. Framer Motion + Lucide React.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -1152,7 +1154,7 @@ type ProcessStep = {
   body: string;
 };
 
-const PROCESS_STEPS: ProcessStep[] = [
+let PROCESS_STEPS: ProcessStep[] = [
   {
     num: '01',
     title: 'Diagnostic gratuit',
@@ -1209,7 +1211,7 @@ function ProcessSection() {
           >
             <img
               src={PHOTO.expert}
-              alt="Expert-comptable Schreiber & Associés en consultation"
+              alt={`Expert-comptable ${clientName(sessionData) ?? "Schreiber & Associés"} en consultation`}
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
@@ -1371,7 +1373,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     quote:
-      "Je suis artisan plombier depuis 18 ans. Schreiber & Associés ont restructuré ma comptabilité en 3 mois. Aujourd'hui, je comprends mes chiffres et j'ai récupéré 6 800 € de trop-perçu fiscal sur les deux dernières années.",
+      `Je suis artisan plombier depuis 18 ans. ${clientName(sessionData) ?? "Schreiber & Associés"} ont restructuré ma comptabilité en 3 mois. Aujourd'hui, je comprends mes chiffres et j'ai récupéré 6 800 € de trop-perçu fiscal sur les deux dernières années.`,
     name: 'Patrick Heiss',
     role: 'Artisan plombier chauffagiste — Auto-entrepreneur',
     saving: '6 800 € récupérés',
@@ -2569,7 +2571,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 1997–2026 Schreiber & Associés — Cabinet d&apos;expertise comptable
+          © 1997–2026 {clientName(sessionData) ?? "Schreiber & Associés"} — Cabinet d&apos;expertise comptable
           agréé. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>
@@ -2628,10 +2630,21 @@ export default function Impact289Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2639,6 +2652,11 @@ export default function Impact289Page() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  PROCESS_STEPS = resolveList(
+    fusionnerEtapes(PROCESS_STEPS, clientMethode(sessionData)),
+    PROCESS_STEPS,
+  );
   PHOTO = PHOTO_LIVE();
   SPECIFICITES = SPECIFICITES_LIVE();
   PARTNER_CATEGORIES = PARTNER_CATEGORIES_LIVE();

@@ -15,13 +15,11 @@ import { PartyPopper } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
-  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
   clientName,
-  clientPhone,
   clientReviews,
   clientServices,
   clientStats,
@@ -214,9 +212,9 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   { id: 1, name: 'Isabelle M.', city: (clientCity(sessionData) ?? "Lyon"), product: 'Invicta Prélude 8kW', rating: 5, text: 'Magnifique poêle, installation parfaite. Livré en 2 jours, service impeccable. Après 3 mois d\'utilisation, notre maison est toujours à la bonne température.', verified: true, date: 'Janvier 2025' },
   { id: 2, name: 'Thomas D.', city: (clientCity(sessionData) ?? "Bordeaux"), product: 'MCZ Musa 11kW', rating: 5, text: 'Le granulés MCZ Musa est silencieux, efficace et l\'application mobile est bluffante. On programme la chauffe depuis le lit ! Qualité premium à prix justifié.', verified: true, date: 'Février 2025' },
-  { id: 3, name: 'Claire & Paul R.', city: (clientCity(sessionData) ?? "Strasbourg"), product: 'Stuv 16 Insert', rating: 5, text: 'Cet insert a transformé notre salon. Le flamme est spectaculaire derrière la vitre panoramique. L\'équipe Flamme & Co nous a très bien conseillés.', verified: true, date: 'Décembre 2024' },
+  { id: 3, name: 'Claire & Paul R.', city: (clientCity(sessionData) ?? "Strasbourg"), product: 'Stuv 16 Insert', rating: 5, text: `Cet insert a transformé notre salon. Le flamme est spectaculaire derrière la vitre panoramique. L\'équipe ${clientName(sessionData) ?? "Flamme & Co"} nous a très bien conseillés.`, verified: true, date: 'Décembre 2024' },
   { id: 4, name: 'Marc-Antoine B.', city: (clientCity(sessionData) ?? "Toulouse"), product: 'Godin Fonte Noire', rating: 4, text: 'Très bon rapport qualité-prix. Le design fonte classique s\'adapte parfaitement à notre maison de campagne. Chauffe vite et longtemps.', verified: true, date: 'Novembre 2024' },
-  { id: 5, name: 'Sophie V.', city: (clientCity(sessionData) ?? "Nantes"), product: 'Edilkamin Eco 10kW', rating: 5, text: 'Edilkamin m\'a bluffée par son rendement. La qualité de fabrication italienne est au rendez-vous. Flamme & Co a été très réactif pour le SAV lors d\'une petite question technique.', verified: true, date: 'Mars 2025' },
+  { id: 5, name: 'Sophie V.', city: (clientCity(sessionData) ?? "Nantes"), product: 'Edilkamin Eco 10kW', rating: 5, text: `Edilkamin m\'a bluffée par son rendement. La qualité de fabrication italienne est au rendez-vous. ${clientName(sessionData) ?? "Flamme & Co"} a été très réactif pour le SAV lors d\'une petite question technique.`, verified: true, date: 'Mars 2025' },
   { id: 6, name: 'Laurent P.', city: (clientCity(sessionData) ?? "Marseille"), product: 'Planika Pure Flame 3', rating: 4, text: 'Décoratif et élégant, ce brûleur éthanol est parfait pour notre terrasse. La flamme est réelle et hypnotique. Livraison rapide, emballage soigné.', verified: true, date: 'Avril 2025' },
 ];
 }
@@ -225,14 +223,16 @@ let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function EXTRA_TESTIMONIALS_SOURCE_LIVE() {
   return [
-  { id: 7, name: 'Héloïse G.', city: (clientCity(sessionData) ?? "Rennes"), product: 'MCZ Musa 11kW', rating: 5, text: 'J\'hésite pendant des semaines, et finalement Flamme & Co m\'a convaincue avec un conseil personnalisé. Le poêle à granulés MCZ est parfait pour notre maison de 110 m².' , verified: true, date: 'Mars 2025' },
-  { id: 8, name: 'Benoît L.', city: (clientCity(sessionData) ?? "Grenoble"), product: 'Invicta Prélude 8kW', rating: 5, text: 'Parfait pour nos hivers montagnards ! Très content de mon achat. Le rendement est au top, et l\'équipe Flamme & Co était disponible pour répondre à toutes mes questions.', verified: true, date: 'Octobre 2024' },
+  { id: 7, name: 'Héloïse G.', city: (clientCity(sessionData) ?? "Rennes"), product: 'MCZ Musa 11kW', rating: 5, text: `J\'hésite pendant des semaines, et finalement ${clientName(sessionData) ?? "Flamme & Co"} m\'a convaincue avec un conseil personnalisé. Le poêle à granulés MCZ est parfait pour notre maison de 110 m².` , verified: true, date: 'Mars 2025' },
+  { id: 8, name: 'Benoît L.', city: (clientCity(sessionData) ?? "Grenoble"), product: 'Invicta Prélude 8kW', rating: 5, text: `Parfait pour nos hivers montagnards ! Très content de mon achat. Le rendement est au top, et l\'équipe ${clientName(sessionData) ?? "Flamme & Co"} était disponible pour répondre à toutes mes questions.`, verified: true, date: 'Octobre 2024' },
 ];
 }
 let EXTRA_TESTIMONIALS_SOURCE = EXTRA_TESTIMONIALS_SOURCE_LIVE();
 let EXTRA_TESTIMONIALS = EXTRA_TESTIMONIALS_SOURCE;
 
-function FAQS_DEMO_VIVANT() {
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function FAQS_DEMO_LIVE() {
   return [
   {
     q: 'Quels sont les délais de livraison ?',
@@ -256,7 +256,7 @@ function FAQS_DEMO_VIVANT() {
   },
   {
     q: 'Puis-je retourner un produit si je ne suis pas satisfait ?',
-    a: 'Conformément à la loi française, vous disposez de 14 jours de rétractation à compter de la livraison. Le produit doit être retourné dans son emballage d\'origine et non installé. Pour les appareils déjà posés, nous étudions chaque situation au cas par cas. Contactez notre service client au ' + (clientPhone(sessionData) ?? fd?.phone ?? '01 75 16 68 52') + '.'
+    a: 'Conformément à la loi française, vous disposez de 14 jours de rétractation à compter de la livraison. Le produit doit être retourné dans son emballage d\'origine et non installé. Pour les appareils déjà posés, nous étudions chaque situation au cas par cas. Contactez notre service client au ' + (fd?.phone ?? '01 75 16 68 52') + '.'
   },
   {
     q: 'Les appareils Flamme Verte ouvrent-ils droit à des crédits d\'impôt ?',
@@ -264,7 +264,7 @@ function FAQS_DEMO_VIVANT() {
   },
 ];
 }
-let FAQS_DEMO = FAQS_DEMO_VIVANT();
+let FAQS_DEMO = FAQS_DEMO_LIVE();
 
 // ─── Helpers ───────────────────────────────────────────────────────────────────
 function fmt(n: number): string {
@@ -1839,20 +1839,28 @@ export default function FlammeEtCoPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  /* Le tableau lit la session : il doit être reconstruit ICI, au rendu.
-     Écrit en constante de module, il était évalué à l'import, quand la
-     session valait encore null — le repli gagnait toujours. */
-  FAQS_DEMO = FAQS_DEMO_VIVANT();
+  FAQS_DEMO = FAQS_DEMO_LIVE();
   EXTRA_TESTIMONIALS_SOURCE = EXTRA_TESTIMONIALS_SOURCE_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
@@ -2267,7 +2275,7 @@ export default function FlammeEtCoPage() {
                 maxWidth: '620px',
                 margin: '0 auto 2.5rem',
               }}
-            >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Découvrez notre sélection de poêles à bois, poêles à granulés et cheminées design. 
               Expédition rapide, installation professionnelle, service après-vente réactif.
             </>}</motion.p>
@@ -2406,7 +2414,7 @@ export default function FlammeEtCoPage() {
           <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 2rem' }}>
             <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
               <p style={{ color: C.accentLight, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '0.65rem' }}>
-                Sélection Flamme & Co
+                Sélection {clientName(sessionData) ?? "Flamme & Co"}
               </p>
               <h2 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.7rem, 4vw, 2.5rem)', fontWeight: 800 }}>{/* TEXTE_SECTION */ clientText(sessionData, "featured.titre") ?? (<>
                 Nos produits phares
@@ -2490,7 +2498,7 @@ export default function FlammeEtCoPage() {
           <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 2rem' }}>
             <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
               <p style={{ color: C.accentLight, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.14em', marginBottom: '0.65rem' }}>
-                Pourquoi Flamme & Co ?
+                Pourquoi {clientName(sessionData) ?? "Flamme & Co"} ?
               </p>
               <h2 style={{ color: C.text, fontFamily: 'Playfair Display, serif', fontSize: 'clamp(1.7rem, 4vw, 2.5rem)', fontWeight: 800 }}>{/* TEXTE_SECTION */ clientText(sessionData, "usps.titre") ?? (<>
                 L'excellence à chaque étape
@@ -2611,7 +2619,7 @@ export default function FlammeEtCoPage() {
                 Vous ne trouvez pas votre réponse ?
               </p>
               <motion.a
-                href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@flammeetco.fr"}`}
+                href={`mailto:${fd?.email ?? "contact@flammeetco.fr"}`}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.97 }}
                 style={{
@@ -2826,7 +2834,7 @@ export default function FlammeEtCoPage() {
                   padding: '1rem',
                 }}>
                   <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem', marginBottom: '0.35rem' }}>Service client</p>
-                  <p style={{ color: C.text, fontFamily: 'Inter, sans-serif', fontSize: '1rem', fontWeight: 700 }}>{clientPhone(sessionData) ?? fd?.phone ?? "01 75 16 68 52"}</p>
+                  <p style={{ color: C.text, fontFamily: 'Inter, sans-serif', fontSize: '1rem', fontWeight: 700 }}>{fd?.phone ?? "01 75 16 68 52"}</p>
                   <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.73rem', marginTop: '0.2rem' }}>Lun–Ven, 9h–18h</p>
                 </div>
               </div>
@@ -2862,7 +2870,7 @@ export default function FlammeEtCoPage() {
                 ))}
               </div>
               <p style={{ color: C.textMuted, fontFamily: 'Inter, sans-serif', fontSize: '0.78rem' }}>
-                © 2025 {clientName(sessionData) ?? "Flamme"} & Co · Tous droits réservés ·{' '}
+                © 2025 {clientName(sessionData) ?? "Flamme & Co"} · Tous droits réservés ·{' '}
                 {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<a href="/templates/impact-215" style={{ color: C.textMuted, textDecoration: 'underline' }}>Mentions légales</a>
                 {' · '}
                 <a href="/templates/impact-215" style={{ color: C.textMuted, textDecoration: 'underline' }}>CGV</a>

@@ -96,10 +96,21 @@ export default function VoltLogisticsPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -167,7 +178,7 @@ export default function VoltLogisticsPage() {
                 <div className="w-10 h-10 bg-[var(--brand,#ffb400)] flex items-center justify-center -skew-x-12">
                   <Zap className="w-6 h-6 text-black fill-black" />
                 </div>
-                <span className="text-lg sm:text-2xl font-black tracking-tighter uppercase italic whitespace-nowrap">{clientName({ formData: fd }) ?? "Volt"}<span className="text-[var(--brand,#ffb400)]">Logistics</span></span>
+                <span className="text-lg sm:text-2xl font-black tracking-tighter uppercase italic whitespace-nowrap">{clientName(sessionData) ?? "Volt"}<span className="text-[var(--brand,#ffb400)]">Logistics</span></span>
               </>
             )}
           </Link>
@@ -208,7 +219,7 @@ export default function VoltLogisticsPage() {
                   </>}</h1>
                 </Reveal>
                 <Reveal delay={0.25}>
-                  <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                  <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed mb-12">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                     Autonomous, all-electric, and AI-driven logistics. We don't just deliver packages; we engineer time and efficiency.
                   </>}</p>
                 </Reveal>
@@ -431,7 +442,7 @@ export default function VoltLogisticsPage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/20">
-          <span>© 2026 {clientName(sessionData) ?? "VOLT LOGISTICS GLOBAL. ALL"} SYSTEMS ACTIVE.{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "VOLT LOGISTICS GLOBAL. ALL"} SYSTEMS ACTIVE.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-10">
              <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-2"><MapPin className="w-3 h-3" /> NYC HQ</Link>
              <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-2"><Globe className="w-3 h-3" /> GLOBAL NETWORK</Link>

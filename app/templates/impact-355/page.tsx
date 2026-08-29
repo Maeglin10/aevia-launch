@@ -27,6 +27,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -35,6 +36,7 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -48,7 +50,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET DES TILLEULS — Infirmiers libéraux · Limoges
+   {clientName(sessionData) ?? "Cabinet des Tilleuls"} — Infirmiers libéraux · Limoges
 
    Geste signature : PanelRise. Le bandeau sombre de la tournée monte par-dessus
    le héros au défilement, comme un volet qu'on relève sur la journée qui
@@ -414,20 +416,31 @@ export default function TilleulsIdelPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  ENGAGEMENT_DEMO = ENGAGEMENT_DEMO_LIVE();
 
   /* Les blocs qui lisent la session sont recalculés ici, après affectation :
      évalués à l'import, ils resteraient ceux de la démonstration pour toujours. */
-  ENGAGEMENT_DEMO = ENGAGEMENT_DEMO_LIVE();
 
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
@@ -912,7 +925,7 @@ export default function TilleulsIdelPage() {
                 background: `linear-gradient(to bottom, ${C.accent}, ${C.border} 82%, transparent)`,
               }}
             />
-            {METHODE_SOURCE.map((m, idx) => (
+            {resolveList(fusionnerEtapes(METHODE_SOURCE, clientMethode(sessionData)), METHODE_SOURCE).map((m, idx) => (
               <Reveal key={m.n} delay={idx * 0.06}>
                 <div style={{ position: "relative", paddingBottom: idx === METHODE_SOURCE.length - 1 ? 0 : "clamp(28px, 3.6vw, 44px)" }}>
                   <span

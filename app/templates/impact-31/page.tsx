@@ -266,7 +266,7 @@ function Navbar() {
                 <Leaf size={20} color={C.white} />
               </div>
               <span style={{ fontWeight: 700, fontSize: 21, color: C.text, fontFamily: FONT_HEADING, letterSpacing: -0.3 }}>
-                {clientName({ formData: fd }) ?? "Ananda"}<span style={{ color: C.accent }}>Flow</span>
+                {clientName(sessionData) ?? "Ananda"}<span style={{ color: C.accent }}>Flow</span>
               </span>
             </>
           )}
@@ -484,7 +484,10 @@ function Hero() {
 }
 
 // ─── Class Schedule ────────────────────────────────────────────────────────────
-const CLASSES = /* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ day: h.day, time: h.hours })), [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function CLASSES_LIVE() {
+  return /* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ day: h.day, time: h.hours })), [
   { day: "Lundi", time: "07h00", name: "Hatha Flow", level: "Débutant", teacher: "Emma D.", spots: 8, icon: <Sunrise size={18} color="var(--brand-light,#c0614a)" /> },
   { day: "Lundi", time: "19h00", name: "Vinyasa Power", level: "Intermédiaire", teacher: "Lucas R.", spots: 4, icon: <Wind size={18} color="var(--brand,#6b8f6b)" /> },
   { day: "Mercredi", time: "09h30", name: "Yin & Méditation", level: "Tous niveaux", teacher: "Sophie M.", spots: 12, icon: <Heart size={18} color="var(--brand-light,#c0614a)" /> },
@@ -492,6 +495,8 @@ const CLASSES = /* HORAIRES */ resolveList(clientHours({ formData: fd, businessP
   { day: "Samedi", time: "10h00", name: "Yoga Nidra", level: "Tous niveaux", teacher: "Emma D.", spots: 14, icon: <Leaf size={18} color="var(--brand-light,#c0614a)" /> },
   { day: "Dimanche", time: "09h00", name: "Kundalini", level: "Intermédiaire", teacher: "Amara B.", spots: 2, icon: <Sunrise size={18} color="var(--brand,#6b8f6b)" /> },
 ]);
+}
+let CLASSES = CLASSES_LIVE();
 
 type ClassInfo = { day: string; time: string; name: string; level: string; teacher: string };
 
@@ -1038,10 +1043,21 @@ export default function Impact31() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -1049,6 +1065,7 @@ export default function Impact31() {
   memoriserSession(sessionData);
   rafraichirPartage();
   bp = session?.businessProfile;
+  CLASSES = CLASSES_LIVE();
   c = session?.generatedContent;
 
 
@@ -1113,8 +1130,8 @@ return (
           on top of it, so the site showed two stacked footers. */}
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-31"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "Impact31"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </main>
   );

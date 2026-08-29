@@ -1,5 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientCity,
+  clientName,
+  clientServices,
+  clientTagline,
+  clientText,
+  clientTrade,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 // @ts-nocheck
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -23,19 +33,32 @@ export default function AboutPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
 
   return (
     <div className="py-20 bg-[#08080c] min-h-dvh">
+      <EnteteAnnexe session={sessionData} repli="StreamHub" accueil="/templates/impact-73" />
       <div className="max-w-3xl mx-auto px-6">
         <Reveal className="mb-20 text-center">
           <span className="text-[10px] uppercase tracking-[0.5em] font-black text-rose-500 mb-6 block">
@@ -45,7 +68,7 @@ export default function AboutPage() {
             Own the <br /> <span className="text-rose-500">Spectrum.</span>
           </h2>
           <p className="text-sm text-white/40 leading-relaxed font-bold uppercase tracking-widest italic mt-6">
-            StreamHub provides direct-to-audience broadcasting at 8K resolution with ultra-low glass-to-glass latency. Est. 2026.
+            {/* TEXTE_SECTION */ clientText(sessionData, "apropos.texte") ?? clientTagline(sessionData) ?? "StreamHub provides direct-to-audience broadcasting at 8K resolution with ultra-low glass-to-glass latency. Est. 2026."}
           </p>
         </Reveal>
 

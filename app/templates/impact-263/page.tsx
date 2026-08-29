@@ -37,7 +37,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   JARDINS VIVANTS — Paysagiste-Concepteur & Permaculture · {clientCity(sessionData) ?? "Bordeaux"}
+   {clientName(sessionData) ?? "Jardins Vivants"} — Paysagiste-Concepteur & Permaculture · {clientCity(sessionData) ?? "Bordeaux"}
    Chorégraphie de défilement éditoriale : crossfade collant 320vh, panneau
    écologique sticky, formulaire de devis interactif. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -220,13 +220,13 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     quote:
-      "Nous avions une cour bétonnée sans âme. Aujourd\'hui c\'est une forêt comestible de 80 m². Dès le quatrième mois, nous récoltions herbes aromatiques, fraises et courgettes. L\'équipe de Jardins Vivants a transformé notre regard sur notre extérieur.",
+      `Nous avions une cour bétonnée sans âme. Aujourd\'hui c\'est une forêt comestible de 80 m². Dès le quatrième mois, nous récoltions herbes aromatiques, fraises et courgettes. L\'équipe de ${clientName(sessionData) ?? "Jardins Vivants"} a transformé notre regard sur notre extérieur.`,
     name: 'Laure & Pierre Moreau',
     role: 'Propriétaires · ' + (clientCity(sessionData) ?? 'Bordeaux') + ' Caudéran',
   },
   {
     quote:
-      "Nous avons confié la refonte du jardin d\'entrée de notre propriété viticole à Jardins Vivants. Le résultat est saisissant : les visiteurs photographient désormais le jardin avant même le château. L\'investissement s\'est rentabilisé en une saison touristique.",
+      `Nous avons confié la refonte du jardin d\'entrée de notre propriété viticole à ${clientName(sessionData) ?? "Jardins Vivants"}. Le résultat est saisissant : les visiteurs photographient désormais le jardin avant même le château. L\'investissement s\'est rentabilisé en une saison touristique.`,
     name: 'Antoine de Larroque',
     role: 'Propriétaire · Château viticole, Saint-Émilion',
   },
@@ -591,7 +591,7 @@ function Hero() {
       >
         <img
           src={photo(5, "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2000&auto=format&fit=crop")}
-          alt="Jardin paysager réalisé par Jardins Vivants à Bordeaux"
+          alt={`Jardin paysager réalisé par ${clientName(sessionData) ?? "Jardins Vivants"} à Bordeaux`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           priority-fetch="high"
         />
@@ -2138,7 +2138,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.38)',
         }}
       >
-        <span>© 2006–2026 Jardins Vivants · Paysagiste-Concepteur · {clientCity(sessionData) ?? "Bordeaux"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2006–2026 {clientName(sessionData) ?? "Jardins Vivants"} · Paysagiste-Concepteur · {clientCity(sessionData) ?? "Bordeaux"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#demarche" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2198,10 +2198,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;

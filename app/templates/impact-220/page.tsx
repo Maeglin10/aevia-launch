@@ -58,7 +58,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   HORA VIVA — Manufacture Horlogère Suisse, {clientCity(sessionData) ?? "Genève"}
+   {clientName(sessionData) ?? "HORA VIVA"} — Manufacture Horlogère Suisse, {clientCity(sessionData) ?? "Genève"}
    Luxury Swiss watchmaking · Fondée en 1834
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -436,7 +436,7 @@ function Hero() {
       >
         <img
           src={IMGS.hero}
-          alt="Montre Hora Viva — manufacture suisse"
+          alt={`Montre ${clientName(sessionData) ?? "HORA VIVA"} — manufacture suisse`}
           loading="eager"
           style={{
             width: '100%',
@@ -655,7 +655,7 @@ function Manifesto() {
             letterSpacing: '-0.01em',
           }}
         >{/* TEXTE_SECTION */ clientText(sessionData, "section-2.texte") ?? (<>
-          "Une montre Hora Viva n'est pas un objet que l'on porte.
+          "Une montre {clientName(sessionData) ?? "HORA VIVA"} n'est pas un objet que l'on porte.
           <br />
           C'est un héritage que l'on transmet."
         </>)}</blockquote>
@@ -1488,7 +1488,7 @@ function TIMELINE_LIVE() {
   return [
   { year: '1834', event: 'Fondation de la maison par Léonard Marchetti à ' + (clientCity(sessionData) ?? 'Genève') + ', au cœur du quartier des Eaux-Vives.' },
   { year: '1872', event: 'Premier calibre manufacture entièrement réalisé en interne. Brevets déposés sur l\'échappement à ancre modifié.' },
-  { year: '1921', event: 'Création de l\'atelier d\'émail Grand Feu. Hora Viva devient l\'une des trois dernières maisons à maîtriser cette technique.' },
+  { year: '1921', event: `Création de l\'atelier d\'émail Grand Feu. ${clientName(sessionData) ?? "HORA VIVA"} devient l\'une des trois dernières maisons à maîtriser cette technique.` },
   { year: '1967', event: 'Lancement de la Perpétuelle — premier calendrier perpétuel de petite complication suisse certifié COSC.' },
   { year: '2001', event: 'Ouverture de la nouvelle manufacture à Plan-les-Ouates. 4 200 m² dédiés exclusivement à l\'horlogerie mécanique.' },
   { year: '2024', event: 'Présentation du Calibre HV-190A au SIHH — 312 composants, 72h de réserve, tourbillon volant côtes de ' + (clientCity(sessionData) ?? 'Genève') + '.' },
@@ -1605,13 +1605,13 @@ function Heritage() {
 function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
-    quote: "Ma Perpétuelle Hora Viva accompagne chaque décision importante de ma vie depuis vingt-deux ans. Ce n\'est pas une montre — c\'est un compagnon silencieux et fidèle.",
+    quote: `Ma Perpétuelle ${clientName(sessionData) ?? "HORA VIVA"} accompagne chaque décision importante de ma vie depuis vingt-deux ans. Ce n\'est pas une montre — c\'est un compagnon silencieux et fidèle.`,
     author: 'Henri de Vauclaire',
     role: `Collectionneur, ${clientCity(sessionData) ?? "Paris"}`,
     stars: 5,
   },
   {
-    quote: "J\'ai visité quarante manufactures dans ma vie. Chez Hora Viva, on sent immédiatement que rien n\'est fait pour l\'apparence. Tout est fait pour durer deux siècles.",
+    quote: `J\'ai visité quarante manufactures dans ma vie. Chez ${clientName(sessionData) ?? "HORA VIVA"}, on sent immédiatement que rien n\'est fait pour l\'apparence. Tout est fait pour durer deux siècles.`,
     author: 'Kenji Watanabe',
     role: 'Chronobiologiste & Horloger amateur, Tokyo',
     stars: 5,
@@ -1651,7 +1651,7 @@ function Testimonials() {
                 marginTop: '16px',
               }}
             >{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>
-              Ils portent Hora Viva
+              Ils portent {clientName(sessionData) ?? "HORA VIVA"}
             </>)}</h2>
           </div>
         </FadeUp>
@@ -1890,7 +1890,7 @@ function AppointmentForm() {
                 >
                   Notre équipe vous contactera sous 48 heures.
                   <br />
-                  Nous vous remercions de votre intérêt pour Hora Viva.
+                  Nous vous remercions de votre intérêt pour {clientName(sessionData) ?? "HORA VIVA"}.
                 </p>
               </motion.div>
             ) : (
@@ -2382,10 +2382,21 @@ export default function HoraVivaPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;

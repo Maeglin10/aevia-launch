@@ -319,10 +319,21 @@ export default function LeBarberClubPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -417,7 +428,7 @@ return (
           ) : (
             <>
               <Scissors size={18} color={scrolled ? C.accent : "#fff"} />
-              <span style={{ fontFamily: FONT, fontSize: 20, color: scrolled ? C.text : "#fff" }}>Le Barber <em>Club</em></span>
+              <span style={{ fontFamily: FONT, fontSize: 20, color: scrolled ? C.text : "#fff" }}>{(clientName(sessionData) ?? "Le Barber Club").split(" ").slice(0, 2).join(" ")} <em>{(clientName(sessionData) ?? "Le Barber Club").split(" ").slice(2).join(" ")}</em></span>
             </>
           )}
         </div>
@@ -459,7 +470,7 @@ return (
 
       <section id="hero" ref={heroRef} style={{ height: "100dvh", minHeight: "640px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1920&q=80"))} alt="Le Barber Club Lyon" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1920&q=80"))} alt={`${clientName(sessionData) ?? "Le Barber Club"} Lyon`} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,6,3,0.93) 0%, rgba(10,6,3,0.42) 45%, rgba(10,6,3,0.08) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
@@ -468,8 +479,8 @@ return (
             style={{ fontFamily: FONT, fontSize: "clamp(40px, 5.2vw, 70px)", fontWeight: 400, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 23) ?? "L'art du soin masculin,"}<br /><em style={{ color: C.accentLight }}>{clientHeroLine(sessionData, 1, 2, 23) ?? "à l'ancienne."}</em>
           </>}</>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            Coupes, rasages au blaireau, soins barbe et cuir chevelu — Le Barber Club est l'adresse des hommes qui ne veulent pas choisir entre style et tradition.
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
+            Coupes, rasages au blaireau, soins barbe et cuir chevelu — {clientName(sessionData) ?? "Le Barber Club"} est l'adresse des hommes qui ne veulent pas choisir entre style et tradition.
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
             <motion.button onClick={() => openBooking(null)} style={{ background: C.accent, color: C.white, border: "none", borderRadius: 6, padding: "15px 32px", fontWeight: 600, fontSize: 15, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}44`, minHeight: 44 }} whileHover={{ scale: 1.03 }}>
@@ -639,7 +650,7 @@ return (
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-          <span style={{ color: "rgba(255,255,255,0.18)", fontSize: 12 }}>© 2026 Le Barber Club — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.18)", fontSize: 12 }}>© 2026 {clientName(sessionData) ?? "Le Barber Club"} — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="#contact" style={{ color: "rgba(255,255,255,0.18)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

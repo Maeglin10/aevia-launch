@@ -19,6 +19,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -28,6 +29,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -41,7 +43,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   PERMIS CAP SUD — auto-école urbaine · Montpellier
+   {clientName(sessionData) ?? "Permis Cap Sud"} — auto-école urbaine · Montpellier
 
    Archétype héros H3 : plein cadre, titre en bas. Paire de fontes P6 (Archivo
    / Inter — la voix impact, sans serif, deux graisses et deux rôles opposés :
@@ -160,7 +162,7 @@ const BENTO = [
   { col: "span 2", row: "span 1" },
 ];
 
-const METHODE = [
+let METHODE = [
   { n: "01", t: "Éval de départ offerte", d: "45 min en voiture. Ton volume d'heures estimé est écrit au contrat — et on s'y tient." },
   { n: "02", t: "Résa en ligne 24h/24", d: "Tes créneaux depuis ton téléphone, annulation gratuite 48 h avant, liste d'attente automatique." },
   { n: "03", t: "Simulateur + voiture", d: "Le simulateur déblaye les bases et les situations à risque ; la voiture sert à progresser, pas à répéter." },
@@ -306,22 +308,38 @@ export default function PermisCapSudPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    fusionnerEtapes(METHODE, clientMethode(sessionData)),
+    METHODE,
+  );
+  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };
   }
 
-  SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
 
   /*
     Le titre du plein cadre est en capitales serrées : il ne tient qu'une

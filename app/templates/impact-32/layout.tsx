@@ -18,10 +18,21 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(__setLayoutSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setLayoutSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
   const fd = __layoutSession?.formData;
 
@@ -214,7 +225,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <div style={{ width: 38, height: 38, background: C.accent, borderRadius: 12, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <TemplateIcon emoji="🐾" size={20} color="#fff" />
               </div>
-              <span style={{ fontWeight: 800, fontSize: 20, color: C.white }}>PawCare Clinic</span>
+              <span style={{ fontWeight: 800, fontSize: 20, color: C.white }}>{clientName(__layoutSession) ?? "PawCare Clinic"}</span>
             </Link>
             <p style={{ color: "rgba(255,255,255,0.58)", fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
               Clinique vétérinaire bienveillante à {clientCity(__layoutSession) ?? "Bordeaux"}. Parce que votre animal mérite les mêmes soins d'excellence que vous.

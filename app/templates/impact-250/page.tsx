@@ -39,7 +39,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ATELIER TERRA — {clientTrade(sessionData) ?? "Paysagiste"} & Aménagement Extérieur · {clientCity(sessionData) ?? "Nantes"}
+   {clientName(sessionData) ?? "Atelier Terra"} — {clientTrade(sessionData) ?? "Paysagiste"} & Aménagement Extérieur · {clientCity(sessionData) ?? "Nantes"}
    Chorégraphie de défilement éditoriale, fond clair/sombre, sticky parallax.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -138,7 +138,7 @@ function PROJECTS_DEMO_LIVE() {
   return [
   {
     img: (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/29821815/pexels-photo-29821815.jpeg?auto=compress&cs=tinysrgb&w=1600'),
-    alt: 'Conception de jardin à la française — Atelier Terra',
+    alt: `Conception de jardin à la française — ${clientName(sessionData) ?? "Atelier Terra"}`,
     index: 'I',
     label: 'CONCEPTION',
     caption: 'Conception',
@@ -146,7 +146,7 @@ function PROJECTS_DEMO_LIVE() {
   },
   {
     img: (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/37144291/pexels-photo-37144291.jpeg?auto=compress&cs=tinysrgb&w=1600'),
-    alt: 'Plantation naturaliste à Nantes — Atelier Terra',
+    alt: `Plantation naturaliste à Nantes — ${clientName(sessionData) ?? "Atelier Terra"}`,
     index: 'II',
     label: 'PLANTATION',
     caption: 'Plantation',
@@ -154,7 +154,7 @@ function PROJECTS_DEMO_LIVE() {
   },
   {
     img: photo('1578662996442-48f60103fc96'),
-    alt: 'Aménagement terrasse extérieure — Atelier Terra',
+    alt: `Aménagement terrasse extérieure — ${clientName(sessionData) ?? "Atelier Terra"}`,
     index: 'III',
     label: 'AMÉNAGEMENT',
     caption: 'Aménagement',
@@ -179,7 +179,7 @@ function EDIT_ROWS_DEMO_SOURCE_LIVE() {
   {
     eyebrow: 'Notre démarche',
     img: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/29821815/pexels-photo-29821815.jpeg?auto=compress&cs=tinysrgb&w=800'),
-    alt: 'Jardin écologique conçu par Atelier Terra',
+    alt: `Jardin écologique conçu par ${clientName(sessionData) ?? "Atelier Terra"}`,
     title: (
       <>
         Le vivant{' '}
@@ -236,7 +236,7 @@ const PHILOSOPHY: PhilosophyItem[] = [
 function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
-    quote: "En trois mois, Atelier Terra a transformé 800 m² de béton nu en un jardin luxuriant que je n\'aurais jamais osé imaginer. Leur patience et leur vision ont été remarquables du premier plan jusqu\'à la dernière plante.",
+    quote: `En trois mois, ${clientName(sessionData) ?? "Atelier Terra"} a transformé 800 m² de béton nu en un jardin luxuriant que je n\'aurais jamais osé imaginer. Leur patience et leur vision ont été remarquables du premier plan jusqu\'à la dernière plante.`,
     name: 'Isabelle Moreau',
     role: 'Propriétaire · Saint-Herblain',
   },
@@ -592,7 +592,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || (clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/29821815/pexels-photo-29821815.jpeg?auto=compress&cs=tinysrgb&w=2000')}
-          alt="Jardin formel conçu par Atelier Terra à Nantes"
+          alt={`Jardin formel conçu par ${clientName(sessionData) ?? "Atelier Terra"} à Nantes`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1315,7 +1315,7 @@ function PhilosophyPanel() {
           >
             <img
               src={photo('1578662996442-48f60103fc96', 900)}
-              alt="Terrasse aménagée par Atelier Terra"
+              alt={`Terrasse aménagée par ${clientName(sessionData) ?? "Atelier Terra"}`}
               loading="lazy"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
@@ -1978,7 +1978,7 @@ function Footer() {
           color: 'rgba(200,223,196,0.44)',
         }}
       >
-        <span>© 2010–2026 Atelier Terra. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2010–2026 {clientName(sessionData) ?? "Atelier Terra"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#at-type" style={{ color: 'inherit', textDecoration: 'none' }}>Mentions légales</a>
           <a href="#at-type" style={{ color: 'inherit', textDecoration: 'none' }}>Confidentialité</a>
@@ -2027,10 +2027,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;

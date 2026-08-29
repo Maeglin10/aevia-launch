@@ -14,13 +14,25 @@ import {
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
+
+/* Les étapes de la démonstration, sorties du rendu pour que la méthode du
+   client puisse s'y substituer ligne à ligne. */
+const METHODE_DEMO_85 = [
+              { step: "01", time: "Matin", name: "Luminos Sérum", action: "2–3 gouttes en tapotant délicatement sur peau propre et humide" },
+              { step: "02", time: "Matin", name: "Photon SPF 50+", action: "2,5 mg/cm² en couche uniforme sur visage et cou" },
+              { step: "03", time: "Soir", name: "Cellulaire Crème", action: "Noisette en massage ascendant sur peau nettoyée" },
+              { step: "04", time: "1× / semaine", name: "Kaolin Masque", action: "Couche épaisse 15 min, rincer à l'eau fraîche" },
+            ];
+
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
@@ -347,10 +359,21 @@ export default function AetherLabsPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -513,7 +536,7 @@ export default function AetherLabsPage() {
               />
             ) : (
               <>
-                <span className="text-xl font-light tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.15em" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Aether Labs"))}</span>
+                <span className="text-xl font-light tracking-widest" style={{ fontFamily: "'Cormorant Garamond', serif", letterSpacing: "0.15em" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Aether Labs"))}</span>
                 <span className="text-[10px] tracking-[0.2em] uppercase text-[var(--brand,#8B7355)]">Cosmétique scientifique</span>
               </>
             )}
@@ -546,7 +569,7 @@ export default function AetherLabsPage() {
                   style={{ height: 28, maxWidth: 140, objectFit: 'contain', display: 'block' }}
                 />
               ) : (
-                <span style={{ fontFamily: "'Cormorant Garamond', serif" }} className="text-xl">{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Aether Labs"))}</span>
+                <span style={{ fontFamily: "'Cormorant Garamond', serif" }} className="text-xl">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Aether Labs"))}</span>
               )}
               <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
@@ -574,8 +597,8 @@ export default function AetherLabsPage() {
             </>}</h1>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-[#6B5A40] leading-relaxed max-w-md mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-              Aether Labs formule des soins à l&apos;intersection de la chimie organique et de la cosmétique clinique. Chaque produit est développé en laboratoire, testé sous contrôle dermatologique.
+            <p className="text-[#6B5A40] leading-relaxed max-w-md mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
+              {clientName(sessionData) ?? "Aether Labs"} formule des soins à l&apos;intersection de la chimie organique et de la cosmétique clinique. Chaque produit est développé en laboratoire, testé sous contrôle dermatologique.
             </>}</p>
           </Reveal>
           <Reveal delay={0.3}>
@@ -601,7 +624,7 @@ export default function AetherLabsPage() {
         </div>
         <div className="relative overflow-hidden min-h-[50vh] md:min-h-0">
           <motion.div className="absolute inset-0" style={{ y: heroY }}>
-            <Image src={photo(4, "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1200&q=85")} alt={fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Aether Labs"))} fill className="object-cover" />
+            <Image src={photo(4, "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=1200&q=85")} alt={fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Aether Labs"))} fill className="object-cover" />
           </motion.div>
         </div>
       </section>
@@ -764,12 +787,12 @@ export default function AetherLabsPage() {
             </Reveal>
           </div>
           <div className="grid md:grid-cols-4 gap-px bg-[#D4C9B0]">
-            {[
-              { step: "01", time: "Matin", name: "Luminos Sérum", action: "2–3 gouttes en tapotant délicatement sur peau propre et humide" },
-              { step: "02", time: "Matin", name: "Photon SPF 50+", action: "2,5 mg/cm² en couche uniforme sur visage et cou" },
-              { step: "03", time: "Soir", name: "Cellulaire Crème", action: "Noisette en massage ascendant sur peau nettoyée" },
-              { step: "04", time: "1× / semaine", name: "Kaolin Masque", action: "Couche épaisse 15 min, rincer à l'eau fraîche" },
-            ].map((r, i) => (
+            {resolveList(fusionnerEtapes(METHODE_DEMO_85, clientMethode(sessionData))?.map((e: any, i: number) => ({
+              ...e,
+              /* Ce thème décrit le geste dans « action », un nom qu'aucun autre
+                 thème n'emploie : la description du client y va aussi. */
+              action: e.desc || METHODE_DEMO_85[i % METHODE_DEMO_85.length].action,
+            })), METHODE_DEMO_85).map((r, i) => (
               <Reveal key={r.step} delay={i * 0.08}>
                 <div className="bg-[#F0EBE0] p-8 hover:bg-[#F8F6F2] transition-colors duration-300">
                   <div className="text-4xl font-light text-[#D4C9B0] mb-6" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{r.step}</div>
@@ -1023,7 +1046,7 @@ export default function AetherLabsPage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-10 mb-10">
             <div className="md:col-span-2">
-              <div className="text-[#F8F6F2] text-xl font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Aether Labs"))}</div>
+              <div className="text-[#F8F6F2] text-xl font-light mb-1" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Aether Labs"))}</div>
               <div className="text-xs text-[var(--brand,#8B7355)] tracking-widests uppercase mb-4">Cosmétique scientifique · Grasse</div>
               <p className="text-sm leading-relaxed max-w-xs">Laboratoire fondé en 2012. Chaque formule est développée en interne, testée sous contrôle dermatologique et sourcée de façon éthique.</p>
             </div>
@@ -1041,7 +1064,7 @@ export default function AetherLabsPage() {
             </div>
           </div>
           <div className="pt-8 border-t border-[#1C1814] flex flex-col md:flex-row justify-between gap-4 text-xs">
-            <span>© 2024 {clientName(sessionData) ?? "Aether Labs"} — Tous droits réservés{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+            <span>© 2024 {clientName(sessionData) ?? "Aether Labs"} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
             <div className="flex gap-6">
               {[
                 { name: "Mentions légales", path: "/templates/impact-85/legal/mentions-legales" },

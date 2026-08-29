@@ -1,7 +1,10 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientFaq, clientServices } from "@/lib/templates/clientContent";
-import { clientName } from "@/lib/templates/clientContent";
+import {
+  clientFaq,
+  clientName,
+  clientServices,
+} from "@/lib/templates/clientContent";
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -114,10 +117,21 @@ export default function NimbusAILoginPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
@@ -199,7 +213,7 @@ export default function NimbusAILoginPage() {
               <div className="w-12 h-12 bg-gradient-to-br from-[#06B6D4] to-[#8B5CF6] rounded-xl flex items-center justify-center mx-auto mb-4">
                 <Cloud className="w-6 h-6 text-white" />
               </div>
-              <h2 className="text-white text-2xl font-bold">Connexion à NimbusAI</h2>
+              <h2 className="text-white text-2xl font-bold">Connexion à {clientName(sessionData) ?? "NimbusAI"}</h2>
               <p className="text-gray-500 text-sm mt-2">Accédez à votre console d&apos;administration</p>
             </div>
 
@@ -270,7 +284,7 @@ export default function NimbusAILoginPage() {
           ))}
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex justify-between text-xs text-gray-600">
-          <span>© 2026 NimbusAI. All rights reserved.</span>
+          <span>© 2026 {clientName(sessionData) ?? "NimbusAI"}. All rights reserved.</span>
           <span><Globe className="w-3 h-3 inline mr-1" />Cloud AI · 12 regions</span>
         </div>
       </footer>

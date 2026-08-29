@@ -79,7 +79,7 @@ function PROJETS_DEMO_LIVE() {
   return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ titre: o.title, lieu: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { titre: "Villa contemporaine", lieu: (clientCity(sessionData) ?? "Lyon") + " 5e", surface: "220 m²", style: "Minimaliste", tag: "Résidentiel", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80") },
   { titre: "Penthouse panoramique", lieu: (clientCity(sessionData) ?? "Lyon") + " 2e", surface: "160 m²", style: "Art Déco moderne", tag: "Prestige", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80") },
-  { titre: "Maison de maître", lieu: (clientCity({ formData: fd }) ?? "Villeurbanne"), surface: "310 m²", style: "Classique revisité", tag: "Rénovation", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=800&q=80") },
+  { titre: "Maison de maître", lieu: (clientCity(sessionData) ?? "Villeurbanne"), surface: "310 m²", style: "Classique revisité", tag: "Rénovation", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=800&q=80") },
   { titre: "Loft industriel", lieu: (clientCity(sessionData) ?? "Lyon") + " 7e", surface: "140 m²", style: "Industriel chic", tag: "Loft", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=800&q=80") },
   { titre: "Appartement haussmannien", lieu: (clientCity(sessionData) ?? "Lyon") + " 1er", surface: "180 m²", style: "Parisien épuré", tag: "Résidentiel", img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80") },
   { titre: "Boutique concept store", lieu: "Part-Dieu", surface: "95 m²", style: "Retail design", tag: "Commercial", img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80") },
@@ -117,7 +117,7 @@ let SERVICES = SERVICES_DEMO;
 function TEMOIGNAGES_SOURCE_LIVE() {
   return [
   { texte: "Clémence a transformé notre appartement en un espace où il fait vraiment bon vivre. Son sens du détail et sa rigueur sont bluffants — et le budget a été parfaitement respecté.", auteur: "Marie & Thomas L.", projet: "Appartement 160 m², " + (clientCity(sessionData) ?? "Lyon") + " 2e" },
-  { texte: "Nous avions peur de perdre le caractère de notre maison ancienne. Le Studio Noma a su magnifier les volumes tout en apportant la modernité qu'on cherchait. Résultat magistral.", auteur: "Édouard V.", projet: `Maison de maître, ${clientCity({ formData: fd }) ?? "Villeurbanne"}` },
+  { texte: "Nous avions peur de perdre le caractère de notre maison ancienne. Le Studio Noma a su magnifier les volumes tout en apportant la modernité qu'on cherchait. Résultat magistral.", auteur: "Édouard V.", projet: `Maison de maître, ${clientCity(sessionData) ?? "Villeurbanne"}` },
   { texte: "Un accompagnement de A à Z, professionnel et chaleureux. Notre boutique est maintenant l'une des plus belles de la galerie. Les ventes ont bondi de 40% depuis l'ouverture.", auteur: "Sophie K.", projet: "Concept store, Part-Dieu" },
 ];
 }
@@ -164,16 +164,27 @@ export default function StudioNomaPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   sessionData = session;
-  ATELIER = ATELIER_LIVE();
   c = session?.generatedContent;
+  ATELIER = ATELIER_LIVE();
   PROJETS_DEMO = PROJETS_DEMO_LIVE();
   TEMOIGNAGES_SOURCE = TEMOIGNAGES_SOURCE_LIVE();
 
@@ -259,7 +270,7 @@ export default function StudioNomaPage() {
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <><span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: FONT, fontSize: 22, fontWeight: 600, color: scrolled ? C.text : "#fff", letterSpacing: 1 }}>{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>Studio <em>Noma</em></>)}</span></>
+            <><span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: FONT, fontSize: 22, fontWeight: 600, color: scrolled ? C.text : "#fff", letterSpacing: 1 }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>Studio <em>Noma</em></>)}</span></>
           )}
         <div style={{ gap: 32, alignItems: "center" }} className="hidden md:flex">
           {NAV.map(({ l, h }) => (
@@ -307,7 +318,7 @@ export default function StudioNomaPage() {
           </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520, fontFamily: FONT_SANS }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520, fontFamily: FONT_SANS }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Studio Noma conçoit des intérieurs qui racontent une histoire. Chaque projet naît d'une écoute profonde et d'une maîtrise artisanale des matières, des volumes et de la lumière.
           </>}</motion.p>
 
@@ -474,7 +485,7 @@ export default function StudioNomaPage() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 20, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-          <span style={{ color: "rgba(255,255,255,0.28)", fontSize: 13 }}>© 2026 Studio Noma — Site réalisé par Aevia WS{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.28)", fontSize: 13 }}>© 2026 Studio Noma — Site réalisé par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="#contact" style={{ color: "rgba(255,255,255,0.28)", fontSize: 13, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

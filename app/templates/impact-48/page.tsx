@@ -20,11 +20,13 @@ import {
   clientEmail,
   clientHeroLine,
   clientList,
+  clientMethode,
   clientServices,
   clientStats,
   clientTagline,
   clientTeam,
   clientText,
+  fusionnerEtapes,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 
@@ -1346,7 +1348,7 @@ function FloorPlanSection() {
               paddingTop: 8,
             }}
           >
-            {processSteps.map((s, i) => (
+            {resolveList(fusionnerEtapes(processSteps, clientMethode(sessionData)), processSteps).map((s, i) => (
               <div
                 key={s.num}
                 style={{
@@ -2637,10 +2639,21 @@ export default function ArchitectureTemplate() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2658,6 +2671,10 @@ export default function ArchitectureTemplate() {
       val: s.value,
 
       label: s.label,
+
+      /* Le chiffre est celui du client : l'unité de la démonstration ne le suit pas. */
+
+      suffix: "",
 
     })),
 

@@ -17,6 +17,7 @@ import {
   clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -24,6 +25,7 @@ import {
   clientServices,
   clientTeam,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 function navLinks_LIVE() {
@@ -130,7 +132,7 @@ function DOCTORS_DEMO_LIVE() {
 }
 let DOCTORS_DEMO = DOCTORS_DEMO_LIVE();
 
-const STEPS = [
+let STEPS = [
   { n: "01", title: "Évaluation", desc: "Entretien approfondi de 45 minutes pour comprendre votre historique médical et vos objectifs santé." },
   { n: "02", title: "Bilan Approfondi", desc: "Analyses biologiques complètes, imagerie si nécessaire et évaluation des facteurs de risque." },
   { n: "03", title: "Protocole", desc: "Élaboration d'un plan de soins personnalisé avec objectifs mesurables à 3, 6 et 12 mois." },
@@ -146,7 +148,10 @@ const SCIENCE_SOURCE = [
 ]
 let SCIENCE = SCIENCE_SOURCE;
 
-const TESTIMONIALS_SOURCE = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
   {
     name: "Marie-Laure D.",
     age: 52,
@@ -165,7 +170,7 @@ const TESTIMONIALS_SOURCE = [
     name: "Isabelle V.",
     age: 61,
     result: "Tension artérielle stabilisée, arrêt d'un médicament",
-    quote: "Vitalité Médical m'a offert une approche que je n'avais jamais connue : la médecine préventive vraiment appliquée.",
+    quote: `${clientName(sessionData) ?? "VITALITÉ"} Médical m'a offert une approche que je n'avais jamais connue : la médecine préventive vraiment appliquée.`,
     stars: 5,
   },
   {
@@ -175,7 +180,9 @@ const TESTIMONIALS_SOURCE = [
     quote: "En une consultation et un bilan complet, ils ont identifié ce que personne n'avait vu. Je leur dois ma qualité de vie.",
     stars: 5,
   },
-]
+];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const MARQUEE_ITEMS = [
@@ -260,16 +267,33 @@ export default function Impact171Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  /* La méthode du client remplace les étapes de la démonstration. */
+  STEPS = resolveList(
+    fusionnerEtapes(STEPS, clientMethode(sessionData)),
+    STEPS,
+  );
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   navLinks = navLinks_LIVE();
   DOCTORS_DEMO = DOCTORS_DEMO_LIVE();
 
@@ -425,9 +449,9 @@ export default function Impact171Page() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.2}>
-              <p className="text-lg text-[#134E4A]/70 leading-relaxed mb-8 max-w-lg">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              <p className="text-lg text-[#134E4A]/70 leading-relaxed mb-8 max-w-lg">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Médecine evidence-based, suivi personnalisé et technologies de diagnostic avancées.
-                Vitalité Médical place la prévention au cœur de votre santé.
+                {clientName(sessionData) ?? "VITALITÉ"} Médical place la prévention au cœur de votre santé.
               </>}</p>
             </Reveal>
             <Reveal delay={0.3}>
@@ -911,7 +935,7 @@ export default function Impact171Page() {
             <div className="md:col-span-2">
               <div className="flex items-center gap-2 mb-4">
                 <Heart className="w-5 h-5 text-[#22C55E]" />
-                <span className="text-xl font-bold" style={{ fontFamily: "'Figtree', sans-serif" }}>VITALITÉ Médical</span>
+                <span className="text-xl font-bold" style={{ fontFamily: "'Figtree', sans-serif" }}>{clientName(sessionData) ?? "VITALITÉ"} Médical</span>
               </div>
               <p className="text-white/60 text-sm leading-relaxed max-w-xs">
                 Médecine evidence-based et suivi personnalisé pour une santé optimale. {clientCity(sessionData) ?? "Paris"} 4ème.

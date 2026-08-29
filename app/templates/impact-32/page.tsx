@@ -27,12 +27,10 @@ import { resolveList } from "@/lib/templates/resolveList";
 import { TemplateIcon } from '@/components/TemplateIcon';
 import {
   clientCity,
-  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientReviews,
   clientServices,
   clientStats,
@@ -96,7 +94,7 @@ let C: Record<string, string> = {
 
 const FONT = "'Nunito', system-ui, sans-serif";
 
-// ─── Animated Paw SVG ─────────────────────────────────────────────────────────
+// ─── Animated {clientName(sessionData) ?? "Paw"} SVG ─────────────────────────────────────────────────────────
 function AnimatedPaw() {
   return (
     <motion.div
@@ -748,16 +746,18 @@ function Pricing() {
 }
 
 // ─── FAQ ──────────────────────────────────────────────────────────────────────
-function FAQS_DEMO_VIVANT() {
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function FAQS_DEMO_LIVE() {
   return [
-  { q: "Comment prendre rendez-vous en urgence ?", a: "Appelez directement notre ligne urgences au " + (clientPhone(sessionData) ?? fd?.phone ?? "05 56 78 90 12") + ", disponible 24h/24 et 7j/7. Pour les urgences vitales, notre équipe d'astreinte intervient en moins de 30 minutes." },
+  { q: "Comment prendre rendez-vous en urgence ?", a: "Appelez directement notre ligne urgences au " + (fd?.phone ?? "05 56 78 90 12") + ", disponible 24h/24 et 7j/7. Pour les urgences vitales, notre équipe d'astreinte intervient en moins de 30 minutes." },
   { q: "Acceptez-vous les animaux exotiques (lapins, oiseaux, reptiles) ?", a: "Oui ! Dr. Nadia Sall est spécialisée NAC (Nouveaux Animaux de Compagnie). Elle reçoit lapins, cobayes, oiseaux, reptiles et poissons du lundi au vendredi sur rendez-vous." },
   { q: "Travaillez-vous avec les assurances animaux ?", a: "Nous collaborons avec les principaux assureurs vétérinaires : Agria, Santévet, Assur O'Poil et April. Nous émettons les factures dans le format requis pour vos remboursements." },
   { q: "Proposez-vous la téléconsultation ?", a: "Oui, la téléconsultation est disponible pour les abonnés Complete Care et Premium Care. Idéale pour les questions de suivi, l'interprétation de résultats ou les conseils comportementaux." },
   { q: "Quelle est la durée d'une consultation standard ?", a: "Une consultation standard dure entre 20 et 30 minutes. Les consultations spécialisées (cardiologie, dermatologie) peuvent durer jusqu'à 45 minutes. Nous ne consultons jamais en flux tendu." },
 ];
 }
-let FAQS_DEMO = FAQS_DEMO_VIVANT();
+let FAQS_DEMO = FAQS_DEMO_LIVE();
 
 function FAQ() {
   const FAQS = resolveList(clientFaq(sessionData), FAQS_DEMO);
@@ -839,20 +839,28 @@ export default function Impact32() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  /* Le tableau lit la session : il doit être reconstruit ICI, au rendu.
-     Écrit en constante de module, il était évalué à l'import, quand la
-     session valait encore null — le repli gagnait toujours. */
-  FAQS_DEMO = FAQS_DEMO_VIVANT();
+  FAQS_DEMO = FAQS_DEMO_LIVE();
   memoriserSession(sessionData);
   PLANS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
@@ -902,7 +910,7 @@ return (
           on top of it, so the site showed two stacked footers. */}
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName(sessionData) ?? "impact-32"}
+        {clientName(sessionData) ?? "Impact32"}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </main>

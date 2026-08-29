@@ -42,6 +42,7 @@ import {
   clientHeroLine,
   clientHours,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -50,6 +51,7 @@ import {
   clientStats,
   clientTagline,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -64,7 +66,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ==========================================================================
-   AURELIA JEWELS — Design Tokens
+   {clientName(sessionData) ?? "AURELIA"} JEWELS — Design Tokens
    ========================================================================== */
 
 // Lightens (positive percent) or darkens (negative) a #rrggbb hex color —
@@ -180,7 +182,7 @@ let STATS = STATS_DEMO;
 function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
-    quote: "Aurelia a créé la bague de fiançailles de mes rêves. Chaque détail dépasse ce que j'avais imaginé. Une maison d'exception.",
+    quote: `${clientName(sessionData) ?? "AURELIA"} a créé la bague de fiançailles de mes rêves. Chaque détail dépasse ce que j'avais imaginé. Une maison d'exception.`,
     author: "Isabelle M.",
     occasion: "Fiançailles",
     location: (clientCity(sessionData) ?? "Paris"),
@@ -194,7 +196,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     rating: 5,
   },
   {
-    quote: "Collectionneur de longue date, je n'ai jamais trouvé une telle précision de sertissage. Aurelia est dans une catégorie à part.",
+    quote: `Collectionneur de longue date, je n'ai jamais trouvé une telle précision de sertissage. ${clientName(sessionData) ?? "AURELIA"} est dans une catégorie à part.`,
     author: "Jean-François D.",
     occasion: "Collection privée",
     location: "Genève",
@@ -212,13 +214,18 @@ function TESTIMONIALS_SOURCE_LIVE() {
 let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
-const PRESS_DEMO = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function PRESS_DEMO_LIVE() {
+  return [
   { name: "Vogue Bijoux", issue: "Numéro Collector 2024", quote: "La maison parisienne qui réinvente l'orfèvrerie contemporaine." },
-  { name: "Le Figaro", issue: "Arts & Styles", quote: "Aurelia, gardienne vivante du savoir-faire artisanal français." },
-  { name: "L'Express Styles", issue: "Luxe & Création", quote: "Quand l'or devient sculpture : les pièces uniques d'Aurelia." },
+  { name: "Le Figaro", issue: "Arts & Styles", quote: `${clientName(sessionData) ?? "AURELIA"}, gardienne vivante du savoir-faire artisanal français.` },
+  { name: "L'Express Styles", issue: "Luxe & Création", quote: `Quand l'or devient sculpture : les pièces uniques d'${clientName(sessionData) ?? "AURELIA"}.` },
   { name: "Elle France", issue: "Spécial Bijoux", quote: "Le bespoke à la française par excellence, place Vendôme." },
-  { name: "Harper's Bazaar", issue: "Fine Jewelry Edit", quote: "Aurelia's atelier produces heirlooms, not merely jewellery." },
-]
+  { name: "Harper's Bazaar", issue: "Fine Jewelry Edit", quote: `${clientName(sessionData) ?? "AURELIA"}'s atelier produces heirlooms, not merely jewellery.` },
+];
+}
+let PRESS_DEMO = PRESS_DEMO_LIVE();
 let PRESS = PRESS_DEMO;
 
 const MARQUEE_ITEMS = [
@@ -399,7 +406,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
                 className="text-[26px] tracking-[0.12em] italic"
                 style={{ fontFamily: "'Cormorant Garamond', serif", color: C.cream, fontWeight: 600 }}
               >
-                AURELIA
+                {clientName(sessionData) ?? "AURELIA"}
               </span>
               <button onClick={() => setOpen(false)} className="p-2 text-[#A8A29E] hover:text-white transition-colors">
                 <X size={22} />
@@ -507,7 +514,7 @@ function Hero() {
       <motion.div className="absolute inset-0 z-0" style={{ y: yImg }}>
         <Image
           src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=1920&auto=format&fit=crop"))}
-          alt="Bijoux Aurelia"
+          alt={`Bijoux ${clientName(sessionData) ?? "AURELIA"}`}
           fill
           className="object-cover opacity-30"
           priority
@@ -833,7 +840,7 @@ function BespokeSection() {
 
         {/* Steps */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-0">
-          {BESPOKE_STEPS.map((step, i) => (
+          {resolveList(fusionnerEtapes(BESPOKE_STEPS, clientMethode(sessionData)), BESPOKE_STEPS).map((step, i) => (
             <Reveal key={step.step} delay={i * 0.12}>
               <div className="relative px-8 py-10 group">
                 {/* Connector line */}
@@ -936,7 +943,7 @@ function SavoirFaireSection() {
                 className="text-[14px] leading-[2] mb-8 max-w-[440px]"
                 style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 300, color: `${C.cream}75` }}
               >
-                Fondée dans les ateliers du Marais, Aurelia perpétue les techniques de l'orfèvrerie française transmises de maître en apprenti depuis cinq générations. Chaque pièce est le fruit d'un minimum de 200 heures de travail à la main.
+                Fondée dans les ateliers du Marais, {clientName(sessionData) ?? "AURELIA"} perpétue les techniques de l'orfèvrerie française transmises de maître en apprenti depuis cinq générations. Chaque pièce est le fruit d'un minimum de 200 heures de travail à la main.
               </p>
               <div className="flex flex-wrap gap-6">
                 {/* LISTE_LIBELLES */ (clientList(sessionData, "savoir-faire.liste1") ?? ["Certification Hallmark 18K", "Membre du Comité Vendôme", "Label Entreprise du Patrimoine Vivant"]).map((badge) => (
@@ -1008,7 +1015,7 @@ function AteliersSection() {
             <div className="relative aspect-[4/5] overflow-hidden">
               <Image
                 src={photo(2, "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=800&auto=format&fit=crop")}
-                alt="Atelier Aurelia"
+                alt={`Atelier ${clientName(sessionData) ?? "AURELIA"}`}
                 fill
                 className="object-cover"
                 unoptimized
@@ -1069,7 +1076,7 @@ function AteliersSection() {
                     color: C.navyDeep,
                   }}
                 >
-                  "Chaque pièce naît du dialogue entre la flamme, le métal et les mains de l'artisan. C'est là que réside la vraie magie d'Aurelia."
+                  "Chaque pièce naît du dialogue entre la flamme, le métal et les mains de l'artisan. C'est là que réside la vraie magie d'{clientName(sessionData) ?? "AURELIA"}."
                 </p>
                 <footer
                   className="mt-3 text-[11px] tracking-[0.12em] uppercase"
@@ -1296,7 +1303,7 @@ function FaqSection() {
     },
     {
       q: "Proposez-vous un service de restauration ou de transformation ?",
-      a: "Oui, la Maison Aurelia propose de restaurer vos bijoux anciens ou de transformer vos pièces de famille pour leur donner une nouvelle vie tout en conservant leur valeur sentimentale.",
+      a: `Oui, la Maison ${clientName(sessionData) ?? "AURELIA"} propose de restaurer vos bijoux anciens ou de transformer vos pièces de famille pour leur donner une nouvelle vie tout en conservant leur valeur sentimentale.`,
     },
     {
       q: "Vos créations sont-elles garanties ?",
@@ -1317,7 +1324,7 @@ function FaqSection() {
     },
     {
       q: "Proposez-vous un service de restauration ou de transformation ?",
-      a: "Oui, la Maison Aurelia propose de restaurer vos bijoux anciens ou de transformer vos pièces de famille pour leur donner une nouvelle vie tout en conservant leur valeur sentimentale.",
+      a: `Oui, la Maison ${clientName(sessionData) ?? "AURELIA"} propose de restaurer vos bijoux anciens ou de transformer vos pièces de famille pour leur donner une nouvelle vie tout en conservant leur valeur sentimentale.`,
     },
     {
       q: "Vos créations sont-elles garanties ?",
@@ -1339,7 +1346,7 @@ function FaqSection() {
     },
     {
       q: "Proposez-vous un service de restauration ou de transformation ?",
-      a: "Oui, la Maison Aurelia propose de restaurer vos bijoux anciens ou de transformer vos pièces de famille pour leur donner une nouvelle vie tout en conservant leur valeur sentimentale.",
+      a: `Oui, la Maison ${clientName(sessionData) ?? "AURELIA"} propose de restaurer vos bijoux anciens ou de transformer vos pièces de famille pour leur donner une nouvelle vie tout en conservant leur valeur sentimentale.`,
     },
     {
       q: "Vos créations sont-elles garanties ?",
@@ -1525,7 +1532,7 @@ function ContactSection() {
             >
               <Image
                 src={photo(3, "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?q=80&w=600&auto=format&fit=crop")}
-                alt="Localisation Aurelia"
+                alt={`Localisation ${clientName(sessionData) ?? "AURELIA"}`}
                 fill
                 className="object-cover opacity-50"
                 unoptimized
@@ -1729,7 +1736,7 @@ function Footer() {
               className="text-[28px] tracking-[0.12em] italic block mb-5"
               style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 600, color: C.cream }}
             >
-              AURELIA
+              {clientName(sessionData) ?? "AURELIA"}
             </span>
             <p
               className="text-[13px] leading-[2] mb-6 max-w-[320px]"
@@ -1873,10 +1880,21 @@ export default function Impact91Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -1884,6 +1902,7 @@ export default function Impact91Page() {
   c = session?.generatedContent;
   sessionData = session;
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  PRESS_DEMO = PRESS_DEMO_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),

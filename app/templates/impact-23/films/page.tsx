@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientName,
 } from "@/lib/templates/clientContent";
 
 import { motion, useScroll, AnimatePresence, useInView } from "framer-motion";
@@ -67,7 +68,7 @@ function filmsCatalogue_LIVE() {
     src: "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&q=80",
     synopsis: "Pendant trois ans, la réalisatrice a suivi des bergers transhumants dans les Alpes du Sud. Entre solitudes immenses et rituels ancestraux, le film capture la beauté radicale d'un mode de vie en voie de disparition. Sans voix off ni musique additionnelle, le documentaire fait entendre le silence comme un langage à part entière — celui des bêtes, du vent, de la montagne.",
     cast: ["Jean-Marc Barthélémy — berger, vallée du Champsaur", "Marie-Louise Autran — bergère, col de Vars", "Pierre Magnan — vétérinaire itinérant"],
-    crew: "Réalisé par Sophie Letourneur · Image : Tom Harari · Son : Xavier Thibault · Production : Studio Pelikan & Les Films du Worso",
+    crew: `Réalisé par Sophie Letourneur · Image : Tom Harari · Son : Xavier Thibault · Production : ${clientName(sessionData) ?? "Studio Pelikan"} & Les Films du Worso`,
     festivals: ["IDFA Amsterdam 2024 — Best Feature-Length Documentary", "Visions du Réel, Nyon 2024 — Grand Prix", "CPH:DOX Copenhague 2024 — Sélection Officielle", "Festival du Film de Montagne de Banff 2024 — Prix du Jury"],
   },
   {
@@ -108,10 +109,21 @@ export default function Impact23FilmsPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
@@ -140,7 +152,7 @@ export default function Impact23FilmsPage() {
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div className="max-w-6xl mx-auto bg-[#100D08]/90 backdrop-blur-md border border-[#C9A05A]/15 rounded-2xl px-6 py-4 flex items-center justify-between">
           <Link href="/templates/impact-23" className="flex items-center gap-2 text-[#C9A05A] cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>
-            <Film className="w-4 h-4" /> Studio Pelikan
+            <Film className="w-4 h-4" /> {clientName(sessionData) ?? "Studio Pelikan"}
           </Link>
           <div className="hidden md:flex items-center gap-8 text-white/40 text-sm">
             {navItems.map(item => (
@@ -158,7 +170,7 @@ export default function Impact23FilmsPage() {
         {mobileOpen && (
           <motion.div className="fixed inset-0 z-[100] bg-[#100D08] flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
             <div className="flex items-center justify-between mb-12">
-              <Link href="/templates/impact-23" className="text-[#C9A05A] text-xl cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Studio Pelikan</Link>
+              <Link href="/templates/impact-23" className="text-[#C9A05A] text-xl cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{clientName(sessionData) ?? "Studio Pelikan"}</Link>
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
             {navItems.map((item, i) => (
@@ -179,7 +191,7 @@ export default function Impact23FilmsPage() {
                   Nos <em>Films</em>
                 </h1>
                 <p className="text-white/40 text-lg max-w-2xl leading-relaxed">
-                  Depuis 2012, Studio Pelikan développe, produit et accompagne des œuvres cinématographiques
+                  Depuis 2012, {clientName(sessionData) ?? "Studio Pelikan"} développe, produit et accompagne des œuvres cinématographiques
                   exigeantes. Chaque film est une aventure humaine, artistique et technique unique.
                 </p>
               </Reveal>
@@ -264,12 +276,12 @@ export default function Impact23FilmsPage() {
 
       <footer className="bg-[#090704] border-t border-white/5 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/20">
-          <Link href="/templates/impact-23" className="text-[#C9A05A] text-lg cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Studio Pelikan · Paris</Link>
+          <Link href="/templates/impact-23" className="text-[#C9A05A] text-lg cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{clientName(sessionData) ?? "Studio Pelikan"} · Paris</Link>
           <div className="flex gap-8">
             <Link href="/templates/impact-23/films" className="hover:text-[#C9A05A] transition-colors cursor-pointer">Films</Link>
             <Link href="/templates/impact-23/legal" className="hover:text-[#C9A05A] transition-colors cursor-pointer">Mentions légales</Link>
           </div>
-          <span>© 2026 Studio Pelikan. Tous droits réservés.</span>
+          <span>© 2026 {clientName(sessionData) ?? "Studio Pelikan"}. Tous droits réservés.</span>
         </div>
       </footer>
     </div>

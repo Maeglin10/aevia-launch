@@ -1,5 +1,8 @@
 "use client";
-import { clientCityOr } from "@/lib/templates/clientContent";
+import {
+  clientCityOr,
+  clientNameOr,
+} from "@/lib/templates/clientContent";
 
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
@@ -70,7 +73,7 @@ export const COURS = [
 export const AVIS = [
   {
     nom: "Thomas R.",
-    texte: "Iron Club a changé ma vie. En 8 mois j'ai perdu 18 kg et gagné une vraie communauté. Les coachs sont au top, toujours disponibles.",
+    get texte() { return `${clientNameOr("Iron Club")} a changé ma vie. En 8 mois j'ai perdu 18 kg et gagné une vraie communauté. Les coachs sont au top, toujours disponibles.`; },
     note: 5,
     depuis: "Membre depuis 2 ans",
   },
@@ -82,7 +85,7 @@ export const AVIS = [
   },
   {
     nom: "Marc L.",
-    texte: "La meilleure salle de " + clientCityOr("Lyon") + " sans hésitation. Équipements pro, box propre, ambiance incroyable. Les WOD du matin à 6h sont dingues !",
+    get texte() { return "La meilleure salle de " + clientCityOr("Lyon") + " sans hésitation. Équipements pro, box propre, ambiance incroyable. Les WOD du matin à 6h sont dingues !"; },
     note: 5,
     depuis: "Membre depuis 3 ans",
   },

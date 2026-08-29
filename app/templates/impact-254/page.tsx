@@ -39,7 +39,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CABINET VAILLANT & ASSOCIÉS — Expert-Comptable & Commissariat aux Comptes{" "}
+   CABINET {clientName(sessionData) ?? "Vaillant & Associés"} — Expert-Comptable & Commissariat aux Comptes{" "}
    {clientCity(sessionData) ?? "Paris"} · Photographie réelle + chorégraphie éditoriale au défilement.
    Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -191,7 +191,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   {
     eyebrow: 'Le cabinet',
     img: photo('1507679799987-c73779587ccf', 800),
-    alt: 'Équipe Vaillant & Associés — Paris 8e',
+    alt: `Équipe ${clientName(sessionData) ?? "Vaillant & Associés"} — Paris 8e`,
     title: (
       <>
         {clientCity(sessionData) ?? "Paris"},{' '}
@@ -600,7 +600,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || photo('1554224155-6726b3ff858f', 2000)}
-          alt="Bureau du cabinet Vaillant & Associés, Paris 8e"
+          alt={`Bureau du cabinet ${clientName(sessionData) ?? "Vaillant & Associés"}, Paris 8e`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1352,7 +1352,7 @@ function ExpertisePanel() {
             >
               <img
                 src={fd?.photoUrls?.[1] || photo('1551135049-8a33b5883817', 900)}
-                alt="Expertise cabinet Vaillant & Associés"
+                alt={`Expertise cabinet ${clientName(sessionData) ?? "Vaillant & Associés"}`}
                 loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />
@@ -1926,7 +1926,7 @@ function Footer() {
               marginBottom: 18,
             }}
           >
-            Vaillant &amp; Associés
+            {clientName(sessionData) ?? "Vaillant & Associés"}
           </div>
           <p
             style={{
@@ -2108,18 +2108,29 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
 
 
   EDIT_ROWS = resolveList(

@@ -136,10 +136,21 @@ export default function AtelierDuBoisPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -211,7 +222,7 @@ export default function AtelierDuBoisPage() {
           ) : (
             <>
               <Hammer size={18} color={scrolled ? C.accent : "#fff"} />
-              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: FONT, fontSize: 19, color: scrolled ? C.text : "#fff" }}>{clientName(sessionData) ?? "Atelier"}<em>du Bois</em></span>
+              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: FONT, fontSize: 19, color: scrolled ? C.text : "#fff" }}>{clientName(sessionData) ?? "Atelier du Bois"}</span>
             </>
           )}
         </div>
@@ -258,8 +269,8 @@ export default function AtelierDuBoisPage() {
             style={{ fontFamily: FONT, fontSize: "clamp(40px, 5vw, 68px)", color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 17) ?? "Le bois massif,"}<br /><em style={{ color: C.sand }}>{clientHeroLine(sessionData, 1, 2, 17) ?? "façonné avec âme."}</em>
           </>}</>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
-            style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
-            Atelier du Bois crée vos meubles sur mesure à {clientCity(sessionData) ?? "Bordeaux"} depuis 20 ans. Mobilier, cuisine, escaliers, restauration — 100% bois massif PEFC, 0% aggloméré.
+            style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
+            {clientName(sessionData) ?? "Atelier du Bois"} crée vos meubles sur mesure à {clientCity(sessionData) ?? "Bordeaux"} depuis 20 ans. Mobilier, cuisine, escaliers, restauration — 100% bois massif PEFC, 0% aggloméré.
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
             <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33556000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}44` }} whileHover={{ scale: 1.03 }}>
@@ -384,7 +395,7 @@ export default function AtelierDuBoisPage() {
       <footer style={{ background: C.bgDark, padding: "44px 80px 22px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 32 }}>
           <div>
-            <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: C.sand, marginBottom: 8 }}>Atelier du Bois</div>
+            <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: C.sand, marginBottom: 8 }}>{clientName(sessionData) ?? "Atelier du Bois"}</div>
             <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>{clientTrade(sessionData) ?? "Menuisier"} · Ébéniste · {clientCity(sessionData) ?? "Bordeaux"}<br />Lun–Ven 8h–18h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -396,7 +407,7 @@ export default function AtelierDuBoisPage() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-          <span style={{ color: "rgba(255,255,255,0.18)", fontSize: 12 }}>© 2026 Atelier du Bois — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.18)", fontSize: 12 }}>© 2026 {clientName(sessionData) ?? "Atelier du Bois"} — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="#contact" style={{ color: "rgba(255,255,255,0.18)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

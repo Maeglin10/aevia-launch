@@ -2,7 +2,7 @@
 // @ts-nocheck
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ATLANTIQUE MATÉRIELS — Location de matériel de réception · La Rochelle
+   {clientName(sessionData) ?? "Atlantique Matériels"} — Location de matériel de réception · La Rochelle
    ─────────────────────────────────────────────────────────────────────────────
    Location de matériel, 2e variante du catalogue (la 1re est impact-359, dépôt
    BTP, rail de chantier). Celle-ci est la réception : tentes, nappage, verrerie.
@@ -40,6 +40,7 @@ import {
   clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -49,6 +50,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -146,7 +148,7 @@ const SERVICES_SOURCE = [
 ];
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-const METHODE = [
+let METHODE = [
   { n: "01", t: "Devis sur plan", d: "Envoyez le lieu, la date, le nombre d'invités : devis détaillé sous 48 h, repérage sur place pour les tentes." },
   { n: "02", t: "Livraison à J-2", d: "Tout arrive le mercredi ou jeudi : le temps de dresser sans courir, tentes montées par nos équipes." },
   { n: "03", t: "Le jour J, une hotline", d: "Un numéro qui répond le soir de l'événement — pour le fusible de la sono ou la rallonge manquante." },
@@ -494,18 +496,34 @@ export default function AtlantiqueMaterielsPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    fusionnerEtapes(METHODE, clientMethode(sessionData)),
+    METHODE,
+  );
   ZONES_SOURCE = ZONES_SOURCE_LIVE();
+
 
   const CLIENT_SERVICES = clientServices(sessionData);
 

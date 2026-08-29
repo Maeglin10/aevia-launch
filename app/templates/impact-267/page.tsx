@@ -39,7 +39,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   ATELIER ENCRE VIVANTE — Tatouage Contemporain & Art Corporel · {clientCity(sessionData) ?? "Lyon"}
+   {clientName(sessionData) ?? "Atelier Encre Vivante"} — Tatouage Contemporain & Art Corporel · {clientCity(sessionData) ?? "Lyon"}
    Chorégraphie de défilement éditoriale : crossfade 320vh, panneau latéral
    collant, formulaire de réservation. Auto-suffisant. 'use client'.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -1415,7 +1415,7 @@ function SafetyPanel() {
           >
             <img
               src={fd?.photoUrls?.[1] || (clientPhotos(sessionData)[12] || `https://images.pexels.com/photos/6593369/pexels-photo-6593369.jpeg?auto=compress&cs=tinysrgb&w=900`)}
-              alt="Poste de travail stérilisé — Atelier Encre Vivante"
+              alt={`Poste de travail stérilisé — ${clientName(sessionData) ?? "Atelier Encre Vivante"}`}
               loading="lazy"
               style={{
                 width: '100%',
@@ -2128,7 +2128,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2024–2026 Atelier Encre Vivante — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2024–2026 {clientName(sessionData) ?? "Atelier Encre Vivante"} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#hygiene" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2204,10 +2204,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2217,10 +2228,10 @@ export default function Page() {
   bp = session?.businessProfile;
   c = session?.generatedContent;
   sessionData = session;
-  PHOTO_BASE = PHOTO_BASE_LIVE();
-  ARTISTS_DEMO = ARTISTS_DEMO_LIVE();
-  STYLES_DEMO = STYLES_DEMO_LIVE();
   EDIT_ROWS_DEMO_SOURCE = EDIT_ROWS_DEMO_SOURCE_LIVE();
+  STYLES_DEMO = STYLES_DEMO_LIVE();
+  ARTISTS_DEMO = ARTISTS_DEMO_LIVE();
+  PHOTO_BASE = PHOTO_BASE_LIVE();
 
   EDIT_ROWS_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_DEMO_SOURCE[i % EDIT_ROWS_DEMO_SOURCE.length], title: s.title, body: s.desc || "" || "" })),

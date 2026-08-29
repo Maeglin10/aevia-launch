@@ -28,11 +28,9 @@ import {
   clientBookingUrl,
   clientCity,
   clientCodePostalVille,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -56,7 +54,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   OSTÉOPATHIE ALSACE — {clientTrade(sessionData) ?? "Ostéopathe"} D.O., {clientCity(sessionData) ?? "Strasbourg"} Orangerie
+   {clientName(sessionData) ?? "Ostéopathie Alsace"} — {clientTrade(sessionData) ?? "Ostéopathe"} D.O., {clientCity(sessionData) ?? "Strasbourg"} Orangerie
    Template premium Skylaunch impact-291
    Auto-suffisant · 'use client' · framer-motion + lucide-react uniquement.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -2312,7 +2310,7 @@ function PracticalSection() {
 
           <Reveal delay={0.32}>
             <div style={{ paddingTop: 30 }}>
-              <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33388000000").replace(/[^+0-9]/g, "")}`} style={{ textDecoration: 'none' }}>
+              <a href={`tel:${fd?.phone ?? "+33388000000"}`} style={{ textDecoration: 'none' }}>
                 <div
                   style={{
                     display: 'inline-flex',
@@ -2330,7 +2328,7 @@ function PracticalSection() {
                   }}
                 >
                   <Phone size={16} strokeWidth={1.8} />
-                  {clientPhone(sessionData) ?? fd?.phone ?? "03 88 00 00 00"}
+                  {fd?.phone ?? "03 88 00 00 00"}
                 </div>
               </a>
             </div>
@@ -2348,7 +2346,7 @@ function PracticalSection() {
 
 /* ════════════════════════════════════════════════════════════════════════════
    10 · FooterSection
-   Logo Ostéopathie Alsace, registre ADELI, mentions, lien RDV
+   Logo {clientName(sessionData) ?? "Ostéopathie Alsace"}, registre ADELI, mentions, lien RDV
    ════════════════════════════════════════════════════════════════════════════ */
 function FooterSection() {
   const cols: { title: string; items: { label: string; href: string }[] }[] = [
@@ -2523,7 +2521,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2024–2026 Ostéopathie Alsace — {clientCity(sessionData) ?? "Strasbourg"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2024–2026 {clientName(sessionData) ?? "Ostéopathie Alsace"} — {clientCity(sessionData) ?? "Strasbourg"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#cabinet" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2602,10 +2600,21 @@ export default function Impact291Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;

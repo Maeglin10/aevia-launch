@@ -1,7 +1,10 @@
 "use client";
-import { clientTeam } from "@/lib/templates/clientContent";
+import {
+  clientName,
+  clientServices,
+  clientTeam,
+} from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientServices } from "@/lib/templates/clientContent";
 
 import { motion, useScroll, useTransform, AnimatePresence, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
@@ -88,10 +91,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
@@ -116,7 +130,7 @@ export default function Page() {
       <nav className="fixed top-4 left-4 right-4 z-50">
         <div className="max-w-6xl mx-auto bg-[#09090B]/90 backdrop-blur-md border border-[#C9A86C]/15 rounded-2xl px-6 py-4 flex items-center justify-between">
           <Link href="/templates/impact-19" className="text-[#C9A86C] tracking-widest cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.15rem" }}>
-            Summit Capital
+            {clientName(sessionData) ?? "Summit Capital"}
           </Link>
           <div className="hidden md:flex items-center gap-8 text-white/50 text-sm font-medium">
             {[
@@ -146,7 +160,7 @@ export default function Page() {
         {mobileOpen && (
           <motion.div className="fixed inset-0 z-[100] bg-[#09090B] flex flex-col p-8" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 30 }}>
             <div className="flex items-center justify-between mb-12">
-              <span className="text-[#C9A86C] text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Summit Capital</span>
+              <span className="text-[#C9A86C] text-xl" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{clientName(sessionData) ?? "Summit Capital"}</span>
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
             {[
@@ -216,13 +230,13 @@ export default function Page() {
       {/* Footer */}
       <footer className="bg-[#09090B] border-t border-white/5 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-white/20">
-          <Link href="/templates/impact-19" className="text-[#C9A86C] text-lg cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Summit Capital</Link>
+          <Link href="/templates/impact-19" className="text-[#C9A86C] text-lg cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{clientName(sessionData) ?? "Summit Capital"}</Link>
           <div className="flex gap-8">
             <Link href="/templates/impact-19/portefeuille" className="hover:text-[#C9A86C] transition-colors">Portefeuille</Link>
             <Link href="/templates/impact-19/legal" className="hover:text-[#C9A86C] transition-colors">Mentions légales</Link>
             <Link href="/templates/impact-19/confidentialite" className="hover:text-[#C9A86C] transition-colors">Confidentialité</Link>
           </div>
-          <span>© 2026 Summit Capital. Tous droits réservés.</span>
+          <span>© 2026 {clientName(sessionData) ?? "Summit Capital"}. Tous droits réservés.</span>
         </div>
       </footer>
     </div>

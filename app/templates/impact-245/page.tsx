@@ -14,16 +14,16 @@ import { ArrowRight, ChevronDown, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
-  clientEmail,
   clientEyebrow,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientTagline,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -41,7 +41,7 @@ let sessionData: any = null;
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   MAISON BRÛLOT — Boulangerie-Pâtisserie Artisanale · {clientCity(sessionData) ?? "Lyon"}
+   {clientName(sessionData) ?? "Maison Brûlot"} — Boulangerie-Pâtisserie Artisanale · {clientCity(sessionData) ?? "Lyon"}
    Photographie Unsplash + chorégraphie de défilement éditoriale
    (style boulangerie premium × typographie chapitrée). Auto-suffisant.
    ════════════════════════════════════════════════════════════════════════════ */
@@ -513,7 +513,7 @@ function Hero() {
       >
         <img
           src={fd?.photoUrls?.[0] || unsplash((clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/7447286/pexels-photo-7447286.jpeg?auto=compress&cs=tinysrgb&w=1600'), 2000)}
-          alt="Boulanger pétrissant la pâte à la Maison Brûlot"
+          alt={`Boulanger pétrissant la pâte à la ${clientName(sessionData) ?? "Maison Brûlot"}`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1332,7 +1332,7 @@ function ProcessPanel() {
           >
             <img
               src={unsplash('1558618666-fcd25c85cd64', 900)}
-              alt="Pain en cuisson dans le four à sole de la Maison Brûlot"
+              alt={`Pain en cuisson dans le four à sole de la ${clientName(sessionData) ?? "Maison Brûlot"}`}
               loading="lazy"
               style={{
                 width: '100%',
@@ -1393,7 +1393,7 @@ function ProcessPanel() {
             </>)}</h2>
           </Reveal>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {PROCESS_STEPS.map((s, i) => (
+            {resolveList(fusionnerEtapes(PROCESS_STEPS, clientMethode(sessionData)), PROCESS_STEPS).map((s, i) => (
               <Reveal key={s.num} delay={0.06 * i}>
                 <div
                   style={{
@@ -1951,7 +1951,7 @@ function Footer() {
         'Fermé le lundi',
         (clientCity(sessionData) ?? 'Lyon') + ' arrondissement',
         'Métro : Hôtel de Ville',
-        (clientPhone(sessionData) ?? fd?.phone ?? '04 78 37 37 37'),
+        (fd?.phone ?? '04 78 37 37 37'),
       ],
     },
     {
@@ -2098,7 +2098,7 @@ function Footer() {
           color: 'rgba(250,245,238,0.42)',
         }}
       >
-        <span>© 2011–2026 Maison Brûlot. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2011–2026 {clientName(sessionData) ?? "Maison Brûlot"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2152,10 +2152,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;

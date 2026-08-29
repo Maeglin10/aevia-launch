@@ -64,11 +64,16 @@ function PROPERTIES_DEMO_LIVE() {
 }
 let PROPERTIES_DEMO = PROPERTIES_DEMO_LIVE();
 
-const TESTIMONIALS_SOURCE = [
-  { quote: "Haven Estates found our Hampstead estate entirely off-market. Their discretion and global network are simply unmatched.", name: "Lord A. Thornton", role: "London · Private Estate" },
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function TESTIMONIALS_SOURCE_LIVE() {
+  return [
+  { quote: `${clientName(sessionData) ?? "HAVEN ESTATES"} found our Hampstead estate entirely off-market. Their discretion and global network are simply unmatched.`, name: "Lord A. Thornton", role: "London · Private Estate" },
   { quote: "The team navigated our Singapore acquisition with extraordinary professionalism. We closed in under three weeks.", name: "S. Nakamura", role: "Singapore · Penthouse" },
   { quote: "Three continents, one advisor. Haven managed our entire portfolio consolidation seamlessly and discreetly.", name: "E. Volkov", role: "Geneva · Multi-Property" },
-]
+];
+}
+let TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const SERVICES_SOURCE = [
@@ -112,10 +117,21 @@ export default function HavenEstatesPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -124,6 +140,7 @@ export default function HavenEstatesPage() {
   bp = session?.businessProfile;
   sessionData = session;
   PROPERTIES_DEMO = PROPERTIES_DEMO_LIVE();
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
     SERVICES_SOURCE,
@@ -169,7 +186,7 @@ export default function HavenEstatesPage() {
             ) : (
               <>
                 <Home className="w-5 h-5 text-[var(--brand,#b8860b)]" />
-                <span className="text-xl font-light tracking-[0.15em] uppercase" style={{ fontFamily: "Georgia, serif" }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>Haven <span className="font-bold text-[var(--brand,#b8860b)]">Estates</span></>)}</span>
+                <span className="text-xl font-light tracking-[0.15em] uppercase" style={{ fontFamily: "Georgia, serif" }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>{(clientName(sessionData) ?? "HAVEN ESTATES").split(" ").slice(0, 1).join(" ")} <span className="font-bold text-[var(--brand,#b8860b)]">{(clientName(sessionData) ?? "HAVEN ESTATES").split(" ").slice(1).join(" ")}</span></>)}</span>
               </>
             )}
           </Link>
@@ -210,7 +227,7 @@ export default function HavenEstatesPage() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>
-              <p className="max-w-lg text-lg text-[#1a1a1a]/50 font-light leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              <p className="max-w-lg text-lg text-[#1a1a1a]/50 font-light leading-relaxed">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Curated trophy properties for discerning clients worldwide. Off-market access. Discretion guaranteed.
               </>}</p>
             </Reveal>
@@ -333,7 +350,7 @@ export default function HavenEstatesPage() {
                   The Haven <em className="text-[var(--brand,#b8860b)]">Advantage.</em>
                 </>}</h2>
                 <p className="text-lg text-white/40 font-light leading-relaxed max-w-md">{c?.aboutText ?? <>
-                  Founded by former principals at Sotheby&apos;s Realty and Christie&apos;s International, Haven Estates brings institutional expertise to private hands — with complete discretion.
+                  Founded by former principals at Sotheby&apos;s Realty and Christie&apos;s International, {clientName(sessionData) ?? "HAVEN ESTATES"} brings institutional expertise to private hands — with complete discretion.
                 </>}</p>
               </Reveal>
               <Reveal delay={0.15}>
@@ -380,7 +397,7 @@ export default function HavenEstatesPage() {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <Home className="w-5 h-5 text-[var(--brand,#b8860b)]" />
-              <span className="text-xl font-light tracking-[0.15em] uppercase" style={{ fontFamily: "Georgia, serif" }}>Haven <span className="font-bold text-[var(--brand,#b8860b)]">Estates</span></span>
+              <span className="text-xl font-light tracking-[0.15em] uppercase" style={{ fontFamily: "Georgia, serif" }}>{(clientName(sessionData) ?? "HAVEN ESTATES").split(" ").slice(0, 1).join(" ")} <span className="font-bold text-[var(--brand,#b8860b)]">{(clientName(sessionData) ?? "HAVEN ESTATES").split(" ").slice(1).join(" ")}</span></span>
             </div>
             <p className="text-sm text-white/30 leading-relaxed">Discreet luxury real estate advisory for the world's most exceptional properties.</p>
           </div>

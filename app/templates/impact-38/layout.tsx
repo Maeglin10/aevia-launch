@@ -1,6 +1,5 @@
 "use client";
 import {
-  clientEmail,
   clientName,
 } from "@/lib/templates/clientContent";
 
@@ -15,10 +14,21 @@ export default function OriginRoastLayout({ children }: { children: React.ReactN
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(__setLayoutSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setLayoutSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
   const fd = __layoutSession?.formData;
 
@@ -71,7 +81,7 @@ export default function OriginRoastLayout({ children }: { children: React.ReactN
               <Coffee size={16} color={C.espresso} />
             </div>
             <span style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 20, color: C.cream }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
-              Origin Roast
+              {clientName(__layoutSession) ?? "Origin Roast"}
             </>)}</span>
               </>
             )}
@@ -157,7 +167,7 @@ export default function OriginRoastLayout({ children }: { children: React.ReactN
             <div>
               <Link href="/templates/impact-38" style={{ textDecoration: "none" }}>
                 <div style={{ fontFamily: SERIF, fontWeight: 700, fontSize: 24, color: C.caramel, marginBottom: 16 }}>
-                  Origin Roast
+                  {clientName(__layoutSession) ?? "Origin Roast"}
                 </div>
               </Link>
               <p style={{ fontSize: 14, color: "var(--brand, #7a5c3a)", lineHeight: 1.75, maxWidth: 260, fontWeight: 300 }}>
@@ -209,7 +219,7 @@ export default function OriginRoastLayout({ children }: { children: React.ReactN
                 Contact
               </h4>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                <a href={`mailto:${clientEmail(__layoutSession) ?? fd?.email ?? "contact@exemple.fr"}`} style={{ fontSize: 13, color: "var(--brand, #7a5c3a)", textDecoration: "none", fontWeight: 300 }}>contact@exemple.fr</a>
+                <a href={`mailto:${fd?.email ?? "contact@exemple.fr"}`} style={{ fontSize: 13, color: "var(--brand, #7a5c3a)", textDecoration: "none", fontWeight: 300 }}>{fd?.email ?? "contact@exemple.fr"}</a>
                 <Link href="/templates/impact-38/contact"
                   style={{ textDecoration: "none", fontSize: 13, color: "var(--brand, #7a5c3a)", textAlign: "left", padding: 0, fontWeight: 300 }}>
                   Nous écrire

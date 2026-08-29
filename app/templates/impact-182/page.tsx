@@ -35,7 +35,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   BÂTIR SOLIDE — Maçon & Gros Œuvre ({clientCity(sessionData) ?? "Marseille"})
+   {clientName(sessionData) ?? "Bâtir"} SOLIDE — Maçon & Gros Œuvre ({clientCity(sessionData) ?? "Marseille"})
    Palette : sable chaud #d4a96a / brun terre #5c3317 / blanc cassé / ardoise
    Fonts : Barlow (titres condensed bold) + Source Sans (corps)
    Style : puissant, artisanal, solide, méditerranéen
@@ -138,10 +138,21 @@ export default function BatirSolidePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -204,7 +215,7 @@ export default function BatirSolidePage() {
     })),
     [
       { q: "Extension de 40 m² réalisée en 3 mois top chrono. Qualité béton irréprochable, finitions soignées, aucun dépassement budget. Chapeau.", n: "Jean-Pierre M.", l: (clientCity(sessionData) ?? "Marseille") + " 12ème" },
-      { q: "Suppression d'un mur porteur de 6m avec IPN. Bâtir Solide a géré l'étude de structure et les travaux. Parfait, aucune fissure, résultat propre.", n: "Nathalie & Frédéric D.", l: "Aix-en-Provence" },
+      { q: `Suppression d'un mur porteur de 6m avec IPN. ${clientName(sessionData) ?? "Bâtir"} Solide a géré l'étude de structure et les travaux. Parfait, aucune fissure, résultat propre.`, n: "Nathalie & Frédéric D.", l: "Aix-en-Provence" },
       { q: "Ravalement ITE de notre immeuble 6 logements. Dossier MaPrimeRénov' entièrement géré par l'équipe. Économies énergétiques bluffantes.", n: "Syndicat copropriété Les Pins", l: "Aubagne (13)" },
     ]
   );
@@ -288,7 +299,7 @@ export default function BatirSolidePage() {
 
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.75 }}
-            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            className="max-w-lg text-sm text-white/40 leading-relaxed mb-10">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Gros œuvre, extensions, ravalement, fondations. Artisan maçon qualifié Qualibat, 25 ans d'expérience sur la région PACA. Garantie décennale, devis gratuit sous 48h.
           </>}</motion.p>
 
@@ -471,7 +482,7 @@ export default function BatirSolidePage() {
       <footer id="contact" className="bg-[#0f0905] pt-20 pb-10 px-6 border-t border-white/5">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="flex items-center gap-2.5 mb-5"><HardHat className="w-5 h-5 text-[var(--brand,#d4a96a)]" /><span className="font-black text-white text-sm uppercase">Bâtir Solide</span></div>
+            <div className="flex items-center gap-2.5 mb-5"><HardHat className="w-5 h-5 text-[var(--brand,#d4a96a)]" /><span className="font-black text-white text-sm uppercase">{clientName(sessionData) ?? "Bâtir"} Solide</span></div>
             <p className="text-white/25 text-sm leading-relaxed">Maçon & Gros Œuvre · Région PACA. Construction, extension, ravalement depuis 1999.</p>
           </div>
           {[

@@ -20,13 +20,25 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
   clientText,
+  fusionnerEtapes,
   memoriserSession,
 } from "@/lib/templates/clientContent";
+
+/* Les étapes de la démonstration, sorties du rendu pour que la méthode du
+   client puisse s'y substituer ligne à ligne. */
+const METHODE_DEMO_59 = [
+              { num: "01", title: "Candidature", desc: "Remplissez le formulaire de candidature (15 min). Aucun prérequis en méditation ou pratique contemplative — seulement une disposition sincère à ralentir." },
+              { num: "02", title: "Entretien", desc: "Un échange de 30 minutes avec l'un de nos guides pour s'assurer que la retraite sélectionnée correspond à votre moment de vie. Confidentiel, sans engagement." },
+              { num: "03", title: "Confirmation", desc: "Si la retraite vous convient, confirmation sous 48h. Un acompte de 30% réserve votre place. Le solde est dû 30 jours avant le départ." },
+              { num: "04", title: "Préparation", desc: "Deux semaines avant la retraite, vous recevez un guide de préparation : pratiques recommandées, liste de ce qu'il faut (et ne faut pas) apporter, et une lettre personnalisée de votre guide." },
+            ];
+
 let sessionData: any = null;
 
 // Variables de module lues par les sections extraites en composants :
@@ -92,10 +104,21 @@ export default function LuminalHome() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -179,7 +202,7 @@ return (
             <h1 style={{ /* TITRE_DEGAGE */ marginTop: 40 }} className="text-6xl md:text-8xl lg:text-[10rem] font-bold leading-[1.15] pb-4 tracking-tighter mb-12 uppercase font-serif">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Rest is"}<br />{" "}
               <span className="italic font-light">{clientHeroLine(sessionData, 1, 2, 9) ?? "the work."}</span>
             </>}</h1>
-            <p className="max-w-xl text-lg md:text-xl text-black/50 leading-relaxed font-light mb-12">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="max-w-xl text-lg md:text-xl text-black/50 leading-relaxed font-light mb-12">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Luminal designs profound retreat experiences in the world&apos;s most
               transformative landscapes. We create the conditions for genuine
               rest through carefully calibrated stillness.
@@ -426,7 +449,7 @@ return (
               {
                 quote: "Luminal m'a rendu à moi-même après 15 ans de performance intense. Je suis rentrée différente — pas reposée, transformée.",
                 name: "Caroline V.",
-                role: `CEO, ${clientCity({ formData: fd }) ?? "Paris"}`,
+                role: `CEO, ${clientCity(sessionData) ?? "Paris"}`,
               },
               {
                 quote: "Rien de comparable à Sonoran. Le silence comme je ne l'avais jamais entendu. Une expérience qui redéfinit ce que signifie être présent.",
@@ -442,7 +465,7 @@ return (
               {
                 quote: "Luminal m'a rendu à moi-même après 15 ans de performance intense. Je suis rentrée différente — pas reposée, transformée.",
                 name: "Caroline V.",
-                role: `CEO, ${clientCity({ formData: fd }) ?? "Paris"}`,
+                role: `CEO, ${clientCity(sessionData) ?? "Paris"}`,
               },
               {
                 quote: "Rien de comparable à Sonoran. Le silence comme je ne l'avais jamais entendu. Une expérience qui redéfinit ce que signifie être présent.",
@@ -458,7 +481,7 @@ return (
               {
                 quote: "Luminal m'a rendu à moi-même après 15 ans de performance intense. Je suis rentrée différente — pas reposée, transformée.",
                 name: "Caroline V.",
-                role: `CEO, ${clientCity({ formData: fd }) ?? "Paris"}`,
+                role: `CEO, ${clientCity(sessionData) ?? "Paris"}`,
               },
               {
                 quote: "Rien de comparable à Sonoran. Le silence comme je ne l'avais jamais entendu. Une expérience qui redéfinit ce que signifie être présent.",
@@ -611,12 +634,7 @@ return (
             <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-tight mb-20" style={{ fontFamily: "Cinzel, Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-8.titre") ?? (<>Comment ça fonctionne</>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {[
-              { num: "01", title: "Candidature", desc: "Remplissez le formulaire de candidature (15 min). Aucun prérequis en méditation ou pratique contemplative — seulement une disposition sincère à ralentir." },
-              { num: "02", title: "Entretien", desc: "Un échange de 30 minutes avec l'un de nos guides pour s'assurer que la retraite sélectionnée correspond à votre moment de vie. Confidentiel, sans engagement." },
-              { num: "03", title: "Confirmation", desc: "Si la retraite vous convient, confirmation sous 48h. Un acompte de 30% réserve votre place. Le solde est dû 30 jours avant le départ." },
-              { num: "04", title: "Préparation", desc: "Deux semaines avant la retraite, vous recevez un guide de préparation : pratiques recommandées, liste de ce qu'il faut (et ne faut pas) apporter, et une lettre personnalisée de votre guide." },
-            ].map((s, i) => (
+            {resolveList(fusionnerEtapes(METHODE_DEMO_59, clientMethode(sessionData)), METHODE_DEMO_59).map((s, i) => (
               <Reveal key={s.num} delay={i * 0.1}>
                 <div>
                   <div className="text-5xl font-light text-[var(--brand,#3d7a5e)]/20 mb-6" style={{ fontFamily: "Cinzel, Georgia, serif" }}>{s.num}</div>

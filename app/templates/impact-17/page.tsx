@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { tr } from "@/lib/templates/uiStrings";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
@@ -11,17 +12,26 @@ import { Menu, X, ArrowRight, Building2, ChevronRight, MapPin, Mail, Phone, Awar
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
+  clientMethode,
   clientName,
-  clientPhone,
   clientPhotos,
   clientServices,
   clientStats,
   clientTeam,
   clientText,
   clientWorks,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
+
+/* Les étapes de la démonstration, écrites une fois. */
+const ETAPES_DEMO_17 = [
+    { num: "01", title: "Diagnostic & Faisabilité", desc: "Analyse du terrain, contraintes d'urbanisme, orientation solaire et étude de sol préliminaire." },
+    { num: "02", title: "Conception & Modélisation", desc: "Esquisses, plans 2D/3D détaillés et choix de matériaux durables (isolation paille, chanvre, ossature bois)." },
+    { num: "03", title: "Permis de Construire", desc: "Constitution et suivi administratif rigoureux du dossier de demande auprès des municipalités." },
+    { num: "04", title: "Suivi de Chantier", desc: "Coordination et pilotage des artisans labellisés RGE jusqu'à la réception des clés." }
+  ];
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -82,7 +92,7 @@ function projects_DEMO_LIVE() {
   return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, location: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
   { name: "La Maison du Vent", location: (clientCity(sessionData) ?? "Marseille"), type: "Résidentiel", area: "480 m²", year: "2025", src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80") },
   { name: "Pavillon Zénith", location: (clientCity(sessionData) ?? "Lyon"), type: "Cultural", area: "2 200 m²", year: "2025", src: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80") },
-  { name: "Ateliers Kéops", location: (clientCity(sessionData) ?? "Paris") + " XIe", type: "Bureau mixte", area: "1 400 m²", year: "2024", src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80") },
+  { name: `Ateliers ${clientName(sessionData) ?? "Kéops"}`, location: (clientCity(sessionData) ?? "Paris") + " XIe", type: "Bureau mixte", area: "1 400 m²", year: "2024", src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80") },
   { name: "Villa Terracotta", location: (clientCity(sessionData) ?? "Nice"), type: "Résidentiel", area: "320 m²", year: "2024", src: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80") },
   { name: "Cour des Arts", location: (clientCity(sessionData) ?? "Bordeaux"), type: "Mixte culturel", area: "3 800 m²", year: "2023", src: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=600&q=80") },
   { name: "Bibliothèque Nomade", location: (clientCity(sessionData) ?? "Nantes"), type: "Public", area: "1 900 m²", year: "2023", src: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80") },
@@ -99,11 +109,16 @@ const services_DEMO = [
   { icon: <Award className="w-5 h-5" />, title: "Réhabilitation & Patrimoine", desc: "Transformation de bâtiments existants. Dialogue entre mémoire architecturale et contemporain." },
 ];
 
-const team_DEMO = [
-  { name: "Nadia Kéops", role: "Architecte Fondatrice", years: "22 ans", citation: "L'architecture n'est pas seulement esthétique, c'est l'art d'habiter le monde avec respect." },
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function team_DEMO_LIVE() {
+  return [
+  { name: `Nadia ${clientName(sessionData) ?? "Kéops"}`, role: "Architecte Fondatrice", years: "22 ans", citation: "L'architecture n'est pas seulement esthétique, c'est l'art d'habiter le monde avec respect." },
   { name: "Luc Ferrand", role: "Associé — Construction", years: "16 ans", citation: "Chaque pierre posée doit avoir une fonction, chaque espace une raison d'être." },
   { name: "Amina Belkacem", role: "Architecte DPLG", years: "9 ans", citation: "Concevoir des lieux de rencontre fluides qui s'intègrent organiquement dans la ville." },
 ];
+}
+let team_DEMO = team_DEMO_LIVE();
 
 const distinctions = [
   "Prix de l'Architecture Contemporaine 2025",
@@ -147,16 +162,28 @@ export default function KeopsPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  team_DEMO = team_DEMO_LIVE();
   projects_DEMO = projects_DEMO_LIVE();
 
 
@@ -465,7 +492,7 @@ return (
 }
 
 /* ==========================================================================
-   SUB-PAGE COMPONENTS (KÉOPS CRÈME & ROUILLE STYLE)
+   SUB-PAGE COMPONENTS ({clientName(sessionData) ?? "Kéops"} CRÈME & ROUILLE STYLE)
    ========================================================================= */
 
 function ProjetsPage({ activeFilter, setActiveFilter, filtered }: { activeFilter: string; setActiveFilter: (f: string) => void; filtered: any[] }) {
@@ -527,7 +554,7 @@ function ProjetsPage({ activeFilter, setActiveFilter, filtered }: { activeFilter
 
 function ServicesPage({ goTo }: { goTo: (p: ActivePage) => void }) {
   const services: any[] = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({
+    (clientMethode(sessionData) ?? clientServices(sessionData))?.map((s: any, i: number) => ({
       icon: services_DEMO[i % services_DEMO.length].icon,
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
@@ -535,23 +562,13 @@ function ServicesPage({ goTo }: { goTo: (p: ActivePage) => void }) {
     services_DEMO
   );
   const steps = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...([
-    { num: "01", title: "Diagnostic & Faisabilité", desc: "Analyse du terrain, contraintes d'urbanisme, orientation solaire et étude de sol préliminaire." },
-    { num: "02", title: "Conception & Modélisation", desc: "Esquisses, plans 2D/3D détaillés et choix de matériaux durables (isolation paille, chanvre, ossature bois)." },
-    { num: "03", title: "Permis de Construire", desc: "Constitution et suivi administratif rigoureux du dossier de demande auprès des municipalités." },
-    { num: "04", title: "Suivi de Chantier", desc: "Coordination et pilotage des artisans labellisés RGE jusqu'à la réception des clés." }
-  ])[i % ([
-    { num: "01", title: "Diagnostic & Faisabilité", desc: "Analyse du terrain, contraintes d'urbanisme, orientation solaire et étude de sol préliminaire." },
-    { num: "02", title: "Conception & Modélisation", desc: "Esquisses, plans 2D/3D détaillés et choix de matériaux durables (isolation paille, chanvre, ossature bois)." },
-    { num: "03", title: "Permis de Construire", desc: "Constitution et suivi administratif rigoureux du dossier de demande auprès des municipalités." },
-    { num: "04", title: "Suivi de Chantier", desc: "Coordination et pilotage des artisans labellisés RGE jusqu'à la réception des clés." }
-  ]).length], title: s.title, desc: s.desc || "" })),
-    [
-    { num: "01", title: "Diagnostic & Faisabilité", desc: "Analyse du terrain, contraintes d'urbanisme, orientation solaire et étude de sol préliminaire." },
-    { num: "02", title: "Conception & Modélisation", desc: "Esquisses, plans 2D/3D détaillés et choix de matériaux durables (isolation paille, chanvre, ossature bois)." },
-    { num: "03", title: "Permis de Construire", desc: "Constitution et suivi administratif rigoureux du dossier de demande auprès des municipalités." },
-    { num: "04", title: "Suivi de Chantier", desc: "Coordination et pilotage des artisans labellisés RGE jusqu'à la réception des clés." }
-  ],
+    /* La méthode du client d'abord ; ses prestations à défaut. */
+    fusionnerEtapes(ETAPES_DEMO_17, (clientMethode(sessionData) ?? clientServices(sessionData)) as any)?.map((s: any) => ({
+      ...s,
+      title: s.title,
+      desc: s.desc || "",
+    })),
+    ETAPES_DEMO_17,
   );
 
   return (
@@ -609,7 +626,7 @@ function AgencePage() {
             <span className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4 block">Notre histoire</span>
             <h2 className="text-4xl md:text-5xl font-light leading-tight mb-6 text-[#1A1510]" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "tarifs.titre") ?? (<>Bâtir l'avenir sur des fondations durables.</>)}</h2>
             <p className="text-[#1A1510]/70 text-lg leading-relaxed mb-4">
-              Fondée en 2004 par Nadia Kéops, l'agence s'est forgé une solide réputation nationale dans la conception d'architectures bioclimatiques et d'espaces durables.
+              Fondée en 2004 par Nadia {clientName(sessionData) ?? "Kéops"}, l'agence s'est forgé une solide réputation nationale dans la conception d'architectures bioclimatiques et d'espaces durables.
             </p>
             <p className="text-[#1A1510]/50 text-sm leading-relaxed mb-6">
               Nos projets privilégient les circuits courts pour l'approvisionnement en matériaux biosourcés : la pierre sèche du Gard, le bois Douglas du Morvan et la terre cuite de l'arrière-pays méditerranéen. En alliant savoir-faire artisanal traditionnel et technologies numériques passives, nous façonnons des édifices à haute efficacité thermique et à empreinte environnementale minimale.
@@ -708,11 +725,11 @@ function ContactPage() {
               </div>
               <div className="flex items-center gap-3 text-sm text-[#1A1510]/70">
                 <Mail className="w-4 h-4 text-[var(--brand,#C46A3E)] shrink-0" />
-                <span>{clientEmail(sessionData) ?? fd?.email ?? "contact@keops-archi.fr"}</span>
+                <span>{fd?.email ?? "contact@keops-archi.fr"}</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-[#1A1510]/70">
                 <Phone className="w-4 h-4 text-[var(--brand,#C46A3E)] shrink-0" />
-                <span>{clientPhone(sessionData) ?? fd?.phone ?? "+33 1 42 00 00 00"}</span>
+                <span>{fd?.phone ?? "+33 1 42 00 00 00"}</span>
               </div>
             </div>
             <div className="border-t border-[#1A1510]/10 pt-4">
@@ -758,11 +775,11 @@ function LegalPage() {
           <div className="border-b border-[#1A1510]/10 pb-4">
             <div className="text-[var(--brand,#C46A3E)] text-[10px] font-bold uppercase mb-2">ÉDITEUR</div>
             <p className="leading-relaxed font-sans">
-              <strong>Aevia WS — Valentin Milliand</strong><br />
+              <strong><EditeurDuSite /></strong><br />
               Entrepreneur individuel<br />
               SIREN : <LegalIdentity /><br />
               {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
-              Email : {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}<br />
+              Email : {fd?.email ?? "contact@exemple.fr"}<br />
               Adresse : Communiquée sur demande
             </p>
           </div>

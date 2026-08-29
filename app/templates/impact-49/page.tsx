@@ -54,6 +54,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientReviews,
   clientServices,
@@ -137,10 +138,21 @@ export default function Impact49Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -165,7 +177,7 @@ export default function Impact49Page() {
   );
 
   PARCOURS = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PARCOURS_SOURCE[i % PARCOURS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    (clientMethode(session) ?? clientServices(session))?.map((s: any, i: number) => ({ ...PARCOURS_SOURCE[i % PARCOURS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
     PARCOURS_SOURCE,
   );
 
@@ -254,7 +266,7 @@ return (
           </Reveal>
 
           <Reveal delay={0.2}>
-            <p className="text-base sm:text-lg text-[#4B5563] mb-6 md:mb-10 max-w-2xl mx-auto leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            <p className="text-base sm:text-lg text-[#4B5563] mb-6 md:mb-10 max-w-2xl mx-auto leading-relaxed">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Plus de 3 200 cours conçus par des experts pour accélérer votre carrière,
               changer de métier ou maîtriser une nouvelle compétence.
             </>}</p>
@@ -602,7 +614,7 @@ return (
                 Success Stories
               </span>
               <h2 className="text-3xl md:text-4xl font-extrabold text-[#1E1B4B] mb-6">
-                Ils ont changé de vie grâce à {fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Skillbridge"))}
+                Ils ont changé de vie grâce à {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Skillbridge"))}
               </h2>
             </div>
           </Reveal>
@@ -720,8 +732,8 @@ return (
       </section>
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName({ formData: fd }) ?? "impact-49"}
-        {clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}
+        {clientName(sessionData) ?? "Impact49"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>
   );

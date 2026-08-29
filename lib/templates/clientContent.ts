@@ -190,10 +190,17 @@ export function clientReviews(s: SessionLike | null | undefined): ClientReview[]
   );
   if (fromProfile) return fromProfile;
 
-  // Les témoignages générés restent un repli : le client a demandé qu'ils ne
-  // disparaissent pas, mais les siens passent devant.
-  const gen = enTableau(s?.generatedContent?.testimonials);
-  return keep(
+  /*
+    Le repli ne nomme personne.
+
+    On ne génère plus de témoignages : un avis inventé au nom de l'entreprise du
+    client est un faux avis de consommateur, et c'est lui qui le publie. Un avis
+    nominatif noté ne passe donc que s'il porte une source vérifiable.
+  */
+  const gen = enTableau(s?.generatedContent?.testimonials).filter(
+    (r) => !trimmed(r?.name) || Boolean(trimmed(r?.source)),
+  );
+  const genPropres = keep(
     gen.map((r) =>
       review(
         trimmed(r?.text),
@@ -204,6 +211,43 @@ export function clientReviews(s: SessionLike | null | undefined): ClientReview[]
     ),
     (r) => Boolean(r.text),
   );
+  if (genPropres) return genPropres;
+
+  /*
+    Sans avis du client, rendre `undefined` laissait le thème afficher les
+    siens — « Marcus Chen », « Sarah Jenkins, Creative Director, Vogue ». Sur la
+    galerie publique c'est une vitrine, et c'est très bien ; sur le site d'un
+    commerce réel, ce sont de faux avis nominatifs que ce commerce publie.
+
+    On ne distingue donc pas les deux par le thème mais par la session : dès
+    qu'il y a un client derrière la page, la place est tenue par une invitation
+    qui ne fait parler personne.
+  */
+  if (!s?.formData) return undefined;
+  return PLACE_AVIS[langueDe(s)] ?? PLACE_AVIS.fr;
+}
+
+const AUTEUR_PLACE: Record<string, string> = {
+  fr: "Avis à venir", en: "Review coming", es: "Opinión por llegar",
+  de: "Bewertung folgt", pt: "Avaliação a chegar",
+};
+
+/* Ce qui tient la place des avis, dans les cinq langues, sans nommer personne. */
+const PLACE_AVIS: Record<string, ClientReview[]> = Object.fromEntries(
+  Object.entries({
+    fr: ["Cette place attend le premier avis de vos clients.", "Vous pourrez les recopier ici depuis Google ou vos courriels.", "Trois avis suffisent à rassurer un visiteur qui hésite."],
+    en: ["This space is waiting for your first customer review.", "You can paste them here from Google or your emails.", "Three reviews are enough to reassure a hesitant visitor."],
+    es: ["Este espacio espera la primera opinión de tus clientes.", "Puedes copiarlas aquí desde Google o tus correos.", "Tres opiniones bastan para tranquilizar a quien duda."],
+    de: ["Hier wartet die erste Bewertung Ihrer Kundschaft.", "Sie können sie aus Google oder Ihren E-Mails einfügen.", "Drei Bewertungen genügen, um Zögernde zu überzeugen."],
+    pt: ["Este espaço aguarda a primeira avaliação dos seus clientes.", "Pode copiá-las aqui a partir do Google ou dos seus e-mails.", "Três avaliações bastam para tranquilizar quem hesita."],
+  }).map(([langue, textes]) => [
+    langue,
+    textes.map((t) => review(t, AUTEUR_PLACE[langue] ?? AUTEUR_PLACE.fr, undefined, undefined)),
+  ]),
+);
+
+function langueDe(s: SessionLike | null | undefined): string {
+  return (s?.formData?.locale ?? "fr").slice(0, 2).toLowerCase();
 }
 
 export function clientStats(s: SessionLike | null | undefined): ClientStat[] | undefined {
@@ -755,6 +799,115 @@ export function clientEmail(s: SessionLike | null | undefined): string | undefin
   );
 }
 
+/*
+  Le compte Instagram du client, sans arobase.
+
+  Le formulaire le demande depuis toujours et le webhook le recopie dans
+  `formData.instagram` — mais aucun thème ne savait le lire, faute de lecteur
+  dans le contrat. Résultat mesuré sur impact-16/propos : un couvreur d'Annecy
+  invitait ses visiteurs à suivre « @obscuraphoto », le compte du photographe
+  de la démonstration.
+
+  On accepte ce que les gens tapent réellement : « @nom », « nom »,
+  « instagram.com/nom » ou l'URL complète.
+*/
+export function clientInstagram(s: SessionLike | null | undefined): string | undefined {
+  const brut = trimmed(s?.formData?.instagram);
+  if (!brut) return undefined;
+  const nom = brut
+    .replace(/^https?:\/\/(www\.)?instagram\.com\//i, "")
+    .replace(/^instagram\.com\//i, "")
+    .replace(/^@/, "")
+    .replace(/[/?#].*$/, "")
+    .trim();
+  return nom || undefined;
+}
+
+/** Le site que le client avait déjà, quand il en déclare un. */
+export function clientWebsite(s: SessionLike | null | undefined): string | undefined {
+  const brut = trimmed(s?.formData?.website);
+  if (!brut) return undefined;
+  return /^https?:\/\//i.test(brut) ? brut : `https://${brut}`;
+}
+
+/*
+  Le nom du client réduit à un identifiant.
+
+  Les thèmes de produits techniques affichent des commandes : `npm install
+  @blockbase/sdk`, `npm install -g @noctua/core`. Le nom du paquet est celui de
+  la démonstration, et le client qui achète ce thème vend le produit d'un autre
+  dans son propre bloc de code.
+*/
+export function clientSlug(s: SessionLike | null | undefined): string | undefined {
+  const nom = clientName(s);
+  if (!nom) return undefined;
+  const slug = nom
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+  return slug || undefined;
+}
+
+export interface ClientEtape {
+  /** Le titre de l'étape, tel que le client l'a écrit. */
+  name: string;
+  desc: string;
+  /*
+    Les alias, comme ailleurs dans ce fichier. Les thèmes nomment ces deux
+    champs de sept façons — `title`/`body`, `label`/`text`, `t`/`d` — et la
+    fusion par étalement ne remplace que les clés qu'elle porte : sans alias,
+    douze thèmes gardaient le titre de la démonstration.
+  */
+  title: string;
+  description: string;
+  t: string;
+  label: string;
+  heading: string;
+  body: string;
+  text: string;
+  content: string;
+  d: string;
+  /*
+    Relevés sur les trente-neuf thèmes dont la méthode a été câblée : `detail`
+    porte la description dans trois d'entre eux, `sub` et `caption` dans les
+    thèmes bâtis autour d'une image légendée.
+  */
+  detail: string;
+  sub: string;
+  caption: string;
+  subtitle: string;
+  summary: string;
+}
+
+/*
+  Les étapes de la méthode du client.
+
+  Deux sources : le profil, que le formulaire remplit, et les surcharges de
+  section, employées par un thème avant que le champ n'existe. On lit les deux —
+  c'est la règle de ce fichier, qui réconcilie les vocabulaires plutôt que de
+  les imposer.
+*/
+export function clientMethode(s: SessionLike | null | undefined): ClientEtape[] | undefined {
+  const etape = (name: string, desc: string): ClientEtape => ({
+    name, desc,
+    title: name, t: name, label: name, heading: name, caption: name,
+    description: desc, body: desc, text: desc, content: desc, d: desc,
+    detail: desc, sub: desc, subtitle: desc, summary: desc,
+  });
+
+  const duProfil = enTableau(s?.businessProfile?.methode);
+  const propre = keep(
+    duProfil.map((r) => etape(trimmed(r?.name) || trimmed(r?.title), trimmed(r?.desc) || trimmed(r?.description))),
+    (r) => Boolean(r.name),
+  );
+  if (propre) return propre;
+
+  const surcharge = clientList(s, "methode.etapes");
+  return surcharge ? surcharge.map((x) => etape(x, "")) : undefined;
+}
+
 /** Le lien de réservation, quand le client en a un. */
 export function clientBookingUrl(s: SessionLike | null | undefined): string | undefined {
   return trimmed(s?.businessProfile?.bookingSystem?.url) || undefined;
@@ -829,6 +982,11 @@ export function clientNameOr(repli: string): string {
   return clientName(sessionCourante) ?? repli;
 }
 
+/** L'identifiant du client, ou celui de la démonstration. Modules partagés. */
+export function clientSlugOu(repli: string): string {
+  return clientSlug(sessionCourante) ?? repli;
+}
+
 /** L'adresse e-mail du client, ou celle de la démonstration. Modules partagés. */
 export function clientEmailOr(repli: string): string {
   return clientEmail(sessionCourante) ?? repli;
@@ -850,4 +1008,62 @@ export function clientPhotoAt(i: number, repli: string): string {
 export function clientPhotos(s: SessionLike | null | undefined): string[] {
   const rows = enTableau(s?.formData?.photoUrls);
   return rows.map(trimmed).filter(Boolean);
+}
+
+/*
+  Fusionner la méthode du client avec les étapes de la démonstration.
+
+  La fusion se fait par étalement, la démonstration d'abord : le client donne
+  le titre et la description, le thème garde ce que le client n'écrit pas —
+  l'icône, la durée, la photo.
+
+  Le repli sur `i % démo.length` recopie aussi le numéro d'ordre. Un client à
+  six étapes devant une démonstration qui en compte quatre reçoit alors deux
+  fois « 01 » et deux fois « 02 » ; les thèmes qui posent `key={e.num}` en
+  tirent deux enfants de même clé, et Base UI rend une page blanche. C'est ce
+  qui a mis impact-05 hors service en production.
+
+  On renumérote donc, en respectant la forme trouvée : « 03 » garde son zéro,
+  « 3 » reste nu, « Étape 03 » garde son mot.
+*/
+const ORDINAL = /^(\D{0,12}?)(0?\d{1,2})(\D{0,4})$/;
+
+export function fusionnerEtapes<T extends object>(
+  demo: readonly T[],
+  etapes: ClientEtape[] | undefined,
+): T[] | undefined {
+  if (!etapes?.length || !demo.length) return undefined;
+  const lu = demo as readonly Record<string, unknown>[];
+
+  /* Les clés dont la valeur est un rang, et qui changent d'un item à l'autre. */
+  const rangs = Object.keys(lu[0]).filter((k) => {
+    const vues = lu.map((d) => d[k]).filter((x) => typeof x === "string") as string[];
+    if (vues.length !== demo.length) return false;
+    if (!vues.every((x) => ORDINAL.test(x))) return false;
+    return new Set(vues).size === demo.length;
+  });
+
+  /*
+     Certains thèmes écrivent leurs étapes en phrases, pas en objets. Étaler une
+     chaîne produit un objet à clés numériques — { 0: "B", 1: "i", … } — que
+     React refuse de rendre : « Objects are not valid as a React child », et la
+     page entière meurt. impact-231 était dans ce cas, servi mort au client.
+
+     On rend alors ce que le thème attend : une phrase, celle du client.
+  */
+  if (typeof demo[0] === "string") {
+    return etapes.map((e) => [e.name, e.desc].filter(Boolean).join(" — ")) as unknown as T[];
+  }
+
+  return etapes.map((e, i) => {
+    const base = lu[i % lu.length];
+    const item = { ...base, ...e } as Record<string, unknown>;
+    for (const k of rangs) {
+      const m = ORDINAL.exec(String(base[k]));
+      if (!m) continue;
+      const chiffre = String(i + 1);
+      item[k] = m[1] + (m[2].length > chiffre.length ? chiffre.padStart(m[2].length, "0") : chiffre) + m[3];
+    }
+    return item as T;
+  });
 }

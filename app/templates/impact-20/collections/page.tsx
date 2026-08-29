@@ -1,6 +1,12 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientProducts } from "@/lib/templates/clientContent";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientName,
+  clientProducts,
+  clientTagline,
+  clientText,
+} from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
 import { motion } from "framer-motion";
@@ -81,10 +87,21 @@ export default function CollectionsPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
@@ -103,6 +120,7 @@ export default function CollectionsPage() {
         padding: "120px 24px",
       }}
     >
+      <EnteteAnnexe session={sessionData} repli={`${clientName(sessionData) ?? "Maison Élara"}`} accueil="/templates/impact-20" />
       <div style={{ maxWidth: 1200, margin: "0 auto" }}>
         <Link 
           href="/templates/impact-20"
@@ -135,9 +153,7 @@ export default function CollectionsPage() {
               textTransform: "uppercase",
               marginBottom: 16,
             }}
-          >
-            Maison Élara
-          </p>
+          >{clientName(sessionData) ?? (clientName(sessionData) ?? "Maison Élara")}</p>
           <h1
             style={{
               color: "#f0ece0",
@@ -148,11 +164,10 @@ export default function CollectionsPage() {
               lineHeight: 1.1,
             }}
           >
-            La Collection Élence
+            {/* TEXTE_SECTION */ clientText(sessionData, "collections.titre") ?? "La Collection Élence"}
           </h1>
           <p style={{ color: "rgba(240,236,224,0.7)", fontSize: 16, maxWidth: 640, lineHeight: 1.8 }}>
-            Explorez nos créations d'exception façonnées en or 18 carats et platine, 
-            ornées de diamants sélectionnés avec une rigueur absolue.
+            {/* TEXTE_SECTION */ clientText(sessionData, "collections.texte") ?? clientTagline(sessionData) ?? "Explorez nos créations d'exception façonnées en or 18 carats et platine,              ornées de diamants sélectionnés avec une rigueur absolue."}
           </p>
         </motion.div>
 

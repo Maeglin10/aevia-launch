@@ -9,24 +9,24 @@ import { LegalIdentity } from "../LegalIdentity";
 import { DWELL, HairlineArrows, SlideIndex, useSlides } from "@/lib/templates/hero-kit-2";
 import { CrossPush } from "@/lib/templates/hero-kit-3";
 import {
-  clientHeroLine,
-  clientHeroSubtitle,
-  clientEyebrow,
-  clientTrade,
+  clientAddress,
   clientCertifications,
   clientCity,
+  clientCodePostalVille,
+  clientEmail,
+  clientEyebrow,
+  clientHeroLine,
+  clientHeroSubtitle,
+  clientList,
   clientName,
   clientPhone,
-  clientEmail,
-  clientAddress,
-  clientCodePostalVille,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
-  clientWorks,
-  clientList,
   clientText,
+  clientTrade,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -37,7 +37,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   IMPACT-324 · LIVETICKET — billetterie live (concerts, salles en propre)
+   IMPACT-324 · {clientName(sessionData) ?? "LiveTicket"} — billetterie live (concerts, salles en propre)
    Réécriture premium — geste signature : CrossPush (les affiches se croisent).
    Héros H3 plein cadre, titre en bas, fond de repli C.bgDark.
    Fontes P12 : Bricolage Grotesque (voix display) + Figtree (corps).
@@ -334,10 +334,21 @@ export default function Impact324LiveTicket() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;

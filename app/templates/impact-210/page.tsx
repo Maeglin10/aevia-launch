@@ -23,17 +23,16 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import {
   clientBookingUrl,
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
   clientTagline,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1444,7 +1443,11 @@ function GallerySection({ accentColor }: { accentColor: string }) {
             gap: 16,
           }}
         >
-          {GALLERY_ITEMS.map((item, i) => (
+          {resolveList(
+              /* Les réalisations du client remplacent la galerie de la démonstration. */
+              clientWorks(sessionData)?.map((o: any, i: number) => ({ ...GALLERY_ITEMS[i % GALLERY_ITEMS.length], label: o.title, img: o.imageUrl })),
+              GALLERY_ITEMS,
+            ).map((item, i) => (
             <motion.div
               key={item.id}
               className="i210-gallery-item"
@@ -2080,9 +2083,9 @@ function ContactSection({ accentColor }: { accentColor: string }) {
         >
           {[
             { icon: '📍', label: 'Adresse', value: '12 Rue du Faubourg\nSaint-Honoré, ' + (clientCity(sessionData) ?? 'Paris') },
-            { icon: '📞', label: 'Téléphone', value: clientPhone(sessionData) ?? '+33 1 42 56 78 90' },
+            { icon: '📞', label: 'Téléphone', value: '+33 1 42 56 78 90' },
             { icon: '🕐', label: 'Horaires', value: 'Mar–Sam : 10h–19h\nDimanche : 11h–17h' },
-            { icon: '✉️', label: 'Email', value: (clientEmail(sessionData) ?? fd?.email ?? 'contact@studionail.fr') },
+            { icon: '✉️', label: 'Email', value: (fd?.email ?? 'contact@studionail.fr') },
           ].map((info) => (
             <motion.div
               key={info.label}
@@ -2272,10 +2275,21 @@ export default function NailStudioTemplate() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;

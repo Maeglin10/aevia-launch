@@ -75,7 +75,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   KINÉSITHÉRAPIE DU LANGUEDOC — Cabinet kiné & rééducation · {clientCity(sessionData) ?? "Montpellier"} Antigone
+   {clientName(sessionData) ?? "Kinésithérapie du Languedoc"} — Cabinet kiné & rééducation · {clientCity(sessionData) ?? "Montpellier"} Antigone
    Palette méditerranéenne · Typographie Merriweather + Inter · Autonome.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -1726,7 +1726,7 @@ function RdvFormSection() {
           <Reveal delay={0.28}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               {[
-                { icon: Phone, text: (clientPhone(sessionData) ?? fd?.phone ?? '04 67 20 51 51') + ' — Lun-Ven 8h–19h' },
+                { icon: Phone, text: (fd?.phone ?? '04 67 20 51 51') + ' — Lun-Ven 8h–19h' },
                 { icon: MapPin, text: `12 Avenue de Palavas, 34000 ${clientCity(sessionData) ?? "Montpellier"}` },
                 { icon: FileText, text: 'Ordonnance médicale requise' },
                 { icon: CreditCard, text: clientPayments(sessionData)?.join(", ") ?? 'Secteur 1 & 2 — CB, chèque, espèces' },
@@ -1831,7 +1831,7 @@ function RdvFormSection() {
                     fontWeight: 500,
                   }}
                 >
-                  {clientPhone(sessionData) ?? "04 67 20 51 51"} · {fd?.email ?? "cabinet@kinetherapeute-montpellier.fr"}
+                  04 67 20 51 51 · {fd?.email ?? "cabinet@kinetherapeute-montpellier.fr"}
                 </div>
               </div>
             ) : (
@@ -2401,7 +2401,7 @@ function MaterialSection() {
           >
             <img
               src={PHOTO.reeducation}
-              alt="Salle de rééducation équipée cabinet Kinésithérapie du Languedoc"
+              alt={`Salle de rééducation équipée cabinet ${clientName(sessionData) ?? "Kinésithérapie du Languedoc"}`}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
           </div>
@@ -2915,7 +2915,7 @@ function PracticalSection() {
             </div>
             <div style={{ display: 'flex', gap: 14, flexWrap: 'wrap' }}>
               <a
-                href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33467000000").replace(/[^+0-9]/g, "")}`}
+                href={`tel:${fd?.phone ?? "+33467000000"}`}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -2935,7 +2935,7 @@ function PracticalSection() {
                 {clientPhone(sessionData) ?? "04 67 20 51 51"}
               </a>
               <a
-                href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "cabinet@kinetherapeute-montpellier.fr"}`}
+                href={`mailto:${fd?.email ?? "cabinet@kinetherapeute-montpellier.fr"}`}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -2989,8 +2989,8 @@ function FooterSection() {
     {
       titre: 'Contact',
       liens: [
-        { label: (clientPhone(sessionData) ?? '04 67 20 51 51'), href: `tel:${(clientPhone(sessionData) ?? '+33467000000').replace(/[^+0-9]/g, "")}` },
-        { label: 'cabinet@kinetherapeute-' + (clientCity(sessionData) ?? 'Montpellier') + '.fr', href: `mailto:${clientEmail(sessionData) ?? 'cabinet@kinetherapeute-'}` + (clientCity(sessionData) ?? 'Montpellier') + '.fr' },
+        { label: (clientPhone(sessionData) ?? '04 67 20 51 51'), href: 'tel:+33467000000' },
+        { label: clientEmail(sessionData) ?? ('cabinet@kinetherapeute-' + (clientCity(sessionData) ?? 'Montpellier') + '.fr'), href: 'mailto:' + (clientEmail(sessionData) ?? ('cabinet@kinetherapeute-' + (clientCity(sessionData) ?? 'Montpellier') + '.fr')) },
         { label: '12 Av. de Palavas, Antigone', href: '#pratique' },
         { label: 'Urgences : Hôpital Lapeyronie', href: "/templates/impact-283" },
       ],
@@ -3246,10 +3246,21 @@ function Impact283Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;

@@ -45,12 +45,10 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
-  clientEmail,
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -90,7 +88,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   DUBOIS & PARTENAIRES — {clientTrade(sessionData) ?? "Avocat"} droit des affaires {clientCity(sessionData) ?? "Bordeaux"} — M&A, startups, RGPD. Cormorant Garamond, ardoise / or.
+   {clientName(sessionData) ?? "Dubois & Partenaires"} — {clientTrade(sessionData) ?? "Avocat"} droit des affaires {clientCity(sessionData) ?? "Bordeaux"} — M&A, startups, RGPD. Cormorant Garamond, ardoise / or.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -290,10 +288,21 @@ export default function Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -526,7 +535,7 @@ export default function Page() {
         }}>
           <img 
             src={PHOTO.hero} 
-            alt="Hero image showing Dubois & Partenaires core business" 
+            alt={`Hero image showing ${clientName(sessionData) ?? "Dubois & Partenaires"} core business`} 
             style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
           />
           <div style={{
@@ -564,7 +573,7 @@ export default function Page() {
               maxWidth: 650,
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
-            }}>{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+            }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               M&A, levées de fonds, RGPD. Cabinet {clientCity(sessionData) ?? "Bordeaux"} Chartrons — expertise juridique de haut niveau.
             </>}</p>
           </Reveal>
@@ -698,7 +707,7 @@ export default function Page() {
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  Dubois & Partenaires conseille les entrepreneurs, startups et PME bordelaises sur leurs enjeux juridiques. Droit des sociétés, M&A, financement et conformité RGPD depuis 2012.
+                  {clientName(sessionData) ?? "Dubois & Partenaires"} conseille les entrepreneurs, startups et PME bordelaises sur leurs enjeux juridiques. Droit des sociétés, M&A, financement et conformité RGPD depuis 2012.
                 </>}</p>
                 <p style={{
                   fontSize: 15,
@@ -1128,7 +1137,7 @@ export default function Page() {
                     </div>
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Téléphone</div>
-                      <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33571685683").replace(/[^+0-9]/g, "")}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>+33 (0)5 00 00 00 00</a>
+                      <a href={`tel:${fd?.phone ?? "+33571685683"}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>+33 (0)5 00 00 00 00</a>
                     </div>
                   </div>
 
@@ -1148,7 +1157,7 @@ export default function Page() {
                     </div>
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Adresse E-mail</div>
-                      <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@mysite.com"}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>contact@dubois&partenaires.com</a>
+                      <a href={`mailto:${fd?.email ?? "contact@mysite.com"}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>{fd?.email ?? "contact@mysite.com"}</a>
                     </div>
                   </div>
 
@@ -1318,7 +1327,7 @@ export default function Page() {
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable de publication: Dubois & Partenaires<br />
+                Responsable de publication: {clientName(sessionData) ?? "Dubois & Partenaires"}<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>
@@ -1331,7 +1340,7 @@ export default function Page() {
             fontSize: 11.5,
             letterSpacing: '0.05em'
           }}>
-            © {new Date().getFullYear()} {clientName(sessionData) ?? "Dubois"} & Partenaires. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Dubois & Partenaires"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
         </div>
       </footer>

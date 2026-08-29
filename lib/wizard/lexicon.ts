@@ -24,7 +24,7 @@ export interface BlockCopy {
 export type TradeLexicon = Partial<Record<ContentBlock, BlockCopy>>;
 
 /** Libellés par défaut, employés quand le métier n'a pas d'entrée dédiée. */
-export const DEFAULT_LEXICON: Required<Pick<TradeLexicon, "prestations" | "avis" | "engagements" | "chiffres" | "faq" | "equipe" | "zones">> = {
+export const DEFAULT_LEXICON: Required<Pick<TradeLexicon, "prestations" | "avis" | "engagements" | "chiffres" | "faq" | "equipe" | "zones" | "methode" | "realisations" | "horaires">> = {
   prestations: {
     label: "Vos prestations et leurs tarifs",
     hint: "Ce que vous vendez, tel que vous le diriez à un client. Le tarif peut être un montant, une fourchette ou « sur devis ».",
@@ -59,6 +59,28 @@ export const DEFAULT_LEXICON: Required<Pick<TradeLexicon, "prestations" | "avis"
     label: "Votre zone d'intervention",
     hint: "Les communes ou le rayon que vous couvrez.",
     ph: { areas: "Lyon, Villeurbanne, Caluire" },
+  },
+  /*
+    Trois blocs que les thèmes affichent et que le formulaire ne demandait pas :
+    la méthode (149 thèmes), les réalisations (131) et les horaires (70). Leurs
+    sections restaient donc sur l'exemple du thème quoi que fasse le client —
+    mesuré sur le parcours réel, où un formulaire rempli à fond laissait encore
+    des manques.
+  */
+  methode: {
+    label: "Comment vous travaillez",
+    hint: "Les étapes, de la première prise de contact à la fin du chantier. Trois ou quatre suffisent.",
+    ph: { name: "Titre de l'étape", desc: "Ce qui s'y passe, en une phrase" },
+  },
+  realisations: {
+    label: "Vos réalisations",
+    hint: "Un chantier, une pièce, un avant/après. Une légende suffit ; la photo peut venir plus tard.",
+    ph: { caption: "Ce qu'on voit", before: "Avant", after: "Après" },
+  },
+  horaires: {
+    label: "Vos horaires",
+    hint: "Quand on peut vous joindre ou passer. Une ligne par jour ou par plage.",
+    ph: { day: "Lundi — vendredi", hours: "8h – 19h" },
   },
 };
 

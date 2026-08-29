@@ -1,7 +1,6 @@
 "use client";
 import { resolveList } from "@/lib/templates/resolveList";
-import { CrossPush } from "@/lib/templates/hero-kit-3";
-import { LegalIdentity } from "@/app/templates/LegalIdentity";
+import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
 
 import React, { useState, useEffect, useRef } from "react";
@@ -18,19 +17,13 @@ import { Play, Pause, SkipBack, SkipForward, Volume2, Heart, Share2, Disc3, Mic2
 
 import "../premium.css";
 import {
-  clientAddress,
   clientCity,
-  clientCodePostalVille,
-  clientEmail,
-  clientEyebrow,
   clientHeroLine,
   clientName,
-  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
   clientText,
-  clientTrade,
   clientWorks,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
@@ -51,7 +44,7 @@ function RELEASES_DEMO_LIVE() {
   {
     id: "r-01",
     title: "Neon Genesis",
-    artist: "Atelier MAO · 15-18 ans",
+    artist: "Synthwave Collective",
     year: "2024",
     duration: "4:23",
     image:
@@ -61,7 +54,7 @@ function RELEASES_DEMO_LIVE() {
   {
     id: "r-02",
     title: "Midnight Drive",
-    artist: "Le groupe du jeudi soir",
+    artist: "The Outrunners",
     year: "2023",
     duration: "3:45",
     image:
@@ -71,7 +64,7 @@ function RELEASES_DEMO_LIVE() {
   {
     id: "r-03",
     title: "Cybernetic Heart",
-    artist: "Classe de chant · duo voix-machines",
+    artist: "Data Romance",
     year: "2024",
     duration: "5:12",
     image:
@@ -84,26 +77,51 @@ let RELEASES_DEMO = RELEASES_DEMO_LIVE();
 let RELEASES = RELEASES_DEMO;
 
 const TRACKLIST = [
-  { num: "01", title: "Overture: The Grid", duration: "2:15", plays: "1 200 écoutes" },
+  { num: "01", title: "Overture: The Grid", duration: "2:15", plays: "1.2M" },
   {
     num: "02",
     title: "Neon Genesis",
     duration: "4:23",
-    plays: "3 400 écoutes",
+    plays: "3.4M",
     highlight: true,
   },
-  { num: "03", title: "Digital Rain", duration: "3:58", plays: "890 écoutes" },
-  { num: "04", title: "Mainframe Breach", duration: "5:01", plays: "2 100 écoutes" },
-  { num: "05", title: "Memory Leak", duration: "3:30", plays: "1 500 écoutes" },
-  { num: "06", title: "System Shutdown", duration: "6:45", plays: "950 écoutes" },
+  { num: "03", title: "Digital Rain", duration: "3:58", plays: "890K" },
+  { num: "04", title: "Mainframe Breach", duration: "5:01", plays: "2.1M" },
+  { num: "05", title: "Memory Leak", duration: "3:30", plays: "1.5M" },
+  { num: "06", title: "System Shutdown", duration: "6:45", plays: "950K" },
 ];
 
 const TOUR_DATES = [
-  { date: "12 oct.", city: "Scène ouverte", venue: "L'auditorium de l'école", status: "Complet" },
-  { date: "18 oct.", city: "Ateliers MAO", venue: "Restitution du trimestre — studio A", status: "Places" },
-  { date: "8 nov.", city: "Café-concert", venue: "Les groupes de l'école en ville", status: "Places" },
-  { date: "13 déc.", city: "Concert d'hiver", venue: "La grande salle — toutes classes", status: "Complet" },
-  { date: "21 juin", city: "Fête de la musique", venue: "Le parvis, gratuit et ouvert à tous", status: "Places" },
+  {
+    date: "Oct 12",
+    city: "Tokyo, JP",
+    venue: "Zepp DiverCity",
+    status: "Sold Out",
+  },
+  {
+    date: "Oct 18",
+    city: "Seoul, KR",
+    venue: "Yes24 Live Hall",
+    status: "Available",
+  },
+  {
+    date: "Nov 02",
+    city: "London, UK",
+    venue: "Printworks",
+    status: "Sold Out",
+  },
+  {
+    date: "Nov 15",
+    city: "Berlin, DE",
+    venue: "Berghain",
+    status: "Available",
+  },
+  {
+    date: "Dec 05",
+    city: "New York, US",
+    venue: "Brooklyn Mirage",
+    status: "Available",
+  },
 ];
 
 /* ==========================================================================
@@ -169,10 +187,21 @@ export default function SonicPlayerPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -204,21 +233,6 @@ export default function SonicPlayerPage() {
     });
   });
   brand = fd?.brandColor ?? null; // null = keep template's original color
-
-  const COURS_DEMO = [
-    { nom: "Guitare, basse, batterie — cours individuel", prix: "dès 29 €/sem." },
-    { nom: "Chant & coaching scénique", prix: "dès 32 €/sem." },
-    { nom: "MAO & production — atelier collectif", prix: "45 €/mois" },
-    { nom: "Groupe encadré + studio du trimestre", prix: "60 €/mois" },
-  ];
-  const COURS = resolveList(
-    clientServices(sessionData)?.map((sv: any, n: number) => ({
-      ...COURS_DEMO[n % COURS_DEMO.length],
-      nom: sv.title ?? COURS_DEMO[n % COURS_DEMO.length].nom,
-      prix: sv.price ?? COURS_DEMO[n % COURS_DEMO.length].prix,
-    })),
-    COURS_DEMO,
-  );
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [activeRelease, setActiveRelease] = useState(0);
@@ -289,29 +303,29 @@ export default function SonicPlayerPage() {
               />
             ) : (
               <>
-                <Disc3 className="w-6 h-6" />
-                {fd?.businessName ?? clientName(sessionData) ?? <>SONIC<span className="font-light text-slate-500">WAVE</span></>}
+                <Disc3 className="w-6 h-6 animate-spin-slow" />
+                SONIC<span className="font-light text-slate-500">WAVE</span>
               </>
             )}
           </Link>
 
           <div className="hidden lg:flex items-center gap-10 text-[11px] font-bold uppercase tracking-widest">
-            <Link href="#about" className="hover:text-[var(--brand,#c084fc)] transition-colors">
-              L'école
+            <Link href="#hero" className="hover:text-[var(--brand,#c084fc)] transition-colors">
+              Releases
             </Link>
-            <Link href="#contact" className="hover:text-[var(--brand,#c084fc)] transition-colors">
-              L'équipe
+            <Link href="#hero" className="hover:text-[var(--brand,#c084fc)] transition-colors">
+              Artists
             </Link>
-            <Link href="#concerts" className="hover:text-[var(--brand,#c084fc)] transition-colors">
-              Les concerts
+            <Link href="#hero" className="hover:text-[var(--brand,#c084fc)] transition-colors">
+              Tour
             </Link>
-            <Link href="#about" className="hover:text-[var(--brand,#c084fc)] transition-colors">
-              Les cours
+            <Link href="#hero" className="hover:text-[var(--brand,#c084fc)] transition-colors">
+              Store
             </Link>
           </div>
 
           <button className="px-6 py-2 border border-[var(--brand,#a855f7)]/30 text-[var(--brand,#c084fc)] text-[10px] font-bold uppercase tracking-widest hover:bg-[var(--brand,#a855f7)] hover:text-white transition-all rounded-full hidden lg:flex items-center gap-2">
-            <Headphones className="w-4 h-4" /> Cours d'essai
+            <Headphones className="w-4 h-4" /> Listen Live
           </button>
           <button
             className="lg:hidden flex flex-col gap-1.5 p-2"
@@ -326,13 +340,13 @@ export default function SonicPlayerPage() {
       </nav>
       {mobileOpen && (
         <div className="fixed inset-x-0 top-[72px] z-40 bg-[#030014]/95 backdrop-blur-md border-b border-white/5 flex flex-col gap-6 px-6 py-8 lg:hidden">
-          {["L'école", "L'équipe", "Les concerts", "Les cours"].map(item => (
-            <a key={item} href="#about" onClick={() => setMobileOpen(false)} className="text-sm font-bold uppercase tracking-widest text-slate-400 hover:text-[var(--brand,#c084fc)] transition-colors">
+          {["Releases", "Artists", "Tour", "Store"].map(item => (
+            <a key={item} href="#hero" onClick={() => setMobileOpen(false)} className="text-sm font-bold uppercase tracking-widest text-slate-400 hover:text-[var(--brand,#c084fc)] transition-colors">
               {item}
             </a>
           ))}
           <button className="mt-2 px-6 py-3 border border-[var(--brand,#a855f7)]/30 text-[var(--brand,#c084fc)] text-[10px] font-bold uppercase tracking-widest hover:bg-[var(--brand,#a855f7)] hover:text-white transition-all rounded-full flex items-center gap-2 w-fit">
-            <Headphones className="w-4 h-4" /> Cours d'essai
+            <Headphones className="w-4 h-4" /> Listen Live
           </button>
         </div>
       )}
@@ -340,17 +354,10 @@ export default function SonicPlayerPage() {
       {/* ==========================================
           1. IMMERSIVE PLAYER HERO
           ========================================== */}
-      {/* Geste de signature : CrossPush — les pochettes des élèves se
-          croisent plein cadre, pilotées par le même index que le lecteur.
-          Le vinyle qui tournait sur sa propre horloge a disparu : ici, rien
-          ne bouge sans le doigt ou l'index. Fond sombre : la page tient
-          sans photo. */}
-      <section id="hero" className="relative w-full min-h-dvh flex items-center pt-24 pb-12 bg-[#030014] overflow-hidden">
-        <CrossPush images={RELEASES.map((r: any) => r.image)} index={activeRelease} overlay={0.62} />
-        <div className="absolute inset-0 z-[1] pointer-events-none bg-gradient-to-t from-[#030014] via-transparent to-[#030014]/60" />
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full z-10 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative">
+      <section id="hero" className="relative w-full min-h-dvh flex items-center pt-24 pb-12">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 w-full z-10 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
           {/* Left: Interactive Player UI */}
-          <div className="lg:col-span-7 flex flex-col items-center lg:items-start">
+          <div className="lg:col-span-5 order-2 lg:order-1 flex flex-col items-center lg:items-start">
             <motion.div
               key={activeRelease}
               initial={{ opacity: 0, x: -20 }}
@@ -358,7 +365,6 @@ export default function SonicPlayerPage() {
               transition={{ duration: 0.6 }}
               className="text-center lg:text-left w-full"
             >
-              <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c084fc)] mb-4">{clientEyebrow(sessionData) ?? `École de musiques actuelles · ${clientCity(sessionData) ?? "Villeurbanne"}`}</div>
               <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-2">{clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>
                 {RELEASES[activeRelease].title}
               </>}</h1>
@@ -433,6 +439,57 @@ export default function SonicPlayerPage() {
             </motion.div>
           </div>
 
+          {/* Right: Album Art Display */}
+          <div className="lg:col-span-7 order-1 lg:order-2 perspective-[1000px] flex justify-center lg:justify-end">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeRelease}
+                initial={{ opacity: 0, rotateY: 20, scale: 0.9 }}
+                animate={{ opacity: 1, rotateY: 0, scale: 1 }}
+                exit={{ opacity: 0, rotateY: -20, scale: 0.9 }}
+                transition={{ duration: 0.8, ease: [0.23, 1, 0.32, 1] }}
+                className="relative w-full max-w-[500px] aspect-square"
+              >
+                {/* Vinyl Record Behind Art */}
+                <motion.div
+                  animate={{ rotate: isPlaying ? 360 : 0 }}
+                  transition={{
+                    duration: 10,
+                    repeat: Infinity,
+                    ease: "linear",
+                  }}
+                  className="absolute inset-0 bg-black rounded-full border border-[#1a1a1a] shadow-2xl flex items-center justify-center translate-x-[15%] lg:translate-x-[25%]"
+                  style={{
+                    backgroundImage:
+                      "radial-gradient(circle, #2a2a2a 10%, #000 70%)",
+                  }}
+                >
+                  <div className="w-1/3 h-1/3 rounded-full overflow-hidden relative border border-slate-800">
+                    <Image
+                      src={RELEASES[activeRelease].image}
+                      alt="Label"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="absolute w-4 h-4 bg-[#030014] rounded-full" />
+                </motion.div>
+
+                {/* Album Cover */}
+                <div className="absolute inset-0 z-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                  <Image
+                    src={RELEASES[activeRelease].image}
+                    alt={RELEASES[activeRelease].title}
+                    fill
+                    className="object-cover rounded-md"
+                    priority
+                  />
+                  {/* Subtle reflection */}
+                  <div className="absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent mix-blend-overlay rounded-md pointer-events-none" />
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       </section>
 
@@ -444,29 +501,25 @@ export default function SonicPlayerPage() {
           <div className="lg:col-span-4">
             <Reveal>
               <span className="text-[10px] uppercase tracking-widest font-bold text-[var(--brand,#a855f7)] block mb-4">
-                L'école
+                About the Album
               </span>
               <h3 className="text-3xl font-bold mb-6">{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>
-                On apprend en enregistrant.
+                A Journey Through Synthetic Soundscapes.
               </>)}</h3>
-              <p className="text-slate-400 text-sm leading-relaxed mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "about.texte") ?? fd?.tagline ?? c?.heroSubline ?? <>
-                Guitare, chant, batterie, MAO : ici, chaque trimestre se termine
-                au studio de l'école, et chaque élève repart avec son morceau.
-                Ce que vous écoutez sur cette page a été joué, enregistré et
-                mixé par les élèves.
+              <p className="text-slate-400 text-sm leading-relaxed mb-8">{fd?.tagline ?? c?.heroSubline ?? <>
+                The highly anticipated sophomore album fuses vintage analog
+                synthesis with cutting-edge spatial audio production. It's a
+                cinematic experience designed for late-night drives and
+                introspective coding sessions.
               </>}</p>
-              {/* Les cours, câblés aux prestations du client. */}
-              <div className="flex flex-col gap-3 mb-8">
-                {COURS.map((cr: any, n: number) => (
-                  <div key={n} className="flex items-baseline justify-between gap-4 py-3 border-b border-white/10">
-                    <span className="text-sm font-medium text-slate-200">{cr.nom}</span>
-                    <span className="text-sm font-mono text-[var(--brand,#c084fc)] whitespace-nowrap">{cr.prix}</span>
-                  </div>
-                ))}
+              <div className="flex flex-col gap-4">
+                <button className="w-full py-4 bg-white/5 border border-white/10 text-[10px] uppercase tracking-widest font-bold hover:bg-white hover:text-black transition-colors rounded-sm">
+                  Pre-save on Spotify
+                </button>
+                <button className="w-full py-4 bg-white/5 border border-white/10 text-[10px] uppercase tracking-widest font-bold hover:bg-white hover:text-black transition-colors rounded-sm">
+                  Pre-save on Apple Music
+                </button>
               </div>
-              <button className="w-full py-4 bg-white/5 border border-white/10 text-[10px] uppercase tracking-widest font-bold hover:bg-white hover:text-black transition-colors rounded-sm">
-                Réserver un cours d'essai
-              </button>
             </Reveal>
           </div>
 
@@ -475,10 +528,10 @@ export default function SonicPlayerPage() {
               <div className="border border-white/10 rounded-xl bg-[#030014]/50 backdrop-blur-md overflow-hidden">
                 <div className="flex justify-between items-center p-6 border-b border-white/10 bg-white/[0.02]">
                   <h4 className="text-xs font-bold uppercase tracking-widest">
-                    Enregistré au studio de l'école
+                    Tracklist
                   </h4>
                   <span className="text-xs text-slate-500 font-mono">
-                    6 titres • 25:21
+                    6 Tracks • 25:21
                   </span>
                 </div>
 
@@ -526,10 +579,10 @@ export default function SonicPlayerPage() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal className="mb-16 text-center">
             <h2 className="text-4xl md:text-5xl font-black tracking-tighter mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
-              L'équipe pédagogique
+              The Collective
             </>)}</h2>
             <p className="text-slate-400">
-              Des musiciens en activité, qui enseignent ce qu'ils jouent.
+              Discover the minds behind the frequencies.
             </p>
           </Reveal>
 
@@ -545,7 +598,7 @@ export default function SonicPlayerPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
               <div className="absolute bottom-8 left-8">
                 <div className="px-3 py-1 bg-[var(--brand,#a855f7)]/20 text-[var(--brand,#c084fc)] text-[10px] font-bold uppercase tracking-widest rounded-sm mb-3 inline-block backdrop-blur-sm border border-[var(--brand,#a855f7)]/30">
-                  Guitare & MAO
+                  Lead Producer
                 </div>
                 <h3 className="text-4xl font-bold">Kaelen Vance</h3>
               </div>
@@ -565,7 +618,7 @@ export default function SonicPlayerPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
               <div className="absolute bottom-8 left-8">
                 <div className="px-3 py-1 bg-pink-500/20 text-pink-400 text-[10px] font-bold uppercase tracking-widest rounded-sm mb-3 inline-block backdrop-blur-sm border border-pink-500/30">
-                  Chant
+                  Vocals
                 </div>
                 <h3 className="text-2xl font-bold">Lumina</h3>
               </div>
@@ -578,13 +631,13 @@ export default function SonicPlayerPage() {
             >
               <div className="text-center p-8">
                 <Mic2 className="w-12 h-12 text-slate-500 mx-auto mb-6" />
-                <h3 className="text-xl font-bold mb-2">{fd?.businessName ?? clientName(sessionData) ?? <>Studio Gamme</>}</h3>
-                <p className="text-sm text-slate-400">{/* TEXTE_SECTION */ clientText(sessionData, "equipe.texte") ?? c?.aboutText ?? <>
-                  L'école de musiques actuelles du quartier : cours, ateliers,
-                  et un vrai studio où tout s'enregistre.
+                <h3 className="text-xl font-bold mb-2">{c?.aboutTitle ?? fd?.businessName ?? <>Neon Records</>}</h3>
+                <p className="text-sm text-slate-400">{c?.aboutText ?? <>
+                  Independent label pushing the boundaries of electronic music
+                  since 2018.
                 </>}</p>
                 <button className="mt-6 text-[10px] uppercase tracking-widest font-bold text-[var(--brand,#c084fc)] hover:text-white transition-colors pb-1 border-b border-[var(--brand,#a855f7)]/30 hover:border-white">
-                  Le projet pédagogique
+                  Read Manifesto
                 </button>
               </div>
             </Reveal>
@@ -603,9 +656,9 @@ export default function SonicPlayerPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
               <div className="absolute bottom-8 left-8">
                 <div className="px-3 py-1 bg-blue-500/20 text-blue-400 text-[10px] font-bold uppercase tracking-widest rounded-sm mb-3 inline-block backdrop-blur-sm border border-blue-500/30">
-                  Le studio
+                  Visuals & 3D
                 </div>
-                <h3 className="text-3xl font-bold">La régie de l'école</h3>
+                <h3 className="text-3xl font-bold">Studio Void</h3>
               </div>
             </Reveal>
           </div>
@@ -615,25 +668,25 @@ export default function SonicPlayerPage() {
       {/* ==========================================
           4. TOUR DATES
           ========================================== */}
-      <section id="concerts" className="py-32 bg-[#050318] border-t border-white/5 overflow-hidden">
+      <section className="py-32 bg-[#050318] border-t border-white/5 overflow-hidden">
         <div className="max-w-[1000px] mx-auto px-6 md:px-12">
           <Reveal className="flex justify-between items-end mb-16 border-b border-white/10 pb-8">
             <div>
               <span className="text-[10px] uppercase tracking-widest font-bold text-[var(--brand,#a855f7)] block mb-4">
-                {/* TEXTE_SECTION */ clientText(sessionData, "concerts.kicker") ?? "La scène"}
+                Live Experiences
               </span>
-              <h2 className="text-4xl md:text-5xl font-black tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "concerts.titre") ?? (<>
-                Les concerts d'élèves
+              <h2 className="text-4xl md:text-5xl font-black tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
+                Global Tour '24
               </>)}</h2>
             </div>
             <button className="hidden md:block px-6 py-3 border border-white/20 text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-colors rounded-sm">
-              Toutes les dates
+              All Dates
             </button>
           </Reveal>
 
           <div className="flex flex-col">
             {TOUR_DATES.map((tour, i) => {
-              const isSoldOut = tour.status === "Complet";
+              const isSoldOut = tour.status === "Sold Out";
               return (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="group flex flex-col md:flex-row md:items-center justify-between py-6 border-b border-white/5 hover:border-[var(--brand,#a855f7)]/50 transition-colors">
@@ -649,11 +702,11 @@ export default function SonicPlayerPage() {
                     <div className="md:w-1/3 flex justify-start md:justify-end">
                       {isSoldOut ? (
                         <span className="text-[10px] font-bold uppercase tracking-widest text-slate-600 px-6 py-3 border border-slate-800 rounded-sm">
-                          Complet
+                          Sold Out
                         </span>
                       ) : (
                         <button className="text-[10px] font-bold uppercase tracking-widest text-black bg-[var(--brand,#a855f7)] px-6 py-3 rounded-sm hover:bg-[var(--brand,#c084fc)] transition-colors shadow-[0_0_15px_rgba(168,85,247,0.3)]">
-                          Réserver des places
+                          Get Tickets
                         </button>
                       )}
                     </div>
@@ -661,36 +714,6 @@ export default function SonicPlayerPage() {
                 </Reveal>
               );
             })}
-          </div>
-        </div>
-      </section>
-
-      {/* ==========================================
-          4bis. LES RETOURS — parents et élèves, en clair
-          ========================================== */}
-      <section className="py-32 bg-[#02000a] border-t border-[var(--brand,#581c87)]/20">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-12">
-          <Reveal className="mb-16">
-            <h2 className="text-4xl md:text-5xl font-black tracking-tighter">{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ce qu'en disent les élèves</>)}</h2>
-          </Reveal>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {resolveList(
-              clientReviews(sessionData)?.slice(0, 3).map((r: any) => ({ text: r.text, author: r.author, detail: r.detail || undefined })),
-              [
-                { text: "Deux ans de batterie, un premier concert sur une vraie scène. Mon fils ne rate plus un cours.", author: "Sonia", detail: "parent d'élève, batterie" },
-                { text: "L'atelier MAO m'a appris à finir mes morceaux, pas juste à les commencer. Le premier EP est sorti.", author: "Rayan", detail: "élève MAO, 2e année" },
-                { text: "Un groupe monté par l'école, un créneau de studio chaque trimestre : on progresse parce qu'on joue.", author: "Chloé", detail: "chant, groupe encadré" },
-              ],
-            ).map((a: any, i: number) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <figure className="h-full flex flex-col bg-[#0a0418] border border-[var(--brand,#581c87)]/20 rounded-sm p-8">
-                  <blockquote className="text-lg text-slate-300 leading-relaxed mb-8 flex-1">« {a.text} »</blockquote>
-                  <figcaption className="font-mono text-xs text-[var(--brand,#c084fc)]">
-                    {a.author}{a.detail ? <span className="block mt-1 text-slate-500">{a.detail}</span> : null}
-                  </figcaption>
-                </figure>
-              </Reveal>
-            ))}
           </div>
         </div>
       </section>
@@ -710,16 +733,12 @@ export default function SonicPlayerPage() {
                 className="text-2xl font-black tracking-tighter uppercase mb-6 flex items-center gap-2"
               >
                 <Disc3 className="w-6 h-6 text-[var(--brand,#a855f7)]" />
-                {fd?.businessName ?? clientName(sessionData) ?? <>SONIC<span className="font-light text-slate-500">WAVE</span></>}
+                SONIC<span className="font-light text-slate-500">WAVE</span>
               </Link>
-              <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                {clientTrade(sessionData) ?? "École de musiques actuelles"} · {clientCity(sessionData) ?? "Villeurbanne"}
+              <p className="text-slate-400 text-sm leading-relaxed mb-8">
+                Independent record label and artist collective exploring the
+                intersection of synthetic audio and digital art.
               </p>
-              <div className="space-y-2 text-sm text-slate-500 mb-8">
-                <div>{clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "69100", "Villeurbanne")}</div>
-                <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33472000000").replace(/\s/g, "")}`} className="block hover:text-white transition-colors">{clientPhone(sessionData) ?? fd?.phone ?? "04 72 00 00 00"}</a>
-                <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "hello@studio-gamme.fr"}`} className="block hover:text-white transition-colors">{clientEmail(sessionData) ?? fd?.email ?? "hello@studio-gamme.fr"}</a>
-              </div>
               <div className="flex gap-4">
                 <button className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white hover:text-black transition-all">
                   Spt
@@ -735,27 +754,27 @@ export default function SonicPlayerPage() {
 
             <div>
               <h4 className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#a855f7)] mb-6">
-                L'école
+                Music
               </h4>
               <ul className="space-y-4 text-sm text-slate-300">
                 <li>
                   <Link href="#contact" className="hover:text-white transition-colors">
-                    Les cours
+                    Latest Releases
                   </Link>
                 </li>
                 <li>
                   <Link href="#contact" className="hover:text-white transition-colors">
-                    Les ateliers
+                    Playlists
                   </Link>
                 </li>
                 <li>
                   <Link href="#contact" className="hover:text-white transition-colors">
-                    Le studio
+                    Stems & Samples
                   </Link>
                 </li>
                 <li>
                   <Link href="#contact" className="hover:text-white transition-colors">
-                    Les tarifs
+                    Licensing
                   </Link>
                 </li>
               </ul>
@@ -763,27 +782,27 @@ export default function SonicPlayerPage() {
 
             <div>
               <h4 className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#a855f7)] mb-6">
-                Pratique
+                Store
               </h4>
               <ul className="space-y-4 text-sm text-slate-300">
                 <li>
                   <Link href="#contact" className="hover:text-white transition-colors">
-                    Inscriptions
+                    Vinyl & Cassettes
                   </Link>
                 </li>
                 <li>
                   <Link href="#contact" className="hover:text-white transition-colors">
-                    Cours d'essai
+                    Apparel
                   </Link>
                 </li>
                 <li>
                   <Link href="#contact" className="hover:text-white transition-colors">
-                    Location de salles
+                    Posters
                   </Link>
                 </li>
                 <li>
                   <Link href="#contact" className="hover:text-white transition-colors">
-                    Bons cadeaux
+                    Digital Downloads
                   </Link>
                 </li>
               </ul>
@@ -791,23 +810,23 @@ export default function SonicPlayerPage() {
 
             <div>
               <h4 className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#a855f7)] mb-6">
-                La lettre de l'école
+                Join the Frequency
               </h4>
               <p className="text-sm text-slate-400 mb-4">
-                Les dates des concerts d'élèves, les places d'ateliers qui se
-                libèrent, les nouvelles du studio.
+                Get early access to tour tickets and limited vinyl pressing
+                announcements.
               </p>
               <form className="relative" onSubmit={(e) => e.preventDefault()}>
                 <input
                   type="email"
-                  placeholder="Votre courriel"
+                  placeholder="Email address"
                   className="w-full bg-white/5 border border-white/10 rounded-sm px-4 py-3 text-sm focus:outline-none focus:border-[var(--brand,#a855f7)] text-white transition-colors"
                 />
                 <button
                   type="submit"
                   className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] uppercase tracking-widest font-bold text-[var(--brand,#c084fc)] hover:text-white transition-colors"
                 >
-                  S'abonner
+                  Join
                 </button>
               </form>
             </div>
@@ -815,17 +834,25 @@ export default function SonicPlayerPage() {
 
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-white/10 text-[10px] uppercase tracking-widest font-bold text-slate-600">
             <span>
-              &copy; {new Date().getFullYear()} {fd?.businessName ?? clientName(sessionData) ?? "SonicWave"}
-              {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              &copy; {new Date().getFullYear()} SonicWave Records. All rights
+              reserved.
             </span>
-            <div className="flex gap-6 normal-case tracking-normal">
-              <span>Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" /></span>
-              <span>Éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
+            <div className="flex gap-6">
+              <Link href="#contact" className="hover:text-white transition-colors">
+                {tr({ formData: fd }, "Privacy Policy")}
+              </Link>
+              <Link href="#contact" className="hover:text-white transition-colors">
+                Terms of Use
+              </Link>
             </div>
           </div>
         </div>
       </footer>
-
+      {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
+      <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
+        {clientName(sessionData) ?? "Sonic Player"}
+        {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+      </footer>
     </div>
   );
 }

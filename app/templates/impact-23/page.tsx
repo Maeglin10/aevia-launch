@@ -1,4 +1,5 @@
 "use client";
+import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import { tr } from "@/lib/templates/uiStrings";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 // @ts-nocheck
@@ -10,7 +11,6 @@ import { Menu, X, ArrowRight, Film, Camera, ChevronRight, Award, Globe, Users, P
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
@@ -114,7 +114,7 @@ function filmsCatalogue_LIVE() {
     src: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&q=80"),
     synopsis: "Pendant trois ans, la réalisatrice a suivi des bergers transhumants dans les Alpes du Sud. Entre solitudes immenses et rituels ancestraux, le film capture la beauté radicale d'un mode de vie en voie de disparition. Sans voix off ni musique additionnelle, le documentaire fait entendre le silence comme un langage à part entière — celui des bêtes, du vent, de la montagne.",
     cast: ["Jean-Marc Barthélémy — berger, vallée du Champsaur", "Marie-Louise Autran — bergère, col de Vars", "Pierre Magnan — vétérinaire itinérant"],
-    crew: "Réalisé par Sophie Letourneur · Image : Tom Harari · Son : Xavier Thibault · Production : Studio Pelikan & Les Films du Worso",
+    crew: `Réalisé par Sophie Letourneur · Image : Tom Harari · Son : Xavier Thibault · Production : ${clientName(sessionData) ?? "Studio Pelikan"} & Les Films du Worso`,
     festivals: ["IDFA Amsterdam 2024 — Best Feature-Length Documentary", "Visions du Réel, Nyon 2024 — Grand Prix", "CPH:DOX Copenhague 2024 — Sélection Officielle", "Festival du Film de Montagne de Banff 2024 — Prix du Jury"],
   },
   {
@@ -176,10 +176,21 @@ export default function StudioPelikanPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -336,7 +347,7 @@ export default function StudioPelikanPage() {
                 </Reveal>
                 <Reveal delay={0.2}>
                   <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
-                    <p className="text-white/50 text-lg max-w-sm">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>Cinéma d&apos;auteur, documentaire, série. Depuis 2012, nous produisons des œuvres qui voyagent.</>}</p>
+                    <p className="text-white/50 text-lg max-w-sm">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>Cinéma d&apos;auteur, documentaire, série. Depuis 2012, nous produisons des œuvres qui voyagent.</>}</p>
                     <button onClick={() => goTo("films")} className="shrink-0 border border-[var(--brand,#C9A05A)]/40 text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[var(--brand,#C9A05A)] hover:text-black transition-all cursor-pointer flex items-center gap-2">
                       <Play className="w-3 h-3 fill-current" /> Voir la bande démo
                     </button>
@@ -456,23 +467,11 @@ export default function StudioPelikanPage() {
                   Nous recevons chaque projet avec la même attention. Qu&apos;il s&apos;agisse d&apos;un premier court-métrage ou d&apos;une coproduction internationale.
                 </>}</p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  {/*
-                    Deux <button> sans action : « Nous écrire » ne faisait
-                    rien, et l'adresse d'à côté n'était pas cliquable. Sur un
-                    téléphone, une adresse qu'on ne peut pas toucher ne sert à
-                    rien. Les deux deviennent des liens mailto.
-                  */}
-                  <a
-                    href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "hello@studio-pelikan.fr"}`}
-                    className="bg-[var(--brand,#C9A05A)] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B89049] transition-colors cursor-pointer inline-flex items-center"
-                  >
+                  <button className="bg-[var(--brand,#C9A05A)] text-black text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-[#B89049] transition-colors cursor-pointer">
                     Nous écrire
-                  </a>
-<a
-                    href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "hello@studio-pelikan.fr"}`}
-                    className="border border-white/15 text-white text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-white/5 transition-colors cursor-pointer flex items-center gap-2"
-                  >
-                    <Globe className="w-4 h-4" />{clientEmail(sessionData) ?? fd?.email ?? "hello@studio-pelikan.fr"}</a>
+                  </button>
+                  <button className="border border-white/15 text-white text-xs tracking-widest uppercase px-8 py-4 rounded-xl hover:bg-white/5 transition-colors cursor-pointer flex items-center gap-2">
+                    <Globe className="w-4 h-4" />{fd?.email ?? "hello@studio-pelikan.fr"}</button>
                 </div>
               </Reveal>
             </div>
@@ -489,7 +488,7 @@ export default function StudioPelikanPage() {
                   Nos <em>Films</em>
                 </>)}</h1>
                 <p className="text-white/40 text-lg max-w-2xl leading-relaxed">
-                  Depuis 2012, Studio Pelikan développe, produit et accompagne des œuvres cinématographiques
+                  Depuis 2012, {clientName(sessionData) ?? "Studio Pelikan"} développe, produit et accompagne des œuvres cinématographiques
                   exigeantes. Chaque film est une aventure humaine, artistique et technique unique.
                 </p>
               </Reveal>
@@ -807,7 +806,7 @@ export default function StudioPelikanPage() {
                   À <em>propos</em>
                 </>)}</h1>
                 <p className="text-white/40 text-lg max-w-2xl leading-relaxed">
-                  Studio Pelikan est une société de production cinématographique indépendante fondée en 2012
+                  {clientName(sessionData) ?? "Studio Pelikan"} est une société de production cinématographique indépendante fondée en 2012
                   à {clientCity(sessionData) ?? "Paris"}. Nous croyons en un cinéma exigeant, singulier et universel.
                 </p>
               </Reveal>
@@ -821,7 +820,7 @@ export default function StudioPelikanPage() {
                 <p className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-6">Fondation</p>
                 <h2 className="text-white text-4xl mb-6" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-19.titre") ?? (<>Depuis 2012, {clientCity(sessionData) ?? "Paris"}</>)}</h2>
                 <p className="text-white/40 text-sm leading-relaxed mb-4">
-                  Studio Pelikan naît en 2012 dans le 11e arrondissement de {clientCity(sessionData) ?? "Paris"}, fondé par Julien Ferraro
+                  {clientName(sessionData) ?? "Studio Pelikan"} naît en 2012 dans le 11e arrondissement de {clientCity(sessionData) ?? "Paris"}, fondé par Julien Ferraro
                   et Nina Music après leurs études à La Fémis. Le nom est un hommage au Café Pelikan de Budapest,
                   lieu de rendez-vous des cinéastes de la Nouvelle Vague hongroise dans les années 60.
                 </p>
@@ -839,7 +838,7 @@ export default function StudioPelikanPage() {
               </Reveal>
               <Reveal delay={0.2}>
                 <div className="relative overflow-hidden rounded-2xl" style={{ aspectRatio: "4/3" }}>
-                  <Image src={photo(15, "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=600&q=80")} alt="Studio Pelikan Paris" fill className="object-cover" />
+                  <Image src={photo(15, "https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=600&q=80")} alt={`${clientName(sessionData) ?? "Studio Pelikan"} Paris`} fill className="object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#150F09]/80 to-transparent" />
                 </div>
               </Reveal>
@@ -944,9 +943,9 @@ export default function StudioPelikanPage() {
               </Reveal>
               <div className="space-y-6">
                 {[
-                  { quote: "Studio Pelikan incarne le meilleur du cinéma indépendant français : exigeant, sensible, universel.", source: "Les Cahiers du Cinéma", date: "Mars 2025" },
+                  { quote: `${clientName(sessionData) ?? "Studio Pelikan"} incarne le meilleur du cinéma indépendant français : exigeant, sensible, universel.`, source: "Les Cahiers du Cinéma", date: "Mars 2025" },
                   { quote: "Avec Poussière de Lumière, le studio confirme sa capacité à révéler de nouveaux talents tout en maintenant une qualité de production exceptionnelle.", source: "Télérama", date: "Janvier 2025" },
-                  { quote: "L'Écho du Silence est un chef-d'œuvre de patience et d'écoute. Studio Pelikan prouve que le documentaire peut être aussi puissant que la fiction.", source: "Le Monde", date: "Novembre 2024" },
+                  { quote: `L'Écho du Silence est un chef-d'œuvre de patience et d'écoute. ${clientName(sessionData) ?? "Studio Pelikan"} prouve que le documentaire peut être aussi puissant que la fiction.`, source: "Le Monde", date: "Novembre 2024" },
                   { quote: "Mémoire Vive est la série française la plus ambitieuse de la décennie. Une production qui rivalise avec les meilleures séries internationales.", source: "Première", date: "Septembre 2023" },
                 ].map((press, i) => (
                   <Reveal key={press.source} delay={i * 0.08}>
@@ -999,8 +998,8 @@ export default function StudioPelikanPage() {
           <section id="contact" className="py-20 px-6 bg-[#150F09]">
             <div className="max-w-4xl mx-auto space-y-12">
               {[
-                { title: "Éditeur du site", content: "Aevia WS — Valentin Milliand, entrepreneur individuel.\nSIREN : <LegalIdentity /> — RCS Bourg-en-Bresse." },
-                { title: "Contact", content: (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr") },
+                { title: "Éditeur du site", content: (clientName(sessionData) ?? "Aevia WS") + ", entrepreneur individuel.\nRCS " + (clientCity(sessionData) ?? "Bourg-en-Bresse") + "." },
+                { title: "Contact", content: (fd?.email ?? "contact@exemple.fr") },
                 { title: "Hébergement", content: "Vercel Inc., 340 S Lemon Ave #4133, Walnut, CA 91789, USA." },
                 { title: "Propriété intellectuelle", content: "L'ensemble des contenus (textes, images, code, design) est protégé. Toute reproduction non autorisée est interdite." },
                 { title: "Données personnelles", content: "Aucune donnée personnelle n'est collectée sans consentement explicite. Conformité RGPD." },
@@ -1008,7 +1007,7 @@ export default function StudioPelikanPage() {
                 <Reveal key={section.title} delay={i * 0.08}>
                   <div>
                     <h2 className="text-[var(--brand,#C9A05A)] text-xs tracking-widest uppercase mb-4">{section.title}</h2>
-                    {section.content.split("\n").map((line: string, j: number) => (
+                    {section.content.split("\n").map((line, j) => (
                       <p key={j} className="text-white/50 text-sm leading-relaxed">{line}</p>
                     ))}
                   </div>
@@ -1031,7 +1030,7 @@ export default function StudioPelikanPage() {
       {/* Footer */}
       <footer className="bg-[#090704] border-t border-white/5 py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/20">
-          <button onClick={() => goTo("home")} className="text-[var(--brand,#C9A05A)] text-lg cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>Studio Pelikan · {clientCity(sessionData) ?? "Paris"}</button>
+          <button onClick={() => goTo("home")} className="text-[var(--brand,#C9A05A)] text-lg cursor-pointer" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{clientName(sessionData) ?? "Studio Pelikan"} · {clientCity(sessionData) ?? "Paris"}</button>
           <div className="flex gap-8">
             <button onClick={() => goTo("films")} className="hover:text-[var(--brand,#C9A05A)] transition-colors cursor-pointer">Films</button>
             <button onClick={() => goTo("legal")} className="hover:text-[var(--brand,#C9A05A)] transition-colors cursor-pointer">Mentions légales</button>

@@ -46,7 +46,7 @@ export const artists = [
     name: "Théo Marchais",
     role: "Blackwork & Dark Art",
     experience: "12 years",
-    bio: "Théo works in bold darkness — heavy blackwork, neo-tribal, dark illustrative sleeves. His compositions are monumental and his black saturation unmatched in " + clientCityOr("Paris") + ".",
+    get bio() { return "Théo works in bold darkness — heavy blackwork, neo-tribal, dark illustrative sleeves. His compositions are monumental and his black saturation unmatched in " + clientCityOr("Paris") + "."; },
     styles: ["Blackwork", "Neo-Tribal", "Dark Illustrative", "Sleeve Work"],
     bookingLead: "10–14 weeks",
     startingAt: "€300",
@@ -92,7 +92,7 @@ export const styleGuide = [
 export const testimonials = [
   {
     name: "Camille R.",
-    location: clientCityOr("Paris") + ", 11e",
+    get location() { return clientCityOr("Paris") + ", 11e"; },
     rating: 5,
     text: "Mara did a full forearm botanical piece for me. The line quality is unreal — three years later it still looks fresh. The studio is the cleanest I've ever been in, and the process was completely stress-free.",
     style: "Fine Line Botanical",
@@ -106,16 +106,16 @@ export const testimonials = [
   },
   {
     name: "Léa M.",
-    location: clientCityOr("Paris") + ", 3e",
+    get location() { return clientCityOr("Paris") + ", 3e"; },
     rating: 5,
     text: "I was nervous for my first tattoo and the team made the entire experience remarkable. The design consultation alone felt like working with a fine artist. Noir Ink is a cut above.",
     style: "Minimalist Fine Line",
   },
   {
     name: "Marc T.",
-    location: clientCityOr("Bordeaux"),
+    get location() { return clientCityOr("Bordeaux"); },
     rating: 5,
-    text: "Traveled from " + clientCityOr("Bordeaux") + " specifically for Théo's blackwork. The chest piece he created is the most important piece of art I own — and I wear it everywhere.",
+    get text() { return "Traveled from " + clientCityOr("Bordeaux") + " specifically for Théo's blackwork. The chest piece he created is the most important piece of art I own — and I wear it everywhere."; },
     style: "Full Chest Blackwork",
   },
 ];

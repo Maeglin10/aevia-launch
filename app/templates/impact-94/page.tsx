@@ -41,12 +41,14 @@ import {
   clientFaq,
   clientHeroLine,
   clientHeroSubtitle,
+  clientMethode,
   clientName,
   clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
   clientText,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -450,10 +452,21 @@ export default function Impact94Page() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -717,7 +730,7 @@ export default function Impact94Page() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.4, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="mt-8 text-lg md:text-xl text-[#FAFAF9]/80 font-light max-w-lg mx-auto leading-relaxed"
-          >{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+          >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
             Compositions botaniques d&apos;exception, créées à la main pour les moments qui méritent l&apos;extraordinaire.
           </>}</motion.p>
 
@@ -1022,7 +1035,7 @@ export default function Impact94Page() {
 
           {/* Process Steps */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-[#0C0A09]/10">
-            {ATELIER_STEPS.map((step, i) => {
+            {resolveList(fusionnerEtapes(ATELIER_STEPS, clientMethode(sessionData)), ATELIER_STEPS).map((step, i) => {
               const StepIcon = step.icon
               return (
                 <Reveal key={step.step} delay={i * 0.12}>

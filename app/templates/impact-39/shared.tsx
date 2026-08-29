@@ -1,6 +1,8 @@
 "use client";
 import {
   clientCityOr,
+  clientMethode,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 import React, { useRef, useState } from "react";
@@ -129,7 +131,7 @@ export const PRICING_CARDS = [
 export const TESTIMONIALS = [
   {
     name: "Sophie Marchand",
-    role: "Propriétaire, " + clientCityOr("Paris") + " 11e",
+    get role() { return "Propriétaire, " + clientCityOr("Paris") + " 11e"; },
     avatar: "SM",
     rating: 5,
     text: "L'équipe a déménagé notre appartement de 4 pièces en 6 h chrono, sans aucun dommage. Professionnels, ponctuels et vraiment attentionnés. Je ne ferai plus jamais appel à quelqu'un d'autre.",
@@ -143,10 +145,10 @@ export const TESTIMONIALS = [
   },
   {
     name: "Lucie Fontaine",
-    role: "Locataire, " + clientCityOr("Lyon"),
+    get role() { return "Locataire, " + clientCityOr("Lyon"); },
     avatar: "LF",
     rating: 5,
-    text: "Déménagement " + clientCityOr("Paris") + " → Lyon en solo, j'avais peur de confier mes affaires. Suivi GPS tout au long du trajet, livraison 2 h en avance. Je recommande les yeux fermés.",
+    get text() { return "Déménagement " + clientCityOr("Paris") + " → Lyon en solo, j'avais peur de confier mes affaires. Suivi GPS tout au long du trajet, livraison 2 h en avance. Je recommande les yeux fermés."; },
   },
 ];
 
@@ -238,7 +240,14 @@ export function FAQItem({ faq, delay }: { faq: { q: string; a: string }; delay: 
   );
 }
 
-export function StepTimeline() {
+/*
+  Les quatre étapes du déménagement.
+
+  Le tableau vit dans ce module, hors de portée de la session : la méthode du
+  client arrive donc par la propriété, que la page lui passe.
+*/
+export function StepTimeline({ session }: { session?: unknown }) {
+  const etapes = fusionnerEtapes(HOW_IT_WORKS, clientMethode(session as any)) ?? HOW_IT_WORKS;
   const ref = useRef(null);
   const inView = useInView(ref, { once: true });
   return (
@@ -251,7 +260,7 @@ export function StepTimeline() {
         style={{ position: "absolute", top: 28, left: 0, height: 2, background: C.orange }}
       />
       <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 0, position: "relative" }} className="grid md:grid-cols-1">
-        {HOW_IT_WORKS.map((step, i) => (
+        {etapes.map((step, i) => (
           <motion.div key={step.step} initial={{ opacity: 0, y: 24 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.6, delay: 0.4 + i * 0.2 }} style={{ textAlign: "center", padding: "0 16px" }} className="md:mb-8">
             <div style={{ width: 56, height: 56, borderRadius: "50%", background: C.orange, display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px", position: "relative", zIndex: 1, fontFamily: SANS, fontWeight: 800, fontSize: 16, color: C.white }}>
               {step.step}

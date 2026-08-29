@@ -1,9 +1,12 @@
 "use client"
 import { resolveList } from "@/lib/templates/resolveList";
-import { clientFaq } from "@/lib/templates/clientContent";
+import {
+  clientCity,
+  clientFaq,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 
 import { useCallback, useEffect, useState } from "react";
-import { clientCity } from "@/lib/templates/clientContent";
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import { Reveal, gridOverlay, monoStyle, Label } from "../shared"
@@ -545,17 +548,29 @@ export default function ContactPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+  FAQ = FAQ_LIVE();
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
-  FAQ = FAQ_LIVE();
 
   return (
     <div className="relative min-h-dvh">

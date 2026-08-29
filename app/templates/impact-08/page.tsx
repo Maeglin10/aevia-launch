@@ -36,7 +36,6 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import {
   clientCity,
-  clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -57,7 +56,7 @@ let c: any = null;
 let brand: any = null;
 
 /* ==========================================================================
-   VULCAN MOTOR GROUP DATASET (ULTRA DENSITY)
+   {clientName(sessionData) ?? "VULCAN"} MOTOR GROUP DATASET (ULTRA DENSITY)
    ========================================================================= */
 
 function FLEET_DEMO_SOURCE_LIVE() {
@@ -202,7 +201,7 @@ function HUD_Telemetry() {
   return (
     <div className="fixed top-24 right-12 z-40 hidden xl:flex flex-col gap-8 items-end pointer-events-none">
        <div className="flex flex-col items-end border-r-2 border-[var(--brand,#3b82f6)]/30 pr-6 py-2">
-          <div className="text-[10px] font-black tracking-widest text-[var(--brand,#3b82f6)] uppercase mb-2">Vulcan_System_V4.2</div>
+          <div className="text-[10px] font-black tracking-widest text-[var(--brand,#3b82f6)] uppercase mb-2">{clientName(sessionData) ?? "Vulcan"}_System_V4.2</div>
           <div className="text-2xl font-mono text-white tracking-tighter">44.12.08</div>
           <div className="text-[10px] font-bold text-white/30 uppercase mt-1">Modena // Italy</div>
        </div>
@@ -286,7 +285,7 @@ function VehicleCard({ vehicle, goTo }: { vehicle: any, goTo: (p: ActivePage) =>
 }
 
 /* ==========================================================================
-   MAIN PAGE: VULCAN MOTOR GROUP MODENA (ULTRA DENSITY)
+   MAIN PAGE: {clientName(sessionData) ?? "VULCAN"} MOTOR GROUP MODENA (ULTRA DENSITY)
    ========================================================================= */
 
 
@@ -322,10 +321,21 @@ export default function VulcanMotorPremium() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -400,11 +410,11 @@ return (
                 alt={fd?.businessName ?? 'logo'}
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
-            ) : (/* NOM_LOGO */ clientName({ formData: fd }) ? (
-              <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">{clientName({ formData: fd })}</span>
+            ) : (/* NOM_LOGO */ clientName(sessionData) ? (
+              <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">{clientName(sessionData)}</span>
             ) : (<>
               <>
-            <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">Vulcan</span>
+            <span className="text-2xl font-black tracking-[-0.05em] uppercase leading-none italic">{clientName(sessionData) ?? "VULCAN"}</span>
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] -mt-1 ml-1">Motor Group Modena</span>
               </>
             </>))}
@@ -476,7 +486,7 @@ return (
                 style={{ y: bgTextY }}
                 className="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-[0.03] pointer-events-none select-none z-0"
               >
-                 <h2 className="text-[35vw] font-black uppercase tracking-tighter leading-none italic">{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? clientName(sessionData) ?? (<>VULCAN</>)}</h2>
+                 <h2 className="text-[35vw] font-black uppercase tracking-tighter leading-none italic">{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? clientName(sessionData) ?? (<>{clientName(sessionData) ?? "VULCAN"}</>)}</h2>
               </motion.div>
 
               <div className="relative z-10 w-full max-w-7xl">
@@ -490,7 +500,7 @@ return (
                     </>}</motion.h1>
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-end">
-                       <p className="max-w-xl text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-widest">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+                       <p className="max-w-xl text-lg md:text-xl text-white/40 leading-relaxed font-light italic uppercase tracking-widest">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                           Nous ne construisons pas des voitures. Nous domptons la physique. Chaque courbe est dictée par le vent, chaque watt est maîtrisé par l'IA.
                        </>}</p>
                        <div className="flex flex-col sm:flex-row gap-8 md:justify-end">
@@ -537,7 +547,7 @@ return (
             <section className="py-48 px-8 md:px-24 bg-[#0a0a0a] relative overflow-hidden">
                <div className="max-w-7xl mx-auto mb-24 flex justify-between items-end">
                   <Reveal>
-                     <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] mb-8">Vulcan_Registry</div>
+                     <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] mb-8">{clientName(sessionData) ?? "Vulcan"}_Registry</div>
                      <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.85] italic">{c?.aboutTitle ?? fd?.businessName ?? <>
                         The <br/> <span className="text-white/10">Arsenal.</span>
                      </>}</h2>
@@ -640,7 +650,7 @@ return (
                            Tailored <br/> <span className="opacity-20">Velocity.</span>
                         </>)}</h2>
                         <p className="text-lg font-light italic text-white/40 leading-relaxed uppercase tracking-[0.1em] mb-16">
-                           Votre Vulcan est unique. Notre programme de personnalisation permet de choisir chaque détail, des textures de carbone aux coutures intérieures, pour refléter votre vision de la performance.
+                           Votre {clientName(sessionData) ?? "VULCAN"} est unique. Notre programme de personnalisation permet de choisir chaque détail, des textures de carbone aux coutures intérieures, pour refléter votre vision de la performance.
                         </p>
                         <div className="flex gap-12">
                            <div className="flex flex-col gap-4">
@@ -739,7 +749,7 @@ return (
 
             <div className="pt-16 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.4em] text-white/10 italic">
                <div className="flex flex-wrap gap-8">
-                  <span>©2026 {clientName(sessionData) ?? "VULCAN MOTOR GROUP MODENA."}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+                  <span>©2026 {clientName(sessionData) ?? "VULCAN MOTOR GROUP MODENA."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
                   <span className="hidden md:inline">//</span>
                   <a href="#aero-grad" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#3b82f6)] transition-colors">MENTIONS LEGALES</a>
                </div>
@@ -838,7 +848,7 @@ function EngineeringPage() {
             Advanced <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Science.</span>
           </>)}</h1>
           <p className="max-w-xl mx-auto text-sm text-white/40 uppercase font-light italic leading-relaxed">
-            Chez Vulcan, la physique n'est pas une limite, c'est notre matière première. Découvrez les innovations qui séparent nos unités du reste de la production mondiale.
+            Chez {clientName(sessionData) ?? "VULCAN"}, la physique n'est pas une limite, c'est notre matière première. Découvrez les innovations qui séparent nos unités du reste de la production mondiale.
           </p>
         </div>
 
@@ -896,7 +906,7 @@ function AtelierPage() {
             The <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>Atelier.</span>
           </>)}</h1>
           <p className="max-w-xl mx-auto text-sm text-white/40 uppercase font-light italic leading-relaxed">
-            Chaque Vulcan est construite sur mesure à Modena. Notre programme de personnalisation totale vous permet de concevoir une œuvre d'art aérodynamique unique au monde.
+            Chaque {clientName(sessionData) ?? "VULCAN"} est construite sur mesure à Modena. Notre programme de personnalisation totale vous permet de concevoir une œuvre d'art aérodynamique unique au monde.
           </p>
         </div>
 
@@ -945,10 +955,10 @@ function SupportPage() {
 
         <Accordion type="single" collapsible className="w-full space-y-4 mb-24">
           {[
-            { q: "What is the typical wait time for a bespoke unit?", a: "Each Vulcan unit is hand-assembled in Modena. Production typically takes between 14 to 22 months from design freeze." },
+            { q: "What is the typical wait time for a bespoke unit?", a: `Each ${clientName(sessionData) ?? "Vulcan"} unit is hand-assembled in Modena. Production typically takes between 14 to 22 months from design freeze.` },
             { q: "Do you offer international delivery?", a: "Yes. Every owner is assigned a dedicated Flying Technician and global concierge who manages white-glove transport." },
             { q: "Is the Stratos E road-legal?", a: "The Stratos E is homologated for road use in the EU, UK, and USA. Track-only variants are also available." },
-            { q: "What is the maintenance cycle of a Vulcan engine?", a: "A complete diagnostic is performed every 10,000 km or annually by a certified Vulcan Flying Technician, who is dispatched to your private garage anywhere in the world." }
+            { q: `What is the maintenance cycle of a ${clientName(sessionData) ?? "Vulcan"} engine?`, a: `A complete diagnostic is performed every 10,000 km or annually by a certified ${clientName(sessionData) ?? "Vulcan"} Flying Technician, who is dispatched to your private garage anywhere in the world.` }
           ].map((item, i) => (
             <AccordionItem key={i} value={`item-${i}`} className="border-2 border-black/5 bg-black/[0.02] px-10 rounded-sm hover:border-black/20 transition-all">
                <AccordionTrigger className="text-xs font-black uppercase tracking-[0.3em] py-10 no-underline italic text-left">
@@ -977,7 +987,7 @@ function LegalPage() {
     <section id="contact" className="py-32 px-8 md:px-24 bg-[#050505] text-[#f0f0f0] border-t border-white/5 font-mono text-xs">
       <div className="max-w-3xl mx-auto space-y-16">
         <div>
-          <span className="text-[10px] font-black text-[var(--brand,#3b82f6)] uppercase tracking-widest mb-4 block">Vulcan_Compliance</span>
+          <span className="text-[10px] font-black text-[var(--brand,#3b82f6)] uppercase tracking-widest mb-4 block">{clientName(sessionData) ?? "Vulcan"}_Compliance</span>
           <h1 className="text-4xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-12">{c?.heroHeadline ?? "Mentions Légales"}</h1>
         </div>
 
@@ -985,11 +995,11 @@ function LegalPage() {
           <div className="border-b border-white/10 pb-4">
              <div className="text-white/30 text-[10px] font-black uppercase mb-2">EDITEUR</div>
              <p className="text-white font-medium uppercase">
-                {clientName({ formData: fd }) ?? "Aevia WS — Valentin Milliand"}<br />
-                {clientName({ formData: fd }) ? "" : "Entrepreneur Individuel"}<br />
+                {clientName(sessionData) ?? "Aevia WS — Valentin Milliand"}<br />
+                {clientName(sessionData) ? "" : "Entrepreneur Individuel"}<br />
                 SIREN : <LegalIdentity /><br />
-                {clientName({ formData: fd }) ? "" : "RCS : Bourg-en-Bresse"}<br />
-                Email : {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}<br />
+                {clientName(sessionData) ? "" : "RCS : Bourg-en-Bresse"}<br />
+                Email : {fd?.email ?? "contact@exemple.fr"}<br />
                 Adresse : Communiquée sur demande
              </p>
           </div>
@@ -1006,7 +1016,7 @@ function LegalPage() {
           <div>
              <div className="text-white/30 text-[10px] font-black uppercase mb-2">PROPRIETE INTELLECTUELLE</div>
              <p className="text-white/50 font-medium uppercase leading-relaxed">
-                Toutes les marques, images, logos, structures de code et fichiers multimédias présents sur ce site sont la propriété exclusive de Vulcan Motor Group Modena ou de ses représentants autorisés. Toute reproduction sans accord écrit préalable fera l'objet de poursuites pénales.
+                Toutes les marques, images, logos, structures de code et fichiers multimédias présents sur ce site sont la propriété exclusive de {clientName(sessionData) ?? "VULCAN"} Motor Group Modena ou de ses représentants autorisés. Toute reproduction sans accord écrit préalable fera l'objet de poursuites pénales.
              </p>
           </div>
         </div>

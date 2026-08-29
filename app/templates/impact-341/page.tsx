@@ -19,6 +19,7 @@ import {
   clientHeroLine,
   clientHeroPrestations,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -28,6 +29,7 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -41,7 +43,7 @@ let sessionData: any = null;
 let brand: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   CONDUITE ZÉRO STRESS — auto-école anti-stress · Toulouse
+   {clientName(sessionData) ?? "Conduite Zéro Stress"} — auto-école anti-stress · Toulouse
 
    Archétype héros H6 : typographique, sans photographie. La seule matière du
    héros est du texte et deux textures CSS — un marquage au sol en pointillés
@@ -268,22 +270,38 @@ export default function ConduiteZeroStressPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  METHODE = METHODE_LIVE();
+  /* La méthode du client remplace les étapes de la démonstration. */
+  METHODE = resolveList(
+    fusionnerEtapes(METHODE, clientMethode(sessionData)),
+    METHODE,
+  );
   brand = fd?.brandColor ?? null;
   if (brand) {
     C = { ...C, accent: brand };
   }
 
-  METHODE = METHODE_LIVE();
 
   /*
     Le mot animé appartient au titre : sans lui, un plombier finissait la

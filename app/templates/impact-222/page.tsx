@@ -50,7 +50,7 @@ let bp: any = null;
 let sessionData: any = null;
 
 /* ════════════════════════════════════════════════════════════════════════════
-   SOLIS IMMOBILIER — Immobilier & architecture de prestige (France)
+   {clientName(sessionData) ?? "Solis"} IMMOBILIER — Immobilier & architecture de prestige (France)
    Reference-grade scroll choreography with real photography.
    Palette : blanc chaud / bleu nuit profond / champagne doré.
    Self-contained client component. Only react / framer-motion / lucide-react.
@@ -614,7 +614,7 @@ const Hero: React.FC = () => {
                 fontWeight: 400,
               }}
             >
-              Solis accompagne une clientèle exigeante dans l&apos;acquisition et
+              {clientName(sessionData) ?? "Solis"} accompagne une clientèle exigeante dans l&apos;acquisition et
               la valorisation de biens d&apos;exception, de la Provence aux plus
               belles adresses parisiennes.
             </span>
@@ -1092,7 +1092,10 @@ type Feature = {
   body: string;
 };
 
-const SHOWCASE_FEATURES: Feature[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function SHOWCASE_FEATURES_LIVE(): Feature[] {
+  return [
   {
     num: '01',
     title: 'Une lumière pensée à chaque heure',
@@ -1106,7 +1109,7 @@ const SHOWCASE_FEATURES: Feature[] = [
   {
     num: '03',
     title: 'Performance énergétique maîtrisée',
-    body: "Géothermie, isolation renforcée et domotique discrète : chaque bien Solis allie l'exigence du confort contemporain à une empreinte environnementale réduite.",
+    body: `Géothermie, isolation renforcée et domotique discrète : chaque bien ${clientName(sessionData) ?? "Solis"} allie l'exigence du confort contemporain à une empreinte environnementale réduite.`,
   },
   {
     num: '04',
@@ -1114,6 +1117,8 @@ const SHOWCASE_FEATURES: Feature[] = [
     body: "Implantation paysagère, jardins clos et espaces de réception séparés des pièces de vie privées. Le luxe discret de se sentir chez soi, à l'abri des regards.",
   },
 ];
+}
+let SHOWCASE_FEATURES: Feature[] = SHOWCASE_FEATURES_LIVE();
 
 const StickyShowcase: React.FC = () => (
   <Section
@@ -1153,7 +1158,7 @@ const StickyShowcase: React.FC = () => (
         >
           <img
             src={PHOTO.interior}
-            alt="Intérieur d'une villa Solis baigné de lumière naturelle"
+            alt={`Intérieur d'une villa ${clientName(sessionData) ?? "Solis"} baigné de lumière naturelle`}
             loading="lazy"
             style={{
               width: '100%',
@@ -1546,7 +1551,10 @@ type Row = {
   reverse: boolean;
 };
 
-const ROWS: Row[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function ROWS_LIVE(): Row[] {
+  return [
   {
     icon: <Search size={20} />,
     step: 'Étape 01',
@@ -1567,11 +1575,13 @@ const ROWS: Row[] = [
     icon: <Handshake size={20} />,
     step: 'Étape 03',
     title: 'Accompagnement complet',
-    body: "Notaire, financement, architecte d'intérieur, conciergerie : nous orchestrons l'ensemble des intervenants jusqu'à la remise des clés et au-delà. Solis reste votre interlocuteur unique, du premier rendez-vous à l'installation dans votre nouveau lieu de vie.",
+    body: `Notaire, financement, architecte d'intérieur, conciergerie : nous orchestrons l'ensemble des intervenants jusqu'à la remise des clés et au-delà. ${clientName(sessionData) ?? "Solis"} reste votre interlocuteur unique, du premier rendez-vous à l'installation dans votre nouveau lieu de vie.`,
     img: PHOTO.pool,
     reverse: false,
   },
 ];
+}
+let ROWS: Row[] = ROWS_LIVE();
 
 const ApproachRow: React.FC<{ row: Row }> = ({ row }) => (
   <div
@@ -1727,20 +1737,25 @@ type Testimonial = {
   role: string;
 };
 
-const TESTIMONIALS_SOURCE: Testimonial[] = [
+/* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
+   démonstration restait affiché. */
+function TESTIMONIALS_SOURCE_LIVE(): Testimonial[] {
+  return [
   {
     quote:
-      "Solis a compris en un rendez-vous ce que d'autres n'avaient pas saisi en six mois. L'acquisition de notre résidence à Saint-Rémy s'est faite avec une fluidité et une discrétion remarquables.",
+      `${clientName(sessionData) ?? "Solis"} a compris en un rendez-vous ce que d'autres n'avaient pas saisi en six mois. L'acquisition de notre résidence à Saint-Rémy s'est faite avec une fluidité et une discrétion remarquables.`,
     name: 'Édouard Vasseur',
     role: 'Directeur financier, groupe coté',
   },
   {
     quote:
-      "En tant qu'architecte, je suis exigeant sur la lecture d'un lieu. L'équipe de Solis parle le même langage : celui de la lumière, des proportions et de l'usage. Une collaboration d'une rare intelligence.",
+      `En tant qu'architecte, je suis exigeant sur la lecture d'un lieu. L'équipe de ${clientName(sessionData) ?? "Solis"} parle le même langage : celui de la lumière, des proportions et de l'usage. Une collaboration d'une rare intelligence.`,
     name: 'Camille Théron',
     role: 'Architecte DPLG, Atelier Théron',
   },
 ];
+}
+let TESTIMONIALS_SOURCE: Testimonial[] = TESTIMONIALS_SOURCE_LIVE();
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const Testimonials: React.FC = () => (
@@ -1941,6 +1956,8 @@ const Contact: React.FC = () => {
     {
       icon: <MapPin size={18} />,
       label: 'Bureau principal',
+      /* Le chiffre est celui du client : l'unité de la démonstration ne le suit pas. */
+      suffix: "",
       value: `18 cours Mirabeau, 13100 ${clientCity(sessionData) ?? "Aix-en-Provence"}`,
     },
     {
@@ -2152,7 +2169,7 @@ const Contact: React.FC = () => {
                     margin: '0 auto',
                   }}
                 >
-                  Merci {form.nom || ''}. Un conseiller Solis vous recontactera
+                  Merci {form.nom || ''}. Un conseiller {clientName(sessionData) ?? "Solis"} vous recontactera
                   sous 24 heures.
                 </p>
               </div>
@@ -2345,7 +2362,7 @@ const Footer: React.FC = () => (
                 color: C.white,
               }}
             >
-              Solis
+              {clientName(sessionData) ?? "Solis"}
             </span>
           </div>
           <p
@@ -2525,10 +2542,21 @@ export default function ImpactTemplate(): React.ReactElement {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -2536,6 +2564,9 @@ export default function ImpactTemplate(): React.ReactElement {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
+  TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
+  ROWS = ROWS_LIVE();
+  SHOWCASE_FEATURES = SHOWCASE_FEATURES_LIVE();
   PROPERTIES_DEMO_SOURCE = PROPERTIES_DEMO_SOURCE_LIVE();
   PHOTO = PHOTO_LIVE();
   FOOTER_COLS = FOOTER_COLS_LIVE();

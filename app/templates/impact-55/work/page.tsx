@@ -1,5 +1,17 @@
 "use client";
 import { useEffect, useState } from "react";
+import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
+import {
+  clientAddress,
+  clientCity,
+  clientEmail,
+  clientName,
+  clientPhone,
+  clientTagline,
+  clientText,
+  clientTrade,
+  memoriserSession,
+} from "@/lib/templates/clientContent";
 
 import React from "react";
 import { TerminalWindow, MODULES, OPERATIONS } from "../shared";
@@ -22,19 +34,32 @@ export default function WorkPage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => (r.ok ? r.json() : null))
-      .then((s) => s && __setSession(s))
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { __setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   sessionData = __session;
+  memoriserSession(__session);
   fd = __session?.formData;
   bp = __session?.businessProfile;
   c = __session?.generatedContent;
 
   return (
     <div style={{ minHeight: "calc(100vh - 104px)" }}>
+      <EnteteAnnexe session={sessionData} repli="Ghost Shell" accueil="/templates/impact-55" />
       {/* ── MODULES ────────────────────────────────────────────────────── */}
       <section style={{ padding: "80px 40px" }}>
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
@@ -42,7 +67,7 @@ export default function WorkPage() {
             ■ SECTION_03 // MODULES
           </div>
           <h2 style={{ color: "#00FF41", fontSize: "clamp(22px, 3vw, 36px)", marginBottom: "12px", letterSpacing: "0.08em", fontWeight: "normal" }}>
-            MODULES
+            {/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? "MODULES"}
           </h2>
           <div style={{ color: "#008F11", fontSize: "12px", marginBottom: "48px", letterSpacing: "0.08em" }}>
             $ ls -1 /etc/ghost_shell/modules/

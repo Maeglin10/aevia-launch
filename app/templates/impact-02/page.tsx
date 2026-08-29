@@ -8,6 +8,7 @@ import {
   clientFaq,
   clientHeroLine,
   clientList,
+  clientMethode,
   clientName,
   clientPhone,
   clientPhotos,
@@ -15,6 +16,7 @@ import {
   clientServices,
   clientText,
   clientWorks,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 import { tr } from "@/lib/templates/uiStrings";
 // @ts-nocheck
@@ -107,7 +109,7 @@ let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 function FAQS_DEMO_LIVE() {
   return [
-  { question: "Are you available for international travel?", answer: "Yes. While based between " + (clientCity({ formData: fd }) ?? "Paris") + " and Tokyo, I frequently travel globally for campaigns and editorial assignments. Travel fees are calculated based on the project scope." },
+  { question: "Are you available for international travel?", answer: "Yes. While based between " + (clientCity(sessionData) ?? "Paris") + " and Tokyo, I frequently travel globally for campaigns and editorial assignments. Travel fees are calculated based on the project scope." },
   { question: "What is your typical turnaround time?", answer: "For editorial and commercial projects, the standard turnaround time for the first contact sheet is 48 hours. Final retouched assets are typically delivered within 2-3 weeks post-shoot." },
   { question: "Do you handle full production?", answer: "Absolutely. I work with a dedicated team of producers who can handle everything from location scouting and casting to permits and catering, offering a turnkey solution." },
   { question: "What camera systems do you use?", answer: "I primarily shoot on Hasselblad medium format digital systems for unparalleled detail and color depth, complemented by Leica systems for documentary and street work." },
@@ -230,10 +232,21 @@ export default function CreativePortfolioSPA() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -334,7 +347,7 @@ export default function CreativePortfolioSPA() {
               />
             ) : (
               <>
-            <span className="text-lg font-light tracking-[0.3em] uppercase transition-colors group-hover:text-amber-400">{/* NOM_LOGO */ clientName({ formData: fd }) ?? (<>
+            <span className="text-lg font-light tracking-[0.3em] uppercase transition-colors group-hover:text-amber-400">{/* NOM_LOGO */ clientName(sessionData) ?? (<>
               Elena<span className="font-black">Korr</span>
             </>)}</span>
               </>
@@ -514,7 +527,7 @@ export default function CreativePortfolioSPA() {
           <Reveal className="lg:col-span-5">
             <div className="relative">
               <div className="relative aspect-[3/4] rounded-3xl overflow-hidden bg-white/5">
-                <Image src={photo(13, "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800&auto=format&fit=crop")} alt={fd?.businessName ?? (clientName({ formData: fd }) ?? (clientName({ formData: fd }) ?? "Elena Korr Portfolio"))} fill className="object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
+                <Image src={photo(13, "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800&auto=format&fit=crop")} alt={fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Elena Korr Portfolio"))} fill className="object-cover grayscale hover:grayscale-0 transition-all duration-[2s]" />
               </div>
               <motion.div animate={{ y: [0, -15, 0] }} transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }} className="absolute -bottom-8 -right-8 w-32 h-32 rounded-full bg-amber-400 text-black flex items-center justify-center text-center shadow-[0_0_40px_rgba(251,191,36,0.3)] backdrop-blur-md">
                 <div>
@@ -532,7 +545,7 @@ export default function CreativePortfolioSPA() {
               <span className="font-black italic">frames of light<span className="text-amber-400">.</span></span>
             </>)}</h2>
             <p className="text-white/60 text-xl leading-relaxed mb-8 font-light">
-              Based between {clientCity({ formData: fd }) ?? "Paris"} and Tokyo, I specialize in capturing moments that transcend the ordinary. My work has been featured in National Geographic, Vogue, and BBC Earth — but the images I am most proud of are the ones that make strangers feel something they cannot quite name.
+              Based between {clientCity(sessionData) ?? "Paris"} and Tokyo, I specialize in capturing moments that transcend the ordinary. My work has been featured in National Geographic, Vogue, and BBC Earth — but the images I am most proud of are the ones that make strangers feel something they cannot quite name.
             </p>
             <p className="text-white/40 text-lg leading-relaxed mb-12 font-light">
               With a background in fine arts from École des Beaux-Arts, I bring a deeply personal yet universally resonant perspective. Whether documenting street life in Shinjuku or creating haute couture editorials, I seek the same truth wrapped in beauty.
@@ -565,7 +578,7 @@ export default function CreativePortfolioSPA() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 relative">
             <div className="hidden lg:block absolute top-12 left-0 w-full h-[1px] bg-white/10" />
             
-            {PROCESS.map((proc, i) => (
+            {resolveList(fusionnerEtapes(PROCESS, clientMethode(sessionData)), PROCESS).map((proc, i) => (
               <Reveal key={i} delay={i * 0.15} className="relative z-10">
                 <div className="w-24 h-24 rounded-full bg-[#111] border border-white/10 flex items-center justify-center mb-8 shadow-2xl relative">
                   <span className="text-amber-400 font-mono text-xl">{proc.phase.split(" ")[0]}</span>
@@ -722,7 +735,7 @@ export default function CreativePortfolioSPA() {
             <div>
               <h4 className="text-white font-medium mb-6 uppercase tracking-wider text-xs">Studio</h4>
               <ul className="space-y-4 text-white/50 text-sm">
-                <li><a href="#contact" className="hover:text-amber-400 transition-colors">{clientAddress({ businessProfile: bp }) ?? `12 Rue de Paradis, ${clientCity({ formData: fd }) ?? "Paris"}`}</a></li>
+                <li><a href="#contact" className="hover:text-amber-400 transition-colors">{clientAddress({ businessProfile: bp }) ?? `12 Rue de Paradis, ${clientCity(sessionData) ?? "Paris"}`}</a></li>
                 <li><a href="#contact" className="hover:text-amber-400 transition-colors">Aoyama, Minato City, Tokyo</a></li>
                 <li><a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33145678900").replace(/[^+0-9]/g, "")}`} className="hover:text-amber-400 transition-colors">+33 (0) 1 45 67 89 00</a></li>
               </ul>

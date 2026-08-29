@@ -116,10 +116,21 @@ export default function KineticMarqueePage() {
       else id = sessionStorage.getItem(cleSession);
     } catch {}
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
-      .then(setSession)
-      .catch(() => {});
+    (async () => {
+      /* La session vient d'un stockage distant : chargée dans la foulée de sa
+         création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
+         onze secondes : trois ne suffisaient pas, et une page qui rate la
+         dernière garde le repli de la démonstration pour toujours. */
+      for (const attente of [0, 500, 1500, 3000, 6000]) {
+        if (attente) await new Promise((r) => setTimeout(r, attente));
+        try {
+          const reponse = await fetch(`/api/sessions?id=${id}`);
+          if (!reponse.ok) continue;
+          const donnees = await reponse.json();
+          if (donnees) { setSession(donnees); return; }
+        } catch {}
+      }
+    })();
   }, []);
 
   fd = session?.formData;
@@ -196,7 +207,7 @@ export default function KineticMarqueePage() {
               />
             ) : (
               <>
-            KIN<span className="text-[var(--brand,#f97316)]">{/* NOM_LOGO */ clientName({ formData: fd }) ?? "ETIC"}</span>
+            KIN<span className="text-[var(--brand,#f97316)]">{/* NOM_LOGO */ clientName(sessionData) ?? "ETIC"}</span>
           </>
             )}</Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">
@@ -240,7 +251,7 @@ export default function KineticMarqueePage() {
               </>}</h1>
             </Reveal>
             <Reveal delay={0.25}>
-              <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed">{clientHeroSubtitle(sessionData) ?? c?.heroSubline ?? <>
+              <p className="text-xl text-white/40 font-light max-w-lg leading-relaxed">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                 Brand identity, web experiences, and motion design for companies that refuse to stand still.
               </>}</p>
             </Reveal>
@@ -538,7 +549,7 @@ export default function KineticMarqueePage() {
           ))}
         </div>
         <div className="max-w-[1200px] mx-auto pt-8 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/20 flex flex-col md:flex-row justify-between gap-4">
-          <span>© 2026 {clientName(sessionData) ?? "KINETIC. BRANDS IN MOTION."}{/* VILLE_PIED */}{clientCity({ formData: fd }) ? ` · ${clientCity({ formData: fd })}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "KINETIC. BRANDS IN MOTION."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-6">
             <Link href="#contact" className="hover:text-white transition-colors">Mentions légales</Link>
             <Link href="#contact" className="hover:text-white transition-colors">Confidentialité</Link>
