@@ -22,6 +22,7 @@ import {
   clientHeroSubtitle,
   clientList,
   clientName,
+  clientPhone,
   clientReviews,
   clientServices,
   clientStats,
@@ -1890,7 +1891,7 @@ function ContactSection() {
                 {
                   icon: "📞",
                   label: "Sales Hotline",
-                  value: "+33 1 45 00 00 00 (24/7)",
+                  value: (clientPhone(sessionData) ?? "+33 1 45 00 00 00") + " (24/7)",
                 },
                 {
                   icon: "✉️",

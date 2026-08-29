@@ -303,12 +303,18 @@ export default function HorizonYachtPage() {
       >
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#hero" className="group flex items-center gap-4">
+            {/* La barre portait le nom du modèle, à l'endroit le plus visible de
+                la page. Le client a donné le sien : c'est celui-là qu'on montre,
+                dans le style du libellé d'origine. Sans client, la composition du
+                modèle revient telle quelle. */}
             {fd?.logoBase64 ? (
               <img
                 src={fd.logoBase64}
                 alt={fd?.businessName ?? 'logo'}
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
+            ) : clientName(sessionData) ? (
+              <span className="text-2xl font-black tracking-tighter uppercase leading-none italic">{clientName(sessionData)}</span>
             ) : (
               <>
                 <div className="w-12 h-12 border border-[var(--brand,#c5a059)] rounded-full flex items-center justify-center text-[var(--brand,#c5a059)] group-hover:bg-[var(--brand,#c5a059)] group-hover:text-[#020a13] transition-all duration-500">
@@ -316,7 +322,9 @@ export default function HorizonYachtPage() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-2xl font-black tracking-tighter uppercase leading-none italic">
-                    Horizon
+                    {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
+                        portait « Horizon » sur le site de n'importe quel client. */}
+                    {clientName(sessionData) ?? "Horizon"}
                   </span>
                   <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c5a059)] -mt-1 ml-1">
                     Maritime Group

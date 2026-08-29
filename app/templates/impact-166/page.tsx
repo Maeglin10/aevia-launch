@@ -7,6 +7,7 @@ import {
   clientInstagram,
   clientList,
   clientName,
+  clientPhone,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -1835,7 +1836,7 @@ return (
             <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               {[
                 { label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "iris@iris-studio.fr") },
-                { label: "Téléphone", value: "+33 6 20 51 13 32" },
+                { label: "Téléphone", value: clientPhone(sessionData) ?? "+33 6 20 51 13 32" },
                 { label: "Studio", value: (clientCity(sessionData) ?? "Paris") + ", sur rendez-vous" },
                 { label: "Instagram", value: "@" + (clientInstagram(sessionData) ?? "iris.studio.") + (clientCity(sessionData) ?? "Paris") },
               ].map((item) => (

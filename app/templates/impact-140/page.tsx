@@ -315,12 +315,18 @@ export default function WanderlustPage() {
             href="#hero"
             className="text-xl md:text-2xl font-bold tracking-tighter uppercase flex items-center gap-2"
           >
+            {/* La barre portait le nom du modèle, à l'endroit le plus visible de
+                la page. Le client a donné le sien : c'est celui-là qu'on montre,
+                dans le style du libellé d'origine. Sans client, la composition du
+                modèle revient telle quelle. */}
             {fd?.logoBase64 ? (
               <img
                 src={fd.logoBase64}
                 alt={fd?.businessName ?? 'logo'}
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
+            ) : clientName(sessionData) ? (
+              <span className="text-amber-500">{clientName(sessionData)}</span>
             ) : (
               <>
                 Wander<span className="text-amber-500">Lust.</span>

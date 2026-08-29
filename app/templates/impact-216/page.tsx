@@ -20,6 +20,7 @@ import {
   clientHeroSubtitle,
   clientHours,
   clientName,
+  clientPhone,
   clientReviews,
   clientServices,
   clientSiret,
@@ -1528,7 +1529,7 @@ function ContactSection() {
               Remplissez le formulaire et notre équipe commerciale vous contacte sous 2h ouvrées pour une simulation tarifaire personnalisée et sans engagement.
             </p>
             {/* HORAIRES */ resolveList(clientHours({ formData: fd, businessProfile: bp })?.map((h: any) => ({ label: h.day, value: h.hours })), [
-              { icon: '📞', label: 'Téléphone',  value: '+33 1 84 88 92 10' },
+              { icon: '📞', label: 'Téléphone',  value: clientPhone(sessionData) ?? '+33 1 84 88 92 10' },
               { icon: '✉️', label: 'Email',      value: (clientEmail(sessionData) ?? fd?.email ?? 'contact@meridian-freight.fr') },
               { icon: '🕐', label: 'Horaires',   value: 'Lun–Ven 8h–19h | Sam 9h–13h' },
             ]).map((info, i) => (
