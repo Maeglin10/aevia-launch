@@ -14,7 +14,7 @@ export const TEMPLATE_TIER: Record<string, SiteTier> = {
   "impact-08": "premium", // 9 sections
   "impact-09": "premium", // 9 sections
   "impact-10": "premium", // 15 sections
-  "impact-11": "pro", // 6 sections
+  "impact-11": "essentiel", // 5 sections
   "impact-12": "premium", // 11 sections
   "impact-13": "premium", // 11 sections
   "impact-14": "premium", // 12 sections
@@ -38,7 +38,7 @@ export const TEMPLATE_TIER: Record<string, SiteTier> = {
   "impact-32": "pro", // 7 sections
   "impact-33": "premium", // 9 sections
   "impact-34": "pro", // 7 sections
-  "impact-35": "pro", // 7 sections
+  "impact-35": "pro", // 6 sections
   "impact-36": "pro", // 6 sections
   "impact-37": "pro", // 7 sections
   "impact-38": "premium", // 10 sections
@@ -47,7 +47,7 @@ export const TEMPLATE_TIER: Record<string, SiteTier> = {
   "impact-41": "landing", // 1 sections
   "impact-42": "pro", // 7 sections
   "impact-43": "premium", // 8 sections
-  "impact-44": "pro", // 7 sections
+  "impact-44": "pro", // 6 sections
   "impact-45": "essentiel", // 5 sections
   "impact-46": "pro", // 7 sections
   "impact-47": "pro", // 7 sections
@@ -100,10 +100,10 @@ export const TEMPLATE_TIER: Record<string, SiteTier> = {
   "impact-94": "premium", // 10 sections
   "impact-95": "pro", // 7 sections
   "impact-96": "premium", // 9 sections
-  "impact-97": "pro", // 6 sections
-  "impact-98": "pro", // 6 sections
+  "impact-97": "essentiel", // 5 sections
+  "impact-98": "essentiel", // 5 sections
   "impact-99": "premium", // 11 sections
-  "impact-100": "pro", // 7 sections
+  "impact-100": "essentiel", // 5 sections
   "impact-101": "essentiel", // 5 sections
   "impact-102": "pro", // 6 sections
   "impact-103": "premium", // 9 sections
@@ -125,7 +125,7 @@ export const TEMPLATE_TIER: Record<string, SiteTier> = {
   "impact-119": "pro", // 7 sections
   "impact-120": "premium", // 11 sections
   "impact-121": "premium", // 9 sections
-  "impact-122": "pro", // 7 sections
+  "impact-122": "pro", // 6 sections
   "impact-123": "pro", // 6 sections
   "impact-124": "premium", // 8 sections
   "impact-125": "essentiel", // 5 sections
@@ -144,17 +144,17 @@ export const TEMPLATE_TIER: Record<string, SiteTier> = {
   "impact-138": "premium", // 8 sections
   "impact-139": "premium", // 9 sections
   "impact-140": "essentiel", // 5 sections
-  "impact-141": "essentiel", // 5 sections
+  "impact-141": "essentiel", // 4 sections
   "impact-142": "premium", // 8 sections
   "impact-143": "pro", // 7 sections
   "impact-144": "pro", // 7 sections
   "impact-145": "pro", // 6 sections
-  "impact-146": "pro", // 7 sections
+  "impact-146": "pro", // 6 sections
   "impact-147": "premium", // 8 sections
   "impact-148": "pro", // 6 sections
   "impact-149": "pro", // 6 sections
   "impact-150": "pro", // 7 sections
-  "impact-151": "pro", // 6 sections
+  "impact-151": "essentiel", // 5 sections
   "impact-152": "pro", // 7 sections
   "impact-153": "pro", // 7 sections
   "impact-154": "premium", // 15 sections
@@ -163,7 +163,7 @@ export const TEMPLATE_TIER: Record<string, SiteTier> = {
   "impact-157": "premium", // 9 sections
   "impact-158": "pro", // 6 sections
   "impact-159": "pro", // 6 sections
-  "impact-160": "pro", // 6 sections
+  "impact-160": "essentiel", // 4 sections
   "impact-161": "premium", // 10 sections
   "impact-162": "premium", // 8 sections
   "impact-163": "premium", // 9 sections
@@ -323,7 +323,7 @@ export const TEMPLATE_TIER: Record<string, SiteTier> = {
   "impact-327": "premium", // 10 sections
   "impact-328": "pro", // 7 sections
   "impact-329": "premium", // 8 sections
-  "impact-330": "pro", // 7 sections
+  "impact-330": "premium", // 8 sections
   "impact-331": "premium", // 10 sections
   "impact-332": "premium", // 10 sections
   "impact-333": "premium", // 9 sections
@@ -345,7 +345,7 @@ export const TEMPLATE_TIER: Record<string, SiteTier> = {
   "impact-349": "premium", // 8 sections
   "impact-350": "premium", // 9 sections
   "impact-351": "premium", // 9 sections
-  "impact-352": "premium", // 9 sections
+  "impact-352": "premium", // 10 sections
   "impact-353": "premium", // 9 sections
   "impact-354": "premium", // 8 sections
   "impact-355": "premium", // 9 sections
