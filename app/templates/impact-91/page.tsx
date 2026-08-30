@@ -1161,7 +1161,7 @@ function TestimonialsSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {TESTIMONIALS.map((t, i) => (
-            <Reveal key={t.author} delay={i * 0.1}>
+            <Reveal key={i} delay={i * 0.1}>
               <div
                 className="p-10 relative group transition-all duration-300 hover:shadow-[0_8px_40px_rgba(202,138,4,0.08)]"
                 style={{ backgroundColor: C.cream, border: `1px solid ${C.border}` }}

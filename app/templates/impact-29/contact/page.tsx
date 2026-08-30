@@ -469,7 +469,7 @@ export default function ContactPage() {
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {testimonials.slice(1).map((t, i) => (
-              <Reveal key={t.name} delay={i * 0.08}>
+              <Reveal key={i} delay={i * 0.08}>
                 <div className="border border-[#00F5D4]/15 p-6 hover:border-[#00F5D4]/30 transition-colors h-full flex flex-col">
                   <div className="text-[#00F5D4] text-lg mb-4 select-none">&ldquo;</div>
                   <blockquote className="text-[#94A3B8] text-sm leading-relaxed flex-1 mb-6">{t.quote}</blockquote>

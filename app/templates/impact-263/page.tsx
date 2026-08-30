@@ -1590,7 +1590,7 @@ function Testimonials() {
       </div>
       <div style={grid}>
         {TESTIMONIALS.map((t, i) => (
-          <TestimonialCard key={t.name} t={t} i={i} />
+          <TestimonialCard key={i} t={t} i={i} />
         ))}
       </div>
     </section>

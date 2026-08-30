@@ -467,7 +467,7 @@ return (
 
           <div className="grid md:grid-cols-2 gap-6">
             {TESTIMONIALS.map((t, i) => (
-              <Reveal key={t.name} delay={i * 0.1}>
+              <Reveal key={i} delay={i * 0.1}>
                 <motion.div
                   whileHover={{ scale: 1.01 }}
                   className="p-8 rounded-2xl border border-white/8 hover:border-[var(--brand,#F97316)]/30 transition-all bg-white/[0.03]"

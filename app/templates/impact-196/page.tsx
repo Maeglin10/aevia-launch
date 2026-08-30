@@ -376,7 +376,7 @@ export default function CabinetKinePage() {
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 22, maxWidth: 1100, margin: "0 auto" }}>
           {TEMOIGNAGES.map((t, i) => (
-            <Reveal key={t.auteur} delay={i * 0.1}>
+            <Reveal key={i} delay={i * 0.1}>
               <div style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 14, padding: "30px 26px" }}>
                 <div style={{ display: "flex", gap: 3, marginBottom: 14 }}>{[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.accentLight} color={C.accentLight} />)}</div>
                 <p style={{ fontFamily: FONT_SERIF, fontSize: 15, fontStyle: "italic", color: "rgba(255,255,255,0.82)", lineHeight: 1.72, marginBottom: 18 }}>"{t.texte}"</p>

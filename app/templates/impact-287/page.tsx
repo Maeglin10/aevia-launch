@@ -1618,7 +1618,7 @@ function TransformationSection() {
 
       <div style={grid} className="r287-testim">
         {TESTIMONIALS.map((t, i) => (
-          <Reveal key={t.name} delay={i * 0.12} style={{ height: '100%' }}>
+          <Reveal key={i} delay={i * 0.12} style={{ height: '100%' }}>
             <figure
               style={{
                 background: 'rgba(255,255,255,0.08)',

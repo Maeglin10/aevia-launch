@@ -1099,7 +1099,7 @@ export default function Impact94Page() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {TESTIMONIALS.map((t, i) => (
-            <Reveal key={t.name} delay={i * 0.15}>
+            <Reveal key={i} delay={i * 0.15}>
               <div className="border border-[#FAFAF9]/10 p-10 hover:border-[var(--brand,#CA8A04)]/30 transition-colors duration-500 group">
                 {/* Stars */}
                 <div className="flex gap-1 mb-6">

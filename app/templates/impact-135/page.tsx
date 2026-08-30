@@ -1914,7 +1914,7 @@ export default function Impact135Page() {
             }}
           >
             {TESTIMONIALS.map((item, index) => (
-              <TestimonialCard key={item.name} item={item} index={index} />
+              <TestimonialCard key={index} item={item} index={index} />
             ))}
           </div>
         </div>

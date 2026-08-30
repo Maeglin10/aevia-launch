@@ -632,7 +632,7 @@ export default function MaisonEstevePage() {
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: "clamp(14px, 2vw, 22px)", maxWidth: 1100, margin: "0 auto", position: "relative" }}>
           {AVIS.map((a, idx) => (
-            <Reveal key={a.auteur} delay={idx * 0.12}>
+            <Reveal key={idx} delay={idx * 0.12}>
               <figure style={{ position: "relative", background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.09)", borderRadius: 4, padding: "clamp(26px, 3.2vw, 36px) clamp(22px, 2.8vw, 30px)", height: "100%", margin: 0, boxSizing: "border-box", overflow: "hidden" }}>
                 <span aria-hidden style={{ position: "absolute", top: -20, right: 4, fontFamily: SERIF, fontStyle: "italic", fontSize: 130, lineHeight: 1, color: "rgba(168,148,104,0.09)", pointerEvents: "none", userSelect: "none" }}>”</span>
                 <blockquote style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(16.5px, 1.7vw, 19px)", color: "rgba(255,255,255,0.84)", lineHeight: 1.72, margin: "0 0 20px" }}>

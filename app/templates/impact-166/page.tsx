@@ -1734,7 +1734,7 @@ return (
             }}
           >
             {TESTIMONIALS.map((t, i) => (
-              <TestimonialCard key={t.name} t={t} index={i} />
+              <TestimonialCard key={i} t={t} index={i} />
             ))}
           </div>
 

@@ -342,7 +342,7 @@ export default function EchoChamberPage() {
           </SectionReveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: "1.75rem" }}>
             {testimonials.map((t, i) => (
-              <SectionReveal key={t.name} delay={i * 0.1}>
+              <SectionReveal key={i} delay={i * 0.1}>
                 <div style={{ backgroundColor: C.bgCard, border: `1px solid ${C.border}`, borderRadius: "12px", padding: "2.25rem", height: "100%", display: "flex", flexDirection: "column" }}>
                   <div style={{ display: "flex", gap: "0.3rem", marginBottom: "1.25rem" }}>
                     {Array.from({ length: t.rating }).map((_, j) => <Star key={j} size={14} color={C.accent} fill={C.accent} />)}

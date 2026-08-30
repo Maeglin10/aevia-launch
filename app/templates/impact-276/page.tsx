@@ -1680,7 +1680,7 @@ function TransformationSection() {
 
           <div className="r276-testi-grid">
             {TESTIMONIALS.map((t, i) => (
-              <Reveal key={t.name} delay={i * 0.14}>
+              <Reveal key={i} delay={i * 0.14}>
                 <div
                   className="r276-testi-card"
                   style={{

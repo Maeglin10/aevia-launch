@@ -704,7 +704,7 @@ export default function NettoyageExtremePage() {
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 20, alignItems: "start" }}>
             {AVIS.map((a, idx) => (
-              <Reveal key={a.auteur} delay={idx * 0.1}>
+              <Reveal key={idx} delay={idx * 0.1}>
                 <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, padding: "28px 26px", marginTop: idx % 2 === 1 ? 34 : 0 }}>
                   <div style={{ display: "flex", gap: 3, marginBottom: 14 }}>
                     {[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.hazard} color={C.hazard} aria-hidden />)}

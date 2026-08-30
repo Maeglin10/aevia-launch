@@ -1635,7 +1635,7 @@ return (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
             {TESTIMONIALS.map((t, i) => (
               <motion.div
-                key={t.name}
+                key={i}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}

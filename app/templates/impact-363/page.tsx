@@ -470,7 +470,7 @@ export default function PodoMarchePage() {
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: 18, maxWidth: 1100, margin: "0 auto" }}>
           {AVIS.map((a, idx) => (
-            <Reveal key={a.auteur} delay={idx * 0.1}>
+            <Reveal key={idx} delay={idx * 0.1}>
               <div style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.10)", borderRadius: 12, padding: "26px 24px", height: "100%" }}>
                 <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>
                   {[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.hi} color={C.hi} />)}

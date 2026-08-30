@@ -1101,6 +1101,18 @@ function ThemesContent() {
                   >
                     {t.startBuilding} <ArrowRight className="w-5 h-5" />
                   </Link>
+                  {/*
+                    Lien vers l'index des fiches modèles. Cette galerie est
+                    rendue côté client : un moteur n'y voit qu'une page et
+                    aucun des liens de la grille. L'index, lui, est rendu côté
+                    serveur et mène aux 344 fiches — c'est par là qu'elles se
+                    font découvrir autrement que par le plan de site.
+                  */}
+                  <p className="mt-6 text-sm text-zinc-500">
+                    <Link href="/themes/modeles" className="underline hover:text-zinc-300">
+                      Parcourir les modèles par métier
+                    </Link>
+                  </p>
                 </div>
               </div>
             </motion.div>

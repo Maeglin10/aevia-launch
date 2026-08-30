@@ -806,7 +806,7 @@ export default function CapDemenagementsPage() {
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: "clamp(14px, 1.6vw, 20px)", maxWidth: 1120, margin: "0 auto" }}>
           {AVIS.map((a, idx) => (
-            <Reveal key={a.auteur} delay={idx * 0.1}>
+            <Reveal key={idx} delay={idx * 0.1}>
               <div className={idx % 2 === 1 ? "i329-avis-off" : ""} style={{ marginTop: idx % 2 === 1 ? 28 : 0, height: "100%" }}>
                 <AvisCard a={a} idx={idx} />
               </div>

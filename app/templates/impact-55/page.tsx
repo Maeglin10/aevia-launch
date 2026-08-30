@@ -421,7 +421,7 @@ export default function CabinetRenardPage() {
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20, maxWidth: 1100, margin: "0 auto" }}>
           {AVIS.map((a, i) => (
-            <Reveal key={a.auteur} delay={i * 0.1}>
+            <Reveal key={i} delay={i * 0.1}>
               <div style={{ background: "rgba(255,255,255,0.04)", border: `1px solid ${C.gold}20`, borderRadius: 4, padding: "28px 24px" }}>
                 <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>{[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.gold} color={C.gold} />)}</div>
                 <p style={{ fontFamily: FONT, fontSize: 15, fontStyle: "italic", fontWeight: 300, color: "rgba(255,255,255,0.80)", lineHeight: 1.72, marginBottom: 18 }}>"{a.texte}"</p>

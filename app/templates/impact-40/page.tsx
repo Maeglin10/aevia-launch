@@ -1256,7 +1256,7 @@ export default function TerreVivantePage() {
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: "1.75rem" }}>
             {testimonials.map((t, i) => (
-              <SectionReveal key={t.name} delay={i * 0.1}>
+              <SectionReveal key={i} delay={i * 0.1}>
                 <div
                   style={{
                     backgroundColor: C.white,

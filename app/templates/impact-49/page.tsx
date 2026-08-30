@@ -622,7 +622,7 @@ return (
           {/* Testimonial slider / grid snippet */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {AVIS_INLINE.map((testi, idx) => (
-              <Reveal key={testi.name} delay={idx * 0.1}>
+              <Reveal key={idx} delay={idx * 0.1}>
                 <div className="p-10 rounded-[2.5rem] bg-[#F9FAFB] border border-[#F3F4F6] flex flex-col justify-between h-full">
                   <div>
                     <div className="flex items-center gap-3 mb-6">

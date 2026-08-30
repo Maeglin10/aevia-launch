@@ -1615,7 +1615,7 @@ function Testimonials() {
           }}
         >
           {TESTIMONIALS.map((t, i) => (
-            <Reveal key={t.author} delay={i * 0.14} style={{ height: '100%' }}>
+            <Reveal key={i} delay={i * 0.14} style={{ height: '100%' }}>
               <figure
                 style={{
                   background: C.bgCard,

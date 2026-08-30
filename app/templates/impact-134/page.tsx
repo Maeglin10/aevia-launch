@@ -1809,7 +1809,7 @@ function ReviewsSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {REVIEWS.map((review, i) => (
-            <Reveal key={review.author} delay={i * 0.1}>
+            <Reveal key={i} delay={i * 0.1}>
               <div
                 className="p-8 rounded-2xl relative transition-all duration-300 hover:shadow-[0_12px_40px_rgba(236,72,153,0.10)]"
                 style={{ backgroundColor: C.pink, border: `1px solid ${C.primaryBorder}` }}

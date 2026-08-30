@@ -117,7 +117,7 @@ export default function ResultatsPage() {
         </Reveal>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-px bg-[#2A2520] mb-20 border border-[#2A2520]">
           {TESTIMONIALS.map((t, i) => (
-            <Reveal key={t.name} delay={i * 0.06}>
+            <Reveal key={i} delay={i * 0.06}>
               <div className="bg-[#0C0C0A] p-8 flex flex-col h-full border border-[#2A2520]/50">
                 <div className="flex items-center gap-1 mb-5">
                   {Array.from({ length: t.stars }).map((_, j) => (

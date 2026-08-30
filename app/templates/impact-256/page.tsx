@@ -1656,7 +1656,7 @@ function Testimonials() {
       </div>
       <div style={grid}>
         {TESTIMONIALS.map((t, i) => (
-          <Reveal key={t.name} delay={i * 0.13} style={{ height: '100%' }}>
+          <Reveal key={i} delay={i * 0.13} style={{ height: '100%' }}>
             <figure
               style={{
                 background: C.bgCard,

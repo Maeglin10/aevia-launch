@@ -417,7 +417,7 @@ export default function StudioNomaPage() {
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 24, maxWidth: 1100, margin: "0 auto" }}>
           {TEMOIGNAGES.map((t, i) => (
-            <Reveal key={t.auteur} delay={i * 0.1}>
+            <Reveal key={i} delay={i * 0.1}>
               <div style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.10)", borderRadius: 16, padding: "32px 28px" }}>
                 <div style={{ display: "flex", gap: 3, marginBottom: 16 }}>{[...Array(5)].map((_, j) => <Star key={j} size={14} fill="var(--brand,#c4a882)" color="var(--brand,#c4a882)" />)}</div>
                 <p style={{ fontFamily: FONT, fontSize: 17, fontStyle: "italic", color: "rgba(255,255,255,0.85)", lineHeight: 1.7, marginBottom: 20 }}>"{t.texte}"</p>

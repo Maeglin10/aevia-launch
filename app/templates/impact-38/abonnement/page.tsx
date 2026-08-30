@@ -730,7 +730,7 @@ export default function AbonnementPage() {
           </SectionReveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: 20 }}>
             {REVIEW_HIGHLIGHTS.map((r, i) => (
-              <SectionReveal key={r.name} delay={i * 0.08}>
+              <SectionReveal key={i} delay={i * 0.08}>
                 <div style={{ background: C.white, borderRadius: 14, padding: 28, border: `1px solid ${C.border}`, display: "flex", gap: 18, alignItems: "flex-start" }}>
                   <div style={{ width: 46, height: 46, borderRadius: "50%", background: C.caramelLight, display: "flex", alignItems: "center", justifyContent: "center", fontFamily: SERIF, fontWeight: 700, fontSize: 14, color: C.caramel, flexShrink: 0 }}>
                     {r.avatar}

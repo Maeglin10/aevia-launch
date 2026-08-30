@@ -1487,7 +1487,7 @@ function TestimonialsSection() {
           }}
         >
           {testimonials.map((t, i) => (
-            <Reveal key={t.name} delay={i * 0.14}>
+            <Reveal key={i} delay={i * 0.14}>
               <div
                 style={{
                   background: 'rgba(255,255,255,0.08)',

@@ -2561,13 +2561,13 @@ export default function FlammeEtCoPage() {
             </div>
             <div className="fc-grid-3">
               {TESTIMONIALS.map((t, i) => (
-                <TestiCard key={t.id} t={t} i={i} />
+                <TestiCard key={i} t={t} i={i} />
               ))}
             </div>
             {/* Extra testimonials row */}
             <div style={{ marginTop: '1.5rem' }} className="fc-grid-2">
               {EXTRA_TESTIMONIALS.map((t, i) => (
-                <TestiCard key={t.id} t={t} i={i + TESTIMONIALS.length} />
+                <TestiCard key={i} t={t} i={i + TESTIMONIALS.length} />
               ))}
             </div>
           </div>

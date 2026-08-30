@@ -1664,7 +1664,7 @@ function Testimonials() {
           }}
         >
           {TESTIMONIALS.map((t, i) => (
-            <FadeUp key={t.author} delay={i * 0.15}>
+            <FadeUp key={i} delay={i * 0.15}>
               <div
                 style={{
                   background: T.navySoft,

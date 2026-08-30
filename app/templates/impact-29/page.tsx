@@ -433,7 +433,7 @@ return (
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {testimonials.map((t, i) => (
-              <Reveal key={t.name} delay={i * 0.08}>
+              <Reveal key={i} delay={i * 0.08}>
                 <div className="border border-[#00F5D4]/15 p-8 hover:border-[#00F5D4]/30 transition-colors h-full flex flex-col">
                   <div className="text-[#00F5D4] text-lg mb-6 select-none">&ldquo;</div>
                   <blockquote className="text-[#E2E8F0] text-sm leading-relaxed flex-1 mb-8">{t.quote}</blockquote>

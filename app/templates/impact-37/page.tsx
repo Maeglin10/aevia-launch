@@ -1200,7 +1200,7 @@ export default function ClosDuSoirPage() {
             }}
           >
             {TESTIMONIALS.map((t, i) => (
-              <SectionReveal key={t.name} delay={i * 0.1}>
+              <SectionReveal key={i} delay={i * 0.1}>
                 <div
                   style={{
                     background: C.white,

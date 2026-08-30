@@ -1456,7 +1456,7 @@ function TestimonialsSection() {
       </div>
       <div style={grid}>
         {AVIS.map((a, i) => (
-          <AvisCard key={a.prenom} a={a} i={i} />
+          <AvisCard key={i} a={a} i={i} />
         ))}
       </div>
     </section>

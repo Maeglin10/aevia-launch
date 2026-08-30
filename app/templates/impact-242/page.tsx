@@ -1694,7 +1694,7 @@ function Testimonials() {
           className="fm-testimonials"
         >
           {TESTIMONIALS.map((t, i) => (
-            <TestimonialCard key={t.name} t={t} i={i} />
+            <TestimonialCard key={i} t={t} i={i} />
           ))}
         </div>
       </div>

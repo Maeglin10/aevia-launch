@@ -808,7 +808,7 @@ function Testimonials() {
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 24, maxWidth: 1000, margin: "0 auto" }}>
         {TESTIMONIALS.map((t, i) => (
           <motion.div
-            key={t.name}
+            key={i}
             initial={{ opacity: 0, y: 40 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.5, delay: i * 0.12 }}

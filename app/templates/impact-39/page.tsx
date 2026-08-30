@@ -330,7 +330,7 @@ return (
           </SectionReveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(360px, 100%), 1fr))", gap: 24 }} className="grid md:grid-cols-1">
             {TESTIMONIALS.map((t, i) => (
-              <SectionReveal key={t.name} delay={i * 0.1}>
+              <SectionReveal key={i} delay={i * 0.1}>
                 <div style={{ background: C.bgAlt, borderRadius: 16, padding: 32, border: `1px solid ${C.border}`, display: "flex", flexDirection: "column", gap: 18 }}>
                   <div style={{ display: "flex", gap: 4 }}>
                     {Array.from({ length: t.rating }).map((_, j) => <Star key={j} size={16} fill={C.orange} color={C.orange} />)}

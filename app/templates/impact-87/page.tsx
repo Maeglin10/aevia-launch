@@ -710,7 +710,7 @@ export default function IronClubPage() {
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 28 }}>
             {AVIS.map((avis, i) => (
-              <Reveal key={avis.nom} delay={i * 0.12}>
+              <Reveal key={i} delay={i * 0.12}>
                 <div
                   style={{
                     background: C.white,

@@ -843,7 +843,7 @@ export default function LignesEtBoisPage() {
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: "clamp(14px, 2vw, 22px)", maxWidth: 1100, margin: "0 auto", position: "relative" }}>
           {AVIS.map((a, idx) => (
-            <AvisCarte key={a.auteur} a={a} idx={idx} />
+            <AvisCarte key={idx} a={a} idx={idx} />
           ))}
         </div>
       </section>

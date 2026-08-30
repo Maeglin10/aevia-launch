@@ -716,7 +716,7 @@ export default function LedgerPage() {
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 28 }}>
             {TEMOIGNAGES.map((temo, i) => (
-              <Reveal key={temo.nom} delay={i * 0.12}>
+              <Reveal key={i} delay={i * 0.12}>
                 <div
                   style={{
                     background: C.white,

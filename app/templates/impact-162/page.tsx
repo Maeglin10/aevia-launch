@@ -473,7 +473,7 @@ return (
           </Reveal>
           <div className="grid md:grid-cols-3 gap-8">
             {TESTIMONIALS.map((t, i) => (
-              <Reveal key={t.name} delay={i * 0.1}>
+              <Reveal key={i} delay={i * 0.1}>
                 <div className="bg-[#3A2A18] p-8">
                   <div className="flex gap-1 mb-5">
                     {[...Array(t.rating)].map((_, i) => <Star key={i} className="w-4 h-4 fill-[#C9A86C] text-[#C9A86C]" />)}

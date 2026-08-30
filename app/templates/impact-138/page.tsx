@@ -412,7 +412,7 @@ export default function VisionClairePage() {
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20, maxWidth: 1100, margin: "0 auto" }}>
           {AVIS.map((a, i) => (
-            <Reveal key={a.auteur} delay={i * 0.1}>
+            <Reveal key={i} delay={i * 0.1}>
               <div style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.10)", borderRadius: 14, padding: "28px 24px" }}>
                 <div style={{ display: "flex", gap: 3, marginBottom: 12 }}>{[...Array(5)].map((_, j) => <Star key={j} size={13} fill={C.cyan} color={C.cyan} />)}</div>
                 <p style={{ fontSize: 14, color: "rgba(255,255,255,0.80)", lineHeight: 1.7, marginBottom: 18 }}>"{a.texte}"</p>

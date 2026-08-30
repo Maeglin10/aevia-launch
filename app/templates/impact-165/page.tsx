@@ -503,7 +503,7 @@ export default function PulseAppPage() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {TESTIMONIALS.map((t, i) => (
-              <Reveal key={t.name} delay={i * 0.08}>
+              <Reveal key={i} delay={i * 0.08}>
                 <div className="bg-[#1a1740] rounded-2xl p-6 hover:bg-[#252150] transition-colors duration-300">
                   <div className="flex items-center gap-1 mb-4">
                     {[...Array(t.rating)].map((_, i) => <Star key={i} className="w-4 h-4 fill-[#F59E0B] text-[#F59E0B]" />)}

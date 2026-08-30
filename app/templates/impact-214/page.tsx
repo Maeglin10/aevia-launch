@@ -2094,7 +2094,7 @@ export default function AquaPrestigePage() {
           />
           <div className="grid-6">
             {TESTIMONIALS.map((t, i) => (
-              <TestimonialCard key={t.name} {...t} index={i} />
+              <TestimonialCard key={i} {...t} index={i} />
             ))}
           </div>
 

@@ -438,7 +438,7 @@ export default function EssentialSaaSPage() {
           </div>
           <div className="grid md:grid-cols-3 gap-6">
             {TESTIMONIALS.map((t, i) => (
-              <Reveal key={t.name} delay={i * 0.1}>
+              <Reveal key={i} delay={i * 0.1}>
                 <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
                   <div className="flex gap-1 mb-5">
                     {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 fill-[#F59E0B] text-[#F59E0B]" />)}

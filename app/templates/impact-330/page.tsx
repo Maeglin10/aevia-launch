@@ -777,7 +777,7 @@ export default function PharmacieDuParcPage() {
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(290px, 100%), 1fr))", gap: "clamp(14px, 1.6vw, 20px)", maxWidth: 1100, margin: "0 auto", position: "relative" }}>
           {AVIS.map((a, idx) => (
-            <Reveal key={a.auteur} delay={idx * 0.1}>
+            <Reveal key={idx} delay={idx * 0.1}>
               <AvisCard a={a} />
             </Reveal>
           ))}
