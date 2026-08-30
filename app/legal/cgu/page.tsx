@@ -1,3 +1,21 @@
+import type { Metadata } from "next";
+
+// Titre propre à cette page. Sans lui elle héritait du <title> du layout
+// racine : sept pages publiques de Launch le partageaient, mesuré en prod.
+export const metadata: Metadata = {
+  title: "Conditions générales d'utilisation",
+  description:
+    "Conditions d'utilisation d'Aevia Launch : compte, contenu généré, propriété du site livré, résiliation.",
+  alternates: { canonical: "https://launch.aevia.services/legal/cgu" },
+  openGraph: {
+    title: "Conditions générales d'utilisation",
+    description:
+      "Conditions d'utilisation d'Aevia Launch : compte, contenu généré, propriété du site livré, résiliation.",
+    url: "https://launch.aevia.services/legal/cgu",
+    images: ["/api/og"],
+  },
+};
+
 import { LegalFooter } from "@/components/LegalFooter";
 import { LegalEditeur, LEGAL_FACTS } from "@/components/LegalIdentity";
 

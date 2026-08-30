@@ -1,3 +1,21 @@
+import type { Metadata } from "next";
+
+// Titre propre à cette page. Sans lui elle héritait du <title> du layout
+// racine : sept pages publiques de Launch le partageaient, mesuré en prod.
+export const metadata: Metadata = {
+  title: "Politique de cookies",
+  description:
+    "Cookies déposés par Aevia Launch, leur finalité et comment retirer votre consentement.",
+  alternates: { canonical: "https://launch.aevia.services/legal/cookies" },
+  openGraph: {
+    title: "Politique de cookies",
+    description:
+      "Cookies déposés par Aevia Launch, leur finalité et comment retirer votre consentement.",
+    url: "https://launch.aevia.services/legal/cookies",
+    images: ["/api/og"],
+  },
+};
+
 import { LegalFooter } from "@/components/LegalFooter";
 import { LEGAL_FACTS } from "@/components/LegalIdentity";
 

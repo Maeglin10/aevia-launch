@@ -4,6 +4,7 @@ import { BrandColorVar } from "./BrandColorVar";
 import { SiteSchema } from "./SiteSchema";
 import { SiteImages } from "./SiteImages";
 import { TemplateAnalytics } from "./TemplateAnalytics";
+import { TexteAlternatif } from "./TexteAlternatif";
 
 export const dynamic = 'force-dynamic';
 
@@ -18,6 +19,10 @@ export default function TemplatesLayout({
       <SiteSchema />
       <SiteImages />
       <TemplateAnalytics />
+      {/* 698 images sur 1 034 n'avaient aucun texte alternatif, sur 245 des
+          373 thèmes. Posé ici plutôt que dans 245 fichiers, comme les
+          correctifs catalogue ci-dessous. */}
+      <TexteAlternatif />
       {/* Tap targets. The catalogue sweep measured nav and footer links at
           15-21px tall on 259 templates — well under the 44px that makes a
           link comfortably hittable with a thumb. Growing the hit area here,

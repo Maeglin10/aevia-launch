@@ -109,14 +109,37 @@ export async function PATCH(req: NextRequest) {
   const session = await getSessionFromBlob(id);
   if (!session) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  // Write authorization: a session minted with an editToken may only be modified
-  // by a caller presenting it (the creator, via localStorage). Sessions created
-  // before this existed carry no token and stay editable (backward compat).
+  /*
+    Autorisation d'écriture.
+
+    Une session frappée avec un `editToken` ne se modifie qu'en le présentant —
+    l'identifiant seul, qui circule dans une URL d'aperçu partagée, ne suffit
+    pas.
+
+    Restait le trou : les sessions créées avant l'existence du jeton n'en
+    portent aucun et étaient donc modifiables par quiconque avait le lien. On ne
+    peut pas les refuser sèchement sans casser un client en train de travailler,
+    alors on adopte à la première écriture : la session sans jeton en reçoit un,
+    rendu à l'appelant, et toute écriture suivante devra le présenter. Passé
+    24 h une session sans jeton n'a plus de propriétaire plausible : elle est
+    refusée.
+  */
+  const presented = req.headers.get("x-edit-token");
+  let adopte: string | null = null;
+
   if (session.editToken) {
-    const presented = req.headers.get("x-edit-token");
     if (presented !== session.editToken) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
+  } else {
+    const age = Date.now() - new Date(session.createdAt ?? 0).getTime();
+    if (!Number.isFinite(age) || age > 24 * 60 * 60 * 1000) {
+      return NextResponse.json(
+        { error: "Session expirée — relancez la personnalisation." },
+        { status: 403 },
+      );
+    }
+    adopte = crypto.randomUUID();
   }
 
   const body = await req.json() as {
@@ -146,6 +169,7 @@ export async function PATCH(req: NextRequest) {
           .filter(([, v]) => typeof v === "string" && v.trim() !== ""),
       ),
     }),
+    ...(adopte ? { editToken: adopte } : {}),
   } satisfies SessionData;
 
   try {
@@ -154,5 +178,7 @@ export async function PATCH(req: NextRequest) {
     saveSession(id, updated);
   }
 
-  return NextResponse.json({ ok: true });
+  // Le jeton adopté n'est rendu qu'à l'appelant qui vient de l'obtenir, pour
+  // qu'il le range comme le fait POST. Les écritures suivantes l'exigeront.
+  return NextResponse.json(adopte ? { ok: true, editToken: adopte } : { ok: true });
 }

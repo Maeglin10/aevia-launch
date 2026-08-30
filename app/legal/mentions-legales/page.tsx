@@ -1,3 +1,21 @@
+import type { Metadata } from "next";
+
+// Titre propre à cette page. Sans lui elle héritait du <title> du layout
+// racine : sept pages publiques de Launch le partageaient, mesuré en prod.
+export const metadata: Metadata = {
+  title: "Mentions légales",
+  description:
+    "Éditeur, hébergeur et coordonnées d'Aevia WS, éditeur d'Aevia Launch.",
+  alternates: { canonical: "https://launch.aevia.services/legal/mentions-legales" },
+  openGraph: {
+    title: "Mentions légales",
+    description:
+      "Éditeur, hébergeur et coordonnées d'Aevia WS, éditeur d'Aevia Launch.",
+    url: "https://launch.aevia.services/legal/mentions-legales",
+    images: ["/api/og"],
+  },
+};
+
 import { LegalFooter } from "@/components/LegalFooter";
 import { LegalEditeur, LegalHebergeur, LEGAL_FACTS } from "@/components/LegalIdentity";
 

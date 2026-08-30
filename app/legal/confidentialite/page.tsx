@@ -1,3 +1,21 @@
+import type { Metadata } from "next";
+
+// Titre propre à cette page. Sans lui elle héritait du <title> du layout
+// racine : sept pages publiques de Launch le partageaient, mesuré en prod.
+export const metadata: Metadata = {
+  title: "Politique de confidentialité",
+  description:
+    "Données collectées par Aevia Launch lors de la création de votre site, durée de conservation et exercice de vos droits RGPD.",
+  alternates: { canonical: "https://launch.aevia.services/legal/confidentialite" },
+  openGraph: {
+    title: "Politique de confidentialité",
+    description:
+      "Données collectées par Aevia Launch lors de la création de votre site, durée de conservation et exercice de vos droits RGPD.",
+    url: "https://launch.aevia.services/legal/confidentialite",
+    images: ["/api/og"],
+  },
+};
+
 import { LegalFooter } from "@/components/LegalFooter";
 import { LegalEditeur, LEGAL_FACTS } from "@/components/LegalIdentity";
 
