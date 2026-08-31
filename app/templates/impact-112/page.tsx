@@ -115,6 +115,7 @@ function PRODUCTS_SOURCE_LIVE() {
     badge: "Nouveau",
     desc: "Forme asymétrique née du hasard de la cuisson. Chaque pièce est unique. Parfait pour le café du matin ou les céréales en famille.",
     gradient: "linear-gradient(135deg, #D4845A 0%, #9B4A28 100%)",
+    photo: "https://images.pexels.com/photos/37301842/pexels-photo-37301842.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
   {
     id: "p2",
@@ -127,6 +128,7 @@ function PRODUCTS_SOURCE_LIVE() {
     badge: "",
     desc: "Silhouette élancée pour fleurs séchées ou branches. Finition satiné mat ivoire sur grès blanc.",
     gradient: "linear-gradient(135deg, #E8D5C4 0%, #C8A080 100%)",
+    photo: "https://images.pexels.com/photos/34004100/pexels-photo-34004100.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
   {
     id: "p3",
@@ -139,6 +141,7 @@ function PRODUCTS_SOURCE_LIVE() {
     badge: "Best-seller",
     desc: "Grand plat de service aux bords irréguliers. Passe au lave-vaisselle. Livré avec certificat d'authenticité.",
     gradient: "linear-gradient(135deg, #C8B09A 0%, #8B5A3A 100%)",
+    photo: "https://images.pexels.com/photos/8063867/pexels-photo-8063867.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
   {
     id: "p4",
@@ -151,6 +154,7 @@ function PRODUCTS_SOURCE_LIVE() {
     badge: "",
     desc: "Légère, confortable en main, résistante. Existe en cinq couleurs de glaçure. Sans poignée, dans la tradition japonaise.",
     gradient: "linear-gradient(135deg, #B8906A 0%, #7A4A2A 100%)",
+    photo: "https://images.pexels.com/photos/33633350/pexels-photo-33633350.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
   {
     id: "p5",
@@ -163,6 +167,7 @@ function PRODUCTS_SOURCE_LIVE() {
     badge: "",
     desc: "Conçu pour les herbes en cuisine. Résistant au gel. Percé pour le drainage. Compatible intérieur-extérieur.",
     gradient: "linear-gradient(135deg, #A8784A 0%, #6B3A1E 100%)",
+    photo: "https://images.pexels.com/photos/18373966/pexels-photo-18373966.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
   {
     id: "p6",
@@ -175,6 +180,7 @@ function PRODUCTS_SOURCE_LIVE() {
     badge: "Collector",
     desc: "Forme inspirée des amphores antiques. Parfaite pour le vin, l'eau infusée ou les fleurs. Signée au fond.",
     gradient: "linear-gradient(135deg, #D4A070 0%, #9B5020 100%)",
+    photo: "https://images.pexels.com/photos/33878964/pexels-photo-33878964.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
 ]);
 }
@@ -406,12 +412,16 @@ function ProductCard({
         </div>
       )}
 
-      {/* Image placeholder with gradient */}
+      {/* Le code l'avouait : « Image placeholder with gradient ». Un atelier de
+          céramique montrait un dégradé de terre cuite à la place de ses pièces.
+          La photo du client passe avant celle de la démonstration. */}
       <div
         style={{
           width: "100%",
           height: 220,
-          background: p.gradient,
+          backgroundImage: `url(${p.photo})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
           position: "relative",
           overflow: "hidden",
         }}
