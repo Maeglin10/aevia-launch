@@ -203,7 +203,7 @@ export default function OsteoGaiaPage() {
   return (
     <div className="bg-[#f5f0e8] text-[#3a2e28] overflow-x-hidden" style={{ fontFamily: "'Lato', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#f5f0e8]/98 backdrop-blur-xl py-3 shadow-sm border-b border-[var(--brand,#c26b4c)]/10" : "bg-transparent py-7"}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#f5f0e8]/98 backdrop-blur-xl py-3 shadow-sm border-b border-[var(--brand,#c26b4c)]/10" : "bg-gradient-to-b from-black/45 to-transparent py-7"}`}>
         <div className="max-w-[1300px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <div>
             {fd?.logoBase64 ? (
@@ -213,10 +213,10 @@ export default function OsteoGaiaPage() {
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (/* NOM_LOGO */ clientName(sessionData) ? (
-              <div className="font-bold text-[#3a2e28] text-sm" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Libre Baskerville', Georgia, serif" }}>{clientName(sessionData)}</div>
+              <div className={`font-bold text-sm ${scrolled ? "text-[#3a2e28]" : "text-white"}`} style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Libre Baskerville', Georgia, serif" }}>{clientName(sessionData)}</div>
             ) : (<>
               <>
-                <div className="font-bold text-[#3a2e28] text-sm" style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>{clientName(sessionData) ?? "Ostéo Gaïa"}</div>
+                <div className={`font-bold text-sm ${scrolled ? "text-[#3a2e28]" : "text-white"}`} style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>{clientName(sessionData) ?? "Ostéo Gaïa"}</div>
                 <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#c26b4c)]/60">{clientTrade(sessionData) ?? "Ostéopathe"} D.O. · {clientCity(sessionData) ?? "Montpellier"}</div>
               </>
             </>))}
@@ -370,7 +370,7 @@ export default function OsteoGaiaPage() {
               <Reveal key={t.a} delay={i * 0.05}>
                 <div className={`flex flex-wrap items-baseline justify-between gap-3 px-7 py-5 ${i ? "border-t border-[#ede6d9]" : ""}`}>
                   <div className="min-w-0">
-                    <div className="font-bold text-[#3a2e28] text-sm" style={{ fontFamily: "'Libre Baskerville', serif" }}>{t.a}</div>
+                    <div className={`font-bold text-sm ${scrolled ? "text-[#3a2e28]" : "text-white"}`} style={{ fontFamily: "'Libre Baskerville', serif" }}>{t.a}</div>
                     <div className="text-xs text-[#3a2e28]/40 mt-0.5">{t.n}</div>
                   </div>
                   <div className="font-bold text-[var(--brand,#c26b4c)] text-sm shrink-0">{t.p}</div>
@@ -447,7 +447,7 @@ export default function OsteoGaiaPage() {
                   </div>
                   <p className="text-sm text-[#3a2e28]/45 leading-relaxed italic flex-1">{`"${t.q}"`}</p>
                   <div className="mt-6 pt-5 border-t border-[#ede6d9]">
-                    <div className="font-bold text-[#3a2e28] text-sm">{t.n}</div>
+                    <div className={`font-bold text-sm ${scrolled ? "text-[#3a2e28]" : "text-white"}`}>{t.n}</div>
                     <div className="text-[10px] text-[var(--brand,#c26b4c)] mt-1 flex items-center gap-1"><MapPin className="w-3 h-3" />{t.l}</div>
                   </div>
                 </div>

@@ -259,7 +259,12 @@ return (
       <motion.nav style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72,
         display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 64px",
-        background: scrolled ? "rgba(247,248,250,0.97)" : "transparent",
+        /* En haut de page, la barre était transparente sur un ciel surexposé :
+           mesuré, les liens tombaient à 1,29 de contraste — illisibles. Un voile
+           sombre dégradé les porte sans masquer la photo. */
+        background: scrolled
+          ? "rgba(247,248,250,0.97)"
+          : "linear-gradient(180deg, rgba(12,18,28,0.62) 0%, rgba(12,18,28,0.28) 60%, transparent 100%)",
         backdropFilter: scrolled ? "blur(12px)" : "none",
         borderBottom: scrolled ? `1px solid ${C.border}` : "none",
         transition: "all 0.4s ease",
@@ -282,12 +287,14 @@ return (
           <div style={{ background: C.accent, borderRadius: 8, padding: 8, display: "flex" }}>
             <Zap size={18} color="#fff" />
           </div>
-          <span style={{ fontSize: 18, fontWeight: 700, color: scrolled ? C.dark : "#fff" }}>Volt<span style={{ color: C.accent }}>Expert</span></span>
+          <span style={{ fontSize: 18, fontWeight: 700, color: scrolled ? C.dark : "#fff" }}>{/* La barre disait « VoltExpert », un nom d'électricien, alors que le pied
+                  et tout le contenu parlent de piscines. On aligne sur le métier. */}
+            Volt<span style={{ color: C.accent }}>Piscines</span></span>
             </>
           )}
         </div>
         <div id="mb15-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
-            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "#ffffff", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33561000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.dark, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: C.accentDark }}>
             <Phone size={14} /> Urgence 24h/24
@@ -307,7 +314,7 @@ return (
       {mobileOpen && (
         <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
           {NAV.map(({ l, h }) => (
-            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "#ffffff", fontSize: 14, fontWeight: 600, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33561000000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.dark, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", display: "flex", alignItems: "center", gap: 6 }} whileHover={{ background: C.accentDark }}>
             <Phone size={14} /> Urgence 24h/24

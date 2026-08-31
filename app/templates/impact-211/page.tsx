@@ -991,7 +991,7 @@ export default function Impact211Page() {
             </>}</h2>
             <GoldLine delay={0.2} />
             <p style={{ ...bodyStyle, marginBottom: "1.5rem" }}>{c?.aboutText ?? <>
-              Fondée en 1978 par le chef Jean-Pierre Mercier dans le 7ème arrondissement de {clientCity(sessionData) ?? "Paris"}, la {clientName(sessionData) ?? "Maison Éclat"} incarne quatre décennies d\'excellence gastronomique. Nichée à deux pas du Musée d\'Orsay, notre maison cultive une philosophie singulière : honorer les produits d\'exception en leur donnant la parole.
+              Fondée en 1978 par le chef Jean-Pierre Mercier dans le 7ème arrondissement de {clientCity(sessionData) ?? "Paris"}, la {clientName(sessionData) ?? "Maison Éclat"} incarne quatre décennies d'excellence gastronomique. Nichée à deux pas du Musée d'Orsay, notre maison cultive une philosophie singulière : honorer les produits d'exception en leur donnant la parole.
             </>}</p>
             <p style={bodyStyle}>
               Aujourd'hui portée par Adrien Mercier, fils du fondateur et formé chez Robuchon et Pierre Gagnaire, la {clientName(sessionData) ?? "Maison Éclat"} reçoit deux étoiles Michelin depuis 2019. Chaque assiette est une conversation entre la mémoire familiale et l'audace contemporaine.
@@ -1395,7 +1395,7 @@ export default function Impact211Page() {
                       }}
                     >
                       <p style={{ ...bodyStyle, fontSize: "0.82rem", color: C.cream }}>
-                        Formé chez Robuchon à Monaco et Gagnaire à {clientCity(sessionData) ?? "Paris"}, Adrien Mercier incarne la troisième génération d\'une lignée de chefs passionnés par le produit brut et la précision technique.
+                        Formé chez Robuchon à Monaco et Gagnaire à {clientCity(sessionData) ?? "Paris"}, Adrien Mercier incarne la troisième génération d'une lignée de chefs passionnés par le produit brut et la précision technique.
                       </p>
                     </motion.div>
                   )}

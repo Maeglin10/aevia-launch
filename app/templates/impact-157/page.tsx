@@ -641,9 +641,14 @@ return (
 
         {/* CTA — hidden on mobile */}
         <div className="aurum-cta" style={{ display: "flex", alignItems: "center", gap: 24 }}>
-          <span style={{ fontSize: 12, color: C.textMuted, letterSpacing: 1 }}>
+          {/* Le numéro s'affichait sans être cliquable : sur un téléphone, un
+              numéro qu'on ne peut pas toucher ne sert à rien. */}
+          <a
+            href={`tel:${(clientPhone(sessionData) ?? "+33 1 42 60 20 51").replace(/[^+0-9]/g, "")}`}
+            style={{ fontSize: 12, color: C.textMuted, letterSpacing: 1, textDecoration: "none" }}
+          >
             {clientPhone(sessionData) ?? "+33 1 42 60 20 51"}
-          </span>
+          </a>
           <motion.a
             href="#hero"
             whileHover={{ background: C.goldLight }}

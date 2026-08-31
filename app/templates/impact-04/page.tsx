@@ -367,7 +367,7 @@ return (
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <><span className="text-2xl tracking-wide">{/* NOM_LOGO */ clientName(sessionData) ?? (<><span className="font-light">L\'</span><span className="italic">Étoile</span></>)}</span></>
+              <><span className="text-2xl tracking-wide">{/* NOM_LOGO */ clientName(sessionData) ?? (<><span className="font-light">L'</span><span className="italic">Étoile</span></>)}</span></>
             )}
           </button>
 
@@ -393,7 +393,7 @@ return (
             <SheetTrigger className="lg:hidden cursor-pointer"><Menu className="w-5 h-5" /></SheetTrigger>
             <SheetContent side="right" className="bg-[#0c0a08] border-white/10 text-[#f5efe6]">
               <div className="flex flex-col gap-8 mt-12">
-                <span className="text-xl mb-6"><span className="font-light">L\'</span><span className="italic">Étoile</span></span>
+                <span className="text-xl mb-6"><span className="font-light">L'</span><span className="italic">Étoile</span></span>
                 {['Home', 'Menu', 'Reservation', 'About', 'Contact'].map(item => {
                   const key = item.toLowerCase() as ActivePage;
                   return (
@@ -414,7 +414,7 @@ return (
       {/* ── HERO ── */}
       <section ref={heroRef} id="hero" className="relative h-dvh overflow-hidden flex [align-items:safe_center] justify-center pt-28 pb-12 sm:pt-32">
         <motion.div style={{ y: heroImgY }} className="absolute inset-0 z-0">
-          <Image src={photo(5, "https://images.pexels.com/photos/34645062/pexels-photo-34645062.jpeg?auto=compress&cs=tinysrgb&w=1600")} fill className="object-cover" alt="L'Étoile dining room" priority />
+          <Image src={photo(5, "https://images.pexels.com/photos/33097102/pexels-photo-33097102.jpeg?auto=compress&cs=tinysrgb&w=1600")} fill className="object-cover" alt="L'Étoile dining room" priority />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0c0a08] via-[#0c0a08]/50 to-[#0c0a08]/20" />
           <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 40%, rgba(12,10,8,0.85) 100%)" }} />
         </motion.div>
@@ -578,7 +578,7 @@ return (
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2 px-2 md:px-6">
           {[
-            photo(6, "https://images.pexels.com/photos/34645062/pexels-photo-34645062.jpeg?auto=compress&cs=tinysrgb&w=1600"),
+            photo(6, "https://images.pexels.com/photos/33097102/pexels-photo-33097102.jpeg?auto=compress&cs=tinysrgb&w=1600"),
             photo(7, "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80"),
             photo(8, "https://images.pexels.com/photos/6467627/pexels-photo-6467627.jpeg?auto=compress&cs=tinysrgb&w=1600"),
             photo(9, "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80"),
@@ -825,7 +825,7 @@ return (
       <footer id="contact" className="border-t border-white/5 bg-[#0a0806] py-16 px-6 md:px-12">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
           <div className="col-span-2 md:col-span-1">
-            <span className="text-2xl mb-4 block"><span className="font-light">L\'</span><span className="italic">Étoile</span></span>
+            <span className="text-2xl mb-4 block"><span className="font-light">L'</span><span className="italic">Étoile</span></span>
             <p className="text-sm font-sans text-[#f5efe6]/30 leading-relaxed">Two Michelin star restaurant in the heart of {clientCity(sessionData) ?? "Paris"}. Cuisine driven by season, instinct, and provenance.</p>
           </div>
           {[
@@ -852,7 +852,7 @@ return (
         </div>
         <Separator className="bg-white/5 mb-10" />
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <span className="text-[10px] font-sans text-[#f5efe6]/15 uppercase tracking-wider">&copy; 2026 L\'Étoile {clientCity(sessionData) ?? "Paris"} · All Rights Reserved</span>
+          <span className="text-[10px] font-sans text-[#f5efe6]/15 uppercase tracking-wider">&copy; 2026 L'Étoile {clientCity(sessionData) ?? "Paris"} · All Rights Reserved</span>
           <div className="flex gap-4">
             {[<Globe key="ig" className="w-4 h-4" />, <Globe key="fb" className="w-4 h-4" />, <Globe key="tw" className="w-4 h-4" />, <Mail key="mail" className="w-4 h-4" />].map((icon, i) => (
               <a key={i} href="#hero" className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-[#f5efe6]/30 hover:text-amber-500 hover:border-amber-600 transition-all duration-200 cursor-pointer">
@@ -1053,10 +1053,10 @@ function AboutPage() {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 32, fontSize: 15, lineHeight: 1.8, color: 'rgba(245,239,230,0.6)' }}>
         <p>
-          Chef Antoine Beaumont grew up among the lavender fields and olive groves of the Var, where his grandmother taught him that great cooking begins with reverence for the ingredient. After training at Le Cordon Bleu {clientCity(sessionData) ?? "Paris"} and a seven-year apprenticeship under Alain Ducasse at Louis XV in Monaco, he opened L\'Étoile in 2018 with a singular vision: cuisine that honours its origins.
+          Chef Antoine Beaumont grew up among the lavender fields and olive groves of the Var, where his grandmother taught him that great cooking begins with reverence for the ingredient. After training at Le Cordon Bleu {clientCity(sessionData) ?? "Paris"} and a seven-year apprenticeship under Alain Ducasse at Louis XV in Monaco, he opened L'Étoile in 2018 with a singular vision: cuisine that honours its origins.
         </p>
         <p>
-          The first Michelin star arrived in 2020. The second followed in 2022. Today, L\'Étoile holds a permanent position among France\'s most coveted dining destinations — a place where classical French technique and contemporary sensitivity produce something entirely its own.
+          The first Michelin star arrived in 2020. The second followed in 2022. Today, L'Étoile holds a permanent position among France's most coveted dining destinations — a place where classical French technique and contemporary sensitivity produce something entirely its own.
         </p>
         <p>
           We source all our ingredients from local organic farms and biodynamic vineyards, upholding a zero food waste policy and supporting small-scale producers.
