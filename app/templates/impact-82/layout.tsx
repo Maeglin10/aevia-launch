@@ -71,7 +71,7 @@ export default function BlueprintLayout({ children }: { children: React.ReactNod
 
       {/* Nav */}
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-[#F7F5F2]/95 backdrop-blur-md border-b border-[#E0D8CC]" : "bg-transparent"}`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-[#F7F5F2]/95 backdrop-blur-md border-b border-[#E0D8CC]" : "bg-gradient-to-b from-black/55 via-black/25 to-transparent"}`}
         initial={{ y: -80 }} animate={{ y: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
@@ -83,10 +83,10 @@ export default function BlueprintLayout({ children }: { children: React.ReactNod
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (/* NOM_LOGO */ clientName(__layoutSession) ? (
-              <span className="text-xl font-bold tracking-wide" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Libre Baskerville', serif" }}>{clientName(__layoutSession)}</span>
+              <span className={`text-xl font-bold tracking-wide ${scrolled ? "" : "text-white"}`} style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Libre Baskerville', serif" }}>{clientName(__layoutSession)}</span>
             ) : (<>
               <>
-            <span className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Libre Baskerville', serif" }}>Blueprint</span>
+            <span className={`text-xl font-bold tracking-wide ${scrolled ? "" : "text-white"}`} style={{ fontFamily: "'Libre Baskerville', serif" }}>Blueprint</span>
             <span className="text-[10px] tracking-[0.2em] uppercase text-[#C9A86C]">Développements Immobiliers</span>
               </>
             </>))}
@@ -96,8 +96,17 @@ export default function BlueprintLayout({ children }: { children: React.ReactNod
               <Link
                 key={link.href}
                 href={link.href}
-                className={`transition-colors duration-200 hover:text-[#1A1612] ${
-                  isLinkActive(link.href) ? "text-[#1A1612] font-medium border-b border-[#C9A86C]" : ""
+                /* En haut de page la barre est transparente sur un ciel gris :
+                   les liens sombres y disparaissaient. Ils suivent maintenant
+                   l'état de défilement, comme le fond. */
+                className={`transition-colors duration-200 ${
+                  scrolled ? "hover:text-[#1A1612]" : "text-white/90 hover:text-white"
+                } ${
+                  isLinkActive(link.href)
+                    ? scrolled
+                      ? "text-[#1A1612] font-medium border-b border-[#C9A86C]"
+                      : "text-white font-medium border-b border-[#C9A86C]"
+                    : ""
                 }`}
               >
                 {link.label}
@@ -119,7 +128,7 @@ export default function BlueprintLayout({ children }: { children: React.ReactNod
           <motion.div className="fixed inset-0 z-[200] bg-[#1A1612] text-[#F7F5F2] flex flex-col"
             initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 280, damping: 28 }}>
             <div className="flex items-center justify-between px-6 py-5 border-b border-[#3A3020]">
-              <span className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Libre Baskerville', serif" }}>Blueprint</span>
+              <span className={`text-xl font-bold tracking-wide ${scrolled ? "" : "text-white"}`} style={{ fontFamily: "'Libre Baskerville', serif" }}>Blueprint</span>
               <button onClick={() => setMenuOpen(false)} className="p-2 cursor-pointer"><X className="w-5 h-5" /></button>
             </div>
             <div className="flex flex-col gap-8 p-10">
