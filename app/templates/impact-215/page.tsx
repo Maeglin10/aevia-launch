@@ -22,11 +22,22 @@ import {
   clientList,
   clientName,
   clientPhone,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
   clientText,
 } from "@/lib/templates/clientContent";
+
+const PHOTOS_PRODUIT = [
+  'https://images.pexels.com/photos/5562761/pexels-photo-5562761.jpeg?auto=compress&cs=tinysrgb&w=1600',
+  'https://images.pexels.com/photos/9307960/pexels-photo-9307960.jpeg?auto=compress&cs=tinysrgb&w=1600',
+  'https://images.pexels.com/photos/4641249/pexels-photo-4641249.jpeg?auto=compress&cs=tinysrgb&w=1600',
+  'https://images.pexels.com/photos/4573121/pexels-photo-4573121.jpeg?auto=compress&cs=tinysrgb&w=1600',
+  'https://images.pexels.com/photos/7018820/pexels-photo-7018820.jpeg?auto=compress&cs=tinysrgb&w=1600',
+  'https://images.pexels.com/photos/34592373/pexels-photo-34592373.jpeg?auto=compress&cs=tinysrgb&w=1600',
+];
+
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -540,9 +551,13 @@ function ProductCard({
         flexDirection: 'column',
       }}
     >
-      {/* Product image placeholder */}
+      {/* Le cadre l'avouait : « Product image placeholder ». Une boutique de
+          poêles montrait un émoji de flamme à la place de ses produits. Ce
+          sont maintenant de vrais foyers. La photo du client passe avant. */}
       <div style={{
-        background: `linear-gradient(145deg, #1e1208, #2a1a0a)`,
+        backgroundImage: `url(${clientPhotos(sessionData)[i] || PHOTOS_PRODUIT[i % PHOTOS_PRODUIT.length]})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
         height: '200px',
         display: 'flex',
         alignItems: 'center',
@@ -556,7 +571,6 @@ function ProductCard({
           transition={{ duration: 0.4 }}
           style={{}}
         >
-          <TemplateIcon emoji={p.emoji} size={80} />
         </motion.div>
         <TagBadge tag={p.tag} />
         {discount && (

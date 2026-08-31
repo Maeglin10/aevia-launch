@@ -23,6 +23,7 @@ import {
   clientMethode,
   clientName,
   clientPhone,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -647,14 +648,18 @@ function PortfolioCard({ style, surface, budget, city, index }: PortfolioCardPro
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
 
-  const gradients = [
-    'linear-gradient(135deg, #0f2030, #1a3a55)',
-    'linear-gradient(135deg, #0e1e30, #1a4a60)',
-    'linear-gradient(135deg, #14202e, #2a4a65)',
-    'linear-gradient(135deg, #0c1e2e, #1e3850)',
-    'linear-gradient(135deg, #10202e, #1a3548)',
-    'linear-gradient(135deg, #0a1c2c, #1e4060)',
+  /* Les « réalisations » d'un plombier étaient six dégradés de couleur avec
+     une baignoire en émoji. Un artisan se montre par son travail : ce sont
+     maintenant des salles de bains. Les photos du client passent avant. */
+  const photos = [
+    'https://images.pexels.com/photos/35493887/pexels-photo-35493887.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    'https://images.pexels.com/photos/7005268/pexels-photo-7005268.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    'https://images.pexels.com/photos/8143714/pexels-photo-8143714.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    'https://images.pexels.com/photos/3935352/pexels-photo-3935352.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    'https://images.pexels.com/photos/8134810/pexels-photo-8134810.jpeg?auto=compress&cs=tinysrgb&w=1600',
+    'https://images.pexels.com/photos/7166568/pexels-photo-7166568.jpeg?auto=compress&cs=tinysrgb&w=1600',
   ];
+  const photoCarte = clientPhotos(sessionData)[index] || photos[index % photos.length];
 
   return (
     <motion.div
@@ -677,7 +682,9 @@ function PortfolioCard({ style, surface, budget, city, index }: PortfolioCardPro
       <div
         style={{
           height: '180px',
-          background: gradients[index % gradients.length],
+          backgroundImage: `url(${photoCarte})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -685,8 +692,19 @@ function PortfolioCard({ style, surface, budget, city, index }: PortfolioCardPro
           overflow: 'hidden',
         }}
       >
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ marginBottom: '0.5rem' }}><TemplateIcon emoji="🛁" size={56} /></div>
+        {/* Un voile sous le libellé : le titre est blanc, et une salle de bains
+            est claire. Sans lui, « SCANDINAVE ÉPURÉ » se perdait dans le
+            carrelage. */}
+        <div
+          aria-hidden
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(180deg, rgba(8,20,32,0.15) 0%, rgba(8,20,32,0.55) 100%)',
+          }}
+        />
+        <div style={{ textAlign: 'center', position: 'relative' }}>
+
           <div
             style={{
               fontFamily: "'Barlow Condensed', sans-serif",
