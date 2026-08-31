@@ -94,7 +94,11 @@ async function main() {
         };
       });
 
-      await page.goto(url, { waitUntil: 'networkidle', timeout: 20000 });
+      /* « networkidle » ne se produit jamais sur une page à animation continue :
+         dix thèmes échouaient et gardaient une vignette de juin. On attend le
+         DOM, puis un délai fixe — la capture n'a pas besoin du silence réseau. */
+      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 90000 });
+      await page.waitForTimeout(2600);
 
       // Scroll to a better position for canvas/animation templates
       const scrollY = SCROLL_OFFSETS[id] ?? 0;
