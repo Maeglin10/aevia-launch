@@ -7,6 +7,7 @@ import {
   ficheModele,
   titreModele,
   descriptionModele,
+  descriptifDetaille,
   type FicheModele,
 } from "@/lib/templates/modeleSeo";
 
@@ -96,6 +97,7 @@ export default async function PageModele({ params }: { params: Promise<{ id: str
   const modele = modeleParId(id);
   if (!modele) notFound();
   const f = ficheModele(modele);
+  const detaille = descriptifDetaille(f.id);
 
   // Modèles voisins : même métier d'abord, sinon même catégorie. Le maillage
   // interne était inexistant — chaque page ne menait qu'à elle-même.
@@ -151,6 +153,13 @@ export default async function PageModele({ params }: { params: Promise<{ id: str
             Créer mon site avec ce modèle — {f.prix} €
           </Link>
         </div>
+
+        {detaille && (
+          <section className="mb-10">
+            <h2 className="text-xl font-bold mb-4">Ce que fait ce modèle</h2>
+            <p className="text-white/70 leading-relaxed max-w-3xl">{detaille}</p>
+          </section>
+        )}
 
         <section className="mb-10">
           <h2 className="text-xl font-bold mb-4">Ce que contient ce modèle</h2>

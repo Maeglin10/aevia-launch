@@ -3,6 +3,7 @@ import { SOUS_SEUIL } from "./catalogueGate";
 import { TEMPLATE_TIER, TIER_PRICE, type SiteTier } from "./templateTier";
 import { TEMPLATE_PAGE_TYPE } from "./pageType";
 import { SECTOR_TEMPLATES, SECTORS, TEMPLATE_CITY_LABELS } from "./sectors";
+import { DESCRIPTION_FR } from "./registryFr";
 
 /**
  * Ce qu'il faut pour donner une page à chacun des 373 modèles.
@@ -14,13 +15,18 @@ import { SECTOR_TEMPLATES, SECTORS, TEMPLATE_CITY_LABELS } from "./sectors";
  * seule page, et « modèle de site pour dentiste » n'a rien à indexer. Mesuré le
  * 30/08/2026 : 73 pages uniques pour les quatre produits de la suite.
  *
- * Tout ce qui suit est dérivé de données déjà en dépôt. Rien n'est inventé, et
- * surtout rien n'est traduit à la volée : les descriptions de `registry.ts` sont
+ * Tout ce qui suit est dérivé de données déjà en dépôt. Rien n'est inventé et
+ * rien n'est traduit à la volée : les descriptions de `registry.ts` sont
  * rédigées en anglais malgré leur place de « source française », et poser un
  * paragraphe anglais sur une page destinée au marché français serait pire que
- * de ne rien poser. La copie française est donc construite à partir des seules
- * données structurées — qui, elles, sont bien en français : les métiers, le
- * palier, le nombre de sections, la ville.
+ * de ne rien poser. Deux réponses, complémentaires :
+ *
+ *   - l'accroche et la balise `description` sont bâties ici, à partir des
+ *     seules données structurées qui sont bien en français — le métier, le
+ *     palier, le nombre de sections, la ville ;
+ *   - le descriptif détaillé vient de `registryFr.ts`, table traduite une fois
+ *     pour toutes depuis l'anglais (voir scripts/traduire-descriptions.mjs).
+ *     Absent de la table, il n'est simplement pas affiché.
  */
 
 /**
@@ -203,6 +209,18 @@ export function titreModele(f: FicheModele): string {
  * nombre de sections, le palier et le style diffèrent. C'est ce qui sépare une
  * page produit d'une page satellite.
  */
+/**
+ * Le descriptif détaillé, en français, ou rien.
+ *
+ * `registry.ts` porte l'anglais ; la table traduite porte le français. Un
+ * modèle qui n'y figure pas n'affiche pas de paragraphe — mieux vaut une fiche
+ * plus courte qu'une fiche qui parle une autre langue que son lecteur.
+ */
+export function descriptifDetaille(id: string): string | null {
+  const fr = DESCRIPTION_FR[id];
+  return fr && fr.trim().length > 0 ? fr : null;
+}
+
 export function descriptionModele(f: FicheModele): string {
   const forme = f.multiPages ? "site multi-pages" : "site en page unique";
   const metier = f.metiers[0]?.labelCourt?.toLowerCase();
