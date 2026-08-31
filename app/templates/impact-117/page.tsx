@@ -178,7 +178,10 @@ export default function VoltLogisticsPage() {
                 <div className="w-10 h-10 bg-[var(--brand,#ffb400)] flex items-center justify-center -skew-x-12">
                   <Zap className="w-6 h-6 text-black fill-black" />
                 </div>
-                <span className="text-lg sm:text-2xl font-black tracking-tighter uppercase italic whitespace-nowrap">{clientName(sessionData) ?? "Volt"}<span className="text-[var(--brand,#ffb400)]">Logistics</span></span>
+                <span className="text-lg sm:text-2xl font-black tracking-tighter uppercase italic whitespace-nowrap">{/* Le suffixe se collait au nom du client : la barre affichait
+                « Atelier VérificationLogistics ». Il n'appartient qu'au nom de la
+                démonstration. */}
+                {clientName(sessionData) ?? (<>Volt<span className="text-[var(--brand,#ffb400)]">Logistics</span></>)}</span>
               </>
             )}
           </Link>

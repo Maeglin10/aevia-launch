@@ -217,7 +217,10 @@ export default function SecurFastPage() {
             ) : (
               <>
                 <Lock className="w-5 h-5 text-[var(--brand,#2563eb)]" />
-                <span className="font-bold text-[#f0f4ff] tracking-wide text-sm">{clientName(sessionData) ?? "SÉC'UR"}<span className="text-[var(--brand,#2563eb)]">FAST</span></span>
+                <span className="font-bold text-[#f0f4ff] tracking-wide text-sm">{/* Le suffixe se collait au nom du client : la barre affichait
+                « Atelier VérificationFAST ». Il n'appartient qu'au nom de la
+                démonstration. */}
+                {clientName(sessionData) ?? (<>SÉC'UR<span className="text-[var(--brand,#2563eb)]">FAST</span></>)}</span>
               </>
             )}
           </div>

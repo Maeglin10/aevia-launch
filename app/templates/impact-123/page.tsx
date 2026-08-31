@@ -486,7 +486,10 @@ export default function VulcanMotorsPage() {
               <div className="w-10 h-10 bg-red-600 flex items-center justify-center -skew-x-12">
                 <Car className="w-6 h-6 text-black fill-current" />
               </div>
-              <span className="text-2xl font-black tracking-tighter uppercase italic">{clientName(sessionData) ?? "Vulcan"}<span className="text-red-600">Motors</span></span>
+              <span className="text-2xl font-black tracking-tighter uppercase italic">{/* Le suffixe se collait au nom du client : la barre affichait
+                « Atelier VérificationMotors ». Il n'appartient qu'au nom de la
+                démonstration. */}
+                {clientName(sessionData) ?? (<>Vulcan<span className="text-red-600">Motors</span></>)}</span>
             </Link>
             <p className="text-white/20 max-w-sm leading-relaxed mb-10 text-sm italic font-light">{c?.aboutText ?? <>
               Restoring the past, defining the future. {clientName(sessionData) ?? "Vulcan"} Motors is an atelier dedicated to the preservation and evolution of the hypercar.

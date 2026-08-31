@@ -229,7 +229,10 @@ export default function ThermotekChauffagePage() {
             ) : (
               <>
                 <Flame className="w-6 h-6 text-[var(--brand,#ea580c)] fill-[var(--brand,#ea580c)]/20" />
-                <span className="font-bold text-lg tracking-tight" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)" }}>{clientName(sessionData) ?? "Thermo"}<span className="text-[var(--brand,#ea580c)]">tek</span></span>
+                <span className="font-bold text-lg tracking-tight" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)" }}>{/* Le suffixe se collait au nom du client : la barre affichait
+                « Atelier Vérificationtek ». Il n'appartient qu'au nom de la
+                démonstration. */}
+                {clientName(sessionData) ?? (<>Thermo<span className="text-[var(--brand,#ea580c)]">tek</span></>)}</span>
               </>
             )}
           </div>

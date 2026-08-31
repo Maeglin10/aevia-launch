@@ -167,7 +167,10 @@ export default function IronClubPage() {
           />
         ) : (
           <div style={{ fontFamily: FONT, fontWeight: 900, fontSize: 24, letterSpacing: 1, color: scrolled ? C.text : C.white }}>
-            {clientName(sessionData) ?? "IRON"}<span style={{ color: C.accent }}>CLUB</span>
+            {/* Le suffixe « CLUB » se collait au nom du client : la barre
+                affichait « Atelier VérificationCLUB ». Il n'appartient qu'au nom
+                de la démonstration. */}
+            {clientName(sessionData) ?? (<>IRON<span style={{ color: C.accent }}>CLUB</span></>)}
           </div>
         )}
         <div style={{ display: "flex", alignItems: "center", gap: 32 }} className="nav-links-desktop">

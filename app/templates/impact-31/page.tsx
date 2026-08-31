@@ -266,7 +266,10 @@ function Navbar() {
                 <Leaf size={20} color={C.white} />
               </div>
               <span style={{ fontWeight: 700, fontSize: 21, color: C.text, fontFamily: FONT_HEADING, letterSpacing: -0.3 }}>
-                {clientName(sessionData) ?? "Ananda"}<span style={{ color: C.accent }}>Flow</span>
+                {/* Le suffixe se collait au nom du client : la barre affichait
+                « Atelier VérificationFlow ». Il n'appartient qu'au nom de la
+                démonstration. */}
+                {clientName(sessionData) ?? (<>Ananda<span style={{ color: C.accent }}>Flow</span></>)}
               </span>
             </>
           )}

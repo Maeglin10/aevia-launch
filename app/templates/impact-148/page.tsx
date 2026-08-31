@@ -209,7 +209,10 @@ export default function NeonPulsePage() {
             <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 via-pink-500 to-[var(--brand,#22d3ee)] flex items-center justify-center group-hover:rotate-[360deg] transition-transform duration-1000 shadow-[0_0_20px_rgba(147,51,234,0.5)]">
               <Zap className="w-5 h-5 text-white fill-current" />
             </div>
-            <span className="text-lg sm:text-2xl font-black tracking-tighter uppercase italic whitespace-nowrap">{clientName(sessionData) ?? "Neon"}<span className="text-[var(--brand,#22d3ee)]">Pulse</span></span>
+            <span className="text-lg sm:text-2xl font-black tracking-tighter uppercase italic whitespace-nowrap">{/* Le suffixe se collait au nom du client : la barre affichait
+                « Atelier VérificationPulse ». Il n'appartient qu'au nom de la
+                démonstration. */}
+                {clientName(sessionData) ?? (<>Neon<span className="text-[var(--brand,#22d3ee)]">Pulse</span></>)}</span>
           </>
             )}</Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">

@@ -273,7 +273,10 @@ export default function EclatSpaPage() {
               style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <>{clientName(sessionData) ?? "Éclat"}<span style={{ color: scrolled ? C.gold : "rgba(255,255,255,0.7)" }}>Spa</span></>
+            <>{/* Le suffixe se collait au nom du client : la barre affichait
+                « Atelier VérificationSpa ». Il n'appartient qu'au nom de la
+                démonstration. */}
+                {clientName(sessionData) ?? (<>Éclat<span style={{ color: scrolled ? C.gold : "rgba(255,255,255,0.7)" }}>Spa</span></>)}</>
           )}
         </div>
         <div id="mb229-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
