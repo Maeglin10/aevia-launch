@@ -10,6 +10,7 @@ import {
   clientList,
   clientName,
   clientPhone,
+  clientPhotos,
   clientServices,
   clientSiret,
   clientStats,
@@ -1033,16 +1034,15 @@ export default function Impact211Page() {
               justifyContent: "center",
               overflow: "hidden",
             }}>
-              {/* Abstract interior art */}
-              <svg viewBox="0 0 300 400" style={{ width: "80%", height: "80%", opacity: 0.5 }}>
-                <circle cx="150" cy="200" r="80" fill="none" stroke={C.gold} strokeWidth="0.5" />
-                <circle cx="150" cy="200" r="120" fill="none" stroke={C.gold} strokeWidth="0.3" />
-                <line x1="30" y1="200" x2="270" y2="200" stroke={C.gold} strokeWidth="0.3" opacity="0.4" />
-                <line x1="150" y1="30" x2="150" y2="370" stroke={C.gold} strokeWidth="0.3" opacity="0.4" />
-                <path d="M 70 120 Q 150 80 230 120 Q 270 200 230 280 Q 150 320 70 280 Q 30 200 70 120 Z" fill="none" stroke={C.gold} strokeWidth="0.5" />
-                <text x="150" y="205" textAnchor="middle" fill={C.gold} fontSize="12" fontFamily={font.serif} fontStyle="italic" opacity="0.8">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maison Éclat"))}</text>
-                <text x="150" y="222" textAnchor="middle" fill={C.creamMuted} fontSize="7" fontFamily={font.sans} opacity="0.6" letterSpacing="3">{clientCity(sessionData) ?? "PARIS"} · MMXXVI</text>
-              </svg>
+              {/* Le cadre contenait un dessin abstrait au trait, qui tenait la
+                  place d'une photo sans en être une. Un restaurant gastronomique
+                  se montre par son assiette. La photo du client passe avant. */}
+              <img
+                src={clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/23408565/pexels-photo-23408565.jpeg?auto=compress&cs=tinysrgb&w=1600"}
+                alt="Un chef arrange des plats gastronomiques sur une table dans un cadre e"
+                loading="lazy"
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              />
 
               {/* Corner decorations */}
               {/* LISTE_LIBELLES */ (clientList(sessionData, "histoire.liste1") ?? ["top-left", "top-right", "bottom-left", "bottom-right"]).map((pos) => (

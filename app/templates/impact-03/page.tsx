@@ -22,6 +22,7 @@ import {
   clientHeroLine,
   clientList,
   clientName,
+  clientPhotos,
   clientServices,
   clientTagline,
   clientText,
@@ -54,6 +55,7 @@ const COLLECTION_DEMO = [
     price: 4_200,
     badge: 'New',
     color: '#1a1a2e',
+    img: 'https://images.pexels.com/photos/8504740/pexels-photo-8504740.jpeg?auto=compress&cs=tinysrgb&w=1600',
     desc: 'Double-faced cashmere in midnight velvet. Structured shoulders, silk-satin lining, and hand-stitched lapels by Parisian ateliers.',
   },
   {
@@ -63,6 +65,7 @@ const COLLECTION_DEMO = [
     price: 2_800,
     badge: null,
     color: '#2d1b1b',
+    img: 'https://images.pexels.com/photos/30031902/pexels-photo-30031902.jpeg?auto=compress&cs=tinysrgb&w=1600',
     desc: 'Bias-cut heavy silk charmeuse that moves like water. Invisible zip, French seams throughout, hand-finished hem.',
   },
   {
@@ -72,6 +75,7 @@ const COLLECTION_DEMO = [
     price: 3_600,
     badge: 'Bestseller',
     color: '#2c1810',
+    img: 'https://images.pexels.com/photos/6939254/pexels-photo-6939254.jpeg?auto=compress&cs=tinysrgb&w=1600',
     desc: 'Full-grain vegetable-tanned leather ages with the wearer. Solid brass hardware, suede interior, three interior pockets.',
   },
   {
@@ -81,6 +85,7 @@ const COLLECTION_DEMO = [
     price: 1_950,
     badge: null,
     color: '#1a1a1a',
+    img: 'https://images.pexels.com/photos/6835878/pexels-photo-6835878.jpeg?auto=compress&cs=tinysrgb&w=1600',
     desc: 'Architectural block heel cast in solid resin. Nappa leather upper, padded insole, resoleable leather outsole.',
   },
   {
@@ -90,6 +95,7 @@ const COLLECTION_DEMO = [
     price: 3_100,
     badge: 'Limited',
     color: '#0d1b2a',
+    img: 'https://images.pexels.com/photos/26100336/pexels-photo-26100336.jpeg?auto=compress&cs=tinysrgb&w=1600',
     desc: 'Japanese wool-mohair blend with a distinctive wrap silhouette. Unlined for fluidity, covered buttons, contrast stitching.',
   },
   {
@@ -99,6 +105,7 @@ const COLLECTION_DEMO = [
     price: 5_400,
     badge: null,
     color: '#1c1c3a',
+    img: 'https://images.pexels.com/photos/6939258/pexels-photo-6939258.jpeg?auto=compress&cs=tinysrgb&w=1600',
     desc: 'Fine merino wool in column silhouette. Subtle side slit, draped cowl back, hand-embroidered hem detail.',
   },
 ];
@@ -494,83 +501,15 @@ function MagnifierCard({
           marginBottom: 16,
         }}
       >
-        {/* CSS-drawn garment silhouette */}
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <div
-            style={{
-              width: 100,
-              height: 140,
-              background: product.color,
-              borderRadius: '4px 4px 0 0',
-              position: 'relative',
-              opacity: 0.85,
-            }}
-          >
-            {/* Collar */}
-            <div
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: '50%',
-                transform: 'translateX(-50%)',
-                width: 40,
-                height: 30,
-                background: '#fafafa',
-                clipPath: 'polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%)',
-              }}
-            />
-            {/* Button line */}
-            {[0, 1, 2, 3, 4].map((n) => (
-              <div
-                key={n}
-                style={{
-                  position: 'absolute',
-                  top: 38 + n * 18,
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                  width: 5,
-                  height: 5,
-                  borderRadius: '50%',
-                  background: 'rgba(255,255,255,0.4)',
-                }}
-              />
-            ))}
-            {/* Left sleeve */}
-            <div
-              style={{
-                position: 'absolute',
-                top: 8,
-                left: -32,
-                width: 32,
-                height: 60,
-                background: product.color,
-                borderRadius: '4px 0 0 4px',
-                opacity: 0.9,
-              }}
-            />
-            {/* Right sleeve */}
-            <div
-              style={{
-                position: 'absolute',
-                top: 8,
-                right: -32,
-                width: 32,
-                height: 60,
-                background: product.color,
-                borderRadius: '0 4px 4px 0',
-                opacity: 0.9,
-              }}
-            />
-          </div>
-        </div>
+        {/* La carte dessinait le vêtement en CSS — une silhouette colorée qui
+            tenait la place d'une photo sans en être une. Une boutique de mode se
+            montre par ses pièces. La photo du client passe avant. */}
+        <img
+          src={product.img}
+          alt={product.name}
+          loading="lazy"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+        />
 
         {/* Badge */}
         {product.badge && (
