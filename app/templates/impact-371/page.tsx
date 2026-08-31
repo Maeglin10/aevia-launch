@@ -510,7 +510,7 @@ export default function SentinellePage() {
     "https://images.pexels.com/photos/35562107/pexels-photo-35562107.png?auto=compress&cs=tinysrgb&w=1400",
   );
   /* Second emplacement, sans URL de repli : la bande tient en CSS seule. */
-  const bandeImg = photo(1, "");
+  const bandeImg = photo(1, "") || "https://images.pexels.com/photos/34359745/pexels-photo-34359745.jpeg?auto=compress&cs=tinysrgb&w=1600";
 
   return (
     <div style={{ background: C.bg, color: C.ink, fontFamily: BODY, overflowX: "clip" }}>

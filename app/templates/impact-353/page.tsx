@@ -516,7 +516,7 @@ function Respiration() {
        ce que les parents veulent savoir d'abord.
    ════════════════════════════════════════════════════════════════════════════ */
 function Journee() {
-  const img = photo(1, "");
+  const img = photo(1, "") || "https://images.pexels.com/photos/8535236/pexels-photo-8535236.jpeg?auto=compress&cs=tinysrgb&w=1600";
   return (
     <section id="methode" className="i353-pad" style={{ position: "relative", background: C.bgAlt, padding: "clamp(74px,9vw,132px) clamp(20px,5vw,64px)", overflow: "hidden" }}>
       <div aria-hidden style={{ position: "absolute", inset: 0, ...pebbleTexture(0.07), pointerEvents: "none" }} />

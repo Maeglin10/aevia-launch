@@ -424,7 +424,7 @@ export default function PermisCapSudPage() {
     photo(1, ""),
     photo(2, ""),
   ].filter(Boolean);
-  const AGENCE = photo(3, "");
+  const AGENCE = photo(3, "") || "https://images.pexels.com/photos/13633258/pexels-photo-13633258.jpeg?auto=compress&cs=tinysrgb&w=1600";
   const avis = AVIS[avisIdx % AVIS.length];
 
   return (

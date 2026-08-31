@@ -563,7 +563,10 @@ export default function SoinsEstuairePage() {
      entre. Le portrait d'équipe prend donc la première photo du client quand
      il n'en a fourni qu'une — sans quoi elle ne s'afficherait plus nulle
      part. Aucun repli de stock ici : sans photo, l'aplat tient seul. */
-  const cabinetImg = photo(1, "") || photo(0, "");
+  /* Le repli était vide : sans photo du client, l'emplacement tombait sur un
+     simple dégradé et la page n'affichait aucune image. Une photo de
+     démonstration tient la place ; celle du client passe toujours avant. */
+  const cabinetImg = photo(1, "") || photo(0, "") || "https://images.pexels.com/photos/6753262/pexels-photo-6753262.jpeg?auto=compress&cs=tinysrgb&w=1600";
 
   /* Les tuiles du geste : le contenu de la scène, le dessin du thème. */
   const tuiles = S.tiles.map((tile: any, n: number) => {

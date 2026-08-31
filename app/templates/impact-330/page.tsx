@@ -425,7 +425,7 @@ export default function PharmacieDuParcPage() {
 
   /* Photo optionnelle de l'officine : jamais de stock à la place — sans
      photo, l'aplat menthe + croix fantôme tient la place, et il est beau. */
-  const photoOfficine = fd?.photoUrls?.[0] || clientPhotos(sessionData)[0] || "";
+  const photoOfficine = fd?.photoUrls?.[0] || clientPhotos(sessionData)[0] || "" || "https://images.pexels.com/photos/8667531/pexels-photo-8667531.jpeg?auto=compress&cs=tinysrgb&w=1600";
   /* La vitrine du héros : la photo du client, sinon une officine de repli. */
   const photoVitrine =
     photoOfficine ||

@@ -529,7 +529,7 @@ export default function OctaveAuditionPage() {
   const adresse = clientAddress(sessionData);
   /* Emplacement 0 : le média du héros, sans repli — la courbe CSS le remplace.
      Emplacement 1 : le portrait d'engagement, dont le thème a déjà une image. */
-  const HERO_MEDIA = photo(0, "");
+  const HERO_MEDIA = photo(0, "") || "https://images.pexels.com/photos/8487998/pexels-photo-8487998.jpeg?auto=compress&cs=tinysrgb&w=1600";
   const PORTRAIT = photo(
     1,
     "https://images.pexels.com/photos/8000615/pexels-photo-8000615.jpeg?auto=compress&cs=tinysrgb&w=1400",

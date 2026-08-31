@@ -613,7 +613,7 @@ export default function LocamatPage() {
 
   /* Le bandeau du parc : la photo du client s'il en a fourni une, sinon un
      aplat d'acier rayé — le dépôt se tient très bien sans image. */
-  const bandeau = photo(1, "");
+  const bandeau = photo(1, "") || "https://images.pexels.com/photos/16466054/pexels-photo-16466054.jpeg?auto=compress&cs=tinysrgb&w=1600";
   /* Le héros est en fond perdu : la photographie du client d'abord, la
      machine du thème ensuite — jamais un trou noir. */
   const heroImg = photo(0, "https://images.pexels.com/photos/29502220/pexels-photo-29502220.jpeg?auto=compress&cs=tinysrgb&w=1600");

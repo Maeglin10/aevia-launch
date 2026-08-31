@@ -508,7 +508,7 @@ export default function TilleulsIdelPage() {
   const heroImg = photo(0, "https://images.pexels.com/photos/7653136/pexels-photo-7653136.jpeg?auto=compress&cs=tinysrgb&w=1400");
   /* Deuxième emplacement : sans photo confiée, le panneau se tient tout seul
      (aplat, filets et croix de soin en CSS). Aucune adresse d'image inventée. */
-  const cabinetImg = photo(1, "");
+  const cabinetImg = photo(1, "") || "https://images.pexels.com/photos/6753276/pexels-photo-6753276.jpeg?auto=compress&cs=tinysrgb&w=1600";
   const avisCourant = AVIS[avis % AVIS.length];
 
   return (

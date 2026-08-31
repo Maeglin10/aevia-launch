@@ -502,7 +502,7 @@ export default function PharmacieHorlogePage() {
   const AVIS_RUBAN = [...AVIS, ...AVIS];
 
   /* Deuxième emplacement photo, facultatif : rien n'est inventé en repli. */
-  const officineImg = photo(1, "");
+  const officineImg = photo(1, "") || "https://images.pexels.com/photos/6659343/pexels-photo-6659343.jpeg?auto=compress&cs=tinysrgb&w=1600";
 
   return (
     <div style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip", WebkitFontSmoothing: "antialiased" }}>

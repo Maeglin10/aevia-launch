@@ -102,5 +102,9 @@ for (const [theme, requetes] of Object.entries(demandes)) {
   console.log(`${theme} : ${prises.length}/${combien} — ${prises.map((p) => p.id).join(" ")}`);
 }
 
-fs.writeFileSync("captures/contact/photos-trouvees.json", JSON.stringify(resultat, null, 2));
+/* Un fichier de sortie par appel : la première version écrasait toujours le
+   même, et le deuxième lot a effacé le premier — 140 photos perdues. */
+const sortie = process.argv[3] ?? "captures/contact/photos-trouvees.json";
+fs.writeFileSync(sortie, JSON.stringify(resultat, null, 2));
+console.log(`écrit dans ${sortie}`);
 console.log(`\n${retenues} photos retenues · ${ecartees} écartées (déjà employées ou muettes)`);

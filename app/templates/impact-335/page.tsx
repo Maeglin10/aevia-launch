@@ -408,7 +408,7 @@ export default function RivesBlanchesPage() {
     de recueillement la prend quand le client n'en a pas fourni de troisième.
     Aucune image de stock en repli ici — sans photo, l'aplat tient seul.
   */
-  const salonsImg = photo(2, "") || photo(0, "");
+  const salonsImg = photo(2, "") || photo(0, "") || "https://images.pexels.com/photos/7317701/pexels-photo-7317701.jpeg?auto=compress&cs=tinysrgb&w=1600";
 
   return (
     <div style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip", WebkitFontSmoothing: "antialiased" }}>

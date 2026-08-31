@@ -537,8 +537,8 @@ export default function BrasserieHoublonPage() {
     "https://images.pexels.com/photos/1267348/pexels-photo-1267348.jpeg?auto=compress&cs=tinysrgb&w=1400",
   );
   /* Emplacements supplémentaires, sans URL inventée : le CSS tient seul. */
-  const taproomImg = photo(1, "");
-  const cuvesImg = photo(2, "");
+  const taproomImg = photo(1, "") || "https://images.pexels.com/photos/6366897/pexels-photo-6366897.jpeg?auto=compress&cs=tinysrgb&w=1600";
+  const cuvesImg = photo(2, "") || "https://images.pexels.com/photos/5532845/pexels-photo-5532845.jpeg?auto=compress&cs=tinysrgb&w=1600";
 
   return (
     <div style={{ background: C.bg, color: C.ink, fontFamily: BODY, overflowX: "clip" }}>

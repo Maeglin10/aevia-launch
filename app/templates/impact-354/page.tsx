@@ -673,7 +673,7 @@ function Journee() {
    6 · ENGAGEMENTS — panneau lune + liste numérotée filetée
    ════════════════════════════════════════════════════════════════════════════ */
 function Engagements() {
-  const img = photo(1, "");
+  const img = photo(1, "") || "https://images.pexels.com/photos/8535568/pexels-photo-8535568.jpeg?auto=compress&cs=tinysrgb&w=1600";
   return (
     <section id="engagements" className="i354-pad" style={{ background: C.bgAlt, padding: "clamp(76px,10vw,136px) clamp(20px,5vw,60px)" }}>
       <div className="i354-split" style={{ maxWidth: 1120, margin: "0 auto", display: "grid", gridTemplateColumns: "minmax(0,0.9fr) minmax(0,1.1fr)", gap: "clamp(30px,5vw,72px)", alignItems: "center" }}>

@@ -521,7 +521,7 @@ export default function BorealCourtagePage() {
     clientHeroLine(sessionData, 0, 1, 40) ??
     "Votre activité continue, quoi qu'il arrive.";
 
-  const photoFlotte = photo(1, "");
+  const photoFlotte = photo(1, "") || "https://images.pexels.com/photos/7731330/pexels-photo-7731330.jpeg?auto=compress&cs=tinysrgb&w=1600";
 
   /*
     Le bento réserve quatre emplacements aux chiffres. Un client qui n'en a

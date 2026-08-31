@@ -541,7 +541,7 @@ export default function HorizonProtectionPage() {
     0,
     "https://images.pexels.com/photos/18530592/pexels-photo-18530592.jpeg?auto=compress&cs=tinysrgb&w=1400",
   );
-  const panneauImg = photo(1, "");
+  const panneauImg = photo(1, "") || "https://images.pexels.com/photos/5589597/pexels-photo-5589597.jpeg?auto=compress&cs=tinysrgb&w=1600";
 
   return (
     <div style={{ background: C.bg, color: C.ink, fontFamily: BODY, overflowX: "clip" }}>

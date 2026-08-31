@@ -712,7 +712,7 @@ function Services() {
    6 · LA DÉMARCHE — chronologie verticale à filet
    ════════════════════════════════════════════════════════════════════════════ */
 function Methode() {
-  const imgChantier = photo(2, "");
+  const imgChantier = photo(2, "") || "https://images.pexels.com/photos/37771658/pexels-photo-37771658.jpeg?auto=compress&cs=tinysrgb&w=1600";
   return (
     <section
       id="methode"
@@ -816,7 +816,7 @@ function Methode() {
    7 · ENGAGEMENTS — colonnes filetées + panneau d'ardoise CSS
    ════════════════════════════════════════════════════════════════════════════ */
 function Engagements() {
-  const img = photo(1, "");
+  const img = photo(1, "") || "https://images.pexels.com/photos/37771657/pexels-photo-37771657.jpeg?auto=compress&cs=tinysrgb&w=1600";
   return (
     <section
       id="engagements"

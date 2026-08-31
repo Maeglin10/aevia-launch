@@ -703,7 +703,7 @@ export default function BioValleePage() {
     seulement alors : à défaut il reste un aplat de paillasse dessiné en CSS,
     plus honnête qu'une image de banque d'images.
   */
-  const heroImg = photo(0, "");
+  const heroImg = photo(0, "") || "https://images.pexels.com/photos/8533087/pexels-photo-8533087.jpeg?auto=compress&cs=tinysrgb&w=1600";
 
   return (
     <div style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip", WebkitFontSmoothing: "antialiased" }}>

@@ -377,7 +377,7 @@ export default function ConduiteZeroStressPage() {
   /* Emplacement 0 : la bande d'ambiance de la méthode, sans repli — un aplat
      et le marquage CSS la remplacent. Emplacement 1 : le véhicule-école, dont
      le thème a déjà une image. */
-  const BANDE = photo(0, "");
+  const BANDE = photo(0, "") || "https://images.pexels.com/photos/6817037/pexels-photo-6817037.jpeg?auto=compress&cs=tinysrgb&w=1600";
   const VOITURE = photo(1, "https://images.pexels.com/photos/37112146/pexels-photo-37112146.jpeg?auto=compress&cs=tinysrgb&w=1400");
 
   return (

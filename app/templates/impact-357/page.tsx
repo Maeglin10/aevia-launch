@@ -492,7 +492,7 @@ export default function AxisBioPage() {
   const laboImg = photo(0, "https://images.pexels.com/photos/8442509/pexels-photo-8442509.jpeg?auto=compress&cs=tinysrgb&w=1400");
   /* Deuxième emplacement : sans photo confiée, un panneau de repli en CSS
      (trame de résultats, halo, filets). Aucune adresse d'image inventée. */
-  const siteImg = photo(1, "");
+  const siteImg = photo(1, "") || "https://images.pexels.com/photos/12703056/pexels-photo-12703056.jpeg?auto=compress&cs=tinysrgb&w=1600";
 
   return (
     <div id="i357-root" style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip" }}>

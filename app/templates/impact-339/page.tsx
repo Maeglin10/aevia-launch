@@ -520,7 +520,7 @@ export default function MaisonAuditionPage() {
   const ville = clientCity(sessionData) ?? "Tours";
   const metier = clientTrade(sessionData) ?? "Audioprothésistes";
 
-  const photoCabine = photo(1, "");
+  const photoCabine = photo(1, "") || "https://images.pexels.com/photos/14682242/pexels-photo-14682242.jpeg?auto=compress&cs=tinysrgb&w=1600";
 
   return (
     <div style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip" }}>
