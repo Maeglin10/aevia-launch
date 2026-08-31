@@ -112,11 +112,11 @@ function PHOTO_LIVE() {
   tribunal:
     (clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/21253838/pexels-photo-21253838.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   bureau:
-    (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/33827940/pexels-photo-33827940.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   reunion:
     (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1600&auto=format&fit=crop'),
   avocate:
-    (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/19407155/pexels-photo-19407155.jpeg?auto=compress&cs=tinysrgb&w=1600'),
 } as const;
 }
 let PHOTO = PHOTO_LIVE();

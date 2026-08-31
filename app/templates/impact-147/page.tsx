@@ -45,7 +45,7 @@ function HERO_CASES_DEMO_LIVE() {
   {
     k: "Asset Recovery",
     t: "Silent justice, executed across twelve jurisdictions",
-    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1400&q=80"),
+    img: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/20313879/pexels-photo-20313879.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     k: "Cyber-Legal Defense",

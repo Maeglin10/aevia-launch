@@ -114,7 +114,7 @@ function PHOTO_LIVE() {
   runningMer:
     (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?q=80&w=1600&auto=format&fit=crop'),
   training:
-    (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/15679568/pexels-photo-15679568.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   nutrition:
     (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=1600&auto=format&fit=crop'),
   heroWide:

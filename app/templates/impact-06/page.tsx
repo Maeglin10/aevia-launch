@@ -37,8 +37,8 @@ let fd: any = null;
 // le client pouvait les saisir, le thème ne les lisait pas.
 function AVIS_INLINE_SOURCE_LIVE() {
   return [
-  { name: "Soren Kvist", role: "Quantum Architect", text: "The Neural Link didn't just improve my workflow; it changed my perception of mathematical structures. I'm no longer visualizing data—I'm inhabiting it.", img: photo(0, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80") },
-                { name: "Emi Nakamura", role: "Synthetic Biologist", text: "Oxy-Flow is the first augmentation that feels truly native. The focus is sustained, clinical, and entirely without the jitters of chemical stimulants.", img: photo(1, "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80") }
+  { name: "Soren Kvist", role: "Quantum Architect", text: "The Neural Link didn't just improve my workflow; it changed my perception of mathematical structures. I'm no longer visualizing data—I'm inhabiting it.", img: photo(0, "https://images.pexels.com/photos/326512/pexels-photo-326512.jpeg?auto=compress&cs=tinysrgb&w=1600") },
+                { name: "Emi Nakamura", role: "Synthetic Biologist", text: "Oxy-Flow is the first augmentation that feels truly native. The focus is sustained, clinical, and entirely without the jitters of chemical stimulants.", img: photo(1, "https://images.pexels.com/photos/15717262/pexels-photo-15717262.jpeg?auto=compress&cs=tinysrgb&w=1600") }
 ];
 }
 let AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();

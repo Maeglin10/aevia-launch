@@ -71,14 +71,14 @@ function GRID_PHOTOS_DEMO_LIVE() {
   return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
   {
     id: 1,
-    src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=800&auto=format&fit=crop"),
+    src: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/12869715/pexels-photo-12869715.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     category: "Landscape",
     title: "Alpine Meridian",
     aspect: "aspect-[3/4]",
   },
   {
     id: 2,
-    src: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop"),
+    src: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/7303855/pexels-photo-7303855.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     category: "Portrait",
     title: "Identity Study I",
     aspect: "aspect-[3/4]",
@@ -106,14 +106,14 @@ function GRID_PHOTOS_DEMO_LIVE() {
   },
   {
     id: 6,
-    src: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=800&auto=format&fit=crop"),
+    src: (clientPhotos(sessionData)[5] || "https://images.pexels.com/photos/12277127/pexels-photo-12277127.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     category: "Portrait",
     title: "Luminance",
     aspect: "aspect-[3/4]",
   },
   {
     id: 7,
-    src: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=800&auto=format&fit=crop"),
+    src: (clientPhotos(sessionData)[6] || "https://images.pexels.com/photos/12277251/pexels-photo-12277251.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     category: "Architecture",
     title: "Vertical Logic",
     aspect: "aspect-[4/3]",

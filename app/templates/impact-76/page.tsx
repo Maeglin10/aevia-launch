@@ -59,7 +59,7 @@ function ARCHIVE_PROJECTS_DEMO_LIVE() {
     location: "Swiss Alps, CH",
     year: "2025",
     type: "Residential",
-    img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop"),
+    img: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/6368844/pexels-photo-6368844.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     id: 2,
@@ -67,7 +67,7 @@ function ARCHIVE_PROJECTS_DEMO_LIVE() {
     location: "Dubai, UAE",
     year: "2024",
     type: "Commercial",
-    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop"),
+    img: (clientPhotos(sessionData)[1] || "https://pixabay.com/get/geae3f9d2a7ed477bf3c9adb997991f350ffb9c0124e1e88a6eb732c9d2544e1c30515d021b427ff1427b216a6c2e67c4f1d42fba533890ddde4ae00dc99ff25f_1280.jpg"),
   },
   {
     id: 3,
@@ -75,7 +75,7 @@ function ARCHIVE_PROJECTS_DEMO_LIVE() {
     location: "Tokyo, JP",
     year: "2026",
     type: "Cultural",
-    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop"),
+    img: (clientPhotos(sessionData)[2] || "https://pixabay.com/get/gd8eb9ac46feafc2551ed709c0f82fb070524fcc4fc2b53a110cb83d07af8bcdabf5366812a5feeeeb3cb5466f0079d9c2947c2b379b6a14b5109200966ea9074_1280.jpg"),
   },
   {
     id: 4,
@@ -91,7 +91,7 @@ function ARCHIVE_PROJECTS_DEMO_LIVE() {
     location: "Seoul, KR",
     year: "2022",
     type: "Commercial",
-    img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop"),
+    img: (clientPhotos(sessionData)[4] || "https://images.pexels.com/photos/6368844/pexels-photo-6368844.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
 ]);
 }
@@ -132,13 +132,13 @@ function TEAM_DEMO_LIVE() {
     name: "Elias Vorne",
     role: "Principal Architect",
     specialty: "Computational Design / Parametric Structures",
-    img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop"),
+    img: (clientPhotos(sessionData)[5] || "https://images.pexels.com/photos/7383647/pexels-photo-7383647.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     name: "Naomi Sato",
     role: "Design Director",
     specialty: "Cultural Institutions / Material Research",
-    img: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=400&auto=format&fit=crop"),
+    img: (clientPhotos(sessionData)[6] || "https://images.pexels.com/photos/6044259/pexels-photo-6044259.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     name: "Daan Mulder",

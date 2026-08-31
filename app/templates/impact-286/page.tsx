@@ -94,11 +94,11 @@ function PHOTO_LIVE() {
   tribunal:
     (clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/21253838/pexels-photo-21253838.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   bureau:
-    (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/18414883/pexels-photo-18414883.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   reunion:
     (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1600&auto=format&fit=crop'),
   portrait:
-    (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/15369831/pexels-photo-15369831.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   contrat:
     (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=1600&auto=format&fit=crop'),
   audience:

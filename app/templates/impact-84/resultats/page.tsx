@@ -95,7 +95,7 @@ export default function ResultatsPage() {
             { src: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80&fit=crop", alt: "Équipement médical" },
             { src: "https://images.unsplash.com/photo-1612277795421-9bc7706a4a34?w=800&q=80&fit=crop", alt: "Consultation" },
             { src: "https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?w=800&q=80&fit=crop", alt: "Technologie laser" },
-            { src: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&q=80&fit=crop", alt: "Espace d'accueil" },
+            { src: "https://images.pexels.com/photos/33778904/pexels-photo-33778904.jpeg?auto=compress&cs=tinysrgb&w=1600", alt: "Espace d'accueil" },
             { src: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80&fit=crop", alt: "Salle de repos" },
           ].map((img, i) => (
             <Reveal key={img.src} delay={i * 0.05}>

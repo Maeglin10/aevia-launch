@@ -64,7 +64,7 @@ function PROJECTS_DEMO_LIVE() {
     type: "Commercial",
     year: "2024",
     area: "2 400 m²",
-    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop"),
+    img: (clientPhotos(sessionData)[1] || "https://pixabay.com/get/gbbc299ba5a29ed0555cf1c54627eeedced3b56da4ab3b8d994362e3f17e955190dcc51994644ffcd245bec92f89bcf8f6ed108e88c080f73448414fe39e6dd59_1280.jpg"),
   },
   {
     name: "Serene Heights",
@@ -72,7 +72,7 @@ function PROJECTS_DEMO_LIVE() {
     type: "Cultural",
     year: "2023",
     area: "1 100 m²",
-    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop"),
+    img: (clientPhotos(sessionData)[2] || "https://pixabay.com/get/gbf229731283bc77e3f7157e49babac2ce178bdd21ca4e30d4f054f360a58915f6ff48497f682d50f8f41749a12bf114615e43e019f0e018c1325fab57f37dec3_1280.jpg"),
   },
   {
     name: "Meridian House",
@@ -80,7 +80,7 @@ function PROJECTS_DEMO_LIVE() {
     type: "Residential",
     year: "2023",
     area: "480 m²",
-    img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop"),
+    img: (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/17806344/pexels-photo-17806344.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
 ]);
 }
@@ -137,19 +137,19 @@ function TEAM_DEMO_LIVE() {
     name: "Elias Vorn",
     role: "Founding Principal",
     bio: "Trained at the ETH Zürich and the Architectural Association. Elias leads design strategy and maintains relationships with structural engineering consultants across Europe.",
-    img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=600&auto=format&fit=crop"),
+    img: (clientPhotos(sessionData)[4] || "https://images.pexels.com/photos/7675078/pexels-photo-7675078.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     name: "Mara Solis",
     role: "Design Director",
     bio: "Formerly with Herzog & de Meuron. Mara oversees the development of every project from concept through construction administration, with a focus on material authenticity.",
-    img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=600&auto=format&fit=crop"),
+    img: (clientPhotos(sessionData)[5] || "https://images.pexels.com/photos/16313512/pexels-photo-16313512.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     name: "Kenji Arao",
     role: "Technical Director",
     bio: "Structural specialist with a background in parametric engineering. Kenji ensures that the studio's formal ambitions are grounded in rigorous constructional logic.",
-    img: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=600&auto=format&fit=crop"),
+    img: (clientPhotos(sessionData)[6] || "https://pixabay.com/get/g1670acc0e21eaf433b81815f99c6f5152dc6ab89f085c23681e59f66c7abf6d4ac6cee20c7742588313dd8d813f6998243c6dd0a330145252f976b2134d0badd_1280.jpg"),
   },
 ];
 }

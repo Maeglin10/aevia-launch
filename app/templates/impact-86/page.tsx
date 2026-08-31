@@ -811,7 +811,7 @@ export default function AuraWellnessPage() {
           style={{ x: amenitiesX }}
         >
           <Image
-            src={photo(6, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1400&q=80")}
+            src={photo(6, "https://images.pexels.com/photos/26886914/pexels-photo-26886914.jpeg?auto=compress&cs=tinysrgb&w=1600")}
             alt={`${clientName(sessionData) ?? "Aura Wellness"} thermal pools`}
             fill
             className="object-cover"

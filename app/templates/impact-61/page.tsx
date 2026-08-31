@@ -266,7 +266,7 @@ return (
             {/* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
               { num: "01", name: "Maison C.", type: "Résidentiel privé", loc: (clientCity(sessionData) ?? "Paris") + " 6e", year: "2024", img: photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80")) },
               { num: "02", name: "Médiathèque Évry", type: "Équipement culturel", loc: "Évry-Courcouronnes", year: "2024", img: photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80")) },
-              { num: "03", name: "Tour Belvedere", type: "Tertiaire — 4 200 m²", loc: "La Défense", year: "2023", img: photo(2, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80")) },
+              { num: "03", name: "Tour Belvedere", type: "Tertiaire — 4 200 m²", loc: "La Défense", year: "2023", img: photo(2, (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/7587375/pexels-photo-7587375.jpeg?auto=compress&cs=tinysrgb&w=1600")) },
               { num: "04", name: "Abbaye de Senlis", type: "Réhabilitation patrimoniale", loc: "Senlis, Oise", year: "2023", img: photo(3, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?w=800&q=80")) },
             ]).map((p, i) => (
               <motion.div

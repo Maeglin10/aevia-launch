@@ -32,7 +32,7 @@ const ALL_PROJECTS = [
     year: "2024",
     area: "2 400 m²",
     status: "Completed",
-    img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop",
+    img: "https://pixabay.com/get/gbbc299ba5a29ed0555cf1c54627eeedced3b56da4ab3b8d994362e3f17e955190dcc51994644ffcd245bec92f89bcf8f6ed108e88c080f73448414fe39e6dd59_1280.jpg",
     desc: "A sixteen-floor headquarters built on a single structural logic: maximum transparency, minimum intervention.",
   },
   {
@@ -42,7 +42,7 @@ const ALL_PROJECTS = [
     year: "2023",
     area: "1 100 m²",
     status: "Completed",
-    img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop",
+    img: "https://pixabay.com/get/gbf229731283bc77e3f7157e49babac2ce178bdd21ca4e30d4f054f360a58915f6ff48497f682d50f8f41749a12bf114615e43e019f0e018c1325fab57f37dec3_1280.jpg",
     desc: "A cultural pavilion designed around the choreography of visitor movement. Light changes the space every hour.",
   },
   {
@@ -52,7 +52,7 @@ const ALL_PROJECTS = [
     year: "2023",
     area: "480 m²",
     status: "Completed",
-    img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200&auto=format&fit=crop",
+    img: "https://images.pexels.com/photos/17806344/pexels-photo-17806344.jpeg?auto=compress&cs=tinysrgb&w=1600",
     desc: "A family residence built on a steep Norwegian hillside. The building is invisible from the road.",
   },
   {

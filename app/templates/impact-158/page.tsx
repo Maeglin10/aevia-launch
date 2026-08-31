@@ -136,7 +136,7 @@ function DESTINATIONS_DEMO_LIVE() {
   { name: "Islande", articles: 6, image: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1504893524553-b855bce32c67?w=400&q=80") },
   { name: "Maroc", articles: 9, image: (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1597212618440-806262de4f6b?w=400&q=80") },
   { name: "Éthiopie", articles: 5, image: (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=400&q=80") },
-  { name: "Australie", articles: 7, image: (clientPhotos(sessionData)[11] || "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=80") },
+  { name: "Australie", articles: 7, image: (clientPhotos(sessionData)[11] || "https://images.pexels.com/photos/37394506/pexels-photo-37394506.jpeg?auto=compress&cs=tinysrgb&w=1600") },
 ];
 }
 let DESTINATIONS_DEMO = DESTINATIONS_DEMO_LIVE();

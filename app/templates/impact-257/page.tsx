@@ -93,13 +93,13 @@ const SANS = "'Source Sans 3', system-ui, sans-serif" as const;
 function P_LIVE() {
   return {
   doctor:
-    (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2000&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[0] || 'https://pixabay.com/get/g6a52fcb11b657e93edffdca76ab17fe6271333f8ba34c8a4f8edfc08bee72c9f07a24f7bf1ebd5057fff8c81c6bb19e12c278f26351ef138ca0fd13c7aa0ee80_1280.jpg'),
   doctorMd:
-    (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[1] || 'https://pixabay.com/get/g6a52fcb11b657e93edffdca76ab17fe6271333f8ba34c8a4f8edfc08bee72c9f07a24f7bf1ebd5057fff8c81c6bb19e12c278f26351ef138ca0fd13c7aa0ee80_1280.jpg'),
   wellness:
-    (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[2] || 'https://pixabay.com/get/g6a52fcb11b657e93edffdca76ab17fe6271333f8ba34c8a4f8edfc08bee72c9f07a24f7bf1ebd5057fff8c81c6bb19e12c278f26351ef138ca0fd13c7aa0ee80_1280.jpg'),
   wellnessMd:
-    (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[3] || 'https://pixabay.com/get/g6a52fcb11b657e93edffdca76ab17fe6271333f8ba34c8a4f8edfc08bee72c9f07a24f7bf1ebd5057fff8c81c6bb19e12c278f26351ef138ca0fd13c7aa0ee80_1280.jpg'),
   functional:
     (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=1600&auto=format&fit=crop'),
   functionalMd:
@@ -678,7 +678,11 @@ function Hero() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to bottom, rgba(10,20,8,0.38) 0%, rgba(10,20,8,0.06) 36%, rgba(10,20,8,0.44) 70%, rgba(10,20,8,0.90) 100%)',
+            /* Le voile tombait à 6 % au milieu, juste où le titre se pose : mesuré,
+               le contraste y descendait à 2,45 — sous le seuil de 3. Aucune photo
+               de médecin assez sombre n'existe dans les banques ; c'est donc le
+               voile qu'il faut épaissir, pas le sujet qu'il faut changer. */
+            'linear-gradient(to bottom, rgba(10,20,8,0.52) 0%, rgba(10,20,8,0.40) 36%, rgba(10,20,8,0.56) 70%, rgba(10,20,8,0.92) 100%)',
         }}
       />
       <div

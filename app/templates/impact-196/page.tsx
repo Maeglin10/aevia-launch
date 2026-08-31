@@ -344,7 +344,7 @@ export default function CabinetKinePage() {
       <section id="approche" style={{ padding: "100px 80px", background: C.bgSection }}>
         <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
           <Reveal>
-            <img src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80"))} alt="Rééducation cabinet kiné" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
+            <img src={photo(1, (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/15717312/pexels-photo-15717312.jpeg?auto=compress&cs=tinysrgb&w=1600"))} alt="Rééducation cabinet kiné" style={{ width: "100%", borderRadius: 16, aspectRatio: "4/3", objectFit: "cover" }} />
           </Reveal>
           <Reveal delay={0.15}>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Notre approche</span>

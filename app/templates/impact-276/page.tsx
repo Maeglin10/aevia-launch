@@ -125,8 +125,8 @@ const SANS = "'DM Sans', system-ui, sans-serif" as const;
 /* ── Photos Unsplash (IDs réels vérifiés) ───────────────────────────────── */
 function PHOTO_LIVE() {
   return {
-  gym: (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1600&auto=format&fit=crop'),
-  training: (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1600&auto=format&fit=crop'),
+  gym: (clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/6388381/pexels-photo-6388381.jpeg?auto=compress&cs=tinysrgb&w=1600'),
+  training: (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/6390242/pexels-photo-6390242.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   nutrition: (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=1600&auto=format&fit=crop'),
   coach: (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1600&auto=format&fit=crop'),
   outdoor: (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1552674605-db6ffd4facb5?q=80&w=1600&auto=format&fit=crop'),

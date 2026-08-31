@@ -74,7 +74,7 @@ function COACHES_DEMO_LIVE() {
     role: "Coach Mobilité & Récupération",
     certs: "FRC Certified · ISSA · Yoga Alliance 500h",
     quote: "La récupération n'est pas de la faiblesse — c'est de la stratégie.",
-    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop"),
+    img: (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/35660461/pexels-photo-35660461.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
 ];
 }

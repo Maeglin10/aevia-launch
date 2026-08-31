@@ -96,7 +96,7 @@ function HERO_SOURCE_LIVE() {
       sub: "600 m² sous verrière, 12 m sous ferme métallique.",
       img:
         clientPhotos(sessionData)[1] ||
-        "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80",
+        "https://images.pexels.com/photos/276175/pexels-photo-276175.jpeg?auto=compress&cs=tinysrgb&w=1600",
       alt: "La nef dressée pour un dîner de gala",
       chiffre: "600 m²",
     },
@@ -114,7 +114,7 @@ function HERO_SOURCE_LIVE() {
       sub: "La brique, la nuit, les guirlandes : le spot photo de Roubaix.",
       img:
         clientPhotos(sessionData)[3] ||
-        "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=1920&q=80",
+        "https://images.pexels.com/photos/2774568/pexels-photo-2774568.jpeg?auto=compress&cs=tinysrgb&w=1600",
       alt: "La cour intérieure éclairée",
       chiffre: "1897",
     },

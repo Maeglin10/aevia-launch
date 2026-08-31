@@ -68,7 +68,7 @@ export default function MaterialsPage() {
           <Reveal>
             <div className="aspect-[4/5] relative overflow-hidden border border-black/5 p-1 bg-[#fcfcfc] shadow-xl">
               <ParallaxImg
-                src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200"
+                src="https://pixabay.com/get/gbf229731283bc77e3f7157e49babac2ce178bdd21ca4e30d4f054f360a58915f6ff48497f682d50f8f41749a12bf114615e43e019f0e018c1325fab57f37dec3_1280.jpg"
                 alt="Concrete Textures"
               />
             </div>

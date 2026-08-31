@@ -85,7 +85,7 @@ function photo(i: number, repli: string): string {
   return fd?.photoUrls?.[i] || clientPhotos(sessionData)[i] || repli;
 }
 const P_ABOUT = "https://images.unsplash.com/photo-1497215842964-222b430dc094?q=80&w=1600&auto=format&fit=crop";
-const P_G1 = "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800&auto=format&fit=crop";
+const P_G1 = "https://pixabay.com/get/gba24f7e576a3c3d00941c55b2e6b82ff058108d70bed0917d90d15530f44ea16c10914b05dd7381c4aa221aa77909ec21f28bf16960be386d0c5598275f89045_1280.jpg";
 const P_G2 = "https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=800&auto=format&fit=crop";
 const P_G3 = "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?q=80&w=800&auto=format&fit=crop";
 const P_G4 = "https://images.unsplash.com/photo-1497215842964-222b430dc094?q=80&w=800&auto=format&fit=crop";

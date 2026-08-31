@@ -9,7 +9,7 @@ import { motion, useInView } from "framer-motion";
 
 function EDITORIALS_LIVE() {
   return [
-  { title: "Corps Céleste", season: "Automne / Hiver 2025", designer: "Maison Leroux", image: clientPhotoAt(6, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80"), tag: "Couture" },
+  { title: "Corps Céleste", season: "Automne / Hiver 2025", designer: "Maison Leroux", image: clientPhotoAt(6, "https://images.pexels.com/photos/4271613/pexels-photo-4271613.jpeg?auto=compress&cs=tinysrgb&w=1600"), tag: "Couture" },
   { title: "Lumière Froide", season: "Printemps / Été 2025", designer: "Atelier Vidal", image: clientPhotoAt(7, "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80"), tag: "Éditorial" },
   { title: "Ombre et Matière", season: "Resort 2025", designer: "Studio Beaumont", image: clientPhotoAt(8, "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80"), tag: "Art" },
   { title: "Minuit Parisien", season: "Automne / Hiver 2025", designer: "Collectif Nuit", image: clientPhotoAt(9, "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=800&q=80"), tag: "Exclusif" },

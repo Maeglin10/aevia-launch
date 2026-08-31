@@ -44,7 +44,7 @@ function HERO_MISSIONS_DEMO_LIVE() {
   {
     k: "Conseil & pilotage",
     t: "Des chiffres qui éclairent vos décisions",
-    img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=1920&q=80"),
+    img: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/16695381/pexels-photo-16695381.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
 ];
 }
@@ -605,7 +605,7 @@ export default function LedgerPage() {
       >
         <div style={{ overflow: "hidden" }}>
           <img
-            src={photo(2, "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80")}
+            src={photo(2, "https://images.pexels.com/photos/16695381/pexels-photo-16695381.jpeg?auto=compress&cs=tinysrgb&w=1600")}
             alt="Expert-comptable Bordeaux"
             style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
           />

@@ -68,7 +68,7 @@ function LISTINGS_DEMO_LIVE() {
     price: "$84,000,000",
     sqft: "12,400",
     features: ["Private Helipad", "100ft Infinity Pool", "24/7 Butler"],
-    img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80"),
+    img: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/35203561/pexels-photo-35203561.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     id: 2,
@@ -86,7 +86,7 @@ function LISTINGS_DEMO_LIVE() {
     price: "$45,000,000",
     sqft: "9,800",
     features: ["Automotive Gallery", "Outdoor Cinema", "Zen Garden"],
-    img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80"),
+    img: (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/262047/pexels-photo-262047.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
 ]);
 }
@@ -423,7 +423,7 @@ export default function SkylineConciergePage() {
       <section id="hero" className="relative h-[100svh] flex items-center overflow-hidden pt-24 md:pt-0">
         <div className="absolute inset-0">
           <Image
-            src={photo(3, "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600&q=80")}
+            src={photo(3, "https://images.pexels.com/photos/35203561/pexels-photo-35203561.jpeg?auto=compress&cs=tinysrgb&w=1600")}
             alt="Luxury Penthouse"
             fill
             className="object-cover opacity-50"
@@ -551,7 +551,7 @@ export default function SkylineConciergePage() {
           <Reveal delay={0.2}>
             <div className="relative aspect-video lg:aspect-[4/3] bg-neutral-900 border border-white/5">
               <Image
-                src={photo(4, "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80")}
+                src={photo(4, "https://images.pexels.com/photos/262047/pexels-photo-262047.jpeg?auto=compress&cs=tinysrgb&w=1600")}
                 alt="Skyline Headquarter Consultation Room"
                 fill
                 className="object-cover opacity-60"
@@ -602,7 +602,7 @@ export default function SkylineConciergePage() {
                   onMouseLeave={() => setActiveListing(null)}
                 >
                   <Image
-                    src={item.img || item.photoUrl || photo(3 + i, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80"))}
+                    src={item.img || item.photoUrl || photo(3 + i, (clientPhotos(sessionData)[5] || "https://images.pexels.com/photos/35203561/pexels-photo-35203561.jpeg?auto=compress&cs=tinysrgb&w=1600"))}
                     alt={item.title ?? item.name ?? "Estate"}
                     fill
                     className="object-cover transition-transform duration-1000 group-hover:scale-110 grayscale group-hover:grayscale-0"

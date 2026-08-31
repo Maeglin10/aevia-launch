@@ -68,7 +68,7 @@ function RELEASES_DEMO_LIVE() {
     year: "2024",
     duration: "5:12",
     image:
-      (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000&auto=format&fit=crop"),
+      (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/11025645/pexels-photo-11025645.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     color: "#8b5cf6", // Violet
   },
 ]);

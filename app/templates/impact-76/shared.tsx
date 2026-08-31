@@ -15,7 +15,7 @@ function PROJECTS_LIVE() {
     year: "2025",
     type: "Residential",
     area: "850m²",
-    img: clientPhotoAt(9, "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80"),
+    img: clientPhotoAt(9, "https://images.pexels.com/photos/6368844/pexels-photo-6368844.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     desc: "A brutalist concrete sanctuary suspended over the valley. Zero-carbon geothermal integration.",
   },
   {
@@ -25,7 +25,7 @@ function PROJECTS_LIVE() {
     year: "2024",
     type: "Commercial",
     area: "42,000m²",
-    img: clientPhotoAt(10, "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1200&q=80"),
+    img: clientPhotoAt(10, "https://pixabay.com/get/geae3f9d2a7ed477bf3c9adb997991f350ffb9c0124e1e88a6eb732c9d2544e1c30515d021b427ff1427b216a6c2e67c4f1d42fba533890ddde4ae00dc99ff25f_1280.jpg"),
     desc: "Adaptive facade systems that react to solar intensity. Real-time thermal optimization.",
   },
   {

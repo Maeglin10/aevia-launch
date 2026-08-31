@@ -55,7 +55,7 @@ function projects_LIVE() {
     get loc() { return clientCityOr("Paris") + " 19ème"; },
     year: "2024", 
     type: "Residential", 
-    img: clientPhotoAt(7, "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&h=600&fit=crop&crop=center"),
+    img: clientPhotoAt(7, "https://pixabay.com/get/g1dcb46997b015312cbf57ff6a952dd8074d490fd45c235e5fe82a3af5f15e6dbb6739e8590f64e78f5e33031c329128f9b3a96e8eb4f3c670ecfbf20ae3554a5_1280.jpg"),
     area: "8,200 sqm",
     concrete: "CEM III/A with local Seine aggregate",
     structure: "Load-bearing raw concrete facade & precast slabs",
@@ -119,9 +119,9 @@ export const services = [
 
 function team_LIVE() {
   return [
-  { name: "Viktor Brunel", role: "Founding Partner", img: clientPhotoAt(12, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face") },
-  { name: "Anaïs Cornet", role: "Associate Architect", img: clientPhotoAt(13, "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&crop=face") },
-  { name: "Marc Delvaux", role: "Urban Planning", img: clientPhotoAt(14, "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face") },
+  { name: "Viktor Brunel", role: "Founding Partner", img: clientPhotoAt(12, "https://images.pexels.com/photos/1170412/pexels-photo-1170412.jpeg?auto=compress&cs=tinysrgb&w=1600") },
+  { name: "Anaïs Cornet", role: "Associate Architect", img: clientPhotoAt(13, "https://images.pexels.com/photos/7301919/pexels-photo-7301919.jpeg?auto=compress&cs=tinysrgb&w=1600") },
+  { name: "Marc Delvaux", role: "Urban Planning", img: clientPhotoAt(14, "https://images.pexels.com/photos/4538267/pexels-photo-4538267.jpeg?auto=compress&cs=tinysrgb&w=1600") },
   { name: "Sonia Lehmann", role: "Project Director", img: clientPhotoAt(15, "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop&crop=face") },
 ];
 }
@@ -148,7 +148,7 @@ function testimonials_LIVE() {
     author: "Père Antoine Séverin",
     title: "Director, Fondation Séverin",
     get project() { return "CONCRETE CHAPEL — " + clientCityOr("Marseille"); },
-    img: clientPhotoAt(18, "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=120&h=120&fit=crop&crop=face")
+    img: clientPhotoAt(18, "https://pixabay.com/get/ge903ac4a9ab8d5293288ec6283e92cf33931b1446e4da2edd13cb2a7a6a665aa1d03af2f69fd88e765c8b86e5335b34dee6d9a0469b98e1f712ca7d2634e5878_1280.jpg")
   },
 ];
 }

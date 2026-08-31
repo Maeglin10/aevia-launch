@@ -131,7 +131,7 @@ function PROJECTS_DEMO_LIVE() {
     category: "Web Ecosystem",
     year: "2025",
     image:
-      (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop"),
+      (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/9617384/pexels-photo-9617384.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     id: 2,
@@ -328,7 +328,7 @@ function WORK_DETAILS_DEMO_LIVE() {
     category: "Web Ecosystem",
     year: "2025",
     image:
-      (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop"),
+      (clientPhotos(sessionData)[6] || "https://images.pexels.com/photos/9617384/pexels-photo-9617384.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     summary:
       "A complete overhaul of an R&D lab's web ecosystem: design system, corporate site, and client portal.",
     role: "Design, Development, Branding",
@@ -1195,7 +1195,7 @@ return (
           }}
         >
           <Image
-            src={photo(16, "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1600&auto=format&fit=crop")}
+            src={photo(16, "https://images.pexels.com/photos/9617384/pexels-photo-9617384.jpeg?auto=compress&cs=tinysrgb&w=1600")}
             alt="Hero background"
             fill
             priority

@@ -352,7 +352,7 @@ export default function OsteoGaiaPage() {
           </Reveal>
           <Reveal delay={0.15}>
             <div className="relative aspect-[4/5] overflow-hidden rounded-xl">
-              <Image src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&q=85&w=800"))} alt="Cabinet ostéopathie" fill className="object-cover" style={{ filter: "brightness(0.7) saturate(0.8)" }} />
+              <Image src={photo(1, (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/7710139/pexels-photo-7710139.jpeg?auto=compress&cs=tinysrgb&w=1600"))} alt="Cabinet ostéopathie" fill className="object-cover" style={{ filter: "brightness(0.7) saturate(0.8)" }} />
             </div>
           </Reveal>
         </div>

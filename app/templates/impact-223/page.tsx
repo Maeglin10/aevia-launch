@@ -86,8 +86,8 @@ let SERVICES_DEMO = SERVICES_SOURCE;
 
 function REALIZATIONS_DEMO_LIVE() {
   return [
-  { label: "Villa contemporaine · 280 m²", tag: "Installation complète", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&q=80&w=1200") },
-  { label: "Immeuble 12 logements · Bordeaux", tag: "Mise en conformité NFC15-100", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&q=80&w=1200") },
+  { label: "Villa contemporaine · 280 m²", tag: "Installation complète", img: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/33000624/pexels-photo-33000624.jpeg?auto=compress&cs=tinysrgb&w=1600") },
+  { label: "Immeuble 12 logements · Bordeaux", tag: "Mise en conformité NFC15-100", img: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/12759924/pexels-photo-12759924.jpeg?auto=compress&cs=tinysrgb&w=1600") },
   { label: "Commerce · Cuisine industrielle", tag: "Triphasé + TGBT", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?auto=format&fit=crop&q=80&w=1200") },
 ];
 }

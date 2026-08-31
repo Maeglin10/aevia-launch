@@ -75,8 +75,8 @@ const FALLBACK_PHOTOS = [
   "https://images.unsplash.com/photo-1515169067868-5387ec356754?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // 3 séminaire II
   "https://images.unsplash.com/photo-1558402529-d2638a7023e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80", // 4 séminaire III (+ bandeau C)
   "https://images.pexels.com/photos/9275222/pexels-photo-9275222.jpeg?auto=compress&cs=tinysrgb&w=800", // 5 séminaire IV
-  "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", // 6 intervenant 1
-  "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80", // 7 intervenante 2
+  "https://images.pexels.com/photos/14934012/pexels-photo-14934012.jpeg?auto=compress&cs=tinysrgb&w=1600", // 6 intervenant 1
+  "https://images.pexels.com/photos/38886679/pexels-photo-38886679.jpeg?auto=compress&cs=tinysrgb&w=1600", // 7 intervenante 2
 ];
 
 function photo(i: number, repli: string): string {

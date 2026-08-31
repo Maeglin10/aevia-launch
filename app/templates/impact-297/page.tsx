@@ -128,7 +128,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 function PHOTO_LIVE() {
   return {
   hero: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=1600&auto=format&fit=crop"),
-  about: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1600&auto=format&fit=crop"),
+  about: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/39192383/pexels-photo-39192383.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   special: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1600&auto=format&fit=crop"),
   gallery1: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1486825586573-7131f7991bdd?q=80&w=800&auto=format&fit=crop"),
   gallery2: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1516549655169-df83a0774514?q=80&w=800&auto=format&fit=crop"),

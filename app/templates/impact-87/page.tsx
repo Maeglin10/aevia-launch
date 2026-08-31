@@ -310,7 +310,7 @@ export default function IronClubPage() {
       >
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img
-            src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1920&q=80"))}
+            src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/39219691/pexels-photo-39219691.jpeg?auto=compress&cs=tinysrgb&w=1600"))}
             alt={`Salle CrossFit ${clientName(sessionData) ?? "Iron Club"} Lyon`}
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />

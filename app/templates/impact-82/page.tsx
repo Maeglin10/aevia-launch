@@ -40,17 +40,17 @@ function PROGRAMMES_DEMO_LIVE() {
   return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, type: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { name: "Résidence Ithaque", loc: (clientCity(sessionData) ?? "Paris"), type: "Résidentiel premium", units: "28 appartements", delivery: "T2 2026", price: "À partir de 1,4 M€", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=85"), badge: "Commercialisation" },
   { name: "Le Domaine de Chambord", loc: "Neuilly-sur-Seine", type: "Résidentiel de prestige", units: "42 appartements", delivery: "T4 2026", price: "À partir de 920 k€", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=85"), badge: "Pré-vente" },
-  { name: "Horizon Business Center", loc: "La Défense", type: "Bureaux class A", units: "8 500 m² de bureaux", delivery: "T1 2027", price: "Sur demande", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=85"), badge: "Investisseurs" },
+  { name: "Horizon Business Center", loc: "La Défense", type: "Bureaux class A", units: "8 500 m² de bureaux", delivery: "T1 2027", price: "Sur demande", img: (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/4906421/pexels-photo-4906421.jpeg?auto=compress&cs=tinysrgb&w=1600"), badge: "Investisseurs" },
 ]);
 }
 let PROGRAMMES_DEMO = PROGRAMMES_DEMO_LIVE();
 
 function EQUIPE_DEMO_LIVE() {
   return [
-  { name: "Édouard Marchand", role: "Président Fondateur", bio: "35 ans d'immobilier. Fondateur de Blueprint en 1989, il a piloté plus de 2,4 Md€ de réalisations.", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&q=80") },
+  { name: "Édouard Marchand", role: "Président Fondateur", bio: "35 ans d'immobilier. Fondateur de Blueprint en 1989, il a piloté plus de 2,4 Md€ de réalisations.", img: (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/29252614/pexels-photo-29252614.jpeg?auto=compress&cs=tinysrgb&w=1600") },
   { name: "Claire Fontaine", role: "DGA — Développement", bio: "15 ans dans le foncier grand " + (clientCity(sessionData) ?? "Paris") + ". En charge de l'acquisition et du montage de tous les programmes.", img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=600&q=80") },
-  { name: "Thomas Renard", role: "Directeur Financier", bio: "Ex-Goldman Sachs Real Estate. Pilote la relation investisseurs et la structuration des fonds.", img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=80") },
-  { name: "Sophie Leroux", role: "Directrice Commerciale", bio: "Spécialiste résidentiel de prestige. A lancé 18 programmes depuis 2015, avec un taux de vente VEFA de 94%.", img: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80") },
+  { name: "Thomas Renard", role: "Directeur Financier", bio: "Ex-Goldman Sachs Real Estate. Pilote la relation investisseurs et la structuration des fonds.", img: (clientPhotos(sessionData)[5] || "https://images.pexels.com/photos/19916704/pexels-photo-19916704.jpeg?auto=compress&cs=tinysrgb&w=1600") },
+  { name: "Sophie Leroux", role: "Directrice Commerciale", bio: "Spécialiste résidentiel de prestige. A lancé 18 programmes depuis 2015, avec un taux de vente VEFA de 94%.", img: (clientPhotos(sessionData)[6] || "https://images.pexels.com/photos/7511701/pexels-photo-7511701.jpeg?auto=compress&cs=tinysrgb&w=1600") },
 ];
 }
 let EQUIPE_DEMO = EQUIPE_DEMO_LIVE();

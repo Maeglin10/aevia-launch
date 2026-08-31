@@ -122,7 +122,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   {
     name: "Pierre Manchon",
     role: "Michelin Inspector (Retired)",
-    avatar: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80"),
+    avatar: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/6467627/pexels-photo-6467627.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     rating: 5,
     text: "The Rossini is without question the finest interpretation of this classic I have encountered in forty years of criticism. Chef Beaumont has an almost supernatural sense of harmony between richness and restraint.",
     date: "March 2026",
@@ -130,7 +130,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   {
     name: "Claire Dubois",
     role: "Editor, Le Fooding",
-    avatar: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80"),
+    avatar: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/7535020/pexels-photo-7535020.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     rating: 5,
     text: "An evening at L'Étoile is not dinner — it is theatre, literature, and fine art served simultaneously. The sommelier's pairing of the Barolo with the Wagyu carpaccio was a revelation I will revisit in memory for years.",
     date: "February 2026",
@@ -414,7 +414,7 @@ return (
       {/* ── HERO ── */}
       <section ref={heroRef} id="hero" className="relative h-dvh overflow-hidden flex [align-items:safe_center] justify-center pt-28 pb-12 sm:pt-32">
         <motion.div style={{ y: heroImgY }} className="absolute inset-0 z-0">
-          <Image src={photo(5, "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80")} fill className="object-cover" alt="L'Étoile dining room" priority />
+          <Image src={photo(5, "https://images.pexels.com/photos/34645062/pexels-photo-34645062.jpeg?auto=compress&cs=tinysrgb&w=1600")} fill className="object-cover" alt="L'Étoile dining room" priority />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0c0a08] via-[#0c0a08]/50 to-[#0c0a08]/20" />
           <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at center, transparent 40%, rgba(12,10,8,0.85) 100%)" }} />
         </motion.div>
@@ -578,9 +578,9 @@ return (
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2 px-2 md:px-6">
           {[
-            photo(6, "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80"),
+            photo(6, "https://images.pexels.com/photos/34645062/pexels-photo-34645062.jpeg?auto=compress&cs=tinysrgb&w=1600"),
             photo(7, "https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=80"),
-            photo(8, "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=800&q=80"),
+            photo(8, "https://images.pexels.com/photos/6467627/pexels-photo-6467627.jpeg?auto=compress&cs=tinysrgb&w=1600"),
             photo(9, "https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80"),
             photo(10, "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=800&q=80"),
             photo(11, "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800&q=80"),

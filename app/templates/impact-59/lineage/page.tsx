@@ -27,7 +27,7 @@ function GUIDE_EXTENDED_LIVE() {
     quote:
       "La surperformance chronique crée une dette neuro-végétative que ni les vacances ni le sommeil ne suffisent à rembourser. Il faut autre chose.",
     image:
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop",
+      "https://images.pexels.com/photos/8764356/pexels-photo-8764356.jpeg?auto=compress&cs=tinysrgb&w=1600",
     bio_extended:
       "Formée à l'Université de Heidelberg et au Stanford Center on Longevity, le Dr. " + (clientCity(sessionData) ?? "Metz") + " a fondé Luminal après avoir identifié l'écart béant entre les traitements cliniques du burnout et les besoins réels des hauts performeurs. Sa méthode intègre les neurosciences contemporaines avec une approche profondément humaine. Elle a accompagné plus de 400 dirigeants et professionnels de haut niveau au cours de la dernière décennie, et publie régulièrement dans des revues de neuropsychologie appliquée.",
   },
@@ -49,7 +49,7 @@ function GUIDE_EXTENDED_LIVE() {
     quote:
       "Le corps sait déjà comment guérir. Notre travail est de créer les conditions pour qu'il s'en souvienne.",
     image:
-      "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop",
+      "https://images.pexels.com/photos/8764356/pexels-photo-8764356.jpeg?auto=compress&cs=tinysrgb&w=1600",
     bio_extended:
       "Formée à l'Institut Hakomi et au Somatic Experiencing Trauma Institute, Elena Rossi travaille depuis 15 ans avec des entrepreneurs, des athlètes et des dirigeants sur la régulation du système nerveux autonome. Ses sessions individuelles sont au cœur de chaque retraite Luminal. Avant de rejoindre Luminal, Elena a travaillé avec des équipes de soins intensifs hospitaliers pour développer des protocoles de prévention du burnout soignant.",
   },

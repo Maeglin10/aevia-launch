@@ -121,7 +121,7 @@ function HERO_DOMAINES_DEMO_LIVE() {
       num: "III",
       line: "Des statuts aux murs, l'entreprise sur des bases saines.",
       sub: "Cessions de fonds, baux commerciaux, garanties et sûretés.",
-      img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&q=80"),
+      img: (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/7654131/pexels-photo-7654131.jpeg?auto=compress&cs=tinysrgb&w=1600"),
       alt: "Bibliothèque juridique du bureau des notaires",
     },
   ];
@@ -669,7 +669,7 @@ export default function EtudeNotarialePage() {
             {/* Cadre décalé : la photo dans son passe-partout */}
             <div style={{ position: "relative", padding: "0 14px 14px 0" }}>
               <span aria-hidden style={{ position: "absolute", top: 14, left: 14, right: 0, bottom: 0, border: `1px solid ${C.accent}`, borderRadius: 4, opacity: 0.5, pointerEvents: "none" }} />
-              <img src={photo(4, "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&q=80")} alt="Notaire associé de l'étude" loading="lazy" style={{ width: "100%", borderRadius: 4, aspectRatio: "4/3", objectFit: "cover", display: "block", position: "relative", boxShadow: "0 20px 56px -24px rgba(28,26,22,0.35)" }} />
+              <img src={photo(4, "https://images.pexels.com/photos/6939518/pexels-photo-6939518.jpeg?auto=compress&cs=tinysrgb&w=1600")} alt="Notaire associé de l'étude" loading="lazy" style={{ width: "100%", borderRadius: 4, aspectRatio: "4/3", objectFit: "cover", display: "block", position: "relative", boxShadow: "0 20px 56px -24px rgba(28,26,22,0.35)" }} />
             </div>
           </Reveal>
           <Reveal delay={0.15}>

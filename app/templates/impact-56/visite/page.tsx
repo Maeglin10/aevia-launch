@@ -80,7 +80,7 @@ export default function VisitePage() {
       price: "120 € / pers.",
       group: "Max. 8 personnes",
       description: "Immersion complète : vignoble, chais historiques, caves, suivie d'un déjeuner gastronomique au Château.",
-      image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&q=80&fit=crop",
+      image: "https://images.pexels.com/photos/1440504/pexels-photo-1440504.jpeg?auto=compress&cs=tinysrgb&w=1600",
       includes: ["Visite approfondie en petit groupe", "Accès aux caves du XVIIIe siècle", "Déjeuner 4 services au Château", "Dégustation verticale 6 millésimes", "1 bouteille offerte"]
     },
     {

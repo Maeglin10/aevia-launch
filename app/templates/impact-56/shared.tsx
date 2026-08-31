@@ -84,7 +84,7 @@ function TESTIMONIALS_LIVE() {
   {
     name: "Jean-Marc Quarin",
     role: "Critique Indépendant",
-    avatar: clientPhotoAt(5, "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80"),
+    avatar: clientPhotoAt(5, "https://images.pexels.com/photos/28609437/pexels-photo-28609437.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     content: "Le Château Vestige 2026 redéfinit l'élégance de l'appellation. Une texture de velours qui enveloppe un fruit d'une pureté saisissante. Magistral.",
     rating: 5,
     score: "98/100"
@@ -92,7 +92,7 @@ function TESTIMONIALS_LIVE() {
   {
     name: "Jancis Robinson",
     role: "Master of Wine",
-    avatar: clientPhotoAt(6, "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80"),
+    avatar: clientPhotoAt(6, "https://images.pexels.com/photos/37423050/pexels-photo-37423050.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     content: "Un vin d'une aristocratie naturelle. Les tanins sont d'une finesse incomparable, promettant une garde de plusieurs décennies.",
     rating: 5,
     score: "19/20"
@@ -100,7 +100,7 @@ function TESTIMONIALS_LIVE() {
   {
     name: "Robert Parker",
     role: "The Wine Advocate",
-    avatar: clientPhotoAt(7, "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80"),
+    avatar: clientPhotoAt(7, "https://images.pexels.com/photos/37394505/pexels-photo-37394505.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     content: "Probablement le plus grand millésime produit par la propriété depuis 1982. La complexité aromatique est vertigineuse.",
     rating: 5,
     score: "99/100"

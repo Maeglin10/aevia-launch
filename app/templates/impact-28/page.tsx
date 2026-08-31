@@ -191,13 +191,17 @@ export default function Home() {
         <div className="flex-1 relative overflow-hidden">
           <motion.div style={{ y: heroY, scale: heroScale }} className="absolute inset-0">
             <Image
-              src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&h=900&fit=crop&crop=center"))}
+              src={photo(0, (clientPhotos(sessionData)[0] || "https://pixabay.com/get/g1dcb46997b015312cbf57ff6a952dd8074d490fd45c235e5fe82a3af5f15e6dbb6739e8590f64e78f5e33031c329128f9b3a96e8eb4f3c670ecfbf20ae3554a5_1280.jpg"))}
               alt="Brutco Architecture"
               fill
               className="object-cover grayscale"
               priority
             />
-            <div className="absolute inset-0 bg-black/30" />
+            {/* Le voile était à 30 % : mesuré, le titre blanc y tombait à 1,49 de
+                contraste, sous le seuil de 3. Le héros empile plusieurs photos en
+                collage — changer l'une d'elles ne suffit pas, c'est le voile qui
+                doit porter le texte. */}
+            <div className="absolute inset-0 bg-black/85" />
           </motion.div>
           <div className="relative h-full flex items-end pb-12 px-6 max-w-7xl mx-auto w-full">
             <div>
@@ -307,7 +311,7 @@ export default function Home() {
       <section className="py-0 bg-black text-white">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 min-h-[600px]">
           <ScrollImage
-            src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1508450859948-4e04fabaa4ea?w=800&h=600&fit=crop&crop=center"))}
+            src={photo(1, (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/5602124/pexels-photo-5602124.jpeg?auto=compress&cs=tinysrgb&w=1600"))}
             alt="Brutco studio"
             width={800}
             height={600}
@@ -662,7 +666,7 @@ export default function Home() {
         <div className="relative overflow-hidden min-h-[480px] flex items-center">
           {/* Background image */}
           <ScrollImage
-            src={photo(6, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1600&h=700&fit=crop&crop=center"))}
+            src={photo(6, (clientPhotos(sessionData)[6] || "https://pixabay.com/get/g1dcb46997b015312cbf57ff6a952dd8074d490fd45c235e5fe82a3af5f15e6dbb6739e8590f64e78f5e33031c329128f9b3a96e8eb4f3c670ecfbf20ae3554a5_1280.jpg"))}
             alt="CTA architecture"
             width={1600}
             height={700}

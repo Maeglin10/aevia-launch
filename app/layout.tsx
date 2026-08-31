@@ -157,20 +157,50 @@ const softwareAppSchema = {
       description: 'E-commerce, 3D, intégration Stripe.',
     },
   ],
-  provider: {
-    '@type': 'Organization',
-    name: 'Aevia',
-    url: 'https://aevia.services',
-  },
+  // Référence au nœud canonique plutôt qu'une organisation redécrite : deux
+  // descriptions voisines de la même entreprise se lisent comme deux entreprises.
+  provider: { '@id': 'https://aevia.services/#organization' },
+  publisher: { '@id': 'https://aevia.services/#organization' },
 };
 
+/*
+  Le MÊME identifiant de nœud que celui déclaré par le Hub. Les quatre domaines
+  décrivaient jusqu'ici quatre organisations anonymes qui se ressemblaient ; en
+  partageant `@id`, ils décrivent une seule entité vue de quatre endroits, et
+  les preuves portées par l'un valent pour tous.
+
+  Pourquoi ça compte : « Aevia » est revendiqué par au moins sept entités, dont
+  une filiale d'Eiffage. Une recherche sur le mot nu ne nous atteint pas. Ce
+  sont le SIREN et les registres publics ci-dessous — pas nos propres
+  sous-domaines, qui ne prouvent rien — qui permettent de nous distinguer.
+*/
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
+  '@id': 'https://aevia.services/#organization',
   name: 'Aevia',
+  legalName: 'VALENTIN MILLIAND (AEVIA WS)',
+  alternateName: ['Aevia WS', 'Aevia Services', 'AeviaLaunch'],
+  disambiguatingDescription:
+    "Aevia (Aevia WS) est un éditeur de logiciels français indépendant fondé en 2019 à Bourg-en-Bresse par Valentin Milliand. Sans lien avec la société Aevia du groupe Eiffage, qui exerce dans l'énergie et les infrastructures.",
   url: 'https://aevia.services',
   logo: 'https://launch.aevia.services/favicon.svg',
+  identifier: { '@type': 'PropertyValue', propertyID: 'SIREN', value: '852546225' },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Bourg-en-Bresse',
+    postalCode: '01000',
+    addressRegion: 'Auvergne-Rhône-Alpes',
+    addressCountry: 'FR',
+  },
+  email: 'valentinmilliand@aevia.services',
   sameAs: [
+    // Corroborations tierces d'abord : ce sont elles qui lient « Aevia » au
+    // SIREN 852546225 plutôt qu'à Eiffage.
+    'https://annuaire-entreprises.data.gouv.fr/entreprise/852546225',
+    'https://www.pappers.fr/entreprise/852546225',
+    'https://www.societe.com/societe/-852546225.html',
+    'https://github.com/Maeglin10',
     'https://aevia.services',
     'https://inbox.aevia.services',
     'https://security.aevia.services',

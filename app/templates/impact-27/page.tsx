@@ -72,7 +72,7 @@ function testimonials_SOURCE_LIVE() {
     quote: "Vertex turned our static product catalogue into a living, interactive 3D experience. Conversion rate jumped 340% in the first quarter.",
     author: "Marc Duval",
     role: "Head of Digital, Phantom Motors",
-    avatar: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face"),
+    avatar: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/5393438/pexels-photo-5393438.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     rating: 5,
   },
   {
@@ -86,7 +86,7 @@ function testimonials_SOURCE_LIVE() {
     quote: "Working with Vertex was like having a GPU wizard on the team. They optimised our 3D assets to 78% smaller with zero visual loss. Remarkable.",
     author: "Lucas Brandt",
     role: "CTO, Studio Levi",
-    avatar: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face"),
+    avatar: (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/9902807/pexels-photo-9902807.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     rating: 5,
   },
 ];

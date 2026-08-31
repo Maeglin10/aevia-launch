@@ -103,15 +103,15 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 function PHOTO_LIVE() {
   return {
   therapy:
-    (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/39192382/pexels-photo-39192382.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   clinic:
-    (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/6285399/pexels-photo-6285399.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   consultation:
-    (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/8413204/pexels-photo-8413204.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   zen:
     (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?q=80&w=1600&auto=format&fit=crop'),
   hero:
-    (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=2000&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/39192382/pexels-photo-39192382.jpeg?auto=compress&cs=tinysrgb&w=1600'),
 } as const;
 }
 let PHOTO = PHOTO_LIVE();

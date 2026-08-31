@@ -157,25 +157,25 @@ function testimonials_LIVE() {
   {
     name: "Léa Fontaine",
     role: "CTO, Finary",
-    avatar: clientPhotoAt(9, "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face"),
+    avatar: clientPhotoAt(9, "https://images.pexels.com/photos/37468396/pexels-photo-37468396.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     quote: "Raphaël rewrote our transaction reconciliation service in four weeks. P99 dropped from 900ms to 120ms. The codebase he left behind is the cleanest we have — and that's saying something.",
   },
   {
     name: "Yohan Mbeki",
     role: "VP Engineering, Alan",
-    avatar: clientPhotoAt(10, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face"),
+    avatar: clientPhotoAt(10, "https://images.pexels.com/photos/16307279/pexels-photo-16307279.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     quote: "His performance audit found three systemic query patterns we'd missed for two years. The fix was deployed in one sprint. Worth ten times the fee.",
   },
   {
     name: "Sara Molina",
     role: "Engineering Lead, Pennylane",
-    avatar: clientPhotoAt(11, "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face"),
+    avatar: clientPhotoAt(11, "https://images.pexels.com/photos/9903239/pexels-photo-9903239.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     quote: "Detailed, precise, communicates tradeoffs instead of opinions. He delivered a 25-page architecture RFC on our data layer that we shipped almost verbatim. Rare.",
   },
   {
     name: "Thomas Kühn",
     role: "Principal Engineer, Datadog",
-    avatar: clientPhotoAt(12, "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face"),
+    avatar: clientPhotoAt(12, "https://pixabay.com/get/g337fe51753cde6e6e4d75e782fbcc5b8a43c44a8cae8bd2a8108fa43f1ad6e85f6fb2ca22f749c23a96356c51d68a16a8aa04ffc388e9d2af70c9ebbba87c8e4_1280.jpg"),
     quote: "Open source advisory from someone who's actually shipped and maintained large OSS projects. Not just theory. Would work with him again immediately.",
   },
 ];

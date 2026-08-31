@@ -103,7 +103,7 @@ export default function Page() {
                 aspectRatio: "4/5",
               }}
             >
-              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80" alt="Portraits & Studio 1" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              <img src="https://pixabay.com/get/g0d0e9bba6b6a8d9d5eff4a02c1fe8191f0b785e402a6fcda2f35c0537e6d91445053d2308e2cd1e737d049d9e1b4c5c7bd53b3c3f2d8647235bc7158b235cfbc_1280.jpg" alt="Portraits & Studio 1" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(12,10,9,0.8) 0%, transparent 60%)" }} />
               <div style={{ position: "absolute", bottom: 24, left: 24, right: 24, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <span style={{ color: C.text, fontSize: 14, fontFamily: FONT, fontStyle: "italic" }}>Portraits & Studio Collection N°1</span>

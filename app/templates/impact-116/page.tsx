@@ -151,7 +151,7 @@ function REELTHUMB_LIVE() {
   return [
   (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/11063289/pexels-photo-11063289.jpeg?auto=compress&cs=tinysrgb&w=1200"),
   (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop"),
-  (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop"),
+  (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/9617371/pexels-photo-9617371.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?q=80&w=1200&auto=format&fit=crop"),
 ];
 }

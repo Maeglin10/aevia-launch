@@ -352,7 +352,7 @@ export default function AquaThermPage() {
 
       <section style={{ padding: "100px 80px", background: C.bgSection }}>
         <div className="imx-mobstack" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center" }}>
-          <Reveal><img src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80"))} alt="Artisan plombier certifié" style={{ width: "100%", borderRadius: 8, aspectRatio: "4/3", objectFit: "cover" }} /></Reveal>
+          <Reveal><img src={photo(1, (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/5963070/pexels-photo-5963070.jpeg?auto=compress&cs=tinysrgb&w=1600"))} alt="Artisan plombier certifié" style={{ width: "100%", borderRadius: 8, aspectRatio: "4/3", objectFit: "cover" }} /></Reveal>
           <Reveal delay={0.15}><div>
             <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Garanties</span>
             <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 3vw, 48px)", letterSpacing: 0.5, color: C.text, margin: "10px 0 26px", lineHeight: 1.1 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>RGE, QUALIGAZ,<br />ASSURÉS.</>)}</h2>

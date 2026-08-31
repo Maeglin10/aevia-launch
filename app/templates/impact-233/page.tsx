@@ -316,7 +316,7 @@ export default function CabinetOsteopathiePage() {
 
       <section id="hero" ref={heroRef} style={{ height: "100dvh", minHeight: "640px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1920&q=80"))} alt="Cabinet ostéopathie Lyon" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/39192339/pexels-photo-39192339.jpeg?auto=compress&cs=tinysrgb&w=1600"))} alt="Cabinet ostéopathie Lyon" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(6,5,3,0.93) 0%, rgba(6,5,3,0.40) 45%, rgba(6,5,3,0.08) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}16 0%, transparent 55%)` }} />

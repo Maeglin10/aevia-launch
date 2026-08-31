@@ -82,7 +82,7 @@ function PROPERTIES_DEMO_LIVE() {
     rooms: "7 pièces",
     floor: "Hôtel particulier",
     description: "An exceptional 18th-century private mansion entirely renovated by architect Pierre Margot. Original Versailles parquet, period fireplaces, private garden of 280m².",
-    image: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1400&auto=format&fit=crop"),
+    image: (clientPhotos(sessionData)[1] || "https://pixabay.com/get/g229317feab7597e15f0db928e7a85a9e2ecd8a6172d739fd504c437388488c49169b8839b5ee47d0960acfb69dd1c0a677ab98e8eaad851f279542db94246727_1280.jpg"),
     tags: ["Jardin Privé", "Patrimoine", "Coup de Cœur"],
     featured: true,
   },
@@ -95,7 +95,7 @@ function PROPERTIES_DEMO_LIVE() {
     rooms: "6 pièces",
     floor: "3e étage noble",
     description: "Perfectly preserved Haussmann apartment with Tour Eiffel view. Original mouldings, chevron parquet, and 4.2m ceiling heights throughout.",
-    image: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1400&auto=format&fit=crop"),
+    image: (clientPhotos(sessionData)[2] || "https://pixabay.com/get/gbe9803a0af0eccf360abb3fca9554fae073d8d05abe814ef0685911031f71e970d278d10b0181c03116f4951a6e600c79a0b35f118e2301101cd28c6ffa77464_1280.jpg"),
     tags: ["Vue Tour Eiffel", "Duplex", "Terrasse"],
     featured: false,
   },
@@ -141,14 +141,14 @@ function NEIGHBORHOODS_DEMO_LIVE() {
     arrondissement: "IVe",
     character: "Renaissance hôtels particuliers, contemporary galleries, and the best falafel in Europe. History layered on history.",
     priceRange: "€ 12 000 – 18 000 / m²",
-    image: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1400&auto=format&fit=crop"),
+    image: (clientPhotos(sessionData)[5] || "https://pixabay.com/get/g229317feab7597e15f0db928e7a85a9e2ecd8a6172d739fd504c437388488c49169b8839b5ee47d0960acfb69dd1c0a677ab98e8eaad851f279542db94246727_1280.jpg"),
   },
   {
     name: "Trocadéro",
     arrondissement: "XVIe",
     character: "Monumental Haussmann architecture, the finest views of the Eiffel Tower, and quiet residential streets that feel like a village.",
     priceRange: "€ 13 000 – 20 000 / m²",
-    image: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1400&auto=format&fit=crop"),
+    image: (clientPhotos(sessionData)[6] || "https://pixabay.com/get/gbe9803a0af0eccf360abb3fca9554fae073d8d05abe814ef0685911031f71e970d278d10b0181c03116f4951a6e600c79a0b35f118e2301101cd28c6ffa77464_1280.jpg"),
   },
   {
     name: "Île Saint-Louis",
@@ -423,7 +423,7 @@ function PropertyCard({
         }}
       >
         <img
-          src={property.image || property.photoUrl || photo(2 + index, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1400&auto=format&fit=crop"))}
+          src={property.image || property.photoUrl || photo(2 + index, (clientPhotos(sessionData)[8] || "https://pixabay.com/get/g229317feab7597e15f0db928e7a85a9e2ecd8a6172d739fd504c437388488c49169b8839b5ee47d0960acfb69dd1c0a677ab98e8eaad851f279542db94246727_1280.jpg"))}
           alt={property.title ?? property.name ?? "Bien"}
           style={{
             width: "100%",
@@ -1245,7 +1245,7 @@ export default function Impact167Page() {
           }}
         >
           <motion.img
-            src={photo(9, "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1400&auto=format&fit=crop")}
+            src={photo(9, "https://pixabay.com/get/g229317feab7597e15f0db928e7a85a9e2ecd8a6172d739fd504c437388488c49169b8839b5ee47d0960acfb69dd1c0a677ab98e8eaad851f279542db94246727_1280.jpg")}
             alt="Paris luxury property"
             style={{
               position: "absolute",

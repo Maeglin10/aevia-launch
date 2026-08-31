@@ -129,7 +129,7 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 function PHOTO_LIVE() {
   return {
   hero: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=1600&auto=format&fit=crop"),
-  about: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1600&auto=format&fit=crop"),
+  about: (clientPhotos(sessionData)[1] || "https://pixabay.com/get/g3cb7af5992f76435d7a31137874817e85621971177bd97f6c697aacede61f3971f311524a1a7d8091be32e4e4fe0177447208d89421af379ee90574d42a64b6b_1280.jpg"),
   special: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?q=80&w=1600&auto=format&fit=crop"),
   gallery1: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=800&auto=format&fit=crop"),
   gallery2: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=800&auto=format&fit=crop"),

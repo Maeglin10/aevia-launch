@@ -58,7 +58,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 
 function PROGRAMS_DEMO_LIVE() {
   return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, type: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
-  { title: "FORGE", type: "Strength", duration: "60 min", level: "Advanced", desc: "Heavy compound lifts with progressive overload programming.", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=800") },
+  { title: "FORGE", type: "Strength", duration: "60 min", level: "Advanced", desc: "Heavy compound lifts with progressive overload programming.", img: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/9545914/pexels-photo-9545914.jpeg?auto=compress&cs=tinysrgb&w=1600") },
   { title: "BLITZ", type: "HIIT", duration: "45 min", level: "All Levels", desc: "Heart-rate driven interval training for maximum caloric burn.", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&q=80&w=800") },
   { title: "RECOVER", type: "Mobility", duration: "30 min", level: "All Levels", desc: "Active recovery with guided stretching and foam rolling protocols.", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&q=80&w=800") },
 ]);
@@ -242,7 +242,7 @@ export default function ApexFitnessPage() {
         {/* ── HERO ────── */}
         <section id="hero" className="relative h-[110vh] min-h-[640px] flex items-center overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
-            <Image src={photo(3, "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&q=80&w=2400")} alt="Gym" fill className="object-cover opacity-40" priority />
+            <Image src={photo(3, "https://images.pexels.com/photos/9545914/pexels-photo-9545914.jpeg?auto=compress&cs=tinysrgb&w=1600")} alt="Gym" fill className="object-cover opacity-40" priority />
             <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/50 to-transparent" />
           </motion.div>
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">

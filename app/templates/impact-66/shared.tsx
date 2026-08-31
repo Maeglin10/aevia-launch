@@ -38,7 +38,7 @@ function SERVICES_LIVE() {
     name: "Brow Architecture",
     tag: "Lamination & Tint",
     price: "from €65",
-    img: clientPhotoAt(7, "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=1200&auto=format&fit=crop"),
+    img: clientPhotoAt(7, "https://images.pexels.com/photos/3926221/pexels-photo-3926221.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     desc: "Framing the face through geometric mapping and custom pigment blending.",
   },
 ];

@@ -92,7 +92,7 @@ const SANS = "'Raleway', system-ui, sans-serif" as const;
 function PHOTO_LIVE() {
   return {
   atelier:
-    (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/19621600/pexels-photo-19621600.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   mode:
     (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1600&auto=format&fit=crop'),
   mannequin:
@@ -100,7 +100,7 @@ function PHOTO_LIVE() {
   tissu:
     (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1600&auto=format&fit=crop'),
   atelierWide:
-    (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2000&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/19621600/pexels-photo-19621600.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   modeFull:
     (clientPhotos(sessionData)[5] || 'https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=2000&auto=format&fit=crop'),
 } as const;

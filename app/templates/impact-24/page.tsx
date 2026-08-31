@@ -79,7 +79,7 @@ function companies_LIVE() {
   { name: "Flux AI", sector: "AI/ML", raise: "$4.2M", logo: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=80&h=80&fit=crop&crop=center"), cohort: "W23" },
   { name: "Vanta Pay", sector: "Fintech", raise: "$8.1M", logo: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1621761191319-c6fb62004040?w=80&h=80&fit=crop&crop=center"), cohort: "S23" },
   { name: "NeuraStack", sector: "Developer Tools", raise: "$3.5M", logo: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1620287341056-49a2f1ab2fdc?w=80&h=80&fit=crop&crop=center"), cohort: "W23" },
-  { name: "Clio Health", sector: "HealthTech", raise: "$6.8M", logo: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=80&h=80&fit=crop&crop=center"), cohort: "S22" },
+  { name: "Clio Health", sector: "HealthTech", raise: "$6.8M", logo: (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/34804016/pexels-photo-34804016.jpeg?auto=compress&cs=tinysrgb&w=1600"), cohort: "S22" },
   { name: "Arco Climate", sector: "CleanTech", raise: "$12M", logo: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=80&h=80&fit=crop&crop=center"), cohort: "W22" },
   { name: "Forma Studio", sector: "Design Tools", raise: "$2.9M", logo: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1541462608143-67571c6738dd?w=80&h=80&fit=crop&crop=center"), cohort: "S23" },
 ];
@@ -89,9 +89,9 @@ let companies = companies_LIVE();
 function mentors_SOURCE_LIVE() {
   return [
   { name: "Sarah Chen", role: "Partner @ Sequoia", img: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=200&h=200&fit=crop&crop=face"), expertise: "Growth" },
-  { name: "Marcus Reid", role: "Founder @ Linear", img: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=face"), expertise: "Product" },
+  { name: "Marcus Reid", role: "Founder @ Linear", img: (clientPhotos(sessionData)[7] || "https://images.pexels.com/photos/1334093/pexels-photo-1334093.jpeg?auto=compress&cs=tinysrgb&w=1600"), expertise: "Product" },
   { name: "Priya Nair", role: "CTO @ Stripe", img: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&crop=face"), expertise: "Engineering" },
-  { name: "Tom Brandt", role: "GP @ a16z", img: (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop&crop=face"), expertise: "GTM" },
+  { name: "Tom Brandt", role: "GP @ a16z", img: (clientPhotos(sessionData)[9] || "https://images.pexels.com/photos/15717260/pexels-photo-15717260.jpeg?auto=compress&cs=tinysrgb&w=1600"), expertise: "GTM" },
 ];
 }
 let mentors_SOURCE = mentors_SOURCE_LIVE();

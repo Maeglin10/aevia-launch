@@ -137,7 +137,7 @@ function PHASES_DEMO_LIVE() {
     num: '01',
     caption: 'COMPTABILITÉ & FISCALITÉ',
     sub: 'Tenue comptable, déclarations TVA, liasses fiscales, optimisation IS — accompagnement complet pour TPE et PME.',
-    img: (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1600&auto=format&fit=crop'),
+    img: (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/33175673/pexels-photo-33175673.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     alt: 'Expert-comptable analysant des liasses fiscales',
   },
   {
@@ -145,7 +145,7 @@ function PHASES_DEMO_LIVE() {
     num: '02',
     caption: 'CONSEIL EN GESTION',
     sub: 'Tableaux de bord, prévisionnel, analyse de rentabilité — prenez vos décisions avec des chiffres clairs.',
-    img: (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=1600&auto=format&fit=crop'),
+    img: (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/33175673/pexels-photo-33175673.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     alt: "Réunion de conseil en gestion d'entreprise",
   },
   {
@@ -619,7 +619,7 @@ function Hero() {
         }}
       >
         <img
-          src={photo(4, "https://images.unsplash.com/photo-1507679799987-c73779587ccf?q=80&w=2000&auto=format&fit=crop")}
+          src={photo(4, "https://images.pexels.com/photos/33175673/pexels-photo-33175673.jpeg?auto=compress&cs=tinysrgb&w=1600")}
           alt="Cabinet expert-comptable Marchand & Partners Nantes"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />

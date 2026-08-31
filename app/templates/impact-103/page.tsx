@@ -106,9 +106,9 @@ let EXPERTISE = EXPERTISE_DEMO;
 
 function PARTNERS_DEMO_SOURCE_LIVE() {
   return [
-  { name: "Julian Thorne", role: "Managing Partner", focus: "Global Litigation", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800") },
-  { name: "Elena Rossi", role: "Senior Partner", focus: "M&A / Private Equity", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800") },
-  { name: "Marcus Vane", role: "Senior Partner", focus: "International Law", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=800") },
+  { name: "Julian Thorne", role: "Managing Partner", focus: "Global Litigation", img: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/1367275/pexels-photo-1367275.jpeg?auto=compress&cs=tinysrgb&w=1600") },
+  { name: "Elena Rossi", role: "Senior Partner", focus: "M&A / Private Equity", img: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/17713789/pexels-photo-17713789.jpeg?auto=compress&cs=tinysrgb&w=1600") },
+  { name: "Marcus Vane", role: "Senior Partner", focus: "International Law", img: (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/1181738/pexels-photo-1181738.jpeg?auto=compress&cs=tinysrgb&w=1600") },
 ];
 }
 let PARTNERS_DEMO_SOURCE = PARTNERS_DEMO_SOURCE_LIVE();
@@ -320,7 +320,7 @@ export default function LuminaLawPage() {
                  <div className="relative hidden lg:block">
                     <div className="absolute -inset-10 bg-[var(--brand,#1a365d)]/5 blur-[100px] rounded-full" />
                     <div className="relative aspect-[4/5] bg-white border border-black/5 p-3 rounded-sm shadow-2xl">
-                       <ParallaxImg src={photo(3, "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1200")} alt="Law Office" />
+                       <ParallaxImg src={photo(3, "https://images.pexels.com/photos/36713445/pexels-photo-36713445.jpeg?auto=compress&cs=tinysrgb&w=1600")} alt="Law Office" />
                        <div className="absolute bottom-10 left-10 p-10 bg-white border border-black/5 w-72 hidden md:block shadow-xl">
                           <Quote className="w-8 h-8 mb-6 text-[var(--brand,#1a365d)]/20" />
                           <p className="text-sm italic font-light leading-relaxed mb-4" style={{ fontFamily: "serif" }}>"Integrity is the only foundation upon which true victory can be built."</p>
@@ -422,7 +422,7 @@ export default function LuminaLawPage() {
                  </div>
                  <Reveal delay={0.3}>
                     <div className="aspect-[4/5] relative border border-black/5 p-4 bg-[#fafafa]">
-                       <ParallaxImg src={photo(4, "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=1200")} alt="Legal Gavel" />
+                       <ParallaxImg src={photo(4, "https://images.pexels.com/photos/6949476/pexels-photo-6949476.jpeg?auto=compress&cs=tinysrgb&w=1600")} alt="Legal Gavel" />
                        <div className="absolute -top-10 -right-10 w-40 h-40 bg-[var(--brand,#1a365d)] flex items-center justify-center text-white p-8 text-center rounded-sm shadow-2xl">
                           <div className="text-[10px] font-bold uppercase tracking-[0.3em]">Established 1984</div>
                        </div>

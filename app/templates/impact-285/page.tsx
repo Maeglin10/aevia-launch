@@ -106,17 +106,17 @@ function PHOTO_LIVE() {
   consultation:
     (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?q=80&w=1600&auto=format&fit=crop'),
   medecin:
-    (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/7579823/pexels-photo-7579823.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   stethoscope:
     (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=1600&auto=format&fit=crop'),
   cabinet:
-    (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/39192336/pexels-photo-39192336.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   heroWide:
     (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?q=80&w=2000&auto=format&fit=crop'),
   bilan:
     (clientPhotos(sessionData)[5] || 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=1600&auto=format&fit=crop'),
   vaccination:
-    (clientPhotos(sessionData)[6] || 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/39192336/pexels-photo-39192336.jpeg?auto=compress&cs=tinysrgb&w=1600'),
 };
 }
 let PHOTO = PHOTO_LIVE();

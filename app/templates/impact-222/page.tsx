@@ -96,11 +96,11 @@ let C: Record<string, string> = {
 function PHOTO_LIVE() {
   return {
   facade:
-    (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/19846383/pexels-photo-19846383.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   interior:
-    (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/10267196/pexels-photo-10267196.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   city:
-    (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/8089172/pexels-photo-8089172.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   pool:
     (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=1600&auto=format&fit=crop'),
   living:
@@ -114,7 +114,7 @@ function PHOTO_LIVE() {
 let PHOTO = PHOTO_LIVE();
 
 const hero = (w: number, q = 85): string =>
-  (clientPhotos(sessionData)[7] || `https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=${q}&w=${w}&auto=format&fit=crop`);
+  (clientPhotos(sessionData)[7] || `https://images.pexels.com/photos/19846383/pexels-photo-19846383.jpeg?auto=compress&cs=tinysrgb&w=1600`);
 
 /* ─────────────────────────── SHARED PRIMITIVES ─────────────────────────── */
 

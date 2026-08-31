@@ -446,7 +446,7 @@ return (
               photo(3, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&q=80")),
               photo(4, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1464979681340-bdd28a61699e?w=400&q=80")),
               photo(5, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=400&q=80")),
-              photo(6, (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80")),
+              photo(6, (clientPhotos(sessionData)[6] || "https://images.pexels.com/photos/7046161/pexels-photo-7046161.jpeg?auto=compress&cs=tinysrgb&w=1600")),
               photo(7, (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1498804103079-a6351b050096?w=400&q=80")),
               photo(8, (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1511920170033-f8396924c348?w=400&q=80")),
               photo(9, (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1516743619420-154b70a65fea?w=400&q=80")),

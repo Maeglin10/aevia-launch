@@ -89,9 +89,9 @@ const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 /* ── Photos Unsplash ─────────────────────────────────────────────────────── */
 function PHOTO_LIVE() {
   return {
-  weights: (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2000&auto=format&fit=crop'),
-  weightsCard: (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1600&auto=format&fit=crop'),
-  weightsEdit: (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&auto=format&fit=crop'),
+  weights: (clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/6339480/pexels-photo-6339480.jpeg?auto=compress&cs=tinysrgb&w=1600'),
+  weightsCard: (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/6339480/pexels-photo-6339480.jpeg?auto=compress&cs=tinysrgb&w=1600'),
+  weightsEdit: (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/6339480/pexels-photo-6339480.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   hiit: (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1600&auto=format&fit=crop'),
   hiitSticky: (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=900&auto=format&fit=crop'),
   outdoor: (clientPhotos(sessionData)[5] || 'https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=1600&auto=format&fit=crop'),

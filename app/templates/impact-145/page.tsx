@@ -63,7 +63,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 function PROPERTIES_DEMO_SOURCE_LIVE() {
   return [
   { name: "The Obsidian Penthouse", loc: "New York, NY", price: "$24,500,000", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=1200") },
-  { name: "Azure Cliff Villa", loc: "Santorini, GR", price: "$12,800,000", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200") },
+  { name: "Azure Cliff Villa", loc: "Santorini, GR", price: "$12,800,000", img: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/26925314/pexels-photo-26925314.jpeg?auto=compress&cs=tinysrgb&w=1600") },
   { name: "Veridian Estate", loc: "Kyoto, JP", price: "$18,200,000", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200") },
 ];
 }

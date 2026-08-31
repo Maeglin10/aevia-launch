@@ -305,7 +305,7 @@ function PastaThreadSVG() {
           pointerEvents: "none",
         }}
       />
-      <img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80"))} alt="Portrait" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+      <img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/10854975/pexels-photo-10854975.jpeg?auto=compress&cs=tinysrgb&w=1600"))} alt="Portrait" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
     </div>
   );
 }
@@ -899,7 +899,7 @@ return (
             y: heroParallaxY,
             opacity: heroOpacity,
             backgroundImage:
-              "url(photo(1, 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=2200&auto=format&fit=crop'))",
+              "url(photo(1, 'https://images.pexels.com/photos/34086242/pexels-photo-34086242.jpeg?auto=compress&cs=tinysrgb&w=1600'))",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -920,7 +920,7 @@ return (
         />
 
         {/* SVG pasta watermark */}
-        <img src={photo(2, "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80")} alt="Portrait" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }} />
+        <img src={photo(2, "https://images.pexels.com/photos/10854975/pexels-photo-10854975.jpeg?auto=compress&cs=tinysrgb&w=1600")} alt="Portrait" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }} />
 
         {/* Hero content */}
         <div

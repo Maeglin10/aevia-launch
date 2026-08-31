@@ -29,10 +29,10 @@ const useFonts = () => {
 
 function projects_LIVE() {
   return [
-  { name: "La Maison du Vent", location: (clientCity(sessionData) ?? "Marseille"), type: "Résidentiel", area: "480 m²", year: "2025", src: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80" },
-  { name: "Pavillon Zénith", location: (clientCity(sessionData) ?? "Lyon"), type: "Cultural", area: "2 200 m²", year: "2025", src: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=600&q=80" },
+  { name: "La Maison du Vent", location: (clientCity(sessionData) ?? "Marseille"), type: "Résidentiel", area: "480 m²", year: "2025", src: "https://images.pexels.com/photos/6620992/pexels-photo-6620992.jpeg?auto=compress&cs=tinysrgb&w=1600" },
+  { name: "Pavillon Zénith", location: (clientCity(sessionData) ?? "Lyon"), type: "Cultural", area: "2 200 m²", year: "2025", src: "https://images.pexels.com/photos/6620992/pexels-photo-6620992.jpeg?auto=compress&cs=tinysrgb&w=1600" },
   { name: `Ateliers ${clientName(sessionData) ?? "Kéops"}`, location: (clientCity(sessionData) ?? "Paris") + " XIe", type: "Bureau mixte", area: "1 400 m²", year: "2024", src: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80" },
-  { name: "Villa Terracotta", location: (clientCity(sessionData) ?? "Nice"), type: "Résidentiel", area: "320 m²", year: "2024", src: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80" },
+  { name: "Villa Terracotta", location: (clientCity(sessionData) ?? "Nice"), type: "Résidentiel", area: "320 m²", year: "2024", src: "https://images.pexels.com/photos/29581806/pexels-photo-29581806.jpeg?auto=compress&cs=tinysrgb&w=1600" },
   { name: "Cour des Arts", location: (clientCity(sessionData) ?? "Bordeaux"), type: "Mixte culturel", area: "3 800 m²", year: "2023", src: "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=600&q=80" },
   { name: "Bibliothèque Nomade", location: (clientCity(sessionData) ?? "Nantes"), type: "Public", area: "1 900 m²", year: "2023", src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80" },
 ];

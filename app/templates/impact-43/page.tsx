@@ -190,7 +190,7 @@ export default function SereneRetreatHome() {
         }}
       >
         <motion.img
-          src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=1400&auto=format&fit=crop"))}
+          src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/10640622/pexels-photo-10640622.jpeg?auto=compress&cs=tinysrgb&w=1600"))}
           alt="Serene spa landscape"
           style={{
             position: "absolute",

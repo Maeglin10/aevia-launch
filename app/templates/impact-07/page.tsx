@@ -37,8 +37,8 @@ let fd: any = null;
 // le client pouvait les saisir, le thème ne les lisait pas.
 function AVIS_INLINE_SOURCE_LIVE() {
   return [
-  { name: "Dieter Klaus", role: "Master Luthier & Cabinetist", text: "Wood is a living resonator. We treat our speaker enclosures like cellos—carefully aged, meticulously tensioned, and finished with organic oils to preserve the wood's natural breath.", img: photo(0, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80") },
-                { name: "Elena Volkov", role: "Senior Analog Engineer", text: "Silicon has its place, but for pure emotional transmission, vacuum tubes remain the gold standard. We design circuits that respect the soul of the signal while pushing the limits of modern stability.", img: photo(1, "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80") }
+  { name: "Dieter Klaus", role: "Master Luthier & Cabinetist", text: "Wood is a living resonator. We treat our speaker enclosures like cellos—carefully aged, meticulously tensioned, and finished with organic oils to preserve the wood's natural breath.", img: photo(0, "https://images.pexels.com/photos/36464518/pexels-photo-36464518.jpeg?auto=compress&cs=tinysrgb&w=1600") },
+                { name: "Elena Volkov", role: "Senior Analog Engineer", text: "Silicon has its place, but for pure emotional transmission, vacuum tubes remain the gold standard. We design circuits that respect the soul of the signal while pushing the limits of modern stability.", img: photo(1, "https://images.pexels.com/photos/7722168/pexels-photo-7722168.jpeg?auto=compress&cs=tinysrgb&w=1600") }
 ];
 }
 let AVIS_INLINE_SOURCE = AVIS_INLINE_SOURCE_LIVE();

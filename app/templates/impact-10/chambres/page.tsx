@@ -105,7 +105,7 @@ const EXPERIENCES_DEMO_ANNEXE = [
     label: "L\'Atelier",
     sub: 'Two Michelin Stars',
     desc: 'Chef Margaux Vernet elevates classical French gastronomy with ingredients sourced from our estate gardens and trusted regional producers.',
-    img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&q=85',
+    img: 'https://images.pexels.com/photos/13871328/pexels-photo-13871328.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
   {
     label: 'Espace Étoile',
@@ -276,7 +276,7 @@ const SERVICES_DEMO_ANNEXE = [
     label: "L'Atelier",
     sub: 'Two Michelin Stars',
     desc: 'Chef Margaux Vernet reimagines the French canon with produce grown fifty metres from the kitchen. The tasting menu changes with the moon.',
-    img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&q=85',
+    img: 'https://images.pexels.com/photos/13871328/pexels-photo-13871328.jpeg?auto=compress&cs=tinysrgb&w=1600',
     points: ['Seasonal tasting menu', 'Estate kitchen garden', 'Wine pairings', 'Private chef\'s table'],
   },
   {
@@ -337,7 +337,7 @@ function BLOG_POSTS_LIVE() {
     category: 'Art of Living',
     excerpt:
       `From the fold of the cloth to the choice of crystal, the French table is a silent choreography. A look inside a craft the ${clientName(sessionData) ?? "Grand Palais"} perpetuates every evening.`,
-    img: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=85',
+    img: 'https://images.pexels.com/photos/13871328/pexels-photo-13871328.jpeg?auto=compress&cs=tinysrgb&w=1600',
     body: [
       'Setting a table is not a utilitarian gesture: it is a form of courtesy addressed to the one you receive. In the French manner, the arrangement obeys a precise grammar, inherited from the great houses and passed down from generation to generation.',
       'Everything begins with the cloth, whose central fold must run perfectly down the middle of the table. The cutlery is laid from the outside in, in the order of service; the glasses align on a diagonal, from largest to smallest, above the tip of the knife.',
@@ -1192,7 +1192,7 @@ function ExperienceRow({ exp, index }: { exp: typeof EXPERIENCES[0]; index: numb
 function ParallaxDivider() {
   return (
     <ParallaxSection
-      imgSrc="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1600&q=85"
+      imgSrc="https://images.pexels.com/photos/13871310/pexels-photo-13871310.jpeg?auto=compress&cs=tinysrgb&w=1600"
       speed={0.35}
       height="55vh"
       overlay="rgba(26,18,8,0.55)"
@@ -1240,7 +1240,7 @@ function DiningSection() {
           top: '5rem',
           width: '45vw',
           height: '80%',
-          backgroundImage: 'url(https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1200&q=85)',
+          backgroundImage: 'url(https://images.pexels.com/photos/13871328/pexels-photo-13871328.jpeg?auto=compress&cs=tinysrgb&w=1600)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           y: bgY,
@@ -1312,7 +1312,7 @@ function DiningSection() {
             <div
               style={{
                 height: '560px',
-                backgroundImage: 'url(https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1000&q=85)',
+                backgroundImage: 'url(https://images.pexels.com/photos/13871328/pexels-photo-13871328.jpeg?auto=compress&cs=tinysrgb&w=1600)',
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 position: 'relative',
@@ -2382,7 +2382,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
       <SubPageHero
         eyebrow="Data Protection"
         title="Privacy Policy"
-        img="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1800&q=85"
+        img="https://images.pexels.com/photos/13871310/pexels-photo-13871310.jpeg?auto=compress&cs=tinysrgb&w=1600"
       />
       <section id="contact" style={{ background: CREAM, padding: '5rem 0 7rem' }}>
         <div style={{ maxWidth: '44rem', margin: '0 auto', padding: '0 1.75rem' }}>

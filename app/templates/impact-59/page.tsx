@@ -396,7 +396,7 @@ return (
             <Reveal delay={0.2}>
               <div className="relative h-[600px] lg:h-[700px] overflow-hidden rounded-sm">
                 <Image
-                  src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop"))}
+                  src={photo(1, (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/8764356/pexels-photo-8764356.jpeg?auto=compress&cs=tinysrgb&w=1600"))}
                   alt="La méthode Luminale — nature et méditation"
                   fill
                   className="object-cover"

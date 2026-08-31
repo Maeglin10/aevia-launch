@@ -51,7 +51,7 @@ function RETREATS_LIVE() {
     price: "from $6,100",
     theme: "Presence",
     season: "Mar–May",
-    img: clientPhotoAt(4, "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1200&q=80"),
+    img: clientPhotoAt(4, "https://images.pexels.com/photos/8764356/pexels-photo-8764356.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     desc: "Shinrin-yoku through Arashiyama bamboo groves. Zen walking sequences with a lineage-trained teacher. Tea ceremony as contemplative practice.",
     details: [
       ["Group Size", "Max 9 participants"],

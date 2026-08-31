@@ -14,7 +14,7 @@ let c: any = null;
 import "../../premium.css";
 
 const POSTS = [
-  { id: 1, title: "The Weight of Light at Dusk", category: "Thoughts", date: "Oct 12, 2026", image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=800&auto=format&fit=crop" },
+  { id: 1, title: "The Weight of Light at Dusk", category: "Thoughts", date: "Oct 12, 2026", image: "https://images.pexels.com/photos/7172650/pexels-photo-7172650.jpeg?auto=compress&cs=tinysrgb&w=1600" },
   { id: 2, title: "Behind the Lens: Maison Lumière", category: "Behind the Scenes", date: "Sep 28, 2026", image: "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=800&auto=format&fit=crop" },
   { id: 3, title: "Finding Geometry in the Sahara", category: "Travel", date: "Aug 15, 2026", image: "https://images.unsplash.com/photo-1473580044384-7ba9967e16a0?q=80&w=800&auto=format&fit=crop" },
 ];

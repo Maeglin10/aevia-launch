@@ -94,8 +94,8 @@ function IMG_LIVE() {
   seq1: u('1558769132-cb1aea458c5e', 1600, 80),
   seq2: u((clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/36731337/pexels-photo-36731337.jpeg?auto=compress&cs=tinysrgb&w=1600'), 1600, 80),
   seq3: u((clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/9850419/pexels-photo-9850419.jpeg?auto=compress&cs=tinysrgb&w=1600'), 1600, 80),
-  atelier: (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80&auto=format&fit=crop'),
-  fabric: (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=80&auto=format&fit=crop'),
+  atelier: (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/4271615/pexels-photo-4271615.jpeg?auto=compress&cs=tinysrgb&w=1600'),
+  fabric: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/4271615/pexels-photo-4271615.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   sticky: u((clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/36731337/pexels-photo-36731337.jpeg?auto=compress&cs=tinysrgb&w=1600'), 1400, 85),
 } as const;
 }

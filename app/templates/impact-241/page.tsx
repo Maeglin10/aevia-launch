@@ -85,10 +85,10 @@ function PHOTO_LIVE() {
   return {
   heroLiving: (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=2000&auto=format&fit=crop'),
   seqLiving: (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1600&auto=format&fit=crop'),
-  seqOffice: (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1600&auto=format&fit=crop'),
+  seqOffice: (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/8134781/pexels-photo-8134781.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   seqVineyard: (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?q=80&w=1600&auto=format&fit=crop'),
   editRow1: (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=800&auto=format&fit=crop'),
-  editRow2: (clientPhotos(sessionData)[5] || 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=800&auto=format&fit=crop'),
+  editRow2: (clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/8134781/pexels-photo-8134781.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   expertiseSticky: (clientPhotos(sessionData)[6] || 'https://images.unsplash.com/photo-1449157291145-7efd050a4d0e?q=80&w=900&auto=format&fit=crop'),
 } as const;
 }

@@ -95,8 +95,8 @@ function seasons_LIVE() {
     desc: "Tulips, peonies, ranunculus, and cherry blossom — the season of fresh beginnings.",
     arrangements: [
       { name: "Jardin de Printemps", price: "€65", desc: "Peonies, tulipes, and garden roses in blush and cream.", image: clientPhotoAt(4, "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=400&h=400&fit=crop&q=80") },
-      { name: "Blossom Drift", price: "€85", desc: "Cherry blossom stems with delicate sweet peas and freesia.", image: clientPhotoAt(5, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&q=80") },
-      { name: "Green Awakening", price: "€55", desc: "Eucalyptus, ferns, and seasonal greens with white blooms.", image: clientPhotoAt(6, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop&q=80") },
+      { name: "Blossom Drift", price: "€85", desc: "Cherry blossom stems with delicate sweet peas and freesia.", image: clientPhotoAt(5, "https://images.pexels.com/photos/11511583/pexels-photo-11511583.jpeg?auto=compress&cs=tinysrgb&w=1600") },
+      { name: "Green Awakening", price: "€55", desc: "Eucalyptus, ferns, and seasonal greens with white blooms.", image: clientPhotoAt(6, "https://images.pexels.com/photos/11511583/pexels-photo-11511583.jpeg?auto=compress&cs=tinysrgb&w=1600") },
     ],
   },
   {
@@ -276,7 +276,7 @@ function PRODUCTS_LIVE() {
     colors: ["#ffffff", C.sageLight, "#e8f5e9"],
     rating: 5.0,
     reviews: 67,
-    image: clientPhotoAt(18, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=600&fit=crop&q=80"),
+    image: clientPhotoAt(18, "https://images.pexels.com/photos/11511583/pexels-photo-11511583.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     name: "Automne Doré",
@@ -332,7 +332,7 @@ function PRODUCTS_LIVE() {
     colors: [C.sageMid, "#aed581", C.rose],
     rating: 4.8,
     reviews: 73,
-    image: clientPhotoAt(22, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=600&fit=crop&q=80"),
+    image: clientPhotoAt(22, "https://images.pexels.com/photos/11511583/pexels-photo-11511583.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     name: "Plante d'Intérieur Apaisante",
@@ -377,7 +377,7 @@ function BLOG_POSTS_LIVE() {
     excerpt:
       "Coupe en biseau, eau renouvelée, emplacement idéal : nos gestes d'atelier pour prolonger la vie de vos fleurs coupées.",
     cover: C.sage,
-    coverImage: clientPhotoAt(25, "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=600&fit=crop&q=80"),
+    coverImage: clientPhotoAt(25, "https://images.pexels.com/photos/11511583/pexels-photo-11511583.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     body: [
       "La première règle est de recouper les tiges en biseau, sous l'eau si possible, afin que les fleurs continuent de s'abreuver sans bulle d'air dans le canal.",
       "Changez l'eau tous les deux jours et retirez les feuilles immergées qui pourrissent et accélèrent le flétrissement. Un vase propre fait toute la différence.",

@@ -10,7 +10,7 @@ function ROOMS_LIVE() {
   {
     id: 1,
     name: "The Obsidian Atrium",
-    img: clientPhotoAt(4, "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&q=80"),
+    img: clientPhotoAt(4, "https://images.pexels.com/photos/19878527/pexels-photo-19878527.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     area: "120m²",
     tech: "LiDAR Scan 4.0",
   },

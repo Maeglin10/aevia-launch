@@ -122,7 +122,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   {
     name: "Sarah Chen",
     role: "CTO, Flowmatic",
-    avatar: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80"),
+    avatar: (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/4974914/pexels-photo-4974914.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     rating: 5,
     text: "We migrated from three separate tools to NovaPlatform over a single weekend. Our engineering velocity doubled in the first month, and the on-call burden dropped by 70%. I wish we had switched sooner.",
     metric: "2× velocity",
@@ -131,7 +131,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   {
     name: "David Kim",
     role: "CEO, CloudScale",
-    avatar: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80"),
+    avatar: (clientPhotos(sessionData)[4] || "https://images.pexels.com/photos/17486595/pexels-photo-17486595.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     rating: 5,
     text: "The analytics dashboard surfaced a $2.3M revenue opportunity in our first week that we had completely missed. The AI-powered anomaly detection is not a marketing claim — it genuinely works.",
     metric: "$2.3M found",
@@ -140,7 +140,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   {
     name: "Elena Ruiz",
     role: "VP Engineering, DataNest",
-    avatar: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80"),
+    avatar: (clientPhotos(sessionData)[5] || "https://images.pexels.com/photos/777001/pexels-photo-777001.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     rating: 5,
     text: "Best developer experience I have encountered in 15 years of writing software. The API documentation is genuinely a work of art, and the TypeScript SDK is the best I have ever used — period.",
     metric: "10× DX",
@@ -149,7 +149,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   {
     name: "Marcus Lin",
     role: "Platform Lead, FinEdge",
-    avatar: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80"),
+    avatar: (clientPhotos(sessionData)[6] || "https://images.pexels.com/photos/16230157/pexels-photo-16230157.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     rating: 5,
     text: "We process $180M in transactions per month through NovaPlatform's payment orchestration layer. In 18 months of production, we have had zero data incidents and three nines of uptime. That's the number that matters.",
     metric: "$180M/mo",
@@ -158,7 +158,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   {
     name: "Amara Osei",
     role: "Head of Product, Arkive",
-    avatar: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&q=80"),
+    avatar: (clientPhotos(sessionData)[7] || "https://images.pexels.com/photos/4486718/pexels-photo-4486718.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     rating: 5,
     text: "The branch preview environment feature alone saved us two engineering hires. Our QA cycle went from 4 days to 6 hours, and our deployment frequency tripled within the first quarter. Transformative.",
     metric: "3× deploys",
@@ -247,7 +247,7 @@ function LOGOS_DEMO_LIVE() {
   return [
   { name: "Vercel", img: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=120&q=80") },
   { name: "Stripe", img: (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=120&q=80") },
-  { name: "Notion", img: (clientPhotos(sessionData)[10] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&q=80") },
+  { name: "Notion", img: (clientPhotos(sessionData)[10] || "https://images.pexels.com/photos/17486595/pexels-photo-17486595.jpeg?auto=compress&cs=tinysrgb&w=1600") },
   { name: "Linear", img: (clientPhotos(sessionData)[11] || "https://images.unsplash.com/photo-1518770660439-4636190af475?w=120&q=80") },
   { name: "Globe", img: (clientPhotos(sessionData)[12] || "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=120&q=80") },
   { name: "GitHub", img: (clientPhotos(sessionData)[13] || "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=120&q=80") },
@@ -497,11 +497,11 @@ return (
           {/* Social proof */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.6 }} className="flex flex-col items-center gap-4">
             <div className="flex -space-x-2">
-              {[photo(14, "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&q=80"),
-                photo(15, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=60&q=80"),
-                photo(16, "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&q=80"),
-                photo(17, "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&q=80"),
-                photo(18, "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=60&q=80")].map((src, i) => (
+              {[photo(14, "https://images.pexels.com/photos/4974914/pexels-photo-4974914.jpeg?auto=compress&cs=tinysrgb&w=1600"),
+                photo(15, "https://images.pexels.com/photos/17486595/pexels-photo-17486595.jpeg?auto=compress&cs=tinysrgb&w=1600"),
+                photo(16, "https://images.pexels.com/photos/777001/pexels-photo-777001.jpeg?auto=compress&cs=tinysrgb&w=1600"),
+                photo(17, "https://images.pexels.com/photos/16230157/pexels-photo-16230157.jpeg?auto=compress&cs=tinysrgb&w=1600"),
+                photo(18, "https://images.pexels.com/photos/4486718/pexels-photo-4486718.jpeg?auto=compress&cs=tinysrgb&w=1600")].map((src, i) => (
                 <Avatar key={i} className="w-8 h-8 border-2 border-[#09090b]">
                   <AvatarImage src={src} />
                   <AvatarFallback className="bg-[var(--brand,#7c3aed)] text-[10px]">U</AvatarFallback>

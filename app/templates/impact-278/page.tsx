@@ -106,7 +106,7 @@ function PHOTO_LIVE() {
   salleBain:
     (clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/7173665/pexels-photo-7173665.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   plombier:
-    (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/34022882/pexels-photo-34022882.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   chaudiere:
     (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?q=80&w=1600&auto=format&fit=crop'),
   tuyauterie:

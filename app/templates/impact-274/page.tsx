@@ -99,11 +99,11 @@ const SANS = "'Nunito Sans', system-ui, sans-serif" as const;
 function PHOTO_LIVE() {
   return {
   doctor:
-    (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/5722157/pexels-photo-5722157.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   consultation:
     (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1631815589968-fdb09a223b1e?q=80&w=1600&auto=format&fit=crop'),
   cabinet:
-    (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/6285389/pexels-photo-6285389.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   stethoscope:
     (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?q=80&w=1600&auto=format&fit=crop'),
   team:

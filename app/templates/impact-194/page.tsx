@@ -211,7 +211,7 @@ export default function TableExceptionPage() {
       {/* ── HERO ── */}
       <section id="hero" ref={heroRef} className="relative h-[100dvh] min-h-[640px] flex [align-items:safe_flex-end] overflow-hidden pt-24 sm:pt-0">
         <motion.div style={{ y: heroY }} className="absolute inset-0">
-          <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&q=88&w=2400"))} alt="Table gastronomique traiteur" fill className="object-cover object-center" priority style={{ filter: "brightness(0.38)" }} />
+          <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/4597280/pexels-photo-4597280.jpeg?auto=compress&cs=tinysrgb&w=1600"))} alt="Table gastronomique traiteur" fill className="object-cover object-center" priority style={{ filter: "brightness(0.38)" }} />
           <div className="absolute inset-0 bg-gradient-to-t from-[#140f0a] via-[#140f0a]/45 to-transparent" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#140f0a]/70 to-transparent" />
         </motion.div>

@@ -108,7 +108,7 @@ function PHOTO_LIVE() {
   tableau:
     (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=1600&auto=format&fit=crop'),
   technicien:
-    (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[1] || 'https://pixabay.com/get/g871114cec8c4cd5613f05ac02b88abdf0b2b72631605f52a3a7fcc45dfacb4aa0d375dd9f6aaa05b3432d1fbb3cc2fa0bbf2553cd925f41c2f22319947f9ca04_1280.jpg'),
   solaire:
     (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=1600&auto=format&fit=crop'),
   borne:

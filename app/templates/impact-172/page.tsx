@@ -96,10 +96,10 @@ const DOMAINS_DEMO = [
 
 function PARTNERS_DEMO_LIVE() {
   return [
-  { name: "Philippe Legrand", title: "Associé Fondateur", domain: "Droit des affaires", bar: (clientCity(sessionData) ?? "Paris") + ", 1991", image: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&q=80") },
-  { name: "Marie-Sophie Renault", title: "Associée", domain: "Contentieux & Arbitrage", bar: (clientCity(sessionData) ?? "Paris") + ", 1998", image: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80") },
-  { name: "Thomas Vigneron", title: "Associé", domain: "Fiscalité internationale", bar: (clientCity(sessionData) ?? "Paris") + ", 2003", image: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80") },
-  { name: "Claire Bourgeois", title: "Associée", domain: "Droit social", bar: (clientCity(sessionData) ?? "Paris") + " & Bruxelles, 2005", image: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&q=80") },
+  { name: "Philippe Legrand", title: "Associé Fondateur", domain: "Droit des affaires", bar: (clientCity(sessionData) ?? "Paris") + ", 1991", image: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/31709064/pexels-photo-31709064.jpeg?auto=compress&cs=tinysrgb&w=1600") },
+  { name: "Marie-Sophie Renault", title: "Associée", domain: "Contentieux & Arbitrage", bar: (clientCity(sessionData) ?? "Paris") + ", 1998", image: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/36713442/pexels-photo-36713442.jpeg?auto=compress&cs=tinysrgb&w=1600") },
+  { name: "Thomas Vigneron", title: "Associé", domain: "Fiscalité internationale", bar: (clientCity(sessionData) ?? "Paris") + ", 2003", image: (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/7433840/pexels-photo-7433840.jpeg?auto=compress&cs=tinysrgb&w=1600") },
+  { name: "Claire Bourgeois", title: "Associée", domain: "Droit social", bar: (clientCity(sessionData) ?? "Paris") + " & Bruxelles, 2005", image: (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/5439162/pexels-photo-5439162.jpeg?auto=compress&cs=tinysrgb&w=1600") },
 ];
 }
 let PARTNERS_DEMO = PARTNERS_DEMO_LIVE();
@@ -306,7 +306,7 @@ export default function LegrandPage() {
       `}</style>
       <section id="hero" ref={heroRef} className="imx172-hero relative min-h-dvh overflow-hidden flex items-end">
         <motion.div className="absolute inset-0" style={{ y: heroY }}>
-          <Image src={photo(4, "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=1600&q=85")} alt="Palais de justice" fill className="object-cover" />
+          <Image src={photo(4, "https://images.pexels.com/photos/8463151/pexels-photo-8463151.jpeg?auto=compress&cs=tinysrgb&w=1600")} alt="Palais de justice" fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0E0A06] via-[#0E0A06]/60 to-transparent" />
         </motion.div>
         <div className="imx172-hero-content relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-24 pt-32">
@@ -486,7 +486,7 @@ export default function LegrandPage() {
             <Reveal delay={0.1}>
               <div className="relative">
                 <div className="aspect-[4/5] relative overflow-hidden">
-                  <Image src={photo(5, "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&q=80")} alt="Cabinet Legrand" fill className="object-cover" />
+                  <Image src={photo(5, "https://images.pexels.com/photos/31709064/pexels-photo-31709064.jpeg?auto=compress&cs=tinysrgb&w=1600")} alt="Cabinet Legrand" fill className="object-cover" />
                 </div>
                 <div className="absolute -bottom-6 -left-6 bg-[var(--brand,#C9A855)] text-[#1A1510] p-6">
                   <div className="text-3xl font-light mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>1991</div>

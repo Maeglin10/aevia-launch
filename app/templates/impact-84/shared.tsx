@@ -85,7 +85,7 @@ function SPECIALISTS_LIVE() {
     name: "Dr. Valentine Huang", spec: "Dermatologue spécialisée",
     get shortBio() { return "DES Dermatologie " + clientCityOr("Paris") + " V · Fellowship IMCAS Singapore"; },
     get fullBio() { return "Le Dr. Valentine Huang est dermatologue titulaire d'un Diplôme d'Études Spécialisées de l'Université " + clientCityOr("' + clientCityOr('Paris') + '") + " V. Son fellowship à Singapour sous la direction du Pr. Goh Chee Leok lui a permis d'acquérir une expertise mondiale en dermatologie régénérative et traitements laser avancés. Elle prend en charge les pathologies complexes de la peau et supervise les protocoles de bioregénération."; },
-    image: clientPhotoAt(4, "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=800&q=80&fit=crop"),
+    image: clientPhotoAt(4, "https://images.pexels.com/photos/19689227/pexels-photo-19689227.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     certifications: ["DES Dermatologie", "Fellowship Singapore", "Membre SFD"],
     experience: "11 ans d'expérience"
   },

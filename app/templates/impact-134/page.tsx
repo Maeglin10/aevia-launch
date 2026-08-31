@@ -1497,7 +1497,7 @@ function RituelsSection() {
           <Reveal x={40} y={0} className="lg:w-[55%] lg:sticky lg:top-28">
             <div className="relative aspect-[4/5] rounded-3xl overflow-hidden">
               <Image
-                src={photo(2, "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?q=80&w=800&auto=format&fit=crop")}
+                src={photo(2, "https://images.pexels.com/photos/1001965/pexels-photo-1001965.jpeg?auto=compress&cs=tinysrgb&w=1600")}
                 alt="Rituel beauté Lumière"
                 fill
                 className="object-cover"

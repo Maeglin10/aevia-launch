@@ -305,7 +305,7 @@ export default function MethodPage() {
             <Reveal>
               <div className="relative h-[500px] rounded-sm overflow-hidden">
                 <Image
-                  src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=1200&auto=format&fit=crop"
+                  src="https://images.pexels.com/photos/8764356/pexels-photo-8764356.jpeg?auto=compress&cs=tinysrgb&w=1600"
                   alt="Paysage de montagne — méthode Luminale"
                   fill
                   className="object-cover"

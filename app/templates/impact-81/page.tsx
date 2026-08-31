@@ -133,7 +133,7 @@ return (
       {/* Hero — asymmetric mosaic */}
       <section ref={heroRef} className="relative min-h-dvh overflow-hidden">
         <motion.div className="absolute inset-0" style={{ y: heroImgY }}>
-          <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1600&q=85"))} alt={fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Vogue Noire"))} fill className="object-cover" />
+          <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/4271613/pexels-photo-4271613.jpeg?auto=compress&cs=tinysrgb&w=1600"))} alt={fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Vogue Noire"))} fill className="object-cover" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A08] via-[#0A0A08]/50 to-[#0A0A08]/20" />
         </motion.div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-32 min-h-dvh flex flex-col">
@@ -223,7 +223,7 @@ return (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               { cat: "Mode", title: "Les silhouettes de la saison", author: "Camille Renard", time: "5 min", img: photo(2, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=800&q=85")) },
-              { cat: "Beauté", title: "Le maquillage qui parle le plus", author: "Sasha Morel", time: "4 min", img: photo(3, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&q=85")) },
+              { cat: "Beauté", title: "Le maquillage qui parle le plus", author: "Sasha Morel", time: "4 min", img: photo(3, (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/6620983/pexels-photo-6620983.jpeg?auto=compress&cs=tinysrgb&w=1600")) },
               { cat: "Culture", title: "Derrière les coulisses du défilé", author: "Inès Kaboré", time: "6 min", img: photo(4, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1529693662653-9d480530a697?w=800&q=85")) },
             ].map((art, i) => (
               <Reveal key={art.title} delay={i * 0.1}>

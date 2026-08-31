@@ -106,7 +106,7 @@ function PHOTO_LIVE() {
   panel:
     (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=1600&auto=format&fit=crop'),
   wiring:
-    (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/31567149/pexels-photo-31567149.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   domotique:
     (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?q=80&w=1600&auto=format&fit=crop'),
   worker:
@@ -114,9 +114,9 @@ function PHOTO_LIVE() {
   haussmann:
     (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=1600&auto=format&fit=crop'),
   villa:
-    (clientPhotos(sessionData)[5] || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/37310754/pexels-photo-37310754.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   commercial:
-    (clientPhotos(sessionData)[6] || 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/5845972/pexels-photo-5845972.jpeg?auto=compress&cs=tinysrgb&w=1600'),
 } as const;
 }
 let PHOTO = PHOTO_LIVE();

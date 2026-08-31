@@ -110,7 +110,7 @@ function HERO_SOURCE_LIVE() {
     {
       k: "La grande salle",
       sub: "220 convives assis, pierre apparente et poutres de chêne.",
-      img: clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80",
+      img: clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/29708262/pexels-photo-29708262.jpeg?auto=compress&cs=tinysrgb&w=1600",
       alt: "La grande salle dressée pour un dîner",
     },
     {
@@ -122,7 +122,7 @@ function HERO_SOURCE_LIVE() {
     {
       k: "Les lendemains",
       sub: "12 chambres sur place — le brunch se fait en peignoir.",
-      img: clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80",
+      img: clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/29708260/pexels-photo-29708260.jpeg?auto=compress&cs=tinysrgb&w=1600",
       alt: "Le parc au matin",
     },
   ];

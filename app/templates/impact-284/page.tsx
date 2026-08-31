@@ -113,7 +113,7 @@ function PHOTO_LIVE() {
   traitement:
     (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=1600&auto=format&fit=crop'),
   equipe:
-    (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/7108401/pexels-photo-7108401.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   consult:
     (clientPhotos(sessionData)[5] || 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=1600&auto=format&fit=crop'),
 } as const;

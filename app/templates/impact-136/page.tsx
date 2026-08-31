@@ -52,7 +52,7 @@ function WORKS_DEMO_LIVE() {
     year: "2025",
     desc: "A sensory digital experience focusing on fluid webgl interactions to mirror the viscosity of premium serums.",
     image:
-      (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop"),
+      (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/12278554/pexels-photo-12278554.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     id: "02",
@@ -70,7 +70,7 @@ function WORKS_DEMO_LIVE() {
     year: "2024",
     desc: "Real-time browser-based car configurator utilizing WebGPU for photorealistic ray tracing.",
     image:
-      (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?q=80&w=1200&auto=format&fit=crop"),
+      (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/12278554/pexels-photo-12278554.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     id: "04",
@@ -394,7 +394,7 @@ export default function TextRevealPage() {
             className="absolute inset-0 z-0"
           >
             <Image
-              src={photo(4, "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2000&auto=format&fit=crop")}
+              src={photo(4, "https://images.pexels.com/photos/12278554/pexels-photo-12278554.jpeg?auto=compress&cs=tinysrgb&w=1600")}
               alt="Abstract background"
               fill
               className="object-cover"
@@ -598,7 +598,7 @@ export default function TextRevealPage() {
             <div className="flex flex-col items-center gap-4">
               <div className="w-16 h-16 rounded-full overflow-hidden relative">
                 <Image
-                  src={photo(5, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop")}
+                  src={photo(5, "https://pixabay.com/get/g07fafb963bf5eb2d4a8b76206f42aefe1863a142d5e3f1184760fa411bebdef52b6d58fed48cdc987523d9dc1f8bcd3842bb5c1ac305915aa732292ce0dcdcab_1280.jpg")}
                   alt="Founder"
                   fill
                   className="object-cover grayscale"

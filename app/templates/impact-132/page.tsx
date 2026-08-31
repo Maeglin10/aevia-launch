@@ -153,7 +153,7 @@ function EDITORS_PICKS_DEMO_LIVE() {
     topic: "Culture",
     author: "Leo Müller",
     reading: "19 min",
-    img: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&q=80"),
+    img: (clientPhotos(sessionData)[6] || "https://images.pexels.com/photos/36470786/pexels-photo-36470786.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     id: 2,

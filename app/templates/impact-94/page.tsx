@@ -206,7 +206,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     quote:
       "Botanica a sublimé notre mariage au-delà de mes espérances. Les compositions florales étaient d'une beauté renversante, et l'équipe d'une discrétion et d'un professionnalisme absolus.",
     rating: 5,
-    avatar: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&q=80"),
+    avatar: (clientPhotos(sessionData)[6] || "https://images.pexels.com/photos/15535450/pexels-photo-15535450.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     name: "Arnaud Leclercq",
@@ -214,7 +214,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     quote:
       "Pour notre centième anniversaire, Botanica a créé une installation florale qui a ébloui nos 300 invités. Un sens artistique exceptionnel, une exécution parfaite.",
     rating: 5,
-    avatar: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&q=80"),
+    avatar: (clientPhotos(sessionData)[7] || "https://images.pexels.com/photos/6434609/pexels-photo-6434609.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     name: "Clémentine Faure",
@@ -222,7 +222,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     quote:
       "Je commande chez Botanica chaque semaine depuis trois ans. La qualité est invariablement irréprochable, les compositions toujours surprenantes et poétiques.",
     rating: 5,
-    avatar: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&q=80"),
+    avatar: (clientPhotos(sessionData)[8] || "https://images.pexels.com/photos/7195552/pexels-photo-7195552.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
 ];
 }

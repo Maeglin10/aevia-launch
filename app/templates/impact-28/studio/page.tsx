@@ -57,7 +57,7 @@ export default function StudioPage() {
     {/* ─── STUDIO HERO ──────────────────────────────────────────────────────── */}
     <div className="pt-[72px] relative overflow-hidden min-h-[55vh] flex items-end bg-black">
       <ScrollImage
-        src="https://images.unsplash.com/photo-1486325212027-8081e485255e?w=1400&h=700&fit=crop&crop=center"
+        src="https://pixabay.com/get/g1dcb46997b015312cbf57ff6a952dd8074d490fd45c235e5fe82a3af5f15e6dbb6739e8590f64e78f5e33031c329128f9b3a96e8eb4f3c670ecfbf20ae3554a5_1280.jpg"
         alt="Brutco Atelier"
         width={1400}
         height={700}

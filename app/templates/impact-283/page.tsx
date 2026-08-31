@@ -120,11 +120,11 @@ const SANS = "'Inter', system-ui, sans-serif" as const;
 function PHOTO_LIVE() {
   return {
   cabinet:
-    (clientPhotos(sessionData)[0] || 'https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/6187255/pexels-photo-6187255.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   reeducation:
-    (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/7108395/pexels-photo-7108395.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   therapeute:
-    (clientPhotos(sessionData)[2] || 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=1600&auto=format&fit=crop'),
+    (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/6285382/pexels-photo-6285382.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   balnео:
     (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?q=80&w=1600&auto=format&fit=crop'),
   team1:

@@ -105,7 +105,7 @@ function DOCTORS_DEMO_LIVE() {
     role: "Médecin Généraliste & Directrice Médicale",
     formation: "Faculté " + (clientCity(sessionData) ?? "Paris") + " · Diplôme de médecine fonctionnelle",
     years: "18 ans",
-    img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=800&auto=format&fit=crop"),
+    img: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/7659869/pexels-photo-7659869.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     name: "Dr. Marc Leclerc",
@@ -571,7 +571,7 @@ export default function Impact171Page() {
                 </div>
               </div>
               <div className="relative h-64 rounded-2xl overflow-hidden">
-                <Image src={photo(5, "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=800&auto=format&fit=crop")}
+                <Image src={photo(5, "https://images.pexels.com/photos/5214992/pexels-photo-5214992.jpeg?auto=compress&cs=tinysrgb&w=1600")}
                   alt={activeSpecData.label} fill className="object-cover" />
               </div>
             </motion.div>

@@ -42,7 +42,7 @@ const PROJECTS_DEMO_ANNEXE = [
     title: "Aether Labs",
     category: "Web Ecosystem",
     year: "2025",
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop",
+    image: "https://images.pexels.com/photos/9617384/pexels-photo-9617384.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
   {
     id: 2,
