@@ -32,6 +32,7 @@ import {
   clientHeroSubtitle,
   clientName,
   clientPhone,
+  clientPhotos,
   clientReviews,
   clientServices,
   clientStats,
@@ -426,7 +427,14 @@ function Hero() {
 
       {/* Right: paw */}
       <motion.div style={{ flex: 1, display: "flex", justifyContent: "center", alignItems: "center" }} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2 }}>
-        <AnimatedPaw />
+        {/* Une patte dessinée occupait la colonne droite du héros, à la place
+            d'une photo. Une clinique vétérinaire se montre par ses soins.
+            La photo du client passe avant celle de la démonstration. */}
+        <img
+          src={clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/6235107/pexels-photo-6235107.jpeg?auto=compress&cs=tinysrgb&w=1600"}
+          alt="Un vétérinaire dans une clinique consulte avec une propriétaire d'animal"
+          style={{ width: "100%", maxWidth: 420, aspectRatio: "1 / 1", objectFit: "cover", borderRadius: 24, display: "block" }}
+        />
       </motion.div>
     </section>
   );
