@@ -227,21 +227,26 @@ export default function EtabliMoreauPage() {
       `}</style>
 
       {/* ── NAV ─────────────────────────────────────────────────────────── */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 48px", background: scrolled ? C.bg : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`, transition: "all 0.4s ease" }}>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 48px", background: scrolled
+          ? C.bg
+          /* En haut de page la barre était transparente sur une photo d'atelier
+             claire : le nom de l'ébéniste y était illisible. Un voile dégradé le
+             porte sans masquer la photo. */
+          : "linear-gradient(180deg, rgba(20,16,12,0.68) 0%, rgba(20,16,12,0.30) 65%, transparent 100%)", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`, transition: "all 0.4s ease" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
           {fd?.logoBase64 ? (
             <img src={fd.logoBase64} alt={fd?.businessName ?? "logo"} style={{ height: 30, maxWidth: 160, objectFit: "contain", display: "block" }} />
           ) : (
             <>
               <Hammer size={18} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Établi Moreau")}</span>
-              <span style={{ fontSize: 10, letterSpacing: 2.2, textTransform: "uppercase", color: C.textMuted, marginLeft: 6 }}>{clientTrade(sessionData) ?? "Ébéniste"}</span>
+              <span style={{ fontFamily: FONT, fontSize: 18, color: scrolled ? C.text : "#fff", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Établi Moreau")}</span>
+              <span style={{ fontSize: 10, letterSpacing: 2.2, textTransform: "uppercase", color: scrolled ? C.textMuted : "rgba(255,255,255,0.82)", marginLeft: 6 }}>{clientTrade(sessionData) ?? "Ébéniste"}</span>
             </>
           )}
         </div>
         <div id="i379-nav" style={{ display: "flex", gap: 24, alignItems: "center" }}>
           {NAV.map(({ l, h }) => (
-            <a key={l} href={h} style={{ color: C.textMuted, fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "#fff", fontSize: 14, fontWeight: 500, textDecoration: "none", padding: "12px 4px" }}>{l}</a>
           ))}
           <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33381000001").replace(/[^+0-9]/g, "")}`} style={{ background: C.accentDark, color: "#fff", borderRadius: 8, padding: "12px 22px", fontSize: 14, fontWeight: 700, textDecoration: "none", whiteSpace: "nowrap" }} whileHover={{ scale: 1.03 }}>
             Visiter l'atelier
