@@ -508,7 +508,7 @@ return (
       <section className="relative py-40 px-6 md:px-12 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <Image
-            src={photo(4, (clientPhotos(sessionData)[4] || "https://images.pexels.com/photos/3872410/pexels-photo-3872410.jpeg?auto=compress&cs=tinysrgb&w=1600"))}
+            src={photo(4, (clientPhotos(sessionData)[4] || "https://images.pexels.com/photos/9962719/pexels-photo-9962719.jpeg?auto=compress&cs=tinysrgb&w=1600"))}
             alt="Table Satori"
             fill
             className="object-cover brightness-[0.15]"

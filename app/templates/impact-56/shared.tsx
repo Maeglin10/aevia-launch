@@ -100,7 +100,7 @@ function TESTIMONIALS_LIVE() {
   {
     name: "Robert Parker",
     role: "The Wine Advocate",
-    avatar: clientPhotoAt(7, "https://images.pexels.com/photos/37394505/pexels-photo-37394505.jpeg?auto=compress&cs=tinysrgb&w=1600"),
+    avatar: clientPhotoAt(7, "https://images.pexels.com/photos/9566125/pexels-photo-9566125.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     content: "Probablement le plus grand millésime produit par la propriété depuis 1982. La complexité aromatique est vertigineuse.",
     rating: 5,
     score: "99/100"
