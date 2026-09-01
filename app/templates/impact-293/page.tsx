@@ -375,7 +375,11 @@ return (
         left: 0,
         right: 0,
         zIndex: 50,
-        background: `rgba(${(C.bg as string) === '#ffffff' ? '255,255,255' : '18,18,18'}, 0.85)`,
+        background: /* Le fond du thème vaut « #fafbff », pas « #ffffff » : le test d'égalité
+           donnait donc un bandeau SOMBRE, sur lequel le nom et les liens —
+           écrits en bleu nuit — disparaissaient. Le fond de ce thème est
+           clair ; la barre l'est aussi. */
+        `rgba(255,255,255, 0.88)`,
         backdropFilter: 'blur(10px)',
         borderBottom: `1px solid ${C.primary}12`
       }}>

@@ -759,7 +759,10 @@ export default function Impact114Page() {
               <>
                 <Leaf className="w-4 h-4 text-[#3d5a3e] group-hover:rotate-12 transition-transform" />
                 <span
-                  className="text-lg md:text-2xl tracking-[0.15em] text-[var(--brand,#2d1b0e)]"
+                  /* Brun sombre sur une barre transparente posée sur une forêt
+                     sombre : le nom du client n'existait pas tant qu'on n'avait
+                     pas défilé. */
+                  className={`text-lg md:text-2xl tracking-[0.15em] ${scrolled ? "text-[var(--brand,#2d1b0e)]" : "text-[#f7f3ec] drop-shadow-[0_1px_6px_rgba(20,16,10,0.9)]"}`}
                   style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 500 }}
                 >{/* NOM_LOGO */ clientName(sessionData) ?? (<>
                   {clientName(sessionData) ?? "Terra"}
