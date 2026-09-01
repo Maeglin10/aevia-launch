@@ -227,7 +227,10 @@ function Kicker({ children, color = C.accent, align = "left" }: { children: Reac
   return (
     <span style={{ display: "inline-flex", alignItems: "center", gap: 14, justifyContent: align === "center" ? "center" : "flex-start" }}>
       <span style={{ width: 40, height: 1, background: `linear-gradient(90deg, transparent, ${color})`, flexShrink: 0 }} />
-      <span style={{ fontFamily: SANS, fontSize: 10.5, fontWeight: 600, letterSpacing: "0.38em", textTransform: "uppercase", color }}>{children}</span>
+      {/* Une ombre portée sombre : le libellé est orange, et le héros montre une
+          grue jaune. Sans elle, « Location de matériel · Nancy » disparaissait
+          dans la flèche de la grue. */}
+      <span style={{ fontFamily: SANS, fontSize: 10.5, fontWeight: 600, letterSpacing: "0.38em", textTransform: "uppercase", color, textShadow: "0 1px 6px rgba(14,16,19,0.85), 0 0 2px rgba(14,16,19,0.9)" }}>{children}</span>
       {align === "center" && <span style={{ width: 40, height: 1, background: `linear-gradient(90deg, ${color}, transparent)`, flexShrink: 0 }} />}
     </span>
   );
@@ -647,6 +650,9 @@ export default function LocamatPage() {
 
         @media (max-width: 1000px) { #i359-nav { display: none !important; } .i359-burger { display: flex !important; } }
           .aevia-action-mobile { display: inline-flex !important; }
+        /* Sous 620 px, le libellé du métier vole la place au nom, qui se casse
+           alors en « LOCAMA / T ». */
+        @media (max-width: 620px) { .i359-metier { display: none !important; } }
         @media (max-width: 900px) {
           .i359-bas { grid-template-columns: minmax(0,1fr) !important; row-gap: 24px; }
           .i359-famille { border-left: none !important; padding-left: 0 !important; border-top: 1px solid rgba(255,255,255,0.16); padding-top: 20px; }
@@ -681,7 +687,11 @@ export default function LocamatPage() {
           alignItems: "center",
           justifyContent: "space-between",
           padding: scrolled ? "10px clamp(20px,4vw,52px)" : "20px clamp(20px,4vw,52px)",
-          background: scrolled ? "rgba(14,16,19,0.92)" : "transparent",
+          /* Transparente sur une photo de grue jaune très claire : le nom et son
+             libellé s'y perdaient. Un voile les porte. */
+          background: scrolled
+            ? "rgba(14,16,19,0.92)"
+            : "linear-gradient(180deg, rgba(14,16,19,0.66) 0%, rgba(14,16,19,0.28) 65%, transparent 100%)",
           backdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none",
           WebkitBackdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none",
           borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,
@@ -695,7 +705,7 @@ export default function LocamatPage() {
             <>
               <Wrench size={17} color={C.accent} style={{ flexShrink: 0 }} />
               <span style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: 19, color: C.ink, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", letterSpacing: "-0.02em", textTransform: "uppercase" }}>{marque}</span>
-              <span style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.28em", textTransform: "uppercase", color: C.textFaint, marginLeft: 6 }}>{clientTrade(sessionData) ?? "Location matériel"}</span>
+              <span className="i359-metier" style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.28em", textTransform: "uppercase", color: C.textFaint, marginLeft: 6 }}>{clientTrade(sessionData) ?? "Location matériel"}</span>
             </>
           )}
         </a>
