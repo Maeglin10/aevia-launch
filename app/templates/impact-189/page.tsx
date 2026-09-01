@@ -360,12 +360,12 @@ export default function AtelierLeoniePage() {
               />
             ) : (
               <>
-                <div className="font-bold text-[#1a1218] tracking-widest text-sm" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Bodoni Moda', 'Georgia', serif" }}>{clientName(sessionData) ?? "ATELIER LÉONIE"}</div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c97b7b)]/60">Salon de coiffure · {clientCity(sessionData) ?? "Paris"}</div>
+                <div className={`font-bold tracking-widest text-sm ${scrolled ? "text-[#1a1218]" : "text-white"}`} style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Bodoni Moda', 'Georgia', serif" }}>{clientName(sessionData) ?? "ATELIER LÉONIE"}</div>
+                <div className={`text-[10px] font-bold uppercase tracking-[0.4em] ${scrolled ? "text-[var(--brand,#c97b7b)]/60" : "text-[var(--brand,#c97b7b)]"}`}>Salon de coiffure · {clientCity(sessionData) ?? "Paris"}</div>
               </>
             )}
           </div>
-          <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#1a1218]/30">
+          <div className={`hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] ${scrolled ? "text-[#1a1218]/60" : "text-white/85"}`}>
             {NAV.map(({ l, h }) => (
               <Link key={l} href={h} className="hover:text-[var(--brand,#c97b7b)] transition-colors">{l}</Link>
             ))}
@@ -556,9 +556,9 @@ export default function AtelierLeoniePage() {
             <h2 className="text-4xl font-bold text-[#1a1218]" style={{ fontFamily: "'Bodoni Moda', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "galerie.titre") ?? (<>Le détail qui <span className="italic text-[var(--brand,#c97b7b)]">fait tout.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 h-[60vh] min-h-[400px]">
-            <div className="col-span-2 row-span-2 relative overflow-hidden"><ParallaxImg src={photo(1, (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/34645131/pexels-photo-34645131.jpeg?auto=compress&cs=tinysrgb&w=1600"))} alt="Coiffure femme" /></div>
+            <div className="col-span-2 row-span-2 relative overflow-hidden"><ParallaxImg src={photo(1, (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/9380595/pexels-photo-9380595.jpeg?auto=compress&cs=tinysrgb&w=1600"))} alt="Coiffure femme" /></div>
             <div className="relative overflow-hidden"><ParallaxImg src={photo(2, (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1620331311520-246422fd82f9?auto=format&fit=crop&q=85&w=600"))} alt="Couleur cheveux" /></div>
-            <div className="relative overflow-hidden"><ParallaxImg src={photo(3, (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/34645131/pexels-photo-34645131.jpeg?auto=compress&cs=tinysrgb&w=1600"))} alt="Balayage" /></div>
+            <div className="relative overflow-hidden"><ParallaxImg src={photo(3, (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/9380595/pexels-photo-9380595.jpeg?auto=compress&cs=tinysrgb&w=1600"))} alt="Balayage" /></div>
             <div className="relative overflow-hidden"><ParallaxImg src={photo(4, (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=85&w=600"))} alt="Maquillage brushing" /></div>
             <div className="relative overflow-hidden"><ParallaxImg src={photo(5, (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1554519515-242161756769?auto=format&fit=crop&q=85&w=600"))} alt="Coiffure updo" /></div>
           </div>

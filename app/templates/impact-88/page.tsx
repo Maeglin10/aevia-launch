@@ -1655,7 +1655,7 @@ function AboutSection() {
           <Reveal>
             <div className="relative aspect-[4/5] rounded-[24px] overflow-hidden shadow-[0_4px_30px_rgba(236,72,153,0.1)]">
               <Image
-                src={photo(3, "https://images.pexels.com/photos/2883048/pexels-photo-2883048.jpeg?auto=compress&cs=tinysrgb&w=1600")}
+                src={photo(3, "https://images.pexels.com/photos/4063254/pexels-photo-4063254.jpeg?auto=compress&cs=tinysrgb&w=1600")}
                 alt={`${clientName(sessionData) ?? "Velvet Nails"} concept`}
                 fill
                 className="object-cover"

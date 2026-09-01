@@ -120,7 +120,7 @@ function buildSeasonalMenus(items: { name: string; price: string; description?: 
 function GALLERY_PHOTOS_DEMO_LIVE() {
   return [
   {
-    src: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/13636614/pexels-photo-13636614.jpeg?auto=compress&cs=tinysrgb&w=1600"),
+    src: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/2403392/pexels-photo-2403392.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     alt: "Salle principale de restaurant gastronomique",
     className: "col-span-2 row-span-2",
   },
@@ -402,7 +402,7 @@ export default function AeviaKitchenPage() {
           className="absolute inset-0 z-0"
         >
           <Image
-            src={photo(6, "https://images.pexels.com/photos/13636614/pexels-photo-13636614.jpeg?auto=compress&cs=tinysrgb&w=1600")}
+            src={photo(6, "https://images.pexels.com/photos/2403392/pexels-photo-2403392.jpeg?auto=compress&cs=tinysrgb&w=1600")}
             alt={`Salle gastronomique ${clientName(sessionData) ?? "Aevia Kitchen"}`}
             fill
             className="object-cover brightness-[0.55]"

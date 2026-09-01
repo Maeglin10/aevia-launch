@@ -899,7 +899,7 @@ return (
             y: heroParallaxY,
             opacity: heroOpacity,
             backgroundImage:
-              "url(photo(1, 'https://images.pexels.com/photos/34086242/pexels-photo-34086242.jpeg?auto=compress&cs=tinysrgb&w=1600'))",
+              "url(photo(1, 'https://images.pexels.com/photos/35687736/pexels-photo-35687736.jpeg?auto=compress&cs=tinysrgb&w=1600'))",
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
