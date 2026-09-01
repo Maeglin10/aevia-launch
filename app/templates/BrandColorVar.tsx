@@ -117,12 +117,32 @@ function detacherLesTextesDuClient(
   if (valeurs.length === 0) return;
 
   const surUneImage = (e: Element): boolean => {
+    /*
+      Un fond OPAQUE arrête la recherche. Sans cette borne, il suffisait qu'un
+      ancêtre lointain contienne une image quelque part pour que tout texte de
+      la page soit déclaré « sur une photo » — y compris le logo d'une barre
+      blanche. Sur impact-56, la couleur du titre du héros (blanc, sur une
+      photo de vignoble sombre) était alors recopiée en !important sur un nom
+      posé sur un bandeau blanc : blanc sur blanc, invisible.
+    */
+    const boite = e.getBoundingClientRect();
     let n: Element | null = e;
     for (let i = 0; i < 6 && n; i++) {
       const s = getComputedStyle(n);
+      const fond = s.backgroundColor;
+      const alpha = /rgba?\(([^)]+)\)/.exec(fond);
+      const opaque = alpha
+        ? (alpha[1].split(",")[3] === undefined || parseFloat(alpha[1].split(",")[3]) >= 0.85)
+        : Boolean(fond && fond !== "transparent");
       if (s.backgroundImage && s.backgroundImage !== "none") return true;
-      // Beaucoup de thèmes posent la photographie en <img> calée derrière le texte.
-      if (n.querySelector?.("img")) return true;
+      /* L'image doit vraiment passer DERRIÈRE le texte, pas seulement vivre
+         quelque part dans le même ancêtre. */
+      for (const img of Array.from(n.querySelectorAll?.("img") ?? [])) {
+        const b = img.getBoundingClientRect();
+        if (b.width < 4 || b.height < 4) continue;
+        if (b.left < boite.right && b.right > boite.left && b.top < boite.bottom && b.bottom > boite.top) return true;
+      }
+      if (opaque) return false;
       n = n.parentElement;
     }
     return false;
