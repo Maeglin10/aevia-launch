@@ -153,7 +153,9 @@ export default function IronClubPage() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          background: scrolled ? "rgba(255,255,255,0.96)" : "transparent",
+          /* Le plafond de la salle est blanc : le nom et les liens, blancs eux
+             aussi, s'y perdaient tant qu'on n'avait pas défilé. */
+          background: scrolled ? "rgba(255,255,255,0.96)" : "linear-gradient(180deg, rgba(17,24,39,0.74) 0%, rgba(17,24,39,0.32) 62%, transparent 100%)",
           backdropFilter: scrolled ? "blur(12px)" : "none",
           borderBottom: scrolled ? `1px solid ${C.border}` : "none",
           transition: "background 0.3s, border-color 0.3s",
@@ -323,7 +325,7 @@ export default function IronClubPage() {
           style={{
             position: "absolute",
             inset: 0,
-            background: "linear-gradient(to top, rgba(17,24,39,0.92) 0%, rgba(17,24,39,0.55) 45%, transparent 100%)",
+            background: "linear-gradient(to top, rgba(17,24,39,0.94) 0%, rgba(17,24,39,0.68) 45%, rgba(17,24,39,0.22) 100%)",
           }}
         />
         {/* gradient accent gauche → transparent */}
@@ -359,6 +361,9 @@ export default function IronClubPage() {
               textTransform: "uppercase",
               letterSpacing: 2,
               marginBottom: 24,
+              /* Les lettres débordent sur le plafond blanc de la salle, à droite
+                 du voile : une ombre portée les y tient. */
+              textShadow: "0 2px 18px rgba(17,24,39,0.75)",
             }}
           >{/* TEXTE_SECTION */ clientText(sessionData, "section-1.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 12) ?? "Plus fort."}<br />
             <span style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 12) ?? "Chaque jour."}</span>

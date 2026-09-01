@@ -574,7 +574,7 @@ export default function Impact94Page() {
         className={`fixed top-0 left-0 right-0 z-[200] flex items-center justify-between px-8 md:px-16 transition-all duration-500 ${
           scrolled
             ? "py-4 bg-[#FAFAF9]/95 backdrop-blur-lg border-b border-[var(--brand,#CA8A04)]/20 shadow-sm"
-            : "py-7 bg-gradient-to-b from-black/55 via-black/22 to-transparent"
+            : "py-7 bg-gradient-to-b from-black/70 via-black/35 to-transparent"
         }`}
       >
         {/* Logo */}
@@ -607,7 +607,10 @@ export default function Impact94Page() {
             <li key={link.label}>
               <button
                 onClick={() => document.getElementById(link.href.replace("#", ""))?.scrollIntoView({ behavior: "smooth" })}
-                className="text-[11px] font-medium uppercase tracking-[0.2em] text-[#0C0A09]/70 hover:text-[var(--brand,#CA8A04)] transition-colors duration-300"
+                /* Les liens étaient écrits en noir à 70 % : lisibles une fois
+                   la page défilée, invisibles sur la photo de la vitrine. Ils
+                   suivent l'état de défilement, comme le nom au-dessus. */
+                className={`text-[11px] font-medium uppercase tracking-[0.2em] hover:text-[var(--brand,#CA8A04)] transition-colors duration-300 ${scrolled ? "text-[#0C0A09]/70" : "text-white/90"}`}
               >
                 {link.label}
               </button>
@@ -619,7 +622,7 @@ export default function Impact94Page() {
         <div className="hidden md:flex items-center gap-4">
           <button
             onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-            className="px-6 py-3 border border-[var(--brand,#CA8A04)] text-[var(--brand,#CA8A04)] text-[11px] font-medium uppercase tracking-[0.2em] hover:bg-[var(--brand,#CA8A04)] hover:text-white transition-all duration-300"
+            className={`px-6 py-3 border text-[11px] font-medium uppercase tracking-[0.2em] transition-all duration-300 ${scrolled ? "border-[var(--brand,#CA8A04)] text-[var(--brand,#CA8A04)] hover:bg-[var(--brand,#CA8A04)] hover:text-white" : "border-white/70 text-white hover:bg-white/15"}`}
           >
             Commande sur-mesure
           </button>
@@ -714,6 +717,8 @@ export default function Impact94Page() {
             animate={{ opacity: 1, letterSpacing: "0.5em" }}
             transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
             className="text-[10px] font-medium uppercase text-[var(--brand,#CA8A04)] tracking-[0.5em] block mb-8"
+            /* Or sur un bouquet rose et or : sans ombre, le libellé disparaît. */
+            style={{ textShadow: "0 1px 8px rgba(12,10,9,0.92)" }}
           >
             Atelier floral de luxe — {clientCity(sessionData) ?? "Paris"}
           </motion.span>

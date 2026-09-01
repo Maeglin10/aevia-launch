@@ -312,7 +312,7 @@ export default function VisionClairePage() {
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1574258495973-f010dfbb5371?w=1920&q=80"))} alt="Opticien Vision Claire Nantes" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(5,18,40,0.92) 0%, rgba(5,18,40,0.42) 45%, rgba(5,18,40,0.08) 100%)" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(5,18,40,0.94) 0%, rgba(5,18,40,0.74) 45%, rgba(5,18,40,0.30) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}20 0%, transparent 55%)` }} />
 
         <motion.div className="mb138-hero-text" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
