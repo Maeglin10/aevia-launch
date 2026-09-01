@@ -262,7 +262,7 @@ export default function EclatSpaPage() {
         a, button, select { cursor: pointer; }
       `}</style>
 
-      <motion.nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 64px", background: scrolled ? "rgba(253,248,245,0.97)" : "linear-gradient(180deg, rgba(60,40,34,0.55) 0%, rgba(60,40,34,0.22) 65%, transparent 100%)", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: scrolled ? `1px solid ${C.border}` : "none", transition: "all 0.4s ease" }}>
+      <motion.nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 64px", background: scrolled ? "rgba(253,248,245,0.97)" : "linear-gradient(180deg, rgba(60,40,34,0.80) 0%, rgba(60,40,34,0.38) 65%, transparent 100%)", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: scrolled ? `1px solid ${C.border}` : "none", transition: "all 0.4s ease" }}>
         <div style={{ fontFamily: FONT, fontSize: 22, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>
           {fd?.logoBase64 ? (
             // Client logo (uploaded in the brief) replaces the placeholder mark —
@@ -276,11 +276,11 @@ export default function EclatSpaPage() {
             <>{/* Le suffixe se collait au nom du client : la barre affichait
                 « Atelier VérificationSpa ». Il n'appartient qu'au nom de la
                 démonstration. */}
-                {clientName(sessionData) ?? (<>Éclat<span style={{ color: scrolled ? C.gold : "rgba(255,255,255,0.7)" }}>Spa</span></>)}</>
+                {clientName(sessionData) ?? (<>Éclat<span style={{ color: scrolled ? C.gold : "rgba(255,255,255,0.92)" }}>Spa</span></>)}</>
           )}
         </div>
         <div id="mb229-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
-            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.94)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href="#reservation" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", minHeight: 44, display: "inline-flex", alignItems: "center" }} whileHover={{ background: C.accentDark }}>Réserver</motion.a>
       </div>
@@ -298,7 +298,7 @@ export default function EclatSpaPage() {
       {mobileOpen && (
         <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
           {NAV.map(({ l, h }) => (
-            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.94)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href="#reservation" onClick={() => setMobileOpen(false)} style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", minHeight: 44, display: "inline-flex", alignItems: "center", justifyContent: "center" }} whileHover={{ background: C.accentDark }}>Réserver</motion.a>
         </div>

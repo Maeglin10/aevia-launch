@@ -159,7 +159,9 @@ function PHASES_LIVE() {
     index: 'I',
     caption: 'MÉDECINE GÉNÉRALE',
     sub: 'Suivi au long cours, pathologies courantes, maladies chroniques — votre santé vue dans sa globalité.',
-    imgId: '1559757148-5c350d0d3c56',
+    /* Un modèle anatomique de cerveau pour « médecine générale » : la photo
+       montre maintenant une consultation. */
+    imgId: 'https://images.pexels.com/photos/39192333/pexels-photo-39192333.jpeg?auto=compress&cs=tinysrgb&w=1600',
   },
   {
     id: 'preventive',
@@ -220,7 +222,9 @@ function EDIT_ROWS_LIVE() {
     titleLine1: "Écouter d'abord,",
     titleLine2: "soigner ensuite.",
     body: 'Dans un monde médical où le temps manque, le cabinet du Dr. Beaumont a choisi de résister. Chaque consultation dure 30 minutes minimum. Pas de chronomètre, pas de patient suivant qui attend derrière la porte. Seulement vous, votre histoire, et le soin que vous méritez.',
-    imgId: '1559757148-5c350d0d3c56',
+    /* Un modèle anatomique de cerveau pour « médecine générale » : la photo
+       montre maintenant une consultation. */
+    imgId: 'https://images.pexels.com/photos/39192333/pexels-photo-39192333.jpeg?auto=compress&cs=tinysrgb&w=1600',
     reverse: false,
   },
   {
@@ -626,7 +630,8 @@ function Hero() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to bottom, rgba(11,18,32,0.52) 0%, rgba(11,18,32,0.12) 38%, rgba(11,18,32,0.50) 70%, rgba(11,18,32,0.90) 100%)',
+            /* Le creux du voile à 38 % tombait pile sur le titre, à 390 px. */
+            'linear-gradient(to bottom, rgba(11,18,32,0.58) 0%, rgba(11,18,32,0.42) 38%, rgba(11,18,32,0.62) 70%, rgba(11,18,32,0.92) 100%)',
         }}
       />
       {/* Scrim centre */}
