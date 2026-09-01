@@ -159,7 +159,12 @@ return (
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[#1A1612]/90 via-[#1A1612]/60 to-[#1A1612]/10" />
+          {/* Le voile va de gauche à droite : sur grand écran le texte tient
+              dans la moitié sombre, mais à 390 px il occupe toute la largeur et
+              sa fin tombait dans le reflet clair de la façade. Voile uni sur
+              téléphone. */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#1A1612]/90 via-[#1A1612]/60 to-[#1A1612]/10 hidden md:block" />
+          <div className="absolute inset-0 bg-[#1A1612]/78 md:hidden" />
         </motion.div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 pt-32 pb-20 w-full">
@@ -171,7 +176,7 @@ return (
           </Reveal>
           <Reveal delay={0.2}>
             <p className="text-[#C8B89A] text-lg max-w-lg mb-12 leading-relaxed font-light">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
-              Depuis 35 ans, Blueprint réalise des programmes immobiliers d&apos;exception. Résidentiel haut de gamme, bureaux premium, opérations mixtes — nous concevons des lieux qui durent.
+              Depuis 35 ans, {clientName(sessionData) ?? "Blueprint"} réalise des programmes immobiliers d&apos;exception. Résidentiel haut de gamme, bureaux premium, opérations mixtes — nous concevons des lieux qui durent.
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-5">
               <Link href="/templates/impact-82/programmes" className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-[var(--brand,#C9A86C)] text-[#1A1612] font-medium text-sm tracking-wide uppercase hover:bg-[#E0BC70] transition-colors cursor-pointer">
@@ -213,7 +218,7 @@ return (
             </Reveal>
             <Reveal delay={0.1}>
               <p className="text-[#8A7860] leading-relaxed mb-6 font-light">{c?.aboutText ?? <>
-                Blueprint a été fondé en 1989 par Édouard Marchand avec une conviction : le développement immobilier de qualité ne se résume pas à construire des murs. Il s&apos;agit de créer des lieux de vie durables et harmonieux.
+                {clientName(sessionData) ?? "Blueprint"} a été fondé en 1989 par Édouard Marchand avec une conviction : le développement immobilier de qualité ne se résume pas à construire des murs. Il s&apos;agit de créer des lieux de vie durables et harmonieux.
               </>}</p>
               <Link href="/templates/impact-82/entreprise" className="text-sm text-[var(--brand,#C9A86C)] flex items-center gap-2 hover:gap-4 transition-all">
                 En savoir plus sur notre entreprise <ArrowRight className="w-4 h-4" />
@@ -290,7 +295,7 @@ return (
           <Reveal>
             <p className="text-xs tracking-[0.3em] uppercase text-[var(--brand,#C9A86C)] mb-4">Direction</p>
             <h2 className="text-4xl font-normal mb-16" style={{ fontFamily: "'Libre Baskerville', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
-              L'équipe Blueprint
+              L'équipe {clientName(sessionData) ?? "Blueprint"}
             </>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">

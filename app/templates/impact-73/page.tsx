@@ -235,7 +235,9 @@ export default function ConservatoireAccordPage() {
       <motion.nav style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72,
         display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 64px",
-        background: scrolled ? "rgba(253,248,240,0.97)" : "transparent",
+        /* Le haut de la photo de piano est très clair : le mot ambre du logo s'y
+           effaçait. Voile dégradé tant qu'on n'a pas défilé. */
+        background: scrolled ? "rgba(253,248,240,0.97)" : "linear-gradient(180deg, rgba(24,16,10,0.72) 0%, rgba(24,16,10,0.30) 62%, transparent 100%)",
         backdropFilter: scrolled ? "blur(12px)" : "none",
         borderBottom: scrolled ? `1px solid ${C.border}` : "none",
         transition: "all 0.4s ease",
@@ -247,9 +249,9 @@ export default function ConservatoireAccordPage() {
             style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
         ) : (
-          <div style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  display: "flex", alignItems: "center", gap: 10 }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>
+          <div style={{ textShadow: "0 1px 6px rgba(24,16,10,0.9)", color: scrolled ? C.text : "#fff", fontFamily: FONT, fontStyle: "italic", fontSize: "clamp(14px, 3.9vw, 18px)", display: "flex", alignItems: "center", gap: 10 }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>
             <Music size={20} color={scrolled ? C.amber : "#fff"} />
-            <span style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: scrolled ? C.text : "#fff" }}>Conservatoire<span style={{ color: C.amber }}> Accord</span></span>
+            <span style={{ fontFamily: FONT, fontSize: "clamp(14px, 3.9vw, 18px)", fontStyle: "italic", whiteSpace: "nowrap", color: scrolled ? C.text : "#fff" }}>Conservatoire<span style={{ color: C.amber }}> Accord</span></span>
           </>)}</div>
         )}
         <div id="mb73-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
@@ -308,7 +310,7 @@ export default function ConservatoireAccordPage() {
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
-            Conservatoire Accord forme les musiciens de 4 à 99 ans à {clientCity(sessionData) ?? "Lyon"} depuis 18 ans. Piano, guitare, chant, batterie, solfège — cours individuels ou en groupe, enfants et adultes.
+            {clientName(sessionData) ?? "Conservatoire Accord"} forme les musiciens de 4 à 99 ans à {clientCity(sessionData) ?? "Lyon"} depuis 18 ans. Piano, guitare, chant, batterie, solfège — cours individuels ou en groupe, enfants et adultes.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -493,7 +495,7 @@ export default function ConservatoireAccordPage() {
       <footer style={{ background: C.accent, padding: "48px 80px 24px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
-            <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", fontWeight: 300, color: C.amber, marginBottom: 8 }}>Conservatoire Accord</div>
+            <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", fontWeight: 300, color: C.amber, marginBottom: 8 }}>{clientName(sessionData) ?? "Conservatoire Accord"}</div>
             <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>École de musique · {clientCity(sessionData) ?? "Lyon"} 6e<br />Lun–Sam 10h–20h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
@@ -505,7 +507,7 @@ export default function ConservatoireAccordPage() {
           </div>
         </div>
         <div style={{ borderTop: `1px solid ${C.amber}20`, paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-          <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 Conservatoire Accord — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 {clientName(sessionData) ?? "Conservatoire Accord"} — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="/templates/impact-73/legal" style={{ color: "rgba(255,255,255,0.20)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

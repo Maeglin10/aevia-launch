@@ -93,57 +93,57 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 const RITUALS_DEMO = [
   {
     id: "restore",
-    label: "Restore",
+    label: "Ressourcer",
     icon: <Droplets className="w-5 h-5" />,
-    title: "Deep Restore Ritual",
+    title: "Rituel Ressourcement profond",
     duration: "3h",
     price: "380€",
-    description: "A full-body immersion in botanical hydration. Seaweed wrap, hot stone massage, and a signature facial tailored to your skin's needs.",
-    steps: ["Botanical foot bath", "Seaweed body wrap (60 min)", "Hot stone full-body (75 min)", "Signature hydra facial (45 min)"],
-    tag: "Bestseller",
+    description: "Une immersion du corps entier dans l'hydratation botanique. Enveloppement aux algues, massage aux pierres chaudes et soin du visage signature adapté à votre peau.",
+    steps: ["Bain de pieds botanique", "Enveloppement aux algues (60 min)", "Pierres chaudes, corps entier (75 min)", "Soin visage hydratant signature (45 min)"],
+    tag: "Le plus demandé",
   },
   {
     id: "rebalance",
-    label: "Rebalance",
+    label: "Rééquilibrer",
     icon: <Wind className="w-5 h-5" />,
-    title: "Inner Harmony Journey",
+    title: "Voyage Harmonie intérieure",
     duration: "2h",
     price: "260€",
-    description: "Restore equilibrium through breath, movement, and mindful touch. Combines pranayama, craniosacral therapy, and forest oil diffusion.",
-    steps: ["Guided pranayama (20 min)", "Craniosacral session (60 min)", "Chakra oil diffusion (20 min)", "Herbal tea ceremony (20 min)"],
-    tag: "New",
+    description: "Retrouver l'équilibre par le souffle, le mouvement et le toucher attentif. Pranayama, thérapie craniosacrale et diffusion d'huiles forestières.",
+    steps: ["Pranayama guidé (20 min)", "Séance craniosacrale (60 min)", "Diffusion d'huiles des chakras (20 min)", "Cérémonie du thé aux plantes (20 min)"],
+    tag: "Nouveau",
   },
   {
     id: "renew",
-    label: "Renew",
+    label: "Renouveler",
     icon: <Sun className="w-5 h-5" />,
-    title: "Radiance Renewal",
+    title: "Renaissance Éclat",
     duration: "2h30",
     price: "310€",
-    description: "Luminous skin from within. A brightening enzyme peel, vitamin C infusion, and lymphatic drainage massage for a lit-from-within glow.",
-    steps: ["Enzyme peel exfoliation (30 min)", "Vitamin C infusion (45 min)", "Lymphatic drainage (45 min)", "Gua sha sculpting (30 min)"],
-    tag: "Popular",
+    description: "Une peau lumineuse de l'intérieur : peeling enzymatique éclaircissant, infusion de vitamine C et drainage lymphatique pour un éclat venu du dedans.",
+    steps: ["Exfoliation par peeling enzymatique (30 min)", "Infusion de vitamine C (45 min)", "Drainage lymphatique (45 min)", "Sculpting au gua sha (30 min)"],
+    tag: "Populaire",
   },
   {
     id: "cocoon",
-    label: "Cocoon",
+    label: "Cocon",
     icon: <Heart className="w-5 h-5" />,
-    title: "Cocoon Escape",
+    title: "Échappée Cocon",
     duration: "4h",
     price: "490€",
-    description: "Our most indulgent offering. Full-day sanctuary access, private pool suite, four-hand massage, and a curated botanical lunch.",
-    steps: ["Private pool & sauna (90 min)", "Four-hand synchronised massage (75 min)", "Gold leaf facial (60 min)", "Botanical wellness lunch"],
+    description: "Notre parenthèse la plus généreuse : accès au sanctuaire toute la journée, suite avec bassin privatif, massage à quatre mains et déjeuner botanique.",
+    steps: ["Bassin privatif et sauna (90 min)", "Massage synchronisé à quatre mains (75 min)", "Soin visage à la feuille d'or (60 min)", "Déjeuner botanique bien-être"],
     tag: "Signature",
   },
 ];
 
 const amenities_SOURCE = [
-  { icon: <Droplets className="w-6 h-6" />, label: "Thermal Pools", desc: "Three mineral pools at 32°, 37° and 40°" },
-  { icon: <Wind className="w-6 h-6" />, label: "Steam Grotto", desc: "Himalayan salt-infused steam room" },
-  { icon: <Leaf className="w-6 h-6" />, label: "Botanical Garden", desc: "Private herb garden & quiet meadow" },
-  { icon: <Sun className="w-6 h-6" />, label: "Infrared Sauna", desc: "Full-spectrum therapeutic heat" },
-  { icon: <Sparkles className="w-6 h-6" />, label: "Ice Fountain", desc: "Invigorating contrast therapy" },
-  { icon: <Heart className="w-6 h-6" />, label: "Meditation Loft", desc: "Soundproofed Tibetan singing bowls" },
+  { icon: <Droplets className="w-6 h-6" />, label: "Bassins thermaux", desc: "Trois bassins minéraux à 32°, 37° et 40°" },
+  { icon: <Wind className="w-6 h-6" />, label: "Grotte de vapeur", desc: "Hammam au sel de l'Himalaya" },
+  { icon: <Leaf className="w-6 h-6" />, label: "Jardin botanique", desc: "Jardin d'aromatiques privatif et prairie silencieuse" },
+  { icon: <Sun className="w-6 h-6" />, label: "Sauna infrarouge", desc: "Chaleur thérapeutique plein spectre" },
+  { icon: <Sparkles className="w-6 h-6" />, label: "Fontaine de glace", desc: "Thérapie par le contraste, tonifiante" },
+  { icon: <Heart className="w-6 h-6" />, label: "Loft de méditation", desc: "Salle insonorisée, bols tibétains" },
 ];
 let amenities = amenities_SOURCE;
 
@@ -153,21 +153,21 @@ const TESTIMONIALS_SOURCE = [
     role: "Photographe",
     text: "J'arrive chez Aura dans un état de tension extrême et je repars comme une nouvelle personne. Chaque détail — les huiles, la lumière, le silence — est pensé pour vous libérer.",
     rating: 5,
-    ritual: "Deep Restore Ritual",
+    ritual: "Rituel Ressourcement profond",
   },
   {
     name: "Thomas L.",
     role: "Directeur artistique",
-    text: "Le rituel Cocoon Escape est dans une autre dimension. Le massage à quatre mains est une expérience quasi mystique. Je réserve chaque trimestre.",
+    text: "Le rituel Échappée Cocon est dans une autre dimension. Le massage à quatre mains est une expérience quasi mystique. Je réserve chaque trimestre.",
     rating: 5,
-    ritual: "Cocoon Escape",
+    ritual: "Échappée Cocon",
   },
   {
     name: "Camille R.",
     role: "Médecin",
     text: "Rare de trouver un spa qui allie rigueur scientifique et véritable savoir-faire sensoriel. Les soins sont efficaces, les thérapeutes exceptionnels.",
     rating: 5,
-    ritual: "Radiance Renewal",
+    ritual: "Renaissance Éclat",
   },
 ];
 let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
@@ -182,7 +182,7 @@ const botanicals = [
 const TEAM_DEMO = [
   { name: "Amélie Fontaine", role: "Directrice Wellness", years: 14, specialty: "Massage Ayurvédique" },
   { name: "Nour El-Kadi", role: "Experte Soin Visage", years: 9, specialty: "Peeling & Gua Sha" },
-  { name: "Pierre Lecomte", role: "Thérapeute Holistique", years: 11, specialty: "Craniosacral & Breath" },
+  { name: "Pierre Lecomte", role: "Thérapeute Holistique", years: 11, specialty: "Craniosacral et souffle" },
 ];
 
 // ─── Multi-page navigation (additive) ─────────────────────────────────────────
@@ -207,10 +207,10 @@ const NAV_PAGES: { key: AuraPage; label: string }[] = [
 const soinsList = [
   {
     id: "restore",
-    title: "Deep Restore Ritual",
+    title: "Rituel Ressourcement profond",
     duration: "3h",
     price: "380€",
-    tag: "Bestseller",
+    tag: "Le plus demandé",
     description:
       "Une immersion corps entier dans l'hydratation botanique. Enveloppement aux algues, massage aux pierres chaudes et soin du visage signature, ajusté aux besoins de votre peau.",
     steps: ["Bain de pieds botanique", "Enveloppement algues (60 min)", "Pierres chaudes corps entier (75 min)", "Soin visage hydra signature (45 min)"],
@@ -218,7 +218,7 @@ const soinsList = [
   },
   {
     id: "rebalance",
-    title: "Inner Harmony Journey",
+    title: "Voyage Harmonie intérieure",
     duration: "2h",
     price: "260€",
     tag: "Nouveau",
@@ -229,7 +229,7 @@ const soinsList = [
   },
   {
     id: "renew",
-    title: "Radiance Renewal",
+    title: "Renaissance Éclat",
     duration: "2h30",
     price: "310€",
     tag: "Populaire",
@@ -240,7 +240,7 @@ const soinsList = [
   },
   {
     id: "cocoon",
-    title: "Cocoon Escape",
+    title: "Échappée Cocon",
     duration: "4h",
     price: "490€",
     tag: "Signature",
@@ -323,7 +323,7 @@ function blogArticles_LIVE() {
       "Chez Aura, chaque soin repose sur une sélection d'actifs botaniques tracés. Connaître leurs propriétés, c'est comprendre ce que votre peau reçoit réellement.",
       "La Centella Asiatica, surnommée « l'herbe du tigre », est reconnue pour stimuler la régénération cellulaire et apaiser les peaux réactives. Elle est la base de nos soins réparateurs.",
       "L'huile de Marula, extraite d'un fruit d'Afrique australe, est l'une des plus riches en acides gras et antioxydants. Légère et pénétrante, elle hydrate en profondeur sans effet gras.",
-      "Le Lotus bleu, enfin, apporte éclat et apaisement. Utilisé depuis l'Égypte antique, il referme notre rituel Radiance Renewal sur une note lumineuse et sereine.",
+      "Le Lotus bleu, enfin, apporte éclat et apaisement. Utilisé depuis l'Égypte antique, il referme notre rituel Renaissance Éclat sur une note lumineuse et sereine.",
     ],
   },
   {
@@ -354,7 +354,7 @@ function blogArticles_LIVE() {
     body: [
       "Offrir un soin, ce n'est pas offrir un objet : c'est offrir une parenthèse. Dans un quotidien saturé, c'est l'un des cadeaux les plus précieux que l'on puisse faire.",
       "Pour une personne très sollicitée, privilégiez un rituel court mais intense comme la Pause Sérénité : elle pourra l'intégrer facilement à son emploi du temps.",
-      "Pour célébrer un moment particulier, le Cocoon Escape ou le Rituel Duo Botanique transforment une journée en souvenir durable.",
+      "Pour célébrer un moment particulier, l’Échappée Cocon ou le Rituel Duo Botanique transforment une journée en souvenir durable.",
       "Nos bons cadeaux sont valables un an et personnalisables. Vous choisissez le montant ou le rituel, nous nous occupons du reste — y compris d'un mot manuscrit si vous le souhaitez.",
     ],
   },
@@ -625,7 +625,11 @@ export default function AuraWellnessPage() {
             className="object-cover"
             priority
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#2C2820]/40 via-transparent to-[#F6F3EE]/60" />
+          {/* Le voile s'éclaircissait vers le bas, jusqu'au crème, alors que le
+              titre blanc, l'accroche et le second bouton sont posés au centre
+              sur une peau très claire. Voile sombre continu, plus dense au
+              milieu, là où le texte se tient. */}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#2C2820]/55 via-[#2C2820]/58 to-[#2C2820]/40" />
         </motion.div>
         <motion.div
           className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6"
@@ -650,7 +654,7 @@ export default function AuraWellnessPage() {
               <Link href="#soins" className="bg-[var(--brand,#7C9E87)] text-white px-8 py-4 rounded-xl text-sm tracking-wide hover:bg-[#6A8D75] transition-colors duration-200 cursor-pointer">
                 Découvrir les rituels
               </Link>
-              <Link href="#amenities" className="bg-white/20 backdrop-blur-sm border border-white/40 text-white px-8 py-4 rounded-xl text-sm tracking-wide hover:bg-white/30 transition-colors duration-200 cursor-pointer">
+              <Link href="#amenities" className="bg-[#2C2820]/45 backdrop-blur-sm border border-white/50 text-white px-8 py-4 rounded-xl text-sm tracking-wide hover:bg-[#2C2820]/60 transition-colors duration-200 cursor-pointer">
                 Visiter l'espace
               </Link>
             </div>
@@ -1209,7 +1213,7 @@ export default function AuraWellnessPage() {
             </div>
           </div>
           {[
-            { title: "Soins", links: [["Deep Restore", "#soins"], ["Inner Harmony", "#soins"], ["Radiance Renewal", "#soins"], ["Cocoon Escape", "#soins"]] },
+            { title: "Soins", links: [["Ressourcement profond", "#soins"], ["Harmonie intérieure", "#soins"], ["Renaissance Éclat", "#soins"], ["Échappée Cocon", "#soins"]] },
             { title: "L'Espace", links: [["Le sanctuaire", "#about"], ["Notre philosophie", "#about"], ["L'équipe", "#equipe"]] },
             { title: "Informations", links: [["Réserver", "#reservation"], ["Contact", "#contact"], ["FAQ", "#faq"]] }
           ].map((col) => (
