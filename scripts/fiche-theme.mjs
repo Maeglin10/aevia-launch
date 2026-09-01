@@ -47,8 +47,16 @@ for (const [etat, url] of [["vitrine", ""], ["client", "?session=v"]]) {
          premier élément qui porte vraiment du texte. Sans cela la jauge
          annonçait 1,48 sur une barre parfaitement lisible. */
       const barre = conteneur
+        /* « sans enfant » était trop strict : « Jardins Vivants » vit dans un
+           span accompagné d'une icône, et la jauge retombait alors sur le
+           conteneur — dont la couleur EST celle du fond, d'où un rapport de 1
+           sur un texte parfaitement lisible. On accepte deux enfants et on
+           exige que l'élément porte lui-même du texte. */
         ? [...conteneur.querySelectorAll("a, span, div, p, button, h1, h2, strong")]
-            .filter((e) => (e.innerText || "").trim().length > 1 && e.children.length === 0)
+            .filter((e) => {
+              const propre = [...e.childNodes].some((n) => n.nodeType === 3 && (n.textContent || "").trim().length > 1);
+              return propre && e.children.length <= 2;
+            })
             .sort((a, b) => b.getBoundingClientRect().width - a.getBoundingClientRect().width)[0] ?? conteneur
         : null;
       const boite = (e) => { if (!e) return null; const b = e.getBoundingClientRect();

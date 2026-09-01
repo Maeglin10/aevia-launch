@@ -574,7 +574,7 @@ export default function Impact94Page() {
         className={`fixed top-0 left-0 right-0 z-[200] flex items-center justify-between px-8 md:px-16 transition-all duration-500 ${
           scrolled
             ? "py-4 bg-[#FAFAF9]/95 backdrop-blur-lg border-b border-[var(--brand,#CA8A04)]/20 shadow-sm"
-            : "py-7 bg-transparent"
+            : "py-7 bg-gradient-to-b from-black/55 via-black/22 to-transparent"
         }`}
       >
         {/* Logo */}
@@ -589,8 +589,11 @@ export default function Impact94Page() {
             <>
               <Flower className="w-5 h-5 text-[var(--brand,#CA8A04)] group-hover:rotate-45 transition-transform duration-500" />
               <span
-                className="text-xl font-normal tracking-[0.25em] uppercase text-[#0C0A09]"
-                style={{ fontFamily: "'Bodoni Moda', serif" }}
+                /* Sombre sur une photo claire, le nom disparaissait ; et long,
+                   il s'écrivait par-dessus « Collections ». Il suit maintenant
+                   l'état de défilement et s'arrête avant les liens. */
+                className={`text-xl font-normal tracking-[0.25em] uppercase ${scrolled ? "text-[#0C0A09]" : "text-white"}`}
+                style={{ fontFamily: "'Bodoni Moda', serif", maxWidth: "28vw", marginRight: 24, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
               >{/* NOM_LOGO */ clientName(sessionData) ?? (<>
                 Botanica
               </>)}</span>
