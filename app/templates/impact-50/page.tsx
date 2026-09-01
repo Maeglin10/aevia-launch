@@ -258,7 +258,7 @@ export default function CabinetMoreauPage() {
       <motion.nav style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72,
         display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 64px",
-        background: scrolled ? "rgba(250,247,244,0.97)" : "transparent",
+        background: scrolled ? "rgba(250,247,244,0.97)" : "linear-gradient(180deg, rgba(15,10,5,0.70) 0%, rgba(15,10,5,0.28) 62%, transparent 100%)",
         backdropFilter: scrolled ? "blur(12px)" : "none",
         borderBottom: scrolled ? `1px solid ${C.border}` : "none",
         transition: "all 0.4s ease",
@@ -270,7 +270,10 @@ export default function CabinetMoreauPage() {
             style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
         ) : (
-          <div>{/* NOM_LOGO */ clientName(sessionData) ?? (<>
+          /* Le nom du client héritait de la couleur du texte courant — sombre,
+             sur un bandeau devenu sombre : il prend la couleur du logo qu'il
+             remplace. */
+          <div style={{ fontFamily: FONT_SERIF, fontSize: 17, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>
             <span style={{ fontFamily: FONT_SERIF, fontSize: 17, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>Laurence Moreau</span>
             <span style={{ fontSize: 13, color: scrolled ? C.textMuted : "rgba(255,255,255,0.65)", marginLeft: 8 }}>Psychologue clinicienne</span>
           </>)}</div>
@@ -313,6 +316,9 @@ export default function CabinetMoreauPage() {
         @media (max-width: 640px) {
           .imx50-hero { align-items: flex-start !important; height: auto !important; min-height: 100dvh !important; }
           .imx50-hero-content { padding-top: 96px !important; }
+          /* Le texte remonte en haut de la photo ; le voile, lui, était sombre
+             en bas. Il suit le texte. */
+          .imx50-voile { background: linear-gradient(to bottom, rgba(15,10,5,0.88) 0%, rgba(15,10,5,0.58) 55%, rgba(15,10,5,0.28) 100%) !important; }
           /* the slide band shares the top-right corner with the headline on a
              phone — the dissolve still plays, the caption yields */
           .imx50-slideband { display: none !important; }
@@ -328,7 +334,7 @@ export default function CabinetMoreauPage() {
             overlay={0}
           />
         </motion.div>
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(15,10,5,0.90) 0%, rgba(15,10,5,0.38) 45%, rgba(15,10,5,0.05) 100%)" }} />
+        <div className="imx50-voile" style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(15,10,5,0.92) 0%, rgba(15,10,5,0.62) 45%, rgba(15,10,5,0.28) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
 
         <motion.div className="imx50-hero-content" style={{ position: "relative", zIndex: 1, padding: "0 clamp(24px,7vw,80px) clamp(40px,8vw,90px)", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
@@ -359,7 +365,7 @@ export default function CabinetMoreauPage() {
             <div style={{ fontSize: 11, letterSpacing: "0.3em", textTransform: "uppercase", color: "rgba(255,255,255,0.8)", fontWeight: 600 }}>
               {HERO_VIEWS[heroI].k}
             </div>
-            <p style={{ fontSize: 12.5, lineHeight: 1.6, color: "rgba(255,255,255,0.55)", maxWidth: "34ch", margin: "6px 0 0" }}>
+            <p style={{ fontSize: 12.5, lineHeight: 1.6, color: "rgba(255,255,255,0.85)", textShadow: "0 1px 6px rgba(15,10,5,0.8)", maxWidth: "34ch", margin: "6px 0 0" }}>
               {HERO_VIEWS[heroI].d}
             </p>
           </BlurThrough>

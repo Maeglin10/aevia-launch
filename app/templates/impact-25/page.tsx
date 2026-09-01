@@ -265,7 +265,10 @@ export default function PixelRepublicPage() {
       <motion.nav style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72,
         display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 64px",
-        background: scrolled ? "rgba(248,250,252,0.97)" : "transparent",
+        /* En haut de page la barre était transparente sur une photo de bureau
+           très claire : les liens gris et le nom violet s'y perdaient. Voile
+           dégradé tant qu'on n'a pas défilé. */
+        background: scrolled ? "rgba(248,250,252,0.97)" : "linear-gradient(180deg, rgba(5,5,20,0.72) 0%, rgba(5,5,20,0.30) 62%, transparent 100%)",
         backdropFilter: scrolled ? "blur(12px)" : "none",
         borderBottom: scrolled ? `1px solid ${C.border}` : "none",
         transition: "all 0.4s ease",
@@ -289,7 +292,7 @@ export default function PixelRepublicPage() {
           )}
         </div>
         <div id="mb25-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
-            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.94)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href="#contact" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", fontFamily: FONT }} whileHover={{ background: C.accentDark }}>
             Démarrer un projet
@@ -309,7 +312,7 @@ export default function PixelRepublicPage() {
       {mobileOpen && (
         <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 99, background: "rgba(255,255,255,0.98)", borderBottom: "1px solid #e5e5e5", padding: "24px 32px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(12px)" }}>
           {NAV.map(({ l, h }) => (
-            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.8)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
+            <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.94)", fontSize: 14, fontWeight: 500, textDecoration: "none" }}>{l}</a>
           ))}
           <motion.a href="#contact" style={{ background: C.accent, color: C.white, borderRadius: 8, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", fontFamily: FONT }} whileHover={{ background: C.accentDark }}>
             Démarrer un projet
@@ -326,6 +329,10 @@ export default function PixelRepublicPage() {
         @media (max-width: 640px) {
           .imx25-hero { align-items: flex-start !important; height: auto !important; min-height: 100dvh !important; }
           .imx25-hero-content { padding-top: 96px !important; padding-bottom: 48px !important; }
+          /* Le voile était sombre en bas, là où le texte se tenait sur grand
+             écran. Ici le texte remonte en haut, sur la partie claire de la
+             photo : le voile remonte avec lui. */
+          .imx25-voile { background: linear-gradient(to bottom, rgba(5,5,20,0.90) 0%, rgba(5,5,20,0.62) 55%, rgba(5,5,20,0.30) 100%) !important; }
         }
       `}</style>
 
@@ -334,7 +341,7 @@ export default function PixelRepublicPage() {
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src={photo(3, "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1920&q=80")} alt="Agence web Pixel Republic Paris" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(5,5,20,0.93) 0%, rgba(5,5,20,0.48) 45%, rgba(5,5,20,0.10) 100%)" }} />
+        <div className="imx25-voile" style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(5,5,20,0.94) 0%, rgba(5,5,20,0.70) 45%, rgba(5,5,20,0.32) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}20 0%, transparent 55%)` }} />
 
         <motion.div className="imx25-hero-content md:!px-20" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 780, y: heroTextY, opacity: heroOpacity }}>
@@ -344,7 +351,7 @@ export default function PixelRepublicPage() {
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 530 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
-            Pixel Republic crée des sites web, applications et identités visuelles qui convertissent. Stratégie, design, développement — une seule équipe, de A à Z.
+            {clientName(sessionData) ?? "Pixel Republic"} crée des sites web, applications et identités visuelles qui convertissent. Stratégie, design, développement — une seule équipe, de A à Z.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -544,7 +551,7 @@ export default function PixelRepublicPage() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-          <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 Pixel Republic — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 {clientName(sessionData) ?? "Pixel Republic"} — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="/templates/impact-25/legal" style={{ color: "rgba(255,255,255,0.20)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

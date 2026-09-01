@@ -187,7 +187,9 @@ export default function Home() {
   return (
     <div ref={containerRef} className="relative w-full overflow-hidden">
       {/* Hero */}
-      <section className="min-h-dvh flex flex-col relative pt-[72px] overflow-hidden">
+      {/* La barre fixe mesure 80 px ; le dégagement en valait 72, et le
+          libellé « Paris · Founded 2008 » passait dessous. */}
+      <section className="min-h-dvh flex flex-col relative pt-[104px] overflow-hidden">
         <div className="flex-1 relative overflow-hidden">
           <motion.div style={{ y: heroY, scale: heroScale }} className="absolute inset-0">
             <Image

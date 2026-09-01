@@ -268,7 +268,7 @@ return (
               <span className="text-[#1A1510] tracking-wide text-lg font-medium" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Kéops"))}</span>
             )}
           </div>
-          <div className="hidden md:flex items-center gap-8 text-[#1A1510]/60 text-sm font-medium">
+          <div className="hidden md:flex items-center gap-8 text-[#1A1510]/85 text-sm font-medium">
             {[
               { name: "Projets", key: "projets" },
               { name: "Services", key: "services" },
@@ -286,7 +286,7 @@ return (
               </a>
             ))}
           </div>
-          <button onClick={() => goTo("contact")} className="hidden md:inline-flex border border-[var(--brand,#C46A3E)] text-[var(--brand,#C46A3E)] text-sm px-5 py-2.5 rounded-xl hover:bg-[var(--brand,#C46A3E)] hover:text-white transition-all cursor-pointer font-medium">
+          <button onClick={() => goTo("contact")} className="hidden md:inline-flex bg-[var(--brand,#C46A3E)] text-white text-sm px-5 py-2.5 rounded-xl hover:opacity-90 transition-all cursor-pointer font-medium">
             Nous contacter
           </button>
           <button className="md:hidden text-[#1A1510] cursor-pointer" onClick={() => setMobileOpen(true)}><Menu className="w-5 h-5" /></button>
@@ -339,12 +339,15 @@ return (
             <section id="hero" ref={heroRef} className="relative h-dvh overflow-hidden">
               <motion.div className="absolute inset-0" style={{ y: heroY }}>
                 <Image src={photo(6, "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=1600&q=85")} alt="Kéops Architecture" fill className="object-cover" priority />
-                <div className="absolute inset-0 bg-gradient-to-b from-[#1A1510]/50 to-[#F5F2ED]/80" />
+                {/* Le texte du héros est blanc et il est posé EN BAS ; le voile
+                    allait vers le crème et l'y noyait. Il va maintenant vers le
+                    sombre, du côté où se trouvent le titre et le libellé. */}
+                <div className="absolute inset-0 bg-gradient-to-b from-[#1A1510]/45 via-[#1A1510]/30 to-[#1A1510]/85" />
               </motion.div>
               <motion.div className="relative z-10 h-full flex items-end pb-20 px-6" style={{ opacity: heroOpacity }}>
                 <div className="max-w-6xl mx-auto w-full">
                   <Reveal>
-                    <p className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4">Agence d'architecture · {clientCity(sessionData) ?? "Paris"}</p>
+                    <p className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4" style={{ textShadow: "0 1px 8px rgba(26,21,16,0.9)" }}>Agence d'architecture · {clientCity(sessionData) ?? "Paris"}</p>
                   </Reveal>
                   <Reveal delay={0.1}>
                     <h1 className="text-white text-7xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>{clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Kéops"))}</>}</h1>
