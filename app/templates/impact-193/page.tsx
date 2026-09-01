@@ -213,7 +213,7 @@ export default function OsteoGaiaPage() {
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (/* NOM_LOGO */ clientName(sessionData) ? (
-              <div className={`font-bold text-sm ${scrolled ? "text-[#3a2e28]" : "text-white"}`} style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Libre Baskerville', Georgia, serif" }}>{clientName(sessionData)}</div>
+              <div className={`font-bold text-sm ${scrolled ? "text-[#3a2e28]" : "text-white"}`} style={{ textShadow: "0 1px 6px rgba(20,14,10,0.85)", fontFamily: "'Libre Baskerville', Georgia, serif" }}>{clientName(sessionData)}</div>
             ) : (<>
               <>
                 <div className={`font-bold text-sm ${scrolled ? "text-[#3a2e28]" : "text-white"}`} style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>{clientName(sessionData) ?? "Ostéo Gaïa"}</div>
@@ -221,13 +221,13 @@ export default function OsteoGaiaPage() {
               </>
             </>))}
           </div>
-          <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#3a2e28]/30">
+          <div className={`hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] ${scrolled ? "text-[#3a2e28]/70" : "text-white/90"}`}>
             {NAV.map(({ l, h }) => (
               <Link key={l} href={h} className="hover:text-[var(--brand,#c26b4c)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0467891234").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#c26b4c)] font-bold text-sm">
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0467891234").replace(/[^+0-9]/g, "")}`} className={`hidden md:flex items-center gap-2 font-bold text-sm ${scrolled ? "text-[var(--brand,#c26b4c)]" : "text-white"}`}>
               <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 67 89 12 34"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#c26b4c)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#a85a3c] transition-colors rounded-lg">

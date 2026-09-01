@@ -236,7 +236,9 @@ export default function ThermotekChauffagePage() {
               </>
             )}
           </div>
-          <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-white/35">
+          {/* 35 % de blanc sur une chaudière grise : les liens se devinaient plus
+              qu'ils ne se lisaient. */}
+          <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-white/90">
             {NAV.map(({ l, h }) => (
               <Link key={l} href={h} className="hover:text-[var(--brand,#ea580c)] transition-colors">{l}</Link>
             ))}
@@ -418,7 +420,7 @@ export default function ThermotekChauffagePage() {
                   <div className="font-bold mb-2 flex items-center gap-2">
                     <MapPin className="w-4 h-4 text-[var(--brand,#ea580c)]" />{z.v}
                   </div>
-                  <p className="text-sm text-white/40">{z.d}</p>
+                  <p className="text-sm text-white/70">{z.d}</p>
                 </div>
               </Reveal>
             ))}
@@ -496,7 +498,7 @@ export default function ThermotekChauffagePage() {
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
           <span>© 2026 {clientName(sessionData) ?? "Thermotek Chauffage"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 345 678 901 00034"} · RGE Qualibat · QualiPAC · Assurance Décennale{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
-          <span className="text-[var(--brand,#ea580c)]/30">{clientTrade(sessionData) ?? "Chauffagiste"} certifié · {clientCity(sessionData) ?? "Bordeaux"}</span>
+          <span className="text-[var(--brand,#ea580c)]/70">{clientTrade(sessionData) ?? "Chauffagiste"} certifié · {clientCity(sessionData) ?? "Bordeaux"}</span>
         </div>
       </footer>
     </div>

@@ -208,7 +208,7 @@ export default function JardinsVivantsPage() {
   return (
     <div className="bg-[#fafaf7] text-[#1e2a1c] overflow-x-hidden" style={{ fontFamily: "'Source Sans 3', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#fafaf7]/98 backdrop-blur-xl py-3 shadow-sm border-b border-[var(--brand,#2d5a27)]/10" : "bg-transparent py-7"}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#fafaf7]/98 backdrop-blur-xl py-3 shadow-sm border-b border-[var(--brand,#2d5a27)]/10" : "bg-gradient-to-b from-[#0f1a0d]/78 via-[#0f1a0d]/34 to-transparent py-7"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             {fd?.logoBase64 ? (
@@ -221,19 +221,21 @@ export default function JardinsVivantsPage() {
               <>
                 <Leaf className="w-5 h-5 text-[var(--brand,#2d5a27)]" />
                 <div>
-                  <div className="font-bold text-[#1e2a1c] text-sm leading-tight" style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Cardo', Georgia, serif" }}>{clientName(sessionData) ?? "Jardins Vivants"}</div>
-                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2d5a27)]/50">{clientTrade(sessionData) ?? "Paysagiste"} · {clientCity(sessionData) ?? "Annecy"}</div>
+                  <div className={`font-bold text-sm leading-tight ${scrolled ? "text-[#1e2a1c]" : "text-white"}`} style={{ textShadow: "0 1px 6px rgba(15,26,13,0.9)", fontFamily: "'Cardo', Georgia, serif" }}>{clientName(sessionData) ?? "Jardins Vivants"}</div>
+                  <div className={`text-[10px] font-bold uppercase tracking-[0.3em] ${scrolled ? "text-[var(--brand,#2d5a27)]/70" : "text-white/80"}`}>{clientTrade(sessionData) ?? "Paysagiste"} · {clientCity(sessionData) ?? "Annecy"}</div>
                 </div>
               </>
             )}
           </div>
-          <div className="hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] text-[#1e2a1c]/30">
+          {/* Les liens étaient écrits à 30 % d'opacité : sur la photo de terreau,
+              ils n'existaient pas. */}
+          <div className={`hidden lg:flex gap-9 text-[10px] font-bold uppercase tracking-[0.22em] ${scrolled ? "text-[#1e2a1c]/70" : "text-white/90"}`}>
             {NAV.map(({ l, h }) => (
               <Link key={l} href={h} className="hover:text-[var(--brand,#2d5a27)] transition-colors">{l}</Link>
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0450123456").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#2d5a27)] font-bold text-sm">
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0450123456").replace(/[^+0-9]/g, "")}`} className={`hidden md:flex items-center gap-2 font-bold text-sm ${scrolled ? "text-[var(--brand,#2d5a27)]" : "text-white"}`}>
               <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "04 50 12 34 56"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#2d5a27)] text-white text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#1f3e1b] transition-colors rounded-lg">

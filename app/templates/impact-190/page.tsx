@@ -197,7 +197,8 @@ export default function AutoExpertPage() {
               </>
             )}
           </div>
-          <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.25em] text-[#f1f3f5]/25">
+          {/* 25 % de blanc sur une photo d'atelier sombre : illisible. */}
+          <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.25em] text-[#f1f3f5]/90">
             {NAV.map(({ l, h }) => (
               <Link key={l} href={h} className="hover:text-[var(--brand,#dc2626)] transition-colors">{l}</Link>
             ))}
@@ -376,7 +377,7 @@ export default function AutoExpertPage() {
                   <div className="font-black uppercase mb-3 flex items-center gap-2">
                     <Zap className="w-4 h-4 text-[var(--brand,#dc2626)]" />{e.t}
                   </div>
-                  <p className="text-sm text-white/45 leading-relaxed">{e.d}</p>
+                  <p className="text-sm text-white/72 leading-relaxed">{e.d}</p>
                 </div>
               </Reveal>
             ))}
