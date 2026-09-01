@@ -74,7 +74,13 @@ for (const [etat, url] of [["vitrine", ""], ["client", "?session=v"]]) {
             })
             .sort((a, b) => b.getBoundingClientRect().width - a.getBoundingClientRect().width)[0] ?? conteneur
         : null;
-      const boite = (e) => { if (!e) return null; const b = e.getBoundingClientRect();
+      /* Un élément à opacité nulle — le titre d'une surimpression qui n'apparaît
+         qu'au défilement — se mesurait contre ce qu'il ne cache pas encore.
+         impact-211 tombait ainsi à 1,5 sur un titre que personne ne voit. */
+      const invisible = (e) => { for (let n = e; n; n = n.parentElement) {
+        const s = getComputedStyle(n);
+        if (parseFloat(s.opacity) < 0.05 || s.visibility === "hidden" || s.display === "none") return true; } return false; };
+      const boite = (e) => { if (!e || invisible(e)) return null; const b = e.getBoundingClientRect();
         return { x: Math.max(0, b.x), y: Math.max(0, b.y), w: Math.min(b.width, innerWidth), h: Math.min(b.height, 300), c: getComputedStyle(e).color.match(/\d+/g).map(Number) }; };
       return {
         apostrophes: (txt.match(/\\'/g) || []).length,

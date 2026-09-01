@@ -492,7 +492,9 @@ function HeroSection() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to bottom, rgba(7,24,41,0.52) 0%, rgba(7,24,41,0.12) 35%, rgba(7,24,41,0.50) 68%, rgba(7,24,41,0.92) 100%)',
+            /* Le creux du voile à 35 % tombait sur le titre, posé au-dessus
+               d'un fauteuil dentaire blanc : mesuré 1,7. */
+            'linear-gradient(to bottom, rgba(7,24,41,0.66) 0%, rgba(7,24,41,0.58) 35%, rgba(7,24,41,0.66) 68%, rgba(7,24,41,0.92) 100%)',
         }}
       />
       <div

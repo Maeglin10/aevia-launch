@@ -580,6 +580,11 @@ export default function Impact211Page() {
         @keyframes fadeIn { from { opacity: 0 } to { opacity: 1 } }
       
         /* mobile: stack 2-col grids to single column (added by responsive fix) */
+        /* L'assiette est dessinée à 320 px ; sur un écran de 390, elle descend
+           jusque sous le nom du restaurant. */
+        @media (max-width: 768px) {
+          .i211-assiette { width: 232px !important; height: 232px !important; }
+        }
         @media (max-width: 768px) {
           .imx-mobstack { grid-template-columns: 1fr !important; }
         }
@@ -728,6 +733,7 @@ export default function Impact211Page() {
             initial={{ scale: 0.7, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
+            className="i211-assiette"
             style={{
               width: 320,
               height: 320,
@@ -899,6 +905,11 @@ export default function Impact211Page() {
           }}>{<>{clientHeroLine(sessionData, 0, 2, 14) ?? "Une expérience"}<br />{clientHeroLine(sessionData, 1, 2, 14) ?? "hors du temps"}</>}</h1>
         </motion.div>
 
+        {/* L'assiette est claire et, sur téléphone, elle descend jusque sous le
+            nom du restaurant. Un voile qui monte du bas rend au texte son fond
+            sombre sans cacher le dessin. */}
+        <div aria-hidden style={{ position: "absolute", left: 0, right: 0, bottom: 0, height: "46%", zIndex: 3, background: "linear-gradient(to top, rgba(13,11,8,0.96) 0%, rgba(13,11,8,0.90) 45%, rgba(13,11,8,0.55) 75%, transparent 100%)", pointerEvents: "none" }} />
+
         {/* Initial hero text */}
         <motion.div
           style={{
@@ -921,6 +932,9 @@ export default function Impact211Page() {
             fontWeight: 300,
             color: C.cream,
             marginBottom: "0.5rem",
+            /* À 390 px l'assiette occupe le centre et le nom, écrit en crème,
+               se posait dessus. */
+            textShadow: "0 2px 14px rgba(13,11,8,0.92), 0 0 3px rgba(13,11,8,0.8)",
           }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maison Éclat"))}</>}</p>
           <p style={{ ...eyebrowStyle, textAlign: "center", marginBottom: "2rem" }}>
             7ème arrondissement · {clientCity(sessionData) ?? "Paris"}
