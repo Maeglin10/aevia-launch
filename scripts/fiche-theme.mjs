@@ -27,7 +27,10 @@ const rapport = [];
 
 for (const [etat, url] of [["vitrine", ""], ["client", "?session=v"]]) {
   for (const [nom, w, h] of [["1280", 1280, 900], ["390", 390, 844]]) {
-    const ctx = await nav.newContext({ viewport: { width: w, height: h } });
+    /* Le navigateur de mesure parlait anglais : les thèmes qui se traduisent
+       à l'exécution restaient donc en anglais sous l'objectif, et l'on croyait
+       à un défaut du thème. La boutique est française — on mesure en français. */
+    const ctx = await nav.newContext({ viewport: { width: w, height: h }, locale: "fr-FR" });
     await ctx.route("**/api/sessions**", (r) => r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(S) }));
     const p = await ctx.newPage();
     const morts = [];

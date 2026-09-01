@@ -225,16 +225,18 @@ export default function VerdantImpactPage() {
             <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center">
               <Leaf className="w-5 h-5 text-white" />
             </div>
-            <span className="text-xl font-bold tracking-tight">{/* NOM_LOGO */ clientName(sessionData) ?? (<>Verdant</>)}</span>
+            <span className={`text-xl font-bold tracking-tight ${scrolled ? "" : "text-white drop-shadow-[0_1px_6px_rgba(10,26,10,0.9)]"}`}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>Verdant</>)}</span>
           </>
             )}</Link>
-          <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#1a2e1a)]/40">
+          {/* Les liens étaient à 40 % d'opacité : invisibles sur la forêt tant
+              qu'on n'a pas défilé. */}
+          <div className={`hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] ${scrolled ? "text-[var(--brand,#1a2e1a)]/60" : "text-white/90 drop-shadow-[0_1px_6px_rgba(10,26,10,0.9)]"}`}>
             {["Impact", "Programs", "Pricing", "About", "Contact"].map(l => (
               <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="hover:text-emerald-600 transition-colors">{l}</a>
             ))}
           </div>
           <div className="flex items-center gap-4">
-            <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="hidden md:block px-6 py-2.5 text-[var(--brand,#1a2e1a)]/60 text-[10px] font-bold uppercase tracking-widest hover:text-emerald-600 transition-colors">Log In</button>
+            <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className={`hidden md:block px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:text-emerald-600 transition-colors ${scrolled ? "text-[var(--brand,#1a2e1a)]/60" : "text-white/90"}`}>Log In</button>
             <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="hidden md:block px-6 py-2.5 bg-emerald-600 text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:bg-emerald-700 transition-colors">{tr({ formData: fd }, "Get Started")}</button>
             <Sheet>
               <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6" /></SheetTrigger>
@@ -255,7 +257,9 @@ export default function VerdantImpactPage() {
         <section id="hero" className="relative h-[100dvh] min-h-[640px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
             <Image src={photo(3, "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&q=80&w=2400")} alt="Forest" fill className="object-cover" priority />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#f6faf4] via-[#f6faf4]/20 to-transparent" />
+            {/* Le titre est vert sombre : il ne tient que sur la partie crème du voile,
+                et celle-ci s'arrêtait trop bas. */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#f6faf4] via-[#f6faf4]/78 to-transparent" />
           </motion.div>
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1400px] w-full mx-auto px-6 md:px-12 pb-24">
             <Reveal delay={0.15} y={60}>
