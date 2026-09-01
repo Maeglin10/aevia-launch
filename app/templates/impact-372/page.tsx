@@ -575,6 +575,9 @@ export default function HorizonProtectionPage() {
           box-shadow: 0 60px 120px -60px rgba(16,26,44,0.6);
           padding: clamp(22px, 2.8vw, 38px);
         }
+        /* Sous 620 px, le libellé du métier vole la place au nom du client,
+           qui se casse alors en trois morceaux dans la barre. */
+        @media (max-width: 620px) { .i372-metier { display: none !important; } }
         @media (max-width: 900px) {
           .i372-herosec { display: block !important; }
           .i372-cadre { position: absolute; inset: 0 0 auto 0; top: 0; left: 0; height: 42dvh; }
@@ -621,7 +624,11 @@ export default function HorizonProtectionPage() {
           alignItems: "center",
           justifyContent: "space-between",
           padding: scrolled ? "12px clamp(20px,5vw,56px)" : "22px clamp(20px,5vw,56px)",
-          background: scrolled ? "rgba(244,247,250,0.92)" : "transparent",
+          /* Transparente sur une photo de rue très claire, la barre laissait
+             disparaître le nom et le libellé du métier. Un voile les porte. */
+          background: scrolled
+            ? "rgba(244,247,250,0.92)"
+            : "linear-gradient(180deg, rgba(10,20,34,0.60) 0%, rgba(10,20,34,0.26) 65%, transparent 100%)",
           backdropFilter: scrolled ? "blur(14px) saturate(140%)" : "none",
           WebkitBackdropFilter: scrolled ? "blur(14px) saturate(140%)" : "none",
           borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,
@@ -644,7 +651,9 @@ export default function HorizonProtectionPage() {
                   fontWeight: 600,
                   fontSize: 19,
                   letterSpacing: "0.01em",
-                  color: C.ink,
+                  /* Le nom suit l'état de défilement, comme le fond de la barre :
+                     sombre il disparaissait sur la photo de rue. */
+                  color: scrolled ? C.ink : "#fff",
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
@@ -653,11 +662,12 @@ export default function HorizonProtectionPage() {
                 {nom}
               </span>
               <span
+                className="i372-metier"
                 style={{
                   fontSize: 9,
                   letterSpacing: "0.32em",
                   textTransform: "uppercase",
-                  color: C.textFaint,
+                  color: scrolled ? C.textFaint : "rgba(255,255,255,0.78)",
                   marginLeft: 8,
                   whiteSpace: "nowrap",
                 }}

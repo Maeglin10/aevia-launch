@@ -134,7 +134,11 @@ function detacherLesTextesDuClient(
       const opaque = alpha
         ? (alpha[1].split(",")[3] === undefined || parseFloat(alpha[1].split(",")[3]) >= 0.85)
         : Boolean(fond && fond !== "transparent");
-      if (s.backgroundImage && s.backgroundImage !== "none") return true;
+      /* Un dégradé CSS n'est pas une photographie : il ne peut pas rendre un
+         texte illisible comme le ferait une image. Les compter ensemble faisait
+         repeindre le nom du client dès qu'on posait un voile sous la barre —
+         et le voile existe précisément pour le rendre lisible. */
+      if (s.backgroundImage && s.backgroundImage !== "none" && /url\(/.test(s.backgroundImage)) return true;
       /* L'image doit vraiment passer DERRIÈRE le texte, pas seulement vivre
          quelque part dans le même ancêtre. */
       for (const img of Array.from(n.querySelectorAll?.("img") ?? [])) {
@@ -179,6 +183,19 @@ function detacherLesTextesDuClient(
       cents pixels dès que la donnée du client était plus longue que prévu.
     */
     ajusterAuCadre(e);
+
+    /*
+      Jamais dans une barre fixe. Sa couleur est déjà pilotée par le thème et
+      change au défilement ; y recopier celle du titre du héros — choisie pour
+      la carte blanche où ce titre se pose — repeignait le nom du client en
+      bleu nuit sur une photo claire. Mesuré sur impact-372.
+    */
+    let dansBarre = false;
+    for (let n: Element | null = e, i = 0; i < 6 && n; i++, n = n.parentElement) {
+      const pos = getComputedStyle(n).position;
+      if (pos === "fixed" || pos === "sticky") { dansBarre = true; break; }
+    }
+    if (dansBarre) continue;
 
     if (!surUneImage(e)) continue;
     // Une ombre déjà posée n'empêche pas de corriger la couleur : ce sont deux
