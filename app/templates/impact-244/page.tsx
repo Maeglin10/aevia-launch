@@ -375,7 +375,10 @@ function AccentButton({
     fontWeight: 500,
     cursor: 'pointer',
     border: `1px solid ${C.accent}`,
-    background: filled ? C.accent : 'transparent',
+    /* Blanc sur le saumon du thème : 3,1 mesuré, sous le seuil de 4,5 pour
+       un libellé de 11,5 px. On assombrit le fond de 18 % — cela marche aussi
+       avec la couleur que choisira le client. */
+    background: filled ? `linear-gradient(rgba(0,0,0,0.20), rgba(0,0,0,0.20)), ${C.accent}` : 'transparent',
     color: filled ? C.white : C.accent,
     transition: 'all .5s cubic-bezier(.16,1,.3,1)',
   };

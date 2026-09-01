@@ -224,6 +224,9 @@ export default function TrajectoiresRhPage() {
         }
 
         @media (max-width: 900px) { #i382-nav { display: none !important; } .i382-burger { display: flex !important; } }
+        /* Sous 620 px, l'étiquette « Recrutement » disputait la largeur au nom :
+           « Trajectoires RH » se cassait en trois morceaux. */
+        @media (max-width: 620px) { .i382-tag { display: none !important; } }
           .aevia-action-mobile { display: inline-flex !important; }
         @media (max-width: 860px) {
           .i382-hero { grid-template-columns: 1fr !important; padding: 118px 24px 46px !important; gap: 34px !important; }
@@ -244,8 +247,8 @@ export default function TrajectoiresRhPage() {
           ) : (
             <>
               <Users size={18} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Trajectoires RH")}</span>
-              <span style={{ fontSize: 10, letterSpacing: 2.2, textTransform: "uppercase", color: C.textMuted, marginLeft: 6 }}>Recrutement</span>
+              <span style={{ fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", wordBreak: "keep-all", overflow: "hidden", textOverflow: "ellipsis", minWidth: 0 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Trajectoires RH")}</span>
+              <span className="i382-tag" style={{ fontSize: 10, letterSpacing: 2.2, textTransform: "uppercase", color: C.text, opacity: 0.75, marginLeft: 6, whiteSpace: "nowrap" }}>Recrutement</span>
             </>
           )}
         </div>

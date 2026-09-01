@@ -39,6 +39,18 @@ for (const [etat, url] of [["vitrine", ""], ["client", "?session=v"]]) {
     p.on("pageerror", (e) => erreurs.push(String(e).split("\n")[0].slice(0, 70)));
     await p.goto(`http://localhost:3000/templates/${t}${url}`, { waitUntil: "domcontentloaded", timeout: 180000 });
     await p.waitForTimeout(3800);
+    /* Le bandeau cookies couvre le bas de l'écran. La jauge lit la couleur du
+       fond DANS la capture : un titre caché derrière le bandeau se mesurait
+       contre le bandeau — impact-363 tombait ainsi à 1,13 alors qu'il est noir
+       sur blanc. On le referme avant de mesurer, comme le ferait un visiteur. */
+    for (const libelle of ["Tout refuser", "Tout accepter"]) {
+      const b = p.locator(`button:has-text("${libelle}")`).first();
+      if (await b.count().then((n) => n > 0).catch(() => false)) {
+        await b.click({ timeout: 2000 }).catch(() => {});
+        break;
+      }
+    }
+    await p.waitForTimeout(900);
 
     const r = await p.evaluate((nomClient) => {
       const txt = (document.body.innerText || "").replace(/\s+/g, " ");

@@ -498,7 +498,9 @@ function HeroSection() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to bottom, rgba(13,13,13,0.52) 0%, rgba(13,13,13,0.12) 38%, rgba(13,13,13,0.50) 70%, rgba(13,13,13,0.90) 100%)',
+            /* Titre et accroche sont écrits en or ; le creux du voile à 38 %
+               les posait sur un lustre doré. Mesuré 1,3. */
+            'linear-gradient(to bottom, rgba(13,13,13,0.62) 0%, rgba(13,13,13,0.60) 38%, rgba(13,13,13,0.72) 70%, rgba(13,13,13,0.92) 100%)',
         }}
       />
       {/* Voile radial latéral */}
@@ -507,7 +509,7 @@ function HeroSection() {
           position: 'absolute',
           inset: 0,
           background:
-            'radial-gradient(110% 90% at 50% 40%, transparent 40%, rgba(13,13,13,0.50) 100%)',
+            'radial-gradient(110% 90% at 50% 40%, rgba(13,13,13,0.18) 40%, rgba(13,13,13,0.58) 100%)',
           mixBlendMode: 'multiply',
         }}
       />
