@@ -71,7 +71,7 @@ function GRID_PHOTOS_DEMO_LIVE() {
   return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
   {
     id: 1,
-    src: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/12869715/pexels-photo-12869715.jpeg?auto=compress&cs=tinysrgb&w=1600"),
+    src: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/37266552/pexels-photo-37266552.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     category: "Landscape",
     title: "Alpine Meridian",
     aspect: "aspect-[3/4]",
