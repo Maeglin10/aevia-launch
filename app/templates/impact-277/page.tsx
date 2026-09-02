@@ -221,8 +221,11 @@ function PrimaryButton({
       ? C.electricMid
       : C.electric
     : 'transparent';
-  const col = yellow ? C.dark : filled ? C.white : C.electric;
-  const border = yellow ? C.yellow : C.electric;
+  /* Le bouton en contour se pose sur le héros, qui est bleu nuit : écrit dans
+     le bleu du thème, son libellé y disparaissait. En contour, il s'écrit en
+     blanc et se borde de blanc. */
+  const col = yellow ? C.dark : filled ? C.white : C.white;
+  const border = yellow ? C.yellow : filled ? C.electric : 'rgba(255,255,255,0.75)';
 
   const base: React.CSSProperties = {
     display: 'inline-flex',
