@@ -270,7 +270,11 @@ function Nav() {
     padding: solid
       ? '14px clamp(20px,5vw,64px)'
       : '24px clamp(20px,5vw,64px)',
-    background: solid ? 'rgba(74,20,32,0.94)' : 'transparent',
+    /* Le fronton du palais est en pierre claire : l'or du bouton et le nom
+       s'y perdaient tant qu'on n'avait pas défilé. */
+    background: solid
+      ? 'rgba(74,20,32,0.94)'
+      : 'linear-gradient(180deg, rgba(74,20,32,0.72) 0%, rgba(74,20,32,0.30) 65%, transparent 100%)',
     backdropFilter: solid ? 'blur(14px) saturate(120%)' : 'none',
     WebkitBackdropFilter: solid ? 'blur(14px) saturate(120%)' : 'none',
     borderBottom: solid
@@ -473,7 +477,9 @@ function HeroSection() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to bottom, rgba(74,20,32,0.55) 0%, rgba(74,20,32,0.10) 38%, rgba(74,20,32,0.50) 68%, rgba(74,20,32,0.92) 100%)',
+            /* Le palais de justice est en pierre claire et le creux du voile
+               à 38 % tombait sur le titre : 2,2 mesuré. */
+            'linear-gradient(to bottom, rgba(74,20,32,0.76) 0%, rgba(74,20,32,0.72) 38%, rgba(74,20,32,0.78) 68%, rgba(74,20,32,0.94) 100%)',
         }}
       />
       <div

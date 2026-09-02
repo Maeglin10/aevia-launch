@@ -1169,7 +1169,11 @@ export default function Page() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          background: scrolled ? 'rgba(250,248,245,0.95)' : 'transparent',
+          /* La photo du salon est très claire : l'or du sous-titre et les liens
+             gris s'y perdaient. Un voile clair les repose sur un fond stable. */
+          background: scrolled
+            ? 'rgba(250,248,245,0.95)'
+            : 'linear-gradient(180deg, rgba(250,248,245,0.92) 0%, rgba(250,248,245,0.62) 62%, rgba(250,248,245,0) 100%)',
           backdropFilter: scrolled ? 'blur(12px)' : 'none',
           borderBottom: scrolled ? `1px solid ${GRAY_LIGHT}` : 'none',
           transition: 'all 0.3s ease',
@@ -1183,7 +1187,9 @@ export default function Page() {
           <span style={{ ...headingFont, fontSize: '20px', color: DARK, letterSpacing: '0.06em' }}>
             L'Atelier
           </span>
-          <span style={{ ...bodyFont, fontSize: '9px', color: GOLD, letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginTop: '-2px' }}>
+          {/* 9 px en or sur crème : 2,6 mesuré. Ce sous-titre s'écrit dans le
+              brun du thème, l'or restant celui des filets et des chiffres. */}
+          <span style={{ ...bodyFont, fontSize: '9px', color: DARK, opacity: 0.78, letterSpacing: '0.2em', textTransform: 'uppercase', display: 'block', marginTop: '-2px' }}>
             Coiffure & Beauté
           </span>
         </>)}</div>
