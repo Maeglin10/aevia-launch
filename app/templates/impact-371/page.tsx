@@ -515,6 +515,7 @@ export default function SentinellePage() {
   return (
     <div style={{ background: C.bg, color: C.ink, fontFamily: BODY, overflowX: "clip" }}>
       <style>{`
+        @media (max-width: 700px) { .i371-metier { display: none !important; } }
         @import url('https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,500;0,600;0,700;0,800;1,600&family=Inter:wght@300;400;500;600&display=swap');
 
         .i371-navrow { display: flex; gap: clamp(16px,2vw,30px); align-items: center; }
@@ -612,7 +613,7 @@ export default function SentinellePage() {
           transition: `padding .55s ${EASE_CSS}, background .55s ${EASE_CSS}, border-color .55s ${EASE_CSS}, backdrop-filter .55s ${EASE_CSS}`,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 11, minWidth: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", flexWrap: "nowrap", gap: 11, minWidth: 0, maxWidth: "62vw" }}>
           {fd?.logoBase64 ? (
             <img
               src={fd.logoBase64}
@@ -636,7 +637,10 @@ export default function SentinellePage() {
               >
                 {nom}
               </span>
+              {/* Sous 700 px, l'étiquette du métier gonflait la barre et cassait
+                  le nom en deux lignes. */}
               <span
+                className="i371-metier"
                 style={{
                   fontSize: 9.5,
                   letterSpacing: "0.30em",
@@ -644,6 +648,7 @@ export default function SentinellePage() {
                   color: C.textFaint,
                   marginLeft: 8,
                   whiteSpace: "nowrap",
+                  flexShrink: 0,
                 }}
               >
                 {metier}
