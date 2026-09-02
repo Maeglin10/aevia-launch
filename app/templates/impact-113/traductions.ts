@@ -10,6 +10,11 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "infrastructure for the": "L'infrastructure du",
+    "our custom runtime is written in rust and boots in under 1ms. by eliminating cold starts and running your code within our global edge network, your users get instant responses no matter where they are.": "Notre moteur d'exécution est écrit en Rust et démarre en moins d'une milliseconde. Sans démarrage à froid, et avec votre code exécuté au plus près dans notre réseau mondial, vos utilisateurs obtiennent une réponse instantanée, où qu'ils soient.",
+    "// runs instantly at the edge": "// S'exécute instantanément au plus près",
+    "nexus completely transformed our infrastructure. we reduced latency by 80% while simultaneously cutting our aws bill in half. it's the rare tool that actually delivers on its marketing promises.": "La plateforme a transformé notre infrastructure : 80 % de latence en moins et une facture d'hébergement divisée par deux. C'est l'outil rare qui tient vraiment ses promesses.",
+    "the security posture out-of-the-box is incredible. getting our soc2 certification was a breeze because nexus handled all the complex compliance requirements natively.": "Le niveau de sécurité par défaut est remarquable. Obtenir notre certification SOC 2 a été simple : la plateforme gérait déjà nativement les exigences les plus lourdes.",
     "a complete platform combining the speed of the edge with the power of serverless, designed for modern development workflows.": "Une plateforme complète combinant la vitesse de l'edge avec la puissance du serverless, conçue pour des flux de travail de développement modernes.",
     "bank-grade encryption at rest and in transit. soc2 type ii, hipaa, and gdpr compliant out of the box.": "Chiffrement de niveau bancaire, au repos comme en transit. Conforme SOC 2 type II, HIPAA et RGPD dès l'installation.",
     "build, deploy, and scale globally distributed applications in seconds. we handle the infrastructure complexity so you can focus on writing code.": "Construisez, déployez et évoluez des applications distribuées à l'échelle mondiale en quelques secondes. Nous gérons la complexité de l'infrastructure afin que vous puissiez vous concentrer sur l'écriture de code.",
@@ -44,6 +49,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what programming languages are supported?": "Quelles langages de programmation sont pris en charge ?",
   },
   es: {
+    "infrastructure for the": "La infraestructura del",
+    "our custom runtime is written in rust and boots in under 1ms. by eliminating cold starts and running your code within our global edge network, your users get instant responses no matter where they are.": "Nuestro motor de ejecución está escrito en Rust y arranca en menos de un milisegundo. Sin arranques en frío y con su código ejecutado en el borde de nuestra red mundial, sus usuarios reciben respuesta instantánea, estén donde estén.",
+    "// runs instantly at the edge": "// Se ejecuta al instante en el borde",
+    "nexus completely transformed our infrastructure. we reduced latency by 80% while simultaneously cutting our aws bill in half. it's the rare tool that actually delivers on its marketing promises.": "La plataforma transformó nuestra infraestructura: un 80 % menos de latencia y la factura de alojamiento a la mitad. Es la herramienta rara que cumple lo que promete.",
+    "the security posture out-of-the-box is incredible. getting our soc2 certification was a breeze because nexus handled all the complex compliance requirements natively.": "El nivel de seguridad por defecto es notable. Conseguir nuestra certificación SOC 2 fue sencillo: la plataforma ya cubría de forma nativa los requisitos más pesados.",
     "a complete platform combining the speed of the edge with the power of serverless, designed for modern development workflows.": "Una plataforma completa que combina la velocidad del edge con el poder del serverless, diseñada para flujos de trabajo de desarrollo modernos.",
     "bank-grade encryption at rest and in transit. soc2 type ii, hipaa, and gdpr compliant out of the box.": "Cifrado de nivel bancario, en reposo y en tránsito. Conforme a SOC 2 tipo II, HIPAA y RGPD desde el primer día.",
     "build, deploy, and scale globally distributed applications in seconds. we handle the infrastructure complexity so you can focus on writing code.": "Construya, despliegue y escale aplicaciones distribuidas globalmente en segundos. Nos encargamos de la complejidad de la infraestructura para que pueda centrarse en escribir código.",
@@ -78,6 +88,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what programming languages are supported?": "¿Qué lenguajes de programación son compatibles?",
   },
   de: {
+    "infrastructure for the": "Die Infrastruktur der",
+    "our custom runtime is written in rust and boots in under 1ms. by eliminating cold starts and running your code within our global edge network, your users get instant responses no matter where they are.": "Unsere Laufzeitumgebung ist in Rust geschrieben und startet in unter einer Millisekunde. Ohne Kaltstarts und mit Ihrem Code am Rand unseres weltweiten Netzes antworten Ihre Nutzer sofort, wo immer sie sind.",
+    "// runs instantly at the edge": "// Läuft sofort am Netzrand",
+    "nexus completely transformed our infrastructure. we reduced latency by 80% while simultaneously cutting our aws bill in half. it's the rare tool that actually delivers on its marketing promises.": "Die Plattform hat unsere Infrastruktur verändert: 80 % weniger Latenz und die Hosting-Rechnung halbiert. Das seltene Werkzeug, das sein Versprechen hält.",
+    "the security posture out-of-the-box is incredible. getting our soc2 certification was a breeze because nexus handled all the complex compliance requirements natively.": "Das Sicherheitsniveau ab Werk ist bemerkenswert. Unsere SOC-2-Zertifizierung war einfach: Die Plattform deckte die aufwendigsten Anforderungen bereits nativ ab.",
     "a complete platform combining the speed of the edge with the power of serverless, designed for modern development workflows.": "Eine vollständige Plattform, die die Geschwindigkeit des Edge mit der Leistung von Serverless kombiniert, entworfen für moderne Entwicklungs-Workflows.",
     "bank-grade encryption at rest and in transit. soc2 type ii, hipaa, and gdpr compliant out of the box.": "Verschlüsselung auf Bankniveau, im Ruhezustand wie bei der Übertragung. SOC 2 Typ II, HIPAA und DSGVO ab Werk.",
     "build, deploy, and scale globally distributed applications in seconds. we handle the infrastructure complexity so you can focus on writing code.": "Bauen, bereitstellen und global verteilte Anwendungen in Sekunden skalieren. Wir kümmern uns um die Infrastrukturkomplexität, damit Sie sich auf das Schreiben von Code konzentrieren können.",
@@ -112,6 +127,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what programming languages are supported?": "Welche Programmiersprachen werden unterstützt?",
   },
   pt: {
+    "infrastructure for the": "A infraestrutura do",
+    "our custom runtime is written in rust and boots in under 1ms. by eliminating cold starts and running your code within our global edge network, your users get instant responses no matter where they are.": "O nosso motor de execução está escrito em Rust e arranca em menos de um milissegundo. Sem arranques a frio e com o seu código executado na periferia da nossa rede mundial, os utilizadores obtêm resposta instantânea, estejam onde estiverem.",
+    "// runs instantly at the edge": "// Executa instantaneamente na periferia",
+    "nexus completely transformed our infrastructure. we reduced latency by 80% while simultaneously cutting our aws bill in half. it's the rare tool that actually delivers on its marketing promises.": "A plataforma transformou a nossa infraestrutura: menos 80 % de latência e a fatura de alojamento a metade. É a ferramenta rara que cumpre o que promete.",
+    "the security posture out-of-the-box is incredible. getting our soc2 certification was a breeze because nexus handled all the complex compliance requirements natively.": "O nível de segurança por omissão é notável. Obter a certificação SOC 2 foi simples: a plataforma já cobria nativamente os requisitos mais pesados.",
     "a complete platform combining the speed of the edge with the power of serverless, designed for modern development workflows.": "Uma plataforma completa que combina a velocidade da edge com o poder do serverless, projetada para fluxos de trabalho de desenvolvimento modernos.",
     "bank-grade encryption at rest and in transit. soc2 type ii, hipaa, and gdpr compliant out of the box.": "Cifragem de nível bancário, em repouso e em trânsito. Conforme SOC 2 tipo II, HIPAA e RGPD desde o início.",
     "build, deploy, and scale globally distributed applications in seconds. we handle the infrastructure complexity so you can focus on writing code.": "Construa, implemente e escale aplicações distribuídas globalmente em segundos. Nós cuidamos da complexidade da infraestrutura para que você possa se concentrar em escrever código.",

@@ -10,6 +10,9 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "\"the patagonia expedition changed my life. not hyperbole — i genuinely made different career and family decisions in the weeks after. meridian creates that kind of space.\"": "« L'expédition en Patagonie a changé ma vie. Ce n'est pas une figure de style : j'ai pris, dans les semaines qui ont suivi, d'autres décisions de carrière et de famille. Ils créent cet espace-là. »",
+    "\"i've done 11 expeditions with various companies. meridian is the only one where the guide knows when to speak and when not to. that's rare and priceless.\"": "« J'ai fait onze expéditions avec différentes agences. C'est la seule où le guide sait quand parler et quand se taire. C'est rare, et ça n'a pas de prix. »",
+    "\"my son and i did the greenland coastal route. he's 14. he still talks about it. i'll never find a better investment of two weeks.\"": "« Mon fils et moi avons fait la côte du Groenland. Il a quatorze ans. Il en parle encore. Je ne trouverai jamais meilleur emploi de deux semaines. »",
     "all expeditions": "Toutes les expéditions",
     "answer the": "Répondre à",
     "applications for 2026 expeditions are now open. limited to 8 per journey.": "Les candidatures pour les expéditions 2026 sont ouvertes. Huit places par voyage.",
@@ -38,6 +41,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view expedition": "Voir l'Expédition",
   },
   es: {
+    "\"the patagonia expedition changed my life. not hyperbole — i genuinely made different career and family decisions in the weeks after. meridian creates that kind of space.\"": "«La expedición a la Patagonia cambió mi vida. No es una figura retórica: en las semanas siguientes tomé otras decisiones de carrera y de familia. Ellos crean ese espacio.»",
+    "\"i've done 11 expeditions with various companies. meridian is the only one where the guide knows when to speak and when not to. that's rare and priceless.\"": "«He hecho once expediciones con distintas agencias. Es la única donde el guía sabe cuándo hablar y cuándo callar. Es raro y no tiene precio.»",
+    "\"my son and i did the greenland coastal route. he's 14. he still talks about it. i'll never find a better investment of two weeks.\"": "«Mi hijo y yo hicimos la costa de Groenlandia. Tiene catorce años. Todavía habla de ello. Nunca encontraré mejor uso para dos semanas.»",
     "all expeditions": "Todas las expediciones",
     "answer the": "Responder a",
     "applications for 2026 expeditions are now open. limited to 8 per journey.": "Las candidaturas para las expediciones de 2026 están abiertas. Ocho plazas por viaje.",
@@ -66,6 +72,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view expedition": "Ver Expedición",
   },
   de: {
+    "\"the patagonia expedition changed my life. not hyperbole — i genuinely made different career and family decisions in the weeks after. meridian creates that kind of space.\"": "„Die Patagonien-Expedition hat mein Leben verändert. Das ist keine Floskel: In den Wochen danach habe ich andere Entscheidungen für Beruf und Familie getroffen. Sie schaffen genau diesen Raum.“",
+    "\"i've done 11 expeditions with various companies. meridian is the only one where the guide knows when to speak and when not to. that's rare and priceless.\"": "„Ich habe elf Expeditionen mit verschiedenen Anbietern gemacht. Nur hier weiß der Guide, wann er spricht und wann nicht. Das ist selten und unbezahlbar.“",
+    "\"my son and i did the greenland coastal route. he's 14. he still talks about it. i'll never find a better investment of two weeks.\"": "„Mein Sohn und ich sind die grönländische Küste gefahren. Er ist vierzehn. Er spricht noch heute davon. Zwei Wochen lassen sich nicht besser anlegen.“",
     "all expeditions": "Alle Expeditionen",
     "answer the": "Beantworten Sie den",
     "applications for 2026 expeditions are now open. limited to 8 per journey.": "Die Bewerbungen für die Expeditionen 2026 sind offen. Acht Plätze pro Reise.",
@@ -94,6 +103,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view expedition": "Expedition ansehen",
   },
   pt: {
+    "\"the patagonia expedition changed my life. not hyperbole — i genuinely made different career and family decisions in the weeks after. meridian creates that kind of space.\"": "«A expedição à Patagónia mudou a minha vida. Não é figura de estilo: nas semanas seguintes tomei outras decisões de carreira e de família. Eles criam esse espaço.»",
+    "\"i've done 11 expeditions with various companies. meridian is the only one where the guide knows when to speak and when not to. that's rare and priceless.\"": "«Fiz onze expedições com várias agências. É a única onde o guia sabe quando falar e quando calar. É raro e não tem preço.»",
+    "\"my son and i did the greenland coastal route. he's 14. he still talks about it. i'll never find a better investment of two weeks.\"": "«Eu e o meu filho fizemos a costa da Gronelândia. Tem catorze anos. Ainda fala nisso. Nunca encontrarei melhor uso para duas semanas.»",
     "all expeditions": "Todas as expedições",
     "answer the": "Responder ao",
     "applications for 2026 expeditions are now open. limited to 8 per journey.": "As candidaturas para as expedições de 2026 estão abertas. Oito lugares por viagem.",

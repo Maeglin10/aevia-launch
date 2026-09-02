@@ -395,7 +395,7 @@ export default function MeridianJourneyPage() {
             <Reveal>
               <div className="mb-20">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#2dd4bf)] block mb-4">Field Experts</span>
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>The <span className="text-[var(--brand,#2dd4bf)]">Guides.</span></>)}</h2>
+                <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>Les <span className="text-[var(--brand,#2dd4bf)]">guides.</span></>)}</h2>
               </div>
             </Reveal>
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
