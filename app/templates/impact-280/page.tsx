@@ -326,7 +326,9 @@ function Nav() {
         ) : (
           <>
             <Heart size={18} color={C.rose} strokeWidth={1.4} fill={C.rose} />
-            Les Épousailles d&apos;Alsace
+            {/* La barre montrait le nom de la démonstration même quand le client
+                a donné le sien : le repli n'était pas branché. */}
+            {clientName(sessionData) ?? "Les Épousailles d'Alsace"}
           </>
         )}
       </div>
