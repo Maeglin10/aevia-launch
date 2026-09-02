@@ -297,7 +297,8 @@ export default function StudioGammePage() {
 
   return (
     <div style={{ background: C.bg, color: C.ink, fontFamily: FONT_BODY, overflowX: "clip", WebkitFontSmoothing: "antialiased" }}>
-      <style>{`${FONTS_CSS}
+      <style>{`
+        @media (max-width: 700px) { .i377-metier { display: none !important; } }${FONTS_CSS}
 
         /*
           ── Héros « liste immédiate » ──────────────────────────────────────
@@ -353,21 +354,23 @@ export default function StudioGammePage() {
           alignItems: "center",
           justifyContent: "space-between",
           padding: scrolled ? "10px clamp(20px,4.5vw,48px)" : "20px clamp(20px,4.5vw,48px)",
-          background: scrolled ? "rgba(248,246,252,0.92)" : "transparent",
+          /* Cette barre porte un texte sombre : voile clair. */
+          background: scrolled ? "rgba(248,246,252,0.92)" : "linear-gradient(180deg, rgba(248,246,252,0.94) 0%, rgba(248,246,252,0.62) 62%, rgba(248,246,252,0) 100%)",
           backdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none",
           WebkitBackdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none",
           borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,
           transition: "all .55s cubic-bezier(.16,1,.3,1)",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", flexWrap: "nowrap", gap: 10, minWidth: 0, maxWidth: "62vw" }}>
           {fd?.logoBase64 ? (
             <img src={fd.logoBase64} alt={nom} style={{ height: 30, maxWidth: 160, objectFit: "contain", display: "block" }} />
           ) : (
             <>
               <Music4 size={18} color={C.accent} style={{ flexShrink: 0 }} />
               <span style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: 18, letterSpacing: "-0.01em", color: C.ink, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{nom}</span>
-              <span style={{ fontSize: 10, letterSpacing: "0.24em", textTransform: "uppercase", color: C.textFaint, marginLeft: 6 }}>{clientTrade(sessionData) ?? "Musiques actuelles"}</span>
+              {/* Sous 700 px, l'étiquette du métier gonflait la barre. */}
+              <span className="i377-metier" style={{ fontSize: 10, letterSpacing: "0.24em", textTransform: "uppercase", whiteSpace: "nowrap", flexShrink: 0, color: C.textFaint, marginLeft: 6 }}>{clientTrade(sessionData) ?? "Musiques actuelles"}</span>
             </>
           )}
         </div>

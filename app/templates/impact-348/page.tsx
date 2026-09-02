@@ -733,6 +733,7 @@ export default function AlmaCompetencesPage() {
   return (
     <div style={{ background: C.bg, color: C.ink, fontFamily: BODY, overflowX: "clip" }}>
       <style>{`
+        @media (max-width: 700px) { .i348-metier { display: none !important; } }
         @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Figtree:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&display=swap');
 
         @media (max-width: 980px) { #i348-nav { display: none !important; } .i348-burger { display: flex !important; } }
@@ -804,21 +805,23 @@ export default function AlmaCompetencesPage() {
           alignItems: "center",
           justifyContent: "space-between",
           padding: "0 clamp(20px, 4vw, 52px)",
-          background: scrolled ? "rgba(251,247,241,0.93)" : "transparent",
+          /* Cette barre porte un texte sombre : voile clair. */
+          background: scrolled ? "rgba(251,247,241,0.93)" : "linear-gradient(180deg, rgba(251,247,241,0.94) 0%, rgba(251,247,241,0.62) 62%, rgba(251,247,241,0) 100%)",
           backdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none",
           WebkitBackdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none",
           borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,
           transition: "all 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", flexWrap: "nowrap", gap: 10, minWidth: 0, maxWidth: "62vw" }}>
           {fd?.logoBase64 ? (
             <img src={fd.logoBase64} alt={nom} style={{ height: 30, maxWidth: 160, objectFit: "contain", display: "block" }} />
           ) : (
             <>
               <Compass size={17} color={C.accent} aria-hidden style={{ flexShrink: 0 }} />
               <span style={{ fontFamily: DISPLAY, fontWeight: 700, letterSpacing: "-0.02em", fontSize: 19, color: C.ink, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{nom}</span>
-              <span style={{ fontFamily: BODY, fontSize: 9.5, letterSpacing: "0.24em", textTransform: "uppercase", color: C.textFaint, marginLeft: 8 }}>Reconversions</span>
+              {/* Sous 700 px, l'étiquette du métier gonflait la barre et cassait le nom. */}
+              <span className="i348-metier" style={{ fontFamily: BODY, fontSize: 9.5, whiteSpace: "nowrap", flexShrink: 0, letterSpacing: "0.24em", textTransform: "uppercase", color: C.textFaint, marginLeft: 8 }}>Reconversions</span>
             </>
           )}
         </div>

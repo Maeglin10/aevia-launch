@@ -604,7 +604,8 @@ export default function SentinellePage() {
           alignItems: "center",
           justifyContent: "space-between",
           padding: scrolled ? "12px clamp(20px,5vw,56px)" : "22px clamp(20px,5vw,56px)",
-          background: scrolled ? "rgba(6,10,13,0.92)" : "transparent",
+          /* Cette barre porte un texte clair : voile sombre. */
+          background: scrolled ? "rgba(6,10,13,0.92)" : "linear-gradient(180deg, rgba(6,10,13,0.76) 0%, rgba(6,10,13,0.32) 62%, transparent 100%)",
           backdropFilter: scrolled ? "blur(14px) saturate(140%)" : "none",
           WebkitBackdropFilter: scrolled ? "blur(14px) saturate(140%)" : "none",
           borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,

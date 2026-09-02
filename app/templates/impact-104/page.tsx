@@ -183,7 +183,9 @@ export default function LumiereDoreePage() {
           alignItems: "center",
           justifyContent: "space-between",
           padding: "0 52px",
-          background: scrolled ? "rgba(250,248,245,0.97)" : "transparent",
+          /* Le texte de cette barre est CLAIR tant qu'on n'a pas défilé : le voile
+             doit être sombre — un voile clair l'effaçait (1,4 mesuré). */
+          background: scrolled ? "rgba(250,248,245,0.97)" : "linear-gradient(180deg, rgba(26,20,16,0.74) 0%, rgba(26,20,16,0.30) 62%, transparent 100%)",
           backdropFilter: scrolled ? "blur(12px)" : "none",
           borderBottom: scrolled ? `1px solid ${C.border}` : "none",
           transition: "background 0.4s, border-color 0.4s",

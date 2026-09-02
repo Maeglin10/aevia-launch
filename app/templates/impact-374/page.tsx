@@ -347,7 +347,8 @@ export default function CapChauffeurPage() {
 
   return (
     <div style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip", WebkitFontSmoothing: "antialiased" }}>
-      <style>{`${FONTS_CSS}
+      <style>{`
+        @media (max-width: 700px) { .i374-metier { display: none !important; } }${FONTS_CSS}
         *, *::before, *::after { box-sizing: border-box; }
         html { scroll-behavior: smooth; }
         .i374-ease { transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
@@ -421,14 +422,15 @@ export default function CapChauffeurPage() {
           alignItems: "center",
           justifyContent: "space-between",
           padding: scrolled ? "10px clamp(20px,4.5vw,56px)" : "20px clamp(20px,4.5vw,56px)",
-          background: scrolled ? "rgba(244,246,250,0.92)" : "transparent",
+          /* Cette barre porte un texte sombre : voile clair. */
+          background: scrolled ? "rgba(244,246,250,0.92)" : "linear-gradient(180deg, rgba(244,246,250,0.94) 0%, rgba(244,246,250,0.62) 62%, rgba(244,246,250,0) 100%)",
           backdropFilter: scrolled ? "blur(14px) saturate(150%)" : "none",
           WebkitBackdropFilter: scrolled ? "blur(14px) saturate(150%)" : "none",
           borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,
           transition: "all 0.55s cubic-bezier(0.16,1,0.3,1)",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", flexWrap: "nowrap", gap: 10, minWidth: 0, maxWidth: "62vw" }}>
           {fd?.logoBase64 ? (
             <img src={fd.logoBase64} alt={fd?.businessName ?? "logo"} style={{ height: 30, maxWidth: 160, objectFit: "contain", display: "block" }} />
           ) : (
@@ -437,7 +439,8 @@ export default function CapChauffeurPage() {
               <span style={{ fontFamily: SERIF, fontWeight: 500, fontSize: 19, color: C.ink, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                 {fd?.businessName ?? (clientName(sessionData) ?? "Cap Chauffeur")}
               </span>
-              <span style={{ fontSize: 9.5, letterSpacing: "0.26em", textTransform: "uppercase", color: C.textFaint, marginLeft: 6, fontWeight: 700 }}>
+              {/* Sous 700 px, l'étiquette du métier gonflait la barre. */}
+              <span className="i374-metier" style={{ fontSize: 9.5, letterSpacing: "0.26em", textTransform: "uppercase", color: C.textFaint, marginLeft: 6, fontWeight: 700, whiteSpace: "nowrap", flexShrink: 0 }}>
                 {clientTrade(sessionData) ?? "VTC du quotidien"}
               </span>
             </>
