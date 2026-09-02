@@ -10,6 +10,8 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "24h fermentation, stone-ground t65 flour, open crumb, caramelised crust. our most beloved loaf.": "Vingt-quatre heures de fermentation, farine T65 de meule, mie ouverte, croûte caramélisée. Notre pain le plus demandé.",
+    "provençal flatbread with kalamata olives, rosemary, and olive oil. limited quantity.": "Fougasse provençale aux olives de Kalamata, romarin et huile d'olive. En quantité limitée.",
     "40% dark rye, light sour, dense and moist. exceptional with butter and smoked salmon.": "40 % seigle noir, léger aigre, dense et moelleux. Exceptionnel avec du beurre et du saumon fumé.",
     "flour and water rest together before salt is added. gluten develops naturally, without force.": "La farine et l'eau reposent ensemble avant l'ajout du sel. Le gluten se développe naturellement, sans contrainte.",
     "hand-shaped and placed in linen bannetons. cold retard overnight. the tension holds everything together.": "Façonné à la main et placé dans des bannetons en lin. Retard au froid toute la nuit. La tension maintient tout ensemble.",
@@ -25,6 +27,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "years of levain": "Années de levain",
   },
   es: {
+    "24h fermentation, stone-ground t65 flour, open crumb, caramelised crust. our most beloved loaf.": "Veinticuatro horas de fermentación, harina T65 de molino de piedra, miga abierta, corteza caramelizada. Nuestro pan más pedido.",
+    "provençal flatbread with kalamata olives, rosemary, and olive oil. limited quantity.": "Fougasse provenzal con aceitunas de Kalamata, romero y aceite de oliva. En cantidad limitada.",
     "40% dark rye, light sour, dense and moist. exceptional with butter and smoked salmon.": "40 % centeno oscuro, ligero ácido, denso y húmedo. Excepcional con mantequilla y salmón ahumado.",
     "flour and water rest together before salt is added. gluten develops naturally, without force.": "La harina y el agua reposan juntas antes de añadir la sal. El gluten se desarrolla de forma natural, sin forzar.",
     "hand-shaped and placed in linen bannetons. cold retard overnight. the tension holds everything together.": "Modelado a mano y colocado en bannetons de lino. Retardo en frío durante la noche. La tensión mantiene todo unido.",
@@ -40,6 +44,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "years of levain": "Años de levain",
   },
   de: {
+    "24h fermentation, stone-ground t65 flour, open crumb, caramelised crust. our most beloved loaf.": "Vierundzwanzig Stunden Gare, steingemahlenes T65-Mehl, offene Krume, karamellisierte Kruste. Unser beliebtestes Brot.",
+    "provençal flatbread with kalamata olives, rosemary, and olive oil. limited quantity.": "Provenzalische Fougasse mit Kalamata-Oliven, Rosmarin und Olivenöl. Nur in begrenzter Menge.",
     "40% dark rye, light sour, dense and moist. exceptional with butter and smoked salmon.": "40 % Roggenmehl, leicht sauer, dicht und feucht. Ausgezeichnet mit Butter und geräuchertem Lachs.",
     "flour and water rest together before salt is added. gluten develops naturally, without force.": "Mehl und Wasser ruhen zusammen, bevor Salz hinzugefügt wird. Gluten entwickelt sich natürlich, ohne Druck.",
     "hand-shaped and placed in linen bannetons. cold retard overnight. the tension holds everything together.": "Handgeformt und in Leinenbannetons gelegt. Kaltverzögerung über Nacht. Die Spannung hält alles zusammen.",
@@ -55,6 +61,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "years of levain": "Jahre des Sauerteigs",
   },
   pt: {
+    "24h fermentation, stone-ground t65 flour, open crumb, caramelised crust. our most beloved loaf.": "Vinte e quatro horas de fermentação, farinha T65 de mó de pedra, miolo aberto, côdea caramelizada. O nosso pão mais pedido.",
+    "provençal flatbread with kalamata olives, rosemary, and olive oil. limited quantity.": "Fougasse provençal com azeitonas de Kalamata, alecrim e azeite. Em quantidade limitada.",
     "40% dark rye, light sour, dense and moist. exceptional with butter and smoked salmon.": "40 % centeio escuro, ligeiramente azedo, denso e húmido. Excepcional com manteiga e salmão fumado.",
     "flour and water rest together before salt is added. gluten develops naturally, without force.": "A farinha e a água descansam juntas antes de adicionar o sal. O glúten desenvolve-se naturalmente, sem forçar.",
     "hand-shaped and placed in linen bannetons. cold retard overnight. the tension holds everything together.": "Moldado à mão e colocado em bannetons de linho. Retardo a frio durante a noite. A tensão mantém tudo unido.",

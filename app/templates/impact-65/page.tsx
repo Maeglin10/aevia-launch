@@ -266,7 +266,7 @@ return (
             <Reveal>
               <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#0070f3)] block mb-8">Materials Science</span>
               <h2 className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white leading-[1.1] pb-4 italic">{c?.aboutTitle ?? fd?.businessName ?? <>
-                The <br /><span className="text-white/10 font-light not-italic">Formula.</span>
+                La <br /><span className="text-white/10 font-light not-italic">formule.</span>
               </>}</h2>
             </Reveal>
             <Reveal delay={0.2}>

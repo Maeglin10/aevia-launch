@@ -10,6 +10,8 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "the_photographer // about": "LE_PHOTOGRAPHE // À PROPOS",
+    "based between geneva and tokyo, luca arantes built his practice on the precision of mechanical time — transposing the watchmaker's obsession with detail into the photographic frame. every composition is a calibration. every exposure a deliberate act of structural intelligence. working exclusively on medium format, his images have appeared in vogue, wallpaper*, and dezeen, and hang in private collections across 12 countries.": "Installé entre Genève et Tokyo, il a bâti sa pratique sur la précision du temps mécanique — l'obsession du détail d'un horloger transposée dans le cadre. Chaque composition est un réglage, chaque exposition un acte délibéré. Il travaille exclusivement au moyen format ; ses images ont paru dans Vogue, Wallpaper* et Dezeen, et figurent dans des collections privées de douze pays.",
     "available for editorial, commercial, and fine print commissions. response within 48 hours.": "Disponible pour des commandes éditoriales, commerciales et d'art imprimé. Réponse sous 48 heures.",
     "browse archive": "Parcourir l'archive",
     "hand-assembled manufacture movements for the discerning collector. swiss precision, exceptional finishing — calibrated to perfection.": "Mouvements de manufacture assemblés à la main pour le collectionneur exigeant. Précision suisse, finition exceptionnelle — calibrée à la perfection.",
@@ -28,6 +30,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "working with luca on the wallpaper* architecture series was a revelation. he sees in geometry where others see in light.": "Travailler avec Luca sur la série d'architecture Wallpaper* a été une révélation. Il voit dans la géométrie là où d'autres voient dans la lumière.",
   },
   es: {
+    "the_photographer // about": "EL_FOTÓGRAFO // SOBRE MÍ",
+    "based between geneva and tokyo, luca arantes built his practice on the precision of mechanical time — transposing the watchmaker's obsession with detail into the photographic frame. every composition is a calibration. every exposure a deliberate act of structural intelligence. working exclusively on medium format, his images have appeared in vogue, wallpaper*, and dezeen, and hang in private collections across 12 countries.": "Instalado entre Ginebra y Tokio, ha construido su práctica sobre la precisión del tiempo mecánico — la obsesión por el detalle de un relojero llevada al encuadre. Cada composición es un ajuste, cada exposición un acto deliberado. Trabaja exclusivamente en formato medio; sus imágenes han aparecido en Vogue, Wallpaper* y Dezeen, y están en colecciones privadas de doce países.",
     "available for editorial, commercial, and fine print commissions. response within 48 hours.": "Disponible para comisiones editoriales, comerciales y de impresión fina. Respuesta en 48 horas.",
     "browse archive": "Explorar archivo",
     "hand-assembled manufacture movements for the discerning collector. swiss precision, exceptional finishing — calibrated to perfection.": "Movimientos de manufactura ensamblados a mano para el coleccionista exigente. Precisión suiza, acabado excepcional — calibrado a la perfección.",
@@ -46,6 +50,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "working with luca on the wallpaper* architecture series was a revelation. he sees in geometry where others see in light.": "Trabajar con Luca en la serie de arquitectura Wallpaper* fue una revelación. Él ve en la geometría donde otros ven en la luz.",
   },
   de: {
+    "the_photographer // about": "DER_FOTOGRAF // ÜBER MICH",
+    "based between geneva and tokyo, luca arantes built his practice on the precision of mechanical time — transposing the watchmaker's obsession with detail into the photographic frame. every composition is a calibration. every exposure a deliberate act of structural intelligence. working exclusively on medium format, his images have appeared in vogue, wallpaper*, and dezeen, and hang in private collections across 12 countries.": "Zwischen Genf und Tokio ansässig, gründet seine Arbeit auf der Präzision mechanischer Zeit — die Detailbesessenheit eines Uhrmachers, übertragen auf den Bildausschnitt. Jede Komposition ist eine Justierung, jede Belichtung ein bewusster Akt. Er arbeitet ausschließlich im Mittelformat; seine Bilder erschienen in Vogue, Wallpaper* und Dezeen und hängen in Privatsammlungen in zwölf Ländern.",
     "available for editorial, commercial, and fine print commissions. response within 48 hours.": "Verfügbar für redaktionelle, kommerzielle und feine Druckaufträge. Antwort innerhalb von 48 Stunden.",
     "browse archive": "Archiv durchsuchen",
     "hand-assembled manufacture movements for the discerning collector. swiss precision, exceptional finishing — calibrated to perfection.": "Handgefertigte Manufakturwerke für den anspruchsvollen Sammler. Schweizer Präzision, außergewöhnliche Verarbeitung — auf Perfektion kalibriert.",
@@ -64,6 +70,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "working with luca on the wallpaper* architecture series was a revelation. he sees in geometry where others see in light.": "Die Zusammenarbeit mit Luca an der Wallpaper*-Architektureihe war eine Offenbarung. Er sieht in der Geometrie, wo andere im Licht sehen.",
   },
   pt: {
+    "the_photographer // about": "O_FOTÓGRAFO // SOBRE MIM",
+    "based between geneva and tokyo, luca arantes built his practice on the precision of mechanical time — transposing the watchmaker's obsession with detail into the photographic frame. every composition is a calibration. every exposure a deliberate act of structural intelligence. working exclusively on medium format, his images have appeared in vogue, wallpaper*, and dezeen, and hang in private collections across 12 countries.": "Instalado entre Genebra e Tóquio, construiu a sua prática sobre a precisão do tempo mecânico — a obsessão pelo detalhe de um relojoeiro transposta para o enquadramento. Cada composição é uma afinação, cada exposição um ato deliberado. Trabalha exclusivamente em médio formato; as suas imagens saíram na Vogue, na Wallpaper* e na Dezeen, e estão em coleções privadas de doze países.",
     "available for editorial, commercial, and fine print commissions. response within 48 hours.": "Disponível para comissões editoriais, comerciais e de impressão fina. Resposta em 48 horas.",
     "browse archive": "Navegar pelo arquivo",
     "hand-assembled manufacture movements for the discerning collector. swiss precision, exceptional finishing — calibrated to perfection.": "Movimentos de manufatura montados à mão para o colecionador exigente. Precisão suíça, acabamento excepcional — calibrado à perfeição.",

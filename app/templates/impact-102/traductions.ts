@@ -10,6 +10,11 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "the future of computation": "L'avenir du calcul",
+    "is an independent quantum computing research institute advancing fault-tolerant processors, quantum algorithms, and the foundational science of the post-classical era.": "est un institut de recherche indépendant en informatique quantique : processeurs tolérants aux fautes, algorithmes quantiques et science fondamentale de l'après-classique.",
+    "developing fault-tolerant qubit architectures that maintain coherence across extended computation windows using topological protection methods.": "Nous développons des architectures de qubits tolérantes aux fautes, qui gardent leur cohérence sur de longues fenêtres de calcul grâce à la protection topologique.",
+    "partners with universities, national labs, and industry researchers. cloud access to our 127-qubit system is available via our research gateway program.": "travaille avec des universités, des laboratoires nationaux et des chercheurs de l'industrie. L'accès à distance à notre système de 127 qubits passe par notre programme Research Gateway.",
+    "about qbit labs": "À propos de l'institut",
     "advancing the science of quantum computation. independent research, open publication, and open access infrastructure.": "Faire avancer la science du calcul quantique. Recherche indépendante, publication ouverte, infrastructure en libre accès.",
     "advancing variational quantum eigensolvers, quantum chemistry simulation, and combinatorial optimization for near-term hardware.": "Avancement des solveurs d'eigenvalues quantiques variationnels, de la simulation de chimie quantique et de l'optimisation combinatoire pour le matériel à court terme.",
     "director of quantum hardware": "Directeur du matériel quantique",
@@ -24,6 +29,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view publications": "Voir les publications",
   },
   es: {
+    "the future of computation": "El futuro del cálculo",
+    "is an independent quantum computing research institute advancing fault-tolerant processors, quantum algorithms, and the foundational science of the post-classical era.": "es un instituto de investigación independiente en computación cuántica: procesadores tolerantes a fallos, algoritmos cuánticos y ciencia fundamental de la era posclásica.",
+    "developing fault-tolerant qubit architectures that maintain coherence across extended computation windows using topological protection methods.": "Desarrollamos arquitecturas de cúbits tolerantes a fallos que mantienen la coherencia en ventanas de cálculo largas gracias a la protección topológica.",
+    "partners with universities, national labs, and industry researchers. cloud access to our 127-qubit system is available via our research gateway program.": "trabaja con universidades, laboratorios nacionales e investigadores de la industria. El acceso remoto a nuestro sistema de 127 cúbits pasa por el programa Research Gateway.",
+    "about qbit labs": "Sobre el instituto",
     "advancing the science of quantum computation. independent research, open publication, and open access infrastructure.": "Hacer avanzar la ciencia de la computación cuántica. Investigación independiente, publicación abierta, infraestructura de acceso libre.",
     "advancing variational quantum eigensolvers, quantum chemistry simulation, and combinatorial optimization for near-term hardware.": "Avanzando en solucionadores cuánticos variacionales, simulaciones de química cuántica y optimización combinatoria para hardware a corto plazo.",
     "director of quantum hardware": "Director de Hardware Cuántico",
@@ -38,6 +48,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view publications": "Ver publicaciones",
   },
   de: {
+    "the future of computation": "Die Zukunft des Rechnens",
+    "is an independent quantum computing research institute advancing fault-tolerant processors, quantum algorithms, and the foundational science of the post-classical era.": "ist ein unabhängiges Forschungsinstitut für Quanteninformatik: fehlertolerante Prozessoren, Quantenalgorithmen und Grundlagenforschung der postklassischen Ära.",
+    "developing fault-tolerant qubit architectures that maintain coherence across extended computation windows using topological protection methods.": "Wir entwickeln fehlertolerante Qubit-Architekturen, die dank topologischem Schutz über lange Rechenfenster kohärent bleiben.",
+    "partners with universities, national labs, and industry researchers. cloud access to our 127-qubit system is available via our research gateway program.": "arbeitet mit Universitäten, nationalen Laboren und Forschenden aus der Industrie. Der Fernzugriff auf unser 127-Qubit-System läuft über unser Research-Gateway-Programm.",
+    "about qbit labs": "Über das Institut",
     "advancing the science of quantum computation. independent research, open publication, and open access infrastructure.": "Die Wissenschaft des Quantenrechnens voranbringen. Unabhängige Forschung, offene Publikation, frei zugängliche Infrastruktur.",
     "advancing variational quantum eigensolvers, quantum chemistry simulation, and combinatorial optimization for near-term hardware.": "Fortschritte bei variationalen Quanten-Eigensolvern, der Quantenchemiesimulation und der kombinatorischen Optimierung für kurzfristige Hardware.",
     "director of quantum hardware": "Direktor für Quantenhardware",
@@ -52,6 +67,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view publications": "Publikationen ansehen",
   },
   pt: {
+    "the future of computation": "O futuro do cálculo",
+    "is an independent quantum computing research institute advancing fault-tolerant processors, quantum algorithms, and the foundational science of the post-classical era.": "é um instituto de investigação independente em computação quântica: processadores tolerantes a falhas, algoritmos quânticos e ciência fundamental da era pós-clássica.",
+    "developing fault-tolerant qubit architectures that maintain coherence across extended computation windows using topological protection methods.": "Desenvolvemos arquiteturas de qubits tolerantes a falhas que mantêm a coerência em janelas de cálculo longas graças à proteção topológica.",
+    "partners with universities, national labs, and industry researchers. cloud access to our 127-qubit system is available via our research gateway program.": "trabalha com universidades, laboratórios nacionais e investigadores da indústria. O acesso remoto ao nosso sistema de 127 qubits passa pelo programa Research Gateway.",
+    "about qbit labs": "Sobre o instituto",
     "advancing the science of quantum computation. independent research, open publication, and open access infrastructure.": "Fazer avançar a ciência da computação quântica. Investigação independente, publicação aberta, infraestrutura de acesso livre.",
     "advancing variational quantum eigensolvers, quantum chemistry simulation, and combinatorial optimization for near-term hardware.": "Avançando em solucionadores quânticos variacionais, simulação de química quântica e otimização combinatória para hardware de curto prazo.",
     "director of quantum hardware": "Diretor de Hardware Quântico",

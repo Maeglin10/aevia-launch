@@ -10,6 +10,12 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "find your": "Trouvez votre",
+    "our": "Nos",
+    "deep connective tissue release. long holds, breath synchronization, and complete nervous system reset.": "Relâchement profond des tissus conjonctifs : postures tenues longtemps, souffle synchronisé, système nerveux remis à zéro.",
+    "zenspace changed my relationship with stress entirely. the yin sessions are unlike anything i've experienced. three months in, my therapist noticed the difference before i did.": "Ce studio a changé mon rapport au stress. Les séances de yin n'ont rien de comparable à ce que je connaissais. Au bout de trois mois, ma thérapeute a vu la différence avant moi.",
+    "i was skeptical about sound baths. two sessions in and i cancelled my insomnia prescription. the 432hz environment here is something i can only describe as physical calm.": "J'étais sceptique sur les bains sonores. Deux séances plus tard, j'ai arrêté mon traitement contre l'insomnie. L'environnement à 432 Hz produit un calme que je ne peux décrire que comme physique.",
+    "we booked zenspace for our leadership team after a brutal q4. the breathwork protocol reduced measurable burnout markers by 40% in our post-retreat survey. we're booking q2 already.": "Nous avons réservé pour notre comité de direction après un quatrième trimestre très dur. Le protocole de respiration a fait baisser de 40 % les marqueurs d'épuisement mesurés dans notre enquête d'après-séminaire. Nous réservons déjà pour le deuxième trimestre.",
     "a curated family of conscious souls growing together in stillness.": "Une famille soigneusement sélectionnée d'âmes conscientes grandissant ensemble dans le silence.",
     "a dynamic sequence of postures that breath-synchronizes movement to build heat and flexibility.": "Une séquence dynamique de postures qui synchronise la respiration avec le mouvement pour créer de la chaleur et de la flexibilité.",
     "an architectural sanctuary designed for the conscious evolution of mind and body. est. 2026.": "Un sanctuaire d'architecture, pensé pour l'évolution consciente du corps et de l'esprit. Depuis 2026.",
@@ -43,6 +49,12 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your request for": "Votre demande de",
   },
   es: {
+    "find your": "Encuentre su",
+    "our": "Nuestras",
+    "deep connective tissue release. long holds, breath synchronization, and complete nervous system reset.": "Liberación profunda de los tejidos conectivos: posturas largas, respiración sincronizada, sistema nervioso puesto a cero.",
+    "zenspace changed my relationship with stress entirely. the yin sessions are unlike anything i've experienced. three months in, my therapist noticed the difference before i did.": "Este estudio cambió mi relación con el estrés. Las sesiones de yin no se parecen a nada que conociera. A los tres meses, mi terapeuta notó la diferencia antes que yo.",
+    "i was skeptical about sound baths. two sessions in and i cancelled my insomnia prescription. the 432hz environment here is something i can only describe as physical calm.": "Era escéptico con los baños de sonido. Dos sesiones después dejé mi tratamiento para el insomnio. El entorno a 432 Hz produce una calma que solo puedo describir como física.",
+    "we booked zenspace for our leadership team after a brutal q4. the breathwork protocol reduced measurable burnout markers by 40% in our post-retreat survey. we're booking q2 already.": "Reservamos para nuestro comité de dirección tras un cuarto trimestre muy duro. El protocolo de respiración bajó un 40 % los marcadores de agotamiento medidos en nuestra encuesta posterior. Ya estamos reservando para el segundo trimestre.",
     "a curated family of conscious souls growing together in stillness.": "Una familia curada de almas conscientes creciendo juntas en la quietud.",
     "a dynamic sequence of postures that breath-synchronizes movement to build heat and flexibility.": "Una secuencia dinámica de posturas que sincroniza la respiración con el movimiento para generar calor y flexibilidad.",
     "an architectural sanctuary designed for the conscious evolution of mind and body. est. 2026.": "Un santuario arquitectónico, pensado para la evolución consciente del cuerpo y la mente. Desde 2026.",
@@ -76,6 +88,12 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your request for": "Tu solicitud de",
   },
   de: {
+    "find your": "Finden Sie Ihre",
+    "our": "Unsere",
+    "deep connective tissue release. long holds, breath synchronization, and complete nervous system reset.": "Tiefes Lösen des Bindegewebes: lange Haltungen, synchronisierter Atem, das Nervensystem auf null.",
+    "zenspace changed my relationship with stress entirely. the yin sessions are unlike anything i've experienced. three months in, my therapist noticed the difference before i did.": "Dieses Studio hat mein Verhältnis zu Stress verändert. Die Yin-Einheiten sind mit nichts vergleichbar, was ich kannte. Nach drei Monaten sah meine Therapeutin den Unterschied vor mir.",
+    "i was skeptical about sound baths. two sessions in and i cancelled my insomnia prescription. the 432hz environment here is something i can only describe as physical calm.": "Ich war skeptisch gegenüber Klangbädern. Nach zwei Sitzungen habe ich mein Schlafmittel abgesetzt. Die 432-Hz-Umgebung erzeugt eine Ruhe, die ich nur körperlich nennen kann.",
+    "we booked zenspace for our leadership team after a brutal q4. the breathwork protocol reduced measurable burnout markers by 40% in our post-retreat survey. we're booking q2 already.": "Wir haben nach einem harten vierten Quartal für unser Führungsteam gebucht. Das Atemprotokoll senkte die gemessenen Burnout-Marker in unserer Nachbefragung um 40 %. Für das zweite Quartal buchen wir bereits.",
     "a curated family of conscious souls growing together in stillness.": "Eine kuratierte Familie bewusster Seelen, die gemeinsam in Stille wächst.",
     "a dynamic sequence of postures that breath-synchronizes movement to build heat and flexibility.": "Eine dynamische Sequenz von Haltungen, die die Atmung mit der Bewegung synchronisiert, um Wärme und Flexibilität aufzubauen.",
     "an architectural sanctuary designed for the conscious evolution of mind and body. est. 2026.": "Ein architektonisches Refugium für die bewusste Entwicklung von Körper und Geist. Seit 2026.",
@@ -109,6 +127,12 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your request for": "Ihre Anfrage für",
   },
   pt: {
+    "find your": "Encontre o seu",
+    "our": "Os nossos",
+    "deep connective tissue release. long holds, breath synchronization, and complete nervous system reset.": "Libertação profunda dos tecidos conjuntivos: posturas longas, respiração sincronizada, sistema nervoso reposto a zero.",
+    "zenspace changed my relationship with stress entirely. the yin sessions are unlike anything i've experienced. three months in, my therapist noticed the difference before i did.": "Este estúdio mudou a minha relação com o stress. As sessões de yin não se parecem com nada do que conhecia. Ao fim de três meses, a minha terapeuta viu a diferença antes de mim.",
+    "i was skeptical about sound baths. two sessions in and i cancelled my insomnia prescription. the 432hz environment here is something i can only describe as physical calm.": "Estava cético quanto aos banhos de som. Duas sessões depois deixei o tratamento para a insónia. O ambiente a 432 Hz produz uma calma que só consigo descrever como física.",
+    "we booked zenspace for our leadership team after a brutal q4. the breathwork protocol reduced measurable burnout markers by 40% in our post-retreat survey. we're booking q2 already.": "Reservámos para a nossa direção depois de um quarto trimestre muito duro. O protocolo de respiração baixou 40 % os marcadores de esgotamento medidos no nosso inquérito posterior. Já estamos a reservar para o segundo trimestre.",
     "a curated family of conscious souls growing together in stillness.": "Uma família selecionada de almas conscientes crescendo juntas na tranquilidade.",
     "a dynamic sequence of postures that breath-synchronizes movement to build heat and flexibility.": "Uma sequência dinâmica de posturas que sincroniza a respiração com o movimento para criar calor e flexibilidade.",
     "an architectural sanctuary designed for the conscious evolution of mind and body. est. 2026.": "Um santuário arquitetónico, pensado para a evolução consciente do corpo e da mente. Desde 2026.",
