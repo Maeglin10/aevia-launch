@@ -105,7 +105,10 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : (
-              <><div style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  display: "flex", alignItems: "center", gap: 14 }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
+              <>{/* Le nom du client héritait de la couleur du texte courant — sombre —
+                    sur un bandeau bleu nuit, et un halo BLANC l'empâtait au lieu
+                    de le détacher. */}
+              <div style={{ display: "flex", alignItems: "center", gap: 14, fontFamily: "'Playfair Display', Georgia, serif", fontSize: 17, fontWeight: 700, color: C.white, letterSpacing: "0.04em" }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
               <div style={{ width: 36, height: 36, border: `1.5px solid ${C.accent}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <Scale size={18} color={C.accent} />
               </div>

@@ -136,7 +136,7 @@ function HeroSection() {
           <Rise beat="third" style={{ display: "flex", alignItems: "center", gap: 26, flexWrap: "wrap" }}>
             <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
               <span style={{ fontFamily: SERIF, fontSize: 30, color: C.accent }}>{media.stat}</span>
-              <span style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(255,255,255,0.45)" }}>
+              <span style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.18em", textTransform: "uppercase", color: "rgba(255,255,255,0.72)" }}>
                 {media.statLabel}
               </span>
             </div>

@@ -15,7 +15,7 @@ console.log((await p.evaluate(() => {
     if (!e || e.closest("style,script,noscript")) continue;
     const r = e.getBoundingClientRect();
     if (r.width === 0 || r.height === 0) continue;
-    out.push(s.slice(0,90));
+    out.push(s);
   }
   return [...new Set(out)];
 })).join("\n"));
