@@ -244,7 +244,7 @@ return (
 
           <div className="relative z-10 text-center max-w-7xl">
              <Reveal>
-                <motion.h1 style={{ x: textX }} className="text-7xl md:text-[16vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic mix-blend-difference">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "The"}<br/> <span className="text-white/5 italic">{clientHeroLine(sessionData, 1, 2, 9) ?? "Monolith."}</span>
+                <motion.h1 style={{ x: textX }} className="text-7xl md:text-[16vw] font-black tracking-tighter uppercase mb-16 leading-[0.75] italic mix-blend-difference">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Le"}<br/> <span className="text-white/5 italic">{clientHeroLine(sessionData, 1, 2, 9) ?? "Monolithe."}</span>
                 </>}</motion.h1>
                 <div className="grid md:grid-cols-3 gap-12 md:gap-24 text-left max-w-6xl mx-auto border-t border-white/5 pt-16">
                    <div className="space-y-6">
@@ -351,7 +351,7 @@ return (
                     <Reveal>
                        <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/40 block mb-12 italic underline underline-offset-8 decoration-white/10">Throughput // Analysis</span>
                        <h2 className="text-7xl md:text-[9vw] font-light italic leading-none text-white mb-16 uppercase tracking-tighter">{c?.aboutTitle ?? fd?.businessName ?? <>
-                          The <br/> <span className="not-italic font-black text-white/5 italic">Global_Stream.</span>
+                          Le <br/> <span className="not-italic font-black text-white/5 italic">Flux_Global.</span>
                        </>}</h2>
                        <p className="text-2xl font-light text-white/20 leading-relaxed mb-24 italic uppercase tracking-[0.2em] max-w-xl">{c?.aboutText ?? <>
                           Surveillance du flux de données en temps réel. Nos architectures de routage optimisent chaque paquet pour garantir une intégrité absolue, même sous charge extrême.
