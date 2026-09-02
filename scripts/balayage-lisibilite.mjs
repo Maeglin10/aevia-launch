@@ -70,6 +70,11 @@ for (const [etat, url] of [["vitrine", ""], ["client", "?session=v"]]) {
       }
     }
     await p.waitForTimeout(900);
+    /* Même attente que la fiche : sous charge, la session arrive après. */
+    if (url) {
+      await p.waitForFunction((nom) => (document.body.innerText || "").toLowerCase().includes(nom.toLowerCase()),
+        NOM, { timeout: 6000 }).catch(() => {});
+    }
 
     const r = await p.evaluate((nomClient) => {
       const txt = (document.body.innerText || "").replace(/\s+/g, " ");

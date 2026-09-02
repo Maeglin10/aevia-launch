@@ -61,6 +61,14 @@ for (const [etat, url] of [["vitrine", ""], ["client", "?session=v"]]) {
       }
     }
     await p.waitForTimeout(900);
+    /* La session arrive de façon asynchrone. Sous charge — cinq mesures en
+       parallèle — 3,8 secondes ne suffisent pas toujours, et la fiche
+       annonçait « nom ABSENT » sur un thème qui l'affiche très bien. On attend
+       le nom, jusqu'à six secondes de plus, avant de conclure. */
+    if (url) {
+      await p.waitForFunction((nom) => (document.body.innerText || "").toLowerCase().includes(nom.toLowerCase()),
+        NOM, { timeout: 6000 }).catch(() => {});
+    }
 
     const r = await p.evaluate((nomClient) => {
       const txt = (document.body.innerText || "").replace(/\s+/g, " ");
@@ -114,6 +122,9 @@ for (const [etat, url] of [["vitrine", ""], ["client", "?session=v"]]) {
           for (let i = 0; i < els.length; i++) for (let j = i + 1; j < els.length; j++) {
             const a = els[i], b = els[j];
             if (a.contains(b) || b.contains(a)) continue;
+            /* La barre d'appel du pouce est une surcouche : elle RECOUVRE le
+               bas de la page, c'est son rôle. Ce n'est pas un chevauchement. */
+            if (a.closest(".aevia-barre-action") || b.closest(".aevia-barre-action")) continue;
             const ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
             const ox = Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left);
             const oy = Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top);
