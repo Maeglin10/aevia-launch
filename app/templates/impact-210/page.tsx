@@ -103,6 +103,32 @@ interface PaletteColor {
    DATA
    ========================================================================== */
 
+/*
+  La palette est la couleur du VERNIS : le client la choisit, et le thème la
+  reprend partout — y compris pour écrire. Le rose par défaut, « #E8A0B0 »,
+  donne 1,9 de contraste sur blanc : les chiffres-clés et les intertitres ne
+  se lisaient pas.
+
+  On garde la couleur telle quelle pour les aplats et les pastilles, et l'on
+  écrit avec une version assombrie de cette même teinte — la palette reste la
+  sienne, le texte redevient lisible.
+*/
+function encreDe(hex: string): string {
+  const m = /^#?([0-9a-f]{6})$/i.exec(hex.trim());
+  if (!m) return hex;
+  const n = parseInt(m[1], 16);
+  let [r, g, b] = [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  const lum = (c: number) => { const v = c / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+  /* On assombrit jusqu'à 4,5:1 sur blanc, pas plus : la teinte doit rester
+     reconnaissable. */
+  for (let i = 0; i < 24; i++) {
+    const L = 0.2126 * lum(r) + 0.7152 * lum(g) + 0.0722 * lum(b);
+    if ((1.05) / (L + 0.05) >= 4.5) break;
+    [r, g, b] = [r, g, b].map((c) => Math.round(c * 0.92)) as [number, number, number];
+  }
+  return `#${[r, g, b].map((c) => c.toString(16).padStart(2, "0")).join("")}`;
+}
+
 const PALETTE_COLORS: PaletteColor[] = [
   { name: 'cream', hex: '#F5ECD7', label: 'Cream' },
   { name: 'nude', hex: '#C8A882', label: 'Nude' },
@@ -360,7 +386,7 @@ function Nav({ accentColor }: { accentColor: string }) {
                 fontFamily: 'Syne, sans-serif',
                 fontWeight: 700,
                 fontSize: 20,
-                color: accentColor,
+                color: encreDe(accentColor),
                 letterSpacing: '-0.02em',
               }}
             >{fd?.businessName ?? (clientName(sessionData) ?? "Studio Nail")}</span>
@@ -643,7 +669,7 @@ function Hero({ accentColor, particles }: { accentColor: string; particles: Part
                   fontFamily: 'Syne, sans-serif',
                   fontWeight: 700,
                   fontSize: 28,
-                  color: accentColor,
+                  color: encreDe(accentColor),
                 }}
               >
                 {stat.value}
@@ -785,7 +811,7 @@ function ServiceCard({
             <span
               style={{
                 background: `${accentColor}18`,
-                color: accentColor,
+                color: encreDe(accentColor),
                 fontSize: 10,
                 fontWeight: 600,
                 padding: '3px 10px',
@@ -867,7 +893,7 @@ function ServiceCard({
             href={clientBookingUrl(sessionData) ?? "#booking"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             style={{
               background: '#fff',
-              color: accentColor,
+              color: encreDe(accentColor),
               padding: '12px 28px',
               borderRadius: 50,
               fontSize: 13,
@@ -915,7 +941,7 @@ function ServicesSection({ accentColor }: { accentColor: string }) {
             fontSize: 11,
             letterSpacing: '0.2em',
             textTransform: 'uppercase',
-            color: accentColor,
+            color: encreDe(accentColor),
             marginBottom: 16,
           }}
         >
@@ -931,7 +957,7 @@ function ServicesSection({ accentColor }: { accentColor: string }) {
           }}
         >{/* TEXTE_SECTION */ clientText(sessionData, "services.titre") ?? (<>
           Services &amp;{' '}
-          <span style={{ color: accentColor }}>Tarifs</span>
+          <span style={{ color: encreDe(accentColor) }}>Tarifs</span>
         </>)}</h2>
         <p
           style={{
@@ -998,7 +1024,7 @@ function PaletteSection({
             fontSize: 11,
             letterSpacing: '0.2em',
             textTransform: 'uppercase',
-            color: accentColor,
+            color: encreDe(accentColor),
             marginBottom: 16,
           }}
         >
@@ -1014,7 +1040,7 @@ function PaletteSection({
           }}
         >{/* TEXTE_SECTION */ clientText(sessionData, "palette.titre") ?? (<>
           Your Perfect{' '}
-          <span style={{ color: accentColor }}>Color</span>
+          <span style={{ color: encreDe(accentColor) }}>Color</span>
         </>)}</h2>
         <p
           style={{
@@ -1077,7 +1103,7 @@ function PaletteSection({
                     position: 'absolute',
                     bottom: -28,
                     fontSize: 11,
-                    color: accentColor,
+                    color: encreDe(accentColor),
                     fontWeight: 500,
                     whiteSpace: 'nowrap',
                   }}
@@ -1134,7 +1160,7 @@ function PaletteSection({
               fontFamily: 'Syne, sans-serif',
               fontWeight: 700,
               fontSize: 18,
-              color: accentColor,
+              color: encreDe(accentColor),
             }}
           >
             {PALETTE_COLORS[activeIndex].label}
@@ -1171,7 +1197,7 @@ function BeforeAfterSection({ accentColor }: { accentColor: string }) {
             fontSize: 11,
             letterSpacing: '0.2em',
             textTransform: 'uppercase',
-            color: accentColor,
+            color: encreDe(accentColor),
             marginBottom: 16,
           }}
         >
@@ -1309,7 +1335,7 @@ function BeforeAfterSection({ accentColor }: { accentColor: string }) {
               fontSize: 13,
               letterSpacing: '0.15em',
               textTransform: 'uppercase',
-              color: accentColor,
+              color: encreDe(accentColor),
             }}
           >
             Après
@@ -1379,7 +1405,7 @@ function BeforeAfterSection({ accentColor }: { accentColor: string }) {
               );
             })}
           </div>
-          <p style={{ fontSize: 13, color: accentColor, textAlign: 'center', fontWeight: 500 }}>
+          <p style={{ fontSize: 13, color: encreDe(accentColor), textAlign: 'center', fontWeight: 500 }}>
             Nail Art Signature —<br />résultat longue durée
           </p>
         </motion.div>
@@ -1417,7 +1443,7 @@ function GallerySection({ accentColor }: { accentColor: string }) {
               fontSize: 11,
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
-              color: accentColor,
+              color: encreDe(accentColor),
               marginBottom: 16,
             }}
           >
@@ -1431,7 +1457,7 @@ function GallerySection({ accentColor }: { accentColor: string }) {
               color: brand ?? '#1a0a10',
             }}
           >{/* TEXTE_SECTION */ clientText(sessionData, "galerie.titre") ?? (<>
-            Galerie <span style={{ color: accentColor }}>d&apos;art</span>
+            Galerie <span style={{ color: encreDe(accentColor) }}>d&apos;art</span>
           </>)}</h2>
         </motion.div>
 
@@ -1593,7 +1619,7 @@ function BookingSection({ accentColor }: { accentColor: string }) {
             fontSize: 11,
             letterSpacing: '0.2em',
             textTransform: 'uppercase',
-            color: accentColor,
+            color: encreDe(accentColor),
             marginBottom: 16,
           }}
         >
@@ -1609,7 +1635,7 @@ function BookingSection({ accentColor }: { accentColor: string }) {
           }}
         >{/* TEXTE_SECTION */ clientText(sessionData, "booking.titre") ?? (<>
           Réservez votre{' '}
-          <span style={{ color: accentColor }}>créneau</span>
+          <span style={{ color: encreDe(accentColor) }}>créneau</span>
         </>)}</h2>
         <p style={{ fontSize: 16, color: 'var(--brand,#7a5060)', fontWeight: 300 }}>
           Semaine du 19 au 24 mai — sélectionnez un créneau disponible.
@@ -1879,7 +1905,7 @@ function BookingSection({ accentColor }: { accentColor: string }) {
                 fontFamily: 'Syne, sans-serif',
                 fontWeight: 700,
                 fontSize: 20,
-                color: accentColor,
+                color: encreDe(accentColor),
                 marginBottom: 8,
               }}
             >
@@ -1904,7 +1930,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     name: 'Camille L.',
-    text: "Je reviens depuis 3 ans — the nail art quality is simply unmatched in " + (clientCity(sessionData) ?? "Paris") + ". Chaque pose est un chef-d'œuvre.",
+    text: "J'y reviens depuis trois ans : la qualité du nail art n'a pas d'équivalent à " + (clientCity(sessionData) ?? "Paris") + ". Chaque pose est un chef-d'œuvre.",
     rating: 5,
     service: 'Nail Art Signature',
   },
@@ -1948,7 +1974,7 @@ function TestimonialsSection({ accentColor }: { accentColor: string }) {
               fontSize: 11,
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
-              color: accentColor,
+              color: encreDe(accentColor),
               marginBottom: 16,
             }}
           >
@@ -1963,7 +1989,7 @@ function TestimonialsSection({ accentColor }: { accentColor: string }) {
             }}
           >{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
             Elles nous font{' '}
-            <span style={{ color: accentColor }}>confiance</span>
+            <span style={{ color: encreDe(accentColor) }}>confiance</span>
           </>)}</h2>
         </motion.div>
 
@@ -2014,7 +2040,7 @@ function TestimonialsSection({ accentColor }: { accentColor: string }) {
                   {t.name ?? t.author}
                 </div>
                 {(t.service ?? t.source) && (
-                  <div style={{ fontSize: 12, color: accentColor, marginTop: 2 }}>
+                  <div style={{ fontSize: 12, color: encreDe(accentColor), marginTop: 2 }}>
                     {t.service ?? t.source}
                   </div>
                 )}
@@ -2056,7 +2082,7 @@ function ContactSection({ accentColor }: { accentColor: string }) {
             fontSize: 11,
             letterSpacing: '0.2em',
             textTransform: 'uppercase',
-            color: accentColor,
+            color: encreDe(accentColor),
             marginBottom: 16,
           }}
         >
@@ -2072,7 +2098,7 @@ function ContactSection({ accentColor }: { accentColor: string }) {
           }}
         >{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
           Venez nous rendre{' '}
-          <span style={{ color: accentColor }}>visite</span>
+          <span style={{ color: encreDe(accentColor) }}>visite</span>
         </>)}</h2>
 
         <div
@@ -2117,7 +2143,7 @@ function ContactSection({ accentColor }: { accentColor: string }) {
                   fontSize: 13,
                   letterSpacing: '0.1em',
                   textTransform: 'uppercase',
-                  color: accentColor,
+                  color: encreDe(accentColor),
                 }}
               >
                 {info.label}
@@ -2166,7 +2192,7 @@ function ContactSection({ accentColor }: { accentColor: string }) {
             href={clientBookingUrl(sessionData) ?? "#booking"} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             style={{
               background: '#fff',
-              color: accentColor,
+              color: encreDe(accentColor),
               padding: '16px 40px',
               borderRadius: 50,
               fontSize: 15,
@@ -2207,7 +2233,7 @@ function Footer({ accentColor }: { accentColor: string }) {
             fontFamily: 'Syne, sans-serif',
             fontWeight: 700,
             fontSize: 18,
-            color: accentColor,
+            color: encreDe(accentColor),
           }}
         >{fd?.businessName ?? (clientName(sessionData) ?? "Studio Nail")}</span>
       </div>
