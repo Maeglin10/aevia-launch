@@ -218,9 +218,11 @@ function BrickButton({
     textTransform: 'uppercase',
     fontWeight: 700,
     cursor: 'pointer',
-    border: `2px solid ${C.brick}`,
+    /* Le bouton en contour est aussi employé DANS le héros, sur une photo :
+       écrit dans la brique du thème, son libellé y disparaissait. */
+    border: `2px solid ${filled ? C.brick : 'rgba(255,255,255,0.7)'}`,
     background: filled ? C.brick : 'transparent',
-    color: filled ? C.white : C.brick,
+    color: filled ? C.white : C.white,
     transition: 'all .45s cubic-bezier(.16,1,.3,1)',
     textDecoration: 'none',
     borderRadius: 2,
@@ -510,7 +512,8 @@ function HeroSection() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to bottom, rgba(44,44,44,0.60) 0%, rgba(44,44,44,0.20) 35%, rgba(44,44,44,0.55) 68%, rgba(44,44,44,0.92) 100%)',
+            /* Salle de bains carrelée claire : le titre blanc y tombait à 2,4. */
+            'linear-gradient(to bottom, rgba(44,44,44,0.74) 0%, rgba(44,44,44,0.68) 35%, rgba(44,44,44,0.74) 68%, rgba(44,44,44,0.94) 100%)',
         }}
       />
       {/* Teinte brique sur le côté gauche */}
@@ -542,7 +545,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color="rgba(240,232,216,0.9)" align="left">
-            Plombier-chauffagiste certifié · {clientCity(sessionData) ?? "Toulouse"} &amp; agglo
+            Plombier-chauffagiste certifié · {clientCity(sessionData) ?? "Toulouse"} et agglo
           </Eyebrow>
         </Reveal>
 
@@ -2599,7 +2602,7 @@ function FooterSection() {
             }}
           >
             <MapPin size={16} color={C.brick} strokeWidth={2} />
-            {clientCity(sessionData) ?? "Toulouse"} &amp; agglo (30 km)
+            {clientCity(sessionData) ?? "Toulouse"} et agglo (30 km)
           </div>
           <a
             href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33561000000").replace(/[^+0-9]/g, "")}`}

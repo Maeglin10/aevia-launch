@@ -393,7 +393,8 @@ export default function Page() {
             fontFamily: SERIF,
             fontSize: 22,
             fontWeight: 700,
-            color: C.primary,
+            /* La couleur de marque écrivait sous le seuil sur le fond clair. */
+            color: C.primaryDark,
             textDecoration: 'none',
             letterSpacing: '0.05em'
           }}>
@@ -420,7 +421,7 @@ export default function Page() {
             <a href="#faq" style={{ textDecoration: 'none', color: C.text, fontSize: 13, letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>FAQ</a>
             <a href="#contact" style={{ textDecoration: 'none' }}>
               <button style={{
-                background: C.primary,
+                background: `linear-gradient(rgba(0,0,0,0.20), rgba(0,0,0,0.20)), ${C.primary}`,
                 color: C.white,
                 border: 'none',
                 padding: '9px 18px',
@@ -442,7 +443,7 @@ export default function Page() {
             style={{
               background: 'transparent',
               border: 'none',
-              color: C.primary,
+              color: C.primaryDark,
               cursor: 'pointer'
             }}
             className="md:hidden"
@@ -475,7 +476,7 @@ export default function Page() {
                 <a href="#faq" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none', color: C.text, fontSize: 14, textTransform: 'uppercase', fontWeight: 600 }}>FAQ</a>
                 <a href="#contact" onClick={() => setMobileMenuOpen(false)} style={{ textDecoration: 'none' }}>
                   <button style={{
-                    background: C.primary,
+                    background: `linear-gradient(rgba(0,0,0,0.20), rgba(0,0,0,0.20)), ${C.primary}`,
                     color: C.white,
                     border: 'none',
                     padding: '12px 24px',
@@ -626,7 +627,7 @@ export default function Page() {
                     fontFamily: SERIF,
                     fontSize: 48,
                     fontWeight: 700,
-                    color: C.primary,
+                    color: C.primaryDark,
                     marginBottom: 8
                   }}>
                     {stat.value}
@@ -679,7 +680,7 @@ export default function Page() {
                   fontFamily: SERIF,
                   fontSize: 'clamp(28px, 4vw, 48px)',
                   lineHeight: 1.15,
-                  color: C.primary,
+                  color: C.primaryDark,
                   marginBottom: 24,
                   fontWeight: 700
                 }}>{c?.aboutTitle ?? fd?.businessName ?? <>
@@ -718,7 +719,7 @@ export default function Page() {
             <h2 style={{
               fontFamily: SERIF,
               fontSize: 'clamp(28px, 4vw, 44px)',
-              color: C.primary,
+              color: C.primaryDark,
               marginBottom: 16,
               fontWeight: 700
             }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
@@ -749,8 +750,8 @@ export default function Page() {
                 border: `1px solid ${C.primary}0f`,
                 height: '100%'
               }}>
-                <div style={{ color: C.primary, marginBottom: 20 }}><Award size={32} /></div>
-                <h3 style={{ fontFamily: SERIF, fontSize: 20, color: C.primary, marginBottom: 12, fontWeight: 700 }}>Qualité Absolue</h3>
+                <div style={{ color: C.primaryDark, marginBottom: 20 }}><Award size={32} /></div>
+                <h3 style={{ fontFamily: SERIF, fontSize: 20, color: C.primaryDark, marginBottom: 12, fontWeight: 700 }}>Qualité Absolue</h3>
                 <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.6 }}>Sélection minutieuse de chaque élément pour un résultat d'exception.</p>
               </div>
             </Reveal>
@@ -764,8 +765,8 @@ export default function Page() {
                 border: `1px solid ${C.primary}0f`,
                 height: '100%'
               }}>
-                <div style={{ color: C.primary, marginBottom: 20 }}><Clock size={32} /></div>
-                <h3 style={{ fontFamily: SERIF, fontSize: 20, color: C.primary, marginBottom: 12, fontWeight: 700 }}>Prise de Rendez-vous</h3>
+                <div style={{ color: C.primaryDark, marginBottom: 20 }}><Clock size={32} /></div>
+                <h3 style={{ fontFamily: SERIF, fontSize: 20, color: C.primaryDark, marginBottom: 12, fontWeight: 700 }}>Prise de Rendez-vous</h3>
                 <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.6 }}>Des créneaux flexibles et un accompagnement réactif sous 24h.</p>
               </div>
             </Reveal>
@@ -779,8 +780,8 @@ export default function Page() {
                 border: `1px solid ${C.primary}0f`,
                 height: '100%'
               }}>
-                <div style={{ color: C.primary, marginBottom: 20 }}><Shield size={32} /></div>
-                <h3 style={{ fontFamily: SERIF, fontSize: 20, color: C.primary, marginBottom: 12, fontWeight: 700 }}>Garantie &amp; Sécurité</h3>
+                <div style={{ color: C.primaryDark, marginBottom: 20 }}><Shield size={32} /></div>
+                <h3 style={{ fontFamily: SERIF, fontSize: 20, color: C.primaryDark, marginBottom: 12, fontWeight: 700 }}>Garantie &amp; Sécurité</h3>
                 <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.6 }}>Conformité totale avec les normes en vigueur et transparence tarifaire.</p>
               </div>
             </Reveal>
@@ -797,7 +798,7 @@ export default function Page() {
               <h2 style={{
                 fontFamily: SERIF,
                 fontSize: 'clamp(28px, 4vw, 44px)',
-                color: C.primary,
+                color: C.primaryDark,
                 marginBottom: 24,
                 fontWeight: 700
               }}>{/* TEXTE_SECTION */ clientText(sessionData, "menu.titre") ?? (<>
@@ -868,14 +869,14 @@ export default function Page() {
                         fontFamily: SERIF,
                         fontSize: 18,
                         fontWeight: 700,
-                        color: C.primary,
+                        color: C.primaryDark,
                         margin: 0
                       }}>
                         {item.name}
                       </h4>
                       <span style={{
                         background: `${C.primary}1a`,
-                        color: C.primary,
+                        color: C.primaryDark,
                         fontSize: 10,
                         fontWeight: 700,
                         letterSpacing: '0.05em',
@@ -920,7 +921,7 @@ export default function Page() {
               <h2 style={{
                 fontFamily: SERIF,
                 fontSize: 'clamp(28px, 4vw, 44px)',
-                color: C.primary,
+                color: C.primaryDark,
                 marginBottom: 16,
                 fontWeight: 700
               }}>{/* TEXTE_SECTION */ clientText(sessionData, "gallery.titre") ?? (<>
@@ -966,7 +967,7 @@ export default function Page() {
             <h2 style={{
               fontFamily: SERIF,
               fontSize: 'clamp(28px, 4vw, 44px)',
-              color: C.primary,
+              color: C.primaryDark,
               marginBottom: 64,
               fontWeight: 700
             }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
@@ -976,7 +977,7 @@ export default function Page() {
 
           <Reveal delay={0.2}>
             <div style={{ position: 'relative', background: C.bgDeep, padding: '48px 32px', borderRadius: 4, border: `1px solid ${C.primary}0c` }}>
-              <div style={{ color: C.primary, opacity: 0.15, position: 'absolute', top: 24, left: 24 }}><Quote size={56} /></div>
+              <div style={{ color: C.primaryDark, opacity: 0.15, position: 'absolute', top: 24, left: 24 }}><Quote size={56} /></div>
               <p style={{
                 fontFamily: SERIF,
                 fontSize: 'clamp(18px, 2.2vw, 24px)',
@@ -1011,7 +1012,7 @@ export default function Page() {
               <h2 style={{
                 fontFamily: SERIF,
                 fontSize: 'clamp(28px, 4vw, 44px)',
-                color: C.primary,
+                color: C.primaryDark,
                 marginBottom: 16,
                 fontWeight: 700
               }}>{/* TEXTE_SECTION */ clientText(sessionData, "faq.titre") ?? (<>
@@ -1094,7 +1095,7 @@ export default function Page() {
                 <h2 style={{
                   fontFamily: SERIF,
                   fontSize: 'clamp(28px, 4vw, 44px)',
-                  color: C.primary,
+                  color: C.primaryDark,
                   marginBottom: 24,
                   fontWeight: 700
                 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
@@ -1114,7 +1115,7 @@ export default function Page() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: C.primary,
+                      color: C.primaryDark,
                       flexShrink: 0
                     }}>
                       <Phone size={18} />
@@ -1134,7 +1135,7 @@ export default function Page() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: C.primary,
+                      color: C.primaryDark,
                       flexShrink: 0
                     }}>
                       <Mail size={18} />
@@ -1154,7 +1155,7 @@ export default function Page() {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      color: C.primary,
+                      color: C.primaryDark,
                       flexShrink: 0
                     }}>
                       <MapPin size={18} />
@@ -1182,8 +1183,8 @@ export default function Page() {
                       animate={{ opacity: 1, scale: 1 }}
                       style={{ textAlign: 'center', padding: '24px 0' }}
                     >
-                      <div style={{ color: C.primary, marginBottom: 16 }}><CheckCircle size={48} style={{ margin: '0 auto' }} /></div>
-                      <h3 style={{ fontFamily: SERIF, fontSize: 22, color: C.primary, marginBottom: 8, fontWeight: 700 }}>Demande reçue !</h3>
+                      <div style={{ color: C.primaryDark, marginBottom: 16 }}><CheckCircle size={48} style={{ margin: '0 auto' }} /></div>
+                      <h3 style={{ fontFamily: SERIF, fontSize: 22, color: C.primaryDark, marginBottom: 8, fontWeight: 700 }}>Demande reçue !</h3>
                       <p style={{ fontSize: 14, color: C.textMuted, lineHeight: 1.6 }}>
                         Merci {formData.name}, nous avons bien reçu votre message et nous vous recontacterons très rapidement.
                       </p>
@@ -1276,17 +1277,17 @@ export default function Page() {
             marginBottom: 64
           }}>
             <div>
-              <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primary, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Re-Thread Studio"))}</h4>
+              <h4 style={{ fontFamily: SERIF, fontSize: 18, color: C.primaryDark, marginBottom: 16, fontWeight: 700 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Re-Thread Studio"))}</h4>
               <p style={{ lineHeight: 1.6 }}>
                 Mode upcycling {clientCity(sessionData) ?? "Bordeaux"}
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
-                <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>
+                <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primaryDark, opacity: 0.7 }}><Instagram size={18} /></a>
               </div>
             </div>
 
             <div>
-              <h5 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary, marginBottom: 16, fontWeight: 700 }}>Navigation</h5>
+              <h5 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primaryDark, marginBottom: 16, fontWeight: 700 }}>Navigation</h5>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                 <a href="#about" style={{ textDecoration: 'none', color: 'inherit' }}>À Propos</a>
                 <a href="#menu" style={{ textDecoration: 'none', color: 'inherit' }}>
@@ -1298,14 +1299,14 @@ export default function Page() {
             </div>
 
             <div>
-              <h5 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary, marginBottom: 16, fontWeight: 700 }}>Horaires</h5>
+              <h5 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primaryDark, marginBottom: 16, fontWeight: 700 }}>Horaires</h5>
               <p style={{ lineHeight: 1.6 }}>
                 Mar–Sam 10h–18h · Ateliers le week-end
               </p>
             </div>
 
             <div>
-              <h5 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary, marginBottom: 16, fontWeight: 700 }}>Légal</h5>
+              <h5 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primaryDark, marginBottom: 16, fontWeight: 700 }}>Légal</h5>
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
                 SIRET: 894 302 596 00012<br />
                 TVA Intracommunautaire: FR 89 894302596<br />
