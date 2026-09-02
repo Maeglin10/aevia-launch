@@ -10,6 +10,9 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "tame your": "Domptez votre",
+    "your brain is the final frontier of privacy. our neural security layer implements hardware-level encryption that physically disconnects the bridge if any external intrusion is detected. no cloud, no backdoors, no exceptions.": "Votre cerveau est la dernière frontière de la vie privée. Notre couche de sécurité neurale chiffre au niveau du matériel et coupe physiquement le pont dès qu'une intrusion est détectée. Pas de nuage, pas de porte dérobée, pas d'exception.",
+    "at neuralis, we believe augmentation is a fundamental right. our governance board ensures every neural bridge is encrypted locally, giving you absolute sovereignty over your own biological data.": "Pour nous, l'augmentation est un droit fondamental. Notre comité de gouvernance garantit que chaque pont neural est chiffré localement : vous restez souverain de vos propres données biologiques.",
     "a sub-dermal haptic relay providing 1:1 sensory mapping between physical and digital environments.": "Un relais haptique sous-cutané fournissant une cartographie sensorielle 1:1 entre les environnements physiques et numériques.",
     "achieve sub-millisecond latency in thought-to-command execution with our proprietary bridge protocols.": "Atteignez une latence inférieure à la milliseconde dans l'exécution de la pensée à la commande avec nos protocoles de pont propriétaires.",
     "are there any side effects?": "Y a-t-il des effets secondaires ?",
@@ -46,6 +49,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "zero-residue materials that can be fully integrated or removed without cellular trauma.": "Matériaux sans résidu qui peuvent être entièrement intégrés ou retirés sans traumatisme cellulaire.",
   },
   es: {
+    "tame your": "Dome su",
+    "your brain is the final frontier of privacy. our neural security layer implements hardware-level encryption that physically disconnects the bridge if any external intrusion is detected. no cloud, no backdoors, no exceptions.": "Su cerebro es la última frontera de la privacidad. Nuestra capa de seguridad neuronal cifra a nivel de hardware y corta físicamente el puente en cuanto detecta una intrusión. Sin nube, sin puertas traseras, sin excepciones.",
+    "at neuralis, we believe augmentation is a fundamental right. our governance board ensures every neural bridge is encrypted locally, giving you absolute sovereignty over your own biological data.": "Para nosotros, la aumentación es un derecho fundamental. Nuestro comité de gobernanza garantiza que cada puente neuronal se cifra localmente: usted sigue siendo soberano de sus propios datos biológicos.",
     "a sub-dermal haptic relay providing 1:1 sensory mapping between physical and digital environments.": "Un relé háptico subdérmico que proporciona un mapeo sensorial 1:1 entre entornos físicos y digitales.",
     "achieve sub-millisecond latency in thought-to-command execution with our proprietary bridge protocols.": "Logra una latencia de menos de un milisegundo en la ejecución de pensamiento a comando con nuestros protocolos de puente patentados.",
     "are there any side effects?": "¿Hay efectos secundarios?",
@@ -82,6 +88,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "zero-residue materials that can be fully integrated or removed without cellular trauma.": "Materiales sin residuos que pueden integrarse o eliminarse completamente sin trauma celular.",
   },
   de: {
+    "tame your": "Zähmen Sie Ihr",
+    "your brain is the final frontier of privacy. our neural security layer implements hardware-level encryption that physically disconnects the bridge if any external intrusion is detected. no cloud, no backdoors, no exceptions.": "Ihr Gehirn ist die letzte Grenze der Privatsphäre. Unsere neuronale Sicherheitsschicht verschlüsselt auf Hardware-Ebene und trennt die Brücke physisch, sobald ein Eindringen erkannt wird. Keine Cloud, keine Hintertüren, keine Ausnahmen.",
+    "at neuralis, we believe augmentation is a fundamental right. our governance board ensures every neural bridge is encrypted locally, giving you absolute sovereignty over your own biological data.": "Für uns ist Augmentierung ein Grundrecht. Unser Governance-Gremium stellt sicher, dass jede neuronale Brücke lokal verschlüsselt wird: Sie bleiben souverän über Ihre eigenen biologischen Daten.",
     "a sub-dermal haptic relay providing 1:1 sensory mapping between physical and digital environments.": "Ein subdermales haptisches Relais, das eine 1:1 sensorische Abbildung zwischen physischen und digitalen Umgebungen bietet.",
     "achieve sub-millisecond latency in thought-to-command execution with our proprietary bridge protocols.": "Erreichen Sie eine Latenz von unter einer Millisekunde bei der Ausführung von Gedanken zu Befehlen mit unseren proprietären Brückenprotokollen.",
     "are there any side effects?": "Gibt es Nebenwirkungen?",
@@ -118,6 +127,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "zero-residue materials that can be fully integrated or removed without cellular trauma.": "Null-Rückstands-Materialien, die vollständig integriert oder entfernt werden können, ohne zelluläres Trauma zu verursachen.",
   },
   pt: {
+    "tame your": "Dome o seu",
+    "your brain is the final frontier of privacy. our neural security layer implements hardware-level encryption that physically disconnects the bridge if any external intrusion is detected. no cloud, no backdoors, no exceptions.": "O seu cérebro é a última fronteira da privacidade. A nossa camada de segurança neural cifra ao nível do hardware e corta fisicamente a ponte assim que deteta uma intrusão. Sem nuvem, sem portas traseiras, sem exceções.",
+    "at neuralis, we believe augmentation is a fundamental right. our governance board ensures every neural bridge is encrypted locally, giving you absolute sovereignty over your own biological data.": "Para nós, a aumentação é um direito fundamental. O nosso comité de governação garante que cada ponte neural é cifrada localmente: continua soberano dos seus próprios dados biológicos.",
     "a sub-dermal haptic relay providing 1:1 sensory mapping between physical and digital environments.": "Um relé háptico subdérmico que fornece mapeamento sensorial 1:1 entre ambientes físicos e digitais.",
     "achieve sub-millisecond latency in thought-to-command execution with our proprietary bridge protocols.": "Alcance uma latência inferior a um milissegundo na execução de pensamento para comando com nossos protocolos de ponte proprietários.",
     "are there any side effects?": "Há efeitos secundários?",

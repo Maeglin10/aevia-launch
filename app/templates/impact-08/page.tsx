@@ -550,7 +550,7 @@ return (
                   <Reveal>
                      <div className="text-[10px] font-black uppercase tracking-[0.5em] text-[var(--brand,#3b82f6)] mb-8">{clientName(sessionData) ?? "Vulcan"}_Registry</div>
                      <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter leading-[0.85] italic">{c?.aboutTitle ?? fd?.businessName ?? <>
-                        The <br/> <span className="text-white/10">Arsenal.</span>
+                        L'<br/> <span className="text-white/10">arsenal.</span>
                      </>}</h2>
                   </Reveal>
                   <div className="hidden md:block">

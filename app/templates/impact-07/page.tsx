@@ -334,10 +334,10 @@ export default function AetherSoundPage() {
 
         <div className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full grid grid-cols-1 lg:grid-cols-2 items-center">
           <Reveal>
-             <h1 style={{ /* TITRE_DEGAGE */ marginTop: 128 }} className="hero-ecran-court text-5xl sm:text-6xl md:text-[9rem] font-black leading-[0.9] md:leading-[0.78] tracking-tight md:tracking-tighter mb-12 uppercase text-white italic break-words">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "The"}<br/> <span className="text-[var(--brand,#c9a84c)] not-italic">{clientHeroLine(sessionData, 1, 2, 9) ?? "Silence."}</span>
+             <h1 style={{ /* TITRE_DEGAGE */ marginTop: 128 }} className="hero-ecran-court text-5xl sm:text-6xl md:text-[9rem] font-black leading-[0.9] md:leading-[0.78] tracking-tight md:tracking-tighter mb-12 uppercase text-white italic break-words">{<>{clientHeroLine(sessionData, 0, 2, 9) ?? "Le"}<br/> <span className="text-[var(--brand,#c9a84c)] not-italic">{clientHeroLine(sessionData, 1, 2, 9) ?? "silence."}</span>
              </>}</h1>
              <p className="max-w-md text-xl text-white/30 leading-relaxed font-light mb-12 uppercase tracking-widest italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
-               Redefining the threshold of hearing. Precision sonic instruments for the world's most discerning ears.
+               Repousser le seuil de l'audition. Des instruments sonores de précision, pour les oreilles les plus exigeantes.
              </>}</p>
              <div className="flex flex-col sm:flex-row gap-6">
                 <MagneticBtn className="px-12 py-5 bg-[var(--brand,#c9a84c)] text-black text-[10px] font-black uppercase tracking-[0.3em] rounded-full hover:scale-105 transition-all cursor-pointer shadow-[0_0_40px_rgba(201,168,76,0.3)]">
@@ -386,7 +386,7 @@ export default function AetherSoundPage() {
           <Reveal>
             <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
                <div>
-                  <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "reference.titre") ?? (<>The <br/> <span className="text-[var(--brand,#c9a84c)]">Line.</span></>)}</h2>
+                  <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "reference.titre") ?? (<>La <br/> <span className="text-[var(--brand,#c9a84c)]">gamme.</span></>)}</h2>
                   <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">Reference Manifest // Hand-Crafted // Series 07</p>
                </div>
                <Link href="/templates/impact-07/technical-archive" className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c9a84c)] border-b border-[var(--brand,#c9a84c)] pb-2 hover:text-white hover:border-white transition-all">Download Technical Archive</Link>

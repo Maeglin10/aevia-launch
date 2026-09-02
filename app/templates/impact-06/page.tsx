@@ -386,10 +386,10 @@ export default function NeuralisPage() {
           <Reveal>
             <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
                <div>
-                  <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "solutions.titre") ?? (<>The <br/> <span className="text-[#00f2ff]">Vault.</span></>)}</h2>
-                  <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">Internal Spec // Bio-Sync 8.0 // Q4 2024</p>
+                  <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "solutions.titre") ?? (<>Le <br/> <span className="text-[#00f2ff]">coffre.</span></>)}</h2>
+                  <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">Spécification interne // Bio-Sync 8.0 // T4 2024</p>
                </div>
-               <Link href="#solutions" className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#00f2ff] border-b border-[#00f2ff] pb-2 hover:text-white hover:border-white transition-all">View All Research Logs</Link>
+               <Link href="#solutions" className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#00f2ff] border-b border-[#00f2ff] pb-2 hover:text-white hover:border-white transition-all">Voir tous les journaux de recherche</Link>
             </div>
           </Reveal>
 
@@ -712,7 +712,7 @@ export default function NeuralisPage() {
            <Reveal>
               <div className="mb-32 text-center">
                  <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#00f2ff] mb-8 block">User Experiences</span>
-                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>The <span className="text-[#00f2ff] not-italic">Elite.</span></>)}</h2>
+                 <h2 className="text-6xl md:text-8xl font-black italic tracking-tighter uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>L'<span className="text-[#00f2ff] not-italic">élite.</span></>)}</h2>
               </div>
            </Reveal>
 
