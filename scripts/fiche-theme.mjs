@@ -99,6 +99,28 @@ for (const [etat, url] of [["vitrine", ""], ["client", "?session=v"]]) {
         telVu: txt.includes("78 12 34 56") || [...document.querySelectorAll('a[href^="tel:"]')].some((a) => a.href.replace(/\D/g, "").endsWith("478123456")),
         debord: document.documentElement.scrollWidth - document.documentElement.clientWidth,
         images: document.querySelectorAll("img").length,
+        /* Deux textes qui se recouvrent : le défaut se voit à l'œil mais se
+           rate à la lecture d'un rapport. On ne compare que ce qui porte
+           vraiment du texte, on ignore les éléments quasi transparents (une
+           surimpression qui n'est pas encore apparue) et les parents. */
+        chevauchements: (() => {
+          const els = [...document.querySelectorAll("h1,h2,h3,h4,p,span,a,button,li")].filter((e) => {
+            const propre = [...e.childNodes].some((n) => n.nodeType === 3 && (n.textContent || "").trim().length > 1);
+            const r = e.getBoundingClientRect();
+            const s = getComputedStyle(e);
+            return propre && r.width > 10 && r.height > 6 && r.top >= 0 && r.top < innerHeight && parseFloat(s.opacity) > 0.15;
+          });
+          const out = [];
+          for (let i = 0; i < els.length; i++) for (let j = i + 1; j < els.length; j++) {
+            const a = els[i], b = els[j];
+            if (a.contains(b) || b.contains(a)) continue;
+            const ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
+            const ox = Math.min(ra.right, rb.right) - Math.max(ra.left, rb.left);
+            const oy = Math.min(ra.bottom, rb.bottom) - Math.max(ra.top, rb.top);
+            if (ox > 18 && oy > 10) out.push(`${(a.textContent || "").trim().slice(0, 22)} ⨯ ${(b.textContent || "").trim().slice(0, 22)}`);
+          }
+          return [...new Set(out)].slice(0, 3);
+        })(),
         titre: boite(h1), barreB: boite(barre),
         titreTxt: (h1?.innerText || "").replace(/\s+/g, " ").slice(0, 60),
       };
@@ -133,6 +155,7 @@ for (const r of rapport) {
   const al = r.anglais.length ? ` · anglais: ${r.anglais.join(",")}` : "";
   console.log(`${r.etat.padEnd(8)}${r.largeur.padEnd(5)} apo ${r.apostrophes} · débord ${r.debord} · img ${r.images}${r.morts ? " (" + r.morts + " mortes)" : ""} · titre ${r.cTitre ?? "?"} · barre ${r.cBarre ?? "?"}${al}`);
   if (r.etat === "client" && (!r.nomVu || !r.telVu)) console.log(`         PERSONNALISATION : nom ${r.nomVu ? "ok" : "ABSENT"} · téléphone ${r.telVu ? "ok" : "ABSENT"}`);
+  if (r.chevauchements?.length) console.log(`         CHEVAUCHE : ${r.chevauchements.join(" · ")}`);
   if (r.erreurs.length) console.log(`         ${r.erreurs.join(" | ")}`);
 }
 fs.appendFileSync("captures/revue/journal.jsonl", JSON.stringify({ theme: t, rapport }) + "\n");
