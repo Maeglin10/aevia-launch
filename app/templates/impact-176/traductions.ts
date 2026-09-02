@@ -10,6 +10,11 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "your data.": "Vos données.",
+    "your decisions.": "Vos décisions.",
+    "your advantage.": "Votre avantage.",
+    "the needle.": "l'essentiel.",
+    "stop guessing. metric surfaces the insights that matter — right when you need them. automated anomaly detection, trend forecasting, and cohort analysis in a single view.": "Arrêtez de deviner. La plateforme fait remonter ce qui compte, au moment où cela compte : détection automatique des anomalies, prévision de tendance et analyse par cohorte.",
     "14 days free →": "14 jours gratuits →",
     "14 days free on all plans. no credit card required.": "14 jours gratuits sur tous les plans. Aucune carte de crédit requise.",
     "14 days free on the growth plan, no credit card required. data is deleted at the end if you don't convert.": "14 jours gratuits sur le plan Croissance, aucune carte de crédit requise. Les données sont supprimées à la fin si vous ne convertissez pas.",
@@ -57,6 +62,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your data is waiting for you.": "Vos données vous attendent.",
   },
   es: {
+    "your data.": "Sus datos.",
+    "your decisions.": "Sus decisiones.",
+    "your advantage.": "Su ventaja.",
+    "the needle.": "lo esencial.",
+    "stop guessing. metric surfaces the insights that matter — right when you need them. automated anomaly detection, trend forecasting, and cohort analysis in a single view.": "Deje de adivinar. La plataforma hace emerger lo que importa, cuando importa: detección automática de anomalías, previsión de tendencias y análisis por cohortes.",
     "14 days free →": "14 días gratis →",
     "14 days free on all plans. no credit card required.": "14 días gratis en todos los planes. No se requiere tarjeta de crédito.",
     "14 days free on the growth plan, no credit card required. data is deleted at the end if you don't convert.": "14 días gratis en el plan de Crecimiento, no se requiere tarjeta de crédito. Los datos se eliminan al final si no conviertes.",
@@ -104,6 +114,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your data is waiting for you.": "Sus datos le esperan.",
   },
   de: {
+    "your data.": "Ihre Daten.",
+    "your decisions.": "Ihre Entscheidungen.",
+    "your advantage.": "Ihr Vorsprung.",
+    "the needle.": "das Wesentliche.",
+    "stop guessing. metric surfaces the insights that matter — right when you need them. automated anomaly detection, trend forecasting, and cohort analysis in a single view.": "Hören Sie auf zu raten. Die Plattform hebt hervor, was zählt, genau dann, wenn es zählt: automatische Anomalie-Erkennung, Trendprognose und Kohortenanalyse.",
     "14 days free →": "14 Tage kostenlos →",
     "14 days free on all plans. no credit card required.": "14 Tage kostenlos in allen Tarifen. Keine Kreditkarte erforderlich.",
     "14 days free on the growth plan, no credit card required. data is deleted at the end if you don't convert.": "14 Tage kostenlos im Wachstumsplan, keine Kreditkarte erforderlich. Daten werden am Ende gelöscht, wenn Sie nicht konvertieren.",
@@ -151,6 +166,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your data is waiting for you.": "Ihre Daten warten auf Sie.",
   },
   pt: {
+    "your data.": "Os seus dados.",
+    "your decisions.": "As suas decisões.",
+    "your advantage.": "A sua vantagem.",
+    "the needle.": "o essencial.",
+    "stop guessing. metric surfaces the insights that matter — right when you need them. automated anomaly detection, trend forecasting, and cohort analysis in a single view.": "Deixe de adivinhar. A plataforma faz emergir o que conta, no momento em que conta: deteção automática de anomalias, previsão de tendências e análise por coortes.",
     "14 days free →": "14 dias grátis →",
     "14 days free on all plans. no credit card required.": "14 dias grátis em todos os planos. Não é necessário cartão de crédito.",
     "14 days free on the growth plan, no credit card required. data is deleted at the end if you don't convert.": "14 dias grátis no plano de Crescimento, não é necessário cartão de crédito. Os dados são eliminados no final se não converter.",
