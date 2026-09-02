@@ -10,6 +10,8 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "the platform to build": "La plateforme pour bâtir",
+    "your next great idea": "votre prochaine grande idée",
     "1,000 api calls/day": "1 000 appels API/jour",
     "100,000 api calls/day": "100 000 appels API/jour",
     "across all customers": "sur l'ensemble des clients",
@@ -49,6 +51,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your team, in perfect sync": "Votre équipe, parfaitement accordée",
   },
   es: {
+    "the platform to build": "La plataforma para construir",
+    "your next great idea": "su próxima gran idea",
     "1,000 api calls/day": "1.000 llamadas a la API/día",
     "100,000 api calls/day": "100.000 llamadas a la API/día",
     "across all customers": "en el conjunto de los clientes",
@@ -88,6 +92,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your team, in perfect sync": "Su equipo, perfectamente acompasado",
   },
   de: {
+    "the platform to build": "Die Plattform, um zu bauen",
+    "your next great idea": "Ihre nächste große Idee",
     "1,000 api calls/day": "1.000 API-Aufrufe/Tag",
     "100,000 api calls/day": "100.000 API-Aufrufe/Tag",
     "across all customers": "über alle Kunden hinweg",
@@ -127,6 +133,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your team, in perfect sync": "Ihr Team, im Gleichtakt",
   },
   pt: {
+    "the platform to build": "A plataforma para construir",
+    "your next great idea": "a sua próxima grande ideia",
     "1,000 api calls/day": "1.000 chamadas à API/dia",
     "100,000 api calls/day": "100.000 chamadas à API/dia",
     "across all customers": "no conjunto dos clientes",

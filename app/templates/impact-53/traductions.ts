@@ -10,6 +10,10 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "we architect brands as living systems — visual languages that scale from a favicon to a billboard without losing their dna. logo, typography, motion language, editorial system.": "Nous construisons les marques comme des systèmes vivants — des langages visuels qui tiennent du favicon au panneau d'affichage sans perdre leur ADN. Logo, typographie, mouvement.",
+    "high-contrast, high-performance web experiences. micro-interactions, scroll-driven animations, webgl environments — designed to arrest attention and convert intent.": "Des expériences web à fort contraste et hautes performances : micro-interactions, animations au défilement, environnements WebGL — pensés pour arrêter le regard.",
+    "for studios, labels, and founders who need vision without compromise. we embed in your team as a fractional creative director — strategy, art direction, production oversight.": "Pour les studios, les labels et les fondateurs qui veulent une vision sans compromis. Nous entrons dans votre équipe comme directeur artistique à temps partagé — stratégie, direction artistique, exécution.",
+    "multi-touchpoint campaign systems for product launches and cultural moments. we design the logic before the aesthetics: message architecture, channel mapping, content systems.": "Des dispositifs de campagne multicanaux pour un lancement de produit ou un moment culturel. Nous dessinons la logique avant l'esthétique : architecture du message, canaux, séquence.",
     "build.": "CONSTRUIRE.",
     "digital experience design": "Conception d'expérience numérique",
     "from identity animations to short-form films. we direct and produce motion content from concept to delivery — titles, brand films, social content series.": "Des animations d'identité aux films courts. Nous dirigeons et produisons du contenu animé de la conception à la livraison — titres, films de marque, séries de contenu social.",
@@ -31,6 +35,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "years": "ANNÉES",
   },
   es: {
+    "we architect brands as living systems — visual languages that scale from a favicon to a billboard without losing their dna. logo, typography, motion language, editorial system.": "Construimos las marcas como sistemas vivos — lenguajes visuales que aguantan del favicon a la valla publicitaria sin perder su ADN. Logo, tipografía, movimiento.",
+    "high-contrast, high-performance web experiences. micro-interactions, scroll-driven animations, webgl environments — designed to arrest attention and convert intent.": "Experiencias web de alto contraste y alto rendimiento: microinteracciones, animaciones al desplazamiento, entornos WebGL — pensadas para detener la mirada.",
+    "for studios, labels, and founders who need vision without compromise. we embed in your team as a fractional creative director — strategy, art direction, production oversight.": "Para estudios, sellos y fundadores que quieren una visión sin concesiones. Entramos en su equipo como director creativo a tiempo compartido — estrategia, dirección de arte, ejecución.",
+    "multi-touchpoint campaign systems for product launches and cultural moments. we design the logic before the aesthetics: message architecture, channel mapping, content systems.": "Dispositivos de campaña multicanal para un lanzamiento de producto o un momento cultural. Dibujamos la lógica antes que la estética: arquitectura del mensaje, canales, secuencia.",
     "build.": "CONSTRUIR.",
     "digital experience design": "Diseño de experiencia digital",
     "from identity animations to short-form films. we direct and produce motion content from concept to delivery — titles, brand films, social content series.": "Desde animaciones de identidad hasta cortometrajes. Dirigimos y producimos contenido en movimiento desde el concepto hasta la entrega — títulos, películas de marca, series de contenido social.",
@@ -52,6 +60,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "years": "AÑOS",
   },
   de: {
+    "we architect brands as living systems — visual languages that scale from a favicon to a billboard without losing their dna. logo, typography, motion language, editorial system.": "Wir bauen Marken als lebende Systeme — visuelle Sprachen, die vom Favicon bis zur Plakatwand tragen, ohne ihre DNA zu verlieren. Logo, Typografie, Bewegung.",
+    "high-contrast, high-performance web experiences. micro-interactions, scroll-driven animations, webgl environments — designed to arrest attention and convert intent.": "Web-Erlebnisse mit hohem Kontrast und hoher Performance: Mikrointeraktionen, scrollgetriebene Animationen, WebGL-Umgebungen — gemacht, um den Blick anzuhalten.",
+    "for studios, labels, and founders who need vision without compromise. we embed in your team as a fractional creative director — strategy, art direction, production oversight.": "Für Studios, Labels und Gründer, die eine kompromisslose Vision wollen. Wir gehen als Creative Director auf Zeit in Ihr Team — Strategie, Art Direction, Umsetzung.",
+    "multi-touchpoint campaign systems for product launches and cultural moments. we design the logic before the aesthetics: message architecture, channel mapping, content systems.": "Mehrkanalige Kampagnensysteme für Produktstarts und kulturelle Momente. Wir entwerfen die Logik vor der Ästhetik: Botschaftsarchitektur, Kanäle, Abfolge.",
     "build.": "BAUEN.",
     "digital experience design": "Digitales Erlebnisdesign",
     "from identity animations to short-form films. we direct and produce motion content from concept to delivery — titles, brand films, social content series.": "Von Identitätsanimationen bis hin zu Kurzfilmen. Wir leiten und produzieren bewegte Inhalte von der Idee bis zur Auslieferung — Titel, Markenfilme, soziale Inhaltsserien.",
@@ -73,6 +85,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "years": "JAHRE",
   },
   pt: {
+    "we architect brands as living systems — visual languages that scale from a favicon to a billboard without losing their dna. logo, typography, motion language, editorial system.": "Construímos as marcas como sistemas vivos — linguagens visuais que aguentam do favicon ao outdoor sem perder o seu ADN. Logótipo, tipografia, movimento.",
+    "high-contrast, high-performance web experiences. micro-interactions, scroll-driven animations, webgl environments — designed to arrest attention and convert intent.": "Experiências web de alto contraste e alto desempenho: microinterações, animações ao scroll, ambientes WebGL — pensadas para deter o olhar.",
+    "for studios, labels, and founders who need vision without compromise. we embed in your team as a fractional creative director — strategy, art direction, production oversight.": "Para estúdios, editoras e fundadores que querem uma visão sem compromissos. Entramos na sua equipa como diretor criativo a tempo parcial — estratégia, direção de arte, execução.",
+    "multi-touchpoint campaign systems for product launches and cultural moments. we design the logic before the aesthetics: message architecture, channel mapping, content systems.": "Dispositivos de campanha multicanal para um lançamento de produto ou um momento cultural. Desenhamos a lógica antes da estética: arquitetura da mensagem, canais, sequência.",
     "build.": "CONSTRUIR.",
     "digital experience design": "Design de Experiência Digital",
     "from identity animations to short-form films. we direct and produce motion content from concept to delivery — titles, brand films, social content series.": "De animações de identidade a filmes curtos. Dirigimos e produzimos conteúdo em movimento desde o conceito até a entrega — títulos, filmes de marca, séries de conteúdo social.",
