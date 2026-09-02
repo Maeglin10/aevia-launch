@@ -1541,7 +1541,7 @@ function TestimonialsSection() {
       couple: 'Léa & Thomas G.',
       lieu: 'Domaine du Moulin de Wantzenau, Alsace',
       mariage: 'Mariage champêtre — 95 invités — Août 2024',
-      text: "Nous n'aurions pas pu imaginer notre journée sans Les Épousailles d'Alsace. Nous avons opté pour la coordination jour J et c'était la meilleure décision que nous pouvions prendre. Camille a géré chaque imprévu avec un calme absolu. Nous avons pu profiter de chaque minute sans nous soucier de quoi que ce soit.",
+      text: `Nous n'aurions pas pu imaginer notre journée sans ${clientName(sessionData) ?? "Les Épousailles d'Alsace"}. Nous avons opté pour la coordination jour J et c'était la meilleure décision que nous pouvions prendre. Camille a géré chaque imprévu avec un calme absolu. Nous avons pu profiter de chaque minute sans nous soucier de quoi que ce soit.`,
     },
     {
       couple: 'Emma & Julien K.',

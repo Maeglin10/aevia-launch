@@ -1852,7 +1852,7 @@ function QuoteForm() {
               margin: '0 auto clamp(36px,4.5vw,56px)',
             }}
           >
-            Remplissez ce formulaire — un technicien Aqua Confort vous rappelle
+            Remplissez ce formulaire — un technicien {clientName(sessionData) ?? "Aqua Confort"} vous rappelle
             dans les 2 heures pour étudier votre demande.
           </p>
         </Reveal>

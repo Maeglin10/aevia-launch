@@ -91,7 +91,7 @@ let SERVICES = SERVICES_DEMO;
 
 function TEMOIGNAGES_SOURCE_LIVE() {
   return [
-  { texte: "Notre appartement parisien a été vendu en 18 jours au prix demandé. L'équipe Pierre & Co a géré tout le processus avec un professionnalisme remarquable. Je recommande sans hésiter.", auteur: "Catherine B.", detail: "Vente appartement 145 m², " + (clientCity(sessionData) ?? "Paris") },
+  { texte: `Notre appartement parisien a été vendu en 18 jours au prix demandé. L'équipe ${clientName(sessionData) ?? "Pierre & Co"} a géré tout le processus avec un professionnalisme remarquable. Je recommande sans hésiter.`, auteur: "Catherine B.", detail: "Vente appartement 145 m², " + (clientCity(sessionData) ?? "Paris") },
   { texte: "Recherche longue et minutieuse, mais l'équipe ne s'est jamais découragée. Ils ont finalement trouvé notre maison de rêve à Neuilly — exactement ce que nous cherchions et dans notre budget.", auteur: "Famille Morin", detail: "Achat maison 280 m², Neuilly-sur-Seine" },
   { texte: "Honnêteté et transparence du début à la fin. Pas de surprises, pas de pression. Pierre & Co m'a conseillé au mieux de mes intérêts et pas des leurs. C'est rare dans ce métier.", auteur: "Jean-François A.", detail: "Achat + revente simultanés, " + (clientCity(sessionData) ?? "Paris") },
 ];

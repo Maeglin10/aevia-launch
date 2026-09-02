@@ -1346,7 +1346,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     quote:
-      "Le Dr. Lecomte suit mon diabète depuis cinq ans avec une rigueur et une humanité remarquables. Il prend le temps d'expliquer chaque résultat et adapte le traitement sans jamais perdre le contact humain. Je me sens vraiment entre de bonnes mains.",
+      `Le ${clientName(sessionData) ?? "Dr. Lecomte"} suit mon diabète depuis cinq ans avec une rigueur et une humanité remarquables. Il prend le temps d'expliquer chaque résultat et adapte le traitement sans jamais perdre le contact humain. Je me sens vraiment entre de bonnes mains.`,
     name: 'Christine M.',
     context: 'Suivi diabète de type 2 · ' + (clientCity(sessionData) ?? 'Nantes'),
     stars: 5,

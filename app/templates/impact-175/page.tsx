@@ -180,7 +180,7 @@ const TESTIMONIALS_SOURCE = [
     rating: 5,
   },
   {
-    text: "Notre mariage au château était le rêve absolu. L'équipe Confluence a su anticiper chaque besoin sans que nous ayons à y penser une seule seconde.",
+    text: `Notre mariage au château était le rêve absolu. L'équipe ${clientName(sessionData) ?? "Confluence"} a su anticiper chaque besoin sans que nous ayons à y penser une seule seconde.`,
     author: "Camille & Thomas R.",
     role: "Mariés en Juin 2024",
     rating: 5,

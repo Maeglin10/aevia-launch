@@ -718,7 +718,7 @@ function Hero() {
             maxWidth: 520,
             lineHeight: 1.7,
           }}
-        >{clientHeroSubtitle(sessionData) ?? "Atelier Céleste orchestre vos plus belles célébrations avec une obsession : que chaque détail soit à votre image."}</motion.p>
+        >{clientHeroSubtitle(sessionData) ?? `${clientName(sessionData) ?? "Atelier Céleste"} orchestre vos plus belles célébrations avec une obsession : que chaque détail soit à votre image.`}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
