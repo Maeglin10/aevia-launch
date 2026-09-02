@@ -10,6 +10,9 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "pulse is an independent live music company operating across europe. we partner with exceptional artists and iconic venues to produce concerts that stay with you long after the last note fades.": "est une société indépendante de spectacle vivant présente dans toute l'Europe. Nous travaillons avec des artistes remarquables et des salles emblématiques pour produire des concerts qui restent longtemps après la dernière note.",
+    "nineteenth-century acoustics, restored in 2019. our seated programme lives here.": "Acoustique du XIXe siècle, restaurée en 2019. C'est ici que vit notre programmation assise.",
+    "three rooms, no phones on the floor. late licence until 08:00.": "Trois salles, aucun téléphone sur la piste. Licence de nuit jusqu'à 8 heures.",
     "a rare promoter that programmes for the room rather than the spreadsheet.": "Un organisateur rare, qui programme pour la salle et non pour le tableur.",
     "about pulse": "À propos",
     "all events": "Tous les événements",
@@ -46,6 +49,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "you go": "de partir",
   },
   es: {
+    "pulse is an independent live music company operating across europe. we partner with exceptional artists and iconic venues to produce concerts that stay with you long after the last note fades.": "es una empresa independiente de música en directo presente en toda Europa. Trabajamos con artistas destacados y salas emblemáticas para producir conciertos que permanecen mucho después de la última nota.",
+    "nineteenth-century acoustics, restored in 2019. our seated programme lives here.": "Acústica del siglo XIX, restaurada en 2019. Aquí vive nuestra programación sentada.",
+    "three rooms, no phones on the floor. late licence until 08:00.": "Tres salas, ningún teléfono en la pista. Licencia nocturna hasta las 8.",
     "a rare promoter that programmes for the room rather than the spreadsheet.": "Un promotor raro, que programa para la sala y no para la hoja de cálculo.",
     "about pulse": "Sobre nosotros",
     "all events": "Todos los eventos",
@@ -82,6 +88,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "you go": "de irse",
   },
   de: {
+    "pulse is an independent live music company operating across europe. we partner with exceptional artists and iconic venues to produce concerts that stay with you long after the last note fades.": "ist ein unabhängiges Live-Musikunternehmen mit Präsenz in ganz Europa. Wir arbeiten mit herausragenden Künstlern und legendären Sälen und produzieren Konzerte, die lange nach dem letzten Ton bleiben.",
+    "nineteenth-century acoustics, restored in 2019. our seated programme lives here.": "Akustik aus dem 19. Jahrhundert, 2019 restauriert. Hier lebt unser bestuhltes Programm.",
+    "three rooms, no phones on the floor. late licence until 08:00.": "Drei Säle, keine Handys auf der Fläche. Nachtlizenz bis 8 Uhr.",
     "a rare promoter that programmes for the room rather than the spreadsheet.": "Ein seltener Veranstalter, der für den Saal programmiert und nicht für die Tabelle.",
     "about pulse": "Über uns",
     "all events": "Alle Veranstaltungen",
@@ -118,6 +127,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "you go": "Sie gehen",
   },
   pt: {
+    "pulse is an independent live music company operating across europe. we partner with exceptional artists and iconic venues to produce concerts that stay with you long after the last note fades.": "é uma empresa independente de espetáculo ao vivo presente em toda a Europa. Trabalhamos com artistas notáveis e salas emblemáticas para produzir concertos que ficam muito depois da última nota.",
+    "nineteenth-century acoustics, restored in 2019. our seated programme lives here.": "Acústica do século XIX, restaurada em 2019. É aqui que vive a nossa programação sentada.",
+    "three rooms, no phones on the floor. late licence until 08:00.": "Três salas, nenhum telemóvel na pista. Licença noturna até às 8.",
     "a rare promoter that programmes for the room rather than the spreadsheet.": "Um promotor raro, que programa para a sala e não para a folha de cálculo.",
     "about pulse": "Sobre nós",
     "all events": "Todos os eventos",

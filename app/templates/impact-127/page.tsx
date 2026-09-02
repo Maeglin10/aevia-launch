@@ -290,7 +290,7 @@ export default function PulseEventsPage() {
 
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1600px] mx-auto px-6 md:px-12 w-full">
             <Reveal delay={0.1} y={70}>
-              <h1 className="text-7xl md:text-[8rem] lg:text-[11rem] font-black tracking-tighter leading-[0.8] mb-10 uppercase">{<>{clientHeroLine(sessionData, 0, 3, 6) ?? "Feel"}<br/>{clientHeroLine(sessionData, 1, 3, 6) ?? "The"}{" "}<span className="text-[var(--brand,#ec4899)]">{clientHeroLine(sessionData, 2, 3, 6) ?? "Pulse."}</span>
+              <h1 className="text-7xl md:text-[8rem] lg:text-[11rem] font-black tracking-tighter leading-[0.8] mb-10 uppercase">{<>{clientHeroLine(sessionData, 0, 3, 6) ?? "Sentez"}<br/>{clientHeroLine(sessionData, 1, 3, 6) ?? "le"}{" "}<span className="text-[var(--brand,#ec4899)]">{clientHeroLine(sessionData, 2, 3, 6) ?? "pouls."}</span>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.25}>

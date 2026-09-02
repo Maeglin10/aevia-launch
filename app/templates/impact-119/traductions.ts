@@ -10,6 +10,8 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "soc2 type ii, iso 27001, and hipaa compliant environments.": "Environnements conformes SOC 2 Type II, ISO 27001 et HIPAA.",
+    "start today with 200  €in free credits. no credit card required to explore our ecosystem.": "Commencez aujourd'hui avec 200 € de crédits offerts. Aucune carte bancaire n'est demandée pour explorer.",
     "120+ global regions with <5ms latency to end-users.": "120+ régions mondiales avec une latence <5ms pour les utilisateurs finaux.",
     "24/7 dedicated team": "Équipe dédiée 24/7",
     "aes-256 at rest and tls 1.3 in transit with mtls between services.": "AES-256 au repos, TLS 1.3 en transit, mTLS entre les services.",
@@ -35,6 +37,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what teams": "Ce que les équipes",
   },
   es: {
+    "soc2 type ii, iso 27001, and hipaa compliant environments.": "Entornos conformes a SOC 2 Tipo II, ISO 27001 e HIPAA.",
+    "start today with 200  €in free credits. no credit card required to explore our ecosystem.": "Empiece hoy con 200 € de crédito gratis. No se pide tarjeta para explorar.",
     "120+ global regions with <5ms latency to end-users.": "Más de 120 regiones globales con <5ms de latencia para los usuarios finales.",
     "24/7 dedicated team": "Equipo dedicado 24/7",
     "aes-256 at rest and tls 1.3 in transit with mtls between services.": "AES-256 en reposo, TLS 1.3 en tránsito, mTLS entre servicios.",
@@ -60,6 +64,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what teams": "Lo que los equipos",
   },
   de: {
+    "soc2 type ii, iso 27001, and hipaa compliant environments.": "Umgebungen konform zu SOC 2 Typ II, ISO 27001 und HIPAA.",
+    "start today with 200  €in free credits. no credit card required to explore our ecosystem.": "Starten Sie heute mit 200 € Startguthaben. Zum Erkunden ist keine Kreditkarte nötig.",
     "120+ global regions with <5ms latency to end-users.": "Über 120 globale Regionen mit <5ms Latenz zu Endbenutzern.",
     "24/7 dedicated team": "24/7 engagiertes Team",
     "aes-256 at rest and tls 1.3 in transit with mtls between services.": "AES-256 im Ruhezustand, TLS 1.3 bei der Übertragung, mTLS zwischen den Diensten.",
@@ -85,6 +91,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what teams": "Was Teams",
   },
   pt: {
+    "soc2 type ii, iso 27001, and hipaa compliant environments.": "Ambientes conformes a SOC 2 Tipo II, ISO 27001 e HIPAA.",
+    "start today with 200  €in free credits. no credit card required to explore our ecosystem.": "Comece hoje com 200 € de créditos oferecidos. Não é pedido cartão para explorar.",
     "120+ global regions with <5ms latency to end-users.": "Mais de 120 regiões globais com <5ms de latência para os utilizadores finais.",
     "24/7 dedicated team": "Equipe dedicada 24/7",
     "aes-256 at rest and tls 1.3 in transit with mtls between services.": "AES-256 em repouso, TLS 1.3 em trânsito, mTLS entre os serviços.",

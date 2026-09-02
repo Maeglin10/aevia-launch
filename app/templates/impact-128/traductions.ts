@@ -10,6 +10,9 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "haven estates found our hampstead estate entirely off-market. their discretion and global network are simply unmatched.": "Ils ont trouvé notre propriété de Hampstead entièrement hors marché. Leur discrétion et leur réseau international n'ont pas d'équivalent.",
+    "founded by former principals at sotheby's realty and christie's international,": "Fondée par d'anciens dirigeants de Sotheby's Realty et Christie's International,",
+    "brings institutional expertise to private hands — with complete discretion.": "apporte une expertise institutionnelle à des mains privées — en toute discrétion.",
     "client voices": "Voix des clients",
     "curated trophy properties for discerning clients worldwide. off-market access. discretion guaranteed.": "Propriétés trophées sélectionnées pour des clients exigeants dans le monde entier. Accès hors marché. Discrétion garantie.",
     "discreet luxury real estate advisory for the world's most exceptional properties.": "Un conseil discret en immobilier de prestige, pour les biens les plus rares.",
@@ -31,6 +34,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "world&apos;s best.": "Le meilleur du monde.",
   },
   es: {
+    "haven estates found our hampstead estate entirely off-market. their discretion and global network are simply unmatched.": "Encontraron nuestra propiedad de Hampstead totalmente fuera de mercado. Su discreción y su red internacional no tienen igual.",
+    "founded by former principals at sotheby's realty and christie's international,": "Fundada por antiguos directivos de Sotheby's Realty y Christie's International,",
+    "brings institutional expertise to private hands — with complete discretion.": "aporta una experiencia institucional a manos privadas — con total discreción.",
     "client voices": "Voces de los clientes",
     "curated trophy properties for discerning clients worldwide. off-market access. discretion guaranteed.": "Propiedades trofeo seleccionadas para clientes exigentes en todo el mundo. Acceso fuera del mercado. Discreción garantizada.",
     "discreet luxury real estate advisory for the world's most exceptional properties.": "Asesoramiento discreto en inmobiliario de prestigio, para los bienes más excepcionales.",
@@ -52,6 +58,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "world&apos;s best.": "El mejor del mundo.",
   },
   de: {
+    "haven estates found our hampstead estate entirely off-market. their discretion and global network are simply unmatched.": "Sie haben unser Anwesen in Hampstead vollständig off-market gefunden. Ihre Diskretion und ihr internationales Netz sind unerreicht.",
+    "founded by former principals at sotheby's realty and christie's international,": "Gegründet von ehemaligen Führungskräften von Sotheby's Realty und Christie's International,",
+    "brings institutional expertise to private hands — with complete discretion.": "bringt institutionelle Expertise in private Hände — mit vollständiger Diskretion.",
     "client voices": "Kundenstimmen",
     "curated trophy properties for discerning clients worldwide. off-market access. discretion guaranteed.": "Kuratierte Trophäenimmobilien für anspruchsvolle Kunden weltweit. Zugang zu Off-Market-Angeboten. Diskretion garantiert.",
     "discreet luxury real estate advisory for the world's most exceptional properties.": "Diskrete Beratung für Luxusimmobilien, für die außergewöhnlichsten Objekte.",
@@ -73,6 +82,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "world&apos;s best.": "Die Besten der Welt.",
   },
   pt: {
+    "haven estates found our hampstead estate entirely off-market. their discretion and global network are simply unmatched.": "Encontraram a nossa propriedade em Hampstead totalmente fora de mercado. A discrição e a rede internacional não têm igual.",
+    "founded by former principals at sotheby's realty and christie's international,": "Fundada por antigos dirigentes da Sotheby's Realty e da Christie's International,",
+    "brings institutional expertise to private hands — with complete discretion.": "traz uma experiência institucional a mãos privadas — com total discrição.",
     "client voices": "Vozes dos clientes",
     "curated trophy properties for discerning clients worldwide. off-market access. discretion guaranteed.": "Propriedades troféu selecionadas para clientes exigentes em todo o mundo. Acesso fora do mercado. Discrição garantida.",
     "discreet luxury real estate advisory for the world's most exceptional properties.": "Aconselhamento discreto em imobiliário de prestígio, para os bens mais excecionais.",

@@ -10,6 +10,9 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "about": "À propos",
+    "founded in 2017, kinetic studio has become a leading creative force in motion design, animation, and interactive media. our team of 25+ artists and technologists collaborate with brands at the forefront of innovation.": "Fondé en 2017, le studio est devenu une référence du motion design, de l'animation et des médias interactifs. Vingt-cinq artistes et techniciens y travaillent avec des marques à la pointe.",
+    "we specialize in telling brand stories through motion, creating experiences that captivate, inspire, and drive results. from concept to delivery, we bring technical excellence and creative vision to every project.": "Nous racontons les marques par le mouvement, et fabriquons des expériences qui captivent et produisent des résultats. Du concept à la livraison, chaque projet reçoit la même exigence technique et la même intention.",
     "\"kinetic brought our brand vision to life with stunning motion design. their creativity and professionalism are exceptional.\"": "« KINETIC a donné vie à notre identité de marque avec un motion design saisissant. Leur créativité et leur professionnalisme sont exceptionnels. »",
     "all deliverables include perpetual use rights for the client. we retain portfolio/reel rights.": "Tous les livrables incluent des droits d'utilisation perpétuels pour le client. Nous conservons les droits de portfolio/reel.",
     "all source files and assets": "Tous les fichiers sources",
@@ -40,6 +43,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "yes, we manage concept through final delivery. clients can request involvement at any stage.": "Oui, nous gérons le concept jusqu'à la livraison finale. Les clients peuvent demander à s'impliquer à n'importe quelle étape.",
   },
   es: {
+    "about": "Sobre nosotros",
+    "founded in 2017, kinetic studio has become a leading creative force in motion design, animation, and interactive media. our team of 25+ artists and technologists collaborate with brands at the forefront of innovation.": "Fundado en 2017, el estudio se ha convertido en una referencia del motion design, la animación y los medios interactivos. Veinticinco artistas y técnicos trabajan allí con marcas punteras.",
+    "we specialize in telling brand stories through motion, creating experiences that captivate, inspire, and drive results. from concept to delivery, we bring technical excellence and creative vision to every project.": "Contamos las marcas mediante el movimiento y fabricamos experiencias que cautivan y dan resultados. Del concepto a la entrega, cada proyecto recibe la misma exigencia técnica y la misma intención.",
     "\"kinetic brought our brand vision to life with stunning motion design. their creativity and professionalism are exceptional.\"": "«KINETIC dio vida a la visión de nuestra marca con un motion design impresionante. Su creatividad y profesionalidad son excepcionales.»",
     "all deliverables include perpetual use rights for the client. we retain portfolio/reel rights.": "Todos los entregables incluyen derechos de uso perpetuo para el cliente. Retenemos los derechos de portafolio/reel.",
     "all source files and assets": "Todos los archivos fuente",
@@ -70,6 +76,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "yes, we manage concept through final delivery. clients can request involvement at any stage.": "Sí, gestionamos el concepto hasta la entrega final. Los clientes pueden solicitar involucrarse en cualquier etapa.",
   },
   de: {
+    "about": "Über uns",
+    "founded in 2017, kinetic studio has become a leading creative force in motion design, animation, and interactive media. our team of 25+ artists and technologists collaborate with brands at the forefront of innovation.": "2017 gegründet, ist das Studio zu einer Referenz für Motion Design, Animation und interaktive Medien geworden. Fünfundzwanzig Künstler und Techniker arbeiten dort mit führenden Marken.",
+    "we specialize in telling brand stories through motion, creating experiences that captivate, inspire, and drive results. from concept to delivery, we bring technical excellence and creative vision to every project.": "Wir erzählen Marken durch Bewegung und bauen Erlebnisse, die fesseln und wirken. Vom Konzept bis zur Auslieferung erhält jedes Projekt dieselbe technische Strenge und dieselbe Haltung.",
     "\"kinetic brought our brand vision to life with stunning motion design. their creativity and professionalism are exceptional.\"": "„KINETIC hat unsere Markenvision mit beeindruckendem Motion Design zum Leben erweckt. Kreativität und Professionalität sind außergewöhnlich.“",
     "all deliverables include perpetual use rights for the client. we retain portfolio/reel rights.": "Alle Lieferungen beinhalten ewige Nutzungsrechte für den Kunden. Wir behalten die Rechte an Portfolio/Reel.",
     "all source files and assets": "Alle Quelldateien",
@@ -100,6 +109,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "yes, we manage concept through final delivery. clients can request involvement at any stage.": "Ja, wir verwalten das Konzept bis zur endgültigen Lieferung. Kunden können in jeder Phase um Beteiligung bitten.",
   },
   pt: {
+    "about": "Sobre nós",
+    "founded in 2017, kinetic studio has become a leading creative force in motion design, animation, and interactive media. our team of 25+ artists and technologists collaborate with brands at the forefront of innovation.": "Fundado em 2017, o estúdio tornou-se uma referência do motion design, da animação e dos média interativos. Vinte e cinco artistas e técnicos trabalham lá com marcas de vanguarda.",
+    "we specialize in telling brand stories through motion, creating experiences that captivate, inspire, and drive results. from concept to delivery, we bring technical excellence and creative vision to every project.": "Contamos as marcas pelo movimento e fabricamos experiências que cativam e dão resultados. Do conceito à entrega, cada projeto recebe a mesma exigência técnica e a mesma intenção.",
     "\"kinetic brought our brand vision to life with stunning motion design. their creativity and professionalism are exceptional.\"": "«A KINETIC deu vida à visão da nossa marca com um motion design impressionante. A criatividade e o profissionalismo são excecionais.»",
     "all deliverables include perpetual use rights for the client. we retain portfolio/reel rights.": "Todos os entregáveis incluem direitos de uso perpétuo para o cliente. Reservamos os direitos de portfólio/reel.",
     "all source files and assets": "Todos os ficheiros de origem",

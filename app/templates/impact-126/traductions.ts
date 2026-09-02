@@ -10,6 +10,10 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "every strand is rolled by hand each morning. our tonnarelli for cacio e pepe is made with semola di grano duro from a single mill in molise. no shortcuts. no compromise.": "Chaque brin est roulé à la main, chaque matin. Nos tonnarelli du cacio e pepe se font avec une semoule de blé dur d'un seul moulin du Molise. Aucun raccourci, aucun compromis.",
+    "slow-cooked veal loin, traditional tuna and caper sauce, cucunci.": "Longe de veau cuite lentement, sauce thon et câpres traditionnelle, cucunci.",
+    "giacomo conterno. complex, tar and roses, infinite length.": "Giacomo Conterno. Complexe, goudron et roses, longueur infinie.",
+    "born in trastevere, marco apprenticed under three generations of roman cooks before founding aureliano in 1987. his philosophy is radical simplicity: the finest ingredients, the most honest preparations.": "Né dans le Trastevere, il a appris auprès de trois générations de cuisiniers romains avant d'ouvrir sa maison en 1987. Sa philosophie tient en deux mots : simplicité radicale — les meilleurs produits, les préparations les plus honnêtes.",
     "\"cooking is not performance,\" he says. \"it is the act of remembering who you are, where you come from — and offering that to a stranger across a table.\"": "« Cuisiner n'est pas une performance », dit-il. « C'est se souvenir de qui l'on est, d'où l'on vient — et l'offrir à un inconnu, de l'autre côté de la table. »",
     "a celebration of roman culinary heritage — sourced daily from campo de' fiori, prepared with the rigor of a centuries-old tradition.": "Une célébration du patrimoine culinaire romain — sourcé quotidiennement à Campo de' Fiori, préparé avec le rigor d'une tradition séculaire.",
     "crispy zucchini blossoms stuffed with ricotta and smoked provola, anchovy aioli.": "Fleurs de courgette croustillantes farcies de ricotta et de provola fumée, aïoli d'anchois.",
@@ -18,6 +22,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "tonnarelli, pecorino romano dop, toasted black pepper. served from the cheese wheel.": "Tonnarelli, Pecorino Romano DOP, poivre noir grillé. Servi depuis la meule de fromage.",
   },
   es: {
+    "every strand is rolled by hand each morning. our tonnarelli for cacio e pepe is made with semola di grano duro from a single mill in molise. no shortcuts. no compromise.": "Cada hebra se enrolla a mano, cada mañana. Nuestros tonnarelli del cacio e pepe se hacen con sémola de trigo duro de un solo molino del Molise. Ningún atajo, ninguna concesión.",
+    "slow-cooked veal loin, traditional tuna and caper sauce, cucunci.": "Lomo de ternera cocido lentamente, salsa tradicional de atún y alcaparras, cucunci.",
+    "giacomo conterno. complex, tar and roses, infinite length.": "Giacomo Conterno. Complejo, alquitrán y rosas, longitud infinita.",
+    "born in trastevere, marco apprenticed under three generations of roman cooks before founding aureliano in 1987. his philosophy is radical simplicity: the finest ingredients, the most honest preparations.": "Nacido en el Trastévere, aprendió con tres generaciones de cocineros romanos antes de abrir su casa en 1987. Su filosofía cabe en dos palabras: simplicidad radical — los mejores productos, las preparaciones más honestas.",
     "\"cooking is not performance,\" he says. \"it is the act of remembering who you are, where you come from — and offering that to a stranger across a table.\"": "«Cocinar no es una actuación», dice. «Es recordar quién eres, de dónde vienes, y ofrecérselo a un desconocido al otro lado de la mesa.»",
     "a celebration of roman culinary heritage — sourced daily from campo de' fiori, prepared with the rigor of a centuries-old tradition.": "Una celebración del patrimonio culinario romano — obtenido diariamente de Campo de' Fiori, preparado con el rigor de una tradición centenaria.",
     "crispy zucchini blossoms stuffed with ricotta and smoked provola, anchovy aioli.": "Flores de calabacín crujientes rellenas de ricotta y provola ahumada, alioli de anchoa.",
@@ -26,6 +34,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "tonnarelli, pecorino romano dop, toasted black pepper. served from the cheese wheel.": "Tonnarelli, Pecorino Romano DOP, pimienta negra tostada. Servido desde la rueda de queso.",
   },
   de: {
+    "every strand is rolled by hand each morning. our tonnarelli for cacio e pepe is made with semola di grano duro from a single mill in molise. no shortcuts. no compromise.": "Jeder Strang wird jeden Morgen von Hand gerollt. Unsere Tonnarelli für Cacio e Pepe entstehen aus Hartweizengrieß einer einzigen Mühle im Molise. Keine Abkürzungen, keine Kompromisse.",
+    "slow-cooked veal loin, traditional tuna and caper sauce, cucunci.": "Langsam gegarter Kalbsrücken, traditionelle Thunfisch-Kapern-Sauce, Cucunci.",
+    "giacomo conterno. complex, tar and roses, infinite length.": "Giacomo Conterno. Komplex, Teer und Rosen, endlose Länge.",
+    "born in trastevere, marco apprenticed under three generations of roman cooks before founding aureliano in 1987. his philosophy is radical simplicity: the finest ingredients, the most honest preparations.": "In Trastevere geboren, lernte er bei drei Generationen römischer Köche, bevor er 1987 sein Haus eröffnete. Seine Philosophie in zwei Worten: radikale Einfachheit — beste Produkte, ehrlichste Zubereitung.",
     "\"cooking is not performance,\" he says. \"it is the act of remembering who you are, where you come from — and offering that to a stranger across a table.\"": "„Kochen ist keine Darbietung“, sagt er. „Es heißt, sich zu erinnern, wer man ist und woher man kommt — und das einem Fremden am Tisch zu schenken.“",
     "a celebration of roman culinary heritage — sourced daily from campo de' fiori, prepared with the rigor of a centuries-old tradition.": "Eine Feier des römischen kulinarischen Erbes — täglich aus dem Campo de' Fiori bezogen, zubereitet mit dem strengen Anspruch einer jahrhundertealten Tradition.",
     "crispy zucchini blossoms stuffed with ricotta and smoked provola, anchovy aioli.": "Knusprige Zucchiniblüten gefüllt mit Ricotta und geräuchertem Provola, Anchovis-Aioli.",
@@ -34,6 +46,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "tonnarelli, pecorino romano dop, toasted black pepper. served from the cheese wheel.": "Tonnarelli, Pecorino Romano DOP, gerösteter schwarzer Pfeffer. Aus dem Käserad serviert.",
   },
   pt: {
+    "every strand is rolled by hand each morning. our tonnarelli for cacio e pepe is made with semola di grano duro from a single mill in molise. no shortcuts. no compromise.": "Cada fio é enrolado à mão, todas as manhãs. Os nossos tonnarelli do cacio e pepe fazem-se com sêmola de trigo duro de um único moinho do Molise. Nenhum atalho, nenhum compromisso.",
+    "slow-cooked veal loin, traditional tuna and caper sauce, cucunci.": "Lombo de vitela cozido lentamente, molho tradicional de atum e alcaparras, cucunci.",
+    "giacomo conterno. complex, tar and roses, infinite length.": "Giacomo Conterno. Complexo, alcatrão e rosas, comprimento infinito.",
+    "born in trastevere, marco apprenticed under three generations of roman cooks before founding aureliano in 1987. his philosophy is radical simplicity: the finest ingredients, the most honest preparations.": "Nascido em Trastevere, aprendeu com três gerações de cozinheiros romanos antes de abrir a sua casa em 1987. A sua filosofia cabe em duas palavras: simplicidade radical — os melhores produtos, as preparações mais honestas.",
     "\"cooking is not performance,\" he says. \"it is the act of remembering who you are, where you come from — and offering that to a stranger across a table.\"": "«Cozinhar não é uma atuação», diz ele. «É lembrar quem se é, de onde se vem — e oferecê-lo a um desconhecido do outro lado da mesa.»",
     "a celebration of roman culinary heritage — sourced daily from campo de' fiori, prepared with the rigor of a centuries-old tradition.": "Uma celebração do património culinário romano — obtido diariamente no Campo de' Fiori, preparado com o rigor de uma tradição centenária.",
     "crispy zucchini blossoms stuffed with ricotta and smoked provola, anchovy aioli.": "Flores de abobrinha crocantes recheadas com ricota e provola defumada, aioli de anchova.",
