@@ -10,6 +10,10 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "space": "L'espace",
+    "defines": "fait",
+    "culture.": "la culture.",
+    "space defines culture.": "L'espace fait la culture.",
     "architecture's primary obligation is not to its client's ego or its architect's portfolio. it is to the public realm — the street, the neighbourhood, the city — that inherits every building long after the brief is forgotten.": "L'architecture ne doit rien à l'ego du client ni au portfolio de l'architecte. Elle doit à l'espace public — la rue, le quartier, la ville — qui hérite de chaque bâtiment longtemps après que le programme est oublié.",
     "as method": "comme Méthode",
     "by the numbers": "En chiffres",
@@ -27,6 +31,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "who we are": "Qui nous sommes",
   },
   es: {
+    "space": "El espacio",
+    "defines": "hace",
+    "culture.": "la cultura.",
+    "space defines culture.": "El espacio hace la cultura.",
     "architecture's primary obligation is not to its client's ego or its architect's portfolio. it is to the public realm — the street, the neighbourhood, the city — that inherits every building long after the brief is forgotten.": "La arquitectura no debe nada al ego del cliente ni a la cartera del arquitecto. Debe al espacio público —la calle, el barrio, la ciudad— que hereda cada edificio mucho después de olvidado el encargo.",
     "as method": "como Método",
     "by the numbers": "En cifras",
@@ -44,6 +52,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "who we are": "Quiénes somos",
   },
   de: {
+    "space": "Der Raum",
+    "defines": "formt",
+    "culture.": "die Kultur.",
+    "space defines culture.": "Der Raum formt die Kultur.",
     "architecture's primary obligation is not to its client's ego or its architect's portfolio. it is to the public realm — the street, the neighbourhood, the city — that inherits every building long after the brief is forgotten.": "Architektur schuldet weder dem Ego des Bauherrn noch dem Portfolio des Architekten etwas. Sie schuldet dem öffentlichen Raum — der Straße, dem Viertel, der Stadt —, der jedes Gebäude erbt, lange nachdem das Programm vergessen ist.",
     "as method": "als Methode",
     "by the numbers": "In Zahlen",
@@ -61,6 +73,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "who we are": "Wer wir sind",
   },
   pt: {
+    "space": "O espaço",
+    "defines": "faz",
+    "culture.": "a cultura.",
+    "space defines culture.": "O espaço faz a cultura.",
     "architecture's primary obligation is not to its client's ego or its architect's portfolio. it is to the public realm — the street, the neighbourhood, the city — that inherits every building long after the brief is forgotten.": "A arquitetura não deve nada ao ego do cliente nem à carteira do arquiteto. Deve ao espaço público — a rua, o bairro, a cidade — que herda cada edifício muito depois de esquecido o programa.",
     "as method": "como Método",
     "by the numbers": "Em números",

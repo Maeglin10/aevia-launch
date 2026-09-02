@@ -451,7 +451,8 @@ export default function ToitsDeLoirePage() {
       `}</style>
 
       {/* ── NAV — collante à cinq propriétés ────────────────────────────── */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 18, padding: scrolled ? "10px clamp(20px,5vw,56px)" : "20px clamp(20px,5vw,56px)", background: scrolled ? "rgba(18,22,26,0.92)" : "transparent", backdropFilter: scrolled ? "blur(14px) saturate(140%)" : "none", WebkitBackdropFilter: scrolled ? "blur(14px) saturate(140%)" : "none", borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`, boxShadow: scrolled ? "0 14px 38px -30px rgba(0,0,0,0.9)" : "none", transition: `all .55s ${EASE_CSS}` }}>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 18, padding: scrolled ? "10px clamp(20px,5vw,56px)" : "20px clamp(20px,5vw,56px)", /* Voile sous la barre. */
+          background: scrolled ? "rgba(18,22,26,0.92)" : "linear-gradient(180deg, rgba(18,22,26,0.78) 0%, rgba(18,22,26,0.34) 62%, transparent 100%)", backdropFilter: scrolled ? "blur(14px) saturate(140%)" : "none", WebkitBackdropFilter: scrolled ? "blur(14px) saturate(140%)" : "none", borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`, boxShadow: scrolled ? "0 14px 38px -30px rgba(0,0,0,0.9)" : "none", transition: `all .55s ${EASE_CSS}` }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
           {fd?.logoBase64 ? (
             <img src={fd.logoBase64} alt={fd?.businessName ?? "logo"} style={{ height: 30, maxWidth: 160, objectFit: "contain", display: "block" }} />
