@@ -503,9 +503,11 @@ function HeroSection() {
     inset: 0,
     background: `linear-gradient(
       to bottom,
-      rgba(17,38,64,0.52) 0%,
-      rgba(17,38,64,0.42) 40%,
-      rgba(17,38,64,0.72) 80%,
+      /* Le fronton du palais est en pierre très claire : le titre blanc y
+         tombait à 2,9. */
+      rgba(17,38,64,0.68) 0%,
+      rgba(17,38,64,0.64) 40%,
+      rgba(17,38,64,0.80) 80%,
       rgba(17,38,64,0.95) 100%
     )`,
     zIndex: 2,
