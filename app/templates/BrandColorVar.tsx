@@ -1798,6 +1798,15 @@ function traduireLesLibelles(locale: string | undefined) {
     if (!texte || texte.length > 60) continue;
     const e = n.parentElement;
     if (!e || e.closest("style,script,noscript,template,input,textarea")) continue;
+    /*
+      Un nœud qui n'est qu'un MORCEAU de phrase ne se traduit pas mot à mot.
+      « how it », dans « defined by how it behaves », est un fragment : le
+      traduire seul donnait « by how it behaves, comment il moves ». On ne
+      traduit un libellé que s'il forme, à lui seul, l'essentiel du texte de
+      son élément — un bouton, un lien, un intitulé.
+    */
+    const entier = (e.textContent ?? "").replace(/\s+/g, " ").trim();
+    if (entier.length > texte.length + 3 && texte.length < entier.length * 0.75) continue;
     const trouve = dict[texte.toLowerCase()];
     if (!trouve) continue;
     aTraduire.push([n as Text, brut.replace(texte, casseDe(texte, trouve))]);
@@ -2577,8 +2586,18 @@ export function BrandColorVar() {
           */
           const langue = d?.formData?.locale
             ?? (["fr", "es", "de", "pt", "en"].find((l) => navigator.language?.startsWith(l)) ?? "fr");
-          traduireLesLibelles(langue);
+          /*
+            La prose du thème AVANT le lexique d'interface, et non l'inverse.
+
+            Le lexique traduit mot à mot des libellés courts ; sur une citation
+            découpée en plusieurs nœuds pour en colorer trois mots, il attrapait
+            les fragments — « how it », « and the » — et rendait « a brand is
+            defined by how it behaves, comment il moves, et le friction ». La
+            phrase entière ne correspondait alors plus à aucune clé du
+            dictionnaire du thème, qui passait après. Mesuré sur impact-136.
+          */
           traduireLaProse(langue, traductionsDuTheme?.[langue]);
+          traduireLesLibelles(langue);
           chiffresDeLaLangue(langue);
           prolongerLeFond();
         };

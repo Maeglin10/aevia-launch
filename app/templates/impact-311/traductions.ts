@@ -10,19 +10,15 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
-    ", and the // endpoint is /api/sessions?id=": ", et le // point de terminaison est /api/sessions?id=",
     "satisfaction client": "Satisfaction client",
   },
   es: {
-    ", and the // endpoint is /api/sessions?id=": ", y el // punto final es /api/sessions?id=",
     "satisfaction client": "Satisfacción del cliente",
   },
   de: {
-    ", and the // endpoint is /api/sessions?id=": ", und der // Endpunkt ist /api/sessions?id=",
     "satisfaction client": "Kundenzufriedenheit",
   },
   pt: {
-    ", and the // endpoint is /api/sessions?id=": ", e o // ponto final é /api/sessions?id=",
     "satisfaction client": "Satisfação do cliente",
   },
 };

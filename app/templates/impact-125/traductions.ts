@@ -10,7 +10,6 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
-    ", so the animation has to // live on the row itself rather than on a wrapping": ", donc l'animation doit // vivre sur la ligne elle-même plutôt que sur un enveloppement",
     "book payload": "Livre de charge",
     "download payload guide": "Télécharger le Guide de Charge Utile",
     "empowering the next century of space travel through sustainable, reliable, and frequent orbital access.": "Autonomiser le prochain siècle de voyages spatiaux grâce à un accès orbital durable, fiable et fréquent.",
@@ -22,7 +21,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "reliable, cost-effective orbital transport for the next generation of space exploration. from leo to deep space, we bridge the gap.": "Transport orbital fiable et économique pour la prochaine génération d'exploration spatiale. De LEO à l'espace lointain, nous comblons le fossé.",
   },
   es: {
-    ", so the animation has to // live on the row itself rather than on a wrapping": ", así que la animación tiene que // vivir en la fila misma en lugar de en un envoltorio",
     "book payload": "Carga del libro",
     "download payload guide": "Descargar la Guía de Carga Útil",
     "empowering the next century of space travel through sustainable, reliable, and frequent orbital access.": "Empoderando el próximo siglo de viajes espaciales a través de un acceso orbital sostenible, fiable y frecuente.",
@@ -34,7 +32,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "reliable, cost-effective orbital transport for the next generation of space exploration. from leo to deep space, we bridge the gap.": "Transporte orbital fiable y rentable para la próxima generación de exploración espacial. Desde LEO hasta el espacio profundo, cerramos la brecha.",
   },
   de: {
-    ", so the animation has to // live on the row itself rather than on a wrapping": ", damit die Animation // direkt in der Zeile selbst und nicht in einer Umhüllung lebt",
     "book payload": "Buchlast",
     "download payload guide": "Laden Sie den Nutzlastleitfaden herunter",
     "empowering the next century of space travel through sustainable, reliable, and frequent orbital access.": "Die nächste Jahrhundert der Raumfahrt durch nachhaltigen, zuverlässigen und häufigen orbitalen Zugang zu stärken.",
@@ -46,7 +43,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "reliable, cost-effective orbital transport for the next generation of space exploration. from leo to deep space, we bridge the gap.": "Zuverlässiger, kosteneffizienter orbitaler Transport für die nächste Generation der Weltraumforschung. Von LEO bis zum tiefen Raum überbrücken wir die Lücke.",
   },
   pt: {
-    ", so the animation has to // live on the row itself rather than on a wrapping": ", por isso a animação tem que // viver na linha em si em vez de em uma embalagem",
     "book payload": "Carga do livro",
     "download payload guide": "Descarregar o Guia de Carga Útil",
     "empowering the next century of space travel through sustainable, reliable, and frequent orbital access.": "Capacitar o próximo século de viagens espaciais através de um acesso orbital sustentável, fiável e frequente.",
