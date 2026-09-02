@@ -209,7 +209,8 @@ export default function AtelierDuBoisPage() {
         }
       `}</style>
 
-      <motion.nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 64px", background: scrolled ? "rgba(250,247,242,0.97)" : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: scrolled ? `1px solid ${C.border}` : "none", transition: "all 0.4s ease" }}>
+      <motion.nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 64px", /* Le bois clair et poussiéreux de la photo avalait les liens blancs. */
+        background: scrolled ? "rgba(250,247,242,0.97)" : "linear-gradient(180deg, rgba(28,20,14,0.74) 0%, rgba(28,20,14,0.32) 62%, transparent 100%)", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: scrolled ? `1px solid ${C.border}` : "none", transition: "all 0.4s ease" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           {fd?.logoBase64 ? (
             // Client logo (uploaded in the brief) replaces the placeholder mark —
@@ -260,7 +261,7 @@ export default function AtelierDuBoisPage() {
 
       <section id="hero" ref={heroRef} style={{ height: "100dvh", minHeight: "640px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=1920&q=80"))} alt="Atelier menuisier ébéniste Bordeaux" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/5466146/pexels-photo-5466146.jpeg?auto=compress&cs=tinysrgb&w=1920"))} alt="Atelier menuisier ébéniste Bordeaux" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(8,5,0,0.93) 0%, rgba(8,5,0,0.40) 45%, rgba(8,5,0,0.08) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}16 0%, transparent 55%)` }} />
