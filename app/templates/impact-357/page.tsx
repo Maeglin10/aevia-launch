@@ -563,7 +563,8 @@ export default function AxisBioPage() {
           alignItems: "center",
           justifyContent: "space-between",
           padding: scrolled ? "12px clamp(20px, 5vw, 60px)" : "22px clamp(20px, 5vw, 60px)",
-          background: scrolled ? "rgba(245,247,251,0.93)" : "transparent",
+          /* Voile sous la barre. */
+        background: scrolled ? "rgba(245,247,251,0.93)" : "linear-gradient(180deg, rgba(16,18,22,0.72) 0%, rgba(16,18,22,0.30) 62%, transparent 100%)",
           backdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none",
           WebkitBackdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none",
           borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,

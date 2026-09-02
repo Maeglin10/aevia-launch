@@ -237,7 +237,8 @@ export default function MaelleDumasPiscinesPage() {
 return (
     <div style={{ background: C.bg, color: C.dark, fontFamily: C.sans }}>
       {/* ── NAVBAR ── */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, transition: "all 0.6s", background: scrolled ? "rgba(250,248,244,0.95)" : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: scrolled ? `1px solid ${C.line}` : "none", padding: scrolled ? "1rem 0" : "1.75rem 0" }}>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 50, transition: "all 0.6s", /* Voile sous la barre. */
+        background: scrolled ? "rgba(250,248,244,0.95)" : "linear-gradient(180deg, rgba(16,18,22,0.72) 0%, rgba(16,18,22,0.30) 62%, transparent 100%)", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: scrolled ? `1px solid ${C.line}` : "none", padding: scrolled ? "1rem 0" : "1.75rem 0" }}>
         <div style={{ maxWidth: 1400, margin: "0 auto", padding: "0 2.5rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           {fd?.logoBase64 ? (
             <img

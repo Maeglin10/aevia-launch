@@ -579,7 +579,8 @@ function Hero() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(180deg, rgba(10,10,11,0.55) 0%, rgba(10,10,11,0.15) 35%, rgba(10,10,11,0.35) 70%, rgba(10,10,11,0.92) 100%)',
+            /* La basket est blanche : le titre blanc s'y posait à 2,6. */
+            'linear-gradient(180deg, rgba(10,10,11,0.66) 0%, rgba(10,10,11,0.58) 35%, rgba(10,10,11,0.66) 70%, rgba(10,10,11,0.94) 100%)',
         }}
       />
       <div
