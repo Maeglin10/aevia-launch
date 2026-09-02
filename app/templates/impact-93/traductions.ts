@@ -10,6 +10,10 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+
+    "by combining machine-learning flight dispatch systems with an elite fleet of modern business jets, we bypass the bottlenecks of modern commercial terminals. we operate on your schedule, coordinating flight paths to 5 000+ global airstrips, ensuring you land closer to your destination, securely and ahead of time.": "En associant des systèmes de répartition assistés par apprentissage automatique à une flotte de jets d'affaires récents, nous contournons les goulets d'étranglement des terminaux commerciaux. Nous opérons depuis les terminaux privés, au plus près de vous.",
+    "our proprietary dispatch ai monitors 2 800 aircraft across 5 partner networks to ensure 100% mission readiness at any coordinate.": "Notre système de répartition surveille 2 800 appareils sur cinq réseaux partenaires pour garantir un départ possible depuis n'importe quel point.",
+    "4.2 hours": "4,2 heures",
     "absolutely. all flights can be customized with bespoke catering, specific cabin layouts, and security personnel upon request.": "Absolument. Tous les vols peuvent être personnalisés avec un catering sur mesure, des agencements de cabine spécifiques et du personnel de sécurité sur demande.",
     "access 5,000+ airports worldwide, including those inaccessible to commercial airlines.": "Accédez à plus de 5 000 aéroports dans le monde, y compris ceux inaccessibles aux compagnies aériennes commerciales.",
     "access the world's most advanced fleet of private aircraft. from rapid super-midsize charters to ultra-long-range executive suites.": "Accédez à la flotte d'avions privés la plus avancée au monde. Des charters super-midsize rapides aux suites exécutives ultra-longue portée.",
@@ -49,6 +53,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "zero wait time": "Temps d'attente zéro",
   },
   es: {
+
+    "by combining machine-learning flight dispatch systems with an elite fleet of modern business jets, we bypass the bottlenecks of modern commercial terminals. we operate on your schedule, coordinating flight paths to 5 000+ global airstrips, ensuring you land closer to your destination, securely and ahead of time.": "Combinando sistemas de despacho asistidos por aprendizaje automático con una flota de jets ejecutivos recientes, evitamos los cuellos de botella de las terminales comerciales. Operamos desde terminales privadas, lo más cerca posible de usted.",
+    "our proprietary dispatch ai monitors 2 800 aircraft across 5 partner networks to ensure 100% mission readiness at any coordinate.": "Nuestro sistema de despacho vigila 2 800 aeronaves en cinco redes asociadas para garantizar una salida posible desde cualquier punto.",
+    "4.2 hours": "4,2 horas",
     "absolutely. all flights can be customized with bespoke catering, specific cabin layouts, and security personnel upon request.": "Absolutamente. Todos los vuelos se pueden personalizar con catering a medida, diseños de cabina específicos y personal de seguridad a pedido.",
     "access 5,000+ airports worldwide, including those inaccessible to commercial airlines.": "Acceda a más de 5,000 aeropuertos en todo el mundo, incluidos aquellos inaccesibles para las aerolíneas comerciales.",
     "access the world's most advanced fleet of private aircraft. from rapid super-midsize charters to ultra-long-range executive suites.": "Accede a la flota de aviones privados más avanzada del mundo. Desde chárteres supermedianos rápidos hasta suites ejecutivas de ultra largo alcance.",
@@ -88,6 +96,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "zero wait time": "Tiempo de espera cero",
   },
   de: {
+
+    "by combining machine-learning flight dispatch systems with an elite fleet of modern business jets, we bypass the bottlenecks of modern commercial terminals. we operate on your schedule, coordinating flight paths to 5 000+ global airstrips, ensuring you land closer to your destination, securely and ahead of time.": "Wir verbinden maschinell gestützte Dispositionssysteme mit einer Flotte moderner Businessjets und umgehen so die Engpässe kommerzieller Terminals. Wir starten von privaten Terminals, so nah wie möglich bei Ihnen.",
+    "our proprietary dispatch ai monitors 2 800 aircraft across 5 partner networks to ensure 100% mission readiness at any coordinate.": "Unser Dispositionssystem überwacht 2 800 Maschinen in fünf Partnernetzen, damit von jedem Punkt aus ein Abflug möglich ist.",
+    "4.2 hours": "4,2 Stunden",
     "absolutely. all flights can be customized with bespoke catering, specific cabin layouts, and security personnel upon request.": "Absolut. Alle Flüge können auf Wunsch mit maßgeschneidertem Catering, spezifischen Kabinenlayouts und Sicherheitspersonal angepasst werden.",
     "access 5,000+ airports worldwide, including those inaccessible to commercial airlines.": "Zugang zu über 5.000 Flughäfen weltweit, einschließlich derjenigen, die für kommerzielle Fluggesellschaften unzugänglich sind.",
     "access the world's most advanced fleet of private aircraft. from rapid super-midsize charters to ultra-long-range executive suites.": "Zugriff auf die fortschrittlichste Flotte von Privatflugzeugen der Welt. Von schnellen Super-Midsize-Chartern bis hin zu ultra-langstrecken Executive-Suiten.",
@@ -127,6 +139,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "zero wait time": "Keine Wartezeit",
   },
   pt: {
+
+    "by combining machine-learning flight dispatch systems with an elite fleet of modern business jets, we bypass the bottlenecks of modern commercial terminals. we operate on your schedule, coordinating flight paths to 5 000+ global airstrips, ensuring you land closer to your destination, securely and ahead of time.": "Ao associar sistemas de despacho assistidos por aprendizagem automática a uma frota de jatos executivos recentes, contornamos os estrangulamentos dos terminais comerciais. Operamos a partir de terminais privados, o mais perto possível de si.",
+    "our proprietary dispatch ai monitors 2 800 aircraft across 5 partner networks to ensure 100% mission readiness at any coordinate.": "O nosso sistema de despacho vigia 2 800 aeronaves em cinco redes parceiras para garantir uma partida possível a partir de qualquer ponto.",
+    "4.2 hours": "4,2 horas",
     "absolutely. all flights can be customized with bespoke catering, specific cabin layouts, and security personnel upon request.": "Absolutamente. Todos os voos podem ser personalizados com catering sob medida, layouts de cabine específicos e pessoal de segurança, mediante solicitação.",
     "access 5,000+ airports worldwide, including those inaccessible to commercial airlines.": "Acesse mais de 5.000 aeroportos em todo o mundo, incluindo aqueles inacessíveis para companhias aéreas comerciais.",
     "access the world's most advanced fleet of private aircraft. from rapid super-midsize charters to ultra-long-range executive suites.": "Aceda à a frota de aeronaves privadas mais avançada do mundo. Desde charters super-médios rápidos até suítes executivas de ultra-longa distância.",
