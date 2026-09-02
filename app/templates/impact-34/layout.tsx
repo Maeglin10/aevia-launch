@@ -86,7 +86,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             />
           ) : (
             <>
-            <div className="relative flex items-center gap-1.5">{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
+            <div className="relative flex items-center gap-1.5 text-lg font-black tracking-tight text-white">{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
               <Radio className="w-5 h-5 text-[#F97316]" />
               <span className="text-lg font-black tracking-tight text-white">{clientName(__layoutSession) ?? "WaveForm"}</span>
               {/* Pulse dot */}
@@ -129,7 +129,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Link
               href="/templates/impact-34/pricing"
               className="px-5 py-2.5 rounded-xl text-white text-sm font-semibold hover:opacity-90 transition-opacity shadow-[0_4px_14px_rgba(249,115,22,0.35)]"
-              style={{ backgroundColor: C.accent }}
+              /* Blanc sur l'orange du thème : 2,9. On assombrit le fond de 20 %,
+                 ce qui vaut aussi pour la couleur choisie par le client. */
+              style={{ background: `linear-gradient(rgba(0,0,0,0.20), rgba(0,0,0,0.20)), ${C.accent}` }}
             >
               Start Free
             </Link>
@@ -176,7 +178,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 <Link
                   href="/templates/impact-34/pricing"
                   className="w-full text-center py-3 rounded-xl text-white text-sm font-semibold"
-                  style={{ backgroundColor: C.accent }}
+                  /* Blanc sur l'orange du thème : 2,9. On assombrit le fond de 20 %,
+                 ce qui vaut aussi pour la couleur choisie par le client. */
+              style={{ background: `linear-gradient(rgba(0,0,0,0.20), rgba(0,0,0,0.20)), ${C.accent}` }}
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Start Free
@@ -285,7 +289,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   <button
                     type="submit"
                     className="px-5 py-2.5 rounded-xl text-white text-sm font-semibold hover:opacity-90 transition-opacity whitespace-nowrap"
-                    style={{ backgroundColor: C.accent }}
+                    /* Blanc sur l'orange du thème : 2,9. On assombrit le fond de 20 %,
+                 ce qui vaut aussi pour la couleur choisie par le client. */
+              style={{ background: `linear-gradient(rgba(0,0,0,0.20), rgba(0,0,0,0.20)), ${C.accent}` }}
                   >
                     Subscribe
                   </button>

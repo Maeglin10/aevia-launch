@@ -493,7 +493,7 @@ return (
                     style={{ backgroundColor: `${C.green}15` }}
                   >
                     <TrendingUp className="w-3.5 h-3.5 text-[#10B981]" />
-                    <span className="text-xs font-bold text-[#10B981]">{t.growth} growth with WaveForm</span>
+                    <span className="text-xs font-bold text-[#10B981]">{t.growth} de croissance avec {clientName(sessionData) ?? "WaveForm"}</span>
                   </div>
 
                   <p className="text-[#94A3B8] leading-relaxed mb-6 italic text-sm">
@@ -579,7 +579,7 @@ return (
               </Link>
             </div>
             <p className="text-sm text-[#475569] mt-6">
-              Join 50,000+ podcasters. Free plan available forever.
+              Rejoignez plus de 50 000 podcasteurs. Une formule gratuite, pour toujours.
             </p>
           </Reveal>
         </div>

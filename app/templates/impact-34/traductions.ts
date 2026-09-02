@@ -10,6 +10,14 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+
+    "your podcast.": "Votre balado.",
+    "amplified.": "Amplifié.",
+    "active podcasters": "Balados actifs",
+    "episodes hosted": "Épisodes hébergés",
+    "total downloads": "Téléchargements",
+    "uptime sla": "Disponibilité garantie",
+    "join 50 000+ podcasters. free plan available forever.": "Rejoignez plus de 50 000 podcasteurs. Une formule gratuite, pour toujours.",
     "all platforms": "Toutes les plateformes",
     "creators who chose": "Ils nous ont choisis",
     "drop-off points by minute": "Points de chute par minute",
@@ -41,6 +49,14 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "upload & host": "Téléversement & hébergement",
   },
   es: {
+
+    "your podcast.": "Su pódcast.",
+    "amplified.": "Amplificado.",
+    "active podcasters": "Pódcasteres activos",
+    "episodes hosted": "Episodios alojados",
+    "total downloads": "Descargas totales",
+    "uptime sla": "Disponibilidad garantizada",
+    "join 50 000+ podcasters. free plan available forever.": "Únase a más de 50 000 podcasteros. Un plan gratuito, para siempre.",
     "all platforms": "Todas las plataformas",
     "creators who chose": "Nos han elegido",
     "drop-off points by minute": "Puntos de abandono por minuto",
@@ -72,6 +88,14 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "upload & host": "Subida y alojamiento",
   },
   de: {
+
+    "your podcast.": "Ihr Podcast.",
+    "amplified.": "Verstärkt.",
+    "active podcasters": "Aktive Podcaster",
+    "episodes hosted": "Gehostete Folgen",
+    "total downloads": "Downloads gesamt",
+    "uptime sla": "Garantierte Verfügbarkeit",
+    "join 50 000+ podcasters. free plan available forever.": "Schließen Sie sich über 50 000 Podcastern an. Ein Gratis-Tarif, für immer.",
     "all platforms": "Alle Plattformen",
     "creators who chose": "Sie haben uns gewählt",
     "drop-off points by minute": "Abbruchpunkte pro Minute",
@@ -103,6 +127,14 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "upload & host": "Upload & Hosting",
   },
   pt: {
+
+    "your podcast.": "O seu podcast.",
+    "amplified.": "Amplificado.",
+    "active podcasters": "Podcasters ativos",
+    "episodes hosted": "Episódios alojados",
+    "total downloads": "Descarregamentos",
+    "uptime sla": "Disponibilidade garantida",
+    "join 50 000+ podcasters. free plan available forever.": "Junte-se a mais de 50 000 podcasters. Um plano gratuito, para sempre.",
     "all platforms": "Todas as plataformas",
     "creators who chose": "Escolheram-nos",
     "drop-off points by minute": "Pontos de abandono por minuto",
