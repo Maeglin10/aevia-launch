@@ -484,7 +484,8 @@ export default function CTLumierePage() {
 
   return (
     <div style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip" }}>
-      <style>{`${FONTS_CSS}
+      <style>{`
+        @media (max-width: 700px) { .i350-metier { display: none !important; } }${FONTS_CSS}
 
         /* ── texture douce : une trame de points, jamais une image ───────── */
         .i350-pois {
@@ -621,9 +622,10 @@ export default function CTLumierePage() {
       {/* ══ NAV ══════════════════════════════════════════════════════════ */}
       <nav
         style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 18, padding: scrolled ? "10px clamp(18px, 5vw, 56px)" : "22px clamp(18px, 5vw, 56px)", /* Voile sous la barre. */
-        background: scrolled ? "rgba(247,248,246,0.94)" : "linear-gradient(180deg, rgba(16,18,22,0.72) 0%, rgba(16,18,22,0.30) 62%, transparent 100%)", backdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none", WebkitBackdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none", borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`, transition: "padding .55s cubic-bezier(0.16, 1, 0.3, 1), background .55s cubic-bezier(0.16, 1, 0.3, 1), border-color .55s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter .55s cubic-bezier(0.16, 1, 0.3, 1)", }}
+        /* Cette barre porte un texte SOMBRE : son voile doit être clair. */
+        background: scrolled ? "rgba(247,248,246,0.94)" : "linear-gradient(180deg, rgba(247,248,246,0.94) 0%, rgba(247,248,246,0.62) 62%, rgba(247,248,246,0) 100%)", backdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none", WebkitBackdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none", borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`, transition: "padding .55s cubic-bezier(0.16, 1, 0.3, 1), background .55s cubic-bezier(0.16, 1, 0.3, 1), border-color .55s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter .55s cubic-bezier(0.16, 1, 0.3, 1)", }}
       >
-        <a href="#haut" style={{ display: "flex", alignItems: "center", gap: 11, minWidth: 0, textDecoration: "none" }}>
+        <a href="#haut" style={{ display: "flex", alignItems: "center", flexWrap: "nowrap", gap: 11, minWidth: 0, maxWidth: "62vw", textDecoration: "none" }}>
           {fd?.logoBase64 ? (
             <img src={fd.logoBase64} alt={marque} style={{ height: 32, maxWidth: 168, objectFit: "contain", display: "block" }} />
           ) : (
@@ -632,7 +634,9 @@ export default function CTLumierePage() {
               <span style={{ fontFamily: SERIF, fontWeight: 600, fontSize: 21, letterSpacing: "-0.012em", color: C.ink, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
                 {marque}
               </span>
-              <span style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.26em", textTransform: "uppercase", fontWeight: 700, color: C.textFaint, marginLeft: 4, whiteSpace: "nowrap", }}>
+              {/* Sous 700 px l'étiquette du métier gonflait la barre jusqu'à recouvrir
+                  le titre du héros. */}
+              <span className="i350-metier" style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.26em", textTransform: "uppercase", fontWeight: 700, color: C.textFaint, marginLeft: 4, whiteSpace: "nowrap", flexShrink: 0 }}>
                 {metier}
               </span>
             </>
