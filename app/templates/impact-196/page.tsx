@@ -209,7 +209,10 @@ export default function CabinetKinePage() {
       <motion.nav style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72,
         display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 clamp(20px, 5vw, 64px)",
-        background: scrolled ? "rgba(244,248,251,0.97)" : "transparent",
+        /* La photo du cabinet est claire en haut : le nom blanc y tenait mal. */
+        background: scrolled
+          ? "rgba(244,248,251,0.97)"
+          : "linear-gradient(180deg, rgba(10,20,30,0.62) 0%, rgba(10,20,30,0.26) 62%, transparent 100%)",
         backdropFilter: scrolled ? "blur(12px)" : "none",
         borderBottom: scrolled ? `1px solid ${C.border}` : "none",
         transition: "all 0.4s ease",
@@ -270,7 +273,7 @@ export default function CabinetKinePage() {
       {/* Hero */}
       <section ref={heroRef} className="imx-hero196-section" style={{ height: "100dvh", minHeight: "640px", position: "relative", display: "flex", alignItems: "flex-end", overflow: "hidden" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
-          <img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1559757175-5700dde675bc?w=1920&q=80"))} alt="Cabinet kiné Mouvement Nantes" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/6629539/pexels-photo-6629539.jpeg?auto=compress&cs=tinysrgb&w=1920"))} alt="Séance de kinésithérapie" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,25,40,0.90) 0%, rgba(10,25,40,0.40) 45%, rgba(10,25,40,0.06) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
@@ -282,7 +285,7 @@ export default function CabinetKinePage() {
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.75)", lineHeight: 1.75, marginBottom: 40, maxWidth: 530 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
-            Kiné Mouvement accompagne chaque patient avec une approche personnalisée et bienveillante. Rééducation orthopédique, neurologique, sportive et respiratoire — nous sommes là à chaque étape.
+            {clientName(sessionData) ?? "Kiné Mouvement"} accompagne chaque patient avec une approche personnalisée et bienveillante. Rééducation orthopédique, neurologique, sportive et respiratoire — nous sommes là à chaque étape.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -413,7 +416,7 @@ export default function CabinetKinePage() {
       <footer style={{ background: C.text, padding: "52px 80px 26px", fontFamily: FONT }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 40 }}>
           <div>
-            <div style={{ fontSize: 20, fontWeight: 800, color: C.accentLight, marginBottom: 10 }}>Kiné Mouvement</div>
+            <div style={{ fontSize: 20, fontWeight: 800, color: C.accentLight, marginBottom: 10 }}>{clientName(sessionData) ?? "Kiné Mouvement"}</div>
             <p style={{ color: "rgba(255,255,255,0.42)", fontSize: 14, lineHeight: 1.6, maxWidth: 250 }}>Cabinet de kinésithérapie à {clientCity(sessionData) ?? "Nantes"}. Lun–Sam 8h–20h.</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -425,7 +428,7 @@ export default function CabinetKinePage() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 18, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-          <span style={{ color: "rgba(255,255,255,0.24)", fontSize: 12 }}>© 2026 Kiné Mouvement — Site réalisé par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.24)", fontSize: 12 }}>© 2026 {clientName(sessionData) ?? "Kiné Mouvement"} — Site réalisé par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="#contact" style={{ color: "rgba(255,255,255,0.24)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

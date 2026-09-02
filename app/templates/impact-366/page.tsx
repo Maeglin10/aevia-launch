@@ -67,7 +67,7 @@ const FONT_BODY = FONT;
 
 const NAV = [{"l": "Le champ", "h": "#services"}, {"l": "L'AMAP", "h": "#methode"}, {"l": "Contrats & prix", "h": "#tarifs"}, {"l": "Contact", "h": "#contact"}];
 function HERO_DEMO_LIVE() {
-  return [{"k": "Printemps", "sub": "Semis, plants, premières bottes — le champ redémarre.", "img": (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1920&q=80"), "alt": "Le champ au printemps"}, {"k": "Été", "sub": "Tomates, courgettes, haricots : la pleine saison des paniers lourds.", "img": (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1920&q=80"), "alt": "Cultures d'été en pleine terre"}, {"k": "Hiver", "sub": "Courges, poireaux, choux — la saison qu'on apprend à aimer.", "img": (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=1920&q=80"), "alt": "Travail au champ en morte saison"}];
+  return [{"k": "Printemps", "sub": "Semis, plants, premières bottes — le champ redémarre.", "img": (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=1920&q=80"), "alt": "Le champ au printemps"}, {"k": "Été", "sub": "Tomates, courgettes, haricots : la pleine saison des paniers lourds.", "img": (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/6698243/pexels-photo-6698243.jpeg?auto=compress&cs=tinysrgb&w=1920"), "alt": "Cultures d'été en pleine terre"}, {"k": "Hiver", "sub": "Courges, poireaux, choux — la saison qu'on apprend à aimer.", "img": (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/30990696/pexels-photo-30990696.jpeg?auto=compress&cs=tinysrgb&w=1920"), "alt": "Travail au champ en morte saison"}];
 }
 let HERO_DEMO = HERO_DEMO_LIVE();
 let HERO = HERO_DEMO;
@@ -227,7 +227,7 @@ export default function PotagerEstuairePage() {
           ) : (
             <>
               <Leaf size={18} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: FONT, fontSize: 18, color: C.text, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Le Potager de l'Estuaire")}</span>
+              <span style={{ fontFamily: FONT, fontSize: 18, color: "#F2F7F0", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Le Potager de l'Estuaire")}</span>
               
             </>
           )}
@@ -499,22 +499,22 @@ export default function PotagerEstuairePage() {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
-              <div style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Le Potager de l'Estuaire")}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Maraîchage biologique · Vannes<br />Certifié AB — AMAP et marché des Lices</p>
+              <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Le Potager de l'Estuaire")}</div>
+              <p style={{ color: "rgba(255,255,255,0.7)", fontSize: 13, lineHeight: 1.7 }}>Maraîchage biologique · Vannes<br />Certifié AB — AMAP et marché des Lices</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[{ icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "56000", "Vannes") + ", Morbihan" }, { icon: <Phone size={13} />, t: phone }, { icon: <Mail size={13} />, t: mail }, { icon: <Clock size={13} />, t: "Distribution AMAP : Mar 18h–19h30 · Marché : Sam matin" }].map((item, idx) => (
-                <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
+                <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.7)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
                 </div>
               ))}
             </div>
           </div>
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-            <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
+            <span style={{ color: "rgba(255,255,255,0.6)", fontSize: 12 }}>
               © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Le Potager de l'Estuaire")} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity fallback="852 546 225" kind="siren" />
             </span>
-            <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
+            <span style={{ color: "rgba(255,255,255,0.6)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>
         </div>
       </footer>

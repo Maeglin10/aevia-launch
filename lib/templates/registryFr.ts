@@ -190,7 +190,7 @@ export const DESCRIPTION_FR: Record<string, string> = {
   "impact-178": "Agence immobilière premium à Paris présentée en vitrine, proposant des annonces de biens de luxe, estimation gratuite, marketing haut de gamme et services de gestion locative.",
   "impact-179": "Page unique d'association caritative avec photographies émotionnelles, titres en police serif et bouton d'action de don.",
   "impact-180": "Mise en page split-screen pour barbershop/salon premium, esthétique sombre et liste de prix.",
-  "impact-181": "Page unique premium Web3/Crypto avec fonds ORB flottants, interface en glassmorphism et animations fluides.",
+  "impact-181": "Pisciniste : construction béton ou coque, rénovation de bassin, entretien et sécurité — devis gratuit, garantie décennale.",
   "impact-182": "Page unique premium d'hôtel de luxe avec polices serif élégantes, effet parallaxe et grandes photographies immersives.",
   "impact-183": "Plateforme SaaS IA premium avec effets de verre néumorphique, lueurs en mode sombre et indices d'interface générative.",
   "impact-184": "Musée moderne premium avec mise en page à barre latérale brutaliste, typographie extrême et bordures solides.",
