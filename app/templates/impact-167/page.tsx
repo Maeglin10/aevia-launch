@@ -961,7 +961,8 @@ export default function Impact167Page() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          background: scrolled ? `rgba(26,39,68,0.97)` : "transparent",
+          /* Barre transparente sur une photo claire : un voile la porte. */
+          background: scrolled ? `rgba(26,39,68,0.97)` : "linear-gradient(180deg, rgba(26,39,68,0.70) 0%, rgba(26,39,68,0.28) 62%, transparent 100%)",
           backdropFilter: scrolled ? "blur(16px)" : "none",
           borderBottom: scrolled ? `1px solid rgba(201,168,85,0.15)` : "none",
           transition: "background 0.5s, border-color 0.5s",

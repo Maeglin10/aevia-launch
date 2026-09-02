@@ -709,6 +709,7 @@ export default function BioValleePage() {
     <div style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip", WebkitFontSmoothing: "antialiased" }}>
       <style>{FONTS_CSS}</style>
       <style>{`
+        @media (max-width: 700px) { .i358-metier { display: none !important; } }
         @media (max-width: 1000px) { #i358-nav { display: none !important; } .i358-burger { display: flex !important; } }
           .aevia-action-mobile { display: inline-flex !important; }
         @media (max-width: 900px) {
@@ -779,21 +780,25 @@ export default function BioValleePage() {
           alignItems: "center",
           justifyContent: "space-between",
           padding: scrolled ? "10px clamp(20px,4vw,52px)" : "20px clamp(20px,4vw,52px)",
-          background: scrolled ? "rgba(246,249,243,0.93)" : "transparent",
+          /* Barre transparente sur une photo claire : un voile la porte. */
+          /* Le texte de cette barre est SOMBRE : le voile doit être clair, sinon
+             on remplace un fond illisible par un autre. */
+          background: scrolled ? "rgba(246,249,243,0.93)" : "linear-gradient(180deg, rgba(246,249,243,0.94) 0%, rgba(246,249,243,0.62) 62%, rgba(246,249,243,0) 100%)",
           backdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none",
           WebkitBackdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none",
           borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,
           transition: `padding .55s ${EASE_CSS}, background .55s ${EASE_CSS}, backdrop-filter .55s ${EASE_CSS}, border-color .55s ${EASE_CSS}`,
         }}
       >
-        <a href="#top" style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0, textDecoration: "none" }}>
+        <a href="#top" style={{ display: "flex", alignItems: "center", flexWrap: "nowrap", gap: 10, minWidth: 0, maxWidth: "62vw", textDecoration: "none" }}>
           {fd?.logoBase64 ? (
             <img src={fd.logoBase64} alt={marque} style={{ height: 30, maxWidth: 170, objectFit: "contain", display: "block" }} />
           ) : (
             <>
               <Microscope size={17} color={C.accent} style={{ flexShrink: 0 }} />
               <span style={{ fontFamily: SERIF, fontSize: 19, color: C.ink, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", letterSpacing: "-0.012em" }}>{marque}</span>
-              <span style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.26em", textTransform: "uppercase", color: C.textFaint, marginLeft: 6 }}>{clientTrade(sessionData) ?? "Biologie médicale"}</span>
+              {/* Sous 700 px l'étiquette du métier casse le nom en deux lignes. */}
+              <span className="i358-metier" style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.26em", textTransform: "uppercase", color: C.textFaint, marginLeft: 6, whiteSpace: "nowrap", flexShrink: 0 }}>{clientTrade(sessionData) ?? "Biologie médicale"}</span>
             </>
           )}
         </a>

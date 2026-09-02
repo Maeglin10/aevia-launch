@@ -498,7 +498,8 @@ function HeroSection() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to bottom, rgba(46,46,46,0.30) 0%, rgba(46,46,46,0.06) 34%, rgba(46,46,46,0.38) 68%, rgba(46,46,46,0.82) 100%)',
+            /* Le creux du voile à 34 % tombait sur le titre. */
+            'linear-gradient(to bottom, rgba(46,46,46,0.62) 0%, rgba(46,46,46,0.58) 34%, rgba(46,46,46,0.66) 68%, rgba(46,46,46,0.88) 100%)',
         }}
       />
       <div

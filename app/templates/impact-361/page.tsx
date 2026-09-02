@@ -506,6 +506,7 @@ export default function AtelierTeintesPage() {
           max-width: min(560px, 70%);
         }
 
+        @media (max-width: 700px) { .i361-metier { display: none !important; } }
         @media (max-width: 980px) { #i361-nav { display: none !important; } .i361-burger { display: flex !important; } }
           .aevia-action-mobile { display: inline-flex !important; }
         @media (max-width: 900px) {
@@ -550,21 +551,26 @@ export default function AtelierTeintesPage() {
           alignItems: "center",
           justifyContent: "space-between",
           padding: "0 clamp(20px, 4vw, 52px)",
-          background: scrolled ? "rgba(251,249,252,0.93)" : "transparent",
+          /* Barre transparente sur une photo claire : un voile la porte. */
+          /* Le texte de cette barre est SOMBRE : le voile doit être clair, sinon
+             on remplace un fond illisible par un autre. */
+          background: scrolled ? "rgba(251,249,252,0.93)" : "linear-gradient(180deg, rgba(251,249,252,0.94) 0%, rgba(251,249,252,0.62) 62%, rgba(251,249,252,0) 100%)",
           backdropFilter: scrolled ? "blur(14px) saturate(140%)" : "none",
           WebkitBackdropFilter: scrolled ? "blur(14px) saturate(140%)" : "none",
           borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,
           transition: "all 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
+        <div style={{ display: "flex", alignItems: "center", flexWrap: "nowrap", gap: 10, minWidth: 0, maxWidth: "62vw" }}>
           {fd?.logoBase64 ? (
             <img src={fd.logoBase64} alt={nom} style={{ height: 30, maxWidth: 168, objectFit: "contain", display: "block" }} />
           ) : (
             <>
               <Paintbrush size={17} color={C.accent} style={{ flexShrink: 0 }} aria-hidden />
-              <span style={{ fontFamily: SERIF, fontWeight: 500, fontSize: 19.5, letterSpacing: "-0.005em", color: C.ink, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{nom}</span>
-              <span style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.26em", textTransform: "uppercase", color: C.textFaint, marginLeft: 8, whiteSpace: "nowrap" }}>{metier}</span>
+              <span style={{ fontFamily: SERIF, fontWeight: 500, fontSize: 19.5, letterSpacing: "-0.005em", color: C.ink, whiteSpace: "nowrap", wordBreak: "keep-all", overflow: "hidden", textOverflow: "ellipsis", minWidth: 0 }}>{nom}</span>
+              {/* Sous 700 px, l'étiquette du métier disputait la largeur au nom, qui
+                  se cassait lettre par lettre. */}
+              <span className="i361-metier" style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.26em", textTransform: "uppercase", color: C.textFaint, marginLeft: 8, whiteSpace: "nowrap", flexShrink: 0 }}>{metier}</span>
             </>
           )}
         </div>
