@@ -149,10 +149,10 @@ function MANIFEST_LIVE() {
     { title: "Engineering", items: ["Front-end Dev", "Creative Coding", "WebGL / Three.js", "Headless CMS", "Performance Optimization", "Micro-interactions"] }
   ],
   awards: [
-    { name: "Awwwards", wins: "14x Site of the Day", year: "2023-2026", icon: <Trophy className="w-4 h-4" /> },
-    { name: "FWA", wins: "8x FWA of the Day", year: "2024-2026", icon: <Award className="w-4 h-4" /> },
+    { name: "Awwwards", wins: "14 fois site du jour", year: "2023-2026", icon: <Trophy className="w-4 h-4" /> },
+    { name: "FWA", wins: "8 fois site du jour FWA", year: "2024-2026", icon: <Award className="w-4 h-4" /> },
     { name: "Webby", wins: "Best User Interface", year: "2025", icon: <Medal className="w-4 h-4" /> },
-    { name: "CSS Design Awards", wins: "Agency of the Year", year: "2025", icon: <Star className="w-4 h-4" /> }
+    { name: "CSS Design Awards", wins: "Agence de l'année", year: "2025", icon: <Star className="w-4 h-4" /> }
   ],
   culture: resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
     { title: "Radical Candor", desc: "We believe in direct, honest feedback to push the work further. No egos, just excellence." },

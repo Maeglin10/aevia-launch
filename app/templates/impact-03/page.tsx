@@ -1348,7 +1348,7 @@ export default function FashionEditorialTemplate() {
             gap: 40,
           }}
         >
-          {['Home', 'Boutique', 'Blog', 'About', 'Contact'].map((label) => {
+          {['Accueil', 'Boutique', 'Journal', 'La maison', 'Contact'].map((label) => {
             const key = label.toLowerCase() as ActivePage;
             return (
               <button
@@ -2653,7 +2653,7 @@ export default function FashionEditorialTemplate() {
                 fontStyle: 'italic',
               }}
             >
-              {fd?.businessName ?? "Atelier NOIR"}
+              {fd?.businessName ?? (clientName(sessionData) ?? "Atelier NOIR")}
             </div>
             <div style={{ width: 60, height: 1, background: 'rgba(250,250,250,0.1)' }} />
           </div>
@@ -2737,7 +2737,7 @@ export default function FashionEditorialTemplate() {
             </div>
 
             {[
-              { heading: 'Maison', links: [{ label: 'Collection', key: 'home' as const }, { label: 'About', key: 'about' as const }] },
+              { heading: 'Maison', links: [{ label: 'Collection', key: 'home' as const }, { label: 'La maison', key: 'about' as const }] },
               { heading: 'Services', links: [{ label: 'Boutique', key: 'boutique' as const }, { label: 'Blog', key: 'blog' as const }, { label: 'Contact', key: 'contact' as const }] },
               { heading: 'Legal', links: [{ label: 'Mentions Légales', key: 'mentions' as const }, { label: 'CGV', key: 'cgv' as const }] },
             ].map((col) => (
@@ -2805,7 +2805,7 @@ export default function FashionEditorialTemplate() {
                 letterSpacing: '0.1em',
               }}
             >
-              © 2026 {fd?.businessName ?? "Atelier NOIR"}. All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Atelier NOIR")}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </div>
             <div
               style={{
@@ -3146,7 +3146,7 @@ const BLOG_POSTS = [
     excerpt: 'Understanding why buying less but buying better is the ultimate luxury for the modern wardrobe.',
     content: [
       'In a world dominated by ultra-fast fashion, quiet luxury represents a return to form. It is the conscious choice to value craftsmanship, material integrity, and longevity over fleeting trends.',
-      'At Atelier NOIR, every piece is designed to be worn for decades. We select raw fibers that age beautifully, and we partner with heritage weavers who keep traditional techniques alive. This commitment is slower, but it produces garments that carry stories.',
+      'Chez nous, chaque pièce est dessinée to be worn for decades. We select raw fibers that age beautifully, and we partner with heritage weavers who keep traditional techniques alive. This commitment is slower, but it produces garments that carry stories.',
       'To build a wardrobe with intention is to curate your life. It is selecting twelve perfectly fitting pieces rather than fifty disposable ones. It is knowing the hands that spun the silk and the tailors who cut the wool.'
     ]
   },
