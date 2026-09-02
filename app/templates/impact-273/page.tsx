@@ -360,9 +360,11 @@ function BlueButton({
     textTransform: 'uppercase',
     fontWeight: 500,
     cursor: 'pointer',
-    border: `1px solid ${C.accent}`,
+    /* Le bouton en contour vit dans le héros, sur une photo sombre : écrit
+       dans le bleu du thème, son libellé y disparaissait. */
+    border: `1px solid ${filled ? C.accent : 'rgba(255,255,255,0.65)'}`,
     background: filled ? C.accent : 'transparent',
-    color: filled ? C.white : C.accent,
+    color: filled ? C.white : C.white,
     transition: 'all .5s cubic-bezier(.16,1,.3,1)',
   };
   const hov: React.CSSProperties = hover
@@ -611,7 +613,7 @@ function Hero() {
         }}
       >
         <img
-          src={photo(6, "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=2000&auto=format&fit=crop")}
+          src={photo(6, "https://images.pexels.com/photos/38857368/pexels-photo-38857368.jpeg?auto=compress&cs=tinysrgb&w=2000")}
           alt="Cabinet dentaire Rosenfeld Strasbourg"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -623,7 +625,8 @@ function Hero() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to bottom, rgba(6,12,24,0.55) 0%, rgba(6,12,24,0.12) 40%, rgba(6,12,24,0.50) 72%, rgba(6,12,24,0.90) 100%)',
+            /* Le plafond de la clinique est blanc : le titre blanc y tombait à 2,1. */
+            'linear-gradient(to bottom, rgba(6,12,24,0.66) 0%, rgba(6,12,24,0.60) 36%, rgba(6,12,24,0.68) 68%, rgba(6,12,24,0.90) 100%)',
         }}
       />
       <div

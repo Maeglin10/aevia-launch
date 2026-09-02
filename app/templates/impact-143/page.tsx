@@ -222,7 +222,9 @@ export default function AtelierInteriorPage() {
               <span className="font-light">{clientName(sessionData)}</span>
             ) : (<>
               <>
-            <span className="font-light">Atelier</span> <span className="font-bold text-[var(--brand,#8b7355)]">Interior</span>
+            <span className="font-light">Atelier</span> {/* Le brun de la marque donne 1,76 sur le crème de la barre : la moitié
+                accentuée du nom s'écrit dans une version sombre. */}
+            <span className="font-bold text-[#6b563f]">Interior</span>
           </>
             </>))}</Link>
           <div className={`hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] ${scrolled ? "text-[#2a2520]/70" : "text-white/90"}`}>

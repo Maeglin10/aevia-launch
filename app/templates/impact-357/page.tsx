@@ -497,6 +497,7 @@ export default function AxisBioPage() {
   return (
     <div id="i357-root" style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip" }}>
       <style>{`
+        @media (max-width: 700px) { .i357-metier { display: none !important; } }
         ${FONTS_CSS}
         #i357-root em { font-style: italic; }
         .i357-led { animation: i357-led 2.8s ${EASE_CSS} infinite; }
@@ -578,7 +579,8 @@ export default function AxisBioPage() {
             <>
               <FlaskConical size={17} color={C.accent} style={{ flexShrink: 0 }} />
               <span style={{ fontFamily: SERIF, fontSize: 21, letterSpacing: "-0.01em", color: C.ink, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{nom}</span>
-              <span style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.28em", textTransform: "uppercase", color: C.textFaint, marginLeft: 4, whiteSpace: "nowrap" }}>
+              {/* Sous 700 px, l'étiquette du métier passait sous le bouton « Appeler ». */}
+              <span className="i357-metier" style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.28em", textTransform: "uppercase", color: C.textFaint, marginLeft: 4, whiteSpace: "nowrap", flexShrink: 0 }}>
                 {clientTrade(sessionData) ?? "Laboratoire"}
               </span>
             </>
