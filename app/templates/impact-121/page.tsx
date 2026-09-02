@@ -107,7 +107,7 @@ function MANIFEST_LIVE() {
   return {
   hero: {
     headline: "We design digital products that defy the ordinary.",
-    sub: "Folio is an independent creative studio based in Stockholm, focusing on art direction, digital product design, and front-end engineering.",
+    sub: `${clientName(sessionData) ?? "Folio"} est un studio créatif indépendant basé à ${clientCity(sessionData) ?? "Stockholm"}, tourné vers la direction artistique, le design de produits numériques et l'ingénierie front-end.`,
   },
   projects: [
     {
