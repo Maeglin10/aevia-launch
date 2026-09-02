@@ -214,7 +214,7 @@ return (
 
       {/* Nav */}
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-[#FDFAF5]/95 backdrop-blur-md border-b border-[#E8DED0]" : "bg-transparent"}`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-[#FDFAF5]/95 backdrop-blur-md border-b border-[#E8DED0]" : "bg-gradient-to-b from-[#2A1F0E]/68 via-[#2A1F0E]/26 to-transparent"}`}
         initial={{ y: -80 }} animate={{ y: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -228,11 +228,12 @@ return (
             ) : (
               <>
                 <Coffee className="w-5 h-5 text-[var(--brand,#8B5E3C)]" />
-                <span className="text-xl font-normal" style={{ fontFamily: "'Playfair Display', serif" }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>{clientName(sessionData) ?? "Le Matin Doré"}</>)}</span>
+                <span className={`text-xl font-normal ${scrolled ? "" : "text-white"}`} style={{ fontFamily: "'Playfair Display', serif" }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>{clientName(sessionData) ?? "Le Matin Doré"}</>)}</span>
               </>
             )}
           </Link>
-          <div className="hidden md:flex items-center gap-8 text-sm text-[#6B5A40] font-light">
+          {/* Les liens étaient bruns sur un plafond de café très clair. */}
+          <div className={`hidden md:flex items-center gap-8 text-sm font-light ${scrolled ? "text-[#6B5A40]" : "text-white"}`}>
             {["Menu", "Notre histoire", "Galerie", "Nous trouver"].map(l => (
               <Link key={l} href={`#${l.toLowerCase().replace(/ /g, "-")}`} className="hover:text-[#2A1F0E] transition-colors">{l}</Link>
             ))}
@@ -297,7 +298,7 @@ return (
           </Reveal>
           <Reveal delay={0.2}>
             <p className="text-[#D4C9B0] text-lg max-w-md mb-10 leading-relaxed">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
-              Chaque tasse est une promesse — de qualité, de soin, de présence. Bienvenue au Matin Doré.
+              Chaque tasse est une promesse — de qualité, de soin, de présence. Bienvenue au {clientName(sessionData) ?? "Matin Doré"}.
             </>}</p>
             <div className="flex flex-col sm:flex-row gap-5">
               <Link href="#menu" className="inline-flex items-center gap-3 px-8 py-4 bg-[var(--brand,#8B5E3C)] text-white text-sm uppercase tracking-widest hover:bg-[#6B4830] transition-colors cursor-pointer">
