@@ -390,7 +390,8 @@ return (
             fontFamily: SERIF,
             fontSize: 22,
             fontWeight: 700,
-            color: C.primary,
+            /* Bleu du thème sur un bandeau presque noir : 2,7 mesuré. */
+            color: "var(--brand-light, #64b5f6)",
             textDecoration: 'none',
             letterSpacing: '0.05em'
           }}>

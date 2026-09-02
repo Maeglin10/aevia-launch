@@ -604,7 +604,8 @@ function Hero() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to bottom, rgba(18,16,12,0.52) 0%, rgba(18,16,12,0.08) 38%, rgba(18,16,12,0.44) 70%, rgba(18,16,12,0.90) 100%)',
+            /* Le creux du voile tombait sur le titre. */
+            'linear-gradient(to bottom, rgba(18,16,12,0.70) 0%, rgba(18,16,12,0.66) 36%, rgba(18,16,12,0.72) 68%, rgba(18,16,12,0.93) 100%)',
         }}
       />
       {/* Voile radial */}
