@@ -616,7 +616,9 @@ function Hero() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to bottom, rgba(8,20,32,0.50) 0%, rgba(8,20,32,0.10) 36%, rgba(8,20,32,0.46) 68%, rgba(8,20,32,0.90) 100%)',
+            /* Cabinet dentaire photographié en blanc sur blanc : le creux du
+               voile à 36 % rendait le titre invisible (1,85). */
+            'linear-gradient(to bottom, rgba(8,20,32,0.72) 0%, rgba(8,20,32,0.68) 36%, rgba(8,20,32,0.74) 68%, rgba(8,20,32,0.92) 100%)',
         }}
       />
       <div

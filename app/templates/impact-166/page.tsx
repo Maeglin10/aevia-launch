@@ -996,7 +996,11 @@ return (
           justifyContent: "space-between",
           padding: "0 48px",
           height: 72,
-          background: scrolled ? "rgba(10,10,10,0.92)" : "transparent",
+          /* Le ciel de montagne est pâle : le nom et les liens blancs y
+             disparaissaient tant qu'on n'avait pas défilé. */
+          background: scrolled
+            ? "rgba(10,10,10,0.92)"
+            : "linear-gradient(180deg, rgba(10,10,10,0.72) 0%, rgba(10,10,10,0.30) 62%, transparent 100%)",
           backdropFilter: scrolled ? "blur(12px)" : "none",
           borderBottom: scrolled ? `1px solid ${C.border}` : "1px solid transparent",
           transition: "all 0.4s ease",
@@ -1209,7 +1213,7 @@ return (
               position: "absolute",
               inset: 0,
               background:
-                "linear-gradient(to bottom, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0.3) 40%, rgba(10,10,10,0.8) 100%)",
+                "linear-gradient(to bottom, rgba(10,10,10,0.62) 0%, rgba(10,10,10,0.55) 40%, rgba(10,10,10,0.84) 100%)",
             }}
           />
         </motion.div>
@@ -1239,7 +1243,7 @@ return (
               marginBottom: 32,
             }}
           >
-            {clientCity(sessionData) ?? "Paris"} — Photography Studio — Depuis 2018
+            {clientCity(sessionData) ?? "Paris"} — Studio photo — Depuis 2018
           </motion.div>
 
           <TextReveal immediate delay={0.5}>

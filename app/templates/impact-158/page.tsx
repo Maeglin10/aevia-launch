@@ -261,7 +261,7 @@ export default function AtlasPage() {
 
       {/* Nav */}
       <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-[#F5F0E8]/95 backdrop-blur-md border-b border-[#D4C9B0]" : "bg-transparent"}`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "bg-[#F5F0E8]/95 backdrop-blur-md border-b border-[#D4C9B0]" : "bg-gradient-to-b from-[#2C1F0E]/70 via-[#2C1F0E]/28 to-transparent"}`}
         initial={{ y: -80 }} animate={{ y: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
@@ -275,11 +275,13 @@ export default function AtlasPage() {
             ) : (
               <>
                 <Globe className="w-5 h-5 text-[var(--brand,#C0392B)]" />
-                <span className="text-xl font-bold tracking-wide" style={{ fontFamily: "'Playfair Display', serif" }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>{clientName(sessionData) ?? "Atlas"}</>)}</span>
+                <span className={`text-xl font-bold tracking-wide ${scrolled ? "" : "text-[#F7F2E8]"}`} style={{ fontFamily: "'Playfair Display', serif" }}>{/* NOM_LOGO */ clientName(sessionData) ?? (<>{clientName(sessionData) ?? "Atlas"}</>)}</span>
               </>
             )}
           </Link>
-          <div className="hidden md:flex items-center gap-8 text-sm text-[#6B5A40]">
+          {/* Le ciel du récit est rose pâle : le nom et les liens, écrits en brun,
+              n'y existaient pas tant qu'on n'avait pas défilé. */}
+          <div className={`hidden md:flex items-center gap-8 text-sm ${scrolled ? "text-[#6B5A40]" : "text-[#F7F2E8]"}`}>
             {NAV.map(({ l, h }) => {
               return <Link key={l} href={h} className="hover:text-[#2C1F0E] transition-colors duration-200">{l}</Link>;
             })}
@@ -327,7 +329,8 @@ export default function AtlasPage() {
       <section id="hero" ref={heroRef} className="relative min-h-dvh overflow-hidden flex items-end">
         <motion.div className="absolute inset-0" style={{ y: heroImgY }}>
           <Image src={featuredArticle.image} alt={featuredArticle.title} fill className="object-cover" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1A0E05]/95 via-[#1A0E05]/40 to-transparent" />
+          {/* Le haut du ciel est rose pâle et le titre y monte sur trois lignes. */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[#1A0E05]/95 via-[#1A0E05]/62 to-[#1A0E05]/34" />
         </motion.div>
 
         {/* Floating postcards — stacked */}
