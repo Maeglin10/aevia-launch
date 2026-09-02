@@ -382,7 +382,8 @@ export default function EcoCleanHabitatPage() {
           height: scrolled ? 64 : 80,
           display: "flex", alignItems: "center", justifyContent: "space-between",
           padding: "0 clamp(20px, 4vw, 48px)",
-          background: scrolled ? "rgba(246,248,242,0.92)" : "transparent",
+          /* Voile sous la barre, de la même famille que son fond au défilement. */
+          background: scrolled ? "rgba(246,248,242,0.92)" : "linear-gradient(180deg, rgba(246,248,242,0.94) 0%, rgba(246,248,242,0.62) 62%, rgba(246,248,242,0) 100%)",
           backdropFilter: scrolled ? "blur(12px)" : "none",
           borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,
           transition: "all 0.45s cubic-bezier(0.16, 1, 0.3, 1)",

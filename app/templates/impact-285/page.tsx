@@ -223,9 +223,13 @@ function PrimaryButton({
     textTransform: 'uppercase',
     fontWeight: 600,
     cursor: 'pointer',
-    border: `1.5px solid ${accent}`,
-    background: filled ? accent : 'transparent',
-    color: filled ? C.white : accent,
+    /* Le bouton en contour est employé DANS le héros, sur une photo de
+       consultation : écrit dans le vert du thème, il y disparaissait. Et le
+       libellé blanc du bouton plein tombait à 2,3 sur le saumon — fond
+       assombri de 20 %, ce qui vaut aussi pour la couleur du client. */
+    border: `1.5px solid ${filled ? accent : 'rgba(255,255,255,0.7)'}`,
+    background: filled ? `linear-gradient(rgba(0,0,0,0.20), rgba(0,0,0,0.20)), ${accent}` : 'transparent',
+    color: C.white,
     transition: 'all .5s cubic-bezier(.16,1,.3,1)',
     borderRadius: 2,
   };
