@@ -483,7 +483,9 @@ export default function Page() {
             fontFamily: SERIF,
             fontSize: 22,
             fontWeight: 700,
-            color: C.primary,
+            /* Le vert menthe du thème donne 2,3 sur blanc : le nom du client
+               s'y lisait mal. La version sombre de la même teinte tient. */
+            color: C.primaryDark ?? C.primary,
             textDecoration: 'none',
             letterSpacing: '0.02em',
             display: 'flex',

@@ -364,7 +364,9 @@ function HeroSection() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to bottom, rgba(30,61,41,0.50) 0%, rgba(30,61,41,0.12) 35%, rgba(30,61,41,0.48) 68%, rgba(30,61,41,0.92) 100%)',
+            /* Salle de bains carrelée beige, très claire : le creux du voile à
+               35 % posait le titre blanc dessus (2,4). */
+            'linear-gradient(to bottom, rgba(30,61,41,0.78) 0%, rgba(30,61,41,0.74) 35%, rgba(30,61,41,0.78) 68%, rgba(30,61,41,0.94) 100%)',
         }}
       />
       <div
