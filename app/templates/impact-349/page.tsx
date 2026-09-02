@@ -631,6 +631,9 @@ export default function ControleRhodanienPage() {
           .i349-split { grid-template-columns: 1fr; }
           .i349-pied { grid-template-columns: 1fr 1fr; }
         }
+        @media (max-width: 700px) {
+          .i349-metier { display: none !important; }
+        }
         @media (max-width: 860px) {
           .i349-srow {
             grid-template-columns: minmax(0, 44px) minmax(0, 1fr);
@@ -656,16 +659,19 @@ export default function ControleRhodanienPage() {
       <nav
         style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 18, padding: scrolled ? "10px clamp(18px, 5vw, 56px)" : "22px clamp(18px, 5vw, 56px)", background: scrolled ? "rgba(15,17,20,0.93)" : "transparent", backdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none", WebkitBackdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none", borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`, transition: "padding .55s cubic-bezier(0.16, 1, 0.3, 1), background .55s cubic-bezier(0.16, 1, 0.3, 1), border-color .55s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter .55s cubic-bezier(0.16, 1, 0.3, 1)", }}
       >
-        <a href="#haut" style={{ display: "flex", alignItems: "center", gap: 11, minWidth: 0, textDecoration: "none" }}>
+        <a href="#haut" style={{ display: "flex", alignItems: "center", flexWrap: "nowrap", gap: 11, minWidth: 0, maxWidth: "62vw", textDecoration: "none" }}>
           {fd?.logoBase64 ? (
             <img src={fd.logoBase64} alt={marque} style={{ height: 32, maxWidth: 168, objectFit: "contain", display: "block" }} />
           ) : (
             <>
               <Gauge size={19} color={C.accent} style={{ flexShrink: 0 }} />
-              <span style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: 18, letterSpacing: "-0.008em", color: C.ink, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", }}>
+              <span style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: 18, letterSpacing: "-0.008em", color: C.ink, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", minWidth: 0, }}>
                 {marque}
               </span>
-              <span style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.3em", textTransform: "uppercase", color: C.textFaint, marginLeft: 4, whiteSpace: "nowrap", }}>
+              {/* Sous 700 px, l'étiquette du métier disputait la largeur au nom :
+                  la barre entière gonflait jusqu'à 380 px de haut et recouvrait
+                  le titre du héros. */}
+              <span className="i349-metier" style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.3em", textTransform: "uppercase", color: C.textFaint, marginLeft: 4, whiteSpace: "nowrap", flexShrink: 0, }}>
                 {metier}
               </span>
             </>
