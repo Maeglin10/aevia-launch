@@ -344,7 +344,7 @@ export default function TorrefieCoffeePage() {
               <div className="text-center mb-20">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c48a5a] block mb-4">What Clients Say</span>
                 <h2 className="text-5xl md:text-6xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "about.titre") ?? (<>
-                  The <em className="text-[#c48a5a]">Reviews.</em>
+                  Les <em className="text-[#c48a5a]">avis.</em>
                 </>)}</h2>
               </div>
             </Reveal>

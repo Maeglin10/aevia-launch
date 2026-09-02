@@ -10,6 +10,10 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "a generation of independent media entrepreneurs is outpacing legacy publishers. their secret? ownership, directness, and algorithmic fluency.": "Une génération d'entrepreneurs de médias indépendants dépasse les éditeurs installés. Leur secret ? La propriété, la franchise, et une maîtrise des algorithmes.",
+    "join 340 000 readers who start their week with the review. no noise. no algorithm. just the five stories that matter most, with original commentary from our editors.": "Rejoignez 340 000 lecteurs qui commencent la semaine avec nous. Pas de bruit, pas d'algorithme : les cinq articles qui comptent, commentés par notre rédaction.",
+    "founded in 2014, the review was built on a single conviction: that long-form journalism, done with rigour and independence, changes how people think and act. we cover the intersections of technology, power, culture, science, and democracy.": "Fondée en 2014, la revue repose sur une seule conviction : un journalisme de fond, rigoureux et indépendant, change la façon de penser et d'agir.",
+    "the review magazine.": "La revue.",
     "12 years": "12 ans",
     "browse by topic": "Parcourir par sujet",
     "cover story": "Article de couverture",
@@ -43,6 +47,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "why global supply chains are rewiring toward regional hubs": "Pourquoi les chaînes d'approvisionnement se replient sur des pôles régionaux",
   },
   es: {
+    "a generation of independent media entrepreneurs is outpacing legacy publishers. their secret? ownership, directness, and algorithmic fluency.": "Una generación de emprendedores de medios independientes adelanta a los editores tradicionales. ¿Su secreto? La propiedad, la franqueza y el dominio de los algoritmos.",
+    "join 340 000 readers who start their week with the review. no noise. no algorithm. just the five stories that matter most, with original commentary from our editors.": "Únase a 340 000 lectores que empiezan la semana con nosotros. Sin ruido ni algoritmo: los cinco artículos que importan, comentados por nuestra redacción.",
+    "founded in 2014, the review was built on a single conviction: that long-form journalism, done with rigour and independence, changes how people think and act. we cover the intersections of technology, power, culture, science, and democracy.": "Fundada en 2014, la revista se apoya en una sola convicción: un periodismo de fondo, riguroso e independiente, cambia la manera de pensar y de actuar.",
+    "the review magazine.": "La revista.",
     "12 years": "12 años",
     "browse by topic": "Navegar por tema",
     "cover story": "Historia de portada",
@@ -76,6 +84,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "why global supply chains are rewiring toward regional hubs": "Por qué las cadenas de suministro se reorganizan en polos regionales",
   },
   de: {
+    "a generation of independent media entrepreneurs is outpacing legacy publishers. their secret? ownership, directness, and algorithmic fluency.": "Eine Generation unabhängiger Medienunternehmer überholt die etablierten Verlage. Ihr Geheimnis? Eigentum, Direktheit und Algorithmus-Kompetenz.",
+    "join 340 000 readers who start their week with the review. no noise. no algorithm. just the five stories that matter most, with original commentary from our editors.": "Schließen Sie sich 340 000 Leserinnen und Lesern an, die ihre Woche mit uns beginnen. Kein Lärm, kein Algorithmus: die fünf Texte, die zählen, kommentiert von unserer Redaktion.",
+    "founded in 2014, the review was built on a single conviction: that long-form journalism, done with rigour and independence, changes how people think and act. we cover the intersections of technology, power, culture, science, and democracy.": "2014 gegründet, ruht das Magazin auf einer einzigen Überzeugung: gründlicher, unabhängiger Journalismus verändert, wie Menschen denken und handeln.",
+    "the review magazine.": "Das Magazin.",
     "12 years": "12 Jahre",
     "browse by topic": "Nach Thema durchsuchen",
     "cover story": "Titelgeschichte",
@@ -109,6 +121,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "why global supply chains are rewiring toward regional hubs": "Warum sich globale Lieferketten auf regionale Knoten verlagern",
   },
   pt: {
+    "a generation of independent media entrepreneurs is outpacing legacy publishers. their secret? ownership, directness, and algorithmic fluency.": "Uma geração de empreendedores de média independentes ultrapassa os editores instalados. O segredo? A propriedade, a franqueza e o domínio dos algoritmos.",
+    "join 340 000 readers who start their week with the review. no noise. no algorithm. just the five stories that matter most, with original commentary from our editors.": "Junte-se a 340 000 leitores que começam a semana connosco. Sem ruído nem algoritmo: os cinco artigos que contam, comentados pela nossa redação.",
+    "founded in 2014, the review was built on a single conviction: that long-form journalism, done with rigour and independence, changes how people think and act. we cover the intersections of technology, power, culture, science, and democracy.": "Fundada em 2014, a revista assenta numa só convicção: um jornalismo de fundo, rigoroso e independente, muda a forma de pensar e de agir.",
+    "the review magazine.": "A revista.",
     "12 years": "12 anos",
     "browse by topic": "Navegar por tópico",
     "cover story": "Capa",

@@ -10,6 +10,11 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "the operating system": "Le système d'exploitation",
+    "watch your wealth": "Regardez votre patrimoine",
+    "trade os replaced my entire bloomberg terminal setup. the level ii data alone is worth 10x the subscription. i'm running 12 concurrent strategies with zero downtime.": "La plateforme a remplacé tout mon poste Bloomberg. Les données de carnet d'ordres valent à elles seules dix fois l'abonnement. Je fais tourner douze stratégies en parallèle, sans décrochage.",
+    "the backtesting engine is institutional-grade. we tested 5 years of intraday tick data in 4 seconds. execution latency is genuinely sub-millisecond — i ran the benchmarks myself.": "Le moteur de test rétrospectif est de niveau institutionnel : cinq ans de données intraday testées en quatre secondes. La latence d'exécution est réellement sous la milliseconde.",
+    "i went from losing 8k €/month to profitably running 3 automated strategies. the risk controls saved me twice from blowing up my account during flash crashes.": "Je suis passé de 8 000 € de pertes par mois à trois stratégies automatisées rentables. Les garde-fous de risque m'ont sauvé deux fois d'un compte soufflé pendant un décrochage éclair.",
     "14-day free trial": "Essai gratuit de 14 jours",
     "14-day free trial on all plans. no credit card required.": "Essai gratuit de 14 jours sur tous les plans. Aucune carte de crédit requise.",
     "all time": "DEPUIS TOUJOURS",
@@ -48,6 +53,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your edge is waiting.": "Votre avantage vous attend.",
   },
   es: {
+    "the operating system": "El sistema operativo",
+    "watch your wealth": "Vea su patrimonio",
+    "trade os replaced my entire bloomberg terminal setup. the level ii data alone is worth 10x the subscription. i'm running 12 concurrent strategies with zero downtime.": "La plataforma sustituyó todo mi terminal Bloomberg. Los datos de libro de órdenes valen por sí solos diez veces la suscripción. Ejecuto doce estrategias en paralelo, sin caídas.",
+    "the backtesting engine is institutional-grade. we tested 5 years of intraday tick data in 4 seconds. execution latency is genuinely sub-millisecond — i ran the benchmarks myself.": "El motor de backtesting es de nivel institucional: cinco años de datos intradía probados en cuatro segundos. La latencia de ejecución está realmente por debajo del milisegundo.",
+    "i went from losing 8k €/month to profitably running 3 automated strategies. the risk controls saved me twice from blowing up my account during flash crashes.": "Pasé de 8 000 € de pérdidas al mes a tres estrategias automatizadas rentables. Los controles de riesgo me salvaron dos veces de reventar la cuenta en un desplome relámpago.",
     "14-day free trial": "Prueba gratuita de 14 días",
     "14-day free trial on all plans. no credit card required.": "Prueba gratuita de 14 días en todos los planes. No se requiere tarjeta de crédito.",
     "all time": "DESDE SIEMPRE",
@@ -86,6 +96,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your edge is waiting.": "Su ventaja le espera.",
   },
   de: {
+    "the operating system": "Das Betriebssystem",
+    "watch your wealth": "Sehen Sie Ihr Vermögen",
+    "trade os replaced my entire bloomberg terminal setup. the level ii data alone is worth 10x the subscription. i'm running 12 concurrent strategies with zero downtime.": "Die Plattform hat mein komplettes Bloomberg-Terminal ersetzt. Allein die Orderbuchdaten sind das Zehnfache des Abos wert. Ich fahre zwölf Strategien parallel, ohne Aussetzer.",
+    "the backtesting engine is institutional-grade. we tested 5 years of intraday tick data in 4 seconds. execution latency is genuinely sub-millisecond — i ran the benchmarks myself.": "Die Backtesting-Engine ist auf institutionellem Niveau: fünf Jahre Intraday-Daten in vier Sekunden geprüft. Die Ausführungslatenz liegt tatsächlich unter einer Millisekunde.",
+    "i went from losing 8k €/month to profitably running 3 automated strategies. the risk controls saved me twice from blowing up my account during flash crashes.": "Ich bin von 8 000 € Verlust pro Monat zu drei profitablen automatisierten Strategien gekommen. Die Risikokontrollen haben mein Konto zweimal vor einem Flash Crash bewahrt.",
     "14-day free trial": "14-tägige kostenlose Testversion",
     "14-day free trial on all plans. no credit card required.": "14-tägige kostenlose Testversion für alle Pläne. Keine Kreditkarte erforderlich.",
     "all time": "SEIT BEGINN",
@@ -124,6 +139,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your edge is waiting.": "Ihr Vorsprung wartet.",
   },
   pt: {
+    "the operating system": "O sistema operativo",
+    "watch your wealth": "Veja o seu património",
+    "trade os replaced my entire bloomberg terminal setup. the level ii data alone is worth 10x the subscription. i'm running 12 concurrent strategies with zero downtime.": "A plataforma substituiu todo o meu terminal Bloomberg. Só os dados de livro de ordens valem dez vezes a assinatura. Corro doze estratégias em paralelo, sem falhas.",
+    "the backtesting engine is institutional-grade. we tested 5 years of intraday tick data in 4 seconds. execution latency is genuinely sub-millisecond — i ran the benchmarks myself.": "O motor de backtesting é de nível institucional: cinco anos de dados intradiários testados em quatro segundos. A latência de execução está realmente abaixo do milissegundo.",
+    "i went from losing 8k €/month to profitably running 3 automated strategies. the risk controls saved me twice from blowing up my account during flash crashes.": "Passei de 8 000 € de perdas por mês a três estratégias automatizadas rentáveis. Os controlos de risco salvaram-me duas vezes de rebentar a conta num crash relâmpago.",
     "14-day free trial": "Teste gratuito de 14 dias",
     "14-day free trial on all plans. no credit card required.": "Teste gratuito de 14 dias em todos os planos. Não é necessário cartão de crédito.",
     "all time": "DESDE SEMPRE",

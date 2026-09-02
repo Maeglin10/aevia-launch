@@ -919,16 +919,16 @@ function HeroSection() {
             marginBottom: 36,
           }}
         >
-          <TextReveal immediate text={clientHeroLine(sessionData, 0, 3, 10) ?? "We Build"} delay={0.1} />
+          <TextReveal immediate text={clientHeroLine(sessionData, 0, 3, 10) ?? "Nous bâtissons"} delay={0.1} />
           <br />
           <TextReveal
             immediate
-            text={clientHeroLine(sessionData, 1, 3, 10) ?? "The Future"}
+            text={clientHeroLine(sessionData, 1, 3, 10) ?? "l'avenir"}
             delay={0.3}
             style={{ color: C.violet }}
           />
           <br />
-          <TextReveal immediate text={clientHeroLine(sessionData, 2, 3, 10) ?? "Of Cities."} delay={0.5} />
+          <TextReveal immediate text={clientHeroLine(sessionData, 2, 3, 10) ?? "des villes."} delay={0.5} />
         </h1>
 
         <motion.p
@@ -1765,15 +1765,15 @@ function TechnologySection() {
                 marginBottom: 28,
               }}
             >
-              <TextReveal text="Built with the" delay={0.1} />
+              <TextReveal text="Bâti avec les" delay={0.1} />
               <br />
               <TextReveal
-                text="industry's finest"
+                text="meilleurs outils du"
                 delay={0.25}
                 style={{ color: C.violet }}
               />
               <br />
-              <TextReveal text="instruments." delay={0.4} />
+              <TextReveal text="métier." delay={0.4} />
             </h2>
 
             <motion.p
@@ -1906,7 +1906,7 @@ function PressSection() {
             textAlign: "center",
           }}
         >
-          <TextReveal text="What the world says." delay={0.1} />
+          <TextReveal text="Ce qu'on en dit." delay={0.1} />
         </h2>
 
         <div

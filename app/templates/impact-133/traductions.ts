@@ -10,6 +10,8 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "forma studio fuses parametric computation with speculative vision — producing architecture that is alive, adaptive, and unmistakably of its moment.": "Le studio croise le calcul paramétrique et une vision prospective — pour une architecture vivante, adaptative, et de son temps.",
+    "we treat every structural decision as a parameter — a variable in an ongoing computation. our buildings do not just stand; they optimise, adapt, and respond to the living systems around them.": "Nous traitons chaque décision de structure comme un paramètre, une variable dans un calcul continu. Nos bâtiments ne se contentent pas de tenir : ils s'optimisent, s'adaptent et répondent.",
     "a studio operating ten years ahead of its peers.": "Un studio opérant dix ans avant ses pairs.",
     "algorithm-generated form-finding that balances structural integrity with environmental performance. every curve is computed, never arbitrary.": "Recherche de forme générée par algorithme qui équilibre intégrité structurelle et performance environnementale. Chaque courbe est calculée, jamais arbitraire.",
     "architecture is not decoration.": "L'architecture n'est pas une décoration.",
@@ -38,6 +40,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "year": "Année",
   },
   es: {
+    "forma studio fuses parametric computation with speculative vision — producing architecture that is alive, adaptive, and unmistakably of its moment.": "El estudio cruza el cálculo paramétrico con una visión prospectiva — para una arquitectura viva, adaptativa y de su tiempo.",
+    "we treat every structural decision as a parameter — a variable in an ongoing computation. our buildings do not just stand; they optimise, adapt, and respond to the living systems around them.": "Tratamos cada decisión estructural como un parámetro, una variable en un cálculo continuo. Nuestros edificios no se limitan a sostenerse: se optimizan, se adaptan y responden.",
     "a studio operating ten years ahead of its peers.": "Un estudio que opera diez años por delante de sus pares.",
     "algorithm-generated form-finding that balances structural integrity with environmental performance. every curve is computed, never arbitrary.": "Búsqueda de formas generada por algoritmos que equilibra la integridad estructural con el rendimiento ambiental. Cada curva se calcula, nunca es arbitraria.",
     "architecture is not decoration.": "La arquitectura no es una decoración.",
@@ -66,6 +70,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "year": "Año",
   },
   de: {
+    "forma studio fuses parametric computation with speculative vision — producing architecture that is alive, adaptive, and unmistakably of its moment.": "Das Studio verbindet parametrisches Rechnen mit spekulativer Vision — für eine Architektur, die lebendig und anpassungsfähig ist und ihrer Zeit gehört.",
+    "we treat every structural decision as a parameter — a variable in an ongoing computation. our buildings do not just stand; they optimise, adapt, and respond to the living systems around them.": "Wir behandeln jede statische Entscheidung als Parameter, als Variable einer laufenden Berechnung. Unsere Gebäude stehen nicht nur: Sie optimieren sich, passen sich an und reagieren.",
     "a studio operating ten years ahead of its peers.": "Ein Studio, das zehn Jahre vor seinen Kollegen arbeitet.",
     "algorithm-generated form-finding that balances structural integrity with environmental performance. every curve is computed, never arbitrary.": "Algorithmisch generierte Formfindung, die strukturelle Integrität mit Umweltleistung in Einklang bringt. Jede Kurve wird berechnet, niemals willkürlich.",
     "architecture is not decoration.": "Architektur ist keine Dekoration.",
@@ -94,6 +100,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "year": "Jahr",
   },
   pt: {
+    "forma studio fuses parametric computation with speculative vision — producing architecture that is alive, adaptive, and unmistakably of its moment.": "O estúdio cruza o cálculo paramétrico com uma visão prospetiva — para uma arquitetura viva, adaptativa e do seu tempo.",
+    "we treat every structural decision as a parameter — a variable in an ongoing computation. our buildings do not just stand; they optimise, adapt, and respond to the living systems around them.": "Tratamos cada decisão estrutural como um parâmetro, uma variável num cálculo contínuo. Os nossos edifícios não se limitam a manter-se de pé: otimizam-se, adaptam-se e respondem.",
     "a studio operating ten years ahead of its peers.": "Um estúdio que opera dez anos à frente dos seus pares.",
     "algorithm-generated form-finding that balances structural integrity with environmental performance. every curve is computed, never arbitrary.": "Busca de formas gerada por algoritmos que equilibra a integridade estrutural com o desempenho ambiental. Cada curva é calculada, nunca arbitrária.",
     "architecture is not decoration.": "A arquitetura não é uma decoração.",

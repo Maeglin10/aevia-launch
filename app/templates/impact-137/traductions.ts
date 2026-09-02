@@ -10,6 +10,11 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "from seed": "Du grain",
+    "single-origin specialty coffee, roasted in small batches in our": "Café de spécialité pure origine, torréfié en petits lots dans notre",
+    "direct trade with fourth-generation farming families across 14 origins.": "Commerce direct avec des familles de producteurs de quatrième génération, sur quatorze origines.",
+    "the ethiopian yirgacheffe changed the way i think about coffee. i've tried every specialty roaster in paris — torréfié is in a class of its own.": "Le yirgacheffe éthiopien a changé ma façon de penser le café. J'ai essayé tous les torréfacteurs de spécialité à Paris — celui-ci est à part.",
+    "the full torréfié experience. four origins, access to pre-release lots, priority allocation.": "L'expérience complète : quatre origines, accès aux lots en avant-première, allocation prioritaire.",
     "all origins": "Toutes les origines",
     "discover origins": "Découvrez les origines",
     "every lot scored blind by three q-graders. minimum 85 points to pass.": "Chaque lot est noté à l'aveugle par trois Q-Graders. Minimum 85 points pour réussir.",
@@ -37,6 +42,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your": "Votre",
   },
   es: {
+    "from seed": "Del grano",
+    "single-origin specialty coffee, roasted in small batches in our": "Café de especialidad de origen único, tostado en pequeños lotes en nuestro",
+    "direct trade with fourth-generation farming families across 14 origins.": "Comercio directo con familias productoras de cuarta generación, en catorce orígenes.",
+    "the ethiopian yirgacheffe changed the way i think about coffee. i've tried every specialty roaster in paris — torréfié is in a class of its own.": "El yirgacheffe etíope cambió mi forma de pensar el café. He probado todos los tostadores de especialidad de París — este está aparte.",
+    "the full torréfié experience. four origins, access to pre-release lots, priority allocation.": "La experiencia completa: cuatro orígenes, acceso a lotes en preventa, asignación prioritaria.",
     "all origins": "Todos los orígenes",
     "discover origins": "Descubre los orígenes",
     "every lot scored blind by three q-graders. minimum 85 points to pass.": "Cada lote es puntuado a ciegas por tres Q-Graders. Mínimo 85 puntos para aprobar.",
@@ -64,6 +74,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your": "Tu",
   },
   de: {
+    "from seed": "Von der Bohne",
+    "single-origin specialty coffee, roasted in small batches in our": "Spezialitätenkaffee sortenrein, in kleinen Chargen geröstet in unserer",
+    "direct trade with fourth-generation farming families across 14 origins.": "Direkter Handel mit Erzeugerfamilien in vierter Generation, aus vierzehn Herkünften.",
+    "the ethiopian yirgacheffe changed the way i think about coffee. i've tried every specialty roaster in paris — torréfié is in a class of its own.": "Der äthiopische Yirgacheffe hat verändert, wie ich über Kaffee denke. Ich habe jede Spezialitätenrösterei in Paris probiert — diese ist eine Klasse für sich.",
+    "the full torréfié experience. four origins, access to pre-release lots, priority allocation.": "Das volle Erlebnis: vier Herkünfte, Zugang zu Vorab-Lots, bevorzugte Zuteilung.",
     "all origins": "Alle Herkünfte",
     "discover origins": "Entdecken Sie die Ursprünge",
     "every lot scored blind by three q-graders. minimum 85 points to pass.": "Jede Charge wird blind von drei Q-Graders bewertet. Mindestens 85 Punkte zum Bestehen.",
@@ -91,6 +106,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your": "Ihr",
   },
   pt: {
+    "from seed": "Do grão",
+    "single-origin specialty coffee, roasted in small batches in our": "Café de especialidade de origem única, torrado em pequenos lotes na nossa",
+    "direct trade with fourth-generation farming families across 14 origins.": "Comércio direto com famílias produtoras de quarta geração, em catorze origens.",
+    "the ethiopian yirgacheffe changed the way i think about coffee. i've tried every specialty roaster in paris — torréfié is in a class of its own.": "O yirgacheffe etíope mudou a minha forma de pensar o café. Provei todos os torrefatores de especialidade de Paris — este está à parte.",
+    "the full torréfié experience. four origins, access to pre-release lots, priority allocation.": "A experiência completa: quatro origens, acesso a lotes em pré-lançamento, alocação prioritária.",
     "all origins": "Todas as origens",
     "discover origins": "Descubra as origens",
     "every lot scored blind by three q-graders. minimum 85 points to pass.": "Cada lote é avaliado às cegas por três Q-Graders. Mínimo 85 pontos para passar.",

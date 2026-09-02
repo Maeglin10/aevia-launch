@@ -10,6 +10,7 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "without the pain.": "Sans la douleur.",
     "build pipelines": "Construire des pipelines",
     "built by": "Construit par",
     "built-in versioning": "Versioning intégré",
@@ -31,6 +32,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "wavefx is free, open-source, and backed by a community of 450+ contributors.": "WaveFX est gratuit, open-source, et soutenu par une communauté de plus de 450 contributeurs.",
   },
   es: {
+    "without the pain.": "Sin el dolor.",
     "build pipelines": "Construir tuberías",
     "built by": "Construido por",
     "built-in versioning": "Versionado integrado",
@@ -52,6 +54,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "wavefx is free, open-source, and backed by a community of 450+ contributors.": "WaveFX es gratuito, de código abierto y respaldado por una comunidad de más de 450 colaboradores.",
   },
   de: {
+    "without the pain.": "Ohne den Schmerz.",
     "build pipelines": "Pipelines erstellen",
     "built by": "Gebaut von",
     "built-in versioning": "Integrierte Versionierung",
@@ -73,6 +76,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "wavefx is free, open-source, and backed by a community of 450+ contributors.": "WaveFX ist kostenlos, Open Source und wird von einer Gemeinschaft von über 450 Mitwirkenden unterstützt.",
   },
   pt: {
+    "without the pain.": "Sem a dor.",
     "build pipelines": "Construir pipelines",
     "built by": "Construído por",
     "built-in versioning": "Versionamento integrado",

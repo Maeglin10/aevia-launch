@@ -62,9 +62,9 @@ const MARQUEE_ITEMS = [
 ]
 
 const TYPEWRITER_HEADLINES = [
-  "The world is changing faster than we can write about it",
-  "Ideas that shape the decade",
-  "Journalism for the curious mind",
+  "Le monde change plus vite qu'on ne peut l'écrire",
+  "Les idées qui façonnent la décennie",
+  "Un journalisme pour les esprits curieux",
 ]
 
 function FEATURED_SOURCE_LIVE() {
