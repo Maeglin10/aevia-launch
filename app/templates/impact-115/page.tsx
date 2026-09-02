@@ -774,7 +774,9 @@ export default function Impact115Page() {
               fontFamily: C.font,
               fontSize: 22,
               fontWeight: 600,
-              color: C.green,
+              /* Le vert du thème sur un feuillage vert sombre : 2,5 mesuré.
+                 Le nom s'écrit en clair, le vert reste celui des aplats. */
+              color: "#e8efe4",
               display: "flex",
               alignItems: "center",
               gap: 10,

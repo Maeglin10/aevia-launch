@@ -503,7 +503,9 @@ export default function PermisCapSudPage() {
       `}</style>
 
       {/* ── NAV ─────────────────────────────────────────────────────────── */}
-      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "space-between", padding: scrolled ? "12px clamp(20px,4vw,52px)" : "22px clamp(20px,4vw,52px)", background: scrolled ? "rgba(16,18,22,0.9)" : "transparent", backdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none", WebkitBackdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none", borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`, transition: "padding .55s cubic-bezier(0.16,1,0.3,1), background .55s cubic-bezier(0.16,1,0.3,1), border-color .55s cubic-bezier(0.16,1,0.3,1), backdrop-filter .55s cubic-bezier(0.16,1,0.3,1)" }}>
+      <nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, display: "flex", alignItems: "center", justifyContent: "space-between", padding: scrolled ? "12px clamp(20px,4vw,52px)" : "22px clamp(20px,4vw,52px)", /* Ciel gris pâle derrière la barre : le nom et les liens clairs s'y
+           perdaient. */
+        background: scrolled ? "rgba(16,18,22,0.9)" : "linear-gradient(180deg, rgba(14,14,14,0.78) 0%, rgba(14,14,14,0.34) 62%, transparent 100%)", backdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none", WebkitBackdropFilter: scrolled ? "blur(14px) saturate(130%)" : "none", borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`, transition: "padding .55s cubic-bezier(0.16,1,0.3,1), background .55s cubic-bezier(0.16,1,0.3,1), border-color .55s cubic-bezier(0.16,1,0.3,1), backdrop-filter .55s cubic-bezier(0.16,1,0.3,1)" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 11, minWidth: 0 }}>
           {fd?.logoBase64 ? (
             <img src={fd.logoBase64} alt={maison} style={{ height: 32, maxWidth: 170, objectFit: "contain", display: "block" }} />
