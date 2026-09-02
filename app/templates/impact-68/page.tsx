@@ -456,7 +456,7 @@ return (
               Capabilities
             </div>
             <h2 style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "clamp(36px, 4vw, 56px)", fontWeight: 700, letterSpacing: "-0.03em", color: C.text, lineHeight: 1.2 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
-              What we do<br />and <span style={{ color: C.accent }}>how we do it.</span>
+              Ce que nous faisons<br />et <span style={{ color: C.accent }}>comment nous le faisons.</span>
             </>)}</h2>
           </motion.div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: "2px", background: C.border }}>

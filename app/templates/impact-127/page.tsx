@@ -450,7 +450,7 @@ export default function PulseEventsPage() {
           <div className="max-w-[1200px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="flex justify-between items-end mb-16 border-b border-white/5 pb-8 gap-6 flex-wrap">
-                <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "venues.titre") ?? (<>The <span className="text-[var(--brand,#ec4899)]">Venues</span></>)}</h2>
+                <h2 className="text-4xl md:text-5xl font-black tracking-tighter uppercase">{/* TEXTE_SECTION */ clientText(sessionData, "venues.titre") ?? (<>Les <span className="text-[var(--brand,#ec4899)]">salles</span></>)}</h2>
                 <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/30">Four rooms, four reasons</span>
               </div>
             </Reveal>

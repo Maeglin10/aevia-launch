@@ -10,6 +10,11 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "biophilic office redesign for a tech company prioritizing employee wellbeing.": "Réaménagement biophilique des bureaux d'une entreprise technologique attentive au bien-être de ses équipes.",
+    ", we believe your home should be a physical manifestation of your journey. founded in": ", nous croyons que votre intérieur doit être la traduction physique de votre parcours. Fondée à",
+    "complete brand redesign for a €2b clean energy challenger entering 8 european markets.": "Refonte complète de l'identité d'un acteur des énergies propres valorisé 2 Md€, à l'entrée sur huit marchés européens.",
+    "heritage repositioning for a 4th-generation alsatian wine domaine targeting international collectors.": "Repositionnement patrimonial d'un domaine viticole alsacien de quatrième génération, visant les collectionneurs internationaux.",
+    "what we do": "Ce que nous faisons",
     "spaces": "Des espaces",
     "that": "qui",
     "speak.": "parlent.",
@@ -42,6 +47,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what we offer": "Ce que nous proposons",
   },
   es: {
+    "biophilic office redesign for a tech company prioritizing employee wellbeing.": "Reacondicionamiento biofílico de las oficinas de una empresa tecnológica atenta al bienestar de sus equipos.",
+    ", we believe your home should be a physical manifestation of your journey. founded in": ", creemos que su casa debe ser la traducción física de su recorrido. Fundada en",
+    "complete brand redesign for a €2b clean energy challenger entering 8 european markets.": "Rediseño completo de la identidad de un actor de energías limpias valorado en 2 000 M€, al entrar en ocho mercados europeos.",
+    "heritage repositioning for a 4th-generation alsatian wine domaine targeting international collectors.": "Reposicionamiento patrimonial de un dominio vitícola alsaciano de cuarta generación, dirigido a coleccionistas internacionales.",
+    "what we do": "Lo que hacemos",
     "spaces": "Espacios",
     "that": "que",
     "speak.": "hablan.",
@@ -74,6 +84,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what we offer": "Lo que ofrecemos",
   },
   de: {
+    "biophilic office redesign for a tech company prioritizing employee wellbeing.": "Biophile Neugestaltung der Büros eines Technologieunternehmens, das auf das Wohlbefinden seiner Teams achtet.",
+    ", we believe your home should be a physical manifestation of your journey. founded in": ", für uns ist ein Zuhause die gebaute Form eines Lebenswegs. Gegründet in",
+    "complete brand redesign for a €2b clean energy challenger entering 8 european markets.": "Vollständige Markenerneuerung für einen mit 2 Mrd. € bewerteten Anbieter sauberer Energie beim Eintritt in acht europäische Märkte.",
+    "heritage repositioning for a 4th-generation alsatian wine domaine targeting international collectors.": "Erbe-Neupositionierung eines elsässischen Weinguts in vierter Generation, gerichtet auf internationale Sammler.",
+    "what we do": "Was wir tun",
     "spaces": "Räume",
     "that": "die",
     "speak.": "sprechen.",
@@ -106,6 +121,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what we offer": "Was wir anbieten",
   },
   pt: {
+    "biophilic office redesign for a tech company prioritizing employee wellbeing.": "Reformulação biofílica dos escritórios de uma empresa tecnológica atenta ao bem-estar das equipas.",
+    ", we believe your home should be a physical manifestation of your journey. founded in": ", acreditamos que a casa deve ser a tradução física do seu percurso. Fundada em",
+    "complete brand redesign for a €2b clean energy challenger entering 8 european markets.": "Redesenho completo da identidade de um ator das energias limpas avaliado em 2 mil M€, à entrada em oito mercados europeus.",
+    "heritage repositioning for a 4th-generation alsatian wine domaine targeting international collectors.": "Reposicionamento patrimonial de uma quinta vitícola alsaciana de quarta geração, dirigido a colecionadores internacionais.",
+    "what we do": "O que fazemos",
     "spaces": "Espaços",
     "that": "que",
     "speak.": "falam.",
