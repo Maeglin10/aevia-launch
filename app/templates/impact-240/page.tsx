@@ -630,7 +630,8 @@ function Hero() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to bottom, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0.10) 35%, rgba(10,10,10,0.55) 72%, rgba(10,10,10,0.93) 100%)',
+            /* Le creux du voile tombait sur le titre. */
+            'linear-gradient(to bottom, rgba(10,10,10,0.70) 0%, rgba(10,10,10,0.66) 36%, rgba(10,10,10,0.72) 68%, rgba(10,10,10,0.92) 100%)',
         }}
       />
       <div

@@ -612,7 +612,9 @@ export default function LignesEtBoisPage() {
           alignItems: "center",
           justifyContent: "space-between",
           padding: "0 clamp(24px, 4vw, 48px)",
-          background: scrolled ? "rgba(250,248,244,0.97)" : "transparent",
+          /* Voile sous la barre, de la même famille que son fond au défilement. */
+        /* Le texte de la barre est CLAIR sur la photo : voile sombre. */
+        background: scrolled ? "rgba(250,248,244,0.97)" : "linear-gradient(180deg, rgba(22,18,16,0.76) 0%, rgba(22,18,16,0.32) 62%, transparent 100%)",
           backdropFilter: scrolled ? "blur(12px)" : "none",
           borderBottom: `1px solid ${scrolled ? C.border : "transparent"}`,
           boxShadow: scrolled ? "0 10px 34px -22px rgba(30,24,18,0.35)" : "none",
@@ -663,7 +665,7 @@ export default function LignesEtBoisPage() {
         <div style={{ position: "absolute", inset: 0 }}>
           <ExpandFrame src={photo(i, projet.img)} alt={projet.alt} index={i} className="w-full h-full" radius={0} />
         </div>
-        <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(18,14,10,0.94) 0%, rgba(18,14,10,0.42) 44%, rgba(18,14,10,0.10) 78%, rgba(18,14,10,0.22) 100%)", pointerEvents: "none" }} />
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(18,14,10,0.95) 0%, rgba(18,14,10,0.74) 44%, rgba(18,14,10,0.52) 78%, rgba(18,14,10,0.44) 100%)", pointerEvents: "none" }} />
         <div className="i327-herotext" style={{ position: "relative", zIndex: 1, padding: "0 clamp(24px, 5vw, 72px) clamp(48px, 8vh, 80px)", maxWidth: 880 }}>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3, duration: 0.8 }}>
             <Kicker color={C.oak}>{clientEyebrow(sessionData) ?? <>Cuisines & agencement sur mesure · {clientCity(sessionData) ?? "Lyon"}</>}</Kicker>

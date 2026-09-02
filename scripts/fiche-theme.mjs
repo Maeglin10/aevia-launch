@@ -32,6 +32,16 @@ for (const [etat, url] of [["vitrine", ""], ["client", "?session=v"]]) {
        à un défaut du thème. La boutique est française — on mesure en français. */
     const ctx = await nav.newContext({ viewport: { width: w, height: h }, locale: "fr-FR" });
     await ctx.route("**/api/sessions**", (r) => r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(S) }));
+    /* Le bandeau cookies couvre le bas de l'écran et fausse la mesure. Le
+       refermer par un clic ne suffisait pas : ses libellés se coupent sur deux
+       lignes. On pose le consentement AVANT le chargement, comme un visiteur
+       déjà venu. */
+    await ctx.addInitScript(() => {
+      try {
+        localStorage.setItem("aevia-cookie-consent", JSON.stringify({ essential: true, analytics: false, ts: 1 }));
+        localStorage.setItem("site-analytics-consent", "refused");
+      } catch {}
+    });
     const p = await ctx.newPage();
     const morts = [];
     p.on("response", (r) => { if (/unsplash|pexels|pixabay/.test(r.url()) && r.status() >= 400) morts.push(r.status()); });

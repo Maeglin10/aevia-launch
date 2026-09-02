@@ -206,7 +206,7 @@ function NavLink({ l, h }: { l: string; h: string }) {
 }
 
 /* ── Bouton : une élévation douce, deux ombres, jamais de sursaut ──────────── */
-function CtaButton({ href, children, ghost = false }: { href: string; children: React.ReactNode; ghost?: boolean }) {
+function CtaButton({ href, children, ghost = false, surPhoto = false }: { href: string; children: React.ReactNode; ghost?: boolean; surPhoto?: boolean }) {
   const [hov, setHov] = useState(false);
   return (
     <a
@@ -217,9 +217,12 @@ function CtaButton({ href, children, ghost = false }: { href: string; children: 
         display: "inline-flex",
         alignItems: "center",
         gap: 10,
-        background: ghost ? (hov ? C.bgCard : "transparent") : C.accent,
-        color: ghost ? C.ink : "#fff",
-        border: ghost ? `1px solid ${hov ? C.accent : C.border}` : "1px solid transparent",
+        /* Le bouton fantôme est aussi employé DANS le héros, sur une photo
+           sombre : son libellé, écrit dans l'encre du thème, y disparaissait.
+           Sur fond sombre il s'écrit en clair. */
+        background: ghost ? (hov ? "rgba(255,255,255,0.14)" : "transparent") : C.accent,
+        color: ghost ? (surPhoto ? "#f7f5f1" : C.ink) : "#fff",
+        border: ghost ? `1px solid ${surPhoto ? "rgba(255,255,255,0.6)" : (hov ? C.accent : C.border)}` : "1px solid transparent",
         borderRadius: 3,
         padding: ghost ? "14px 26px" : "15px 30px",
         fontFamily: SANS,
@@ -389,6 +392,7 @@ export default function MaisonEstevePage() {
     <div style={{ background: C.bg, fontFamily: SANS, overflowX: "clip" }}>
       <style>{FONTS_CSS}</style>
       <style>{`
+        @media (max-width: 700px) { .i328-metier { display: none !important; } }
         @media (max-width: 900px) { #i328-nav { display: none !important; } .i328-burger { display: flex !important; } }
           .aevia-action-mobile { display: inline-flex !important; }
         @media (max-width: 860px) {
@@ -429,14 +433,15 @@ export default function MaisonEstevePage() {
           transition: `all .65s ${EASE_CSS}`,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <div style={{ display: "flex", alignItems: "center", flexWrap: "nowrap", gap: 10, minWidth: 0, maxWidth: "62vw" }}>
           {fd?.logoBase64 ? (
             <img src={fd.logoBase64} alt={fd?.businessName ?? "logo"} style={{ height: 30, maxWidth: 170, objectFit: "contain", display: "block" }} />
           ) : (
             <>
               <Flower2 size={17} color={C.accent} />
-              <span style={{ fontFamily: SERIF, fontSize: 22, color: C.ink, fontWeight: 500, letterSpacing: "0.01em" }}>{fd?.businessName ?? "Maison Estève"}</span>
-              <span style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.24em", textTransform: "uppercase", color: C.textMuted, marginLeft: 6 }}>{clientTrade(sessionData) ?? "Pompes funèbres"}</span>
+              <span style={{ fontFamily: SERIF, fontSize: 22, color: C.ink, fontWeight: 500, letterSpacing: "0.01em", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", minWidth: 0 }}>{fd?.businessName ?? "Maison Estève"}</span>
+              {/* Sous 700 px l'étiquette du métier cassait le nom en deux lignes. */}
+              <span className="i328-metier" style={{ fontFamily: SANS, fontSize: 10, letterSpacing: "0.24em", textTransform: "uppercase", color: C.textMuted, marginLeft: 6, whiteSpace: "nowrap", flexShrink: 0 }}>{clientTrade(sessionData) ?? "Pompes funèbres"}</span>
             </>
           )}
         </div>
@@ -477,7 +482,7 @@ export default function MaisonEstevePage() {
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
           />
         </HeldSwap>
-        <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(28,31,35,0.86) 0%, rgba(28,31,35,0.55) 38%, rgba(28,31,35,0.12) 72%, transparent 100%)" }} />
+        <div aria-hidden style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(28,31,35,0.90) 0%, rgba(28,31,35,0.74) 38%, rgba(28,31,35,0.58) 72%, rgba(28,31,35,0.46) 100%)" }} />
 
         <div style={{ position: "relative", width: "100%", padding: "clamp(40px, 8vh, 90px) clamp(22px, 6vw, 84px) clamp(34px, 6vh, 62px)" }}>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.2, duration: 1.0 }}>
@@ -506,7 +511,7 @@ export default function MaisonEstevePage() {
             style={{ display: "flex", gap: 12, flexWrap: "wrap", marginTop: "clamp(24px, 3.4vh, 36px)" }}
           >
             <CtaButton href={telHref}><Phone size={16} /> Nous joindre — 24h/24</CtaButton>
-            <CtaButton href="#prevoyance" ghost>Anticiper pour ses proches</CtaButton>
+            <CtaButton href="#prevoyance" ghost surPhoto>Anticiper pour ses proches</CtaButton>
           </motion.div>
 
           {/* Les temps du parcours, en repères alignés — sans fraction ni flèches. */}
