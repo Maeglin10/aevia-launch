@@ -221,7 +221,7 @@ export default function KineticMarqueePage() {
           <div className="flex items-center gap-4">
             <button
               onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-              className="hidden md:block px-8 py-3 bg-[var(--brand,#f97316)] text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-white hover:text-black transition-all duration-500"
+              className="hidden md:block px-8 py-3 bg-[var(--brand,#f97316)] text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-white hover:text-black transition-all duration-500" style={{ backgroundImage: "linear-gradient(rgba(0,0,0,0.20), rgba(0,0,0,0.20))" }}
             >
               Start a Project
             </button>

@@ -234,7 +234,9 @@ return (
                     fontWeight: 600,
                     letterSpacing: "0.05em",
                     color: C.white,
-                    background: C.accent,
+                    /* Blanc sur l'orange du thème : 3,0 tout juste. Fond
+                       assombri de 20 %, y compris pour la couleur du client. */
+                    background: `linear-gradient(rgba(0,0,0,0.20), rgba(0,0,0,0.20)), ${C.accent}`,
                     padding: "16px 32px",
                     textDecoration: "none",
                     borderRadius: "2px",

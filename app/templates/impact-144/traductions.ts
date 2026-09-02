@@ -10,6 +10,11 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "we make": "On les met",
+    "it": "en",
+    "move.": "mouvement.",
+    "we make it move.": "On les met en mouvement.",
+    "kinetic is a collective of designers, developers, and strategists obsessed with motion. we believe brands shouldn't just exist — they should move, engage, and inspire. by blending motion design with cutting-edge technology, we craft digital experiences that capture attention and refuse to let go.": "Un collectif de designers, de développeurs et de stratèges obsédés par le mouvement. Une marque ne devrait pas seulement exister : elle devrait bouger, engager, donner envie. En croisant le motion design et les techniques les plus récentes, nous fabriquons des expériences qui retiennent l'attention et ne la lâchent plus.",
     "animated content that stops the scroll.": "Contenu animé qui arrête le défilement.",
     "brand identity, web experiences, and motion design for companies that refuse to stand still.": "Identité de marque, expériences web et design motion pour des entreprises qui refusent de rester immobiles.",
     "campaign design": "Conception de campagne",
@@ -34,6 +39,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "working with kinetic felt like having the best creative team in-house. except they're actually good.": "Travailler avec Kinetic, c'était comme avoir la meilleure équipe créative en interne. Sauf qu'ils sont vraiment bons.",
   },
   es: {
+    "we make": "Las ponemos",
+    "it": "en",
+    "move.": "movimiento.",
+    "we make it move.": "Las ponemos en movimiento.",
+    "kinetic is a collective of designers, developers, and strategists obsessed with motion. we believe brands shouldn't just exist — they should move, engage, and inspire. by blending motion design with cutting-edge technology, we craft digital experiences that capture attention and refuse to let go.": "Un colectivo de diseñadores, desarrolladores y estrategas obsesionados con el movimiento. Una marca no debería solo existir: debería moverse, implicar, dar ganas. Cruzando el motion design con las técnicas más recientes, fabricamos experiencias que retienen la atención y no la sueltan.",
     "animated content that stops the scroll.": "Contenido animado que detiene el desplazamiento.",
     "brand identity, web experiences, and motion design for companies that refuse to stand still.": "Identidad de marca, experiencias web y diseño en movimiento para empresas que se niegan a quedarse quietas.",
     "campaign design": "Diseño de campaña",
@@ -58,6 +68,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "working with kinetic felt like having the best creative team in-house. except they're actually good.": "Trabajar con Kinetic se sintió como tener el mejor equipo creativo interno. Excepto que realmente son buenos.",
   },
   de: {
+    "we make": "Wir bringen sie",
+    "it": "in",
+    "move.": "Bewegung.",
+    "we make it move.": "Wir bringen sie in Bewegung.",
+    "kinetic is a collective of designers, developers, and strategists obsessed with motion. we believe brands shouldn't just exist — they should move, engage, and inspire. by blending motion design with cutting-edge technology, we craft digital experiences that capture attention and refuse to let go.": "Ein Kollektiv aus Designern, Entwicklern und Strategen, besessen von Bewegung. Eine Marke sollte nicht nur existieren: Sie sollte sich bewegen, einbinden, Lust machen. Wir verbinden Motion Design mit neuester Technik und bauen Erlebnisse, die Aufmerksamkeit halten und nicht mehr loslassen.",
     "animated content that stops the scroll.": "Animierter Inhalt, der das Scrollen stoppt.",
     "brand identity, web experiences, and motion design for companies that refuse to stand still.": "Markenidentität, Web-Erlebnisse und Motion Design für Unternehmen, die sich weigern, stillzustehen.",
     "campaign design": "Kampagnendesign",
@@ -82,6 +97,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "working with kinetic felt like having the best creative team in-house. except they're actually good.": "Die Zusammenarbeit mit Kinetic fühlte sich an, als hätte man das beste kreative Team intern. Außer, dass sie tatsächlich gut sind.",
   },
   pt: {
+    "we make": "Pomo-las",
+    "it": "em",
+    "move.": "movimento.",
+    "we make it move.": "Pomo-las em movimento.",
+    "kinetic is a collective of designers, developers, and strategists obsessed with motion. we believe brands shouldn't just exist — they should move, engage, and inspire. by blending motion design with cutting-edge technology, we craft digital experiences that capture attention and refuse to let go.": "Um coletivo de designers, programadores e estrategas obcecados pelo movimento. Uma marca não devia apenas existir: devia mexer-se, envolver, dar vontade. Cruzando o motion design com as técnicas mais recentes, fabricamos experiências que prendem a atenção e não a largam.",
     "animated content that stops the scroll.": "Conteúdo animado que para o scroll.",
     "brand identity, web experiences, and motion design for companies that refuse to stand still.": "Identidade de marca, experiências web e design em movimento para empresas que se recusam a ficar paradas.",
     "campaign design": "Design de campanha",

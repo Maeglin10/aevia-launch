@@ -175,7 +175,8 @@ export default function OrbitLayout({
               fontWeight: 600,
               letterSpacing: "0.08em",
               color: C.white,
-              background: C.accent,
+              /* Blanc sur l'orange du thème : 3,0 tout juste. */
+              background: `linear-gradient(rgba(0,0,0,0.20), rgba(0,0,0,0.20)), ${C.accent}`,
               padding: "10px 22px",
               borderRadius: "2px",
               textDecoration: "none",

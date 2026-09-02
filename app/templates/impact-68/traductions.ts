@@ -10,6 +10,12 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "brands that": "Des marques qui",
+    "shift": "déplacent",
+    "perception.": "le regard.",
+    "we build identity systems for ambitious companies — from seed-stage startups to century-old maisons. strategy, visual identity, and art direction that makes the right people stop scrolling.": "Nous construisons des systèmes d'identité pour des entreprises ambitieuses — de la jeune pousse à la maison centenaire. Stratégie, identité visuelle et direction artistique : de quoi arrêter le bon regard.",
+    "12 countries": "12 pays",
+    "orbit home": "Accueil",
     "about orbit": "À propos",
     "art direction for the launch of ovoid's clean beauty line. sensory, scientific, unmistakably feminine.": "Direction artistique pour le lancement de la ligne de beauté propre d'Ovoid. Sensoriel, scientifique, indéniablement féminin.",
     "average client growth yoy": "Croissance moyenne des clients d'une année sur l'autre",
@@ -54,6 +60,12 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "wordmarks, symbol systems, color architecture, and type hierarchies that telegraph exactly who you are before a single word is read.": "Logotypes, systèmes de symboles, architecture des couleurs et hiérarchies typographiques qui transmettent exactement qui vous êtes avant qu'un seul mot ne soit lu.",
   },
   es: {
+    "brands that": "Marcas que",
+    "shift": "cambian",
+    "perception.": "la mirada.",
+    "we build identity systems for ambitious companies — from seed-stage startups to century-old maisons. strategy, visual identity, and art direction that makes the right people stop scrolling.": "Construimos sistemas de identidad para empresas ambiciosas — desde la startup hasta la casa centenaria. Estrategia, identidad visual y dirección artística: lo justo para detener la mirada adecuada.",
+    "12 countries": "12 países",
+    "orbit home": "Inicio",
     "about orbit": "Sobre nosotros",
     "art direction for the launch of ovoid's clean beauty line. sensory, scientific, unmistakably feminine.": "Dirección de arte para el lanzamiento de la línea de belleza limpia de Ovoid. Sensorial, científica, inconfundiblemente femenina.",
     "average client growth yoy": "Crecimiento promedio de clientes año tras año",
@@ -98,6 +110,12 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "wordmarks, symbol systems, color architecture, and type hierarchies that telegraph exactly who you are before a single word is read.": "Logotipos, sistemas de símbolos, arquitectura del color y jerarquías tipográficas que transmiten exactamente quién eres antes de que se lea una sola palabra.",
   },
   de: {
+    "brands that": "Marken, die",
+    "shift": "verschieben",
+    "perception.": "den Blick.",
+    "we build identity systems for ambitious companies — from seed-stage startups to century-old maisons. strategy, visual identity, and art direction that makes the right people stop scrolling.": "Wir bauen Identitätssysteme für ambitionierte Unternehmen — vom jungen Start-up bis zum hundertjährigen Haus. Strategie, visuelle Identität und Art Direction, die den richtigen Blick anhalten.",
+    "12 countries": "12 Länder",
+    "orbit home": "Startseite",
     "about orbit": "Über uns",
     "art direction for the launch of ovoid's clean beauty line. sensory, scientific, unmistakably feminine.": "Kunstleitung für den Launch der Clean Beauty-Linie von Ovoid. Sensorisch, wissenschaftlich, unverkennbar feminin.",
     "average client growth yoy": "Durchschnittliches Kundenwachstum im Jahresvergleich",
@@ -142,6 +160,12 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "wordmarks, symbol systems, color architecture, and type hierarchies that telegraph exactly who you are before a single word is read.": "Wortmarken, Symbolsystheme, Farbarchitektur und Typografie-Hierarchien, die genau vermitteln, wer Sie sind, bevor ein einziges Wort gelesen wird.",
   },
   pt: {
+    "brands that": "Marcas que",
+    "shift": "deslocam",
+    "perception.": "o olhar.",
+    "we build identity systems for ambitious companies — from seed-stage startups to century-old maisons. strategy, visual identity, and art direction that makes the right people stop scrolling.": "Construímos sistemas de identidade para empresas ambiciosas — da jovem startup à casa centenária. Estratégia, identidade visual e direção artística: o suficiente para deter o olhar certo.",
+    "12 countries": "12 países",
+    "orbit home": "Início",
     "about orbit": "Sobre nós",
     "art direction for the launch of ovoid's clean beauty line. sensory, scientific, unmistakably feminine.": "Direção de arte para o lançamento da linha de beleza limpa da Ovoid. Sensorial, científica, inconfundivelmente feminina.",
     "average client growth yoy": "Crescimento médio de clientes ano a ano",
