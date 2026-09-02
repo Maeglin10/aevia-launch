@@ -187,10 +187,10 @@ let BULLETS = BULLETS_LIVE();
 const PROGRAMS = ["Leadership dirigeant", "Stratégie financière", "Tech & innovation", "Sur mesure entreprise"];
 
 const NAV = [
-  { l: "Calendar", h: "#seminars" },
-  { l: "Fees", h: "#fees" },
-  { l: "Enterprises", h: "#corporate" },
-  { l: "Speakers", h: "#speakers" },
+  { l: "Calendrier", h: "#seminars" },
+  { l: "Tarifs", h: "#fees" },
+  { l: "Entreprises", h: "#corporate" },
+  { l: "Intervenants", h: "#speakers" },
   { l: "Contact", h: "#contact" },
 ];
 
@@ -298,6 +298,7 @@ export default function Impact325ExecutiveHub() {
   return (
     <div style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip" }}>
       <style>{`
+        @media (max-width: 700px) { .i325-metier { display: none !important; } }
         ${FONTS_CSS}
         @media (max-width: 900px) {
           .i325-navlinks { display: none !important; }
@@ -340,7 +341,7 @@ export default function Impact325ExecutiveHub() {
           ) : (
             <>
               <span style={{ fontFamily: SERIF, fontSize: 21, fontWeight: 600, color: C.ink, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{businessName}</span>
-              <span style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.32em", textTransform: "uppercase", color: C.textFaint, whiteSpace: "nowrap" }}>{clientTrade(sessionData) ?? "Executive seminars"}</span>
+              <span className="i325-metier" style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.32em", textTransform: "uppercase", color: C.ink, opacity: 0.72, whiteSpace: "nowrap", flexShrink: 0 }}>{clientTrade(sessionData) ?? "Séminaires dirigeants"}</span>
             </>
           )}
         </a>
@@ -408,10 +409,10 @@ export default function Impact325ExecutiveHub() {
             {clientEyebrow(sessionData) ?? `Séminaires dirigeants · ${ville}`}
           </div>
           <div style={{ padding: "14px clamp(10px,1.4vw,18px)", borderRight: `1px solid ${C.border}`, fontFamily: SANS, fontSize: 11, letterSpacing: "0.26em", textTransform: "uppercase", color: C.textMuted }}>
-            Season 2026 · N° IV
+            Saison 2026 · N° IV
           </div>
           <div style={{ padding: "14px 0 14px clamp(10px,1.4vw,18px)", fontFamily: SANS, fontSize: 11, letterSpacing: "0.26em", textTransform: "uppercase", color: C.gold }}>
-            Masterclasses &amp; corporate programs
+            Masterclasses et programmes entreprise
           </div>
         </motion.div>
 
@@ -561,7 +562,7 @@ export default function Impact325ExecutiveHub() {
             <div style={{ display: "flex", gap: 14, alignItems: "flex-start", background: C.bg, border: `1px solid ${C.border}`, padding: "clamp(16px,2vw,24px)", marginTop: "clamp(26px,3.4vw,40px)" }}>
               <FileText size={19} color={C.accent} style={{ flexShrink: 0, marginTop: 2 }} />
               <p style={{ fontFamily: SANS, fontSize: 13.5, color: C.textMuted, lineHeight: 1.7, margin: 0 }}>
-                An invoice will be generated and sent to the provided email address upon confirmation. Payment terms are 30 days net. Volume licensing and centralized invoicing available for corporate accounts.
+                Une facture est établie et envoyée à l'adresse indiquée dès la confirmation. Paiement à 30 jours. Licences par volume et facturation centralisée pour les comptes entreprise.
               </p>
             </div>
           </Reveal>
@@ -578,7 +579,7 @@ export default function Impact325ExecutiveHub() {
                 {/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Formez vos <em style={{ fontStyle: "italic", color: C.accent }}>dirigeants</em> ensemble.</>)}
               </h2>
               <p style={{ fontFamily: SANS, fontSize: 15, color: C.textMuted, lineHeight: 1.8, maxWidth: 500, margin: "0 0 clamp(24px,3vw,36px)" }}>
-                {/* TEXTE_SECTION */ clientText(sessionData, "corporate.texte") ?? (<>Nos masterclasses donnent des méthodes applicables et un cadre de décision. Nous proposons des formules packages including private workshops, dedicated account management, and centralized invoicing.</>)}
+                {/* TEXTE_SECTION */ clientText(sessionData, "corporate.texte") ?? (<>Nos masterclasses donnent des méthodes applicables et un cadre de décision. Nous proposons des formules sur mesure : ateliers privés, interlocuteur dédié et facturation centralisée.</>)}
               </p>
               <ul style={{ listStyle: "none", padding: 0, margin: "0 0 clamp(26px,3.4vw,40px)", display: "flex", flexDirection: "column", gap: 13 }}>
                 {/* LISTE_LIBELLES */ BULLETS.map((b, idx) => (
