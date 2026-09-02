@@ -670,7 +670,7 @@ return (
 
             <div>
               <Reveal delay={0.15}>
-                <Eyebrow style={{ }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Wok Master"))}</Eyebrow>
+                <Eyebrow>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Wok Master"))}</Eyebrow>
                 <h2 style={{
                   fontFamily: SERIF,
                   fontSize: 'clamp(28px, 4vw, 48px)',
