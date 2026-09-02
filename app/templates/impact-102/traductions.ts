@@ -10,7 +10,6 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
-    "// areas of investigation": "// Domaines d'investigation",
     "advancing the science of quantum computation. independent research, open publication, and open access infrastructure.": "Faire avancer la science du calcul quantique. Recherche indépendante, publication ouverte, infrastructure en libre accès.",
     "advancing variational quantum eigensolvers, quantum chemistry simulation, and combinatorial optimization for near-term hardware.": "Avancement des solveurs d'eigenvalues quantiques variationnels, de la simulation de chimie quantique et de l'optimisation combinatoire pour le matériel à court terme.",
     "director of quantum hardware": "Directeur du matériel quantique",
@@ -25,7 +24,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view publications": "Voir les publications",
   },
   es: {
-    "// areas of investigation": "// Áreas de investigación",
     "advancing the science of quantum computation. independent research, open publication, and open access infrastructure.": "Hacer avanzar la ciencia de la computación cuántica. Investigación independiente, publicación abierta, infraestructura de acceso libre.",
     "advancing variational quantum eigensolvers, quantum chemistry simulation, and combinatorial optimization for near-term hardware.": "Avanzando en solucionadores cuánticos variacionales, simulaciones de química cuántica y optimización combinatoria para hardware a corto plazo.",
     "director of quantum hardware": "Director de Hardware Cuántico",
@@ -40,7 +38,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view publications": "Ver publicaciones",
   },
   de: {
-    "// areas of investigation": "// Forschungsbereiche",
     "advancing the science of quantum computation. independent research, open publication, and open access infrastructure.": "Die Wissenschaft des Quantenrechnens voranbringen. Unabhängige Forschung, offene Publikation, frei zugängliche Infrastruktur.",
     "advancing variational quantum eigensolvers, quantum chemistry simulation, and combinatorial optimization for near-term hardware.": "Fortschritte bei variationalen Quanten-Eigensolvern, der Quantenchemiesimulation und der kombinatorischen Optimierung für kurzfristige Hardware.",
     "director of quantum hardware": "Direktor für Quantenhardware",
@@ -55,7 +52,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view publications": "Publikationen ansehen",
   },
   pt: {
-    "// areas of investigation": "// Áreas de investigação",
     "advancing the science of quantum computation. independent research, open publication, and open access infrastructure.": "Fazer avançar a ciência da computação quântica. Investigação independente, publicação aberta, infraestrutura de acesso livre.",
     "advancing variational quantum eigensolvers, quantum chemistry simulation, and combinatorial optimization for near-term hardware.": "Avançando em solucionadores quânticos variacionais, simulação de química quântica e otimização combinatória para hardware de curto prazo.",
     "director of quantum hardware": "Diretor de Hardware Quântico",

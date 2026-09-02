@@ -10,7 +10,6 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
-    "// runs instantly at the edge": "// S'exécute instantanément à la périphérie",
     "a complete platform combining the speed of the edge with the power of serverless, designed for modern development workflows.": "Une plateforme complète combinant la vitesse de l'edge avec la puissance du serverless, conçue pour des flux de travail de développement modernes.",
     "bank-grade encryption at rest and in transit. soc2 type ii, hipaa, and gdpr compliant out of the box.": "Chiffrement de niveau bancaire, au repos comme en transit. Conforme SOC 2 type II, HIPAA et RGPD dès l'installation.",
     "build, deploy, and scale globally distributed applications in seconds. we handle the infrastructure complexity so you can focus on writing code.": "Construisez, déployez et évoluez des applications distribuées à l'échelle mondiale en quelques secondes. Nous gérons la complexité de l'infrastructure afin que vous puissiez vous concentrer sur l'écriture de code.",
@@ -45,7 +44,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what programming languages are supported?": "Quelles langages de programmation sont pris en charge ?",
   },
   es: {
-    "// runs instantly at the edge": "// Se ejecuta instantáneamente en el edge",
     "a complete platform combining the speed of the edge with the power of serverless, designed for modern development workflows.": "Una plataforma completa que combina la velocidad del edge con el poder del serverless, diseñada para flujos de trabajo de desarrollo modernos.",
     "bank-grade encryption at rest and in transit. soc2 type ii, hipaa, and gdpr compliant out of the box.": "Cifrado de nivel bancario, en reposo y en tránsito. Conforme a SOC 2 tipo II, HIPAA y RGPD desde el primer día.",
     "build, deploy, and scale globally distributed applications in seconds. we handle the infrastructure complexity so you can focus on writing code.": "Construya, despliegue y escale aplicaciones distribuidas globalmente en segundos. Nos encargamos de la complejidad de la infraestructura para que pueda centrarse en escribir código.",
@@ -80,7 +78,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what programming languages are supported?": "¿Qué lenguajes de programación son compatibles?",
   },
   de: {
-    "// runs instantly at the edge": "// Läuft sofort am Edge",
     "a complete platform combining the speed of the edge with the power of serverless, designed for modern development workflows.": "Eine vollständige Plattform, die die Geschwindigkeit des Edge mit der Leistung von Serverless kombiniert, entworfen für moderne Entwicklungs-Workflows.",
     "bank-grade encryption at rest and in transit. soc2 type ii, hipaa, and gdpr compliant out of the box.": "Verschlüsselung auf Bankniveau, im Ruhezustand wie bei der Übertragung. SOC 2 Typ II, HIPAA und DSGVO ab Werk.",
     "build, deploy, and scale globally distributed applications in seconds. we handle the infrastructure complexity so you can focus on writing code.": "Bauen, bereitstellen und global verteilte Anwendungen in Sekunden skalieren. Wir kümmern uns um die Infrastrukturkomplexität, damit Sie sich auf das Schreiben von Code konzentrieren können.",
@@ -115,7 +112,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what programming languages are supported?": "Welche Programmiersprachen werden unterstützt?",
   },
   pt: {
-    "// runs instantly at the edge": "// Executa instantaneamente na edge",
     "a complete platform combining the speed of the edge with the power of serverless, designed for modern development workflows.": "Uma plataforma completa que combina a velocidade da edge com o poder do serverless, projetada para fluxos de trabalho de desenvolvimento modernos.",
     "bank-grade encryption at rest and in transit. soc2 type ii, hipaa, and gdpr compliant out of the box.": "Cifragem de nível bancário, em repouso e em trânsito. Conforme SOC 2 tipo II, HIPAA e RGPD desde o início.",
     "build, deploy, and scale globally distributed applications in seconds. we handle the infrastructure complexity so you can focus on writing code.": "Construa, implemente e escale aplicações distribuídas globalmente em segundos. Nós cuidamos da complexidade da infraestrutura para que você possa se concentrar em escrever código.",

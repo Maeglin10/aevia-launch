@@ -11,8 +11,6 @@
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "./view projects": "./voir les projets",
-    "// new contactrequest({": "// new DemandeDeContact({",
-    "// open_source_contributions[]": "// contributions_logiciel_libre[]",
     "/in/rafael-moreau": "/in/rafael-moreau",
     "$ echo $available for work": "$ echo $DISPONIBLE POUR TRAVAILLER",
     "120k req/day": "120K demandes/jour",
@@ -26,8 +24,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   es: {
     "./view projects": "./ver proyectos",
-    "// new contactrequest({": "// new SolicitudDeContacto({",
-    "// open_source_contributions[]": "// contribuciones_codigo_abierto[]",
     "/in/rafael-moreau": "/in/rafael-moreau",
     "$ echo $available for work": "$ echo $DISPONIBLE PARA TRABAJAR",
     "120k req/day": "120K req/día",
@@ -41,8 +37,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   de: {
     "./view projects": "./projekte ansehen",
-    "// new contactrequest({": "// new Kontaktanfrage({",
-    "// open_source_contributions[]": "// open_source_beitraege[]",
     "/in/rafael-moreau": "/in/rafael-moreau",
     "$ echo $available for work": "$ echo $VERFÜGBAR FÜR ARBEIT",
     "120k req/day": "120K Anfragen/Tag",
@@ -56,8 +50,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   pt: {
     "./view projects": "./ver projetos",
-    "// new contactrequest({": "// new PedidoDeContacto({",
-    "// open_source_contributions[]": "// contribuicoes_codigo_aberto[]",
     "/in/rafael-moreau": "/in/rafael-moreau",
     "$ echo $available for work": "$ echo $DISPONÍVEL PARA TRABALHAR",
     "120k req/day": "120K pedidos/dia",

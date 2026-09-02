@@ -10,7 +10,6 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
-    ", publisher of the site. for any question, write to": ", éditeur du site. Pour toute question, écrivez à",
     "\"luxury is the ease of a t-shirt in a very expensive dress.\"": "« Le luxe, c'est l'aisance d'un tee-shirt dans une robe très chère. »",
     "← all articles": "← Tous les articles",
     "← all rooms": "← Toutes les chambres",
@@ -44,7 +43,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your rights": "Vos droits",
   },
   es: {
-    ", publisher of the site. for any question, write to": ", editor del sitio. Para cualquier pregunta, escriba a",
     "\"luxury is the ease of a t-shirt in a very expensive dress.\"": "«El lujo es la comodidad de una camiseta en un vestido carísimo.»",
     "← all articles": "← Todos los artículos",
     "← all rooms": "← Todas las habitaciones",
@@ -78,7 +76,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your rights": "Tus derechos",
   },
   de: {
-    ", publisher of the site. for any question, write to": ", Herausgeber der Seite. Bei Fragen schreiben Sie an",
     "\"luxury is the ease of a t-shirt in a very expensive dress.\"": "„Luxus ist die Leichtigkeit eines T-Shirts in einem sehr teuren Kleid.“",
     "← all articles": "← Alle Artikel",
     "← all rooms": "← Alle Zimmer",
@@ -112,7 +109,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your rights": "Ihre Rechte",
   },
   pt: {
-    ", publisher of the site. for any question, write to": ", editor do site. Para qualquer dúvida, escreva para",
     "\"luxury is the ease of a t-shirt in a very expensive dress.\"": "«O luxo é a leveza de uma t-shirt num vestido caríssimo.»",
     "← all articles": "← Todos os artigos",
     "← all rooms": "← Todos os quartos",

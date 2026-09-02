@@ -10,8 +10,6 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
-    "// all_rights_reserved": "// TOUS_DROITS_RÉSERVÉS",
-    "99.98% // secure": "99,98 % // SÉCURISÉ",
     "centuries of provance": "Siècles de Provence",
     "explore the repository": "Explorez le dépôt",
     "recovered from the salt mines of altaussee.": "Retrouvé dans les mines de sel d'Altaussee.",
@@ -27,8 +25,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "veduta of the lost city": "Veduta de la Ville Perdue",
   },
   es: {
-    "// all_rights_reserved": "// TODOS_LOS_DERECHOS_RESERVADOS",
-    "99.98% // secure": "99,98 % // SEGURO",
     "centuries of provance": "Siglos de Provenza",
     "explore the repository": "Explora el repositorio",
     "recovered from the salt mines of altaussee.": "Recuperado en las minas de sal de Altaussee.",
@@ -44,8 +40,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "veduta of the lost city": "Veduta de la Ciudad Perdida",
   },
   de: {
-    "// all_rights_reserved": "// ALLE_RECHTE_VORBEHALTEN",
-    "99.98% // secure": "99,98 % // SICHER",
     "centuries of provance": "Jahrhunderte der Provence",
     "explore the repository": "Erkunden Sie das Repository",
     "recovered from the salt mines of altaussee.": "Aus den Salzbergwerken von Altaussee geborgen.",
@@ -61,8 +55,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "veduta of the lost city": "Veduta der Verlorenen Stadt",
   },
   pt: {
-    "// all_rights_reserved": "// TODOS_OS_DIREITOS_RESERVADOS",
-    "99.98% // secure": "99,98 % // SEGURO",
     "centuries of provance": "Séculos de Provença",
     "explore the repository": "Explore o repositório",
     "recovered from the salt mines of altaussee.": "Recuperado nas minas de sal de Altaussee.",

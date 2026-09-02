@@ -10,19 +10,15 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
-    "// avis clients": "// Avis clients",
     "on s'en occupe.": "On s'en occupe.",
   },
   es: {
-    "// avis clients": "// Opiniones de clientes",
     "on s'en occupe.": "Nos ocupamos de ello.",
   },
   de: {
-    "// avis clients": "// Kundenbewertungen",
     "on s'en occupe.": "Wir kümmern uns darum.",
   },
   pt: {
-    "// avis clients": "// Avaliações de clientes",
     "on s'en occupe.": "Nós cuidamos disso.",
   },
 };

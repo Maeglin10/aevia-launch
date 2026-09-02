@@ -11,7 +11,6 @@
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "\"conflict is inevitable. neutralization is an choice. we are the choice of the prepared.\"": "« Le conflit est inévitable. La neutralisation est un choix. Nous sommes le choix de ceux qui se préparent. »",
-    "// core team": "// équipe de base",
     "38 gb staged over nine weeks through a sanctioned file-sharing tool. behavioural baseline caught the schedule, not the volume.": "Trente-huit gigaoctets préparés sur neuf semaines, par un outil de partage autorisé. C'est la régularité, non le volume, que la référence comportementale a repérée.",
     "combolists, stealer logs and paste sites, matched against your domains. median time from appearance to your inbox: four hours.": "Listes de comptes, journaux de voleurs de données et sites de collage, recoupés avec vos domaines. Délai médian entre l'apparition et votre boîte : quatre heures.",
     "engagements are summarised with the client's written consent. sectors, figures and dates are generalised wherever disclosure would identify the party.": "Les missions sont résumées avec l'accord écrit du client. Secteurs, chiffres et dates sont généralisés partout où la précision identifierait la partie.",
@@ -33,7 +32,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   es: {
     "\"conflict is inevitable. neutralization is an choice. we are the choice of the prepared.\"": "«El conflicto es inevitable. La neutralización es una elección. Somos la elección de quienes se preparan.»",
-    "// core team": "// equipo central",
     "38 gb staged over nine weeks through a sanctioned file-sharing tool. behavioural baseline caught the schedule, not the volume.": "Treinta y ocho gigabytes preparados en nueve semanas, mediante una herramienta de compartición autorizada. Fue la regularidad, no el volumen, lo que detectó la línea base de comportamiento.",
     "combolists, stealer logs and paste sites, matched against your domains. median time from appearance to your inbox: four hours.": "Listas de credenciales, registros de ladrones de datos y sitios de pegado, cotejados con sus dominios. Tiempo mediano entre la aparición y su bandeja: cuatro horas.",
     "engagements are summarised with the client's written consent. sectors, figures and dates are generalised wherever disclosure would identify the party.": "Las misiones se resumen con el consentimiento escrito del cliente. Sectores, cifras y fechas se generalizan allí donde la precisión identificaría a la parte.",
@@ -55,7 +53,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   de: {
     "\"conflict is inevitable. neutralization is an choice. we are the choice of the prepared.\"": "„Konflikt ist unvermeidlich. Neutralisierung ist eine Wahl. Wir sind die Wahl der Vorbereiteten.“",
-    "// core team": "// Kernteam",
     "38 gb staged over nine weeks through a sanctioned file-sharing tool. behavioural baseline caught the schedule, not the volume.": "Achtunddreißig Gigabyte über neun Wochen vorbereitet, über ein freigegebenes Freigabewerkzeug. Erkannt wurde der Rhythmus, nicht das Volumen.",
     "combolists, stealer logs and paste sites, matched against your domains. median time from appearance to your inbox: four hours.": "Zugangslisten, Stealer-Logs und Paste-Seiten, abgeglichen mit Ihren Domains. Mittlere Zeit vom Auftauchen bis in Ihr Postfach: vier Stunden.",
     "engagements are summarised with the client's written consent. sectors, figures and dates are generalised wherever disclosure would identify the party.": "Mandate werden mit schriftlicher Zustimmung des Kunden zusammengefasst. Branchen, Zahlen und Daten werden verallgemeinert, wo die Angabe die Partei erkennbar machen würde.",
@@ -77,7 +74,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   pt: {
     "\"conflict is inevitable. neutralization is an choice. we are the choice of the prepared.\"": "«O conflito é inevitável. A neutralização é uma escolha. Somos a escolha de quem se prepara.»",
-    "// core team": "// equipa central",
     "38 gb staged over nine weeks through a sanctioned file-sharing tool. behavioural baseline caught the schedule, not the volume.": "Trinta e oito gigabytes preparados ao longo de nove semanas, através de uma ferramenta de partilha autorizada. Foi a regularidade, não o volume, que a linha de base comportamental detetou.",
     "combolists, stealer logs and paste sites, matched against your domains. median time from appearance to your inbox: four hours.": "Listas de credenciais, registos de ladrões de dados e sites de colagem, cruzados com os seus domínios. Tempo mediano entre o aparecimento e a sua caixa: quatro horas.",
     "engagements are summarised with the client's written consent. sectors, figures and dates are generalised wherever disclosure would identify the party.": "As missões são resumidas com o consentimento escrito do cliente. Setores, números e datas são generalizados sempre que a precisão identificaria a parte.",

@@ -10,7 +10,6 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
-    ", grasse, new york.": ", Grasse, New York.",
     "1-on-1 with master perfumer": "En tête-à-tête avec le maître parfumeur",
     "a singular fragrance crafted exclusively for you.": "Un parfum singulier, composé pour vous seul.",
     "a visceral descent into the midnight hour. dark, resinous, and unapologetic.": "Une descente viscérale dans l'heure de la nuit. Sombre, résineux et sans excuses.",
@@ -57,7 +56,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your cart is empty.": "Votre panier est vide.",
   },
   es: {
-    ", grasse, new york.": ", Grasse, Nueva York.",
     "1-on-1 with master perfumer": "Cara a cara con el maestro perfumista",
     "a singular fragrance crafted exclusively for you.": "Un perfume singular, compuesto solo para usted.",
     "a visceral descent into the midnight hour. dark, resinous, and unapologetic.": "Una descenso visceral hacia la hora de la medianoche. Oscuro, resinoso y sin disculpas.",
@@ -104,7 +102,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your cart is empty.": "Tu carrito está vacío.",
   },
   de: {
-    ", grasse, new york.": ", Grasse, New York.",
     "1-on-1 with master perfumer": "Vier Augen mit dem Meisterparfumeur",
     "a singular fragrance crafted exclusively for you.": "Ein einzigartiger Duft, allein für Sie komponiert.",
     "a visceral descent into the midnight hour. dark, resinous, and unapologetic.": "Ein viszeraler Abstieg in die Mitternachtsstunde. Dunkel, harzig und unversöhnlich.",
@@ -151,7 +148,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your cart is empty.": "Ihr Warenkorb ist leer.",
   },
   pt: {
-    ", grasse, new york.": ", Grasse, Nova Iorque.",
     "1-on-1 with master perfumer": "A sós com o mestre perfumista",
     "a singular fragrance crafted exclusively for you.": "Um perfume singular, composto só para si.",
     "a visceral descent into the midnight hour. dark, resinous, and unapologetic.": "Uma descida visceral na hora da meia-noite. Escuro, resinoso e sem desculpas.",

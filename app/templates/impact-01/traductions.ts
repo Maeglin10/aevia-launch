@@ -10,7 +10,6 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
-    ", the site publisher. for any question, write to": ", l'éditeur du site. Pour toute question, écrivez à",
     "all articles": "Tous les articles",
     "all work": "Tout le travail",
     "beautiful work that doesn't convert is just decoration. we measure our success by our clients' results.": "Un beau travail qui ne convertit pas n'est qu'une décoration. Nous mesurons notre succès par les résultats de nos clients.",
@@ -78,7 +77,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your rights": "Vos droits",
   },
   es: {
-    ", the site publisher. for any question, write to": ", el editor del sitio. Para cualquier pregunta, escriba a",
     "all articles": "Todos los artículos",
     "all work": "Todo el trabajo",
     "beautiful work that doesn't convert is just decoration. we measure our success by our clients' results.": "Un trabajo hermoso que no convierte es solo decoración. Medimos nuestro éxito por los resultados de nuestros clientes.",
@@ -146,7 +144,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your rights": "Tus derechos",
   },
   de: {
-    ", the site publisher. for any question, write to": ", dem Herausgeber der Seite. Bei Fragen schreiben Sie an",
     "all articles": "Alle Artikel",
     "all work": "Alle Arbeiten",
     "beautiful work that doesn't convert is just decoration. we measure our success by our clients' results.": "Schöne Arbeit, die nicht konvertiert, ist nur Dekoration. Wir messen unseren Erfolg an den Ergebnissen unserer Kunden.",
@@ -214,7 +211,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your rights": "Ihre Rechte",
   },
   pt: {
-    ", the site publisher. for any question, write to": ", o editor do site. Para qualquer dúvida, escreva para",
     "all articles": "Todos os artigos",
     "all work": "Todo o trabalho",
     "beautiful work that doesn't convert is just decoration. we measure our success by our clients' results.": "Um trabalho bonito que não converte é apenas decoração. Medimos nosso sucesso pelos resultados de nossos clientes.",

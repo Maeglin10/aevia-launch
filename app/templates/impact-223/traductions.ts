@@ -10,19 +10,15 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
-    "// avis clients": "// Avis des clients",
     "qui on": "Qui nous sommes",
   },
   es: {
-    "// avis clients": "// Opiniones de los clientes",
     "qui on": "Quiénes somos",
   },
   de: {
-    "// avis clients": "// Kundenbewertungen",
     "qui on": "Wer wir sind",
   },
   pt: {
-    "// avis clients": "// Avaliações de clientes",
     "qui on": "Quem somos",
   },
 };

@@ -11,7 +11,6 @@
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "build.": "CONSTRUIRE.",
-    "client words //": "MOTS DES CLIENTS //",
     "digital experience design": "Conception d'expérience numérique",
     "from identity animations to short-form films. we direct and produce motion content from concept to delivery — titles, brand films, social content series.": "Des animations d'identité aux films courts. Nous dirigeons et produisons du contenu animé de la conception à la livraison — titres, films de marque, séries de contenu social.",
     "if you have a brief that scares you a little, we want to hear it.": "Si votre projet vous fait un peu peur, nous voulons l'entendre.",
@@ -19,7 +18,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "let's build": "CONSTRUISONS",
     "naming, visual systems, typographic language, colour philosophy. we build marks that outlast the trend cycle — anchored in concept, ruthless in execution.": "Nommage, systèmes visuels, langage typographique, philosophie des couleurs. Nous construisons des marques qui survivent au cycle des tendances — ancrées dans le concept, impitoyables dans l'exécution.",
     "new brief": "NOUVEAU PROJET",
-    "select clients //": "CLIENTS SÉLECTIONNÉS //",
     "start a project →": "DÉMARRER UN PROJET →",
     "the code they wrote is the first thing our engineers didn't immediately want to rewrite. that's the highest compliment in our stack.": "Le code qu'ils ont écrit est la première chose que nos développeurs n'ont pas voulu réécrire aussitôt. C'est le plus beau compliment chez nous.",
     "they told us the concept was impossible. void delivered it in 6 weeks. the brand now leads every category benchmark we track.": "Ils nous ont dit que le concept était impossible. Void l'a livré en 6 semaines. La marque est maintenant en tête de tous les benchmarks de catégorie que nous suivons.",
@@ -34,7 +32,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   es: {
     "build.": "CONSTRUIR.",
-    "client words //": "PALABRAS DE LOS CLIENTES //",
     "digital experience design": "Diseño de experiencia digital",
     "from identity animations to short-form films. we direct and produce motion content from concept to delivery — titles, brand films, social content series.": "Desde animaciones de identidad hasta cortometrajes. Dirigimos y producimos contenido en movimiento desde el concepto hasta la entrega — títulos, películas de marca, series de contenido social.",
     "if you have a brief that scares you a little, we want to hear it.": "Si su proyecto le da un poco de miedo, queremos escucharlo.",
@@ -42,7 +39,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "let's build": "CONSTRUYAMOS",
     "naming, visual systems, typographic language, colour philosophy. we build marks that outlast the trend cycle — anchored in concept, ruthless in execution.": "Nomenclatura, sistemas visuales, lenguaje tipográfico, filosofía del color. Creamos marcas que superan el ciclo de tendencias — ancladas en el concepto, implacables en la ejecución.",
     "new brief": "NUEVO PROYECTO",
-    "select clients //": "CLIENTES SELECCIONADOS //",
     "start a project →": "INICIAR UN PROYECTO →",
     "the code they wrote is the first thing our engineers didn't immediately want to rewrite. that's the highest compliment in our stack.": "El código que escribieron es lo primero que nuestros desarrolladores no quisieron reescribir de inmediato. Es el mayor elogio en nuestra casa.",
     "they told us the concept was impossible. void delivered it in 6 weeks. the brand now leads every category benchmark we track.": "Nos dijeron que el concepto era imposible. Void lo entregó en 6 semanas. La marca ahora lidera todos los puntos de referencia de categoría que seguimos.",
@@ -57,7 +53,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   de: {
     "build.": "BAUEN.",
-    "client words //": "KUNDENWORTE //",
     "digital experience design": "Digitales Erlebnisdesign",
     "from identity animations to short-form films. we direct and produce motion content from concept to delivery — titles, brand films, social content series.": "Von Identitätsanimationen bis hin zu Kurzfilmen. Wir leiten und produzieren bewegte Inhalte von der Idee bis zur Auslieferung — Titel, Markenfilme, soziale Inhaltsserien.",
     "if you have a brief that scares you a little, we want to hear it.": "Wenn Ihr Vorhaben Ihnen etwas Angst macht, wollen wir davon hören.",
@@ -65,7 +60,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "let's build": "LASST UNS BAUEN",
     "naming, visual systems, typographic language, colour philosophy. we build marks that outlast the trend cycle — anchored in concept, ruthless in execution.": "Namensgebung, visuelle Systeme, typografische Sprache, Farbphilosophie. Wir bauen Marken, die den Trendzyklus überdauern — verankert im Konzept, gnadenlos in der Ausführung.",
     "new brief": "NEUES BRIEFING",
-    "select clients //": "AUSGEWÄHLTE KUNDEN //",
     "start a project →": "PROJEKT STARTEN →",
     "the code they wrote is the first thing our engineers didn't immediately want to rewrite. that's the highest compliment in our stack.": "Der Code, den sie geschrieben haben, ist das Erste, was unsere Entwickler nicht sofort neu schreiben wollten. Das ist bei uns das höchste Lob.",
     "they told us the concept was impossible. void delivered it in 6 weeks. the brand now leads every category benchmark we track.": "Sie sagten uns, das Konzept sei unmöglich. Void lieferte es in 6 Wochen. Die Marke führt jetzt jeden Kategorie-Benchmark, den wir verfolgen.",
@@ -80,7 +74,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   pt: {
     "build.": "CONSTRUIR.",
-    "client words //": "PALAVRAS DOS CLIENTES //",
     "digital experience design": "Design de Experiência Digital",
     "from identity animations to short-form films. we direct and produce motion content from concept to delivery — titles, brand films, social content series.": "De animações de identidade a filmes curtos. Dirigimos e produzimos conteúdo em movimento desde o conceito até a entrega — títulos, filmes de marca, séries de conteúdo social.",
     "if you have a brief that scares you a little, we want to hear it.": "Se o seu projeto lhe mete um pouco de medo, queremos ouvi-lo.",
@@ -88,7 +81,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "let's build": "VAMOS CONSTRUIR",
     "naming, visual systems, typographic language, colour philosophy. we build marks that outlast the trend cycle — anchored in concept, ruthless in execution.": "Nomeação, sistemas visuais, linguagem tipográfica, filosofia das cores. Construímos marcas que sobrevivem ao ciclo de tendências — ancoradas no conceito, implacáveis na execução.",
     "new brief": "NOVO PROJETO",
-    "select clients //": "CLIENTES SELECIONADOS //",
     "start a project →": "INICIAR UM PROJETO →",
     "the code they wrote is the first thing our engineers didn't immediately want to rewrite. that's the highest compliment in our stack.": "O código que escreveram é a primeira coisa que os nossos programadores não quiseram reescrever de imediato. É o maior elogio cá em casa.",
     "they told us the concept was impossible. void delivered it in 6 weeks. the brand now leads every category benchmark we track.": "Disseram-nos que o conceito era impossível. A Void entregou-o em 6 semanas. A marca agora lidera todos os benchmarks de categoria que acompanhamos.",
