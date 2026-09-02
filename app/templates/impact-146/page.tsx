@@ -252,7 +252,7 @@ export default function KuroOmakasePage() {
                       <h2 className="text-6xl md:text-8xl font-light uppercase tracking-tighter text-white leading-none mb-16 italic">{c?.aboutTitle ?? fd?.businessName ?? <>Elegance <br/> <span className="not-italic font-bold opacity-30">In Zero.</span></>}</h2>
                       <p className="text-2xl font-light text-white/60 leading-relaxed mb-20 italic">{c?.aboutText ?? <>
                          "To find the soul of the fish, we must remove everything that is not the fish." <br/><br/>
-                         Kuro Omakase follows the strict principle of Ma (間) — the space between, the silence, the void that allows the flavor to truly exist.
+                         {clientName(sessionData) ?? "Kuro Omakase"} follows the strict principle of Ma (間) — the space between, the silence, the void that allows the flavor to truly exist.
                       </>}</p>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
                          {[

@@ -670,7 +670,7 @@ return (
 
             <div>
               <Reveal delay={0.15}>
-                <Eyebrow style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)" }}>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "KinéPro Sport Lyon"))}</Eyebrow>
+                <Eyebrow>{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "KinéPro Sport Lyon"))}</Eyebrow>
                 <h2 style={{
                   fontFamily: SERIF,
                   fontSize: 'clamp(28px, 4vw, 48px)',
@@ -687,7 +687,7 @@ return (
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  KinéPro Sport accompagne les athlètes amateurs et professionnels du Grand {clientCity(sessionData) ?? "Lyon"}. Rééducation post-opératoire, dry needling, thérapie manuelle et retour au sport accéléré.
+                  {clientName(sessionData) ?? "KinéPro Sport"} accompagne les athlètes amateurs et professionnels du Grand {clientCity(sessionData) ?? "Lyon"}. Rééducation post-opératoire, dry needling, thérapie manuelle et retour au sport accéléré.
                 </>}</p>
                 <p style={{
                   fontSize: 15,

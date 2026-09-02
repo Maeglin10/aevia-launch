@@ -700,7 +700,7 @@ return (
                   color: C.textMuted,
                   marginBottom: 20
                 }}>{c?.aboutText ?? <>
-                  Lumière & Vœux crée des mariages sur mesure, intimes et authentiques. De la recherche des prestataires à la coordination le jour J, nous gérons tout pour que vous profitiez pleinement.
+                  {clientName(sessionData) ?? "Lumière & Vœux"} crée des mariages sur mesure, intimes et authentiques. De la recherche des prestataires à la coordination le jour J, nous gérons tout pour que vous profitiez pleinement.
                 </>}</p>
                 <p style={{
                   fontSize: 15,

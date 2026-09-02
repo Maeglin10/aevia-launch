@@ -2056,7 +2056,7 @@ function AtelierSection() {
               fontStyle: 'italic',
             }}
           >
-            Maison Céleste a été fondée en 1987 par Isabelle Céleste, formée aux
+            {clientName(sessionData) ?? "Maison Céleste"} a été fondée en 1987 par Isabelle Céleste, formée aux
             ateliers Balenciaga et Christian Lacroix avant d&apos;ouvrir sa propre maison
             rue de Surène, à deux pas de la Madeleine.
           </p>

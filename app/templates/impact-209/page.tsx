@@ -1621,7 +1621,7 @@ export default function Page() {
               Galerie
             </p>
             <h2 style={{ ...headingFont, fontSize: 'clamp(36px, 5vw, 56px)', color: '#fff', margin: '0', fontWeight: 400, letterSpacing: '0.02em' }}>{/* TEXTE_SECTION */ clientText(sessionData, "galerie.titre") ?? (<>
-              L'Atelier en Images
+              {clientName(sessionData) ?? "L'Atelier"} en Images
             </>)}</h2>
           </motion.div>
 
