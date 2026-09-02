@@ -10,6 +10,10 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "ballistic-grade carbon weaves optimized for maximum energy absorption and structural integrity.": "Des tissages de carbone de qualité balistique, optimisés pour absorber l'énergie et tenir la structure.",
+    "every carbonlab composite begins in our tensile simulation lab, where we model 900+ stress scenarios before a single fiber is laid. the result: materials that outperform steel at one-fifth the weight.": "Chaque composite commence dans notre laboratoire de simulation, où plus de 900 scénarios de contrainte sont modélisés avant qu'une seule fibre ne soit posée. Résultat : des matériaux qui dépassent l'acier au cinquième du poids.",
+    "t1100g & m60j ultra-high-modulus carbon fiber sourced from toray. we reject batches with tensile strength variance above 0.3% — 94% of commercial fiber does not meet this threshold.": "Fibre de carbone à très haut module T1100G et M60J, fournie par TORAY. Nous écartons les lots dont la résistance varie de plus de 0,3 % — 94 % des fibres du commerce ne passent pas ce seuil.",
+    "4-bar/180°c pressurized cure cycle in our 7-meter autoclave. dimensional tolerance: ±0.05mm across any axis. ndt inspection by phased-array ultrasound on 100% of parts.": "Cuisson sous pression à 4 bars et 180 °C dans notre autoclave de sept mètres. Tolérance dimensionnelle : ±0,05 mm sur tous les axes. Contrôle non destructif par ultrasons multiéléments sur 100 % des pièces.",
     "\"materials define the limit. we push the limit. engineering the foundation of future performance.\"": "« La matière fixe la limite. Nous la repoussons. Bâtir le socle de la performance à venir. »",
     "0→$2b transactions routed in 90 days": "0→2 milliards de dollars de transactions routées en 90 jours",
     "build": "Construire",
@@ -33,6 +37,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what they": "CE QU'ILS",
   },
   es: {
+    "ballistic-grade carbon weaves optimized for maximum energy absorption and structural integrity.": "Tejidos de carbono de calidad balística, optimizados para absorber energía y sostener la estructura.",
+    "every carbonlab composite begins in our tensile simulation lab, where we model 900+ stress scenarios before a single fiber is laid. the result: materials that outperform steel at one-fifth the weight.": "Cada composite empieza en nuestro laboratorio de simulación, donde se modelan más de 900 escenarios de esfuerzo antes de colocar una sola fibra. Resultado: materiales que superan al acero con un quinto del peso.",
+    "t1100g & m60j ultra-high-modulus carbon fiber sourced from toray. we reject batches with tensile strength variance above 0.3% — 94% of commercial fiber does not meet this threshold.": "Fibra de carbono de muy alto módulo T1100G y M60J, suministrada por TORAY. Descartamos los lotes cuya resistencia varía más del 0,3 % — el 94 % de la fibra comercial no pasa ese umbral.",
+    "4-bar/180°c pressurized cure cycle in our 7-meter autoclave. dimensional tolerance: ±0.05mm across any axis. ndt inspection by phased-array ultrasound on 100% of parts.": "Curado a presión de 4 bares y 180 °C en nuestro autoclave de siete metros. Tolerancia dimensional: ±0,05 mm en todos los ejes. Control no destructivo por ultrasonidos phased array en el 100 % de las piezas.",
     "\"materials define the limit. we push the limit. engineering the foundation of future performance.\"": "«La materia fija el límite. Nosotros lo empujamos. Construir la base del rendimiento futuro.»",
     "0→$2b transactions routed in 90 days": "0→$2B transacciones enrutadas en 90 días",
     "build": "Construir",
@@ -56,6 +64,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what they": "LO QUE",
   },
   de: {
+    "ballistic-grade carbon weaves optimized for maximum energy absorption and structural integrity.": "Karbongewebe in ballistischer Qualität, optimiert für Energieaufnahme und Strukturfestigkeit.",
+    "every carbonlab composite begins in our tensile simulation lab, where we model 900+ stress scenarios before a single fiber is laid. the result: materials that outperform steel at one-fifth the weight.": "Jeder Verbundwerkstoff beginnt in unserem Simulationslabor, wo über 900 Lastfälle modelliert werden, bevor eine einzige Faser liegt. Ergebnis: Werkstoffe, die Stahl bei einem Fünftel des Gewichts übertreffen.",
+    "t1100g & m60j ultra-high-modulus carbon fiber sourced from toray. we reject batches with tensile strength variance above 0.3% — 94% of commercial fiber does not meet this threshold.": "Ultrahochmodulige Kohlefaser T1100G und M60J von TORAY. Chargen mit mehr als 0,3 % Festigkeitsstreuung weisen wir zurück — 94 % der handelsüblichen Faser bestehen diese Schwelle nicht.",
+    "4-bar/180°c pressurized cure cycle in our 7-meter autoclave. dimensional tolerance: ±0.05mm across any axis. ndt inspection by phased-array ultrasound on 100% of parts.": "Druckaushärtung bei 4 bar und 180 °C in unserem Sieben-Meter-Autoklaven. Maßtoleranz: ±0,05 mm auf allen Achsen. Zerstörungsfreie Prüfung per Phased-Array-Ultraschall an 100 % der Teile.",
     "\"materials define the limit. we push the limit. engineering the foundation of future performance.\"": "„Das Material setzt die Grenze. Wir verschieben sie. Das Fundament künftiger Leistung bauen.“",
     "0→$2b transactions routed in 90 days": "0→2 Mrd. $ Transaktionen in 90 Tagen",
     "build": "Bauen",
@@ -79,6 +91,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what they": "WAS SIE",
   },
   pt: {
+    "ballistic-grade carbon weaves optimized for maximum energy absorption and structural integrity.": "Tecidos de carbono de qualidade balística, otimizados para absorver energia e sustentar a estrutura.",
+    "every carbonlab composite begins in our tensile simulation lab, where we model 900+ stress scenarios before a single fiber is laid. the result: materials that outperform steel at one-fifth the weight.": "Cada compósito começa no nosso laboratório de simulação, onde se modelam mais de 900 cenários de esforço antes de colocar uma única fibra. Resultado: materiais que superam o aço com um quinto do peso.",
+    "t1100g & m60j ultra-high-modulus carbon fiber sourced from toray. we reject batches with tensile strength variance above 0.3% — 94% of commercial fiber does not meet this threshold.": "Fibra de carbono de módulo muito elevado T1100G e M60J, fornecida pela TORAY. Rejeitamos os lotes cuja resistência varia mais de 0,3 % — 94 % da fibra comercial não passa este limiar.",
+    "4-bar/180°c pressurized cure cycle in our 7-meter autoclave. dimensional tolerance: ±0.05mm across any axis. ndt inspection by phased-array ultrasound on 100% of parts.": "Cura sob pressão a 4 bar e 180 °C no nosso autoclave de sete metros. Tolerância dimensional: ±0,05 mm em todos os eixos. Controlo não destrutivo por ultrassons phased array em 100 % das peças.",
     "\"materials define the limit. we push the limit. engineering the foundation of future performance.\"": "«A matéria fixa o limite. Nós empurramo-lo. Construir a base do desempenho futuro.»",
     "0→$2b transactions routed in 90 days": "0→2 mil milhões de dólares em transações roteadas em 90 dias",
     "build": "Construir",

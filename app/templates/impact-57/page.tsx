@@ -1102,7 +1102,7 @@ return (
                   marginBottom: '1.5rem',
                 }}
               >{<>
-                <MaskedTitle text={clientHeroLine(sessionData, 0, 3, 12) ?? "We Build"} delay={0.3} />
+                <MaskedTitle text={clientHeroLine(sessionData, 0, 3, 12) ?? "On construit"} delay={0.3} />
                 <MaskedTitle text={clientHeroLine(sessionData, 1, 3, 12) ?? "Brands That"} delay={0.4} />
                 <span style={{ color: C.accent }}>
                   <MaskedTitle text={clientHeroLine(sessionData, 2, 3, 12) ?? "Break Rules."} delay={0.5} />
@@ -1175,7 +1175,7 @@ return (
       <CTABanner />
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName(sessionData) ?? "Mask Unit Home"}
+        {clientName(sessionData) ?? "Mask Unit"}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </div>

@@ -10,6 +10,9 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "every composition is built in layers — the intimate foreground, the story-telling midground, and the expansive background. move your cursor across the scene to experience how depth creates presence.": "Chaque image se construit en plans — le premier plan intime, le plan médian qui raconte, l'arrière-plan qui ouvre. Déplacez le curseur dans la scène pour sentir comment la profondeur crée la présence.",
+    "each print is produced on 300gsm hahnemühle fine art baryta, signed and numbered by léa. editions range from 6 to 20 — once they're gone, they're gone.": "Chaque tirage est fait sur Hahnemühle Fine Art Baryta 300 g, signé et numéroté. Les éditions vont de six à vingt exemplaires — une fois épuisées, elles ne reviennent pas.",
+    "fine-art pigment on hahnemühle paper, 12-colour process, signed and numbered. each print is made to last 200 years.": "Pigment beaux-arts sur papier Hahnemühle, procédé douze couleurs, signé et numéroté. Chaque tirage est fait pour tenir deux cents ans.",
     "a singular eye. what you see through her lens, you cannot unsee.": "Un œil singulier. Ce que vous voyez à travers son objectif, vous ne pouvez pas l'oublier.",
     "after the rain": "Après la pluie",
     "all series →": "Toutes les séries →",
@@ -39,6 +42,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "years active": "Années d'activité",
   },
   es: {
+    "every composition is built in layers — the intimate foreground, the story-telling midground, and the expansive background. move your cursor across the scene to experience how depth creates presence.": "Cada imagen se construye por planos — el primer plano íntimo, el plano medio que narra, el fondo que abre. Mueva el cursor por la escena para sentir cómo la profundidad crea presencia.",
+    "each print is produced on 300gsm hahnemühle fine art baryta, signed and numbered by léa. editions range from 6 to 20 — once they're gone, they're gone.": "Cada copia se hace sobre Hahnemühle Fine Art Baryta de 300 g, firmada y numerada. Las ediciones van de seis a veinte ejemplares — una vez agotadas, no vuelven.",
+    "fine-art pigment on hahnemühle paper, 12-colour process, signed and numbered. each print is made to last 200 years.": "Pigmento de bellas artes sobre papel Hahnemühle, proceso de doce colores, firmado y numerado. Cada copia está hecha para durar doscientos años.",
     "a singular eye. what you see through her lens, you cannot unsee.": "Un ojo singular. Lo que ves a través de su lente, no puedes dejar de ver.",
     "after the rain": "Después de la lluvia",
     "all series →": "Todas las series →",
@@ -68,6 +74,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "years active": "Años activos",
   },
   de: {
+    "every composition is built in layers — the intimate foreground, the story-telling midground, and the expansive background. move your cursor across the scene to experience how depth creates presence.": "Jedes Bild ist in Ebenen gebaut — der intime Vordergrund, die erzählende Mittelebene, der öffnende Hintergrund. Bewegen Sie den Zeiger durch die Szene und spüren Sie, wie Tiefe Präsenz erzeugt.",
+    "each print is produced on 300gsm hahnemühle fine art baryta, signed and numbered by léa. editions range from 6 to 20 — once they're gone, they're gone.": "Jeder Abzug entsteht auf Hahnemühle Fine Art Baryta 300 g, signiert und nummeriert. Die Auflagen liegen zwischen sechs und zwanzig — einmal vergriffen, nie wieder.",
+    "fine-art pigment on hahnemühle paper, 12-colour process, signed and numbered. each print is made to last 200 years.": "Fine-Art-Pigment auf Hahnemühle-Papier, Zwölf-Farb-Prozess, signiert und nummeriert. Jeder Abzug ist auf zweihundert Jahre angelegt.",
     "a singular eye. what you see through her lens, you cannot unsee.": "Ein einzigartiges Auge. Was du durch ihr Objektiv siehst, kannst du nicht mehr vergessen.",
     "after the rain": "Nach dem Regen",
     "all series →": "Alle Serien →",
@@ -97,6 +106,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "years active": "Aktive Jahre",
   },
   pt: {
+    "every composition is built in layers — the intimate foreground, the story-telling midground, and the expansive background. move your cursor across the scene to experience how depth creates presence.": "Cada imagem constrói-se por planos — o primeiro plano íntimo, o plano médio que narra, o fundo que abre. Desloque o cursor pela cena para sentir como a profundidade cria presença.",
+    "each print is produced on 300gsm hahnemühle fine art baryta, signed and numbered by léa. editions range from 6 to 20 — once they're gone, they're gone.": "Cada impressão é feita em Hahnemühle Fine Art Baryta de 300 g, assinada e numerada. As edições vão de seis a vinte exemplares — uma vez esgotadas, não voltam.",
+    "fine-art pigment on hahnemühle paper, 12-colour process, signed and numbered. each print is made to last 200 years.": "Pigmento de belas-artes em papel Hahnemühle, processo de doze cores, assinado e numerado. Cada impressão é feita para durar duzentos anos.",
     "a singular eye. what you see through her lens, you cannot unsee.": "Um olho singular. O que você vê através da lente dela, você não pode deixar de ver.",
     "after the rain": "Depois da chuva",
     "all series →": "Todas as séries →",

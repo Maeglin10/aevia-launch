@@ -6,7 +6,7 @@ import { motion, useMotionValue, useSpring, useInView } from "framer-motion";
 export const MENUS = [
   {
     id: 1,
-    category: "The Beginning",
+    category: "Le commencement",
     items: [
       {
         name: "Osciètre Dore",
@@ -27,7 +27,7 @@ export const MENUS = [
   },
   {
     id: 2,
-    category: "The Core",
+    category: "Le cœur",
     items: [
       {
         name: "Bœuf Wagyu A5",
@@ -48,7 +48,7 @@ export const MENUS = [
   },
   {
     id: 3,
-    category: "The Finale",
+    category: "Le final",
     items: [
       {
         name: "Soufflé au Grand Marnier",

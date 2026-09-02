@@ -87,7 +87,7 @@ export const AWARDS_LIST = [
   "Cannes Lions — 3 Gold · 5 Silver · 8 Bronze",
   "D&AD — 1 Black Pencil · 4 Yellow Pencils",
   "SXSW Film — 2 Best Short",
-  "FWA Site of the Month — 6×",
+  "Site du mois FWA — 6×",
 ];
 
 export const NAV_LINKS = [

@@ -10,6 +10,8 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "curated auditory journeys by world-class djs and underground sound architects.": "Des voyages sonores composés par des DJ de premier plan et des architectes du son underground.",
+    "private vip lounges and concierge services for an uncompromised experience.": "Salons privés et service de conciergerie, pour une soirée sans compromis.",
     "\"in the shadows of the night, we find the truth of the spirit. curated for the few who understand the silence.\"": "« Dans l'ombre de la nuit, on trouve la vérité de l'esprit. Pour les rares qui comprennent le silence. »",
     "apply for membership": "Demander à adhérer",
     "discover the scene": "Découvrir la scène",
@@ -23,6 +25,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "witness the night": "Vivre la nuit",
   },
   es: {
+    "curated auditory journeys by world-class djs and underground sound architects.": "Viajes sonoros compuestos por DJ de primer nivel y arquitectos del sonido underground.",
+    "private vip lounges and concierge services for an uncompromised experience.": "Salones privados y servicio de conserjería, para una noche sin concesiones.",
     "\"in the shadows of the night, we find the truth of the spirit. curated for the few who understand the silence.\"": "«En la sombra de la noche se encuentra la verdad del espíritu. Para los pocos que entienden el silencio.»",
     "apply for membership": "Solicitar la adhesión",
     "discover the scene": "Descubrir la escena",
@@ -36,6 +40,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "witness the night": "Vivir la noche",
   },
   de: {
+    "curated auditory journeys by world-class djs and underground sound architects.": "Klangreisen, komponiert von erstklassigen DJs und Architekten des Underground-Sounds.",
+    "private vip lounges and concierge services for an uncompromised experience.": "Private Lounges und Concierge-Service für einen kompromisslosen Abend.",
     "\"in the shadows of the night, we find the truth of the spirit. curated for the few who understand the silence.\"": "„Im Schatten der Nacht findet sich die Wahrheit des Geistes. Für die wenigen, die das Schweigen verstehen.“",
     "apply for membership": "Mitgliedschaft beantragen",
     "discover the scene": "Die Szene entdecken",
@@ -49,6 +55,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "witness the night": "Die Nacht erleben",
   },
   pt: {
+    "curated auditory journeys by world-class djs and underground sound architects.": "Viagens sonoras compostas por DJ de primeiro plano e arquitetos do som underground.",
+    "private vip lounges and concierge services for an uncompromised experience.": "Salões privados e serviço de concierge, para uma noite sem compromissos.",
     "\"in the shadows of the night, we find the truth of the spirit. curated for the few who understand the silence.\"": "«Na sombra da noite encontra-se a verdade do espírito. Para os poucos que entendem o silêncio.»",
     "apply for membership": "Pedir adesão",
     "discover the scene": "Descobrir a cena",
