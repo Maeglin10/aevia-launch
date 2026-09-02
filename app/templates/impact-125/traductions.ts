@@ -10,6 +10,9 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "next-gen flight computers capable of sub-meter orbital docking with zero human intervention.": "Des calculateurs de vol de nouvelle génération, capables d'un amarrage orbital au centimètre sans intervention humaine.",
+    "redundant plasma thrusters ensuring mission safety even in the most extreme cosmic conditions.": "Des propulseurs à plasma redondants, qui tiennent la mission même dans les conditions les plus extrêmes.",
+    "laser-based communication array providing gigabit-speed connectivity across the solar system.": "Un réseau de communication laser qui porte le gigabit à l'échelle du système solaire.",
     "book payload": "Livre de charge",
     "download payload guide": "Télécharger le Guide de Charge Utile",
     "empowering the next century of space travel through sustainable, reliable, and frequent orbital access.": "Autonomiser le prochain siècle de voyages spatiaux grâce à un accès orbital durable, fiable et fréquent.",
@@ -21,6 +24,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "reliable, cost-effective orbital transport for the next generation of space exploration. from leo to deep space, we bridge the gap.": "Transport orbital fiable et économique pour la prochaine génération d'exploration spatiale. De LEO à l'espace lointain, nous comblons le fossé.",
   },
   es: {
+    "next-gen flight computers capable of sub-meter orbital docking with zero human intervention.": "Ordenadores de vuelo de nueva generación, capaces de un acoplamiento orbital al centímetro sin intervención humana.",
+    "redundant plasma thrusters ensuring mission safety even in the most extreme cosmic conditions.": "Propulsores de plasma redundantes, que sostienen la misión incluso en las condiciones más extremas.",
+    "laser-based communication array providing gigabit-speed connectivity across the solar system.": "Una red de comunicación láser que lleva el gigabit a la escala del sistema solar.",
     "book payload": "Carga del libro",
     "download payload guide": "Descargar la Guía de Carga Útil",
     "empowering the next century of space travel through sustainable, reliable, and frequent orbital access.": "Empoderando el próximo siglo de viajes espaciales a través de un acceso orbital sostenible, fiable y frecuente.",
@@ -32,6 +38,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "reliable, cost-effective orbital transport for the next generation of space exploration. from leo to deep space, we bridge the gap.": "Transporte orbital fiable y rentable para la próxima generación de exploración espacial. Desde LEO hasta el espacio profundo, cerramos la brecha.",
   },
   de: {
+    "next-gen flight computers capable of sub-meter orbital docking with zero human intervention.": "Flugrechner der neuen Generation, fähig zu zentimetergenauem Andocken im Orbit ohne menschliches Zutun.",
+    "redundant plasma thrusters ensuring mission safety even in the most extreme cosmic conditions.": "Redundante Plasmatriebwerke, die die Mission auch unter extremsten Bedingungen tragen.",
+    "laser-based communication array providing gigabit-speed connectivity across the solar system.": "Ein Laser-Kommunikationsnetz, das Gigabit im Maßstab des Sonnensystems trägt.",
     "book payload": "Buchlast",
     "download payload guide": "Laden Sie den Nutzlastleitfaden herunter",
     "empowering the next century of space travel through sustainable, reliable, and frequent orbital access.": "Die nächste Jahrhundert der Raumfahrt durch nachhaltigen, zuverlässigen und häufigen orbitalen Zugang zu stärken.",
@@ -43,6 +52,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "reliable, cost-effective orbital transport for the next generation of space exploration. from leo to deep space, we bridge the gap.": "Zuverlässiger, kosteneffizienter orbitaler Transport für die nächste Generation der Weltraumforschung. Von LEO bis zum tiefen Raum überbrücken wir die Lücke.",
   },
   pt: {
+    "next-gen flight computers capable of sub-meter orbital docking with zero human intervention.": "Computadores de voo de nova geração, capazes de uma acoplagem orbital ao centímetro sem intervenção humana.",
+    "redundant plasma thrusters ensuring mission safety even in the most extreme cosmic conditions.": "Propulsores de plasma redundantes, que sustentam a missão mesmo nas condições mais extremas.",
+    "laser-based communication array providing gigabit-speed connectivity across the solar system.": "Uma rede de comunicação laser que leva o gigabit à escala do sistema solar.",
     "book payload": "Carga do livro",
     "download payload guide": "Descarregar o Guia de Carga Útil",
     "empowering the next century of space travel through sustainable, reliable, and frequent orbital access.": "Capacitar o próximo século de viagens espaciais através de um acesso orbital sustentável, fiável e frequente.",

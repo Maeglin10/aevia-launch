@@ -387,7 +387,9 @@ export default function AtelierPerformanceTemplate() {
     if (p[5]) PHOTO.gallery4 = p[5];
   }, [fd]);
 
-  const businessName = fd?.businessName || "Atelier Performance";
+  /* La barre lisait `fd.businessName` seul : quand la session porte le nom
+     dans `businessProfile.identity`, elle affichait encore la démonstration. */
+  const businessName = fd?.businessName || clientName(sessionData) || "Atelier Performance";
   /*
     Le titre s'anime lettre par lettre : l'accroche du client y perdait ses
     espaces — « VOTREPLOMBIERÀANNECY ». Le titre reste celui du thème, et
@@ -483,7 +485,7 @@ export default function AtelierPerformanceTemplate() {
       `}} />
 
       {/* NAVIGATION */}
-      <Navigation businessName={businessName} themeColor={themeColor} logoBase64={fd?.logoBase64} />
+      <Navigation businessName={businessName} themeColor={themeColor} logoBase64={fd?.logoBase64} nomClient={Boolean(fd?.businessName || clientName(sessionData))} />
 
       {/* MAIN CONTENT */}
       <main>
@@ -1305,7 +1307,7 @@ export default function AtelierPerformanceTemplate() {
 // 4. HELPER COMPONENTS
 // ==========================================
 
-const Navigation = ({ businessName, themeColor, logoBase64 }: { businessName: string, themeColor: string, logoBase64?: string }) => {
+const Navigation = ({ businessName, themeColor, logoBase64, nomClient }: { businessName: string, themeColor: string, logoBase64?: string, nomClient?: boolean }) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -1357,8 +1359,11 @@ const Navigation = ({ businessName, themeColor, logoBase64 }: { businessName: st
               display: 'flex',
               alignItems: 'center'
             }}>
-              {businessName.split(' ')[0]}
-              <span style={{ color: themeColor }}>.</span>
+              {/* Le mot-symbole ne gardait que le PREMIER mot du nom : « Atelier
+                  Vérification » s'affichait « Atelier. ». On ne coupe que le nom
+                  de démonstration, jamais celui du client. */}
+              {nomClient ? businessName : businessName.split(' ')[0]}
+              {!nomClient && <span style={{ color: themeColor }}>.</span>}
             </div>
           )}
 

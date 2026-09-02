@@ -197,7 +197,7 @@ export default function AstrumReachPage() {
             )}
           </Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.4em] text-white/30">
-            {["Missions", "Fleet", "Technology", "Control"].map(l => (
+            {["Missions", "Flotte", "Technologie", "Contrôle"].map(l => (
               <Link key={l} href="#hero" className="hover:text-[var(--brand,#22d3ee)] transition-colors">{l}</Link>
             ))}
           </div>
@@ -208,7 +208,7 @@ export default function AstrumReachPage() {
               <SheetTrigger className="lg:hidden"><Menu className="w-6 h-6 text-white" /></SheetTrigger>
               <SheetContent side="right" className="bg-[#02040a] border-[var(--brand,#06b6d4)]/20 p-12 text-white">
                 <div className="flex flex-col gap-8 mt-16 text-left">
-                  {["Missions", "Fleet", "Tech", "Support"].map(l => (
+                  {["Missions", "Flotte", "Technique", "Assistance"].map(l => (
                     <Link key={l} href="#hero" className="text-3xl font-light uppercase tracking-widest hover:text-[var(--brand,#22d3ee)] transition-colors">{l}</Link>
                   ))}
                 </div>
@@ -316,7 +316,7 @@ export default function AstrumReachPage() {
             <Reveal>
               <div className="flex flex-col md:flex-row items-end justify-between mb-24 gap-8">
                 <div className="max-w-2xl">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#06b6d4)] block mb-4">The Fleet</span>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#06b6d4)] block mb-4">La flotte</span>
                   <h2 className="text-4xl md:text-8xl font-light uppercase tracking-tighter italic leading-none">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Space <span className="text-white/20">Infrastructure.</span></>)}</h2>
                 </div>
                 <div className="flex gap-4">
@@ -365,7 +365,7 @@ export default function AstrumReachPage() {
               <div>
                 <Reveal>
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#06b6d4)] block mb-4">Advancements</span>
-                  <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter mb-12 leading-tight italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Propelling <br/>The <span className="font-bold text-white not-italic">Future.</span></>)}</h2>
+                  <h2 className="text-5xl md:text-7xl font-light uppercase tracking-tighter mb-12 leading-tight italic">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Propulser <br/>l'<span className="font-bold text-white not-italic">avenir.</span></>)}</h2>
                   <div className="space-y-12">
                     {[
                       { icon: Cpu, t: "Autonomous Navigation", d: "Next-gen flight computers capable of sub-meter orbital docking with zero human intervention." },
