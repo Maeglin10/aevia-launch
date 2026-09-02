@@ -112,7 +112,7 @@ const COLLECTION_DEMO = [
 
 const LOOKBOOK_ITEMS_DEMO = [
   { ratio: '3/4', label: 'SS26 Campaign' },
-  { ratio: '1/1', label: 'The Coat Edit' },
+  { ratio: '1/1', label: 'La sélection manteaux' },
   { ratio: '4/5', label: 'Evening Looks' },
   { ratio: '1/1', label: 'Accessories' },
   { ratio: '3/4', label: 'Tailoring' },
@@ -1530,9 +1530,9 @@ export default function FashionEditorialTemplate() {
           {/* REQUIREMENT 2: Line-by-line reveal */}
           <EditorialHeading
             lines={[
-              clientHeroLine(sessionData, 0, 3, 10) ?? 'The art',
-              clientHeroLine(sessionData, 1, 3, 10) ?? 'of quiet',
-              clientHeroLine(sessionData, 2, 3, 10) ?? '*luxury.',
+              clientHeroLine(sessionData, 0, 3, 10) ?? "L'art",
+              clientHeroLine(sessionData, 1, 3, 10) ?? 'du luxe',
+              clientHeroLine(sessionData, 2, 3, 10) ?? '*discret.',
             ]}
             fontSize={72}
             accentColor={accentColor}
@@ -1552,7 +1552,7 @@ export default function FashionEditorialTemplate() {
               marginBottom: 48,
             }}
           >{/* TEXTE_SECTION */ clientText(sessionData, "hero.texte") ?? (<>
-            {clientTagline(sessionData) ?? "Garments that speak in silence. Each piece considered from fibre to finish — made to last a lifetime, designed to feel entirely your own."}
+            {clientTagline(sessionData) ?? "Des vêtements qui parlent bas. Chaque pièce pensée de la fibre à la finition — faite pour durer une vie, dessinée pour devenir entièrement vôtre."}
           </>)}</motion.p>
 
           <motion.div
@@ -1742,7 +1742,7 @@ export default function FashionEditorialTemplate() {
                 maxWidth: 320,
               }}
             >{/* TEXTE_SECTION */ clientText(sessionData, "collection.texte") ?? (<>
-              Each garment in our SS26 collection is made to order in a single atelier in {clientCity(sessionData) ?? "Paris"}. Delivery in 6–8 weeks.
+              Chaque vêtement de la collection SS26 est fabriqué à la commande, dans un seul atelier à {clientCity(sessionData) ?? "Paris"}.
             </>)}</div>
           </div>
         </Reveal>
@@ -2263,9 +2263,7 @@ export default function FashionEditorialTemplate() {
                   maxWidth: 400,
                 }}
               >{/* TEXTE_SECTION */ clientText(sessionData, "sustainability.texte") ?? (<>
-                We believe the most sustainable garment is one that never needs replacing. Every decision from
-                fibre selection to final packaging is made through this lens. Atelier NOIR is a certified
-                B-Corp and member of the Fashion Pact.
+                Le vêtement le plus durable est celui qu'on n'a jamais besoin de remplacer. Chaque décision, du choix de la fibre à l'emballage, se prend à travers ce prisme. La maison est certifiée B-Corp et membre du Fashion Pact.
               </>)}</p>
             </div>
           </div>
@@ -2734,7 +2732,7 @@ export default function FashionEditorialTemplate() {
                   maxWidth: 280,
                 }}
               >{c?.aboutText ?? <>
-                Slow fashion of the highest order. Made in {clientCity(sessionData) ?? "Paris"}, worn worldwide. B-Corp certified since 2021.
+                La mode lente, au plus haut niveau. Fabriqué à {clientCity(sessionData) ?? "Paris"}, porté partout. Certifié B-Corp.
               </>}</p>
             </div>
 

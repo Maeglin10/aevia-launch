@@ -94,10 +94,10 @@ let SERVICES_SOURCE = SERVICES_SOURCE_LIVE();
 let SERVICES_DEMO = SERVICES_SOURCE;
 
 const PROCESS = [
-  { phase: "01 / Discovery", title: "Concept & Strategy", desc: "We begin by understanding your vision, target audience, and the core message. We develop moodboards, lighting plans, and a comprehensive shoot strategy to ensure alignment." },
-  { phase: "02 / Pre-Production", title: "Planning & Casting", desc: "Securing locations, assembling the creative team (stylists, MUA, set designers), casting talent, and finalizing the call sheet for a seamless shoot day." },
-  { phase: "03 / Production", title: "The Shoot", desc: "Executing the vision with precision. Using state-of-the-art medium format cameras and lighting setups to capture high-fidelity imagery on set or on location." },
-  { phase: "04 / Post-Production", title: "Retouching & Delivery", desc: "Meticulous color grading, compositing, and high-end retouching to polish the final assets, delivered in all necessary formats for print and digital." },
+  { phase: "01 / Découverte", title: "Concept et stratégie", desc: "Nous commençons par comprendre votre intention, le public visé et le message. Viennent ensuite les planches d'ambiance, les plans de lumière et la stratégie de prise de vue." },
+  { phase: "02 / Préparation", title: "Repérages et casting", desc: "Réservation des lieux, constitution de l'équipe (stylisme, maquillage, décor), casting et feuille de service, pour une journée de tournage sans accroc." },
+  { phase: "03 / Prise de vue", title: "Le tournage", desc: "L'intention exécutée au millimètre : moyen format et éclairage de studio, en décor construit comme en extérieur." },
+  { phase: "04 / Post-production", title: "Retouche et livraison", desc: "Étalonnage, incrustation et retouche haut de gamme, livrés dans tous les formats utiles au print comme au numérique." },
 ];
 
 const TESTIMONIALS_SOURCE = [
@@ -571,7 +571,7 @@ export default function CreativePortfolioSPA() {
           <Reveal className="mb-24 text-center">
             <span className="text-amber-400 text-[11px] uppercase tracking-[0.3em] font-semibold mb-6 block">Methodology</span>
             <h2 className="text-5xl md:text-7xl font-extralight tracking-tight">{/* TEXTE_SECTION */ clientText(sessionData, "process.titre") ?? (<>
-              The <span className="font-black italic">Process</span>
+              La <span className="font-black italic">méthode</span>
             </>)}</h2>
           </Reveal>
 
