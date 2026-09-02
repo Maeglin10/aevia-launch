@@ -534,7 +534,9 @@ function Nav() {
         ) : (
           <>
             <Wrench size={20} color={C.accent} strokeWidth={2} />
-            {(clientName(sessionData) ?? "ThermoFix Pro").split(" ")[0]}&nbsp;<span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  color: C.accent }}>{(clientName(sessionData) ?? "ThermoFix Pro").split(" ").slice(1).join(" ")}</span>
+            {(clientName(sessionData) ?? "ThermoFix Pro").split(" ")[0]}&nbsp;<span style={{ textShadow: "0 1px 6px rgba(10,14,20,0.9)", /* Le bleu du thème sur une photo sombre de tuyauterie : 1,5 mesuré. La
+                 variante claire de la marque, elle, s'y détache. */
+              color: "var(--brand-light, #6aa9e6)" }}>{(clientName(sessionData) ?? "ThermoFix Pro").split(" ").slice(1).join(" ")}</span>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: C.accent, display: 'inline-block', marginLeft: 2 }} />
           </>
         )}

@@ -696,7 +696,9 @@ function Hero() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to bottom, rgba(9,31,28,0.55) 0%, rgba(9,31,28,0.10) 35%, rgba(9,31,28,0.55) 72%, rgba(9,31,28,0.92) 100%)',
+            /* Le creux à 35 % posait le titre blanc sur un fauteuil dentaire
+               blanc : 1,7 mesuré. */
+            'linear-gradient(to bottom, rgba(9,31,28,0.72) 0%, rgba(9,31,28,0.70) 35%, rgba(9,31,28,0.76) 72%, rgba(9,31,28,0.94) 100%)',
         }}
       />
       {/* Voile 2 : vignette teintée */}

@@ -205,9 +205,13 @@ export default function AtelierInteriorPage() {
     <div className="bg-[#f5f0eb] text-[#2a2520] font-sans min-h-dvh selection:bg-[var(--brand,#8b7355)] selection:text-white overflow-x-hidden">
 
       {/* ── NAVBAR ─────────────── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#f5f0eb]/90 backdrop-blur-xl border-b border-[var(--brand,#8b7355)]/10 py-4" : "bg-transparent py-8"}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#f5f0eb]/90 backdrop-blur-xl border-b border-[var(--brand,#8b7355)]/10 py-4" : "bg-transparent lg:bg-gradient-to-b lg:from-[#2a2520]/70 lg:via-[#2a2520]/28 lg:to-transparent py-8"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
-          <Link href="#hero" className="text-xl tracking-[0.2em] uppercase" style={{ fontFamily: "Georgia, serif" }}>
+          {/* Le nom s'écrivait en sombre sur une barre transparente posée sur un
+              intérieur très clair : 1,68 mesuré. Mais sous 1024 px la photo
+              descend et la barre retombe sur le fond crème — le clair ne vaut
+              donc qu'à partir de là. */}
+          <Link href="#hero" className={`text-xl tracking-[0.2em] uppercase ${scrolled ? "" : "lg:text-[#f7f3ee]"}`} style={{ fontFamily: "Georgia, serif" }}>
             {fd?.logoBase64 ? (
               <img
                 src={fd.logoBase64}
@@ -221,7 +225,7 @@ export default function AtelierInteriorPage() {
             <span className="font-light">Atelier</span> <span className="font-bold text-[var(--brand,#8b7355)]">Interior</span>
           </>
             </>))}</Link>
-          <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-[#2a2520]/40">
+          <div className={`hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] ${scrolled ? "text-[#2a2520]/70" : "text-white/90"}`}>
             {["Projects", "Services", "About", "Contact"].map(l => (
               <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="hover:text-[var(--brand,#8b7355)] transition-colors">{l}</a>
             ))}
@@ -247,7 +251,9 @@ export default function AtelierInteriorPage() {
         <section id="hero" className="relative h-[100dvh] min-h-[640px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
             <Image src={photo(3, "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=2400")} alt="Interior" fill className="object-cover" priority />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#f5f0eb] via-[#f5f0eb]/20 to-transparent" />
+            {/* Le texte est sombre : il ne tient que sur la partie crème du voile,
+                et celle-ci s'arrêtait trop bas. */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#f5f0eb] via-[#f5f0eb]/72 to-transparent" />
           </motion.div>
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1600px] w-full mx-auto px-6 md:px-12 pb-24">
             <Reveal delay={0.15} y={70}>
