@@ -299,7 +299,7 @@ export default function HorizonYachtPage() {
     <div className="premium-theme min-h-dvh bg-[#020a13] text-[#f4f4f4] font-sans selection:bg-[var(--brand,#c5a059)] selection:text-white overflow-x-hidden">
       {/* ── NAVIGATION ── */}
       <nav
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-[#020a13]/90 backdrop-blur-2xl py-4 border-b border-white/5" : "bg-transparent py-8"}`}
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-700 ${scrolled ? "bg-[#020a13]/90 backdrop-blur-2xl py-4 border-b border-white/5" : "bg-gradient-to-b from-[#020a13]/76 via-[#020a13]/32 to-transparent py-8"}`}
       >
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="#hero" className="group flex items-center gap-4">

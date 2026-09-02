@@ -83,7 +83,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             />
           ) : (
             <><motion.div
-            style={{ display: "flex", alignItems: "center", gap: 10 }}
+            /* Le nom du client héritait de la couleur du texte courant : il prend
+               celle du nom de démonstration qu'il remplace. */
+            style={{ display: "flex", alignItems: "center", gap: 10, fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 20, color: C.text }}
             whileHover={{ scale: 1.03 }}
           >{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
             <div style={{ width: 40, height: 40, background: C.accent, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -91,7 +93,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             </div>
             <div>
               <div style={{ fontFamily: FONT_HEADING, fontWeight: 700, fontSize: 20, color: C.text, lineHeight: 1 }}>{clientName(__layoutSession) ?? "La Fournée"}</div>
-              <div style={{ fontSize: 10, color: C.textMuted, letterSpacing: 1.5, textTransform: "uppercase" }}>Artisan Boulanger</div>
+              {/* 10 px en brun clair sur crème : 2,7 mesuré. */}
+              <div style={{ fontSize: 10, color: C.text, opacity: 0.75, letterSpacing: 1.5, textTransform: "uppercase" }}>Artisan Boulanger</div>
             </div>
           </>)}</motion.div></>
           )}
