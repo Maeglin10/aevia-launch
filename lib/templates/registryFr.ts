@@ -161,7 +161,7 @@ export const DESCRIPTION_FR: Record<string, string> = {
   "impact-149": "Vitrine de mobilier haut de gamme avec transitions en perspective 3D et typographie gras italique.",
   "impact-150": "Boutique de vêtements à thème cyberpunk avec des accents cyan néon, esthétique glitch et superpositions de données techniques.",
   "impact-151": "Boutique winery & distillery estate SPA avec vitrine vintage, données de terroir (altitude, sol, température) et catalogue de vins et whiskys en édition limitée.",
-  "impact-152": "Site vitrine de magazine de voyage avec page à propos, grille de destinations, services, témoignages, offres tarifaires, newsletter et esthétique chaud amber-cream.",
+  "impact-152": "Architecte d'intérieur : projets, prestations, atelier et devis — grille de réalisations, témoignages et esthétique chaude ambre.",
   "impact-153": "Page unique d'agence d'ingénierie avec grille de fonctionnalités, compteurs de statistiques, témoignages, niveaux tarifaires et esthétique sombre violet-tech.",
   "impact-154": "Site vitrine d'agence créative avec page à propos, grille de services, portfolio, témoignages, tarification et esthétique sombre rose-crimson.",
   "impact-155": "Page unique de galerie d'art numérique avec collections, grille de fonctionnalités, témoignages, tarification d'abonnement et esthétique sombre violet-créatif.",

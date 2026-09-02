@@ -258,7 +258,11 @@ export default function StudioNomaPage() {
       <motion.nav style={{
         position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72,
         display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 clamp(20px, 5vw, 64px)",
-        background: scrolled ? "rgba(247,243,239,0.96)" : "transparent",
+        /* Photo de voyage très claire derrière une barre transparente : le nom
+           blanc et les liens s'y perdaient. */
+        background: scrolled
+          ? "rgba(247,243,239,0.96)"
+          : "linear-gradient(180deg, rgba(18,16,14,0.70) 0%, rgba(18,16,14,0.28) 62%, transparent 100%)",
         backdropFilter: scrolled ? "blur(12px)" : "none",
         borderBottom: scrolled ? `1px solid ${C.border}` : "none",
         transition: "all 0.4s ease",
@@ -276,7 +280,7 @@ export default function StudioNomaPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.75)", fontSize: 14, fontWeight: 500, textDecoration: "none", transition: "color 0.2s", fontFamily: FONT_SANS }}>{l}</a>
           ))}
-          <motion.a href="#contact" style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", fontFamily: FONT_SANS }} whileHover={{ background: C.accentDark }}>
+          <motion.a href="#contact" style={{ background: `linear-gradient(rgba(0,0,0,0.22), rgba(0,0,0,0.22)), ${C.accent}`, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", fontFamily: FONT_SANS }} whileHover={{ background: C.accentDark }}>
             Consultation gratuite
           </motion.a>
         </div>
@@ -297,7 +301,7 @@ export default function StudioNomaPage() {
           {NAV.map(({ l, h }) => (
             <a key={l} href={h} style={{ color: scrolled ? C.textMuted : "rgba(255,255,255,0.75)", fontSize: 14, fontWeight: 500, textDecoration: "none", transition: "color 0.2s", fontFamily: FONT_SANS }}>{l}</a>
           ))}
-          <motion.a href="#contact" style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", fontFamily: FONT_SANS }} whileHover={{ background: C.accentDark }}>
+          <motion.a href="#contact" style={{ background: `linear-gradient(rgba(0,0,0,0.22), rgba(0,0,0,0.22)), ${C.accent}`, color: C.white, borderRadius: 6, padding: "9px 22px", fontSize: 14, fontWeight: 600, textDecoration: "none", fontFamily: FONT_SANS }} whileHover={{ background: C.accentDark }}>
             Consultation gratuite
           </motion.a>
         </div>
@@ -323,7 +327,7 @@ export default function StudioNomaPage() {
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
-            <motion.a href="#projets" style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accentDark, scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+            <motion.a href="#projets" style={{ background: `linear-gradient(rgba(0,0,0,0.22), rgba(0,0,0,0.22)), ${C.accent}`, color: C.white, borderRadius: 6, padding: "15px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accentDark, scale: 1.03 }} whileTap={{ scale: 0.97 }}>
               Voir nos réalisations <ArrowRight size={16} />
             </motion.a>
             <motion.a href="#contact" style={{ background: "rgba(255,255,255,0.10)", color: "#fff", border: "1px solid rgba(255,255,255,0.28)", borderRadius: 6, padding: "13px 28px", fontWeight: 500, fontSize: 15, textDecoration: "none", backdropFilter: "blur(8px)", fontFamily: FONT_SANS }} whileHover={{ background: "rgba(255,255,255,0.18)" }}>
@@ -370,7 +374,7 @@ export default function StudioNomaPage() {
               <motion.div whileHover={{ y: -6 }} style={{ borderRadius: 12, overflow: "hidden", background: C.white, boxShadow: C.shadow, cursor: "pointer" }}>
                 <div style={{ height: 220, overflow: "hidden", position: "relative" }}>
                   <img src={p.img} alt={p.titre} style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.6s ease" }} />
-                  <div style={{ position: "absolute", top: 16, right: 16, background: C.accent, color: C.white, borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, fontFamily: FONT_SANS }}>{p.tag}</div>
+                  <div style={{ position: "absolute", top: 16, right: 16, background: `linear-gradient(rgba(0,0,0,0.22), rgba(0,0,0,0.22)), ${C.accent}`, color: C.white, borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, fontFamily: FONT_SANS }}>{p.tag}</div>
                 </div>
                 <div style={{ padding: "20px 24px 24px" }}>
                   <h3 style={{ fontFamily: FONT, fontSize: 22, fontWeight: 600, color: C.text, marginBottom: 6 }}>{p.titre}</h3>
@@ -459,10 +463,10 @@ export default function StudioNomaPage() {
             Une consultation de 45 minutes offerte pour présenter votre projet et explorer les possibilités ensemble.
           </>}</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
-            <motion.a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@studionoma.fr"}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "16px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
+            <motion.a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@studionoma.fr"}`} style={{ background: `linear-gradient(rgba(0,0,0,0.22), rgba(0,0,0,0.22)), ${C.accent}`, color: C.white, borderRadius: 6, padding: "16px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accentDark, scale: 1.03 }}>
               <Mail size={18} /> Prendre rendez-vous
             </motion.a>
-            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "14px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: C.accent, color: C.white }}>
+            <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.accent}`, borderRadius: 6, padding: "14px 32px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, fontFamily: FONT_SANS }} whileHover={{ background: `linear-gradient(rgba(0,0,0,0.22), rgba(0,0,0,0.22)), ${C.accent}`, color: C.white }}>
               <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "04 78 00 00 00"}
             </motion.a>
           </div>
