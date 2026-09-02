@@ -302,7 +302,7 @@ export default function KineticStudio() {
             {fd?.businessName ?? "KINETIC"}
           </>}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="text-xl md:text-2xl font-light">{fd?.tagline ?? c?.heroSubline ?? <>
-            Motion Design & Animation Studio
+            Studio de motion design et d'animation
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 }} className="mt-10">
             <Link href="#get-in-touch" className="inline-block px-10 py-4 rounded-lg font-light text-black transition-colors" style={{ backgroundColor: brand ?? 'var(--brand,#ff5500)' }}>

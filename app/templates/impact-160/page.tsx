@@ -31,6 +31,7 @@ import {
 import {
   clientCity,
   clientHeroLine,
+  clientName,
   clientHeroSubtitle,
   clientPhotos,
   clientReviews,
@@ -492,7 +493,7 @@ return (
                           <Grid className="w-10 h-10 text-black" />
                         </div>
                         <span className="text-4xl font-black uppercase tracking-tighter italic">
-                          {fd?.businessName ? fd.businessName : <>THE<span className="text-white/20">MONOLITH.</span></>}
+                          {fd?.businessName ?? clientName(sessionData) ?? <>LE<span className="text-white/20">MONOLITHE.</span></>}
                         </span>
                       </>
                     )}
@@ -524,7 +525,7 @@ return (
            </div>
 
            <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-16 flex flex-col md:flex-row justify-between items-center gap-16 text-[10px] font-black text-white/10 uppercase tracking-[0.6em] italic">
-              <span>© 2026 {fd?.businessName ?? "THE MONOLITH"} GLOBAL INFRASTRUCTURE AG. // ALL_RIGHTS_RESERVED{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+              <span>© 2026 {fd?.businessName ?? clientName(sessionData) ?? "Le Monolithe"} // TOUS_DROITS_RÉSERVÉS</span>
               <div className="flex gap-16">
                  <span>STATUS: IMMUTABLE</span>
                  <span>LATENCY: 12ms (AVG)</span>
