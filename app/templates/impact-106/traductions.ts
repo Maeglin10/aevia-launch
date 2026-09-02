@@ -10,6 +10,10 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "our craft.": "Notre métier.",
+    "our": "Notre",
+    "craft.": "métier.",
+    "animated logos, explainer videos, and three-dimensional brand worlds.": "Logos animés, vidéos explicatives et univers de marque en trois dimensions.",
     "a studio that still argues about kerning, and it shows in the work.": "Un atelier qui se dispute encore sur l'approche des lettres, et cela se voit.",
     "a wordmark that survives a favicon is a different problem from one that survives a billboard. both matter.": "Un logotype qui tient dans une favicone n'est pas le même problème qu'un logotype qui tient sur un panneau. Les deux comptent.",
     "behind the": "Derrière",
@@ -41,6 +45,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "you have opinions about easing curves. so do we.": "Vous avez un avis sur les courbes d'accélération. Nous aussi.",
   },
   es: {
+    "our craft.": "Nuestro oficio.",
+    "our": "Nuestro",
+    "craft.": "oficio.",
+    "animated logos, explainer videos, and three-dimensional brand worlds.": "Logos animados, vídeos explicativos y universos de marca en tres dimensiones.",
     "a studio that still argues about kerning, and it shows in the work.": "Un estudio que todavía discute sobre el kerning, y se nota.",
     "a wordmark that survives a favicon is a different problem from one that survives a billboard. both matter.": "Un logotipo que aguanta en un favicon no es el mismo problema que uno que aguanta en una valla. Ambos importan.",
     "behind the": "Detrás de",
@@ -72,6 +80,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "you have opinions about easing curves. so do we.": "Tiene opiniones sobre las curvas de aceleración. Nosotros también.",
   },
   de: {
+    "our craft.": "Unser Handwerk.",
+    "our": "Unser",
+    "craft.": "Handwerk.",
+    "animated logos, explainer videos, and three-dimensional brand worlds.": "Animierte Logos, Erklärvideos und dreidimensionale Markenwelten.",
     "a studio that still argues about kerning, and it shows in the work.": "Ein Studio, das noch über Unterschneidung streitet — man sieht es der Arbeit an.",
     "a wordmark that survives a favicon is a different problem from one that survives a billboard. both matter.": "Eine Wortmarke, die als Favicon besteht, ist ein anderes Problem als eine, die auf einer Plakatwand besteht. Beides zählt.",
     "behind the": "Hinter",
@@ -103,6 +115,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "you have opinions about easing curves. so do we.": "Sie haben eine Meinung zu Easing-Kurven. Wir auch.",
   },
   pt: {
+    "our craft.": "O nosso ofício.",
+    "our": "O nosso",
+    "craft.": "ofício.",
+    "animated logos, explainer videos, and three-dimensional brand worlds.": "Logótipos animados, vídeos explicativos e universos de marca em três dimensões.",
     "a studio that still argues about kerning, and it shows in the work.": "Um atelier que ainda discute o kerning, e isso vê-se.",
     "a wordmark that survives a favicon is a different problem from one that survives a billboard. both matter.": "Um logótipo que aguenta num favicon não é o mesmo problema que um que aguenta num outdoor. Ambos contam.",
     "behind the": "Por trás de",

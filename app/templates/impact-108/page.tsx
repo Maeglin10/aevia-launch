@@ -224,7 +224,8 @@ export default function LedgerPage() {
               fontWeight: 600,
               fontSize: 13,
               letterSpacing: 0.3,
-              background: C.green,
+              /* Blanc sur le vert du thème : 2,9. Fond assombri de 20 %. */
+              background: `linear-gradient(rgba(0,0,0,0.20), rgba(0,0,0,0.20)), ${C.green}`,
               color: C.white,
               padding: "10px 22px",
               borderRadius: 6,
@@ -409,7 +410,7 @@ export default function LedgerPage() {
                 fontWeight: 700,
                 fontSize: 14,
                 letterSpacing: 0.5,
-                background: C.green,
+                background: `linear-gradient(rgba(0,0,0,0.20), rgba(0,0,0,0.20)), ${C.green}`,
                 color: C.white,
                 padding: "16px 36px",
                 borderRadius: 6,
@@ -808,7 +809,8 @@ export default function LedgerPage() {
               fontWeight: 700,
               fontSize: 15,
               letterSpacing: 0.5,
-              background: C.green,
+              /* Blanc sur le vert du thème : 2,9. Fond assombri de 20 %. */
+              background: `linear-gradient(rgba(0,0,0,0.20), rgba(0,0,0,0.20)), ${C.green}`,
               color: C.white,
               padding: "18px 48px",
               borderRadius: 8,

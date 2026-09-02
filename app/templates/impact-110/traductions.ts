@@ -10,6 +10,9 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "quiet the soul, heal the body": "Apaiser l'esprit, soigner le corps",
+    "designed by renowned minimalist architects, our sanctuary features sound-dampened clay walls, ionized salt water pools, and botanical gardens that breathe with you.": "Dessiné par des architectes minimalistes, le lieu réunit des murs de terre crue qui absorbent le son, des bassins d'eau salée ionisée et des jardins botaniques qui respirent avec vous.",
+    "specialist in herbal alchemy, customized facial enzymes, and dermal vitality.": "Spécialiste des soins aux plantes, des enzymes du visage sur mesure et de la vitalité de la peau.",
     "\"wellness is not a destination, but a state of being in harmony with the natural rhythms of life.\"": "« Le bien-être n'est pas un but, c'est un accord avec les rythmes de la vie. »",
     "a combination of mineral baths and high-pressure oxygen therapy.": "Une combinaison de bains minéraux et de thérapie à l'oxygène haute pression.",
     "a sanctuary dedicated to biological restoration and deep mindfulness. rediscover your essence in the heart of the city.": "Un sanctuaire dédié à la restauration biologique et à la pleine conscience profonde. Redécouvrez votre essence au cœur de la ville.",
@@ -40,6 +43,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "voices of": "Voix de",
   },
   es: {
+    "quiet the soul, heal the body": "Calmar el alma, sanar el cuerpo",
+    "designed by renowned minimalist architects, our sanctuary features sound-dampened clay walls, ionized salt water pools, and botanical gardens that breathe with you.": "Diseñado por arquitectos minimalistas, el lugar reúne muros de tierra cruda que absorben el sonido, piscinas de agua salada ionizada y jardines botánicos que respiran con usted.",
+    "specialist in herbal alchemy, customized facial enzymes, and dermal vitality.": "Especialista en cuidados con plantas, enzimas faciales a medida y vitalidad de la piel.",
     "\"wellness is not a destination, but a state of being in harmony with the natural rhythms of life.\"": "«El bienestar no es un destino, sino un acuerdo con los ritmos de la vida.»",
     "a combination of mineral baths and high-pressure oxygen therapy.": "Una combinación de baños minerales y terapia de oxígeno a alta presión.",
     "a sanctuary dedicated to biological restoration and deep mindfulness. rediscover your essence in the heart of the city.": "Un santuario dedicado a la restauración biológica y a la profunda atención plena. Redescubre tu esencia en el corazón de la ciudad.",
@@ -70,6 +76,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "voices of": "Voces de",
   },
   de: {
+    "quiet the soul, heal the body": "Die Seele beruhigen, den Körper heilen",
+    "designed by renowned minimalist architects, our sanctuary features sound-dampened clay walls, ionized salt water pools, and botanical gardens that breathe with you.": "Von minimalistischen Architekten entworfen: schallschluckende Lehmwände, Becken mit ionisiertem Salzwasser und botanische Gärten, die mit Ihnen atmen.",
+    "specialist in herbal alchemy, customized facial enzymes, and dermal vitality.": "Spezialistin für Pflanzenpflege, maßgeschneiderte Gesichtsenzyme und Hautvitalität.",
     "\"wellness is not a destination, but a state of being in harmony with the natural rhythms of life.\"": "„Wohlbefinden ist kein Ziel, sondern ein Einklang mit den Rhythmen des Lebens.“",
     "a combination of mineral baths and high-pressure oxygen therapy.": "Eine Kombination aus Mineralbädern und Hochdruck-Sauerstofftherapie.",
     "a sanctuary dedicated to biological restoration and deep mindfulness. rediscover your essence in the heart of the city.": "Ein Heiligtum, das der biologischen Wiederherstellung und tiefen Achtsamkeit gewidmet ist. Entdecken Sie Ihr Wesen im Herzen der Stadt.",
@@ -100,6 +109,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "voices of": "Stimmen von",
   },
   pt: {
+    "quiet the soul, heal the body": "Acalmar a alma, curar o corpo",
+    "designed by renowned minimalist architects, our sanctuary features sound-dampened clay walls, ionized salt water pools, and botanical gardens that breathe with you.": "Desenhado por arquitetos minimalistas, o lugar reúne paredes de terra crua que absorvem o som, piscinas de água salgada ionizada e jardins botânicos que respiram consigo.",
+    "specialist in herbal alchemy, customized facial enzymes, and dermal vitality.": "Especialista em cuidados com plantas, enzimas faciais à medida e vitalidade da pele.",
     "\"wellness is not a destination, but a state of being in harmony with the natural rhythms of life.\"": "«O bem-estar não é um destino, mas um acordo com os ritmos da vida.»",
     "a combination of mineral baths and high-pressure oxygen therapy.": "Uma combinação de banhos minerais e terapia de oxigênio de alta pressão.",
     "a sanctuary dedicated to biological restoration and deep mindfulness. rediscover your essence in the heart of the city.": "Um santuário dedicado à restauração biológica e à profunda atenção plena. Redescubra a sua essência no coração da cidade.",
