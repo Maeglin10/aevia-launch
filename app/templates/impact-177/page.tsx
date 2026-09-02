@@ -247,11 +247,11 @@ return (
               style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: C.serif, fontSize: "1.4rem", fontWeight: 600, letterSpacing: "0.02em", fontStyle: "italic", color: C.dark }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maëlle Dumas Piscines"))}</span>
+            <span style={{ textShadow: "0 1px 6px rgba(20,14,10,0.9)", fontFamily: C.serif, fontSize: "1.4rem", fontWeight: 600, letterSpacing: "0.02em", fontStyle: "italic", color: scrolled ? C.dark : "#f7f3ee" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maëlle Dumas Piscines"))}</span>
           )}
           <div style={{ gap: "3rem" }} className="hidden lg:flex">
             {["Projets", "Prestations", "À propos", "Contact"].map(l => (
-              <Link key={l} href="#contact" style={{ fontFamily: C.sans, fontSize: "0.7rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.15em", color: C.muted, textDecoration: "none", transition: "color 0.3s" }}
+              <Link key={l} href="#contact" style={{ fontFamily: C.sans, fontSize: "0.7rem", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.15em", color: scrolled ? C.muted : "rgba(255,255,255,0.92)", textDecoration: "none", transition: "color 0.3s" }}
                 onMouseEnter={e => (e.target as HTMLElement).style.color = C.terra}
                 onMouseLeave={e => (e.target as HTMLElement).style.color = C.muted}>{l}</Link>
             ))}
@@ -301,7 +301,9 @@ return (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}>
             <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1.5rem" }}>
               <div style={{ width: 40, height: 1, background: C.terra }} />
-              <span style={{ fontFamily: C.sans, fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.35em", color: C.terra }}>{clientTrade(sessionData) ?? "Pisciniste"} · {clientCity(sessionData) ?? "Lyon"}</span>
+              <span style={{ fontFamily: C.sans, fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.35em", /* Terre cuite sur un ciel de coucher de soleil : 2,6. Une terre cuite
+                 claire tient la même famille et se lit. */
+              color: "#f2cdb8", textShadow: "0 1px 8px rgba(20,14,10,0.92)" }}>{clientTrade(sessionData) ?? "Pisciniste"} · {clientCity(sessionData) ?? "Lyon"}</span>
             </div>
           </motion.div>
 
@@ -466,8 +468,8 @@ return (
       <footer style={{ background: "#141210", padding: "4rem 2.5rem 2rem", borderTop: `1px solid rgba(255,255,255,0.05)` }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(200px, 100%), 1fr))", gap: "3rem", marginBottom: "3rem" }}>
           <div>
-            <div style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: C.serif, fontSize: "1.2rem", fontStyle: "italic", color: "#fff", marginBottom: "1rem" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maëlle Dumas Piscines"))}</div>
-            <p style={{ fontFamily: C.sans, fontSize: "0.75rem", color: "rgba(255,255,255,0.3)", lineHeight: 1.7 }}>{clientTrade(sessionData) ?? "Pisciniste"} certifié. Conception, construction et rénovation de piscines en Auvergne-Rhône-Alpes.</p>
+            <div style={{ textShadow: "0 1px 6px rgba(20,14,10,0.9)", fontFamily: C.serif, fontSize: "1.2rem", fontStyle: "italic", color: "#fff", marginBottom: "1rem" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maëlle Dumas Piscines"))}</div>
+            <p style={{ fontFamily: C.sans, fontSize: "0.75rem", color: "rgba(255,255,255,0.66)", lineHeight: 1.7 }}>{clientTrade(sessionData) ?? "Pisciniste"} certifié. Conception, construction et rénovation de piscines en Auvergne-Rhône-Alpes.</p>
           </div>
           {[
             { t: "Services", ls: ["Construction sur-mesure", "Conception & étude 3D", "Rénovation de bassin", "Aménagement & pool house"] },
@@ -482,7 +484,7 @@ return (
           ))}
         </div>
         <div style={{ maxWidth: 1200, margin: "0 auto", paddingTop: "1.5rem", borderTop: "1px solid rgba(255,255,255,0.05)", display: "flex", justifyContent: "space-between", gap: "1rem" }}>
-          <span style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: C.sans, fontSize: "0.6rem", color: "rgba(255,255,255,0.15)", textTransform: "uppercase", letterSpacing: "0.15em" }}>© 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maëlle Dumas Piscines"))}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 987 654 321 00045"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span style={{ textShadow: "0 1px 6px rgba(20,14,10,0.9)", fontFamily: C.sans, fontSize: "0.6rem", color: "rgba(255,255,255,0.15)", textTransform: "uppercase", letterSpacing: "0.15em" }}>© 2026 {fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maëlle Dumas Piscines"))}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 987 654 321 00045"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span style={{ fontFamily: C.sans, fontSize: "0.6rem", color: C.terra + "60", textTransform: "uppercase", letterSpacing: "0.15em" }}>{clientTrade(sessionData) ?? "Pisciniste"} certifié FPP</span>
         </div>
       </footer>
