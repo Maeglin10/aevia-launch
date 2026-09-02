@@ -906,10 +906,10 @@ function PracticeAreasSection() {
                 letterSpacing: "-0.02em",
               }}
             >
-              <HeroWordReveal text="The full spectrum of" />
+              <HeroWordReveal text="Tout le spectre de" />
               <br />
               <span style={{ fontStyle: "italic" }}>
-                <HeroWordReveal text="legal excellence." />
+                <HeroWordReveal text="l'excellence juridique." />
               </span>
             </h2>
           </Reveal>
@@ -1866,10 +1866,10 @@ function CtaSection() {
               marginBottom: 40,
             }}
           >
-            <HeroWordReveal text="When the matter" />
+            <HeroWordReveal text="Quand le dossier" />
             <br />
             <span style={{ fontStyle: "italic" }}>
-              <HeroWordReveal text="cannot wait." />
+              <HeroWordReveal text="ne peut pas attendre." />
             </span>
           </h2>
 

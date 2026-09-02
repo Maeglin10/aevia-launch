@@ -557,7 +557,7 @@ function RouteMapHero() {
               maxWidth: 560,
               marginBottom: 44,
             }}
-          >{clientHeroPrestations(sessionData) ?? "End-to-end freight solutions across air, sea, and road — connecting your supply chain to 43 countries with real-time tracking, predictive ETAs, and 98.4% on-time delivery."}</p>
+          >{clientHeroPrestations(sessionData) ?? "Le transport de bout en bout par air, mer et route — votre chaîne logistique reliée à 43 pays, avec suivi en temps réel, heures d'arrivée prévues et 98,4 % de livraisons à l'heure."}</p>
 
           <div style={{ display: "flex", gap: 16, flexWrap: "wrap" }}>
             <a href="#contact" className="n207-btn-primary">
