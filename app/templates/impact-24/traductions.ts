@@ -10,6 +10,11 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "from idea to": "De l'idée au",
+    "to one is a 12-week accelerator for pre-seed founders. we invest €500k, open our network, and help you build the company you imagined.": "est un accélérateur de douze semaines pour fondateurs en amorçage. Nous investissons 500 k€, ouvrons notre réseau et vous aidons à bâtir l'entreprise que vous aviez en tête.",
+    "we built": "Nous avons créé",
+    "to one because we know what founders actually need. not just money — but the right introductions, the hard feedback, and the community that keeps you going.": "parce que nous savons ce dont un fondateur a réellement besoin. Pas seulement de l'argent : les bonnes introductions, les retours francs, et la communauté qui vous tient debout.",
+    "perks, events, and co-founder matching — forever.": "Avantages, événements et mise en relation entre cofondateurs — à vie.",
     "12+ years in product · 2 companies built · 1 acquisition": "12+ ans dans le produit · 2 entreprises construites · 1 acquisition",
     "120+ startups across ai, fintech, health, climate, and developer tools. here are some of the teams we&apos;re proudest to partner with.": "Plus de 120 startups dans l'IA, la fintech, la santé, le climat et les outils pour développeurs. Voici quelques-unes des équipes avec lesquelles nous sommes les plus fiers de collaborer.",
     "14+ years in gtm · 1 exit · $2b+ aum at a16z": "14+ ans en GTM · 1 sortie · 2B$+ d'AUM chez a16z",
@@ -83,6 +88,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "you have the right to access, modify, or delete your personal data at any time by contacting us at": "Vous avez le droit d'accéder, de modifier ou de supprimer vos données personnelles à tout moment en nous contactant à",
   },
   es: {
+    "from idea to": "De la idea al",
+    "to one is a 12-week accelerator for pre-seed founders. we invest €500k, open our network, and help you build the company you imagined.": "es una aceleradora de doce semanas para fundadores en fase pre-semilla. Invertimos 500 k€, abrimos nuestra red y le ayudamos a construir la empresa que imaginó.",
+    "we built": "Creamos",
+    "to one because we know what founders actually need. not just money — but the right introductions, the hard feedback, and the community that keeps you going.": "porque sabemos lo que un fundador necesita de verdad. No solo dinero: las presentaciones adecuadas, la crítica franca y la comunidad que le mantiene en pie.",
+    "perks, events, and co-founder matching — forever.": "Ventajas, eventos y emparejamiento entre cofundadores — de por vida.",
     "12+ years in product · 2 companies built · 1 acquisition": "12+ años en producto · 2 empresas construidas · 1 adquisición",
     "120+ startups across ai, fintech, health, climate, and developer tools. here are some of the teams we&apos;re proudest to partner with.": "Más de 120 startups en IA, fintech, salud, clima y herramientas para desarrolladores. Aquí están algunos de los equipos con los que estamos más orgullosos de asociarnos.",
     "14+ years in gtm · 1 exit · $2b+ aum at a16z": "14+ años en GTM · 1 salida · $2B+ AUM en a16z",
@@ -156,6 +166,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "you have the right to access, modify, or delete your personal data at any time by contacting us at": "Tiene derecho a acceder, modificar o eliminar sus datos personales en cualquier momento contactándonos en",
   },
   de: {
+    "from idea to": "Von der Idee zum",
+    "to one is a 12-week accelerator for pre-seed founders. we invest €500k, open our network, and help you build the company you imagined.": "ist ein zwölfwöchiger Accelerator für Gründer in der Pre-Seed-Phase. Wir investieren 500 Tsd. €, öffnen unser Netzwerk und helfen, das Unternehmen zu bauen, das Sie im Kopf hatten.",
+    "we built": "Wir haben",
+    "to one because we know what founders actually need. not just money — but the right introductions, the hard feedback, and the community that keeps you going.": "weil wir wissen, was Gründer wirklich brauchen. Nicht nur Geld: die richtigen Kontakte, ehrliches Feedback und die Gemeinschaft, die einen trägt.",
+    "perks, events, and co-founder matching — forever.": "Vorteile, Events und Co-Founder-Matching — auf Lebenszeit.",
     "12+ years in product · 2 companies built · 1 acquisition": "12+ Jahre im Produkt · 2 Unternehmen gegründet · 1 Akquisition",
     "120+ startups across ai, fintech, health, climate, and developer tools. here are some of the teams we&apos;re proudest to partner with.": "Über 120 Startups in den Bereichen KI, Fintech, Gesundheit, Klima und Entwickler-Tools. Hier sind einige der Teams, mit denen wir am stolzesten zusammenarbeiten.",
     "14+ years in gtm · 1 exit · $2b+ aum at a16z": "14+ Jahre in GTM · 1 Exit · 2B$+ AUM bei a16z",
@@ -229,6 +244,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "you have the right to access, modify, or delete your personal data at any time by contacting us at": "Sie haben das Recht, Ihre personenbezogenen Daten jederzeit zuzugreifen, zu ändern oder zu löschen, indem Sie uns unter kontaktieren",
   },
   pt: {
+    "from idea to": "Da ideia ao",
+    "to one is a 12-week accelerator for pre-seed founders. we invest €500k, open our network, and help you build the company you imagined.": "é uma aceleradora de doze semanas para fundadores em pré-semente. Investimos 500 mil €, abrimos a nossa rede e ajudamos a construir a empresa que imaginou.",
+    "we built": "Criámos",
+    "to one because we know what founders actually need. not just money — but the right introductions, the hard feedback, and the community that keeps you going.": "porque sabemos do que um fundador precisa mesmo. Não só dinheiro: as apresentações certas, o retorno franco e a comunidade que nos mantém de pé.",
+    "perks, events, and co-founder matching — forever.": "Vantagens, eventos e emparelhamento entre cofundadores — para sempre.",
     "12+ years in product · 2 companies built · 1 acquisition": "12+ anos em produto · 2 empresas construídas · 1 aquisição",
     "120+ startups across ai, fintech, health, climate, and developer tools. here are some of the teams we&apos;re proudest to partner with.": "Mais de 120 startups em IA, fintech, saúde, clima e ferramentas para desenvolvedores. Aqui estão algumas das equipas com as quais temos mais orgulho de colaborar.",
     "14+ years in gtm · 1 exit · $2b+ aum at a16z": "14+ anos em GTM · 1 saída · $2B+ AUM na a16z",

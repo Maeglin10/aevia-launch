@@ -1753,7 +1753,7 @@ function Footer({ goTo }: { goTo: (p: HotelPage) => void }) {
               style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: SERIF, fontSize: '1.6rem', fontWeight: 300, color: GOLD, marginBottom: '1rem', letterSpacing: '0.05em', display: 'block' }}
             >{fd?.businessName ?? (clientName(sessionData) ?? "Grand Palais")}</button>
             <p style={{ fontFamily: SERIF, fontSize: '0.9rem', color: `${CREAM}50`, lineHeight: 1.7, fontStyle: 'italic', maxWidth: '20rem', marginBottom: '1.5rem' }}>
-              A palace of quiet distinction at the heart of {clientCity(sessionData) ?? "Paris"} since 1887.
+              Un palace d'une distinction discrète, au cœur de {clientCity(sessionData) ?? "Paris"} depuis 1887.
             </p>
             <div style={{ display: 'flex', gap: '1rem' }}>
               {socials.map((s) => (
