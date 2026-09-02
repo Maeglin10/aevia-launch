@@ -175,11 +175,11 @@ function TEAM_LIVE() {
 export let TEAM = TEAM_LIVE();
 
 export const TESTIMONIALS = [
-  { quote: "I have visited six spas across Europe. Serene Retreat is categorically different. The silence alone is worth the journey.", author: "Charlotte V.", location: "Geneva" },
-  { quote: "The Equinox package changed something fundamental in me. I left lighter in a way I cannot explain to people who haven't experienced it.", author: "James K.", location: "London" },
-  { quote: "Ingrid's stone ritual addressed years of chronic tension in a single session. I wept. I recommend it without reservation.", author: "Sophie M.", location: clientCityOr("Paris") },
-  { quote: "The floatation chamber was terrifying for the first five minutes and transcendent for the next thirty-five.", author: "Daniel R.", location: "Zürich" },
-  { quote: "We came as a couple for the Equinox package. It is now a twice-yearly ritual that we protect like nothing else.", author: "Elena & Pierre B.", location: "Lyon" },
+  { quote: "J'ai fréquenté six spas en Europe. Celui-ci est d'une autre nature. Le silence, à lui seul, vaut le déplacement.", author: "Charlotte V.", location: "Geneva" },
+  { quote: "La formule Équinoxe a déplacé quelque chose de profond. Je suis reparti plus léger, d'une manière que je ne sais pas expliquer à ceux qui ne l'ont pas vécue.", author: "James K.", location: "London" },
+  { quote: "Le rituel aux pierres a dénoué en une séance des années de tension. J'ai pleuré. Je le recommande sans réserve.", author: "Sophie M.", location: clientCityOr("Paris") },
+  { quote: "Le caisson de flottaison m'a terrifié cinq minutes, puis m'a transporté pendant trente-cinq.", author: "Daniel R.", location: "Zürich" },
+  { quote: "Nous sommes venus en couple pour la formule Équinoxe. C'est devenu un rendez-vous deux fois l'an, que nous protégeons plus que tout.", author: "Elena & Pierre B.", location: "Lyon" },
 ];
 
 export const MARQUEE_ITEMS = [

@@ -10,6 +10,8 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "from bean": "Du grain",
+    "home barista · londres": "Barista amateur · Londres",
     "all coffee rests 5–14 days after roasting before shipping — peak degassing for optimal extraction.": "Tout café repose de cinq à quatorze jours après torréfaction avant l'expédition — le temps du dégazage, pour une extraction juste.",
     "can i skip or pause my subscription?": "Puis-je sauter ou mettre en pause mon abonnement ?",
     "do you offer decaffeinated options?": "Proposez-vous des options décaféinées ?",
@@ -31,6 +33,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "yes. we carry a swiss water process decaf single origin, rotated seasonally. all subscription plans can include decaf as one of your selections.": "Oui. Nous proposons un décaféiné d'origine unique par Swiss Water Process, tourné saisonnièrement. Tous les plans d'abonnement peuvent inclure du décaféiné comme l'une de vos sélections.",
   },
   es: {
+    "from bean": "Del grano",
+    "home barista · londres": "Barista aficionado · Londres",
     "all coffee rests 5–14 days after roasting before shipping — peak degassing for optimal extraction.": "Todo el café reposa de cinco a catorce días tras el tueste antes del envío: el tiempo del desgasificado, para una extracción justa.",
     "can i skip or pause my subscription?": "¿Puedo saltar o pausar mi suscripción?",
     "do you offer decaffeinated options?": "¿Ofrecen opciones descafeinadas?",
@@ -52,6 +56,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "yes. we carry a swiss water process decaf single origin, rotated seasonally. all subscription plans can include decaf as one of your selections.": "Sí. Ofrecemos un descafeinado de origen único de Swiss Water Process, rotado estacionalmente. Todos los planes de suscripción pueden incluir descafeinado como una de tus selecciones.",
   },
   de: {
+    "from bean": "Von der Bohne",
+    "home barista · londres": "Hobby-Barista · London",
     "all coffee rests 5–14 days after roasting before shipping — peak degassing for optimal extraction.": "Jeder Kaffee ruht nach der Röstung fünf bis vierzehn Tage vor dem Versand — die Zeit des Entgasens, für eine saubere Extraktion.",
     "can i skip or pause my subscription?": "Kann ich mein Abonnement aussetzen oder pausieren?",
     "do you offer decaffeinated options?": "Bieten Sie entkoffeinierte Optionen an?",
@@ -73,6 +79,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "yes. we carry a swiss water process decaf single origin, rotated seasonally. all subscription plans can include decaf as one of your selections.": "Ja. Wir führen einen entkoffeinierten Single Origin nach dem Swiss Water Process, der saisonal gewechselt wird. Alle Abonnementpläne können entkoffeinierten Kaffee als eine Ihrer Auswahlmöglichkeiten enthalten.",
   },
   pt: {
+    "from bean": "Do grão",
+    "home barista · londres": "Barista amador · Londres",
     "all coffee rests 5–14 days after roasting before shipping — peak degassing for optimal extraction.": "Todo o café repousa de cinco a catorze dias após a torrefação antes do envio — o tempo da desgaseificação, para uma extração justa.",
     "can i skip or pause my subscription?": "Posso pular ou pausar a minha subscrição?",
     "do you offer decaffeinated options?": "Oferecem opções descafeinadas?",

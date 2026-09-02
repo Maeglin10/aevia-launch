@@ -10,6 +10,9 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "we don't design for awards. we design for people and cities. brutalism is not a style — it's a conviction that architecture should be truthful about its materials and its purpose.": "Nous ne dessinons pas pour les prix. Nous dessinons pour des gens et pour des villes. Le brutalisme n'est pas un style : c'est la conviction qu'une architecture doit dire la vérité sur ses matériaux et sur son usage.",
+    "our": "NOTRE",
+    "brutco doesn't deliver a building. they deliver a manifesto in concrete. we had no brief — only the ambition to create something that would outlast us. they made that real.": "Ils ne livrent pas un bâtiment : ils livrent un manifeste en béton. Nous n'avions pas de cahier des charges — seulement l'ambition de faire quelque chose qui nous survive. Ils l'ont rendu réel.",
     "\"buildings are not objects. they are the infrastructure of human life.\"": "« UN BÂTIMENT N'EST PAS UN OBJET. C'EST L'INFRASTRUCTURE D'UNE VIE. »",
     "architectural competition strategy. we win because we think differently.": "Stratégie de compétition architecturale. Nous gagnons parce que nous pensons différemment.",
     "as seen in": "Vu dans",
@@ -38,6 +41,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "years active": "Années d'activité",
   },
   es: {
+    "we don't design for awards. we design for people and cities. brutalism is not a style — it's a conviction that architecture should be truthful about its materials and its purpose.": "No diseñamos para los premios. Diseñamos para personas y para ciudades. El brutalismo no es un estilo: es la convicción de que la arquitectura debe decir la verdad sobre sus materiales y su uso.",
+    "our": "NUESTRA",
+    "brutco doesn't deliver a building. they deliver a manifesto in concrete. we had no brief — only the ambition to create something that would outlast us. they made that real.": "No entregan un edificio: entregan un manifiesto en hormigón. No teníamos pliego — solo la ambición de hacer algo que nos sobreviviera. Lo hicieron real.",
     "\"buildings are not objects. they are the infrastructure of human life.\"": "«UN EDIFICIO NO ES UN OBJETO. ES LA INFRAESTRUCTURA DE UNA VIDA.»",
     "architectural competition strategy. we win because we think differently.": "Estrategia de competencia arquitectónica. Ganamos porque pensamos de manera diferente.",
     "as seen in": "Visto en",
@@ -66,6 +72,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "years active": "Años activos",
   },
   de: {
+    "we don't design for awards. we design for people and cities. brutalism is not a style — it's a conviction that architecture should be truthful about its materials and its purpose.": "Wir entwerfen nicht für Preise. Wir entwerfen für Menschen und Städte. Brutalismus ist kein Stil, sondern die Überzeugung, dass Architektur die Wahrheit über ihr Material und ihren Zweck sagen muss.",
+    "our": "UNSER",
+    "brutco doesn't deliver a building. they deliver a manifesto in concrete. we had no brief — only the ambition to create something that would outlast us. they made that real.": "Sie liefern kein Gebäude, sondern ein Manifest in Beton. Wir hatten kein Briefing — nur den Anspruch, etwas zu schaffen, das uns überdauert. Sie haben es wahr gemacht.",
     "\"buildings are not objects. they are the infrastructure of human life.\"": "„EIN GEBÄUDE IST KEIN OBJEKT. ES IST DIE INFRASTRUKTUR EINES LEBENS.“",
     "architectural competition strategy. we win because we think differently.": "Architekturwettbewerbsstrategie. Wir gewinnen, weil wir anders denken.",
     "as seen in": "Gesehen in",
@@ -94,6 +103,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "years active": "Aktive Jahre",
   },
   pt: {
+    "we don't design for awards. we design for people and cities. brutalism is not a style — it's a conviction that architecture should be truthful about its materials and its purpose.": "Não desenhamos para prémios. Desenhamos para pessoas e para cidades. O brutalismo não é um estilo: é a convicção de que a arquitetura deve dizer a verdade sobre os seus materiais e o seu uso.",
+    "our": "O NOSSO",
+    "brutco doesn't deliver a building. they deliver a manifesto in concrete. we had no brief — only the ambition to create something that would outlast us. they made that real.": "Não entregam um edifício: entregam um manifesto em betão. Não tínhamos caderno de encargos — apenas a ambição de fazer algo que nos sobrevivesse. Tornaram-no real.",
     "\"buildings are not objects. they are the infrastructure of human life.\"": "«UM EDIFÍCIO NÃO É UM OBJETO. É A INFRAESTRUTURA DE UMA VIDA.»",
     "architectural competition strategy. we win because we think differently.": "Estratégia de competição arquitetónica. Vencemos porque pensamos de forma diferente.",
     "as seen in": "Visto em",
