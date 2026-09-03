@@ -218,15 +218,17 @@ function CoachButton({
     azure: hover ? C.azureMid : C.azure,
     outline: hover ? 'rgba(0,119,182,0.10)' : 'transparent',
   };
+  /* Le bouton en contour n'est employé qu'une fois : dans le héros, sur une
+     photo bleue. Écrit dans l'azur du thème, son libellé y disparaissait. */
   const colorMap = {
     coral: C.white,
     azure: C.white,
-    outline: C.azure,
+    outline: C.white,
   };
   const borderMap = {
     coral: 'none',
     azure: 'none',
-    outline: `2px solid ${C.azure}`,
+    outline: '2px solid rgba(255,255,255,0.72)',
   };
 
   const base: React.CSSProperties = {
