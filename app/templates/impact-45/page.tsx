@@ -272,7 +272,7 @@ return (
                         onMouseEnter={e => { e.currentTarget.style.borderColor = C.accent; e.currentTarget.style.color = C.white; }}
                         onMouseLeave={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.color = C.textMuted; }}
                       >
-                        Book {artist.name.split(" ")[0]} →
+                        Réserver avec {artist.name.split(" ")[0]} →
                       </span>
                     </Link>
                   </div>
