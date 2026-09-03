@@ -1307,7 +1307,7 @@ export default function QBitLabsPage() {
               <Reveal delay={0.1}>
                 <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
                   {[
-                    ["Academic partners", "Free queue access, priority allocations"],
+                    ["Partenaires universitaires", "Accès libre à la file d'attente, allocations prioritaires"],
                     ["Industry research", "SLA-backed compute agreements"],
                     ["Government & defense", "Classified-environment options"],
                   ].map(([title, desc], i) => (

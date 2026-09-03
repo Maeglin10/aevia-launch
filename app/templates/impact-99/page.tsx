@@ -1370,7 +1370,7 @@ export default function EmberGrillPage() {
                 <div className="flex flex-col md:flex-row justify-between items-end mb-24 gap-12">
                   <div>
                     <h2 className="text-7xl md:text-[10rem] font-black italic tracking-tighter leading-none mb-6 uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "menu.titre") ?? (<>
-                      The <br /> <span className="text-[var(--brand,#ff4d00)]">Cuts.</span>
+                      Les <br /> <span className="text-[var(--brand,#ff4d00)]">coupes.</span>
                     </>)}</h2>
                     <p className="text-white/20 text-[10px] font-bold uppercase tracking-[0.4em]">
                       Seasonal Manifest // Wood-Fired Daily // Summer 2024
@@ -1532,7 +1532,7 @@ export default function EmberGrillPage() {
                     {
                       icon: UtensilsCrossed,
                       label: "Private_Chef",
-                      desc: "Bespoke menu",
+                      desc: "Menu sur mesure",
                     },
                     { icon: Droplets, label: "Dry_Aging", desc: "Internal lab" },
                     { icon: Star, label: "Michelin", desc: "2-Star rated" },

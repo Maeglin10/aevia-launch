@@ -497,7 +497,7 @@ return (
             whileTap={{ scale: 0.97 }}
             style={{ fontFamily: C.mono, fontSize: 11, letterSpacing: 2, textTransform: "uppercase", border: `1.5px solid ${C.white}`, background: "transparent", color: C.white, padding: "9px 22px", cursor: "pointer", transition: "all 0.15s" }}
           >
-            Call 30 min →
+            Appel de 30 min →
           </motion.button>
       </div>
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -506,7 +506,7 @@ return (
             className="mb164-mobile-cta"
             style={{ alignItems: "center", fontFamily: C.mono, fontSize: 10, letterSpacing: 1.5, textTransform: "uppercase", border: `1.5px solid ${C.white}`, background: "transparent", color: C.white, padding: "8px 14px", cursor: "pointer", textDecoration: "none", whiteSpace: "nowrap" }}
           >
-            Call 30 min →
+            Appel de 30 min →
           </a>
           <button
             className="mb164-burger"
@@ -542,7 +542,7 @@ return (
             whileTap={{ scale: 0.97 }}
             style={{ fontFamily: C.mono, fontSize: 11, letterSpacing: 2, textTransform: "uppercase", border: `1.5px solid ${C.white}`, background: "transparent", color: C.white, padding: "9px 22px", cursor: "pointer", transition: "all 0.15s" }}
           >
-            Call 30 min →
+            Appel de 30 min →
           </motion.button>
         </div>
       )}

@@ -60,7 +60,7 @@ function COLLECTIONS_SOURCE_LIVE() {
     id: 1,
     name: "Astra Chrono",
     category: "Complications",
-    price: "From CHF 125,000",
+    price: "À partir de 125 000 CHF",
     desc: "A tourbillon masterpiece featuring a hand-finished skeleton dial and 72-hour power reserve.",
     img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1200&q=80"),
   },
@@ -68,7 +68,7 @@ function COLLECTIONS_SOURCE_LIVE() {
     id: 2,
     name: "Deep Horizon",
     category: "Professional",
-    price: "From CHF 18,500",
+    price: "À partir de 18 500 CHF",
     desc: "Titanium grade 5 case, water-resistant to 1000m with a helium escape valve and ceramic bezel.",
     img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=1200&q=80"),
   },
@@ -76,7 +76,7 @@ function COLLECTIONS_SOURCE_LIVE() {
     id: 3,
     name: "Legacy Perpetual",
     category: "Heritage",
-    price: "From CHF 85,000",
+    price: "À partir de 85 000 CHF",
     desc: "Rose gold moonphase calendar that requires no adjustment for the next 122 years.",
     img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=1200&q=80"),
   },
@@ -417,7 +417,7 @@ export default function ZenithWatchesPage() {
                 href="#collections"
                 className="px-12 py-5 border border-white/20 text-white text-[10px] font-bold uppercase tracking-[0.3em] rounded-full hover:bg-white hover:text-black transition-all flex items-center justify-center gap-3"
               >
-                Current Collection <ArrowRight className="w-4 h-4" />
+                Collection actuelle <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           </Reveal>

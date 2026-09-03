@@ -201,7 +201,7 @@ const PLANS_SOURCE = [
       "Account manager",
     ],
     highlight: false,
-    cta: "Contact sales",
+    cta: "Parler à un conseiller",
   },
 ];
 let PLANS = PLANS_SOURCE;

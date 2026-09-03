@@ -92,7 +92,7 @@ let COLLECTIONS_DEMO = COLLECTIONS_SOURCE;
 let COLLECTIONS = COLLECTIONS_DEMO;
 
 const PROVENANCE_LOGS = [
-  { year: "1892", event: "Acquired by the von Hardenburg family, Vienna." },
+  { year: "1892", event: "Acquis par la famille von Hardenburg, Vienne." },
   { year: "1946", event: "Recovered from the Salt Mines of Altaussee." },
   { year: "1978", event: "Private auction, Sotheby’s Geneva, Record Sale." },
   { year: "2024", event: "Secured by The Ivory Archive for conservation." }
@@ -688,7 +688,7 @@ return (
               <div className="grid lg:grid-cols-2 gap-32 items-center">
                  <div>
                     <Reveal>
-                       <SectionTitle subtitle="Chapitre II // The Science" title="Conservation Lab." alignment="left" />
+                       <SectionTitle subtitle="Chapitre II // La science" title="Conservation Lab." alignment="left" />
                        <p className="text-xl font-light text-white/40 leading-relaxed italic mb-16 uppercase tracking-widest">{c?.aboutText ?? <>
                           La préservation du patrimoine mondial exige une rigueur scientifique sans compromis. Notre laboratoire utilise l'imagerie multi-spectrale et la stabilisation atomique pour contrer les effets du temps.
                        </>}</p>
