@@ -219,7 +219,10 @@ export default function AtelierInteriorPage() {
               intérieur très clair : 1,68 mesuré. Mais sous 1024 px la photo
               descend et la barre retombe sur le fond crème — le clair ne vaut
               donc qu'à partir de là. */}
-          <Link href="#hero" className={`text-xl tracking-[0.2em] uppercase ${scrolled ? "" : "lg:text-[#f7f3ee]"}`} style={{ fontFamily: "Georgia, serif" }}>
+          {/* Le passage au clair était réservé au grand écran : sur téléphone le
+              nom restait brun sur la photo du héros, mesuré 2,2. Il n'y a pourtant
+              qu'une photo, quelle que soit la largeur. */}
+          <Link href="#hero" className={`text-xl tracking-[0.2em] uppercase ${scrolled ? "" : "text-[#f7f3ee]"}`} style={{ fontFamily: "Georgia, serif" }}>
             {fd?.logoBase64 ? (
               <img
                 src={fd.logoBase64}
@@ -232,7 +235,7 @@ export default function AtelierInteriorPage() {
               <>
             <span className="font-light">Atelier</span> {/* Le brun de la marque donne 1,76 sur le crème de la barre : la moitié
                 accentuée du nom s'écrit dans une version sombre. */}
-            <span className="font-bold text-[#4c3e2d]">Interior</span>
+            <span className={`font-bold ${scrolled ? "text-[#4c3e2d]" : ""}`}>Interior</span>
           </>
             </>))}</Link>
           <div className={`hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] ${scrolled ? "text-[#2a2520]/70" : "text-white/90"}`}>

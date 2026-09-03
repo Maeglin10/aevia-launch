@@ -1823,12 +1823,25 @@ function traduireLaProse(
   const renommable = !!(nomClient && demo && nomClient.trim() !== demo);
   const versLaDemo = (t: string) => (renommable ? t.split(nomClient!.trim()).join(demo!) : t);
   const versLeClient = (t: string) => (renommable ? t.split(demo!).join(nomClient!.trim()) : t);
+  /*
+    Deux gardes, l'un et l'autre payés d'une régression.
+
+    Le nom du client, SEUL dans son nœud, n'est pas une phrase à traduire : le
+    remettre au nom de démonstration le faisait correspondre à la clé du pied de
+    page, et « Jardins Vivants » repartait en « Impact Verdant. Certifié
+    B-Corp ». On n'essaie donc ce détour que sur un texte plus long que le nom.
+
+    Et si la traduction trouvée ne contient plus le nom de démonstration — les
+    deux mots ont pu être inversés en français —, on ne saurait pas y reposer
+    celui du client : mieux vaut ne rien changer que d'effacer son nom.
+  */
   const chercher = (t: string) => {
     const direct = dico[t.toLowerCase()];
     if (direct) return direct;
-    if (!renommable) return undefined;
+    if (!renommable || t.trim().length <= nomClient!.trim().length) return undefined;
     const parLaDemo = dico[versLaDemo(t).toLowerCase()];
-    return parLaDemo === undefined ? undefined : versLeClient(parLaDemo);
+    if (parLaDemo === undefined || !parLaDemo.includes(demo!)) return undefined;
+    return versLeClient(parLaDemo);
   };
 
   const marcheur = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
@@ -1854,9 +1867,10 @@ function traduireLaProse(
   const chercherEcrase = (t: string) => {
     const direct = parForme[ecraser(t)];
     if (direct !== undefined) return direct;
-    if (!renommable) return undefined;
+    if (!renommable || t.trim().length <= nomClient!.trim().length) return undefined;
     const parLaDemo = parForme[ecraser(versLaDemo(t))];
-    return parLaDemo === undefined ? undefined : versLeClient(parLaDemo);
+    if (parLaDemo === undefined || !parLaDemo.includes(demo!)) return undefined;
+    return versLeClient(parLaDemo);
   };
 
   for (const e of document.querySelectorAll<HTMLElement>("h1,h2,h3,h4,p,span,a,button,li,blockquote")) {

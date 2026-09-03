@@ -175,7 +175,11 @@ export default function LedgerPage() {
           alignItems: "center",
           justifyContent: "space-between",
           padding: "0 52px",
-          background: scrolled ? "rgba(248,250,251,0.97)" : "transparent",
+          /* Non défilée, la barre est posée sur la photo du héros : le nom du
+             client y passait à 4,46 — sous la barre, de justesse. */
+          background: scrolled
+            ? "rgba(248,250,251,0.97)"
+            : "linear-gradient(to bottom, rgba(10,22,32,0.55) 0%, rgba(10,22,32,0.22) 75%, transparent 100%)",
           backdropFilter: scrolled ? "blur(12px)" : "none",
           borderBottom: scrolled ? `1px solid ${C.border}` : "none",
           transition: "background 0.3s, border-color 0.3s",
