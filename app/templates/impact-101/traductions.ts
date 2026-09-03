@@ -10,6 +10,10 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "native typescript framework for zero-knowledge application development.": "Un cadre TypeScript natif pour développer des applications à divulgation nulle.",
+    "high-performance validator infrastructure with automated failover.": "Une infrastructure de validateurs performante, avec bascule automatique en cas de panne.",
+    "seamless indexed data across 40+ l1 and l2 networks via a single unified api.": "Des données indexées sur plus de 40 réseaux L1 et L2, à travers une seule API.",
+    "join 42 000+ developers building the future of decentralized computation.": "Rejoignez plus de 42 000 développeurs qui construisent le calcul décentralisé de demain.",
     "architected for scale. every component of the blockbase stack is built to handle millions of transactions with sub-second latency.": "Conçu pour l'échelle. Chaque composant de la pile Blockbase est construit pour gérer des millions de transactions avec une latence inférieure à une seconde.",
     "data indexed and available via api in less than 200ms from block finality.": "Données indexées et disponibles via API en moins de 200 ms après la finalité du bloc.",
     "engineering the foundation of high-performance decentralized systems. built for the next billion users.": "Bâtir le socle des systèmes décentralisés à haute performance. Conçu pour le prochain milliard d'utilisateurs.",
@@ -26,6 +30,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view documentation": "Voir la documentation",
   },
   es: {
+    "native typescript framework for zero-knowledge application development.": "Un marco TypeScript nativo para desarrollar aplicaciones de conocimiento cero.",
+    "high-performance validator infrastructure with automated failover.": "Una infraestructura de validadores de alto rendimiento, con conmutación automática ante fallos.",
+    "seamless indexed data across 40+ l1 and l2 networks via a single unified api.": "Datos indexados en más de 40 redes L1 y L2, a través de una sola API.",
+    "join 42 000+ developers building the future of decentralized computation.": "Únase a más de 42 000 desarrolladores que construyen la computación descentralizada del mañana.",
     "architected for scale. every component of the blockbase stack is built to handle millions of transactions with sub-second latency.": "Arquitectado para escalar. Cada componente de la pila Blockbase está diseñado para manejar millones de transacciones con una latencia de menos de un segundo.",
     "data indexed and available via api in less than 200ms from block finality.": "Datos indexados y disponibles a través de API en menos de 200 ms desde la finalización del bloque.",
     "engineering the foundation of high-performance decentralized systems. built for the next billion users.": "Construir la base de los sistemas descentralizados de alto rendimiento. Pensado para los próximos mil millones de usuarios.",
@@ -42,6 +50,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view documentation": "Ver documentación",
   },
   de: {
+    "native typescript framework for zero-knowledge application development.": "Ein natives TypeScript-Framework für Zero-Knowledge-Anwendungen.",
+    "high-performance validator infrastructure with automated failover.": "Eine leistungsstarke Validator-Infrastruktur mit automatischem Failover.",
+    "seamless indexed data across 40+ l1 and l2 networks via a single unified api.": "Indizierte Daten über mehr als 40 L1- und L2-Netze, über eine einzige API.",
+    "join 42 000+ developers building the future of decentralized computation.": "Schließen Sie sich über 42 000 Entwicklern an, die das dezentrale Rechnen von morgen bauen.",
     "architected for scale. every component of the blockbase stack is built to handle millions of transactions with sub-second latency.": "Für Skalierung entworfen. Jedes Element des Blockbase-Stacks ist so konzipiert, dass es Millionen von Transaktionen mit einer Latenz von weniger als einer Sekunde verarbeiten kann.",
     "data indexed and available via api in less than 200ms from block finality.": "Daten indexiert und über API in weniger als 200 ms nach Blockfinalität verfügbar.",
     "engineering the foundation of high-performance decentralized systems. built for the next billion users.": "Das Fundament leistungsstarker dezentraler Systeme bauen. Gemacht für die nächste Milliarde Nutzer.",
@@ -58,6 +70,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view documentation": "Dokumentation anzeigen",
   },
   pt: {
+    "native typescript framework for zero-knowledge application development.": "Uma estrutura TypeScript nativa para desenvolver aplicações de conhecimento zero.",
+    "high-performance validator infrastructure with automated failover.": "Uma infraestrutura de validadores de alto desempenho, com comutação automática em caso de falha.",
+    "seamless indexed data across 40+ l1 and l2 networks via a single unified api.": "Dados indexados em mais de 40 redes L1 e L2, através de uma só API.",
+    "join 42 000+ developers building the future of decentralized computation.": "Junte-se a mais de 42 000 programadores que constroem a computação descentralizada de amanhã.",
     "architected for scale. every component of the blockbase stack is built to handle millions of transactions with sub-second latency.": "Arquitetado para escalar. Cada componente da pilha Blockbase é construído para lidar com milhões de transações com latência de menos de um segundo.",
     "data indexed and available via api in less than 200ms from block finality.": "Dados indexados e disponíveis via API em menos de 200 ms após a finalização do bloco.",
     "engineering the foundation of high-performance decentralized systems. built for the next billion users.": "Construir a base dos sistemas descentralizados de alto desempenho. Pensado para os próximos mil milhões de utilizadores.",

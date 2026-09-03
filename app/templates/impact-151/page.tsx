@@ -256,7 +256,7 @@ return (
             ) : (
               <>
                <span className="text-3xl font-light tracking-[0.4em] uppercase text-white group-hover:text-[var(--brand,#c4a661)] transition-colors">{clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "AETHELGARD"))}</span>
-               <span className="text-[10px] font-black tracking-[0.6em] text-[var(--brand,#c4a661)]/40 uppercase italic">The Estate & Spirits Group</span>
+               <span className="text-[10px] font-black tracking-[0.6em] text-[var(--brand,#c4a661)]/40 uppercase italic">Domaine et spiritueux</span>
             </>
             )}</Link>
          </div>

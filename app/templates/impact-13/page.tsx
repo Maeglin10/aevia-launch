@@ -437,7 +437,7 @@ return (
             <div className="max-w-4xl mx-auto">
               <Reveal>
                 <div className="bg-[#141310] border border-[var(--brand,#B49A6A)]/20 rounded-3xl p-10 md:p-16">
-                  <p className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase mb-6">Contact & Showroom</p>
+                  <p className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase mb-6">Contact et showroom</p>
                   <h2 className="text-white text-4xl mb-8" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
                     Rencontrez nos<br />horlogers
                   </>)}</h2>
