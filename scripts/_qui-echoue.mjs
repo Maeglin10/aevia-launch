@@ -18,7 +18,21 @@ import { chromium } from "playwright";
 import sharp from "sharp";
 
 const BASE = process.env.BASE_URL || "http://localhost:3000";
-const [theme, larg = "1280", ou = "barre"] = process.argv.slice(2);
+const [theme, larg = "1280", ou = "barre", etat = "vitrine"] = process.argv.slice(2);
+/* Le rendu CLIENT diffère du rendu vitrine : le nom du client s'y écrit, les
+   couleurs de marque s'y appliquent, et plusieurs défauts n'apparaissent que
+   là. Mesurer la seule vitrine, c'est n'en voir que la moitié. */
+const NOM = "Jardins Vivants";
+const SESSION = {
+  id: "v",
+  formData: { businessName: NOM, phone: "+33 4 78 12 34 56", email: "bonjour@verif.fr" },
+  businessProfile: {
+    identity: { name: NOM },
+    contacts: { general: { phone: "+33 4 78 12 34 56" } },
+    geo: { address: "12 rue des Capucins, 69001 Lyon" },
+  },
+  generatedContent: {},
+};
 
 const lum = (r, g, b) => {
   const f = (v) => { const x = v / 255; return x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4; };
@@ -60,6 +74,10 @@ async function fondDominant(png, textes) {
 
 const nav = await chromium.launch();
 const ctx = await nav.newContext({ locale: "fr-FR", viewport: { width: +larg, height: 900 } });
+if (etat === "client") {
+  await ctx.route("**/api/sessions**", (r) =>
+    r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(SESSION) }));
+}
 /* Le bandeau cookies couvre le bas de l'écran et se fait mesurer à la place
    du contenu : on répond avant le premier rendu, avec les clés du site. */
 await ctx.addInitScript(() => {
@@ -69,7 +87,7 @@ await ctx.addInitScript(() => {
   } catch {}
 });
 const p = await ctx.newPage();
-await p.goto(`${BASE}/templates/${theme}`, { waitUntil: "networkidle", timeout: 90000 });
+await p.goto(`${BASE}/templates/${theme}${etat === "client" ? "?session=v" : ""}`, { waitUntil: "networkidle", timeout: 90000 });
 await p.waitForTimeout(2500);
 
 const candidats = await p.evaluate((ou) => {
@@ -140,6 +158,6 @@ for (const e of candidats) {
     if (k < 4.5) sous.push({ t: e.t, couleur: e.couleur, derriere: `rgb(${[rr, gg, bb].map(Math.round)})`, k: +k.toFixed(2), classe: e.classe });
   } catch {}
 }
-console.log(`${theme} @${larg}px (${ou}) — ${sous.length} sur ${candidats.length} sous 4.5`);
+console.log(`${theme} @${larg}px ${etat} (${ou}) — ${sous.length} sur ${candidats.length} sous 4.5`);
 for (const x of sous.sort((a, b) => a.k - b.k)) console.log(" ", JSON.stringify(x));
 await nav.close();

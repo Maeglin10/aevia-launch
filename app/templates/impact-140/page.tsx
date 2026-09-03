@@ -312,7 +312,7 @@ export default function WanderlustPage() {
           Un dégradé sombre couvre désormais la bande du haut sans masquer le
           cliché. */}
       <nav
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#0c0a09]/90 backdrop-blur-md py-4 border-b border-amber-900/20" : "bg-gradient-to-b from-black/55 to-transparent py-8"}`}
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#0c0a09]/90 backdrop-blur-md py-4 border-b border-amber-900/20" : "bg-gradient-to-b from-black/85 via-black/68 to-black/20 py-8"}`}
       >
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link

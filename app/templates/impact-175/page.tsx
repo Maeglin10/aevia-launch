@@ -412,7 +412,7 @@ function GalleryCard({ event, index }: { event: (typeof PAST_EVENTS_DEMO)[0]; in
         style={{
           position: "absolute",
           inset: 0,
-          background: "linear-gradient(to top, rgba(15,14,13,0.95) 0%, rgba(15,14,13,0.3) 60%, transparent 100%)",
+          background: "linear-gradient(to top, rgba(15,14,13,0.95) 0%, rgba(15,14,13,0.55) 60%, rgba(15,14,13,0.42) 100%)",
           display: "flex",
           flexDirection: "column",
           justifyContent: "flex-end",
@@ -694,7 +694,12 @@ export default function Impact175Page() {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          background: scrolled ? "rgba(15,14,13,0.95)" : "transparent",
+          /* Non défilée, la barre est posée sur la photo du héros : le nom du
+             client, en champagne, y tombait à 3,0. Un dégradé sombre couvre la
+             bande du haut sans masquer le cliché. */
+          background: scrolled
+            ? "rgba(15,14,13,0.95)"
+            : "linear-gradient(to bottom, rgba(15,14,13,0.78) 0%, rgba(15,14,13,0.30) 72%, transparent 100%)",
           backdropFilter: scrolled ? "blur(16px)" : "none",
           borderBottom: scrolled ? "1px solid rgba(232,213,163,0.1)" : "none",
           transition: "all 0.4s ease",

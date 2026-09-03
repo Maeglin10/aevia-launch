@@ -1797,8 +1797,39 @@ function chiffresDeLaLangue(locale: string | undefined) {
   for (const [n, valeur] of aReecrire) n.nodeValue = valeur;
 }
 
-function traduireLaProse(locale: string | undefined, dico: Record<string, string> | undefined) {
+function traduireLaProse(
+  locale: string | undefined,
+  dico: Record<string, string> | undefined,
+  nomClient?: string,
+) {
   if (!locale || locale === "en" || !dico) return;
+
+  /*
+    Le nom du client, déjà posé dans la phrase, la rend introuvable.
+
+    Le dictionnaire d'un thème reconnaît une phrase entière, à la lettre, et ses
+    clés portent le nom de DÉMONSTRATION : « kinetic brought our brand vision to
+    life… ». Dès qu'`effacerLaMarqueDeDemonstration` a écrit « Jardins Vivants »
+    à la place de « KINETIC », plus aucune clé ne correspond — et la phrase
+    reste anglaise, définitivement : les passes suivantes retrouvent le même
+    texte déjà renommé. Le défaut ne se voyait QUE dans l'aperçu client ; en
+    vitrine, aucun nom n'est substitué.
+
+    On refait donc le chemin inverse avant de chercher, puis on repose le nom du
+    client sur la traduction trouvée.
+  */
+  const chemin = window.location.pathname.match(/\/templates\/(impact-[\w-]+)/);
+  const demo = chemin ? MARQUE_DEMO[chemin[1]] : undefined;
+  const renommable = !!(nomClient && demo && nomClient.trim() !== demo);
+  const versLaDemo = (t: string) => (renommable ? t.split(nomClient!.trim()).join(demo!) : t);
+  const versLeClient = (t: string) => (renommable ? t.split(demo!).join(nomClient!.trim()) : t);
+  const chercher = (t: string) => {
+    const direct = dico[t.toLowerCase()];
+    if (direct) return direct;
+    if (!renommable) return undefined;
+    const parLaDemo = dico[versLaDemo(t).toLowerCase()];
+    return parLaDemo === undefined ? undefined : versLeClient(parLaDemo);
+  };
 
   const marcheur = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
   const aTraduire: [Text, string][] = [];
@@ -1808,7 +1839,7 @@ function traduireLaProse(locale: string | undefined, dico: Record<string, string
     if (!texte) continue;
     const e = n.parentElement;
     if (!e || e.closest("style,script,noscript,template,input,textarea")) continue;
-    const trouve = dico[texte.toLowerCase()];
+    const trouve = chercher(texte);
     if (!trouve) continue;
     aTraduire.push([n as Text, brut.replace(texte, trouve)]);
   }
@@ -1820,11 +1851,18 @@ function traduireLaProse(locale: string | undefined, dico: Record<string, string
   const ecraser = (t: string) => t.toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
   const parForme: Record<string, string> = {};
   for (const [k, v] of Object.entries(dico)) parForme[ecraser(k)] = v;
+  const chercherEcrase = (t: string) => {
+    const direct = parForme[ecraser(t)];
+    if (direct !== undefined) return direct;
+    if (!renommable) return undefined;
+    const parLaDemo = parForme[ecraser(versLaDemo(t))];
+    return parLaDemo === undefined ? undefined : versLeClient(parLaDemo);
+  };
 
   for (const e of document.querySelectorAll<HTMLElement>("h1,h2,h3,h4,p,span,a,button,li,blockquote")) {
     const entier = (e.textContent ?? "").replace(/\s+/g, " ").trim();
     if (!entier) continue;
-    const trouve = dico[entier.toLowerCase()] ?? parForme[ecraser(entier)];
+    const trouve = chercher(entier) ?? chercherEcrase(entier);
     if (!trouve) continue;
     if (e.closest("input,textarea,style,script")) continue;
     const noeuds: Text[] = [];
@@ -2658,7 +2696,7 @@ export function BrandColorVar() {
             phrase entière ne correspondait alors plus à aucune clé du
             dictionnaire du thème, qui passait après. Mesuré sur impact-136.
           */
-          traduireLaProse(langue, traductionsDuTheme?.[langue]);
+          traduireLaProse(langue, traductionsDuTheme?.[langue], d?.formData?.businessName);
           traduireLesLibelles(langue);
           chiffresDeLaLangue(langue);
 

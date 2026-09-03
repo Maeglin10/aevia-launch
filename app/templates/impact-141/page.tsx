@@ -306,11 +306,11 @@ export default function SonicPlayerPage() {
                 style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
               />
             ) : clientName(sessionData) ? (
-              <span className="font-light text-slate-500">{clientName(sessionData)}</span>
+              <span className="font-light text-slate-400">{clientName(sessionData)}</span>
             ) : (
               <>
                 <Disc3 className="w-6 h-6 animate-spin-slow" />
-                SONIC<span className="font-light text-slate-500">WAVE</span>
+                SONIC<span className="font-light text-slate-400">WAVE</span>
               </>
             )}
           </Link>
@@ -390,7 +390,7 @@ export default function SonicPlayerPage() {
                       <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-white rounded-full shadow-[0_0_10px_rgba(168,85,247,0.8)]" />
                     </div>
                   </div>
-                  <div className="flex justify-between text-[10px] font-mono text-slate-500 mt-2">
+                  <div className="flex justify-between text-[10px] font-mono text-slate-400 mt-2">
                     <span>1:24</span>
                     <span>{RELEASES[activeRelease].duration}</span>
                   </div>
@@ -536,7 +536,7 @@ export default function SonicPlayerPage() {
                   <h4 className="text-xs font-bold uppercase tracking-widest">
                     Tracklist
                   </h4>
-                  <span className="text-xs text-slate-500 font-mono">
+                  <span className="text-xs text-slate-400 font-mono">
                     6 Tracks • 25:21
                   </span>
                 </div>
@@ -562,7 +562,7 @@ export default function SonicPlayerPage() {
                           {track.title}
                         </span>
                       </div>
-                      <div className="flex items-center gap-8 text-xs font-mono text-slate-500">
+                      <div className="flex items-center gap-8 text-xs font-mono text-slate-400">
                         <span className="hidden md:block">{track.plays}</span>
                         <span>{track.duration}</span>
                         <button className="opacity-0 group-hover:opacity-100 transition-opacity text-white hover:text-pink-500">
@@ -636,7 +636,7 @@ export default function SonicPlayerPage() {
               className="relative rounded-2xl overflow-hidden group bg-white/5 border border-white/10 flex items-center justify-center"
             >
               <div className="text-center p-8">
-                <Mic2 className="w-12 h-12 text-slate-500 mx-auto mb-6" />
+                <Mic2 className="w-12 h-12 text-slate-400 mx-auto mb-6" />
                 <h3 className="text-xl font-bold mb-2">{c?.aboutTitle ?? fd?.businessName ?? <>Neon Records</>}</h3>
                 <p className="text-sm text-slate-400">{c?.aboutText ?? <>
                   Independent label pushing the boundaries of electronic music
@@ -739,7 +739,7 @@ export default function SonicPlayerPage() {
                 className="text-2xl font-black tracking-tighter uppercase mb-6 flex items-center gap-2"
               >
                 <Disc3 className="w-6 h-6 text-[var(--brand,#a855f7)]" />
-                SONIC<span className="font-light text-slate-500">WAVE</span>
+                SONIC<span className="font-light text-slate-400">WAVE</span>
               </Link>
               <p className="text-slate-400 text-sm leading-relaxed mb-8">
                 Independent record label and artist collective exploring the

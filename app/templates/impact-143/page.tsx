@@ -213,7 +213,7 @@ export default function AtelierInteriorPage() {
     <div className="bg-[#f5f0eb] text-[#2a2520] font-sans min-h-dvh selection:bg-[var(--brand,#8b7355)] selection:text-white overflow-x-hidden">
 
       {/* ── NAVBAR ─────────────── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#f5f0eb]/90 backdrop-blur-xl border-b border-[var(--brand,#8b7355)]/10 py-4" : "bg-transparent lg:bg-gradient-to-b lg:from-[#2a2520]/70 lg:via-[#2a2520]/28 lg:to-transparent py-8"}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#f5f0eb]/90 backdrop-blur-xl border-b border-[var(--brand,#8b7355)]/10 py-4" : "bg-gradient-to-b from-black/58 to-transparent lg:bg-gradient-to-b lg:from-[#2a2520]/70 lg:via-[#2a2520]/58 lg:to-transparent py-8"}`}>
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           {/* Le nom s'écrivait en sombre sur une barre transparente posée sur un
               intérieur très clair : 1,68 mesuré. Mais sous 1024 px la photo

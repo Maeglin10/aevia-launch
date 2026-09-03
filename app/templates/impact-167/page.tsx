@@ -63,7 +63,9 @@ let C: Record<string, string> = {
   goldDark: "#a8882e",
   white: "#ffffff",
   charcoal: "#2c2c2c",
-  warm: "#9a8e7e",
+  /* Couleur de texte sur le gris très clair du thème : 2,2 seulement, y compris
+     sous les chiffres clés. Assombrie jusqu'à 4,9. */
+  warm: "#5d564c",
   font: "'Cormorant Garamond', Georgia, serif",
   fontSans: "'Jost', -apple-system, sans-serif",
 };
@@ -1022,7 +1024,9 @@ export default function Impact167Page() {
             onClick={() => scrollTo("Contact")}
             style={{
               background: "transparent",
-              color: C.gold,
+              /* Contour sans fond : il se lit sur le bleu nuit de la barre, où
+                 l'or ne tenait que 4,0. Le trait garde l'or, le texte l'éclaircit. */
+              color: C.goldLight,
               border: `1px solid ${C.gold}`,
               padding: "10px 28px",
               fontFamily: C.fontSans,
@@ -1110,7 +1114,9 @@ export default function Impact167Page() {
             onClick={() => scrollTo("Contact")}
             style={{
               background: "transparent",
-              color: C.gold,
+              /* Contour sans fond : il se lit sur le bleu nuit de la barre, où
+                 l'or ne tenait que 4,0. Le trait garde l'or, le texte l'éclaircit. */
+              color: C.goldLight,
               border: `1px solid ${C.gold}`,
               padding: "10px 28px",
               fontFamily: C.fontSans,

@@ -87,7 +87,9 @@ let C: Record<string, string> = {
   lavenderBorder:"rgba(139,92,246,0.20)",
   text:        "#831843",
   textMid:     "#9D174D",
-  textMuted:   "#BE185D",
+  /* Couleur des liens de la barre, posés sur le beige du thème : 4,3 à
+     #BE185D. Un cran plus sombre, 5,7. */
+  textMuted:   "#9D174D",
   textLight:   "#F9A8D4",
   white:       "#FFFFFF",
   border:      "rgba(131,24,67,0.08)",
@@ -948,7 +950,8 @@ function Nav({ scrolled }: { scrolled: boolean }) {
               style={{
                 fontFamily: "'Inter', sans-serif",
                 fontWeight: 500,
-                background: `linear-gradient(135deg, ${C.primary}, ${C.lavender})`,
+                /* Le blanc ne tenait que 4,1 sur ce dégradé : les deux bornes descendent. */
+                background: `linear-gradient(135deg, ${C.primaryTexte}, #6d3fc4)`,
                 color: "#fff",
               }}
             >
