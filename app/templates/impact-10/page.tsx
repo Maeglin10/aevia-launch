@@ -1310,7 +1310,7 @@ function DiningSection() {
                   cursor: 'pointer',
                 }}
               >
-                Reserve a Table
+                Réserver une table
               </button>
             </div>
           </BlurReveal>

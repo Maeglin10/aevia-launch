@@ -194,7 +194,7 @@ function PRICING_SOURCE_LIVE() {
     price: "49",
     period: "/month",
     annualPrice: "39",
-    desc: "For growing teams shipping serious products.",
+    desc: "Pour les équipes qui grandissent et livrent pour de bon.",
     features: [
       "Unlimited projects",
       "500,000 API calls / month",

@@ -411,8 +411,8 @@ return (
                         style={{ scale: textScale }}
                         className="text-5xl sm:text-6xl md:text-[15vw] font-black tracking-tight md:tracking-tighter uppercase mb-8 md:mb-16 leading-[0.9] md:leading-[0.7] italic flex flex-col break-words"
                      >{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>
-                        <span>{clientHeroLine(sessionData, 0, 2, 9) ?? "Reach the"}</span>
-                        <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>{clientHeroLine(sessionData, 1, 2, 9) ?? "Beyond."}</span>
+                        <span>{clientHeroLine(sessionData, 0, 2, 9) ?? "Aller"}</span>
+                        <span className="text-transparent" style={{ WebkitTextStroke: "2px white" }}>{clientHeroLine(sessionData, 1, 2, 9) ?? "au-delà."}</span>
                      </>}</>)}</motion.h1>
 
                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-24 items-end text-left max-w-5xl">

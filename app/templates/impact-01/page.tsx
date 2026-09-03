@@ -1263,7 +1263,7 @@ return (
                 margin: 0,
                 color: T.text,
               }}
-            >{<>{clientHeroLine(sessionData, 0, 2, 12) ?? "We build the"}</>}</motion.h1>
+            >{<>{clientHeroLine(sessionData, 0, 2, 12) ?? "Nous bâtissons"}</>}</motion.h1>
           </div>
 
           <div style={{ overflow: "hidden", paddingBottom: 16, marginBottom: 16 }}>
@@ -1309,8 +1309,8 @@ return (
               margin: "0 auto 56px",
             }}
           >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
-            Full-service creative studio crafting immersive digital experiences,
-            brand identities, and high-performance products for ambitious brands.
+            Studio créatif complet : expériences numériques immersives, identités
+            de marque et produits performants pour des entreprises ambitieuses.
           </>}</motion.p>
 
           {/* CTAs */}
@@ -2269,8 +2269,8 @@ function Footer({ goTo }: { goTo: (p: AgencyPage) => void }) {
               margin: 0,
             }}
           >
-            Full-service creative studio crafting immersive digital experiences for
-            ambitious brands.
+            Studio créatif complet : expériences numériques immersives pour des
+            entreprises ambitieuses.
           </p>
         </div>
 
