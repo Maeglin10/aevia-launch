@@ -48,7 +48,7 @@ export let SERVICES = SERVICES_LIVE();
 export const PROTOCOLS = [
   {
     title: "Consultation",
-    desc: "Mapping facial geometry and identifying skin bio-types.",
+    desc: "Cartographie du visage et identification du type de peau.",
   },
   {
     title: "Preparation",
@@ -60,7 +60,7 @@ export const PROTOCOLS = [
   },
   {
     title: "Regeneration",
-    desc: "Cold-pressed botanical mask for immediate recovery.",
+    desc: "Masque botanique pressé à froid, pour une récupération immédiate.",
   },
 ];
 

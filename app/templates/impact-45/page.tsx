@@ -217,7 +217,7 @@ return (
               <span style={{ fontFamily: "'Barlow', system-ui", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", color: C.accent }}>The Artists</span>
               <div style={{ width: 32, height: 1, background: C.accent }} />
             </div>
-            <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(36px, 5vw, 60px)", color: C.white, margin: "0 0 16px", fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>Two Masters. One Studio.</>)}</h2>
+            <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(36px, 5vw, 60px)", color: C.white, margin: "0 0 16px", fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>Deux maîtres. Un seul studio.</>)}</h2>
             <p style={{ fontFamily: "'Barlow', system-ui", fontSize: 16, color: C.textMuted, lineHeight: 1.7, maxWidth: 520, margin: "0 auto" }}>
               Paris's finest fine-line and blackwork artists, each with a decade-plus of mastery.
             </p>
@@ -290,7 +290,7 @@ return (
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
                 <div style={{ width: 32, height: 1, background: C.accent }} />
-                <span style={{ fontFamily: "'Barlow', system-ui", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", color: C.accent }}>Portfolio Gallery</span>
+                <span style={{ fontFamily: "'Barlow', system-ui", fontSize: 12, letterSpacing: "0.2em", textTransform: "uppercase", color: C.accent }}>Galerie de réalisations</span>
               </div>
               <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(32px, 4vw, 52px)", color: C.white, margin: 0, fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-3.titre") ?? (<>Selected Works</>)}</h2>
             </div>

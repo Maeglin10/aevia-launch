@@ -106,13 +106,13 @@ function MANIFEST_LIVE() {
   services: [
     { id: "S-01", title: "Spatial Web", icon: <Box className="w-6 h-6" />, desc: "Transforming flat pages into interactive 3D environments using Three.js and WebGL." },
     { id: "S-02", title: "Generative Systems", icon: <Zap className="w-6 h-6" />, desc: "Algorithmic design architectures that react in real-time to user input and audio." },
-    { id: "S-03", title: "Motion Engineering", icon: <Activity className="w-6 h-6" />, desc: "Physics-based animations, fluid simulations, and complex particle systems." }
+    { id: "S-03", title: "Motion Engineering", icon: <Activity className="w-6 h-6" />, desc: "Animations physiques, simulations de fluides et systèmes de particules complexes." }
   ],
   projects: [
-    { title: "Neon Genesis", tech: "Three.js / GLSL", desc: "Interactive product configurator for hyper-cars.", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800&q=80") },
-    { title: "Aether Protocol", tech: "React Three Fiber", desc: "Spatial data visualization for blockchain nodes.", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80") },
+    { title: "Neon Genesis", tech: "Three.js / GLSL", desc: "Configurateur de produit interactif pour hypercars.", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?w=800&q=80") },
+    { title: "Aether Protocol", tech: "React Three Fiber", desc: "Visualisation spatiale de données pour des nœuds de chaîne de blocs.", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80") },
     { title: "Void Analytics", tech: "WebGL / Canvas", desc: "Real-time particle system for tracking server loads.", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=800&q=80") },
-    { title: "Cybernetics", tech: "Spline / React", desc: "Interactive 3D narrative for a tech hardware launch.", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?w=800&q=80") }
+    { title: "Cybernetics", tech: "Spline / React", desc: "Récit 3D interactif pour le lancement d'un matériel.", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1614729939124-032f0b56c9ce?w=800&q=80") }
   ],
   stats: [
     { label: "Vertices Rendered", val: "14.2B" },

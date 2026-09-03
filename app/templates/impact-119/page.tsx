@@ -381,7 +381,7 @@ return (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
               {/* TARIFS */ resolveList(clientServices(sessionData)?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
                 { name: "Starter", price: "$299", unit: "/mo", highlight: false, features: ["Up to 10 services", "99.9% uptime SLA", "Edge PoPs in 12 regions", "Basic compliance dashboard", "Community support"] },
-                { name: "Scale", price: "$999", unit: "/mo", highlight: true, features: ["Unlimited services", "99.99% uptime SLA", "Edge PoPs in 38 regions", "SOC 2 compliance suite", "Dedicated SRE on-call"] },
+                { name: "Scale", price: "$999", unit: "/mo", highlight: true, features: ["Services illimités", "99.99% uptime SLA", "Edge PoPs in 38 regions", "SOC 2 compliance suite", "Dedicated SRE on-call"] },
                 { name: "Enterprise", price: "Custom", unit: "", highlight: false, features: ["White-label infrastructure", "Bespoke SLA", "Private edge PoPs", "Full audit toolchain", "24/7 dedicated team"] },
               ]).map((p, i) => (
                 <Reveal key={p.name} delay={i * 0.1}>

@@ -40,10 +40,10 @@ let fd: any = null;
 // Les prestations, jusqu'ici écrit(e) dans le rendu :
 // le client pouvait les saisir, le thème ne les lisait pas.
 const PRESTATIONS_INLINE_SOURCE = [
-  { title: "Consultation", desc: "Mapping facial geometry and identifying skin bio-types.", icon: <Search className="w-5 h-5" /> },
+  { title: "Consultation", desc: "Cartographie du visage et identification du type de peau.", icon: <Search className="w-5 h-5" /> },
                     { title: "Preparation", desc: "Deep thermal cleansing using ozonated steam.", icon: <Droplets className="w-5 h-5" /> },
                     { title: "Infusion", desc: "Active serum delivery through micro-current technology.", icon: <Zap className="w-5 h-5" /> },
-                    { title: "Regeneration", desc: "Cold-pressed botanical mask for immediate recovery.", icon: <Flower2 className="w-5 h-5" /> }
+                    { title: "Regeneration", desc: "Masque botanique pressé à froid, pour une récupération immédiate.", icon: <Flower2 className="w-5 h-5" /> }
 ];
 let PRESTATIONS_INLINE = PRESTATIONS_INLINE_SOURCE;
 
@@ -239,8 +239,8 @@ return (
                 La Carte des Soins
               </span>
               <h2 className="text-5xl md:text-8xl font-light tracking-tighter uppercase leading-[1.15] pb-4">{c?.aboutTitle ?? fd?.businessName ?? <>
-                The <br />{" "}
-                <span className="italic text-[var(--brand,#c9b7a1)]">Signature Edit.</span>
+                La <br />{" "}
+                <span className="italic text-[var(--brand,#c9b7a1)]">sélection signature.</span>
               </>}</h2>
             </Reveal>
             <p className="max-w-xs text-[10px] font-bold uppercase tracking-widest text-[#1a1814]/30 leading-relaxed italic text-right">{c?.aboutText ?? <>
@@ -419,7 +419,7 @@ return (
                   t: "Exclusivité",
                   d: "Seulement 6 rdv par jour pour une attention totale.",
                 },
-                { t: "Ethique", d: "Produits 100% Vegan & Cruelty-Free." },
+                { t: "Ethique", d: "Produits 100 % végans, sans test animal." },
                 {
                   t: "Précision",
                   d: "Techniques japonaises et russes certifiées.",

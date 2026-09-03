@@ -1015,7 +1015,7 @@ export default function ClosDuSoirPage() {
                   fontWeight: 300,
                 }}
               >
-                Intimate evenings curated for curiosity. Members receive priority booking.
+                Des soirées intimes, composées pour les curieux. Les adhérents réservent en priorité.
               </p>
             </div>
           </SectionReveal>

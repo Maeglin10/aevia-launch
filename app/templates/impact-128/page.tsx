@@ -78,7 +78,7 @@ let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 
 const SERVICES_SOURCE = [
   { icon: Building, title: "Acquisition Advisory", desc: "End-to-end guidance from search to closing on residential and commercial assets." },
-  { icon: DollarSign, title: "Investment Strategy", desc: "Portfolio construction for ultra-high-net-worth individuals seeking trophy real estate." },
+  { icon: DollarSign, title: "Investment Strategy", desc: "Constitution de portefeuille pour de grandes fortunes en quête de biens d'exception." },
   { icon: Award, title: "Off-Market Access", desc: "Exclusive pre-market listings and pocket deals from our global broker network." },
 ]
 let SERVICES_DEMO = SERVICES_SOURCE;

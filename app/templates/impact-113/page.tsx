@@ -636,7 +636,7 @@ export default function NexusSaaSPage() {
             </p>
             <ul className="space-y-4 mb-10">
               {/* LISTE_LIBELLES */ (clientList(sessionData, "realisations.liste2") ?? [
-                "0ms Cold starts for edge functions",
+                "0 ms de démarrage à froid pour les fonctions en périphérie",
                 "Global database replication under 50ms",
                 "Built-in Redis-compatible distributed cache",
               ]).map((item, i) => (

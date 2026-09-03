@@ -98,7 +98,7 @@ export const services = [
   {
     id: "01",
     name: "Staff Engineering",
-    short: "Leadership at the technical frontier",
+    short: "Diriger à la frontière technique",
     body: "I embed as a principal or staff engineer on product teams — owning critical infrastructure, driving RFCs, and unblocking roadblocks at the systems level. I've led teams at Stripe and Vercel on problems where the cost of failure is measured in eight figures.",
     tags: ["Architecture", "IC Leadership", "RFCs", "Tech Debt"],
     rate: "€1,200 / day",

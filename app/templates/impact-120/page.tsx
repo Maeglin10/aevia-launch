@@ -929,7 +929,7 @@ export default function EclatLuxuryPage() {
                 <span className="text-lg tracking-[0.3em] font-light text-white uppercase">ÉCLAT</span>
               </Link>
               <p className="text-xs text-zinc-500 uppercase tracking-[0.2em] leading-relaxed max-w-md italic">
-                Haute parfumerie crafted with uncompromising precision. {clientCity(sessionData) ?? "Paris"}, Grasse, New York.
+                Haute parfumerie, composée avec une précision sans concession. {clientCity(sessionData) ?? "Paris"}, Grasse, New York.
               </p>
             </div>
             

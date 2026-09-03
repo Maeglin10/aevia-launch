@@ -44,7 +44,7 @@ const STATS_INLINE_SOURCE = [
                       label: "Polygon Count",
                       val: "1.2",
                       suffix: "B+",
-                      desc: "Extreme density rendering for true photorealism.",
+                      desc: "Un rendu d'une densité extrême, pour un photoréalisme vrai.",
                     },
                     {
                       label: "Stream Latency",

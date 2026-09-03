@@ -304,7 +304,7 @@ export default function VulcanMotorsPage() {
                   <div className="space-y-12">
                     {[
                       { icon: Settings, t: "Mechanical Purity", d: "Naturally aspirated power plants without digital intervention. Raw, unfiltered combustion." },
-                      { icon: Shield, t: "Aeronautic Materials", d: "Grade 5 titanium chassis and autoclaved carbon composite bodywork for extreme rigidity." },
+                      { icon: Shield, t: "Aeronautic Materials", d: "Châssis en titane grade 5 et carrosserie en composite carbone cuit en autoclave, pour une rigidité extrême." },
                       { icon: Timer, t: "Analog Precision", d: "Each component calibrated by hand in our specialized test cells over 600 hours." }
                     ].map((f, i) => (
                       <div key={i} className="flex gap-8 group">
@@ -492,7 +492,7 @@ export default function VulcanMotorsPage() {
                 {clientName(sessionData) ?? (<>Vulcan<span className="text-red-600">Motors</span></>)}</span>
             </Link>
             <p className="text-white/20 max-w-sm leading-relaxed mb-10 text-sm italic font-light">{c?.aboutText ?? <>
-              Restoring the past, defining the future. {clientName(sessionData) ?? "Vulcan"} Motors is an atelier dedicated to the preservation and evolution of the hypercar.
+              Restaurer le passé, dessiner l'avenir. {clientName(sessionData) ?? "Vulcan"} Un atelier voué à la préservation et à l'évolution de l'hypercar.
             </>}</p>
             <div className="flex gap-8">
                {SOCIALS.map(s => (

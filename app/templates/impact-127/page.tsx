@@ -89,7 +89,7 @@ let EVENTS = EVENTS_DEMO;
 // sections existed, so those items scrolled nowhere.
 function VENUES_LIVE() {
   return [
-  { name: "Warehouse IX", city: "Berlin", capacity: "2 400", type: "Industrial", note: "Former turbine hall, 14m ceilings, a sound system built for low end." },
+  { name: "Warehouse IX", city: "Berlin", capacity: "2 400", type: "Industrial", note: "Ancienne salle des turbines, 14 mètres sous plafond, une sonorisation taillée pour les basses." },
   { name: "Hall Meridian", city: "London", capacity: "5 200", type: "Concert hall", note: "Nineteenth-century acoustics, restored in 2019. Our seated programme lives here." },
   { name: "Sublevel", city: "London", capacity: "1 600", type: "Club", note: "Three rooms, no phones on the floor. Late licence until 08:00." },
   { name: "Le Ratio", city: (clientCity(sessionData) ?? "Paris"), capacity: "3 100", type: "Theatre", note: "Balcony horseshoe, velvet and gilt. Indie bills that deserve the room." },

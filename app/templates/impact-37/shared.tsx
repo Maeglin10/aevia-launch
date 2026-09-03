@@ -155,7 +155,7 @@ export const MEMBERSHIP_TIERS = [
     features: [
       "3 curated prestige bottles/month",
       "Unlimited complimentary pours",
-      "Private dining reservation priority",
+      "Priorité de réservation du salon privé",
       "Annual en primeur allocation",
       "Dedicated sommelier on-call",
       "Unlimited cellar storage",

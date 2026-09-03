@@ -34,10 +34,10 @@ export const navLinks = [
 export const artists = [
   {
     name: "Mara Voss",
-    role: "Fine Line Specialist",
+    role: "Spécialiste de la ligne fine",
     experience: "9 years",
     bio: "Mara's fine line work is architectural in its precision. She brings a jeweler's eye to every piece — botanical details, portraiture, and geometric compositions that last a lifetime.",
-    styles: ["Fine Line", "Botanical", "Portraiture", "Minimalist"],
+    styles: ["Ligne fine", "Botanique", "Portrait", "Minimaliste"],
     bookingLead: "6–8 weeks",
     startingAt: "€200",
     instagram: "@maravoss.ink",
@@ -55,19 +55,19 @@ export const artists = [
 ];
 
 export const portfolioItems = [
-  { id: 1, title: "Botanical Fine Line", artist: "Mara Voss", style: "Fine Line", size: "tall" },
+  { id: 1, title: "Ligne fine botanique", artist: "Mara Voss", style: "Ligne fine", size: "tall" },
   { id: 2, title: "Geometric Sleeve", artist: "Théo Marchais", style: "Blackwork", size: "wide" },
-  { id: 3, title: "Portrait Study", artist: "Mara Voss", style: "Portraiture", size: "square" },
+  { id: 3, title: "Portrait Study", artist: "Mara Voss", style: "Portrait", size: "square" },
   { id: 4, title: "Dark Tribal", artist: "Théo Marchais", style: "Neo-Tribal", size: "square" },
-  { id: 5, title: "Floral Minimalist", artist: "Mara Voss", style: "Minimalist", size: "tall" },
+  { id: 5, title: "Floral Minimalist", artist: "Mara Voss", style: "Minimaliste", size: "tall" },
   { id: 6, title: "Full Chest Piece", artist: "Théo Marchais", style: "Blackwork", size: "wide" },
-  { id: 7, title: "Script & Ornament", artist: "Mara Voss", style: "Fine Line", size: "square" },
+  { id: 7, title: "Script & Ornament", artist: "Mara Voss", style: "Ligne fine", size: "square" },
   { id: 8, title: "Serpent & Dagger", artist: "Théo Marchais", style: "Dark Illustrative", size: "square" },
 ];
 
 export const styleGuide = [
   {
-    name: "Fine Line",
+    name: "Ligne fine",
     artist: "Mara Voss",
     desc: "Ultra-thin single-needle linework with extraordinary precision. Perfect for delicate botanicals, fine portraiture, and minimalist compositions.",
     traits: ["Single needle", "High detail", "Minimal healing", "Feminine or unisex"],
@@ -95,7 +95,7 @@ export const testimonials = [
     get location() { return clientCityOr("Paris") + ", 11e"; },
     rating: 5,
     text: "Mara did a full forearm botanical piece for me. The line quality is unreal — three years later it still looks fresh. The studio is the cleanest I've ever been in, and the process was completely stress-free.",
-    style: "Fine Line Botanical",
+    style: "Botanique en ligne fine",
   },
   {
     name: "Antoine D.",

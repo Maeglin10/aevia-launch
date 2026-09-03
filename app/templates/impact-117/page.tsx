@@ -59,7 +59,7 @@ let FLEET = FLEET_DEMO;
 const FEATURES_SOURCE = [
   { icon: Gauge, title: "Hyper-Efficiency", desc: "AI-optimized routing that reduces energy consumption by 24% per mile." },
   { icon: Shield, title: "Proof of Transit", desc: "Blockchain-verified delivery milestones with real-time biometric scanning." },
-  { icon: Globe, title: "Zero Emission", desc: "100% renewable energy fleet with carbon-neutral operation guaranteed." },
+  { icon: Globe, title: "Zero Emission", desc: "Une flotte à l'énergie renouvelable, en exploitation neutre en carbone." },
 ]
 let FEATURES_DEMO = FEATURES_SOURCE;
 let FEATURES = FEATURES_DEMO;

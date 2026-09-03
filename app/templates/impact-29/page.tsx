@@ -458,7 +458,7 @@ return (
         <div className="max-w-6xl mx-auto">
           <Reveal className="mb-12 text-center">
             <div className="text-[#00F5D4] text-xs mb-2"><span className="text-[#475569]">// </span>previous_employers_and_clients</div>
-            <p className="text-[#475569] text-sm">Companies I've shipped production code for</p>
+            <p className="text-[#475569] text-sm">Les entreprises pour lesquelles j'ai livré du code en production</p>
           </Reveal>
           <div className="grid grid-cols-4 md:grid-cols-8 gap-px bg-[#00F5D4]/10">
             {clients.map((c, i) => (

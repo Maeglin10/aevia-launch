@@ -300,7 +300,7 @@ export default function StudioVersaPage() {
             <Reveal>
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-12 h-[2px] bg-[var(--brand,#f97316)]" />
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#f97316)]">{clientEyebrow(sessionData) ?? "Multidisciplinary Creative Studio"}</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#f97316)]">{clientEyebrow(sessionData) ?? "Studio créatif pluridisciplinaire"}</span>
               </div>
             </Reveal>
             <Reveal delay={0.1} y={60}>
@@ -583,7 +583,7 @@ export default function StudioVersaPage() {
               <div className="w-8 h-8 rounded-full bg-[var(--brand,#f97316)] flex items-center justify-center"><PenTool className="w-4 h-4 text-white" /></div>
               <span className="font-light tracking-[0.15em] uppercase">{(clientName(sessionData) ?? "STUDIO VERSA").split(" ").slice(0, 1).join(" ")} <span className="font-black text-[var(--brand,#fb923c)]">{(clientName(sessionData) ?? "STUDIO VERSA").split(" ").slice(1).join(" ")}</span></span>
             </div>
-            <p className="text-sm text-white/30 leading-relaxed">Multidisciplinary creative studio for ambitious brands.</p>
+            <p className="text-sm text-white/30 leading-relaxed">Studio créatif pluridisciplinaire, pour des marques ambitieuses.</p>
           </div>
           {[
             { title: "Studio", links: [
