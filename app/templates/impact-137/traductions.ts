@@ -10,6 +10,10 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "our": "Notre",
+    "our story": "Notre histoire",
+    "wholesale": "Vente en gros",
+    "company": "La maison",
     "from seed": "Du grain",
     "single-origin specialty coffee, roasted in small batches in our": "Café de spécialité pure origine, torréfié en petits lots dans notre",
     "direct trade with fourth-generation farming families across 14 origins.": "Commerce direct avec des familles de producteurs de quatrième génération, sur quatorze origines.",
@@ -42,6 +46,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your": "Votre",
   },
   es: {
+    "our": "Nuestro",
+    "our story": "Nuestra historia",
+    "wholesale": "Venta al por mayor",
+    "company": "La empresa",
     "from seed": "Del grano",
     "single-origin specialty coffee, roasted in small batches in our": "Café de especialidad de origen único, tostado en pequeños lotes en nuestro",
     "direct trade with fourth-generation farming families across 14 origins.": "Comercio directo con familias productoras de cuarta generación, en catorce orígenes.",
@@ -74,6 +82,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your": "Tu",
   },
   de: {
+    "our": "Unser",
+    "our story": "Unsere Geschichte",
+    "wholesale": "Großhandel",
+    "company": "Das Unternehmen",
     "from seed": "Von der Bohne",
     "single-origin specialty coffee, roasted in small batches in our": "Spezialitätenkaffee sortenrein, in kleinen Chargen geröstet in unserer",
     "direct trade with fourth-generation farming families across 14 origins.": "Direkter Handel mit Erzeugerfamilien in vierter Generation, aus vierzehn Herkünften.",
@@ -106,6 +118,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your": "Ihr",
   },
   pt: {
+    "our": "Nosso",
+    "our story": "A nossa história",
+    "wholesale": "Venda por grosso",
+    "company": "A empresa",
     "from seed": "Do grão",
     "single-origin specialty coffee, roasted in small batches in our": "Café de especialidade de origem única, torrado em pequenos lotes na nossa",
     "direct trade with fourth-generation farming families across 14 origins.": "Comércio direto com famílias produtoras de quarta geração, em catorze origens.",

@@ -650,6 +650,17 @@ function poserLeContact(donnees: Record<string, unknown> | undefined) {
 */
 const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
   fr: {
+    "documentation": "Documentation",
+    "api reference": "Référence API",
+    "system status": "État des services",
+    "status": "État des services",
+    "leadership": "Direction",
+    "partners": "Partenaires",
+    "changelog": "Journal des versions",
+    "roadmap": "Feuille de route",
+    "press kit": "Dossier de presse",
+    "investors": "Investisseurs",
+    "newsroom": "Salle de presse",
     "all rights reserved.": "Tous droits réservés.",
     ". all rights reserved.": ". Tous droits réservés.",
     "terms of service": "Conditions générales",
@@ -888,6 +899,17 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "cancel": "Annuler",
   },
   es: {
+    "documentation": "Documentación",
+    "api reference": "Referencia de la API",
+    "system status": "Estado del servicio",
+    "status": "Estado del servicio",
+    "leadership": "Dirección",
+    "partners": "Socios",
+    "changelog": "Registro de cambios",
+    "roadmap": "Hoja de ruta",
+    "press kit": "Dosier de prensa",
+    "investors": "Inversores",
+    "newsroom": "Sala de prensa",
     "all rights reserved.": "Todos los derechos reservados.",
     ". all rights reserved.": ". Todos los derechos reservados.",
     "terms of service": "Condiciones del servicio",
@@ -1126,6 +1148,17 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "cancel": "Cancelar",
   },
   de: {
+    "documentation": "Dokumentation",
+    "api reference": "API-Referenz",
+    "system status": "Systemstatus",
+    "status": "Systemstatus",
+    "leadership": "Geschäftsführung",
+    "partners": "Partner",
+    "changelog": "Änderungsprotokoll",
+    "roadmap": "Roadmap",
+    "press kit": "Pressemappe",
+    "investors": "Investoren",
+    "newsroom": "Newsroom",
     "all rights reserved.": "Alle Rechte vorbehalten.",
     ". all rights reserved.": ". Alle Rechte vorbehalten.",
     "terms of service": "Nutzungsbedingungen",
@@ -1364,6 +1397,17 @@ const LEXIQUE_INTERFACE: Record<string, Record<string, string>> = {
     "cancel": "Abbrechen",
   },
   pt: {
+    "documentation": "Documentação",
+    "api reference": "Referência da API",
+    "system status": "Estado do serviço",
+    "status": "Estado do serviço",
+    "leadership": "Direção",
+    "partners": "Parceiros",
+    "changelog": "Registo de versões",
+    "roadmap": "Roteiro",
+    "press kit": "Kit de imprensa",
+    "investors": "Investidores",
+    "newsroom": "Sala de imprensa",
     "all rights reserved.": "Todos os direitos reservados.",
     ". all rights reserved.": ". Todos os direitos reservados.",
     "terms of service": "Termos de serviço",
@@ -1840,8 +1884,12 @@ function traduireLaProse(
     if (direct) return direct;
     if (!renommable || t.trim().length <= nomClient!.trim().length) return undefined;
     const parLaDemo = dico[versLaDemo(t).toLowerCase()];
-    if (parLaDemo === undefined || !parLaDemo.includes(demo!)) return undefined;
-    return versLeClient(parLaDemo);
+    if (parLaDemo === undefined) return undefined;
+    /* La traduction ne nomme pas toujours la marque — « about qbit labs »
+       devient « À propos de l'institut ». On repose le nom du client quand il
+       y a place pour lui, et on garde la phrase française sinon : la perdre
+       en anglais serait pire. */
+    return parLaDemo.includes(demo!) ? versLeClient(parLaDemo) : parLaDemo;
   };
 
   const marcheur = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
@@ -1869,8 +1917,12 @@ function traduireLaProse(
     if (direct !== undefined) return direct;
     if (!renommable || t.trim().length <= nomClient!.trim().length) return undefined;
     const parLaDemo = parForme[ecraser(versLaDemo(t))];
-    if (parLaDemo === undefined || !parLaDemo.includes(demo!)) return undefined;
-    return versLeClient(parLaDemo);
+    if (parLaDemo === undefined) return undefined;
+    /* La traduction ne nomme pas toujours la marque — « about qbit labs »
+       devient « À propos de l'institut ». On repose le nom du client quand il
+       y a place pour lui, et on garde la phrase française sinon : la perdre
+       en anglais serait pire. */
+    return parLaDemo.includes(demo!) ? versLeClient(parLaDemo) : parLaDemo;
   };
 
   for (const e of document.querySelectorAll<HTMLElement>("h1,h2,h3,h4,p,span,a,button,li,blockquote")) {

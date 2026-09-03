@@ -109,7 +109,18 @@ for (const [etat, url] of [["vitrine", ""], ["client", "?session=v"]]) {
     }
 
     const r = await p.evaluate((nomClient) => {
-      const txt = (document.body.innerText || "").replace(/\s+/g, " ");
+      /* Un bloc de code EST anglais, et doit le rester : « npm install … # Initialize
+         in your project » n'est pas une fuite de traduction. On l'écarte du relevé
+         plutôt que d'aller le « corriger ». De même « Home staging » est le terme
+         consacré en immobilier français — pas un anglicisme oublié. */
+      const sansCode = document.body.cloneNode(true);
+      for (const c of sansCode.querySelectorAll("code, pre, kbd, samp")) c.remove();
+      /* `innerText` rend une chaîne vide sur un nœud détaché — il lui faut une
+         mise en page. `textContent` colle les mots, ce qui ne gêne pas la
+         recherche d'un mot anglais entre délimiteurs. */
+      const txt = (sansCode.textContent || "")
+        .replace(/\s+/g, " ")
+        .replace(/home staging/gi, "");
       /* `getComputedStyle().color` ne rend plus toujours du « rgb() » :
          Tailwind 4 écrit ses couleurs en `lab()` / `oklch()`. Le canevas
          CONSERVE la notation telle quelle dans `fillStyle` — il ne convertit
