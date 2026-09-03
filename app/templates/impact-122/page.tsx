@@ -626,10 +626,10 @@ export default function ChronicleEditorialPage() {
         <div className="max-w-[1400px] mx-auto border-t border-[#fcfaf7]/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-[10px] font-bold uppercase tracking-widest">
           <div>© 2026 {clientName(sessionData) ?? "The Chronicle Media Group."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</div>
           <div className="flex flex-wrap justify-center gap-6">
-            <Link href="#subscribe" className="hover:text-white transition-colors">Terms of Service</Link>
-            <Link href="#subscribe" className="hover:text-white transition-colors">{tr({ formData: fd }, "Privacy Policy")}</Link>
+            <Link href="#subscribe" className="hover:text-white transition-colors">Conditions générales</Link>
+            <Link href="#subscribe" className="hover:text-white transition-colors">{tr({ formData: fd }, "Politique de confidentialité")}</Link>
             <Link href="#subscribe" className="hover:text-white transition-colors">Cookie Settings</Link>
-            <Link href="#subscribe" className="hover:text-white transition-colors">Accessibility</Link>
+            <Link href="#subscribe" className="hover:text-white transition-colors">Accessibilité</Link>
           </div>
         </div>
       </footer>

@@ -1208,7 +1208,7 @@ return (
                 <div className="w-10 h-10 bg-[#A3E635]/10 text-[#A3E635] rounded-xl flex items-center justify-center">
                   <Shield className="w-5 h-5" />
                 </div>
-                <h1 className="text-4xl md:text-5xl font-bold">{c?.heroHeadline ?? "Legal Notice & Privacy"}</h1>
+                <h1 className="text-4xl md:text-5xl font-bold">{c?.heroHeadline ?? "Mentions légales & Privacy"}</h1>
               </div>
             </Reveal>
 
@@ -1238,7 +1238,7 @@ return (
                 </div>
 
                 <div className="bg-white/5 border border-white/10 rounded-2xl p-8">
-                  <h2 className="text-2xl font-bold mb-6 text-[#A3E635]">Personal Data & Privacy Policy</h2>
+                  <h2 className="text-2xl font-bold mb-6 text-[#A3E635]">Personal Data & Politique de confidentialité</h2>
                   <div className="space-y-3 text-white/60 text-sm leading-relaxed">
                     <p>No personal data is collected without explicit consent. This site is fully GDPR compliant.</p>
                     <p>When you voluntarily submit your email address through the application form, it is used solely for the purpose of processing your application and communicating regarding program updates. Your data is never sold, shared with third parties for marketing purposes, or used beyond its stated purpose.</p>

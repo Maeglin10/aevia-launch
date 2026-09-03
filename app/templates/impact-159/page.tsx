@@ -2098,7 +2098,7 @@ function Footer() {
               letterSpacing: "0.2em",
             }}
           >
-            © 2026 Aevia Materials AG · All rights reserved · Paris / Tokyo / Zürich{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2026 Aevia Materials AG · Tous droits réservés · Paris / Tokyo / Zürich{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: "flex", gap: 32 }}>
             {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste2") ?? ["STATUS: NOMINAL","REGISTRY v4.2.1","ISO 10993 CERTIFIED"]).map(s => (

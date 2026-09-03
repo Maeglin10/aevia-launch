@@ -2280,10 +2280,10 @@ function Footer() {
           }}
         >
           <span style={{ fontSize: 13, color: T.textMuted }}>
-            © 2026 {fd?.businessName ?? "NexusFreight SAS"}. All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2026 {fd?.businessName ?? "NexusFreight SAS"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: "flex", gap: 24 }}>
-            {["Privacy Policy", "Terms of Service", "Cookie Settings"].map((item) => (
+            {["Politique de confidentialité", "Conditions générales", "Cookie Settings"].map((item) => (
               <a
                 key={item}
                 href="#contact"

@@ -76,6 +76,10 @@ let C: Record<string, string> = {
   pinkMid:     "#FCE7F3",
   pinkDeep:    "#FBCFE8",
   primary:     "var(--brand,#ec4899)",
+  /* Le rose sert deux emplois : APLAT sous du texte blanc, et TEXTE sur le
+     rose très pâle du thème. En texte il ne tient que 3,2 ; assombri, 4,9.
+     `--brand-dark` fait la même chose avec la couleur du client. */
+  primaryTexte: "var(--brand-dark,#b83878)",
   primaryDim:  "rgba(236,72,153,0.12)",
   primaryBorder:"rgba(236,72,153,0.20)",
   lavender:    "#8B5CF6",
@@ -1116,7 +1120,7 @@ function Hero() {
           <br />
           Authentique
           <br />
-          <span style={{ color: C.primary }}>de la Nature</span>
+          <span style={{ color: C.primaryTexte }}>de la Nature</span>
         </>)}</motion.h1>
 
         <motion.p
@@ -1137,7 +1141,8 @@ function Hero() {
             href="#collections"
             className="flex items-center justify-center gap-3 px-8 py-4 text-[12px] tracking-[0.14em] uppercase rounded-full transition-all duration-300 hover:shadow-[0_8px_30px_rgba(236,72,153,0.35)]"
             style={{
-              background: `linear-gradient(135deg, ${C.primary}, ${C.lavender})`,
+              /* Le blanc ne tenait que 4,2 sur ce dégradé : les deux bornes descendent. */
+              background: `linear-gradient(135deg, ${C.primaryTexte}, #6d3fc4)`,
               color: "#fff",
               fontFamily: "'Inter', sans-serif",
               fontWeight: 500,

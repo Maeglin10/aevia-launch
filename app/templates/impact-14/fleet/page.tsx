@@ -2361,10 +2361,10 @@ export default function HorizonMaritimePage() {
             }}
           >
             <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.25)", letterSpacing: 1 }}>
-              © 2026 {clientName(sessionData) ?? "Horizon Maritime Group S.A.M"}. · All rights reserved · Monaco
+              © 2026 {clientName(sessionData) ?? "Horizon Maritime Group S.A.M"}. · Tous droits réservés · Monaco
             </p>
             <div style={{ display: "flex", gap: "2rem" }}>
-              {["Privacy Policy", "Terms of Charter", "Cookie Policy", "Legal Mentions"].map((l) => (
+              {["Politique de confidentialité", "Terms of Charter", "Politique cookies", "Legal Mentions"].map((l) => (
                 <a
                   key={l}
                   href="/templates/impact-14"

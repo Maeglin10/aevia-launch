@@ -2129,7 +2129,7 @@ export default function Impact115Page() {
                 letterSpacing: "0.06em",
               }}
             >
-              © {new Date().getFullYear()} {clientName(sessionData) ?? "Rostova Architecture Studio."} All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © {new Date().getFullYear()} {clientName(sessionData) ?? "Rostova Architecture Studio."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
             <div style={{ display: "flex", gap: 28 }}>
               {["Privacy", "Terms", "Cookies"].map((item) => (

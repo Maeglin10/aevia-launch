@@ -1504,10 +1504,10 @@ return (
               fontSize: 12,
               color: "rgba(255,255,255,0.2)",
             }}>
-              © 2026 {clientName(sessionData) ?? "The Review Magazine."} All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2026 {clientName(sessionData) ?? "The Review Magazine."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
             <div style={{ display: "flex", gap: 24 }}>
-              {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? ["Privacy Policy", "Terms of Use", "Accessibility"]).map(item => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? ["Politique de confidentialité", "Conditions d'utilisation", "Accessibilité"]).map(item => (
                 <button key={item} style={{
                   fontFamily: C.sans,
                   fontSize: 12,

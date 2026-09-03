@@ -2063,7 +2063,7 @@ return (
           >
             <span>© {new Date().getFullYear()} {clientName(sessionData) ?? "Ristorante Aureliano."} Tutti i diritti riservati.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
             <div style={{ display: "flex", gap: 28 }}>
-              {["Privacy Policy", "Cookie", "Legal"].map((l) => (
+              {["Politique de confidentialité", "Cookie", "Legal"].map((l) => (
                 <a
                   key={l}
                   href="#menu"

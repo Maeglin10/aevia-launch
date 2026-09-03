@@ -465,8 +465,8 @@ return (
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-slate-600">
           <span>© 2026 {clientName(sessionData) ?? "NEBULA CLOUD TECHNOLOGIES INC."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-8">
-            <Link href="#contact" className="hover:text-white transition-colors">{tr(sessionData, "Privacy Policy")}</Link>
-            <Link href="#contact" className="hover:text-white transition-colors">Terms of Service</Link>
+            <Link href="#contact" className="hover:text-white transition-colors">{tr(sessionData, "Politique de confidentialité")}</Link>
+            <Link href="#contact" className="hover:text-white transition-colors">Conditions générales</Link>
             <Link href="#contact" className="hover:text-white transition-colors">SLA Status</Link>
           </div>
         </div>

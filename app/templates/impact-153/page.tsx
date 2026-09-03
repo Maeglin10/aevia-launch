@@ -2245,7 +2245,7 @@ function Footer() {
               letterSpacing: "0.03em",
             }}
           >
-            © {year} Atlas Expedition Logistics AG. All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {year} Atlas Expedition Logistics AG. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: "flex", gap: 24 }}>
             {["Privacy", "Terms", "Safety"].map((l) => (

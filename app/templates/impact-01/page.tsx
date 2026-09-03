@@ -367,7 +367,7 @@ function WORK_DETAILS_DEMO_LIVE() {
       (clientPhotos(sessionData)[9] || "https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=1200&auto=format&fit=crop"),
     summary:
       "A secure, accessible (WCAG 2.2 AA) patient portal for a healthcare provider.",
-    role: "UX, Accessibility, Development",
+    role: "UX, Accessibilité, Development",
     result: "Full accessibility compliance and a 40% drop in support calls.",
   },
   {
@@ -2381,7 +2381,7 @@ function Footer({ goTo }: { goTo: (p: AgencyPage) => void }) {
               fontWeight: 400,
             }}
           >
-            &copy; 2026 {fd?.businessName ?? "IMPACT Studio"}. All rights reserved.
+            &copy; 2026 {fd?.businessName ?? "IMPACT Studio"}. Tous droits réservés.
           </span>
           <div style={{ display: "flex", gap: 24 }}>
             <button

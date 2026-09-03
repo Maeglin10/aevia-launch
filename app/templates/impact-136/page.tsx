@@ -791,10 +791,10 @@ export default function TextRevealPage() {
             </span>
             <div className="flex gap-6">
               <Link href="#contact" className="hover:text-white transition-colors">
-                {tr({ formData: fd }, "Privacy Policy")}
+                {tr({ formData: fd }, "Politique de confidentialité")}
               </Link>
               <Link href="#contact" className="hover:text-white transition-colors">
-                Terms of Service
+                Conditions générales
               </Link>
             </div>
           </div>

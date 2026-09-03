@@ -2179,12 +2179,12 @@ function ContactFooter() {
             textTransform: "uppercase",
           }}
         >
-          <span>&copy; {new Date().getFullYear()} Forma Studio. All rights reserved.</span>
+          <span>&copy; {new Date().getFullYear()} Forma Studio. Tous droits réservés.</span>
           <span style={{ color: C.violet }}>
             Parametric Design — Urban Planning — Speculative Architecture
           </span>
           <div style={{ display: "flex", gap: 24 }}>
-            {["Privacy", "Terms", "Accessibility"].map((item) => (
+            {["Privacy", "Terms", "Accessibilité"].map((item) => (
               <motion.a
                 key={item}
                 href="#pgFade"

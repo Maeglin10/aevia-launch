@@ -221,7 +221,7 @@ export default function NimbusAIModelesPage() {
                 { name: "Mistral Large 2", provider: "Mistral AI", type: "LLM — Text generation", params: "123B", ctx: "64K tokens", latencyP50: "65ms", latencyP99: "110ms", throughput: "120 tok/s", cost: "0.45$", costUnit: "/ 1M tokens", badge: "Populaire", color: "#8B5CF6", desc: "Excellent rapport qualité/prix. Le choix par défaut pour la majorité des workloads production. Support natif du français et des langues européennes.", useCases: ["Support client", "Résumé automatique", "Classification", "Extraction d'entités"] },
                 { name: "GPT-4o", provider: "OpenAI", type: "Multimodal — Text + Vision + Audio", params: "N/A", ctx: "128K tokens", latencyP50: "120ms", latencyP99: "220ms", throughput: "60 tok/s", cost: "1.20$", costUnit: "/ 1M tokens", badge: "OpenAI", color: "#10B981", desc: "Le modèle multimodal de référence. Analyse d'images, transcription audio et génération de texte dans un seul appel API. Routé via notre proxy optimisé.", useCases: ["Analyse d'images", "Multimodal apps", "Creative writing", "Complex reasoning"] },
                 { name: "SDXL Turbo", provider: "Stability AI", type: "Image — Text-to-Image", params: "3.5B", ctx: "77 tokens (prompt)", latencyP50: "30ms", latencyP99: "55ms", throughput: "33 img/s", cost: "0.01$", costUnit: "/ image", badge: "Diffusion", color: "#F59E0B", desc: "Génération d'images en temps réel. Architecture distillée pour une latence ultra-basse. Résolutions jusqu'à 1024×1024. ControlNet et LoRA supportés.", useCases: ["Génération de visuels", "Product mockups", "Art génératif", "Prototypage UI"] },
-                { name: "Whisper Large v3", provider: "OpenAI", type: "Audio — Speech-to-Text", params: "1.5B", ctx: "30 min audio", latencyP50: "RT×0.15", latencyP99: "RT×0.25", throughput: "6.7× realtime", cost: "0.006$", costUnit: "/ minute", badge: "STT", color: "#EF4444", desc: "Transcription multilingue de qualité humaine. 99 langues supportées. Détection automatique de la langue. Timestamps au niveau mot disponibles.", useCases: ["Transcription calls", "Sous-titrage", "Voice search", "Accessibility"] },
+                { name: "Whisper Large v3", provider: "OpenAI", type: "Audio — Speech-to-Text", params: "1.5B", ctx: "30 min audio", latencyP50: "RT×0.15", latencyP99: "RT×0.25", throughput: "6.7× realtime", cost: "0.006$", costUnit: "/ minute", badge: "STT", color: "#EF4444", desc: "Transcription multilingue de qualité humaine. 99 langues supportées. Détection automatique de la langue. Timestamps au niveau mot disponibles.", useCases: ["Transcription calls", "Sous-titrage", "Voice search", "Accessibilité"] },
               ].map((m, i) => (
                 <Reveal key={m.name} delay={i * 0.08}>
                   <div className="bg-[#0D1525] border border-white/5 rounded-2xl p-6 md:p-8 hover:border-white/10 transition-all">
@@ -355,7 +355,7 @@ export default function NimbusAIModelesPage() {
           ))}
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex justify-between text-xs text-gray-600">
-          <span>© 2026 {clientName(sessionData) ?? "NimbusAI"}. All rights reserved.</span>
+          <span>© 2026 {clientName(sessionData) ?? "NimbusAI"}. Tous droits réservés.</span>
           <span><Globe className="w-3 h-3 inline mr-1" />Cloud AI · 12 regions</span>
         </div>
       </footer>

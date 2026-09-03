@@ -2141,7 +2141,7 @@ export default function Impact135Page() {
           {[
             { title: "Platform", links: ["Markets", "Strategies", "Portfolio", "Alerts", "API"] },
             { title: "Company",  links: ["About", "Blog", "Careers", "Press", "Contact"] },
-            { title: "Legal",    links: ["Privacy Policy", "Terms", "Risk Disclosure", "Security"] },
+            { title: "Legal",    links: ["Politique de confidentialité", "Terms", "Risk Disclosure", "Security"] },
           ].map((col) => (
             <div key={col.title}>
               <div
@@ -2194,7 +2194,7 @@ export default function Impact135Page() {
               color: C.subdued,
             }}
           >
-            © 2026 {clientName(sessionData) ?? "TradeOS Inc."} · All rights reserved · SOC 2 Type II{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2026 {clientName(sessionData) ?? "TradeOS Inc."} · Tous droits réservés · SOC 2 Type II{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <span
             style={{

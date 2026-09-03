@@ -106,7 +106,7 @@ export default function StatusPage() {
       {/* Footer */}
       <footer className="border-t border-white/5 py-12 px-6 bg-[#07070a]">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-          <span className="text-sm text-zinc-500">&copy; 2026 NovaPlatform, Inc. All rights reserved.</span>
+          <span className="text-sm text-zinc-500">&copy; 2026 NovaPlatform, Inc. Tous droits réservés.</span>
           <div className="flex gap-6">
             <Link href="/templates/impact-05/privacy" className="text-sm text-zinc-500 hover:text-white transition-colors">Privacy</Link>
             <Link href="/templates/impact-05/terms" className="text-sm text-zinc-500 hover:text-white transition-colors">Terms</Link>

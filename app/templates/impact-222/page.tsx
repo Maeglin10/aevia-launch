@@ -262,7 +262,12 @@ const Nav: React.FC = () => {
         left: 0,
         right: 0,
         zIndex: 100,
-        background: solid ? 'rgba(17,24,42,0.92)' : 'transparent',
+        /* Avant tout défilement, la barre est POSÉE SUR LA PHOTO du héros :
+           « transparent » y laissait l'or à 1,9 et le blanc à 3,7. Un dégradé
+           sombre couvre la bande du haut sans masquer le cliché. */
+        background: solid
+          ? 'rgba(17,24,42,0.92)'
+          : 'linear-gradient(to bottom, rgba(17,24,42,0.62) 0%, rgba(17,24,42,0.22) 70%, transparent 100%)',
         backdropFilter: solid ? 'blur(14px) saturate(140%)' : 'none',
         WebkitBackdropFilter: solid ? 'blur(14px) saturate(140%)' : 'none',
         borderBottom: `1px solid ${
@@ -338,7 +343,8 @@ const Nav: React.FC = () => {
                     fontWeight: 600,
                     letterSpacing: '0.34em',
                     textTransform: 'uppercase',
-                    color: C.goldSoft,
+                    /* Ce sous-titre de logo vit dans la barre, donc sur la photo. */
+                    color: C.goldHero,
                     marginTop: 2,
                   }}
                 >

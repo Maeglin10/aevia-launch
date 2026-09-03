@@ -1730,8 +1730,8 @@ function Footer({ goTo }: { goTo: (p: HotelPage) => void }) {
       links: [
         { label: 'The Journal', page: 'blog' },
         { label: 'Contact', page: 'contact' },
-        { label: 'Legal Notice', page: 'mentions' },
-        { label: 'Privacy Policy', page: 'privacy' },
+        { label: 'Mentions légales', page: 'mentions' },
+        { label: 'Politique de confidentialité', page: 'privacy' },
       ],
     },
   ];
@@ -1829,12 +1829,12 @@ function Footer({ goTo }: { goTo: (p: HotelPage) => void }) {
           }}
         >
           <span style={{ fontFamily: SANS, fontSize: '0.58rem', color: `${CREAM}35`, letterSpacing: '0.08em' }}>
-            © 2026 {clientName(sessionData) ?? "Grand Palais."} All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2026 {clientName(sessionData) ?? "Grand Palais."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: 'flex', gap: '2rem' }}>
             {([
-              { label: 'Legal Notice', page: 'mentions' as HotelPage },
-              { label: 'Privacy Policy', page: 'privacy' as HotelPage },
+              { label: 'Mentions légales', page: 'mentions' as HotelPage },
+              { label: 'Politique de confidentialité', page: 'privacy' as HotelPage },
               { label: 'Contact', page: 'contact' as HotelPage },
             ]).map((l) => (
               <button
@@ -2366,7 +2366,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
       <div>
         <SubPageHero
           eyebrow="Legal Information"
-          title="Legal Notice"
+          title="Mentions légales"
           img={clientPhotos(sessionData)[47] || "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=1800&q=85"}
         />
         <section style={{ background: CREAM, padding: '5rem 0 7rem' }}>
@@ -2405,7 +2405,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
     <div>
       <SubPageHero
         eyebrow="Data Protection"
-        title="Privacy Policy"
+        title="Politique de confidentialité"
         img={clientPhotos(sessionData)[48] || "https://images.pexels.com/photos/13871310/pexels-photo-13871310.jpeg?auto=compress&cs=tinysrgb&w=1600"}
       />
       <section id="contact" style={{ background: CREAM, padding: '5rem 0 7rem' }}>

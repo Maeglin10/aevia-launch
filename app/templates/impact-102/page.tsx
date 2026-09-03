@@ -1683,10 +1683,10 @@ export default function QBitLabsPage() {
             }}
           >
             <span style={{ fontSize: 12, color: "#525252" }}>
-              © 2026 {clientName(sessionData) ?? "QBit Labs."} All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2026 {clientName(sessionData) ?? "QBit Labs."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
             <div style={{ display: "flex", gap: 24 }}>
-              {["Privacy Policy", "Terms of Use", "Accessibility"].map((l) => (
+              {["Politique de confidentialité", "Conditions d'utilisation", "Accessibilité"].map((l) => (
                 <Link
                   key={l}
                   href="#hero"

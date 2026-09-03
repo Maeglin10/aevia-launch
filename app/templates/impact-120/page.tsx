@@ -946,8 +946,8 @@ export default function EclatLuxuryPage() {
             <div>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-white mb-8">Legal</h4>
               <ul className="space-y-4 text-xs font-bold tracking-[0.2em] text-zinc-500 uppercase">
-                <li><Link href="#contact" className="hover:text-white transition-colors">{tr({ formData: fd }, "Privacy Policy")}</Link></li>
-                <li><Link href="#contact" className="hover:text-white transition-colors">Terms of Service</Link></li>
+                <li><Link href="#contact" className="hover:text-white transition-colors">{tr({ formData: fd }, "Politique de confidentialité")}</Link></li>
+                <li><Link href="#contact" className="hover:text-white transition-colors">Conditions générales</Link></li>
                 <li><Link href="#contact" className="hover:text-white transition-colors">Shipping & Returns</Link></li>
                 <li><Link href="#contact" className="hover:text-white transition-colors">Contact</Link></li>
               </ul>

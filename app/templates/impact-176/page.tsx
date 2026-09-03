@@ -64,7 +64,10 @@ let C: Record<string, string> = {
   amber:     "var(--brand-light,#f59e0b)",
   rose:      "#f43f5e",
   text:      "#e2e8f0",
-  muted:     "#64748b",
+  /* Thème entièrement sombre : cette ardoise-là ne tient que 3,8 sur le bleu
+     nuit du fond, et elle sert vingt-neuf fois — dont les mentions sous le
+     bouton principal. Deux crans plus clair, elle tient 7,1. */
+  muted:     "#94a3b8",
   subdued:   "#334155",
   font:      "'Plus Jakarta Sans', sans-serif",
   fontMono:  "'IBM Plex Mono', monospace",
@@ -2236,7 +2239,7 @@ export default function Impact176Page() {
               color: C.subdued,
             }}
           >
-            © 2026 {clientName(sessionData) ?? "Metric Analytics"} · All rights reserved · GDPR · Privacy Policy{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2026 {clientName(sessionData) ?? "Metric Analytics"} · Tous droits réservés · GDPR · Politique de confidentialité{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
             <div

@@ -38,7 +38,7 @@ const S = { id: "v", formData: { businessName: NOM, phone: "+33 4 78 12 34 56", 
   paliers de 16 pour que le dégradé d'une photo se regroupe au lieu de
   s'émietter en autant de nuances que de pixels.
 */
-async function fondDominant(png, texte) {
+async function fondDominant(png, textes) {
   const { data, info } = await sharp(png).raw().toBuffer({ resolveWithObject: true });
   const n = info.channels;
   const seaux = new Map();
@@ -53,7 +53,12 @@ async function fondDominant(png, texte) {
      un titre parfaitement lisible. On écarte donc les seaux qui sont, à peu de
      chose près, la couleur du texte — et l'on garde le suivant. Un vrai défaut
      reste visible : du blanc sur crème laisse une dominante crème, pas blanche. */
-  const proche = (s) => texte && [0, 1, 2].every((i) => Math.abs(s[i] / s[3] - texte[i]) < 24);
+  /* Un titre porte souvent un mot d'une AUTRE couleur — « sans mauvaise
+     surprise. » en ambre au milieu d'un titre blanc. Cet ambre est du texte,
+     pas un fond : compté comme dominante, il faisait tomber le rapport à 2,15
+     sur un titre parfaitement lisible. On écarte donc toutes les couleurs de
+     texte de l'élément ET de ses descendants. */
+  const proche = (s) => (textes || []).some((t) => [0, 1, 2].every((i) => Math.abs(s[i] / s[3] - t[i]) < 24));
   const tries = [...seaux.values()].sort((a, b) => b[3] - a[3]);
   const mieux = tries.find((s) => !proche(s)) ?? tries[0];
   return [mieux[0] / mieux[3], mieux[1] / mieux[3], mieux[2] / mieux[3]];
@@ -112,17 +117,30 @@ for (const [etat, url] of [["vitrine", ""], ["client", "?session=v"]]) {
     const r = await p.evaluate((nomClient) => {
       const txt = (document.body.innerText || "").replace(/\s+/g, " ");
       /* `getComputedStyle().color` ne rend plus toujours du « rgb() » :
-         Tailwind 4 écrit ses couleurs en `lab()` / `oklch()`, et lire les
-         trois premiers nombres d'un `lab(85 0.6 -2)` donnait « rgb(85,0,-2) »
-         — un texte clair compté comme noir, donc 1,04 sur un fond sombre.
-         On laisse le navigateur convertir. */
-      const potDeCouleur = document.createElement("canvas").getContext("2d");
+         Tailwind 4 écrit ses couleurs en `lab()` / `oklch()`. Le canevas
+         CONSERVE la notation telle quelle dans `fillStyle` — il ne convertit
+         pas —, et lire les trois premiers nombres de `lab(48 -2 -16.6)`
+         donnait « rgb(48, -2, -16) » : un gris moyen compté comme noir, donc
+         1,05 sur un fond sombre, et sept textes parfaitement lisibles
+         signalés sur impact-141. On PEINT la couleur et on relit le pixel :
+         c'est le seul chemin qui force la conversion en sRGB. */
+      const potDeCouleur = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
       const enRGB = (couleur) => {
-        potDeCouleur.fillStyle = "#000";
+        potDeCouleur.clearRect(0, 0, 1, 1);
         potDeCouleur.fillStyle = couleur;
-        const h = potDeCouleur.fillStyle;
-        if (h.startsWith("#")) return [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
-        return (h.match(/[\d.]+/g) || []).slice(0, 3).map(Number);
+        potDeCouleur.fillRect(0, 0, 1, 1);
+        const [r, g, b] = potDeCouleur.getImageData(0, 0, 1, 1).data;
+        return [r, g, b];
+      };
+      /* Toutes les couleurs de texte de l'élément et de ses descendants : le
+         fond dominant ne doit être aucune d'elles. */
+      const couleursTexte = (e) => {
+        const v = [enRGB(getComputedStyle(e).color)];
+        for (const d of e.querySelectorAll("*")) {
+          const t = (d.textContent || "").trim();
+          if (t) v.push(enRGB(getComputedStyle(d).color));
+        }
+        return v.slice(0, 12);
       };
       const ANGLAIS = /\b(home|about|our|your|book now|view all|read more|learn more|contact us|get started|sign in|discover|welcome|opening hours|our story|our team|our services|see more|find out)\b/gi;
       const h1 = document.querySelector("h1");
@@ -151,7 +169,7 @@ for (const [etat, url] of [["vitrine", ""], ["client", "?session=v"]]) {
         const s = getComputedStyle(n);
         if (parseFloat(s.opacity) < 0.05 || s.visibility === "hidden" || s.display === "none") return true; } return false; };
       const boite = (e) => { if (!e || invisible(e)) return null; const b = e.getBoundingClientRect();
-        return { x: Math.max(0, b.x), y: Math.max(0, b.y), w: Math.min(b.width, innerWidth), h: Math.min(b.height, 300), c: enRGB(getComputedStyle(e).color) }; };
+        return { x: Math.max(0, b.x), y: Math.max(0, b.y), w: Math.min(b.width, innerWidth), h: Math.min(b.height, 300), c: couleursTexte(e) }; };
       return {
         apostrophes: (txt.match(/\\'/g) || []).length,
         anglais: [...new Set((txt.match(ANGLAIS) || []).map((x) => x.toLowerCase()))].slice(0, 8),
@@ -170,7 +188,9 @@ for (const [etat, url] of [["vitrine", ""], ["client", "?session=v"]]) {
       try {
         const png = await p.screenshot({ clip: { x: b.x, y: b.y, width: Math.max(8, b.w), height: Math.max(8, b.h) } });
         const [rr, gg, bb] = await fondDominant(png, b?.c ?? e.c);
-        const L1 = lum(b.c[0], b.c[1], b.c[2]), L2 = lum(rr, gg, bb);
+        /* `b.c` porte désormais TOUTES les couleurs de texte de l'élément ; la
+           première est la sienne, celle qui doit se lire. */
+        const L1 = lum(...b.c[0]), L2 = lum(rr, gg, bb);
         /* Le rapport de contraste ne peut pas dépasser 21 : au-delà, c'est que
            la mesure a échoué — une couleur non analysable rend NaN, et la
            division donnait des milliards. On refuse plutôt que d'inventer. */

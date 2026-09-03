@@ -291,8 +291,10 @@ return (
           </div>
           <span style={{ fontSize: 18, fontWeight: 700, color: scrolled ? C.dark : "#fff" }}>{/* La barre disait « VoltExpert », un nom d'électricien, alors que le pied
                   et tout le contenu parlent de piscines. On aligne sur le métier. */}
-            {/* La barre est blanc cassé : l'ambre d'aplat y tombe à 2,0. */}
-            Volt<span style={{ color: C.accentTexte }}>Piscines</span></span>
+            {/* Deux fonds pour une même barre : blanc cassé une fois défilé —
+                l'ambre d'aplat y tombe à 2,0 — et la photo du héros avant cela,
+                où c'est l'inverse qui est vrai. */}
+            Volt<span style={{ color: scrolled ? C.accentTexte : C.accentLight }}>Piscines</span></span>
             </>
           )}
         </div>
@@ -336,12 +338,15 @@ return (
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?w=1920&q=80"))} alt="Piscine sur-mesure" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,20,40,0.92) 0%, rgba(10,20,40,0.45) 45%, rgba(10,20,40,0.08) 100%)" }} />
+        {/* Le voile ne valait plus que 0,08 en haut du héros — or c'est là que le
+            titre se pose sur mobile, sur une photo de piscine en plein soleil :
+            blanc mesuré à 2,4. Il couvre désormais le haut aussi. */}
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,20,40,0.92) 0%, rgba(10,20,40,0.62) 45%, rgba(10,20,40,0.55) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}20 0%, transparent 55%)` }} />
 
         <motion.div style={{ position: "relative", zIndex: 1, padding: "96px 24px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }} className="md:!px-20">
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontSize: "clamp(40px, 5.5vw, 72px)", fontWeight: 800, color: "#fff", lineHeight: 1.05, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 23) ?? "Votre piscine,"}<br /><span style={{ color: C.accent }}>{clientHeroLine(sessionData, 1, 2, 23) ?? "sans mauvaise surprise."}</span>
+            style={{ fontSize: "clamp(40px, 5.5vw, 72px)", fontWeight: 800, color: "#fff", lineHeight: 1.05, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 23) ?? "Votre piscine,"}<br />{/* L'ambre d'aplat ne tient pas sur la photo, même voilée : 3,1. */}<span style={{ color: C.accentLight }}>{clientHeroLine(sessionData, 1, 2, 23) ?? "sans mauvaise surprise."}</span>
           </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}

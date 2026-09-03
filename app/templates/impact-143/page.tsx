@@ -84,6 +84,14 @@ let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 function photo(i: number, fallback: string): string {
   return fd?.photoUrls?.[i] || fallback;
 }
+/*
+  Deux couleurs pour une même teinte. Le brun #8b7355 posé en TEXTE sur le
+  beige de ce thème ne tenait que 3,3, et #6b563f 3,0 sur la carte crème :
+  la même terre cuite qui fonctionne en aplat ne se lit pas en lettres.
+  `--brand-dark` est la variante de lecture — la couleur du client assombrie
+  juste assez pour tenir 4,5 sur du blanc. Les aplats (`fill-`, `bg-`) gardent
+  `--brand`.
+*/
 export default function AtelierInteriorPage() {
   const [session, setSession] = useState<{
     formData?: {
@@ -224,12 +232,12 @@ export default function AtelierInteriorPage() {
               <>
             <span className="font-light">Atelier</span> {/* Le brun de la marque donne 1,76 sur le crème de la barre : la moitié
                 accentuée du nom s'écrit dans une version sombre. */}
-            <span className="font-bold text-[#6b563f]">Interior</span>
+            <span className="font-bold text-[#4c3e2d]">Interior</span>
           </>
             </>))}</Link>
           <div className={`hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] ${scrolled ? "text-[#2a2520]/70" : "text-white/90"}`}>
             {["Projects", "Services", "About", "Contact"].map(l => (
-              <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="hover:text-[var(--brand,#8b7355)] transition-colors">{l}</a>
+              <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="hover:text-[var(--brand-dark,#6d5a42)] transition-colors">{l}</a>
             ))}
           </div>
           <button onClick={() => document.getElementById("contact")?.scrollIntoView({behavior:"smooth"})} className="hidden md:block px-8 py-3 bg-[#2a2520] text-[#f5f0eb] text-[10px] font-bold uppercase tracking-[0.2em] rounded-full hover:bg-[var(--brand,#8b7355)] transition-colors duration-500">
@@ -240,7 +248,7 @@ export default function AtelierInteriorPage() {
             <SheetContent side="right" className="bg-[#f5f0eb] p-12">
               <div className="flex flex-col gap-8 mt-16">
                 {["Projects", "Services", "About", "Contact"].map(l => (
-                  <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="text-3xl font-light hover:text-[var(--brand,#8b7355)] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{l}</a>
+                  <a key={l} href={`#${l.toLowerCase().replace(" ", "")}`} className="text-3xl font-light hover:text-[var(--brand-dark,#6d5a42)] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{l}</a>
                 ))}
               </div>
             </SheetContent>
@@ -259,7 +267,7 @@ export default function AtelierInteriorPage() {
           </motion.div>
           <motion.div style={{ opacity: heroOpacity }} className="relative z-10 max-w-[1600px] w-full mx-auto px-6 md:px-12 pb-24">
             <Reveal delay={0.15} y={70}>
-              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light tracking-tighter leading-[0.85] mb-8" style={{ fontFamily: "Georgia, serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 6) ?? "Spaces"}<br/>{clientHeroLine(sessionData, 1, 3, 6) ?? "That"}{" "}<em className="text-[var(--brand,#8b7355)]">{clientHeroLine(sessionData, 2, 3, 6) ?? "Speak."}</em>
+              <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-light tracking-tighter leading-[0.85] mb-8" style={{ fontFamily: "Georgia, serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 6) ?? "Spaces"}<br/>{clientHeroLine(sessionData, 1, 3, 6) ?? "That"}{" "}<em className="text-[var(--brand-dark,#6d5a42)]">{clientHeroLine(sessionData, 2, 3, 6) ?? "Speak."}</em>
               </>}</h1>
             </Reveal>
             <Reveal delay={0.3}>
@@ -278,9 +286,9 @@ export default function AtelierInteriorPage() {
           <div className="max-w-[1600px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="mb-20">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#8b7355)] block mb-4">Portfolio</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand-dark,#6d5a42)] block mb-4">Portfolio</span>
                 <h2 className="text-5xl md:text-7xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "projects.titre") ?? (<>
-                  Selected <em className="text-[var(--brand,#8b7355)]">Spaces.</em>
+                  Selected <em className="text-[var(--brand-dark,#6d5a42)]">Spaces.</em>
                 </>)}</h2>
               </div>
             </Reveal>
@@ -291,10 +299,10 @@ export default function AtelierInteriorPage() {
                     <ParallaxImg src={p.img} alt={p.title} />
                   </div>
                   <div className={i % 2 !== 0 ? "lg:order-1" : ""}>
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#8b7355)] block mb-3">{p.type}</span>
-                    <h3 className="text-4xl md:text-5xl font-light tracking-tighter mb-6 group-hover:text-[var(--brand,#8b7355)] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{p.title}</h3>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--brand-dark,#6d5a42)] block mb-3">{p.type}</span>
+                    <h3 className="text-4xl md:text-5xl font-light tracking-tighter mb-6 group-hover:text-[var(--brand-dark,#6d5a42)] transition-colors" style={{ fontFamily: "Georgia, serif" }}>{p.title}</h3>
                     <p className="text-[#2a2520]/50 leading-relaxed mb-8">{p.desc}</p>
-                    <span className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#8b7355)]">
+                    <span className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[var(--brand-dark,#6d5a42)]">
                       View Project <ArrowRight className="w-4 h-4" />
                     </span>
                   </div>
@@ -340,9 +348,9 @@ export default function AtelierInteriorPage() {
           <div className="max-w-[1000px] mx-auto px-6 md:px-12">
             <Reveal>
               <div className="text-center mb-20">
-                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#8b7355)] block mb-4">Client Words</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand-dark,#6d5a42)] block mb-4">Client Words</span>
                 <h2 className="text-5xl font-light tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
-                  Kind <em className="text-[var(--brand,#8b7355)]">Words.</em>
+                  Kind <em className="text-[var(--brand-dark,#6d5a42)]">Words.</em>
                 </>)}</h2>
               </div>
             </Reveal>
@@ -352,12 +360,12 @@ export default function AtelierInteriorPage() {
                   <div className="p-8 bg-[#f5f0eb] rounded-sm border border-[var(--brand,#8b7355)]/5">
                     <div className="flex gap-1 mb-6">
                       {Array.from({ length: 5 }).map((_, j) => (
-                        <Star key={j} className="w-4 h-4 fill-[var(--brand,#8b7355)] text-[var(--brand,#8b7355)]" />
+                        <Star key={j} className="w-4 h-4 fill-[var(--brand,#8b7355)] text-[var(--brand-dark,#6d5a42)]" />
                       ))}
                     </div>
                     <p className="text-[#2a2520]/60 leading-relaxed mb-6 italic" style={{ fontFamily: "Georgia, serif" }}>"{t.text}"</p>
                     <div className="font-bold text-sm">{t.author}</div>
-                    <div className="text-xs text-[var(--brand,#8b7355)]">{t.project}</div>
+                    <div className="text-xs text-[var(--brand-dark,#6d5a42)]">{t.project}</div>
                   </div>
                 </Reveal>
               ))}
@@ -394,8 +402,8 @@ export default function AtelierInteriorPage() {
               </Reveal>
               <div>
                 <Reveal delay={0.2}>
-                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#8b7355)] block mb-4">Our Philosophy</span>
-                  <h2 className="text-4xl md:text-5xl font-light tracking-tighter mb-6" style={{ fontFamily: "Georgia, serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>Crafting Space With <em className="text-[var(--brand,#8b7355)]">Intention.</em></>}</h2>
+                  <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand-dark,#6d5a42)] block mb-4">Our Philosophy</span>
+                  <h2 className="text-4xl md:text-5xl font-light tracking-tighter mb-6" style={{ fontFamily: "Georgia, serif" }}>{c?.aboutTitle ?? fd?.businessName ?? <>Crafting Space With <em className="text-[var(--brand-dark,#6d5a42)]">Intention.</em></>}</h2>
                   <p className="text-sm text-[#2a2520]/60 leading-relaxed mb-6">{c?.aboutText ?? <>
                     At {clientName(sessionData) ?? "ATELIER INTERIOR"}, we believe your home should be a physical manifestation of your journey. Founded in {clientCity(sessionData) ?? "Paris"} in 2018, we work closely with local artisans to curate bespoke, tactile environments.
                   </>}</p>
@@ -412,13 +420,13 @@ export default function AtelierInteriorPage() {
         <section id="contact" className="py-32 bg-[#f5f0eb] border-t border-[var(--brand,#8b7355)]/10">
           <div className="max-w-[800px] mx-auto px-6 text-center">
             <Reveal>
-              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#8b7355)] block mb-4">Connect</span>
-              <h2 className="text-5xl md:text-6xl font-light tracking-tighter mb-12" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Begin Your <em className="text-[var(--brand,#8b7355)]">Project.</em></>)}</h2>
+              <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand-dark,#6d5a42)] block mb-4">Connect</span>
+              <h2 className="text-5xl md:text-6xl font-light tracking-tighter mb-12" style={{ fontFamily: "Georgia, serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Begin Your <em className="text-[var(--brand-dark,#6d5a42)]">Project.</em></>)}</h2>
             </Reveal>
             <Reveal delay={0.15}>
               {contactSubmitted ? (
                 <div className="p-12 bg-white rounded-sm border border-[var(--brand,#8b7355)]/20 shadow-sm flex flex-col items-center justify-center">
-                  <CheckCircle2 className="w-12 h-12 text-[var(--brand,#8b7355)] mb-4" />
+                  <CheckCircle2 className="w-12 h-12 text-[var(--brand-dark,#6d5a42)] mb-4" />
                   <p className="text-xl font-bold text-[#2a2520]">Merci, nous vous répondrons sous 24h.</p>
                 </div>
               ) : (

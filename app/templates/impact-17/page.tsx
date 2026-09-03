@@ -342,12 +342,14 @@ return (
                 {/* Le texte du héros est blanc et il est posé EN BAS ; le voile
                     allait vers le crème et l'y noyait. Il va maintenant vers le
                     sombre, du côté où se trouvent le titre et le libellé. */}
-                <div className="absolute inset-0 bg-gradient-to-b from-[#1A1510]/45 via-[#1A1510]/30 to-[#1A1510]/85" />
+                {/* Le voile se creusait à 30 % au milieu — pile où le titre se pose sur
+                        mobile : le blanc n'y tenait que 4,4 et la terre cuite 1,2. */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-[#1A1510]/62 via-[#1A1510]/58 to-[#1A1510]/88" />
               </motion.div>
               <motion.div className="relative z-10 h-full flex items-end pb-20 px-6" style={{ opacity: heroOpacity }}>
                 <div className="max-w-6xl mx-auto w-full">
                   <Reveal>
-                    <p className="text-[var(--brand,#C46A3E)] text-xs tracking-widest uppercase mb-4" style={{ textShadow: "0 1px 8px rgba(26,21,16,0.9)" }}>Agence d'architecture · {clientCity(sessionData) ?? "Paris"}</p>
+                    <p className="text-[var(--brand-light,#F0C4AA)] text-xs tracking-widest uppercase mb-4" style={{ textShadow: "0 1px 8px rgba(26,21,16,0.9)" }}>Agence d'architecture · {clientCity(sessionData) ?? "Paris"}</p>
                   </Reveal>
                   <Reveal delay={0.1}>
                     <h1 className="text-white text-7xl md:text-9xl leading-none mb-6" style={{ fontFamily: "'Libre Baskerville', serif", fontWeight: 400 }}>{clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Kéops"))}</>}</h1>

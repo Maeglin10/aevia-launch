@@ -375,7 +375,7 @@ export default function NimbusAIPricingPage() {
           ))}
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex justify-between text-xs text-gray-600">
-          <span>© 2026 {clientName(sessionData) ?? "NimbusAI"}. All rights reserved.</span>
+          <span>© 2026 {clientName(sessionData) ?? "NimbusAI"}. Tous droits réservés.</span>
           <span><Globe className="w-3 h-3 inline mr-1" />Cloud AI · 12 regions</span>
         </div>
       </footer>

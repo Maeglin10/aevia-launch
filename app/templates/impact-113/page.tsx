@@ -1045,17 +1045,17 @@ export default function NexusSaaSPage() {
               <ul className="space-y-4 text-sm text-white/50">
                 <li>
                   <a href="#contact" className="hover:text-white transition-colors">
-                    {tr({ formData: fd }, "Privacy Policy")}
+                    {tr({ formData: fd }, "Politique de confidentialité")}
                   </a>
                 </li>
                 <li>
                   <a href="#contact" className="hover:text-white transition-colors">
-                    Terms of Service
+                    Conditions générales
                   </a>
                 </li>
                 <li>
                   <a href="#contact" className="hover:text-white transition-colors">
-                    Cookie Policy
+                    Politique cookies
                   </a>
                 </li>
                 <li>

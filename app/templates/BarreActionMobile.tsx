@@ -34,11 +34,30 @@ import { useEffect, useState } from "react";
  */
 
 /** Luminance relative, au sens du calcul de contraste WCAG. */
+/*
+  Tailwind 4 n'écrit plus ses couleurs en « rgb() » : `getComputedStyle` rend
+  des `lab()` et des `oklab()`. Lire les trois premiers nombres d'un
+  `lab(55 -49.9 15.9)` donnait « rgb(55, -49, 15) », et toute la suite — le
+  garde « ce n'est pas un bouton blanc », le choix de l'encre — décidait sur
+  une couleur imaginaire. Sur impact-141 la barre a ainsi retenu comme accent
+  un aplat blanc à 5 % d'opacité, puis y a écrit en blanc : bouton invisible,
+  rapport 1,00. On peint la couleur et on relit le pixel — seul chemin qui
+  force la conversion en sRGB — et l'on retient l'alpha au passage.
+*/
+function enRGBA(couleur: string): [number, number, number, number] {
+  if (typeof document === "undefined") return [0, 0, 0, 1];
+  const pot = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
+  if (!pot) return [0, 0, 0, 1];
+  pot.clearRect(0, 0, 1, 1);
+  pot.fillStyle = couleur;
+  pot.fillRect(0, 0, 1, 1);
+  const [r, g, b, a] = pot.getImageData(0, 0, 1, 1).data;
+  return [r, g, b, a / 255];
+}
+
 function luminance(couleur: string): number {
-  const m = couleur.match(/[\d.]+/g);
-  if (!m || m.length < 3) return 0;
-  const [r, g, b] = m.slice(0, 3).map((v) => {
-    const x = Number(v) / 255;
+  const [r, g, b] = enRGBA(couleur).slice(0, 3).map((v) => {
+    const x = v / 255;
     return x <= 0.03928 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4;
   });
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
@@ -308,7 +327,11 @@ export function BarreActionMobile() {
       const aplats = new Map<string, number>();
       for (const el of document.querySelectorAll("a, button")) {
         const f = getComputedStyle(el).backgroundColor;
-        if (!f || f === "rgba(0, 0, 0, 0)" || f === "transparent") continue;
+        if (!f || f === "transparent") continue;
+        /* Un aplat à 5 % d'opacité n'est pas un accent : c'est un survol, un
+           liseré, une pastille. Le test d'égalité de chaîne ne voyait que le
+           transparent PARFAIT et laissait passer tout le reste. */
+        if (enRGBA(f)[3] < 0.9) continue;
         if (luminance(f) > 0.92) continue; /* un bouton blanc n'est pas l'accent */
         aplats.set(f, (aplats.get(f) ?? 0) + 1);
       }
@@ -316,16 +339,36 @@ export function BarreActionMobile() {
 
       /* L'encre est celle qui contraste le mieux — mesurée, pas choisie. */
       const encre = contraste(fond, "rgb(255,255,255)") >= contraste(fond, "rgb(16,16,16)") ? "#ffffff" : "#101010";
+      /*
+        « La meilleure des deux » n'est pas « assez bonne » : sur un accent de
+        demi-teinte — l'émeraude d'impact-142 — le blanc l'emporte à 3,65 et le
+        noir à 5,0, et rien n'obligeait à préférer celui qui passe. On assombrit
+        donc l'aplat jusqu'à 4,5 sous l'encre retenue, plutôt que d'accepter le
+        moins mauvais.
+      */
+      const fondLisible = (() => {
+        if (contraste(fond, encre) >= 4.5) return fond;
+        let [r, g, b] = enRGBA(fond);
+        const versLeSombre = luminance(encre) > luminance(fond);
+        for (let i = 0; i < 14; i++) {
+          [r, g, b] = versLeSombre
+            ? [r, g, b].map((c) => Math.round(c * 0.92))
+            : [r, g, b].map((c) => Math.round(c + (255 - c) * 0.1));
+          const essai = `rgb(${r}, ${g}, ${b})`;
+          if (contraste(essai, encre) >= 4.5) return essai;
+        }
+        return `rgb(${r}, ${g}, ${b})`;
+      })();
 
       poser(
         href
-          ? { href, libelle, fond, encre }
+          ? { href, libelle, fond: fondLisible, encre }
           : {
               agir: (section ?? formulaire)
                 ? () => (section ?? formulaire)!.scrollIntoView({ behavior: "smooth", block: "start" })
                 : () => relais!.click(),
               libelle,
-              fond,
+              fond: fondLisible,
               encre,
             },
       );

@@ -1966,7 +1966,7 @@ function Footer() {
   const footerLinks = {
     "Practice Areas": ["Mergers & Acquisitions", "Global Litigation", "Regulatory & Compliance", "International Tax"],
     "The Firm": ["Our Partners", "Global Offices", "Landmark Cases", "Careers"],
-    "Knowledge": ["Legal Insights", "Client Portal", "Press Office", "Legal Notice"],
+    "Knowledge": ["Legal Insights", "Client Portal", "Press Office", "Mentions légales"],
     "Contact": ["London HQ", "New York", "Singapore", "Emergency Counsel"],
   }
 
@@ -2098,7 +2098,7 @@ function Footer() {
             }}
           >
             © 2026 {fd?.businessName ?? "Alderton & Sterling LLP"}. Regulated by the Solicitors Regulation Authority.
-            All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </p>
           <div
             style={{
@@ -2109,7 +2109,7 @@ function Footer() {
               color: `${COLORS.cream}30`,
             }}
           >
-            {["Privacy Policy", "Terms of Use", "Cookie Policy", "Accessibility"].map((item) => (
+            {["Politique de confidentialité", "Conditions d'utilisation", "Politique cookies", "Accessibilité"].map((item) => (
               <motion.a
                 key={item}
                 href="#practice-areas"

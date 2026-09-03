@@ -891,7 +891,7 @@ return (
         </div>
         <Separator className="bg-white/5 mb-8" />
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          <span className="text-xs text-zinc-600">&copy; 2026 NovaPlatform, Inc. All rights reserved.</span>
+          <span className="text-xs text-zinc-600">&copy; 2026 NovaPlatform, Inc. Tous droits réservés.</span>
           <div className="flex gap-6">
             {["Privacy", "Terms", "Security", "GDPR"].map(s => {
               const href = `/templates/impact-05/${s.toLowerCase()}`;

@@ -79,6 +79,12 @@ let C: Record<string, string> = {
   bgCard:       '#1a1510',
   accent:       '#d4601a',
   accentLight:  '#f08040',
+  /* L'accent PORTE du texte blanc : bandeau promotionnel, bouton principal.
+     À #d4601a le blanc n'y tient que 3,8, et à #f08040 que 2,9. Cette
+     variante-là est assez sombre pour 4,9. Le clair reste pour les liserés,
+     les survols et le texte sur fond noir. */
+  accentPorteur: '#a04814',
+  goldPorteur:  '#8a5f14',
   gold:         '#c9993a',
   goldLight:    '#e8b850',
   text:         '#f0e8da',
@@ -416,7 +422,7 @@ function FeaturedCard({
           whileTap={{ scale: 0.96 }}
           onClick={() => onAddToCart({ id: p.id, name: p.name, price: p.price, emoji: p.emoji })}
           style={{
-            background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
+            background: `linear-gradient(135deg, ${C.accentPorteur}, ${C.accent})`,
             color: C.white,
             border: 'none',
             borderRadius: '8px',
@@ -702,7 +708,7 @@ function ProductCard({
             style={{
               background: adding
                 ? `linear-gradient(135deg, var(--brand,#2a7a4f), #3aad6f)`
-                : `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
+                : `linear-gradient(135deg, ${C.accentPorteur}, ${C.accent})`,
               color: C.white,
               border: 'none',
               borderRadius: '8px',
@@ -1098,7 +1104,7 @@ function Configurator() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 style={{
-                  background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
+                  background: `linear-gradient(135deg, ${C.accentPorteur}, ${C.accent})`,
                   color: C.white,
                   border: 'none',
                   borderRadius: '10px',
@@ -1344,7 +1350,7 @@ function CartDrawer({
                   style={{
                     width: '100%',
                     minHeight: 44,
-                    background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
+                    background: `linear-gradient(135deg, ${C.accentPorteur}, ${C.accent})`,
                     color: C.white,
                     border: 'none',
                     borderRadius: '12px',
@@ -1410,7 +1416,7 @@ function CartDrawer({
                       width: '100%',
                       minHeight: 44,
                       marginTop: '0.5rem',
-                      background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
+                      background: `linear-gradient(135deg, ${C.accentPorteur}, ${C.accent})`,
                       color: C.white,
                       border: 'none',
                       borderRadius: '12px',
@@ -1564,7 +1570,7 @@ function MobileNavDrawer({
               whileTap={{ scale: 0.97 }}
               style={{
                 marginTop: '2rem',
-                background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
+                background: `linear-gradient(135deg, ${C.accentPorteur}, ${C.accent})`,
                 color: C.white,
                 border: 'none',
                 borderRadius: '10px',
@@ -1722,7 +1728,7 @@ function Newsletter() {
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
             style={{
-              background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
+              background: `linear-gradient(135deg, ${C.accentPorteur}, ${C.accent})`,
               color: C.white,
               border: 'none',
               borderRadius: '10px',
@@ -1788,7 +1794,7 @@ function PromoBanner() {
             style={{
               position: 'absolute',
               inset: 0,
-              background: `linear-gradient(90deg, ${C.accent}, #c84000, ${C.gold}, ${C.accent})`,
+              background: `linear-gradient(90deg, ${C.accentPorteur}, #8f2e00, ${C.goldPorteur}, ${C.accentPorteur})`,
               backgroundSize: '300% 100%',
             }}
           />
@@ -1915,7 +1921,7 @@ export default function FlammeEtCoPage() {
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
-    C = { ...C, accent: brand, accentLight: shadeColor(brand, 25) };
+    C = { ...C, accent: brand, accentLight: shadeColor(brand, 25), accentPorteur: shadeColor(brand, -22) };
   }
 
   // Prefer the client's real business data; else the template's demo arrays.
@@ -2174,7 +2180,7 @@ export default function FlammeEtCoPage() {
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 style={{
-                  background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
+                  background: `linear-gradient(135deg, ${C.accentPorteur}, ${C.accent})`,
                   color: C.white,
                   border: 'none',
                   borderRadius: '10px',
@@ -2307,7 +2313,7 @@ export default function FlammeEtCoPage() {
                 whileHover={{ scale: 1.06, boxShadow: C.glowAccent }}
                 whileTap={{ scale: 0.96 }}
                 style={{
-                  background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
+                  background: `linear-gradient(135deg, ${C.accentPorteur}, ${C.accent})`,
                   color: C.white,
                   border: 'none',
                   borderRadius: '12px',
@@ -2945,7 +2951,7 @@ export default function FlammeEtCoPage() {
             href="#configurateur"
             whileTap={{ scale: 0.95 }}
             style={{
-              background: `linear-gradient(135deg, ${C.accent}, ${C.accentLight})`,
+              background: `linear-gradient(135deg, ${C.accentPorteur}, ${C.accent})`,
               color: C.white,
               border: 'none',
               borderRadius: '10px',

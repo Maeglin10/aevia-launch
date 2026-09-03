@@ -307,8 +307,12 @@ export default function WanderlustPage() {
       {/* ==========================================
           NAVIGATION
           ========================================== */}
+      {/* Tant qu'on n'a pas défilé, la barre est POSÉE SUR LA PHOTO du héros :
+          « bg-transparent » y laissait l'ambre du nom à 1,6 et le blanc à 3,9.
+          Un dégradé sombre couvre désormais la bande du haut sans masquer le
+          cliché. */}
       <nav
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#0c0a09]/90 backdrop-blur-md py-4 border-b border-amber-900/20" : "bg-transparent py-8"}`}
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-[#0c0a09]/90 backdrop-blur-md py-4 border-b border-amber-900/20" : "bg-gradient-to-b from-black/55 to-transparent py-8"}`}
       >
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link
@@ -456,7 +460,8 @@ export default function WanderlustPage() {
                   </div>
                   <div className="flex items-center gap-2 text-amber-500">
                     {DESTINATIONS[activeDst % DESTINATIONS.length].price}{" "}
-                    <span className="text-stone-500">/pp</span>
+                    {/* Sur la photo sombre de la carte, l'ardoise 500 tombe à 3,2. */}
+                    <span className="text-stone-400">/pp</span>
                   </div>
                 </div>
                 <button className="mt-10 px-8 py-4 bg-amber-500 text-stone-900 text-[10px] font-bold uppercase tracking-widest hover:bg-amber-400 transition-colors rounded-sm flex items-center gap-3">
@@ -845,7 +850,7 @@ export default function WanderlustPage() {
             </span>
             <div className="flex gap-6">
               <Link href="#contact" className="hover:text-white transition-colors">
-                {tr(sessionData, "Privacy Policy")}
+                {tr(sessionData, "Politique de confidentialité")}
               </Link>
               <Link href="#contact" className="hover:text-white transition-colors">
                 Terms of Booking

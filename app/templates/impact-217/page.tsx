@@ -2204,7 +2204,7 @@ function Footer() {
             fontSize: 13,
           }}
         >
-          <span>© 2026 {clientName(sessionData) ?? "AirForge."} All rights reserved.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "AirForge."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div style={{ display: 'flex', gap: 24 }}>
             <a href="#contact" style={{ color: C.textFaint, textDecoration: 'none' }}>
               Privacy
