@@ -614,7 +614,7 @@ const Hero: React.FC = () => {
                 fontWeight: 400,
               }}
             >
-              {clientName(sessionData) ?? "Solis"} accompagne une clientèle exigeante dans l&apos;acquisition et
+              {clientName(sessionData) ?? "Solis"}{" "}accompagne une clientèle exigeante dans l&apos;acquisition et
               la valorisation de biens d&apos;exception, de la Provence aux plus
               belles adresses parisiennes.
             </span>

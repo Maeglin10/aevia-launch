@@ -34,8 +34,8 @@ let sessionData: any = null;
 // Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
 // saisir, le thème ne les lisait pas.
 const STATS_INLINE_SOURCE = [
-  { value: "43", suffix: " countries", label: "Active Network" },
-              { value: "6", suffix: " continents", label: "Global Reach" },
+  { value: "43", suffix: " pays", label: "Réseau actif" },
+              { value: "6", suffix: " continents", label: "Portée mondiale" },
               { value: "98.4%", suffix: "", label: "On-Time Rate" }
 ];
 let STATS_INLINE = STATS_INLINE_SOURCE;
@@ -231,9 +231,9 @@ function Navbar() {
 
   const links = [
     { label: "Services", href: "#services" },
-    { label: "Network", href: "#hero" },
+    { label: "Réseau", href: "#hero" },
     { label: "About", href: "#stats" },
-    { label: "Timeline", href: "#timeline" },
+    { label: "Parcours", href: "#timeline" },
     { label: "Contact", href: "#contact" },
   ]
 
@@ -544,7 +544,7 @@ function RouteMapHero() {
               maxWidth: 820,
             }}
           >{/* ACCROCHE */ clientAccrocheRestante(sessionData) ?? (<>
-            Move Cargo
+            Transporter
             <br />
             <span style={{ color: T.accent }}>Without Limits.</span>
           </>)}</h1>
