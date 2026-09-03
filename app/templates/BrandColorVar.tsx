@@ -50,7 +50,12 @@ function versRGB(couleur: string): [number, number, number] | null {
   rien ne bouge — le dessin du thème reste celui qu'il a voulu.
 */
 function rendreLesBoutonsLisibles() {
-  const cibles = document.querySelectorAll<HTMLElement>("button, a, [role='button'], input[type='submit']");
+  /* Le fond peint n'est pas toujours sur le lien : sur impact-46, « Consultation
+     gratuite » est un <span> doré à l'intérieur d'un <a> transparent. On regarde
+     donc aussi l'enfant direct qui porte l'aplat. */
+  const cibles = document.querySelectorAll<HTMLElement>(
+    "button, a, [role='button'], input[type='submit'], a > span, button > span, a > div, button > div",
+  );
   for (const e of cibles) {
     const s = getComputedStyle(e);
     const fond = versRGB(s.backgroundColor);
@@ -60,9 +65,40 @@ function rendreLesBoutonsLisibles() {
     const lf = luminance(...fond);
     const lt = luminance(...texte);
     const contraste = (Math.max(lf, lt) + 0.05) / (Math.min(lf, lt) + 0.05);
-    if (contraste >= 3) continue;
+    if (contraste >= 4.5) continue;
 
-    e.style.setProperty("color", lf > 0.42 ? "#111111" : "#ffffff", "important");
+    /*
+      Mesuré sur le catalogue : environ cent quarante boutons portent un
+      libellé blanc sur la couleur de la marque et tombent entre 3 et 4,5 —
+      « Consultation gratuite » en blanc sur l'or d'un cabinet d'avocats vaut
+      2,6. C'est conforme pour un composant d'interface et insuffisant pour du
+      texte, et c'est du texte qu'on lit.
+
+      On ne change pas la teinte du client : on l'assombrit (ou l'éclaircit)
+      par pas de 8 % jusqu'à passer le seuil, en gardant l'aplat reconnaissable.
+      Le basculement pur et simple de la couleur du texte ne sert plus que de
+      dernier recours, quand l'aplat ne peut plus bouger.
+    */
+    /* versRGB refuse déjà les fonds trop transparents : ce qui arrive ici est
+       peint pour de bon. */
+    {
+      const versLeSombre = lt > lf; // texte clair : il faut un fond plus sombre
+      let [r, g, b] = fond;
+      for (let i = 0; i < 12; i++) {
+        [r, g, b] = versLeSombre
+          ? [r, g, b].map((c) => Math.round(c * 0.92)) as [number, number, number]
+          : [r, g, b].map((c) => Math.round(c + (255 - c) * 0.10)) as [number, number, number];
+        const l2 = luminance(r, g, b);
+        if ((Math.max(l2, lt) + 0.05) / (Math.min(l2, lt) + 0.05) >= 4.5) break;
+      }
+      const l2 = luminance(r, g, b);
+      if ((Math.max(l2, lt) + 0.05) / (Math.min(l2, lt) + 0.05) >= 4.5) {
+        e.style.setProperty("background-color", `rgb(${r}, ${g}, ${b})`, "important");
+        continue;
+      }
+    }
+
+    if (contraste < 3) e.style.setProperty("color", lf > 0.42 ? "#111111" : "#ffffff", "important");
   }
 }
 
