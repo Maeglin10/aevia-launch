@@ -56,7 +56,7 @@ function VINTAGES_DEMO_LIVE() {
   {
     id: "v-2022",
     name: "The Crimson Sovereign",
-    type: "Reserve Cabernet",
+    type: "Cabernet Réserve",
     notes: ["Blackberry", "Leather", "Graphite"],
     score: "98 pts",
     stock: "Limited",
@@ -414,7 +414,7 @@ return (
                             <div className="flex justify-between items-end border-t border-white/10 pt-8">
                                <span className="text-[10px] font-black uppercase tracking-widest text-white/20">{vin.type}</span>
                                <button className="text-[10px] font-black uppercase tracking-widest text-[var(--brand,#c4a661)] flex items-center gap-2 group-hover:translate-x-2 transition-transform">
-                                  Reserve <ChevronRight className="w-4 h-4" />
+                                  Réserver <ChevronRight className="w-4 h-4" />
                                </button>
                             </div>
                          </div>

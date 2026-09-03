@@ -662,7 +662,7 @@ export default function BlockBasePage() {
               <span className="text-[#00f2ff]">Initialize?</span>
             </>)}</h2>
             <p className="max-w-xl mx-auto text-sm text-white/40 leading-relaxed font-light mb-16 uppercase tracking-widest italic">
-              Join 42,000+ developers building the future of decentralized computation.
+              Rejoignez plus de 42 000 développeurs qui construisent le calcul décentralisé de demain.
             </p>
             <MagneticBtn className="px-16 py-6 bg-white text-black text-[12px] font-black uppercase tracking-[0.4em] hover:bg-[#00f2ff] transition-all shadow-[0_0_50px_rgba(255,255,255,0.1)]">
               Get_API_Key
