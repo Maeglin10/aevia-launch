@@ -45,6 +45,11 @@ let C: Record<string, string> = {
   text: "#1e0f08", textMuted: "var(--brand,#8a6450)",
   accent: "var(--brand-light,#c4634a)", accentDark: "#a8482f", accentLight: "#fce8e2",
   rose: "#e8a090", roseDark: "#d4705a",
+  /* La rose POSÉE SUR LA PHOTO du héros : sa luminance (0,44) est trop proche
+     de celle d'un cliché en demi-teinte, et elle y tombait à 3,3 même sous le
+     voile renforcé. Éclaircie, elle tient 4,9. Ailleurs, sur le crème du
+     thème, `rose` reste juste. */
+  roseHero: "#f5cfc4",
   gold: "#c9a07a",
   white: "#ffffff", border: "#edd8cc",
   shadow: "0 2px 14px rgba(30,15,8,0.07)", shadowLg: "0 16px 48px rgba(196,99,74,0.18)",
@@ -262,7 +267,7 @@ export default function EclatSpaPage() {
         a, button, select { cursor: pointer; }
       `}</style>
 
-      <motion.nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 64px", background: scrolled ? "rgba(253,248,245,0.97)" : "linear-gradient(180deg, rgba(60,40,34,0.80) 0%, rgba(60,40,34,0.38) 65%, transparent 100%)", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: scrolled ? `1px solid ${C.border}` : "none", transition: "all 0.4s ease" }}>
+      <motion.nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 64px", background: scrolled ? "rgba(253,248,245,0.97)" : "linear-gradient(180deg, rgba(60,40,34,0.84) 0%, rgba(60,40,34,0.66) 65%, rgba(60,40,34,0.40) 100%)", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: scrolled ? `1px solid ${C.border}` : "none", transition: "all 0.4s ease" }}>
         <div style={{ fontFamily: FONT, fontSize: 22, fontStyle: "italic", color: scrolled ? C.accent : "#fff" }}>
           {fd?.logoBase64 ? (
             // Client logo (uploaded in the brief) replaces the placeholder mark —
@@ -315,11 +320,13 @@ export default function EclatSpaPage() {
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=1920&q=80"))} alt="Institut spa Éclat Nice" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,4,2,0.92) 0%, rgba(10,4,2,0.36) 45%, rgba(10,4,2,0.06) 100%)" }} />
+        <div style={{ position: "absolute", inset: 0, background: /* Le voile tombait à 0,06 en haut, là où le titre se pose : la rose
+              du second vers y valait 2,1. */
+            "linear-gradient(to top, rgba(10,4,2,0.92) 0%, rgba(10,4,2,0.58) 45%, rgba(10,4,2,0.52) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}15 0%, transparent 55%)` }} />
         <motion.div className="mb229-hero-text" style={{ position: "relative", zIndex: 1, padding: "0 80px 90px", maxWidth: 760, y: heroTextY, opacity: heroOpacity }}>
           <motion.h1 initial={{ opacity: 0, y: 50 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.9 }}
-            style={{ fontFamily: FONT, fontSize: "clamp(42px, 5.2vw, 70px)", fontWeight: 300, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 20) ?? "Révélez votre éclat,"}<br /><em style={{ color: C.rose }}>{clientHeroLine(sessionData, 1, 2, 20) ?? "corps et âme."}</em>
+            style={{ fontFamily: FONT, fontSize: "clamp(42px, 5.2vw, 70px)", fontWeight: 300, color: "#fff", lineHeight: 1.1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 2, 20) ?? "Révélez votre éclat,"}<br /><em style={{ color: C.roseHero }}>{clientHeroLine(sessionData, 1, 2, 20) ?? "corps et âme."}</em>
           </>}</>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>

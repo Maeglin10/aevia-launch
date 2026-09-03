@@ -208,7 +208,7 @@ export default function VertNaturePage() {
         }
       `}</style>
 
-      <motion.nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 64px", background: scrolled ? "rgba(245,247,242,0.97)" : "transparent", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: scrolled ? `1px solid ${C.border}` : "none", transition: "all 0.4s ease" }}>
+      <motion.nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 64px", background: scrolled ? "rgba(245,247,242,0.97)" : "linear-gradient(180deg, rgba(20,30,26,0.74) 0%, rgba(20,30,26,0.32) 65%, transparent 100%)", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: scrolled ? `1px solid ${C.border}` : "none", transition: "all 0.4s ease" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           {fd?.logoBase64 ? (
             // Client logo (uploaded in the brief) replaces the placeholder mark —

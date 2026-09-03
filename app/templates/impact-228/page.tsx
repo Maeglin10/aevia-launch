@@ -237,7 +237,7 @@ export default function AquaThermPage() {
 
       <motion.nav style={{ position: "fixed", top: 0, left: 0, right: 0, zIndex: 100, height: 72, display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 64px", /* Mur de béton clair derrière la barre : ni le nom blanc ni les liens
          gris ne s'y détachaient. */
-      background: scrolled ? "rgba(246,244,241,0.97)" : "linear-gradient(180deg, rgba(26,22,18,0.72) 0%, rgba(26,22,18,0.30) 62%, transparent 100%)", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: scrolled ? `1px solid ${C.border}` : "none", transition: "all 0.4s ease" }}>
+      background: scrolled ? "rgba(246,244,241,0.97)" : "linear-gradient(180deg, rgba(26,22,18,0.80) 0%, rgba(26,22,18,0.58) 62%, rgba(26,22,18,0.34) 100%)", backdropFilter: scrolled ? "blur(12px)" : "none", borderBottom: scrolled ? `1px solid ${C.border}` : "none", transition: "all 0.4s ease" }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           {fd?.logoBase64 ? (
             // Client logo (uploaded in the brief) replaces the placeholder mark —

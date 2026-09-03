@@ -957,7 +957,7 @@ export default function BoulangerieNoirePage() {
                   </div>
                   <div className="space-y-6 mb-12">
                     {[
-                      { label: "Fermentation", val: "48 Hours" },
+                      { label: "Fermentation", val: "48 heures" },
                       { label: "Hydration", val: "82% Water" },
                       { label: "Grain Type", val: "Ancient Emmer" },
                       { label: "Bake Logic", val: "Stone-Hearth" },

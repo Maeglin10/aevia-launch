@@ -688,7 +688,7 @@ export default function NeuralisPage() {
                     {[
                       { p: "Processing Power", v1: "128 Petaflops", v2: "N/A (Chemical)", v3: "64 Petaflops" },
                       { p: "Bio-Latency", v1: "0.8ms", v2: "Instant", v3: "1.2ms" },
-                      { p: "Battery Life", v1: "Indefinite (Kinetic)", v2: "12 Hours", v3: "24 Hours" },
+                      { p: "Battery Life", v1: "Indefinite (Kinetic)", v2: "12 heures", v3: "24 heures" },
                       { p: "Material", v1: "Liquid Graphene", v2: "Synthetic Serum", v3: "Refractive Glass" },
                       { p: "Clearance", v1: "Tier 1", v2: "Tier 2", v3: "Tier 1" },
                     ].map((row, i) => (

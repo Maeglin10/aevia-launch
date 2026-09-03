@@ -139,8 +139,10 @@ for (const [etat, url] of [["vitrine", ""], ["client", "?session=v"]]) {
         if (cache) continue;
         morceaux.push(n.nodeValue || "");
       }
-      /* « Home staging » est le terme consacré en immobilier français. */
-      const txt = morceaux.join(" ").replace(/\s+/g, " ").replace(/home staging/gi, "");
+      /* « Home staging » en immobilier, « Smart Home » en domotique : termes
+         consacrés en français, pas des anglicismes oubliés. */
+      const txt = morceaux.join(" ").replace(/\s+/g, " ")
+        .replace(/home staging|smart home/gi, "");
       /* `getComputedStyle().color` ne rend plus toujours du « rgb() » :
          Tailwind 4 écrit ses couleurs en `lab()` / `oklch()`. Le canevas
          CONSERVE la notation telle quelle dans `fillStyle` — il ne convertit

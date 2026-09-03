@@ -49,7 +49,7 @@ function DESTINATIONS_DEMO_LIVE() {
     title: "Namib Desert",
     country: "Namibia",
     price: "$4,200",
-    days: "8 Days",
+    days: "8 jours",
     desc: "Traverse the oldest desert in the world. Witness the towering red dunes of Sossusvlei and the surreal dead-tree valleys of Deadvlei.",
     image:
       (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/18386168/pexels-photo-18386168.jpeg?auto=compress&cs=tinysrgb&w=1600"),
@@ -60,7 +60,7 @@ function DESTINATIONS_DEMO_LIVE() {
     title: "Atacama Plateau",
     country: "Chile",
     price: "$3,800",
-    days: "10 Days",
+    days: "10 jours",
     desc: "High-altitude salt flats, active geysers, and the clearest night skies on Earth. An alien landscape waiting to be explored.",
     image:
       (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/20873970/pexels-photo-20873970.jpeg?auto=compress&cs=tinysrgb&w=1600"),
@@ -71,7 +71,7 @@ function DESTINATIONS_DEMO_LIVE() {
     title: "Cappadocia",
     country: "Turkey",
     price: "$2,900",
-    days: "6 Days",
+    days: "6 jours",
     desc: "Fairy chimneys, underground cities, and dawn balloon flights over ancient volcanic valleys.",
     image:
       (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/6173322/pexels-photo-6173322.jpeg?auto=compress&cs=tinysrgb&w=1600"),
@@ -82,7 +82,7 @@ function DESTINATIONS_DEMO_LIVE() {
     title: "Wadi Rum",
     country: "Jordan",
     price: "$3,100",
-    days: "5 Days",
+    days: "5 jours",
     desc: "The Valley of the Moon. Sleep in luxury glass domes under the stars and ride through sandstone canyons.",
     image:
       (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1547234935-80c7145ec969?q=80&w=1600&auto=format&fit=crop"),
@@ -431,7 +431,10 @@ export default function WanderlustPage() {
               className="object-cover"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0c0a09] via-[#0c0a09]/40 to-transparent" />
+            {/* Avec le nom du client, le titre tient sur deux lignes et remonte
+                dans le ciel clair de la photo : mesuré 3,3 là où la version de
+                démonstration, plus courte, restait dans le voile. */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0c0a09] via-[#0c0a09]/62 to-[#0c0a09]/32" />
             <div className="absolute inset-0 bg-gradient-to-r from-[#0c0a09]/80 via-transparent to-transparent" />
           </motion.div>
         </AnimatePresence>
