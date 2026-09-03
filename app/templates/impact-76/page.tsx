@@ -597,7 +597,7 @@ return (
               </Reveal>
               <div className="divide-y divide-white/5">
                 {[
-                  { pub: "Archdaily", title: "KINETIC_TOWER redefines the Dubai skyline", year: "2024" },
+                  { pub: "Archdaily", title: "KINETIC_TOWER redessine la ligne d'horizon de Dubaï", year: "2024" },
                   { pub: "Dezeen", title: "Inside VOID_STUDIO: architecture as subtraction", year: "2024" },
                   { pub: "Wallpaper*", title: "Elias Vorne and the post-digital built form", year: "2023" },
                   { pub: "Icon Magazine", title: "Structura's parametric manifesto", year: "2023" },

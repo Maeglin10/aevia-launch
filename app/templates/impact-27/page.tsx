@@ -164,14 +164,14 @@ function StatsTicker() {
     clientStats({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
     { val: "200+", label: "Projects delivered" },
     { val: "40+", label: "Global clients" },
-    { val: "8yrs", label: "Studio history" },
+    { val: "8yrs", label: "d'existence" },
     { val: "99.8%", label: "Client satisfaction" },
     { val: "12ms", label: "Avg. frame time" },
     { val: "3×", label: "Avg. conversion uplift" },
   ])[i % ([
     { val: "200+", label: "Projects delivered" },
     { val: "40+", label: "Global clients" },
-    { val: "8yrs", label: "Studio history" },
+    { val: "8yrs", label: "d'existence" },
     { val: "99.8%", label: "Client satisfaction" },
     { val: "12ms", label: "Avg. frame time" },
     { val: "3×", label: "Avg. conversion uplift" },
@@ -179,7 +179,7 @@ function StatsTicker() {
     [
     { val: "200+", label: "Projects delivered" },
     { val: "40+", label: "Global clients" },
-    { val: "8yrs", label: "Studio history" },
+    { val: "8yrs", label: "d'existence" },
     { val: "99.8%", label: "Client satisfaction" },
     { val: "12ms", label: "Avg. frame time" },
     { val: "3×", label: "Avg. conversion uplift" },
@@ -961,8 +961,8 @@ return (
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.1 }}
             className="text-6xl md:text-[7rem] font-bold leading-[0.9] mb-8 max-w-5xl"
-          >{<>{clientHeroLine(sessionData, 0, 3, 10) ?? "We build"}<br />
-            <span className="text-[var(--brand,#9B5CF6)]">{clientHeroLine(sessionData, 1, 3, 10) ?? "the third"}</span><br />{clientHeroLine(sessionData, 2, 3, 10) ?? "dimension."}</>}</motion.h1>
+          >{<>{clientHeroLine(sessionData, 0, 3, 10) ?? "Nous bâtissons"}<br />
+            <span className="text-[var(--brand,#9B5CF6)]">{clientHeroLine(sessionData, 1, 3, 10) ?? "la troisième"}</span><br />{clientHeroLine(sessionData, 2, 3, 10) ?? "dimension."}</>}</motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

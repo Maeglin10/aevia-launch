@@ -167,7 +167,7 @@ const PROCESS = [
 
 const PRESS = [
   { pub: "Wallpaper*", title: "The Return of the Pure Volume", year: "2024" },
-  { pub: "Dezeen", title: "Symmetry Studio's Glass Monolith redefines the Berlin skyline", year: "2024" },
+  { pub: "Dezeen", title: "Le monolithe de verre du studio redessine la ligne d'horizon de Berlin", year: "2024" },
   { pub: "Architectural Digest", title: "Inside the Obsidian Villa: restraint as luxury", year: "2024" },
   { pub: "Frame Magazine", title: "Material Memory: how Symmetry Studio chooses its palette", year: "2023" },
   { pub: "Icon", title: "Elias Vorn: 'We subtract until only the essential remains'", year: "2023" },
@@ -459,7 +459,7 @@ return (
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/20 mb-6 block italic">
-              Services // Expertise
+              Prestations // Savoir-faire
             </span>
             <h2 className="text-5xl md:text-6xl font-light uppercase tracking-tighter text-[#1a1a1a] mb-20 italic pb-2 leading-[1.1]">{/* TEXTE_SECTION */ clientText(sessionData, "section-5.titre") ?? (<>
               What we<br />
@@ -553,7 +553,7 @@ return (
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
             <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/20 mb-6 block italic">
-              People // Studio
+              L'équipe // Le studio
             </span>
             <h2 className="text-5xl md:text-6xl font-light uppercase tracking-tighter text-[#1a1a1a] mb-20 italic pb-2 leading-[1.1]">{/* TEXTE_SECTION */ clientText(sessionData, "section-7.titre") ?? (<>
               The studio.

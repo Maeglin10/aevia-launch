@@ -291,8 +291,8 @@ return (
 
         <div className="relative z-10 max-w-[1400px] mx-auto px-6 md:px-12 w-full">
           <Reveal>
-            <h1 className="text-4xl sm:text-5xl md:text-8xl lg:text-9xl font-black leading-[1.15] tracking-tighter mb-8 uppercase pb-4 break-words">{<>{clientHeroLine(sessionData, 0, 2, 14) ?? "The Alchemy"}<br />{" "}
-              <span className="text-[var(--brand,#7c2d12)] italic">{clientHeroLine(sessionData, 1, 2, 14) ?? "of Extraction."}</span>
+            <h1 className="text-4xl sm:text-5xl md:text-8xl lg:text-9xl font-black leading-[1.15] tracking-tighter mb-8 uppercase pb-4 break-words">{<>{clientHeroLine(sessionData, 0, 2, 14) ?? "L'alchimie"}<br />{" "}
+              <span className="text-[var(--brand,#7c2d12)] italic">{clientHeroLine(sessionData, 1, 2, 14) ?? "de l'extraction."}</span>
             </>}</h1>
             <p className="max-w-xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-8 uppercase tracking-tight italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
               Precision-roasted molecular coffee. Sourced at origin. Analyzed in
@@ -560,7 +560,7 @@ return (
                 {[
                   { pub: "Wallpaper*", title: "Aether Studio and the precision of creative systems", year: "2025" },
                   { pub: "It's " + (clientCity(sessionData) ?? "Nice") + " That", title: "How VOID_BREW became an industry benchmark", year: "2024" },
-                  { pub: "Brand New", title: "Aether's visual alchemy for Blue Bottle Coffee", year: "2024" },
+                  { pub: "Brand New", title: "L'alchimie visuelle du studio pour Blue Bottle Coffee", year: "2024" },
                   { pub: "Eye Magazine", title: "When coffee meets computation", year: "2023" },
                   { pub: "Dezeen", title: "Motion, matter, and the molecular brand", year: "2022" },
                 ].map((p, i) => (
@@ -600,14 +600,14 @@ return (
       <section className="py-32 bg-[#100e0c] border-t border-white/5">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12">
           <Reveal>
-            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#7c2d12)] mb-6 block">ENGAGEMENT_MODEL // PRICING</span>
+            <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#7c2d12)] mb-6 block">FORMULES // TARIFS</span>
             <h2 className="text-5xl md:text-6xl font-black uppercase tracking-tighter italic text-white mb-20 leading-[1.1] pb-2">{/* TEXTE_SECTION */ clientText(sessionData, "section-9.titre") ?? (<>Investment.</>)}</h2>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/5">
             {[
-              { tier: "Espresso_Shot", desc: "Brand audit, logo redesign, and core identity system. For startups and early-stage brands.", scope: ["Logo + wordmark", "Color palette", "Typography system", "Brand guidelines PDF"], price: "From €12,000", duration: "4 weeks" },
-              { tier: "Full_Extraction", desc: "Complete brand system with motion identity, digital templates, and campaign direction.", scope: ["Everything in Espresso", "Motion identity", "Campaign direction", "Print + digital templates"], price: "From €28,000", duration: "8 weeks" },
-              { tier: "Reserve_Roast", desc: "Long-term creative partnership with monthly retainer. Unlimited requests. Priority turnaround.", scope: ["Everything in Full Extraction", "Monthly retainer access", "Dedicated creative team", "Quarterly brand review"], price: "From €6,500/mo", duration: "Ongoing" },
+              { tier: "Espresso_Shot", desc: "Audit de marque, refonte du logo et système d'identité. Pour les jeunes entreprises.", scope: ["Logo et mot-symbole", "Palette de couleurs", "Système typographique", "Charte de marque en PDF"], price: "À partir de 12 000 €", duration: "4 weeks" },
+              { tier: "Full_Extraction", desc: "Système de marque complet : identité animée, gabarits numériques et direction de campagne.", scope: ["Tout le palier Espresso", "Identité animée", "Direction de campagne", "Print + digital templates"], price: "À partir de 28 000 €", duration: "8 weeks" },
+              { tier: "Reserve_Roast", desc: "Partenariat créatif au long cours, en abonnement mensuel. Demandes illimitées, traitement prioritaire.", scope: ["Tout le palier Extraction", "Abonnement mensuel", "Dedicated creative team", "Quarterly brand review"], price: "À partir de 6 500 €/mois", duration: "Ongoing" },
             ].map((p, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="bg-[#0c0a09] p-10 h-full flex flex-col group hover:bg-[#100e0c] transition-colors border-t-2 border-transparent hover:border-[var(--brand,#7c2d12)]">

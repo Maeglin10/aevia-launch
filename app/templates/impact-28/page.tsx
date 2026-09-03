@@ -631,7 +631,7 @@ export default function Home() {
                 </>)}</h2>
               </div>
               <Link href="/templates/impact-28/studio" className="text-sm font-bold uppercase tracking-widest text-black hover:underline underline-offset-4 flex items-center gap-2">
-                Full studio <ArrowRight className="w-4 h-4" />
+                Tout le studio <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           </Reveal>
@@ -757,7 +757,7 @@ export default function Home() {
                     <input required type="email" placeholder="YOUR EMAIL" className="w-full border-4 border-black px-5 py-4 font-bold uppercase tracking-widest text-sm focus:outline-none placeholder:text-gray-300 text-black bg-white" />
                     <textarea required placeholder="DESCRIBE YOUR PROJECT" rows={4} className="w-full border-4 border-black px-5 py-4 font-bold uppercase tracking-widest text-sm focus:outline-none placeholder:text-gray-300 resize-none text-black bg-white" />
                     <button type="submit" className="w-full bg-black text-white font-black uppercase tracking-widest text-sm py-5 hover:bg-gray-900 transition-colors cursor-pointer" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "1.1rem" }}>
-                      SEND MESSAGE →
+                      ENVOYER LE MESSAGE →
                     </button>
                   </form>
                 )}
