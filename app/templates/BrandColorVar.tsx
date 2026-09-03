@@ -30,6 +30,27 @@ function luminance(r: number, g: number, b: number): number {
   return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
 }
 
+/*
+  La couleur de marque sert deux emplois qui ne demandent pas la même chose :
+  posée en APLAT elle porte un texte, posée en TEXTE elle se lit sur un fond
+  clair. Un ambre #f59e0b passe très bien en aplat et tombe à 2,0 en texte sur
+  le blanc cassé d'une barre — impact-15 écrivait ainsi le nom du client dans
+  une couleur illisible. `--brand-dark` est cette seconde variante : la même
+  teinte, assombrie juste assez pour tenir 4,5 sur du blanc.
+*/
+function assombrirPourEcrire(hex: string): string {
+  const m = /^#?([0-9a-f]{6})$/i.exec(hex.trim());
+  if (!m) return hex;
+  const n = parseInt(m[1], 16);
+  let [r, g, b] = [n >> 16, (n >> 8) & 0xff, n & 0xff];
+  const surBlanc = () => 1.05 / (luminance(r, g, b) + 0.05);
+  /* Douze pas de 8 % suffisent : même un jaune pur finit par passer. */
+  for (let i = 0; i < 12 && surBlanc() < 4.5; i++) {
+    [r, g, b] = [r, g, b].map((c) => Math.round(c * 0.92)) as [number, number, number];
+  }
+  return "#" + (0x1000000 + r * 0x10000 + g * 0x100 + b).toString(16).slice(1);
+}
+
 function versRGB(couleur: string): [number, number, number] | null {
   const m = /rgba?\(([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)(?:[,/\s]+([\d.]+))?\)/i.exec(couleur);
   if (!m) return null;
@@ -2593,6 +2614,7 @@ export function BrandColorVar() {
           const root = document.documentElement.style;
           root.setProperty("--brand", c);
           root.setProperty("--brand-light", lighten(c));
+          root.setProperty("--brand-dark", assombrirPourEcrire(c));
         }
         /*
           Chaque thème va chercher la session de son côté : le texte du client

@@ -89,6 +89,11 @@ let C: Record<string, string> = {
   navyMid: '#143260',
   gold: '#d4af37',
   goldLight: '#e2c766',
+  /* Sur la photo du héros, l'or (luminance 0,45) ne dépasse pas 3,3 : trop
+     proche d'un cliché en demi-teinte, même sous voile. Ce champagne y tient
+     6,0. Réservé à ce qui se pose sur une photo — ailleurs, sur le bleu nuit,
+     `gold` et `goldLight` restent justes. */
+  goldHero: '#f2e3bd',
   goldDeep: '#b8961f',
   white: '#ffffff',
   pearl: '#e8e8e8',
@@ -225,7 +230,8 @@ function GoldButton({
     cursor: 'pointer',
     border: `1px solid ${C.gold}`,
     background: filled ? C.gold : 'transparent',
-    color: filled ? C.navyDeep : C.gold,
+    /* Le contour n'a pas de fond à lui : il se pose sur la photo du héros. */
+    color: filled ? C.navyDeep : C.goldHero,
     transition: 'all .5s cubic-bezier(.16,1,.3,1)',
   };
   const hov: React.CSSProperties = hover
@@ -327,9 +333,10 @@ function NavBar() {
             style={{ height: 32, maxWidth: 160, objectFit: 'contain', display: 'block' }}
           />
         ) : clientName(sessionData) ? (
-          <span style={{ color: C.gold, fontStyle: 'italic' }}>{clientName(sessionData)}</span>
+          <span style={{ color: C.goldHero, fontStyle: 'italic' }}>{clientName(sessionData)}</span>
         ) : (
-          <span style={{ color: C.gold, fontStyle: 'italic' }}>Dent&apos;Or</span>
+          /* La barre est transparente au-dessus de la photo du héros. */
+          <span style={{ color: C.goldHero, fontStyle: 'italic' }}>Dent&apos;Or</span>
         )}
       </a>
       <div style={linkRow} className="r284-navlinks">
@@ -494,7 +501,7 @@ function HeroSection() {
           background:
             /* Le creux du voile à 35 % tombait sur le titre, posé au-dessus
                d'un fauteuil dentaire blanc : mesuré 1,7. */
-            'linear-gradient(to bottom, rgba(7,24,41,0.66) 0%, rgba(7,24,41,0.58) 35%, rgba(7,24,41,0.66) 68%, rgba(7,24,41,0.92) 100%)',
+            'linear-gradient(to bottom, rgba(7,24,41,0.74) 0%, rgba(7,24,41,0.70) 35%, rgba(7,24,41,0.74) 68%, rgba(7,24,41,0.94) 100%)',
         }}
       />
       <div
@@ -525,7 +532,7 @@ function HeroSection() {
         }}
       >
         <Reveal y={18}>
-          <Eyebrow color={C.goldLight} align="center">
+          <Eyebrow color={C.goldHero} align="center">
             Cabinet dentaire · {clientCity(sessionData) ?? "Bordeaux"} Chartrons
           </Eyebrow>
         </Reveal>
@@ -546,7 +553,7 @@ function HeroSection() {
           }}
         >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 14) ?? (<>
           Le sourire que{' '}
-          <span style={{ fontStyle: 'italic', color: C.goldLight }}>
+          <span style={{ fontStyle: 'italic', color: C.goldHero }}>
             vous méritez
           </span>
         </>)}</motion.h1>
@@ -603,7 +610,7 @@ function HeroSection() {
                   fontFamily: SERIF,
                   fontStyle: 'italic',
                   fontSize: 'clamp(26px,3vw,40px)',
-                  color: C.goldLight,
+                  color: C.goldHero,
                   lineHeight: 1,
                 }}
               >
@@ -658,7 +665,7 @@ function HeroSection() {
           animate={{ y: [0, 9, 0] }}
           transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
         >
-          <ChevronDown size={20} color={C.goldLight} strokeWidth={1.3} />
+          <ChevronDown size={20} color={C.goldHero} strokeWidth={1.3} />
         </motion.div>
       </motion.div>
     </section>

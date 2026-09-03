@@ -23,6 +23,35 @@ const S = { id: "v", formData: { businessName: NOM, phone: "+33 4 78 12 34 56", 
   businessProfile: { identity: { name: NOM }, contacts: { general: { phone: "+33 4 78 12 34 56" } },
                      geo: { address: "12 rue des Capucins, 69001 Lyon" } }, generatedContent: {} };
 
+/*
+  La MOYENNE des pixels sous un texte compte les lettres elles-mêmes : du blanc
+  sur un aplat vert donnait 3,7 au lieu de 4,9, et trois thèmes ont été signalés
+  pour des boutons parfaitement lisibles. On prend donc la couleur DOMINANTE —
+  le fond occupe toujours plus de surface que les glyphes — quantifiée par
+  paliers de 16 pour que le dégradé d'une photo se regroupe au lieu de
+  s'émietter en autant de nuances que de pixels.
+*/
+async function fondDominant(png, texte) {
+  const { data, info } = await sharp(png).raw().toBuffer({ resolveWithObject: true });
+  const n = info.channels;
+  const seaux = new Map();
+  for (let i = 0; i < data.length; i += n) {
+    const cle = ((data[i] >> 4) << 8) | ((data[i + 1] >> 4) << 4) | (data[i + 2] >> 4);
+    const s = seaux.get(cle) ?? [0, 0, 0, 0];
+    s[0] += data[i]; s[1] += data[i + 1]; s[2] += data[i + 2]; s[3]++;
+    seaux.set(cle, s);
+  }
+  /* Sur un grand titre, ce sont les LETTRES qui occupent le plus de surface :
+     la dominante devenait la couleur du texte et le rapport tombait à 1,00 sur
+     un titre parfaitement lisible. On écarte donc les seaux qui sont, à peu de
+     chose près, la couleur du texte — et l'on garde le suivant. Un vrai défaut
+     reste visible : du blanc sur crème laisse une dominante crème, pas blanche. */
+  const proche = (s) => texte && [0, 1, 2].every((i) => Math.abs(s[i] / s[3] - texte[i]) < 24);
+  const tries = [...seaux.values()].sort((a, b) => b[3] - a[3]);
+  const mieux = tries.find((s) => !proche(s)) ?? tries[0];
+  return [mieux[0] / mieux[3], mieux[1] / mieux[3], mieux[2] / mieux[3]];
+}
+
 const lum = (r, g, b) => { const f = (c) => { c /= 255; return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4); };
   return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b); };
 
@@ -76,6 +105,19 @@ for (const [etat, url] of [["vitrine", ""], ["client", "?session=v"]]) {
 
     const r = await p.evaluate((nomClient) => {
       const txt = (document.body.innerText || "").replace(/\s+/g, " ");
+      /* `getComputedStyle().color` ne rend plus toujours du « rgb() » :
+         Tailwind 4 écrit ses couleurs en `lab()` / `oklch()`, et lire les
+         trois premiers nombres d'un `lab(85 0.6 -2)` donnait « rgb(85,0,-2) »
+         — un texte clair compté comme noir, donc 1,04 sur un fond sombre.
+         On laisse le navigateur convertir. */
+      const potDeCouleur = document.createElement("canvas").getContext("2d");
+      const enRGB = (couleur) => {
+        potDeCouleur.fillStyle = "#000";
+        potDeCouleur.fillStyle = couleur;
+        const h = potDeCouleur.fillStyle;
+        if (h.startsWith("#")) return [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16));
+        return (h.match(/[\d.]+/g) || []).slice(0, 3).map(Number);
+      };
       const ANGLAIS = /\b(home|about|our|your|book now|view all|read more|learn more|contact us|get started|sign in|discover|welcome|opening hours|our story|our team|our services|see more|find out)\b/gi;
       const h1 = document.querySelector("h1");
       const conteneur = [...document.querySelectorAll("header, nav")].filter((e) => e.getBoundingClientRect().top < 140)[0];
@@ -103,7 +145,7 @@ for (const [etat, url] of [["vitrine", ""], ["client", "?session=v"]]) {
         const s = getComputedStyle(n);
         if (parseFloat(s.opacity) < 0.05 || s.visibility === "hidden" || s.display === "none") return true; } return false; };
       const boite = (e) => { if (!e || invisible(e)) return null; const b = e.getBoundingClientRect();
-        return { x: Math.max(0, b.x), y: Math.max(0, b.y), w: Math.min(b.width, innerWidth), h: Math.min(b.height, 300), c: getComputedStyle(e).color.match(/\d+/g).map(Number) }; };
+        return { x: Math.max(0, b.x), y: Math.max(0, b.y), w: Math.min(b.width, innerWidth), h: Math.min(b.height, 300), c: enRGB(getComputedStyle(e).color) }; };
       return {
         apostrophes: (txt.match(/\\'/g) || []).length,
         anglais: [...new Set((txt.match(ANGLAIS) || []).map((x) => x.toLowerCase()))].slice(0, 8),
@@ -146,8 +188,7 @@ for (const [etat, url] of [["vitrine", ""], ["client", "?session=v"]]) {
       if (!b || b.w < 20 || b.h < 8) return null;
       try {
         const png = await p.screenshot({ clip: { x: b.x, y: b.y, width: Math.max(8, b.w), height: Math.max(8, b.h) } });
-        const st = await sharp(png).stats();
-        const [rr, gg, bb] = st.channels.slice(0, 3).map((c) => c.mean);
+        const [rr, gg, bb] = await fondDominant(png, b?.c ?? e.c);
         const L1 = lum(b.c[0], b.c[1], b.c[2]), L2 = lum(rr, gg, bb);
         /* Le rapport de contraste ne peut pas dépasser 21 : au-delà, c'est que
            la mesure a échoué — une couleur non analysable rend NaN, et la

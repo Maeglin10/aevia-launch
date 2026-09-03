@@ -55,6 +55,10 @@ let C: Record<string, string> = {
   bgAlt: "#f2ede6",
   terra: "var(--brand,#c2724f)",
   terraLight: "#e8a07e",
+  /* Le héros s'écrit sur une photo de piscine en plein soleil : la terre cuite
+     claire (luminance 0,44) n'y tenait que 1,3, et l'éclaircir est le seul
+     levier — une photo aussi lumineuse demanderait sinon un voile opaque. */
+  terraHero: "#f7e0d2",
   dark: "#1c1a18",
   muted: "#8a8070",
   line: "#e0d8cc",
@@ -293,7 +297,9 @@ return (
       <section id="hero" ref={heroRef} className="imx177-hero" style={{ position: "relative", height: "100dvh", minHeight: 640, overflow: "hidden", display: "flex", alignItems: "safe flex-end" }}>
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <Image src={photo(3, "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=85&w=2400")} alt="Piscine sur-mesure" fill className="object-cover" priority style={{ filter: "brightness(0.75)" }} />
-          <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${C.dark} 0%, rgba(28,26,24,0.3) 50%, transparent 100%)` }} />
+          <div style={{ position: "absolute", inset: 0, /* Sur mobile le héros bascule en `flex-start` : le titre monte là où ce
+             voile ne couvrait plus rien. Il couvre désormais le haut aussi. */
+          background: `linear-gradient(to top, ${C.dark} 0%, rgba(28,26,24,0.48) 45%, rgba(28,26,24,0.60) 100%)` }} />
           <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, rgba(28,26,24,0.5) 0%, transparent 60%)` }} />
         </motion.div>
 
@@ -303,12 +309,12 @@ return (
               <div style={{ width: 40, height: 1, background: C.terra }} />
               <span style={{ fontFamily: C.sans, fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.35em", /* Terre cuite sur un ciel de coucher de soleil : 2,6. Une terre cuite
                  claire tient la même famille et se lit. */
-              color: "#f2cdb8", textShadow: "0 1px 8px rgba(20,14,10,0.92)" }}>{clientTrade(sessionData) ?? "Pisciniste"} · {clientCity(sessionData) ?? "Lyon"}</span>
+              color: C.terraHero, textShadow: "0 1px 8px rgba(20,14,10,0.92)" }}>{clientTrade(sessionData) ?? "Pisciniste"} · {clientCity(sessionData) ?? "Lyon"}</span>
             </div>
           </motion.div>
 
           <motion.h1 initial={{ opacity: 0, y: 60 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            style={{ fontFamily: C.serif, fontSize: "clamp(3.5rem,9vw,8.5rem)", fontWeight: 400, lineHeight: 0.9, letterSpacing: "-0.01em", color: "#fff", marginBottom: "1.5rem", fontStyle: "italic" }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 3, 12) ?? "Des piscines"}<br />{clientHeroLine(sessionData, 1, 3, 12) ?? "qui vous"}<br /><span style={{ color: C.terraLight }}>{clientHeroLine(sessionData, 2, 3, 12) ?? "ressemblent."}</span>
+            style={{ fontFamily: C.serif, fontSize: "clamp(3.5rem,9vw,8.5rem)", fontWeight: 400, lineHeight: 0.9, letterSpacing: "-0.01em", color: "#fff", marginBottom: "1.5rem", fontStyle: "italic" }}>{/* TEXTE_SECTION */ clientText(sessionData, "hero.titre") ?? (<>{<>{clientHeroLine(sessionData, 0, 3, 12) ?? "Des piscines"}<br />{clientHeroLine(sessionData, 1, 3, 12) ?? "qui vous"}<br /><span style={{ color: C.terraHero }}>{clientHeroLine(sessionData, 2, 3, 12) ?? "ressemblent."}</span>
           </>}</>)}</motion.h1>
 
           <motion.p initial={{ opacity: 0, y: 25 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9, delay: 0.75, ease: [0.22, 1, 0.36, 1] }}

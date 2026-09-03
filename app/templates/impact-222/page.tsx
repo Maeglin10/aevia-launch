@@ -80,6 +80,11 @@ let C: Record<string, string> = {
   navySoft: '#2c3654',
   gold: '#b8944a',
   goldSoft: '#cdab66',
+  /* Sur la photo du héros, l'or doux tombe à 1,7 : sa luminance (0,43) est
+     trop proche de celle d'un cliché en demi-teinte. Ce champagne-là tient
+     5,1 sous le voile renforcé. Réservé au héros — ailleurs, sur fond sombre,
+     `goldSoft` reste juste. */
+  goldHero: '#f2e3bd',
   goldFaint: '#efe6d4',
   text: '#11182a',
   textSoft: '#4d5366',
@@ -155,14 +160,14 @@ const Eyebrow: React.FC<{ children: React.ReactNode; light?: boolean }> = ({
       fontWeight: 600,
       letterSpacing: '0.22em',
       textTransform: 'uppercase',
-      color: light ? C.goldSoft : C.gold,
+      color: light ? C.goldHero : C.gold,
     }}
   >
     <span
       style={{
         width: 26,
         height: 1,
-        background: light ? C.goldSoft : C.gold,
+        background: light ? C.goldHero : C.gold,
         display: 'inline-block',
       }}
     />
@@ -530,7 +535,9 @@ const Hero: React.FC = () => {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(180deg, rgba(17,24,42,0.62) 0%, rgba(17,24,42,0.32) 38%, rgba(17,24,42,0.74) 100%)',
+            /* Le voile se creusait à 0,32 pile à la hauteur du titre : le blanc
+               n'y tenait que 3,6 et l'or 1,7. Il ne se creuse plus. */
+            'linear-gradient(180deg, rgba(17,24,42,0.68) 0%, rgba(17,24,42,0.58) 38%, rgba(17,24,42,0.80) 100%)',
           opacity: scrimO,
         }}
       />
@@ -583,7 +590,7 @@ const Hero: React.FC = () => {
           >{/* ACCROCHE */ clientHeroLine(sessionData, 0, 1, 15) ?? (<>
             Des espaces qui
             <br />
-            <span style={{ fontStyle: 'italic', color: C.goldSoft }}>
+            <span style={{ fontStyle: 'italic', color: C.goldHero }}>
               transforment
             </span>{' '}
             des vies
@@ -2606,6 +2613,9 @@ export default function ImpactTemplate(): React.ReactElement {
       ...C,
       gold: brand,
       goldSoft: shadeColor(brand, 25),
+      /* Sur la photo du héros, la teinte du client doit être franchement
+         claire pour tenir 4,5 : on l'éclaircit bien plus qu'ailleurs. */
+      goldHero: shadeColor(brand, 78),
     };
   }
 

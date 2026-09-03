@@ -47,6 +47,8 @@ let C: Record<string, string> = {
   text: "#0f1c2e",
   textMuted: "#5a6a7e",
   accent: "var(--brand-light,#f59e0b)",
+  /* L'accent écrit sur fond clair, assombri jusqu'à tenir 4,5 (cf. --brand-dark). */
+  accentTexte: "var(--brand-dark,#b45309)",
   accentDark: "#d97706",
   accentLight: "#fef3c7",
   dark: "#1a2744",
@@ -289,7 +291,8 @@ return (
           </div>
           <span style={{ fontSize: 18, fontWeight: 700, color: scrolled ? C.dark : "#fff" }}>{/* La barre disait « VoltExpert », un nom d'électricien, alors que le pied
                   et tout le contenu parlent de piscines. On aligne sur le métier. */}
-            Volt<span style={{ color: C.accent }}>Piscines</span></span>
+            {/* La barre est blanc cassé : l'ambre d'aplat y tombe à 2,0. */}
+            Volt<span style={{ color: C.accentTexte }}>Piscines</span></span>
             </>
           )}
         </div>

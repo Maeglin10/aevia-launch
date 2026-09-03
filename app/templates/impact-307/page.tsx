@@ -108,7 +108,9 @@ function shadeColor(hex: string, percent: number): string {
 let C: Record<string, string> = {
   primary: "var(--brand,#c5a55a)",
   primaryLight: "var(--brand-light,#d8be80)",
-  primaryDark: "#9c8040",
+  /* Vingt-neuf emplois, tous en TEXTE sur fond clair — dont le nom du client
+     dans la barre : 3,2 seulement à #9c8040. Assombri jusqu'à 4,7. */
+  primaryDark: "#796432",
   bg: "#fdfcf8",
   bgDeep: "#f8f4ec",
   bgCard: "#ffffff",

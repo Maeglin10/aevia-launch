@@ -37,7 +37,7 @@ function offices_LIVE() {
     phone: "+33 4 72 41 88 60",
     email: (clientEmail(sessionData) ?? fd?.email ?? "lyon@brutco-architecture.com"),
     hours: "Mon – Fri, 09:00 – 18:00",
-    img: "https://pixabay.com/get/g1dcb46997b015312cbf57ff6a952dd8074d490fd45c235e5fe82a3af5f15e6dbb6739e8590f64e78f5e33031c329128f9b3a96e8eb4f3c670ecfbf20ae3554a5_1280.jpg",
+    img: "https://images.pexels.com/photos/9808879/pexels-photo-9808879.jpeg?auto=compress&cs=tinysrgb&w=1600",
   },
   {
     city: (clientCity(sessionData) ?? "Marseille"),

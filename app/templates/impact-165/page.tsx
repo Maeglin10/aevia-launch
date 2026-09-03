@@ -12,6 +12,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientName,
   clientReviews,
   clientServices,
   clientStats,

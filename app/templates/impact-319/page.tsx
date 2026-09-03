@@ -73,7 +73,9 @@ let C: Record<string, string> = {
   accentLight: "#e2ecd0",
   ink: "#232919",
   textMuted: "#5b634f",
-  textFaint: "#8a9179",
+  /* Sauge sur blanc cassé : 3,1 seulement, y compris sous le métier du
+     client et la mention « Défiler ». Assombrie jusqu'à 4,7. */
+  textFaint: "#727763",
   border: "#dde4cf",
   white: "#ffffff",
   leaf: "#6d9a3f",

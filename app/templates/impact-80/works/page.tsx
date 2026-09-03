@@ -32,7 +32,7 @@ const ALL_PROJECTS = [
     year: "2024",
     area: "2 400 m²",
     status: "Completed",
-    img: "https://pixabay.com/get/gbbc299ba5a29ed0555cf1c54627eeedced3b56da4ab3b8d994362e3f17e955190dcc51994644ffcd245bec92f89bcf8f6ed108e88c080f73448414fe39e6dd59_1280.jpg",
+    img: "https://images.pexels.com/photos/9808879/pexels-photo-9808879.jpeg?auto=compress&cs=tinysrgb&w=1600",
     desc: "A sixteen-floor headquarters built on a single structural logic: maximum transparency, minimum intervention.",
   },
   {
@@ -42,7 +42,7 @@ const ALL_PROJECTS = [
     year: "2023",
     area: "1 100 m²",
     status: "Completed",
-    img: "https://pixabay.com/get/gbf229731283bc77e3f7157e49babac2ce178bdd21ca4e30d4f054f360a58915f6ff48497f682d50f8f41749a12bf114615e43e019f0e018c1325fab57f37dec3_1280.jpg",
+    img: "https://images.pexels.com/photos/26741547/pexels-photo-26741547.jpeg?auto=compress&cs=tinysrgb&w=1600",
     desc: "A cultural pavilion designed around the choreography of visitor movement. Light changes the space every hour.",
   },
   {

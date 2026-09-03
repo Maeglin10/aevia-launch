@@ -128,7 +128,9 @@ function shadeColor(hex: string, percent: number): string {
 let C: Record<string, string> = {
   primary: "var(--brand,#c8a0b0)",
   primaryLight: "var(--brand-light,#dab8c6)",
-  primaryDark: "#a08090",
+  /* Ce mauve sert de couleur de TEXTE vingt-neuf fois, toujours sur du blanc :
+     à #a08090 il n'y tenait que 3,5. Assombri jusqu'à 4,7. */
+  primaryDark: "#876d79",
   bg: "#fefefe",
   bgDeep: "#f8f4f6",
   bgCard: "#ffffff",

@@ -127,7 +127,9 @@ function shadeColor(hex: string, percent: number): string {
 let C: Record<string, string> = {
   primary: "var(--brand,#10b981)",
   primaryLight: "var(--brand-light,#34d399)",
-  primaryDark: "#059669",
+  /* Le nom du client s'écrit dans cette teinte sur du blanc : 3,7 à
+     #059669. Assombrie jusqu'à 4,7. */
+  primaryDark: "#05845d",
   bg: "#ffffff",
   bgDeep: "#f0fdf4",
   bgCard: "#f8faf9",
@@ -249,7 +251,9 @@ function Button({
         opacity: disabled ? 0.55 : 1,
         border: `1.5px solid ${C.primary}`,
         background: filled ? C.primary : 'transparent',
-        color: filled ? C.white : C.primary,
+        /* Le contour laisse le blanc derrière : l'émeraude vive n'y tient que
+           2,4. Le texte prend la variante sombre, le trait garde la vive. */
+        color: filled ? C.white : C.primaryDark,
         borderRadius: 30,
         transform: hover && !disabled ? 'translateY(-2px)' : 'none',
         boxShadow: hover && filled && !disabled ? `0 6px 20px ${C.primary}33` : 'none',
@@ -658,8 +662,11 @@ export default function Page() {
           flexDirection: 'column',
           alignItems: 'center',
           gap: 6,
-          opacity: 0.5,
-          color: C.textMuted,
+          /* Cette mention se pose sur l'aplat émeraude du héros, pas sur le
+             blanc : l'ardoise y tombait à 1,0. Et l'opacité 0,5 laissait le
+             blanc lui-même à 2,3 — à 10 px, aucune tolérance « grand texte »
+             ne s'applique. */
+          color: C.white,
           fontSize: 10,
           letterSpacing: '0.15em',
           textTransform: 'uppercase',
