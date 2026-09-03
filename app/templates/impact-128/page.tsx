@@ -56,7 +56,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 
 function PROPERTIES_DEMO_LIVE() {
   return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
-  { title: "The Belvedere Penthouse", location: "Upper East Side, NY", price: "$12.5M", beds: 5, baths: 4, sqft: "6,200", img: (clientPhotos(sessionData)[0] || "https://pixabay.com/get/g31cab588683a000ec6d59592689440562669240aab0b8a5c6ad5c941ed3a05784868999c632e30bc0892a54fb8bee1811e9b0a0980b305f89db401d81f9a0e9b_1280.jpg"), tag: "Exclusive" },
+  { title: "The Belvedere Penthouse", location: "Upper East Side, NY", price: "$12.5M", beds: 5, baths: 4, sqft: "6,200", img: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/28054849/pexels-photo-28054849.jpeg?auto=compress&cs=tinysrgb&w=1600"), tag: "Exclusive" },
   { title: "Château des Vignes", location: "Provence, France", price: "€8.9M", beds: 7, baths: 5, sqft: "9,400", img: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/34688219/pexels-photo-34688219.jpeg?auto=compress&cs=tinysrgb&w=1600"), tag: "New Listing" },
   { title: "Marina Bay Residence", location: "Singapore", price: "S$18.2M", beds: 4, baths: 3, sqft: "4,800", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&q=80&w=1200"), tag: "Penthouse" },
   { title: "Hampstead Manor", location: "London, UK", price: "£14.7M", beds: 8, baths: 6, sqft: "11,200", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200"), tag: "Heritage" },
@@ -217,7 +217,7 @@ export default function HavenEstatesPage() {
         {/* ── HERO ────────────────────────── */}
         <section id="hero" className="relative h-[100dvh] min-h-[640px] flex items-end overflow-hidden">
           <motion.div style={{ y: heroY }} className="absolute inset-0">
-            <Image src={photo(4, "https://pixabay.com/get/g31cab588683a000ec6d59592689440562669240aab0b8a5c6ad5c941ed3a05784868999c632e30bc0892a54fb8bee1811e9b0a0980b305f89db401d81f9a0e9b_1280.jpg")} alt="Estate" fill className="object-cover" priority />
+            <Image src={photo(4, "https://images.pexels.com/photos/12715456/pexels-photo-12715456.jpeg?auto=compress&cs=tinysrgb&w=1600")} alt="Estate" fill className="object-cover" priority />
             <div className="absolute inset-0 bg-gradient-to-t from-[#faf9f6] via-[#faf9f6]/20 to-transparent" />
           </motion.div>
 
@@ -252,7 +252,7 @@ export default function HavenEstatesPage() {
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="group cursor-pointer">
                     <div className="relative aspect-[16/10] overflow-hidden rounded-sm mb-6">
-                      <ParallaxImg src={p.img || p.photoUrl || photo(2 + i, (clientPhotos(sessionData)[5] || "https://pixabay.com/get/g31cab588683a000ec6d59592689440562669240aab0b8a5c6ad5c941ed3a05784868999c632e30bc0892a54fb8bee1811e9b0a0980b305f89db401d81f9a0e9b_1280.jpg"))} alt={p.title ?? p.name ?? "Property"} />
+                      <ParallaxImg src={p.img || p.photoUrl || photo(2 + i, (clientPhotos(sessionData)[5] || "https://images.pexels.com/photos/27195983/pexels-photo-27195983.jpeg?auto=compress&cs=tinysrgb&w=1600"))} alt={p.title ?? p.name ?? "Property"} />
                       {(p.tag ?? p.status) && (
                         <div className="absolute top-6 left-6 flex gap-2">
                           <span className="px-3 py-1 bg-[var(--brand,#b8860b)] text-white text-[10px] font-bold uppercase tracking-widest rounded-full">{p.tag ?? p.status}</span>

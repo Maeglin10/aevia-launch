@@ -193,7 +193,7 @@ export default function Home() {
         <div className="flex-1 relative overflow-hidden">
           <motion.div style={{ y: heroY, scale: heroScale }} className="absolute inset-0">
             <Image
-              src={photo(0, (clientPhotos(sessionData)[0] || "https://pixabay.com/get/g1dcb46997b015312cbf57ff6a952dd8074d490fd45c235e5fe82a3af5f15e6dbb6739e8590f64e78f5e33031c329128f9b3a96e8eb4f3c670ecfbf20ae3554a5_1280.jpg"))}
+              src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/15285869/pexels-photo-15285869.jpeg?auto=compress&cs=tinysrgb&w=1600"))}
               alt="Brutco Architecture"
               fill
               className="object-cover grayscale"
@@ -668,7 +668,7 @@ export default function Home() {
         <div className="relative overflow-hidden min-h-[480px] flex items-center">
           {/* Background image */}
           <ScrollImage
-            src={photo(6, (clientPhotos(sessionData)[6] || "https://pixabay.com/get/g1dcb46997b015312cbf57ff6a952dd8074d490fd45c235e5fe82a3af5f15e6dbb6739e8590f64e78f5e33031c329128f9b3a96e8eb4f3c670ecfbf20ae3554a5_1280.jpg"))}
+            src={photo(6, (clientPhotos(sessionData)[6] || "https://images.pexels.com/photos/4328661/pexels-photo-4328661.jpeg?auto=compress&cs=tinysrgb&w=1600"))}
             alt="CTA architecture"
             width={1600}
             height={700}

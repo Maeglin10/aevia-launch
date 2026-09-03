@@ -93,13 +93,13 @@ const SANS = "'Source Sans 3', system-ui, sans-serif" as const;
 function P_LIVE() {
   return {
   doctor:
-    (clientPhotos(sessionData)[0] || 'https://pixabay.com/get/g6a52fcb11b657e93edffdca76ab17fe6271333f8ba34c8a4f8edfc08bee72c9f07a24f7bf1ebd5057fff8c81c6bb19e12c278f26351ef138ca0fd13c7aa0ee80_1280.jpg'),
+    (clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/7578800/pexels-photo-7578800.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   doctorMd:
-    (clientPhotos(sessionData)[1] || 'https://pixabay.com/get/g6a52fcb11b657e93edffdca76ab17fe6271333f8ba34c8a4f8edfc08bee72c9f07a24f7bf1ebd5057fff8c81c6bb19e12c278f26351ef138ca0fd13c7aa0ee80_1280.jpg'),
+    (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/39192361/pexels-photo-39192361.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   wellness:
-    (clientPhotos(sessionData)[2] || 'https://pixabay.com/get/g6a52fcb11b657e93edffdca76ab17fe6271333f8ba34c8a4f8edfc08bee72c9f07a24f7bf1ebd5057fff8c81c6bb19e12c278f26351ef138ca0fd13c7aa0ee80_1280.jpg'),
+    (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/8376307/pexels-photo-8376307.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   wellnessMd:
-    (clientPhotos(sessionData)[3] || 'https://pixabay.com/get/g6a52fcb11b657e93edffdca76ab17fe6271333f8ba34c8a4f8edfc08bee72c9f07a24f7bf1ebd5057fff8c81c6bb19e12c278f26351ef138ca0fd13c7aa0ee80_1280.jpg'),
+    (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/20100296/pexels-photo-20100296.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   functional:
     (clientPhotos(sessionData)[4] || 'https://images.unsplash.com/photo-1600334129128-685c5582fd35?q=80&w=1600&auto=format&fit=crop'),
   functionalMd:

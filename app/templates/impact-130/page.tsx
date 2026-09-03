@@ -118,7 +118,7 @@ function PROJECTS_DEMO_LIVE() {
     tags: ["Web Design", "3D", "Interaction"],
     desc: "Plateforme digitale pour un collectif d'artistes alpins. Navigation immersive avec rendu 3D en temps réel et système de galerie dynamique.",
     result: "Awwwards Site of the Day",
-    image: (clientPhotos(sessionData)[1] || "https://pixabay.com/get/gc89ffd476ec7d78dcce54cb0f27a3a46892f9edd96efe5cbba6efa9f345f4e7341e0af0277e0b538b4bb5e3b62e0c7d57fe36ee3e1ee7f423f317a54b33b5ae0_1280.jpg"),
+    image: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/414974/pexels-photo-414974.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     color: C.gold,
   },
   {
@@ -140,7 +140,7 @@ function PROJECTS_DEMO_LIVE() {
     tags: ["Art Direction", "Print", "OOH"],
     desc: "Campagne 360° pour le lancement d'un nouveau quartier résidentiel premium à Carouge. Direction artistique et production pour presse, affichage et digital.",
     result: "94% des unités vendues",
-    image: (clientPhotos(sessionData)[3] || "https://pixabay.com/get/g8c7874e571c72cf5e6b2b7a813ee5f29988628d4a08fd7d8cf84821d0bd4598dfe54c8c47f9470996ecef9f545e5069afaf139c87aaef8e2afa309ec5e312c9b_1280.jpg"),
+    image: (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/4348289/pexels-photo-4348289.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     color: C.gold,
   },
   {
@@ -379,7 +379,7 @@ function SplitRevealHero() {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const [activeSlide, setActiveSlide] = useState(0);
   const slides = [
-    { label: "Brand Identity", image: (clientPhotos(sessionData)[6] || "https://pixabay.com/get/gc89ffd476ec7d78dcce54cb0f27a3a46892f9edd96efe5cbba6efa9f345f4e7341e0af0277e0b538b4bb5e3b62e0c7d57fe36ee3e1ee7f423f317a54b33b5ae0_1280.jpg") },
+    { label: "Brand Identity", image: (clientPhotos(sessionData)[6] || "https://images.pexels.com/photos/32075861/pexels-photo-32075861.jpeg?auto=compress&cs=tinysrgb&w=1600") },
     { label: "Digital Experience", image: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?q=80&w=1400&auto=format&fit=crop") },
     { label: "Art Direction", image: (clientPhotos(sessionData)[8] || "https://images.unsplash.com/photo-1614624532983-4ce03382d63d?q=80&w=1400&auto=format&fit=crop") },
   ];

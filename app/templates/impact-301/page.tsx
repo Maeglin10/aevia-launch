@@ -130,7 +130,7 @@ function PHOTO_LIVE() {
   hero: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/38326993/pexels-photo-38326993.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   about: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1450133064473-71024230f91b?q=80&w=1600&auto=format&fit=crop"),
   special: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1600&auto=format&fit=crop"),
-  gallery1: (clientPhotos(sessionData)[3] || "https://pixabay.com/get/g31344efed43f31e3ab869bd2ab4a871b3361828ab65904a92325fccfaf7d37ce5102c71e6213ee89d73e6603d9d5420fc412ef9c395ec682c73562263b01758d_1280.jpg"),
+  gallery1: (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/7876289/pexels-photo-7876289.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   gallery2: (clientPhotos(sessionData)[4] || "https://images.pexels.com/photos/38326993/pexels-photo-38326993.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   gallery3: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1450133064473-71024230f91b?q=80&w=800&auto=format&fit=crop"),
   gallery4: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=800&auto=format&fit=crop")

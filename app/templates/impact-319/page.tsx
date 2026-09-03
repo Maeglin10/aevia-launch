@@ -150,7 +150,7 @@ const PHOTO_FALLBACK = [
   "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
   "https://images.unsplash.com/photo-1585412727339-54e4bae3bbf9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
   "https://images.pexels.com/photos/10268087/pexels-photo-10268087.jpeg?auto=compress&cs=tinysrgb&w=2000",
-  "https://pixabay.com/get/g893e524f9a06094689d257ff921c92637ccd7a15154369ef29a4a9d2005be2f8343067bc0683c3b6550eb1e1ea346eb758d7eae2d04212c81497e312e6c0196b_1280.jpg",
+  "https://images.pexels.com/photos/3737576/pexels-photo-3737576.jpeg?auto=compress&cs=tinysrgb&w=1600",
 ];
 
 // Photo du client à l'emplacement i, repli sur celle du thème.

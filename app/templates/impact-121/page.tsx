@@ -170,7 +170,7 @@ function MANIFEST_LIVE() {
   team: [
     { name: "Elias Valenti", role: "Design Director", img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80") },
     { name: "Sarah Chen", role: "Technical Lead", img: (clientPhotos(sessionData)[5] || "https://images.pexels.com/photos/9618117/pexels-photo-9618117.jpeg?auto=compress&cs=tinysrgb&w=1600") },
-    { name: "Marcus Thorne", role: "Creative Strategist", img: (clientPhotos(sessionData)[6] || "https://pixabay.com/get/g613d911e81379b41f26dc68ab6cf3d4bdab6dfd522a063b5d8d4eb4cf02a76447d1ef9817af0c677fc4d111a056a6d242be92ecdf274d0569c2978e66acfb88f_1280.jpg") },
+    { name: "Marcus Thorne", role: "Creative Strategist", img: (clientPhotos(sessionData)[6] || "https://images.pexels.com/photos/23496667/pexels-photo-23496667.jpeg?auto=compress&cs=tinysrgb&w=1600") },
     { name: "Lena Volkov", role: "Motion Designer", img: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=80") }
   ],
   pricing: resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
@@ -445,7 +445,7 @@ export default function FolioStudioPage() {
 
         {/* ─── FULL WIDTH IMAGE PARALLAX ─────────────────────────────────── */}
         <section className="py-20">
-          <ParallaxImg src={photo(8, "https://pixabay.com/get/g84b7064fa3af332d526cec4506ba1fd2d3b7fadbe16efc4e299c4013917a9d772fc8f73b913423f7d41d0221c1aa2710221d42ae7b9bd14fb13771c52a711133_1280.jpg")} alt="Office" className="h-[60vh] md:h-[80vh] w-full" />
+          <ParallaxImg src={photo(8, "https://images.pexels.com/photos/7674843/pexels-photo-7674843.jpeg?auto=compress&cs=tinysrgb&w=1600")} alt="Office" className="h-[60vh] md:h-[80vh] w-full" />
         </section>
 
         {/* ─── SERVICES GRID ─────────────────────────────────────────────── */}

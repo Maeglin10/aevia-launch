@@ -25,7 +25,7 @@ function PROJECTS_LIVE() {
     year: "2024",
     type: "Commercial",
     area: "42,000m²",
-    img: clientPhotoAt(10, "https://pixabay.com/get/geae3f9d2a7ed477bf3c9adb997991f350ffb9c0124e1e88a6eb732c9d2544e1c30515d021b427ff1427b216a6c2e67c4f1d42fba533890ddde4ae00dc99ff25f_1280.jpg"),
+    img: clientPhotoAt(10, "https://images.pexels.com/photos/37125867/pexels-photo-37125867.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     desc: "Adaptive facade systems that react to solar intensity. Real-time thermal optimization.",
   },
   {

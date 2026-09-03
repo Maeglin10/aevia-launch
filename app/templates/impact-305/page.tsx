@@ -134,7 +134,7 @@ function PHOTO_LIVE() {
   about: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=1600&auto=format&fit=crop"),
   special: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1508739773434-c26b3d09e071?q=80&w=1600&auto=format&fit=crop"),
   gallery1: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=800&auto=format&fit=crop"),
-  gallery2: (clientPhotos(sessionData)[4] || "https://pixabay.com/get/gd8045714180aae2e5ec132fdf72304c67cba172fe25a65f04f7ab84fcdcfe9367fb37f000a0001dc8df6fcf4c56d7b72190cab113f593134d32847a3a2f7a364_1280.jpg"),
+  gallery2: (clientPhotos(sessionData)[4] || "https://images.pexels.com/photos/27928762/pexels-photo-27928762.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   gallery3: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=800&auto=format&fit=crop"),
   gallery4: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1581092921461-eab62e97a780?q=80&w=800&auto=format&fit=crop")
 } as const;

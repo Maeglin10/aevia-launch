@@ -68,7 +68,7 @@ function PROJECTS_DEMO_LIVE() {
     category: "Commercial",
     location: (clientCity(sessionData) ?? "Paris") + ", FR",
     desc: "Redefining workspace through glass-brick acoustics and architectural light channeling.",
-    img: (clientPhotos(sessionData)[1] || "https://pixabay.com/get/g097824220c82fe9db086ae82c1caec624afa30d7739edf4863870db39fe88efcb475955f1863057fed43d80fad65e7d34fd339b30ea4be3e9604a84ba73a2aac_1280.jpg"),
+    img: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/38481078/pexels-photo-38481078.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     id: 3,
@@ -575,7 +575,7 @@ export default function NovaSpacesPage() {
           <Reveal>
             <div className="relative aspect-square rounded-sm overflow-hidden group border border-black/5">
               <Image
-                src={photo(4, "https://pixabay.com/get/g097824220c82fe9db086ae82c1caec624afa30d7739edf4863870db39fe88efcb475955f1863057fed43d80fad65e7d34fd339b30ea4be3e9604a84ba73a2aac_1280.jpg")}
+                src={photo(4, "https://images.pexels.com/photos/12277021/pexels-photo-12277021.jpeg?auto=compress&cs=tinysrgb&w=1600")}
                 alt="Atelier"
                 fill
                 className="object-cover group-hover:scale-110 transition-all duration-[3s] grayscale hover:grayscale-0 transition-all duration-1000"

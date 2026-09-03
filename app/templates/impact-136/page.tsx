@@ -598,7 +598,7 @@ export default function TextRevealPage() {
             <div className="flex flex-col items-center gap-4">
               <div className="w-16 h-16 rounded-full overflow-hidden relative">
                 <Image
-                  src={photo(5, "https://pixabay.com/get/g07fafb963bf5eb2d4a8b76206f42aefe1863a142d5e3f1184760fa411bebdef52b6d58fed48cdc987523d9dc1f8bcd3842bb5c1ac305915aa732292ce0dcdcab_1280.jpg")}
+                  src={photo(5, "https://images.pexels.com/photos/4665064/pexels-photo-4665064.jpeg?auto=compress&cs=tinysrgb&w=1600")}
                   alt="Founder"
                   fill
                   className="object-cover grayscale"

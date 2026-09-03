@@ -55,7 +55,7 @@ function projects_LIVE() {
     get loc() { return clientCityOr("Paris") + " 19ème"; },
     year: "2024", 
     type: "Residential", 
-    img: clientPhotoAt(7, "https://pixabay.com/get/g1dcb46997b015312cbf57ff6a952dd8074d490fd45c235e5fe82a3af5f15e6dbb6739e8590f64e78f5e33031c329128f9b3a96e8eb4f3c670ecfbf20ae3554a5_1280.jpg"),
+    img: clientPhotoAt(7, "https://images.pexels.com/photos/2793444/pexels-photo-2793444.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     area: "8,200 sqm",
     concrete: "CEM III/A with local Seine aggregate",
     structure: "Load-bearing raw concrete facade & precast slabs",
@@ -148,7 +148,7 @@ function testimonials_LIVE() {
     author: "Père Antoine Séverin",
     title: "Director, Fondation Séverin",
     get project() { return "CONCRETE CHAPEL — " + clientCityOr("Marseille"); },
-    img: clientPhotoAt(18, "https://pixabay.com/get/ge903ac4a9ab8d5293288ec6283e92cf33931b1446e4da2edd13cb2a7a6a665aa1d03af2f69fd88e765c8b86e5335b34dee6d9a0469b98e1f712ca7d2634e5878_1280.jpg")
+    img: clientPhotoAt(18, "https://images.pexels.com/photos/4015825/pexels-photo-4015825.jpeg?auto=compress&cs=tinysrgb&w=1600")
   },
 ];
 }

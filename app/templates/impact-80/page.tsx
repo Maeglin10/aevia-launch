@@ -64,7 +64,7 @@ function PROJECTS_DEMO_LIVE() {
     type: "Commercial",
     year: "2024",
     area: "2 400 m²",
-    img: (clientPhotos(sessionData)[1] || "https://pixabay.com/get/gbbc299ba5a29ed0555cf1c54627eeedced3b56da4ab3b8d994362e3f17e955190dcc51994644ffcd245bec92f89bcf8f6ed108e88c080f73448414fe39e6dd59_1280.jpg"),
+    img: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/22710563/pexels-photo-22710563.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     name: "Serene Heights",
@@ -72,7 +72,7 @@ function PROJECTS_DEMO_LIVE() {
     type: "Cultural",
     year: "2023",
     area: "1 100 m²",
-    img: (clientPhotos(sessionData)[2] || "https://pixabay.com/get/gbf229731283bc77e3f7157e49babac2ce178bdd21ca4e30d4f054f360a58915f6ff48497f682d50f8f41749a12bf114615e43e019f0e018c1325fab57f37dec3_1280.jpg"),
+    img: (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/9808879/pexels-photo-9808879.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     name: "Meridian House",
@@ -149,7 +149,7 @@ function TEAM_DEMO_LIVE() {
     name: "Kenji Arao",
     role: "Technical Director",
     bio: "Structural specialist with a background in parametric engineering. Kenji ensures that the studio's formal ambitions are grounded in rigorous constructional logic.",
-    img: (clientPhotos(sessionData)[6] || "https://pixabay.com/get/g1670acc0e21eaf433b81815f99c6f5152dc6ab89f085c23681e59f66c7abf6d4ac6cee20c7742588313dd8d813f6998243c6dd0a330145252f976b2134d0badd_1280.jpg"),
+    img: (clientPhotos(sessionData)[6] || "https://images.pexels.com/photos/26741547/pexels-photo-26741547.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
 ];
 }

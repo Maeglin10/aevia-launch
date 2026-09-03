@@ -91,7 +91,7 @@ const P_SERV = [
   "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=800",
 ];
 const P_GAL = [
-  "https://pixabay.com/get/g3e1ca11c6f21b7a74fa31f970bb998dea2819b5686114f5be2361e09aa2c0fe499205844f9abdda39e683bea0ed05c9217dd0239d452358a6fe21c6771f47a1f_1280.jpg",
+  "https://images.pexels.com/photos/6195194/pexels-photo-6195194.jpeg?auto=compress&cs=tinysrgb&w=1600",
   "https://images.unsplash.com/photo-1584622781564-1d987f7333c1?auto=format&fit=crop&q=80&w=600",
   "https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&q=80&w=600",
   "https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&q=80&w=600",

@@ -175,7 +175,7 @@ function testimonials_LIVE() {
   {
     name: "Thomas Kühn",
     role: "Principal Engineer, Datadog",
-    avatar: clientPhotoAt(12, "https://pixabay.com/get/g337fe51753cde6e6e4d75e782fbcc5b8a43c44a8cae8bd2a8108fa43f1ad6e85f6fb2ca22f749c23a96356c51d68a16a8aa04ffc388e9d2af70c9ebbba87c8e4_1280.jpg"),
+    avatar: clientPhotoAt(12, "https://images.pexels.com/photos/89724/pexels-photo-89724.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     quote: "Open source advisory from someone who's actually shipped and maintained large OSS projects. Not just theory. Would work with him again immediately.",
   },
 ];

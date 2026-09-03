@@ -164,7 +164,7 @@ function PHOTO_LIVE() {
   pac:
     (clientPhotos(sessionData)[1] || 'https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?q=80&w=1600&auto=format&fit=crop'),
   artisan:
-    (clientPhotos(sessionData)[2] || 'https://pixabay.com/get/g550bf7f3a9b89bd8abac4ba54dc72937b1e55873d8f5ebc039641c62924b80baaa09deebfa3e97361925d6ac486f1b82a59bf3e80d4ba208543c608212911ce8_1280.jpg'),
+    (clientPhotos(sessionData)[2] || 'https://images.pexels.com/photos/38671341/pexels-photo-38671341.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   solar:
     (clientPhotos(sessionData)[3] || 'https://images.unsplash.com/photo-1509391366360-2e959784a276?q=80&w=1600&auto=format&fit=crop'),
 };

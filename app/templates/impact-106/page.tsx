@@ -31,9 +31,9 @@ let fd: any = null;
 function EQUIPE_ANON_SOURCE_LIVE() {
   return [
                 { name: "Mia Versa", role: "Creative Director", yrs: "10yr", img: photo(0, "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=400"), tags: ["Brand", "Identity"] },
-                { name: "Theo Nakamura", role: "Lead Product Designer", yrs: "7yr", img: photo(1, "https://pixabay.com/get/g7af0c2c55f40db92fa2bb5305b8477ef48f564b58a6c02b3e4793e4c4090cf54588269c06e5ebeb9f9cf1dc25c2471de0958ba2c8262e3b9516ee13e7d1f8ee0_1280.jpg"), tags: ["UX", "Mobile"] },
+                { name: "Theo Nakamura", role: "Lead Product Designer", yrs: "7yr", img: photo(1, "https://images.pexels.com/photos/6253568/pexels-photo-6253568.jpeg?auto=compress&cs=tinysrgb&w=1600"), tags: ["UX", "Mobile"] },
                 { name: "Sasha Okafor", role: "Art Director", yrs: "8yr", img: photo(2, "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&q=80&w=400"), tags: ["Campaign", "Photo"] },
-                { name: "Remi Blanc", role: "Motion & 3D Lead", yrs: "5yr", img: photo(3, "https://pixabay.com/get/g8bc32b90468c0ba6bdefcdbfc26f26267cf16726ed4ee457c4b75359a6a0d792a1c0be22fecd44dbce5c7d92b462fff8ab754de371e13582aefd94e6017ab7cf_1280.jpg"), tags: ["Motion", "3D"] },
+                { name: "Remi Blanc", role: "Motion & 3D Lead", yrs: "5yr", img: photo(3, "https://images.pexels.com/photos/29901198/pexels-photo-29901198.jpeg?auto=compress&cs=tinysrgb&w=1600"), tags: ["Motion", "3D"] },
               ];
 }
 let EQUIPE_ANON_SOURCE = EQUIPE_ANON_SOURCE_LIVE();

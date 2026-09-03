@@ -93,7 +93,7 @@ function PROJECTS_DEMO_SOURCE_LIVE() {
     location: "Kyoto, Japan",
     year: "2024",
     desc: "Refractive glass panels scatter sunlight into a living painting that transforms hourly, dissolving the boundary between interior serenity and the ancient garden beyond.",
-    image: (clientPhotos(sessionData)[1] || "https://pixabay.com/get/g39384d74112a040d9b20da70b4fb2d8db28063bf1fb5389840264371083fcc5ae19cf9c8599f061b2c23082eaeefa1d6935621d3f0ace853ea62876c255efb98_1280.jpg"),
+    image: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/34075377/pexels-photo-34075377.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     id: "p3",
@@ -210,13 +210,13 @@ function TEAM_DEMO_LIVE() {
     name: "Elena Rostova",
     role: "Lead Architect & Founder",
     bio: "RIBA Gold Medal laureate. Former Chair of Sustainable Architecture at the AA. Elena's practice synthesises vernacular building wisdom with advanced computational design.",
-    image: (clientPhotos(sessionData)[5] || "https://pixabay.com/get/g61366fa2f5aca68618108572d1064d0ac13073f1f76b7f25afa0aae53c79fe734b379eccfcfceb4e65f6e56dda5178041175e2f1f2ab1c27cb9c261ae7278bde_1280.jpg"),
+    image: (clientPhotos(sessionData)[5] || "https://images.pexels.com/photos/18414269/pexels-photo-18414269.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     name: "Kenji Watanabe",
     role: "Partner — Material Science",
     bio: "PhD in bio-based composites from ETH Zürich. Kenji leads our material research division and has pioneered the structural use of myco-composites on three continents.",
-    image: (clientPhotos(sessionData)[6] || "https://pixabay.com/get/g95f761244293a20c465bfbc3e6ba3cb835bfc77994a27b1187d4e36de7ecc20477f27b59e58a3bd6d8f827f483c6a73159639da661cd78c5a5da12203147bb8e_1280.jpg"),
+    image: (clientPhotos(sessionData)[6] || "https://images.pexels.com/photos/39036353/pexels-photo-39036353.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
 ];
 }

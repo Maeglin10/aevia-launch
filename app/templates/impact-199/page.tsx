@@ -240,7 +240,7 @@ function ARTISTS_DEMO_LIVE() {
     bio: "Formée à Tokyo pendant 3 ans, Kira apporte une profondeur narrative unique à chaque pièce. Sa maîtrise du Irezumi traditionnel mêlée à sa vision contemporaine crée des œuvres d'une intensité rare.",
     slots: 4,
     tag: "Disponible",
-    image: (clientPhotos(sessionData)[6] || "https://pixabay.com/get/g4536a78d68941d8637ded1b3bfa70eeb4c7a714e5b3289941e66d90b5698f2d42cdc90952816afe092d98625d256df8dfa4c96ed8910309d92c5fc04d419ffd5_1280.jpg"),
+    image: (clientPhotos(sessionData)[6] || "https://images.pexels.com/photos/4125682/pexels-photo-4125682.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     name: "Théo Marck",

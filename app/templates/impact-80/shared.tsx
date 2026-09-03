@@ -7,9 +7,9 @@ import Image from "next/image";
 
 function PROJECTS_LIVE() {
   return [
-  { name: "The Obsidian Villa", loc: "Malibu, CA", img: clientPhotoAt(8, "https://pixabay.com/get/gbbc299ba5a29ed0555cf1c54627eeedced3b56da4ab3b8d994362e3f17e955190dcc51994644ffcd245bec92f89bcf8f6ed108e88c080f73448414fe39e6dd59_1280.jpg") },
-  { name: "Glass Monolith", loc: "Berlin, DE", img: clientPhotoAt(9, "https://pixabay.com/get/gbbc299ba5a29ed0555cf1c54627eeedced3b56da4ab3b8d994362e3f17e955190dcc51994644ffcd245bec92f89bcf8f6ed108e88c080f73448414fe39e6dd59_1280.jpg") },
-  { name: "Serene Heights", loc: "Kyoto, JP", img: clientPhotoAt(10, "https://pixabay.com/get/gbf229731283bc77e3f7157e49babac2ce178bdd21ca4e30d4f054f360a58915f6ff48497f682d50f8f41749a12bf114615e43e019f0e018c1325fab57f37dec3_1280.jpg") },
+  { name: "The Obsidian Villa", loc: "Malibu, CA", img: clientPhotoAt(8, "https://images.pexels.com/photos/11673912/pexels-photo-11673912.jpeg?auto=compress&cs=tinysrgb&w=1600") },
+  { name: "Glass Monolith", loc: "Berlin, DE", img: clientPhotoAt(9, "https://images.pexels.com/photos/3882638/pexels-photo-3882638.jpeg?auto=compress&cs=tinysrgb&w=1600") },
+  { name: "Serene Heights", loc: "Kyoto, JP", img: clientPhotoAt(10, "https://images.pexels.com/photos/2519105/pexels-photo-2519105.jpeg?auto=compress&cs=tinysrgb&w=1600") },
 ];
 }
 export let PROJECTS = PROJECTS_LIVE();

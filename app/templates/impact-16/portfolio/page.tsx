@@ -34,7 +34,7 @@ const WORKS = [
   { title: "La Lumière de Minuit", category: "Portrait", src: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80", year: "2025" },
   { title: "Couture Invisible", category: "Mode", src: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&q=80", year: "2025" },
   { title: "Mémoire des Rues", category: "Reportage", src: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=600&q=80", year: "2024" },
-  { title: "Béton & Lumière", category: "Architecture", src: "https://pixabay.com/get/g3e0d0ebe7c176ba745d9610229e1daa3fe5a4bc6e74c449b0267e3903a8a2f8f87a809758e14ea06fbdb1b1d0a498467c0d0b5afd641de10df477e4de5de7dce_1280.jpg", year: "2024" },
+  { title: "Béton & Lumière", category: "Architecture", src: "https://images.pexels.com/photos/30332804/pexels-photo-30332804.jpeg?auto=compress&cs=tinysrgb&w=1600", year: "2024" },
   { title: "Femme en Avant", category: "Mode", src: "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&q=80", year: "2025" },
   { title: "Le Temps Suspendu", category: "Portrait", src: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=80", year: "2023" },
 ]

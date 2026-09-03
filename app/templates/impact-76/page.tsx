@@ -67,7 +67,7 @@ function ARCHIVE_PROJECTS_DEMO_LIVE() {
     location: "Dubai, UAE",
     year: "2024",
     type: "Commercial",
-    img: (clientPhotos(sessionData)[1] || "https://pixabay.com/get/geae3f9d2a7ed477bf3c9adb997991f350ffb9c0124e1e88a6eb732c9d2544e1c30515d021b427ff1427b216a6c2e67c4f1d42fba533890ddde4ae00dc99ff25f_1280.jpg"),
+    img: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/13041680/pexels-photo-13041680.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     id: 3,
@@ -75,7 +75,7 @@ function ARCHIVE_PROJECTS_DEMO_LIVE() {
     location: "Tokyo, JP",
     year: "2026",
     type: "Cultural",
-    img: (clientPhotos(sessionData)[2] || "https://pixabay.com/get/gd8eb9ac46feafc2551ed709c0f82fb070524fcc4fc2b53a110cb83d07af8bcdabf5366812a5feeeeb3cb5466f0079d9c2947c2b379b6a14b5109200966ea9074_1280.jpg"),
+    img: (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/29824300/pexels-photo-29824300.jpeg?auto=compress&cs=tinysrgb&w=1600"),
   },
   {
     id: 4,
