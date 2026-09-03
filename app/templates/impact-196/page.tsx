@@ -275,7 +275,9 @@ export default function CabinetKinePage() {
         <motion.div style={{ y: heroY, position: "absolute", inset: 0 }}>
           <img src={photo(0, (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/6629539/pexels-photo-6629539.jpeg?auto=compress&cs=tinysrgb&w=1920"))} alt="Séance de kinésithérapie" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </motion.div>
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(10,25,40,0.90) 0%, rgba(10,25,40,0.40) 45%, rgba(10,25,40,0.06) 100%)" }} />
+        <div style={{ position: "absolute", inset: 0, background: /* Le voile ne valait plus que 0,06 en haut, là où le titre et le nom
+              du client se posent : mesuré 4,1 et 4,3 sur la photo. */
+            "linear-gradient(to top, rgba(10,25,40,0.90) 0%, rgba(10,25,40,0.58) 45%, rgba(10,25,40,0.52) 100%)" }} />
         <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to right, ${C.accent}18 0%, transparent 55%)` }} />
 
         <motion.div className="imx-hero196-content" style={{ position: "relative", zIndex: 1, padding: "0 clamp(24px, 6vw, 80px) 90px", maxWidth: 780, y: heroTextY, opacity: heroOpacity }}>

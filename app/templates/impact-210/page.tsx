@@ -119,11 +119,14 @@ function encreDe(hex: string): string {
   const n = parseInt(m[1], 16);
   let [r, g, b] = [(n >> 16) & 255, (n >> 8) & 255, n & 255];
   const lum = (c: number) => { const v = c / 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
-  /* On assombrit jusqu'à 4,5:1 sur blanc, pas plus : la teinte doit rester
-     reconnaissable. */
+  /* On assombrit jusqu'à 4,5:1 sur le fond RÉEL du thème, pas sur du blanc
+     pur : ce rose cassé (#fff9f7) est un peu plus sombre que le blanc, et
+     viser le blanc laissait les chiffres clés à 4,34. La teinte doit rester
+     reconnaissable, donc on s'arrête au premier pas qui passe. */
+  const LFOND = 0.2126 * lum(255) + 0.7152 * lum(249) + 0.0722 * lum(247);
   for (let i = 0; i < 24; i++) {
     const L = 0.2126 * lum(r) + 0.7152 * lum(g) + 0.0722 * lum(b);
-    if ((1.05) / (L + 0.05) >= 4.5) break;
+    if ((LFOND + 0.05) / (L + 0.05) >= 4.5) break;
     [r, g, b] = [r, g, b].map((c) => Math.round(c * 0.92)) as [number, number, number];
   }
   return `#${[r, g, b].map((c) => c.toString(16).padStart(2, "0")).join("")}`;

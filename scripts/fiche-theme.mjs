@@ -113,14 +113,28 @@ for (const [etat, url] of [["vitrine", ""], ["client", "?session=v"]]) {
          in your project » n'est pas une fuite de traduction. On l'écarte du relevé
          plutôt que d'aller le « corriger ». De même « Home staging » est le terme
          consacré en immobilier français — pas un anglicisme oublié. */
-      const sansCode = document.body.cloneNode(true);
-      for (const c of sansCode.querySelectorAll("code, pre, kbd, samp")) c.remove();
-      /* `innerText` rend une chaîne vide sur un nœud détaché — il lui faut une
-         mise en page. `textContent` colle les mots, ce qui ne gêne pas la
-         recherche d'un mot anglais entre délimiteurs. */
-      const txt = (sansCode.textContent || "")
-        .replace(/\s+/g, " ")
-        .replace(/home staging/gi, "");
+      /* On parcourt le document VIVANT plutôt qu'une copie : sur une copie
+         détachée, `innerText` rend une chaîne vide et `textContent` ramasse
+         tout ce qui est caché — tiroirs mobiles fermés, textes d'accessibilité —,
+         d'où trois thèmes signalés pour de l'anglais que personne ne voit. */
+      const morceaux = [];
+      const marcheurTexte = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+      for (let n = marcheurTexte.nextNode(); n; n = marcheurTexte.nextNode()) {
+        const e = n.parentElement;
+        if (!e) continue;
+        /* Un bloc de code EST anglais, et doit le rester : « npm install …
+           # Initialize in your project » n'est pas une fuite de traduction. */
+        if (e.closest("code, pre, kbd, samp, style, script, noscript, template")) continue;
+        let cache = false;
+        for (let a = e; a; a = a.parentElement) {
+          const st = getComputedStyle(a);
+          if (parseFloat(st.opacity) < 0.05 || st.visibility === "hidden" || st.display === "none") { cache = true; break; }
+        }
+        if (cache) continue;
+        morceaux.push(n.nodeValue || "");
+      }
+      /* « Home staging » est le terme consacré en immobilier français. */
+      const txt = morceaux.join(" ").replace(/\s+/g, " ").replace(/home staging/gi, "");
       /* `getComputedStyle().color` ne rend plus toujours du « rgb() » :
          Tailwind 4 écrit ses couleurs en `lab()` / `oklch()`. Le canevas
          CONSERVE la notation telle quelle dans `fillStyle` — il ne convertit

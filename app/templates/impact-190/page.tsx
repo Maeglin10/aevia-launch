@@ -204,7 +204,7 @@ export default function AutoExpertPage() {
             ))}
           </div>
           <div className="flex items-center gap-3">
-            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0299345678").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand,#dc2626)] font-bold text-sm">
+            <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0299345678").replace(/[^+0-9]/g, "")}`} className="hidden md:flex items-center gap-2 text-[var(--brand-light,#f87171)] font-bold text-sm">
               <Phone className="w-4 h-4" /> {clientPhone(sessionData) ?? fd?.phone ?? "02 99 34 56 78"}
             </a>
             <button className="hidden md:block px-5 py-2.5 bg-[var(--brand,#dc2626)] text-white text-[10px] font-bold uppercase tracking-[0.22em] hover:bg-[#c01f1f] transition-colors">
@@ -215,7 +215,7 @@ export default function AutoExpertPage() {
               <SheetContent side="right" className="bg-[#141820] border-[var(--brand,#dc2626)]/10 p-10">
                 <div className="flex flex-col gap-7 mt-16">
                   {NAV.map(({ l, h }) => <Link key={l} href={h} className="text-3xl font-bold text-[#f1f3f5] hover:text-[var(--brand,#dc2626)] transition-colors">{l}</Link>)}
-                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0299345678").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand,#dc2626)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "02 99 34 56 78"}</a>
+                  <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0299345678").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 text-[var(--brand-light,#f87171)] font-bold text-xl mt-4"><Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "02 99 34 56 78"}</a>
                 </div>
               </SheetContent>
             </Sheet>
@@ -237,7 +237,10 @@ export default function AutoExpertPage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-8">
               <div className="w-8 h-[2px] bg-[var(--brand,#dc2626)]" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#dc2626)]/70">Garage & carrosserie · {clientCity(sessionData) ?? "Rennes"}</span>
+              {/* Le rouge de marque à 70 % d'opacité tombait à 4,0 sur le noir du
+                thème : à 10 px, aucune tolérance « grand texte » ne s'applique.
+                La variante claire, pleine opacité, y tient 6,6. */}
+              <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand-light,#f87171)]">Garage & carrosserie · {clientCity(sessionData) ?? "Rennes"}</span>
             </div>
           </motion.div>
 
@@ -327,7 +330,7 @@ export default function AutoExpertPage() {
             <p className="text-white/65 text-sm">Décrivez votre panne ou votre besoin. On vous rappelle avec une estimation claire, sans surprise.</p>
           </div>
           <div className="flex gap-3 shrink-0">
-            <button className="px-7 py-3.5 bg-white text-[var(--brand,#dc2626)] font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#f1f3f5] transition-colors whitespace-nowrap">
+            <button className="px-7 py-3.5 bg-white text-[var(--brand-light,#f87171)] font-bold text-[10px] uppercase tracking-[0.22em] hover:bg-[#f1f3f5] transition-colors whitespace-nowrap">
               Demander un devis
             </button>
             <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0299345678").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-2 px-7 py-3.5 border-2 border-white/30 text-white font-bold text-[10px] uppercase tracking-widest hover:border-white transition-all whitespace-nowrap">
