@@ -11,6 +11,10 @@
 import { chromium } from "playwright";
 import fs from "node:fs";
 import { createRequire } from "module";
+
+/* Par défaut le serveur de développement ; BASE_URL permet de mesurer sur la
+   version construite, bien plus rapide et plus proche de la production. */
+const BASE = process.env.BASE_URL || "http://localhost:3000";
 const sharp = createRequire(import.meta.url)("sharp");
 
 const t = process.argv[2];
@@ -47,7 +51,7 @@ for (const [etat, url] of [["vitrine", ""], ["client", "?session=v"]]) {
     p.on("response", (r) => { if (/unsplash|pexels|pixabay/.test(r.url()) && r.status() >= 400) morts.push(r.status()); });
     const erreurs = [];
     p.on("pageerror", (e) => erreurs.push(String(e).split("\n")[0].slice(0, 70)));
-    await p.goto(`http://localhost:3000/templates/${t}${url}`, { waitUntil: "domcontentloaded", timeout: 180000 });
+    await p.goto(`${BASE}/templates/${t}${url}`, { waitUntil: "domcontentloaded", timeout: 180000 });
     await p.waitForTimeout(3800);
     /* Le bandeau cookies couvre le bas de l'écran. La jauge lit la couleur du
        fond DANS la capture : un titre caché derrière le bandeau se mesurait

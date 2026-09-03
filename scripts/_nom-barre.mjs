@@ -4,6 +4,10 @@
    thème qui l'affiche dans son pied mais garde le nom de démonstration en
    haut passait pour correct. On regarde la barre elle-même. */
 import { chromium } from "playwright";
+
+/* Par défaut le serveur de développement ; BASE_URL permet de mesurer sur la
+   version construite, bien plus rapide et plus proche de la production. */
+const BASE = process.env.BASE_URL || "http://localhost:3000";
 const NOM = "Atelier Vérification";
 const S = { id: "v", formData: { businessName: NOM, phone: "+33 4 78 12 34 56" },
   businessProfile: { identity: { name: NOM } }, generatedContent: {} };
@@ -13,7 +17,7 @@ for (const t of process.argv.slice(2)) {
   await ctx.route("**/api/sessions**", (r) => r.fulfill({ status: 200, contentType: "application/json", body: JSON.stringify(S) }));
   const p = await ctx.newPage();
   try {
-    await p.goto(`http://localhost:3000/templates/${t}?session=v`, { waitUntil: "domcontentloaded", timeout: 120000 });
+    await p.goto(`${BASE}/templates/${t}?session=v`, { waitUntil: "domcontentloaded", timeout: 120000 });
     await p.waitForTimeout(4200);
     await p.waitForFunction((n) => (document.body.innerText || "").toLowerCase().includes(n.toLowerCase()), NOM, { timeout: 6000 }).catch(() => {});
     const r = await p.evaluate((nom) => {

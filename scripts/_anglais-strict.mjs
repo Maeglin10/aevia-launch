@@ -5,6 +5,10 @@
    ils sont passés à travers, et sont restés en production. Celui-ci regarde
    les mots pleins du vocabulaire courant des thèmes. */
 import { chromium } from "playwright";
+
+/* Par défaut le serveur de développement ; BASE_URL permet de mesurer sur la
+   version construite, bien plus rapide et plus proche de la production. */
+const BASE = process.env.BASE_URL || "http://localhost:3000";
 const MOTS = /\b(reserve|table|dining|fine|book|booking|discover|explore|view|shop|learn|start|join|contact|about|home|menu|team|story|works|services|pricing|features|gallery|studio|collection|now|free|call|send|read|watch|play|buy|order|sign|log|get|our|your|the|and|with|from|for)\b/i;
 const nav = await chromium.launch();
 const ctx = await nav.newContext({ viewport: { width: 1280, height: 900 }, locale: "fr-FR" });
@@ -12,7 +16,7 @@ await ctx.addInitScript(() => { try { localStorage.setItem("aevia-cookie-consent
 for (const t of process.argv.slice(2)) {
   const p = await ctx.newPage();
   try {
-    await p.goto(`http://localhost:3000/templates/${t}`, { waitUntil: "domcontentloaded", timeout: 120000 });
+    await p.goto(`${BASE}/templates/${t}`, { waitUntil: "domcontentloaded", timeout: 120000 });
     await p.waitForTimeout(4500);
     const out = await p.evaluate((src) => {
       const MOTS = new RegExp(src, "i");

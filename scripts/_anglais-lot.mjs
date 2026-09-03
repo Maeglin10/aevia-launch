@@ -2,13 +2,17 @@
    Le texte COMPLET, jamais tronqué : une clé de dictionnaire tronquée ne
    correspond à rien. */
 import { chromium } from "playwright";
+
+/* Par défaut le serveur de développement ; BASE_URL permet de mesurer sur la
+   version construite, bien plus rapide et plus proche de la production. */
+const BASE = process.env.BASE_URL || "http://localhost:3000";
 const nav = await chromium.launch();
 const ctx = await nav.newContext({ viewport: { width: 1280, height: 900 }, locale: "fr-FR" });
 await ctx.addInitScript(() => { try { localStorage.setItem("aevia-cookie-consent", JSON.stringify({ essential: true, ts: 1 })); } catch {} });
 for (const t of process.argv.slice(2)) {
   const p = await ctx.newPage();
   try {
-    await p.goto(`http://localhost:3000/templates/${t}`, { waitUntil: "domcontentloaded", timeout: 120000 });
+    await p.goto(`${BASE}/templates/${t}`, { waitUntil: "domcontentloaded", timeout: 120000 });
     await p.waitForTimeout(4200);
     const out = await p.evaluate(() => {
       const EN = /\b(the|and|with|your|our|from|about|home|book now|read more|learn more|get started|sign in|discover|welcome|view all|contact us|we |they |their|this |that |which|been|have|has |are |is a|for a|to a)\b/i;

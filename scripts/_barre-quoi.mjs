@@ -1,9 +1,13 @@
 /* Quel élément de la barre la jauge mesure-t-elle, et de quelle couleur ? */
 import { chromium } from "playwright";
+
+/* Par défaut le serveur de développement ; BASE_URL permet de mesurer sur la
+   version construite, bien plus rapide et plus proche de la production. */
+const BASE = process.env.BASE_URL || "http://localhost:3000";
 const nav = await chromium.launch();
 const p = await (await nav.newContext({ viewport:{width:1280,height:900}, locale:"fr-FR" })).newPage();
 for (const t of process.argv.slice(2)) {
-  await p.goto(`http://localhost:3000/templates/${t}`,{waitUntil:"domcontentloaded",timeout:120000});
+  await p.goto(`${BASE}/templates/${t}`,{waitUntil:"domcontentloaded",timeout:120000});
   await p.waitForTimeout(4200);
   const r = await p.evaluate(() => {
     const c=[...document.querySelectorAll("header, nav")].filter(e=>e.getBoundingClientRect().top<140)[0];
