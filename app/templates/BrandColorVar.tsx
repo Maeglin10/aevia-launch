@@ -2624,17 +2624,6 @@ export function BrandColorVar() {
         */
         const passer = () => {
           rendreLesBoutonsLisibles();
-          detacherLesTextesDuClient(d?.formData, d?.businessProfile);
-          relierLesBoutonsDeReservation(d?.businessProfile?.bookingSystem?.url);
-          rendreLesNomsEntiers(d?.formData?.businessName);
-          rendreLesHoraires(d?.businessProfile?.openingHours);
-          rendreLaMarque(d?.formData?.businessName);
-          bornerLesTextesDuTheme();
-          rendreLesMotsEntiers();
-          rendreLeCopyright(d?.formData?.businessName);
-          poserLeContact(d?.formData);
-          effacerLaMarqueDeDemonstration(d?.formData?.businessName);
-          effacerLaQueueDeLaMarque(d?.formData?.businessName);
           /*
             Sans session — la galerie publique des thèmes — la page se lit en
             français : c'est la langue de la boutique. Un visiteur qui choisit
@@ -2644,6 +2633,21 @@ export function BrandColorVar() {
           */
           const langue = d?.formData?.locale
             ?? (["fr", "es", "de", "pt", "en"].find((l) => navigator.language?.startsWith(l)) ?? "fr");
+          /*
+            TRADUIRE D'ABORD, SUBSTITUER LE NOM ENSUITE.
+
+            Le dictionnaire d'un thème reconnaît une phrase entière, à la
+            lettre. Or `rendreLaMarque` remplace d'abord le nom de démonstration
+            par celui du client : « Solis brought our brand vision to life »
+            devient « Jardins Vivants brought our brand vision to life », qui ne
+            correspond plus à aucune clé — et la phrase reste anglaise. Le
+            défaut ne se voyait QUE dans l'aperçu client : en vitrine, aucun nom
+            n'est substitué, et la traduction fonctionnait. Six thèmes affichaient
+            ainsi des paragraphes entiers en anglais au client, et à lui seul.
+
+            Traduire avant a un second mérite : le texte que le client a écrit
+            lui-même, posé ensuite, n'est pas retraduit.
+          */
           /*
             La prose du thème AVANT le lexique d'interface, et non l'inverse.
 
@@ -2657,6 +2661,18 @@ export function BrandColorVar() {
           traduireLaProse(langue, traductionsDuTheme?.[langue]);
           traduireLesLibelles(langue);
           chiffresDeLaLangue(langue);
+
+          detacherLesTextesDuClient(d?.formData, d?.businessProfile);
+          relierLesBoutonsDeReservation(d?.businessProfile?.bookingSystem?.url);
+          rendreLesNomsEntiers(d?.formData?.businessName);
+          rendreLesHoraires(d?.businessProfile?.openingHours);
+          rendreLaMarque(d?.formData?.businessName);
+          bornerLesTextesDuTheme();
+          rendreLesMotsEntiers();
+          rendreLeCopyright(d?.formData?.businessName);
+          poserLeContact(d?.formData);
+          effacerLaMarqueDeDemonstration(d?.formData?.businessName);
+          effacerLaQueueDeLaMarque(d?.formData?.businessName);
           prolongerLeFond();
         };
         /* Le dictionnaire du thème arrive de façon asynchrone : on repasse dès

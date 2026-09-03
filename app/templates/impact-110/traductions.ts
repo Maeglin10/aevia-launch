@@ -10,6 +10,8 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "breath of": "Le souffle",
+    "serenity.": "de la sérénité.",
     "quiet the soul, heal the body": "Apaiser l'esprit, soigner le corps",
     "designed by renowned minimalist architects, our sanctuary features sound-dampened clay walls, ionized salt water pools, and botanical gardens that breathe with you.": "Dessiné par des architectes minimalistes, le lieu réunit des murs de terre crue qui absorbent le son, des bassins d'eau salée ionisée et des jardins botaniques qui respirent avec vous.",
     "specialist in herbal alchemy, customized facial enzymes, and dermal vitality.": "Spécialiste des soins aux plantes, des enzymes du visage sur mesure et de la vitalité de la peau.",
@@ -43,6 +45,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "voices of": "Voix de",
   },
   es: {
+    "breath of": "El aliento",
+    "serenity.": "de la serenidad.",
     "quiet the soul, heal the body": "Calmar el alma, sanar el cuerpo",
     "designed by renowned minimalist architects, our sanctuary features sound-dampened clay walls, ionized salt water pools, and botanical gardens that breathe with you.": "Diseñado por arquitectos minimalistas, el lugar reúne muros de tierra cruda que absorben el sonido, piscinas de agua salada ionizada y jardines botánicos que respiran con usted.",
     "specialist in herbal alchemy, customized facial enzymes, and dermal vitality.": "Especialista en cuidados con plantas, enzimas faciales a medida y vitalidad de la piel.",
@@ -76,6 +80,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "voices of": "Voces de",
   },
   de: {
+    "breath of": "Der Atem",
+    "serenity.": "der Gelassenheit.",
     "quiet the soul, heal the body": "Die Seele beruhigen, den Körper heilen",
     "designed by renowned minimalist architects, our sanctuary features sound-dampened clay walls, ionized salt water pools, and botanical gardens that breathe with you.": "Von minimalistischen Architekten entworfen: schallschluckende Lehmwände, Becken mit ionisiertem Salzwasser und botanische Gärten, die mit Ihnen atmen.",
     "specialist in herbal alchemy, customized facial enzymes, and dermal vitality.": "Spezialistin für Pflanzenpflege, maßgeschneiderte Gesichtsenzyme und Hautvitalität.",
@@ -109,6 +115,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "voices of": "Stimmen von",
   },
   pt: {
+    "breath of": "O sopro",
+    "serenity.": "da serenidade.",
     "quiet the soul, heal the body": "Acalmar a alma, curar o corpo",
     "designed by renowned minimalist architects, our sanctuary features sound-dampened clay walls, ionized salt water pools, and botanical gardens that breathe with you.": "Desenhado por arquitetos minimalistas, o lugar reúne paredes de terra crua que absorvem o som, piscinas de água salgada ionizada e jardins botânicos que respiram consigo.",
     "specialist in herbal alchemy, customized facial enzymes, and dermal vitality.": "Especialista em cuidados com plantas, enzimas faciais à medida e vitalidade da pele.",

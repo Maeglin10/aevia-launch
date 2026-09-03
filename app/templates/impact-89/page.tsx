@@ -872,7 +872,7 @@ return (
           style={{
             position: "absolute",
             inset: 0,
-            backgroundImage: `url(photo(9, "https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=1600&q=60"))`,
+            backgroundImage: `url(${photo(9, "https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=1600&q=60")})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
             scale: heroScale,

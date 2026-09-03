@@ -208,7 +208,10 @@ export default function OasisWellnessPage() {
         <section id="hero" className="relative h-[110vh] min-h-[640px] flex items-center justify-center overflow-hidden">
           <div className="absolute inset-0">
             <Image src={photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&q=80&w=2400"))} alt="Spa Background" fill className="object-cover" priority />
-            <div className="absolute inset-0 bg-gradient-to-b from-[#faf9f6]/20 via-transparent to-[#faf9f6]" />
+            {/* Voile CLAIR — le titre est vert sombre : c'est la couleur du texte qui
+                décide du sens du voile, pas celle du fond. Il passait par
+                « transparent » au milieu, pile sous le titre, qui tombait à 4,2. */}
+            <div className="absolute inset-0 bg-gradient-to-b from-[#faf9f6]/45 via-[#faf9f6]/55 to-[#faf9f6]" />
           </div>
 
           <div className="relative z-10 max-w-[1200px] mx-auto px-6 text-center">

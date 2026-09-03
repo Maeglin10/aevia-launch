@@ -113,6 +113,10 @@ const candidats = await p.evaluate((ou) => {
       if (parseFloat(a.opacity) < 0.05 || a.visibility === "hidden" || a.display === "none") { cache = true; break; }
     }
     if (cache) continue;
+    /* Titre en dégradé : « text-transparent » + « bg-clip-text ». Sa couleur
+       calculée est rgba(0,0,0,0) et la mesure comparerait du noir au dégradé. */
+    const enDegrade = (n) => (getComputedStyle(n).color.match(/[\d.]+/g) || [])[3] === "0";
+    if (enDegrade(e) || [...e.querySelectorAll("*")].some(enDegrade)) continue;
     const b = e.getBoundingClientRect();
     if (b.width < 12 || b.height < 6 || b.y < -20 || b.y > innerHeight - 4) continue;
     out.push({

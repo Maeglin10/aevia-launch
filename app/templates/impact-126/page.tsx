@@ -70,9 +70,16 @@ let C: Record<string, string> = {
   bgCard: "#F0EBE0",
   bgDark: "#1A1008",
   terracotta: "var(--brand,#C8603A)",
+  /* La terre cuite POSÉE SUR LA PHOTO du héros : sa luminance est trop proche
+     de celle d'un cliché en demi-teinte, et elle y tombait à 1,0. Éclaircie,
+     elle tient 4,9 sous le voile renforcé. Ailleurs, sur le crème du thème,
+     `terracotta` reste juste. */
+  terracottaHero: "var(--brand-light,#E8A882)",
   gold: "#C9A86C",
   dark: "#1E1208",
-  muted: "#8A7868",
+  /* Cette taupe est la couleur de TEXTE courante du thème : sur le crème du
+     fond elle ne tenait que 4,0. Deux crans plus sombre, 4,6. */
+  muted: "#7F6E60",
   border: "rgba(200,96,58,0.14)",
   white: "#FFFFFF",
   fontDisplay: "'Playfair Display', Georgia, serif",
@@ -557,6 +564,10 @@ export default function ImpactRestaurantPage() {
   const menuRecord: Record<string, { name: string; price: string; desc: string; highlight?: boolean }[]> = realMenu ?? MENU_ITEMS;
   const [activeCategory, setActiveCategory] = useState<string>(categories[0] ?? "Antipasti");
   const [navScrolled, setNavScrolled] = useState(false);
+  /* Avant le défilement, la barre est posée sur la photo du héros, voilée de
+     sombre : c'est le crème qui s'y lit. Une fois la barre devenue crème,
+     c'est la taupe. */
+  const encreDeBarre = navScrolled ? C.muted : "rgba(250,248,243,0.94)";
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [reservationOpen, setReservationOpen] = useState(false);
   const [reservationLoading, setReservationLoading] = useState(false);
@@ -600,6 +611,9 @@ return (
       {/* ============================================================
           SECTION 1 — NAVIGATION (fixed)
           ============================================================ */}
+      {/* Deux fonds pour une même barre : le crème une fois défilé, et la PHOTO
+          du héros avant cela. L'encre taupe, juste sur le crème, y tombait à
+          1,3 — c'est la seule chose qui change entre les deux états. */}
       <motion.nav
         animate={{
           backgroundColor: navScrolled ? "rgba(250,248,243,0.96)" : "rgba(250,248,243,0)",
@@ -642,15 +656,18 @@ return (
               fontWeight: 500,
               letterSpacing: "0.18em",
               textTransform: "uppercase",
-              color: C.muted,
+              color: encreDeBarre,
             }}
           >
-            {["Menu", "Chef", "Cantina"].map((link) => (
+            {/* Le libellé ne peut plus servir d'ancre : traduit en français, il ne
+                correspond plus à l'identifiant de la section — « Cave » ne trouvait
+                pas `id="cantina"`, et le lien ne menait nulle part. */}
+            {[{ l: "Carte", id: "menu" }, { l: "Chef", id: "chef" }, { l: "Cave", id: "cantina" }].map(({ l: link, id }) => (
               <button
                 key={link}
-                onClick={() => document.getElementById(link.toLowerCase())?.scrollIntoView({ behavior: "smooth" })}
+                onClick={() => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })}
                 style={{
-                  color: C.muted,
+                  color: encreDeBarre,
                   background: "none",
                   border: "none",
                   cursor: "pointer",
@@ -662,7 +679,7 @@ return (
                   transition: "color 0.2s",
                 }}
                 onMouseEnter={(e) => ((e.target as HTMLButtonElement).style.color = C.terracotta)}
-                onMouseLeave={(e) => ((e.target as HTMLButtonElement).style.color = C.muted)}
+                onMouseLeave={(e) => ((e.target as HTMLButtonElement).style.color = encreDeBarre)}
               >
                 {link}
               </button>
@@ -694,7 +711,7 @@ return (
                     fontWeight: 600,
                     letterSpacing: "0.28em",
                     textTransform: "uppercase",
-                    color: C.dark,
+                    color: encreDeBarre,
                   }}>{clientName(sessionData)}</span>
             ) : (<>
               <>
@@ -715,7 +732,7 @@ return (
                     fontWeight: 600,
                     letterSpacing: "0.28em",
                     textTransform: "uppercase",
-                    color: C.dark,
+                    color: encreDeBarre,
                   }}
                 >
                   Aureliano
@@ -727,7 +744,8 @@ return (
                     fontWeight: 500,
                     letterSpacing: "0.35em",
                     textTransform: "uppercase",
-                    color: C.terracotta,
+                    /* Ce mot vit dans la barre, donc sur la photo du héros. */
+                    color: C.terracottaHero,
                   }}
                 >
                   Roma
@@ -742,10 +760,10 @@ return (
                 fontFamily: C.fontSans,
                 fontSize: 11,
                 letterSpacing: "0.12em",
-                color: C.muted,
+                color: encreDeBarre,
               }}
             >
-              +39 06 9876 543
+              +33 4 78 12 34 56
             </span>
             <MagneticButton
               onClick={() => setReservationOpen(true)}
@@ -763,7 +781,7 @@ return (
                 borderRadius: 2,
               }}
             >
-              Prenota
+              Réserver
             </MagneticButton>
       </div>
         <button
@@ -785,10 +803,10 @@ return (
                 fontFamily: C.fontSans,
                 fontSize: 11,
                 letterSpacing: "0.12em",
-                color: C.muted,
+                color: encreDeBarre,
               }}
             >
-              +39 06 9876 543
+              +33 4 78 12 34 56
             </span>
             <MagneticButton
               onClick={() => setReservationOpen(true)}
@@ -806,7 +824,7 @@ return (
                 borderRadius: 2,
               }}
             >
-              Prenota
+              Réserver
             </MagneticButton>
         </div>
       )}
@@ -851,7 +869,7 @@ return (
             >
               ×
             </button>
-            {["Menu", "Chef", "Cantina", "Prenota"].map((item, i) => (
+            {["Carte", "Chef", "Cave", "Réserver"].map((item, i) => (
               <motion.div
                 key={item}
                 initial={{ opacity: 0, x: -30 }}
@@ -867,7 +885,13 @@ return (
                   marginBottom: 24,
                   cursor: "pointer",
                 }}
-                onClick={() => setMobileMenuOpen(false)}
+                /* Le menu mobile se contentait de se refermer : aucun de ses
+                   quatre libellés n'amenait à sa section. */
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  const id = { Carte: "menu", Chef: "chef", Cave: "cantina", "Réserver": "contact" }[item];
+                  if (id) document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+                }}
               >
                 {item}
               </motion.div>
@@ -899,7 +923,7 @@ return (
             y: heroParallaxY,
             opacity: heroOpacity,
             backgroundImage:
-              "url(photo(1, 'https://images.pexels.com/photos/35687736/pexels-photo-35687736.jpeg?auto=compress&cs=tinysrgb&w=1600'))",
+              `url(${photo(1, 'https://images.pexels.com/photos/35687736/pexels-photo-35687736.jpeg?auto=compress&cs=tinysrgb&w=1600')})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
@@ -913,14 +937,20 @@ return (
             background: `
               radial-gradient(ellipse at 20% 80%, rgba(200,96,58,0.12) 0%, transparent 50%),
               radial-gradient(ellipse at 80% 20%, rgba(201,168,108,0.10) 0%, transparent 50%),
-              linear-gradient(180deg, rgba(30,18,8,0.28) 0%, rgba(30,18,8,0.65) 60%, rgba(30,18,8,0.92) 100%)
+              linear-gradient(180deg, rgba(30,18,8,0.62) 0%, rgba(30,18,8,0.72) 60%, rgba(30,18,8,0.94) 100%)
             `,
+            /* Sans plan explicite, la photo posée plus bas dans le document
+               recouvrait ce voile : mesuré 1,0 sur le titre. */
+            zIndex: 1,
             pointerEvents: "none",
           }}
         />
 
         {/* SVG pasta watermark */}
-        <img src={photo(2, "https://images.pexels.com/photos/10854975/pexels-photo-10854975.jpeg?auto=compress&cs=tinysrgb&w=1600")} alt="Portrait" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }} />
+        {/* Le héros montrait un hall d'hôtel avec un enfant — rien d'un
+            restaurant romain. Et cette image passait AU-DESSUS du voile, faute
+            de plan : d'où un titre posé sur une photo en pleine lumière. */}
+        <img src={photo(2, "https://images.pexels.com/photos/36909413/pexels-photo-36909413.jpeg?auto=compress&cs=tinysrgb&w=1600")} alt="Salle du restaurant" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }} />
 
         {/* Hero content */}
         <div
@@ -961,7 +991,7 @@ return (
                 fontSize: "clamp(52px, 9vw, 116px)",
                 fontWeight: 400,
                 lineHeight: 0.92,
-                color: C.terracotta,
+                color: C.terracottaHero,
                 letterSpacing: "-0.02em",
                 margin: 0,
               }}
@@ -1009,7 +1039,7 @@ return (
                 borderRadius: 2,
               }}
             >
-              Prenota un Tavolo
+              Réserver une table
             </MagneticButton>
             <MagneticButton
               style={{
@@ -1026,7 +1056,7 @@ return (
                 borderRadius: 2,
               }}
             >
-              Scopri il Menu
+              Découvrir la carte
             </MagneticButton>
           </motion.div>
         </div>
@@ -1224,7 +1254,7 @@ return (
                   letterSpacing: "-0.02em",
                 }}
               >{/* TEXTE_SECTION */ clientText(sessionData, "menu.titre") ?? (<>
-                Il Menu
+                La carte
               </>)}</h2>
             </TextReveal>
           </div>
@@ -1340,7 +1370,7 @@ return (
                     marginBottom: 8,
                   }}
                 >{/* TEXTE_SECTION */ clientText(sessionData, "cantina.titre") ?? (<>
-                  La Cantina
+                  La cave
                 </>)}</h2>
               </TextReveal>
               <TextReveal delay={0.2}>
@@ -1486,7 +1516,7 @@ return (
                 position: "absolute",
                 inset: 0,
                 backgroundImage:
-                  "url(photo(3, 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=1200&auto=format&fit=crop'))",
+                  `url(${photo(3, 'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?q=80&w=1200&auto=format&fit=crop')})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center top",
                 borderRadius: 2,
@@ -1700,7 +1730,7 @@ return (
                 marginBottom: 24,
               }}
             >
-              Prenotazioni
+              Réservations
             </span>
           </FadeUp>
           <TextReveal delay={0.1}>
@@ -1715,7 +1745,7 @@ return (
                 marginBottom: 12,
               }}
             >{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>
-              Prenota la tua
+              Réservez votre
             </>)}</h2>
           </TextReveal>
           <TextReveal delay={0.2}>
@@ -1767,7 +1797,7 @@ return (
                   borderRadius: 2,
                 }}
               >
-                Prenota Online
+                Réserver en ligne
               </MagneticButton>
               <MagneticButton
                 style={{
@@ -1784,7 +1814,7 @@ return (
                   borderRadius: 2,
                 }}
               >
-                +39 06 9876 543
+                +33 4 78 12 34 56
               </MagneticButton>
             </div>
           </FadeUp>
@@ -1908,7 +1938,7 @@ return (
             </span>
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               {[
-                { label: "Telefono", value: "+39 06 9876 543" },
+                { label: "Telefono", value: "+33 4 78 12 34 56" },
                 { label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "info@aureliano.roma") },
                 { label: "Indirizzo", value: "Via della Lungaretta, 82\n00153 Roma" },
               ].map((c) => (
@@ -2006,8 +2036,8 @@ return (
             {/* Footer nav */}
             <div style={{ display: "flex", gap: 80, flexWrap: "wrap" }}>
               {[
-                { title: "Ristorante", links: ["Il Menu", "La Cantina", "Il Chef", "Gallery"] },
-                { title: "Info", links: ["Prenotazioni", "Orari", "Contatti", "Press"] },
+                { title: "Le restaurant", links: ["La carte", "La cave", "Le chef", "Galerie"] },
+                { title: "Info", links: ["Réservations", "Orari", "Contatti", "Press"] },
               ].map((col) => (
                 <div key={col.title}>
                   <div
@@ -2061,7 +2091,7 @@ return (
               letterSpacing: "0.1em",
             }}
           >
-            <span>© {new Date().getFullYear()} {clientName(sessionData) ?? "Ristorante Aureliano."} Tutti i diritti riservati.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+            <span>© {new Date().getFullYear()} {clientName(sessionData) ?? "Ristorante Aureliano."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
             <div style={{ display: "flex", gap: 28 }}>
               {["Politique de confidentialité", "Cookie", "Legal"].map((l) => (
                 <a
@@ -2188,7 +2218,7 @@ return (
                         lineHeight: 1.1,
                       }}
                     >
-                      Prenotazione ricevuta
+                      Réservation reçue
                     </h3>
                     <p
                       style={{
@@ -2241,7 +2271,7 @@ return (
                         marginBottom: 16,
                       }}
                     >
-                      Prenotazione
+                      Réservation
                     </div>
                     <h3
                       style={{
@@ -2417,7 +2447,7 @@ return (
                           </span>
                           <input
                             type="tel"
-                            placeholder="+39 000 000 0000"
+                            placeholder="+33 6 00 00 00 00"
                             required
                             onFocus={(e) => { e.target.style.borderColor = C.terracotta; }}
                             onBlur={(e) => { e.target.style.borderColor = C.border; }}
@@ -2478,7 +2508,7 @@ return (
                             Invio in corso…
                           </>
                         ) : (
-                          "Conferma Prenotazione"
+                          "Conferma Réservation"
                         )}
                       </motion.button>
                     </form>

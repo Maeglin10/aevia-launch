@@ -695,7 +695,7 @@ export default function CreativePortfolioSPA() {
           9. CONTACT / CTA
           ========================================== */}
       <section id="contact" className="py-32 md:py-40 px-6 md:px-12 relative overflow-hidden bg-amber-400 text-black">
-        <div className="absolute inset-0 opacity-10 mix-blend-overlay pointer-events-none" style={{ backgroundImage: 'url(photo(14, "https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=800&auto=format&fit=crop"))', backgroundSize: 'cover' }} />
+        <div className="absolute inset-0 opacity-10 mix-blend-overlay pointer-events-none" style={{ backgroundImage: `url(${photo(14, "https://images.unsplash.com/photo-1557672172-298e090bd0f1?q=80&w=800&auto=format&fit=crop")})`, backgroundSize: 'cover' }} />
         
         <div className="max-w-[1400px] mx-auto relative z-10 flex flex-col items-center text-center">
           <Reveal>

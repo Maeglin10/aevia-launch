@@ -162,7 +162,15 @@ for (const [etat, url] of [["vitrine", ""], ["client", "?session=v"]]) {
       const invisible = (e) => { for (let n = e; n; n = n.parentElement) {
         const s = getComputedStyle(n);
         if (parseFloat(s.opacity) < 0.05 || s.visibility === "hidden" || s.display === "none") return true; } return false; };
-      const boite = (e) => { if (!e || invisible(e)) return null; const b = e.getBoundingClientRect();
+      const boite = (e) => { if (!e || invisible(e)) return null;
+        /* Un titre en DÉGRADÉ s'écrit « text-transparent » + « bg-clip-text » :
+           sa couleur calculée est rgba(0,0,0,0), et la mesurer revient à
+           comparer du noir aux pixels du dégradé lui-même. impact-08, 09 et
+           113 étaient signalés à 1,5-2,4 sur des titres parfaitement lisibles.
+           Ces titres-là ne se mesurent pas ainsi ; on ne les invente pas. */
+        const enDegrade = (n) => (getComputedStyle(n).color.match(/[\d.]+/g) || [])[3] === "0";
+        if (enDegrade(e) || [...e.querySelectorAll("*")].some(enDegrade)) return null;
+ const b = e.getBoundingClientRect();
         return { x: Math.max(0, b.x), y: Math.max(0, b.y), w: Math.min(b.width, innerWidth), h: Math.min(b.height, 300), c: couleursTexte(e) }; };
       return {
         apostrophes: (txt.match(/\\'/g) || []).length,

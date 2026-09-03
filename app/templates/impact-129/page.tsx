@@ -253,7 +253,7 @@ export default function WaveFXPage() {
              <Link href="#contact" className="hidden md:flex items-center gap-2 text-white/40 hover:text-white transition-colors">
               <Globe className="w-5 h-5" />
             </Link>
-            <button className="hidden md:block px-6 py-2.5 bg-gradient-to-r from-[var(--brand,#6366f1)] to-blue-500 text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:opacity-90 transition-opacity">
+            <button className="hidden md:block px-6 py-2.5 bg-gradient-to-r from-[var(--brand,#4f46e5)] to-blue-600 text-white text-[10px] font-bold uppercase tracking-widest rounded-full hover:opacity-90 transition-opacity">
               {tr({ formData: fd }, "Get Started")}
             </button>
             <Sheet>
@@ -436,7 +436,7 @@ export default function WaveFXPage() {
                 WaveFX is free, open-source, and backed by a community of 450+ contributors.
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
-                <button className="px-10 py-4 bg-gradient-to-r from-[var(--brand,#6366f1)] to-blue-500 text-white font-bold rounded-full hover:opacity-90 transition-opacity">
+                <button className="px-10 py-4 bg-gradient-to-r from-[var(--brand,#4f46e5)] to-blue-600 text-white font-bold rounded-full hover:opacity-90 transition-opacity">
                   Get Started Free
                 </button>
                 <Link href="#contact" className="px-10 py-4 border border-white/10 text-white/60 font-bold rounded-full hover:border-[var(--brand,#6366f1)]/50 transition-all flex items-center gap-2">

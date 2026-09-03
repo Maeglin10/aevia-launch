@@ -384,7 +384,7 @@ return (
                 </button>
               );
             })}
-            <button onClick={() => goTo('reservation')} className="px-6 py-2.5 bg-amber-700 hover:bg-amber-600 text-[10px] uppercase tracking-[0.2em] font-sans font-bold transition-all duration-200 rounded-sm cursor-pointer">
+            <button onClick={() => goTo('reservation')} className="px-6 py-2.5 bg-amber-800 hover:bg-amber-700 text-[10px] uppercase tracking-[0.2em] font-sans font-bold transition-all duration-200 rounded-sm cursor-pointer">
               Réserver une table
             </button>
           </div>
@@ -400,7 +400,7 @@ return (
                     <button key={item} onClick={() => goTo(key)} className="text-2xl font-light italic text-left bg-transparent border-none text-[#f5efe6] hover:text-amber-500 transition-all duration-200 cursor-pointer">{item}</button>
                   );
                 })}
-                <button onClick={() => goTo('reservation')} className="mt-4 px-8 py-3 bg-amber-700 hover:bg-amber-600 text-xs font-sans font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer">
+                <button onClick={() => goTo('reservation')} className="mt-4 px-8 py-3 bg-amber-800 hover:bg-amber-700 text-xs font-sans font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer">
                   Réserver une table
                 </button>
               </div>
@@ -439,7 +439,7 @@ return (
           </div>
 
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.3, duration: 0.7 }} className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
-            <button onClick={() => setReservationOpen(true)} className="px-10 py-4 bg-amber-700 hover:bg-amber-600 text-[11px] uppercase tracking-[0.3em] font-sans font-bold transition-all duration-200 flex items-center gap-3 cursor-pointer">
+            <button onClick={() => setReservationOpen(true)} className="px-10 py-4 bg-amber-800 hover:bg-amber-700 text-[11px] uppercase tracking-[0.3em] font-sans font-bold transition-all duration-200 flex items-center gap-3 cursor-pointer">
               <CalendarDays className="w-4 h-4" /> Reserve Your Table
             </button>
             <button onClick={() => document.getElementById("menu")?.scrollIntoView({behavior:"smooth"})} className="px-10 py-4 border border-[#f5efe6]/15 text-[11px] uppercase tracking-[0.3em] font-sans font-semibold hover:border-amber-600 hover:text-amber-500 transition-all duration-200 cursor-pointer">
@@ -734,7 +734,7 @@ return (
                       </li>
                     ))}
                   </ul>
-                  <button onClick={() => setReservationOpen(true)} className={`w-full py-3.5 rounded-full text-[11px] uppercase tracking-widest font-sans font-bold transition-all duration-200 cursor-pointer ${plan.popular ? "bg-amber-700 hover:bg-amber-600 text-white" : "border border-white/10 hover:border-amber-700/50 text-[#f5efe6]"}`}>
+                  <button onClick={() => setReservationOpen(true)} className={`w-full py-3.5 rounded-full text-[11px] uppercase tracking-widest font-sans font-bold transition-all duration-200 cursor-pointer ${plan.popular ? "bg-amber-800 hover:bg-amber-700 text-white" : "border border-white/10 hover:border-amber-700/50 text-[#f5efe6]"}`}>
                     {plan.cta}
                   </button>
                 </div>
@@ -782,7 +782,7 @@ return (
               We recommend reserving at least three weeks in advance. For private events or large parties, our team is at your service.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
-              <button onClick={() => setReservationOpen(true)} className="px-12 py-5 bg-amber-700 hover:bg-amber-600 text-[11px] uppercase tracking-[0.3em] font-sans font-bold transition-all duration-200 inline-flex items-center gap-3 cursor-pointer">
+              <button onClick={() => setReservationOpen(true)} className="px-12 py-5 bg-amber-800 hover:bg-amber-700 text-[11px] uppercase tracking-[0.3em] font-sans font-bold transition-all duration-200 inline-flex items-center gap-3 cursor-pointer">
                 <CalendarDays className="w-4 h-4" /> Make a Reservation
               </button>
               <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33142651516").replace(/[^+0-9]/g, "")}`} className="px-12 py-5 border border-white/10 hover:border-amber-700/40 text-[11px] uppercase tracking-[0.3em] font-sans font-semibold transition-all duration-200 inline-flex items-center gap-3 cursor-pointer">
@@ -905,7 +905,7 @@ return (
               <label className="text-[10px] uppercase tracking-widest font-sans text-[#f5efe6]/30 font-semibold mb-1.5 block">Special Requests</label>
               <textarea placeholder="Allergies, dietary requirements, celebrations..." className="w-full bg-white/5 border border-white/10 px-4 py-3 text-sm font-sans placeholder:text-[#f5efe6]/15 focus:border-amber-600 focus:outline-none transition-all duration-200 rounded-lg h-20 resize-none" />
             </div>
-            <button type="submit" className="w-full py-4 bg-amber-700 hover:bg-amber-600 text-[11px] uppercase tracking-[0.2em] font-sans font-bold transition-all duration-200 rounded-lg flex items-center justify-center gap-2 cursor-pointer">
+            <button type="submit" className="w-full py-4 bg-amber-800 hover:bg-amber-700 text-[11px] uppercase tracking-[0.2em] font-sans font-bold transition-all duration-200 rounded-lg flex items-center justify-center gap-2 cursor-pointer">
               Confirm Reservation <ArrowRight className="w-4 h-4" />
             </button>
           </form>
