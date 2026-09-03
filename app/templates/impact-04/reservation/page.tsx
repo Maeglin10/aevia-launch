@@ -41,7 +41,7 @@ function Navbar({ currentPage }: { currentPage: string }) {
             </Link>
           ))}
           <Link href="/templates/impact-04/reservation" className="px-6 py-2.5 bg-amber-700 hover:bg-amber-600 text-[10px] uppercase tracking-[0.2em] font-sans font-bold transition-all duration-200 rounded-sm cursor-pointer text-white">
-            Reserve a Table
+            Réserver une table
           </Link>
         </div>
 
@@ -54,7 +54,7 @@ function Navbar({ currentPage }: { currentPage: string }) {
                 <Link key={item.name} href={item.path} className="text-2xl font-light italic text-left bg-transparent border-none text-[#f5efe6] hover:text-amber-500 transition-all duration-200 cursor-pointer">{item.name}</Link>
               ))}
               <Link href="/templates/impact-04/reservation" className="mt-4 px-8 py-3 bg-amber-700 hover:bg-amber-600 text-xs font-sans font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer text-white text-center">
-                Reserve a Table
+                Réserver une table
               </Link>
             </div>
           </SheetContent>

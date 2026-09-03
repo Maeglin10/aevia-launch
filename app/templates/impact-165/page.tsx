@@ -319,7 +319,7 @@ export default function PulseAppPage() {
             </Reveal>
             <Reveal delay={0.2}>
               <p className="text-lg text-[#4B4570] leading-relaxed mb-8 max-w-lg">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
-                Analytics temps réel, notifications intelligentes, collaboration native. Pulse connecte votre équipe et vos données dans une seule application mobile.
+                Analytics temps réel, notifications intelligentes, collaboration native. {clientName(sessionData) ?? "Pulse"} connecte votre équipe et vos données dans une seule application mobile.
               </>}</p>
             </Reveal>
             <Reveal delay={0.3}>

@@ -249,7 +249,7 @@ export default function ToitPierrePiscinesPage() {
   return (
     <div className="bg-[#f9f8f6] text-[#1f2937] overflow-x-hidden" style={{ fontFamily: "'Raleway', 'Inter', system-ui, sans-serif" }}>
       {/* ── NAVBAR ── */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#f9f8f6]/97 backdrop-blur-xl py-3 border-b border-slate-200 shadow-sm" : "bg-transparent py-7"}`}>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ${scrolled ? "bg-[#f9f8f6]/97 backdrop-blur-xl py-3 border-b border-slate-200 shadow-sm" : "bg-gradient-to-b from-[#f9f8f6]/95 via-[#f9f8f6]/60 to-transparent py-7"}`}>
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <div className="flex items-center gap-3">
             {fd?.logoBase64 ? (

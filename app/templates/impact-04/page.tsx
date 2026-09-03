@@ -167,49 +167,49 @@ let TESTIMONIALS_DEMO = TESTIMONIALS_SOURCE;
 const PRICING_DEMO = [
   {
     name: "À La Carte",
-    price: "From €85",
-    period: "per person",
-    desc: "Full freedom to compose your evening from our seasonal menu.",
+    price: "À partir de 85 €",
+    period: "par personne",
+    desc: "Toute liberté pour composer votre soirée à partir de la carte de saison.",
     features: [
-      "Complete menu access",
-      "À la carte wine selection",
-      "Aperitif service",
-      "Valet parking included",
-      "Complimentary amuse-bouches",
+      "Toute la carte",
+      "Vins au verre et à la bouteille",
+      "Service de l'apéritif",
+      "Voiturier inclus",
+      "Amuse-bouches offerts",
     ],
-    cta: "Reserve A La Carte",
+    cta: "Réserver à la carte",
     popular: false,
   },
   {
-    name: "Tasting Menu",
+    name: "Menu dégustation",
     price: "€145",
-    period: "per person",
-    desc: "Seven courses curated by Chef Beaumont around the season's finest ingredients.",
+    period: "par personne",
+    desc: "Sept services composés par le chef autour des meilleurs produits de la saison.",
     features: [
-      "7 signature courses",
-      "Wine pairing available +€85",
-      "Cheese trolley service",
-      "Digestif selection",
-      "Complimentary transport home",
-      "Signed menu card keepsake",
+      "Sept services signature",
+      "Accord mets et vins, +85 €",
+      "Chariot de fromages",
+      "Sélection de digestifs",
+      "Retour offert",
+      "Menu signé, en souvenir",
     ],
-    cta: "Reserve Tasting Menu",
+    cta: "Réserver le menu dégustation",
     popular: true,
   },
   {
-    name: "Private Dining",
-    price: "From €220",
-    period: "per person",
-    desc: "Exclusive use of our salon privé for groups of 8–20 guests.",
+    name: "Salon privé",
+    price: "À partir de 220 €",
+    period: "par personne",
+    desc: "Salon privé réservé à votre groupe, de 8 à 20 couverts.",
     features: [
-      "Exclusive private room",
-      "Bespoke menu by the Chef",
-      "Dedicated sommelier",
-      "Floral arrangement included",
-      "Custom printed menus",
-      "Full event management",
+      "Salon privatisé",
+      "Menu sur mesure du chef",
+      "Sommelier dédié",
+      "Composition florale incluse",
+      "Menus imprimés à vos noms",
+      "Organisation complète",
     ],
-    cta: "Enquire About Private Dining",
+    cta: "Demander une privatisation",
     popular: false,
   },
 ]
@@ -385,7 +385,7 @@ return (
               );
             })}
             <button onClick={() => goTo('reservation')} className="px-6 py-2.5 bg-amber-700 hover:bg-amber-600 text-[10px] uppercase tracking-[0.2em] font-sans font-bold transition-all duration-200 rounded-sm cursor-pointer">
-              Reserve a Table
+              Réserver une table
             </button>
           </div>
 
@@ -401,7 +401,7 @@ return (
                   );
                 })}
                 <button onClick={() => goTo('reservation')} className="mt-4 px-8 py-3 bg-amber-700 hover:bg-amber-600 text-xs font-sans font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer">
-                  Reserve a Table
+                  Réserver une table
                 </button>
               </div>
             </SheetContent>
@@ -423,7 +423,7 @@ return (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.8 }}>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-16 bg-amber-700/60" />
-              <span className="text-[10px] uppercase tracking-[0.5em] text-amber-500 font-sans font-semibold">Fine Dining · 8e Arrondissement · {clientCity(sessionData) ?? "Paris"}</span>
+              <span className="text-[10px] uppercase tracking-[0.5em] text-amber-500 font-sans font-semibold">Haute gastronomie · 8e Arrondissement · {clientCity(sessionData) ?? "Paris"}</span>
               <div className="h-px w-16 bg-amber-700/60" />
             </div>
           </motion.div>
@@ -704,7 +704,7 @@ return (
         <div className="max-w-6xl mx-auto">
           <Reveal>
             <div className="text-center mb-16">
-              <span className="text-amber-500 text-[10px] uppercase tracking-[0.4em] font-sans font-semibold mb-4 block">Dining Experiences</span>
+              <span className="text-amber-500 text-[10px] uppercase tracking-[0.4em] font-sans font-semibold mb-4 block">Nos formules</span>
               <h2 className="text-4xl md:text-6xl font-light">{/* TEXTE_SECTION */ clientText(sessionData, "pricing.titre") ?? (<>Choose your <span className="italic">evening</span></>)}</h2>
             </div>
           </Reveal>
@@ -794,7 +794,7 @@ return (
               {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
                 { icon: <MapPin className="w-5 h-5" />, label: "Location", value: `42 Rue du Faubourg\nSaint-Honoré, 75008 ${clientCity(sessionData) ?? "Paris"}` },
                 { icon: <Clock className="w-5 h-5" />, label: "Hours", value: "Tue–Sat: 19:00–23:00\nSun: 12:00–15:00" },
-                { icon: <Phone className="w-5 h-5" />, label: "Contact", value: (clientPhone(sessionData) ?? "+33 1 42 65 15 16") + "\n" + (clientEmail(sessionData) ?? `reserve@letoile.${clientCity(sessionData) ?? "Paris"}`) },
+                { icon: <Phone className="w-5 h-5" />, label: "Contact", value: (clientPhone(sessionData) ?? "+33 1 42 65 15 16") + "\n" + (clientEmail(sessionData) ?? `reservation@letoile.${clientCity(sessionData) ?? "Paris"}`) },
               ]).map((item, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="text-center group">
