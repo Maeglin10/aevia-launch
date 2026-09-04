@@ -71,10 +71,10 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 function projects_LIVE() {
   return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
   { name: "Capsule Pro", category: "Packaging", client: "L'Oréal", year: "2025", angle: "-3deg", color: "var(--brand, #F97316)", src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=600&q=80") },
-  { name: "Archeus Chair", category: "Furniture", client: "Cassina", year: "2025", angle: "2deg", color: "#6366F1", src: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80") },
-  { name: "HaloKit", category: "Consumer Electronics", client: "Sony Design", year: "2024", angle: "-2deg", color: "#0EA5E9", src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80") },
-  { name: "Bloom Series", category: "Tableware", client: "Seletti", year: "2024", angle: "4deg", color: "#10B981", src: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1556742393-d75f468bfcb0?w=600&q=80") },
-  { name: "Kinetic Lamp", category: "Lighting", client: "Foscarini", year: "2023", angle: "-1deg", color: "#F59E0B", src: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&q=80") },
+  { name: "Archeus Chair", category: "Mobilier", client: "Cassina", year: "2025", angle: "2deg", color: "#6366F1", src: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80") },
+  { name: "HaloKit", category: "Électronique grand public", client: "Sony Design", year: "2024", angle: "-2deg", color: "#0EA5E9", src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80") },
+  { name: "Bloom Series", category: "Arts de la table", client: "Seletti", year: "2024", angle: "4deg", color: "#10B981", src: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1556742393-d75f468bfcb0?w=600&q=80") },
+  { name: "Kinetic Lamp", category: "Luminaires", client: "Foscarini", year: "2023", angle: "-1deg", color: "#F59E0B", src: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=600&q=80") },
 ]);
 }
 let projects = projects_LIVE();
@@ -114,7 +114,7 @@ function projectDetails_SOURCE_LIVE() {
   },
   {
     name: "Archeus Chair",
-    category: "Furniture",
+    category: "Mobilier",
     client: "Cassina",
     year: "2025",
     color: "#6366F1",
@@ -126,7 +126,7 @@ function projectDetails_SOURCE_LIVE() {
   },
   {
     name: "HaloKit",
-    category: "Consumer Electronics",
+    category: "Électronique grand public",
     client: "Sony Design",
     year: "2024",
     color: "#0EA5E9",
@@ -138,7 +138,7 @@ function projectDetails_SOURCE_LIVE() {
   },
   {
     name: "Bloom Series",
-    category: "Tableware",
+    category: "Arts de la table",
     client: "Seletti",
     year: "2024",
     color: "#10B981",
@@ -150,7 +150,7 @@ function projectDetails_SOURCE_LIVE() {
   },
   {
     name: "Kinetic Lamp",
-    category: "Lighting",
+    category: "Luminaires",
     client: "Foscarini",
     year: "2023",
     color: "#F59E0B",
@@ -1165,7 +1165,7 @@ return (
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
           <button onClick={() => goTo("home")} className="flex items-center gap-2 cursor-pointer bg-transparent border-none p-0"><div className="w-5 h-5 bg-[var(--brand,#F97316)] rounded" /><span className="text-white font-bold">{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Forme Studio"))}</span></button>
           <div className="flex gap-8">
-            <button onClick={() => goTo("legal")} className="hover:text-[var(--brand,#F97316)] transition-colors cursor-pointer bg-transparent border-none p-0 text-xs text-gray-500">Politique de conf.</button>
+            <button onClick={() => goTo("legal")} className="hover:text-[var(--brand,#F97316)] transition-colors cursor-pointer bg-transparent border-none p-0 text-xs text-gray-500">Confidentialité</button>
             <button onClick={() => goTo("legal")} className="hover:text-[var(--brand,#F97316)] transition-colors cursor-pointer bg-transparent border-none p-0 text-xs text-gray-500">Mentions légales</button>
           </div>
           <span>© 2026 {clientName(sessionData) ?? "Forme Studio."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>

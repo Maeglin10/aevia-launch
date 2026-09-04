@@ -62,11 +62,11 @@ const features_SOURCE = [
 let features = features_SOURCE;
 
 const models = [
-  { name: "LLaMA 3.1 405B", type: "LLM", latency: "90ms", cost: "0.70$ / 1M tokens", badge: "Recommandé" },
-  { name: "Mistral Large 2", type: "LLM", latency: "65ms", cost: "0.45$ / 1M tokens", badge: "Populaire" },
-  { name: "GPT-4o", type: "Multimodal", latency: "120ms", cost: "1.20$ / 1M tokens", badge: "OpenAI" },
-  { name: "SDXL Turbo", type: "Image", latency: "30ms", cost: "0.01$ / image", badge: "Diffusion" },
-  { name: "Whisper Large v3", type: "Audio", latency: "RT×0.15", cost: "0.006$ / min", badge: "STT" },
+  { name: "LLaMA 3.1 405B", type: "LLM", latency: "90ms", cost: "0,70 $ / 1M jetons", badge: "Recommandé" },
+  { name: "Mistral Large 2", type: "LLM", latency: "65ms", cost: "0,45 $ / 1M jetons", badge: "Populaire" },
+  { name: "GPT-4o", type: "Multimodal", latency: "120ms", cost: "1,20 $ / 1M jetons", badge: "OpenAI" },
+  { name: "SDXL Turbo", type: "Image", latency: "30ms", cost: "0,01 $ / image", badge: "Diffusion" },
+  { name: "Whisper Large v3", type: "Audio", latency: "RT×0.15", cost: "0,006 $ / min", badge: "STT" },
 ];
 
 const pipeline = [
@@ -251,7 +251,7 @@ return (
             <div className="max-w-6xl mx-auto w-full relative z-10 text-center">
               <Reveal delay={0.1}>
                 <h1 className="text-white text-4xl sm:text-5xl md:text-7xl font-bold leading-tight mb-6 break-words">{<>{clientHeroLine(sessionData, 0, 2, 25) ?? "L'infrastructure IA"}<br className="hidden sm:inline" />{" "}
-                  <span className="bg-gradient-to-r from-[var(--brand,#06B6D4)] to-[#8B5CF6] bg-clip-text text-transparent">{clientHeroLine(sessionData, 1, 2, 25) ?? "pour les builders sérieux"}</span>
+                  <span className="bg-gradient-to-r from-[var(--brand,#06B6D4)] to-[#8B5CF6] bg-clip-text text-transparent">{clientHeroLine(sessionData, 1, 2, 25) ?? "pour ceux qui construisent pour de bon"}</span>
                 </>}</h1>
               </Reveal>
               <Reveal delay={0.2}>
@@ -401,7 +401,7 @@ return (
                 <div className="relative bg-gradient-to-br from-[var(--brand,#06B6D4)]/10 to-[#8B5CF6]/10 border border-[var(--brand,#06B6D4)]/20 rounded-3xl p-10 md:p-16">
                   <Cloud className="w-10 h-10 text-[var(--brand,#06B6D4)] mx-auto mb-6 opacity-60" />
                   <h2 className="text-white text-4xl font-bold mb-4">{/* TEXTE_SECTION */ clientText(sessionData, "section-6.titre") ?? (<>Prêt à scaler votre IA ?</>)}</h2>
-                  <p className="text-gray-400 max-w-lg mx-auto mb-10">$50 de crédits offerts pour démarrer. Aucune carte de crédit requise.</p>
+                  <p className="text-gray-400 max-w-lg mx-auto mb-10">50 € de crédits offerts pour démarrer. Aucune carte bancaire requise.</p>
                   <button onClick={() => goTo("pricing")} className="bg-gradient-to-r from-[var(--brand,#06B6D4)] to-[#8B5CF6] text-white font-bold px-10 py-4 rounded-xl hover:opacity-90 transition-opacity cursor-pointer text-lg">
                     Créer un compte gratuit →
                   </button>
@@ -433,7 +433,7 @@ return (
           {[
             { title: "Produit", links: ["Modèles", "GPU Cloud", "Vector DB", "API Reference"] },
             { title: "Ressources", links: ["Documentation", "Quickstart", "Blog", "Changelog"] },
-            { title: "Légal", links: ["Confidentialité", "CGU", "DPA RGPD", "Status"] },
+            { title: "Informations légales", links: ["Confidentialité", "CGU", "DPA RGPD", "Status"] },
           ].map(col => (
             <div key={col.title}>
               <h4 className="text-white font-semibold text-sm mb-4">{col.title}</h4>
@@ -451,7 +451,7 @@ return (
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex justify-between text-xs text-gray-600">
           <span>© 2026 {clientName(sessionData) ?? "NimbusAI."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
-          <span><Globe className="w-3 h-3 inline mr-1" />Cloud AI · 12 regions</span>
+          <span><Globe className="w-3 h-3 inline mr-1" />Cloud IA · 12 régions</span>
         </div>
         {/* Les coordonnées. Ce thème n'affichait aucun moyen d'être joint —
             ni numéro, ni adresse, ni formulaire. Elles viennent de la session

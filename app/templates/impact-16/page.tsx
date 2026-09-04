@@ -370,7 +370,7 @@ return (
           <span className="text-[var(--brand,#C9A86C)]" style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem" }}>{clientName(sessionData) ?? "Obscura"} · {clientTrade(sessionData) ?? "Photographe"} {clientCity(sessionData) ?? "Paris"}</span>
           <div className="flex gap-6">
             <a href="/templates/impact-16" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Mentions légales</a>
-            <a href="/templates/impact-16" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Politique de Confidentialité</a>
+            <a href="/templates/impact-16" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#C9A86C)] transition-colors">Politique de confidentialité</a>
           </div>
         </div>
       </footer>

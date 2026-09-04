@@ -36,8 +36,8 @@ let fd: any = null;
 // Les prestations, jusqu'ici écrit(e) dans le rendu :
 // le client pouvait les saisir, le thème ne les lisait pas.
 const PRESTATIONS_INLINE_SOURCE = [
-  { icon: <Globe className="w-5 h-5" />, label: "€500K investment", desc: "No strings, no advisor shares, no board seat required." },
-                      { icon: <Users className="w-5 h-5" />, label: "120+ mentor network", desc: "Access to operators who've built $100M+ companies." },
+  { icon: <Globe className="w-5 h-5" />, label: "500 k€ investis", desc: "No strings, no advisor shares, no board seat required." },
+                      { icon: <Users className="w-5 h-5" />, label: "120+ mentor network", desc: "Des dirigeants qui ont bâti des entreprises à plus de 100 M€." },
                       { icon: <TrendingUp className="w-5 h-5" />, label: "Investor warm intros", desc: "200+ VCs and angels at Demo Day. Warm intros to the right ones." },
                       { icon: <Clock className="w-5 h-5" />, label: "Lifetime alumni access", desc: "Perks, events, and co-founder matching — forever." }
 ];
@@ -351,9 +351,9 @@ return (
                 className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6"
               >
                 {[
-                  { val: "€500K", label: "Invested per startup" },
+                  { val: "500 k€", label: "Invested per startup" },
                   { val: "120+", label: "Portfolio companies" },
-                  { val: "€2.1B", label: "Combined valuation" },
+                  { val: "2,1 Md€", label: "Combined valuation" },
                   { val: "84%", label: "Follow-on rate" },
                 ].map(({ val, label }) => (
                   <div key={label} className="border border-white/10 rounded-2xl p-6">
@@ -621,7 +621,7 @@ return (
                       Start Application <ArrowRight className="w-5 h-5" />
                     </button>
                   </div>
-                  <p className="text-white/30 text-sm mt-6">Deadline: 15 novembre 2026 · Results by December 1</p>
+                  <p className="text-white/30 text-sm mt-6">Date limite : 15 novembre 2026 · Réponses le 1er décembre</p>
                 </div>
               </Reveal>
             </div>
@@ -643,7 +643,7 @@ return (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16 mt-10">
                 {[
                   { val: "120+", label: "Companies funded" },
-                  { val: "€2.1B", label: "Combined valuation" },
+                  { val: "2,1 Md€", label: "Combined valuation" },
                   { val: "84%", label: "Follow-on rate" },
                   { val: "6", label: "Unicorn-track startups" },
                 ].map(({ val, label }) => (

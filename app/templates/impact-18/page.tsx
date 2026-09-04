@@ -42,7 +42,7 @@ const NAV_HREF: Record<string, string> = {
   "Intégration Salesforce": "/templates/impact-18/integrations",
   "Intégrations": "/templates/impact-18/integrations",
   "Intégrations basiques": "/templates/impact-18/integrations",
-  "Mentions Légales": "/templates/impact-18/legal",
+  "Mentions légales": "/templates/impact-18/legal",
   "Tarifs": "/templates/impact-18/tarifs",
   "blog": "/templates/impact-18/blog",
   "docs": "/templates/impact-18/docs",
@@ -302,7 +302,7 @@ return (
               { name: "Tarifs", key: "tarifs" },
               { name: "Docs", key: "docs" },
               { name: "Blog", key: "blog" },
-              { name: "Mentions Légales", key: "legal" }
+              { name: "Mentions légales", key: "legal" }
             ].map((item, i) => (
               <motion.div key={item.key} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
                 <a
@@ -467,8 +467,8 @@ return (
               { name: "Documentation", key: "docs" },
               { name: "Blog", key: "blog" }
             ]},
-            { title: "Légal", links: [
-              { name: "Mentions Légales", key: "legal" },
+            { title: "Informations légales", links: [
+              { name: "Mentions légales", key: "legal" },
               { name: "Confidentialité", key: "legal" }
             ]},
           ].map(col => (
@@ -482,7 +482,7 @@ return (
         </div>
         <div className="max-w-6xl mx-auto border-t border-white/5 pt-8 flex justify-between text-xs text-gray-600">
           <span>© 2026 {clientName(sessionData) ?? "Streamline."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
-          <span>Made in 🇫🇷 {clientCity(sessionData) ?? "Paris"}</span>
+          <span>Conçu en 🇫🇷 à {clientCity(sessionData) ?? "Paris"}</span>
         </div>
       </footer>
     </div>
