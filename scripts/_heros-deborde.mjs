@@ -87,6 +87,9 @@ for (const theme of process.argv.slice(2)) {
           if (!visible(x)) continue;
           const r = x.getBoundingClientRect();
           if (r.height < 8 || r.width < 8) continue;
+          /* Une lettre de 192 px à 5 % d'opacité est un filigrane décoratif :
+             la couper est voulu. Seul le contenu compte. */
+          if (parseFloat(getComputedStyle(x).opacity) <= 0.12) continue;
           const dessous = r.bottom - b.bottom;
           if (dessous <= 2) continue;
           manque = Math.max(manque, Math.round(dessous));

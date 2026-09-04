@@ -28,6 +28,9 @@ console.log(await p.evaluate(() => {
       if (!vis(x)) continue;
       const r = x.getBoundingClientRect();
       if (r.height < 8 || r.width < 8) continue;
+      /* Une lettre de 192 px à 5 % d'opacité est un filigrane décoratif :
+         la couper est voulu. Seul le contenu compte. */
+      if (parseFloat(getComputedStyle(x).opacity) <= 0.12) continue;
       const d = r.bottom - b.bottom;
       if (d <= 2) continue;
       manque = Math.max(manque, Math.round(d));
