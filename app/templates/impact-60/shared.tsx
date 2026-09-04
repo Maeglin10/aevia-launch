@@ -7,9 +7,9 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion";
 
 function MODELS_LIVE() {
   return [
-  { name: "The Chronos 01", cat: "Rose Gold Edition", price: "€24,500", img: clientPhotoAt(3, "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=1200") },
-  { name: "Deep Sea Master", cat: "Titanium / Ceramic", price: "€18,200", img: clientPhotoAt(4, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200") },
-  { name: "Lunar Phase", cat: "Platinum / Leather", price: "€42,000", img: clientPhotoAt(5, "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&q=80&w=1200") },
+  { name: "The Chronos 01", cat: "Rose Gold Edition", price: "24 500 €", img: clientPhotoAt(3, "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=1200") },
+  { name: "Deep Sea Master", cat: "Titanium / Ceramic", price: "18 200 €", img: clientPhotoAt(4, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?auto=format&fit=crop&q=80&w=1200") },
+  { name: "Lunar Phase", cat: "Platinum / Leather", price: "42 000 €", img: clientPhotoAt(5, "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?auto=format&fit=crop&q=80&w=1200") },
 ];
 }
 export let MODELS = MODELS_LIVE();
