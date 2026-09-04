@@ -205,7 +205,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
         <span style={{ fontStyle: 'italic', fontWeight: 300 }}>un partenaire.</span>
       </>
     ),
-    body: "Chez Marchand & Partners, nous refusons le rôle de simple prestataire technique. Chaque client bénéficie d'un expert dédié qui anticipe, alerte et conseille — avant même que vous ne posez la question. Notre approche proactive transforme la comptabilité en levier de croissance.",
+    body: "Chez Marchand & Associés, nous refusons le rôle de simple prestataire technique. Chaque client bénéficie d'un expert dédié qui anticipe, alerte et conseille — avant même que vous ne posez la question. Notre approche proactive transforme la comptabilité en levier de croissance.",
     ghost: '01',
     reverse: false,
   },
@@ -253,7 +253,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     quote:
-      "Depuis que je travaille avec Marchand & Partners, j'ai récupéré 3 heures par semaine et découvert plus de 4 000 € de déductions que j'ignorais. Leur approche proactive a complètement changé ma façon de piloter mon activité.",
+      "Depuis que je travaille avec Marchand & Associés, j'ai récupéré 3 heures par semaine et découvert plus de 4 000 € de déductions que j'ignorais. Leur approche proactive a complètement changé ma façon de piloter mon activité.",
     name: 'Sophie Renard',
     role: 'Consultante indépendante',
     company: 'Auto-entrepreneur',
@@ -620,7 +620,7 @@ function Hero() {
       >
         <img
           src={photo(4, "https://images.pexels.com/photos/33175673/pexels-photo-33175673.jpeg?auto=compress&cs=tinysrgb&w=1600")}
-          alt="Cabinet expert-comptable Marchand & Partners Nantes"
+          alt="Cabinet expert-comptable Marchand & Associés Nantes"
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
       </motion.div>
@@ -1431,7 +1431,7 @@ function ExpertisePanel() {
             >
               <img
                 src={photo(6, "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=900&auto=format&fit=crop")}
-                alt="Cabinet Marchand & Partners — expertise et proximité"
+                alt="Cabinet Marchand & Associés — expertise et proximité"
                 loading="lazy"
                 style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               />
@@ -2190,7 +2190,7 @@ function Footer() {
         }}
       >
         <span>
-          © {new Date().getFullYear()} {clientName(sessionData) ?? "Fiduciaire Marchand & Partners."} Tous droits réservés. Membre de l&apos;OEC.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © {new Date().getFullYear()} {clientName(sessionData) ?? "Fiduciaire Marchand & Associés."} Tous droits réservés. Membre de l&apos;OEC.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>
