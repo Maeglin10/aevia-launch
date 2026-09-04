@@ -17,9 +17,9 @@ import { DWELL, useSlides, HeldSwap, BlurThrough, SlideIndex, HairlineArrows } f
    come from the shop's own collections (verified at the merge). */
 function HERO_BOUQUETS_DEMO_SOURCE_LIVE() {
   return [
-  { name: "Jardin de Printemps", price: "€65", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1523693916903-027d144a2b7d?w=900&h=900&fit=crop&q=80") },
-  { name: "Blossom Drift", price: "€85", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=900&h=900&fit=crop&q=80") },
-  { name: "Dried Luxe", price: "€90", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1583228858294-6745cb25969e?w=900&h=900&fit=crop&q=80") },
+  { name: "Jardin de Printemps", price: "65 €", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1523693916903-027d144a2b7d?w=900&h=900&fit=crop&q=80") },
+  { name: "Blossom Drift", price: "85 €", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=900&h=900&fit=crop&q=80") },
+  { name: "Dried Luxe", price: "90 €", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1583228858294-6745cb25969e?w=900&h=900&fit=crop&q=80") },
 ];
 }
 let HERO_BOUQUETS_DEMO_SOURCE = HERO_BOUQUETS_DEMO_SOURCE_LIVE();
@@ -372,7 +372,7 @@ function WorkshopSection() {
           <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 16, color: C.textMuted, lineHeight: 1.75, marginBottom: 40 }}>We work with small French growers wherever possible, choose seasonal flowers over imported blooms, and make every arrangement by hand — from a single stem to a wedding arch.</p>
           <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, marginBottom: 40 }}>
             {[
-              { val: "€65", label: "Workshop from" },
+              { val: "65 €", label: "Workshop from" },
               { val: "2h", label: "Session length" },
               { val: "12", label: "Max per group" },
               { val: "Weekly", label: "Public sessions" },

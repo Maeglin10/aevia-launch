@@ -10,6 +10,11 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "buildings completed": "Bâtiments livrés",
+    "years practice": "Ans d'exercice",
+    "countries": "Pays",
+    "studio philosophy": "Notre philosophie",
+    "next century.": "siècle prochain.",
     "space": "L'espace",
     "defines": "fait",
     "culture.": "la culture.",
@@ -31,6 +36,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "who we are": "Qui nous sommes",
   },
   es: {
+    "buildings completed": "Edificios entregados",
+    "years practice": "Años de ejercicio",
+    "countries": "Países",
+    "studio philosophy": "Nuestra filosofía",
+    "next century.": "próximo siglo.",
     "space": "El espacio",
     "defines": "hace",
     "culture.": "la cultura.",
@@ -52,6 +62,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "who we are": "Quiénes somos",
   },
   de: {
+    "buildings completed": "Fertiggestellte Gebäude",
+    "years practice": "Jahre Praxis",
+    "countries": "Länder",
+    "studio philosophy": "Unsere Haltung",
+    "next century.": "nächste Jahrhundert.",
     "space": "Der Raum",
     "defines": "formt",
     "culture.": "die Kultur.",
@@ -73,6 +88,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "who we are": "Wer wir sind",
   },
   pt: {
+    "buildings completed": "Edifícios entregues",
+    "years practice": "Anos de exercício",
+    "countries": "Países",
+    "studio philosophy": "A nossa filosofia",
+    "next century.": "próximo século.",
     "space": "O espaço",
     "defines": "faz",
     "culture.": "a cultura.",

@@ -53,7 +53,7 @@ export const attorneys = [
     focus: "M&A, Corporate Governance",
     bio: "Édouard founded the firm after 12 years at a Magic Circle firm. He has led over 140 M&A transactions across France, Germany, and the United States, with aggregate deal values exceeding €4.2 billion.",
     matters: "140+ transactions",
-    value: "€4.2B+",
+    value: "4,2 Md€+",
     languages: "French, English, German",
   },
   {
@@ -64,7 +64,7 @@ export const attorneys = [
     focus: "Intellectual Property, Technology",
     bio: "Claire leads the firm's IP and technology practice. She has represented leading French tech companies, media groups, and multinational corporations in patent disputes, licensing negotiations, and technology acquisitions.",
     matters: "80+ IP mandates",
-    value: "€800M+",
+    value: "800 M€+",
     languages: "French, English",
   },
   {
@@ -75,13 +75,13 @@ export const attorneys = [
     focus: "Commercial Litigation, Arbitration",
     get bio() { return "Marc-Antoine is one of " + clientCityOr("Paris") + "'s leading commercial litigators, with an exceptional record in ICC arbitration and French commercial court proceedings. He handles the firm's most complex adversarial matters."; },
     matters: "200+ cases",
-    value: "€1.1B+",
+    value: "1,1 Md€+",
     languages: "French, English, Spanish",
   },
 ];
 
 export const caseResults = [
-  { value: "€4.2B+", label: "M&A Deal Value Advised" },
+  { value: "4,2 Md€+", label: "M&A Deal Value Advised" },
   { value: "97%", label: "Favorable Outcomes" },
   { value: "28", label: "Years in Practice" },
   { value: "340+", label: "Corporate Clients" },

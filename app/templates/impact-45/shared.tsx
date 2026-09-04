@@ -39,7 +39,7 @@ export const artists = [
     bio: "Mara's fine line work is architectural in its precision. She brings a jeweler's eye to every piece — botanical details, portraiture, and geometric compositions that last a lifetime.",
     styles: ["Ligne fine", "Botanique", "Portrait", "Minimaliste"],
     bookingLead: "6–8 weeks",
-    startingAt: "€200",
+    startingAt: "200 €",
     instagram: "@maravoss.ink",
   },
   {
@@ -49,7 +49,7 @@ export const artists = [
     get bio() { return "Théo works in bold darkness — heavy blackwork, neo-tribal, dark illustrative sleeves. His compositions are monumental and his black saturation unmatched in " + clientCityOr("Paris") + "."; },
     styles: ["Blackwork", "Neo-Tribal", "Dark Illustrative", "Sleeve Work"],
     bookingLead: "10–14 weeks",
-    startingAt: "€300",
+    startingAt: "300 €",
     instagram: "@theo.noir",
   },
 ];
@@ -132,7 +132,7 @@ export const bookingTiers = [
   },
   {
     name: "Small Piece",
-    price: "€200",
+    price: "200 €",
     duration: "2–4 hours",
     desc: "Standalone pieces up to 10cm. Perfect for fine line florals, scripts, geometric shapes, and minimalist icons.",
     includes: ["Custom design", "2–4 hour session", "Aftercare kit", "Touch-up included"],
@@ -141,7 +141,7 @@ export const bookingTiers = [
   },
   {
     name: "Large Piece",
-    price: "€600",
+    price: "600 €",
     duration: "Full day",
     desc: "Complex single pieces — ribcage, thigh, back panel, chest. Full day session with breaks.",
     includes: ["Custom design", "Full day (7 hrs)", "Stencil preview", "Aftercare kit", "Touch-up included"],

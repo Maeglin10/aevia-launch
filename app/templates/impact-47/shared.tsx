@@ -94,9 +94,9 @@ function seasons_LIVE() {
     accent: C.sage,
     desc: "Tulips, peonies, ranunculus, and cherry blossom — the season of fresh beginnings.",
     arrangements: [
-      { name: "Jardin de Printemps", price: "€65", desc: "Peonies, tulipes, and garden roses in blush and cream.", image: clientPhotoAt(4, "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=400&h=400&fit=crop&q=80") },
-      { name: "Blossom Drift", price: "€85", desc: "Cherry blossom stems with delicate sweet peas and freesia.", image: clientPhotoAt(5, "https://images.pexels.com/photos/11511583/pexels-photo-11511583.jpeg?auto=compress&cs=tinysrgb&w=1600") },
-      { name: "Green Awakening", price: "€55", desc: "Eucalyptus, ferns, and seasonal greens with white blooms.", image: clientPhotoAt(6, "https://images.pexels.com/photos/11511583/pexels-photo-11511583.jpeg?auto=compress&cs=tinysrgb&w=1600") },
+      { name: "Jardin de Printemps", price: "65 €", desc: "Peonies, tulipes, and garden roses in blush and cream.", image: clientPhotoAt(4, "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=400&h=400&fit=crop&q=80") },
+      { name: "Blossom Drift", price: "85 €", desc: "Cherry blossom stems with delicate sweet peas and freesia.", image: clientPhotoAt(5, "https://images.pexels.com/photos/11511583/pexels-photo-11511583.jpeg?auto=compress&cs=tinysrgb&w=1600") },
+      { name: "Green Awakening", price: "55 €", desc: "Eucalyptus, ferns, and seasonal greens with white blooms.", image: clientPhotoAt(6, "https://images.pexels.com/photos/11511583/pexels-photo-11511583.jpeg?auto=compress&cs=tinysrgb&w=1600") },
     ],
   },
   {
@@ -106,9 +106,9 @@ function seasons_LIVE() {
     accent: "#f57f17",
     desc: "Sunflowers, dahlias, lavender, and lush garden roses at their peak.",
     arrangements: [
-      { name: "Soleil de Provence", price: "€70", desc: "Sunflowers, lavender, and golden dahlias in warm abundance.", image: clientPhotoAt(7, "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=400&h=400&fit=crop&q=80") },
-      { name: "Rose Vif", price: "€95", desc: "Garden roses in deep coral and orange with jasmine vine.", image: clientPhotoAt(8, "https://images.unsplash.com/photo-1518895312237-a9e23508077d?w=400&h=400&fit=crop&q=80") },
-      { name: "Tropical Luxe", price: "€120", desc: "Birds of paradise, proteas, and tropical foliage statement piece.", image: clientPhotoAt(9, "https://images.unsplash.com/photo-1518895312237-a9e23508077d?w=400&h=400&fit=crop&q=80") },
+      { name: "Soleil de Provence", price: "70 €", desc: "Sunflowers, lavender, and golden dahlias in warm abundance.", image: clientPhotoAt(7, "https://images.unsplash.com/photo-1531525645387-7f14be1bdbbd?w=400&h=400&fit=crop&q=80") },
+      { name: "Rose Vif", price: "95 €", desc: "Garden roses in deep coral and orange with jasmine vine.", image: clientPhotoAt(8, "https://images.unsplash.com/photo-1518895312237-a9e23508077d?w=400&h=400&fit=crop&q=80") },
+      { name: "Tropical Luxe", price: "120 €", desc: "Birds of paradise, proteas, and tropical foliage statement piece.", image: clientPhotoAt(9, "https://images.unsplash.com/photo-1518895312237-a9e23508077d?w=400&h=400&fit=crop&q=80") },
     ],
   },
   {
@@ -118,9 +118,9 @@ function seasons_LIVE() {
     accent: "#bf360c",
     desc: "Dahlias, chrysanthemums, dried botanicals, and warm seasonal textures.",
     arrangements: [
-      { name: "Automne Doré", price: "€75", desc: "Rust dahlias, orange chrysanthemums, and dried wheat stems.", image: clientPhotoAt(10, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&q=80") },
-      { name: "Dried Luxe", price: "€90", desc: "Pampas, lunaria, preserved botanicals in sculptural composition.", image: clientPhotoAt(11, "https://images.unsplash.com/photo-1606041011872-596597976b25?w=400&h=400&fit=crop&q=80") },
-      { name: "Forest Floor", price: "€60", desc: "Wild mushrooms, moss, pine branches, and seasonal berries.", image: clientPhotoAt(12, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&q=80") },
+      { name: "Automne Doré", price: "75 €", desc: "Rust dahlias, orange chrysanthemums, and dried wheat stems.", image: clientPhotoAt(10, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&q=80") },
+      { name: "Dried Luxe", price: "90 €", desc: "Pampas, lunaria, preserved botanicals in sculptural composition.", image: clientPhotoAt(11, "https://images.unsplash.com/photo-1606041011872-596597976b25?w=400&h=400&fit=crop&q=80") },
+      { name: "Forest Floor", price: "60 €", desc: "Wild mushrooms, moss, pine branches, and seasonal berries.", image: clientPhotoAt(12, "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&q=80") },
     ],
   },
   {
@@ -130,9 +130,9 @@ function seasons_LIVE() {
     accent: "#1565c0",
     desc: "White amaryllis, hellebores, pine, and the deep red of winterberries.",
     arrangements: [
-      { name: "Blanc de Noël", price: "€80", desc: "White amaryllis, eucalyptus, and silver-dusted pine branches.", image: clientPhotoAt(13, "https://images.unsplash.com/photo-1544441892-794166f1e3be?w=400&h=400&fit=crop&q=80") },
-      { name: "Velvet Crimson", price: "€90", desc: "Deep red roses, winterberry, and dark greenery.", image: clientPhotoAt(14, "https://images.unsplash.com/photo-1543168256-418811576931?w=400&h=400&fit=crop&q=80") },
-      { name: "Hiver Minimaliste", price: "€65", desc: "Single-variety hellebore and dried cotton stems in clean lines.", image: clientPhotoAt(15, "https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?w=400&h=400&fit=crop&q=80") },
+      { name: "Blanc de Noël", price: "80 €", desc: "White amaryllis, eucalyptus, and silver-dusted pine branches.", image: clientPhotoAt(13, "https://images.unsplash.com/photo-1544441892-794166f1e3be?w=400&h=400&fit=crop&q=80") },
+      { name: "Velvet Crimson", price: "90 €", desc: "Deep red roses, winterberry, and dark greenery.", image: clientPhotoAt(14, "https://images.unsplash.com/photo-1543168256-418811576931?w=400&h=400&fit=crop&q=80") },
+      { name: "Hiver Minimaliste", price: "65 €", desc: "Single-variety hellebore and dried cotton stems in clean lines.", image: clientPhotoAt(15, "https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?w=400&h=400&fit=crop&q=80") },
     ],
   },
 ];
@@ -180,7 +180,7 @@ export const testimonials = [
 export const subscriptionTiers = [
   {
     name: "Hebdomadaire",
-    price: "€48",
+    price: "48 €",
     duration: "per week",
     desc: "One artisan bouquet delivered each week. Seasonal selection, curated by our florists.",
     get includes() { return ["Seasonal arrangement", "Free delivery " + clientCityOr("Paris"), "Kraft wrapping + ribbon", "Care card"]; },
@@ -189,7 +189,7 @@ export const subscriptionTiers = [
   },
   {
     name: "Bimensuelle",
-    price: "€80",
+    price: "80 €",
     duration: "per month",
     desc: "Two bouquets per month — the perfect rhythm for those who love flowers but want flexibility.",
     get includes() { return ["2 seasonal arrangements", "Free delivery " + clientCityOr("Paris"), "Choice of style", "Care card + seasonal note"]; },
@@ -198,7 +198,7 @@ export const subscriptionTiers = [
   },
   {
     name: "Mensuelle",
-    price: "€55",
+    price: "55 €",
     duration: "per month",
     desc: "One statement piece per month — larger, more dramatic, a real focal point for your home.",
     includes: ["1 large seasonal piece", "Free delivery Île-de-France", "Statement composition", "Seasonal story card"],
