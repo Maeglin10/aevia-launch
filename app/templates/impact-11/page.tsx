@@ -40,8 +40,10 @@ const NAV_HREF: Record<string, string> = {
   "Cookies": "/templates/impact-11/confidentialite",
   "Cours": "/templates/impact-11/cours",
   "Forum communauté": "/templates/impact-11/communaute",
-  "Mentoring": "/templates/impact-11/mentoring",
-  "Mentoring mensuel": "/templates/impact-11/mentoring",
+  /* Le libellé est français, la route reste « /mentoring » : renommer l'une
+     sans l'autre casserait le lien. */
+  "Mentorat": "/templates/impact-11/mentoring",
+  "Mentorat mensuel": "/templates/impact-11/mentoring",
   "Tarifs": "/templates/impact-11/tarifs",
   "Tous les cours": "/templates/impact-11/cours",
 };
@@ -71,10 +73,10 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 
 function courses_LIVE() {
   return resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ title: s.title, ...(s.price ? { price: s.price } : {}) })), [
-  { title: "Data Science & IA", level: "Intermédiaire", duration: "48h", students: "12 400", rating: 4.9, price: "199€", tag: "Populaire", color: "var(--brand, #7C3AED)" },
-  { title: "UX Design System", level: "Débutant", duration: "32h", students: "8 200", rating: 4.8, price: "149€", tag: "Nouveau", color: "#0EA5E9" },
-  { title: "Full-Stack React/Node", level: "Avancé", duration: "64h", students: "9 800", rating: 4.9, price: "249€", tag: "Bestseller", color: "#10B981" },
-  { title: "Marketing Digital", level: "Débutant", duration: "24h", students: "15 600", rating: 4.7, price: "99€", tag: "Certifiant", color: "#F59E0B" },
+  { title: "Data Science & IA", level: "Intermédiaire", duration: "48h", students: "12 400", rating: 4.9, price: "199 €", tag: "Populaire", color: "var(--brand, #7C3AED)" },
+  { title: "UX Design System", level: "Débutant", duration: "32h", students: "8 200", rating: 4.8, price: "149 €", tag: "Nouveau", color: "#0EA5E9" },
+  { title: "Full-Stack React/Node", level: "Avancé", duration: "64h", students: "9 800", rating: 4.9, price: "249 €", tag: "Bestseller", color: "#10B981" },
+  { title: "Marketing Digital", level: "Débutant", duration: "24h", students: "15 600", rating: 4.7, price: "99 €", tag: "Certifiant", color: "#F59E0B" },
 ]);
 }
 let courses = courses_LIVE();
@@ -83,7 +85,7 @@ const categories = ["Tous", "Tech", "Design", "Business", "Données", "Créativi
 
 const features_SOURCE = [
   { icon: <BookOpen className="w-6 h-6" />, title: "500+ cours", desc: "Bibliothèque complète mise à jour chaque semaine" },
-  { icon: <Users className="w-6 h-6" />, title: "1:1 Mentoring", desc: "Accès illimité à des mentors experts de l'industrie" },
+  { icon: <Users className="w-6 h-6" />, title: "Mentorat individuel", desc: "Accès illimité à des mentors experts de l'industrie" },
   { icon: <Award className="w-6 h-6" />, title: "Certifications", desc: "Diplômes reconnus par 200+ entreprises partenaires" },
   { icon: <Globe className="w-6 h-6" />, title: "Communauté", desc: "Réseau de 250 000 apprenants dans 40 pays" },
 ];
@@ -98,8 +100,8 @@ const instructors = [
 function plans_LIVE() {
   return /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
   { name: "Starter", price: "29", period: "mois", features: ["50 cours inclus", "Projets pratiques", "Forum communauté", "Certificat de suivi"], cta: "Commencer", highlight: false },
-  { name: "Pro", price: "79", period: "mois", features: ["Tous les cours", "Mentoring mensuel", "Projets guidés", "Certificats officiels", "Support prioritaire"], cta: "Essai 7 jours gratuit", highlight: true },
-  { name: "Équipe", price: "199", period: "mois", features: ["10 sièges inclus", "Dashboard équipe", "Rapports de progression", "Onboarding dédié", "Formateur attitré"], cta: "Contacter l'équipe", highlight: false },
+  { name: "Pro", price: "79", period: "mois", features: ["Tous les cours", "Mentorat mensuel", "Projets guidés", "Certificats officiels", "Support prioritaire"], cta: "Essai 7 jours gratuit", highlight: true },
+  { name: "Équipe", price: "199", period: "mois", features: ["10 sièges inclus", "Tableau de bord d'équipe", "Rapports de progression", "Prise en main accompagnée", "Formateur attitré"], cta: "Contacter l'équipe", highlight: false },
 ]);
 }
 let plans = plans_LIVE();;
@@ -201,7 +203,7 @@ return (
             )}
           </Link>
           <div className="hidden lg:flex items-center gap-8 text-gray-600 text-sm font-medium">
-            {["Cours", "Mentoring", "Certifications", "Entreprises", "Tarifs"].map(item => (
+            {["Cours", "Mentorat", "Certifications", "Entreprises", "Tarifs"].map(item => (
               <Link key={item} href={navHref(item)} className="hover:text-[var(--brand,#7C3AED)] transition-colors cursor-pointer">{item}</Link>
             ))}
           </div>
@@ -230,7 +232,7 @@ return (
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6" /></button>
             </div>
-            {["Cours", "Mentoring", "Certifications", "Entreprises", "Tarifs"].map((item, i) => (
+            {["Cours", "Mentorat", "Certifications", "Entreprises", "Tarifs"].map((item, i) => (
               <motion.div key={item} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
                 <Link href={navHref(item)} className="block text-gray-900 text-2xl font-semibold mb-6 cursor-pointer" onClick={() => setMobileOpen(false)}>{item}</Link>
               </motion.div>
@@ -426,9 +428,9 @@ return (
             <p className="text-gray-400 text-sm leading-relaxed">La plateforme d'apprentissage en ligne pour les professionnels ambitieux.</p>
           </div>
           {[
-            { title: "Formation", links: ["Catalogue", "Certifications", "Mentoring", "Entreprises"] },
+            { title: "Formation", links: ["Catalogue", "Certifications", "Mentorat", "Entreprises"] },
             { title: "Ressources", links: ["Blog", "Webinaires", "Communauté", "API"] },
-            { title: "Légal", links: ["Conditions", "Confidentialité", "Cookies", "Contact"] },
+            { title: "Informations légales", links: ["Conditions", "Confidentialité", "Cookies", "Contact"] },
           ].map(col => (
             <div key={col.title}>
               <h4 className="text-white font-semibold mb-4 text-sm">{col.title}</h4>

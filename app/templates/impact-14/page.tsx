@@ -23,7 +23,7 @@ const NAV_HREF: Record<string, string> = {
   "Destinations": "/templates/impact-14/destinations",
   "Experience": "/templates/impact-14/experience",
   "Fleet": "/templates/impact-14/fleet",
-  "Legal Mentions": "/templates/impact-14/legal",
+  "Mentions légales": "/templates/impact-14/legal",
   "Our Fleet": "/templates/impact-14/fleet",
   "Preferred Destination": "/templates/impact-14/destinations",
   "Private Destinations": "/templates/impact-14/destinations",
@@ -367,9 +367,11 @@ function testimonials_LIVE() {
 let testimonials = testimonials_LIVE();
 
 const stats_SOURCE: StatItem[] = [
-  { value: 34127, decimals: 2, suffix: "", label: "Nautical Miles Sailed" },
-  { value: 87, decimals: 2, suffix: "", label: "Private Destinations" },
-  { value: 28, decimals: 2, suffix: "", label: "Years of Excellence" },
+  /* Deux décimales sur des ENTIERS : le compteur affichait « 87,00
+     destinations » et, en cours d'animation, « 62,55 destinations ». */
+  { value: 34127, decimals: 0, suffix: "", label: "Nautical Miles Sailed" },
+  { value: 87, decimals: 0, suffix: "", label: "Private Destinations" },
+  { value: 28, decimals: 0, suffix: "", label: "Years of Excellence" },
   { value: 99.8, decimals: 1, suffix: "%", label: "Client Return Rate" },
 ];
 let stats = stats_SOURCE;
@@ -866,7 +868,7 @@ function CounterStat({ stat, triggered }: { stat: StatItem; triggered: boolean }
         }}
       >
         <span className="gold-shimmer">
-          {count.toLocaleString("en-US", {
+          {count.toLocaleString("fr-FR", {
             minimumFractionDigits: stat.decimals,
             maximumFractionDigits: stat.decimals,
           })}
@@ -2511,7 +2513,7 @@ export default function HorizonMaritimePage() {
               © 2026 {clientName(sessionData) ?? "Horizon Maritime Group S.A.M."} · Tous droits réservés · Monaco{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: "flex", gap: "2rem" }}>
-              {["Politique de confidentialité", "Terms of Charter", "Politique cookies", "Legal Mentions"].map((l) => (
+              {["Politique de confidentialité", "Conditions de la charte", "Politique cookies", "Mentions légales"].map((l) => (
                 <a
                   key={l}
                   href={navHref(l)}
@@ -3266,7 +3268,7 @@ function LegalPage() {
     <section id="legal" style={{ background: "#0a1520", padding: "10rem 2rem 6rem", minHeight: "100dvh" }}>
       <div style={{ maxWidth: 800, margin: "0 auto", fontFamily: "Montserrat, sans-serif" }}>
         <h1 style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "3rem", fontWeight: 300, color: "#f0ece0", borderBottom: "1px solid rgba(201,168,76,0.2)", paddingBottom: "1.5rem", marginBottom: "2.5rem" }}>
-          {c?.heroHeadline ?? "Legal Mentions & Terms"}
+          {c?.heroHeadline ?? "Mentions légales et conditions"}
         </h1>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "2.5rem", fontSize: "0.9rem", color: "rgba(240,236,224,0.7)", lineHeight: 1.8, fontWeight: 300 }}>

@@ -85,19 +85,19 @@ const collections = [
 
 function editorials_LIVE() {
   return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
-  { title: "La nuit appartient aux audacieuses", category: "Editorial", src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80") },
+  { title: "La nuit appartient aux audacieuses", category: "Éditorial", src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80") },
   { title: "Silences et structures", category: "Fashion", src: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&q=80") },
   { title: "L'héritage revisité", category: "Interview", src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&q=80") },
-  { title: "Noir absolu, texture absolue", category: "Campaign", src: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1534126416832-a88fdf2911c2?w=600&q=80") },
+  { title: "Noir absolu, texture absolue", category: "Campagne", src: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1534126416832-a88fdf2911c2?w=600&q=80") },
 ]);
 }
 let editorials = editorials_LIVE();
 
 function looks_LIVE() {
   return [
-  { name: "Manteau Asymétrique", price: "2 400€", src: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400&q=80") },
-  { name: "Robe Colonne", price: "1 800€", src: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&q=80") },
-  { name: "Tailleur Structuré", price: "3 200€", src: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&q=80") },
+  { name: "Manteau Asymétrique", price: "2 400 €", src: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=400&q=80") },
+  { name: "Robe Colonne", price: "1 800 €", src: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&q=80") },
+  { name: "Tailleur Structuré", price: "3 200 €", src: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=400&q=80") },
 ];
 }
 let looks = looks_LIVE();
@@ -108,7 +108,7 @@ const SIZES = ["XS", "S", "M", "L", "XL"];
 
 type CartItem = { id: string; name: string; price: number; qty: number; size: string };
 
-/* Prices in this template are pre-formatted French strings ("2 400€"); strip
+/* Prices in this template are pre-formatted French strings ("2 400 €"); strip
    everything but digits to get a number to sum in the cart. */
 function parsePriceEUR(price: string): number {
   const digits = String(price).replace(/[^0-9]/g, "");
@@ -255,7 +255,7 @@ export default function NoirCouturePage() {
             {[
               { name: "Accueil", target: "home" },
               { name: "Collections", target: "collections" },
-              { name: "Editorial", target: "editorial" },
+              { name: "Éditorial", target: "editorial" },
               { name: "Boutique", target: "boutique" },
               { name: "Atelier", target: "atelier" },
               { name: "Contact", target: "contact" }
@@ -319,8 +319,10 @@ export default function NoirCouturePage() {
               )}
               <button onClick={() => setMobileOpen(false)} className="cursor-pointer"><X className="w-6 h-6 text-white" /></button>
             </div>
-            {["Accueil", "Collections", "Editorial", "Boutique", "Atelier", "Contact"].map((item, i) => {
-              const target = item === "Accueil" ? "home" : item.toLowerCase();
+            {/* Le libellé ne peut pas servir de cible : « Éditorial » en minuscules
+                donne « éditorial », qui n'est pas une page. On nomme les deux. */}
+            {[["Accueil", "home"], ["Collections", "collections"], ["Éditorial", "editorial"],
+              ["Boutique", "boutique"], ["Atelier", "atelier"], ["Contact", "contact"]].map(([item, target], i) => {
               return (
                 <motion.div key={item} initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.07 }}>
                   <a
@@ -715,7 +717,7 @@ function EditorialSubPage() {
     { title: "La nuit appartient aux audacieuses", category: "Editorial / SS 2026", src: photo(17, "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80"), text: "Une campagne photographiée à minuit dans les rues désertes du Quartier Latin. Une célébration de la silhouette structurée sous la lumière artificielle des lampadaires parisiens." },
     { title: "Silences et structures", category: "Fashion / AW 2025", src: photo(18, "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80"), text: "L'art de sculpter le vide. Ce projet explore la tension entre le corps et le tissu rigide, créant des drapés volumineux et géométriques." },
     { title: "L'héritage revisité", category: "Interview", src: photo(19, "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80"), text: "Entretien exclusif avec notre directeur artistique sur l'importance du noir absolu dans la garde-robe moderne et le refus des tendances éphémères." },
-    { title: "Noir absolu, texture absolue", category: "Campaign", src: photo(20, "https://images.unsplash.com/photo-1534126416832-a88fdf2911c2?w=800&q=80"), text: "Macro-photographie de matières premières : laines bouillies, cuirs de veau pleine fleur patinés, et organza de soie brut. La matière comme origine du dessin." },
+    { title: "Noir absolu, texture absolue", category: "Campagne", src: photo(20, "https://images.unsplash.com/photo-1534126416832-a88fdf2911c2?w=800&q=80"), text: "Macro-photographie de matières premières : laines bouillies, cuirs de veau pleine fleur patinés, et organza de soie brut. La matière comme origine du dessin." },
   ];
   const editorialItems = resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({
@@ -1057,9 +1059,9 @@ function CartDrawer({
 
 function BoutiqueSubPage({ onAddToCart }: { onAddToCart: (item: { name: string; price: string }, size: string) => void }) {
   const shopItems_DEMO = [
-    { name: "Manteau Asymétrique", price: "2 400€", category: "Prêt-à-porter", src: photo(21, "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&q=80"), desc: "Coupe décontractée asymétrique en laine bouillie italienne. Entièrement doublé soie." },
-    { name: "Robe Colonne", price: "1 800€", category: "Prêt-à-porter", src: photo(22, "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80"), desc: "Robe longue en crêpe de soie noir mat. Dos nu architectural et fente latérale." },
-    { name: "Tailleur Structuré", price: "3 200€", category: "Prêt-à-porter", src: photo(23, "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&q=80"), desc: "Veste épaulée à double boutonnage et pantalon droit assorti en laine vierge." },
+    { name: "Manteau Asymétrique", price: "2 400 €", category: "Prêt-à-porter", src: photo(21, "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&q=80"), desc: "Coupe décontractée asymétrique en laine bouillie italienne. Entièrement doublé soie." },
+    { name: "Robe Colonne", price: "1 800 €", category: "Prêt-à-porter", src: photo(22, "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80"), desc: "Robe longue en crêpe de soie noir mat. Dos nu architectural et fente latérale." },
+    { name: "Tailleur Structuré", price: "3 200 €", category: "Prêt-à-porter", src: photo(23, "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=600&q=80"), desc: "Veste épaulée à double boutonnage et pantalon droit assorti en laine vierge." },
     { name: "Sac Seau en Cuir", price: "1 200€", category: "Accessoires", src: photo(24, "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=600&q=80"), desc: `Cuir de veau tannage végétal noir profond. Détails métalliques gravés ${clientName(sessionData) ?? "Noir Couture"}.` },
     { name: "Veste Couture Déstructurée", price: "2 900€", category: "Prêt-à-porter", src: photo(25, "https://images.unsplash.com/photo-1534126416832-a88fdf2911c2?w=600&q=80"), desc: "Veste d'atelier déstructurée en cachemire mélangé noir charbon." },
     { name: "Pantalon Fluide Noir", price: "950€", category: "Prêt-à-porter", src: photo(26, "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&q=80"), desc: "Pantalon ample fluide en satin de soie. Ceinture ajustable intégrée." }
