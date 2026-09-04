@@ -1,11 +1,5 @@
 /*
   La prose de démonstration de ce thème, dans les langues que nous proposons.
-
-  Ces phrases sont écrites en dur dans le thème : elles ne viennent d'aucun
-  champ du formulaire, et disparaissent dès que le client remplit le bloc
-  correspondant. Les traduire est ce qui tient la page tant qu'il ne l'a pas
-  fait — un site français ne montre pas de paragraphe anglais.
-
   Chargé par BrandColorVar avec ce thème et avec lui seul.
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
@@ -49,12 +43,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "essence": "Essence",
     "landmark cases": "Affaires marquantes",
     "authority": "Autorité",
+    "vegan & cruelty-free": "Végane et sans cruauté",
     "design": "DESIGN",
     "content": "CONTENU",
     "we design digital experiences that": "Nous concevons des expériences numériques qui",
-    "+1 200 avis clients": "+1 200 avis clients",
-    "masque or": "Masque Or",
-    "vegan & cruelty-free": "Vegan & cruelty-free",
   },
   es: {
     "manifesto": "Manifiesto",
@@ -96,12 +88,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "essence": "Esencia",
     "landmark cases": "Casos emblemáticos",
     "authority": "Autoridad",
+    "vegan & cruelty-free": "Vegano y sin crueldad",
     "design": "DISEÑO",
     "content": "CONTENIDO",
     "we design digital experiences that": "Diseñamos experiencias digitales que",
-    "+1 200 avis clients": "+1 200 opiniones de clientes",
-    "masque or": "Mascarilla de Oro",
-    "vegan & cruelty-free": "Vegano y libre de crueldad",
   },
   de: {
     "manifesto": "Manifest",
@@ -143,12 +133,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "essence": "Essenz",
     "landmark cases": "Wegweisende Fälle",
     "authority": "Autorität",
+    "vegan & cruelty-free": "Vegan und tierversuchsfrei",
     "design": "DESIGN",
     "content": "INHALT",
     "we design digital experiences that": "Wir gestalten digitale Erlebnisse, die",
-    "+1 200 avis clients": "+1 200 Kundenbewertungen",
-    "masque or": "Goldmaske",
-    "vegan & cruelty-free": "Vegan & tierversuchsfrei",
   },
   pt: {
     "manifesto": "Manifesto",
@@ -190,11 +178,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "essence": "Essência",
     "landmark cases": "Casos marcantes",
     "authority": "Autoridade",
+    "vegan & cruelty-free": "Vegano e sem crueldade",
     "design": "DESIGN",
     "content": "CONTEÚDO",
     "we design digital experiences that": "Concebemos experiências digitais que",
-    "+1 200 avis clients": "+1 200 avaliações de clientes",
-    "masque or": "Máscara de Ouro",
-    "vegan & cruelty-free": "Vegano e livre de crueldade",
   },
 };
