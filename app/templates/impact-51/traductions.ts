@@ -10,6 +10,10 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "deep insights, zero guesswork": "Des analyses fines, aucune supposition",
+    "daily active users": "Utilisateurs actifs par jour",
+    "last 12 months": "sur les 12 derniers mois",
+    "peak throughput": "débit maximal",
     "the platform to build": "La plateforme pour bâtir",
     "your next great idea": "votre prochaine grande idée",
     "1,000 api calls/day": "1 000 appels API/jour",
@@ -51,6 +55,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your team, in perfect sync": "Votre équipe, parfaitement accordée",
   },
   es: {
+    "deep insights, zero guesswork": "Análisis a fondo, sin suposiciones",
+    "daily active users": "Usuarios activos al día",
+    "last 12 months": "en los últimos 12 meses",
+    "peak throughput": "caudal máximo",
     "the platform to build": "La plataforma para construir",
     "your next great idea": "su próxima gran idea",
     "1,000 api calls/day": "1.000 llamadas a la API/día",
@@ -92,6 +100,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your team, in perfect sync": "Su equipo, perfectamente acompasado",
   },
   de: {
+    "deep insights, zero guesswork": "Tiefe Analysen, kein Raten",
+    "daily active users": "Täglich aktive Nutzer",
+    "last 12 months": "in den letzten 12 Monaten",
+    "peak throughput": "Spitzendurchsatz",
     "the platform to build": "Die Plattform, um zu bauen",
     "your next great idea": "Ihre nächste große Idee",
     "1,000 api calls/day": "1.000 API-Aufrufe/Tag",
@@ -133,6 +145,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your team, in perfect sync": "Ihr Team, im Gleichtakt",
   },
   pt: {
+    "deep insights, zero guesswork": "Análises a fundo, sem suposições",
+    "daily active users": "Utilizadores ativos por dia",
+    "last 12 months": "nos últimos 12 meses",
+    "peak throughput": "débito máximo",
     "the platform to build": "A plataforma para construir",
     "your next great idea": "a sua próxima grande ideia",
     "1,000 api calls/day": "1.000 chamadas à API/dia",

@@ -286,7 +286,7 @@ export function AnalyticsIllustration({ active }: { active: boolean }) {
       </div>
       <div style={{ display: "flex", gap: 12, marginTop: 14 }}>
         {[
-          { label: "MRR", val: "$124K" },
+          { label: "Revenu récurrent", val: "124 k€" },
           { label: "Growth", val: "+18%" },
         ].map(({ label, val }) => (
           <div
@@ -750,7 +750,7 @@ export function DashboardMockup() {
             }}
           >
             {[
-              { label: "MRR", value: "$124.8K", delta: "+18.2%", up: true },
+              { label: "Revenu récurrent", value: "124,8 k€", delta: "+18,2 %", up: true },
               { label: "DAU", value: "47,291", delta: "+9.4%", up: true },
               { label: "Churn", value: "1.2%", delta: "-0.3%", up: false },
             ].map(({ label, value, delta, up }) => (
