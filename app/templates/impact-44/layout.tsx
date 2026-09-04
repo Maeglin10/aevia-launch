@@ -407,7 +407,7 @@ export default function GhostProtocolLayout({ children }: { children: React.Reac
               gap: 12,
             }}
           >
-            <span>© 2026 {clientName(__layoutSession) ?? "Aevia WS"} — SIREN <LegalIdentity />. ALL RIGHTS RESERVED.</span>
+            <span>© 2026 {clientName(__layoutSession) ?? "Aevia WS"} — SIREN <LegalIdentity />. TOUS DROITS RÉSERVÉS.</span>
             <div style={{ display: "flex", gap: 24 }}>
               <Link href="/templates/impact-44/legal" style={{ color: "inherit", textDecoration: "none" }}>LEGAL NOTICE</Link>
               <Link href="/templates/impact-44/legal" style={{ color: "inherit", textDecoration: "none" }}>PRIVACY</Link>

@@ -798,7 +798,7 @@ export default function ClosDuSoirPage() {
                             {wine.price} €
                           </div>
                           <div style={{ fontSize: 10, color: C.textMuted }}>
-                            EUR / verre
+                            € / verre
                           </div>
                         </div>
                       </div>
@@ -942,7 +942,7 @@ export default function ClosDuSoirPage() {
                   },
                   {
                     time: "21:30",
-                    desc: "Sélection cave — bouteilles à emporter à emporter avec conseil direct",
+                    desc: "Sélection cave — bouteilles à emporter, avec le conseil du sommelier",
                   },
                   {
                     time: "22:30",

@@ -335,7 +335,7 @@ export default function VMMaisonLayout({ children }: { children: React.ReactNode
                 textTransform: 'uppercase',
               }}
             >
-              Mentions Légales
+              Mentions légales
             </Link>
             <Link
               href="/templates/impact-41/legal?tab=privacy"

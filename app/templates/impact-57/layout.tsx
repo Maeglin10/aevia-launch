@@ -212,7 +212,7 @@ export default function MaskUnitLayout({
         </div>
         <div style={{ maxWidth: "1300px", margin: "2.5rem auto 0", paddingTop: "2rem", borderTop: `1px solid ${C.border}`, display: "flex", justifyContent: "space-between" }} className="flex flex-col md:row items-center gap-4 text-center">
           <div style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.55rem", color: C.textDim }}>
-            © 2025 {/* NOM_PIED */ clientName(__layoutSession) ?? "MASK UNIT STUDIO"} — <EditeurDuSite />. ALL RIGHTS RESERVED.
+            © 2025 {/* NOM_PIED */ clientName(__layoutSession) ?? "MASK UNIT STUDIO"} — <EditeurDuSite />. TOUS DROITS RÉSERVÉS.
           </div>
           <div style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.55rem", color: C.textDim }}>
             {clientCity(__layoutSession) ?? "PARIS"} · BRANDING · MOTION · DIGITAL

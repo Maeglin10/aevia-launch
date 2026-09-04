@@ -713,7 +713,7 @@ export default function BlockBasePage() {
         </div>
         <div className="max-w-[1500px] mx-auto mt-24 pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-bold text-white/10 uppercase tracking-widest">
           <div className="flex items-center gap-8">
-            <span>&copy; 2026 BLOCKBASE FOUNDATION. ALL RIGHTS RESERVED.</span>
+            <span>&copy; 2026 BLOCKBASE FOUNDATION. TOUS DROITS RÉSERVÉS.</span>
             <div className="flex gap-8 hidden lg:flex">
               <span>GDPR_COMPLIANT</span>
               <span>SOC2_TYPE_II</span>

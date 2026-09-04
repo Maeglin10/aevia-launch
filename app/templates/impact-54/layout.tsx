@@ -383,7 +383,7 @@ export default function Impact54Layout({
           }}
         >
           <span>
-            © 2026 {clientName(__layoutSession) ?? "Aevia WS"} — SIREN <LegalIdentity />. ALL RIGHTS RESERVED.
+            © 2026 {clientName(__layoutSession) ?? "Aevia WS"} — SIREN <LegalIdentity />. TOUS DROITS RÉSERVÉS.
           </span>
           <div style={{ display: "flex", gap: 24 }}>
             <Link

@@ -1,8 +1,10 @@
 "use client"
 
 import {
+  clientCity,
   clientEmail,
   clientName,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
 import React, { useState, useEffect } from "react";
@@ -372,9 +374,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </h4>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 <a href={`mailto:${clientEmail(__layoutSession) ?? fd?.email ?? "contact@exemple.fr"}`} style={{ fontSize: 14, color: "var(--brand, #64748b)", textDecoration: "none" }}>{clientEmail(__layoutSession) ?? fd?.email ?? "contact@exemple.fr"}</a>
-                <span style={{ fontSize: 14, color: "var(--brand, #64748b)" }}>+1 212 555 0190</span>
-                <span style={{ fontSize: 14, color: "var(--brand, #64748b)" }}>New York, NY 10022</span>
-                <span style={{ fontSize: 14, color: "var(--brand, #64748b)" }}>Mon-Fri 8am-7pm ET</span>
+                {/* Numéro, adresse et horaires étaient new-yorkais sur un catalogue
+                    français : « +1 212 555 0190 », « Mon-Fri 8am-7pm ET ». */}
+                <span style={{ fontSize: 14, color: "var(--brand, #64748b)" }}>{clientPhone(__layoutSession) ?? "+33 1 44 00 00 00"}</span>
+                <span style={{ fontSize: 14, color: "var(--brand, #64748b)" }}>{clientCity(__layoutSession) ?? "Paris"}</span>
+                <span style={{ fontSize: 14, color: "var(--brand, #64748b)" }}>Lun–Ven 8 h – 19 h</span>
               </div>
             </div>
           </div>
@@ -391,7 +395,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             }}
           >
             <p style={{ fontSize: 13, color: "#334155" }}>
-              © 2026 {clientName(__layoutSession) ?? "Aevia WS"} — SIREN <LegalIdentity />. All rights reserved.
+              © 2026 {clientName(__layoutSession) ?? "Aevia WS"} — SIREN <LegalIdentity />. Tous droits réservés.
             </p>
             <div style={{ display: "flex", gap: 24 }}>
               <Link href="/templates/impact-36/legal" style={{ fontSize: 13, color: "#334155", textDecoration: "none" }}>Legal Notice</Link>
