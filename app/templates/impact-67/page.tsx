@@ -181,7 +181,9 @@ return (
           ========================================== */}
       <section
         ref={heroRef}
-        className="relative w-full h-[85vh] flex flex-col justify-center overflow-hidden"
+        /* Voir impact-71 : hauteur fixe + `overflow-hidden` = contenu tranché.
+           Ici 122 px, dont « Enter Property » et « Portfolio_Manifesto ». */
+        className="relative w-full min-h-[85vh] py-24 flex flex-col justify-center overflow-hidden"
       >
         <motion.div
           style={{ y: heroY, opacity: heroOpacity }}

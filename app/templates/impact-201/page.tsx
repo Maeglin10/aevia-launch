@@ -1114,8 +1114,10 @@ return (
         className="imx-hero201-section"
         style={{
           position: "relative",
-          height: "100dvh",
-          minHeight: 700,
+          /* Sur téléphone, la disposition passe en colonne et le contenu
+             dépasse : « Voir les menus » était tranché. La hauteur d'écran
+             devient un plancher, pas un plafond. */
+          minHeight: "max(100dvh, 700px)",
           display: "flex",
           alignItems: "center",
           overflow: "hidden",

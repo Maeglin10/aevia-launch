@@ -155,7 +155,11 @@ return (
           ========================================== */}
       <section
         ref={heroRef}
-        className="relative w-full h-[calc(100vh-7rem)] flex flex-col justify-center overflow-hidden"
+        /* Hauteur FIXE + `overflow-hidden` : ce qui dépasse était tranché sans
+           barre de défilement pour le signaler — la phrase d'accroche coupée en
+           plein mot, et les deux appels à l'action hors du cadre. Une hauteur
+           MINIMALE laisse la section grandir. */
+        className="relative w-full min-h-[calc(100vh-7rem)] py-24 flex flex-col justify-center overflow-hidden"
       >
         <motion.div
           style={{ y: heroY, opacity: heroOpacity }}

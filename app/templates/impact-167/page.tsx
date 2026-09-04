@@ -1177,7 +1177,14 @@ export default function Impact167Page() {
            remaining box rather than anchoring it below the padding), so
            this switches to flex-start + a larger explicit top offset. */
         @media (max-width: 768px) {
-          .imx-hero167-left { align-items: flex-start !important; padding: 140px 28px 48px !important; }
+          .imx-hero167-left {
+            align-items: flex-start !important;
+            padding: 140px 28px 48px !important;
+            /* Ce panneau coupe ce qui dépasse : sans hauteur minimale, le
+               bouton « Nous contacter » était tranché de 48 px. */
+            min-height: max(100dvh, 640px) !important;
+            height: auto !important;
+          }
         }
       `}</style>
 

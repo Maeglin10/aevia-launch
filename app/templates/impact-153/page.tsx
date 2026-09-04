@@ -305,8 +305,11 @@ function ParallaxMountainHero() {
       ref={heroRef}
       style={{
         position:   "relative",
-        height:     "100dvh",
-        minHeight:  700,
+        /* `height` fixe tranchait « Voir les expéditions » et « Demande de
+           réservation » : la hauteur d'écran devient un plancher, pas un
+           plafond. */
+        minHeight:  "max(100dvh, 700px)",
+        paddingBlock: "clamp(96px, 12vh, 140px)",
         overflow:   "hidden",
         display:    "flex",
         alignItems: "center",
