@@ -101,7 +101,7 @@ export const PACKAGES = [
   {
     name: "Solstice",
     duration: "Half Day",
-    price: "€290",
+    price: "290 €",
     color: C.forest,
     accentColor: C.sage,
     features: [
@@ -116,7 +116,7 @@ export const PACKAGES = [
   {
     name: "Equinox",
     duration: "Full Day",
-    price: "€490",
+    price: "490 €",
     color: C.charcoal,
     accentColor: C.gold,
     features: [
@@ -132,7 +132,7 @@ export const PACKAGES = [
   {
     name: "Zenith",
     duration: "2-Night Retreat",
-    price: "€1,290",
+    price: "1 290 €",
     color: C.forest,
     accentColor: C.sage,
     features: [
