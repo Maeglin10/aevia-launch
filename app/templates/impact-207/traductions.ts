@@ -10,6 +10,10 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "singapore": "Singapour",
+    "dubai": "Dubaï",
+    "limited edition": "ÉDITION LIMITÉE",
+    "forged in italy": "FORGÉ EN ITALIE",
     "active parcels in our global network right now": "Colis en circulation dans notre réseau en ce moment",
     "client voices": "Voix des clients",
     "delivery journey": "Parcours de livraison",
@@ -57,6 +61,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your shipment reaches our regional hub. automated sorting, route assignment, and consolidation with compatible loads.": "Votre envoi atteint notre hub régional. Tri automatisé, attribution de routes et consolidation avec des chargements compatibles.",
   },
   es: {
+    "singapore": "Singapur",
+    "dubai": "Dubái",
+    "limited edition": "EDICIÓN LIMITADA",
+    "forged in italy": "FORJADO EN ITALIA",
     "active parcels in our global network right now": "Paquetes en circulación en nuestra red en este momento",
     "client voices": "Voces de los clientes",
     "delivery journey": "Viaje de entrega",
@@ -104,6 +112,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your shipment reaches our regional hub. automated sorting, route assignment, and consolidation with compatible loads.": "Su envío llega a nuestro centro regional. Clasificación automatizada, asignación de rutas y consolidación con cargas compatibles.",
   },
   de: {
+    "singapore": "Singapur",
+    "dubai": "Dubai",
+    "limited edition": "LIMITIERTE AUFLAGE",
+    "forged in italy": "IN ITALIEN GESCHMIEDET",
     "active parcels in our global network right now": "Sendungen, die gerade in unserem Netz unterwegs sind",
     "client voices": "Stimmen der Kunden",
     "delivery journey": "Lieferreise",
@@ -151,6 +163,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your shipment reaches our regional hub. automated sorting, route assignment, and consolidation with compatible loads.": "Ihre Sendung erreicht unser regionales Zentrum. Automatisierte Sortierung, Routenvergabe und Konsolidierung mit kompatiblen Lasten.",
   },
   pt: {
+    "singapore": "Singapura",
+    "dubai": "Dubai",
+    "limited edition": "EDIÇÃO LIMITADA",
+    "forged in italy": "FORJADO EM ITÁLIA",
     "active parcels in our global network right now": "Encomendas em circulação na nossa rede neste momento",
     "client voices": "Vozes dos clientes",
     "delivery journey": "Jornada de entrega",

@@ -10,6 +10,10 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "singapore": "Singapour",
+    "dubai": "Dubaï",
+    "limited edition": "ÉDITION LIMITÉE",
+    "forged in italy": "FORGÉ EN ITALIE",
     "streets": "RUE",
     "performance-grade sneakers, built like industrial machinery and finished like couture. limited runs. forged to outlast.": "Des baskets de niveau performance, construites comme une machine industrielle et finies comme une pièce de couture. Séries limitées. Faites pour durer.",
     "airforge started in a lyon garage with a heat press and an obsession. every silhouette is prototyped by hand, stress-tested on real streets, and refined until it earns the name.": "Tout a commencé dans un garage lyonnais, avec une presse à chaud et une obsession. Chaque silhouette est prototypée à la main, éprouvée dans la rue, et retravaillée jusqu'à mériter son nom.",
@@ -58,6 +62,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your cart is empty": "Votre panier est vide",
   },
   es: {
+    "singapore": "Singapur",
+    "dubai": "Dubái",
+    "limited edition": "EDICIÓN LIMITADA",
+    "forged in italy": "FORJADO EN ITALIA",
     "streets": "CALLE",
     "performance-grade sneakers, built like industrial machinery and finished like couture. limited runs. forged to outlast.": "Zapatillas de nivel rendimiento, construidas como una máquina industrial y acabadas como una pieza de alta costura. Series limitadas. Hechas para durar.",
     "airforge started in a lyon garage with a heat press and an obsession. every silhouette is prototyped by hand, stress-tested on real streets, and refined until it earns the name.": "Todo empezó en un garaje de Lyon, con una prensa térmica y una obsesión. Cada silueta se prototipa a mano, se prueba en la calle y se retrabaja hasta merecer su nombre.",
@@ -106,6 +114,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your cart is empty": "Tu carrito está vacío",
   },
   de: {
+    "singapore": "Singapur",
+    "dubai": "Dubai",
+    "limited edition": "LIMITIERTE AUFLAGE",
+    "forged in italy": "IN ITALIEN GESCHMIEDET",
     "streets": "STRASSE",
     "performance-grade sneakers, built like industrial machinery and finished like couture. limited runs. forged to outlast.": "Sneaker auf Performance-Niveau, gebaut wie eine Industriemaschine und verarbeitet wie ein Couture-Stück. Limitierte Serien. Gemacht, um zu halten.",
     "airforge started in a lyon garage with a heat press and an obsession. every silhouette is prototyped by hand, stress-tested on real streets, and refined until it earns the name.": "Alles begann in einer Garage in Lyon, mit einer Heißpresse und einer Obsession. Jede Silhouette wird von Hand prototypisiert, auf der Straße getestet und überarbeitet, bis sie ihren Namen verdient.",
@@ -154,6 +166,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your cart is empty": "Ihr Warenkorb ist leer",
   },
   pt: {
+    "singapore": "Singapura",
+    "dubai": "Dubai",
+    "limited edition": "EDIÇÃO LIMITADA",
+    "forged in italy": "FORJADO EM ITÁLIA",
     "streets": "RUA",
     "performance-grade sneakers, built like industrial machinery and finished like couture. limited runs. forged to outlast.": "Ténis de nível desempenho, construídos como uma máquina industrial e acabados como uma peça de alta-costura. Séries limitadas. Feitos para durar.",
     "airforge started in a lyon garage with a heat press and an obsession. every silhouette is prototyped by hand, stress-tested on real streets, and refined until it earns the name.": "Tudo começou numa garagem em Lyon, com uma prensa térmica e uma obsessão. Cada silhueta é prototipada à mão, testada na rua e retrabalhada até merecer o nome.",

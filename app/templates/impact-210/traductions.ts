@@ -10,6 +10,10 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "singapore": "Singapour",
+    "dubai": "Dubaï",
+    "limited edition": "ÉDITION LIMITÉE",
+    "forged in italy": "FORGÉ EN ITALIE",
     "services &": "Prestations &",
     "full gel application with premium products, long-lasting shine up to 4 weeks.": "Pose complète en gel avec des produits haut de gamme : une brillance qui tient jusqu'à quatre semaines.",
     "dry technique for the most precise, clean result — zero skin damage.": "Technique à sec, pour un résultat net et précis — sans abîmer la peau.",
@@ -23,6 +27,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your perfect": "Votre",
   },
   es: {
+    "singapore": "Singapur",
+    "dubai": "Dubái",
+    "limited edition": "EDICIÓN LIMITADA",
+    "forged in italy": "FORJADO EN ITALIA",
     "services &": "Servicios &",
     "full gel application with premium products, long-lasting shine up to 4 weeks.": "Aplicación completa en gel con productos de gama alta: un brillo que dura hasta cuatro semanas.",
     "dry technique for the most precise, clean result — zero skin damage.": "Técnica en seco, para un resultado limpio y preciso — sin dañar la piel.",
@@ -36,6 +44,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your perfect": "Su",
   },
   de: {
+    "singapore": "Singapur",
+    "dubai": "Dubai",
+    "limited edition": "LIMITIERTE AUFLAGE",
+    "forged in italy": "IN ITALIEN GESCHMIEDET",
     "services &": "Leistungen &",
     "full gel application with premium products, long-lasting shine up to 4 weeks.": "Komplette Gelmodellage mit hochwertigen Produkten — Glanz, der bis zu vier Wochen hält.",
     "dry technique for the most precise, clean result — zero skin damage.": "Trockentechnik für ein sauberes, präzises Ergebnis — ohne die Haut zu verletzen.",
@@ -49,6 +61,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your perfect": "Ihr perfektes",
   },
   pt: {
+    "singapore": "Singapura",
+    "dubai": "Dubai",
+    "limited edition": "EDIÇÃO LIMITADA",
+    "forged in italy": "FORJADO EM ITÁLIA",
     "services &": "Serviços &",
     "full gel application with premium products, long-lasting shine up to 4 weeks.": "Aplicação completa em gel com produtos de gama alta: um brilho que dura até quatro semanas.",
     "dry technique for the most precise, clean result — zero skin damage.": "Técnica a seco, para um resultado limpo e preciso — sem agredir a pele.",
