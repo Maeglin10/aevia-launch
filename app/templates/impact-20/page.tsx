@@ -624,7 +624,7 @@ function SectionReveal({
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 function PRODUCTS_DEMO_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}) })), [
   {
     name: "Solitaire Éternité",
     image: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80"),

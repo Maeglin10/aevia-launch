@@ -102,7 +102,7 @@ function EVENTS_LIVE() {
     venue: ville ? e.venue.replace(/Paris|Lille/, ville) : e.venue,
     artist: ville ? e.artist.replace(/Paris|Lille/, ville) : e.artist,
   }));
-  return /* REALISATIONS */ resolveList(
+  return /* RÉALISATIONS */ resolveList(
     clientWorks(sessionData)?.map((o: any, i: number) => ({
       ...base[i % base.length],
       title: o.title ?? base[i % base.length].title,

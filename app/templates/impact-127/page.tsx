@@ -73,7 +73,7 @@ function EqBars({ active = false }: { active?: boolean }) {
 }
 
 function EVENTS_DEMO_SOURCE_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, city: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, city: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { title: "NEON PULSE", artist: "Nova Collective", date: "24 mai 2026", time: "21:00", venue: "Warehouse IX", city: "Berlin", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&q=80&w=1200"), price: "€45", status: "On Sale", genre: "Electronic" },
   { title: "MIDNIGHT CRESCENDO", artist: "The Archivists", date: "Jun 7, 2026", time: "20:00", venue: "Hall Meridian", city: "London", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?auto=format&fit=crop&q=80&w=1200"), price: "£65", status: "Selling Fast", genre: "Orchestral" },
   { title: "BASS COMMUNION", artist: "Drift Engine", date: "Jun 21, 2026", time: "23:00", venue: "Sublevel", city: "London", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&q=80&w=1200"), price: "£35", status: "On Sale", genre: "Techno" },

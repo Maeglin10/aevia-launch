@@ -599,7 +599,7 @@ export default function AstrumReachPremiumManifest() {
                <div className="flex flex-wrap gap-8 font-mono">
                   <span>©2026 {clientName(sessionData) ?? "ASTRUM REACH ORBITAL"}.</span>
                   <span className="hidden md:inline">//</span>
-                  <a href="/templates/impact-09" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-indigo-400 transition-colors">MENTIONS LEGALES</a>
+                  <a href="/templates/impact-09" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-indigo-400 transition-colors">MENTIONS LÉGALES</a>
                </div>
                <div className="flex gap-16 font-mono text-indigo-500/30">
                   <span>LAUNCH_NOMINAL</span>

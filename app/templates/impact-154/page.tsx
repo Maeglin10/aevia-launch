@@ -57,7 +57,7 @@ let brand: any = null;
    ========================================================================== */
 
 function COLLECTIONS_SOURCE_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}), desc: o.desc || "" })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     id: "art-01",
     title: "The Renaissance Veil",

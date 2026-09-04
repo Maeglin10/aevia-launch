@@ -752,7 +752,7 @@ return (
                <div className="flex flex-wrap gap-8">
                   <span>©2026 {clientName(sessionData) ?? "VULCAN MOTOR GROUP MODENA."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
                   <span className="hidden md:inline">//</span>
-                  <a href="#aero-grad" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#3b82f6)] transition-colors">MENTIONS LEGALES</a>
+                  <a href="#aero-grad" onClick={(e) => { e.preventDefault(); goTo("legal"); }} className="hover:text-[var(--brand,#3b82f6)] transition-colors">MENTIONS LÉGALES</a>
                </div>
                <div className="flex gap-12 font-mono">
                   <span className="text-[var(--brand,#3b82f6)]/40">TELEMETRY_LINK_ESTABLISHED</span>

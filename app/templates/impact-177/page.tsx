@@ -91,7 +91,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 }
 
 function PROJECTS_DEMO_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, city: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, city: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { title: "Piscine miroir Presqu'île", city: (clientCity(sessionData) ?? "Lyon") + " 2ème", surface: "10 × 4 m", style: "Béton sur-mesure", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=80&w=1200") },
   { title: "Villa Les Pins", city: "Tassin-la-Demi-Lune", surface: "12 × 5 m", style: "Bassin à débordement", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=1200") },
   { title: "Couloir de nage Croix-Rousse", city: (clientCity(sessionData) ?? "Lyon") + " 4ème", surface: "12 × 2,5 m", style: "Contemporain", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200") },

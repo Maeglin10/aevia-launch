@@ -82,7 +82,7 @@ let C: Record<string, string> = {
 /* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
    démonstration restait affiché. */
 function SERIES_DEMO_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     title: "Lumière Naturelle",
     count: "24 clichés",

@@ -94,15 +94,15 @@ const SERVICES_SOURCE = [
 let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
-function REALISATIONS_DEMO_LIVE() {
+function RÉALISATIONS_DEMO_LIVE() {
   return [
   { client: "MaisonDéco " + (clientCity(sessionData) ?? "Paris"), sector: "E-commerce", desc: "Refonte UX + boutique Shopify. +68% de taux de conversion en 3 mois.", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1555421689-491a97ff2040?w=600&q=80") },
   { client: "Cabinet Forêt & Associés", sector: "Juridique", desc: "Site vitrine + SEO local. Page 1 sur 8 requêtes cibles en 4 mois.", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&q=80") },
   { client: "Startup Finly", sector: "FinTech", desc: "MVP SaaS de 0 à prod en 6 semaines. Levée de fonds facilités par la démo.", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80") },
 ];
 }
-let REALISATIONS_DEMO = REALISATIONS_DEMO_LIVE();
-let REALISATIONS = REALISATIONS_DEMO;
+let RÉALISATIONS_DEMO = RÉALISATIONS_DEMO_LIVE();
+let RÉALISATIONS = RÉALISATIONS_DEMO;
 
 const ATOUTS = [
   "Interlocuteur unique de la stratégie à la livraison",
@@ -181,7 +181,7 @@ export default function PixelRepublicPage() {
 
   fd = session?.formData;
   sessionData = session;
-  REALISATIONS_DEMO = REALISATIONS_DEMO_LIVE();
+  RÉALISATIONS_DEMO = RÉALISATIONS_DEMO_LIVE();
   memoriserSession(sessionData);
   bp = session?.businessProfile;
   c = session?.generatedContent;
@@ -199,7 +199,7 @@ export default function PixelRepublicPage() {
     AVIS_SOURCE,
   );
   STATS = resolveList(clientStats(session), STATS_DEMO);
-  REALISATIONS = REALISATIONS_DEMO.map((row, i) => ({
+  RÉALISATIONS = RÉALISATIONS_DEMO.map((row, i) => ({
     ...row,
     img: clientPhotos(session)[0 + i] || row.img,
   }));
@@ -215,7 +215,7 @@ export default function PixelRepublicPage() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 2;
-    const _photoArrays: any[] = [REALISATIONS];
+    const _photoArrays: any[] = [RÉALISATIONS];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -418,7 +418,7 @@ export default function PixelRepublicPage() {
           </div>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 22, maxWidth: 1200, margin: "0 auto" }}>
-          {REALISATIONS.map((r, i) => (
+          {RÉALISATIONS.map((r, i) => (
             <Reveal key={r.client} delay={i * 0.1}>
               <motion.div whileHover={{ y: -6 }} style={{ borderRadius: 14, overflow: "hidden", border: `1px solid ${C.border}`, boxShadow: C.shadow }}>
                 <img src={r.img} alt={r.client} style={{ width: "100%", height: 200, objectFit: "cover" }} />

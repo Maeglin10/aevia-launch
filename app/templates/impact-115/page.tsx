@@ -76,7 +76,7 @@ let C: Record<string, string> = {
    ========================================================================== */
 
 function PROJECTS_DEMO_SOURCE_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}), desc: o.desc || "" })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     id: "p1",
     title: "Verdant Canopy",

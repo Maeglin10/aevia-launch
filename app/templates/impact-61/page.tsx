@@ -263,7 +263,7 @@ return (
             </Link>
           </div>
           <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px", background: C.border }}>
-            {/* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+            {/* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
               { num: "01", name: "Maison C.", type: "Résidentiel privé", loc: (clientCity(sessionData) ?? "Paris") + " 6e", year: "2024", img: photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80")) },
               { num: "02", name: "Médiathèque Évry", type: "Équipement culturel", loc: "Évry-Courcouronnes", year: "2024", img: photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80")) },
               { num: "03", name: "Tour Belvedere", type: "Tertiaire — 4 200 m²", loc: "La Défense", year: "2023", img: photo(2, (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/7587375/pexels-photo-7587375.jpeg?auto=compress&cs=tinysrgb&w=1600")) },

@@ -106,7 +106,7 @@ let HERO_PRODUCTS_DEMO = HERO_PRODUCTS_DEMO_SOURCE;
 let HERO_PRODUCTS = HERO_PRODUCTS_DEMO;
 
 function PRODUCTS_SOURCE_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   {
     id: 1,
     name: "Helix Noir",

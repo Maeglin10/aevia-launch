@@ -108,7 +108,7 @@ const NAV_LINKS = [
 const STYLE_FILTERS = ["All", "Réaliste", "Géométrique", "Old School", "Japonais", "Blackwork", "Fine Line"];
 
 function PORTFOLIO_DEMO_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   {
     id: 1,
     title: "Koi Dragon Sleeve",

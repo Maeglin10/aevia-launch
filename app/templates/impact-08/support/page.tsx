@@ -312,7 +312,7 @@ export default function SupportPage() {
                <div className="flex flex-wrap gap-8">
                   <span>©2026 {clientName(sessionData) ?? "VULCAN"} MOTOR GROUP MODENA.</span>
                   <span className="hidden md:inline">//</span>
-                  <Link href="/templates/impact-08/legal" className="hover:text-blue-500 transition-colors">MENTIONS LEGALES</Link>
+                  <Link href="/templates/impact-08/legal" className="hover:text-blue-500 transition-colors">MENTIONS LÉGALES</Link>
                </div>
                <div className="flex gap-12 font-mono">
                   <span className="text-blue-500/40">TELEMETRY_LINK_ESTABLISHED</span>

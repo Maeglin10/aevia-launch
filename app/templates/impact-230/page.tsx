@@ -64,7 +64,7 @@ const NAV = [
   { l: "Matériaux", h: "#materiaux" },
   { l: "Contact", h: "#contact" },
 ];
-const REALISATIONS = [
+const RÉALISATIONS = [
   { t: "Table de ferme 3,20 m", m: "Noyer massif", d: "Plateau d'une seule pièce, piètement en trapèze assemblé à tenon-mortaise. Douze couverts, aucune vis apparente." },
   { t: "Bibliothèque murale sur mesure", m: "Chêne clair", d: "5,80 m de long, 2,70 m sous plafond, montée sur place en trois jours. Échelle coulissante en frêne." },
   { t: "Cuisine complète", m: "Frêne olivier & hêtre", d: "Caissons, façades et plan de travail. Évier sous plan, ferrures allemandes garanties à vie." },
@@ -326,7 +326,7 @@ export default function AtelierDuBoisPage() {
           <h2 style={{ fontFamily: FONT, fontSize: "clamp(30px, 4vw, 52px)", color: C.text, marginTop: 10, lineHeight: 1.15 }}>{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>Des pièces sorties<br /><em>de cet atelier.</em></>)}</h2>
         </div></Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 18, maxWidth: 1200, margin: "0 auto" }}>
-          {REALISATIONS.map((r, i) => (
+          {RÉALISATIONS.map((r, i) => (
             <Reveal key={r.t} delay={i * 0.06}>
               <motion.div whileHover={{ y: -5, boxShadow: C.shadowLg }} style={{ background: C.bg, borderRadius: 10, padding: "26px 24px", border: `1px solid ${C.border}`, boxShadow: C.shadow, height: "100%" }}>
                 <span style={{ background: C.accentLight, color: C.accent, borderRadius: 20, padding: "4px 12px", fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: 1 }}>{r.m}</span>

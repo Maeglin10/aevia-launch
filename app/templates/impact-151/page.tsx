@@ -52,7 +52,7 @@ let brand: any = null;
    ========================================================================== */
 
 function VINTAGES_DEMO_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, type: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, type: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}) })), [
   {
     id: "v-2022",
     name: "The Crimson Sovereign",

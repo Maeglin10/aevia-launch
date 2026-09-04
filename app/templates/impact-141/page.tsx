@@ -40,7 +40,7 @@ let brand: any = null;
    ========================================================================== */
 
 function RELEASES_DEMO_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}) })), [
   {
     id: "r-01",
     title: "Neon Genesis",

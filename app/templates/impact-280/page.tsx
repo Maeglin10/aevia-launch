@@ -2126,7 +2126,7 @@ function ContactFormSection() {
    7 · RÉALISATIONS SECTION — 3 mariages
    ════════════════════════════════════════════════════════════════════════════ */
 function RealizationsSection() {
-  const realisations_DEMO = /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, lieu: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
+  const realisations_DEMO = /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, lieu: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
     {
       img: PHOTO.chateau,
       tag: 'Mariage de château',

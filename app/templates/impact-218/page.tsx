@@ -919,7 +919,7 @@ type Vintage = {
 /* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
    démonstration restait affiché. */
 function VINTAGES_DEMO_LIVE(): Vintage[] {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   {
     year: '2018',
     name: 'Cuvée du Miroir',

@@ -60,7 +60,7 @@ let sessionData: any = null;
    ========================================================================= */
 
 function LISTINGS_DEMO_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   {
     id: 1,
     title: "The Obsidian Penthouse",

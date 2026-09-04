@@ -104,14 +104,14 @@ const SERVICES_SOURCE = [
 ]
 let SERVICES_DEMO = SERVICES_SOURCE;
 
-function REALISATIONS_DEMO_LIVE() {
+function RÉALISATIONS_DEMO_LIVE() {
   return [
   { title: "Piscine miroir 10×4 m · Villa", tag: "Béton sur-mesure", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=80&w=1200") },
   { title: "Rénovation liner & margelles", tag: "Rénovation complète", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200") },
   { title: "Couloir de nage 12 m · Contemporain", tag: "Nage à contre-courant", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=1200") },
 ];
 }
-let REALISATIONS_DEMO = REALISATIONS_DEMO_LIVE();
+let RÉALISATIONS_DEMO = RÉALISATIONS_DEMO_LIVE();
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -146,13 +146,13 @@ export default function AquanovaPiscinesPage() {
     })),
     SERVICES_DEMO
   );
-  const REALISATIONS = resolveList(
+  const RÉALISATIONS = resolveList(
     bpLocal?.beforeAfter?.map((b: any, i: number) => ({
-      title: b.caption ?? REALISATIONS_DEMO[i % REALISATIONS_DEMO.length].title,
+      title: b.caption ?? RÉALISATIONS_DEMO[i % RÉALISATIONS_DEMO.length].title,
       tag: "Réalisation",
-      img: b.afterUrl || b.beforeUrl || REALISATIONS_DEMO[i % REALISATIONS_DEMO.length].img,
+      img: b.afterUrl || b.beforeUrl || RÉALISATIONS_DEMO[i % RÉALISATIONS_DEMO.length].img,
     })),
-    REALISATIONS_DEMO
+    RÉALISATIONS_DEMO
   );
   const AVIS = resolveList(
     clientReviews(session)?.map((r: any) => ({
@@ -199,7 +199,7 @@ export default function AquanovaPiscinesPage() {
   sessionData = session;
   bp = session?.businessProfile;
   c = session?.generatedContent;
-  REALISATIONS_DEMO = REALISATIONS_DEMO_LIVE();
+  RÉALISATIONS_DEMO = RÉALISATIONS_DEMO_LIVE();
   ZONES_DEMO = ZONES_DEMO_LIVE();
 
 
@@ -220,7 +220,7 @@ export default function AquanovaPiscinesPage() {
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 1;
-    const _photoArrays: any[] = [REALISATIONS];
+    const _photoArrays: any[] = [RÉALISATIONS];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -404,7 +404,7 @@ export default function AquanovaPiscinesPage() {
             </div>
           </Reveal>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {REALISATIONS.map((r, i) => (
+            {RÉALISATIONS.map((r, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="group cursor-pointer bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500">
                   <div className="relative aspect-[4/3] overflow-hidden">

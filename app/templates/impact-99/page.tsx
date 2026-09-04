@@ -88,7 +88,7 @@ const NAV_PAGES: { key: EmberPage; label: string }[] = [
    ========================================================================= */
 
 function MENU_HIGHLIGHTS_DEMO_SOURCE_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     id: 1,
     name: "Dry-Aged Wagyu",

@@ -68,7 +68,7 @@ const Instagram = (props: any) => (
 );
 
 function GRID_PHOTOS_DEMO_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
   {
     id: 1,
     src: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/37266552/pexels-photo-37266552.jpeg?auto=compress&cs=tinysrgb&w=1600"),

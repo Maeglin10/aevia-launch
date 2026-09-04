@@ -774,7 +774,7 @@ return (
                       {plan.period && <span className="text-sm text-zinc-500 ml-1">{plan.period}</span>}
                     </div>
                     {plan.price !== "0" && plan.price !== "Custom" && billingAnnual && (
-                      <p className="text-[10px] text-emerald-400 mt-1">Saves ${(Number(plan.price) - Number(plan.annualPrice)) * 12}/year</p>
+                      <p className="text-[10px] text-emerald-400 mt-1">Économie de {(Number(plan.price) - Number(plan.annualPrice)) * 12}&nbsp;€ par an</p>
                     )}
                   </div>
                   <ul className="space-y-3 mb-10 flex-1">
@@ -893,7 +893,7 @@ return (
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <span className="text-xs text-zinc-600">&copy; 2026 NovaPlatform, Inc. Tous droits réservés.</span>
           <div className="flex gap-6">
-            {["Privacy", "Terms", "Security", "GDPR"].map(s => {
+            {["Confidentialité", "Conditions", "Sécurité", "RGPD"].map(s => {
               const href = `/templates/impact-05/${s.toLowerCase()}`;
               return (
                 <Link key={s} href={href} className="text-xs text-zinc-600 hover:text-white transition-all duration-200 cursor-pointer">{s}</Link>

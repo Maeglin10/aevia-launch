@@ -57,7 +57,7 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 };
 
 function films_DEMO_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
   { title: "Les Heures Perdues", type: "Long-métrage", year: "2025", festival: "Cannes — Sélection Officielle", src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop") },
   { title: "Poussière de Lumière", type: "Court-métrage", year: "2025", festival: "Sundance — Grand Prix", src: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600&q=80") },
   { title: "L'Écho du Silence", type: "Documentaire", year: "2024", festival: "IDFA — Best Documentary", src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&q=80") },

@@ -2536,7 +2536,7 @@ export default function HorizonMaritimePage() {
 function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
   const [filter, setFilter] = useState<"all" | "motor" | "sailing" | "explorer">("all");
 
-  const fleetYachts = /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, type: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
+  const fleetYachts = /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, type: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
     {
       name: "M/Y Lumière",
       type: "motor",

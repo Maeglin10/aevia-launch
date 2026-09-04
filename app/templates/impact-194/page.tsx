@@ -57,7 +57,7 @@ const NAV = [
   { l: "Contact", h: "#contact" },
 ];
 
-const REALISATIONS = [
+const RÉALISATIONS = [
   { t: "Mariage · Domaine de Fontanes", n: "220 couverts", d: "Cocktail dînatoire dans les vignes, service à l'assiette sous chapiteau, brunch le lendemain. Trois cuisines montées sur place." },
   { t: "Séminaire · Groupe Verdier", n: "410 couverts, 3 jours", d: "Petits-déjeuners, deux pauses par jour, déjeuners assis. Régimes déclarés à l'inscription, plateaux nominatifs." },
   { t: "Inauguration · Musée des Confluences", n: "800 personnes debout", d: "Douze pièces salées, quatre sucrées, service en continu pendant quatre heures. Vaisselle consignée, zéro jetable." },
@@ -314,7 +314,7 @@ export default function TableExceptionPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-[#1f1d1a]" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>Ce qu'on a <span className="italic text-[var(--brand,#d4a853)]">déjà servi.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {REALISATIONS.map((r, i) => (
+            {RÉALISATIONS.map((r, i) => (
               <Reveal key={r.t} delay={i * 0.07}>
                 <div className="bg-white p-8 h-full">
                   <div className="text-lg font-bold text-[#1f1d1a] mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>{r.t}</div>

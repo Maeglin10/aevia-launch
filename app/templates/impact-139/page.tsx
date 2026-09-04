@@ -57,7 +57,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 }
 
 function PROGRAMS_DEMO_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, type: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, type: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   { title: "FORGE", type: "Strength", duration: "60 min", level: "Advanced", desc: "Heavy compound lifts with progressive overload programming.", img: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/9545914/pexels-photo-9545914.jpeg?auto=compress&cs=tinysrgb&w=1600") },
   { title: "BLITZ", type: "HIIT", duration: "45 min", level: "All Levels", desc: "Heart-rate driven interval training for maximum caloric burn.", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&q=80&w=800") },
   { title: "RECOVER", type: "Mobility", duration: "30 min", level: "All Levels", desc: "Active recovery with guided stretching and foam rolling protocols.", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&q=80&w=800") },

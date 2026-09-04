@@ -63,7 +63,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 }
 
 function MODELS_DEMO_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { name: "V1 Prototype", year: "2024", topSpeed: "380 km/h", power: "1,200 hp", img: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/10359536/pexels-photo-10359536.jpeg?auto=compress&cs=tinysrgb&w=1200") },
   { name: "Iron Lung S", year: "2023", topSpeed: "420 km/h", power: "1,600 hp", img: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/16352272/pexels-photo-16352272.jpeg?auto=compress&cs=tinysrgb&w=1200") },
   { name: "Apex Track", year: "2024", topSpeed: "340 km/h", power: "900 hp", img: (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/11189630/pexels-photo-11189630.jpeg?auto=compress&cs=tinysrgb&w=1200") },

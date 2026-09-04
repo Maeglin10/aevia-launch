@@ -2253,7 +2253,7 @@ type BlogPost = {
 /* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
    démonstration restait affiché. */
 function BLOG_POSTS_LIVE(): BlogPost[] {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), excerpt: o.desc || "" })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), excerpt: o.desc || "" })), [
   {
     category: 'Nutrition',
     title: 'Alimentation équilibrée : les 5 principes clés pour votre santé au quotidien',

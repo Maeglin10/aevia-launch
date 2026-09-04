@@ -96,14 +96,14 @@ function ZONES_DEMO_LIVE() {
 let ZONES_DEMO = ZONES_DEMO_LIVE();
 let ZONES = ZONES_DEMO;
 
-function REALISATIONS_DEMO_LIVE() {
+function RÉALISATIONS_DEMO_LIVE() {
   return [
   { title: "Extension 45 m² · Villa provençale", tag: "Extension gros œuvre", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=1200") },
   { title: "Ravalement ITE · Immeuble R+4", tag: "Isolation thermique extérieure", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=1200") },
   { title: "Construction garage + dalle béton", tag: "Gros œuvre & dallage", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?auto=format&fit=crop&q=80&w=1200") },
 ];
 }
-let REALISATIONS_DEMO = REALISATIONS_DEMO_LIVE();
+let RÉALISATIONS_DEMO = RÉALISATIONS_DEMO_LIVE();
 
 
 // Client-uploaded photo at index i, falling back to the template's stock
@@ -160,14 +160,14 @@ export default function BatirSolidePage() {
   c = session?.generatedContent;
   bp = session?.businessProfile;
   sessionData = session;
-  REALISATIONS_DEMO = REALISATIONS_DEMO_LIVE();
+  RÉALISATIONS_DEMO = RÉALISATIONS_DEMO_LIVE();
   ZONES_DEMO = ZONES_DEMO_LIVE();
 
 
   useEffect(() => {
     if (!fd?.photoUrls?.length) return;
     let n = 1;
-    const _photoArrays: any[] = [REALISATIONS_DEMO];
+    const _photoArrays: any[] = [RÉALISATIONS_DEMO];
     _photoArrays.forEach((arr) => {
       if (!Array.isArray(arr)) return;
       arr.forEach((item) => {
@@ -199,13 +199,13 @@ export default function BatirSolidePage() {
     })),
     SERVICES_DEMO
   );
-  const REALISATIONS = resolveList(
+  const RÉALISATIONS = resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({
-      title: b.caption ?? REALISATIONS_DEMO[i % REALISATIONS_DEMO.length].title,
-      tag: REALISATIONS_DEMO[i % REALISATIONS_DEMO.length].tag,
-      img: b.afterUrl || b.beforeUrl || REALISATIONS_DEMO[i % REALISATIONS_DEMO.length].img,
+      title: b.caption ?? RÉALISATIONS_DEMO[i % RÉALISATIONS_DEMO.length].title,
+      tag: RÉALISATIONS_DEMO[i % RÉALISATIONS_DEMO.length].tag,
+      img: b.afterUrl || b.beforeUrl || RÉALISATIONS_DEMO[i % RÉALISATIONS_DEMO.length].img,
     })),
-    REALISATIONS_DEMO
+    RÉALISATIONS_DEMO
   );
   const AVIS = resolveList(
     clientReviews(sessionData)?.map((r: any) => ({
@@ -370,7 +370,7 @@ export default function BatirSolidePage() {
             <h2 className="text-4xl md:text-6xl font-black uppercase text-white">{/* TEXTE_SECTION */ clientText(sessionData, "chantiers.titre") ?? (<>Nos <span className="text-[var(--brand,#d4a96a)]">chantiers.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {REALISATIONS.map((r, i) => (
+            {RÉALISATIONS.map((r, i) => (
               <Reveal key={i} delay={i * 0.1}>
                 <div className="group cursor-pointer">
                   <div className="relative aspect-[4/3] overflow-hidden mb-5">

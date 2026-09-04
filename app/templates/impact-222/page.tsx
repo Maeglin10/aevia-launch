@@ -835,7 +835,7 @@ type Property = {
 
 /* Recalculée après l'arrivée de la session : figée à l'import, elle gardait la démonstration. */
 function PROPERTIES_DEMO_SOURCE_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, city: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, city: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   {
     name: 'Le Domaine des Cèdres',
     img: PHOTO.villa,

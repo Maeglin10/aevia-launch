@@ -98,7 +98,7 @@ function SEMINARS_LIVE() {
     ...s,
     venue: ville ? s.venue.replace("Paris", ville) : s.venue,
   }));
-  return /* REALISATIONS */ resolveList(
+  return /* RÉALISATIONS */ resolveList(
     clientWorks(sessionData)?.map((o: any, i: number) => ({
       ...base[i % base.length],
       title: o.title ?? base[i % base.length].title,

@@ -130,7 +130,7 @@ const PORTFOLIO_FILTERS = ["Tout", "Gel", "Nail Art", "French", "Extensions", "S
 /* Recalculé après l'arrivée de la session : figé à l'import, le repli de la
    démonstration restait affiché. */
 function PORTFOLIO_ITEMS_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   { id: 1, category: "Nail Art", title: "Fleurs de Cerisier", desc: "Aquarelle sur base nude rosée", accent: "#FBCFE8", img: "photo-1604654894610-df63bc536371" },
   { id: 2, category: "Gel",      title: "Rose Velours",       desc: "Gel couleur longue tenue",      accent: "var(--brand,#ec4899)", img: "photo-1522337360788-8b13dee7a37e" },
   { id: 3, category: "French",   title: "French Classique",   desc: "Pointe blanche parfaite",       accent: "#FDF4FF", img: "photo-1604654894610-df63bc536371" },

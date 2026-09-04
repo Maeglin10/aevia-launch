@@ -69,7 +69,7 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 };
 
 function projects_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
   { name: "Capsule Pro", category: "Packaging", client: "L'Oréal", year: "2025", angle: "-3deg", color: "var(--brand, #F97316)", src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=600&q=80") },
   { name: "Archeus Chair", category: "Furniture", client: "Cassina", year: "2025", angle: "2deg", color: "#6366F1", src: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80") },
   { name: "HaloKit", category: "Consumer Electronics", client: "Sony Design", year: "2024", angle: "-2deg", color: "#0EA5E9", src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80") },

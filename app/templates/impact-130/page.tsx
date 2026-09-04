@@ -98,7 +98,7 @@ let C: Record<string, string> = {
 };
 
 function PROJECTS_DEMO_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}), desc: o.desc || "" })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     id: "01",
     title: "Folio Maison",

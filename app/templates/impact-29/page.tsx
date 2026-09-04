@@ -487,7 +487,7 @@ return (
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+            {/* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
               {
                 name: "vaultkey",
                 year: "2023",

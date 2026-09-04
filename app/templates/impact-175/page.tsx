@@ -124,7 +124,7 @@ const EVENT_TYPES_DEMO = [
 ];
 
 function PAST_EVENTS_DEMO_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { title: "Gala Fondation Lumière", location: (clientCity(sessionData) ?? "Paris") + ", France", year: "2024", img: "photo-1530103862676-de8c9debad1d", guests: "420" },
   { title: "Mariage Château Margaux", location: "Bordeaux, France", year: "2024", img: "photo-1540575467063-178a50c2df87", guests: "180" },
   { title: "Conférence TechEurope", location: "Monaco", year: "2024", img: "photo-1492684223066-81342ee5ff30", guests: "1200" },

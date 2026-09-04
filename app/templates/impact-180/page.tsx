@@ -70,7 +70,7 @@ const NAV = [
   { l: "Contact", h: "#contact" },
 ];
 
-function REALISATIONS_LIVE() {
+function RÉALISATIONS_LIVE() {
   return [
   { t: `Copropriété · 84 lots, ${clientCity(sessionData) ?? "Villeurbanne"}`, n: "Chaufferie gaz condensation", d: "Remplacement de deux chaudières de 1998 par une cascade de trois modules. Coupure de trois jours, en juin, avec production d'eau chaude maintenue." },
   { t: "Maison 1962 · Sainte-Foy", n: "Pompe à chaleur air/eau", d: "Dépose d'une chaudière fioul, PAC 11 kW et remplacement de six radiateurs. Facture de chauffage divisée par 2,4 sur la première saison." },
@@ -78,7 +78,7 @@ function REALISATIONS_LIVE() {
   { t: "Atelier · Corbas", n: "Aérothermes gaz", d: "800 m² à chauffer sans reprendre le réseau existant. Quatre aérothermes suspendus, régulation par zone." },
 ];
 }
-let REALISATIONS = REALISATIONS_LIVE();
+let RÉALISATIONS = RÉALISATIONS_LIVE();
 
 const CONTRATS = [
   { f: "Essentiel", p: "179 €/an", n: "Une visite annuelle, réglage complet, attestation d'entretien. Obligatoire pour les chaudières gaz." },
@@ -176,7 +176,7 @@ export default function ThermotekChauffagePage() {
   fd = session?.formData;
   sessionData = session;
   c = session?.generatedContent;
-  REALISATIONS = REALISATIONS_LIVE();
+  RÉALISATIONS = RÉALISATIONS_LIVE();
   ZONES_DEMO = ZONES_DEMO_LIVE();
   TEMOIGNAGES_DEMO = TEMOIGNAGES_DEMO_LIVE();
 
@@ -365,7 +365,7 @@ export default function ThermotekChauffagePage() {
             <h2 className="text-4xl md:text-5xl font-bold">{/* TEXTE_SECTION */ clientText(sessionData, "realisations.titre") ?? (<>Des chantiers <span className="text-[var(--brand,#ea580c)]">terminés.</span></>)}</h2>
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-white/5 border border-white/5">
-            {REALISATIONS.map((r, i) => (
+            {RÉALISATIONS.map((r, i) => (
               <Reveal key={r.t} delay={i * 0.07}>
                 <div className="bg-[#0a0710] p-8 h-full">
                   <h3 className="text-lg font-bold mb-1">{r.t}</h3>

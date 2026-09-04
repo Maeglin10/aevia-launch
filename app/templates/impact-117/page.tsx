@@ -47,7 +47,7 @@ function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; de
 }
 
 function FLEET_DEMO_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, type: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, type: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { name: "V1 Courier", range: "350km", payload: "1.5 Tons", type: "Electric Van", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200") },
   { name: "V2 Hauler", range: "800km", payload: "18 Tons", type: "Semi-Truck", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200") },
   { name: "V-Drone X", range: "40km", payload: "25kg", type: "Autonomous Drone", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&q=80&w=1200") },

@@ -68,7 +68,7 @@ const STATS_DEMO = [
 let STATS = STATS_DEMO;
 
 function BIENS_DEMO_SOURCE_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ titre: o.title, lieu: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ titre: o.title, lieu: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { titre: "Appartement de standing", lieu: (clientCity(sessionData) ?? "Paris"), prix: "1 480 000 €", surface: "145 m²", pieces: 5, bains: 2, tag: "Exclusivité", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80") },
   { titre: "Maison familiale", lieu: "Neuilly-sur-Seine", prix: "2 250 000 €", surface: "280 m²", pieces: 7, bains: 3, tag: "Coup de cœur", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80") },
   { titre: "Penthouse vue Eiffel", lieu: (clientCity(sessionData) ?? "Paris"), prix: "3 900 000 €", surface: "210 m²", pieces: 5, bains: 3, tag: "Prestige", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80") },

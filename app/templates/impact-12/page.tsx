@@ -84,7 +84,7 @@ const collections = [
 ];
 
 function editorials_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, category: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
   { title: "La nuit appartient aux audacieuses", category: "Editorial", src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80") },
   { title: "Silences et structures", category: "Fashion", src: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&q=80") },
   { title: "L'héritage revisité", category: "Interview", src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=600&q=80") },

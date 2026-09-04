@@ -134,7 +134,7 @@ function useFonts() {
 const NAV_LINKS = ["Collections", "Tirages", "Terrain", "À propos", "Contact"]
 
 function SLIDES_DEMO_SOURCE_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     id: 1,
     title: "Forêts Primaires",

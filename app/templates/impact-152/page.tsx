@@ -76,7 +76,7 @@ const STATS_DEMO = [
 let STATS = STATS_DEMO;
 
 function PROJETS_DEMO_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ titre: o.title, lieu: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ titre: o.title, lieu: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { titre: "Villa contemporaine", lieu: (clientCity(sessionData) ?? "Lyon") + " 5e", surface: "220 m²", style: "Minimaliste", tag: "Résidentiel", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80") },
   { titre: "Penthouse panoramique", lieu: (clientCity(sessionData) ?? "Lyon") + " 2e", surface: "160 m²", style: "Art Déco moderne", tag: "Prestige", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80") },
   { titre: "Maison de maître", lieu: (clientCity(sessionData) ?? "Villeurbanne"), surface: "310 m²", style: "Classique revisité", tag: "Rénovation", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=800&q=80") },

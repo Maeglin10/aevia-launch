@@ -97,7 +97,7 @@ const FONT_BODY = "'Inter', system-ui, sans-serif";
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 
 function COLLECTIONS_SOURCE_LIVE() {
-  return /* REALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     name: "Éternité",
     category: "Bagues",
