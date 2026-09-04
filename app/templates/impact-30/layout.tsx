@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientAddress,
   clientCity,
   clientEmail,
   clientName,
@@ -252,13 +253,15 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <span style={{ fontWeight: 800, fontSize: 20 }}>SmileStudio</span>
             </div>
             <p style={{ color: "rgba(255,255,255,0.58)", fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
-              Cabinet dentaire d'excellence au cœur de {clientCity(__layoutSession) ?? "Paris"} 8e. Soins de pointe, équipe bienveillante et résultats qui transforment votre sourire.
+              Cabinet dentaire d'excellence au cœur de {clientCity(__layoutSession) ?? "Bordeaux"}. Soins de pointe, équipe bienveillante et résultats qui transforment votre sourire.
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
               {[
                 { icon: <Phone size={15} />, text: (clientPhone(__layoutSession) ?? fd?.phone ?? "01 42 56 78 90") },
-                { icon: <Mail size={15} />, text: (clientEmail(__layoutSession) ?? fd?.email ?? "contact@smilestudio.paris") },
-                { icon: <MapPin size={15} />, text: "42 Av. des Champs-Élysées, 75008 " + (clientCity(__layoutSession) ?? "Paris") },
+                { icon: <Mail size={15} />, text: (clientEmail(__layoutSession) ?? fd?.email ?? "contact@smilestudio.fr") },
+                /* L'adresse était parisienne et la ville venait du client : « 42 Av. des
+                   Champs-Élysées, 75008 Bordeaux ». On ne mélange plus les deux. */
+                { icon: <MapPin size={15} />, text: clientAddress(__layoutSession) ?? ("18 cours de l'Intendance, " + (clientCity(__layoutSession) ?? "Bordeaux")) },
               ].map((item, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.62)", fontSize: 14 }}>
                   <span style={{ color: C.accent }}>{item.icon}</span>

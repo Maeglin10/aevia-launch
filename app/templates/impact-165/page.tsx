@@ -557,7 +557,7 @@ export default function PulseAppPage() {
                     <div className="mb-6">
                       <div className={`text-sm font-semibold mb-1 ${plan.highlight ? "text-indigo-200" : "text-[var(--brand,#6366F1)]"}`}>{plan.name}</div>
                       <div className="text-4xl font-extrabold mb-1">
-                        {price === "0" ? "Gratuit" : `€${price}`}
+                        {price === "0" ? "Gratuit" : `${price}\u00A0€`}
                         {price !== "0" && <span className={`text-base font-normal ml-1 ${plan.highlight ? "text-indigo-200" : "text-[#4B4570]"}`}>/mois</span>}
                       </div>
                       <p className={`text-sm ${plan.highlight ? "text-indigo-200" : "text-[#4B4570]"}`}>{plan.desc}</p>

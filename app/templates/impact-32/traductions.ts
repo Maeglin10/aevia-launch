@@ -10,15 +10,27 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "basic care": "Soins essentiels",
+    "complete care": "Soins complets",
+    "premium care": "Soins premium",
     "plans de soins transparents": "Plans de soins transparents",
   },
   es: {
+    "basic care": "Cuidados esenciales",
+    "complete care": "Cuidados completos",
+    "premium care": "Cuidados premium",
     "plans de soins transparents": "Planes de atención transparentes",
   },
   de: {
+    "basic care": "Basisversorgung",
+    "complete care": "Rundumversorgung",
+    "premium care": "Premium-Versorgung",
     "plans de soins transparents": "Transparente Pflegepläne",
   },
   pt: {
+    "basic care": "Cuidados essenciais",
+    "complete care": "Cuidados completos",
+    "premium care": "Cuidados premium",
     "plans de soins transparents": "Planos de cuidados transparentes",
   },
 };

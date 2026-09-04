@@ -393,7 +393,7 @@ function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.2 }}
           style={{ fontSize: 18, color: C.textMuted, lineHeight: 1.72, marginBottom: 36, maxWidth: 490 }}
-        >{clientHeroSubtitle(sessionData) ?? "PawCare Clinic, c'est une équipe de vétérinaires passionnés'à Bordeaux, dédiée à la santé et au bonheur de vos compagnons à poils, plumes ou écailles."}</motion.p>
+        >{clientHeroSubtitle(sessionData) ?? "PawCare Clinic, c'est une équipe de vétérinaires passionnés à Bordeaux, dédiée à la santé et au bonheur de vos compagnons à poils, plumes ou écailles."}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}
@@ -919,7 +919,7 @@ return (
           on top of it, so the site showed two stacked footers. */}
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
-        {clientName(sessionData) ?? "Impact32"}
+        {clientName(sessionData) ?? "PawCare Clinic"}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </main>

@@ -597,7 +597,7 @@ const SERVICES_DEMO = [
   {
     icon: <Star size={28} color="var(--brand,#00b894)" />,
     title: "Orthodontie Invisalign",
-    desc: "Aligneurs transparents discrets pour corriger votre sourire sans bagues metalliques.",
+    desc: "Aligneurs transparents discrets pour corriger votre sourire sans bagues métalliques.",
     price: "À partir de 2 800 €",
     tag: "Invisible",
   },
@@ -1217,7 +1217,7 @@ function Pricing() {
                   letterSpacing: -1,
                 }}
               >
-                {p.price.includes("Devis") ? p.price : `€${p.price}`}
+                {p.price.includes("Devis") ? p.price : `${p.price}\u00A0€`}
               </span>
               {!p.price.includes("Devis") && (
                 <span style={{ fontSize: 14, color: p.highlight ? "rgba(255,255,255,0.55)" : C.textMuted, marginLeft: 6 }}>

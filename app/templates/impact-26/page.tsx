@@ -164,7 +164,9 @@ let fragrances = fragrances_LIVE();
 
 type CartItem = { id: string; name: string; price: number; qty: number; size: string };
 function formatEUR(n: number): string {
-  return `€${n.toLocaleString("fr-FR")}`;
+  /* En français le symbole SUIT le nombre, séparé d'une espace insécable :
+     « 285 € », pas « €285 ». */
+  return `${n.toLocaleString("fr-FR")}\u00A0€`;
 }
 
 function testimonials_SOURCE_LIVE() {
@@ -401,7 +403,7 @@ export default function Impact26() {
               className="hover:text-[var(--brand,#c9956a)] transition-colors cursor-pointer text-[#F5EDE8]/50 text-xs tracking-widest uppercase"
               style={{ background: "none", border: "none", fontFamily: "'Jost', sans-serif", padding: 0 }}
             >
-              Savoir-Faire
+              Savoir-faire
             </button>
             <button
               onClick={() => goTo("contact")}
@@ -466,7 +468,7 @@ export default function Impact26() {
                 {[
                   { label: "Collection", key: "collection" as const },
                   { label: "La Maison", key: "maison" as const },
-                  { label: "Savoir-Faire", key: "savoir-faire" as const },
+                  { label: "Savoir-faire", key: "savoir-faire" as const },
                   { label: "Contact", key: "contact" as const },
                 ].map(({ label, key }) => (
                   <button
@@ -693,7 +695,7 @@ export default function Impact26() {
                 </>}</h2>
                 <div className="space-y-6 text-[#F5EDE8]/60 leading-relaxed">
                   <p>{c?.aboutText ?? <>Éther est née d'une conviction : que le parfum est le dernier art intime. Fondée en 1987 par la nez Hélène Varenne, notre maison n'a jamais renoncé à l'exigence absolue.</>}</p>
-                  <p>Chaque fragrance est composée dans notre atelier du Marais, avec des matières premières sourcing directement auprès des producteurs — fleurs de Grasse, oud du Camboge, résines d'Éthiopie.</p>
+                  <p>Chaque fragrance est composée dans notre atelier du Marais, avec des matières premières sourcées directement auprès des producteurs — fleurs de Grasse, oud du Cambodge, résines d'Éthiopie.</p>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mt-10">
                   {STATS_INLINE.map(({ icon, label, val }) => (
@@ -714,7 +716,7 @@ export default function Impact26() {
       <section id="savoir-faire" className="py-24 px-6">
         <div className="max-w-6xl mx-auto">
           <Reveal className="text-center mb-16">
-            <p className="text-[var(--brand,#c9956a)] text-xs tracking-[0.4em] uppercase mb-4">Savoir-Faire</p>
+            <p className="text-[var(--brand,#c9956a)] text-xs tracking-[0.4em] uppercase mb-4">Savoir-faire</p>
             <h2 className="text-4xl md:text-5xl" style={{ fontFamily: "'Cormorant Garamond', serif", fontWeight: 300 }}>{/* TEXTE_SECTION */ clientText(sessionData, "savoir-faire.titre") ?? (<>
               Le processus de création
             </>)}</h2>
@@ -835,9 +837,9 @@ export default function Impact26() {
             {[
               { label: "Collection", key: "collection" as const },
               { label: "La Maison", key: "maison" as const },
-              { label: "Savoir-Faire", key: "savoir-faire" as const },
+              { label: "Savoir-faire", key: "savoir-faire" as const },
               { label: "Contact", key: "contact" as const },
-              { label: "Mentions Légales", key: "mentions" as const },
+              { label: "Mentions légales", key: "mentions" as const },
               { label: "CGV", key: "cgv" as const },
               { label: "Confidentialité", key: "privacy" as const },
             ].map(({ label, key }) => (
@@ -1438,7 +1440,7 @@ function SavoirFairePage() {
       }}
     >
       <div style={{ textAlign: "center", marginBottom: 72 }}>
-        <p style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Savoir-Faire</p>
+        <p style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 11, letterSpacing: "0.4em", textTransform: "uppercase", marginBottom: 16 }}>Savoir-faire</p>
         <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 56, fontWeight: 300, color: "#F5EDE8", marginBottom: 20 }}>
           {c?.heroHeadline ?? "Le Processus de Création"}
         </h1>
@@ -1630,7 +1632,7 @@ function LegalPage({ variant }: { variant: "mentions" | "cgv" | "privacy" }) {
           lineHeight: 1.8,
         }}
       >
-        <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: "#F5EDE8", marginBottom: 40 }}>{c?.heroHeadline ?? "Mentions Légales"}</h1>
+        <h1 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: 40, fontWeight: 300, color: "#F5EDE8", marginBottom: 40 }}>{c?.heroHeadline ?? "Mentions légales"}</h1>
         <div style={{ display: "flex", flexDirection: "column", gap: 32, color: "#F5EDE8", opacity: 0.8 }}>
           <div>
             <h3 style={{color: brand ?? 'var(--brand,#c9956a)', fontSize: 16, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>Éditeur du site</h3>

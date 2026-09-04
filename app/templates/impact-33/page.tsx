@@ -892,7 +892,7 @@ return (
           opacity: 0.55,
         }}
       >
-        {clientName(sessionData) ?? "Impact33"}
+        {clientName(sessionData) ?? "La Fournée"}
         {clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
       </footer>
     </main>

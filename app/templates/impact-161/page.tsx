@@ -480,7 +480,7 @@ export default function EssentialSaaSPage() {
                   <div className="mb-6">
                     <div className={`font-semibold text-sm mb-2 ${plan.highlight ? "text-indigo-200" : "text-[var(--brand,#6366F1)]"}`}>{plan.name}</div>
                     <div className="text-3xl font-extrabold mb-1">
-                      {plan.price === "Sur devis" ? plan.price : plan.price === "0" ? "Gratuit" : `€${plan.price}`}
+                      {plan.price === "Sur devis" ? plan.price : plan.price === "0" ? "Gratuit" : `${plan.price}\u00A0€`}
                     </div>
                     {plan.period && <div className={`text-sm ${plan.highlight ? "text-indigo-200" : "text-slate-500"}`}>{plan.period}</div>}
                     <p className={`text-sm mt-2 ${plan.highlight ? "text-indigo-200" : "text-slate-500"}`}>{plan.desc}</p>

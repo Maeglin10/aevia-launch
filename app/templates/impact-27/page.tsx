@@ -38,7 +38,7 @@ let fd: any = null;
 // Les chiffres clés, jusqu'ici écrits dans le rendu : le client pouvait les
 // saisir, le thème ne les lisait pas.
 const STATS_INLINE_SOURCE = [
-  { val: "200+", label: "Projects delivered" },
+  { val: "200+", label: "Projets livrés" },
               { val: "40+", label: "Global clients" },
               { val: "12ms", label: "Avg. render time" },
               { val: "99.8%", label: "Client satisfaction" }
@@ -162,24 +162,24 @@ const pricing = [
 function StatsTicker() {
   const stats = resolveList(
     clientStats({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...([
-    { val: "200+", label: "Projects delivered" },
+    { val: "200+", label: "Projets livrés" },
     { val: "40+", label: "Global clients" },
-    { val: "8yrs", label: "d'existence" },
+    { val: "8 ans", label: "d'existence" },
     { val: "99.8%", label: "Client satisfaction" },
     { val: "12ms", label: "Avg. frame time" },
     { val: "3×", label: "Avg. conversion uplift" },
   ])[i % ([
-    { val: "200+", label: "Projects delivered" },
+    { val: "200+", label: "Projets livrés" },
     { val: "40+", label: "Global clients" },
-    { val: "8yrs", label: "d'existence" },
+    { val: "8 ans", label: "d'existence" },
     { val: "99.8%", label: "Client satisfaction" },
     { val: "12ms", label: "Avg. frame time" },
     { val: "3×", label: "Avg. conversion uplift" },
   ]).length], val: s.value, label: s.label })),
     [
-    { val: "200+", label: "Projects delivered" },
+    { val: "200+", label: "Projets livrés" },
     { val: "40+", label: "Global clients" },
-    { val: "8yrs", label: "d'existence" },
+    { val: "8 ans", label: "d'existence" },
     { val: "99.8%", label: "Client satisfaction" },
     { val: "12ms", label: "Avg. frame time" },
     { val: "3×", label: "Avg. conversion uplift" },

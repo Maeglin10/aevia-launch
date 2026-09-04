@@ -89,7 +89,7 @@ const SERVICES_SOURCE = [
   { titre: "Applications web & SaaS", desc: "Développement d'applications métier, dashboards, outils internes et produits SaaS. Full-stack React/Node, architecture évolutive.", tag: "App" },
   { titre: "SEO & acquisition digitale", desc: "Audit technique, stratégie de contenu, optimisation on-page. Nous vous positionnons sur les requêtes qui génèrent du business.", tag: "SEO" },
   { titre: "Campagnes Meta & Google Ads", desc: "Création et pilotage de campagnes publicitaires payantes. Ciblage précis, A/B testing créatifs, reporting transparent chaque semaine.", tag: "Ads" },
-  { titre: "Maintenance & évolution", desc: "Support réactif, mises à jour de sécurité, évolutions fonctionnelles. Contrats mensuels à partir de 290€/mois pour sécuriser votre actif digital.", tag: "Support" },
+  { titre: "Maintenance & évolution", desc: "Support réactif, mises à jour de sécurité, évolutions fonctionnelles. Contrats mensuels à partir de 290 € / mois pour sécuriser votre actif digital.", tag: "Support" },
 ]
 let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
