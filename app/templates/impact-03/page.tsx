@@ -138,10 +138,10 @@ const SUSTAINABILITY_ITEMS = [
 
 function STORES_LIVE() {
   return [
-  { city: (clientCity(sessionData) ?? "Paris"), address: '12 Rue Saint-Honoré, 75001', hours: 'Mon–Sat 10–19' },
-  { city: 'London', address: '47 Sloane Street, SW1X 9LP', hours: 'Mon–Sat 10–18' },
-  { city: 'New York', address: '850 Madison Avenue, NY 10021', hours: 'Mon–Sat 10–19' },
-  { city: 'Tokyo', address: '5-4-1 Minami-Aoyama, Minato', hours: 'Daily 11–20' },
+  { city: (clientCity(sessionData) ?? "Paris"), address: '12 Rue Saint-Honoré, 75001', hours: 'Lun–Sam 10 h – 19 h' },
+  { city: 'London', address: '47 Sloane Street, SW1X 9LP', hours: 'Lun–Sam 10 h – 18 h' },
+  { city: 'New York', address: '850 Madison Avenue, NY 10021', hours: 'Lun–Sam 10 h – 19 h' },
+  { city: 'Tokyo', address: '5-4-1 Minami-Aoyama, Minato', hours: 'Tous les jours 11 h – 20 h' },
 ];
 }
 let STORES = STORES_LIVE();
@@ -576,7 +576,9 @@ function MagnifierCard({
             color: '#0a0a0a',
           }}
         >
-          ${product.price.toLocaleString("en-US")}
+          {/* Une maison parisienne n'affiche pas ses prix en dollars, et
+              « 4,200 » n'est pas un nombre français. */}
+          {product.price.toLocaleString("fr-FR")}&nbsp;€
         </div>
       </div>
 
@@ -901,7 +903,7 @@ function CartDrawer({
                               </div>
                             </div>
                             <div style={{ fontFamily: "'Georgia', serif", fontSize: 14, color: '#0a0a0a', whiteSpace: 'nowrap' }}>
-                              ${(item.price * item.qty).toLocaleString('en-US')}
+                              {(item.price * item.qty).toLocaleString('fr-FR')}&nbsp;€
                             </div>
                             <button
                               onClick={() => removeItem(item.id, item.size)}
@@ -994,7 +996,7 @@ function CartDrawer({
                     </h3>
                     <p style={{ fontSize: 13, color: 'rgba(10,10,10,0.55)', lineHeight: 1.7 }}>
                       Your order of {orderSummary.items.reduce((n, it) => n + it.qty, 0)} item
-                      {orderSummary.items.reduce((n, it) => n + it.qty, 0) > 1 ? 's' : ''} (${orderSummary.total.toLocaleString('en-US')}) has been received. A confirmation has been sent to {contact.email}.
+                      {orderSummary.items.reduce((n, it) => n + it.qty, 0) > 1 ? 's' : ''} ({orderSummary.total.toLocaleString('fr-FR')}&nbsp;€) has been received. A confirmation has been sent to {contact.email}.
                     </p>
                   </motion.div>
                 )}
@@ -1015,7 +1017,7 @@ function CartDrawer({
                   }}
                 >
                   <span>Total ({itemCount} item{itemCount > 1 ? 's' : ''})</span>
-                  <span>${total.toLocaleString('en-US')}</span>
+                  <span>{total.toLocaleString('fr-FR')}&nbsp;€</span>
                 </div>
                 <button
                   onClick={() => setStep('contact')}
@@ -1051,7 +1053,7 @@ function CartDrawer({
                   }}
                 >
                   <span>Total</span>
-                  <span>${total.toLocaleString('en-US')}</span>
+                  <span>{total.toLocaleString('fr-FR')}&nbsp;€</span>
                 </div>
                 <button
                   type="submit"
@@ -1995,7 +1997,9 @@ export default function FashionEditorialTemplate() {
                       color: '#0a0a0a',
                     }}
                   >
-                    ${product.price.toLocaleString("en-US")}
+                    {/* Une maison parisienne n'affiche pas ses prix en dollars, et
+              « 4,200 » n'est pas un nombre français. */}
+          {product.price.toLocaleString("fr-FR")}&nbsp;€
                   </div>
                 </div>
               ))}
@@ -2944,7 +2948,7 @@ function BoutiquePage({
                 marginBottom: 32,
               }}
             >
-              ${selectedProduct.price.toLocaleString("en-US")}
+              {selectedProduct.price.toLocaleString("fr-FR")}&nbsp;€
             </div>
             <p
               style={{
@@ -3124,7 +3128,9 @@ function BoutiquePage({
                 </div>
               </div>
               <div style={{ fontFamily: "'Georgia', serif", fontSize: 15, color: '#0a0a0a' }}>
-                ${product.price.toLocaleString("en-US")}
+                {/* Une maison parisienne n'affiche pas ses prix en dollars, et
+              « 4,200 » n'est pas un nombre français. */}
+          {product.price.toLocaleString("fr-FR")}&nbsp;€
               </div>
             </div>
           </div>
@@ -3141,7 +3147,7 @@ const BLOG_POSTS = [
   {
     id: 1,
     title: 'The Philosophy of Slow Fashion',
-    date: 'October 12, 2025',
+    date: '12 octobre 2025',
     category: 'Philosophy',
     excerpt: 'Understanding why buying less but buying better is the ultimate luxury for the modern wardrobe.',
     content: [
@@ -3153,7 +3159,7 @@ const BLOG_POSTS = [
   {
     id: 2,
     title: 'How to Care for Double-Faced Cashmere',
-    date: 'September 28, 2025',
+    date: '28 septembre 2025',
     category: 'Care',
     excerpt: 'A comprehensive guide to preserving the texture, warmth, and shape of your hand-stitched cashmere coats.',
     content: [

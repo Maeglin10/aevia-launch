@@ -593,7 +593,7 @@ export default function FolioStudioPage() {
                   <h3 className="text-2xl font-bold mb-2">{tier.name}</h3>
                   <p className="text-zinc-500 mb-8">{tier.desc}</p>
                   <div className="text-5xl font-medium tracking-tighter mb-10">
-                    {tier.price !== "Custom" && <span className="text-2xl text-zinc-400 mr-1">$</span>}
+                    {tier.price !== "Custom" && <span className="text-2xl text-zinc-400 mr-1">€</span>}
                     {tier.price}
                   </div>
                   

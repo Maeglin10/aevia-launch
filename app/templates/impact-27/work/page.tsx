@@ -118,7 +118,7 @@ const caseDetails: Record<string, {
     challenge: "Studio Levi wanted a digital home that felt as premium and experimental as their physical installations — a world, not a website.",
     solution: "A full 3D environment built in React Three Fiber with custom post-processing: bloom, depth-of-field, chromatic aberration, and film grain — all at 60 FPS.",
     achievements: [
-      "Awwwards Site of the Month — January 2024",
+      "Awwwards Site of the Month — janvier 2024",
       "FWA of the Day recognition",
       "Average session duration: 11.4 minutes",
       "Featured in Smashing Magazine's annual web design roundup",

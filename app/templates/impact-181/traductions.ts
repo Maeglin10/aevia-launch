@@ -11,22 +11,22 @@
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "avis clients": "Avis clients",
-    "ce qu&apos;on": "Ce qu'on",
+    "ce qu'on": "Ce qu'on",
     "on va.": "on va.",
   },
   es: {
     "avis clients": "Opiniones de clientes",
-    "ce qu&apos;on": "Lo que hacemos",
+    "ce qu'on": "Lo que hacemos",
     "on va.": "vamos.",
   },
   de: {
     "avis clients": "Kundenbewertungen",
-    "ce qu&apos;on": "Was wir tun",
+    "ce qu'on": "Was wir tun",
     "on va.": "wir gehen.",
   },
   pt: {
     "avis clients": "Avaliações de clientes",
-    "ce qu&apos;on": "O que fazemos",
+    "ce qu'on": "O que fazemos",
     "on va.": "vamos.",
   },
 };

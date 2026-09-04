@@ -31,7 +31,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "three continents, one advisor. haven managed our entire portfolio consolidation seamlessly and discreetly.": "Trois continents, un conseiller. Haven a géré la consolidation de notre portefeuille de manière fluide et discrète.",
     "trusted by the": "La confiance des",
     "world's best.": "Meilleurs.",
-    "world&apos;s best.": "Le meilleur du monde.",
+    "world's best.": "Le meilleur du monde.",
   },
   es: {
     "haven estates found our hampstead estate entirely off-market. their discretion and global network are simply unmatched.": "Encontraron nuestra propiedad de Hampstead totalmente fuera de mercado. Su discreción y su red internacional no tienen igual.",
@@ -55,7 +55,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "three continents, one advisor. haven managed our entire portfolio consolidation seamlessly and discreetly.": "Tres continentes, un asesor. Haven gestionó la consolidación de nuestra cartera de manera fluida y discreta.",
     "trusted by the": "La confianza de los",
     "world's best.": "Mejores.",
-    "world&apos;s best.": "El mejor del mundo.",
+    "world's best.": "El mejor del mundo.",
   },
   de: {
     "haven estates found our hampstead estate entirely off-market. their discretion and global network are simply unmatched.": "Sie haben unser Anwesen in Hampstead vollständig off-market gefunden. Ihre Diskretion und ihr internationales Netz sind unerreicht.",
@@ -79,7 +79,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "three continents, one advisor. haven managed our entire portfolio consolidation seamlessly and discreetly.": "Drei Kontinente, ein Berater. Haven hat unsere gesamte Portfolio-Konsolidierung nahtlos und diskret verwaltet.",
     "trusted by the": "Das Vertrauen der",
     "world's best.": "Besten.",
-    "world&apos;s best.": "Die Besten der Welt.",
+    "world's best.": "Die Besten der Welt.",
   },
   pt: {
     "haven estates found our hampstead estate entirely off-market. their discretion and global network are simply unmatched.": "Encontraram a nossa propriedade em Hampstead totalmente fora de mercado. A discrição e a rede internacional não têm igual.",
@@ -103,6 +103,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "three continents, one advisor. haven managed our entire portfolio consolidation seamlessly and discreetly.": "Três continentes, um consultor. A Haven geriu a consolidação do nosso portfólio de forma fluida e discreta.",
     "trusted by the": "A confiança dos",
     "world's best.": "Melhores.",
-    "world&apos;s best.": "O melhor do mundo.",
+    "world's best.": "O melhor do mundo.",
   },
 };

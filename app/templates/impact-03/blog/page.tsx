@@ -24,7 +24,7 @@ const BLOG_POSTS = [
   {
     id: 1,
     title: 'The Philosophy of Slow Fashion',
-    date: 'October 12, 2025',
+    date: '12 octobre 2025',
     category: 'Philosophy',
     excerpt: 'Understanding why buying less but buying better is the ultimate luxury for the modern wardrobe.',
     content: [
@@ -36,7 +36,7 @@ const BLOG_POSTS = [
   {
     id: 2,
     title: 'How to Care for Double-Faced Cashmere',
-    date: 'September 28, 2025',
+    date: '28 septembre 2025',
     category: 'Care',
     excerpt: 'A comprehensive guide to preserving the texture, warmth, and shape of your hand-stitched cashmere coats.',
     content: [

@@ -11,7 +11,7 @@
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "\"in the silence of the gears, we find the absolute rhythm of existence. mastered in geneva since 1892.\"": "« Dans le silence des rouages, on trouve le rythme absolu de l'existence. Maîtrisé à Genève depuis 1892. »",
-    "&quot;in the silence of the gears, we find the absolute rhythm of existence. mastered in geneva since 1892.&quot;": "&quot;Dans le silence des rouages, nous trouvons le rythme absolu de l'existence. Maîtrisé à Genève depuis 1892.&quot;",
+    "\"in the silence of the gears, we find the absolute rhythm of existence. mastered in geneva since 1892.\"": "\"Dans le silence des rouages, nous trouvons le rythme absolu de l'existence. Maîtrisé à Genève depuis 1892.\"",
     "crafting high-fidelity movements that beat with the rhythm of tradition and the precision of tomorrow.": "Création de mouvements haute fidélité qui battent au rythme de la tradition et à la précision de demain.",
     "each gear is finished with artisan precision under 20x magnification.": "Chaque rouage est terminé à la main, sous grossissement vingt fois.",
     "each piece undergoes pressure, temperature, and magnetic resistance testing before certification.": "Chaque pièce passe des essais de pression, de température et de résistance magnétique avant certification.",
@@ -35,7 +35,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   es: {
     "\"in the silence of the gears, we find the absolute rhythm of existence. mastered in geneva since 1892.\"": "«En el silencio de los engranajes se halla el ritmo absoluto de la existencia. Dominado en Ginebra desde 1892.»",
-    "&quot;in the silence of the gears, we find the absolute rhythm of existence. mastered in geneva since 1892.&quot;": "&quot;En el silencio de los engranajes, encontramos el ritmo absoluto de la existencia. Dominado en Ginebra desde 1892.&quot;",
+    "\"in the silence of the gears, we find the absolute rhythm of existence. mastered in geneva since 1892.\"": "\"En el silencio de los engranajes, encontramos el ritmo absoluto de la existencia. Dominado en Ginebra desde 1892.\"",
     "crafting high-fidelity movements that beat with the rhythm of tradition and the precision of tomorrow.": "Creando movimientos de alta fidelidad que laten con el ritmo de la tradición y la precisión del mañana.",
     "each gear is finished with artisan precision under 20x magnification.": "Cada engranaje se acaba a mano, con un aumento de veinte veces.",
     "each piece undergoes pressure, temperature, and magnetic resistance testing before certification.": "Cada pieza pasa ensayos de presión, temperatura y resistencia magnética antes de la certificación.",
@@ -59,7 +59,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   de: {
     "\"in the silence of the gears, we find the absolute rhythm of existence. mastered in geneva since 1892.\"": "„In der Stille der Zahnräder findet sich der absolute Rhythmus des Daseins. Seit 1892 in Genf gemeistert.“",
-    "&quot;in the silence of the gears, we find the absolute rhythm of existence. mastered in geneva since 1892.&quot;": "&quot;In der Stille der Zahnräder finden wir den absoluten Rhythmus des Daseins. Seit 1892 in Genf gemeistert.&quot;",
+    "\"in the silence of the gears, we find the absolute rhythm of existence. mastered in geneva since 1892.\"": "\"In der Stille der Zahnräder finden wir den absoluten Rhythmus des Daseins. Seit 1892 in Genf gemeistert.\"",
     "crafting high-fidelity movements that beat with the rhythm of tradition and the precision of tomorrow.": "Gestaltung von hochpräzisen Bewegungen, die im Rhythmus der Tradition und mit der Präzision von morgen schlagen.",
     "each gear is finished with artisan precision under 20x magnification.": "Jedes Zahnrad wird von Hand bei zwanzigfacher Vergrößerung vollendet.",
     "each piece undergoes pressure, temperature, and magnetic resistance testing before certification.": "Jedes Stück durchläuft Druck-, Temperatur- und Magnetfeldprüfungen vor der Zertifizierung.",
@@ -83,7 +83,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   },
   pt: {
     "\"in the silence of the gears, we find the absolute rhythm of existence. mastered in geneva since 1892.\"": "«No silêncio das rodas dentadas encontra-se o ritmo absoluto da existência. Dominado em Genebra desde 1892.»",
-    "&quot;in the silence of the gears, we find the absolute rhythm of existence. mastered in geneva since 1892.&quot;": "&quot;No silêncio das engrenagens, encontramos o ritmo absoluto da existência. Dominado em Genebra desde 1892.&quot;",
+    "\"in the silence of the gears, we find the absolute rhythm of existence. mastered in geneva since 1892.\"": "\"No silêncio das engrenagens, encontramos o ritmo absoluto da existência. Dominado em Genebra desde 1892.\"",
     "crafting high-fidelity movements that beat with the rhythm of tradition and the precision of tomorrow.": "Criando movimentos de alta fidelidade que batem com o ritmo da tradição e a precisão do amanhã.",
     "each gear is finished with artisan precision under 20x magnification.": "Cada roda dentada é acabada à mão, com ampliação de vinte vezes.",
     "each piece undergoes pressure, temperature, and magnetic resistance testing before certification.": "Cada peça passa ensaios de pressão, temperatura e resistência magnética antes da certificação.",

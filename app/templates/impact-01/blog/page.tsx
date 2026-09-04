@@ -41,14 +41,14 @@ const FONT_BODY = "'Inter', sans-serif";
 const BLOG_POSTS = [
   {
     title: "Core Web Vitals: why performance became a selling point",
-    date: "June 4, 2026",
+    date: "4 juin 2026",
     category: "Performance",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop",
     excerpt: "Beyond SEO, load speed directly shapes how your brand is perceived and how well your site converts.",
   },
   {
     title: "Design systems: the investment that speeds up every release",
-    date: "May 22, 2026",
+    date: "22 mai 2026",
     category: "Design",
     image: "https://images.unsplash.com/photo-1545235617-9465d2a55698?q=80&w=1200&auto=format&fit=crop",
     excerpt: "A well-built design system isn't an agency luxury: it's the tool that aligns design and development and cuts your timelines.",

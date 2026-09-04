@@ -297,7 +297,7 @@ export default function ChronicleEditorialPage() {
         <div className="max-w-[1400px] mx-auto px-6 mb-12">
           <div className="w-full border-y border-[#1a1814]/10 py-3 flex flex-wrap items-center justify-between text-xs font-bold uppercase tracking-widest text-[#1a1814]/50">
             <div className="flex gap-8">
-              <span>Wednesday, October 14, 2026</span>
+              <span>mercredi 14 octobre 2026</span>
               <span className="hidden md:inline">Today's Paper</span>
             </div>
             <div className="flex gap-8">

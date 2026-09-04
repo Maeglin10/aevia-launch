@@ -10,15 +10,15 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
-    "dent&apos;or": "Dent&apos;Or",
+    "dent'or": "Dent'Or",
   },
   es: {
-    "dent&apos;or": "Dent&apos;Or",
+    "dent'or": "Dent'Or",
   },
   de: {
-    "dent&apos;or": "Dent&apos;Or",
+    "dent'or": "Dent'Or",
   },
   pt: {
-    "dent&apos;or": "Dent&apos;Or",
+    "dent'or": "Dent'Or",
   },
 };

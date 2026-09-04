@@ -518,7 +518,7 @@ return (
                         </div>
                         <div>
                           <div className="font-semibold text-sm">Next Demo Day</div>
-                          <div className="text-[#A3E635] text-xs">March 14, 2027 · {clientCity(sessionData) ?? "Paris"}</div>
+                          <div className="text-[#A3E635] text-xs">14 mars 2027 · {clientCity(sessionData) ?? "Paris"}</div>
                         </div>
                         <div className="ml-auto text-xs text-white/40">500 attendees</div>
                       </div>
@@ -621,7 +621,7 @@ return (
                       Start Application <ArrowRight className="w-5 h-5" />
                     </button>
                   </div>
-                  <p className="text-white/30 text-sm mt-6">Deadline: November 15, 2026 · Results by December 1</p>
+                  <p className="text-white/30 text-sm mt-6">Deadline: 15 novembre 2026 · Results by December 1</p>
                 </div>
               </Reveal>
             </div>
@@ -1193,7 +1193,7 @@ return (
             </form>
 
             <p className="text-center text-xs text-white/30 mt-6">
-              Deadline: November 15, 2026. Results by December 1, 2026.
+              Deadline: 15 novembre 2026. Results by 1 décembre 2026.
             </p>
           </div>
         </section>
@@ -1260,7 +1260,7 @@ return (
                   </div>
                 </div>
 
-                <p className="text-white/30 text-xs text-center pt-4">Last updated: June 2026</p>
+                <p className="text-white/30 text-xs text-center pt-4">Last updated: juin 2026</p>
               </div>
             </Reveal>
           </div>

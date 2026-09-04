@@ -476,7 +476,7 @@ export default function MorphStudioPage() {
                     <h3 className="text-2xl font-bold uppercase tracking-widest mb-2 text-white">{tier.name}</h3>
                     <p className="text-sm text-zinc-400 mb-10 h-10">{tier.desc}</p>
                     <div className="text-5xl font-black tracking-tighter text-white mb-10">
-                      {tier.price !== "Custom" && <span className="text-2xl text-zinc-600 mr-2">$</span>}
+                      {tier.price !== "Custom" && <span className="text-2xl text-zinc-600 mr-2">€</span>}
                       {tier.price}
                     </div>
                     

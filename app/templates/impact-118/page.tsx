@@ -776,21 +776,21 @@ function JournalPage() {
     {
       title: "The Art of Anglage: Hand-Beveling",
       cat: "Craftsmanship",
-      date: "May 14, 2026",
+      date: "14 mai 2026",
       desc: "An exploration of the technique of hand-polishing sharp edges in high watchmaking.",
       img: photo(22, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200")
     },
     {
       title: "Helium Escape Valves: Deep Oceanic Design",
       cat: "Engineering",
-      date: "April 28, 2026",
+      date: "28 avril 2026",
       desc: "How our watches survive the decompression phase of professional saturation diving.",
       img: photo(23, "https://images.pexels.com/photos/209255/pexels-photo-209255.jpeg?auto=compress&cs=tinysrgb&w=1200")
     },
     {
       title: "Restoring a 1930 Perpetual Calendar",
       cat: "Restoration",
-      date: "March 10, 2026",
+      date: "10 mars 2026",
       desc: "A behind-the-scenes look at reviving one of Leo Aris's early lunar complications.",
       img: photo(24, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200")
     }
@@ -798,21 +798,21 @@ function JournalPage() {
     {
       title: "The Art of Anglage: Hand-Beveling",
       cat: "Craftsmanship",
-      date: "May 14, 2026",
+      date: "14 mai 2026",
       desc: "An exploration of the technique of hand-polishing sharp edges in high watchmaking.",
       img: photo(25, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200")
     },
     {
       title: "Helium Escape Valves: Deep Oceanic Design",
       cat: "Engineering",
-      date: "April 28, 2026",
+      date: "28 avril 2026",
       desc: "How our watches survive the decompression phase of professional saturation diving.",
       img: photo(26, "https://images.pexels.com/photos/209255/pexels-photo-209255.jpeg?auto=compress&cs=tinysrgb&w=1200")
     },
     {
       title: "Restoring a 1930 Perpetual Calendar",
       cat: "Restoration",
-      date: "March 10, 2026",
+      date: "10 mars 2026",
       desc: "A behind-the-scenes look at reviving one of Leo Aris's early lunar complications.",
       img: photo(27, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200")
     }
@@ -821,21 +821,21 @@ function JournalPage() {
     {
       title: "The Art of Anglage: Hand-Beveling",
       cat: "Craftsmanship",
-      date: "May 14, 2026",
+      date: "14 mai 2026",
       desc: "An exploration of the technique of hand-polishing sharp edges in high watchmaking.",
       img: photo(28, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200")
     },
     {
       title: "Helium Escape Valves: Deep Oceanic Design",
       cat: "Engineering",
-      date: "April 28, 2026",
+      date: "28 avril 2026",
       desc: "How our watches survive the decompression phase of professional saturation diving.",
       img: photo(29, "https://images.pexels.com/photos/209255/pexels-photo-209255.jpeg?auto=compress&cs=tinysrgb&w=1200")
     },
     {
       title: "Restoring a 1930 Perpetual Calendar",
       cat: "Restoration",
-      date: "March 10, 2026",
+      date: "10 mars 2026",
       desc: "A behind-the-scenes look at reviving one of Leo Aris's early lunar complications.",
       img: photo(30, "https://images.unsplash.com/photo-1524592094714-0f0654e20314?auto=format&fit=crop&q=80&w=1200")
     }

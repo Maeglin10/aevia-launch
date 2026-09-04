@@ -76,7 +76,7 @@ function FEATURED_SOURCE_LIVE() {
   reading: "22 min",
   author: "Sarah Chen",
   role: "Technology Editor",
-  date: "May 13, 2026",
+  date: "13 mai 2026",
   img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=1600&q=85"),
 };
 }
@@ -92,7 +92,7 @@ function ARTICLES_DEMO_LIVE() {
     topic: "Business",
     reading: "12 min",
     author: "Marcus Thompson",
-    date: "May 12, 2026",
+    date: "12 mai 2026",
     img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80"),
     size: "large",
   },
@@ -103,7 +103,7 @@ function ARTICLES_DEMO_LIVE() {
     topic: "Culture",
     reading: "15 min",
     author: "Elena Rodriguez",
-    date: "May 11, 2026",
+    date: "11 mai 2026",
     img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=800&q=80"),
     size: "small",
   },
@@ -114,7 +114,7 @@ function ARTICLES_DEMO_LIVE() {
     topic: "Science",
     reading: "10 min",
     author: "James Liu",
-    date: "May 10, 2026",
+    date: "10 mai 2026",
     img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80"),
     size: "small",
   },
@@ -125,7 +125,7 @@ function ARTICLES_DEMO_LIVE() {
     topic: "Politics",
     reading: "18 min",
     author: "Olivia Park",
-    date: "May 9, 2026",
+    date: "9 mai 2026",
     img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=800&q=80"),
     size: "medium",
   },
@@ -136,7 +136,7 @@ function ARTICLES_DEMO_LIVE() {
     topic: "Business",
     reading: "13 min",
     author: "Priya Shah",
-    date: "May 8, 2026",
+    date: "8 mai 2026",
     img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=80"),
     size: "medium",
   },
@@ -596,7 +596,7 @@ return (
           justifyContent: "space-between",
         }}>
           <span style={{ fontFamily: C.sans, fontSize: 11, color: "rgba(255,255,255,0.4)", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-            Vol. XII · Issue 19 · May 13, 2026
+            Vol. XII · Issue 19 · 13 mai 2026
           </span>
           <div style={{ display: "flex", gap: 24 }}>
             {["Subscribe", "Sign In"].map(item => (

@@ -333,7 +333,7 @@ function BLOG_POSTS_LIVE() {
   {
     slug: 'art-of-the-table',
     title: 'The French Art of the Table, a Living Heritage',
-    date: '5 June 2026',
+    date: '5 juin 2026',
     category: 'Art of Living',
     excerpt:
       `From the fold of the cloth to the choice of crystal, the French table is a silent choreography. A look inside a craft the ${clientName(sessionData) ?? "Grand Palais"} perpetuates every evening.`,
@@ -348,7 +348,7 @@ function BLOG_POSTS_LIVE() {
   {
     slug: 'loire-valley-escape',
     title: 'An Escape to the Loire Valley',
-    date: '22 May 2026',
+    date: '22 mai 2026',
     category: 'Travel',
     excerpt:
       'Two hours from the palace, the châteaux of the Loire reveal formal gardens and troglodyte cellars. Our concierge composes the ideal day-long itinerary.',
@@ -363,7 +363,7 @@ function BLOG_POSTS_LIVE() {
   {
     slug: 'menu-of-a-chef',
     title: 'The Menu of a Chef: Margaux Vernet Confides',
-    date: '8 May 2026',
+    date: '8 mai 2026',
     category: 'Gastronomy',
     excerpt:
       `Two stars, a kitchen garden fifty metres from the stoves and a philosophy of the season. A meeting with the chef of L\'Atelier, at the ${clientName(sessionData) ?? "Grand Palais"}.`,
@@ -378,7 +378,7 @@ function BLOG_POSTS_LIVE() {
   {
     slug: 'winter-spa-ritual',
     title: 'The Winter Spa Ritual at Espace Étoile',
-    date: '24 April 2026',
+    date: '24 avril 2026',
     category: 'Art of Living',
     excerpt:
       'Roman hammam, warm-oil massage and a herbal tea room: discover the treatment journey our spa reserves for the cold season.',
@@ -2386,7 +2386,7 @@ function LegalPage({ variant }: { variant: 'mentions' | 'privacy' }) {
       />
       <section id="contact" style={{ background: CREAM, padding: '5rem 0 7rem' }}>
         <div style={{ maxWidth: '44rem', margin: '0 auto', padding: '0 1.75rem' }}>
-          <p style={{ ...para, fontStyle: 'italic', color: `${DARK}60` }}>Last updated: June 2026.</p>
+          <p style={{ ...para, fontStyle: 'italic', color: `${DARK}60` }}>Last updated: juin 2026.</p>
 
           <h2 style={{ ...sectionTitle, marginTop: '1.5rem' }}>Data controller</h2>
           <p style={para}>

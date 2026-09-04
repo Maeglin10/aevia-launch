@@ -10,15 +10,15 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
-    "on s&apos;en charge.": "on s&apos;en charge.",
+    "on s'en charge.": "on s'en charge.",
   },
   es: {
-    "on s&apos;en charge.": "nos encargamos.",
+    "on s'en charge.": "nos encargamos.",
   },
   de: {
-    "on s&apos;en charge.": "wir kümmern uns darum.",
+    "on s'en charge.": "wir kümmern uns darum.",
   },
   pt: {
-    "on s&apos;en charge.": "nós tratamos disso.",
+    "on s'en charge.": "nós tratamos disso.",
   },
 };

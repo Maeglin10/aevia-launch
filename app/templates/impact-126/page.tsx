@@ -1775,8 +1775,8 @@ return (
                 marginBottom: 48,
               }}
             >
-              Lunch Wednesday – Sunday, 12:30 – 14:30<br />
-              Dinner Tuesday – Sunday, 19:30 – 23:00
+              Lunch Wednesday – dimanche 12:30 – 14:30<br />
+              Dinner Tuesday – dimanche 19:30 – 23:00
             </p>
           </FadeUp>
           <FadeUp delay={0.4}>

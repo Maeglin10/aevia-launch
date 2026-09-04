@@ -125,7 +125,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     avatar: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/6467627/pexels-photo-6467627.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     rating: 5,
     text: "The Rossini is without question the finest interpretation of this classic I have encountered in forty years of criticism. Chef Beaumont has an almost supernatural sense of harmony between richness and restraint.",
-    date: "March 2026",
+    date: "mars 2026",
   },
   {
     name: "Claire Dubois",
@@ -133,7 +133,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     avatar: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/7535020/pexels-photo-7535020.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     rating: 5,
     text: "An evening at L'Étoile is not dinner — it is theatre, literature, and fine art served simultaneously. The sommelier's pairing of the Barolo with the Wagyu carpaccio was a revelation I will revisit in memory for years.",
-    date: "February 2026",
+    date: "février 2026",
   },
   {
     name: "Thomas Wentworth",
@@ -141,7 +141,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     avatar: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80"),
     rating: 5,
     text: "We celebrated our twentieth anniversary here. Every detail, from the temperature of the bread to the timing between courses, was impeccably calibrated. L'Étoile is where memories are made.",
-    date: "January 2026",
+    date: "janvier 2026",
   },
   {
     name: "Yuki Tanaka",
@@ -149,7 +149,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     avatar: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80"),
     rating: 5,
     text: "I travel to " + (clientCity(sessionData) ?? "Paris") + " specifically for the tasting menu. The seven-course journey is as coherent as a great novel — each dish the inevitable consequence of the last. Nowhere else achieves this narrative in cuisine.",
-    date: "December 2025",
+    date: "décembre 2025",
   },
   {
     name: "Marcus Lehmann",
@@ -157,7 +157,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     avatar: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&q=80"),
     rating: 5,
     text: "The homard thermidor sauce alone deserves preservation as cultural heritage. L'Étoile operates at a level that transcends fashion entirely — this cooking will still be relevant in thirty years.",
-    date: "November 2025",
+    date: "novembre 2025",
   },
 ];
 }
@@ -182,7 +182,7 @@ const PRICING_DEMO = [
   },
   {
     name: "Menu dégustation",
-    price: "€145",
+    price: "145 €",
     period: "par personne",
     desc: "Sept services composés par le chef autour des meilleurs produits de la saison.",
     features: [
@@ -550,7 +550,7 @@ return (
                   <p className="text-sm font-sans text-[#f5efe6]/50">Seven-course seasonal journey · Wine pairing available</p>
                 </div>
                 <div className="text-right shrink-0">
-                  <div className="text-3xl font-light text-amber-500 mb-1">€145 <span className="text-sm text-[#f5efe6]/40">+ €85 pairing</span></div>
+                  <div className="text-3xl font-light text-amber-500 mb-1">145 € <span className="text-sm text-[#f5efe6]/40">+ 85 € l'accord</span></div>
                   <button onClick={() => setReservationOpen(true)} className="text-[10px] uppercase tracking-widest font-sans font-bold text-amber-400 hover:text-amber-300 flex items-center gap-2 ml-auto transition-all duration-200 cursor-pointer">
                     Reserve now <ArrowRight className="w-3 h-3" />
                   </button>
@@ -568,7 +568,7 @@ return (
             <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
               <div>
                 <span className="text-amber-500 text-[10px] uppercase tracking-[0.4em] font-sans font-semibold mb-4 block">Ambiance</span>
-                <h2 className="text-4xl md:text-6xl font-light">{/* TEXTE_SECTION */ clientText(sessionData, "gallery.titre") ?? (<>A <span className="italic">Sensory</span> Journey</>)}</h2>
+                <h2 className="text-4xl md:text-6xl font-light">{/* TEXTE_SECTION */ clientText(sessionData, "gallery.titre") ?? (<>Un voyage <span className="italic">sensoriel</span></>)}</h2>
               </div>
               <a href={`https://instagram.com/${fd?.instagram ?? "letoile.paris"}`} className="text-sm font-sans text-amber-500 flex items-center gap-2 hover:gap-4 transition-all duration-200 cursor-pointer">
                 <Globe className="w-4 h-4" /> @letoile.paris
@@ -793,8 +793,10 @@ return (
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-20 pt-16 border-t border-white/5">
               {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
                 { icon: <MapPin className="w-5 h-5" />, label: "Location", value: `42 Rue du Faubourg\nSaint-Honoré, 75008 ${clientCity(sessionData) ?? "Paris"}` },
-                { icon: <Clock className="w-5 h-5" />, label: "Hours", value: "Tue–Sat: 19:00–23:00\nSun: 12:00–15:00" },
-                { icon: <Phone className="w-5 h-5" />, label: "Contact", value: (clientPhone(sessionData) ?? "+33 1 42 65 15 16") + "\n" + (clientEmail(sessionData) ?? `reservation@letoile.${clientCity(sessionData) ?? "Paris"}`) },
+                { icon: <Clock className="w-5 h-5" />, label: "Horaires", value: "Mar–Sam : 19 h – 23 h\nDim : 12 h – 15 h" },
+                { icon: <Phone className="w-5 h-5" />, label: "Contact", value: (clientPhone(sessionData) ?? "+33 1 42 65 15 16") + "\n" + (clientEmail(sessionData) ?? /* La ville était collée en fin d'adresse : « reservation@letoile.Paris »
+                     n'est pas une adresse. */
+                  "reservation@letoile.fr") },
               ]).map((item, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="text-center group">

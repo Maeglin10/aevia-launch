@@ -767,7 +767,7 @@ return (
                     <h3 className="text-xl font-bold mb-2">{plan.name}</h3>
                     <p className="text-sm text-zinc-500 mb-6">{plan.desc}</p>
                     <div className="flex items-baseline gap-1">
-                      {plan.price !== "Custom" && <span className="text-sm text-zinc-500">$</span>}
+                      {plan.price !== "Custom" && <span className="text-sm text-zinc-500">€</span>}
                       <span className="text-5xl font-black text-white">
                         {plan.price === "Custom" ? plan.price : billingAnnual ? plan.annualPrice : plan.price}
                       </span>

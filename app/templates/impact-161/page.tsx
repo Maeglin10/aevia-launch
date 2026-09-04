@@ -512,7 +512,7 @@ export default function EssentialSaaSPage() {
           <div className="space-y-4">
             {[
               ["Puis-je annuler à tout moment ?", "Oui. Aucun engagement, aucun frais de résiliation. Vous pouvez annuler depuis votre tableau de bord en un clic."],
-              ["La migration depuis mon outil actuel est-elle simple ?", "Nous proposons des imports depuis Notion, Asana, Monday, Jira et 40+ outils. Notre équipe vous accompagne gratuitement."],
+              ["La migration depuis mon outil actuel est-elle simple ?", "Nous proposons des imports depuis Notion, Asana, lundi Jira et 40+ outils. Notre équipe vous accompagne gratuitement."],
               ["Mes données sont-elles sécurisées ?", "Vos données sont chiffrées en transit (TLS) et au repos (AES-256). Nous sommes conformes RGPD et SOC2 Type II."],
               ["Puis-je inviter des clients en lecture seule ?", "Oui. Le plan Pro inclut des accès invités illimités en mode visualisation."],
             ].map(([q, a], i) => (

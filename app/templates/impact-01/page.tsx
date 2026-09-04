@@ -405,7 +405,7 @@ function BLOG_POSTS_DEMO_LIVE() {
   {
     slug: "core-web-vitals",
     title: "Core Web Vitals: why performance became a selling point",
-    date: "June 4, 2026",
+    date: "4 juin 2026",
     category: "Performance",
     image:
       (clientPhotos(sessionData)[12] || "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop"),
@@ -421,7 +421,7 @@ function BLOG_POSTS_DEMO_LIVE() {
   {
     slug: "design-system",
     title: "Design systems: the investment that speeds up every release",
-    date: "May 22, 2026",
+    date: "22 mai 2026",
     category: "Design",
     image:
       (clientPhotos(sessionData)[13] || "https://images.unsplash.com/photo-1545235617-9465d2a55698?q=80&w=1200&auto=format&fit=crop"),
@@ -437,7 +437,7 @@ function BLOG_POSTS_DEMO_LIVE() {
   {
     slug: "tunnel-conversion",
     title: "Conversion funnels: five frictions that cost you customers",
-    date: "May 9, 2026",
+    date: "9 mai 2026",
     category: "Marketing",
     image:
       (clientPhotos(sessionData)[14] || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop"),
@@ -453,7 +453,7 @@ function BLOG_POSTS_DEMO_LIVE() {
   {
     slug: "motion-design",
     title: "Motion design: when animation serves the experience (and when it hurts it)",
-    date: "April 24, 2026",
+    date: "24 avril 2026",
     category: "Design",
     image:
       (clientPhotos(sessionData)[15] || "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop"),
@@ -4291,7 +4291,7 @@ function LegalPage({ variant }: { variant: "mentions" | "privacy" }) {
       <section style={{ padding: "80px 48px 100px", boxSizing: "border-box" }}>
         <div style={{ maxWidth: 780, margin: "0 auto" }}>
           <p style={{ ...para, fontStyle: "italic", color: T.dimmed }}>
-            Last updated: June 2026.
+            Last updated: juin 2026.
           </p>
 
           <h2 style={{ ...sectionTitle, marginTop: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-19.titre") ?? (<>Data controller</>)}</h2>
