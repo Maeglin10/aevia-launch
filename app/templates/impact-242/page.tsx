@@ -473,7 +473,7 @@ function Nav() {
       </div>
       <div className="fm-navcta">
         <a href="#contact" style={{ textDecoration: 'none' }}>
-          <BlueButton>{clientName(sessionData) ?? "Première consultation offerte"}</BlueButton>
+          <BlueButton>Première consultation offerte</BlueButton>
         </a>
       </div>
       
@@ -717,7 +717,7 @@ function Hero() {
           style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}
         >
           <a href="#contact" style={{ textDecoration: 'none' }}>
-            <BlueButton filled>{clientName(sessionData) ?? "Première consultation offerte"}</BlueButton>
+            <BlueButton filled>Première consultation offerte</BlueButton>
           </a>
           <a href="#services" style={{ textDecoration: 'none' }}>
             <BlueButton filled={false}>Nos services</BlueButton>
@@ -1793,7 +1793,7 @@ function ContactForm() {
         <Reveal>
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 26 }}>
             <Eyebrow color={C.accent} align="center">
-              {clientName(sessionData) ?? "Première consultation offerte"}
+              Première consultation offerte
             </Eyebrow>
           </div>
         </Reveal>
