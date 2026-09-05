@@ -80,7 +80,7 @@ let C: Record<string, string> = {
   accentLight: "#24151a",
   ink: "#f4edee",
   textMuted: "#b3a3a6",
-  textFaint: "#7f7073",
+  textFaint: "#a89a9d",
   border: "rgba(255,255,255,0.09)",
   borderSoft: "rgba(255,255,255,0.055)",
   white: "#ffffff",

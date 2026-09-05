@@ -107,6 +107,8 @@ function shadeColor(hex: string, percent: number): string {
 
 let C: Record<string, string> = {
   primary: "var(--brand,#c0392b)",
+  /* Le rouge en TEXTE sur le fond clair de la barre : 4,35. Un cran plus sombre. */
+  primaryTexte: "var(--brand-dark,#a93226)",
   primaryLight: "var(--brand-light,#e05c4a)",
   primaryDark: "#922b21",
   bg: "#faf7f0",
@@ -395,7 +397,7 @@ return (
             fontFamily: SERIF,
             fontSize: 22,
             fontWeight: 700,
-            color: C.primary,
+            color: C.primaryTexte,
             textDecoration: 'none',
             letterSpacing: '0.05em'
           }}>

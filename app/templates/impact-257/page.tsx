@@ -76,7 +76,7 @@ let C: Record<string, string> = {
   bgCard: '#ffffff',
   accent: 'var(--brand,#3c7a52)',
   accentDark: 'var(--brand-light,#2c6040)',
-  accentLight: '#c8e0d0',
+  accentLight: '#e8f4ec',
   white: '#ffffff',
   ink: '#0a1408',
   textMuted: '#2c4830',
@@ -682,7 +682,7 @@ function Hero() {
                le contraste y descendait à 2,45 — sous le seuil de 3. Aucune photo
                de médecin assez sombre n'existe dans les banques ; c'est donc le
                voile qu'il faut épaissir, pas le sujet qu'il faut changer. */
-            'linear-gradient(to bottom, rgba(10,20,8,0.52) 0%, rgba(10,20,8,0.40) 36%, rgba(10,20,8,0.56) 70%, rgba(10,20,8,0.92) 100%)',
+            'linear-gradient(to bottom, rgba(10,20,8,0.68) 0%, rgba(10,20,8,0.62) 36%, rgba(10,20,8,0.68) 70%, rgba(10,20,8,0.94) 100%)',
         }}
       />
       <div
@@ -1037,7 +1037,7 @@ function PillarSequence() {
             position: 'absolute',
             inset: 0,
             background:
-              'linear-gradient(to bottom, rgba(10,20,8,0.30), rgba(10,20,8,0.08) 40%, rgba(10,20,8,0.60))',
+              'linear-gradient(to bottom, rgba(10,20,8,0.66), rgba(10,20,8,0.62) 40%, rgba(10,20,8,0.72))',
           }}
         />
 

@@ -664,7 +664,7 @@ function Hero() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to bottom, rgba(26,21,16,0.50) 0%, rgba(26,21,16,0.12) 36%, rgba(26,21,16,0.50) 68%, rgba(26,21,16,0.90) 100%)',
+            'linear-gradient(to bottom, rgba(26,21,16,0.62) 0%, rgba(26,21,16,0.55) 36%, rgba(26,21,16,0.62) 68%, rgba(26,21,16,0.90) 100%)',
         }}
       />
       {/* Teinte verte subtile */}
@@ -1089,7 +1089,7 @@ function ApproachSequence() {
             position: 'absolute',
             inset: 0,
             background:
-              'linear-gradient(to bottom, rgba(26,21,16,0.38), rgba(26,21,16,0.12) 42%, rgba(26,21,16,0.62))',
+              'linear-gradient(to bottom, rgba(26,21,16,0.58), rgba(26,21,16,0.52) 42%, rgba(26,21,16,0.66))',
           }}
         />
 

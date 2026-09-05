@@ -383,7 +383,10 @@ return (
         left: 0,
         right: 0,
         zIndex: 50,
-        background: `rgba(${(C.bg as string) === '#ffffff' ? '255,255,255' : '18,18,18'}, 0.85)`,
+        /* La clarté du fond se juge à sa luminance, pas à l'égalité avec
+           « #ffffff » : un crème #faf9f5 basculait la barre en sombre sous un
+           texte noir (mesuré 1,07). */
+        background: `rgba(${parseInt((C.bg as string).slice(1, 3), 16) > 128 ? '255,255,255' : '18,18,18'}, 0.85)`,
         backdropFilter: 'blur(10px)',
         borderBottom: `1px solid ${C.primary}12`
       }}>
