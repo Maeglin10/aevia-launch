@@ -2,6 +2,7 @@
 import {
   clientEmail,
   memoriserSession,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
@@ -218,7 +219,7 @@ export default function ContactPage() {
               {
                 icon: <Phone style={{ width: 18, height: 18, color: T.green }} />,
                 title: "Phone Escalation",
-                value: "+33 4 74 12 34 56",
+                value: (clientPhone(sessionData) ?? "+33 4 74 12 34 56"),
                 desc: "For active customers and volume sales queries.",
               },
               {

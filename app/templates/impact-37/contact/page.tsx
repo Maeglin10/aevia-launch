@@ -2,6 +2,7 @@
 import {
   clientEmail,
   memoriserSession,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
@@ -93,7 +94,7 @@ export default function ContactPage() {
                   label: "Adresse",
                   value: "Adresse communiquée sur demande à " + (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"),
                 },
-                { Icon: Phone, label: "Téléphone", value: "+33 1 42 60 80 20" },
+                { Icon: Phone, label: "Téléphone", value: (clientPhone(sessionData) ?? "+33 1 42 60 80 20") },
                 { Icon: Mail, label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr") },
                 { Icon: Clock, label: "Horaires", value: "Mardi – Dimanche · 18h30 – 23h30" },
               ].map(({ Icon, label, value }) => (

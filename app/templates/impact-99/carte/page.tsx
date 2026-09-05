@@ -5,6 +5,7 @@ import {
   clientEmail,
   clientName,
   clientServices,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 
 import { LegalIdentity } from "@/app/templates/LegalIdentity";
@@ -638,7 +639,7 @@ function ReservationPage() {
 
               <div className="p-12 border border-white/5 bg-white/[0.01] rounded-sm space-y-8">
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
-                  <Phone className="w-5 h-5 text-[#ff4d00]" /> 01 23 45 67 89
+                  <Phone className="w-5 h-5 text-[#ff4d00]" /> {clientPhone(sessionData) ?? "01 23 45 67 89"}
                 </div>
                 <div className="flex items-center gap-4 text-white/40 text-[11px] font-bold uppercase tracking-widest">
                   <Mail className="w-5 h-5 text-[#ff4d00]" /> {clientEmail(sessionData) ?? "contact@exemple.fr"}
@@ -900,7 +901,7 @@ function ContactPage() {
                     </span>
                   </div>
                   <p className="text-sm text-white/40 font-light uppercase tracking-widest italic">
-                    01 23 45 67 89
+                    {clientPhone(sessionData) ?? "01 23 45 67 89"}
                   </p>
                 </div>
                 <Separator className="bg-white/5" />

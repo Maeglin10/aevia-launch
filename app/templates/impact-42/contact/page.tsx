@@ -4,6 +4,7 @@ import {
   clientHours,
   clientInstagram,
   memoriserSession,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 import { resolveList } from "@/lib/templates/resolveList";
 
@@ -90,7 +91,7 @@ export default function ContactPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem", marginBottom: "2.5rem" }}>
               {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
                 { icon: <MapPin size={20} color={C.accent} />, label: "Adresse", value: "Adresse communiquée sur demande", sub: "Contactez-nous à " + (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr") },
-                { icon: <Phone size={20} color={C.accent} />, label: "Téléphone", value: "+33 1 43 57 88 00", sub: "Lun–Dim, 10h–23h" },
+                { icon: <Phone size={20} color={C.accent} />, label: "Téléphone", value: (clientPhone(sessionData) ?? "+33 1 43 57 88 00"), sub: "Lun–Dim, 10h–23h" },
                 { icon: <Mail size={20} color={C.accent} />, label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"), sub: "Réponse sous 2h ouvrées" },
                 { icon: <Clock size={20} color={C.accent} />, label: "Horaires", value: "Lundi – Dimanche", sub: "10h00 – 23h00" },
               ]).map((item) => (
