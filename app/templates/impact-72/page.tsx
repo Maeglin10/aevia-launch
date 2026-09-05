@@ -338,9 +338,10 @@ return (
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.65rem", letterSpacing: "0.3em", color: C.amber, marginBottom: "4rem" }}>ILS PARLENT DE NOUS</div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "3rem" }}>
-            {(clientName(sessionData) ? [] : PRESS).map((p, i) => {
+            {PRESS.map((p, i) => {
               const quoteRef = useRef<HTMLDivElement>(null);
               const quoteInView = useInView(quoteRef, { once: true, margin: "-40px" });
+              if (clientName(sessionData)) return null;
               return (
                 <motion.div
                   key={i}
