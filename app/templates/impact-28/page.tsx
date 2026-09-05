@@ -235,7 +235,7 @@ export default function Home() {
               <div className="text-white/50 text-xs uppercase tracking-widest mt-1">National awards</div>
             </div>
             <div ref={sqmRef}>
-              <div className="font-black text-4xl" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>€{sqmCount}M+</div>
+              <div className="font-black text-4xl" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>{sqmCount} M€+</div>
               <div className="text-white/50 text-xs uppercase tracking-widest mt-1">Construction value</div>
             </div>
           </div>

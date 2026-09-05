@@ -10,6 +10,12 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "the": "LA",
+    "speed": "VITESSE",
+    "of": "DE LA",
+    "light.": "LUMIÈRE.",
+    "the speed of light.": "La vitesse de la lumière.",
+    "en transit : nyc_442": "EN TRANSIT : NYC_442",
     "projects completed": "Projets livrés",
     "countries": "Pays",
     "carbon-negative projects": "Projets à bilan carbone négatif",
@@ -67,6 +73,12 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "watch logistics flow": "Regardez la logistique s'écouler",
   },
   es: {
+    "the": "LA",
+    "speed": "VELOCIDAD",
+    "of": "DE LA",
+    "light.": "LUZ.",
+    "the speed of light.": "La velocidad de la luz.",
+    "en transit : nyc_442": "EN TRÁNSITO: NYC_442",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -141,6 +153,12 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "watch logistics flow": "Mira fluir la logística",
   },
   de: {
+    "the": "DIE",
+    "speed": "GESCHWINDIGKEIT",
+    "of": "DES",
+    "light.": "LICHTS.",
+    "the speed of light.": "Lichtgeschwindigkeit.",
+    "en transit : nyc_442": "IN TRANSIT: NYC_442",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -215,6 +233,12 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "watch logistics flow": "Sieh zu, wie die Logistik fließt",
   },
   pt: {
+    "the": "A",
+    "speed": "VELOCIDADE",
+    "of": "DA",
+    "light.": "LUZ.",
+    "the speed of light.": "A velocidade da luz.",
+    "en transit : nyc_442": "EM TRÂNSITO: NYC_442",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

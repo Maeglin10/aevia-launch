@@ -462,7 +462,7 @@ function Nav() {
         ) : (
           <>
             <BarChart2 size={20} color={C.accent} strokeWidth={2} />
-            Marchand &amp; Partners
+            Marchand &amp; Associés
           </>
         )}
       </a>
@@ -2104,7 +2104,7 @@ function Footer() {
                 letterSpacing: '-0.01em',
               }}
             >
-              Marchand &amp; Partners
+              Marchand &amp; Associés
             </span>
           </div>
           <p

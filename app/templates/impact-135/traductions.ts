@@ -10,6 +10,11 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "exceptionnel": "Des résidences",
+    "residences.": "d'exception.",
+    "exceptional": "Des résidences",
+    "for elite traders.": "des traders d'élite.",
+    "3 awards": "3 distinctions",
     "manifesto": "Manifeste",
     "commission": "Nous confier un projet",
     "markets": "Marchés",
@@ -96,6 +101,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your edge is waiting.": "Votre avantage vous attend.",
   },
   es: {
+    "exceptionnel": "Residencias",
+    "residences.": "excepcionales.",
+    "exceptional": "Residencias",
+    "for elite traders.": "para traders de élite.",
+    "3 awards": "3 premios",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -199,6 +209,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your edge is waiting.": "Su ventaja le espera.",
   },
   de: {
+    "exceptionnel": "Außergewöhnliche",
+    "residences.": "Residenzen.",
+    "exceptional": "Außergewöhnliche",
+    "for elite traders.": "für Elite-Trader.",
+    "3 awards": "3 Auszeichnungen",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -302,6 +317,11 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your edge is waiting.": "Ihr Vorsprung wartet.",
   },
   pt: {
+    "exceptionnel": "Residências",
+    "residences.": "de exceção.",
+    "exceptional": "Residências",
+    "for elite traders.": "dos traders de elite.",
+    "3 awards": "3 distinções",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

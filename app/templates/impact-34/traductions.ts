@@ -11,9 +11,9 @@
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
 
-    "your podcast.": "Votre balado.",
+    "your podcast.": "Votre podcast.",
     "amplified.": "Amplifié.",
-    "active podcasters": "Balados actifs",
+    "active podcasters": "Podcasteurs actifs",
     "episodes hosted": "Épisodes hébergés",
     "total downloads": "Téléchargements",
     "uptime sla": "Disponibilité garantie",
@@ -39,10 +39,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "revenue attribution per episode": "Attribution des revenus par épisode",
     "see pricing plans": "Voir les formules",
     "start free — no credit card": "Commencez gratuitement — Pas de carte de crédit",
-    "start your podcast": "Lancer votre balado",
-    "start your podcast free": "Lancer votre balado gratuitement",
+    "start your podcast": "Lancer votre podcast",
+    "start your podcast free": "Lancer votre podcast gratuitement",
     "success stories": "Histoires de réussite",
-    "the podcast platform built for creators who are serious about growing their audience and monetizing their content.": "La plateforme de balados faite pour ceux qui veulent vraiment développer leur audience et en vivre.",
+    "the podcast platform built for creators who are serious about growing their audience and monetizing their content.": "La plateforme de podcasts faite pour ceux qui veulent vraiment développer leur audience et en vivre.",
     "the startup blueprint": "Le guide de la jeune pousse",
     "the startup blueprint #42": "Le guide de la jeune pousse nº 42",
     "top episodes this week": "Les épisodes de la semaine",

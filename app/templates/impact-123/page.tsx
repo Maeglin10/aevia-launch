@@ -74,7 +74,7 @@ let MODELS_DEMO = MODELS_DEMO_LIVE();
 const SPECS_SOURCE = [
   { label: "0-100 km/h", value: "2.1s" },
   { label: "Lateral G", value: "1.8G" },
-  { label: "Weight", value: "1,240kg" },
+  { label: "Weight", value: "1 240 kg" },
   { label: "Aero Downforce", value: "800kg" },
 ]
 let SPECS = SPECS_SOURCE;

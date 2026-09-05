@@ -366,7 +366,7 @@ export default function Impact174Page() {
                 Commencer <ArrowRight className="w-5 h-5" />
               </button>
               <button className="px-8 py-4 border border-[#f5f5f5]/20 text-[#f5f5f5]/60 font-medium uppercase tracking-widest hover:border-[var(--brand,#84cc16)] hover:text-[var(--brand,#84cc16)] transition-all cursor-pointer text-sm">
-                Voir les programs
+                Voir les programmes
               </button>
             </div>
           </Reveal>

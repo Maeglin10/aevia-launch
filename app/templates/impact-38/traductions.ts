@@ -10,6 +10,8 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "du grain": "Du grain",
+    "to cup.": "à la tasse.",
     "from bean": "Du grain",
     "home barista · londres": "Barista amateur · Londres",
     "all coffee rests 5–14 days after roasting before shipping — peak degassing for optimal extraction.": "Tout café repose de cinq à quatorze jours après torréfaction avant l'expédition — le temps du dégazage, pour une extraction juste.",
@@ -33,6 +35,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "yes. we carry a swiss water process decaf single origin, rotated seasonally. all subscription plans can include decaf as one of your selections.": "Oui. Nous proposons un décaféiné d'origine unique par Swiss Water Process, tourné saisonnièrement. Tous les plans d'abonnement peuvent inclure du décaféiné comme l'une de vos sélections.",
   },
   es: {
+    "du grain": "Del grano",
+    "to cup.": "a la taza.",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -73,6 +77,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "yes. we carry a swiss water process decaf single origin, rotated seasonally. all subscription plans can include decaf as one of your selections.": "Sí. Ofrecemos un descafeinado de origen único de Swiss Water Process, rotado estacionalmente. Todos los planes de suscripción pueden incluir descafeinado como una de tus selecciones.",
   },
   de: {
+    "du grain": "Von der Bohne",
+    "to cup.": "in die Tasse.",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -113,6 +119,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "yes. we carry a swiss water process decaf single origin, rotated seasonally. all subscription plans can include decaf as one of your selections.": "Ja. Wir führen einen entkoffeinierten Single Origin nach dem Swiss Water Process, der saisonal gewechselt wird. Alle Abonnementpläne können entkoffeinierten Kaffee als eine Ihrer Auswahlmöglichkeiten enthalten.",
   },
   pt: {
+    "du grain": "Do grão",
+    "to cup.": "à chávena.",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

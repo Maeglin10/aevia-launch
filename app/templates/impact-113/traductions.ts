@@ -10,7 +10,7 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
-    "next generation.": "prochaine génération.",
+    "next generation.": "futur.",
     "requests/sec": "Requêtes/s",
     "latency (p99)": "Latence (p99)",
     "bandwidth": "Bande passante",
@@ -73,7 +73,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "l'alchimie": "La alquimia",
     "de l'extraction.": "de la extracción.",
     "collection": "Colección",
-    "next generation.": "próxima generación.",
+    "next generation.": "futuro.",
     "requests/sec": "Peticiones/s",
     "latency (p99)": "Latencia (p99)",
     "bandwidth": "Ancho de banda",
@@ -136,7 +136,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "l'alchimie": "Die Alchemie",
     "de l'extraction.": "der Extraktion.",
     "collection": "Kollektion",
-    "next generation.": "nächsten Generation.",
+    "next generation.": "der Zukunft.",
     "requests/sec": "Anfragen/s",
     "latency (p99)": "Latenz (p99)",
     "bandwidth": "Bandbreite",
@@ -199,7 +199,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "l'alchimie": "A alquimia",
     "de l'extraction.": "da extração.",
     "collection": "Coleção",
-    "next generation.": "próxima geração.",
+    "next generation.": "futuro.",
     "requests/sec": "Pedidos/s",
     "latency (p99)": "Latência (p99)",
     "bandwidth": "Largura de banda",

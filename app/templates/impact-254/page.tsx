@@ -126,7 +126,7 @@ interface ExpertiseItem {
 /* ── Data ────────────────────────────────────────────────────────────────── */
 const DOMAINS: Domain[] = [
   {
-    img: photo('1554224155-6726b3ff858f'),
+    img: photo('1450101499163-c8848c66ca85'),
     index: 'I',
     title: 'COMPTABILITÉ & FISCAL',
     sub: "Tenue comptable, liasses fiscales, optimisation de l'IS — vos obligations transformées en leviers de performance.",
@@ -177,7 +177,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   return [
   {
     eyebrow: 'Notre engagement',
-    img: photo('1554224155-6726b3ff858f', 800),
+    img: photo('1450101499163-c8848c66ca85', 800),
     alt: 'Cabinet Vaillant — bureau expert-comptable Paris',
     title: (
       <>
@@ -599,7 +599,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || photo('1554224155-6726b3ff858f', 2000)}
+          src={fd?.photoUrls?.[0] || photo('1450101499163-c8848c66ca85', 2000)}
           alt={`Bureau du cabinet ${clientName(sessionData) ?? "Vaillant & Associés"}, Paris 8e`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />
@@ -1635,7 +1635,7 @@ function ContactForm() {
     >
       {/* Léger fond texturé */}
       <img
-        src={photo('1554224155-6726b3ff858f', 1200)}
+        src={photo('1450101499163-c8848c66ca85', 1200)}
         alt="Image de présentation"
         aria-hidden="true"
         loading="lazy"

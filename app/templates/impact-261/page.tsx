@@ -123,7 +123,7 @@ const DOMAINS: Domain[] = [
     index: 'I',
     title: 'COMPTABILITÉ & PAIE',
     sub: 'Tenue comptable, déclarations fiscales, bulletin de paie — vos obligations assurées avec précision et ponctualité.',
-    imgId: '1554224155-6726b3ff858f',
+    imgId: '1450101499163-c8848c66ca85',
   },
   {
     id: 'gestion',
@@ -173,7 +173,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   return [
   {
     eyebrow: 'Notre différence',
-    imgId: '1554224155-6726b3ff858f',
+    imgId: '1450101499163-c8848c66ca85',
     imgW: '800',
     reverse: false,
     title: (
@@ -606,7 +606,7 @@ function Hero() {
         }}
       >
         <img
-          src={fd?.photoUrls?.[0] || photo('1554224155-6726b3ff858f', 2000)}
+          src={fd?.photoUrls?.[0] || photo('1450101499163-c8848c66ca85', 2000)}
           alt={`Cabinet ${clientName(sessionData) ?? "Axiom Conseil"} Bordeaux`}
           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
         />

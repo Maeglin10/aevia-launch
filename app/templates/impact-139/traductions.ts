@@ -10,6 +10,10 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "train": "ENTRAÎNE-TOI",
+    "harder.": "PLUS DUR.",
+    "train": "Entraîne-toi",
+    "harder.": "plus dur.",
     "manifesto": "Manifeste",
     "commission": "Nous confier un projet",
     "markets": "Marchés",
@@ -79,6 +83,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your first": "Votre première",
   },
   es: {
+    "train": "ENTRENA",
+    "harder.": "MÁS DURO.",
+    "train": "Entrena",
+    "harder.": "más duro.",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -165,6 +173,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your first": "Su primera",
   },
   de: {
+    "train": "TRAINIERE",
+    "harder.": "HÄRTER.",
+    "train": "Trainiere",
+    "harder.": "härter.",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -251,6 +263,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your first": "Ihre erste",
   },
   pt: {
+    "train": "TREINA",
+    "harder.": "MAIS DURO.",
+    "train": "Treina",
+    "harder.": "mais duro.",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

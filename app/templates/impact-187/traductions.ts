@@ -10,11 +10,19 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "stop": "ARRÊTE",
+    "waiting.": "D'ATTENDRE.",
+    "start performing.": "COMMENCE À PERFORMER.",
+    "start performing.": "Commence à performer.",
     "avis clients": "Avis clients",
     "ce qu'on fait": "Ce que nous faisons",
     "stop waiting. start performing.": "Assez attendu. Passez à l'action.",
   },
   es: {
+    "stop": "DEJA",
+    "waiting.": "DE ESPERAR.",
+    "start performing.": "EMPIEZA A RENDIR.",
+    "start performing.": "Empieza a rendir.",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -37,6 +45,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "stop waiting. start performing.": "Basta de esperar. Empiece a rendir.",
   },
   de: {
+    "stop": "HÖR AUF",
+    "waiting.": "ZU WARTEN.",
+    "start performing.": "FANG AN ZU LEISTEN.",
+    "start performing.": "Fang an zu leisten.",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -59,6 +71,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "stop waiting. start performing.": "Genug gewartet. Jetzt leisten.",
   },
   pt: {
+    "stop": "PARA",
+    "waiting.": "DE ESPERAR.",
+    "start performing.": "COMEÇA A RENDER.",
+    "start performing.": "Começa a render.",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

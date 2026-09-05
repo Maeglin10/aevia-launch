@@ -73,7 +73,7 @@ function HERO_PRODUCTS_DEMO_SOURCE_LIVE() {
     id: 1,
     name: "Helix Noir",
     collection: "Monochrome Series",
-    price: "€8 400",
+    price: "8 400 €",
     desc: "Boîtier grade 5 titane poli miroir. Mouvement mécanique automatique 72h de réserve. Verre saphir anti-reflets.",
     badge: "Édition Limitée — 150 pièces",
     img: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/12915488/pexels-photo-12915488.jpeg?auto=compress&cs=tinysrgb&w=1200"),
@@ -83,7 +83,7 @@ function HERO_PRODUCTS_DEMO_SOURCE_LIVE() {
     id: 2,
     name: "Aurora S",
     collection: "Aurora Dial Series",
-    price: "€12 900",
+    price: "12 900 €",
     desc: "Cadran en nacre rose naturelle. Complications : date, phases de lune. Bracelet alligator bordeaux cousu main.",
     badge: "New Season",
     img: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/1228517/pexels-photo-1228517.jpeg?auto=compress&cs=tinysrgb&w=1200"),
@@ -93,7 +93,7 @@ function HERO_PRODUCTS_DEMO_SOURCE_LIVE() {
     id: 3,
     name: "Meridian GMT",
     collection: "Exploration Series",
-    price: "€15 600",
+    price: "15 600 €",
     desc: "Fonction GMT double fuseau. Céramique haute pression noire absolue. Étanchéité 300m. Certifié COSC.",
     badge: "Best-Seller",
     img: (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/4484237/pexels-photo-4484237.jpeg?auto=compress&cs=tinysrgb&w=1200"),
@@ -110,7 +110,7 @@ function PRODUCTS_SOURCE_LIVE() {
   {
     id: 1,
     name: "Helix Noir",
-    price: "€8 400",
+    price: "8 400 €",
     isNew: false,
     img: (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/12915488/pexels-photo-12915488.jpeg?auto=compress&cs=tinysrgb&w=800"),
     category: "Monochrome",
@@ -118,7 +118,7 @@ function PRODUCTS_SOURCE_LIVE() {
   {
     id: 2,
     name: "Aurora S",
-    price: "€12 900",
+    price: "12 900 €",
     isNew: true,
     img: (clientPhotos(sessionData)[4] || "https://images.pexels.com/photos/1228517/pexels-photo-1228517.jpeg?auto=compress&cs=tinysrgb&w=800"),
     category: "Cadrans",
@@ -126,7 +126,7 @@ function PRODUCTS_SOURCE_LIVE() {
   {
     id: 3,
     name: "Meridian GMT",
-    price: "€15 600",
+    price: "15 600 €",
     isNew: false,
     img: (clientPhotos(sessionData)[5] || "https://images.pexels.com/photos/4484237/pexels-photo-4484237.jpeg?auto=compress&cs=tinysrgb&w=800"),
     category: "Exploration",
@@ -134,7 +134,7 @@ function PRODUCTS_SOURCE_LIVE() {
   {
     id: 4,
     name: "Solstice Blanc",
-    price: "€6 200",
+    price: "6 200 €",
     isNew: true,
     img: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1509048191080-d2984bad6ae5?q=80&w=800&auto=format&fit=crop"),
     category: "Classique",
@@ -142,7 +142,7 @@ function PRODUCTS_SOURCE_LIVE() {
   {
     id: 5,
     name: "Vertex Chronograph",
-    price: "€19 800",
+    price: "19 800 €",
     isNew: false,
     img: (clientPhotos(sessionData)[7] || "https://images.unsplash.com/photo-1461141346587-763ab02bced9?q=80&w=800&auto=format&fit=crop"),
     category: "Chronographe",
@@ -150,7 +150,7 @@ function PRODUCTS_SOURCE_LIVE() {
   {
     id: 6,
     name: "Onyx Perpetual",
-    price: "€24 500",
+    price: "24 500 €",
     isNew: false,
     img: (clientPhotos(sessionData)[8] || "https://images.pexels.com/photos/12915488/pexels-photo-12915488.jpeg?auto=compress&cs=tinysrgb&w=800"),
     category: "Grande Complication",
@@ -196,7 +196,7 @@ function BESTSELLERS_DEMO_SOURCE_LIVE() {
   return [
   {
     name: "Meridian GMT",
-    price: "€15 600",
+    price: "15 600 €",
     img: (clientPhotos(sessionData)[13] || "https://images.pexels.com/photos/4484237/pexels-photo-4484237.jpeg?auto=compress&cs=tinysrgb&w=800"),
     specs: [
       { label: "Mouvement", val: "Automatique In-house" },
@@ -208,7 +208,7 @@ function BESTSELLERS_DEMO_SOURCE_LIVE() {
   },
   {
     name: "Aurora S",
-    price: "€12 900",
+    price: "12 900 €",
     img: (clientPhotos(sessionData)[14] || "https://images.pexels.com/photos/1228517/pexels-photo-1228517.jpeg?auto=compress&cs=tinysrgb&w=800"),
     specs: [
       { label: "Mouvement", val: "ETA 2892 modifié" },
@@ -220,7 +220,7 @@ function BESTSELLERS_DEMO_SOURCE_LIVE() {
   },
   {
     name: "Onyx Perpetual",
-    price: "€24 500",
+    price: "24 500 €",
     img: (clientPhotos(sessionData)[15] || "https://images.pexels.com/photos/12915488/pexels-photo-12915488.jpeg?auto=compress&cs=tinysrgb&w=800"),
     specs: [
       { label: "Mouvement", val: "Calendrier Perpétuel maison" },

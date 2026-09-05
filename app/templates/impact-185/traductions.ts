@@ -21,7 +21,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "finance": "Finance",
     "avis clients": "Avis clients",
     "des clients.": "des clients.",
-    "of grooming.": "de Toilettage.",
+    "of grooming.": "du soin barbier.",
     "the art of grooming": "L'art du soin",
   },
   es: {

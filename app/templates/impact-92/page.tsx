@@ -151,7 +151,7 @@ let SERVICES_DEMO = SERVICES_SOURCE;
 let SERVICES = SERVICES_DEMO;
 
 const STATS_DEMO = [
-  { label: "Assets Managed", value: "$4.2B+" },
+  { label: "Assets Managed", value: "4,2 Md€+" },
   { label: "Off-Market Deals", value: "94%" },
   { label: "Global Offices", value: "12" },
   { label: "Client Satisfaction", value: "NPS 98" },

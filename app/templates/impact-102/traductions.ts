@@ -10,6 +10,10 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "is quantum.": "est quantique.",
+    "is": "est",
+    "quantum.": "quantique.",
+    "research domains": "Domaines de recherche",
     "the future of computation": "L'avenir du calcul",
     "is an independent quantum computing research institute advancing fault-tolerant processors, quantum algorithms, and the foundational science of the post-classical era.": "est un institut de recherche indépendant en informatique quantique : processeurs tolérants aux fautes, algorithmes quantiques et science fondamentale de l'après-classique.",
     "developing fault-tolerant qubit architectures that maintain coherence across extended computation windows using topological protection methods.": "Nous développons des architectures de qubits tolérantes aux fautes, qui gardent leur cohérence sur de longues fenêtres de calcul grâce à la protection topologique.",
@@ -29,6 +33,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view publications": "Voir les publications",
   },
   es: {
+    "is quantum.": "es cuántico.",
+    "is": "es",
+    "quantum.": "cuántico.",
+    "research domains": "Ámbitos de investigación",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -65,6 +73,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view publications": "Ver publicaciones",
   },
   de: {
+    "is quantum.": "ist quantenbasiert.",
+    "is": "ist",
+    "quantum.": "quantenbasiert.",
+    "research domains": "Forschungsfelder",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -101,6 +113,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view publications": "Publikationen ansehen",
   },
   pt: {
+    "is quantum.": "é quântico.",
+    "is": "é",
+    "quantum.": "quântico.",
+    "research domains": "Domínios de investigação",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

@@ -41,7 +41,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "gp @ a16z": "Associé gérant chez a16z",
     "product": "Produit",
     "gtm": "Mise sur le marché",
-    "from idea to": "De l'idée au",
+    "from idea to": "De l'idée à la",
     "to one is a 12-week accelerator for pre-seed founders. we invest €500k, open our network, and help you build the company you imagined.": "est un accélérateur de douze semaines pour fondateurs en amorçage. Nous investissons 500 k€, ouvrons notre réseau et vous aidons à bâtir l'entreprise que vous aviez en tête.",
     "we built": "Nous avons créé",
     "to one because we know what founders actually need. not just money — but the right introductions, the hard feedback, and the community that keeps you going.": "parce que nous savons ce dont un fondateur a réellement besoin. Pas seulement de l'argent : les bonnes introductions, les retours francs, et la communauté qui vous tient debout.",

@@ -10,6 +10,8 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "technical specs": "FICHES TECHNIQUES",
+    "technical specs": "Fiches techniques",
     "equipment": "Équipement",
     "enquiry": "Nous écrire",
     "highest": "Les plus hauts",
@@ -50,6 +52,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "the fabric": "Le Tissu",
   },
   es: {
+    "technical specs": "FICHAS TÉCNICAS",
+    "technical specs": "Fichas técnicas",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -107,6 +111,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "the fabric": "La Tela",
   },
   de: {
+    "technical specs": "TECHNISCHE DATEN",
+    "technical specs": "Technische Daten",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -164,6 +170,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "the fabric": "Der Stoff",
   },
   pt: {
+    "technical specs": "FICHAS TÉCNICAS",
+    "technical specs": "Fichas técnicas",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

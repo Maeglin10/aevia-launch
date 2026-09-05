@@ -39,7 +39,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "all 4 roles filled in 67 days. two candidates sourced from passive talent — not on the open market.": "Quatre postes pourvus en soixante-sept jours. Deux candidats approchés hors marché, sans recherche active de leur part.",
     "apex found our vp of engineering in 5 weeks — a role we'd been trying to fill for 6 months internally. the quality of candidates was exceptional.": "Apex a trouvé notre VP de l'ingénierie en 5 semaines — un poste que nous essayions de pourvoir en interne depuis 6 mois. La qualité des candidats était exceptionnelle.",
     "apex talent places c-suite leaders and senior executives for companies that refuse to compromise on talent. executive search, rpo, and hr consulting.": "Apex Talent place des dirigeants de niveau C et des cadres supérieurs pour des entreprises qui refusent de faire des compromis sur le talent. Recherche de cadres, RPO et conseil en RH.",
-    "build": "construire",
+    "build": "construisent",
     "c-suite and senior leadership placement across all industries. we access passive candidates that traditional recruiters miss.": "Placement de cadres supérieurs et de direction dans tous les secteurs. Nous accédons à des candidats passifs que les recruteurs traditionnels manquent.",
     "can you help with international searches?": "Pouvez-vous aider avec des recherches internationales ?",
     "deep networks in 12 sectors, built over 18 years of specialized placement.": "Des réseaux solides dans douze secteurs, bâtis en dix-huit ans de placement spécialisé.",

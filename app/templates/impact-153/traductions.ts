@@ -12,7 +12,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "equipment": "Équipement",
     "enquiry": "Nous écrire",
-    "highest": "Les plus hauts",
+    "highest": "des plus hauts",
     "summits": "sommets",
     "elite art conservation & private registry": "Conservation d'œuvres et registre privé",
     "collector vault": "Coffre du collectionneur",

@@ -129,7 +129,7 @@ const PRACTICES: Practice[] = [
     index: 'I',
     title: 'DROIT DES SOCIÉTÉS',
     body: 'Création, transformation, fusion-acquisition — accompagner la vie juridique de votre entreprise à chaque étape.',
-    imgId: '1554224155-6726b3ff858f',
+    imgId: '1450101499163-c8848c66ca85',
     alt: 'Cabinet juridique — conseil en droit des sociétés',
   },
   {
@@ -162,7 +162,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   return [
   {
     eyebrow: 'Notre approche',
-    imgId: '1554224155-6726b3ff858f',
+    imgId: '1450101499163-c8848c66ca85',
     alt: 'Dossiers juridiques ouverts sur un bureau',
     title: (
       <>

@@ -144,10 +144,10 @@ const PUBLICATIONS = [
 ]
 
 const STATS_SOURCE = [
-  { value: "47", label: "Published Papers" },
-  { value: "$2.1B", label: "Research Funding" },
-  { value: "312", label: "Scientists" },
-  { value: "6", label: "Global Labs" },
+  { value: "47", label: "Articles publiés" },
+  { value: "2,1 Md€", label: "Financement de recherche" },
+  { value: "312", label: "Scientifiques" },
+  { value: "6", label: "Laboratoires dans le monde" },
 ]
 let STATS = STATS_SOURCE;
 

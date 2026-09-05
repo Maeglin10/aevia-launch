@@ -10,6 +10,9 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "to soul.": "à l'âme.",
+    "to": "à",
+    "soul.": "l'âme.",
     "manifesto": "Manifeste",
     "commission": "Nous confier un projet",
     "markets": "Marchés",
@@ -89,6 +92,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your": "Votre",
   },
   es: {
+    "to soul.": "al alma.",
+    "to": "a",
+    "soul.": "el alma.",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -185,6 +191,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your": "Tu",
   },
   de: {
+    "to soul.": "zur Seele.",
+    "to": "zur",
+    "soul.": "Seele.",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -281,6 +290,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your": "Ihr",
   },
   pt: {
+    "to soul.": "à alma.",
+    "to": "à",
+    "soul.": "a alma.",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

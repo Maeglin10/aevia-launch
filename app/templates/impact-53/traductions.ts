@@ -33,7 +33,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "high-contrast, high-performance web experiences. micro-interactions, scroll-driven animations, webgl environments — designed to arrest attention and convert intent.": "Des expériences web à fort contraste et hautes performances : micro-interactions, animations au défilement, environnements WebGL — pensés pour arrêter le regard.",
     "for studios, labels, and founders who need vision without compromise. we embed in your team as a fractional creative director — strategy, art direction, production oversight.": "Pour les studios, les labels et les fondateurs qui veulent une vision sans compromis. Nous entrons dans votre équipe comme directeur artistique à temps partagé — stratégie, direction artistique, exécution.",
     "multi-touchpoint campaign systems for product launches and cultural moments. we design the logic before the aesthetics: message architecture, channel mapping, content systems.": "Des dispositifs de campagne multicanaux pour un lancement de produit ou un moment culturel. Nous dessinons la logique avant l'esthétique : architecture du message, canaux, séquence.",
-    "build.": "CONSTRUIRE.",
+    "build.": "CONSTRUISONS.",
     "digital experience design": "Conception d'expérience numérique",
     "from identity animations to short-form films. we direct and produce motion content from concept to delivery — titles, brand films, social content series.": "Des animations d'identité aux films courts. Nous dirigeons et produisons du contenu animé de la conception à la livraison — titres, films de marque, séries de contenu social.",
     "if you have a brief that scares you a little, we want to hear it.": "Si votre projet vous fait un peu peur, nous voulons l'entendre.",

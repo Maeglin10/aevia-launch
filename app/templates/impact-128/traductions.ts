@@ -10,6 +10,10 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "exceptionnel": "Des résidences",
+    "residences.": "d'exception.",
+    "for elite traders.": "des traders d'élite.",
+    "3 awards": "3 distinctions",
     "projects completed": "Projets livrés",
     "countries": "Pays",
     "carbon-negative projects": "Projets à bilan carbone négatif",
@@ -74,6 +78,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "world's best.": "Le meilleur du monde.",
   },
   es: {
+    "exceptionnel": "Residencias",
+    "residences.": "excepcionales.",
+    "for elite traders.": "para traders de élite.",
+    "3 awards": "3 premios",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -155,6 +163,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "world's best.": "El mejor del mundo.",
   },
   de: {
+    "exceptionnel": "Außergewöhnliche",
+    "residences.": "Residenzen.",
+    "for elite traders.": "für Elite-Trader.",
+    "3 awards": "3 Auszeichnungen",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -236,6 +248,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "world's best.": "Die Besten der Welt.",
   },
   pt: {
+    "exceptionnel": "Residências",
+    "residences.": "de exceção.",
+    "for elite traders.": "dos traders de elite.",
+    "3 awards": "3 distinções",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

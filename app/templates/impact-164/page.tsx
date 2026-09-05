@@ -306,7 +306,7 @@ const FAQS_DEMO = [
   },
   {
     q: "Peut-on voir votre processus en détail ?",
-    a: "Oui — réservez un call de 30 min et on vous présente notre playbook complet : découverte, brief, concept, production, livraison, support. Pas de surprise, pas de black box.",
+    a: "Oui — réservez un appel de 30 min et on vous présente notre playbook complet : découverte, brief, concept, production, livraison, support. Pas de surprise, pas de black box.",
   },
 ];
 let FAQS = FAQS_DEMO;
@@ -613,7 +613,7 @@ return (
               whileTap={{ scale: 0.97 }}
               style={{ width: "100%", padding: "22px 40px", background: C.bgDark, color: C.white, border: `2px solid ${C.bgDark}`, fontWeight: 900, fontSize: 15, letterSpacing: 1, textTransform: "uppercase", cursor: "pointer", transition: "all 0.2s", fontFamily: C.sans }}
             >
-              Réserver un call de 30 min
+              Réserver un appel de 30 min
             </motion.button>
             <div style={{ marginTop: 12, fontFamily: C.mono, fontSize: 10, color: C.textMuted, letterSpacing: 2, textTransform: "uppercase", textAlign: "center" }}>
               SANS ENGAGEMENT — SANS BULLSHIT
