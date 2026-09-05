@@ -1434,7 +1434,7 @@ export default function Impact175Page() {
 
       {/* Client Logos Marquee */}
       <div style={{ padding: "0" }}>
-        <MarqueeStrip items={CLIENT_LOGOS} bg="rgba(232,213,163,0.06)" color={C.champagne} />
+        {clientName(sessionData) ? null : <MarqueeStrip items={CLIENT_LOGOS} bg="rgba(232,213,163,0.06)" color={C.champagne} />}
       </div>
 
       {/* Process */}

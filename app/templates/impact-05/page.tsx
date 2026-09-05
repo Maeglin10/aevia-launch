@@ -569,7 +569,7 @@ return (
         <div className="max-w-5xl mx-auto">
           <p className="text-center text-[10px] text-zinc-600 uppercase tracking-[0.3em] mb-8 font-semibold">Trusted by teams at the world's best companies</p>
           <div className="flex flex-wrap items-center justify-center gap-x-14 gap-y-5">
-            {/* LISTE_LIBELLES */ (clientList(sessionData, "equipe.liste1") ?? ["Vercel", "Stripe", "Notion", "Linear", "Globe", "GitHub", "Supabase", "PlanetScale"]).map(logo => (
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "equipe.liste1") ?? (clientName(sessionData) ? [] : ["Vercel", "Stripe", "Notion", "Linear", "Globe", "GitHub", "Supabase", "PlanetScale"])).map(logo => (
               <span key={logo} className="text-lg font-bold text-zinc-700 hover:text-zinc-400 transition-all duration-200 cursor-default">{logo}</span>
             ))}
           </div>

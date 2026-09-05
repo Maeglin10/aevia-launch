@@ -349,7 +349,7 @@ return (
               <div className="max-w-6xl mx-auto">
                 <Reveal className="text-center mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "section-3.texte") ?? (<><p className="text-white/20 text-xs tracking-widest uppercase font-mono">Partenaires & Diffusions</p></>)}</Reveal>
                 <div className="flex flex-wrap justify-center gap-12">
-                  {CLIENTS.map((c, i) => (
+                  {(clientName(sessionData) ? [] : CLIENTS).map((c, i) => (
                     <Reveal key={c} delay={i * 0.06}><span className="text-white/30 text-sm tracking-widest hover:text-[var(--brand,#C9A86C)] transition-colors cursor-pointer uppercase font-mono">{c}</span></Reveal>
                   ))}
                 </div>
@@ -661,7 +661,7 @@ function ProposPage() {
                Mon travail est régulièrement exposé dans des galeries parisiennes et publié dans des magazines de mode internationaux. Nous assurons la production de A à Z (casting, stylisme, repérages).
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs text-[var(--brand,#C9A86C)]">
-              {CLIENTS.map((c, i) => (
+              {(clientName(sessionData) ? [] : CLIENTS).map((c, i) => (
                 <div key={i} className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 rounded-full bg-[var(--brand,#C9A86C)]" />
                   <span>{c}</span>

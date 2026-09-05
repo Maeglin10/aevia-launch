@@ -1,6 +1,7 @@
 "use client";
 import {
   clientCity,
+  clientName,
   clientHeroLine,
   clientHeroSubtitle,
   clientPhotos,
@@ -527,7 +528,7 @@ export default function HorologsLuxePage() {
               <span className="text-[10px] font-bold text-white/10 uppercase tracking-[0.5em]">
                 Trusted by
               </span>
-              {CLIENTS.map((client, i) => (
+              {(clientName(sessionData) ? [] : CLIENTS).map((client, i) => (
                 <span
                   key={i}
                   className="text-xl md:text-2xl font-black uppercase tracking-tighter text-white/10 hover:text-white/40 transition-colors cursor-default italic"

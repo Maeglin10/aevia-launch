@@ -1581,7 +1581,7 @@ return (
           transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
           style={{ display: "flex", gap: 0, whiteSpace: "nowrap" }}
         >
-          {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? [
+          {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? (clientName(sessionData) ? [] : [
             "Arte France",
             "Canal+",
             "Netflix France",
@@ -1602,7 +1602,7 @@ return (
             "France Télévisions",
             "RAI Fiction",
             "BBC Two",
-          ]).map((client, i) => (
+          ])).map((client, i) => (
             <div
               key={i}
               style={{

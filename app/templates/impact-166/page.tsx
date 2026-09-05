@@ -1759,7 +1759,7 @@ return (
               flexWrap: "wrap",
             }}
           >
-            {/* LISTE_LIBELLES */ (clientList(sessionData, "testimonials.liste1") ?? ["Vogue", "Le Monde", "Elle", "LVMH", "Numéro"]).map((brand) => (
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "testimonials.liste1") ?? (clientName(sessionData) ? [] : ["Vogue", "Le Monde", "Elle", "LVMH", "Numéro"])).map((brand) => (
               <span
                 key={brand}
                 style={{

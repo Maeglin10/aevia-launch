@@ -585,7 +585,7 @@ export default function Impact322Page() {
         </p>
         <div className="i322-marquee">
           <div className="i322-marquee-track" style={{ opacity: 0.5 }}>
-            {/* LISTE_LIBELLES */ [...(clientList(sessionData, "bloc.liste1") ?? MARQUES_SOURCE), ...(clientList(sessionData, "bloc.liste1") ?? MARQUES_SOURCE)].map((brand: string, n: number) => (
+            {/* LISTE_LIBELLES */ [...(clientList(sessionData, "bloc.liste1") ?? (clientName(sessionData) ? [] : MARQUES_SOURCE)), ...(clientList(sessionData, "bloc.liste1") ?? (clientName(sessionData) ? [] : MARQUES_SOURCE))].map((brand: string, n: number) => (
               <span key={n} style={{ fontFamily: SERIF, fontSize: "clamp(20px, 2.6vw, 28px)", fontWeight: 600, letterSpacing: "0.08em", color: C.ink, whiteSpace: "nowrap" }}>
                 {brand}
               </span>
