@@ -57,7 +57,7 @@ export default function SecurityPage() {
             <span className="text-lg font-bold tracking-tight">NovaPlatform</span>
           </Link>
           <Link href="/templates/impact-05" className="text-sm text-zinc-400 hover:text-white transition-all duration-200 flex items-center gap-2">
-            <ArrowLeft className="w-4 h-4" /> Back to Home
+            <ArrowLeft className="w-4 h-4" /> Retour à l'accueil
           </Link>
         </div>
       </nav>
@@ -81,7 +81,7 @@ export default function SecurityPage() {
             Security
           </motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="text-lg md:text-xl text-zinc-400 max-w-2xl mx-auto leading-relaxed">
-            Everything you need to know about NovaPlatform's security. Built for speed, security, and developer experience.
+            Tout ce qu'il faut savoir sur NovaPlatform — section security. Pensé pour la vitesse, la sécurité et le confort des développeurs.
           </motion.p>
         </div>
       </section>
@@ -93,8 +93,8 @@ export default function SecurityPage() {
             <div className="h-64 bg-white/5 rounded-2xl border border-white/10 flex items-center justify-center p-8 text-center">
               <div>
                 <Cpu className="w-12 h-12 text-violet-500/50 mx-auto mb-4" />
-                <h2 className="text-2xl font-bold mb-2">Content coming soon</h2>
-                <p className="text-zinc-500">We are currently working on the detailed documentation and resources for this section.</p>
+                <h2 className="text-2xl font-bold mb-2">Contenu en préparation</h2>
+                <p className="text-zinc-500">Le contenu détaillé de cette section est en cours de préparation.</p>
               </div>
             </div>
           </div>

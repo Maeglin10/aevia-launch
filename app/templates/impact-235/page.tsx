@@ -71,7 +71,8 @@ let C: Record<string, string> = {
   ink: '#0d0d14',
   blue: 'var(--brand,#1a4d8f)',
   blueDim: '#1a3d72',
-  gold: '#c4a86e',
+  /* Posé sur la photo du héros : éclairci pour y tenir 4,5. */
+  gold: '#e7d4a8',
   paper: '#faf8f4',
   textMuted: '#7a7060',
   textFaint: '#b0a898',
@@ -535,7 +536,9 @@ function Hero() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(180deg, rgba(13,13,20,0.52) 0%, rgba(13,13,20,0.15) 30%, rgba(13,13,20,0.55) 75%, rgba(13,13,20,0.96) 100%)',
+            /* Le voile se creusait à 0,15 pile où le titre se pose : l'or de
+               l'avant-titre y tombait à 1,4 et le crème à 2,0. */
+            'linear-gradient(180deg, rgba(13,13,20,0.66) 0%, rgba(13,13,20,0.58) 30%, rgba(13,13,20,0.66) 75%, rgba(13,13,20,0.96) 100%)',
         }}
       />
 

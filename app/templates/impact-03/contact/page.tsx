@@ -87,7 +87,7 @@ export default function ContactPage() {
           }}
         >
           <ArrowLeft size={14} />
-          Back to Home
+          Retour à l'accueil
         </Link>
 
         <div style={{ textAlign: 'center', marginBottom: 60 }}>

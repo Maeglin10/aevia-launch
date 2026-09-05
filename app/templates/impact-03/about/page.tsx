@@ -82,7 +82,7 @@ export default function AboutPage() {
           }}
         >
           <ArrowLeft size={14} />
-          Back to Home
+          Retour à l'accueil
         </Link>
         <div style={{ textAlign: 'center', marginBottom: 80 }}>
           <motion.h1

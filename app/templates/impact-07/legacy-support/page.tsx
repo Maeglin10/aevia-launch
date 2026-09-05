@@ -61,7 +61,7 @@ export default function LegacySupportPage() {
           
           <Link href="/templates/impact-07" className="flex items-center gap-3 group">
              <ArrowLeft className="w-4 h-4 text-white/40 group-hover:text-[#c9a84c] transition-colors" />
-             <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-[#c9a84c] transition-colors">Return</span>
+             <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-[#c9a84c] transition-colors">Retour</span>
           </Link>
         </div>
       </nav>
@@ -82,7 +82,7 @@ export default function LegacySupportPage() {
                <span className="text-[#c9a84c] not-italic">Archive.</span>
              </h1>
              <p className="max-w-xl text-xl text-white/30 leading-relaxed font-light mb-12 uppercase tracking-widest italic">
-               This section explores the acoustic details and engineering philosophy behind our LEGACY SUPPORT initiatives. 
+               Cette section explore les choix acoustiques et la philosophie d'ingénierie derrière nos travaux LEGACY SUPPORT. 
              </p>
           </motion.div>
         </div>

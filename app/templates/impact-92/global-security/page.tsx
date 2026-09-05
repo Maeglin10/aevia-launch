@@ -65,7 +65,7 @@ export default function Page() {
             </div>
           </Link>
           <Link href="/templates/impact-92" className="text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-[#c9a96e] transition-colors flex items-center gap-2">
-            <ArrowLeft className="w-4 h-4" /> Return to Main
+            <ArrowLeft className="w-4 h-4" /> Retour à l'accueil
           </Link>
         </div>
       </nav>
@@ -88,10 +88,10 @@ export default function Page() {
             
             <div className="space-y-8 text-white/60 font-light italic leading-relaxed">
               <p>
-                Discreet and absolute protection.
+                Une protection discrète et absolue.
               </p>
               <p>
-                ISO 27001 compliant operational security, personal protection detail, and secure transit coordination worldwide.
+                Sécurité opérationnelle conforme ISO 27001, protection rapprochée et coordination de déplacements sécurisés dans le monde entier.
               </p>
             </div>
           </motion.div>

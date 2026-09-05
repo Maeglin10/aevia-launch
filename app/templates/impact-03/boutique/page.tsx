@@ -500,9 +500,9 @@ export default function BoutiquePage() {
               }}
             >
               <ArrowLeft size={14} />
-              Back to Home
+              Retour à l'accueil
             </Link>
-            {/* L'identité du client, là où le thème n'affichait que « Back to Home ». */}
+            {/* L'identité du client, là où le thème n'affichait que « Retour à l'accueil ». */}
             <EnteteAnnexe session={sessionData} repli="Atelier NOIR" accueil="/templates/impact-03" />
             <button
               onClick={() => setCartOpen(true)}

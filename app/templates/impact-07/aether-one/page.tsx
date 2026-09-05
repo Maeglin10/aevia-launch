@@ -61,7 +61,7 @@ export default function AetherOnePage() {
           
           <Link href="/templates/impact-07" className="flex items-center gap-3 group">
              <ArrowLeft className="w-4 h-4 text-white/40 group-hover:text-[#c9a84c] transition-colors" />
-             <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-[#c9a84c] transition-colors">Return</span>
+             <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 group-hover:text-[#c9a84c] transition-colors">Retour</span>
           </Link>
         </div>
       </nav>

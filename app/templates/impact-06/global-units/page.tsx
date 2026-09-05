@@ -55,7 +55,7 @@ export default function Page() {
           </Link>
           <Link href="/templates/impact-06" className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-white/60 hover:text-[#00f2ff] transition-colors">
             <ArrowLeft className="w-4 h-4" />
-            Return to Core
+            Retour au cœur
           </Link>
         </div>
       </nav>
@@ -77,7 +77,7 @@ export default function Page() {
           </p>
           <div className="flex items-center justify-center gap-4">
              <div className="w-2 h-2 rounded-full bg-[#00f2ff] animate-pulse" />
-             <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#00f2ff]">Sync in Progress</span>
+             <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#00f2ff]">Synchronisation en cours</span>
           </div>
         </motion.div>
       </main>

@@ -65,7 +65,7 @@ export default function Page() {
             </div>
           </Link>
           <Link href="/templates/impact-92" className="text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-[#c9a96e] transition-colors flex items-center gap-2">
-            <ArrowLeft className="w-4 h-4" /> Return to Main
+            <ArrowLeft className="w-4 h-4" /> Retour à l'accueil
           </Link>
         </div>
       </nav>
@@ -88,10 +88,10 @@ export default function Page() {
             
             <div className="space-y-8 text-white/60 font-light italic leading-relaxed">
               <p>
-                Proactive health infrastructure.
+                Une infrastructure de santé proactive.
               </p>
               <p>
-                Priority access to the world's leading medical specialists, private wellness retreats, and discrete healthcare coordination.
+                Un accès prioritaire aux plus grands spécialistes, aux retraites de bien-être privées et à une coordination médicale discrète.
               </p>
             </div>
           </motion.div>

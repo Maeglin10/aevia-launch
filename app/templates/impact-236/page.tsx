@@ -76,7 +76,8 @@ let C: Record<string, string> = {
   accent: 'var(--brand,#f59e0b)',
   accentDim: 'var(--brand-light,#d97706)',
   white: '#f1f2f4',
-  textMuted: '#8a8d9a',
+  /* Liens de pied de page sur fond sombre : 3,7 à #8a8d9a. */
+  textMuted: '#a7aab8',
   textFaint: '#56596a',
   border: '#1e1e28',
   borderBright: '#2e2e3c',
@@ -639,7 +640,8 @@ function Hero() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to bottom, rgba(9,9,12,0.52) 0%, rgba(9,9,12,0.12) 40%, rgba(9,9,12,0.60) 72%, rgba(9,9,12,0.92) 100%)',
+            /* Creux à 0,12 sous le titre : l'ambre du métier y tombait à 2,6. */
+            'linear-gradient(to bottom, rgba(9,9,12,0.64) 0%, rgba(9,9,12,0.55) 40%, rgba(9,9,12,0.66) 72%, rgba(9,9,12,0.92) 100%)',
         }}
       />
       {/* Radial vignette */}

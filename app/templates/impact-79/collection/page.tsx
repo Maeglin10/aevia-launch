@@ -53,7 +53,7 @@ export default function Page() {
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex items-center justify-between">
           <Link href="/templates/impact-79" className="flex items-center gap-3 text-white/50 hover:text-white transition-colors uppercase tracking-[0.3em] text-[10px] font-bold">
             <ArrowLeft className="w-4 h-4" />
-            Return_To_Base
+            Retour_à_l_accueil
           </Link>
           <div className="flex flex-col items-end">
             <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-stone-600 mb-1">
@@ -82,7 +82,7 @@ export default function Page() {
           </h1>
           
           <p className="max-w-2xl text-lg md:text-xl text-white/20 leading-relaxed font-bold mb-16 uppercase tracking-tight italic">
-            The Daily Batch Archive
+            L'archive des fournées
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16">
@@ -90,14 +90,14 @@ export default function Page() {
               <Activity className="w-8 h-8 text-stone-600 mb-6" />
               <h3 className="text-xl font-black uppercase text-white italic mb-4">System Status</h3>
               <p className="text-[10px] text-white/20 uppercase tracking-widest leading-relaxed italic">
-                All parameters nominal. Fermentation sync active and monitoring.
+                Tous les paramètres au nominal. Synchronisation des fermentations active.
               </p>
             </div>
             <div className="p-10 bg-white/[0.02] border border-white/5 hover:border-stone-800 transition-all group">
               <Shield className="w-8 h-8 text-stone-600 mb-6" />
-              <h3 className="text-xl font-black uppercase text-white italic mb-4">Security Protocol</h3>
+              <h3 className="text-xl font-black uppercase text-white italic mb-4">Protocole de sécurité</h3>
               <p className="text-[10px] text-white/20 uppercase tracking-widest leading-relaxed italic">
-                Data encrypted. Grain sourcing logs verified.
+                Données chiffrées. Journaux d'approvisionnement en grains vérifiés.
               </p>
             </div>
           </div>

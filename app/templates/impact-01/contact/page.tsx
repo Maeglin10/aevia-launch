@@ -75,7 +75,7 @@ export default function ContactPage() {
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "80px 24px" }}>
         <Link href="/templates/impact-01" style={{ display: "inline-flex", alignItems: "center", gap: 8, color: T.muted, textDecoration: "none", marginBottom: 60, fontSize: "0.9rem", transition: "color 0.2s" }} onMouseOver={(e) => (e.currentTarget.style.color = T.text)} onMouseOut={(e) => (e.currentTarget.style.color = T.muted)}>
           <ArrowLeft size={16} />
-          Back to Home
+          Retour à l'accueil
         </Link>
 
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>

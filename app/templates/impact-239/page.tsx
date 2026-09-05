@@ -640,7 +640,8 @@ function Hero() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to bottom, rgba(15,12,8,0.45) 0%, rgba(15,12,8,0.08) 36%, rgba(15,12,8,0.42) 68%, rgba(15,12,8,0.90) 100%)',
+            /* Creux à 0,08 sous le titre mobile : le blanc y tombait à 3,6. */
+            'linear-gradient(to bottom, rgba(15,12,8,0.60) 0%, rgba(15,12,8,0.52) 36%, rgba(15,12,8,0.58) 68%, rgba(15,12,8,0.90) 100%)',
         }}
       />
       <div

@@ -65,7 +65,7 @@ export default function Page() {
             </div>
           </Link>
           <Link href="/templates/impact-92" className="text-[10px] font-bold uppercase tracking-widest text-white/40 hover:text-[#c9a96e] transition-colors flex items-center gap-2">
-            <ArrowLeft className="w-4 h-4" /> Return to Main
+            <ArrowLeft className="w-4 h-4" /> Retour à l'accueil
           </Link>
         </div>
       </nav>
@@ -88,7 +88,7 @@ export default function Page() {
             
             <div className="space-y-8 text-white/60 font-light italic leading-relaxed">
               <p>
-                Initiate consultation.
+                Engager la conversation.
               </p>
               <p>
                 Contact our private desk for membership inquiries or asset advisory. All transmissions are encrypted and treated with absolute confidentiality.
