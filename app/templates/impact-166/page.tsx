@@ -1489,12 +1489,16 @@ return (
                 color: "rgba(240,236,228,0.6)",
                 marginBottom: 24,
               }}
-            >{c?.aboutText ?? <>
-              Iris Beaumont. {clientTrade(sessionData) ?? "Photographe"} documentaire et commerciale, basée à {clientCity(sessionData) ?? "Paris"}
+            >{c?.aboutText ?? (clientName(sessionData) ? <>
+              {clientTrade(sessionData) ?? "Photographe"} documentaire et commerciale, basée à {clientCity(sessionData) ?? "Paris"}.
+              Un regard formé auprès de grandes maisons comme de dizaines de
+              petites maisons indépendantes.
+            </> : <>
+              Iris Beaumont. Photographe documentaire et commerciale, basée à Paris
               depuis 2018. Formée à l'École Nationale Supérieure de la Photographie
               d'Arles, j'ai collaboré avec Vogue France, Le Monde, LVMH et des
               dizaines de petites maisons indépendantes.
-            </>}</motion.p>
+            </>)}</motion.p>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}

@@ -309,7 +309,7 @@ export default function LEtoileRestaurant() {
     clientServices(sessionData)?.map((s, i) => ({ ...PRICING_DEMO[i % PRICING_DEMO.length], name: s.title, price: s.price ?? "", desc: s.desc || PRICING_DEMO[i % PRICING_DEMO.length].desc, features: [], })),
     PRICING_DEMO,
   );
-  STATS = resolveList(clientStats(sessionData), STATS_DEMO);
+  STATS = resolveList(clientStats(sessionData), clientName(sessionData) ? STATS_DEMO.filter((x: any) => !/Michelin/.test(String(x.label))) : STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Real client menu — the structured wizard step (businessProfile.menu)
@@ -451,7 +451,7 @@ return (
           {/* Floating stat cards */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.7 }} className="flex flex-wrap items-center justify-center gap-6">
             {[
-              { icon: <Award className="w-4 h-4 text-amber-500" />, label: "Michelin ★★", sub: "2022 — Present" },
+              ...(clientName(sessionData) ? [] : [{ icon: <Award className="w-4 h-4 text-amber-500" />, label: "Michelin ★★", sub: "2022 — Present" }]),
               { icon: <Clock className="w-4 h-4 text-amber-500" />, label: "Tue–Sun 19h–23h", sub: "Sunday Lunch 12h" },
               { icon: <MapPin className="w-4 h-4 text-amber-500" />, label: clientCity(sessionData) ?? "8e Arrondissement", sub: clientCity(sessionData) ? "France" : "Paris, France" },
             ].map((s, i) => (

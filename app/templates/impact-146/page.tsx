@@ -321,7 +321,7 @@ export default function KuroOmakasePage() {
                     <h2 className="text-6xl md:text-9xl font-black uppercase tracking-tighter text-white leading-none italic mb-16">{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>Chef<br /><span className="font-light not-italic opacity-30">Hiroshi.</span></>)}</h2>
                     <div className="space-y-8">
                        <p className="text-base text-white/40 leading-relaxed font-light italic">
-                          Trained under three Michelin-starred masters in Osaka, Kyoto, and Noma Copenhagen, Hiroshi Mori returns to his roots with Kuro — a singular meditation on Japanese restraint at the edge of flavour.
+                          {clientName(sessionData) ? "A singular meditation on Japanese restraint at the edge of flavour — a craft honed in the great kitchens of Osaka and Kyoto." : "Trained under three Michelin-starred masters in Osaka, Kyoto, and Noma Copenhagen, Hiroshi Mori returns to his roots with Kuro — a singular meditation on Japanese restraint at the edge of flavour."}
                        </p>
                        <p className="text-base text-white/40 leading-relaxed font-light italic">
                           Every element of the menu changes with the lunar calendar. What you taste tonight has never been served before, and will never be served again.

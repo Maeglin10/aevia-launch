@@ -108,7 +108,7 @@ function EXPERIENCES_DEMO_LIVE() {
   return [
   {
     label: "L\'Atelier",
-    sub: 'Two Michelin Stars',
+    sub: clientName(sessionData) ? 'Cuisine d\'exception' : 'Two Michelin Stars',
     desc: 'Chef Margaux Vernet elevates classical French gastronomy with ingredients sourced from our estate gardens and trusted regional producers.',
     img: (clientPhotos(sessionData)[8] || 'https://images.pexels.com/photos/13871328/pexels-photo-13871328.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
@@ -267,7 +267,7 @@ function SERVICES_DEMO_LIVE() {
   {
     glyph: '✶',
     label: "L'Atelier",
-    sub: 'Two Michelin Stars',
+    sub: clientName(sessionData) ? 'Cuisine d\'exception' : 'Two Michelin Stars',
     desc: 'Chef Margaux Vernet reimagines the French canon with produce grown fifty metres from the kitchen. The tasting menu changes with the moon.',
     img: (clientPhotos(sessionData)[28] || 'https://images.pexels.com/photos/13871328/pexels-photo-13871328.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     points: ['Seasonal tasting menu', 'Estate kitchen garden', 'Wine pairings', 'Private chef\'s table'],
@@ -2548,7 +2548,7 @@ export default function GrandPalaisPage() {
     ...row,
     img: clientPhotos(sessionData)[4 + i] || row.img,
   }));
-  STATS = resolveList(clientStats(sessionData)?.map((r: any) => ({ n: r.value, l: r.label })), STATS_DEMO);
+  STATS = resolveList(clientStats(sessionData)?.map((r: any) => ({ n: r.value, l: r.label })), clientName(sessionData) ? STATS_DEMO.filter((x: any) => !/Michelin/.test(String(x.l))) : STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   useFonts();

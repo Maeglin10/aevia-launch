@@ -2282,7 +2282,7 @@ export default function Impact133Page() {
     SERVICES_SOURCE,
   );
   PRESS = resolveList(
-    clientReviews(session)?.map((r, i) => ({ ...PRESS_DEMO[i % PRESS_DEMO.length], quote: r.text, name: r.author })),
+    clientReviews(session)?.map((r, i) => ({ ...PRESS_DEMO[i % PRESS_DEMO.length], quote: r.text, name: r.author })) ?? (clientName(session) ? [] : undefined),
     PRESS_DEMO,
   );
   SERVICES = resolveList(

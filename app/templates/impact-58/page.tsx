@@ -379,7 +379,7 @@ return (
             }}
           >
             {[
-              { n: '3×', label: 'Cannes Lions Gold' },
+              ...(clientName(sessionData) ? [] : [{ n: '3×', label: 'Cannes Lions Gold' }]),
               { n: '1×', label: 'D&AD Black Pencil' },
               { n: '80+', label: 'Brand films livrés' },
             ].map((stat) => (

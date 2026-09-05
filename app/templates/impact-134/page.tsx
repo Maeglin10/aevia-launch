@@ -1951,7 +1951,7 @@ function PressSection() {
         </Reveal>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-          {PRESS_ITEMS.map((item, i) => (
+          {(clientName(sessionData) ? [] : PRESS_ITEMS).map((item, i) => (
             <Reveal key={item.name} delay={i * 0.08}>
               <div
                 className="p-6 rounded-xl flex flex-col gap-3 transition-all duration-300 hover:border-[var(--brand,#ec4899)]/40 h-full"

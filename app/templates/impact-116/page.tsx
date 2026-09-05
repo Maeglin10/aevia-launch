@@ -548,7 +548,7 @@ export default function KineticStudio() {
             <p className="text-white/70 mb-6 text-lg">We specialize in telling brand stories through motion, creating experiences that captivate, inspire, and drive results. From concept to delivery, we bring technical excellence and creative vision to every project.</p>
           </Reveal>
           <Reveal delay={0.2}>
-            <p className="text-white/70 text-lg">Our work has been featured in Cannes Lions, D&AD Awards, and The Webby Awards. We're committed to pushing the boundaries of what's possible in motion and interactive media.</p>
+            <p className="text-white/70 text-lg">{clientName(sessionData) ? "We're committed to pushing the boundaries of what's possible in motion and interactive media." : "Our work has been featured in Cannes Lions, D&AD Awards, and The Webby Awards. We're committed to pushing the boundaries of what's possible in motion and interactive media."}</p>
           </Reveal>
         </div>
       </section>
@@ -645,7 +645,7 @@ export default function KineticStudio() {
           <h2 className="text-5xl font-light mb-12" style={{color: brand ?? 'var(--brand,#ff5500)' }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-13.titre") ?? (<>Awards & Recognition</>)}</h2>
         </Reveal>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste2") ?? ["Cannes Lions", "D&AD Awards", "The Webby Awards", "Graphis Award", "One Show", "Indie Short Fest", "Vimeo Awards", "IATSE Choice"]).map((award, idx) => (
+          {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste2") ?? (clientName(sessionData) ? [] : ["Cannes Lions", "D&AD Awards", "The Webby Awards", "Graphis Award", "One Show", "Indie Short Fest", "Vimeo Awards", "IATSE Choice"])).map((award, idx) => (
             <Reveal key={idx} delay={idx * 0.05}>
               <Card className="bg-[#06060a] border-[var(--brand,#ff5500)]/20 text-center">
                 <CardContent className="p-6">

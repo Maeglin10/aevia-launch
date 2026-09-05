@@ -1772,7 +1772,7 @@ export default function Impact115Page() {
 
             {/* Right awards list */}
             <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-              {AWARDS.map((award, i) => (
+              {(clientName(sessionData) ? [] : AWARDS).map((award, i) => (
                 <motion.div
                   key={`${award.year}-${award.title}`}
                   initial={{ opacity: 0, x: 30 }}
