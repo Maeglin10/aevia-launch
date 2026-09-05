@@ -1284,7 +1284,7 @@ return (
           </div>
           <div className="flex items-center gap-4">
             <button onClick={() => goTo("legal")} className="text-white/30 text-sm hover:text-white/60 transition-colors cursor-pointer bg-transparent border-none">Legal</button>
-            <p className="text-white/30 text-sm">© 2026 {clientName(sessionData) ?? "Zero"} to One Ventures{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
+            <p className="text-white/30 text-sm">© 2026 {clientName(sessionData) ?? "Zero to One Ventures"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
           </div>
         </div>
       </footer>

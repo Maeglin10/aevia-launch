@@ -201,7 +201,7 @@ const EDIT_ROWS: EditRow[] = [
     img: PHOTO('1621905251189-08b45d6a269e', 800),
     alt: 'Électricien au travail dans un tableau électrique',
     title: "Précis jusqu'au dernier fil.",
-    body: "Avec plus de 15 ans d'expérience en Île-de-France, ÉlectroPro réalise chaque installation avec rigueur et méthode. Notre équipe Qualibat accompagne particuliers et professionnels, du diagnostic initial à la réception des travaux, en respectant les délais et les normes en vigueur.",
+    body: clientName(sessionData) ? `${clientName(sessionData)} réalise chaque installation avec rigueur et méthode. Notre équipe accompagne particuliers et professionnels, du diagnostic initial à la réception des travaux, en respectant les délais et les normes en vigueur.` : "Avec plus de 15 ans d'expérience en Île-de-France, ÉlectroPro réalise chaque installation avec rigueur et méthode. Notre équipe Qualibat accompagne particuliers et professionnels, du diagnostic initial à la réception des travaux, en respectant les délais et les normes en vigueur.",
   },
   {
     eyebrow: 'Certifications',
@@ -209,7 +209,7 @@ const EDIT_ROWS: EditRow[] = [
     img: PHOTO('1558618666-fcd25c85cd64', 800),
     alt: 'Tableau domotique KNX installé par ÉlectroPro',
     title: 'Qualibat, IRVE, Qualifelec.',
-    body: 'Nos certifications ne sont pas de simples labels : elles représentent des audits annuels, des formations continues et un engagement envers la qualité. Qualibat 5311/5312, agrément IRVE P1/P2/P3, habilitations électriques BR/B2V/BC/BE et garantie décennale — votre chantier est entre les mains de professionnels reconnus.',
+    body: clientName(sessionData) ? "Nos certifications ne sont pas de simples labels : elles représentent des audits annuels, des formations continues et un engagement envers la qualité — votre chantier est entre les mains de professionnels reconnus." : 'Nos certifications ne sont pas de simples labels : elles représentent des audits annuels, des formations continues et un engagement envers la qualité. Qualibat 5311/5312, agrément IRVE P1/P2/P3, habilitations électriques BR/B2V/BC/BE et garantie décennale — votre chantier est entre les mains de professionnels reconnus.',
   },
 ];
 
@@ -667,7 +667,7 @@ function Hero() {
         }}
       >
         <Reveal>
-          <Eyebrow>{clientTrade(sessionData) ?? "Électricien"} certifié · Île-de-France</Eyebrow>
+          <Eyebrow>{clientTrade(sessionData) ?? "Électricien"} certifié{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : " · Île-de-France"}</Eyebrow>
         </Reveal>
 
         <motion.h1 className="hero-ecran-court hero-ecran-court-fort"
@@ -1968,11 +1968,15 @@ function Footer() {
     {
       title: 'Zone',
       items: [
-        { label: (clientCity(sessionData) ?? 'Paris') + ' (75)', href: '#contact' },
-        { label: 'Hauts-de-Seine (92)', href: '#contact' },
-        { label: 'Yvelines (78)', href: '#contact' },
-        { label: 'Essonne (91)', href: '#contact' },
-        { label: 'Val-de-Marne (94)', href: '#contact' },
+        ...(clientCity(sessionData)
+          ? [{ label: clientCity(sessionData)! + ' et alentours', href: '#contact' }]
+          : [
+            { label: 'Paris (75)', href: '#contact' },
+            { label: 'Hauts-de-Seine (92)', href: '#contact' },
+            { label: 'Yvelines (78)', href: '#contact' },
+            { label: 'Essonne (91)', href: '#contact' },
+            { label: 'Val-de-Marne (94)', href: '#contact' },
+          ]),
       ],
     },
     {
@@ -2029,8 +2033,9 @@ function Footer() {
               marginBottom: 22,
             }}
           >
-            {clientTrade(sessionData) ?? "Électricien"} qualibat en Île-de-France. Installation, domotique,
-            mise aux normes et bornes IRVE depuis 2009.
+            {clientName(sessionData) ? <>{clientTrade(sessionData) ?? "Électricien"} qualifié{clientCity(sessionData) ? <> à {clientCity(sessionData)}</> : null}. Installation, domotique,
+            mise aux normes et bornes IRVE.</> : <>Électricien qualibat en Île-de-France. Installation, domotique,
+            mise aux normes et bornes IRVE depuis 2009.</>}
           </p>
           <div
             style={{
@@ -2044,7 +2049,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.8} />
-            Île-de-France · 75 · 92 · 78 · 91 · 94
+            {clientCity(sessionData) ?? "Île-de-France · 75 · 92 · 78 · 91 · 94"}
           </div>
         </div>
 
@@ -2119,7 +2124,7 @@ function Footer() {
           letterSpacing: '0.06em',
         }}
       >
-        <span>© 2009–2026 ÉlectroPro{clientSiret(sessionData) ? ` — SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " — SIRET 000 000 000 00000"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© {clientName(sessionData) ? "2026 " + clientName(sessionData) : "2009–2026 ÉlectroPro"}{clientSiret(sessionData) ? ` — SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " — SIRET 000 000 000 00000"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: C.textFaint, textDecoration: 'none' }}>
             Mentions légales
@@ -2220,11 +2225,11 @@ export default function Page() {
     });
   });
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   REVIEWS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...REVIEWS_SOURCE[i % REVIEWS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...REVIEWS_SOURCE[i % REVIEWS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     REVIEWS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

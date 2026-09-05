@@ -181,7 +181,7 @@ export default function AtelierLayout({
           <div className="flex items-center gap-8">
             <div className="hidden md:flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#1a1814]/20">
               <MapPin className="w-3.5 h-3.5" />
-              <span>{clientCity(__layoutSession) ?? "PARIS"} VIII</span>
+              <span>{clientCity(__layoutSession)?.toUpperCase() ?? "PARIS VIII"}</span>
             </div>
             <MagneticBtn
               onClick={() => setBookingOpen(true)}
@@ -244,12 +244,18 @@ export default function AtelierLayout({
             <div className="lg:col-span-5">
               <Reveal>
                 <div className="flex flex-col mb-10">
+                  {clientName(__layoutSession) ? (
+                  <span className="text-2xl font-light tracking-[0.4em] uppercase">
+                    {clientName(__layoutSession)}
+                  </span>
+                  ) : (<>
                   <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-white/30 mb-1">
                     L'Atelier
                   </span>
                   <span className="text-2xl font-light tracking-[0.4em] uppercase">
                     BEAUTÉ
                   </span>
+                  </>)}
                 </div>
                 <p className="text-white/20 max-w-sm mb-12 uppercase tracking-widest text-[10px] font-bold leading-relaxed italic">
                   Une exploration architecturale de la beauté. Précision, pureté
@@ -328,7 +334,7 @@ export default function AtelierLayout({
               </Link>
             </div>
             <div className="flex gap-10">
-              <span>{clientCity(__layoutSession) ?? "Paris"} VIII // {clientCity(__layoutSession) ?? "Lyon"} // {clientCity(__layoutSession) ?? "Bordeaux"}</span>
+              <span>{clientCity(__layoutSession) ?? "Paris VIII // Lyon // Bordeaux"}</span>
               <span>The Art of Precision</span>
             </div>
           </div>

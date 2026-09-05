@@ -432,7 +432,7 @@ export const FAQS = [
 // ─── Contact FAQ (for contact page) ───────────────────────────────────────────
 export const CONTACT_FAQS = [
   { q: "Comment se déroule le cours d'essai gratuit ?", a: "Le cours d'essai dure 60 à 75 minutes selon la discipline choisie. Arrivez 10 minutes avant pour un accueil personnalisé et une présentation du studio. Tout le matériel est fourni — venez juste en tenue confortable." },
-  { q: "Comment accéder au studio depuis le centre de " + clientCityOr("Lyon") + " ?", a: "Nous sommes au 18 Rue de la Paix, 69002 " + clientCityOr("Lyon") + ", à 5 minutes à pied de la station de métro Bellecour (lignes A et D). Des places de vélos sécurisées sont disponibles devant le studio." },
+  { q: "Comment accéder au studio depuis le centre de " + clientCityOr("Lyon") + " ?", a: "Le studio est en centre-ville de " + clientCityOr("Lyon") + ", facilement accessible à pied, à vélo ou en transports en commun." },
   { q: "Dois-je m'inscrire à l'avance ou puis-je venir directement ?", a: "L'inscription préalable est recommandée car les places sont limitées (10–15 par cours). Vous pouvez réserver via ce formulaire, par téléphone ou sur notre application. Les walk-ins sont acceptés si des places sont disponibles." },
   { q: "Le studio propose-t-il des vestiaires et des douches ?", a: "Oui, nous disposons de vestiaires mixtes avec casiers sécurisés et de 3 douches. Une tisanerie est à votre disposition avant et après chaque cours pour continuer la détente." },
   { q: "Quels modes de paiement acceptez-vous ?", a: "Nous acceptons les cartes bancaires, les virements SEPA, le chèque et les espèces. Le paiement par carte bancaire est disponible directement à l'accueil et en ligne via notre système sécurisé." },

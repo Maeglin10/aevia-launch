@@ -15,6 +15,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAccrocheRestante,
   clientBookingUrl,
+  clientAddress,
   clientCity,
   clientHeroLine,
   clientName,
@@ -231,7 +232,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
         <span style={{ fontStyle: 'italic' }}>en plein cœur.</span>
       </>
     ),
-    body: 'Place du Parlement, à deux pas de la cathédrale : 50 places en salle, 20 en terrasse, un comptoir ouvert du mardi au dimanche de 7h à 18h. Un espace à la fois boulangerie de quartier et café bistronomique.',
+    body: clientName(sessionData) ? 'Un comptoir ouvert du mardi au dimanche de 7h à 18h. Un espace à la fois boulangerie de quartier et café bistronomique.' : 'Place du Parlement, à deux pas de la cathédrale : 50 places en salle, 20 en terrasse, un comptoir ouvert du mardi au dimanche de 7h à 18h. Un espace à la fois boulangerie de quartier et café bistronomique.',
     reverse: true,
     numeral: '02',
   },
@@ -489,10 +490,10 @@ function Nav() {
         ) : (
           fd?.businessName ?? (
           <>
-            {(clientName(sessionData) ?? "Le Fournil du Parlement").split(" ").slice(0, 2).join(" ")}<br />
+            {clientName(sessionData) ?? <>Le Fournil<br />
             <span style={{ fontStyle: 'italic', fontSize: '0.78em', color: 'rgba(240,221,184,0.7)', letterSpacing: '0.04em' }}>
               du Parlement
-            </span>
+            </span></>}
           </>
           )
         )}
@@ -692,7 +693,7 @@ function Hero() {
           transition={{ duration: 1.1, ease: EASE, delay: 0.1 }}
         >
           <Eyebrow color={C.accentLight} align="left" light>
-            Boulangerie-Café Bistronomique · {clientCity(sessionData) ?? "Strasbourg"} depuis 2009
+            Boulangerie-Café Bistronomique · {clientCity(sessionData) ?? "Strasbourg"}{clientName(sessionData) ? "" : " depuis 2009"}
           </Eyebrow>
         </motion.div>
 
@@ -805,7 +806,7 @@ function Intro() {
             color: C.ink,
           }}
         >{/* TEXTE_SECTION */ clientText(sessionData, "intro.texte") ?? (<>
-          Nourrir {clientCity(sessionData) ?? "Strasbourg"} depuis 2009,{' '}
+          Nourrir {clientCity(sessionData) ?? "Strasbourg"}{clientName(sessionData) ? "" : " depuis 2009"},{' '}
           <span style={{ fontStyle: 'italic', color: C.accent }}>
             avec les mains et avec le cœur.
           </span>
@@ -2047,11 +2048,11 @@ function Footer() {
               lineHeight: 1.3,
             }}
           >
-            {(clientName(sessionData) ?? "Le Fournil du Parlement").split(" ").slice(0, 2).join(" ")}
+            {clientName(sessionData) ?? <>Le Fournil
             <br />
             <span style={{ fontStyle: 'italic', color: C.accentLight, fontSize: '0.82em' }}>
               du Parlement
-            </span>
+            </span></>}
           </a>
 
           <p
@@ -2065,8 +2066,8 @@ function Footer() {
               maxWidth: 300,
             }}
           >
-            Boulangerie-café bistronomique. Pain vivant, café vivant.
-            {clientCity(sessionData) ?? "Strasbourg"}, depuis 2009.
+            Boulangerie-café bistronomique. Pain vivant, café vivant.{' '}
+            {clientCity(sessionData) ?? "Strasbourg"}{clientName(sessionData) ? "." : ", depuis 2009."}
           </p>
 
           <div
@@ -2083,7 +2084,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-            Place du Parlement · 67000 {clientCity(sessionData) ?? "Strasbourg"}
+            {clientAddress(sessionData) ?? clientCity(sessionData) ?? "Place du Parlement · 67000 Strasbourg"}
           </div>
 
           <div
@@ -2170,7 +2171,7 @@ function Footer() {
           color: 'rgba(240,221,184,0.40)',
         }}
       >
-        <span>© 2009–2026 {clientName(sessionData) ?? "Le Fournil du Parlement"} · {clientCity(sessionData) ?? "Strasbourg"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© {clientName(sessionData) ? "2026" : "2009–2026"} {clientName(sessionData) ?? "Le Fournil du Parlement"} · {clientCity(sessionData) ?? "Strasbourg"}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#reservation" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2264,7 +2265,7 @@ export default function Page() {
     EDIT_ROWS_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

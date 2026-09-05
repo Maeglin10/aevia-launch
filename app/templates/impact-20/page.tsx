@@ -624,7 +624,7 @@ function SectionReveal({
 // ─── Data ────────────────────────────────────────────────────────────────────
 
 function PRODUCTS_DEMO_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ price: "", subtitle: "",  name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}) })), [
   {
     name: "Solitaire Éternité",
     image: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=800&q=80"),
@@ -724,7 +724,7 @@ function buildProducts(): ProductCard[] {
       image: PRODUCTS_DEMO[i % PRODUCTS_DEMO.length].image,
       subtitle: PRODUCTS_DEMO[i % PRODUCTS_DEMO.length].subtitle,
       material: s.description ?? PRODUCTS_DEMO[i % PRODUCTS_DEMO.length].material,
-      price: s.price ?? PRODUCTS_DEMO[i % PRODUCTS_DEMO.length].price,
+      price: s.price ?? "",
       category: s.category ?? PRODUCTS_DEMO[i % PRODUCTS_DEMO.length].category,
       color: PRODUCTS_DEMO[i % PRODUCTS_DEMO.length].color,
     })),
@@ -1344,7 +1344,7 @@ export default function LuxuryJewelryTemplate() {
                   fontFamily: "Georgia, serif",
                 }}
               >
-                {clientCity(sessionData) ?? "Paris"} · Depuis 1947
+                {clientCity(sessionData) ?? "Paris · Depuis 1947"}
               </p>
             </div>
           </motion.div>
@@ -1448,7 +1448,7 @@ export default function LuxuryJewelryTemplate() {
                     fontFamily: "Georgia, serif",
                   }}
                 >
-                  {clientCity(sessionData) ?? "Paris"} · Maison fondée en 1947
+                  {clientCity(sessionData) ? `${clientCity(sessionData)} · Maison de confiance` : "Paris · Maison fondée en 1947"}
                 </span>
               </div>
             </SectionReveal>
@@ -2639,7 +2639,7 @@ export default function LuxuryJewelryTemplate() {
                   fontFamily: "Georgia, serif",
                 }}
               >
-                Haute Joaillerie · {clientCity(sessionData) ?? "Paris"} · Depuis 1947
+                Haute Joaillerie · {clientCity(sessionData) ?? "Paris · Depuis 1947"}
               </p>
             </div>
 
@@ -3219,7 +3219,7 @@ function AtelierPage() {
 
       <div style={{ display: "flex", flexDirection: "column", gap: 48, fontSize: 16, lineHeight: 1.9, color: "rgba(240,236,224,0.75)" }}>
         <p style={{ fontStyle: "italic" }}>
-          Depuis sa fondation en 1947, la {clientName(sessionData) ?? "MAISON ÉLARA"} s'est imposée comme le gardien d'un savoir-faire d'exception.
+          {clientName(sessionData) ? `La ${clientName(sessionData)}` : "Depuis sa fondation en 1947, la MAISON ÉLARA"} s'est imposée comme le gardien d'un savoir-faire d'exception.
           Installé dans un hôtel particulier historique à quelques pas de la Place Vendôme, notre atelier réunit
           douze maîtres joailliers dévoués à l'excellence.
         </p>
@@ -3713,7 +3713,7 @@ function ContactPage() {
               L'Atelier
             </h2>
             <p style={{ color: "rgba(240,236,224,0.7)", fontSize: 15, lineHeight: 1.8, fontStyle: "italic" }}>
-              Place Vendôme, 75001 {clientCity(sessionData) ?? "Paris"} (sur rendez-vous uniquement)<br />
+              Place Vendôme, {clientCity(sessionData) ?? "75001 Paris"} (sur rendez-vous uniquement)<br />
               Téléphone : {clientPhone(sessionData) ?? "+33 1 42 60 00 00"}<br />
               E-mail : {clientEmail(sessionData) ?? fd?.email ?? "contact@exemple.fr"}
             </p>

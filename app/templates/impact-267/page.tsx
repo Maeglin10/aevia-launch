@@ -201,7 +201,7 @@ function EDIT_ROWS_DEMO_SOURCE_LIVE() {
         <span style={{ fontStyle: 'italic' }}>sans compromis.</span>
       </>
     ),
-    body: "Au cœur des Pentes de la Croix-Rousse, notre galerie-atelier accueille chaque client avec une consultation d'au moins une heure. Aucun flash, aucun copié-collé — chaque tatouage est un dessin original pensé pour vous, une seule fois.",
+    body: (clientName(sessionData) ? "Notre galerie-atelier accueille chaque client avec une consultation d'au moins une heure." : "Au cœur des Pentes de la Croix-Rousse, notre galerie-atelier accueille chaque client avec une consultation d'au moins une heure.") + " Aucun flash, aucun copié-collé — chaque tatouage est un dessin original pensé pour vous, une seule fois.",
     img: (clientPhotos(sessionData)[9] || `https://images.pexels.com/photos/6593372/pexels-photo-6593372.jpeg?auto=compress&cs=tinysrgb&w=800`),
     alt: "Vue de l'atelier Encre Vivante à Lyon",
     reverse: false,
@@ -210,11 +210,11 @@ function EDIT_ROWS_DEMO_SOURCE_LIVE() {
     eyebrow: (clientCity(sessionData) ?? 'Lyon'),
     title: (
       <>
-        La Croix-Rousse /{' '}
+        {clientCity(sessionData) ? clientCity(sessionData) + " /" : "La Croix-Rousse /"}{' '}
         <span style={{ fontStyle: 'italic' }}>rebelle.</span>
       </>
     ),
-    body: "Nous avons choisi les Pentes pour leur ADN : artisanat, indépendance, créativité. Nos clients viennent de toute la France et du monde entier pour un rendez-vous qui peut se réserver six mois à l'avance. La rareté, c'est une forme de respect.",
+    body: (clientName(sessionData) ? "Nous avons choisi ce quartier pour son ADN : artisanat, indépendance, créativité." : "Nous avons choisi les Pentes pour leur ADN : artisanat, indépendance, créativité.") + " Nos clients viennent de toute la France et du monde entier pour un rendez-vous qui peut se réserver six mois à l'avance. La rareté, c'est une forme de respect.",
     img: (clientPhotos(sessionData)[10] || `https://images.pexels.com/photos/28991646/pexels-photo-28991646.jpeg?auto=compress&cs=tinysrgb&w=800`),
     alt: 'Vue des Pentes de la Croix-Rousse à Lyon',
     reverse: true,
@@ -664,7 +664,7 @@ function Hero() {
           transition={{ duration: 1.0, ease: EASE, delay: 0 }}
         >
           <Eyebrow color={C.accent} align="left">
-            Tatouage · {clientCity(sessionData) ?? "Lyon"} Croix-Rousse
+            Tatouage · {clientCity(sessionData) ?? "Lyon Croix-Rousse"}
           </Eyebrow>
         </motion.div>
 
@@ -2058,7 +2058,7 @@ function Footer() {
             }}
           >
             Tatouage contemporain & art corporel.
-            Pentes de la Croix-Rousse — {clientCity(sessionData) ?? "Lyon"}.
+            {clientCity(sessionData) ?? "Pentes de la Croix-Rousse — Lyon"}.
           </p>
           <div
             style={{
@@ -2238,7 +2238,7 @@ export default function Page() {
     EDIT_ROWS_DEMO_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, context: "", })),
     TESTIMONIALS_SOURCE,
   );
   EDIT_ROWS = EDIT_ROWS_DEMO.map((row, i) => ({

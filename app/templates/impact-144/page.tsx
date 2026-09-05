@@ -57,7 +57,7 @@ const WORDS_1 = ["DESIGN", "MOTION", "IDENTITY", "STRATEGY", "CONTENT", "DIGITAL
 const WORDS_2 = ["CREATE", "LAUNCH", "SCALE", "DISRUPT", "CONVERT", "ENGAGE", "GROW"]
 
 function WORK_DEMO_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, type: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ client: "",  title: o.title, type: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { title: "Neon Drift", client: "Pulse Gaming", type: "Brand Launch", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=1200&auto=format&fit=crop") },
   { title: "Apex Protocol", client: "Velos Finance", type: "Web3 Campaign", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200") },
   { title: "Silk Thread", client: "Maison Versa", type: "Motion Design", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=1200") },
@@ -140,15 +140,15 @@ export default function KineticMarqueePage() {
   WORK_DEMO = WORK_DEMO_LIVE();
 
   SERVICES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, text: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, text: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   TESTIMONIALS = resolveList(
-    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], text: r.text, author: r.author })),
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], text: r.text, author: r.author, role: "", })),
     TESTIMONIALS_DEMO,
   );
   WORK = WORK_DEMO.map((row, i) => ({
@@ -156,7 +156,7 @@ export default function KineticMarqueePage() {
     img: clientPhotos(session)[0 + i] || row.img,
   }));
   SERVICES = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
+    clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title, desc: s.desc || "" })),
     SERVICES_DEMO,
   );
 
@@ -207,7 +207,7 @@ export default function KineticMarqueePage() {
               />
             ) : (
               <>
-            KIN<span className="text-[var(--brand,#f97316)]">{/* NOM_LOGO */ clientName(sessionData) ?? "ETIC"}</span>
+            {clientName(sessionData) ? null : "KIN"}<span className="text-[var(--brand,#f97316)]">{/* NOM_LOGO */ clientName(sessionData) ?? "ETIC"}</span>
           </>
             )}</Link>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40">

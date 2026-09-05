@@ -134,7 +134,7 @@ function useFonts() {
 const NAV_LINKS = ["Collections", "Tirages", "Terrain", "À propos", "Contact"]
 
 function SLIDES_DEMO_SOURCE_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, subtitle: "", season: "", ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     id: 1,
     title: "Forêts Primaires",
@@ -638,7 +638,7 @@ export default function Impact114Page() {
     SLIDES_DEMO_SOURCE,
   );
   PRINTS = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PRINTS_SOURCE[i % PRINTS_SOURCE.length], label: s.title, desc: s.desc || "" || "", price: s.price ?? PRINTS_SOURCE[i % PRINTS_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRINTS_SOURCE[i % PRINTS_SOURCE.length], label: s.title, desc: s.desc || "" || "", price: s.price ?? "" })),
     PRINTS_SOURCE,
   );
 
@@ -1140,7 +1140,7 @@ export default function Impact114Page() {
                   className="text-[#faf8f3]/50 text-xs tracking-[0.2em] uppercase"
                   style={{ fontFamily: "'Source Serif 4', serif" }}
                 >
-                  Forêt Lacandone, Mexique · 2024
+                  {clientName(sessionData) ? "" : "Forêt Lacandone, Mexique · 2024"}
                 </span>
               </div>
             </div>
@@ -1159,7 +1159,7 @@ export default function Impact114Page() {
               <h2
                 className="text-4xl md:text-5xl text-[var(--brand,#2d1b0e)] mb-8 leading-[1.15]"
                 style={{ fontFamily: "'Playfair Display', serif", fontWeight: 700 }}
-              >{/* TEXTE_SECTION */ clientText(sessionData, "apropos.titre") ?? (<>
+              >{/* TEXTE_SECTION */ clientText(sessionData, "apropos.titre") ?? clientName(sessionData) ?? (<>
                 Julien Moreau
               </>)}</h2>
 
@@ -1179,7 +1179,7 @@ export default function Impact114Page() {
                   Ses expéditions durent rarement moins de trois semaines. Il dort sur place, mange local, apprend les langues. "On ne peut pas photographier ce qu'on ne comprend pas", répète-t-il à ses étudiants.
                 </p>
                 <p>
-                  Son travail a été exposé au Musée de la Nature de Berlin, au Natural History Museum de Londres, et dans 23 pays. 200 collections. 48 territoires. Un seul sujet : la beauté périssable du monde naturel.
+                  {clientName(sessionData) ? "" : "Son travail a été exposé au Musée de la Nature de Berlin, au Natural History Museum de Londres, et dans 23 pays. 200 collections. 48 territoires. Un seul sujet : la beauté périssable du monde naturel."}
                 </p>
               </div>
 
@@ -1187,8 +1187,8 @@ export default function Impact114Page() {
 
               <div className="flex gap-6 flex-wrap">
                 {[
-                  { icon: Instagram, label: "@" + (clientInstagram(sessionData) ?? "terra.moreau") },
-                  { icon: Globe, label: "terra-photo.com" },
+                  ...(clientInstagram(sessionData) || !clientName(sessionData) ? [{ icon: Instagram, label: "@" + (clientInstagram(sessionData) ?? "terra.moreau") }] : []),
+                  ...(clientName(sessionData) ? [] : [{ icon: Globe, label: "terra-photo.com" }]),
                   { icon: Mail, label: (clientEmail(sessionData) ?? fd?.email ?? "contact@terra-photo.com") },
                 ].map((item) => {
                   const Icon = item.icon

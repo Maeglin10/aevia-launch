@@ -135,7 +135,7 @@ const METHODE_DEMO = [
 let METHODE = METHODE_DEMO;
 
 const ENGAGEMENT_DEMO = [
-  "Qualibat 3231 « patrimoine bâti » — au-delà de la couverture courante",
+  "Qualification patrimoine bâti — au-delà de la couverture courante",
   "Garantie décennale, assurance spécifique monuments et bâtiments classés",
   "Matériaux d'origine française sourcés et documentés sur facture",
   "Un compagnon référent par chantier, joignable directement",
@@ -1100,7 +1100,7 @@ function Contact() {
             >
               {/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? (
                 <>
-                  Diagnostic patrimonial dans toute la Seine-Maritime. Nous intervenons aussi en conseil
+                  Diagnostic patrimonial {clientCity(sessionData) ? <>à {clientCity(sessionData)} et alentours</> : "dans toute la Seine-Maritime"}. Nous intervenons aussi en conseil
                   avant achat d'une maison ancienne.
                 </>
               )}
@@ -1126,7 +1126,7 @@ function Contact() {
                 l: "Atelier",
                 v:
                   clientAddress(sessionData) ??
-                  clientCodePostalVille(sessionData, "76000", "Rouen") + ", Seine-Maritime",
+                  clientCodePostalVille(sessionData, "76000", "Rouen") + (clientCity(sessionData) ? "" : ", Seine-Maritime"),
               },
             ].map((row, n) => (
               <div
@@ -1154,7 +1154,7 @@ function Contact() {
                 Secteurs d'intervention
               </div>
               <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                {(zones ?? ["Seine-Maritime", clientCity(sessionData) ?? "Rouen", "Bâti ancien & secteur sauvegardé"]).map(
+                {(zones ?? (clientCity(sessionData) ? [clientCity(sessionData)!, "Bâti ancien & secteur sauvegardé"] : ["Seine-Maritime", "Rouen", "Bâti ancien & secteur sauvegardé"])).map(
                   (z, n) => (
                     <span
                       key={`${z}-${n}`}
@@ -1195,12 +1195,12 @@ function Footer() {
             <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: 13.5, lineHeight: 1.8, margin: 0, maxWidth: 380 }}>
               {clientTrade(sessionData) ?? "Couverture patrimoniale"} · {clientCity(sessionData) ?? "Rouen"}
               <br />
-              Décennale, Qualibat patrimoine bâti 3231
+              {clientName(sessionData) ? "Décennale, qualification patrimoine bâti" : "Décennale, Qualibat patrimoine bâti 3231"}
             </p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
             {[
-              { icon: <MapPin size={13} strokeWidth={1.5} />, t: clientCodePostalVille(sessionData, "76000", "Rouen") + ", Seine-Maritime" },
+              { icon: <MapPin size={13} strokeWidth={1.5} />, t: clientCodePostalVille(sessionData, "76000", "Rouen") + (clientCity(sessionData) ? "" : ", Seine-Maritime") },
               { icon: <Phone size={13} strokeWidth={1.5} />, t: tel },
               { icon: <Compass size={13} strokeWidth={1.5} />, t: "Lun–Ven 8h–18h" },
             ].map((row, n) => (
@@ -1298,8 +1298,7 @@ export default function ZincEtArdoisePage() {
     clientReviews(sessionData)?.map((r: any, i: number) => ({
       ...AVIS_SOURCE[i % AVIS_SOURCE.length],
       auteur: r.author,
-      texte: r.text,
-    })),
+      texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   AVIS = resolveList(
@@ -1315,7 +1314,7 @@ export default function ZincEtArdoisePage() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_DEMO[i % TARIFS_DEMO.length],
       a: s.title,
-      p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p,
+      p: s.price ?? "Sur devis",
       n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n,
     })),
     TARIFS_DEMO,

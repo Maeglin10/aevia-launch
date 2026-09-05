@@ -109,7 +109,7 @@ export default function ZenithLayout({
               <div className="w-10 h-10 border border-[#c9a96e]/30 flex items-center justify-center">
                 <Watch className="w-5 h-5 text-[#c9a96e]" />
               </div>
-              <span className="text-xl font-light tracking-[0.4em] uppercase text-white">Zenith Watch</span>
+              <span className="text-xl font-light tracking-[0.4em] uppercase text-white">{clientName(__layoutSession) ?? "Zenith Watch"}</span>
             </Link>
             <p className="text-white/20 max-w-sm leading-relaxed mb-12 text-sm font-light italic">
               &quot;In the silence of the gears, we find the absolute rhythm of existence. Mastered in Geneva since 1892.&quot;

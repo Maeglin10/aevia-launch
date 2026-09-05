@@ -219,7 +219,7 @@ return (
         >
           <div className="flex flex-col items-end gap-3">
             <span className="text-[10px] font-bold text-[#1a1814]/20 uppercase tracking-[0.5em]">
-              {clientCity(sessionData) ?? "PARIS"} VIII // ATELIER PRIVÉ
+              {clientCity(sessionData) ? `${clientCity(sessionData).toUpperCase()} // ATELIER PRIVÉ` : "PARIS VIII // ATELIER PRIVÉ"}
             </span>
             <div className="w-24 h-[1px] bg-[var(--brand,#c9b7a1)]/40" />
           </div>

@@ -146,7 +146,7 @@ function INTERVENTIONS_DEMO_LIVE() {
     index: 'I',
     label: 'PLOMBERIE',
     title: 'Plomberie',
-    body: 'Fuites détectées à la caméra, réfection de réseaux, sanitaires — intervention le jour même sur ' + (clientCity(sessionData) ?? 'Lyon') + ' Métropole.',
+    body: 'Fuites détectées à la caméra, réfection de réseaux, sanitaires — intervention le jour même sur ' + (clientCity(sessionData) ?? 'Lyon') + (clientCity(sessionData) ? ' et alentours.' : ' Métropole.'),
   },
   {
     img: (clientPhotos(sessionData)[3] || 'https://images.pexels.com/photos/7859953/pexels-photo-7859953.jpeg?auto=compress&cs=tinysrgb&w=1600'),
@@ -169,7 +169,7 @@ let INTERVENTIONS = INTERVENTIONS_DEMO;
 
 function SERVICES_DEMO_LIVE() {
   return [
-  { icon: <Wrench size={20} strokeWidth={1.6} />, title: 'Dépannage urgent', desc: "Intervention d'urgence sous 2h sur " + (clientCity(sessionData) ?? "Lyon") + " Métropole, 7j/7 et 24h/24." },
+  { icon: <Wrench size={20} strokeWidth={1.6} />, title: 'Dépannage urgent', desc: "Intervention d'urgence sous 2h sur " + (clientCity(sessionData) ?? "Lyon") + (clientCity(sessionData) ? " et alentours" : " Métropole") + ", 7j/7 et 24h/24." },
   { icon: <Wrench size={20} strokeWidth={1.6} />, title: 'Installation chauffe-eau', desc: 'Pose et remplacement de ballon électrique ou thermodynamique, toutes marques.' },
   { icon: <Wrench size={20} strokeWidth={1.6} />, title: 'Chaudière gaz', desc: 'Installation, entretien et dépannage de chaudières à condensation — certificat RGE.' },
   { icon: <Wrench size={20} strokeWidth={1.6} />, title: 'Pompe à chaleur', desc: "Air/eau, géothermique : conception, pose, mise en service. MaPrimeRénov' incluse." },
@@ -193,7 +193,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
         </span>
       </>
     ),
-    body: "Réponse garantie sous 2h sur " + (clientCity(sessionData) ?? "Lyon") + " Métropole. Tarification fixe communiquée avant intervention — aucune mauvaise surprise. Garantie décennale sur toutes nos installations.",
+    body: "Réponse garantie sous 2h sur " + (clientCity(sessionData) ?? "Lyon") + (clientCity(sessionData) ? " et alentours" : " Métropole") + ". Tarification fixe communiquée avant intervention — aucune mauvaise surprise. Garantie décennale sur toutes nos installations.",
     reverse: false,
     ghost: '01',
   },
@@ -778,7 +778,7 @@ function Hero() {
           }}
         >
           Plomberie, chauffage et énergies renouvelables — intervention rapide
-          sur {clientCity(sessionData) ?? "Lyon"} Métropole, devis offert et aides de l&apos;État incluses.
+          sur {clientCity(sessionData) ?? "Lyon"}{clientCity(sessionData) ? " et alentours" : " Métropole"}, devis offert et aides de l&apos;État incluses.
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -2146,7 +2146,7 @@ function Footer() {
             }}
           >
             Plombier-Chauffagiste & Énergies Renouvelables. Certifié RGE.
-            Intervention rapide sur {clientCity(sessionData) ?? "Lyon"} Métropole.
+            Intervention rapide sur {clientCity(sessionData) ?? "Lyon"}{clientCity(sessionData) ? " et alentours" : " Métropole"}.
           </p>
           <div
             style={{
@@ -2182,7 +2182,7 @@ function Footer() {
               }}
             >
               <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-              {clientCity(sessionData) ?? "Lyon"} · {clientCity(sessionData) ?? "Villeurbanne"} · Bron · Vénissieux
+              {clientCity(sessionData) ? `${clientCity(sessionData)} et alentours` : "Lyon · Villeurbanne · Bron · Vénissieux"}
             </div>
           </div>
         </div>
@@ -2353,7 +2353,7 @@ export default function Page() {
     EDIT_ROWS_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   INTERVENTIONS = INTERVENTIONS_DEMO.map((row, i) => ({

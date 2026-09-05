@@ -51,6 +51,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientSiret,
   clientPhone,
   clientPhotos,
   clientReviews,
@@ -94,7 +95,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   OSTÉO PÉRINATAL {clientCity(sessionData) ?? "NICE"} — {clientTrade(sessionData) ?? "Ostéopathe"} périnatal {clientCity(sessionData) ?? "Nice"} Cimiez — nourrissons, grossesse, post-partum. Merriweather, rose / vert sauge.
+   OSTÉO PÉRINATAL {clientCity(sessionData) ?? "NICE"} — {clientTrade(sessionData) ?? "Ostéopathe"} périnatal {clientCity(sessionData) ?? "Nice Cimiez"} — nourrissons, grossesse, post-partum. Merriweather, rose / vert sauge.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -562,7 +563,7 @@ return (
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
-              Nourrissons, femmes enceintes, post-partum. Cabinet doux et bienveillant, {clientCity(sessionData) ?? "Nice"} Cimiez.
+              Nourrissons, femmes enceintes, post-partum. Cabinet doux et bienveillant, {clientCity(sessionData) ?? "Nice Cimiez"}.
             </>}</p>
           </Reveal>
 
@@ -1141,7 +1142,7 @@ return (
                     </div>
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Téléphone</div>
-                      <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33570615372").replace(/[^+0-9]/g, "")}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>+33 (0)5 00 00 00 00</a>
+                      <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33570615372").replace(/[^+0-9]/g, "")}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>{clientPhone(sessionData) ?? fd?.phone ?? "+33 (0)5 00 00 00 00"}</a>
                     </div>
                   </div>
 
@@ -1184,7 +1185,7 @@ return (
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Localisation</div>
                       <div style={{ fontSize: 15, color: C.text, fontWeight: 700 }}>
-                        {clientCity(sessionData) ?? "Nice"} Cimiez
+                        {clientCity(sessionData) ?? "Nice Cimiez"}
                       </div>
                     </div>
                   </div>
@@ -1307,7 +1308,7 @@ return (
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Ostéo Périnatal Nice"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                {clientTrade(sessionData) ?? "Ostéopathe"} périnatal {clientCity(sessionData) ?? "Nice"} Cimiez
+                {clientTrade(sessionData) ?? "Ostéopathe"} périnatal {clientCity(sessionData) ?? "Nice Cimiez"}
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ /* Le rose du thème donne 2,3 sur blanc : on écrit avec sa version sombre. */
@@ -1340,9 +1341,9 @@ return (
               <h5 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', /* Le rose du thème donne 2,3 sur blanc : on écrit avec sa version sombre. */
             color: C.primaryDark, marginBottom: 16, fontWeight: 700 }}>Légal</h5>
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
-                SIRET: 894 302 596 00012<br />
-                TVA Intracommunautaire: FR 89 894302596<br />
-                Responsable de publication: Ostéo Périnatal {clientCity(sessionData) ?? "Nice"}<br />
+                {clientSiret(sessionData) ? <>SIRET: {clientSiret(sessionData)}<br /></> : clientName(sessionData) ? null : <>SIRET: 894 302 596 00012<br />
+                TVA Intracommunautaire: FR 89 894302596<br /></>}
+                Responsable de publication: {clientName(sessionData) ?? "Ostéo Périnatal Nice"}<br />
                 Hébergeur: Vercel Inc.
               </p>
             </div>

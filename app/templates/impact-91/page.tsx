@@ -52,6 +52,7 @@ import {
   clientTagline,
   clientText,
   fusionnerEtapes,
+  clientCertifications,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -158,7 +159,7 @@ function buildCollections() {
   const pieces = (clientServices(sessionData) ?? []).map((s: any, i: number) => ({
     name: s.title ?? s.name,
     material: s.description ?? demoPieces[i % demoPieces.length].material,
-    price: s.price ?? demoPieces[i % demoPieces.length].price,
+    price: s.price ?? "",
     img: demoPieces[i % demoPieces.length].img,
   }));
   return COLLECTIONS_DEMO.map((season) => ({ ...season, pieces }));
@@ -544,7 +545,7 @@ function Hero() {
             className="text-[10px] tracking-[0.30em] uppercase"
             style={{ fontFamily: "'Montserrat', sans-serif", color: C.gold, fontWeight: 500 }}
           >
-            Maison fondée en 1977 · {clientCity(sessionData) ?? "Paris"}
+            {clientCity(sessionData) ? `Maison de confiance · ${clientCity(sessionData)}` : "Maison fondée en 1977 · Paris"}
           </span>
           <div className="h-[1px] w-12" style={{ backgroundColor: C.gold }} />
         </motion.div>
@@ -946,7 +947,7 @@ function SavoirFaireSection() {
                 Fondée dans les ateliers du Marais, {clientName(sessionData) ?? "AURELIA"} perpétue les techniques de l'orfèvrerie française transmises de maître en apprenti depuis cinq générations. Chaque pièce est le fruit d'un minimum de 200 heures de travail à la main.
               </p>
               <div className="flex flex-wrap gap-6">
-                {/* LISTE_LIBELLES */ (clientList(sessionData, "savoir-faire.liste1") ?? ["Certification Hallmark 18K", "Membre du Comité Vendôme", "Label Entreprise du Patrimoine Vivant"]).map((badge) => (
+                {/* LISTE_LIBELLES */ (clientList(sessionData, "savoir-faire.liste1") ?? clientCertifications(sessionData) ?? (clientName(sessionData) ? [] : ["Certification Hallmark 18K", "Membre du Comité Vendôme", "Label Entreprise du Patrimoine Vivant"])).map((badge) => (
                   <div key={badge} className="flex items-center gap-2">
                     <Award size={14} color={C.gold} />
                     <span
@@ -1495,7 +1496,7 @@ function ContactSection() {
 
             <div className="space-y-6 mb-12">
               {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
-                { icon: MapPin, label: "Adresse", value: `12 Rue de la Paix, 75001 ${clientCity(sessionData) ?? "Paris"}` },
+                { icon: MapPin, label: "Adresse", value: clientAddress(sessionData) ?? (clientCity(sessionData) ?? "12 Rue de la Paix, 75001 Paris") },
                 { icon: Phone, label: "Téléphone", value: clientPhone(sessionData) ?? "+33 1 42 60 29 14" },
                 { icon: Mail, label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "contact@aurelia-joaillerie.fr") },
                 { icon: Clock, label: "Horaires", value: "Lun–Sam 10h–19h · Dim sur RDV" },
@@ -1544,7 +1545,7 @@ function ContactSection() {
                     className="text-[12px] tracking-[0.12em] uppercase"
                     style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 500, color: C.navyDeep }}
                   >
-                    {clientAddress(sessionData) ?? "12 Rue de la Paix · Paris 1er"}
+                    {clientAddress(sessionData) ?? (clientCity(sessionData)?.toUpperCase() ?? "12 Rue de la Paix · Paris 1er")}
                   </p>
                 </div>
               </div>
@@ -1813,7 +1814,7 @@ function Footer() {
             className="text-[11px] tracking-[0.08em]"
             style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 300, color: `${C.cream}40` }}
           >
-            © 2025 {clientName(sessionData) ?? "Aurelia Joaillerie."} Tous droits réservés. Entreprise du Patrimoine Vivant.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2025 {clientName(sessionData) ?? "Aurelia Joaillerie."} Tous droits réservés.{clientName(sessionData) ? "" : " Entreprise du Patrimoine Vivant."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </p>
           <div className="flex gap-6">
             <Link
@@ -1905,7 +1906,7 @@ export default function Impact91Page() {
   PRESS_DEMO = PRESS_DEMO_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text, location: "", })),
     TESTIMONIALS_SOURCE,
   );
   PRESS = resolveList(

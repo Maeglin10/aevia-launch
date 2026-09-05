@@ -58,6 +58,7 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientCertifications,
   clientStats,
   clientText,
   memoriserSession,
@@ -210,10 +211,23 @@ export default function Impact49Page() {
   const activePlan =
     SKILL_PATHS.find((p) => p.id === activePath) ?? SKILL_PATHS[0];
 
-  const filteredCourses = COURSES.filter((course) => {
+  const COURSES_LIVE = resolveList(
+    clientServices(session)?.map((sv: any, i: number) => ({
+      ...COURSES[i % COURSES.length],
+      title: sv.title,
+      instructor: "",
+      students: "",
+      rating: "",
+      duration: "",
+      price: sv.price ?? "",
+      badge: "",
+    })),
+    COURSES,
+  );
+  const filteredCourses = COURSES_LIVE.filter((course) => {
     const matchesSearch =
       course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      course.instructor.toLowerCase().includes(searchQuery.toLowerCase());
+      (course.instructor ?? "").toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = activeCategory
       ? course.category === activeCategory
       : true;
@@ -445,11 +459,13 @@ return (
                           {course.title}
                         </h3>
                         <p className="text-xs text-[#6B7280] mb-4">
-                          Par {course.instructor}
+                          {course.instructor ? `Par ${course.instructor}` : ""}
                         </p>
+                        {course.rating ? (
                         <div className="mb-6">
                           <StarRating rating={course.rating} />
                         </div>
+                        ) : null}
                       </div>
                       <div>
                         <div className="flex items-center gap-4 text-xs font-semibold text-[#4B5563] mb-6">
@@ -459,7 +475,7 @@ return (
                           </span>
                           <span className="flex items-center gap-1.5">
                             <Users className="w-4 h-4 text-[#818CF8]" />
-                            {course.students} étudiants
+                            {course.students ? `${course.students} étudiants` : ""}
                           </span>
                         </div>
                         <div className="border-t border-[#EEF2FF] pt-5 flex items-center justify-between">
@@ -713,7 +729,7 @@ return (
                     Ils nous font confiance
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                    {COMPANY_LOGOS.slice(0, 4).map((logo) => (
+                    {(clientCertifications(session) ?? (clientName(session) ? [] : COMPANY_LOGOS)).slice(0, 4).map((logo) => (
                       <div
                         key={logo}
                         className="aspect-[2/1] bg-[#F9FAFB] rounded-xl flex items-center justify-center border border-[#F3F4F6]"

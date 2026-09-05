@@ -88,7 +88,7 @@ const NAV_PAGES: { key: EmberPage; label: string }[] = [
    ========================================================================= */
 
 function MENU_HIGHLIGHTS_DEMO_SOURCE_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ price: "",  name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     id: 1,
     name: "Dry-Aged Wagyu",
@@ -1129,7 +1129,7 @@ export default function EmberGrillPage() {
   MENU_HIGHLIGHTS_DEMO_SOURCE = MENU_HIGHLIGHTS_DEMO_SOURCE_LIVE();
 
   MENU_HIGHLIGHTS_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...MENU_HIGHLIGHTS_DEMO_SOURCE[i % MENU_HIGHLIGHTS_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? MENU_HIGHLIGHTS_DEMO_SOURCE[i % MENU_HIGHLIGHTS_DEMO_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...MENU_HIGHLIGHTS_DEMO_SOURCE[i % MENU_HIGHLIGHTS_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? "" })),
     MENU_HIGHLIGHTS_DEMO_SOURCE,
   );
   PHILOSOPHY = resolveList(
@@ -1216,9 +1216,11 @@ export default function EmberGrillPage() {
                       portait « Ember » sur le site de n'importe quel client. */}
                   {clientName(sessionData) ?? "Ember"}
                 </span>
+                {clientName(sessionData) ? null : (
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#ff4d00)] -mt-1 ml-1">
                   Grill & Cellar
                 </span>
+                )}
               </>
             )}
           </button>
@@ -1576,11 +1578,13 @@ export default function EmberGrillPage() {
             <Reveal>
               <div className="flex flex-col mb-12">
                 <span className="text-5xl font-black tracking-[-0.05em] uppercase leading-none italic text-white">
-                  Ember
+                  {clientName(sessionData) ?? "Ember"}
                 </span>
+                {clientName(sessionData) ? null : (
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#ff4d00)] -mt-1 ml-1">
                   Grill & Cellar
                 </span>
+                )}
               </div>
               <p className="text-white/20 max-w-md mb-16 text-[11px] font-bold uppercase tracking-[0.2em] leading-loose italic">
                 The primal alchemy of wood, fire, and time. An uncompromising
@@ -1687,7 +1691,7 @@ export default function EmberGrillPage() {
         <div className="max-w-[1600px] mx-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10">
           <div className="flex items-center gap-12">
             <span>
-              &copy; {new Date().getFullYear()} EMBER GRILL & CELLAR GROUP.
+              &copy; {new Date().getFullYear()} {(clientName(sessionData) ?? "EMBER GRILL & CELLAR GROUP").toUpperCase()}.
             </span>
             <div className="flex gap-8">
               <span>USDA_PRIME_CERTIFIED</span>

@@ -10,6 +10,7 @@ import {
   clientAccrocheRestante,
   clientCity,
   clientName,
+  clientHeroLine,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -149,9 +150,9 @@ return (
 
         <div style={{ position: "relative", zIndex: 1, maxWidth: "900px" }}>
           <div style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(2.5rem, 7vw, 6.5rem)", fontWeight: 900, lineHeight: 1.1, letterSpacing: "-0.04em", color: C.text }}>
-            <TextReveal delay={0.3}>FORMES</TextReveal>
-            <TextReveal delay={0.4} style={{ color: C.gold }}>ET</TextReveal>
-            <TextReveal delay={0.5}>VIDES</TextReveal>
+            <TextReveal delay={0.3}>{clientHeroLine(sessionData, 0, 3, 10) ?? "FORMES"}</TextReveal>
+            <TextReveal delay={0.4} style={{ color: C.gold }}>{clientHeroLine(sessionData, 1, 3, 10) ?? "ET"}</TextReveal>
+            <TextReveal delay={0.5}>{clientHeroLine(sessionData, 2, 3, 10) ?? "VIDES"}</TextReveal>
           </div>
 
           <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem", marginTop: "2rem", paddingTop: "1.5rem", borderTop: `1px solid ${C.border}` }}>
@@ -160,7 +161,7 @@ return (
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1 }}
               style={{ fontSize: "1.05rem", color: C.textMuted, lineHeight: 1.8, maxWidth: "42ch" }}
-            >{c?.aboutText ?? <>
+            >{c?.aboutText ?? clientTagline(sessionData) ?? <>
               Segment est un studio d'architecture fondé sur une conviction : la qualité d'un espace se mesure à ses silences autant qu'à sa matière. Vingt ans de pratique, vingt ans de cette même question.
             </>}</motion.p>
             <motion.div
@@ -263,8 +264,8 @@ return (
             </Link>
           </div>
           <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px", background: C.border }}>
-            {/* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
-              { num: "01", name: "Maison C.", type: "Résidentiel privé", loc: (clientCity(sessionData) ?? "Paris") + " 6e", year: "2024", img: photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80")) },
+            {/* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ loc: "", type: "",  name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+              { num: "01", name: "Maison C.", type: "Résidentiel privé", loc: (clientCity(sessionData) ?? "Paris 6e"), year: "2024", img: photo(0, (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80")) },
               { num: "02", name: "Médiathèque Évry", type: "Équipement culturel", loc: "Évry-Courcouronnes", year: "2024", img: photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=800&q=80")) },
               { num: "03", name: "Tour Belvedere", type: "Tertiaire — 4 200 m²", loc: "La Défense", year: "2023", img: photo(2, (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/7587375/pexels-photo-7587375.jpeg?auto=compress&cs=tinysrgb&w=1600")) },
               { num: "04", name: "Abbaye de Senlis", type: "Réhabilitation patrimoniale", loc: "Senlis, Oise", year: "2023", img: photo(3, (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1505761671935-60b3a7427bad?w=800&q=80")) },

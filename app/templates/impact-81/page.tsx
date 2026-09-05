@@ -111,9 +111,7 @@ export default function VogueNoirePage() {
 
       ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
 
-      quote: r.text, name: r.author,
-
-    })),
+      quote: r.text, name: r.author, role: "", })),
 
     AVIS_INLINE_SOURCE,
 

@@ -138,7 +138,7 @@ const METHODE_SOURCE = [
 ];
 
 const ENGAGEMENT_SOURCE = [
-  "Centre agréé par la préfecture de la Drôme (S 026 X 042), contrôleurs agréés individuellement",
+  "Centre agréé par la préfecture, contrôleurs agréés individuellement",
   "Indépendance totale : la loi nous interdit la réparation, nous ne recommandons aucun garage",
   "Prix affichés en salle d'attente et en ligne — le même pour tout le monde",
   "Équipements calibrés et vérifiés selon le référentiel OTC en vigueur",
@@ -449,7 +449,7 @@ export default function ControleRhodanienPage() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
       a: s.title ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].a,
-      p: s.price ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].p,
+      p: s.price ?? "Sur devis",
       n: s.description ?? s.desc ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
     })),
     TARIFS_SOURCE,
@@ -1088,7 +1088,7 @@ export default function ControleRhodanienPage() {
               <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 300, lineHeight: 1.8, color: C.textFaint, maxWidth: 340, margin: 0 }}>
                 Centre de contrôle technique agréé · {ville}
                 <br />
-                Agrément préfectoral S 026 X 042 — contrôleurs agréés
+                {clientName(sessionData) ? "Agrément préfectoral — contrôleurs agréés" : "Agrément préfectoral S 026 X 042 — contrôleurs agréés"}
               </p>
             </div>
 

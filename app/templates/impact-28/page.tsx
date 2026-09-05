@@ -130,13 +130,13 @@ export default function Home() {
   const projects: any[] = resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({
       name: b.caption ?? projects_DEMO[i % projects_DEMO.length].name,
-      loc: projects_DEMO[i % projects_DEMO.length].loc,
-      year: projects_DEMO[i % projects_DEMO.length].year,
-      type: projects_DEMO[i % projects_DEMO.length].type,
+      loc: "",
+      year: "",
+      type: "",
       img: b.afterUrl || b.beforeUrl || projects_DEMO[i % projects_DEMO.length].img,
-      area: projects_DEMO[i % projects_DEMO.length].area,
-      concrete: projects_DEMO[i % projects_DEMO.length].concrete,
-      structure: projects_DEMO[i % projects_DEMO.length].structure,
+      area: "",
+      concrete: "",
+      structure: "",
       description: b.caption ?? projects_DEMO[i % projects_DEMO.length].description,
     })),
     projects_DEMO
@@ -162,7 +162,7 @@ export default function Home() {
       quote: r.text ?? r.quote,
       author: r.name ?? r.author,
       title: r.location ?? r.context ?? "",
-      project: testimonials_DEMO[i % testimonials_DEMO.length].project,
+      project: "",
       img: testimonials_DEMO[i % testimonials_DEMO.length].img,
     })),
     testimonials_DEMO
@@ -213,7 +213,7 @@ export default function Home() {
                 transition={{ duration: 0.8 }}
                 className="text-white"
               >
-                <div className="text-xs font-bold tracking-[0.4em] uppercase mb-6 opacity-70">{clientCity(sessionData) ?? "Paris"} · Founded 2008</div>
+                <div className="text-xs font-bold tracking-[0.4em] uppercase mb-6 opacity-70">{clientCity(sessionData) ?? "Paris · Fondé en 2008"}</div>
                 <h1 className="font-black leading-[0.85] text-white mb-8" style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: "clamp(64px, 12vw, 160px)", letterSpacing: "-0.02em" }}>{<>{clientHeroLine(sessionData, 0, 3, 8) ?? "WE BUILD"}<br />{clientHeroLine(sessionData, 1, 3, 8) ?? "WHAT"}<br />{clientHeroLine(sessionData, 2, 3, 8) ?? "MATTERS."}</>}</h1>
               </motion.div>
             </div>

@@ -82,7 +82,7 @@ async function seed(templateId) {
   if (sessionUnique) {
     await throttled(`${BASE}/api/sessions?id=${sessionUnique}`, {
       method: "PATCH",
-      headers: { "content-type": "application/json" },
+      headers: { "content-type": "application/json", "x-edit-token": editToken },
       body: JSON.stringify({ formData: { template: templateId } }),
     });
     return sessionUnique;
@@ -114,11 +114,11 @@ async function semer(templateId) {
       },
     }),
   });
-  const { sessionId } = await post.json();
+  const { sessionId, editToken } = await post.json();
 
   await throttled(`${BASE}/api/sessions?id=${sessionId}`, {
     method: "PATCH",
-    headers: { "content-type": "application/json" },
+    headers: { "content-type": "application/json", "x-edit-token": editToken },
     body: JSON.stringify({
       businessProfile: {
         services: [

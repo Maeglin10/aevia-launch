@@ -20,6 +20,7 @@ import {
   clientSiret,
   clientTeam,
   clientText,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -245,7 +246,7 @@ export default function LegrandPage() {
             ) : (
               <>
                 <span className="text-lg font-bold tracking-wide" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Legrand & Associés"))}</span>
-                <span className="text-[10px] tracking-[0.2em] uppercase text-[var(--brand,#C9A855)]">Avocats au Barreau de {clientCity(sessionData) ?? "Paris"}</span>
+                <span className="text-[10px] tracking-[0.2em] uppercase text-[var(--brand,#C9A855)]">{clientName(sessionData) ? "Avocats inscrits au Barreau" : "Avocats au Barreau de Paris"}</span>
               </>
             )}
           </Link>
@@ -311,7 +312,7 @@ export default function LegrandPage() {
         </motion.div>
         <div className="imx172-hero-content relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 pb-24 pt-32">
           <Reveal>
-            <p className="text-[var(--brand,#C9A855)] text-xs tracking-[0.3em] uppercase mb-8">Fondé en 1991 · {clientCity(sessionData) ?? "Paris"} · {clientCity(sessionData) ?? "Bruxelles"} · Luxembourg</p>
+            <p className="text-[var(--brand,#C9A855)] text-xs tracking-[0.3em] uppercase mb-8">{clientCity(sessionData) ? `${clientCity(sessionData)}` : "Fondé en 1991 · Paris · Bruxelles · Luxembourg"}</p>
           </Reveal>
           <Reveal delay={0.1}>
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-normal leading-[1.0] text-[#F9F6F0] mb-8 max-w-4xl" style={{ fontFamily: "'Libre Baskerville', serif" }}>{<>
@@ -334,7 +335,7 @@ export default function LegrandPage() {
           </Reveal>
           {/* Stats bar */}
           <div className="mt-20 pt-10 border-t border-[#3A3020] grid grid-cols-2 md:grid-cols-4 gap-8">
-            {[["33 ans", "D'exercice"], ["6 associés", "Experts"], ["15 pays", "Couverture"], ["Top 50", "Classements"]].map(([val, label]) => (
+            {(clientStats(sessionData)?.map((x: any) => [x.value, x.label]) ?? (clientName(sessionData) ? [] : [["33 ans", "D'exercice"], ["6 associés", "Experts"], ["15 pays", "Couverture"], ["Top 50", "Classements"]])).map(([val, label]) => (
               <Reveal key={label} delay={0.1}>
                 <div>
                   <div className="text-[var(--brand,#C9A855)] text-2xl font-light mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>{val}</div>
@@ -567,7 +568,7 @@ export default function LegrandPage() {
               </Reveal>
               <Reveal delay={0.1}>
                 <div className="space-y-5">
-                  {[{ Icon: MapPin, text: (clientAddress(sessionData) ?? `14 avenue Montaigne, 75008 ${clientCity(sessionData) ?? "Paris"}`) }, { Icon: Phone, text: (clientPhone(sessionData) ?? "+33 1 44 20 00 00") }, { Icon: Mail, text: (clientEmail(sessionData) ?? fd?.email ?? "contact@legrand-associes.fr") }, { Icon: Globe, text: "Également à " + (clientCity(sessionData) ?? "Bruxelles") + " & Luxembourg" }].map(({ Icon, text }) => (
+                  {[{ Icon: MapPin, text: (clientAddress(sessionData) ?? clientCity(sessionData) ?? "14 avenue Montaigne, 75008 Paris") }, { Icon: Phone, text: (clientPhone(sessionData) ?? "+33 1 44 20 00 00") }, { Icon: Mail, text: (clientEmail(sessionData) ?? fd?.email ?? "contact@legrand-associes.fr") }, ...(clientName(sessionData) ? [] : [{ Icon: Globe, text: "Également à Bruxelles & Luxembourg" }])].map(({ Icon, text }) => (
                     <div key={text} className="flex items-center gap-4 text-sm text-[#8A7860]">
                       <Icon className="w-4 h-4 text-[var(--brand,#C9A855)] flex-shrink-0" />
                       {text}
@@ -622,7 +623,7 @@ export default function LegrandPage() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-8">
           <div>
             <div className="text-[#F9F6F0] font-light mb-1" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Legrand & Associés"))}</div>
-            <div className="text-xs text-[var(--brand,#C9A855)] tracking-widest uppercase">Avocats au Barreau de {clientCity(sessionData) ?? "Paris"}</div>
+            <div className="text-xs text-[var(--brand,#C9A855)] tracking-widest uppercase">{clientName(sessionData) ? "Avocats inscrits au Barreau" : "Avocats au Barreau de Paris"}</div>
           </div>
           <div className="flex flex-wrap gap-8 text-xs">
             {["Domaines", "Associés", "Cabinet", "Publications", "Contact"].map(l => (
@@ -631,7 +632,7 @@ export default function LegrandPage() {
           </div>
           <div className="text-xs">
             <p>© 2024 {clientName(sessionData) ?? "Legrand & Associés"} · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
-            <p className="mt-1">Barreau de {clientCity(sessionData) ?? "Paris"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 382 912 847 00025"}</p>
+            <p className="mt-1">{clientName(sessionData) ? "Avocats inscrits au Barreau" : "Barreau de Paris"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 382 912 847 00025"}</p>
           </div>
         </div>
       </footer>

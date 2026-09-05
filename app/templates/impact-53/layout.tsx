@@ -113,7 +113,7 @@ export default function Impact53Layout({
             />
           ) : (
             <>
-          {/* NOM_LOGO */ clientName(__layoutSession) ?? "MESH"}<span style={{ color: C.red }}>·</span>WARP
+          {/* NOM_LOGO */ clientName(__layoutSession) ?? (<>MESH<span style={{ color: C.red }}>·</span>WARP</>)}
         </>
           )}</Link>
 
@@ -284,7 +284,7 @@ export default function Impact53Layout({
                 marginBottom: "1.5rem",
               }}
             >
-              {clientName(__layoutSession) ?? "MESH"}<span style={{ color: C.red }}>·</span>WARP
+              {clientName(__layoutSession) ?? (<>MESH<span style={{ color: C.red }}>·</span>WARP</>)}
             </div>
             <p
               style={{

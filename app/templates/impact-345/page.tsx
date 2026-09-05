@@ -398,7 +398,7 @@ export default function MaisonBertinPage() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
       a: s.title,
-      p: s.price || TARIFS_SOURCE[i % TARIFS_SOURCE.length].p,
+      p: s.price || "Sur devis",
       n: s.description || s.desc || TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
     })),
     TARIFS_SOURCE,
@@ -449,7 +449,7 @@ export default function MaisonBertinPage() {
   const telHref = `tel:${(clientPhone(sessionData) ?? "+33380000000").replace(/[^+\d]/g, "")}`;
   const mail = clientEmail(sessionData) ?? "commande@maison-bertin.fr";
   const adresse = clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "21000", "Dijon");
-  const anneeStat = STATS.find((s: any) => /^\d{4}$/.test(String(s.value ?? "")));
+  const anneeStat = STATS.find((s: any) => /^\d{4}$/.test(String(s.value ?? ""))) ?? (clientName(sessionData) ? STATS[0] : undefined);
 
   return (
     <div style={{ background: C.bg, color: C.ink, fontFamily: BODY, overflowX: "clip" }}>

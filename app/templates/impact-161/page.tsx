@@ -164,23 +164,23 @@ export default function EssentialSaaSPage() {
   c = session?.generatedContent;
 
   PRICING = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_SOURCE[i % PRICING_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PRICING_SOURCE[i % PRICING_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_SOURCE[i % PRICING_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? "Sur devis", features: [], badge: "", period: "" })),
     PRICING_SOURCE,
   );
   FEATURES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title, desc: s.desc || "", features: [], })),
     FEATURES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   FEATURES = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title })),
+    clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title, desc: s.desc || "" })),
     FEATURES_DEMO,
   );
   TESTIMONIALS = resolveList(
-    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text, role: "", })),
     TESTIMONIALS_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

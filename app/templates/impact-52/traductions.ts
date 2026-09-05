@@ -10,6 +10,8 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "the": "Le",
+    "start the": "Lancer le",
     "projects shipped": "PROJETS LIVRÉS",
     "uptime status": "DISPONIBILITÉ",
     "render rate": "TAUX DE RENDU",
@@ -47,6 +49,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "we_take_4_clients_per_quarter. if_your_brief_has_voltage, send_transmission.": "NOUS_PRENONS_4_CLIENTS_PAR_TRIMESTRE. SI_VOTRE_PROJET_A_DU_JUS, ENVOYEZ_LE.",
   },
   es: {
+    "the": "El",
+    "start the": "Iniciar el",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -101,6 +105,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "we_take_4_clients_per_quarter. if_your_brief_has_voltage, send_transmission.": "TOMAMOS_4_CLIENTES_POR_TRIMESTRE. SI_SU_PROYECTO_TIENE_VOLTAJE, ENVÍELO.",
   },
   de: {
+    "the": "Das",
+    "start the": "Starte das",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -155,6 +161,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "we_take_4_clients_per_quarter. if_your_brief_has_voltage, send_transmission.": "WIR_NEHMEN_4_KUNDEN_PRO_QUARTAL. WENN_IHR_BRIEFING_SPANNUNG_HAT, SENDEN_SIE_ES.",
   },
   pt: {
+    "the": "O",
+    "start the": "Iniciar o",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

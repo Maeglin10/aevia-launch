@@ -32,6 +32,7 @@ import {
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
+  clientEyebrow,
   clientName,
   clientPhotos,
   clientReviews,
@@ -605,7 +606,7 @@ function Hero() {
         }}
       >
         <motion.div style={{ y: subY, opacity: titleOpacity }}>
-          <Eyebrow style={{ marginBottom: 20 }}>Vol. 04 — Onyx · Out now</Eyebrow>
+          <Eyebrow style={{ marginBottom: 20 }}>{clientEyebrow(sessionData) ?? (clientName(sessionData) ? "Nouveautés · Disponible" : "Vol. 04 — Onyx · Out now")}</Eyebrow>
         </motion.div>
 
         <motion.h1
@@ -1312,7 +1313,7 @@ function STORY_ROWS_LIVE() {
     img: IMG.story1,
     index: '01',
     title: 'Built in the workshop, not the boardroom',
-    body: `${clientName(sessionData) ?? "AirForge"} started in a ` + (clientCity(sessionData) ?? 'Lyon') + ' garage with a heat press and an obsession. Every silhouette is prototyped by hand, stress-tested on real streets, and refined until it earns the name.',
+    body: clientName(sessionData) ? `Chez ${clientName(sessionData)}, chaque silhouette est prototypée à la main, éprouvée dans la rue, et retravaillée jusqu'à mériter son nom.` : 'AirForge started in a Lyon garage with a heat press and an obsession. Every silhouette is prototyped by hand, stress-tested on real streets, and refined until it earns the name.',
   },
   {
     img: IMG.story2,
@@ -2120,8 +2121,8 @@ function Footer() {
             >
               <Zap size={24} color={C.accent} fill={C.accent} strokeWidth={1} />{fd?.businessName ?? (clientName(sessionData) ?? "AirForge")}</div>
             <p style={{ margin: '0 0 24px', color: C.textMuted, fontSize: 15, lineHeight: 1.6, maxWidth: 320 }}>
-              Performance sneakers forged in {clientCity(sessionData) ?? "Lyon"}. Limited runs, built to outlast
-              the hype.
+              {clientName(sessionData) ? (clientTagline(sessionData) ?? "Séries limitées, faites pour durer plus longtemps que la mode.") : <>Performance sneakers forged in Lyon. Limited runs, built to outlast
+              the hype.</>}
             </p>
             <div style={{ display: 'flex', gap: 14 }}>
               {[Camera, AtSign, PlayCircle].map((Icon, i) => (
@@ -2236,7 +2237,7 @@ function buildProducts217(): Product[] {
       id: s.id ?? `svc-${i}`,
       name: s.title ?? s.name ?? D[i % D.length].name,
       edition: D[i % D.length].edition,
-      price: s.price ?? D[i % D.length].price,
+      price: s.price ?? "",
       img: D[i % D.length].img,
       badge: D[i % D.length].badge,
     })),

@@ -513,15 +513,14 @@ export default function DomaineCharmillesPage() {
     clientReviews(sessionData)?.map((r: any, i: number) => ({
       ...AVIS_SOURCE[i % AVIS_SOURCE.length],
       auteur: r.author,
-      texte: r.text,
-    })),
+      texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_DEMO[i % TARIFS_DEMO.length],
       a: s.title,
-      p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p,
+      p: s.price ?? "Sur devis",
       n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n,
     })),
     TARIFS_DEMO,
@@ -1389,7 +1388,7 @@ export default function DomaineCharmillesPage() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {[
-                { icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? `${ville}, Indre-et-Loire` },
+                { icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? (clientCity(sessionData) ? ville : `${ville}, Indre-et-Loire`) },
                 { icon: <Phone size={13} />, t: phone },
                 { icon: <Mail size={13} />, t: mail },
                 { icon: <Clock size={13} />, t: "Visites sur rendez-vous, 7j/7 en saison" },

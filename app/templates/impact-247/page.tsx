@@ -24,6 +24,8 @@ import {
   clientServices,
   clientTagline,
   clientText,
+  clientStats,
+  clientSiret,
   clientTrade,
 } from "@/lib/templates/clientContent";
 
@@ -1357,7 +1359,7 @@ function CertPanel() {
                 marginBottom: 6,
               }}
             >
-              +500 chantiers · depuis 2012
+              {clientStats(sessionData)?.[0] ? `${clientStats(sessionData)![0].value} · ${clientStats(sessionData)![0].label}` : clientName(sessionData) ? "Interventions garanties" : "+500 chantiers · depuis 2012"}
             </div>
             <div
               style={{
@@ -1969,7 +1971,7 @@ function Footer() {
             }}
           >
             {clientTrade(sessionData) ?? "Électricien"} certifié Qualifelec à {clientCity(sessionData) ?? "Toulouse"}. Mise aux normes,
-            domotique &amp; bornes IRVE depuis 2012.
+            domotique &amp; bornes IRVE{clientName(sessionData) ? "" : " depuis 2012"}.
           </p>
           <div
             style={{
@@ -1980,7 +1982,7 @@ function Footer() {
               color: 'rgba(255,255,255,0.4)',
             }}
           >
-            N° SIRET : 000 000 000 00000
+            {clientSiret(sessionData) ? `N° SIRET : ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : "N° SIRET : 000 000 000 00000"}
           </div>
         </div>
 
@@ -2048,7 +2050,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.38)',
         }}
       >
-        <span>© 2012–2026 {clientName(sessionData) ?? "Volt & Lux"} · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© {clientName(sessionData) ? "2026" : "2012–2026"} {clientName(sessionData) ?? "Volt & Lux"} · Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#vl-projet" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2158,11 +2160,11 @@ export default function Page() {
     });
   });
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, detail: "", role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

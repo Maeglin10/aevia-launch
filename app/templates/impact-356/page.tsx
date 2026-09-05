@@ -486,14 +486,14 @@ export default function SoinsEstuairePage() {
     SERVICES_SOURCE,
   );
   AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
       a: s.title,
-      p: s.price ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].p,
+      p: s.price ?? "Sur devis",
       n: s.desc || s.description || TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
     })),
     TARIFS_SOURCE,

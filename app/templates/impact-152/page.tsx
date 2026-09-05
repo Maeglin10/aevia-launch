@@ -76,12 +76,12 @@ const STATS_DEMO = [
 let STATS = STATS_DEMO;
 
 function PROJETS_DEMO_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ titre: o.title, lieu: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
-  { titre: "Villa contemporaine", lieu: (clientCity(sessionData) ?? "Lyon") + " 5e", surface: "220 m²", style: "Minimaliste", tag: "Résidentiel", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80") },
-  { titre: "Penthouse panoramique", lieu: (clientCity(sessionData) ?? "Lyon") + " 2e", surface: "160 m²", style: "Art Déco moderne", tag: "Prestige", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80") },
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ style: "", surface: "", tag: "",  titre: o.title, lieu: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  { titre: "Villa contemporaine", lieu: (clientCity(sessionData) ?? "Lyon 5e"), surface: "220 m²", style: "Minimaliste", tag: "Résidentiel", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80") },
+  { titre: "Penthouse panoramique", lieu: (clientCity(sessionData) ?? "Lyon 2e"), surface: "160 m²", style: "Art Déco moderne", tag: "Prestige", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=800&q=80") },
   { titre: "Maison de maître", lieu: (clientCity(sessionData) ?? "Villeurbanne"), surface: "310 m²", style: "Classique revisité", tag: "Rénovation", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=800&q=80") },
-  { titre: "Loft industriel", lieu: (clientCity(sessionData) ?? "Lyon") + " 7e", surface: "140 m²", style: "Industriel chic", tag: "Loft", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=800&q=80") },
-  { titre: "Appartement haussmannien", lieu: (clientCity(sessionData) ?? "Lyon") + " 1er", surface: "180 m²", style: "Parisien épuré", tag: "Résidentiel", img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80") },
+  { titre: "Loft industriel", lieu: (clientCity(sessionData) ?? "Lyon 7e"), surface: "140 m²", style: "Industriel chic", tag: "Loft", img: (clientPhotos(sessionData)[3] || "https://images.unsplash.com/photo-1560448204-603b3fc33ddc?w=800&q=80") },
+  { titre: "Appartement haussmannien", lieu: (clientCity(sessionData) ?? "Lyon 1er"), surface: "180 m²", style: "Parisien épuré", tag: "Résidentiel", img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&q=80") },
   { titre: "Boutique concept store", lieu: "Part-Dieu", surface: "95 m²", style: "Retail design", tag: "Commercial", img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80") },
 ]);
 }
@@ -116,7 +116,7 @@ let SERVICES = SERVICES_DEMO;
 
 function TEMOIGNAGES_SOURCE_LIVE() {
   return [
-  { texte: "Clémence a transformé notre appartement en un espace où il fait vraiment bon vivre. Son sens du détail et sa rigueur sont bluffants — et le budget a été parfaitement respecté.", auteur: "Marie & Thomas L.", projet: "Appartement 160 m², " + (clientCity(sessionData) ?? "Lyon") + " 2e" },
+  { texte: "Clémence a transformé notre appartement en un espace où il fait vraiment bon vivre. Son sens du détail et sa rigueur sont bluffants — et le budget a été parfaitement respecté.", auteur: "Marie & Thomas L.", projet: "Appartement 160 m², " + (clientCity(sessionData) ?? "Lyon 2e") },
   { texte: "Nous avions peur de perdre le caractère de notre maison ancienne. Le Studio Noma a su magnifier les volumes tout en apportant la modernité qu'on cherchait. Résultat magistral.", auteur: "Édouard V.", projet: `Maison de maître, ${clientCity(sessionData) ?? "Villeurbanne"}` },
   { texte: "Un accompagnement de A à Z, professionnel et chaleureux. Notre boutique est maintenant l'une des plus belles de la galerie. Les ventes ont bondi de 40% depuis l'ouverture.", auteur: "Sophie K.", projet: "Concept store, Part-Dieu" },
 ];
@@ -195,12 +195,12 @@ export default function StudioNomaPage() {
     SERVICES_SOURCE,
   );
   TEMOIGNAGES_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length], auteur: r.author, texte: r.text, projet: "", })),
     TEMOIGNAGES_SOURCE,
   );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   TEMOIGNAGES = resolveList(
-    clientReviews(session)?.map((r, i) => ({ ...TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length], texte: r.text, auteur: r.author })),
+    clientReviews(session)?.map((r, i) => ({ ...TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length], texte: r.text, auteur: r.author, projet: "", })),
     TEMOIGNAGES_DEMO,
   );
   PROJETS = PROJETS_DEMO.map((row, i) => ({
@@ -323,7 +323,7 @@ export default function StudioNomaPage() {
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520, fontFamily: FONT_SANS }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
-            Studio Noma conçoit des intérieurs qui racontent une histoire. Chaque projet naît d'une écoute profonde et d'une maîtrise artisanale des matières, des volumes et de la lumière.
+            {clientName(sessionData) ?? "Studio Noma"} conçoit des intérieurs qui racontent une histoire. Chaque projet naît d'une écoute profonde et d'une maîtrise artisanale des matières, des volumes et de la lumière.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -477,11 +477,11 @@ export default function StudioNomaPage() {
       <footer style={{ background: C.text, padding: "56px 80px 28px", fontFamily: FONT_SANS }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 40 }}>
           <div>
-            <div style={{ fontFamily: FONT, fontSize: 24, fontWeight: 400, color: "#fff", marginBottom: 12 }}>Studio <em style={{ color: C.accent }}>Noma</em></div>
+            <div style={{ fontFamily: FONT, fontSize: 24, fontWeight: 400, color: "#fff", marginBottom: 12 }}>{clientName(sessionData) ?? (<>Studio <em style={{ color: C.accent }}>Noma</em></>)}</div>
             <p style={{ color: "rgba(255,255,255,0.45)", fontSize: 14, lineHeight: 1.6, maxWidth: 260 }}>Architecture d'intérieur & décoration à {clientCity(sessionData) ?? "Lyon"} depuis 2012.</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {[{ icon: <MapPin size={14} />, t: (clientCity(sessionData) ?? "Lyon") + ", Rhône-Alpes" }, { icon: <Mail size={14} />, t: (clientEmail(sessionData) ?? fd?.email ?? "contact@studionoma.fr") }, { icon: <Clock size={14} />, t: "Lun–Ven 9h–18h" }].map((item, i) => (
+            {[{ icon: <MapPin size={14} />, t: clientCity(sessionData) ?? "Lyon, Rhône-Alpes" }, { icon: <Mail size={14} />, t: (clientEmail(sessionData) ?? fd?.email ?? "contact@studionoma.fr") }, { icon: <Clock size={14} />, t: "Lun–Ven 9h–18h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.55)", fontSize: 14 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>
@@ -489,7 +489,7 @@ export default function StudioNomaPage() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)", paddingTop: 20, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 12 }}>
-          <span style={{ color: "rgba(255,255,255,0.28)", fontSize: 13 }}>© 2026 Studio Noma — Site réalisé par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.28)", fontSize: 13 }}>© 2026 {clientName(sessionData) ?? "Studio Noma"} — Site réalisé par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="#contact" style={{ color: "rgba(255,255,255,0.28)", fontSize: 13, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

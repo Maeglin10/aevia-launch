@@ -53,6 +53,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientSiret,
   clientPhone,
   clientPhotos,
   clientReviews,
@@ -453,7 +454,7 @@ export default function Page() {
       name: s.title ?? MENU_DEMO[i % MENU_DEMO.length].name,
       category: MENU_DEMO[i % MENU_DEMO.length].category,
       desc: s.description ?? MENU_DEMO[i % MENU_DEMO.length].desc,
-      price: s.price ?? MENU_DEMO[i % MENU_DEMO.length].price,
+      price: s.price ?? "",
     })),
     MENU_DEMO,
   );
@@ -1307,7 +1308,7 @@ return (
                     </div>
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Téléphone</div>
-                      <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33579448021").replace(/[^+0-9]/g, "")}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>+33 (0)5 00 00 00 00</a>
+                      <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33579448021").replace(/[^+0-9]/g, "")}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>{clientPhone(sessionData) ?? fd?.phone ?? "+33 (0)5 00 00 00 00"}</a>
                     </div>
                   </div>
 
@@ -1348,7 +1349,7 @@ return (
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Localisation</div>
                       <div style={{ fontSize: 15, color: C.text, fontWeight: 700 }}>
-                        tatouage fineline {clientCity(sessionData) ?? "Bordeaux"}
+                        {clientCity(sessionData) ?? "tatouage fineline Bordeaux"}
                       </div>
                     </div>
                   </div>
@@ -1607,8 +1608,8 @@ return (
             <div>
               <h5 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primaryDark, marginBottom: 16, fontWeight: 700 }}>Légal</h5>
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
-                SIRET: 894 302 596 00012<br />
-                TVA Intracommunautaire: FR 89 894302596<br />
+                {clientSiret(sessionData) ? <>SIRET: {clientSiret(sessionData)}<br /></> : clientName(sessionData) ? null : <>SIRET: 894 302 596 00012<br />
+                TVA Intracommunautaire: FR 89 894302596<br /></>}
                 Responsable de publication: {clientName(sessionData) ?? "Encre Délicate"}<br />
                 Hébergeur: Vercel Inc.
               </p>

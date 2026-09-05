@@ -16,6 +16,7 @@ import Link from "next/link"
 import { TemplateIcon } from '@/components/TemplateIcon'
 import {
   clientAccrocheRestante,
+  clientAddress,
   clientCity,
   clientEmail,
   clientHeroPrestations,
@@ -725,10 +726,13 @@ function FleetParallax() {
           transition={{ duration: 0.6 }}
         >
           <div className="n207-label">Fleet Operations</div>
-          <h2 className="n207-h2">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (<>
+          <h2 className="n207-h2">{/* TEXTE_SECTION */ clientText(sessionData, "section-2.titre") ?? (clientName(sessionData) ? (<>
+            Une flotte<br />
+            <span style={{ color: T.accent }}>toujours en mouvement.</span>
+          </>) : (<>
             2,400+ vehicles.<br />
             <span style={{ color: T.accent }}>Always moving.</span>
-          </>)}</h2>
+          </>))}</h2>
           <p className="n207-body" style={{ maxWidth: 520 }}>
             Our fleet spans short-haul urban delivery vans to long-haul articulated trucks —
             every vehicle GPS-tracked, temperature-monitored, and route-optimized in real time.
@@ -802,9 +806,10 @@ interface StatCardProps {
   sub: string
   decimals?: number
   delay?: number
+  override?: string
 }
 
-function StatCard({ value, suffix, prefix = "", label, sub, decimals = 0, delay = 0 }: StatCardProps) {
+function StatCard({ value, suffix, prefix = "", label, sub, decimals = 0, delay = 0, override }: StatCardProps) {
   const { value: count, ref } = useCounter(value, 2200, decimals)
 
   return (
@@ -846,7 +851,7 @@ function StatCard({ value, suffix, prefix = "", label, sub, decimals = 0, delay 
           marginBottom: 8,
         }}
       >
-        {prefix}{decimals > 0 ? count.toFixed(decimals) : Math.floor(count).toLocaleString()}{suffix}
+        {override ?? `${prefix}${decimals > 0 ? count.toFixed(decimals) : Math.floor(count).toLocaleString()}${suffix}`}
       </div>
       <div style={{ fontSize: 14, fontWeight: 600, color: T.text, marginBottom: 6 }}>{label}</div>
       <div style={{ fontSize: 13, color: T.textMuted }}>{sub}</div>
@@ -867,6 +872,20 @@ function StatsSection() {
         </div>
 
         <div style={{ display: "flex", gap: 20, flexWrap: "wrap" }}>
+          {clientStats(sessionData)?.length ? (
+            clientStats(sessionData)!.map((s: any, i: number) => (
+              <StatCard
+                key={i}
+                value={0}
+                suffix=""
+                override={s.value}
+                label={s.label}
+                sub=""
+                delay={i * 0.1}
+              />
+            ))
+          ) : (
+            <>
           <StatCard
             value={12847}
             suffix=""
@@ -896,6 +915,8 @@ function StatsSection() {
             sub="Truly global — only Antarctica excluded"
             delay={0.3}
           />
+            </>
+          )}
         </div>
 
         {/* Uptime / live indicator bar */}
@@ -1788,7 +1809,7 @@ function TestimonialsSection() {
           }}
         >
           <span style={{ fontSize: 11, color: T.textMuted, fontWeight: 600, letterSpacing: "0.12em", textTransform: "uppercase" }}>Trusted by</span>
-          {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste2") ?? ["MAISON BEAUTÉ", "ROTTERDAM COMPONENTS", "MEDLINX ASIA", "DELTA PHARMA", "GLOBEX TRADE", "IRONSTONE MINING"]).map((brand) => (
+          {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste2") ?? (clientName(sessionData) ? [] : ["MAISON BEAUTÉ", "ROTTERDAM COMPONENTS", "MEDLINX ASIA", "DELTA PHARMA", "GLOBEX TRADE", "IRONSTONE MINING"])).map((brand) => (
             <span
               key={brand}
               style={{
@@ -1886,7 +1907,7 @@ function ContactSection() {
                 {
                   icon: "📍",
                   label: "Headquarters",
-                  value: "15 Rue de la Paix, 75001 " + (clientCity(sessionData) ?? "Paris") + ", France",
+                  value: clientAddress(sessionData) ?? clientCity(sessionData) ?? "15 Rue de la Paix, 75001 Paris, France",
                 },
                 {
                   icon: "📞",
@@ -2182,8 +2203,9 @@ function Footer() {
               </span>
             </div>
             <p style={{ fontSize: 14, color: T.textMuted, lineHeight: 1.65, maxWidth: 280 }}>
-              End-to-end freight intelligence for modern supply chains. 43 countries,
-              6 continents, one platform.
+              {clientName(sessionData)
+                ? (clientTagline(sessionData) ?? "Le transport de bout en bout, suivi en temps réel.")
+                : "End-to-end freight intelligence for modern supply chains. 43 countries, 6 continents, one platform."}
             </p>
 
             <div style={{ display: "flex", gap: 12, marginTop: 24 }}>
@@ -2382,11 +2404,11 @@ export default function Impact207() {
     STAGES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text, role: "", country: "★", })),
     TESTIMONIALS_SOURCE,
   );
   TESTIMONIALS = resolveList(
-    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, author: r.author })),
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, author: r.author, role: "", country: "★", })),
     TESTIMONIALS_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

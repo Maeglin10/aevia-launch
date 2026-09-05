@@ -203,12 +203,12 @@ export default function WaveFXPage() {
 
   );
   FEATURES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     FEATURES_SOURCE,
   );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   FEATURES = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title })),
+    clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title, desc: s.desc || "" })),
     FEATURES_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -454,7 +454,7 @@ export default function WaveFXPage() {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--brand,#6366f1)] to-blue-500 flex items-center justify-center"><Code2 className="w-4 h-4 text-white" /></div>
-              <span className="font-black tracking-tight">Wave<span className="text-[var(--brand,#818cf8)]">FX</span></span>
+              <span className="font-black tracking-tight">{clientName(sessionData) ?? (<>Wave<span className="text-[var(--brand,#818cf8)]">FX</span></>)}</span>
             </div>
             <p className="text-sm text-white/30 leading-relaxed">Open-source data pipeline framework.</p>
           </div>

@@ -907,9 +907,9 @@ function Contact() {
               {
                 icon: <MapPin size={15} strokeWidth={1.6} />,
                 l: "La maison",
-                v: clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "51100", "Reims") + ", Marne",
+                v: clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "51100", "Reims") + (clientCity(sessionData) ? "" : ", Marne"),
               },
-              { icon: <Clock size={15} strokeWidth={1.6} />, l: "Amplitude", v: STATS[1]?.value ? `${STATS[1].value}, du lundi au vendredi` : "7h–19h, du lundi au vendredi" },
+              { icon: <Clock size={15} strokeWidth={1.6} />, l: "Amplitude", v: /\d+h/.test(String(STATS[1]?.value ?? "")) ? `${STATS[1].value}, du lundi au vendredi` : "7h–19h, du lundi au vendredi" },
             ].map((row, n) => (
               <div
                 key={row.l}
@@ -951,12 +951,12 @@ function Footer() {
             <p style={{ fontFamily: SANS, fontWeight: 400, fontSize: 13.5, lineHeight: 1.8, margin: 0, maxWidth: 380 }}>
               {clientTrade(sessionData) ?? "Crèche associative"} · {clientCity(sessionData) ?? "Reims"}
               <br />
-              Agrément PMI Marne — gestion parentale participative
+              {clientName(sessionData) ? "Agrément PMI — gestion parentale participative" : "Agrément PMI Marne — gestion parentale participative"}
             </p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
             {[
-              { icon: <MapPin size={13} strokeWidth={1.6} />, t: clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "51100", "Reims") + ", Marne" },
+              { icon: <MapPin size={13} strokeWidth={1.6} />, t: clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "51100", "Reims") + (clientCity(sessionData) ? "" : ", Marne") },
               { icon: <Phone size={13} strokeWidth={1.6} />, t: tel },
               { icon: <Mail size={13} strokeWidth={1.6} />, t: mail },
               { icon: <Clock size={13} strokeWidth={1.6} />, t: "Lun–Ven 7h–19h" },
@@ -1034,8 +1034,7 @@ export default function NidDouilletPage() {
     clientReviews(sessionData)?.map((r: any, i: number) => ({
       ...AVIS_SOURCE[i % AVIS_SOURCE.length],
       auteur: r.author,
-      texte: r.text,
-    })),
+      texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   AVIS = resolveList(
@@ -1051,7 +1050,7 @@ export default function NidDouilletPage() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_DEMO[i % TARIFS_DEMO.length],
       a: s.title,
-      p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p,
+      p: s.price ?? "Sur devis",
       n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n,
     })),
     TARIFS_DEMO,

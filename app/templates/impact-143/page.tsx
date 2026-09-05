@@ -161,11 +161,11 @@ export default function AtelierInteriorPage() {
     });
   });
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, text: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, text: r.text, project: "" })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -173,7 +173,7 @@ export default function AtelierInteriorPage() {
   const PROJECTS = resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({
       title: b.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].title,
-      type: PROJECTS_DEMO[i % PROJECTS_DEMO.length].type,
+      type: "",
       img: b.afterUrl || b.beforeUrl || PROJECTS_DEMO[i % PROJECTS_DEMO.length].img,
       desc: b.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].desc,
     })),
@@ -482,7 +482,7 @@ export default function AtelierInteriorPage() {
           ))}
         </div>
         <div className="max-w-[1200px] mx-auto pt-8 border-t border-[#f5f0eb]/10 text-[10px] font-bold uppercase tracking-widest text-[#f5f0eb]/20 flex flex-col sm:flex-row justify-between gap-4">
-          <span>© 2026 {clientName(sessionData) ?? "ATELIER INTERIOR."} {clientCity(sessionData) ?? "PARIS"} · LONDON · MILAN{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "ATELIER INTERIOR."} {clientCity(sessionData)?.toUpperCase() ?? "PARIS · LONDON · MILAN"}</span>
           <div className="flex gap-6">
             <Link href="#contact" className="hover:text-[#f5f0eb] transition-colors">Mentions légales</Link>
             <Link href="#contact" className="hover:text-[#f5f0eb] transition-colors">Confidentialité</Link>

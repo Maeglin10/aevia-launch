@@ -20,6 +20,8 @@ import {
 } from 'lucide-react';
 import {
   clientBookingUrl,
+  clientAddress,
+  clientName,
   clientCity,
   clientHeroLine,
   clientHeroSubtitle,
@@ -222,7 +224,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
   {
     eyebrow: 'Notre réseau',
     imgSrc: PHOTO.editRow2,
-    imgAlt: 'Réseau international ' + (clientCity(sessionData) ?? 'Bordeaux') + ', partenaires Knight Frank',
+    imgAlt: 'Réseau international, partenaires immobiliers',
     ghostNum: 'II',
     title: (
       <>
@@ -245,7 +247,7 @@ function EXPERTISE_ITEMS_LIVE() {
   {
     step: 'I',
     title: 'Estimation précise',
-    body: "Fondée sur plus de 2 000 transactions réalisées à " + (clientCity(sessionData) ?? "Bordeaux") + " et en Gironde depuis 2003, notre méthode d'évaluation croise données de marché, analyse comparatives et réalité terrain pour un prix juste — et vendable.",
+    body: clientName(sessionData) ? "Notre méthode d'évaluation croise données de marché, analyses comparatives et réalité terrain pour un prix juste — et vendable." : "Fondée sur plus de 2 000 transactions réalisées à Bordeaux et en Gironde depuis 2003, notre méthode d'évaluation croise données de marché, analyse comparatives et réalité terrain pour un prix juste — et vendable.",
   },
   {
     step: 'II',
@@ -272,7 +274,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     quote:
       "Nous avions mis notre appartement des Chartrons en vente deux fois sans succès avec d'autres agences. Clé de Voûte l'a vendu en 8 jours, au-dessus de notre prix de réserve. Leur méthode est radicalement différente : photos de qualité studio, acheteurs ciblés, négociation sans concession. Nous ne saurions recommander personne d'autre.",
     name: 'Sophie & Thomas D.',
-    role: `Vendeurs · Chartrons, ${clientCity(sessionData) ?? "Bordeaux"}`,
+    role: 'Vendeurs · Chartrons, Bordeaux',
   },
   {
     quote:
@@ -676,7 +678,7 @@ function Hero() {
       >
         <Reveal y={16}>
           <Eyebrow color={C.accentLight}>
-            Immobilier premium · {clientCity(sessionData) ?? "Bordeaux"} · Depuis 2003
+            Immobilier premium · {clientCity(sessionData) ?? "Bordeaux"}{clientName(sessionData) ? "" : " · Depuis 2003"}
           </Eyebrow>
         </Reveal>
 
@@ -1960,11 +1962,15 @@ function Footer() {
     {
       title: "Zone d\'action",
       items: [
-        { label: (clientCity(sessionData) ?? 'Bordeaux') + ' Centre', href: '#biens' },
-        { label: 'Chartrons', href: '#biens' },
-        { label: 'Triangle d\'Or', href: '#biens' },
-        { label: 'Gironde & Vignobles', href: '#biens' },
-        { label: 'Région bordelaise', href: '#biens' },
+        ...(clientCity(sessionData)
+          ? [{ label: clientCity(sessionData)! + ' et alentours', href: '#biens' }]
+          : [
+            { label: 'Bordeaux Centre', href: '#biens' },
+            { label: 'Chartrons', href: '#biens' },
+            { label: 'Triangle d\'Or', href: '#biens' },
+            { label: 'Gironde & Vignobles', href: '#biens' },
+            { label: 'Région bordelaise', href: '#biens' },
+          ]),
       ],
     },
     {
@@ -2022,7 +2028,7 @@ function Footer() {
               marginBottom: 22,
             }}
           >
-            Agence immobilière premium à {clientCity(sessionData) ?? "Bordeaux"}. Expertise, réseau exclusif et accompagnement sur mesure depuis 2003.
+            Agence immobilière premium à {clientCity(sessionData) ?? "Bordeaux"}. Expertise, réseau exclusif et accompagnement sur mesure{clientName(sessionData) ? "" : " depuis 2003"}.
           </p>
           <div
             style={{
@@ -2037,7 +2043,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-            12 cours de l'Intendance, 33000 {clientCity(sessionData) ?? "Bordeaux"}
+            {clientAddress(sessionData) ?? clientCity(sessionData) ?? "12 cours de l'Intendance, 33000 Bordeaux"}
           </div>
         </div>
 
@@ -2196,7 +2202,7 @@ export default function Page() {
 
 
   EDIT_ROWS = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "", stat: "", statLabel: "" })),
     EDIT_ROWS_SOURCE,
   );
 
@@ -2218,11 +2224,11 @@ export default function Page() {
     });
   });
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

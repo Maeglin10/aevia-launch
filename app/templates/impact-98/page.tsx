@@ -55,7 +55,7 @@ let brand: any = null;
    ========================================================================= */
 
 function COLLECTIONS_SOURCE_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ price: "",  name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     id: 1,
     name: "Astra Chrono",
@@ -266,7 +266,7 @@ export default function ZenithWatchesPage() {
       id: i + 1,
       name: s.title ?? s.name,
       category: s.category ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].category,
-      price: s.price ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].price,
+      price: s.price ?? "",
       desc: s.description ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].desc,
       img: COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].img,
     })),
@@ -663,11 +663,13 @@ export default function ZenithWatchesPage() {
             <Reveal>
               <div className="flex flex-col mb-12">
                 <span className="text-5xl font-black tracking-[0.2em] uppercase leading-none italic">
-                  Zenith
+                  {clientName(sessionData) ?? "Zenith"}
                 </span>
+                {clientName(sessionData) ? null : (
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#d4af37)] -mt-1 ml-1">
                   Swiss Horology
                 </span>
+                )}
               </div>
               <p className="text-white/20 max-w-md mb-16 text-[11px] font-bold uppercase tracking-[0.2em] leading-loose italic">
                 The absolute mechanical mastery of time. Engineered for the next
@@ -774,7 +776,7 @@ export default function ZenithWatchesPage() {
         <div className="max-w-[1600px] mx-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10">
           <div className="flex items-center gap-12">
             <span>
-              &copy; {new Date().getFullYear()} ZENITH HOROLOGY SWITZERLAND.
+              &copy; {new Date().getFullYear()} {(clientName(sessionData) ?? "ZENITH HOROLOGY SWITZERLAND").toUpperCase()}.
             </span>
             <div className="flex gap-8">
               <span>METAS_CHRONO_COMPLIANT</span>

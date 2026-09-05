@@ -10,6 +10,12 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "democracy's digital battlefield: how algorithms shape elections": "Le champ de bataille numérique de la démocratie : comment les algorithmes façonnent les élections",
+    "private equity's new obsession: ai-native companies": "La nouvelle obsession du capital-investissement : les entreprises nées de l'IA",
+    "quantum computing reaches a pivotal commercial threshold": "L'informatique quantique franchit un seuil commercial décisif",
+    "investigations published": "enquêtes publiées",
+    "investor obligations": "obligation envers des investisseurs",
+    "min read": "min de lecture",
     "projects completed": "Projets livrés",
     "countries": "Pays",
     "carbon-negative projects": "Projets à bilan carbone négatif",
@@ -87,6 +93,12 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "why global supply chains are rewiring toward regional hubs": "Pourquoi les chaînes d'approvisionnement se replient sur des pôles régionaux",
   },
   es: {
+    "democracy's digital battlefield: how algorithms shape elections": "El campo de batalla digital de la democracia",
+    "private equity's new obsession: ai-native companies": "La nueva obsesión del capital privado: empresas nativas de IA",
+    "quantum computing reaches a pivotal commercial threshold": "La computación cuántica alcanza un umbral comercial decisivo",
+    "investigations published": "investigaciones publicadas",
+    "investor obligations": "obligaciones con inversores",
+    "min read": "min de lectura",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -181,6 +193,12 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "why global supply chains are rewiring toward regional hubs": "Por qué las cadenas de suministro se reorganizan en polos regionales",
   },
   de: {
+    "democracy's digital battlefield: how algorithms shape elections": "Das digitale Schlachtfeld der Demokratie",
+    "private equity's new obsession: ai-native companies": "Die neue Obsession des Private Equity: KI-native Unternehmen",
+    "quantum computing reaches a pivotal commercial threshold": "Quantencomputing erreicht eine entscheidende kommerzielle Schwelle",
+    "investigations published": "veröffentlichte Recherchen",
+    "investor obligations": "Investorenverpflichtungen",
+    "min read": "Min. Lesezeit",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -275,6 +293,12 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "why global supply chains are rewiring toward regional hubs": "Warum sich globale Lieferketten auf regionale Knoten verlagern",
   },
   pt: {
+    "democracy's digital battlefield: how algorithms shape elections": "O campo de batalha digital da democracia",
+    "private equity's new obsession: ai-native companies": "A nova obsessão do private equity: empresas nativas de IA",
+    "quantum computing reaches a pivotal commercial threshold": "A computação quântica atinge um limiar comercial decisivo",
+    "investigations published": "investigações publicadas",
+    "investor obligations": "obrigações com investidores",
+    "min read": "min de leitura",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

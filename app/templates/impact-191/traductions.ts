@@ -12,7 +12,6 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
     "avis clients": "Avis des clients",
     "ce qu'on sait faire": "Ce que nous savons faire",
-    "comment on": "Comment nous procédons",
   },
   es: {
     "réserver une table": "Reservar una mesa",

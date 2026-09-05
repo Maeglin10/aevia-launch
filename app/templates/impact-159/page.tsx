@@ -252,7 +252,7 @@ function MATERIALS_LIVE(): Material[] {
     weight: "210 g/m²",
     origin: "Zürich Materials Institute · 2026",
   },
-]).length], name: s.title, desc: s.desc || '' })),
+]).length], name: s.title, desc: s.desc || '', type: '', code: '', specs: [], tagline: '' })),
 
   [
   {

@@ -10,6 +10,8 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "four": "Quatre",
+    "chapters.": "chapitres.",
     "expedition storytelling": "Récits d'expédition",
     "expeditions led": "Expéditions menées",
     "countries traversed": "Pays traversés",
@@ -58,6 +60,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view expedition": "Voir l'Expédition",
   },
   es: {
+    "four": "Cuatro",
+    "chapters.": "capítulos.",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -123,6 +127,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view expedition": "Ver Expedición",
   },
   de: {
+    "four": "Vier",
+    "chapters.": "Kapitel.",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -188,6 +194,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view expedition": "Expedition ansehen",
   },
   pt: {
+    "four": "Quatro",
+    "chapters.": "capítulos.",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

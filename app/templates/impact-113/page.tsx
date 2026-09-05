@@ -274,23 +274,23 @@ export default function NexusSaaSPage() {
 
 
   PRICING = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_SOURCE[i % PRICING_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PRICING_SOURCE[i % PRICING_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_SOURCE[i % PRICING_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? "" })),
     PRICING_SOURCE,
   );
   FEATURES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title, desc: s.desc || "", features: [], })),
     FEATURES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   FEATURES = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title })),
+    clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title, desc: s.desc || "" })),
     FEATURES_DEMO,
   );
   TESTIMONIALS = resolveList(
-    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text, role: "", })),
     TESTIMONIALS_DEMO,
   );
   FAQS = resolveList(
@@ -909,7 +909,7 @@ export default function NexusSaaSPage() {
                 <div className="w-6 h-6 rounded bg-gradient-to-br from-[var(--brand,#8b5cf6)] to-indigo-600 flex items-center justify-center">
                   <Zap className="w-3 h-3 text-white" />
                 </div>
-                <span className="text-lg font-bold tracking-tight">Nexus.</span>
+                <span className="text-lg font-bold tracking-tight">{clientName(sessionData) ?? "Nexus."}</span>
               </Link>
               <p className="text-white/40 text-sm leading-relaxed mb-8 max-w-xs">
                 The global edge platform for modern applications. Build faster,
@@ -1074,8 +1074,7 @@ export default function NexusSaaSPage() {
 
           <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-white/40">
             <span>
-              &copy; {new Date().getFullYear()} Nexus Edge Inc. All rights
-              reserved.
+              &copy; {new Date().getFullYear()} {clientName(sessionData) ?? "Nexus Edge Inc."} Tous droits réservés.
             </span>
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />

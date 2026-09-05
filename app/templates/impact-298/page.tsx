@@ -51,6 +51,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientSiret,
   clientPhone,
   clientPhotos,
   clientServices,
@@ -90,7 +91,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   {clientName(sessionData) ?? "Dr. Estelle Blanc"} — Chirurgien-dentiste {clientCity(sessionData) ?? "Montpellier"} Antigone — implantologie, orthodontie invisible. EB Garamond, turquoise / blanc.
+   {clientName(sessionData) ?? "Dr. Estelle Blanc"} — Chirurgien-dentiste {clientCity(sessionData) ?? "Montpellier Antigone"} — implantologie, orthodontie invisible. EB Garamond, turquoise / blanc.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -553,7 +554,7 @@ return (
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
-              Implantologie, orthodontie invisible, blanchiment. Cabinet {clientCity(sessionData) ?? "Montpellier"} Antigone.
+              Implantologie, orthodontie invisible, blanchiment. Cabinet {clientCity(sessionData) ?? "Montpellier Antigone"}.
             </>}</p>
           </Reveal>
 
@@ -1114,7 +1115,7 @@ return (
                     </div>
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Téléphone</div>
-                      <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33526133123").replace(/[^+0-9]/g, "")}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>+33 (0)5 00 00 00 00</a>
+                      <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33526133123").replace(/[^+0-9]/g, "")}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>{clientPhone(sessionData) ?? fd?.phone ?? "+33 (0)5 00 00 00 00"}</a>
                     </div>
                   </div>
 
@@ -1155,7 +1156,7 @@ return (
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Localisation</div>
                       <div style={{ fontSize: 15, color: C.text, fontWeight: 700 }}>
-                        {clientCity(sessionData) ?? "Montpellier"} Antigone
+                        {clientCity(sessionData) ?? "Montpellier Antigone"}
                       </div>
                     </div>
                   </div>
@@ -1275,7 +1276,7 @@ return (
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Dr. Estelle Blanc"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                {clientTrade(sessionData) ?? "Chirurgien-dentiste"} {clientCity(sessionData) ?? "Montpellier"} Antigone
+                {clientTrade(sessionData) ?? "Chirurgien-dentiste"} {clientCity(sessionData) ?? "Montpellier Antigone"}
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primaryDark, opacity: 0.7 }}><Instagram size={18} /></a>
@@ -1304,8 +1305,8 @@ return (
             <div>
               <h5 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primaryDark, marginBottom: 16, fontWeight: 700 }}>Légal</h5>
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
-                SIRET: 894 302 596 00012<br />
-                TVA Intracommunautaire: FR 89 894302596<br />
+                {clientSiret(sessionData) ? <>SIRET: {clientSiret(sessionData)}<br /></> : clientName(sessionData) ? null : <>SIRET: 894 302 596 00012<br />
+                TVA Intracommunautaire: FR 89 894302596<br /></>}
                 Responsable de publication: {clientName(sessionData) ?? "Dr. Estelle Blanc"}<br />
                 Hébergeur: Vercel Inc.
               </p>

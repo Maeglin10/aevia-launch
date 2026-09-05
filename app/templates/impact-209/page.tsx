@@ -37,7 +37,7 @@ let sessionData: any = null;
 // saisir, le thème ne les lisait pas.
 const STATS_INLINE_SOURCE = [
   { num: '98%', label: 'Satisfaction client', desc: 'Selon nos enquêtes post-rendez-vous' },
-                { num: '4.9', label: 'Note Google', desc: 'Sur 847 avis vérifiés' },
+                ...(clientName(sessionData) ? [] : [{ num: '4.9', label: 'Note Google', desc: 'Sur 847 avis vérifiés' }]),
                 { num: '0', label: 'Ammoniaque', desc: 'Dans nos gammes coloration' }
 ];
 let STATS_INLINE = STATS_INLINE_SOURCE;
@@ -1112,7 +1112,7 @@ export default function Page() {
   // nested inside it — read from `session`, not `fd`.
   const bp = session?.businessProfile;
   const services = resolveList(clientServices(session), SERVICES);
-  const stylists = resolveList(clientTeam(session)?.map((r: any) => ({ name: r.name, title: r.role })), STYLISTS);
+  const stylists = resolveList(clientTeam(session)?.map((r: any) => ({ name: r.name, title: r.role, specialty: "", credentials: "", bio: "", years: 0 })), STYLISTS);
   const temoignages = resolveList(clientReviews(session), TESTIMONIALS_DEMO);
 
   const [scissorOpen, setScissorOpen] = useState(false)
@@ -1459,10 +1459,10 @@ export default function Page() {
             background: 'rgba(250,248,245,0.8)',
           }}
         >
-          <span style={{ ...headingFont, fontSize: '36px', color: GOLD, display: 'block' }}>15</span>
-          <span style={{ ...bodyFont, fontSize: '10px', color: GRAY_MID, letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block' }}>Ans d'Excellence</span>
+          <span style={{ ...headingFont, fontSize: '36px', color: GOLD, display: 'block' }}>{clientStats(sessionData)?.[0]?.value ?? "15"}</span>
+          <span style={{ ...bodyFont, fontSize: '10px', color: GRAY_MID, letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block' }}>{clientStats(sessionData)?.[0]?.label ?? "Ans d'Excellence"}</span>
           <div style={{ width: '30px', height: '1px', background: GOLD, margin: '8px auto' }} />
-          <span style={{ ...bodyFont, fontSize: '10px', color: GRAY_MID, letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block' }}>{clientCity(sessionData) ?? "Paris"} VII</span>
+          <span style={{ ...bodyFont, fontSize: '10px', color: GRAY_MID, letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block' }}>{clientCity(sessionData) ?? "Paris VII"}</span>
         </motion.div>
       </section>
 
@@ -1516,7 +1516,7 @@ export default function Page() {
               Avant & Après
             </>}</h2>
             <p style={{ ...bodyFont, fontSize: '15px', color: GRAY_LIGHT, maxWidth: '500px', margin: '0 auto', lineHeight: 1.7 }}>{c?.aboutText ?? <>
-              Faites glisser le curseur pour découvrir la métamorphose. Balayage soleil réalisé par Camille Rousseau.
+              Faites glisser le curseur pour découvrir la métamorphose.{clientName(sessionData) ? null : <> Balayage soleil réalisé par Camille Rousseau.</>}
             </>}</p>
             <div style={{ display: 'flex', alignItems: 'center', gap: '16px', margin: '24px 0', justifyContent: 'center' }}>
               <div style={{ flex: 1, maxWidth: '160px', height: '1px', background: `linear-gradient(to right, transparent, ${GOLD})` }} />
@@ -1769,7 +1769,7 @@ export default function Page() {
               {clientAddress({ businessProfile: bp }) ?? "14 rue de Varenne, Paris 7e"}
             </p>
             <p style={{ ...bodyFont, fontSize: '11px', color: GRAY_MID, margin: 0, opacity: 0.6 }}>
-              Métro Varenne (ligne 13) · Bus 69, 87
+              {clientName(sessionData) ? "Accès transports & parking à proximité" : "Métro Varenne (ligne 13) · Bus 69, 87"}
             </p>
           </motion.div>
         </div>
@@ -1781,7 +1781,7 @@ export default function Page() {
           <div>
             <span style={{ ...headingFont, fontSize: '22px', color: '#fff' }}>{clientName(sessionData) ?? "L'Atelier"}</span>
             <p style={{ ...bodyFont, fontSize: '11px', color: GRAY_MID, margin: '4px 0 0', letterSpacing: '0.1em' }}>
-              Coiffure & Beauté · {clientCity(sessionData) ?? "Paris"} VII
+              Coiffure & Beauté{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : " · Paris VII"}
             </p>
           </div>
           <div style={{ display: 'flex', gap: '24px' }}>

@@ -16,6 +16,7 @@ import { TemplateIcon } from '@/components/TemplateIcon';
 import { Flame } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAreas,
   clientCity,
   clientEmail,
   clientFaq,
@@ -814,7 +815,7 @@ export default function ThermaProPage() {
     },
     {
       icon: '🚨', title: 'Urgences 24h/7j',
-      desc: 'Panne de chauffage ? Notre équipe d\'astreinte intervient dans toute la métropole lyonnaise en moins de 2h, week-ends et jours fériés inclus.',
+      desc: `Panne de chauffage ? Notre équipe d'astreinte intervient ${clientCity(sessionData) ? "à " + clientCity(sessionData) + " et alentours" : "dans toute la métropole lyonnaise"} en moins de 2h, week-ends et jours fériés inclus.`,
       badge: '24/7',
     },
     {
@@ -906,8 +907,8 @@ export default function ThermaProPage() {
   );
 
   const projects_DEMO = [
-    { type: 'PAC air/eau + plancher chauffant',       location: (clientCity(sessionData) ?? 'Lyon') + ' 6e',            surface: '180 m²',   year: '2024', tag: 'Résidentiel' },
-    { type: 'Chaudière condensation gaz',              location: (clientCity(sessionData) ?? 'Villeurbanne'),       surface: '95 m²',    year: '2024', tag: 'Résidentiel' },
+    { type: 'PAC air/eau + plancher chauffant',       location: 'Lyon 6e',            surface: '180 m²',   year: '2024', tag: 'Résidentiel' },
+    { type: 'Chaudière condensation gaz',              location: 'Villeurbanne',       surface: '95 m²',    year: '2024', tag: 'Résidentiel' },
     { type: 'Climatisation multisplit 5 groupes',      location: 'Bron',               surface: '220 m²',   year: '2024', tag: 'Commercial'  },
     { type: 'PAC géothermique sol/eau',                location: 'Caluire-et-Cuire',   surface: '350 m²',   year: '2023', tag: 'Résidentiel' },
     { type: 'Remplacement fuel → PAC air/eau',         location: 'Écully',             surface: '145 m²',   year: '2023', tag: 'Rénovation'  },
@@ -940,7 +941,7 @@ export default function ThermaProPage() {
     },
     {
       q: 'Ma chaudière tombe en panne la nuit, comment vous joindre ?',
-      a: 'Notre service d\'urgence est disponible 24h/24, 7j/7, y compris les jours fériés. Appelez le ' + (clientPhone(sessionData) ?? fd?.phone ?? '04 78 00 00 00') + ', notre astreinte répond en moins de 5 minutes. Un technicien est dépêché chez vous en 2h maximum dans la métropole lyonnaise. Ce service est inclus dans nos contrats d\'entretien et disponible à la demande pour les autres clients.',
+      a: 'Notre service d\'urgence est disponible 24h/24, 7j/7, y compris les jours fériés. Appelez le ' + (clientPhone(sessionData) ?? fd?.phone ?? '04 78 00 00 00') + ', notre astreinte répond en moins de 5 minutes. Un technicien est dépêché chez vous en 2h maximum sur notre zone d\'intervention. Ce service est inclus dans nos contrats d\'entretien et disponible à la demande pour les autres clients.',
     },
     {
       q: 'Quelle est la différence entre une PAC air/air et air/eau ?',
@@ -965,10 +966,10 @@ export default function ThermaProPage() {
   const projects = resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({
       type: b.caption ?? projects_DEMO[i % projects_DEMO.length].type,
-      location: projects_DEMO[i % projects_DEMO.length].location,
-      surface: projects_DEMO[i % projects_DEMO.length].surface,
-      year: projects_DEMO[i % projects_DEMO.length].year,
-      tag: projects_DEMO[i % projects_DEMO.length].tag,
+      location: "",
+      surface: "",
+      year: "",
+      tag: "",
     })),
     projects_DEMO
   );
@@ -976,8 +977,8 @@ export default function ThermaProPage() {
     clientTeam(sessionData)?.map((m: any, i: number) => ({
       name: m.name,
       role: m.role ?? team_DEMO[i % team_DEMO.length].role,
-      years: team_DEMO[i % team_DEMO.length].years,
-      specialty: m.specialty ?? team_DEMO[i % team_DEMO.length].specialty,
+      years: 0,
+      specialty: m.specialty ?? "",
     })),
     team_DEMO
   );
@@ -1204,7 +1205,7 @@ return (
                 maxWidth: 540, marginBottom: 40,
               }}
             >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
-              Spécialiste du chauffage, de la climatisation et des pompes à chaleur depuis 2009. Installation, entretien et dépannage 24h/7j dans toute la métropole lyonnaise.
+              {clientName(sessionData) ? `Spécialiste du chauffage, de la climatisation et des pompes à chaleur. Installation, entretien et dépannage 24h/7j${clientCity(sessionData) ? " à " + clientCity(sessionData) + " et alentours" : ""}.` : "Spécialiste du chauffage, de la climatisation et des pompes à chaleur depuis 2009. Installation, entretien et dépannage 24h/7j dans toute la métropole lyonnaise."}
             </>}</motion.p>
 
             {/* CTAs */}
@@ -1418,7 +1419,7 @@ return (
             eyebrow="Nos Réalisations"
             title="Chantiers"
             accent="Récents"
-            subtitle="Quelques exemples concrets de nos installations dans la métropole lyonnaise."
+            subtitle={clientCity(sessionData) ? `Quelques exemples concrets de nos installations à ${clientCity(sessionData)} et alentours.` : "Quelques exemples concrets de nos installations dans la métropole lyonnaise."}
           />
           <div className="grid-3">
             {projects.map((p, i) => (
@@ -1467,7 +1468,7 @@ return (
             }}>{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>Ce que Disent<br /><span style={{ color: C.accent }}>Nos Clients</span></>)}</h2>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10 }}>
               <div style={{color: brand ?? 'var(--brand-light,#f5a623)', fontSize: 17, letterSpacing: 3 }}>★★★★★</div>
-              <div style={{ color: C.textMuted, fontSize: 14 }}>4.9/5 sur 847 avis Google</div>
+              {clientName(sessionData) ? null : <div style={{ color: C.textMuted, fontSize: 14 }}>4.9/5 sur 847 avis Google</div>}
             </div>
           </motion.div>
           <div className="grid-3">
@@ -1740,7 +1741,7 @@ return (
                 </div>
               </div>
               <p style={{ color: C.textMuted, fontSize: 13.5, lineHeight: 1.75, maxWidth: 280, marginBottom: '1.5rem' }}>
-                Votre expert en chauffage, climatisation et pompes à chaleur dans la métropole lyonnaise depuis 2009. RGE certifié, qualité garantie.
+                {clientName(sessionData) ? `Votre expert en chauffage, climatisation et pompes à chaleur${clientCity(sessionData) ? " à " + clientCity(sessionData) + " et alentours" : ""}. Qualité garantie.` : "Votre expert en chauffage, climatisation et pompes à chaleur dans la métropole lyonnaise depuis 2009. RGE certifié, qualité garantie."}
               </p>
               <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33478000000").replace(/[^+0-9]/g, "")}`} style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
@@ -1774,7 +1775,7 @@ return (
               <div style={{ fontFamily: "'Barlow Condensed', sans-serif", fontSize: 16, fontWeight: 700, color: C.white, marginBottom: '1.25rem', letterSpacing: '0.04em' }}>
                 Zone d'intervention
               </div>
-              {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? [(clientCity(sessionData) ?? 'Lyon') + ' (tous arrondissements)', (clientCity(sessionData) ?? 'Villeurbanne'), 'Bron', 'Caluire-et-Cuire', 'Décines-Charpieu', 'Écully', 'Vénissieux', 'Tassin-la-Demi-Lune']).map(z => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? clientAreas(sessionData) ?? (clientCity(sessionData) ? [clientCity(sessionData) + ' et alentours'] : ['Lyon (tous arrondissements)', 'Villeurbanne', 'Bron', 'Caluire-et-Cuire', 'Décines-Charpieu', 'Écully', 'Vénissieux', 'Tassin-la-Demi-Lune'])).map(z => (
                 <div key={z} style={{ marginBottom: 9 }}>
                   <span style={{ color: C.textMuted, fontSize: 13.5 }}>{z}</span>
                 </div>
@@ -1805,10 +1806,10 @@ return (
             alignItems: 'center', gap: '0.75rem',
           }}>
             <div style={{ color: C.textMuted, fontSize: 12.5 }}>
-              © 2024 {clientName(sessionData) ?? "Therma Pro SAS"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 123 456 789 00012"} · RGE n° E-E200050{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2024 {clientName(sessionData) ?? "Therma Pro SAS"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 123 456 789 00012"}{clientName(sessionData) ? "" : " · RGE n° E-E200050"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </div>
             <div className="footer-badges" style={{ display: 'flex', gap: '0.75rem' }}>
-              {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste2") ?? ['RGE Certifié', '4.9/5 Google', 'Garantie 5 ans']).map(badge => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste2") ?? (clientName(sessionData) ? ['Garantie 5 ans'] : ['RGE Certifié', '4.9/5 Google', 'Garantie 5 ans'])).map(badge => (
                 <span key={badge} style={{
                   color: C.textMuted, fontSize: 12,
                   background: C.bgCard, border: `1px solid ${C.border}`,

@@ -116,9 +116,9 @@ const SERVICES_SOURCE = [
 let SERVICES_DEMO = SERVICES_SOURCE;
 
 const INFOS = [
-  { n: "01", t: "Horaires étendus", d: "Lun–Sam 8h30–19h30 sans interruption, sous l'horloge de la Grande Rue." },
+  { n: "01", t: "Horaires étendus", d: clientName(sessionData) ? "Lun–Sam 8h30–19h30 sans interruption." : "Lun–Sam 8h30–19h30 sans interruption, sous l'horloge de la Grande Rue." },
   { n: "02", t: "Comptoir ordonnances", d: "File dédiée aux ordonnances préparées : moins de cinq minutes, mesuré chaque mois." },
-  { n: "03", t: "Accès et parking", d: "Arrêt de tram à 50 m, parking Saint-Pierre gratuit 30 minutes avec validation." },
+  { n: "03", t: "Accès et parking", d: clientName(sessionData) ? "Stationnement et transports à proximité immédiate." : "Arrêt de tram à 50 m, parking Saint-Pierre gratuit 30 minutes avec validation." },
   { n: "04", t: "Garde et urgences", d: "En dehors de nos horaires, composez le 3237 pour la pharmacie de garde, le 15 pour le SAMU." },
 ];
 
@@ -129,7 +129,7 @@ const URGENCES_SOURCE = [
 let URGENCES = URGENCES_SOURCE;
 
 const ENGAGEMENT_DEMO = [
-  "Inscrite à l'Ordre national des pharmaciens — licence n° 25#002214",
+  "Inscrite à l'Ordre national des pharmaciens — n° de licence affiché en officine",
   "Un pharmacien diplômé d'État présent à chaque heure d'ouverture",
   "Tiers payant carte Vitale + mutuelle : aucune avance de frais",
   "Secret professionnel au comptoir : un espace de confidentialité dédié",
@@ -160,7 +160,7 @@ const STATS_DEMO = [
 let STATS = STATS_DEMO;
 
 function ZONES_SOURCE_LIVE() {
-  return [(clientCity(sessionData) ?? "Besançon") + " centre", "Doubs"];
+  return clientCity(sessionData) ? [clientCity(sessionData)! + " centre", "et alentours"] : ["Besançon centre", "Doubs"];
 }
 let ZONES_SOURCE = ZONES_SOURCE_LIVE();
 let ZONES = ZONES_SOURCE;
@@ -443,14 +443,14 @@ export default function PharmacieHorlogePage() {
     SERVICES_SOURCE,
   );
   AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
     CLIENT_SERVICES?.map((s: any, i: number) => ({
       ...TARIFS_DEMO[i % TARIFS_DEMO.length],
       a: s.title,
-      p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p,
+      p: s.price ?? "Sur devis",
       n: s.description || s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n,
     })),
     TARIFS_DEMO,
@@ -1064,12 +1064,12 @@ export default function PharmacieHorlogePage() {
               <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 300, color: "rgba(255,255,255,0.4)", lineHeight: 1.85, margin: 0 }}>
                 Pharmacie d'officine · {ville}
                 <br />
-                Ordre national des pharmaciens — licence n° 25#002214
+                {clientName(sessionData) ? "Ordre national des pharmaciens — n° de licence affiché en officine" : "Ordre national des pharmaciens — licence n° 25#002214"}
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {[
-                { icon: <MapPin size={13} />, t: adresse ?? `${lieu}, Doubs` },
+                { icon: <MapPin size={13} />, t: adresse ?? (clientCity(sessionData) ? lieu : `${lieu}, Doubs`) },
                 { icon: <Phone size={13} />, t: phone },
                 { icon: <Mail size={13} />, t: mail },
                 { icon: <Clock size={13} />, t: "Lun–Sam 8h30–19h30 · Garde : 3237" },

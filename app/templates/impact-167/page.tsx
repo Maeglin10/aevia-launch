@@ -26,6 +26,7 @@ import {
   clientStats,
   clientText,
   fusionnerEtapes,
+  clientAddress,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -866,7 +867,7 @@ export default function Impact167Page() {
 
 
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text, origin: "", })),
     TESTIMONIALS_SOURCE,
   );
   NEIGHBORHOODS = NEIGHBORHOODS_DEMO.map((row, i) => ({
@@ -1980,7 +1981,7 @@ export default function Impact167Page() {
               </motion.p>
 
               {[
-                { label: "Agence", value: "12 Rue de l'Université, 75007 " + (clientCity(sessionData) ?? "Paris") },
+                { label: "Agence", value: clientAddress(sessionData) ?? clientCity(sessionData) ?? "12 Rue de l'Université, 75007 Paris" },
                 { label: "Téléphone", value: clientPhone(sessionData) ?? "+33 1 45 48 23 67" },
                 { label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "contact@rivegauche-immo.fr") },
               ].map((item) => (
@@ -2170,7 +2171,7 @@ export default function Impact167Page() {
               marginBottom: 4,
             }}
           >
-            Rive Gauche · Immobilier
+            {clientName(sessionData) ?? "Rive Gauche · Immobilier"}
           </div>
           <div
             style={{
@@ -2180,7 +2181,7 @@ export default function Impact167Page() {
               letterSpacing: "0.1em",
             }}
           >
-            12 Rue de l'Université, 75007 {clientCity(sessionData) ?? "Paris"}
+            {clientAddress(sessionData) ?? clientCity(sessionData) ?? "12 Rue de l'Université, 75007 Paris"}
           </div>
         </div>
         <div
@@ -2190,7 +2191,7 @@ export default function Impact167Page() {
             color: "rgba(255,255,255,0.25)",
           }}
         >
-          © 2025 {clientName(sessionData) ?? "Rive Gauche Immobilier."} Tous droits réservés. Carte professionnelle T n° 75-XXX-2024.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2025 {clientName(sessionData) ?? "Rive Gauche Immobilier."} Tous droits réservés.{clientName(sessionData) ? "" : " Carte professionnelle T n° 75-XXX-2024."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </div>
         <div style={{ display: "flex", gap: 28 }}>
           {["Mentions légales", "Confidentialité", "Plan du site"].map((link) => (

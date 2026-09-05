@@ -281,11 +281,11 @@ export default function DrFontainePage() {
   bp = session?.businessProfile;
   sessionData = session;
   SOINS_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SOINS_SOURCE[i % SOINS_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SOINS_SOURCE[i % SOINS_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SOINS_SOURCE,
   );
   TARIFS = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? "Sur devis", n: s.desc || "" })),
     TARIFS_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -623,7 +623,7 @@ export default function DrFontainePage() {
           <div>
             <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#1d6fa4)]/60 mb-5">Adresse</h4>
             <address className="not-italic text-white/20 text-sm leading-relaxed space-y-2.5">
-              <div>{clientAddress(sessionData) ?? "14 rue Crébillon"}<br />44000 {clientCity(sessionData) ?? "Nantes"}</div>
+              <div>{clientAddress(sessionData) ?? (clientCity(sessionData) ? "" : "14 rue Crébillon")}{(clientAddress(sessionData) || !clientCity(sessionData)) ? <br /> : null}{clientCity(sessionData) ?? "44000 Nantes"}</div>
               <div>Lun — Ven 8h30 — 19h<br />Sam 8h30 — 13h</div>
               <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0240567890").replace(/[^+0-9]/g, "")}`} className="inline-flex items-center gap-2 hover:text-white transition-colors">
                 <Phone className="w-3.5 h-3.5" />{clientPhone(sessionData) ?? fd?.phone ?? "02 40 56 78 90"}
@@ -632,7 +632,7 @@ export default function DrFontainePage() {
           </div>
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 {clientName(sessionData) ?? "Dr. Léa Fontaine"} · RPPS 10234567890 · Secteur 2 · {clientCity(sessionData) ?? "Nantes"} (44){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Dr. Léa Fontaine"}{clientName(sessionData) ? "" : " · RPPS 10234567890 · Secteur 2"} · {clientCity(sessionData) ?? "Nantes (44)"}</span>
           <span className="text-[var(--brand,#1d6fa4)]/25">Cabinet dentaire · {clientCity(sessionData) ?? "Nantes"}</span>
         </div>
       </footer>

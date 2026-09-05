@@ -124,7 +124,7 @@ const SERVICES_SOURCE = [
 let SERVICES_DEMO = SERVICES_SOURCE;
 
 const ENGAGEMENT_DEMO = [
-  "Pharmacie inscrite à l'Ordre national des pharmaciens — licence n° 59#004512",
+  "Pharmacie inscrite à l'Ordre national des pharmaciens — n° de licence affiché en officine",
   "Pharmaciens diplômés d'État présents à chaque ouverture",
   "Tiers payant carte Vitale + mutuelle : aucune avance de frais",
   "Pharmacie de garde : composez le 3237 (0,35 €/min) en dehors de nos horaires",
@@ -380,7 +380,7 @@ export default function PharmacieDuParcPage() {
     SERVICES_SOURCE,
   );
   AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
@@ -812,12 +812,12 @@ export default function PharmacieDuParcPage() {
               <div style={{ fontFamily: SERIF, fontWeight: 400, fontSize: 19, color: "#fff", marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Pharmacie du Parc")}</div>
               <p style={{ color: "rgba(255,255,255,0.40)", fontSize: 13, lineHeight: 1.7 }}>
                 {clientTrade(sessionData) ?? "Pharmacie d'officine"} · {clientCity(sessionData) ?? "Lille"}<br />
-                Ordre national des pharmaciens — licence n° 59#004512
+                {clientName(sessionData) ? "Ordre national des pharmaciens — n° de licence affiché en officine" : "Ordre national des pharmaciens — licence n° 59#004512"}
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[
-                { icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? `Quartier du Parc, ${clientCodePostalVille(sessionData, "59000", "Lille")}` },
+                { icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? (clientCity(sessionData) ? clientCodePostalVille(sessionData, "59000", "Lille") : `Quartier du Parc, ${clientCodePostalVille(sessionData, "59000", "Lille")}`) },
                 { icon: <Phone size={13} />, t: phone },
                 { icon: <Mail size={13} />, t: mail },
                 { icon: <Clock size={13} />, t: "Lun–Sam 8h30–19h30 · Garde : 3237" },
@@ -830,7 +830,7 @@ export default function PharmacieDuParcPage() {
           </div>
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Pharmacie du Parc")} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity fallback="852 546 225" kind="siren" />
+              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Pharmacie du Parc")} — Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" />{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>

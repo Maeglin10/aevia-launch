@@ -170,7 +170,7 @@ const SERVICES_SOURCE: Service[] = [
   },
   {
     title: "Lieux d'exception",
-    description: "Un carnet d'adresses de plus de 300 propriétés exclusives sur la Côte d'Azur, accessibles uniquement par notre réseau.",
+    description: clientName(sessionData) ? "Un carnet d'adresses de propriétés exclusives, accessibles uniquement par notre réseau." : "Un carnet d'adresses de plus de 300 propriétés exclusives sur la Côte d'Azur, accessibles uniquement par notre réseau.",
     icon: '◇',
   },
   {
@@ -202,7 +202,7 @@ function EDIT_ROWS_DEMO_SOURCE_LIVE() {
         <span style={{ fontStyle: 'italic' }}>à votre service.</span>
       </>
     ),
-    body: '180 kilomètres de littoral entre Monaco et Marseille. Plus de 300 lieux partenaires. 15 ans de réseau exclusif tissé auprès des meilleurs artisans de la Riviera — pour que votre mariage soit exactement ce que vous avez imaginé.',
+    body: clientName(sessionData) ? 'Un réseau exclusif tissé auprès des meilleurs artisans de la région — pour que votre mariage soit exactement ce que vous avez imaginé.' : '180 kilomètres de littoral entre Monaco et Marseille. Plus de 300 lieux partenaires. 15 ans de réseau exclusif tissé auprès des meilleurs artisans de la Riviera — pour que votre mariage soit exactement ce que vous avez imaginé.',
     reverse: false,
   },
   {
@@ -653,7 +653,7 @@ function Hero() {
           transition={{ duration: 1.2, ease: EASE, delay: 0.1 }}
         >
           <Eyebrow color={C.accentLight} align="center">
-            Wedding Planner · {clientCity(sessionData) ?? "Nice"} &amp; Côte d&apos;Azur
+            Wedding Planner · {clientCity(sessionData) ? <>{clientCity(sessionData)} &amp; alentours</> : <>Nice &amp; Côte d&apos;Azur</>}
           </Eyebrow>
         </motion.div>
 
@@ -2076,8 +2076,8 @@ function Footer() {
               maxWidth: 320,
             }}
           >
-            Wedding Planner de luxe sur la Côte d&apos;Azur. {clientCity(sessionData) ?? "Nice"}, Cannes,
-            Monaco, Antibes — et partout où la lumière mérite un mariage.
+            {clientCity(sessionData) ? <>Wedding Planner de luxe. {clientCity(sessionData)} — et partout où la lumière mérite un mariage.</> : <>Wedding Planner de luxe sur la Côte d&apos;Azur. Nice, Cannes,
+            Monaco, Antibes — et partout où la lumière mérite un mariage.</>}
           </p>
           <div
             style={{
@@ -2093,7 +2093,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-            {clientCity(sessionData) ?? "Nice"} · Côte d&apos;Azur · France
+            {clientCity(sessionData) ? <>{clientCity(sessionData)} · France</> : <>Nice · Côte d&apos;Azur · France</>}
           </div>
         </div>
 
@@ -2256,11 +2256,11 @@ export default function Page() {
     EDIT_ROWS_DEMO_SOURCE,
   );
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   EDIT_ROWS = EDIT_ROWS_DEMO.map((row, i) => ({

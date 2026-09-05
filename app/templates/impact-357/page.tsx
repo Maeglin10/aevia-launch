@@ -432,14 +432,14 @@ export default function AxisBioPage() {
     SERVICES_SOURCE,
   );
   AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
       a: s.title,
-      p: s.price ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].p,
+      p: s.price ?? "Sur devis",
       n: s.desc || s.description || TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
     })),
     TARIFS_SOURCE,
@@ -1030,7 +1030,7 @@ export default function AxisBioPage() {
                 )}
               </h2>
               <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: 15.5, lineHeight: 1.8, color: C.textMuted, maxWidth: 480, marginBottom: "clamp(24px, 3vw, 34px)" }}>
-                Centre-ville et Metz-Queuleu, sans rendez-vous. Résultats en ligne sur le serveur sécurisé — identifiants remis au guichet.
+                {clientCity(sessionData) ? `${clientCity(sessionData)}, sans rendez-vous.` : "Centre-ville et Metz-Queuleu, sans rendez-vous."} Résultats en ligne sur le serveur sécurisé — identifiants remis au guichet.
               </p>
               <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
                 <Bouton href={telHref} large>
@@ -1106,7 +1106,7 @@ export default function AxisBioPage() {
             <div style={{ maxWidth: 430 }}>
               <div style={{ fontFamily: SERIF, fontSize: 24, color: C.reactif, letterSpacing: "-0.01em" }}>{nom}</div>
               <p style={{ fontFamily: SANS, fontWeight: 300, color: "rgba(255,255,255,0.42)", fontSize: 13.5, lineHeight: 1.75, marginTop: 12 }}>
-                Laboratoire de biologie médicale · {ville} (2 sites)
+                Laboratoire de biologie médicale · {ville}{clientName(sessionData) ? "" : " (2 sites)"}
                 <br />
                 Accréditation COFRAC ISO 15189 — biologistes médicaux
               </p>

@@ -21,6 +21,7 @@ import {
   clientText,
   clientTrade,
   fusionnerEtapes,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 /* Les étapes de la démonstration, sorties du rendu pour que la méthode du
@@ -182,7 +183,7 @@ export default function MaxPerformancePage() {
               <span className="font-black text-[#f8f5f0] tracking-widest text-sm uppercase" style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: "'Anton', impact, sans-serif" }}>{/* Le suffixe se collait au nom du client : la barre affichait
                 « Atelier Vérification. ». Il n'appartient qu'au nom de la
                 démonstration. */}
-                {clientName(sessionData) ?? (<>MAX<span className="text-[var(--brand,#f97316)]">.</span></>)}PERF</span>
+                {clientName(sessionData) ?? (<>MAX<span className="text-[var(--brand,#f97316)]">.</span>PERF</>)}</span>
             )}
           </div>
           <div className="hidden lg:flex gap-10 text-[10px] font-bold uppercase tracking-[0.25em] text-[#f8f5f0]/25">
@@ -224,7 +225,7 @@ export default function MaxPerformancePage() {
         <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 1.3, duration: 0.8 }}
           className="absolute right-8 md:right-16 bottom-32 z-10 bg-[#0a0a0a]/80 backdrop-blur-sm border border-[var(--brand,#f97316)]/20 p-5 hidden lg:block">
           <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#f97316)]/60 mb-3">En ce moment</div>
-          <div className="text-3xl font-black text-[var(--brand,#f97316)]" style={{ fontFamily: "'Anton', sans-serif" }}>143</div>
+          <div className="text-3xl font-black text-[var(--brand,#f97316)]" style={{ fontFamily: "'Anton', sans-serif" }}>{clientStats(sessionData)?.[0]?.value ?? (clientName(sessionData) ? "" : "143")}</div>
           <div className="text-[10px] text-[#f8f5f0]/30 mt-1">clients transformés en 2026</div>
         </motion.div>
 
@@ -240,9 +241,11 @@ export default function MaxPerformancePage() {
             <h1 className="font-black uppercase leading-none tracking-tight mb-2 text-[#f8f5f0]" style={{ /* TITRE_DEGAGE */ marginTop: 87,  fontFamily: "'Anton', impact, sans-serif", fontSize: "clamp(64px,10vw,120px)" }}>{clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>
               STOP
             </>}</h1>
+            {clientHeroLine(sessionData, 0, 1, 28) ? null : (
             <h1 className="font-black uppercase leading-none tracking-tight mb-2 text-[var(--brand,#f97316)]" style={{ fontFamily: "'Anton', impact, sans-serif", fontSize: "clamp(64px,10vw,120px)" }}>
               {c?.heroHeadline ?? "WAITING."}
             </h1>
+            )}
             <h1 className="font-black uppercase leading-none tracking-tight mb-10 text-[#f8f5f0]/20" style={{ fontFamily: "'Anton', impact, sans-serif", fontSize: "clamp(32px,4.5vw,56px)" }}>
               {c?.heroHeadline ?? "Start performing."}
             </h1>
@@ -423,7 +426,7 @@ export default function MaxPerformancePage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="font-black uppercase text-[#f8f5f0] text-sm mb-5" style={{ fontFamily: "'Anton', sans-serif" }}>MAX<span className="text-[var(--brand,#f97316)]">.</span>PERF</div>
-            <p className="text-[#f8f5f0]/15 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Coach sportif"} certifié BPJEPS. {clientCity(sessionData) ?? "Paris"} & online worldwide. Coaching privé, bootcamp, prépa compétition.</p>
+            <p className="text-[#f8f5f0]/15 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Coach sportif certifié BPJEPS"}. {clientCity(sessionData) ?? "Paris"} & online worldwide. Coaching privé, bootcamp, prépa compétition.</p>
           </div>
           {[
             { t: "Programmes", ls: ["Coaching privatif", "Bootcamp", "Prépa compétition", "Coaching en ligne", "Nutrition & récup"] },
@@ -439,7 +442,7 @@ export default function MaxPerformancePage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-6 border-t border-[var(--brand,#f97316)]/6 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f8f5f0]/8">
-          <span>© 2026 {clientName(sessionData) ?? "Max Performance"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 123 456 789 00100"} · BPJEPS AF · {clientCity(sessionData) ?? "Paris"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Max Performance"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 123 456 789 00100"}{clientName(sessionData) ? "" : " · BPJEPS AF"} · {clientCity(sessionData) ?? "Paris"}</span>
           <span className="text-[var(--brand,#f97316)]/20">Stop Waiting. Start Performing.</span>
         </div>
       </footer>

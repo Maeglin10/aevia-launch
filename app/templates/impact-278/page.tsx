@@ -37,6 +37,7 @@ import {
   clientName,
   clientPhone,
   clientPhotos,
+  clientAreas,
   clientReviews,
   clientServices,
   clientSiret,
@@ -1416,7 +1417,7 @@ function TESTIMONIALS278_DEMO_LIVE() {
     quote:
       `${clientName(sessionData) ?? "Plomberie Garonne"} a rénové notre salle de bain en 8 jours, exactement dans le budget prévu. Le résultat est magnifique — douche à l\'italienne, plan vasque suspendu, tout est parfait. Je recommande les yeux fermés.`,
     name: 'Sophie M.',
-    role: (clientCity(sessionData) ?? 'Toulouse') + ' — Quartier Saint-Aubin',
+    role: 'Toulouse — Quartier Saint-Aubin',
     work: 'Rénovation salle de bain complète',
   },
   {
@@ -1529,8 +1530,8 @@ function TestimonialsSection() {
     clientReviews(sessionData)?.map((r: any, i: number) => ({
       quote: r.text ?? r.quote,
       name: r.name ?? r.author,
-      role: r.location ?? TESTIMONIALS278_DEMO[i % TESTIMONIALS278_DEMO.length].role,
-      work: TESTIMONIALS278_DEMO[i % TESTIMONIALS278_DEMO.length].work,
+      role: r.location ?? "",
+      work: "",
     })),
     TESTIMONIALS278_DEMO
   );
@@ -1616,7 +1617,7 @@ function TestimonialsSection() {
                 textTransform: 'uppercase',
               }}
             >
-              Note moyenne · 247 avis Google
+              {clientName(sessionData) ? "Avis clients" : "Note moyenne · 247 avis Google"}
             </div>
           </div>
         </div>
@@ -2510,8 +2511,8 @@ function UrgencySection() {
    10 · FOOTER SECTION
    ════════════════════════════════════════════════════════════════════════════ */
 function FooterSection() {
-  const zones = [
-    (clientCity(sessionData) ?? 'Toulouse'),
+  const zones = clientAreas(sessionData) ?? (clientCity(sessionData) ? [clientCity(sessionData)! + ' et alentours'] : [
+    'Toulouse',
     'Blagnac',
     'Colomiers',
     'Tournefeuille',
@@ -2521,7 +2522,7 @@ function FooterSection() {
     'Ramonville',
     'Muret',
     'Saint-Orens',
-  ];
+  ]);
 
   const colServices = [
     { label: 'Plomberie générale', href: '#services' },
@@ -2602,7 +2603,7 @@ function FooterSection() {
             }}
           >
             <MapPin size={16} color={C.brick} strokeWidth={2} />
-            {clientCity(sessionData) ?? "Toulouse"} et agglo (30 km)
+            {clientCity(sessionData) ? `${clientCity(sessionData)} et alentours` : "Toulouse et agglo (30 km)"}
           </div>
           <a
             href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33561000000").replace(/[^+0-9]/g, "")}`}
@@ -2818,7 +2819,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2024 {fd?.businessName ?? (clientName(sessionData) ?? "Plomberie Garonne")}{clientSiret(sessionData) ? ` — SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " — SIRET 000 000 000 00000"} · {clientCity(sessionData) ?? "Toulouse"} (31){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2024 {fd?.businessName ?? (clientName(sessionData) ?? "Plomberie Garonne")}{clientSiret(sessionData) ? ` — SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " — SIRET 000 000 000 00000"} · {clientCity(sessionData) ?? "Toulouse (31)"}
         </span>
         <span style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           <a href="#hero" style={{ color: 'inherit', textDecoration: 'none' }}>

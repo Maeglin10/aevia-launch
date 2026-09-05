@@ -20,6 +20,7 @@ import {
   clientPhotos,
   clientReviews,
   clientText,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -310,7 +311,7 @@ return (
             </div>
           </Reveal>
           <div className="mt-20 pt-10 border-t border-[#4A3520] flex flex-wrap gap-10">
-            {[["Depuis 2018", "Ouvert"], ["100%", "Café de spécialité"], ["Bio & Local", "Nos pâtisseries"]].map(([val, label]) => (
+            {(clientStats(sessionData)?.map((x: any) => [x.value, x.label]) ?? [["Depuis 2018", "Ouvert"], ["100%", "Café de spécialité"], ["Bio & Local", "Nos pâtisseries"]]).map(([val, label]) => (
               <div key={label}>
                 <div className="text-[#C9A86C] text-xl font-light mb-0.5" style={{ fontFamily: "'Playfair Display', serif" }}>{val}</div>
                 <div className="text-xs text-[#8A7560] uppercase tracking-wide">{label}</div>
@@ -397,8 +398,8 @@ return (
                   <Image src={photo(1, (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=800&q=80"))} alt="Notre histoire" fill className="object-cover" />
                 </div>
                 <div className="absolute -bottom-6 -right-6 bg-[var(--brand,#8B5E3C)] text-white p-6">
-                  <div className="text-3xl font-light mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>2018</div>
-                  <div className="text-xs uppercase tracking-wide">Fondé à {clientCity(sessionData) ?? "Paris"}</div>
+                  <div className="text-3xl font-light mb-1" style={{ fontFamily: "'Playfair Display', serif" }}>{clientCity(sessionData) ? "★" : "2018"}</div>
+                  <div className="text-xs uppercase tracking-wide">{clientCity(sessionData) ? `À ${clientCity(sessionData)}` : "Fondé à Paris"}</div>
                 </div>
               </Reveal>
             </div>
@@ -437,7 +438,7 @@ return (
             <div className="flex items-center justify-between mb-10">
               <h2 className="text-3xl font-light" style={{ fontFamily: "'Playfair Display', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "galerie.titre") ?? (<>L&apos;ambiance du lieu</>)}</h2>
               <Link href="#galerie" className="flex items-center gap-2 text-sm text-[var(--brand,#8B5E3C)] cursor-pointer hover:gap-3 transition-all duration-200">
-                <Instagram className="w-4 h-4" /> @{clientInstagram(sessionData) ?? "lematindore"}
+                <Instagram className="w-4 h-4" /> {clientInstagram(sessionData) ? `@${clientInstagram(sessionData)}` : (clientName(sessionData) ? "" : "@lematindore")}
               </Link>
             </div>
           </Reveal>
@@ -532,7 +533,7 @@ return (
                   Venez nous <em>rendre visite</em>
                 </>)}</h2>
                 <div className="space-y-5 mb-10">
-                  {[{ Icon: MapPin, text: `34 rue de la Roquette, 75011 ${clientCity(sessionData) ?? "Paris"}` }, { Icon: Phone, text: (clientPhone(sessionData) ?? "+33 1 43 48 22 10") }, { Icon: Mail, text: (clientEmail(sessionData) ?? fd?.email ?? "bonjour@lematindore.fr") }, { Icon: Instagram, text: "@" + (clientInstagram(sessionData) ?? "lematindore") }].map(({ Icon, text }) => (
+                  {[{ Icon: MapPin, text: clientAddress(sessionData) ?? clientCity(sessionData) ?? "34 rue de la Roquette, 75011 Paris" }, { Icon: Phone, text: (clientPhone(sessionData) ?? "+33 1 43 48 22 10") }, { Icon: Mail, text: (clientEmail(sessionData) ?? fd?.email ?? "bonjour@lematindore.fr") }, { Icon: Instagram, text: clientInstagram(sessionData) ? "@" + clientInstagram(sessionData) : (clientName(sessionData) ? "" : "@lematindore") }].map(({ Icon, text }) => (
                     <div key={text} className="flex items-center gap-4 text-sm text-[#6B5A40]">
                       <Icon className="w-4 h-4 text-[var(--brand,#8B5E3C)] flex-shrink-0" />
                       {text}
@@ -655,7 +656,7 @@ return (
                 <Coffee className="w-5 h-5 text-[#C9A86C]" />
                 <span className="text-[#FDFAF5] text-xl font-normal" style={{ fontFamily: "'Playfair Display', serif" }}>{clientName(sessionData) ?? "Le Matin Doré"}</span>
               </div>
-              <p className="text-sm leading-relaxed max-w-xs">Café de spécialité, pâtisseries maison, et un accueil chaleureux. Depuis 2018 au cœur du 11e.</p>
+              <p className="text-sm leading-relaxed max-w-xs">{clientCity(sessionData) ? `Café de spécialité, pâtisseries maison, et un accueil chaleureux, à ${clientCity(sessionData)}.` : "Café de spécialité, pâtisseries maison, et un accueil chaleureux. Depuis 2018 au cœur du 11e."}</p>
             </div>
             <div>
               <p className="text-[#FDFAF5] text-xs tracking-widest uppercase mb-5">Navigation</p>
@@ -665,10 +666,10 @@ return (
             </div>
             <div>
               <p className="text-[#FDFAF5] text-xs tracking-widest uppercase mb-5">Contact</p>
-              <p className="text-sm mb-2">{clientAddress(sessionData) ?? "34 rue de la Roquette"}</p>
-              <p className="text-sm mb-2">75011 {clientCity(sessionData) ?? "Paris"}</p>
+              <p className="text-sm mb-2">{clientAddress(sessionData) ?? (clientCity(sessionData) ? "" : "34 rue de la Roquette")}</p>
+              <p className="text-sm mb-2">{clientCity(sessionData) ?? "75011 Paris"}</p>
               <p className="text-sm mb-4">{clientPhone(sessionData) ?? fd?.phone ?? "+33 1 43 48 22 10"}</p>
-              <Link href="#contact" className="flex items-center gap-2 text-sm hover:text-[#C9A86C] transition-colors cursor-pointer"><Instagram className="w-4 h-4" /> @{clientInstagram(sessionData) ?? "lematindore"}</Link>
+              <Link href="#contact" className="flex items-center gap-2 text-sm hover:text-[#C9A86C] transition-colors cursor-pointer"><Instagram className="w-4 h-4" /> {clientInstagram(sessionData) ? `@${clientInstagram(sessionData)}` : (clientName(sessionData) ? "" : "@lematindore")}</Link>
             </div>
           </div>
           <div className="pt-8 border-t border-[#4A3520] flex flex-col md:flex-row justify-between gap-4 text-xs">

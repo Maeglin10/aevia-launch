@@ -344,7 +344,7 @@ function FAQS_DEMO_LIVE() {
 let FAQS_DEMO = FAQS_DEMO_LIVE();
 
 const STATS_DEMO = [
-  { val: "4.92", label: "Note moyenne", sub: "2 840 avis vérifiés" },
+  { val: "4.92", label: "Note moyenne", sub: "avis vérifiés" },
   { val: "J+1", label: "Livraison express", sub: "Commande avant 14h" },
   { val: "30 j", label: "Retours gratuits", sub: "Sans justification" },
   { val: "100%", label: "Matières certifiées", sub: "GOTS & OEKO-TEX" },
@@ -753,7 +753,7 @@ function buildProducts() {
   return resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? s.name ?? D[i % D.length].name,
-      price: s.price ?? D[i % D.length].price,
+      price: s.price ?? "",
       oldPrice: D[i % D.length].oldPrice,
       tag: D[i % D.length].tag,
       tagType: D[i % D.length].tagType,
@@ -851,7 +851,7 @@ export default function ImpactEclatPage() {
     COLLECTIONS_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, location: "", })),
     TESTIMONIALS_SOURCE,
   );
   STATS = resolveList(clientStats(sessionData)?.map((r: any) => ({ val: r.value, label: r.label })), STATS_DEMO);
@@ -1686,7 +1686,7 @@ export default function ImpactEclatPage() {
                 fontWeight: 300,
               }}
             >{c?.aboutText ?? <>
-              34 looks photographiés sur les plages de {clientCity(sessionData) ?? "Biarritz"} et les rues de Porto.
+              34 looks photographiés sur les plages de Biarritz et les rues de Porto.
               Un carnet de voyage visuel qui réinvente la garde-robe estivale.
             </>}</p>
             <motion.a
@@ -2175,7 +2175,7 @@ export default function ImpactEclatPage() {
             fontFamily: C.sans,
           }}
         >
-          +18 500 abonnées · Désabonnement en 1 clic · Aucun spam
+          {clientName(sessionData) ? "Désabonnement en 1 clic · Aucun spam" : "+18 500 abonnées · Désabonnement en 1 clic · Aucun spam"}
         </div>
       </section>
       </>

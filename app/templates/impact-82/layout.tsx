@@ -10,6 +10,7 @@ import { motion, AnimatePresence, useScroll } from "framer-motion"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Menu, X, MapPin, Phone, Mail } from "lucide-react"
+import { LegalIdentity } from "@/app/templates/LegalIdentity"
 
 export default function BlueprintLayout({ children }: { children: React.ReactNode }) {
   const [__layoutSession, __setLayoutSession] = useState<any>(null);
@@ -182,8 +183,8 @@ export default function BlueprintLayout({ children }: { children: React.ReactNod
             </div>
             <div>
               <p className="text-[#F7F5F2] text-xs tracking-widest uppercase mb-5">Siège social</p>
-              <p className="text-sm mb-2">8 avenue Hoche</p>
-              <p className="text-sm mb-2">75008 {clientCity(__layoutSession) ?? "Paris"}, France</p>
+              {clientCity(__layoutSession) ? null : <p className="text-sm mb-2">8 avenue Hoche</p>}
+              <p className="text-sm mb-2">{clientCity(__layoutSession) ? `${clientCity(__layoutSession)}, France` : "75008 Paris, France"}</p>
               <p className="text-sm mb-4">{clientPhone(__layoutSession) ?? "+33 1 44 15 62 00"}</p>
               <p className="text-xs text-[#C9A86C]">{clientName(__layoutSession) ? <>RCS {clientCity(__layoutSession) ?? "Paris"}</> : <>SIREN : 342 789 001 · RCS Paris</>}</p>
             </div>

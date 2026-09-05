@@ -23,6 +23,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientAddress,
   clientTeam,
   clientText,
 } from "@/lib/templates/clientContent";
@@ -1020,15 +1021,15 @@ export default function Impact198Page() {
 
 
   SERVICES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, text: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, text: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   PACKAGES = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...PACKAGES_DEMO[i % PACKAGES_DEMO.length], name: s.title, price: s.price ?? PACKAGES_DEMO[i % PACKAGES_DEMO.length].price })),
+    clientServices(session)?.map((s, i) => ({ ...PACKAGES_DEMO[i % PACKAGES_DEMO.length], name: s.title, price: s.price ?? "" })),
     PACKAGES_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -1059,7 +1060,7 @@ export default function Impact198Page() {
   // nested inside it — read from `session`, not `fd`.
   const bp = session?.businessProfile;
   const services: any[] = resolveList(clientServices(session), SERVICES_DEMO);
-  const team: any[] = resolveList(clientTeam(session), TEAM_DEMO);
+  const team: any[] = resolveList(clientTeam(session)?.map((m: any, i: number) => ({ ...TEAM_DEMO[i % TEAM_DEMO.length], name: m.name, role: m.role, bio: "", tags: [] })), TEAM_DEMO);
   const temoignages: any[] = resolveList(clientReviews(session), TESTIMONIALS_DEMO);
 
   const scrollTo = (id: string) => {
@@ -1352,7 +1353,7 @@ export default function Impact198Page() {
               fontWeight: 500,
             }}
           >
-            Institut de Beauté · {clientCity(sessionData) ?? "Paris"} 7ème
+            Institut de Beauté · {clientCity(sessionData) ?? "Paris 7ème"}
           </motion.div>
 
           <TextReveal immediate delay={0.3}>
@@ -2075,7 +2076,7 @@ export default function Impact198Page() {
             letterSpacing: "0.05em",
           }}
         >
-          © 2025 {clientName(sessionData) ?? "Lumière Beauty"} · 12 Rue de Grenelle, {clientCity(sessionData) ?? "Paris"} 7ème · Institut certifié bio{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2025 {clientName(sessionData) ?? "Lumière Beauty"} · {clientAddress(sessionData) ?? clientCity(sessionData) ?? "12 Rue de Grenelle, Paris 7ème"}{clientName(sessionData) ? "" : " · Institut certifié bio"}
         </div>
       </footer>
 

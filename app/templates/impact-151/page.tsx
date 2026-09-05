@@ -314,10 +314,12 @@ return (
                 <h1 className="text-7xl md:text-[14vw] font-light italic leading-[0.8] tracking-tighter uppercase mb-16" style={{ fontFamily: "serif" }}>{<>{clientHeroLine(sessionData, 0, 2, 14) ?? "Time"}<br/> <span className="not-italic font-black text-[var(--brand,#c4a661)]/5 italic">{clientHeroLine(sessionData, 1, 2, 14) ?? "Is_The_Master."}</span>
                 </>}</h1>
                 <div className="flex flex-col md:flex-row justify-center items-center gap-12 md:gap-32">
+                   {clientName(sessionData) ? null : (
                    <div className="flex flex-col items-center">
                       <span className="text-4xl font-light tracking-tighter">1842</span>
                       <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20">Establishment</span>
                    </div>
+                   )}
                    <div className="w-px h-16 bg-white/10 hidden md:block" />
                    <p className="max-w-xs text-xs text-white/40 leading-loose uppercase tracking-widest font-light italic">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
                       Dans le silence de nos caves, chaque goutte écrit l'histoire d'un héritage inébranlable.
@@ -433,7 +435,7 @@ return (
               <div className="grid lg:grid-cols-2 gap-32 items-center">
                  <div className="order-2 lg:order-1">
                     <Reveal>
-                       <SectionTitle subtitle="Chapitre III // L'Alchimie" title={`Spirits of ${clientName(sessionData) ?? "AETHELGARD"}.`} alignment="left" />
+                       <SectionTitle subtitle="Chapitre III // L'Alchimie" title={clientName(sessionData) ? `Les spiritueux ${clientName(sessionData)}.` : "Spirits of AETHELGARD."} alignment="left" />
                        <p className="text-xl font-light text-white/40 leading-relaxed italic mb-16 uppercase tracking-widest">{/* TEXTE_SECTION */ clientText(sessionData, "alchemist.texte") ?? (<>
                           Le temps n'est pas un ennemi, c'est notre principal allié. Nos spiritueux sont élevés en fûts de chêne séculaires, capturant l'essence même de la patience.
                        </>)}</p>
@@ -543,7 +545,7 @@ return (
            </div>
 
            <div className="max-w-[1600px] mx-auto border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black text-white/10 uppercase tracking-[0.4em] italic">
-              <span>© 2026 {clientName(sessionData) ?? "AETHELGARD ESTATE & SPIRITS GROUP"} SA. // ALL_RIGHTS_RESERVED{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+              <span>© 2026 {clientName(sessionData) ?? "AETHELGARD ESTATE & SPIRITS GROUP SA."} // TOUS DROITS RÉSERVÉS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
               <div className="flex gap-12">
                  <span>{(clientCity(sessionData) ?? "Bordeaux").toUpperCase()}</span>
                  <span>TUSCANY</span>

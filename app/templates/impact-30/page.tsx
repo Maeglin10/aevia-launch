@@ -426,7 +426,8 @@ function Hero() {
       ...SERVICES_DEMO[i % SERVICES_DEMO.length],
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
-      price: s.price ?? SERVICES_DEMO[i % SERVICES_DEMO.length].price,
+      price: s.price ?? "",
+      tag: "",
     })),
     SERVICES_DEMO
   );
@@ -504,7 +505,7 @@ function Hero() {
                   <Rise beat="third" duration={0.45}>
                     <div style={{ display: "flex", alignItems: "baseline", gap: 14, flexWrap: "wrap" }}>
                       <span style={{ fontSize: 20, fontWeight: 800, color: C.accent }}>{t.price}</span>
-                      <span style={{ fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: C.textMuted }}>{media.meta}</span>
+                      <span style={{ fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: C.textMuted }}>{clientServices(sessionData) ? "" : media.meta}</span>
                     </div>
                   </Rise>
                 </motion.div>
@@ -618,8 +619,8 @@ function Services() {
       icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
       title: s.title ?? s.name,
       desc: s.description ?? s.desc,
-      price: s.price,
-      tag: SERVICES_DEMO[i % SERVICES_DEMO.length].tag,
+      price: s.price ?? "",
+      tag: "",
     })),
     SERVICES_DEMO
   );
@@ -1446,7 +1447,7 @@ export default function Impact30() {
   FAQS_DEMO = FAQS_DEMO_LIVE();
   memoriserSession(sessionData);
   PLANS = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? "Sur devis", features: [], })),
     PLANS_SOURCE,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);

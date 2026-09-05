@@ -32,6 +32,8 @@ import {
 } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
+  clientPhone,
   clientCity,
   clientEmail,
   clientEyebrow,
@@ -235,7 +237,7 @@ function Nav() {
                   marginTop: '2px',
                 }}
               >
-                {clientCity(sessionData) ?? "GENÈVE"} · EST. 1834
+                {clientCity(sessionData) ?? "GENÈVE · EST. 1834"}
               </span>
             </>
           )}
@@ -540,7 +542,7 @@ function Hero() {
             margin: '0 auto',
             lineHeight: 1.7,
           }}
-        >{clientHeroSubtitle(sessionData) ?? "Depuis six générations, nous cisèlerons chaque seconde <br /> avec la rigueur d'un art qui ne souffre aucun compromis."}</motion.p>
+        >{clientHeroSubtitle(sessionData) ?? <>Depuis six générations, nous ciselons chaque seconde <br /> avec la rigueur d&apos;un art qui ne souffre aucun compromis.</>}</motion.p>
 
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -1834,7 +1836,7 @@ function AppointmentForm() {
               }}
             >
               Notre conseiller personnel vous contactera sous 48 heures pour
-              organiser une présentation privée dans nos salons genevois.
+              organiser une présentation privée dans nos salons.
             </p>
           </div>
         </FadeUp>
@@ -2138,8 +2140,9 @@ function Footer() {
                 fontStyle: 'italic',
               }}
             >
-              Six générations d'horlogers genevois au service d'un seul idéal :
-              l'excellence sans compromis.
+              {clientName(sessionData) ? <>Au service d'un seul idéal :
+              l'excellence sans compromis.</> : <>Six générations d'horlogers genevois au service d'un seul idéal :
+              l'excellence sans compromis.</>}
             </p>
 
             <div
@@ -2151,8 +2154,8 @@ function Footer() {
               }}
             >
               {[
-                { icon: <MapPin size={12} color={T.goldDim} />, text: '14, rue de Rive · CH-1204 ' + (clientCity(sessionData) ?? 'Genève') },
-                { icon: <Phone size={12} color={T.goldDim} />, text: '+41 22 310 88 40' },
+                { icon: <MapPin size={12} color={T.goldDim} />, text: clientAddress(sessionData) ?? clientCity(sessionData) ?? '14, rue de Rive · CH-1204 Genève' },
+                { icon: <Phone size={12} color={T.goldDim} />, text: clientPhone(sessionData) ?? '+41 22 310 88 40' },
                 { icon: <Mail size={12} color={T.goldDim} />, text: (clientEmail(sessionData) ?? fd?.email ?? 'atelier@horaviva.ch') },
               ].map(({ icon, text }) => (
                 <div
@@ -2436,7 +2439,7 @@ export default function HoraVivaPage() {
     });
   });
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

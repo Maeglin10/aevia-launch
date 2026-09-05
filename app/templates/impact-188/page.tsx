@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAddress,
+  clientStats,
   clientCity,
   clientEmail,
   clientHeroLine,
@@ -147,15 +148,15 @@ export default function CliniqueBoisVertPage() {
   bp = session?.businessProfile;
   sessionData = session;
   SOINS_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SOINS_SOURCE[i % SOINS_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SOINS_SOURCE[i % SOINS_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SOINS_SOURCE,
   );
   EQUIPE = resolveList(
-    clientTeam(sessionData)?.map((m, i) => ({ ...EQUIPE_DEMO[i % EQUIPE_DEMO.length], n: m.name, r: m.role })),
+    clientTeam(sessionData)?.map((m, i) => ({ ...EQUIPE_DEMO[i % EQUIPE_DEMO.length], n: m.name, r: m.role, d: "" })),
     EQUIPE_DEMO,
   );
   TARIFS = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? "Sur devis", n: s.desc || "" })),
     TARIFS_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -258,7 +259,7 @@ export default function CliniqueBoisVertPage() {
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-3 mb-8">
               <div className="w-8 h-[1px] bg-[var(--brand,#3a7d44)]/70" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#6bbf78]">Clinique vétérinaire · {clientCity(sessionData) ?? "Toulouse"} Rangueil</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#6bbf78]">Clinique vétérinaire · {clientCity(sessionData) ?? "Toulouse Rangueil"}</span>
             </div>
           </motion.div>
 
@@ -339,12 +340,12 @@ export default function CliniqueBoisVertPage() {
       {/* ── STATS ── */}
       <section className="py-16 bg-[#e8f5eb]">
         <div className="max-w-[1100px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-6">
-          {[
+          {(clientStats(sessionData)?.map((cs: any) => ({ v: cs.value, l: cs.label })) ?? [
             { v: "22 ans", l: "De médecine vétérinaire" },
             { v: "4 200+", l: "Animaux suivis / an" },
             { v: "4.9★", l: "Avis Google" },
             { v: "3", l: "Vétérinaires diplômés" },
-          ].map((s, i) => (
+          ]).map((s, i) => (
             <Reveal key={i} delay={i * 0.07}>
               <div className="text-center p-6 bg-white rounded-2xl shadow-sm">
                 <div className="text-3xl font-bold text-[var(--brand,#3a7d44)] mb-1">{s.v}</div>
@@ -513,7 +514,7 @@ export default function CliniqueBoisVertPage() {
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-5" style={{ fontFamily: "'Lora', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Votre compagnon<br /><span className="italic">mérite le meilleur.</span>
             </>)}</h2>
-            <p className="text-white/50 mb-10 text-sm">Consultation en ligne ou par téléphone · Urgences 7j/7 · {clientCity(sessionData) ?? "Toulouse"} Rangueil</p>
+            <p className="text-white/50 mb-10 text-sm">Consultation en ligne ou par téléphone · Urgences 7j/7 · {clientCity(sessionData) ?? "Toulouse Rangueil"}</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-white text-[var(--brand,#3a7d44)] font-bold text-[10px] uppercase tracking-[0.25em] hover:bg-[#f0f9f1] transition-colors rounded-xl shadow-lg">
                 Prendre rendez-vous
@@ -560,7 +561,7 @@ export default function CliniqueBoisVertPage() {
           <div>
             <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#3a7d44)]/60 mb-5">Infos</h4>
             <address className="not-italic text-white/20 text-sm leading-relaxed space-y-2.5">
-              <div>{clientAddress(sessionData) ?? "12 allée des Pins"}<br />31400 {clientCity(sessionData) ?? "Toulouse"}</div>
+              <div>{clientAddress(sessionData) ?? "12 allée des Pins"}<br />{clientCity(sessionData) ?? "31400 Toulouse"}</div>
               <div>Lun — Sam 8h30 — 19h30<br />Dim : urgences</div>
               <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0561789012").replace(/[^+0-9]/g, "")}`} className="inline-flex items-center gap-2 hover:text-white transition-colors">
                 <Phone className="w-3.5 h-3.5" />{clientPhone(sessionData) ?? fd?.phone ?? "05 61 78 90 12"}

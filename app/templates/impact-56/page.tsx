@@ -272,7 +272,7 @@ return (
 
           <Carousel className="w-full max-w-6xl mx-auto">
             <CarouselContent>
-              {TESTIMONIALS.map((testi, i) => (
+              {resolveList(clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS[i % TESTIMONIALS.length], name: r.author, role: "", content: r.text, score: "" })), clientName(sessionData) ? [] : TESTIMONIALS).map((testi, i) => (
                 <CarouselItem key={i} className="md:basis-1/2 lg:basis-1/2 pl-6">
                   <Reveal delay={i * 0.1}>
                     <Card className="bg-[#3D1C22] border-none shadow-xl h-full font-sans">

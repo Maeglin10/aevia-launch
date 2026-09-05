@@ -114,7 +114,7 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
               </div>
               <div>
                 <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 17, fontWeight: 700, color: C.white, letterSpacing: "0.04em" }}>{clientName(__layoutSession) ?? "Dumont & Associés"}</div>
-                <div style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 10, color: C.accent, letterSpacing: "0.16em", textTransform: "uppercase" as const }}>Avocats au Barreau de {clientCity(__layoutSession) ?? "Paris"}</div>
+                <div style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 10, color: C.accent, letterSpacing: "0.16em", textTransform: "uppercase" as const }}>Avocats au Barreau {(() => { const v = clientCity(__layoutSession) ?? "Paris"; return /^[aeiouyéèêàâîïôûh]/i.test(v) ? `d'${v}` : `de ${v}`; })()}</div>
               </div>
             </>)}</div></>
             )}
@@ -192,7 +192,7 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
                   </div>
                   <div>
                     <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 16, fontWeight: 700, color: C.white }}>{clientName(__layoutSession) ?? "Dumont & Associés"}</div>
-                    <div style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 10, color: C.accent, letterSpacing: "0.12em", textTransform: "uppercase" as const }}>Avocats au Barreau de {clientCity(__layoutSession) ?? "Paris"}</div>
+                    <div style={{ fontFamily: "'Source Sans Pro', system-ui", fontSize: 10, color: C.accent, letterSpacing: "0.12em", textTransform: "uppercase" as const }}>Avocats au Barreau {(() => { const v = clientCity(__layoutSession) ?? "Paris"; return /^[aeiouyéèêàâîïôûh]/i.test(v) ? `d'${v}` : `de ${v}`; })()}</div>
                   </div>
                 </div>
               </Link>
@@ -233,7 +233,7 @@ export default function LawFirmLayout({ children }: { children: React.ReactNode 
                 </div>
               ))}
             </div>
-            <p style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Source Sans Pro', system-ui", fontSize: 13, color: "rgba(255,255,255,0.25)", margin: 0 }}>© 2026 {/* NOM_PIED */ clientName(__layoutSession) ?? "Dumont & Associés"}. Tous droits réservés. Barreau de {clientCity(__layoutSession) ?? "Paris"}.</p>
+            <p style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Source Sans Pro', system-ui", fontSize: 13, color: "rgba(255,255,255,0.25)", margin: 0 }}>© 2026 {/* NOM_PIED */ clientName(__layoutSession) ?? "Dumont & Associés"}. Tous droits réservés. Barreau {(() => { const v = clientCity(__layoutSession) ?? "Paris"; return /^[aeiouyéèêàâîïôûh]/i.test(v) ? `d'${v}` : `de ${v}`; })()}.</p>
           </div>
         </div>
       </footer>

@@ -120,7 +120,7 @@ export default function SereneRetreatHome() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? s.name,
       duration: PACKAGES_DEMO[i % PACKAGES_DEMO.length].duration,
-      price: s.price ?? PACKAGES_DEMO[i % PACKAGES_DEMO.length].price,
+      price: s.price ?? "",
       color: PACKAGES_DEMO[i % PACKAGES_DEMO.length].color,
       accentColor: PACKAGES_DEMO[i % PACKAGES_DEMO.length].accentColor,
       features: PACKAGES_DEMO[i % PACKAGES_DEMO.length].features,

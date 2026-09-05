@@ -575,7 +575,7 @@ function HeroSection() {
             transform: 'rotate(180deg)',
           }}
         >
-          {clientCity(sessionData) ?? "Marseille"} · Barreau de {clientCity(sessionData) ?? "Marseille"}
+          {clientCity(sessionData) ?? "Marseille"}{clientName(sessionData) ? "" : " · Barreau de Marseille"}
         </span>
         <div style={{ width: 1, height: 80, background: `rgba(201,168,76,0.50)` }} />
       </div>
@@ -1431,7 +1431,7 @@ function ProcessSection() {
                     fontWeight: 700,
                   }}
                 >
-                  Maître Isabelle Faure
+                  {clientName(sessionData) ?? "Maître Isabelle Faure"}
                 </div>
                 <div
                   style={{
@@ -1443,7 +1443,7 @@ function ProcessSection() {
                     marginTop: 4,
                   }}
                 >
-                  Avocate · Barreau de {clientCity(sessionData) ?? "Marseille"}
+                  Avocate{clientName(sessionData) ? "" : " · Barreau de Marseille"}
                 </div>
               </div>
             </div>
@@ -1600,12 +1600,12 @@ function TestimonialsSection() {
   const temoignages = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({
       initials:
-        (r.name ?? '').split(' ').map((w: string) => w.charAt(0)).join('').toUpperCase() ||
+        ((r.name ?? r.author ?? '') as string).split(' ').map((w: string) => w.charAt(0)).join('').toUpperCase() ||
         temoignages_DEMO[i % temoignages_DEMO.length].initials,
-      situation: r.location ?? temoignages_DEMO[i % temoignages_DEMO.length].situation,
+      situation: r.location ?? "",
       stars: r.stars ?? r.rating ?? 5,
       text: r.text ?? r.quote,
-      detail: temoignages_DEMO[i % temoignages_DEMO.length].detail,
+      detail: "",
     })),
     temoignages_DEMO
   );
@@ -1822,7 +1822,7 @@ function TestimonialsSection() {
                 color: 'rgba(249,247,242,0.70)',
               }}
             >
-              4,9 / 5 · 47 avis Google vérifiés
+              {clientName(sessionData) ? "Avis clients vérifiés" : "4,9 / 5 · 47 avis Google vérifiés"}
             </span>
           </div>
         </Reveal>
@@ -1994,7 +1994,7 @@ function ConsultationFormSection() {
                 marginTop: 10,
               }}
             >
-              — Maître Isabelle Faure
+              — {clientName(sessionData) ?? "Maître Isabelle Faure"}
             </div>
           </div>
         </Reveal>
@@ -2182,7 +2182,7 @@ function ConsultationFormSection() {
               >
                 * Champs obligatoires. Vos données sont traitées de façon
                 confidentielle, conformément au RGPD et aux règles déontologiques
-                du Barreau de {clientCity(sessionData) ?? "Marseille"}.
+                du Barreau{clientName(sessionData) ? "" : " de Marseille"}.
               </p>
 
               <button
@@ -2254,7 +2254,7 @@ function StatsSection() {
       value: '15',
       unit: 'ans',
       label: "d'expérience",
-      sub: 'au Barreau de ' + (clientCity(sessionData) ?? 'Marseille'),
+      sub: clientName(sessionData) ? 'avocat inscrit au Barreau' : 'au Barreau de Marseille',
     },
     {
       value: '+500',
@@ -2279,7 +2279,7 @@ function StatsSection() {
       value: '15',
       unit: 'ans',
       label: "d'expérience",
-      sub: 'au Barreau de ' + (clientCity(sessionData) ?? 'Marseille'),
+      sub: clientName(sessionData) ? 'avocat inscrit au Barreau' : 'au Barreau de Marseille',
     },
     {
       value: '+500',
@@ -2305,7 +2305,7 @@ function StatsSection() {
       value: '15',
       unit: 'ans',
       label: "d'expérience",
-      sub: 'au Barreau de ' + (clientCity(sessionData) ?? 'Marseille'),
+      sub: clientName(sessionData) ? 'avocat inscrit au Barreau' : 'au Barreau de Marseille',
     },
     {
       value: '+500',
@@ -2701,7 +2701,7 @@ function PracticalSection() {
     {
       icon: MapPin,
       label: 'Adresse',
-      lines: [(clientAddress(sessionData) ?? '18, rue Breteuil'), clientCodePostalVille(sessionData, "13006", "Marseille") + (clientCity(sessionData) ? '' : ' — 6e arrondissement'), 'Proche Préfecture · Parking Préfecture'],
+      lines: [(clientAddress(sessionData) ?? (clientCity(sessionData) ? '' : '18, rue Breteuil')), clientCodePostalVille(sessionData, "13006", "Marseille") + (clientCity(sessionData) ? '' : ' — 6e arrondissement'), ...(clientName(sessionData) ? [] : ['Proche Préfecture · Parking Préfecture'])],
     },
     {
       icon: Clock,
@@ -2986,7 +2986,7 @@ function PracticalSection() {
 function FooterSection() {
   const links = {
     Cabinet: [
-      { label: 'Maître Isabelle Faure', href: '#hero' },
+      { label: clientName(sessionData) ?? 'Maître Isabelle Faure', href: '#hero' },
       { label: 'Expertises', href: '#expertises' },
       { label: 'Notre approche', href: '#process' },
       { label: 'Publications', href: '#publications' },
@@ -2998,7 +2998,7 @@ function FooterSection() {
       { label: 'Aide juridictionnelle', href: '#contact' },
     ],
     'Contact': [
-      { label: '18, rue Breteuil — 13006', href: '#contact' },
+      { label: clientAddress(sessionData) ?? (clientCity(sessionData) ? clientCity(sessionData)! : '18, rue Breteuil — 13006'), href: '#contact' },
       { label: (clientPhone(sessionData) ?? '04 91 21 58 58'), href: `tel:${(clientPhone(sessionData) ?? '0491000000').replace(/[^+0-9]/g, "")}` },
       { label: (clientEmail(sessionData) ?? 'contact@cabinet-faure.fr'), href: `mailto:${clientEmail(sessionData) ?? 'contact@cabinet-faure.fr'}` },
       { label: 'Prendre RDV', href: '#contact' },
@@ -3067,18 +3067,21 @@ function FooterSection() {
                 marginBottom: 24,
               }}
             >
-              Maître Isabelle Faure, avocate inscrite au Barreau de {clientCity(sessionData) ?? "Marseille"},
+              {clientName(sessionData) ? <>{clientName(sessionData)} défend vos droits en droit de la famille et des successions.</> : <>Maître Isabelle Faure, avocate inscrite au Barreau de Marseille,
               défend vos droits en droit de la famille et des successions depuis
-              plus de 15 ans.
+              plus de 15 ans.</>}
             </p>
 
             {/* Badges légaux */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-              {[
-                'Barreau de ' + (clientCity(sessionData) ?? 'Marseille') + ' — Toque DF 1204',
+              {(clientName(sessionData) ? [
                 'CARPA — Maniement de fonds sécurisé',
                 'RPVA — Procédure dématérialisée',
-              ].map((b, i) => (
+              ] : [
+                'Barreau de Marseille — Toque DF 1204',
+                'CARPA — Maniement de fonds sécurisé',
+                'RPVA — Procédure dématérialisée',
+              ]).map((b, i) => (
                 <div
                   key={i}
                   style={{

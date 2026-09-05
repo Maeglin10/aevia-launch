@@ -124,7 +124,7 @@ const SERVICES_SOURCE = [
 let SERVICES = SERVICES_SOURCE;
 
 function PROJECTS_DEMO_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ category: "",  title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}) })), [
   {
     id: 1,
     title: "Aether Labs",
@@ -849,18 +849,18 @@ export default function ImpactAgencyTemplate() {
 
 
   SERVICES = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" || "", tag: String(i + 1).padStart(2, "0") })),
     SERVICES_SOURCE,
   );
   SERVICE_DETAILS = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICE_DETAILS_SOURCE[i % SERVICE_DETAILS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICE_DETAILS_SOURCE[i % SERVICE_DETAILS_SOURCE.length], title: s.title, desc: s.desc || "" || "", tag: String(i + 1).padStart(2, "0") })),
     SERVICE_DETAILS_SOURCE,
   );
   VALUES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...VALUES_SOURCE[i % VALUES_SOURCE.length], title: s.title, text: s.desc || "" || "" })),
     VALUES_SOURCE,
   );
-  STATS_DATA = resolveList(clientStats(session)?.map((r: any) => ({ target: Number(String(r.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(r.value ?? "").replace(/[\d.\s]/g, ""), label: r.label })), STATS_DATA_DEMO);
+  STATS_DATA = resolveList(clientStats(session)?.map((r: any) => ({ target: Number(String(r.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(r.value ?? "").replace(/[\d.]/g, "").replace(/\s+/g, " ").replace(/^ $/, ""), label: r.label })), STATS_DATA_DEMO);
   PROJECTS = PROJECTS_DEMO.map((row, i) => ({
     ...row,
     image: clientPhotos(session)[0 + i] || row.image,
@@ -874,7 +874,7 @@ export default function ImpactAgencyTemplate() {
     image: clientPhotos(session)[12 + i] || row.image,
   }));
   TEAM = resolveList(
-    clientTeam(session)?.map((m, i) => ({ ...TEAM_DEMO[i % TEAM_DEMO.length], name: m.name, role: m.role })),
+    clientTeam(session)?.map((m, i) => ({ ...TEAM_DEMO[i % TEAM_DEMO.length], name: m.name, role: m.role, bio: "", })),
     TEAM_DEMO,
   );
 

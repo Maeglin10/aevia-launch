@@ -492,7 +492,7 @@ export default function VulcanMotorsPage() {
                 {clientName(sessionData) ?? (<>Vulcan<span className="text-red-600">Motors</span></>)}</span>
             </Link>
             <p className="text-white/20 max-w-sm leading-relaxed mb-10 text-sm italic font-light">{c?.aboutText ?? <>
-              Restaurer le passé, dessiner l'avenir. {clientName(sessionData) ?? "Vulcan"} Un atelier voué à la préservation et à l'évolution de l'hypercar.
+              Restaurer le passé, dessiner l'avenir. {clientName(sessionData) ?? "Vulcan"} — un atelier voué à la préservation et à l'évolution de l'hypercar.
             </>}</p>
             <div className="flex gap-8">
                {SOCIALS.map(s => (

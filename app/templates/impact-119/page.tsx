@@ -137,8 +137,8 @@ export default function NebulaCloudPage() {
   const TESTIMONIALS = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({
       quote: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
-      name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
-      title: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].title,
+      name: r.author ?? r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
+      title: r.location ?? "",
     })),
     TESTIMONIALS_DEMO
   );

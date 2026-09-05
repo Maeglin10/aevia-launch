@@ -13,6 +13,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientList,
+  clientCertifications,
   clientName,
   clientPhotos,
   clientReviews,
@@ -125,9 +126,7 @@ export default function CarbonLabPage() {
 
       ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
 
-      quote: r.text, name: r.author,
-
-    })),
+      quote: r.text, name: r.author, title: "", })),
 
     AVIS_INLINE_SOURCE,
 
@@ -298,7 +297,7 @@ return (
             </span>
           </Reveal>
           <div className="grid grid-cols-2 md:grid-cols-5 gap-12 items-center opacity-30">
-            {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ["Dallara", "Rolls-Royce Defence", "Airbus Urban Air", "Formula 1", "SpaceX Starshield"]).map((c, i) => (
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? clientCertifications(sessionData) ?? (clientName(sessionData) ? [] : ["Dallara", "Rolls-Royce Defence", "Airbus Urban Air", "Formula 1", "SpaceX Starshield"])).map((c, i) => (
               <Reveal key={c} delay={i * 0.07}>
                 <div className="text-center text-sm font-black uppercase tracking-widest text-white/60 italic hover:text-[var(--brand,#0070f3)] hover:opacity-100 transition-all duration-500 cursor-default">{c}</div>
               </Reveal>

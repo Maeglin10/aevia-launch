@@ -2248,7 +2248,7 @@ function Footer() {
               letterSpacing: "0.03em",
             }}
           >
-            © {year} Atlas Expedition Logistics AG. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {year} {clientName(sessionData) ?? "Atlas Expedition Logistics AG"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <div style={{ display: "flex", gap: 24 }}>
             {["Privacy", "Terms", "Safety"].map((l) => (
@@ -2328,7 +2328,7 @@ export default function ExpeditionTemplatePage() {
   c = session?.generatedContent;
 
   EXPEDITIONS = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...EXPEDITIONS_SOURCE[i % EXPEDITIONS_SOURCE.length], name: s.title, description: s.desc || "" || "", price: s.price ?? EXPEDITIONS_SOURCE[i % EXPEDITIONS_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...EXPEDITIONS_SOURCE[i % EXPEDITIONS_SOURCE.length], name: s.title, description: s.desc || "" || "", price: s.price ?? "" })),
     EXPEDITIONS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

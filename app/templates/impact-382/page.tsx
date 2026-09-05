@@ -11,6 +11,7 @@ import { ActionMobile } from "@/lib/templates/ActionMobile";
 import {
   clientCertifications,
   clientAddress,
+  clientHeroSubtitle,
   clientCity,
   clientTrade,
   clientPhone,
@@ -140,7 +141,7 @@ export default function TrajectoiresRhPage() {
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? "Sur devis", n: s.desc || "" })),
     TARIFS_DEMO,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
@@ -307,7 +308,7 @@ export default function TrajectoiresRhPage() {
             <WordFlight text={S.line} keyed={i} className="" />
           </h1>
           <p style={{ fontSize: "clamp(14px, 1.2vw, 16px)", color: C.textMuted, lineHeight: 1.75, margin: "10px 0 26px" }}>
-            {c?.heroSubline ?? "Cadres, techniciens, dirigeants : un cabinet qui rencontre chaque candidat, comprend votre entreprise avant de chercher, et garantit son recrutement pendant un an. Les PME du Grand Ouest méritent mieux qu'un CV de plus."}
+            {c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? (clientName(sessionData) ? "Cadres, techniciens, dirigeants : un cabinet qui rencontre chaque candidat, comprend votre entreprise avant de chercher, et garantit son recrutement pendant un an. Les PME méritent mieux qu'un CV de plus." : "Cadres, techniciens, dirigeants : un cabinet qui rencontre chaque candidat, comprend votre entreprise avant de chercher, et garantit son recrutement pendant un an. Les PME du Grand Ouest méritent mieux qu'un CV de plus.")}
           </p>
           {/* Une seule action pleine ; les prestations restent un lien. */}
           <div style={{ display: "flex", gap: "clamp(16px, 2vw, 26px)", flexWrap: "wrap", alignItems: "center" }}>
@@ -511,10 +512,10 @@ export default function TrajectoiresRhPage() {
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
               <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Trajectoires RH")}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Cabinet de recrutement & chasse · {clientCity(sessionData) ?? "Nantes"}<br />Spécialisé PME et ETI du Grand Ouest</p>
+              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Cabinet de recrutement & chasse · {clientCity(sessionData) ?? "Nantes"}<br />{clientName(sessionData) ? "Spécialisé PME et ETI" : "Spécialisé PME et ETI du Grand Ouest"}</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: (clientAddress(sessionData) ?? ((clientCity(sessionData) ?? "Nantes") + ", Loire-Atlantique")) }, { icon: <Phone size={13} />, t: phone }, { icon: <Mail size={13} />, t: mail }, { icon: <Clock size={13} />, t: "Lun–Ven 8h30–19h" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: (clientAddress(sessionData) ?? ((clientCity(sessionData) ?? "Nantes, Loire-Atlantique"))) }, { icon: <Phone size={13} />, t: phone }, { icon: <Mail size={13} />, t: mail }, { icon: <Clock size={13} />, t: "Lun–Ven 8h30–19h" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
                 </div>
@@ -523,7 +524,7 @@ export default function TrajectoiresRhPage() {
           </div>
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Trajectoires RH")} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity fallback="852 546 225" kind="siren" />
+              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Trajectoires RH")} — Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" />{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>

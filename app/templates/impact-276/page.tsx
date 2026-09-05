@@ -47,6 +47,7 @@ import {
   clientPhotos,
   clientReviews,
   clientServices,
+  clientCertifications,
   clientStats,
   clientTagline,
   clientText,
@@ -559,7 +560,7 @@ function HeroSection() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: EASE, delay: 0.1 }}
           >
-            <Eyebrow>{clientTrade(sessionData) ?? "Coach sportif"} & nutrition · {clientCity(sessionData) ?? "Bordeaux"} Caudéran</Eyebrow>
+            <Eyebrow>{clientTrade(sessionData) ?? "Coach sportif"} & nutrition · {clientCity(sessionData) ?? "Bordeaux Caudéran"}</Eyebrow>
           </motion.div>
 
           <motion.h1
@@ -643,11 +644,11 @@ function HeroSection() {
               flexWrap: 'wrap',
             }}
           >
-            {[
+            {(clientStats(sessionData) ?? [
               { value: '8 ans', label: "d'expérience" },
               { value: '+300', label: 'clients transformés' },
               { value: '98%', label: 'de satisfaction' },
-            ].map((b) => (
+            ]).map((b) => (
               <div key={b.label} style={{ borderLeft: `2px solid ${C.orange}`, paddingLeft: 14 }}>
                 <div
                   style={{
@@ -1155,7 +1156,7 @@ function ProgramsSection() {
               }}
             >
               Trois programmes premium, conçus pour trois types de transformation.
-              Thomas s'adapte à votre niveau, votre emploi du temps et vos objectifs.
+              {clientName(sessionData) ? "Votre coach s'adapte" : "Thomas s'adapte"} à votre niveau, votre emploi du temps et vos objectifs.
             </p>
           </Reveal>
         </div>
@@ -1372,7 +1373,7 @@ const METHOD_STEPS = [
   {
     num: '03',
     title: 'Coaching Individuel',
-    desc: "Séances en face-à-face ou en ligne avec Thomas. Correction technique en temps réel, motivation, ajustements permanents. Vous n'êtes jamais seul dans votre parcours.",
+    desc: `Séances en face-à-face ou en ligne avec ${clientName(sessionData) ? "votre coach" : "Thomas"}. Correction technique en temps réel, motivation, ajustements permanents. Vous n'êtes jamais seul dans votre parcours.`,
     icon: Users,
   },
   {
@@ -1455,7 +1456,7 @@ function MethodSection() {
                   lineHeight: 1,
                 }}
               >
-                BPJEPS
+                {clientName(sessionData) ? "Certifié" : "BPJEPS"}
               </div>
               <div
                 style={{
@@ -1591,7 +1592,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   {
     name: 'Margaux D.',
     age: 34,
-    city: (clientCity(sessionData) ?? 'Bordeaux') + ' Caudéran',
+    city: 'Bordeaux Caudéran',
     result: '-12 kg en 4 mois',
     program: 'Programme Perte de Poids',
     stars: 5,
@@ -1901,7 +1902,7 @@ function BilanFormSection() {
                     marginBottom: 36,
                   }}
                 >
-                  Lors de ce bilan offert, Thomas analyse votre profil, répond
+                  Lors de ce bilan offert, {clientName(sessionData) ? "votre coach" : "Thomas"} analyse votre profil, répond
                   à toutes vos questions et vous propose un plan d'action concret.
                   Sans engagement, sans pression.
                 </p>
@@ -1991,7 +1992,7 @@ function BilanFormSection() {
                       }}
                     >
                       Votre demande de bilan gratuit a bien été reçue.
-                      Thomas vous contactera sous 24h pour fixer votre rendez-vous.
+                      {clientName(sessionData) ? "Nous vous contacterons" : "Thomas vous contactera"} sous 24h pour fixer votre rendez-vous.
                     </p>
                     <div
                       style={{
@@ -2842,12 +2843,12 @@ function FooterSection() {
     },
   ];
 
-  const CERTIFS = [
+  const CERTIFS = clientCertifications(sessionData) ?? (clientName(sessionData) ? [] : [
     'BPJEPS Activités Physiques pour Tous',
     'Certification Nutrition Sportive',
     'Diplôme Coach Crossfit Niveau 1',
     'Certification Préparation Physique FFA',
-  ];
+  ]);
 
   const LINKS = [
     'Mentions légales',
@@ -2909,7 +2910,7 @@ function FooterSection() {
                   marginBottom: 28,
                 }}
               >
-                {clientTrade(sessionData) ?? "Coach sportif"} & nutritionnel certifié BPJEPS à {clientCity(sessionData) ?? "Bordeaux"} Caudéran.
+                {clientTrade(sessionData) ?? "Coach sportif"} & nutritionnel{clientName(sessionData) ? "" : " certifié BPJEPS"} à {clientCity(sessionData) ?? "Bordeaux Caudéran"}.
                 Transformations réelles, méthode personnalisée, résultats garantis.
               </p>
 
@@ -3002,7 +3003,7 @@ function FooterSection() {
               </h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                 {[
-                  { icon: MapPin, label: (clientCity(sessionData) ?? 'Bordeaux') + ' Caudéran, 33200' },
+                  { icon: MapPin, label: clientCity(sessionData) ?? 'Bordeaux Caudéran, 33200' },
                   { icon: Phone, label: (clientPhone(sessionData) ?? fd?.phone ?? '06 22 65 65 65') },
                   { icon: Mail, label: (clientEmail(sessionData) ?? fd?.email ?? 'thomas@lebruncoach.fr') },
                   { icon: Clock, label: 'Lun–Sam · 7h–20h' },
@@ -3075,7 +3076,7 @@ function FooterSection() {
                 margin: 0,
               }}
             >
-              © 2025 {clientName(sessionData) ?? "Thomas Lebrun Coach"} — {clientCity(sessionData) ?? "Bordeaux"} Caudéran. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2025 {clientName(sessionData) ?? "Thomas Lebrun Coach"} — {clientCity(sessionData) ?? "Bordeaux Caudéran"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
               {LINKS.map((l) => (

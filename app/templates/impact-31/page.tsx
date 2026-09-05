@@ -1073,11 +1073,11 @@ export default function Impact31() {
 
 
   TEACHERS = resolveList(
-    clientTeam(session)?.map((m: any, i: number) => ({ ...TEACHERS_SOURCE[i % TEACHERS_SOURCE.length], name: m.name, role: m.role })),
+    clientTeam(session)?.map((m: any, i: number) => ({ ...TEACHERS_SOURCE[i % TEACHERS_SOURCE.length], name: m.name, role: m.role, bio: "", exp: "", initials: (m.name ?? "").split(/\s+/).map((x: string) => x[0]).join("").slice(0, 2).toUpperCase() })),
     TEACHERS_SOURCE,
   );
   PLANS = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? "", features: [], })),
     PLANS_SOURCE,
   );
 

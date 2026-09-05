@@ -141,11 +141,11 @@ export default function TableExceptionPage() {
 
 
   PRESTATIONS_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PRESTATIONS_SOURCE[i % PRESTATIONS_SOURCE.length], title: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRESTATIONS_SOURCE[i % PRESTATIONS_SOURCE.length], title: s.title, desc: s.desc || "" })),
     PRESTATIONS_SOURCE,
   );
   PRESTATIONS = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...PRESTATIONS_DEMO[i % PRESTATIONS_DEMO.length], title: s.title })),
+    clientServices(session)?.map((s, i) => ({ ...PRESTATIONS_DEMO[i % PRESTATIONS_DEMO.length], title: s.title, desc: s.desc || "" })),
     PRESTATIONS_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -393,7 +393,7 @@ export default function TableExceptionPage() {
           </div></Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {[
-              { q: `Cocktail mariage pour 220 personnes, tout était parfait. La présentation des buffets épatante, les bouchées délicieuses, le service discret et rapide. Merci ${clientName(sessionData) ?? "Table"} d'Exception !`, n: "Anaïs & Pierre R.", l: "Mariage à Lyon · Mai 2025" },
+              { q: `Cocktail mariage pour 220 personnes, tout était parfait. La présentation des buffets épatante, les bouchées délicieuses, le service discret et rapide. Merci ${clientName(sessionData) ?? "Table d'Exception"} !`, n: "Anaïs & Pierre R.", l: "Mariage à Lyon · Mai 2025" },
               { q: "Séminaire corporate avec repas assis 80 couverts. Menu sur mesure, chef présent, accords vins impeccables. Nos partenaires ont demandé le contact du traiteur dès le dessert.", n: "Directrice Générale · " + (clientCity(sessionData) ?? "Lyon"), l: "Groupe Solia · 60M€ CA" },
               { q: "Plateaux repas récurrents pour nos 40 collaborateurs. Qualité constante, livraison à l'heure, variété impressionnante. C'est devenu un rituel d'équipe incontournable.", n: "Thomas V.", l: "RH · Startup Lyonnaise" },
             ].map((t, i) => (
@@ -439,14 +439,14 @@ export default function TableExceptionPage() {
       <footer className="bg-[#140f0a] pt-20 pb-10 px-6">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="font-bold text-[#fefcf8] mb-1 text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>{clientName(sessionData) ?? "Table"} d'Exception</div>
+            <div className="font-bold text-[#fefcf8] mb-1 text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>{clientName(sessionData) ?? "Table d'Exception"}</div>
             <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#d4a853)]/40 mb-5">{clientTrade(sessionData) ?? "Traiteur"} · {clientCity(sessionData) ?? "Lyon"}</div>
             <p className="text-[#fefcf8]/15 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Traiteur"} haut de gamme à {clientCity(sessionData) ?? "Lyon"}. Mariages, corporate, cocktails, plateaux. Chef et équipe sur place.</p>
           </div>
           {[
             { t: "Formules", ls: ["Cocktails & réceptions", "Repas assis", "Plateaux repas", "Livraison & installation", "Cuisine du monde"] },
             { t: "Infos", ls: ["Notre chef", "Portfolio", "Zone d'intervention", "Tarifs", "FAQ"] },
-            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "04 78 34 56 78"), (clientEmail(sessionData) ?? fd?.email ?? "contact@table-exception.fr"), (clientCity(sessionData) ?? "Lyon") + " & Rhône-Alpes", "Lun-Sam 8h-19h", "Devis sous 24h"] },
+            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "04 78 34 56 78"), (clientEmail(sessionData) ?? fd?.email ?? "contact@table-exception.fr"), (clientCity(sessionData) ?? "Lyon & Rhône-Alpes"), "Lun-Sam 8h-19h", "Devis sous 24h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4a853)]/35 mb-5">{col.t}</h4>
@@ -457,7 +457,7 @@ export default function TableExceptionPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#fefcf8]/8">
-          <span>© 2026 {clientName(sessionData) ?? "Table"} d'Exception{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 789 012 345 00066"} · Traiteur agréé · {clientCity(sessionData) ?? "Lyon"} (69){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Table d'Exception"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 789 012 345 00066"} · Traiteur agréé · {clientCity(sessionData) ?? "Lyon (69)"}</span>
           <span className="text-[var(--brand,#d4a853)]/15">L'art de recevoir</span>
         </div>
       </footer>

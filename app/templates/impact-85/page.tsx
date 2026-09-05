@@ -22,6 +22,7 @@ import {
   clientServices,
   clientText,
   fusionnerEtapes,
+  clientCertifications,
 } from "@/lib/templates/clientContent";
 
 /* Les étapes de la démonstration, sorties du rendu pour que la méthode du
@@ -590,7 +591,7 @@ export default function AetherLabsPage() {
       <section id="hero" ref={heroRef} className="relative min-h-dvh overflow-hidden grid md:grid-cols-2">
         <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24 pt-28 pb-16 md:py-0">
           <Reveal>
-            <p className="text-xs tracking-[0.3em] uppercase text-[var(--brand,#8B7355)] mb-8">Laboratoire cosmétique — Grasse, France</p>
+            <p className="text-xs tracking-[0.3em] uppercase text-[var(--brand,#8B7355)] mb-8">{clientCity(sessionData) ? `Laboratoire cosmétique — ${clientCity(sessionData)}, France` : "Laboratoire cosmétique — Grasse, France"}</p>
           </Reveal>
           <Reveal delay={0.1}>
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-light leading-[1.0] mb-8" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{<>{clientHeroLine(sessionData, 0, 3, 14) ?? "La peau"}<br />{clientHeroLine(sessionData, 1, 3, 14) ?? "révélée par la"}<br /><em>{clientHeroLine(sessionData, 2, 3, 14) ?? "science pure"}</em>
@@ -782,7 +783,7 @@ export default function AetherLabsPage() {
             <Reveal>
               <p className="text-xs tracking-[0.25em] uppercase text-[var(--brand,#8B7355)] mb-4">Protocole</p>
               <h2 className="text-4xl md:text-5xl font-light" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "rituels.titre") ?? (<>
-                Le rituel <em>Aether</em>
+                Le rituel <em>{clientName(sessionData) ?? "Aether"}</em>
               </>)}</h2>
             </Reveal>
           </div>
@@ -1058,7 +1059,7 @@ export default function AetherLabsPage() {
             </div>
             <div>
               <p className="text-[#F8F6F2] text-xs tracking-widests uppercase mb-5">Certifications</p>
-              {["COSMOS Natural", "Cruelty-free PETA", "Végan Society", "ISO 22716 GMP"].map(c => (
+              {(clientCertifications(sessionData) ?? (clientName(sessionData) ? [] : ["COSMOS Natural", "Cruelty-free PETA", "Végan Society", "ISO 22716 GMP"])).map(c => (
                 <p key={c} className="text-sm mb-2">{c}</p>
               ))}
             </div>

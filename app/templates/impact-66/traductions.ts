@@ -10,6 +10,7 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "better.": "mieux.",
     "rituals": "Rituels",
     "sculpted & structured": "Sculpté et structuré",
     "architectural nails": "Ongles architecturaux",
@@ -39,6 +40,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "weightless silk extensions applied with surgical precision for a natural yet profound gaze.": "Extensions en soie légères appliquées avec une précision chirurgicale pour un regard naturel mais profond.",
   },
   es: {
+    "better.": "mejor.",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -85,6 +87,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "weightless silk extensions applied with surgical precision for a natural yet profound gaze.": "Extensiones de seda sin peso aplicadas con precisión quirúrgica para una mirada natural pero profunda.",
   },
   de: {
+    "better.": "besser.",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -131,6 +134,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "weightless silk extensions applied with surgical precision for a natural yet profound gaze.": "Gewichtslose Seidenverlängerungen, die mit chirurgischer Präzision für einen natürlichen, aber tiefen Blick aufgetragen werden.",
   },
   pt: {
+    "better.": "melhor.",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

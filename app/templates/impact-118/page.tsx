@@ -154,8 +154,8 @@ export default function ChronosLuxuryPage() {
   const COLLECTION: any[] = resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({
       name: b.caption ?? COLLECTION_DEMO[i % COLLECTION_DEMO.length].name,
-      series: COLLECTION_DEMO[i % COLLECTION_DEMO.length].series,
-      price: COLLECTION_DEMO[i % COLLECTION_DEMO.length].price,
+      series: "",
+      price: "",
       img: b.afterUrl || b.beforeUrl || COLLECTION_DEMO[i % COLLECTION_DEMO.length].img,
       desc: b.caption ?? COLLECTION_DEMO[i % COLLECTION_DEMO.length].desc,
     })),
@@ -418,7 +418,7 @@ export default function ChronosLuxuryPage() {
               <div className="w-8 h-8 border border-[var(--brand,#d4af37)]/30 flex items-center justify-center">
                 <Watch className="w-4 h-4 text-[var(--brand,#d4af37)]" />
               </div>
-              <span className="text-xl font-light tracking-[0.4em] uppercase text-white">Chronos</span>
+              <span className="text-xl font-light tracking-[0.4em] uppercase text-white">{clientName(sessionData) ?? "Chronos"}</span>
             </div>
             <p className="text-white/30 max-w-sm leading-relaxed mb-10 text-sm italic" style={{ fontFamily: "serif" }}>
               "Time is the most valuable luxury of all. We simply provide the vessel to measure it."

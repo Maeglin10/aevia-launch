@@ -180,12 +180,12 @@ function EDIT_ROWS_LIVE() {
     body: "Avant tout crayon, nous étudions la lumière heure par heure, les usages réels de l\'espace et la nature du sol. Les contraintes de l\'urban climate parisien — îlot de chaleur, substrat calcaire, variations hygrométriques — sont intégrées dès l\'esquisse. Résultat : trois propositions en vue 3D, calibrées budget, que vous choisissez ou mixez librement.",
   },
   {
-    eyebrow: 'Île-de-France',
+    eyebrow: clientCity(sessionData) ?? 'Île-de-France',
     imgId: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/37680757/pexels-photo-37680757.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     imgW: 800,
     reverse: true,
-    titleLines: [(clientCity(sessionData) ?? 'Paris') + ' &', 'petite couronne.'],
-    body: "Nous intervenons dans les huit départements franciliens. " + (clientCity(sessionData) ?? "Paris") + " intra-muros, Hauts-de-Seine, Seine-Saint-Denis, Val-de-Marne, Essonne, Yvelines, Val-d\'Oise, Seine-et-Marne — chaque territoire impose ses spécificités : argile des Limons, sable des Moraines, calcaire des plateaux. Cette connaissance fine du sol local nourrit chaque plan.",
+    titleLines: clientCity(sessionData) ? [clientCity(sessionData)! + ' &', 'alentours.'] : ['Paris &', 'petite couronne.'],
+    body: clientCity(sessionData) ? "Nous intervenons à " + clientCity(sessionData) + " et dans les communes alentours — chaque territoire impose ses spécificités de sol. Cette connaissance fine du sol local nourrit chaque plan." : "Nous intervenons dans les huit départements franciliens. Paris intra-muros, Hauts-de-Seine, Seine-Saint-Denis, Val-de-Marne, Essonne, Yvelines, Val-d'Oise, Seine-et-Marne — chaque territoire impose ses spécificités : argile des Limons, sable des Moraines, calcaire des plateaux. Cette connaissance fine du sol local nourrit chaque plan.",
   },
 ];
 }
@@ -657,7 +657,7 @@ function Hero() {
           transition={{ duration: 1.1, ease: EASE, delay: 0.1 }}
         >
           <Eyebrow color={C.accentLight}>
-            {clientTrade(sessionData) ?? "Paysagiste"} · Île-de-France
+            {clientTrade(sessionData) ?? "Paysagiste"}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : " · Île-de-France"}
           </Eyebrow>
         </motion.div>
 
@@ -705,7 +705,7 @@ function Hero() {
             marginBottom: 38,
           }}
         >
-          Architecture paysagère sur mesure pour {clientCity(sessionData) ?? "Paris"} et la petite couronne.
+          Architecture paysagère sur mesure pour {clientCity(sessionData) ?? "Paris"}{clientCity(sessionData) ? " et ses alentours" : " et la petite couronne"}.
           Du potager biologique au rooftop végétalisé.
         </motion.p>
 
@@ -1979,7 +1979,7 @@ function Footer() {
             maxWidth: 420,
           }}
         >
-          {clientTrade(sessionData) ?? "Paysagiste"} & Architecture de Jardin · Île-de-France
+          {clientTrade(sessionData) ?? "Paysagiste"} & Architecture de Jardin{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : " · Île-de-France"}
         </p>
         <div
           style={{
@@ -2080,7 +2080,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.36)',
         }}
       >
-        <span>© 2026 {clientName(sessionData) ?? "Vert Horizon"} · {clientTrade(sessionData) ?? "Paysagiste"} Île-de-France{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 {clientName(sessionData) ?? "Vert Horizon"} · {clientTrade(sessionData) ?? "Paysagiste"}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : " Île-de-France"}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a
             href="#devis"
@@ -2172,7 +2172,7 @@ export default function Page() {
     SERVICES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

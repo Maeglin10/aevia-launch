@@ -10,6 +10,9 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "something living?": "quelque chose de vivant ?",
+    "begin a project": "Démarrer un projet",
+    "your email address": "Votre adresse e-mail",
     "projects completed": "Projets livrés",
     "countries": "Pays",
     "carbon-negative projects": "Projets à bilan carbone négatif",
@@ -91,6 +94,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view all projects →": "Voir tous les projets →",
   },
   es: {
+    "something living?": "¿algo vivo?",
+    "begin a project": "Iniciar un proyecto",
+    "your email address": "Su correo electrónico",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -189,6 +195,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view all projects →": "Ver todos los proyectos →",
   },
   de: {
+    "something living?": "etwas Lebendiges?",
+    "begin a project": "Projekt starten",
+    "your email address": "Ihre E-Mail-Adresse",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -287,6 +296,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view all projects →": "Alle Projekte ansehen →",
   },
   pt: {
+    "something living?": "algo vivo?",
+    "begin a project": "Iniciar um projeto",
+    "your email address": "Seu e-mail",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

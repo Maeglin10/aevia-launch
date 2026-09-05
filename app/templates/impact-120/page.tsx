@@ -935,10 +935,10 @@ export default function EclatLuxuryPage() {
                 <div className="w-8 h-8 rounded-full border border-fuchsia-900/50 flex items-center justify-center bg-fuchsia-900/10">
                   <FlaskConical className="w-3 h-3 text-fuchsia-300" />
                 </div>
-                <span className="text-lg tracking-[0.3em] font-light text-white uppercase">ÉCLAT</span>
+                <span className="text-lg tracking-[0.3em] font-light text-white uppercase">{clientName(sessionData) ?? "ÉCLAT"}</span>
               </Link>
               <p className="text-xs text-zinc-500 uppercase tracking-[0.2em] leading-relaxed max-w-md italic">
-                Haute parfumerie, composée avec une précision sans concession. {clientCity(sessionData) ?? "Paris"}, Grasse, New York.
+                Haute parfumerie, composée avec une précision sans concession. {clientCity(sessionData) ?? "Paris, Grasse, New York"}.
               </p>
             </div>
             
@@ -974,7 +974,7 @@ export default function EclatLuxuryPage() {
           
           <div className="w-full mt-20 text-center overflow-hidden">
             <h1 className="text-[15vw] leading-none font-light text-white/[0.02] tracking-tighter" style={{ fontFamily: "Georgia, serif" }}>
-              {c?.heroHeadline ?? "ÉCLAT"}
+              {c?.heroHeadline ?? clientName(sessionData) ?? "ÉCLAT"}
             </h1>
           </div>
         </div>

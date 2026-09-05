@@ -71,7 +71,7 @@ let PARCOURS = PARCOURS_SOURCE;
 const SERVICES_SOURCE = [{"titre": "Bilan patrimonial", "desc": "La photographie complète : civil, fiscal, financier, immobilier. Le préalable à tout conseil sérieux — facturé, donc indépendant.", "tag": "Bilan"}, {"titre": "Épargne & placements", "desc": "Assurance-vie, PER, comptes-titres en architecture ouverte : les supports choisis pour votre stratégie, pas pour la commission.", "tag": "Placements"}, {"titre": "Immobilier patrimonial", "desc": "LMNP, déficit foncier, SCPI, démembrement : l'immobilier qui sert un objectif chiffré, pas une plaquette de promoteur.", "tag": "Immobilier"}, {"titre": "Retraite", "desc": "Bilan retraite complet, rachats de trimestres étudiés, PER optimisé : savoir à 45 ans ce qu'on touchera à 64.", "tag": "Retraite"}, {"titre": "Transmission", "desc": "Donations, assurance-vie, démembrement, pacte Dutreil : transmettre plus en payant le juste impôt — en lien avec votre notaire.", "tag": "Transmission"}, {"titre": "Dirigeants & professions libérales", "desc": "Rémunération, holding, prévoyance Madelin, cession d'entreprise : le patrimoine pro et perso enfin coordonnés.", "tag": "Dirigeants"}];
 let SERVICES_DEMO = SERVICES_SOURCE;
 const METHODE = [{"n": "01", "t": "CIF, contrôlé AMF", "d": "Le statut de Conseiller en Investissements Financiers nous soumet au contrôle de l'AMF et à une association agréée."}, {"n": "02", "t": "Lettre de mission", "d": "Périmètre, livrables et rémunération écrits avant de commencer — vous savez ce que vous payez et pourquoi."}, {"n": "03", "t": "Architecture ouverte", "d": "Aucun produit maison : nous comparons les contrats du marché et négocions les frais pour vous."}, {"n": "04", "t": "Transparence totale", "d": "Honoraires et rétrocessions détaillés dans chaque rapport annuel, au centime."}];
-const ENGAGEMENT_DEMO = ["CIF adhérent d'une association agréée AMF, ORIAS n° 26 009 244", "Carte T pour les opérations immobilières, RC professionnelle complète", "Rémunération mixte affichée : honoraires + rétrocessions détaillées par écrit", "Aucun objectif commercial sur un produit : notre seul stock, c'est le conseil"];
+const ENGAGEMENT_DEMO = ["CIF adhérent d'une association agréée AMF, n° ORIAS affiché au cabinet", "Carte T pour les opérations immobilières, RC professionnelle complète", "Rémunération mixte affichée : honoraires + rétrocessions détaillées par écrit", "Aucun objectif commercial sur un produit : notre seul stock, c'est le conseil"];
 let ENGAGEMENT = ENGAGEMENT_DEMO;
 const TARIFS_DEMO = [{"a": "Bilan patrimonial complet", "p": "dès 890 €", "n": "Deux rendez-vous, rapport écrit de 30+ pages, plan d'action chiffré."}, {"a": "Stratégie + mise en œuvre", "p": "sur lettre de mission", "n": "Honoraires forfaitaires annoncés avant, rétrocessions déduites ou affichées."}, {"a": "Suivi annuel", "p": "dès 490 €/an", "n": "Revue complète, ajustements, disponibilité toute l'année."}, {"a": "Bilan retraite seul", "p": "590 €", "n": "Relevés analysés, projections chiffrées, rachats étudiés."}];
 let TARIFS = TARIFS_DEMO;
@@ -136,7 +136,7 @@ export default function CapHorizonPatrimoinePage() {
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? "Sur devis", n: s.desc || "" })),
     TARIFS_DEMO,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
@@ -483,10 +483,10 @@ export default function CapHorizonPatrimoinePage() {
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
               <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Cap Horizon Patrimoine")}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Conseil en gestion de patrimoine · {clientCity(sessionData) ?? "Lyon"}<br />CIF (AMF) — ORIAS n° 26 009 244 — carte T</p>
+              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Conseil en gestion de patrimoine · {clientCity(sessionData) ?? "Lyon"}<br />{clientName(sessionData) ? "CIF (AMF) — n° ORIAS et carte T communiqués sur demande" : "CIF (AMF) — ORIAS n° 26 009 244 — carte T"}</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              {[{ icon: <MapPin size={13} />, t: (clientAddress(sessionData) ?? ((clientCity(sessionData) ?? "Lyon") + ", Rhône")) }, { icon: <Phone size={13} />, t: phone }, { icon: <Mail size={13} />, t: mail }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–19h, sam. matin sur RDV" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: (clientAddress(sessionData) ?? ((clientCity(sessionData) ?? "Lyon, Rhône"))) }, { icon: <Phone size={13} />, t: phone }, { icon: <Mail size={13} />, t: mail }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–19h, sam. matin sur RDV" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.42)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.hi }}>{item.icon}</span>{item.t}
                 </div>
@@ -495,7 +495,7 @@ export default function CapHorizonPatrimoinePage() {
           </div>
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Cap Horizon Patrimoine")} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity fallback="852 546 225" kind="siren" />
+              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Cap Horizon Patrimoine")} — Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" />{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>

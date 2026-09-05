@@ -394,20 +394,20 @@ export default function EssentialBlogPage() {
 
 
   AUTHORS = resolveList(
-    clientTeam(session)?.map((m: any, i: number) => ({ ...AUTHORS_SOURCE[i % AUTHORS_SOURCE.length], name: m.name, role: m.role })),
+    clientTeam(session)?.map((m: any, i: number) => ({ ...AUTHORS_SOURCE[i % AUTHORS_SOURCE.length], name: m.name, role: m.role, articles: "", })),
     AUTHORS_SOURCE,
   );
   PLANS = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? "", features: [], })),
     PLANS_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   STATS = resolveList(clientStats(session)?.map((r: any) => ({ val: r.value, label: r.label })), STATS_DEMO);
   TESTIMONIALS = resolveList(
-    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text, role: "", })),
     TESTIMONIALS_DEMO,
   );
   FAQS = resolveList(
@@ -710,7 +710,7 @@ export default function EssentialBlogPage() {
                 letterSpacing: "0.08em", cursor: "pointer", transition: "all 0.2s",
               }}
             >
-              REJOINDRE 52 000 LECTEURS
+              {clientName(sessionData) ? "REJOINDRE LA NEWSLETTER" : "REJOINDRE 52 000 LECTEURS"}
             </motion.button>
           </Reveal>
         </div>
@@ -996,7 +996,7 @@ export default function EssentialBlogPage() {
             <div>
               {/* Oversized number */}
               <div style={{ fontSize: "clamp(72px, 10vw, 140px)", fontWeight: 900, lineHeight: 0.88, letterSpacing: "-0.04em", color: C.white, fontFamily: C.sans, marginBottom: 24 }}>
-                52K<br /><span style={{ color: C.accent }}>lecteurs</span><br />ne peuvent<br />pas avoir<br />tort.
+                {clientName(sessionData) ? (<>Des<br /><span style={{ color: C.accent }}>lecteurs</span><br />qui ne<br />ratent<br />rien.</>) : (<>52K<br /><span style={{ color: C.accent }}>lecteurs</span><br />ne peuvent<br />pas avoir<br />tort.</>)}
               </div>
             </div>
           </Reveal>
@@ -1030,7 +1030,7 @@ export default function EssentialBlogPage() {
                   ))}
                 </div>
                 <span style={{ fontSize: 12, color: "rgba(250,250,250,0.4)", fontFamily: C.sans }}>
-                  +52 000 professionnels nous font confiance
+                  {clientName(sessionData) ? "Des professionnels nous font confiance" : "+52 000 professionnels nous font confiance"}
                 </span>
               </div>
             </div>
@@ -1217,7 +1217,7 @@ export default function EssentialBlogPage() {
       <section id="contact" style={{ background: C.accent, padding: "80px 48px", textAlign: "center" }}>
         <Reveal>
           <div style={{ fontFamily: C.serif, fontSize: "clamp(36px, 5vw, 72px)", fontWeight: 700, color: C.white, letterSpacing: "-0.03em", lineHeight: 1.1, marginBottom: 24 }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? (<>
-            Rejoignez les 52 000<br />professionnels informés.
+            {clientName(sessionData) ? (<>Rejoignez les<br />professionnels informés.</>) : (<>Rejoignez les 52 000<br />professionnels informés.</>)}
           </>)}</div>
         </Reveal>
         <Reveal delay={0.15}>

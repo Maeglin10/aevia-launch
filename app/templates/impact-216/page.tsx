@@ -582,11 +582,11 @@ function Hero() {
             transition={{ delay: 0.9, duration: 0.6 }}
             style={{ display: 'flex', alignItems: 'center', gap: 32, marginTop: 56, flexWrap: 'wrap' }}
           >
-            {[
+            {(clientStats(sessionData) ?? [
               { value: '12 000+', label: 'colis/jour' },
               { value: '97.8 %',  label: 'à temps' },
               { value: '18 ans',  label: "d'expertise" },
-            ].map((stat, i) => (
+            ]).map((stat, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                 {i > 0 && <div className="hero-stats-divider" style={{ width: 1, height: 40, background: C.border }} />}
                 <div>
@@ -787,7 +787,7 @@ const SERVICES_SOURCE = [
   },
   {
     icon: '🏭', title: 'Entreposage', color: C.success,
-    desc: "250 000 m² d'entrepôts logistiques sur 7 plateformes régionales. Stockage flexible et gestion de stock en temps réel.",
+    desc: "Entrepôts logistiques répartis sur plusieurs plateformes régionales. Stockage flexible et gestion de stock en temps réel.",
     features: ['250 000 m² capacité', 'WMS intégré', 'FIFO/LIFO sur demande'],
   },
   {
@@ -1097,8 +1097,8 @@ function CoverageSection() {
       <Container>
         <SectionHeader
           eyebrow="Réseau d'agences"
-          title="Présents partout en France"
-          subtitle="7 plateformes régionales stratégiquement positionnées pour garantir les délais les plus courts sur tout le territoire."
+          title={clientName(sessionData) ? "Notre couverture" : "Présents partout en France"}
+          subtitle={clientName(sessionData) ? "Un réseau organisé pour garantir les délais les plus courts sur tout le territoire." : "7 plateformes régionales stratégiquement positionnées pour garantir les délais les plus courts sur tout le territoire."}
         />
         <div ref={ref} className="coverage-layout" style={{ display: 'flex', gap: 48, alignItems: 'flex-start', flexWrap: 'wrap' }}>
           {/* SVG Map — hidden on very small screens */}
@@ -1669,7 +1669,7 @@ function Footer() {
                 </span>
               </a>
               <p style={{ fontFamily: C.fontBody, fontSize: 13, color: C.textMuted, lineHeight: 1.8, marginBottom: 24 }}>
-                Votre partenaire logistique de confiance depuis 2006. Transport routier, messagerie B2B, logistique e-commerce et entreposage sur toute la France et en Europe.
+                {clientName(sessionData) ? "Votre partenaire logistique de confiance. Transport routier, messagerie B2B, logistique e-commerce et entreposage." : "Votre partenaire logistique de confiance depuis 2006. Transport routier, messagerie B2B, logistique e-commerce et entreposage sur toute la France et en Europe."}
               </p>
               <div style={{ display: 'flex', gap: 10 }}>
                 {['in', 'tw', 'fb', 'yt'].map((s) => (
@@ -1696,7 +1696,7 @@ function Footer() {
             display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 14,
           }}>
             <p style={{ fontFamily: C.fontBody, fontSize: 12, color: C.textMuted }}>
-              © 2024 Meridian Freight SAS · RCS Paris 841 234 567{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 84123456700014"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2024 {clientName(sessionData) ?? "Meridian Freight SAS"}{clientName(sessionData) ? "" : " · RCS Paris 841 234 567"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 84123456700014"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
               {['Mentions légales', 'CGV', 'Confidentialité', 'Cookies'].map((l) => (
@@ -1767,20 +1767,20 @@ export default function MeridianFreightPage() {
 
 
   SERVICES = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" || "", features: [], })),
     SERVICES_SOURCE,
   );
   PRICING_PLANS = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_PLANS_SOURCE[i % PRICING_PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PRICING_PLANS_SOURCE[i % PRICING_PLANS_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_PLANS_SOURCE[i % PRICING_PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? "", features: [], })),
     PRICING_PLANS_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text, company: "", role: "", })),
     TESTIMONIALS_SOURCE,
   );
   STATS_DATA = resolveList(clientStats(session)?.map((s: any) => ({ ...s, value: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, decimals: /[.,]\d/.test(String(s.value ?? "")) ? 2 : 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, "") })), STATS_DATA_DEMO);
   TESTIMONIALS = resolveList(
-    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text, company: "", role: "", })),
     TESTIMONIALS_DEMO,
   );
   FAQ_ITEMS = resolveList(

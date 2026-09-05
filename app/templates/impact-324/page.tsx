@@ -143,7 +143,7 @@ function TICKETS_LIVE() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TICKETS_SOURCE[i % TICKETS_SOURCE.length],
       k: s.title ?? TICKETS_SOURCE[i % TICKETS_SOURCE.length].k,
-      p: s.price ?? TICKETS_SOURCE[i % TICKETS_SOURCE.length].p,
+      p: s.price ?? "Sur devis",
       n: s.description ?? s.desc ?? TICKETS_SOURCE[i % TICKETS_SOURCE.length].n,
     })),
     TICKETS_SOURCE,
@@ -206,7 +206,12 @@ const ABOUT_SOURCE = [
 
 function ABOUT_LIVE() {
   const ville = clientCity(sessionData);
-  return ABOUT_SOURCE.map((a) => ({ ...a, d: ville ? a.d.replace("Lille", ville) : a.d }));
+  return ABOUT_SOURCE.map((a) => {
+    if (a.t === "Depuis 2011" && clientName(sessionData)) {
+      return { t: "La maison", d: "Une salle à taille humaine" + (ville ? ", à " + ville : "") + ". Les mêmes personnes programment encore chaque soirée." };
+    }
+    return { ...a, d: ville ? a.d.replace("Lille", ville) : a.d };
+  });
 }
 let ABOUT = ABOUT_LIVE();
 

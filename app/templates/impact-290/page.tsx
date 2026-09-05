@@ -42,6 +42,7 @@ import {
   clientName,
   clientPhone,
   clientPhotos,
+  clientAreas,
   clientReviews,
   clientServices,
   clientSiret,
@@ -445,7 +446,7 @@ function HeroSection() {
           }}
         >
           Plomberie, sanitaires, pompes à chaleur air-eau et chauffe-eau solaires —
-          installation, rénovation &amp; entretien à {clientCity(sessionData) ?? "Rennes"} Thabor et toute l'agglo.
+          installation, rénovation &amp; entretien à {clientCity(sessionData) ?? "Rennes Thabor"} et toute l'agglo.
         </motion.p>
 
         <motion.div
@@ -933,7 +934,7 @@ function ServicesSection() {
           >
             Plombier-chauffagiste qualifié RGE, nous couvrons l'ensemble des besoins
             en eau chaude et en chauffage des logements et locaux professionnels
-            de {clientCity(sessionData) ?? "Rennes"} et de l'Ille-et-Vilaine.
+            de {clientCity(sessionData) ?? "Rennes"}{clientCity(sessionData) ? " et de ses alentours" : " et de l'Ille-et-Vilaine"}.
           </p>
         </Reveal>
 
@@ -1279,7 +1280,7 @@ function TestimonialsSection() {
   const reviews_DEMO = [
     {
       name: 'Bertrand M.',
-      location: (clientCity(sessionData) ?? 'Rennes') + ' Thabor',
+      location: 'Rennes Thabor',
       service: 'Installation PAC air-eau',
       stars: 5,
       text:
@@ -1308,11 +1309,11 @@ function TestimonialsSection() {
   const reviews = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({
       name: r.name ?? r.author,
-      location: r.location ?? reviews_DEMO[i % reviews_DEMO.length].location,
-      service: reviews_DEMO[i % reviews_DEMO.length].service,
+      location: r.location ?? "",
+      service: "",
       stars: r.stars ?? r.rating ?? 5,
       text: r.text ?? r.quote,
-      savings: reviews_DEMO[i % reviews_DEMO.length].savings,
+      savings: "",
     })),
     reviews_DEMO
   );
@@ -1360,7 +1361,7 @@ function TestimonialsSection() {
               lineHeight: 1.7,
             }}
           >
-            4,9/5 sur Google · 850+ chantiers en Ille-et-Vilaine
+            {clientName(sessionData) ? "Avis clients vérifiés" : "4,9/5 sur Google · 850+ chantiers en Ille-et-Vilaine"}
           </p>
         </Reveal>
 
@@ -2841,8 +2842,8 @@ function CertifBadge({
    10 · FOOTER SECTION
    ════════════════════════════════════════════════════════════════════════════ */
 function FooterSection() {
-  const zones = [
-    (clientCity(sessionData) ?? 'Rennes') + ' (Thabor, Villejean, Beaulieu)',
+  const zones = clientAreas(sessionData) ?? (clientCity(sessionData) ? [clientCity(sessionData)! + ' et alentours'] : [
+    'Rennes (Thabor, Villejean, Beaulieu)',
     'Cesson-Sévigné',
     'Saint-Grégoire',
     'Bruz',
@@ -2851,7 +2852,7 @@ function FooterSection() {
     'Chartres-de-Bretagne',
     'Acigné',
     "Toute l'Ille-et-Vilaine",
-  ];
+  ]);
 
   const links = [
     { label: 'Plomberie & sanitaires', href: '#services' },
@@ -2915,7 +2916,7 @@ function FooterSection() {
                     letterSpacing: '-0.01em',
                   }}
                 >
-                  Eau &amp; Habitat
+                  {clientName(sessionData) ?? <>Eau &amp; Habitat</>}
                 </div>
                 <div
                   style={{
@@ -2942,10 +2943,10 @@ function FooterSection() {
                 maxWidth: 320,
               }}
             >
-              Plombier-chauffagiste certifié RGE à {clientCity(sessionData) ?? "Rennes"} depuis 2012.
+              Plombier-chauffagiste certifié RGE à {clientCity(sessionData) ?? "Rennes"}{clientName(sessionData) ? "" : " depuis 2012"}.
               Plomberie, pompes à chaleur, chauffe-eau solaires —
-              installation, rénovation et entretien à {clientCity(sessionData) ?? "Rennes"} Thabor
-              et dans toute l'Ille-et-Vilaine.
+              installation, rénovation et entretien à {clientCity(sessionData) ?? "Rennes Thabor"}
+              {clientName(sessionData) ? " et alentours" : " et dans toute l'Ille-et-Vilaine"}.
             </p>
 
             {/* Contact */}
@@ -2983,7 +2984,7 @@ function FooterSection() {
                 >
                   {clientAddress(sessionData) ?? "12 allée des Artisans,"}
                   <br />
-                  35000 {clientCity(sessionData) ?? "Rennes"}
+                  {clientCity(sessionData) ?? "35000 Rennes"}
                 </span>
               </div>
             </div>

@@ -21,8 +21,8 @@ for (const theme of themes) {
   const domaine = (SECTEURS[theme] ?? []).map((s) => DOMAINES[s]).find(Boolean) ?? "Services & Artisanat";
   const client = clientPour(domaine);
   const r = await fetch(`${BASE}/api/sessions`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ formData: { ...client.form, template: theme } }) });
-  const { sessionId } = await r.json();
-  await fetch(`${BASE}/api/sessions?id=${sessionId}`, { method: "PATCH", headers: { "content-type": "application/json" }, body: JSON.stringify({ businessProfile: client.profil, generatedContent: CONTENU[domaine] }) });
+  const { sessionId, editToken } = await r.json();
+  await fetch(`${BASE}/api/sessions?id=${sessionId}`, { method: "PATCH", headers: { "content-type": "application/json", "x-edit-token": editToken }, body: JSON.stringify({ businessProfile: client.profil, generatedContent: CONTENU[domaine] }) });
 
   const ctx = await nav.newContext({ viewport: { width: 1440, height: 900 } });
   const p = await ctx.newPage();

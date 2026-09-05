@@ -378,7 +378,7 @@ return (
           <div style={{ textAlign: "center", marginBottom: "5rem" }}>
             <SectionLabel>Nos Garde-Temps</SectionLabel>
             <h2 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "clamp(2rem, 4vw, 3.5rem)", fontWeight: 300, color: C.text, lineHeight: 1.15, paddingBottom: "0.15em" }}>{/* TEXTE_SECTION */ clientText(sessionData, "section-4.titre") ?? (<>
-              Les Collections<br /><em style={{ color: C.gold }}>Maison Drouet</em>
+              Les Collections<br /><em style={{ color: C.gold }}>{clientName(sessionData) ?? "Maison Drouet"}</em>
             </>)}</h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(360px, 100%), 1fr))", gap: "2px", background: C.border }}>
@@ -494,7 +494,7 @@ return (
             })}
           </div>
           <div style={{ display: "flex", justifyContent: "center", gap: "3rem", flexWrap: "wrap", paddingTop: "3rem", borderTop: `1px solid ${C.border}` }}>
-            {AWARDS.map((award) => (
+            {(clientName(sessionData) ? [] : AWARDS).map((award) => (
               <div key={award} style={{ textAlign: "center" }}>
                 <div style={{ width: "2px", height: "1.5rem", background: C.goldDim, margin: "0 auto 0.75rem" }} />
                 <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.6rem", letterSpacing: "0.2em", color: C.textMuted }}>{award}</div>

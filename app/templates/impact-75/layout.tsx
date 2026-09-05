@@ -160,7 +160,7 @@ export default function OrbitAILayout({
                 <Satellite className="w-6 h-6 text-black" />
               </div>
               <span className="text-xl font-bold tracking-tighter uppercase text-white italic">
-                Orbit AI.
+                {clientName(__layoutSession) ?? "Orbit AI."}
               </span>
             </Link>
             <p className="text-white/20 max-w-sm leading-relaxed mb-12 text-[10px] font-bold uppercase italic">

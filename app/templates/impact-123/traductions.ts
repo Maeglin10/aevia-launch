@@ -10,6 +10,8 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "the": "Les",
+    "numbers.": "chiffres.",
     "mastery in": "LA MAÎTRISE DU",
     "motion.": "MOUVEMENT.",
     "mastery in": "La maîtrise du",
@@ -82,6 +84,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "top speed": "Vitesse Maximale",
   },
   es: {
+    "the": "Los",
+    "numbers.": "números.",
     "mastery in": "EL DOMINIO DEL",
     "motion.": "MOVIMIENTO.",
     "mastery in": "El dominio del",
@@ -171,6 +175,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "top speed": "Velocidad Máxima",
   },
   de: {
+    "the": "Die",
+    "numbers.": "Zahlen.",
     "mastery in": "MEISTERSCHAFT IN",
     "motion.": "BEWEGUNG.",
     "mastery in": "Meisterschaft in",
@@ -260,6 +266,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "top speed": "Höchstgeschwindigkeit",
   },
   pt: {
+    "the": "Os",
+    "numbers.": "números.",
     "mastery in": "O DOMÍNIO DO",
     "motion.": "MOVIMENTO.",
     "mastery in": "O domínio do",

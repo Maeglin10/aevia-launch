@@ -2390,7 +2390,13 @@ function rendreLaMarque(nom: string | undefined) {
       if (dejaFait) break;
       const href = lien.getAttribute("href") ?? "";
       if (!racine.test(href)) continue;
-      if (lien.dataset.marqueRendue) continue;
+      /*
+        Une marque déjà rendue par un passage précédent compte comme LA marque :
+        continuer sans le noter faisait réécrire un lien de plus à chaque
+        exécution de la passe — la nav d'impact-12 affichait le nom du client
+        sur « Éditorial » puis « Boutique », un libellé par tick de rendu.
+      */
+      if (lien.dataset.marqueRendue) { dejaFait = true; marqueFaite = true; break; }
       const texte = (lien.textContent ?? "").replace(/\s+/g, " ").trim();
       if (texte.length === 0 || texte.length > 44) continue;
       // Déjà au nom du client : rien à faire, et surtout rien à réécrire.

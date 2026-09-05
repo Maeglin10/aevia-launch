@@ -184,7 +184,7 @@ export default function VisionLayout({
                     Plan.
                   </span>
                   <span className="text-2xl font-black tracking-[-0.04em] uppercase text-rose-600 italic">
-                    VISION<span className="text-white">.067</span>
+                    {clientName(__layoutSession) ?? (<>VISION<span className="text-white">.067</span></>)}
                   </span>
                 </div>
                 <p className="text-white/20 max-w-sm mb-12 uppercase tracking-widest text-[10px] font-bold leading-relaxed italic">

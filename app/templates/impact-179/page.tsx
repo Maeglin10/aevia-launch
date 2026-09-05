@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAreas,
+  clientStats,
   clientCity,
   clientEmail,
   clientHeroLine,
@@ -162,9 +163,9 @@ export default function AquanovaPiscinesPage() {
       s: r.stars ?? r.rating ?? 5,
     })),
     [
-      { q: "Notre piscine miroir est une pure merveille. De l'étude 3D à la mise en eau, l'équipe a été d'un professionnalisme rare. Délais tenus, budget respecté.", n: "Sandrine M.", l: (clientCity(sessionData) ?? "Lyon") + " 3ème", s: 5 },
+      { q: "Notre piscine miroir est une pure merveille. De l'étude 3D à la mise en eau, l'équipe a été d'un professionnalisme rare. Délais tenus, budget respecté.", n: "Sandrine M.", l: (clientCity(sessionData) ?? "Lyon 3ème"), s: 5 },
       { q: "Rénovation complète de notre bassin des années 90 : nouveau liner, margelles, filtration au sel. Résultat bluffant. On se croirait dans une piscine neuve.", n: "Patrick & Aurélie F.", l: (clientCity(sessionData) ?? "Villeurbanne"), s: 5 },
-      { q: "Couloir de nage installé en 6 semaines, chantier propre et bien organisé. Le système de nage à contre-courant est top. Je recommande les yeux fermés.", n: "Luc B.", l: (clientCity(sessionData) ?? "Lyon") + " 6ème", s: 5 },
+      { q: "Couloir de nage installé en 6 semaines, chantier propre et bien organisé. Le système de nage à contre-courant est top. Je recommande les yeux fermés.", n: "Luc B.", l: (clientCity(sessionData) ?? "Lyon 6ème"), s: 5 },
     ]
   );
 
@@ -205,7 +206,7 @@ export default function AquanovaPiscinesPage() {
 
 
   SERVICES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   ZONES = resolveList(
@@ -213,7 +214,7 @@ export default function AquanovaPiscinesPage() {
     ZONES_DEMO,
   );
   TARIFS = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    clientServices(session)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? "Sur devis", n: s.desc || "" })),
     TARIFS_DEMO,
   );
 
@@ -353,12 +354,12 @@ export default function AquanovaPiscinesPage() {
       {/* ── STATS ── */}
       <section className="py-16 bg-slate-50 border-b border-slate-100">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-6">
-          {[
+          {(clientStats(sessionData)?.map((cs: any) => ({ v: cs.value, l: cs.label })) ?? [
             { v: "18+", l: "Ans d'expérience" },
             { v: "2 400+", l: "Interventions" },
             { v: "4.9★", l: "Avis Google" },
             { v: "2 ans", l: "Garantie travaux" },
-          ].map((s, i) => (
+          ]).map((s, i) => (
             <Reveal key={i} delay={i * 0.07}>
               <div className="bg-white rounded-lg border border-slate-100 p-6 text-center shadow-sm">
                 <div className="text-3xl font-bold text-[var(--brand)] mb-1">{s.v}</div>

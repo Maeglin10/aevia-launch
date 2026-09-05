@@ -59,10 +59,10 @@ for (let i = debut; i < fin && i < themes.length; i++) {
     fiche.domaine = domaine ?? "(non proposé)";
     fiche.client = client.form.businessName;
     const r = await fetch(`${BASE}/api/sessions`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ formData: { ...client.form, template: theme } }) });
-    const { sessionId } = await r.json();
+    const { sessionId, editToken } = await r.json();
     await fetch(`${BASE}/api/sessions?id=${sessionId}`, {
       method: "PATCH",
-      headers: { "content-type": "application/json" },
+      headers: { "content-type": "application/json", "x-edit-token": editToken },
       body: JSON.stringify({
         businessProfile: client.profil,
         generatedContent: CONTENU_GENERE[domaine ?? "Services & Artisanat"],

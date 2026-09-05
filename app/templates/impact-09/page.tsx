@@ -623,8 +623,8 @@ return (
                <div className="lg:col-span-6">
                   <Reveal>
                      <div onClick={() => goTo("home")} className="flex flex-col mb-16 cursor-pointer">
-                        <span className="text-7xl md:text-[12vw] font-black tracking-tighter uppercase leading-[0.7] italic">Astrum.</span>
-                        <span className="text-[12px] font-bold uppercase tracking-[1em] text-indigo-500 ml-2 font-mono">Reach Orbital Group</span>
+                        <span className="text-7xl md:text-[12vw] font-black tracking-tighter uppercase leading-[0.7] italic">{clientName(sessionData) ?? "Astrum."}</span>
+                        {clientName(sessionData) ? null : <span className="text-[12px] font-bold uppercase tracking-[1em] text-indigo-500 ml-2 font-mono">Reach Orbital Group</span>}
                      </div>
                      <p className="text-white/20 max-w-sm mb-20 text-sm font-light uppercase tracking-widest leading-loose italic">
                         La maîtrise absolue du transit orbital commercial. Conçu pour l'élite mondiale.

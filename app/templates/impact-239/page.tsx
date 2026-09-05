@@ -20,6 +20,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientName,
   clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
@@ -675,7 +676,7 @@ function Hero() {
           transition={{ duration: 1.1, ease: EASE, delay: 0.05 }}
         >
           <Eyebrow color={C.accentLight}>
-            Cabinet d&apos;avocats · {clientCity(sessionData) ?? "Paris"} · Depuis 1998
+            Cabinet d&apos;avocats · {clientCity(sessionData) ?? "Paris"}{clientName(sessionData) ? "" : " · Depuis 1998"}
           </Eyebrow>
         </motion.div>
 
@@ -1997,8 +1998,8 @@ function Footer() {
               margin: '0 0 22px',
             }}
           >
-            Cabinet d&apos;avocats fondé à {clientCity(sessionData) ?? "Paris"} en 1998. Trois associés,
-            une exigence : le droit au service de vos intérêts.
+            {clientName(sessionData) ? <>Cabinet d&apos;avocats{clientCity(sessionData) ? <> à {clientCity(sessionData)}</> : null}. Une exigence : le droit au service de vos intérêts.</> : <>Cabinet d&apos;avocats fondé à Paris en 1998. Trois associés,
+            une exigence : le droit au service de vos intérêts.</>}
           </p>
           <div
             style={{
@@ -2013,7 +2014,7 @@ function Footer() {
             }}
           >
             <MapPin size={14} color={C.accent} strokeWidth={1.5} />
-            {clientCity(sessionData) ?? "Paris"} · Barreau de {clientCity(sessionData) ?? "Paris"}
+            {clientCity(sessionData) ?? "Paris"}{clientName(sessionData) ? "" : " · Barreau de Paris"}
           </div>
         </div>
 
@@ -2091,7 +2092,7 @@ function Footer() {
         }}
       >
         <span>
-          © 1998–2026 Moreau Delacroix Avocats. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © {clientName(sessionData) ? `2026 ${clientName(sessionData)}` : "1998–2026 Moreau Delacroix Avocats"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a
@@ -2110,7 +2111,7 @@ function Footer() {
             href="#cabinet"
             style={{ color: 'inherit', textDecoration: 'none' }}
           >
-            Barreau de {clientCity(sessionData) ?? "Paris"}
+            {clientName(sessionData) ? (clientCity(sessionData) ?? "") : "Barreau de Paris"}
           </a>
         </span>
       </div>
@@ -2207,7 +2208,7 @@ export default function Page() {
     });
   });
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

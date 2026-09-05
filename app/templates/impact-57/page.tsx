@@ -705,7 +705,7 @@ function StudioTeaser() {
                 marginBottom: '3rem',
               }}
             >
-              Fondé à {clientCity(sessionData) ?? "Paris"} en 2012, MASK_UNIT est un studio de design radical spécialisé dans les identités qui marquent les esprits. 4 personnes. 180+ projets. Une seule règle : refuser le médiocre.
+              {clientCity(sessionData) ? `Établi à ${clientCity(sessionData)},` : "Fondé à Paris en 2012,"} {clientName(sessionData) ?? "MASK_UNIT"} est un studio de design radical spécialisé dans les identités qui marquent les esprits. 4 personnes. 180+ projets. Une seule règle : refuser le médiocre.
             </p>
           </Reveal>
           <Reveal delay={0.3}>
@@ -851,7 +851,7 @@ function CTABanner() {
               marginBottom: '1.5rem',
             }}
           >
-            DISPONIBLE Q3 2025
+            DISPONIBLE AU PROCHAIN TRIMESTRE
           </div>
         </>)}</Reveal>
         <Reveal delay={0.15}>{/* TEXTE_SECTION */ clientText(sessionData, "section-7.texte-2") ?? (<>
@@ -972,11 +972,11 @@ export default function MaskUnitHome() {
     SERVICES,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, title: "", })),
     TESTIMONIALS_SOURCE,
   );
   TESTIMONIALS = resolveList(
-    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, name: r.author })),
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, name: r.author, title: "", })),
     TESTIMONIALS_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -1157,7 +1157,7 @@ return (
                     color: C.textDim,
                   }}
                 >
-                  Available for Q3 2025
+                  Disponible au prochain trimestre
                 </span>
               </div>
             </div>

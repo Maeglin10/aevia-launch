@@ -173,7 +173,7 @@ export default function VelvetLayout({
               <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#ff00ff] to-[#4b0082] flex items-center justify-center">
                 <Moon className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-light tracking-[0.4em] uppercase text-white">Velvet Night</span>
+              <span className="text-xl font-light tracking-[0.4em] uppercase text-white">{clientName(__layoutSession) ?? "Velvet Night"}</span>
             </Link>
             <p className="text-white/20 max-w-sm leading-relaxed mb-12 text-sm font-light italic">
               "In the shadows of the night, we find the truth of the spirit. Curated for the few who understand the silence."

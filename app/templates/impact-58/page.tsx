@@ -19,6 +19,7 @@ import {
 } from './shared';
 import {
   clientAccrocheRestante,
+  clientCertifications,
   clientCity,
   clientName,
   clientReviews,
@@ -185,7 +186,9 @@ const STATS_SOURCE = [
 let STATS = STATS_SOURCE;
 
 // ── Clients ────────────────────────────────────────────────────────────────────
-const CLIENTS = ['Adidas', 'Apple', 'Vuitton', 'Spotify', 'Balenciaga', 'Hermès'];
+const CLIENTS_DEMO = ['Adidas', 'Apple', 'Vuitton', 'Spotify', 'Balenciaga', 'Hermès'];
+const CLIENTS_LIVE = () => clientCertifications(sessionData) ?? (clientName(sessionData) ? [] : CLIENTS_DEMO);
+let CLIENTS = CLIENTS_LIVE();
 
 // ── Main Component ─────────────────────────────────────────────────────────────
 
@@ -235,6 +238,7 @@ export default function SkewOSHome() {
   fd = session?.formData;
 
   sessionData = session;
+  CLIENTS = CLIENTS_LIVE();
   EQUIPE_INLINE_SOURCE = EQUIPE_INLINE_SOURCE_LIVE();
   memoriserSession(sessionData);
   c = session?.generatedContent;
@@ -266,9 +270,7 @@ export default function SkewOSHome() {
 
       ...EQUIPE_INLINE_SOURCE[i % EQUIPE_INLINE_SOURCE.length],
 
-      name: m.name, role: m.role,
-
-    })),
+      name: m.name, role: m.role, bio: "", })),
 
     EQUIPE_INLINE_SOURCE,
 

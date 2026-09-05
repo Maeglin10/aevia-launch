@@ -23,6 +23,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAccrocheRestante,
   clientBookingUrl,
+  clientAddress,
   clientCity,
   clientEmail,
   clientHeroLine,
@@ -537,7 +538,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.goldLight} align="center">
-            Couture sur mesure · Madeleine, {clientCity(sessionData) ?? "Paris"}
+            Couture sur mesure · {clientCity(sessionData) ?? "Madeleine, Paris"}
           </Eyebrow>
         </Reveal>
 
@@ -582,8 +583,9 @@ function HeroSection() {
             lineHeight: 1.65,
           }}
         >
-          Depuis 1987, Maison Céleste perpétue l&apos;art de la coupe haute couture
-          dans le cœur du 8e arrondissement de {clientCity(sessionData) ?? "Paris"}.
+          {clientName(sessionData) ? <>{clientName(sessionData)} perpétue l&apos;art de la coupe haute couture
+          au cœur de {clientCity(sessionData) ?? "la ville"}.</> : <>Depuis 1987, Maison Céleste perpétue l&apos;art de la coupe haute couture
+          dans le cœur du 8e arrondissement de Paris.</>}
         </motion.p>
 
         <motion.div
@@ -1191,7 +1193,7 @@ function ProcessSection() {
                 fontWeight: 500,
               }}
             >
-              Maison Céleste · Depuis 1987
+              {clientName(sessionData) ?? "Maison Céleste · Depuis 1987"}
             </div>
             <div
               style={{
@@ -2056,9 +2058,10 @@ function AtelierSection() {
               fontStyle: 'italic',
             }}
           >
-            {clientName(sessionData) ?? "Maison Céleste"} a été fondée en 1987 par Isabelle Céleste, formée aux
+            {clientName(sessionData) ? <>{clientName(sessionData)} perpétue un savoir-faire couture façonné dans les
+            grandes maisons — une exigence portée sur chaque pièce.</> : <>Maison Céleste a été fondée en 1987 par Isabelle Céleste, formée aux
             ateliers Balenciaga et Christian Lacroix avant d&apos;ouvrir sa propre maison
-            rue de Surène, à deux pas de la Madeleine.
+            rue de Surène, à deux pas de la Madeleine.</>}
           </p>
         </Reveal>
         <Reveal delay={0.24}>
@@ -2351,7 +2354,7 @@ function CreationsSection() {
               marginTop: 20,
             }}
           >
-            Trois pièces emblématiques qui résument l&apos;identité de Maison Céleste :
+            Trois pièces emblématiques qui résument l&apos;identité de {clientName(sessionData) ?? "Maison Céleste"} :
             la précision de la coupe, la qualité des matières, la singularité de chaque tenue.
           </p>
         </Reveal>
@@ -2441,7 +2444,7 @@ function FooterSection() {
             }}
           >
             <Scissors size={20} color={C.gold} strokeWidth={1.3} />
-            Maison&nbsp;Céleste
+            {clientName(sessionData) ?? <>Maison&nbsp;Céleste</>}
           </div>
           <p
             style={{
@@ -2471,7 +2474,7 @@ function FooterSection() {
             }}
           >
             <MapPin size={14} color={C.gold} strokeWidth={1.5} />
-            Rue de Surène · {clientCity(sessionData) ?? "Paris"} · Madeleine
+            {clientAddress(sessionData) ?? clientCity(sessionData) ?? "Rue de Surène · Paris · Madeleine"}
           </div>
           <div
             style={{
@@ -2561,7 +2564,7 @@ function FooterSection() {
           fontWeight: 400,
         }}
       >
-        <span>© 1987–2026 Maison Céleste. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}{/* NOM_PIED */}{clientName(sessionData) ? ` — ${clientName(sessionData)}` : ""}</span>
+        <span>© {clientName(sessionData) ? "2026" : "1987–2026"} {clientName(sessionData) ?? "Maison Céleste"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           <a
             href="/templates/impact-281"
@@ -2682,7 +2685,7 @@ export default function Impact281Page() {
     });
   });
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

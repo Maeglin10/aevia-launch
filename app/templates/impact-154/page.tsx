@@ -444,7 +444,7 @@ export default function IvoryArchivePremium() {
     ARCHIVE_WORKS_DEMO_SOURCE,
   );
   COLLECTIONS_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...COLLECTIONS_SOURCE[i % COLLECTIONS_SOURCE.length], title: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...COLLECTIONS_SOURCE[i % COLLECTIONS_SOURCE.length], title: s.title, desc: s.desc || "" })),
     COLLECTIONS_SOURCE,
   );
   COLLECTIONS = COLLECTIONS_DEMO.map((row, i) => ({
@@ -612,7 +612,7 @@ return (
                       </>}</p>
                    </div>
                    <div className="flex flex-col justify-end">
-                      <span className="text-5xl font-light tracking-tighter">1.4B</span>
+                      <span className="text-5xl font-light tracking-tighter">{clientStats(sessionData)?.[0]?.value ?? (clientName(sessionData) ? "" : "1.4B")}</span>
                       <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/20">Aggregate Vault Value (USD)</span>
                    </div>
                    <div className="flex flex-col justify-end">
@@ -873,13 +873,13 @@ return (
                     <div className="w-10 h-10 bg-[var(--brand,#b4925e)] flex items-center justify-center rounded-sm">
                        <Landmark className="w-6 h-6 text-black" />
                     </div>
-                    <span className="text-3xl font-light tracking-[0.2em] uppercase">IVORY<span className="text-[var(--brand,#b4925e)] font-black">.ARCHIVE</span></span>
+                    <span className="text-3xl font-light tracking-[0.2em] uppercase">{clientName(sessionData) ?? (<>IVORY<span className="text-[var(--brand,#b4925e)] font-black">.ARCHIVE</span></>)}</span>
                  </button>
                  <p className="text-white/20 text-[10px] font-black uppercase tracking-[0.4em] leading-loose max-w-sm mb-16 italic">
                     "La conservation est l'art de faire taire le temps pour laisser parler l'histoire." — Archive Ivory V.4
                  </p>
                  <div className="flex gap-12">
-                    {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ["Camera", "ArtsNet", "UNESCO_Partner", "LinkedIn"]).map(s => (
+                    {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? (clientName(sessionData) ? ["LinkedIn"] : ["Camera", "ArtsNet", "UNESCO_Partner", "LinkedIn"])).map(s => (
                        <span key={s} className="text-[10px] font-black uppercase tracking-widest text-white/20 hover:text-[var(--brand,#b4925e)] transition-colors italic cursor-pointer">{s}</span>
                     ))}
                  </div>

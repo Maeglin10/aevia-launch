@@ -385,16 +385,16 @@ export default function BureauPage() {
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   PLANS = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, price: s.price ?? "", features: [], })),
     PLANS_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   STATS = resolveList(clientStats(session)?.map((r: any) => ({ val: r.value, label: r.label })), STATS_DEMO);
   TESTIMONIALS = resolveList(
-    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, name: r.author })),
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, name: r.author, role: "", })),
     TESTIMONIALS_DEMO,
   );
   FAQS = resolveList(
@@ -402,7 +402,7 @@ export default function BureauPage() {
     FAQS_DEMO,
   );
   TEAM = resolveList(
-    clientTeam(session)?.map((m, i) => ({ ...TEAM_DEMO[i % TEAM_DEMO.length], name: m.name, role: m.role })),
+    clientTeam(session)?.map((m, i) => ({ ...TEAM_DEMO[i % TEAM_DEMO.length], name: m.name, role: m.role, quote: "", })),
     TEAM_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -554,7 +554,7 @@ return (
         {/* Left: oversized headline */}
         <div className="imx-hero164-left" style={{ borderRight: `2px solid ${C.bgDark}`, display: "flex", flexDirection: "column", justifyContent: "space-between", padding: "80px 64px" }}>
           <div style={{ fontFamily: C.mono, fontSize: 11, letterSpacing: 4, color: C.textMuted, textTransform: "uppercase" }}>
-            Agence Créative Indépendante — {clientCity(sessionData) ?? "Paris"}, depuis 2019
+            Agence Créative Indépendante — {clientCity(sessionData) ?? "Paris, depuis 2019"}
           </div>
 
           <motion.div style={{ scale: heroTextScale }}>
@@ -984,12 +984,12 @@ return (
         <div style={{ padding: "48px 44px", borderRight: `1px solid ${C.borderLight}` }}>
           <div style={{ fontFamily: C.mono, fontSize: 14, letterSpacing: 4, fontWeight: 700, textTransform: "uppercase", marginBottom: 12 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "BUREAU"))}</div>
           <div style={{ fontFamily: C.mono, fontSize: 10, color: C.textMuted, lineHeight: 1.8, letterSpacing: 1 }}>
-            Agence créative indépendante.<br />{clientCity(sessionData) ?? "Paris"} 11e, France.<br />{clientEmail(sessionData) ?? fd?.email ?? "hello@bureau.co"}</div>
+            Agence créative indépendante.<br />{clientCity(sessionData) ?? "Paris 11e"}, France.<br />{clientEmail(sessionData) ?? fd?.email ?? "hello@bureau.co"}</div>
         </div>
         {[
           { title: "Services", links: ["Branding", "Web & Dev", "Campagnes", "Direction Art", "UX Design"] },
           { title: "Agence", links: ["À propos", "Travaux", "Manifeste", "Carrières", "Blog"] },
-          { title: "Contact", links: ["Réserver un call", (clientEmail(sessionData) ?? fd?.email ?? "hello@bureau.co"), (clientPhone(sessionData) ?? "+33 1 78 37 77 85"), (clientCity(sessionData) ?? "Paris") + " 75011"] },
+          { title: "Contact", links: ["Réserver un call", (clientEmail(sessionData) ?? fd?.email ?? "hello@bureau.co"), (clientPhone(sessionData) ?? "+33 1 78 37 77 85"), clientCity(sessionData) ?? "Paris 75011"] },
         ].map((col, i) => (
           <div key={i} style={{ padding: "48px 44px", borderRight: i < 2 ? `1px solid ${C.borderLight}` : undefined }}>
             <div style={{ fontFamily: C.mono, fontSize: 10, letterSpacing: 4, color: C.accent, marginBottom: 20, textTransform: "uppercase", fontWeight: 700 }}>{col.title}</div>

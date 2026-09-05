@@ -205,7 +205,7 @@ const EDIT_ROWS_SOURCE: EditRow[] = [
         <span style={{ fontStyle: 'italic', fontWeight: 300 }}>un partenaire.</span>
       </>
     ),
-    body: "Chez Marchand & Associés, nous refusons le rôle de simple prestataire technique. Chaque client bénéficie d'un expert dédié qui anticipe, alerte et conseille — avant même que vous ne posez la question. Notre approche proactive transforme la comptabilité en levier de croissance.",
+    body: `Chez ${clientName(sessionData) ?? "Marchand & Associés"}, nous refusons le rôle de simple prestataire technique. Chaque client bénéficie d'un expert dédié qui anticipe, alerte et conseille — avant même que vous ne posez la question. Notre approche proactive transforme la comptabilité en levier de croissance.`,
     ghost: '01',
     reverse: false,
   },
@@ -462,7 +462,7 @@ function Nav() {
         ) : (
           <>
             <BarChart2 size={20} color={C.accent} strokeWidth={2} />
-            Marchand &amp; Associés
+            {clientName(sessionData) ?? <>Marchand &amp; Associés</>}
           </>
         )}
       </a>
@@ -2104,7 +2104,7 @@ function Footer() {
                 letterSpacing: '-0.01em',
               }}
             >
-              Marchand &amp; Associés
+              {clientName(sessionData) ?? <>Marchand &amp; Associés</>}
             </span>
           </div>
           <p
@@ -2129,7 +2129,7 @@ function Footer() {
               lineHeight: 1.6,
             }}
           >
-            <div>📍 {clientAddress(sessionData) ?? <>12 rue de la Paix, 44000 {clientCity(sessionData) ?? "Nantes"}</>}</div>
+            <div>📍 {clientAddress(sessionData) ?? <>12 rue de la Paix, {clientCity(sessionData) ?? "44000 Nantes"}</>}</div>
             <div style={{ marginTop: 6 }}>📞 {clientPhone(sessionData) ?? "02 40 75 16 16"}</div>
             <div style={{ marginTop: 6 }}>✉️ {clientEmail(sessionData) ?? fd?.email ?? "contact@marchand-partners.fr"}</div>
           </div>
@@ -2320,7 +2320,7 @@ export default function Page() {
     });
   });
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, company: "", role: "", })),
     TESTIMONIALS_SOURCE,
   );
   PHASES = PHASES_DEMO.map((row, i) => ({

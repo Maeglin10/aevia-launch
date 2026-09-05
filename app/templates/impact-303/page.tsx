@@ -50,6 +50,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientSiret,
   clientPhone,
   clientPhotos,
   clientReviews,
@@ -90,7 +91,7 @@ const Instagram = ({ size = 24, ...props }: React.ComponentProps<'svg'> & { size
 
 
 /* ════════════════════════════════════════════════════════════════════════════
-   {clientName(sessionData) ?? "Studio Peak Performance"} — {clientTrade(sessionData) ?? "Coach sportif"} {clientCity(sessionData) ?? "Paris"} Est — transformation physique, nutrition, suivi app. Poppins, noir / vert néon.
+   {clientName(sessionData) ?? "Studio Peak Performance"} — {clientTrade(sessionData) ?? "Coach sportif"} {clientCity(sessionData) ?? "Paris Est"} — transformation physique, nutrition, suivi app. Poppins, noir / vert néon.
    Fichier auto-suffisant premium généré par Antigravity.
    ════════════════════════════════════════════════════════════════════════════ */
 
@@ -556,7 +557,7 @@ return (
               margin: '0 auto 36px',
               textShadow: '0 2px 10px rgba(0,0,0,0.3)'
             }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
-              Coaching sportif online et présentiel {clientCity(sessionData) ?? "Paris"} Est. Nutrition, suivi app, transformation garantie.
+              Coaching sportif online et présentiel {clientCity(sessionData) ?? "Paris Est"}. Nutrition, suivi app, transformation garantie.
             </>}</p>
           </Reveal>
 
@@ -1027,7 +1028,7 @@ return (
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {resolveList(clientFaq(sessionData)?.map((f: any) => ({ q: f.q, a: f.a })), [{"q":"Où se déroulent les séances ?","a":"Dans notre studio privé tout équipé situé à " + (clientCity(sessionData) ?? "Paris") + " Est. Les séances sont limitées à 3 personnes maximum sur le plateau en simultané."},{"q":"Quelles sont les qualifications des coaches ?","a":"Tous nos entraîneurs possèdent un diplôme d'État (BPJEPS AGFF ou Master STAPS) et une certification en nutrition sportive."},{"q":"Puis-je annuler ou reporter une séance ?","a":"Oui, sans frais jusqu'à 24h avant l'heure prévue du rendez-vous depuis l'application mobile."}] as any[]).map((item: any, i: number) => (
+            {resolveList(clientFaq(sessionData)?.map((f: any) => ({ q: f.q, a: f.a })), [{"q":"Où se déroulent les séances ?","a":"Dans notre studio privé tout équipé situé à " + (clientCity(sessionData) ?? "Paris Est") + ". Les séances sont limitées à 3 personnes maximum sur le plateau en simultané."},{"q":"Quelles sont les qualifications des coaches ?","a":"Tous nos entraîneurs possèdent un diplôme d'État (BPJEPS AGFF ou Master STAPS) et une certification en nutrition sportive."},{"q":"Puis-je annuler ou reporter une séance ?","a":"Oui, sans frais jusqu'à 24h avant l'heure prévue du rendez-vous depuis l'application mobile."}] as any[]).map((item: any, i: number) => (
               <Reveal key={i} delay={i * 0.08}>
                 <div style={{
                   background: C.bgCard,
@@ -1127,7 +1128,7 @@ return (
                     </div>
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Téléphone</div>
-                      <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33573826230").replace(/[^+0-9]/g, "")}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>+33 (0)5 00 00 00 00</a>
+                      <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33573826230").replace(/[^+0-9]/g, "")}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>{clientPhone(sessionData) ?? fd?.phone ?? "+33 (0)5 00 00 00 00"}</a>
                     </div>
                   </div>
 
@@ -1168,7 +1169,7 @@ return (
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Localisation</div>
                       <div style={{ fontSize: 15, color: C.text, fontWeight: 700 }}>
-                        {clientCity(sessionData) ?? "Paris"} Est
+                        {clientCity(sessionData) ?? "Paris Est"}
                       </div>
                     </div>
                   </div>
@@ -1288,7 +1289,7 @@ return (
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Studio Peak Performance"))}
               </h4>
               <p style={{ lineHeight: 1.6 }}>
-                {clientTrade(sessionData) ?? "Coach sportif"} {clientCity(sessionData) ?? "Paris"} Est
+                {clientTrade(sessionData) ?? "Coach sportif"} {clientCity(sessionData) ?? "Paris Est"}
               </p>
               <div style={{ display: 'flex', gap: 16, marginTop: 24 }}>
                 <a href="https://instagram.com" target="_blank" rel="noreferrer" style={{ color: C.primary, opacity: 0.7 }}><Instagram size={18} /></a>
@@ -1317,8 +1318,8 @@ return (
             <div>
               <h5 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary, marginBottom: 16, fontWeight: 700 }}>Légal</h5>
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
-                SIRET: 894 302 596 00012<br />
-                TVA Intracommunautaire: FR 89 894302596<br />
+                {clientSiret(sessionData) ? <>SIRET: {clientSiret(sessionData)}<br /></> : clientName(sessionData) ? null : <>SIRET: 894 302 596 00012<br />
+                TVA Intracommunautaire: FR 89 894302596<br /></>}
                 Responsable de publication: {clientName(sessionData) ?? "Studio Peak Performance"}<br />
                 Hébergeur: Vercel Inc.
               </p>

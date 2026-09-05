@@ -167,7 +167,7 @@ export default function SecurFastPage() {
 
 
   SERVICES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   ZONES = resolveList(
@@ -175,7 +175,7 @@ export default function SecurFastPage() {
     ZONES_DEMO,
   );
   TARIFS = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    clientServices(session)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? "Sur devis", n: s.desc || "" })),
     TARIFS_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -459,7 +459,7 @@ export default function SecurFastPage() {
           <div className="max-w-xl mx-auto px-6">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/40 mb-5">Urgence · 24h/24 · 7j/7</div>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-5">{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Un appel suffit.<br />On s'occupe du reste.</>)}</h2>
-            <p className="text-white/55 mb-10 text-sm">Intervention sous 30 min · {clientCity(sessionData) ?? "Strasbourg"} & Bas-Rhin · Devis avant travaux</p>
+            <p className="text-white/55 mb-10 text-sm">Intervention sous 30 min · {clientCity(sessionData) ?? "Strasbourg & Bas-Rhin"} · Devis avant travaux</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0388234567").replace(/[^+0-9]/g, "")}`} className="flex items-center gap-3 px-10 py-4 bg-white text-[var(--brand,#2563eb)] font-bold text-sm hover:bg-[#f0f4ff] transition-colors shadow-lg">
                 <Phone className="w-5 h-5" /> {clientPhone(sessionData) ?? fd?.phone ?? "03 88 23 45 67"}
@@ -482,7 +482,7 @@ export default function SecurFastPage() {
           {[
             { t: "Services", ls: ["Urgence 24h/24", "Changement serrure", "Porte blindée", "Contrôle d'accès", "Coffre-fort"] },
             { t: "Infos", ls: ["Agréments & certifications", "Zone d'intervention", "Tarifs & devis", "Avis clients", "FAQ"] },
-            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "03 88 23 45 67"), (clientEmail(sessionData) ?? fd?.email ?? "contact@securfast.fr"), (clientCity(sessionData) ?? "Strasbourg") + " & 67", "24h/24 — 7j/7", "Devis gratuit"] },
+            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "03 88 23 45 67"), (clientEmail(sessionData) ?? fd?.email ?? "contact@securfast.fr"), clientCity(sessionData) ?? "Strasbourg & 67", "24h/24 — 7j/7", "Devis gratuit"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#2563eb)]/40 mb-5">{col.t}</h4>

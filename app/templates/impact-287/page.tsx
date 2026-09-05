@@ -37,6 +37,7 @@ import {
   clientMethode,
   clientName,
   clientPhotos,
+  clientCertifications,
   clientReviews,
   clientServices,
   clientStats,
@@ -548,7 +549,7 @@ function HeroSection() {
       >
         <Reveal y={18}>
           <Eyebrow color={C.sand} align="center">
-            Coach bien-être & remise en forme · {clientCity(sessionData) ?? "Nice"} Promenade
+            Coach bien-être & remise en forme · {clientCity(sessionData) ?? "Nice Promenade"}
           </Eyebrow>
         </Reveal>
 
@@ -1411,7 +1412,7 @@ function MethodSection() {
                   lineHeight: 1.2,
                 }}
               >
-                Certifié BPJEPS & CQP
+                {clientName(sessionData) ? "Coach certifié" : "Certifié BPJEPS & CQP"}
               </div>
               <div
                 style={{
@@ -1574,10 +1575,10 @@ function TransformationSection() {
       const d = TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length];
       return {
         quote: r.text ?? d.quote,
-        name: r.name ?? d.name,
-        role: r.location ?? d.role,
-        result: d.result,
-        resultLabel: d.resultLabel,
+        name: r.name ?? r.author ?? d.name,
+        role: r.location ?? "",
+        result: "",
+        resultLabel: "",
       };
     }),
     TESTIMONIALS_DEMO
@@ -2877,7 +2878,7 @@ function FooterSection() {
       ],
     },
     {
-      title: 'Spots ' + (clientCity(sessionData) ?? 'Nice'),
+      title: clientCity(sessionData) ? 'Spots outdoor' : 'Spots Nice',
       items: [
         { label: "Prom' des Anglais", href: '#outdoor' },
         { label: 'Colline du Château', href: '#outdoor' },
@@ -2938,7 +2939,7 @@ function FooterSection() {
                   fontWeight: 400,
                 }}
               >
-                {clientCity(sessionData) ?? "Nice"} Promenade
+                {clientCity(sessionData) ?? "Nice Promenade"}
               </div>
             </div>
           </div>
@@ -2954,8 +2955,9 @@ function FooterSection() {
               fontWeight: 400,
             }}
           >
-            Coach bien-être & remise en forme certifié BPJEPS/CQP. Séances
-            outdoor sur les plus beaux spots de la Côte d&apos;Azur.
+            {clientName(sessionData) ? <>Coach bien-être & remise en forme. Séances
+            outdoor sur les plus beaux spots de la région.</> : <>Coach bien-être & remise en forme certifié BPJEPS/CQP. Séances
+            outdoor sur les plus beaux spots de la Côte d&apos;Azur.</>}
           </p>
 
           {/* Localisation */}
@@ -2972,7 +2974,7 @@ function FooterSection() {
             }}
           >
             <MapPin size={15} color={C.coral} strokeWidth={2} />
-            {clientCity(sessionData) ?? "Nice"}, Côte d&apos;Azur — 06000
+            {clientCity(sessionData) ?? <>Nice, Côte d&apos;Azur — 06000</>}
           </div>
 
           {/* Instagram */}
@@ -3003,7 +3005,7 @@ function FooterSection() {
             }
           >
             <Camera size={16} strokeWidth={2} />
-            @{clientInstagram(sessionData) ?? "cotedazurcoaching"}
+            {clientInstagram(sessionData) ? `@${clientInstagram(sessionData)}` : clientName(sessionData) ? null : "@cotedazurcoaching"}
           </a>
 
           {/* Certifications */}
@@ -3015,7 +3017,7 @@ function FooterSection() {
               flexWrap: 'wrap',
             }}
           >
-            {/* LISTE_LIBELLES */ (clientList(sessionData, "nutrition.liste1") ?? ['BPJEPS', 'CQP', 'FFTri']).map((cert) => (
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "nutrition.liste1") ?? clientCertifications(sessionData) ?? (clientName(sessionData) ? [] : ['BPJEPS', 'CQP', 'FFTri'])).map((cert) => (
               <span
                 key={cert}
                 style={{
@@ -3245,7 +3247,7 @@ export default function Impact287Page() {
     });
   });
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

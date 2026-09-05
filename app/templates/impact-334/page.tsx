@@ -203,11 +203,10 @@ const STATS_DEMO = [
 let STATS = STATS_DEMO;
 
 function ZONES_SOURCE_LIVE() {
-  return [
-    clientCity(sessionData) ?? "Annecy",
-    (clientCity(sessionData) ?? "Annecy") + "-le-Vieux",
-    "Haute-Savoie",
-  ];
+  const zones = clientAreas(sessionData);
+  if (zones?.length) return zones;
+  if (clientCity(sessionData)) return [clientCity(sessionData)!, "et alentours"];
+  return ["Annecy", "Annecy-le-Vieux", "Haute-Savoie"];
 }
 let ZONES_SOURCE = ZONES_SOURCE_LIVE();
 let ZONES = ZONES_SOURCE;
@@ -549,14 +548,14 @@ export default function StudioCulinaPage() {
     SERVICES_SOURCE,
   );
   AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
     CLIENT_SERVICES?.map((s: any, i: number) => ({
       ...TARIFS_DEMO[i % TARIFS_DEMO.length],
       a: s.title,
-      p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p,
+      p: s.price ?? "Sur devis",
       n: s.description || s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n,
     })),
     TARIFS_DEMO,
@@ -1121,7 +1120,7 @@ export default function StudioCulinaPage() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {[
-                { icon: <MapPin size={13} />, t: adresse ?? `${lieu}, Haute-Savoie` },
+                { icon: <MapPin size={13} />, t: adresse ?? (clientCity(sessionData) ? lieu : `${lieu}, Haute-Savoie`) },
                 { icon: <Phone size={13} />, t: phone },
                 { icon: <Mail size={13} />, t: mail },
               ].map((item, idx) => (

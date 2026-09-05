@@ -57,7 +57,7 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 };
 
 function films_DEMO_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, type: "", festival: "", ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
   { title: "Les Heures Perdues", type: "Long-métrage", year: "2025", festival: "Cannes — Sélection Officielle", src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?q=80&w=600&auto=format&fit=crop") },
   { title: "Poussière de Lumière", type: "Court-métrage", year: "2025", festival: "Sundance — Grand Prix", src: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=600&q=80") },
   { title: "L'Écho du Silence", type: "Documentaire", year: "2024", festival: "IDFA — Best Documentary", src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&q=80") },
@@ -235,9 +235,9 @@ export default function StudioPelikanPage() {
   const films = resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({
       title: b.caption ?? films_DEMO[i % films_DEMO.length].title,
-      type: films_DEMO[i % films_DEMO.length].type,
-      year: films_DEMO[i % films_DEMO.length].year,
-      festival: films_DEMO[i % films_DEMO.length].festival,
+      type: "",
+      year: "",
+      festival: "",
       src: b.afterUrl || b.beforeUrl || films_DEMO[i % films_DEMO.length].src,
     })),
     films_DEMO
@@ -646,7 +646,7 @@ export default function StudioPelikanPage() {
                   et européens pour garantir une qualité d&apos;image et de son irréprochable.
                 </p>
                 <div className="space-y-3">
-                  {/* LISTE_LIBELLES */ (clientList(sessionData, "services.liste2") ?? ["Direction de production et plan de travail", "Casting sur " + (clientCity(sessionData) ?? "Paris") + ", régions et international", "Repérages et autorisations de tournage", "Coordination avec les prestataires techniques", "Suivi quotidien et rushes dailies"]).map(item => (
+                  {/* LISTE_LIBELLES */ (clientList(sessionData, "services.liste2") ?? ["Direction de production et plan de travail", "Casting sur " + (clientCity(sessionData) ?? "Paris, régions et international"), "Repérages et autorisations de tournage", "Coordination avec les prestataires techniques", "Suivi quotidien et rushes dailies"]).map(item => (
                     <div key={item} className="flex items-start gap-2">
                       <ChevronRight className="w-3 h-3 text-[var(--brand,#C9A05A)] mt-1 shrink-0" />
                       <p className="text-white/50 text-sm">{item}</p>

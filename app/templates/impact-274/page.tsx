@@ -528,7 +528,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color="rgba(255,255,255,0.8)" align="center">
-            {clientTrade(sessionData) ?? "Médecin généraliste"} · {clientCity(sessionData) ?? "Lyon"} · Secteur 1
+            {clientTrade(sessionData) ?? "Médecin généraliste"} · {clientCity(sessionData) ?? "Lyon"}{clientName(sessionData) ? "" : " · Secteur 1"}
           </Eyebrow>
         </Reveal>
 
@@ -606,7 +606,7 @@ function HeroSection() {
         >
           {[
             { label: 'Carte Vitale acceptée' },
-            { label: 'Secteur 1' },
+            ...(clientName(sessionData) ? [] : [{ label: 'Secteur 1' }]),
             { label: 'Téléconsultation' },
           ].map((b) => (
             <div
@@ -1733,7 +1733,7 @@ function TEAM_MEMBERS_DEMO_LIVE() {
   {
     name: (clientName(sessionData) ?? "Dr. Sophie Renard"),
     role: 'Médecin généraliste — Praticienne responsable',
-    bio: 'Diplômée de la Faculté de Médecine de ' + (clientCity(sessionData) ?? 'Lyon') + ' en 2008, le Dr. Renard exerce la médecine générale depuis 15 ans avec une spécialisation en médecine du sport et médecine préventive. Membre du Collège National des Généralistes Enseignants (CNGE), elle s\'engage à maintenir ses connaissances à la pointe des recommandations actuelles.',
+    bio: 'Diplômée de la Faculté de Médecine de Lyon en 2008, le Dr. Renard exerce la médecine générale depuis 15 ans avec une spécialisation en médecine du sport et médecine préventive. Membre du Collège National des Généralistes Enseignants (CNGE), elle s\'engage à maintenir ses connaissances à la pointe des recommandations actuelles.',
     initials: 'SR',
   },
   {
@@ -1935,7 +1935,7 @@ function PracticalInfoSection() {
   ]);
 
   const infos = [
-    { icon: <User size={18} color="#fff" strokeWidth={1.8} />, label: 'Secteur 1 (sans dépassement d\'honoraires)' },
+    ...(clientName(sessionData) ? [] : [{ icon: <User size={18} color="#fff" strokeWidth={1.8} />, label: 'Secteur 1 (sans dépassement d\'honoraires)' }]),
     { icon: <CheckCircle size={18} color="#fff" strokeWidth={1.8} />, label: 'Carte Vitale acceptée, tiers payant pratiqué' },
     { icon: <Video size={18} color="#fff" strokeWidth={1.8} />, label: 'Téléconsultation disponible sur Doctolib' },
     { icon: <Phone size={18} color="#fff" strokeWidth={1.8} />, label: 'Urgences médicales : 15 (SAMU)' },
@@ -2041,7 +2041,7 @@ function PracticalInfoSection() {
               >
                 {clientAddress(sessionData) ?? "18, rue de la République"}
                 <br />
-                69003 {clientCity(sessionData) ?? "Lyon"} (3e arr.)
+                {clientCity(sessionData) ?? "69003 Lyon"} (3e arr.)
               </div>
               <div
                 style={{
@@ -2577,7 +2577,7 @@ function FooterSection() {
               maxWidth: 300,
             }}
           >
-            {clientTrade(sessionData) ?? "Médecin généraliste"} à {clientCity(sessionData) ?? "Lyon"}. Secteur 1, carte Vitale acceptée, téléconsultation disponible.
+            {clientTrade(sessionData) ?? "Médecin généraliste"} à {clientCity(sessionData) ?? "Lyon"}. {clientName(sessionData) ? "Carte Vitale acceptée, téléconsultation disponible." : "Secteur 1, carte Vitale acceptée, téléconsultation disponible."}
           </p>
           <div
             style={{
@@ -2598,7 +2598,7 @@ function FooterSection() {
               }}
             >
               <MapPin size={14} color="rgba(160,210,170,0.75)" strokeWidth={1.8} />
-              {clientAddress(sessionData) ?? `18 rue de la République, 69003 ${clientCity(sessionData) ?? "Lyon"}`}
+              {clientAddress(sessionData) ?? clientCity(sessionData) ?? "18 rue de la République, 69003 Lyon"}
             </div>
             <div
               style={{
@@ -2687,7 +2687,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2026 {clientName(sessionData) ?? "Dr. Sophie Renard"} — Médecin Généraliste. RPPS : 10 003 456 789{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "Dr. Sophie Renard"}{clientName(sessionData) ? "" : " — Médecin Généraliste. RPPS : 10 003 456 789"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
           <a href="/templates/impact-274" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2794,7 +2794,7 @@ export default function Impact274Page() {
     });
   });
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, context: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

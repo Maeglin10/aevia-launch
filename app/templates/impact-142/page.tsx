@@ -152,7 +152,7 @@ export default function VerdantImpactPage() {
     PROGRAMS_DEMO_SOURCE,
   );
   PLANS = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? "", features: [], })),
     PLANS_SOURCE,
   );
 
@@ -162,9 +162,7 @@ export default function VerdantImpactPage() {
 
       ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
 
-      quote: r.text, author: r.author,
-
-    })),
+      quote: r.text, author: r.author, role: "", })),
 
     AVIS_INLINE_SOURCE,
 
@@ -468,7 +466,7 @@ export default function VerdantImpactPage() {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <Leaf className="w-5 h-5 text-emerald-400" />
-              <span className="font-bold tracking-tight">Verdant</span>
+              <span className="font-bold tracking-tight">{clientName(sessionData) ?? "Verdant"}</span>
             </div>
             <p className="text-sm text-white/30 leading-relaxed">Measurable climate action for a sustainable future.</p>
           </div>

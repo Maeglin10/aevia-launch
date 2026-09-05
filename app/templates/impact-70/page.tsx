@@ -150,9 +150,7 @@ export default function VelvetHomePage() {
 
       ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
 
-      quote: r.text, author: r.author,
-
-    })),
+      quote: r.text, author: r.author, role: "", })),
 
     AVIS_INLINE_SOURCE,
 
@@ -361,7 +359,7 @@ return (
                   <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--brand,#ff00ff)] to-transparent" />
                   <div>
                     <div className="text-[10px] font-bold tracking-[0.4em] uppercase text-[var(--brand,#ff00ff)] mb-3">Recommandé</div>
-                    <h3 className="text-3xl font-bold text-white uppercase tracking-wider italic">{c?.aboutTitle ?? fd?.businessName ?? <>Violet</>}</h3>
+                    <h3 className="text-3xl font-bold text-white uppercase tracking-wider italic">Violet</h3>
                   </div>
                   <div className="text-4xl font-light text-white italic">€180<span className="text-lg text-white/30">/mois</span></div>
                   <div className="w-8 h-[1px] bg-[var(--brand,#ff00ff)]/30" />

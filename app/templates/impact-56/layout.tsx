@@ -3,6 +3,8 @@ import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 import {
   clientEmail,
   clientName,
+  clientCity,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
@@ -82,7 +84,7 @@ export default function ChateauVestigeLayout({
             <span className="text-2xl font-serif tracking-[0.2em] uppercase text-[#2D1B0E]">
               Château Vestige
             </span>
-            <span className="text-[10px] tracking-widest uppercase text-zinc-500 mt-1 font-sans">Margaux</span>
+            {clientName(__layoutSession) ? null : <span className="text-[10px] tracking-widest uppercase text-zinc-500 mt-1 font-sans">Margaux</span>}
           </>
           </>))}</Link>
 
@@ -192,10 +194,10 @@ export default function ChateauVestigeLayout({
                 <span className="text-2xl font-serif tracking-[0.2em] uppercase text-white">
                   Château Vestige
                 </span>
-                <span className="text-[10px] tracking-widest uppercase text-[#C4A265]">Margaux</span>
+                {clientName(__layoutSession) ? null : <span className="text-[10px] tracking-widest uppercase text-[#C4A265]">Margaux</span>}
               </Link>
               <p className="text-sm leading-relaxed mb-8">
-                1er Grand Cru Classé. Un patrimoine viticole d'exception cultivé avec passion depuis 1789.
+                {clientName(__layoutSession) ? (clientTagline(__layoutSession) ?? "Un patrimoine cultivé avec passion.") : "1er Grand Cru Classé. Un patrimoine viticole d'exception cultivé avec passion depuis 1789."}
               </p>
               <div className="flex gap-4">
                 <button type="button" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:text-white hover:bg-[#2D1B0E] transition-colors cursor-pointer">
@@ -256,7 +258,7 @@ export default function ChateauVestigeLayout({
               <ul className="space-y-5">
                 <li className="flex items-start gap-4 text-sm">
                   <MapPin className="w-5 h-5 text-[#C4A265] shrink-0" />
-                  <span>Appellation Margaux<br />Gironde, France<br /><span className="text-xs text-zinc-500">Adresse sur demande</span></span>
+                  <span>{clientCity(__layoutSession) ? (<>{clientCity(__layoutSession)}, France<br /><span className="text-xs text-zinc-500">Adresse sur demande</span></>) : (<>Appellation Margaux<br />Gironde, France<br /><span className="text-xs text-zinc-500">Adresse sur demande</span></>)}</span>
                 </li>
                 <li className="flex items-center gap-4 text-sm">
                   <Phone className="w-5 h-5 text-[#C4A265]" /> +33 (0)5 56 00 00 00
@@ -269,7 +271,7 @@ export default function ChateauVestigeLayout({
           </div>
 
           <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-xs font-bold uppercase tracking-widest">
-            <p>&copy; 2026 Château Vestige — <EditeurDuSite />. L'abus d'alcool est dangereux pour la santé.</p>
+            <p>&copy; 2026 {clientName(__layoutSession) ?? "Château Vestige"} — <EditeurDuSite />. L'abus d'alcool est dangereux pour la santé.</p>
             <div className="flex gap-8">
               <Link
                 href="/templates/impact-56/legal"

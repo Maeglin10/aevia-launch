@@ -203,7 +203,7 @@ const FAQ_SOURCE = [
   { q: "L'événement sera-t-il retransmis en ligne ?", a: "Oui, un pass virtuel est disponible pour suivre les conférences principales en direct." },
   { q: "Puis-je changer le nom sur mon billet ?", a: "Oui, vous pouvez transférer votre billet jusqu'à 7 jours avant l'événement via notre plateforme." },
   { q: "Y a-t-il des tarifs de groupe ?", a: "Nous offrons 15% de réduction pour les groupes de 5 personnes ou plus. Contactez-nous directement." },
-  { q: "Le lieu est-il accessible aux PMR ?", a: "Absolument, Station F est entièrement accessible. N'hésitez pas à nous prévenir pour des besoins spécifiques." },
+  { q: "Le lieu est-il accessible aux PMR ?", a: clientName(sessionData) ? "Absolument, le lieu est entièrement accessible. N'hésitez pas à nous prévenir pour des besoins spécifiques." : "Absolument, Station F est entièrement accessible. N'hésitez pas à nous prévenir pour des besoins spécifiques." },
 ];
 
 /* Partenaires fictifs : des marques réelles ne peuvent pas parrainer une démo. */
@@ -238,9 +238,8 @@ function TICKETS_LIVE() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TICKETS_SOURCE[i % TICKETS_SOURCE.length],
       name: s.title ?? TICKETS_SOURCE[i % TICKETS_SOURCE.length].name,
-      price: s.price ?? TICKETS_SOURCE[i % TICKETS_SOURCE.length].price,
-      desc: s.description ?? s.desc ?? TICKETS_SOURCE[i % TICKETS_SOURCE.length].desc,
-    })),
+      price: s.price ?? "",
+      desc: s.description ?? s.desc ?? TICKETS_SOURCE[i % TICKETS_SOURCE.length].desc, features: [], })),
     TICKETS_SOURCE,
   );
 }
@@ -553,7 +552,7 @@ export default function Impact321Page() {
     L'adresse saisie par le client prime sur le lieu de la démonstration : un
     organisateur qui a renseigné son siège ne doit pas voir « Station F ».
   */
-  const eventLocation = fd?.eventLocation ?? clientAddress(sessionData) ?? `Station F, ${clientCity(sessionData) ?? "Paris"}`;
+  const eventLocation = fd?.eventLocation ?? clientAddress(sessionData) ?? (clientCity(sessionData) ?? "Station F, Paris");
   const tel = clientPhone(sessionData) ?? fd?.phone ?? null;
   const mail = clientEmail(sessionData) ?? "contact@aihorizons.com";
 

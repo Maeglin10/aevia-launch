@@ -451,7 +451,7 @@ export default function AuraWellnessPage() {
     amenities_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
 
@@ -872,7 +872,7 @@ export default function AuraWellnessPage() {
               <div>
                 <p className="text-white text-sm font-medium mb-1">Traçabilité 100% garantie</p>
                 <p className="text-white/50 text-sm leading-relaxed">
-                  Chaque ingrédient utilisé chez Aura est sourcé directement auprès d'exploitations certifiées biologiques et équitables. Nos formules sont testées dermatologiquement et ne contiennent aucun perturbateur endocrinien.
+                  Chaque ingrédient utilisé {clientName(sessionData) ? 'chez ' + clientName(sessionData) : 'chez Aura'} est sourcé directement auprès d'exploitations certifiées biologiques et équitables. Nos formules sont testées dermatologiquement et ne contiennent aucun perturbateur endocrinien.
                 </p>
               </div>
             </div>

@@ -44,7 +44,7 @@ for (const id of ids) {
       method: "POST", headers: { "content-type": "application/json" },
       body: JSON.stringify({ formData }),
     });
-    const { sessionId } = await r.json();
+    const { sessionId, editToken } = await r.json();
     if (!sessionId) throw new Error("session non créée (limiteur de débit ? lancer next start avec SESSIONS_RATE_LIMIT=100000)");
     /*
       Le profil aussi, et pas seulement le formulaire : les passes qui
@@ -53,7 +53,7 @@ for (const id of ids) {
       thèmes que ces passes faisaient disparaître.
     */
     await fetch(`${BASE}/api/sessions?id=${sessionId}`, {
-      method: "PATCH", headers: { "content-type": "application/json" },
+      method: "PATCH", headers: { "content-type": "application/json", "x-edit-token": editToken },
       body: JSON.stringify({ businessProfile: {
         openingHours: ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"]
           .map((day, i) => (i === 0 ? { day, closed: true } : { day, open: "05:55", close: "23:45" })),

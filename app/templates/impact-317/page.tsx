@@ -708,7 +708,7 @@ export default function Page() {
                     <Star key={s} size={14} fill={C.gold} color={C.gold} />
                   ))}
                 </div>
-                <span style={{ fontFamily: SANS, fontSize: 13.5, fontWeight: 500, color: C.textMuted }}>Plus de 500 clients satisfaits</span>
+                <span style={{ fontFamily: SANS, fontSize: 13.5, fontWeight: 500, color: C.textMuted }}>{clientName(sessionData) ? "Des clients satisfaits" : "Plus de 500 clients satisfaits"}</span>
               </div>
             </motion.div>
 

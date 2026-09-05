@@ -8,6 +8,7 @@ import { Paintbrush, Sparkles, Phone, Star, MapPin, ArrowRight, CheckCircle, Lay
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAreas,
+  clientStats,
   clientCity,
   clientEmail,
   clientHeroLine,
@@ -150,7 +151,7 @@ export default function CouleursCOPiscinesPage() {
       l: r.location ?? r.context ?? "",
     })),
     [
-      { q: "Notre piscine béton avec liner bleu lagon est une réussite totale. Conseils précieux sur les finitions, chantier propre, délais tenus. Bluffés.", n: "Amélie B.", l: (clientCity(sessionData) ?? "Lille") + " (59)" },
+      { q: "Notre piscine béton avec liner bleu lagon est une réussite totale. Conseils précieux sur les finitions, chantier propre, délais tenus. Bluffés.", n: "Amélie B.", l: (clientCity(sessionData) ?? "Lille (59)") },
       { q: "Rénovation complète : nouveau liner, margelles et filtration au sel. La piscine a retrouvé une seconde jeunesse. Rapport qualité-prix excellent.", n: "Paul & Martine G.", l: "Roubaix (59)" },
       { q: "Construction d'un couloir de nage avec plage immergée et éclairage LED. Résultat magnifique, livré dans les temps. Très pro et à l'écoute.", n: "Karim D.", l: "Tourcoing (59)" },
     ]
@@ -191,7 +192,7 @@ export default function CouleursCOPiscinesPage() {
 
 
   SERVICES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   ZONES = resolveList(
@@ -294,12 +295,12 @@ return (
       {/* ── STATS ── */}
       <section className="py-14 bg-[#e8e8e4]">
         <div className="max-w-[1200px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-6">
-          {[
+          {(clientStats(sessionData)?.map((cs: any) => ({ v: cs.value, l: cs.label })) ?? [
             { v: "14 ans", l: "D'expérience" },
             { v: "600+", l: "Chantiers réalisés" },
             { v: "4.9★", l: "Avis Google" },
             { v: "5 ans", l: "Garantie travaux" },
-          ].map((s, i) => (
+          ]).map((s, i) => (
             <Reveal key={i} delay={i * 0.07}>
               <div className="text-center bg-white p-6 shadow-sm">
                 <div className="text-3xl font-bold text-[var(--brand,#4d7c5f)] mb-1">{s.v}</div>

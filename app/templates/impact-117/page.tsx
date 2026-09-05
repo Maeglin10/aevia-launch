@@ -47,7 +47,7 @@ function Reveal({ children, delay = 0, y = 40 }: { children: React.ReactNode; de
 }
 
 function FLEET_DEMO_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, type: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, type: o.detail || undefined, range: "", payload: "", ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { name: "V1 Courier", range: "350km", payload: "1.5 Tons", type: "Electric Van", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200") },
   { name: "V2 Hauler", range: "800km", payload: "18 Tons", type: "Semi-Truck", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&q=80&w=1200") },
   { name: "V-Drone X", range: "40km", payload: "25kg", type: "Autonomous Drone", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&q=80&w=1200") },
@@ -120,7 +120,7 @@ export default function VoltLogisticsPage() {
   FLEET_DEMO = FLEET_DEMO_LIVE();
 
   FEATURES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     FEATURES_SOURCE,
   );
   FLEET = FLEET_DEMO.map((row, i) => ({
@@ -128,7 +128,7 @@ export default function VoltLogisticsPage() {
     img: clientPhotos(session)[0 + i] || row.img,
   }));
   FEATURES = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title })),
+    clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title, desc: s.desc || "" })),
     FEATURES_DEMO,
   );
 
@@ -418,7 +418,7 @@ export default function VoltLogisticsPage() {
               <div className="w-10 h-10 bg-[var(--brand,#ffb400)] flex items-center justify-center -skew-x-12">
                 <Zap className="w-5 h-5 text-black fill-black" />
               </div>
-              <span className="text-2xl font-black tracking-tighter uppercase italic">Volt<span className="text-[var(--brand,#ffb400)]">Logistics</span></span>
+              <span className="text-2xl font-black tracking-tighter uppercase italic">{clientName(sessionData) ?? (<>Volt<span className="text-[var(--brand,#ffb400)]">Logistics</span></>)}</span>
             </Link>
             <p className="text-white/30 max-w-sm leading-relaxed mb-10 text-sm">{c?.aboutText ?? <>
               Engineering the next generation of autonomous, zero-emission logistics for a world that never stops moving.
@@ -445,7 +445,7 @@ export default function VoltLogisticsPage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/20">
-          <span>© 2026 {clientName(sessionData) ?? "VOLT LOGISTICS GLOBAL. ALL"} SYSTEMS ACTIVE.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "VOLT LOGISTICS GLOBAL"}.{clientName(sessionData) ? "" : " ALL SYSTEMS ACTIVE."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-10">
              <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-2"><MapPin className="w-3 h-3" /> NYC HQ</Link>
              <Link href="#contact" className="hover:text-white transition-colors flex items-center gap-2"><Globe className="w-3 h-3" /> GLOBAL NETWORK</Link>

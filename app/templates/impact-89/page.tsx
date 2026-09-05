@@ -47,6 +47,7 @@ import {
   clientPhone,
   clientPhotos,
   clientReviews,
+  clientAddress,
   clientServices,
   clientStats,
   clientText,
@@ -108,7 +109,7 @@ const NAV_LINKS = [
 const STYLE_FILTERS = ["All", "Réaliste", "Géométrique", "Old School", "Japonais", "Blackwork", "Fine Line"];
 
 function PORTFOLIO_DEMO_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, artist: "", style: "", duration: "", ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   {
     id: 1,
     title: "Koi Dragon Sleeve",
@@ -479,7 +480,7 @@ function AboutSection() {
               L'ART DANS<br /><span style={{ color: C.accent }}>LA PEAU.</span>
             </>)}</h2>
             <p style={{ fontFamily: FONT_BODY, fontSize: 16, color: C.textMuted, lineHeight: 1.8, fontWeight: 300, marginBottom: 24 }}>
-              {clientName(sessionData) ?? "INK & Iron"} n'est pas un simple salon de tatouage ; c'est un sanctuaire d'expression artistique et de rigueur technique. Situé au cœur du 11e arrondissement de {clientCity(sessionData) ?? "Paris"}, notre atelier réunit trois artistes résidents de renommée internationale.
+              {clientName(sessionData) ?? "INK & Iron"} n'est pas un simple salon de tatouage ; c'est un sanctuaire d'expression artistique et de rigueur technique. {clientCity(sessionData) ? `Situé à ${clientCity(sessionData)}, notre atelier réunit des artistes résidents passionnés.` : "Situé au cœur du 11e arrondissement de Paris, notre atelier réunit trois artistes résidents de renommée internationale."}
             </p>
             <p style={{ fontFamily: FONT_BODY, fontSize: 16, color: C.textMuted, lineHeight: 1.8, fontWeight: 300, marginBottom: 32 }}>
               Chaque pièce est une création sur-mesure unique, dessinée en étroite collaboration avec vous. Nous appliquons les standards d'hygiène les plus stricts de l'industrie (matériel à usage unique, stérilisation médicale) pour vous offrir une expérience d'exception en toute sécurité.
@@ -612,15 +613,15 @@ export default function Impact89Page() {
 
 
   STYLE_GUIDE = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...STYLE_GUIDE_SOURCE[i % STYLE_GUIDE_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...STYLE_GUIDE_SOURCE[i % STYLE_GUIDE_SOURCE.length], name: s.title, desc: s.desc || "" || "", artist: "", tags: [] })),
     STYLE_GUIDE_SOURCE,
   );
   FLASH_SALE = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...FLASH_SALE_SOURCE[i % FLASH_SALE_SOURCE.length], title: s.title, price: s.price ?? FLASH_SALE_SOURCE[i % FLASH_SALE_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...FLASH_SALE_SOURCE[i % FLASH_SALE_SOURCE.length], title: s.title, price: s.price ?? "" })),
     FLASH_SALE_SOURCE,
   );
   SERVICES_89 = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_89_SOURCE[i % SERVICES_89_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? SERVICES_89_SOURCE[i % SERVICES_89_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_89_SOURCE[i % SERVICES_89_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? "" })),
     SERVICES_89_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
@@ -1918,7 +1919,7 @@ return (
                 {clientName(sessionData) ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "INK & IRON"))}
               </div>
               <p style={{ fontFamily: FONT_BODY, fontSize: 14, color: C.textMuted, lineHeight: 1.7, marginBottom: 24, maxWidth: 280 }}>
-                Studio de tatouage luxury à {clientCity(sessionData) ?? "Paris"} depuis 2010. Trois artistes, un standard absolu. Rue de la Roquette, {clientCity(sessionData) ?? "Paris"} 11e.
+                {clientCity(sessionData) ? `Studio de tatouage à ${clientCity(sessionData)}.` : "Studio de tatouage luxury à Paris depuis 2010. Trois artistes, un standard absolu. Rue de la Roquette, Paris 11e."}
               </p>
               <div style={{ display: "flex", gap: 12 }}>
                 {[Camera, MessageSquare, Users2].map((Icon, i) => (
@@ -1970,7 +1971,7 @@ return (
             <div>
               <div style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 3, textTransform: "uppercase", color: C.accent, marginBottom: 20 }}>Contact</div>
               {[
-                { Icon: MapPin, text: "24 Rue de la Roquette\nParis 11e, 75011" },
+                { Icon: MapPin, text: clientAddress(sessionData) ?? (clientCity(sessionData) ?? "24 Rue de la Roquette\nParis 11e, 75011") },
                 { Icon: Phone, text: (clientPhone(sessionData) ?? "+33 1 43 56 78 90") },
                 { Icon: Mail, text: (clientEmail(sessionData) ?? fd?.email ?? "contact@inkandironstudio.fr") },
                 { Icon: Clock, text: "Mar–Sam : 11h–20h\nDim–Lun : fermé" },
@@ -1993,7 +1994,7 @@ return (
             gap: 16,
           }}>
             <span style={{ fontFamily: FONT_MONO, fontSize: 11, color: C.textDim, letterSpacing: 2 }}>
-              © 2025 {clientName(sessionData) ?? "INK & IRON STUDIO"} — {clientCity(sessionData) ?? "PARIS"} 11E{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2025 {clientName(sessionData) ?? "INK & IRON STUDIO"} — {clientCity(sessionData) ?? "PARIS 11E"}
             </span>
             <div style={{ display: "flex", gap: 24 }}>
               {[

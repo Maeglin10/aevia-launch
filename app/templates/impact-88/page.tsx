@@ -51,6 +51,8 @@ import {
   clientTeam,
   clientText,
   clientWorks,
+  clientInstagram,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -865,7 +867,7 @@ function Hero() {
             className="mt-12 flex flex-wrap items-center gap-6"
           >
             {[
-              { icon: Star, label: "4.9/5 — 280+ avis" },
+              { icon: Star, label: clientName(sessionData) ? (clientStats(sessionData)?.[0] ? `${clientStats(sessionData)[0].value} ${clientStats(sessionData)[0].label}` : "Sur rendez-vous") : "4.9/5 — 280+ avis" },
               { icon: Users, label: "3 artistes expertes" },
               { icon: Award, label: "10 ans d'expertise" },
             ].map(({ icon: Icon, label }, i) => (
@@ -1502,9 +1504,8 @@ function ContactFooter() {
                   <span className="text-[11px] font-[600] uppercase tracking-[0.2em] text-[#F9A8D4]" style={{ fontFamily: "'Inter', sans-serif" }}>Adresse</span>
                 </div>
                 <p className="text-white text-[14px] font-[300] leading-[1.7]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                  {clientAddress(sessionData) ?? "24 rue des Petites Écuries"}<br />
-                  75009 {clientCity(sessionData) ?? "Paris"}<br />
-                  Métro Bonne Nouvelle (L8/9)
+                  {clientAddress(sessionData) ?? (clientCity(sessionData) ? "" : "24 rue des Petites Écuries")}{(clientAddress(sessionData) || !clientCity(sessionData)) ? <br /> : null}
+                  {clientCity(sessionData) ?? "75009 Paris"}{clientCity(sessionData) ? null : (<><br />Métro Bonne Nouvelle (L8/9)</>)}
                 </p>
               </div>
             </Reveal>
@@ -1548,7 +1549,7 @@ function ContactFooter() {
                     <Mail className="w-3.5 h-3.5" />{clientEmail(sessionData) ?? fd?.email ?? "bonjour@velvetnails.fr"}</a>
                   <a href="#contact" className="flex items-center gap-2 text-white/80 hover:text-white transition-colors text-[13px]" style={{ fontFamily: "'Inter', sans-serif" }}>
                     <Instagram className="w-3.5 h-3.5" />
-                    @velvetnails.paris
+                    {clientInstagram(sessionData) ? `@${clientInstagram(sessionData)}` : (clientName(sessionData) ? "" : "@velvetnails.paris")}
                   </a>
                 </div>
               </div>
@@ -1599,7 +1600,7 @@ function ContactFooter() {
               <div className="text-center">
                 <MapPin className="w-8 h-8 text-[#F9A8D4] mx-auto mb-2" />
                 <p className="text-white/60 text-[13px]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                  {clientAddress(sessionData) ?? `24 rue des Petites Écuries, 75009 ${clientCity(sessionData) ?? "Paris"}`}
+                  {clientAddress(sessionData) ?? (clientCity(sessionData) ? clientCity(sessionData) : "24 rue des Petites Écuries, 75009 Paris")}
                 </p>
                 <a
                   href="https://maps.google.com"

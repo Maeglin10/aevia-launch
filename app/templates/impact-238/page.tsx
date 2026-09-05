@@ -2105,7 +2105,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={2} />
-            {clientCity(sessionData) ?? "Rennes"}, Bretagne
+            {clientCity(sessionData) ?? "Rennes, Bretagne"}
           </div>
           <div
             style={{
@@ -2303,7 +2303,7 @@ export default function Page() {
     });
   });
   REVIEWS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...REVIEWS_SOURCE[i % REVIEWS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...REVIEWS_SOURCE[i % REVIEWS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     REVIEWS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

@@ -214,11 +214,11 @@ function EDIT_ROWS_SOURCE_LIVE() {
     numeral: '02',
     title: (
       <>
-        Place Kléber{' '}
+        {clientCity(sessionData) ? "Un cabinet" : "Place Kléber"}{' '}
         <span style={{ fontStyle: 'italic' }}>accessible.</span>
       </>
     ),
-    body: 'À 3 minutes des lignes de tram A & D, accès PMR, parking Place Kléber. Prise de rendez-vous en ligne 24h/24. Créneaux urgence disponibles le jour même sur appel.',
+    body: clientName(sessionData) ? 'Accès PMR, stationnement à proximité. Prise de rendez-vous en ligne 24h/24. Créneaux urgence disponibles le jour même sur appel.' : 'À 3 minutes des lignes de tram A & D, accès PMR, parking Place Kléber. Prise de rendez-vous en ligne 24h/24. Créneaux urgence disponibles le jour même sur appel.',
     reverse: true,
   },
 ];
@@ -1994,7 +1994,7 @@ function Footer() {
               }}
             >
               <MapPin size={14} color={C.accent} strokeWidth={1.5} />
-              {clientAddress(sessionData) ?? `2 Place Kléber, 67000 ${clientCity(sessionData) ?? "Strasbourg"}`}
+              {clientAddress(sessionData) ?? clientCity(sessionData) ?? "2 Place Kléber, 67000 Strasbourg"}
             </div>
             <div
               style={{
@@ -2036,7 +2036,7 @@ function Footer() {
               }}
             >
               <Shield size={14} color={C.accent} strokeWidth={1.5} />
-              Secteur 2 · Carte Vitale acceptée
+              {clientName(sessionData) ? "Carte Vitale acceptée" : "Secteur 2 · Carte Vitale acceptée"}
             </div>
           </div>
         </div>
@@ -2228,7 +2228,7 @@ export default function Page() {
     });
   });
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   PHASES = PHASES_DEMO.map((row, i) => ({

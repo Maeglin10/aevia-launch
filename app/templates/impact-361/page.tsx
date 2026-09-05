@@ -92,7 +92,7 @@ const NAV = [
 function HERO_LIVE() {
   return [
     {
-      k: "Terracotta de " + (clientCity(sessionData) ?? "Nîmes"),
+      k: clientCity(sessionData) ? "Terracotta" : "Terracotta de Nîmes",
       line: "La teinte qui réchauffe un salon plein nord.",
       sub: "Peinture minérale mate, échantillon posé avant.",
       chip: "accent",
@@ -416,7 +416,7 @@ export default function AtelierTeintesPage() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
       a: s.title || TARIFS_SOURCE[i % TARIFS_SOURCE.length].a,
-      p: s.price || TARIFS_SOURCE[i % TARIFS_SOURCE.length].p,
+      p: s.price || "Sur devis",
       n: s.description || s.desc || TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
     })),
     TARIFS_SOURCE,

@@ -219,7 +219,7 @@ export default function Impact174Page() {
   MEMBERSHIPS_SOURCE = MEMBERSHIPS_SOURCE_LIVE();
 
   MEMBERSHIPS = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...MEMBERSHIPS_SOURCE[i % MEMBERSHIPS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? MEMBERSHIPS_SOURCE[i % MEMBERSHIPS_SOURCE.length].price })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...MEMBERSHIPS_SOURCE[i % MEMBERSHIPS_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? "" })),
     MEMBERSHIPS_SOURCE,
   );
 
@@ -236,8 +236,8 @@ export default function Impact174Page() {
       ...COACHES_DEMO[i % COACHES_DEMO.length],
       name: t.name ?? COACHES_DEMO[i % COACHES_DEMO.length].name,
       role: t.role ?? COACHES_DEMO[i % COACHES_DEMO.length].role,
-      certs: t.credentials ?? COACHES_DEMO[i % COACHES_DEMO.length].certs,
-      quote: t.bio ?? t.specialty ?? COACHES_DEMO[i % COACHES_DEMO.length].quote,
+      certs: t.credentials ?? "",
+      quote: t.bio ?? t.specialty ?? "",
       img: t.photoUrl || COACHES_DEMO[i % COACHES_DEMO.length].img,
     })),
     COACHES_DEMO
@@ -617,7 +617,7 @@ export default function Impact174Page() {
             <div className="flex flex-col sm:flex-row gap-8 justify-center text-sm text-[#f5f5f5]/30">
               <div className="flex items-center gap-2 justify-center">
                 <MapPin className="w-4 h-4 text-[var(--brand,#84cc16)]" />
-                <span>{clientAddress(sessionData) ?? `8 rue Oberkampf, 75011 ${clientCity(sessionData) ?? "Paris"}`}</span>
+                <span>{clientAddress(sessionData) ?? clientCity(sessionData) ?? "8 rue Oberkampf, 75011 Paris"}</span>
               </div>
               <div className="flex items-center gap-2 justify-center">
                 <Clock className="w-4 h-4 text-[var(--brand,#84cc16)]" />
@@ -639,7 +639,7 @@ export default function Impact174Page() {
             <Dumbbell className="w-5 h-5 text-[var(--brand,#84cc16)]" />
             <span className="text-xl font-bold uppercase tracking-tighter text-white" style={{ fontFamily: "'Oswald', sans-serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "FORGE"))}</span>
           </div>
-          <p className="text-xs text-[#f5f5f5]/30 uppercase tracking-widest">© 2026 {clientName(sessionData) ?? "FORGE Performance"} · {clientCity(sessionData) ?? "Paris"} 11ème{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</p>
+          <p className="text-xs text-[#f5f5f5]/30 uppercase tracking-widest">© 2026 {clientName(sessionData) ?? "FORGE Performance"} · {clientCity(sessionData) ?? "Paris 11ème"}</p>
           <div className="flex gap-6">
             {["Instagram", "TikTok", "YouTube"].map(s => (
               <span key={s} className="text-xs text-[#f5f5f5]/30 hover:text-[var(--brand,#84cc16)] transition-colors cursor-pointer uppercase tracking-widest">{s}</span>

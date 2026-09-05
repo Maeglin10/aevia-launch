@@ -24,6 +24,7 @@ import {
   clientBookingUrl,
   clientCity,
   clientEmail,
+  clientAddress,
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
@@ -2113,7 +2114,7 @@ function ContactSection({ accentColor }: { accentColor: string }) {
           }}
         >
           {[
-            { icon: '📍', label: 'Adresse', value: '12 Rue du Faubourg\nSaint-Honoré, ' + (clientCity(sessionData) ?? 'Paris') },
+            { icon: '📍', label: 'Adresse', value: clientAddress(sessionData) ?? clientCity(sessionData) ?? '12 Rue du Faubourg\nSaint-Honoré, Paris' },
             { icon: '📞', label: 'Téléphone', value: clientPhone(sessionData) ?? '+33 1 42 56 78 90' },
             { icon: '🕐', label: 'Horaires', value: 'Mar–Sam : 10h–19h\nDimanche : 11h–17h' },
             { icon: '✉️', label: 'Email', value: (clientEmail(sessionData) ?? fd?.email ?? 'contact@studionail.fr') },
@@ -2345,9 +2346,9 @@ export default function NailStudioTemplate() {
 
   );
 
-  SERVICES_DEMO = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], name: s.title , ...(s.price ? { price: s.price } : {})})), SERVICES_SOURCE);
+  SERVICES_DEMO = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], name: s.title, nameFr: null, description: s.desc || "", duration: "", price: s.price ?? "" })), SERVICES_SOURCE);
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text, service: "" })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

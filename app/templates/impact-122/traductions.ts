@@ -10,6 +10,8 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "support independent journalism": "Soutenez un journalisme indépendant",
+    "the daily chronicle": "Le quotidien",
     "mastery in": "LA MAÎTRISE DU",
     "motion.": "MOUVEMENT.",
     "mastery in": "La maîtrise du",
@@ -110,6 +112,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "you can pause, upgrade, or cancel your subscription at any time through your account portal under the 'membership' tab.": "Vous pouvez mettre en pause, mettre à niveau ou annuler votre abonnement à tout moment via votre portail de compte sous l'onglet 'Abonnement'.",
   },
   es: {
+    "support independent journalism": "Apoye el periodismo independiente",
+    "the daily chronicle": "El diario",
     "mastery in": "EL DOMINIO DEL",
     "motion.": "MOVIMIENTO.",
     "mastery in": "El dominio del",
@@ -227,6 +231,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "you can pause, upgrade, or cancel your subscription at any time through your account portal under the 'membership' tab.": "Puedes pausar, actualizar o cancelar tu suscripción en cualquier momento a través de tu portal de cuenta en la pestaña 'Membresía'.",
   },
   de: {
+    "support independent journalism": "Unterstützen Sie unabhängigen Journalismus",
+    "the daily chronicle": "Die Tageszeitung",
     "mastery in": "MEISTERSCHAFT IN",
     "motion.": "BEWEGUNG.",
     "mastery in": "Meisterschaft in",
@@ -344,6 +350,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "you can pause, upgrade, or cancel your subscription at any time through your account portal under the 'membership' tab.": "Sie können Ihr Abonnement jederzeit über Ihr Kontoportal unter dem Tab 'Mitgliedschaft' pausieren, upgraden oder kündigen.",
   },
   pt: {
+    "support independent journalism": "Apoie o jornalismo independente",
+    "the daily chronicle": "O diário",
     "mastery in": "O DOMÍNIO DO",
     "motion.": "MOVIMENTO.",
     "mastery in": "O domínio do",

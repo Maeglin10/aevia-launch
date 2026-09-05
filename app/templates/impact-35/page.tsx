@@ -11,7 +11,7 @@ import {
   SPACE_TYPES,
   AMENITIES,
   TESTIMONIALS,
-  STATS,
+  STATS as STATS_DEMO_35,
   SectionReveal,
   FloorPlan,
 } from "./shared"
@@ -22,10 +22,12 @@ import {
   clientName,
   clientReviews,
   clientServices,
+  clientStats,
   clientText,
   memoriserSession,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
+let STATS = STATS_DEMO_35;
 
 // Variables de module lues par les sections extraites en composants :
 // déclarées ici pour que tout le fichier puisse s'y référer.
@@ -80,9 +82,10 @@ export default function Home() {
 
   fd = session?.formData;
   sessionData = session;
+  STATS = resolveList(clientStats(sessionData), STATS_DEMO_35);
   memoriserSession(sessionData);
   c = session?.generatedContent;
-  const SPACE_TYPES_DU_CLIENT = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...SPACE_TYPES[i % SPACE_TYPES.length], name: s.title, desc: s.desc || SPACE_TYPES[i % SPACE_TYPES.length].desc, from: s.price ?? SPACE_TYPES[i % SPACE_TYPES.length].from })), SPACE_TYPES);
+  const SPACE_TYPES_DU_CLIENT = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...SPACE_TYPES[i % SPACE_TYPES.length], name: s.title, desc: s.desc || SPACE_TYPES[i % SPACE_TYPES.length].desc, from: s.price ?? "" })), SPACE_TYPES);
   const TESTIMONIALS_DU_CLIENT = resolveList(clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS[i % TESTIMONIALS.length], name: r.author ?? TESTIMONIALS[i % TESTIMONIALS.length].name, text: r.text })), TESTIMONIALS);
 
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -206,7 +209,7 @@ return (
                       cursor: "pointer",
                     }}
                   >
-                    Day Pass — 25€ <ArrowRight size={18} />
+                    {(() => { const sv = clientServices(sessionData)?.[0]; if (sv) return sv.price ? `${sv.title} — ${sv.price}` : sv.title; return clientName(sessionData) ? "Réserver ma journée" : "Day Pass — 25€"; })()} <ArrowRight size={18} />
                   </span>
                 </Link>
                 <Link href="/templates/impact-35/spaces" style={{ textDecoration: "none" }}>

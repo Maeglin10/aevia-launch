@@ -10,6 +10,7 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "say.": "disent.",
     "elite legal counsel": "Conseil juridique d'exception",
     "power": "La force",
     "in truth.": "de la vérité.",
@@ -61,6 +62,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what we": "Ce que nous",
   },
   es: {
+    "say.": "dicen.",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -129,6 +131,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what we": "Lo que hacemos",
   },
   de: {
+    "say.": "sagen.",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -197,6 +200,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what we": "Was wir",
   },
   pt: {
+    "say.": "dizem.",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

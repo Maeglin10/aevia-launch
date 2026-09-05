@@ -165,7 +165,7 @@ export default function OsteoGaiaPage() {
 
 
   TARIFS = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? "Sur devis", n: s.desc || "" })),
     TARIFS_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -217,7 +217,7 @@ export default function OsteoGaiaPage() {
             ) : (<>
               <>
                 <div className={`font-bold text-sm ${scrolled ? "text-[#3a2e28]" : "text-white"}`} style={{ fontFamily: "'Libre Baskerville', Georgia, serif" }}>{clientName(sessionData) ?? "Ostéo Gaïa"}</div>
-                <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#c26b4c)]/60">{clientTrade(sessionData) ?? "Ostéopathe"} D.O. · {clientCity(sessionData) ?? "Montpellier"}</div>
+                <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#c26b4c)]/60">{clientTrade(sessionData) ? clientTrade(sessionData) : "Ostéopathe D.O."} · {clientCity(sessionData) ?? "Montpellier"}</div>
               </>
             </>))}
           </div>
@@ -259,7 +259,7 @@ export default function OsteoGaiaPage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-8">
               <div className="w-8 h-[1px] bg-[var(--brand,#c26b4c)]/70" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#d4937a]">{clientTrade(sessionData) ?? "Ostéopathe"} diplômée D.O. · {clientCity(sessionData) ?? "Montpellier"}</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#d4937a]">{clientTrade(sessionData) ? clientTrade(sessionData) : "Ostéopathe diplômée D.O."} · {clientCity(sessionData) ?? "Montpellier"}</span>
             </div>
           </motion.div>
 
@@ -483,8 +483,8 @@ export default function OsteoGaiaPage() {
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
             <div className="font-bold text-[#f5f0e8] mb-1 text-sm" style={{ fontFamily: "'Libre Baskerville', serif" }}>{clientName(sessionData) ?? "Ostéo Gaïa"}</div>
-            <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c26b4c)]/50 mb-5">Emma Dubois · D.O.</div>
-            <p className="text-[#f5f0e8]/20 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Ostéopathe"} diplômée D.O. à {clientCity(sessionData) ?? "Montpellier"}. Dos, nourrissons, sportifs, grossesse, viscéral, crânio-sacré.</p>
+            {clientName(sessionData) ? null : <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c26b4c)]/50 mb-5">Emma Dubois · D.O.</div>}
+            <p className="text-[#f5f0e8]/20 text-sm leading-relaxed">{clientTrade(sessionData) ? `${clientTrade(sessionData)} à ${clientCity(sessionData) ?? ""}.` : "Ostéopathe diplômée D.O. à Montpellier. Dos, nourrissons, sportifs, grossesse, viscéral, crânio-sacré."}</p>
           </div>
           {[
             { t: "Soins", ls: ["Lombalgies & dos", "Nourrissons & bébés", "Grossesse & post-partum", "Sportifs", "Céphalées", "Viscéral"] },
@@ -500,7 +500,7 @@ export default function OsteoGaiaPage() {
           ))}
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#f5f0e8]/8">
-          <span>© 2026 {clientName(sessionData) ?? "Ostéo Gaïa"} · Emma Dubois D.O. · ADELI 340012345 · {clientCity(sessionData) ?? "Montpellier"} (34){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Ostéo Gaïa"}{clientName(sessionData) ? "" : " · Emma Dubois D.O. · ADELI 340012345"} · {clientCity(sessionData) ?? "Montpellier (34)"}</span>
           <span className="text-[var(--brand,#c26b4c)]/20">{clientTrade(sessionData) ?? "Ostéopathe"} · {clientCity(sessionData) ?? "Montpellier"}</span>
         </div>
       </footer>

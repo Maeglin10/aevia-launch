@@ -202,7 +202,7 @@ function EDIT_ROWS_LIVE() {
     img: P.editorial2,
     alt: 'Cabinet de kinésithérapie pédiatrique à Bordeaux Mériadeck',
     titleLine1: (clientCity(sessionData) ?? 'Bordeaux'),
-    titleLine2: 'Mériadeck.',
+    titleLine2: clientCity(sessionData) ? 'Le cabinet.' : 'Mériadeck.',
     bullets: [
       'Environnement dédié aux enfants — jouets, couleurs vives, aucun blanc médical.',
       'Rez-de-chaussée entièrement accessible.',
@@ -733,7 +733,7 @@ function Hero() {
           }}
         >
           Rééducation respiratoire, motrice et post-opératoire pour les
-          nourrissons, enfants et adolescents — au cœur de {clientCity(sessionData) ?? "Bordeaux"} Mériadeck.
+          nourrissons, enfants et adolescents — au cœur de {clientCity(sessionData) ?? "Bordeaux Mériadeck"}.
         </motion.p>
 
         <motion.div
@@ -2089,7 +2089,7 @@ function Footer() {
               marginBottom: 22,
             }}
           >
-            Kinésithérapie pédiatrique et respiratoire à {clientCity(sessionData) ?? "Bordeaux"} Mériadeck.
+            Kinésithérapie pédiatrique et respiratoire à {clientCity(sessionData) ?? "Bordeaux Mériadeck"}.
             Une prise en charge adaptée à chaque enfant, du nourrisson à
             l&apos;adolescent.
           </p>
@@ -2106,7 +2106,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accentLight} strokeWidth={1.5} />
-            {clientCity(sessionData) ?? "Bordeaux"} · Mériadeck
+            {clientCity(sessionData) ?? "Bordeaux · Mériadeck"}
           </div>
         </div>
 
@@ -2264,7 +2264,7 @@ export default function Page() {
   BASE = BASE_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text, context: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

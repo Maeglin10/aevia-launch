@@ -164,7 +164,7 @@ function EDIT_ROWS_LIVE() {
     img: unsplash((clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/7447284/pexels-photo-7447284.jpeg?auto=compress&cs=tinysrgb&w=1600'), 800),
     imgAlt: 'Viennoiseries dorées à la sortie du four',
     titleLine1: (clientCity(sessionData) ?? 'Lyon') + ', /',
-    titleLine2: 'depuis 2011.',
+    titleLine2: clientName(sessionData) ? 'notre atelier.' : 'depuis 2011.',
     body: "Boulangerie de quartier ouverte du mardi au dimanche de 7h à 13h, fermée le lundi. Un four, deux boulangers, une règle : ce qui n'est pas parfait ne passe pas le comptoir.",
     reverse: true,
     romanNumeral: 'II',
@@ -1950,8 +1950,9 @@ function Footer() {
       items: [
         'Mar–Dim : 7h – 13h',
         'Fermé le lundi',
-        (clientCity(sessionData) ?? 'Lyon') + ' arrondissement',
-        'Métro : Hôtel de Ville',
+        ...(clientName(sessionData)
+          ? [clientCity(sessionData) ?? '']
+          : ['Lyon arrondissement', 'Métro : Hôtel de Ville']),
         (clientPhone(sessionData) ?? fd?.phone ?? '04 78 37 37 37'),
       ],
     },
@@ -2009,7 +2010,7 @@ function Footer() {
               maxWidth: 300,
             }}
           >
-            Boulangerie-pâtisserie artisanale. Levain naturel depuis 2011.
+            Boulangerie-pâtisserie artisanale. {clientName(sessionData) ? "Levain naturel." : "Levain naturel depuis 2011."}{' '}
             {clientCity(sessionData) ?? "Lyon"}.
           </p>
           <div
@@ -2031,7 +2032,7 @@ function Footer() {
                 alignSelf: 'center',
               }}
             >
-              Google · 4.9/5
+              {clientName(sessionData) ? "Avis clients" : "Google · 4.9/5"}
             </span>
           </div>
         </div>
@@ -2099,7 +2100,7 @@ function Footer() {
           color: 'rgba(250,245,238,0.42)',
         }}
       >
-        <span>© 2011–2026 {clientName(sessionData) ?? "Maison Brûlot"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© {clientName(sessionData) ? "2026" : "2011–2026"} {clientName(sessionData) ?? "Maison Brûlot"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2201,7 +2202,7 @@ export default function Page() {
     });
   });
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

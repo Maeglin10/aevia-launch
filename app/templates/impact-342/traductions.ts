@@ -9,11 +9,7 @@
   Chargé par BrandColorVar avec ce thème et avec lui seul.
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
-  fr: {
-    "on t'attend": "Wir warten auf dich",
-    "repars avec un plan.": "geh mit einem Plan zurück.",
-    "un plan d'heures,": "Ein Stundenplan,",
-  },
+  fr: {},
   es: {
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",

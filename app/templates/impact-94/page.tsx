@@ -49,6 +49,7 @@ import {
   clientStats,
   clientText,
   fusionnerEtapes,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -480,11 +481,11 @@ export default function Impact94Page() {
 
 
   EVENTS = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EVENTS_SOURCE[i % EVENTS_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EVENTS_SOURCE[i % EVENTS_SOURCE.length], title: s.title, desc: s.desc || "" || "", features: [], })),
     EVENTS_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
@@ -495,7 +496,7 @@ export default function Impact94Page() {
       id: `svc-${i}`,
       name: s.title ?? s.name ?? ARRANGEMENTS_DEMO[i % ARRANGEMENTS_DEMO.length].name,
       description: s.description ?? s.desc ?? ARRANGEMENTS_DEMO[i % ARRANGEMENTS_DEMO.length].description,
-      price: s.price ?? ARRANGEMENTS_DEMO[i % ARRANGEMENTS_DEMO.length].price,
+      price: s.price ?? "",
     })),
     ARRANGEMENTS_DEMO
   );
@@ -1032,7 +1033,7 @@ export default function Impact94Page() {
             <div>
               <Reveal>
                 <p className="text-xl text-[#0C0A09]/70 leading-relaxed font-light mb-8">{/* TEXTE_SECTION */ clientText(sessionData, "atelier.texte") ?? (<>
-                  Notre atelier parisien, niché dans le Marais, est un espace de création où se conjuguent tradition artisanale et sensibilité contemporaine.
+                  {clientCity(sessionData) ? `Notre atelier à ${clientCity(sessionData)} est un espace de création` : "Notre atelier parisien, niché dans le Marais, est un espace de création"} où se conjuguent tradition artisanale et sensibilité contemporaine.
                 </>)}</p>
                 <p className="text-base text-[#0C0A09]/50 leading-relaxed font-light mb-12">{/* TEXTE_SECTION */ clientText(sessionData, "atelier.texte") ?? (<>
                   Chaque arrangement suit un protocole précis, de la sélection des fleurs à la livraison finale. Nous ne composons jamais en série — chaque pièce est unique, portant en elle l&apos;empreinte de la main qui l&apos;a créée.
@@ -1176,7 +1177,7 @@ export default function Impact94Page() {
                   </div>
                   <div>
                     <div className="text-sm font-medium text-[#0C0A09]">Atelier</div>
-                    <div className="text-sm text-[#0C0A09]/60">{clientAddress(sessionData) ?? `12, rue des Fleurs, 75004 ${clientCity(sessionData) ?? "Paris"}`}</div>
+                    <div className="text-sm text-[#0C0A09]/60">{clientAddress(sessionData) ?? (clientCity(sessionData) ?? "12, rue des Fleurs, 75004 Paris")}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
@@ -1185,7 +1186,7 @@ export default function Impact94Page() {
                   </div>
                   <div>
                     <div className="text-sm font-medium text-[#0C0A09]">Téléphone</div>
-                    <div className="text-sm text-[#0C0A09]/60">+33 (0)1 42 77 58 12</div>
+                    <div className="text-sm text-[#0C0A09]/60">{clientPhone(sessionData) ?? fd?.phone ?? "+33 (0)1 42 77 58 12"}</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
@@ -1324,12 +1325,12 @@ export default function Impact94Page() {
               className="text-xl font-normal tracking-[0.25em] uppercase text-[#FAFAF9]"
               style={{ fontFamily: "'Bodoni Moda', serif" }}
             >
-              Botanica
+              {clientName(sessionData) ?? "Botanica"}
             </span>
           </div>
 
           <p className="text-[10px] text-[#FAFAF9]/30 uppercase tracking-[0.2em] text-center">
-            © 2024 {clientName(sessionData) ?? "Botanica Atelier Floral"} — {clientCity(sessionData) ?? "Paris"} · Marais · 4e arrondissement{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2024 {clientName(sessionData) ?? "Botanica Atelier Floral"} — {clientCity(sessionData) ?? "Paris · Marais · 4e arrondissement"}
           </p>
 
           <div className="flex items-center gap-4">

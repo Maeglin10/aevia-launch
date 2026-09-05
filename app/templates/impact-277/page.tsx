@@ -41,6 +41,8 @@ import {
   clientName,
   clientPhone,
   clientPhotos,
+  clientAreas,
+  clientSiret,
   clientReviews,
   clientServices,
   clientTagline,
@@ -1563,8 +1565,8 @@ function TestimonialsSection() {
           clientReviews(sessionData)?.map((r: any, i: number) => ({
             quote: r.text ?? r.quote,
             name: r.name ?? r.author,
-            job: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].job,
-            travaux: r.detail ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].travaux,
+            job: r.location ?? "",
+            travaux: r.detail ?? "",
           })),
           TESTIMONIALS_DEMO
         ).map((t, i) => (
@@ -2215,7 +2217,7 @@ function ProjectsSection() {
           bp?.beforeAfter?.map((r: any, i: number) => ({
             img: r.afterUrl || r.beforeUrl || PROJECTS_DEMO[i % PROJECTS_DEMO.length].img,
             alt: r.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].alt,
-            tag: PROJECTS_DEMO[i % PROJECTS_DEMO.length].tag,
+            tag: "",
             title: r.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].title,
             desc: PROJECTS_DEMO[i % PROJECTS_DEMO.length].desc,
             detail: PROJECTS_DEMO[i % PROJECTS_DEMO.length].detail,
@@ -2251,7 +2253,7 @@ function UrgencySection() {
     padding: 'clamp(80px,12vw,160px) clamp(24px,6vw,96px)',
   };
 
-  const zones = [(clientCity(sessionData) ?? 'Paris') + ' 75', 'Hauts-de-Seine 92', 'Seine-Saint-Denis 93', 'Val-de-Marne 94'];
+  const zones = clientAreas(sessionData) ?? (clientCity(sessionData) ? [clientCity(sessionData)! + ' et alentours'] : ['Paris 75', 'Hauts-de-Seine 92', 'Seine-Saint-Denis 93', 'Val-de-Marne 94']);
 
   return (
     <section ref={ref} style={sec} id="urgence">
@@ -2504,7 +2506,7 @@ function FooterSection() {
               maxWidth: 300,
             }}
           >
-            {clientTrade(sessionData) ?? "Électricien"} certifié Qualifelec RGE depuis 2009. Installation, rénovation,
+            {clientTrade(sessionData) ?? "Électricien"} certifié Qualifelec RGE{clientName(sessionData) ? "" : " depuis 2009"}. Installation, rénovation,
             domotique et dépannage sur {clientCity(sessionData) ?? "Paris"}.
           </p>
 
@@ -2529,7 +2531,7 @@ function FooterSection() {
               }}
             >
               <MapPin size={13} color={C.yellow} strokeWidth={2} />
-              {clientCity(sessionData) ?? "Paris"} · 75011
+              {clientCity(sessionData) ?? "Paris · 75011"}
             </div>
             <div
               style={{
@@ -2539,7 +2541,7 @@ function FooterSection() {
                 letterSpacing: '0.10em',
               }}
             >
-              SIRET : 123 456 789 00012
+              {clientSiret(sessionData) ? `SIRET : ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : "SIRET : 123 456 789 00012"}
             </div>
             <div
               style={{
@@ -2650,7 +2652,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2009–2026 {clientName(sessionData) ?? "Électricité Dumont"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © {clientName(sessionData) ? "2026" : "2009–2026"} {clientName(sessionData) ?? "Électricité Dumont"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
           <span
@@ -2799,7 +2801,7 @@ export default function Impact277Page() {
     });
   });
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, job: "", })),
     TESTIMONIALS_SOURCE,
   );
   CERTIFICATIONS = resolveList(

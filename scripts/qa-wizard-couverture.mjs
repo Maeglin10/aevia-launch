@@ -24,7 +24,10 @@ const BLOCS = Object.fromEntries(
   Ce que le formulaire collecte. Établi en lisant StepForm : chaque bloc y a
   son champ, ou n'en a pas.
 */
-const form = fs.readFileSync("components/StepForm.tsx", "utf8");
+const form = ["components/StepForm.tsx",
+  ...fs.readdirSync("components/wizard").filter(f => f.endsWith(".tsx") || f.endsWith(".ts")).map(f => "components/wizard/" + f),
+  ...fs.readdirSync("components/wizard/steps").filter(f => f.endsWith(".tsx")).map(f => "components/wizard/steps/" + f),
+].map(f => fs.readFileSync(f, "utf8")).join("\n");
 const COLLECTE = {
   prestations: /services=\{|businessProfile\.services/.test(form),
   tarifs: /price/.test(form),

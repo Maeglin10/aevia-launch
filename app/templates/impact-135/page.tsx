@@ -1063,7 +1063,7 @@ export default function Impact135Page() {
   c = session?.generatedContent;
 
   MARKET_CARDS = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...MARKET_CARDS_SOURCE[i % MARKET_CARDS_SOURCE.length], name: s.title, price: s.price ?? MARKET_CARDS_SOURCE[i % MARKET_CARDS_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...MARKET_CARDS_SOURCE[i % MARKET_CARDS_SOURCE.length], name: s.title, price: s.price ?? "", desc: s.desc || "", badge: "" })),
     MARKET_CARDS_SOURCE,
   );
   PORTFOLIO_DATA = resolveList(
@@ -1071,24 +1071,24 @@ export default function Impact135Page() {
     PORTFOLIO_DATA_SOURCE,
   );
   PLANS = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, price: s.price ?? "Sur devis", features: [], })),
     PLANS_SOURCE,
   );
   FEATURES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title, desc: s.desc || "", features: [], })),
     FEATURES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   STATS = resolveList(clientStats(session)?.map((r: any) => ({ val: r.value, label: r.label })), STATS_DEMO);
   FEATURES = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title })),
+    clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title, desc: s.desc || "" })),
     FEATURES_DEMO,
   );
   TESTIMONIALS = resolveList(
-    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, name: r.author })),
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, name: r.author, role: "", })),
     TESTIMONIALS_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -1517,7 +1517,7 @@ export default function Impact135Page() {
               flexWrap: "wrap",
             }}
           >
-            {/* LISTE_LIBELLES */ (clientList(sessionData, "hero.liste1") ?? ["No subscription lock-in", "14-day free trial", "48K+ active traders", "SOC 2 certified"]).map(
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "hero.liste1") ?? (clientName(sessionData) ? ["Essai gratuit de 14 jours", "Sans engagement"] : ["No subscription lock-in", "14-day free trial", "48K+ active traders", "SOC 2 certified"])).map(
               (t) => (
                 <div
                   key={t}
@@ -2019,7 +2019,7 @@ export default function Impact135Page() {
             lineHeight: 1.7,
           }}
         >
-          Join 48,000+ traders already running on Trade OS. 14 days free, no card required.
+          {clientName(sessionData) ? "14 jours gratuits, sans carte requise." : "Join 48,000+ traders already running on Trade OS. 14 days free, no card required."}
         </motion.p>
 
         <motion.div
@@ -2194,7 +2194,7 @@ export default function Impact135Page() {
               color: C.subdued,
             }}
           >
-            © 2026 {clientName(sessionData) ?? "TradeOS Inc."} · Tous droits réservés · SOC 2 Type II{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2026 {clientName(sessionData) ?? "TradeOS Inc."} · Tous droits réservés{clientName(sessionData) ? "" : " · SOC 2 Type II"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </span>
           <span
             style={{

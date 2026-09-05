@@ -33,7 +33,7 @@ export const PROTOCOLS = [
     id: "laser", icon: Microscope, label: "Lasers médicaux",
     title: "Photothérapie et resurfaçage de précision",
     desc: "Gamme Quanta System Q-YAG 5 et CO2 fractionné Acupulse. Traitement des lésions pigmentaires, rosacée, cicatrices et resurfaçage anti-âge avec résultats permanents.",
-    get fullDesc() { return "Notre parc laser médical est parmi les plus complets de " + clientCityOr("Paris") + ". Le laser Q-switched Nd:YAG cible les hyperpigmentations et le mélasma avec une précision nanométrique. Le CO2 fractionné Acupulse réalise un resurfaçage thermique contrôlé qui stimule la néocollagénogénèse."; },
+    get fullDesc() { return "Notre parc laser médical est parmi les plus complets de la région. Le laser Q-switched Nd:YAG cible les hyperpigmentations et le mélasma avec une précision nanométrique. Le CO2 fractionné Acupulse réalise un resurfaçage thermique contrôlé qui stimule la néocollagénogénèse."; },
     duration: "45 – 90 min", recovery: "3 – 7 jours",
     results: "Permanents après 3 à 5 séances",
     price: "À partir de 350 €/séance",
@@ -42,7 +42,7 @@ export const PROTOCOLS = [
   {
     id: "cyber", icon: Shield, label: "CypherSkin™",
     title: "Notre protocole signature exclusif",
-    get desc() { return "Développé en 2021 avec l'Institut de Biochimie de " + clientCityOr("Paris") + ", CypherSkin combine 6 technologies en une séance pour obtenir des résultats visibles dès J+7 et durables 18 mois."; },
+    get desc() { return "Développé en 2021 avec un institut de biochimie partenaire, CypherSkin combine 6 technologies en une séance pour obtenir des résultats visibles dès J+7 et durables 18 mois."; },
     fullDesc: "CypherSkin™ est notre réponse à la demande de traitements globaux à séance unique. En combinant séquentiellement radiofréquence fractionnée, ultrasons focalisés HIFU, LED thérapeutique rouge et infrarouge, cryolifting, électroporation et mésothérapie sans aiguille, ce protocole agit sur l'ensemble des couches de la peau.",
     duration: "120 min", recovery: "72h",
     results: "Visibles dès J+7, durables 18 mois",
@@ -76,7 +76,7 @@ function SPECIALISTS_LIVE() {
   {
     name: "Dr. Alexandre Noir", spec: "Médecin esthétique · Lasers",
     get shortBio() { return "Interne médecine AP-HP · DU Médecine esthétique " + clientCityOr("Paris") + " VI"; },
-    get fullBio() { return "Le Dr. Alexandre Noir a effectué son internat en médecine au sein de l'Assistance Publique – Hôpitaux de " + clientCityOr("' + clientCityOr('Paris') + '") + " avant de se spécialiser en médecine esthétique avec un Diplôme Universitaire obtenu à " + clientCityOr("' + clientCityOr('Paris') + '") + " VI. Orateur régulier à l'IMCAS World Congress, il cumule 15 années d'expérience clinique et a formé plus de 200 confrères aux techniques d'injection de précision. Expert en lasers médicaux, il dirige le protocole CypherSkin™."; },
+    get fullBio() { return "Le Dr. Alexandre Noir a effectué son internat en médecine au sein de l'Assistance Publique – Hôpitaux de Paris avant de se spécialiser en médecine esthétique avec un Diplôme Universitaire obtenu à Paris VI. Orateur régulier à l'IMCAS World Congress, il cumule 15 années d'expérience clinique et a formé plus de 200 confrères aux techniques d'injection de précision. Expert en lasers médicaux, il dirige le protocole CypherSkin™."; },
     image: clientPhotoAt(3, "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=800&q=80&fit=crop"),
     get certifications() { return ["IMCAS Speaker", "Formateur référent", "DU " + clientCityOr("Paris") + " VI"]; },
     experience: "15 ans d'expérience"
@@ -84,7 +84,7 @@ function SPECIALISTS_LIVE() {
   {
     name: "Dr. Valentine Huang", spec: "Dermatologue spécialisée",
     get shortBio() { return "DES Dermatologie " + clientCityOr("Paris") + " V · Fellowship IMCAS Singapore"; },
-    get fullBio() { return "Le Dr. Valentine Huang est dermatologue titulaire d'un Diplôme d'Études Spécialisées de l'Université " + clientCityOr("' + clientCityOr('Paris') + '") + " V. Son fellowship à Singapour sous la direction du Pr. Goh Chee Leok lui a permis d'acquérir une expertise mondiale en dermatologie régénérative et traitements laser avancés. Elle prend en charge les pathologies complexes de la peau et supervise les protocoles de bioregénération."; },
+    get fullBio() { return "Le Dr. Valentine Huang est dermatologue titulaire d'un Diplôme d'Études Spécialisées de l'Université Paris V. Son fellowship à Singapour sous la direction du Pr. Goh Chee Leok lui a permis d'acquérir une expertise mondiale en dermatologie régénérative et traitements laser avancés. Elle prend en charge les pathologies complexes de la peau et supervise les protocoles de bioregénération."; },
     image: clientPhotoAt(4, "https://images.pexels.com/photos/12257633/pexels-photo-12257633.jpeg?auto=compress&cs=tinysrgb&w=1600"),
     certifications: ["DES Dermatologie", "Fellowship Singapore", "Membre SFD"],
     experience: "11 ans d'expérience"

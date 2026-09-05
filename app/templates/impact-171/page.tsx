@@ -26,6 +26,7 @@ import {
   clientTeam,
   clientText,
   fusionnerEtapes,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 function navLinks_LIVE() {
@@ -475,7 +476,7 @@ export default function Impact171Page() {
                   <div className="flex items-center gap-1">
                     {[1,2,3,4,5].map(i => <Star key={i} className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />)}
                   </div>
-                  <span className="text-xs text-[#134E4A]/60">4.9/5 — 3 200+ patients</span>
+                  {clientName(sessionData) ? null : <span className="text-xs text-[#134E4A]/60">4.9/5 — 3 200+ patients</span>}
                 </div>
               </div>
             </Reveal>
@@ -495,14 +496,14 @@ export default function Impact171Page() {
 
             {/* Floating stat cards */}
             <div className="absolute -left-6 top-16 flex flex-col gap-3">
-              <StatCard value="4.9★" label="Satisfaction" delay={0.5} />
-              <StatCard value="98%" label="Résultats" delay={0.65} />
+              {clientName(sessionData) && !clientStats(sessionData) ? null : <StatCard value={clientStats(sessionData)?.[0]?.value ?? "4.9★"} label={clientStats(sessionData)?.[0]?.label ?? "Satisfaction"} delay={0.5} />}
+              {clientName(sessionData) && !clientStats(sessionData) ? null : <StatCard value={clientStats(sessionData)?.[1]?.value ?? "98%"} label={clientStats(sessionData)?.[1]?.label ?? "Résultats"} delay={0.65} />}
             </div>
             <div className="absolute -right-4 bottom-20">
-              <StatCard value="3 200+" label="Patients suivis" delay={0.8} />
+              {clientName(sessionData) && !clientStats(sessionData) ? null : <StatCard value={clientStats(sessionData)?.[2]?.value ?? "3 200+"} label={clientStats(sessionData)?.[2]?.label ?? "Patients suivis"} delay={0.8} />}
             </div>
             <div className="absolute right-8 top-8">
-              <StatCard value="12 ans" label="D'expertise" delay={0.7} />
+              {clientName(sessionData) && !clientStats(sessionData) ? null : <StatCard value={clientStats(sessionData)?.[3]?.value ?? "12 ans"} label={clientStats(sessionData)?.[3]?.label ?? "D'expertise"} delay={0.7} />}
             </div>
           </div>
         </div>
@@ -938,7 +939,7 @@ export default function Impact171Page() {
                 <span className="text-xl font-bold" style={{ fontFamily: "'Figtree', sans-serif" }}>{clientName(sessionData) ?? "VITALITÉ"} Médical</span>
               </div>
               <p className="text-white/60 text-sm leading-relaxed max-w-xs">
-                Médecine evidence-based et suivi personnalisé pour une santé optimale. {clientCity(sessionData) ?? "Paris"} 4ème.
+                Médecine evidence-based et suivi personnalisé pour une santé optimale. {clientCity(sessionData) ?? "Paris 4ème"}.
               </p>
             </div>
             {[

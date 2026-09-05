@@ -79,7 +79,7 @@ let TARIFS = TARIFS_DEMO;
 
 function ZONES_DEMO_LIVE() {
   return [
-  { v: (clientCity(sessionData) ?? "Lyon") + " — 9e", d: "Tous arrondissements, sans supplément" },
+  { v: clientCity(sessionData) ?? "Lyon — 9e", d: "Tous arrondissements, sans supplément" },
   { v: (clientCity(sessionData) ?? "Villeurbanne"), d: "Sans supplément" },
   { v: "Caluire · Rillieux", d: "Sans supplément" },
   { v: "Écully · Tassin · Sainte-Foy", d: "Sans supplément" },
@@ -162,19 +162,19 @@ export default function BrilloNetPage() {
 
 
   SERVICES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   TARIFS = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], f: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    clientServices(session)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], f: s.title, p: s.price ?? "Sur devis", n: s.desc || "" })),
     TARIFS_DEMO,
   );
   SERVICES = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
+    clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title, desc: s.desc || "" })),
     SERVICES_DEMO,
   );
   ZONES = resolveList(
-    clientAreas(session)?.map((z, i) => ({ ...ZONES_DEMO[i % ZONES_DEMO.length], v: z })),
+    clientAreas(session)?.map((z, i) => ({ v: z, d: "" })) ?? (clientCity(session) ? [{ v: clientCity(session), d: "Sans supplément" }] : undefined),
     ZONES_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

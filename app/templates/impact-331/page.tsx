@@ -423,7 +423,7 @@ export default function RegardNordPage() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
       a: s.title ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].a,
-      p: s.price ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].p,
+      p: s.price ?? "Sur devis",
       n: s.description ?? s.desc ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
     })),
     TARIFS_SOURCE,

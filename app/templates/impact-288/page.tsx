@@ -46,6 +46,8 @@ import {
   clientSiret,
   clientTagline,
   clientText,
+  clientAreas,
+  clientStats,
   clientTrade,
   fusionnerEtapes,
 } from "@/lib/templates/clientContent";
@@ -547,7 +549,7 @@ function HeroSection() {
       >
         <Reveal y={18}>
           <Eyebrow color={C.green} align="center">
-            Artisan électricien · Depuis 1989
+            Artisan électricien{clientName(sessionData) ? "" : " · Depuis 1989"}
           </Eyebrow>
         </Reveal>
 
@@ -599,7 +601,7 @@ function HeroSection() {
           }}
         >
           Installations électriques, bornes IRVE et panneaux photovoltaïques à{" "}
-          {clientCity(sessionData) ?? "Nantes"} et partout en Loire-Atlantique. Certifié RGE, QualiPV, Qualifelec.
+          {clientCity(sessionData) ?? "Nantes"}{clientCity(sessionData) ? " et alentours" : " et partout en Loire-Atlantique"}. Certifié RGE, QualiPV, Qualifelec.
         </motion.p>
 
         <motion.div
@@ -634,11 +636,11 @@ function HeroSection() {
             paddingTop: 32,
           }}
         >
-          {[
+          {(clientStats(sessionData)?.map((cs: any) => ({ v: cs.value, l: cs.label })) ?? [
             { v: '+35 ans', l: "d'expérience" },
             { v: '1 200+', l: 'chantiers réalisés' },
             { v: '100%', l: 'certifié RGE' },
-          ].map((s) => (
+          ]).map((s) => (
             <div key={s.l} style={{ textAlign: 'center' }}>
               <div
                 style={{
@@ -1456,7 +1458,7 @@ function ProcessSection() {
                 }}
               >
                 <MapPin size={12} color={C.green} />
-                {clientCity(sessionData) ?? "Nantes"} · Loire-Atlantique
+                {clientCity(sessionData) ?? "Nantes · Loire-Atlantique"}
               </div>
             </div>
           </div>
@@ -1652,7 +1654,7 @@ function TestimonialsSection() {
               lineHeight: 1.7,
             }}
           >
-            Plus de 1 200 clients satisfaits en Loire-Atlantique depuis 1989.
+            {clientName(sessionData) ? "Des clients satisfaits, année après année." : "Plus de 1 200 clients satisfaits en Loire-Atlantique depuis 1989."}
           </p>
         </Reveal>
 
@@ -1669,7 +1671,7 @@ function TestimonialsSection() {
             clientReviews(sessionData)?.map((r: any, i: number) => ({
               name: r.name ?? r.author,
               city: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].city,
-              project: TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].project,
+              project: "",
               text: r.text ?? r.quote,
               stars: r.stars ?? 5,
             })),
@@ -1709,7 +1711,7 @@ function TestimonialsSection() {
                 color: C.muted,
               }}
             >
-              · Basé sur 87 avis vérifiés Google
+              {clientName(sessionData) ? "· Avis clients" : "· Basé sur 87 avis vérifiés Google"}
             </span>
           </div>
         </Reveal>
@@ -2775,8 +2777,11 @@ function CertifSection() {
    Logo {clientName(sessionData) ?? "Ampère & Fils"}, zones Loire-Atlantique, mentions RGE/IRVE, SIRET
    ════════════════════════════════════════════════════════════════════════════ */
 function ZONES_LIVE() {
+  const zones = clientAreas(sessionData);
+  if (zones?.length) return zones;
+  if (clientCity(sessionData)) return [clientCity(sessionData)! + ' et alentours'];
   return [
-  (clientCity(sessionData) ?? 'Nantes'), 'Saint-Nazaire', 'Saint-Herblain', 'Rezé',
+  'Nantes', 'Saint-Nazaire', 'Saint-Herblain', 'Rezé',
   'Orvault', 'Vertou', 'Carquefou', 'La Baule',
   'Ancenis', 'Châteaubriant', 'Machecoul', 'Pornic',
 ];
@@ -2897,8 +2902,8 @@ function FooterSection() {
                 margin: '0 0 22px',
               }}
             >
-              {clientTrade(sessionData) ?? "Électricien"} artisan à {clientCity(sessionData) ?? "Nantes"} depuis 1989. Installation, rénovation,
-              bornes IRVE et panneaux solaires en Loire-Atlantique.
+              {clientTrade(sessionData) ?? "Électricien"} artisan à {clientCity(sessionData) ?? "Nantes"}{clientName(sessionData) ? "" : " depuis 1989"}. Installation, rénovation,
+              bornes IRVE et panneaux solaires{clientName(sessionData) ? "" : " en Loire-Atlantique"}.
             </p>
 
             {/* Badges */}
@@ -2980,7 +2985,7 @@ function FooterSection() {
               }}
             >
               <MapPin size={12} color={C.green} />
-              Loire-Atlantique (44) et départements limitrophes
+              {clientCity(sessionData) ? `${clientCity(sessionData)} et communes limitrophes` : "Loire-Atlantique (44) et départements limitrophes"}
             </div>
           </div>
 
@@ -3039,7 +3044,7 @@ function FooterSection() {
               >
                 {clientAddress(sessionData) ?? "12 rue de la Chabossière"}
                 <br />
-                44300 {clientCity(sessionData) ?? "Nantes"}
+                {clientCity(sessionData) ?? "44300 Nantes"}
               </div>
 
               {/* Devis CTA footer */}
@@ -3081,7 +3086,7 @@ function FooterSection() {
             }}
           >
             © {new Date().getFullYear()} {clientName(sessionData) ?? "Ampère & Fils"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 000 000 000 00000"} ·
-            RGE n°E-E210000 · IRVE certifié INERIS · Assurance décennale Allianz n°SIN-XXX-XXXXX
+            {clientName(sessionData) ? "Certifications et assurance décennale — détails sur demande" : "RGE n°E-E210000 · IRVE certifié INERIS · Assurance décennale Allianz n°SIN-XXX-XXXXX"}
           {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</div>
           <div
             style={{

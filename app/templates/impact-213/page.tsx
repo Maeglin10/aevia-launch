@@ -20,6 +20,7 @@ import {
   clientCity,
   clientEmail,
   clientFaq,
+  clientAreas,
   clientHeroLine,
   clientHours,
   clientList,
@@ -596,7 +597,7 @@ function Hero() {
         >
           <HardCutRebuild index={i} stagger={0.09}>
             {[
-              <GhostSolid key="lockup" ghost={clientHeroLine(sessionData, 0, 1, 14) ?? HERO_TRADES[i].ghost} solid="pierre après pierre" accent={C.accent} strokeWidth={1.5} />,
+              <GhostSolid key="lockup" ghost={clientHeroLine(sessionData, 0, 2, 14) ?? HERO_TRADES[i].ghost} solid={clientHeroLine(sessionData, 1, 2, 14) ?? (clientHeroLine(sessionData, 0, 2, 14) ? "" : "pierre après pierre")} accent={C.accent} strokeWidth={1.5} />,
             ]}
           </HardCutRebuild>
         </motion.h1>
@@ -973,7 +974,7 @@ function Services() {
       icon: services_DEMO[i % services_DEMO.length].icon,
       title: s.title ?? s.name ?? services_DEMO[i % services_DEMO.length].title,
       description: s.description ?? s.desc ?? services_DEMO[i % services_DEMO.length].description,
-      price: s.price ?? services_DEMO[i % services_DEMO.length].price,
+      price: s.price ?? "",
     })),
     services_DEMO
   );
@@ -1363,15 +1364,20 @@ function APropos() {
                 marginBottom: 28,
                 letterSpacing: 1,
               }}
-            >{/* TEXTE_SECTION */ clientText(sessionData, "apropos.titre") ?? (<>
+            >{/* TEXTE_SECTION */ clientText(sessionData, "apropos.titre") ?? (clientName(sessionData) ? (<>
+              Au service{' '}
+              <span style={{ color: C.accent }}>du bâti</span>
+            </>) : (<>
               22 ans au service{' '}
               <span style={{ color: C.accent }}>du bâti lyonnais</span>
-            </>)}</h2>
+            </>))}</h2>
             <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.8, marginBottom: 20 }}>
-              Fondée en 2002 par Marc Durand, compagnon du devoir, l'entreprise {clientName(sessionData) ?? "Bâtisseurs Durand"} s'est
+              {clientName(sessionData) ? <>L'entreprise {clientName(sessionData)} s'est
+              bâtie sur un principe simple : un chantier bien fait, c'est un chantier dont le client est
+              fier. Nos équipes interviennent {clientCity(sessionData) ? <>à {clientCity(sessionData)} et alentours</> : <>sur toute la région</>}.</> : <>Fondée en 2002 par Marc Durand, compagnon du devoir, l'entreprise Bâtisseurs Durand s'est
               bâtie sur un principe simple : un chantier bien fait, c'est un chantier dont le client est
               fier. Vingt-deux ans plus tard, nos équipes interviennent sur tout le bassin lyonnais, de
-              Villefranche-sur-Saône à Vienne, en passant par Bourgoin-Jallieu et l'Isère.
+              Villefranche-sur-Saône à Vienne, en passant par Bourgoin-Jallieu et l'Isère.</>}
             </p>
             <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.8, marginBottom: 36 }}>
               Qualifiés RGE Qualibat, nous maîtrisons aussi bien la maçonnerie traditionnelle que les
@@ -1563,7 +1569,7 @@ function Realisations() {
   const projects_DEMO = [
     {
       type: 'Ravalement ITE',
-      location: 'Immeuble copropriété — ' + (clientCity(sessionData) ?? 'Lyon'),
+      location: 'Immeuble copropriété — Lyon',
       surface: '620 m² de façade',
       year: '2024',
       description: "Isolation thermique par l\'extérieur sur immeuble R+4, enduit minéral teinté dans la masse. Subvention copropriété obtenue.",
@@ -1579,7 +1585,7 @@ function Realisations() {
     },
     {
       type: 'Étanchéité toiture',
-      location: 'Restaurant Le Gourmet — Vieux-' + (clientCity(sessionData) ?? 'Lyon'),
+      location: 'Restaurant Le Gourmet — Vieux-Lyon',
       surface: '210 m² terrasse',
       year: '2023',
       description: "Reprise complète de l\'étanchéité bitumineuse d\'une toiture-terrasse accessible, relevés carrelés, évacuations refaites.",
@@ -1615,6 +1621,11 @@ function Realisations() {
     bp?.beforeAfter?.map((b: any, i: number) => ({
       ...projects_DEMO[i % projects_DEMO.length],
       location: b.caption ?? projects_DEMO[i % projects_DEMO.length].location,
+      type: b.detail ?? "",
+      description: b.detail ?? "",
+      surface: "",
+      year: "",
+      tag: "",
     })),
     projects_DEMO
   );
@@ -1816,8 +1827,7 @@ function Team() {
       specialty: t.specialty ?? t.bio ?? members_DEMO[i % members_DEMO.length].specialty,
       initials: t.name
         ? t.name.split(' ').map((n: string) => n[0]).join('').slice(0, 2).toUpperCase()
-        : members_DEMO[i % members_DEMO.length].initials,
-    })),
+        : members_DEMO[i % members_DEMO.length].initials, years: "", })),
     members_DEMO
   );
 
@@ -2037,7 +2047,7 @@ function Testimonials() {
                 <span key={s} style={{ fontSize: 18, color: C.accent }}>★</span>
               ))}
             </div>
-            <span style={{ fontSize: 14, color: C.textMuted }}>4,9 / 5 · 218 avis Google</span>
+            <span style={{ fontSize: 14, color: C.textMuted }}>{clientName(sessionData) ? "Avis clients" : "4,9 / 5 · 218 avis Google"}</span>
           </motion.div>
         </div>
 
@@ -2351,7 +2361,7 @@ function ContactForm() {
             {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
               { icon: '📞', label: 'Téléphone', value: (clientPhone(sessionData) ?? fd?.phone ?? '04 78 73 82 82'), sub: 'Du lundi au vendredi, 8h–18h' },
               { icon: '✉️', label: 'E-mail', value: (clientEmail(sessionData) ?? fd?.email ?? 'contact@batisseurs-durand.fr'), sub: 'Réponse sous 24h' },
-              { icon: '📍', label: 'Siège social', value: (clientAddress(sessionData) ?? `14 rue des Bâtisseurs, 69009 ${clientCity(sessionData) ?? "Lyon"}`), sub: (clientCity(sessionData) ?? 'Lyon') + ' — France' },
+              { icon: '📍', label: 'Siège social', value: (clientAddress(sessionData) ?? clientCity(sessionData) ?? "14 rue des Bâtisseurs, 69009 Lyon"), sub: (clientCity(sessionData) ?? 'Lyon') + ' — France' },
             ]).map((item) => (
               <div
                 key={item.label}
@@ -2643,8 +2653,9 @@ function Footer() {
               >{fd?.businessName ?? (clientName(sessionData) ?? "Bâtisseurs Durand")}</div>
             </div>
             <p style={{ fontSize: 13, color: C.textMuted, lineHeight: 1.8, maxWidth: 280, marginBottom: 24 }}>
-              Votre partenaire maçonnerie depuis 2002 sur {clientCity(sessionData) ?? "Lyon"}, le Rhône et l'Isère.
-              Qualibat RGE · Garantie décennale · 1 840+ chantiers réalisés.
+              {clientName(sessionData) ? <>Votre partenaire maçonnerie{clientCity(sessionData) ? <> à {clientCity(sessionData)} et alentours</> : null}.
+              Garantie décennale.</> : <>Votre partenaire maçonnerie depuis 2002 sur Lyon, le Rhône et l'Isère.
+              Qualibat RGE · Garantie décennale · 1 840+ chantiers réalisés.</>}
             </p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
               {['f', 'in', '▶'].map((icon) => (
@@ -2732,7 +2743,7 @@ function Footer() {
               Zones
             </h4>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {[(clientCity(sessionData) ?? 'Lyon') + ' & Métropole', (clientCity(sessionData) ?? 'Villeurbanne'), 'Caluire-et-Cuire', 'Vienne', 'Bourgoin-Jallieu', 'Villefranche-sur-Saône'].map((z) => (
+              {(clientAreas(sessionData) ?? (clientCity(sessionData) ? [clientCity(sessionData) + ' & alentours'] : ['Lyon & Métropole', 'Villeurbanne', 'Caluire-et-Cuire', 'Vienne', 'Bourgoin-Jallieu', 'Villefranche-sur-Saône'])).map((z) => (
                 <span key={z} style={{ fontSize: 13, color: C.textMuted }}>{z}</span>
               ))}
             </div>
@@ -2791,10 +2802,10 @@ function Footer() {
           }}
         >
           <p style={{ fontSize: 12, color: C.textMuted }}>
-            © {currentYear} {clientName(sessionData) ?? "Bâtisseurs Durand"} SARL — Tous droits réservés. Maçonnerie {clientCity(sessionData) ?? "Lyon"}.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {currentYear} {clientName(sessionData) ?? "Bâtisseurs Durand SARL"} — Tous droits réservés. Maçonnerie {clientCity(sessionData) ?? "Lyon"}.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </p>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
-            {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? ['Qualibat RGE', 'Décennale', '4.9/5 Google']).map((badge) => (
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? (clientName(sessionData) ? ['Décennale'] : ['Qualibat RGE', 'Décennale', '4.9/5 Google'])).map((badge) => (
               <span
                 key={badge}
                 style={{

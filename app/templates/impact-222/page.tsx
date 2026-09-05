@@ -24,6 +24,8 @@ import {
 } from 'lucide-react';
 import {
   clientAccrocheRestante,
+  clientAddress,
+  clientAreas,
   clientCity,
   clientEmail,
   clientHeroLine,
@@ -628,8 +630,7 @@ const Hero: React.FC = () => {
               }}
             >
               {clientName(sessionData) ?? "Solis"}{" "}accompagne une clientèle exigeante dans l&apos;acquisition et
-              la valorisation de biens d&apos;exception, de la Provence aux plus
-              belles adresses parisiennes.
+              la valorisation de biens d&apos;exception{clientName(sessionData) ? "." : ", de la Provence aux plus belles adresses parisiennes."}
             </span>
           </motion.p>
 
@@ -835,7 +836,7 @@ type Property = {
 
 /* Recalculée après l'arrivée de la session : figée à l'import, elle gardait la démonstration. */
 function PROPERTIES_DEMO_SOURCE_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, city: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ price: "", surface: "", type: "",  name: o.title, city: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   {
     name: 'Le Domaine des Cèdres',
     img: PHOTO.villa,
@@ -849,7 +850,7 @@ function PROPERTIES_DEMO_SOURCE_LIVE() {
     img: PHOTO.city,
     surface: '280 m²',
     price: '6 200 000 €',
-    city: (clientCity(sessionData) ?? 'Paris') + ' 8ᵉ',
+    city: 'Paris 8ᵉ',
     type: 'Penthouse',
   },
   {
@@ -1213,7 +1214,7 @@ const StickyShowcase: React.FC = () => (
                 lineHeight: 1.1,
               }}
             >
-              Villa Hélios, {clientCity(sessionData) ?? "Aix-en-Provence"}
+              Villa Hélios, Aix-en-Provence
             </h4>
           </div>
         </div>
@@ -1971,7 +1972,7 @@ const Contact: React.FC = () => {
       label: 'Bureau principal',
       /* Le chiffre est celui du client : l'unité de la démonstration ne le suit pas. */
       suffix: "",
-      value: `18 cours Mirabeau, 13100 ${clientCity(sessionData) ?? "Aix-en-Provence"}`,
+      value: clientAddress(sessionData) ?? clientCity(sessionData) ?? "18 cours Mirabeau, 13100 Aix-en-Provence",
     },
     {
       icon: <Phone size={18} />,
@@ -1992,7 +1993,7 @@ const Contact: React.FC = () => {
     {
       icon: <MapPin size={18} />,
       label: 'Bureau principal',
-      value: `18 cours Mirabeau, 13100 ${clientCity(sessionData) ?? "Aix-en-Provence"}`,
+      value: clientAddress(sessionData) ?? clientCity(sessionData) ?? "18 cours Mirabeau, 13100 Aix-en-Provence",
     },
     {
       icon: <Phone size={18} />,
@@ -2014,7 +2015,7 @@ const Contact: React.FC = () => {
     {
       icon: <MapPin size={18} />,
       label: 'Bureau principal',
-      value: `18 cours Mirabeau, 13100 ${clientCity(sessionData) ?? "Aix-en-Provence"}`,
+      value: clientAddress(sessionData) ?? clientCity(sessionData) ?? "18 cours Mirabeau, 13100 Aix-en-Provence",
     },
     {
       icon: <Phone size={18} />,
@@ -2315,7 +2316,7 @@ function FOOTER_COLS_LIVE() {
   },
   {
     head: 'Adresses',
-    links: [(clientCity(sessionData) ?? 'Aix-en-Provence'), (clientCity(sessionData) ?? 'Paris') + ' 8ᵉ', (clientCity(sessionData) ?? 'Lyon'), (clientCity(sessionData) ?? 'Bordeaux')],
+    links: clientAreas(sessionData) ?? (clientCity(sessionData) ? [clientCity(sessionData)!] : ['Aix-en-Provence', 'Paris 8ᵉ', 'Lyon', 'Bordeaux']),
   },
 ];
 }
@@ -2388,7 +2389,7 @@ const Footer: React.FC = () => (
             }}
           >
             Immobilier et architecture de prestige. Nous révélons des lieux
-            d&apos;exception, de la Provence aux plus belles adresses de France.
+            d&apos;exception{clientName(sessionData) ? "." : ", de la Provence aux plus belles adresses de France."}
           </p>
         </div>
 
@@ -2469,8 +2470,7 @@ const Footer: React.FC = () => (
             color: 'rgba(255,255,255,0.5)',
           }}
         >
-          © 2026 {clientName(sessionData) ?? "Solis Immobilier"} — Carte professionnelle CPI 1301 2024 000 047
-          218{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "Solis Immobilier"}{clientName(sessionData) ? "" : " — Carte professionnelle CPI 1301 2024 000 047 218"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <div style={{ display: 'flex', gap: 24 }}>
           {['Mentions légales', 'Confidentialité', 'Honoraires'].map((l) => (
@@ -2586,7 +2586,7 @@ export default function ImpactTemplate(): React.ReactElement {
   SIGNATURES = SIGNATURES_LIVE();
 
   PROPERTIES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...PROPERTIES_DEMO_SOURCE[i % PROPERTIES_DEMO_SOURCE.length], name: s.title, price: s.price ?? PROPERTIES_DEMO_SOURCE[i % PROPERTIES_DEMO_SOURCE.length].price })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...PROPERTIES_DEMO_SOURCE[i % PROPERTIES_DEMO_SOURCE.length], name: s.title, price: s.price ?? "" })),
     PROPERTIES_DEMO_SOURCE,
   );
 
@@ -2609,7 +2609,7 @@ export default function ImpactTemplate(): React.ReactElement {
     });
   });
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

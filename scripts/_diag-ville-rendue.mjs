@@ -17,9 +17,9 @@ for (const id of ids) {
       tagline: "Votre plombier de confiance à Annecy", template: id, brandColor: "#c2410c",
     } }),
   });
-  const { sessionId } = await r.json();
+  const { sessionId, editToken } = await r.json();
   await fetch(`${BASE}/api/sessions?id=${sessionId}`, {
-    method: "PATCH", headers: { "content-type": "application/json" },
+    method: "PATCH", headers: { "content-type": "application/json", "x-edit-token": editToken },
     body: JSON.stringify({ businessProfile: { geo: { primaryCity: "Annecy", address: "12 rue des Alpes, Annecy" } } }),
   });
   await p.goto(`${BASE}/templates/${id}?session=${sessionId}`, { waitUntil: "domcontentloaded" });

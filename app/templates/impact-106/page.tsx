@@ -20,6 +20,7 @@ import {
   clientTeam,
   clientText,
   clientWorks,
+  clientCertifications,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -70,7 +71,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 }
 
 function PROJECTS_DEMO_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ client: "", type: "",  title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { title: "Flux Identity", client: "Flux Labs", type: "Brand System", img: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200"), year: "2024" },
   { title: "Prism Launch", client: "Prism Analytics", type: "Product Design", img: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=1200"), year: "2024" },
   { title: "Ember Editorial", client: "Ember Magazine", type: "Editorial + Web", img: (clientPhotos(sessionData)[6] || "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&q=80&w=1200"), year: "2023" },
@@ -185,7 +186,7 @@ export default function StudioVersaPage() {
 
   EQUIPE_ANON = resolveList(
 
-    clientTeam(sessionData)?.map((m: any, i: number) => ({ ...EQUIPE_ANON_SOURCE[i % EQUIPE_ANON_SOURCE.length], name: m.name, role: m.role })),
+    clientTeam(sessionData)?.map((m: any, i: number) => ({ ...EQUIPE_ANON_SOURCE[i % EQUIPE_ANON_SOURCE.length], name: m.name, role: m.role, years: "", exp: "", bio: "" })),
 
     EQUIPE_ANON_SOURCE,
 
@@ -215,10 +216,10 @@ export default function StudioVersaPage() {
   const PROJECTS = resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({
       title: b.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].title,
-      client: PROJECTS_DEMO[i % PROJECTS_DEMO.length].client,
-      type: PROJECTS_DEMO[i % PROJECTS_DEMO.length].type,
+      client: "",
+      type: "",
       img: b.afterUrl || b.beforeUrl || PROJECTS_DEMO[i % PROJECTS_DEMO.length].img,
-      year: PROJECTS_DEMO[i % PROJECTS_DEMO.length].year,
+      year: "",
     })),
     PROJECTS_DEMO
   );
@@ -433,7 +434,7 @@ export default function StudioVersaPage() {
               <div className="flex flex-wrap items-center justify-between gap-8 mb-16">
                 <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#fb923c)]">Trusted By</span>
                 <div className="flex flex-wrap gap-6">
-                  {/* LISTE_LIBELLES */ (clientList(sessionData, "awards.liste1") ?? ["Site of the Day ×4", "Type Directors Prize", "Editorial Design Gold", "Interaction Honour"]).map(a => (
+                  {/* LISTE_LIBELLES */ (clientList(sessionData, "awards.liste1") ?? (clientName(sessionData) ? [] : ["Site of the Day ×4", "Type Directors Prize", "Editorial Design Gold", "Interaction Honour"])).map(a => (
                     <span key={a} className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[var(--brand,#fb923c)]">
                       <Award className="w-3 h-3" /> {a}
                     </span>
@@ -442,7 +443,7 @@ export default function StudioVersaPage() {
               </div>
             </Reveal>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/5">
-              {/* LISTE_LIBELLES */ (clientList(sessionData, "awards.liste2") ?? ["Flux Labs", "Prism Analytics", "Ember Magazine", "Vertex Films", "Arch Studio", "Nova Health", "Kōdo Games", "Dune Capital"]).map((c, i) => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "awards.liste2") ?? clientCertifications(sessionData) ?? (clientName(sessionData) ? [] : ["Flux Labs", "Prism Analytics", "Ember Magazine", "Vertex Films", "Arch Studio", "Nova Health", "Kōdo Games", "Dune Capital"])).map((c, i) => (
                 <Reveal key={c} delay={i * 0.05}>
                   <div className="bg-[#1a1a1a] p-8 flex items-center justify-center group hover:bg-[var(--brand,#f97316)]/5 transition-colors duration-500 cursor-default">
                     <span className="text-sm font-bold tracking-wider text-white/20 group-hover:text-white/60 transition-colors">{c}</span>

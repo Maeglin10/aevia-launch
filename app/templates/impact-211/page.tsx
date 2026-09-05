@@ -937,7 +937,7 @@ export default function Impact211Page() {
             textShadow: "0 2px 14px rgba(13,11,8,0.92), 0 0 3px rgba(13,11,8,0.8)",
           }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maison Éclat"))}</>}</p>
           <p style={{ ...eyebrowStyle, textAlign: "center", marginBottom: "2rem" }}>
-            7ème arrondissement · {clientCity(sessionData) ?? "Paris"}
+            {clientCity(sessionData) ?? "7ème arrondissement · Paris"}
           </p>
           <motion.div
             animate={{ y: [0, 8, 0] }}
@@ -1005,10 +1005,10 @@ export default function Impact211Page() {
             </>}</h2>
             <GoldLine delay={0.2} />
             <p style={{ ...bodyStyle, marginBottom: "1.5rem" }}>{c?.aboutText ?? <>
-              Fondée en 1978 par le chef Jean-Pierre Mercier dans le 7ème arrondissement de {clientCity(sessionData) ?? "Paris"}, la {clientName(sessionData) ?? "Maison Éclat"} incarne quatre décennies d'excellence gastronomique. Nichée à deux pas du Musée d'Orsay, notre maison cultive une philosophie singulière : honorer les produits d'exception en leur donnant la parole.
+              {clientName(sessionData) ? <>La {clientName(sessionData)} cultive une philosophie singulière : honorer les produits d'exception en leur donnant la parole, entre tradition et innovation.</> : <>Fondée en 1978 par le chef Jean-Pierre Mercier dans le 7ème arrondissement de Paris, la Maison Éclat incarne quatre décennies d'excellence gastronomique. Nichée à deux pas du Musée d'Orsay, notre maison cultive une philosophie singulière : honorer les produits d'exception en leur donnant la parole.</>}
             </>}</p>
             <p style={bodyStyle}>
-              Aujourd'hui portée par Adrien Mercier, fils du fondateur et formé chez Robuchon et Pierre Gagnaire, la {clientName(sessionData) ?? "Maison Éclat"} reçoit deux étoiles Michelin depuis 2019. Chaque assiette est une conversation entre la mémoire familiale et l'audace contemporaine.
+              {clientName(sessionData) ? <>Chez {clientName(sessionData)}, chaque assiette est une conversation entre la mémoire et l'audace contemporaine.</> : <>Aujourd'hui portée par Adrien Mercier, fils du fondateur et formé chez Robuchon et Pierre Gagnaire, la Maison Éclat reçoit deux étoiles Michelin depuis 2019. Chaque assiette est une conversation entre la mémoire familiale et l'audace contemporaine.</>}
             </p>
 
             <motion.div
@@ -1409,7 +1409,7 @@ export default function Impact211Page() {
                       }}
                     >
                       <p style={{ ...bodyStyle, fontSize: "0.82rem", color: C.cream }}>
-                        Formé chez Robuchon à Monaco et Gagnaire à {clientCity(sessionData) ?? "Paris"}, Adrien Mercier incarne la troisième génération d'une lignée de chefs passionnés par le produit brut et la précision technique.
+                        {clientName(sessionData) ? "Une cuisine incarnée par une équipe passionnée par le produit brut et la précision technique." : "Formé chez Robuchon à Monaco et Gagnaire à Paris, Adrien Mercier incarne la troisième génération d'une lignée de chefs passionnés par le produit brut et la précision technique."}
                       </p>
                     </motion.div>
                   )}
@@ -1428,16 +1428,18 @@ export default function Impact211Page() {
               transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             >
               <span style={eyebrowStyle}>Le Chef</span>
-              <h2 style={sectionTitleStyle}>{/* TEXTE_SECTION */ clientText(sessionData, "chef.titre") ?? (<>
+              <h2 style={sectionTitleStyle}>{/* TEXTE_SECTION */ clientText(sessionData, "chef.titre") ?? (clientName(sessionData) ? (<>
+                Notre<br />Chef
+              </>) : (<>
                 Adrien<br />Mercier
-              </>)}</h2>
+              </>))}</h2>
               <GoldLine />
 
               <p style={{ ...bodyStyle, marginBottom: "1.5rem" }}>
-                Né dans les cuisines de la {clientName(sessionData) ?? "Maison Éclat"}, Adrien Mercier a grandi entre les odeurs du beurre noisette et les discussions animées de son père avec les producteurs. À vingt-deux ans, il quitte {clientCity(sessionData) ?? "Paris"} pour parfaire son art auprès des plus grands noms de la gastronomie mondiale.
+                {clientName(sessionData) ? <>Chez {clientName(sessionData)}, le goût se construit entre les odeurs du beurre noisette et les discussions animées avec les producteurs — un art nourri auprès des plus grands noms de la gastronomie.</> : <>Né dans les cuisines de la Maison Éclat, Adrien Mercier a grandi entre les odeurs du beurre noisette et les discussions animées de son père avec les producteurs. À vingt-deux ans, il quitte Paris pour parfaire son art auprès des plus grands noms de la gastronomie mondiale.</>}
               </p>
               <p style={{ ...bodyStyle, marginBottom: "1.5rem" }}>
-                Son retour en 2017 marque un tournant : il impose sa propre lecture de la gastronomie française, plus introspective, nourrie de voyages et d'une obsession pour le terroir. En 2019, la {clientName(sessionData) ?? "Maison Éclat"} décroche sa deuxième étoile Michelin.
+                {clientName(sessionData) ? "Une lecture personnelle de la gastronomie française, plus introspective, nourrie de voyages et d'une obsession pour le terroir." : "Son retour en 2017 marque un tournant : il impose sa propre lecture de la gastronomie française, plus introspective, nourrie de voyages et d'une obsession pour le terroir. En 2019, la Maison Éclat décroche sa deuxième étoile Michelin."}
               </p>
               <p style={bodyStyle}>
                 <em style={{ fontFamily: font.serif, fontSize: "1.05rem", fontStyle: "italic", color: C.cream }}>
@@ -1447,11 +1449,11 @@ export default function Impact211Page() {
 
               {/* Accolades */}
               <div style={{ display: "flex", flexDirection: "column", gap: "0.8rem", marginTop: "2.5rem" }}>
-                {/* LISTE_LIBELLES */ (clientList(sessionData, "chef.liste2") ?? [
+                {/* LISTE_LIBELLES */ (clientList(sessionData, "chef.liste2") ?? (clientName(sessionData) ? [] : [
                   "★★ Michelin — depuis 2019",
                   "17/20 Gault & Millau — Chef de l'Année 2022",
                   "Meilleur Ouvrier de France — 2016",
-                ]).map((item) => (
+                ])).map((item) => (
                   <div key={item} style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
                     <div style={{ width: 24, height: 1, background: C.gold, flexShrink: 0 }} />
                     <span style={{ fontFamily: font.sans, fontSize: "0.8rem", fontWeight: 300, color: C.creamMuted, letterSpacing: "0.06em" }}>{item}</span>
@@ -1710,10 +1712,10 @@ export default function Impact211Page() {
             <div>
               <div style={{ fontFamily: font.serif, fontSize: "2rem", fontStyle: "italic", color: C.cream, marginBottom: "1.2rem" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maison Éclat"))}</div>
               <p style={{ ...bodyStyle, marginBottom: "1.5rem", maxWidth: 320 }}>
-                Un restaurant gastronomique parisien au cœur du 7ème arrondissement, entre tradition et innovation, produit et émotion.
+                {clientName(sessionData) ? `Un restaurant gastronomique${clientCity(sessionData) ? " à " + clientCity(sessionData) : ""}, entre tradition et innovation, produit et émotion.` : "Un restaurant gastronomique parisien au cœur du 7ème arrondissement, entre tradition et innovation, produit et émotion."}
               </p>
               <div style={{ display: "flex", gap: "1rem" }}>
-                {["★★", "MOF", "GM 17"].map((badge) => (
+                {(clientName(sessionData) ? [] : ["★★", "MOF", "GM 17"]).map((badge) => (
                   <div key={badge} style={{
                     border: `1px solid ${C.border}`,
                     padding: "0.4rem 0.8rem",
@@ -1735,7 +1737,7 @@ export default function Impact211Page() {
                 {[
                   { label: "Réservations", value: (clientPhone(sessionData) ?? "+33 1 42 61 71 68") },
                   { label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "table@maisoneclat.fr") },
-                  { label: "Adresse", value: (clientAddress(sessionData) ?? `14 rue de Varenne, 75007 ${clientCity(sessionData) ?? "Paris"}`) },
+                  { label: "Adresse", value: (clientAddress(sessionData) ?? clientCity(sessionData) ?? "14 rue de Varenne, 75007 Paris") },
                 ].map((item) => (
                   <div key={item.label}>
                     <div style={{ fontFamily: font.sans, fontSize: "0.65rem", fontWeight: 400, letterSpacing: "0.15em", textTransform: "uppercase", color: C.gold, marginBottom: "0.2rem" }}>{item.label}</div>

@@ -185,7 +185,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
         <em>dans le Bordelais.</em>
       </>
     ),
-    body: "Dix-huit ans d\'expertise locale, une maîtrise intime du climat atlantique et de ses caprices. Nous intervenons en Gironde, Dordogne et Lot-et-Garonne — des coteaux calcaires aux plaines alluviales. Chaque essence choisie est testée pour sa résistance aux hivers humides et aux étés de plus en plus secs.",
+    body: clientName(sessionData) ? "Une maîtrise intime du climat local et de ses caprices. Chaque essence choisie est testée pour sa résistance aux hivers humides et aux étés de plus en plus secs." : "Dix-huit ans d'expertise locale, une maîtrise intime du climat atlantique et de ses caprices. Nous intervenons en Gironde, Dordogne et Lot-et-Garonne — des coteaux calcaires aux plaines alluviales. Chaque essence choisie est testée pour sa résistance aux hivers humides et aux étés de plus en plus secs.",
     reverse: true,
   },
 ];
@@ -1724,7 +1724,7 @@ function QuoteForm() {
               margin: '0 auto 52px',
             }}
           >
-            Nous vous proposons une visite de diagnostic gratuite sur site, partout en Gironde, Dordogne et Lot-et-Garonne.
+            Nous vous proposons une visite de diagnostic gratuite sur site{clientCity(sessionData) ? <>, à {clientCity(sessionData)} et alentours</> : <>, partout en Gironde, Dordogne et Lot-et-Garonne</>}.
           </p>
         </Reveal>
 
@@ -1997,7 +1997,7 @@ function Footer() {
       items: [
         { label: 'Devis gratuit', href: '#devis' },
         { label: (clientCity(sessionData) ?? 'Bordeaux'), href: '#devis' },
-        { label: 'Dordogne · L47', href: '#devis' },
+        ...(clientCity(sessionData) ? [] : [{ label: 'Dordogne · L47', href: '#devis' }]),
         { label: (clientEmail(sessionData) ?? fd?.email ?? 'contact@jardins-vivants.fr'), href: '#devis' },
       ],
     },
@@ -2061,7 +2061,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accentLight} strokeWidth={1.5} />
-            {clientCity(sessionData) ?? "Bordeaux"} · Gironde · Aquitaine
+            {clientCity(sessionData) ?? "Bordeaux · Gironde · Aquitaine"}
           </div>
         </div>
 
@@ -2248,11 +2248,11 @@ export default function Page() {
     });
   });
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

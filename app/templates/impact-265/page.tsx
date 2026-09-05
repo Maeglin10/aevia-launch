@@ -136,7 +136,7 @@ function CREATIONS_DEMO_LIVE() {
     index: 'I',
     label: 'SOIE & ORGANZA',
     title: 'Soie & Organza',
-    body: 'Robe du soir en soie naturelle, étole brodée à la main, bustier organza — ' + (clientCity(sessionData) ?? 'Lyon') + ', capitale mondiale de la soie, dans chaque fil.',
+    body: clientCity(sessionData) ? 'Robe du soir en soie naturelle, étole brodée à la main, bustier organza — le geste couture dans chaque fil.' : 'Robe du soir en soie naturelle, étole brodée à la main, bustier organza — Lyon, capitale mondiale de la soie, dans chaque fil.',
     imgId: (clientPhotos(sessionData)[1] || 'https://images.pexels.com/photos/4614208/pexels-photo-4614208.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
   {
@@ -181,7 +181,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
         </span>
       </>
     ),
-    body: `Lyon est la capitale mondiale de la soie depuis le XVIIIe siècle. ${clientName(sessionData) ?? "L'Atelier Soie"} travaille en partenariat avec la Maison Prelle, fournisseur de soie grège de Croix-Rousse, pour perpétuer les techniques des canuts lyonnais — passeurs d'un savoir-faire textile sans équivalent.`,
+    body: clientName(sessionData) ? `${clientName(sessionData)} perpétue les techniques des grands ateliers de la soie — passeurs d'un savoir-faire textile sans équivalent.` : `Lyon est la capitale mondiale de la soie depuis le XVIIIe siècle. L'Atelier Soie travaille en partenariat avec la Maison Prelle, fournisseur de soie grège de Croix-Rousse, pour perpétuer les techniques des canuts lyonnais — passeurs d'un savoir-faire textile sans équivalent.`,
     reverse: false,
   },
   {
@@ -189,12 +189,12 @@ function EDIT_ROWS_SOURCE_LIVE() {
     imgId: (clientPhotos(sessionData)[5] || 'https://images.pexels.com/photos/4614231/pexels-photo-4614231.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     title: (
       <>
-        Vieux-Lyon
+        {clientCity(sessionData) ? "L'atelier" : "Vieux-Lyon"}
         <br />
         <span style={{ fontStyle: 'italic' }}>&amp; {clientCity(sessionData) ?? "Lyon"}.</span>
       </>
     ),
-    body: "Deux ateliers, une même exigence. Le premier, dans le Vieux-" + (clientCity(sessionData) ?? "Lyon") + ", accueille consultations et essayages. Le second, dans le 2e arrondissement, abrite la salle de coupe et les métiers à broder. Visites sur rendez-vous. Visites de l'atelier possibles pour les curieux du geste.",
+    body: clientCity(sessionData) ? "Deux ateliers, une même exigence. Le premier accueille consultations et essayages ; le second abrite la salle de coupe et les métiers à broder. Visites sur rendez-vous." : "Deux ateliers, une même exigence. Le premier, dans le Vieux-Lyon, accueille consultations et essayages. Le second, dans le 2e arrondissement, abrite la salle de coupe et les métiers à broder. Visites sur rendez-vous. Visites de l'atelier possibles pour les curieux du geste.",
     reverse: true,
   },
 ];
@@ -229,7 +229,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   return [
   {
     quote:
-      "Je chante à l'Opéra de " + (clientCity(sessionData) ?? "Lyon") + " depuis dix ans, et " + clientNameOr("L'Atelier Soie") + " habille tous mes rôles. Leurs costumes vibrent avec ma voix — la soie suit le souffle, le bustier tient sans jamais contraindre. Ce sont des artisanes qui comprennent le corps en mouvement.",
+      "Je chante à l'Opéra depuis dix ans, et " + clientNameOr("L'Atelier Soie") + " habille tous mes rôles. Leurs costumes vibrent avec ma voix — la soie suit le souffle, le bustier tient sans jamais contraindre. Ce sont des artisanes qui comprennent le corps en mouvement.",
     name: 'Isabelle Carron',
     role: 'Soprano · Opéra de ' + (clientCity(sessionData) ?? 'Lyon'),
   },
@@ -702,7 +702,7 @@ function Hero() {
           }}
         >
           Robes de soirée, robes de mariée, costumes de scène — confectionnés
-          à la main au cœur de {clientCity(sessionData) ?? "Lyon"}, ville de la soie.
+          à la main au cœur de {clientCity(sessionData) ?? "Lyon"}{clientCity(sessionData) ? "." : ", ville de la soie."}
         </motion.p>
 
         <motion.div
@@ -1927,7 +1927,7 @@ function Footer() {
       title: 'Informations',
       items: [
         { label: (clientCity(sessionData) ?? 'Lyon') + ' — sur rendez-vous', href: '#commande' },
-        { label: 'Vieux-' + (clientCity(sessionData) ?? 'Lyon') + ' — sur rendez-vous', href: '#commande' },
+        { label: (clientCity(sessionData) ? clientCity(sessionData)! : 'Vieux-Lyon') + ' — sur rendez-vous', href: '#commande' },
         { label: 'Mentions légales', href: "/templates/impact-265" },
         { label: 'Confidentialité', href: "/templates/impact-265" },
       ],
@@ -1966,7 +1966,7 @@ function Footer() {
               marginBottom: 18,
             }}
           >
-            L&rsquo;Atelier Soie
+            {clientName(sessionData) ?? <>L&rsquo;Atelier Soie</>}
           </a>
           <p
             style={{
@@ -1979,7 +1979,7 @@ function Footer() {
               margin: '0 0 22px',
             }}
           >
-            Couture &amp; Broderie sur-mesure. {clientCity(sessionData) ?? "Lyon"}, capitale de la soie.
+            Couture &amp; Broderie sur-mesure. {clientCity(sessionData) ?? "Lyon"}{clientCity(sessionData) ? "." : ", capitale de la soie."}
           </p>
           <div
             style={{
@@ -1991,7 +1991,7 @@ function Footer() {
               opacity: 0.7,
             }}
           >
-            {clientCity(sessionData) ?? "Lyon"} · Vieux-Lyon
+            {clientCity(sessionData) ?? "Lyon · Vieux-Lyon"}
           </div>
         </div>
 
@@ -2142,7 +2142,7 @@ export default function Page() {
     EDIT_ROWS_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

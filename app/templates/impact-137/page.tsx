@@ -138,7 +138,7 @@ export default function TorrefieCoffeePage() {
 
   TARIFS_ANON = resolveList(
 
-    clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...TARIFS_ANON_SOURCE[i % TARIFS_ANON_SOURCE.length], name: s.title, price: s.price ?? TARIFS_ANON_SOURCE[i % TARIFS_ANON_SOURCE.length].price })),
+    clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any, i: number) => ({ ...TARIFS_ANON_SOURCE[i % TARIFS_ANON_SOURCE.length], name: s.title, price: s.price ?? "", features: [], })),
 
     TARIFS_ANON_SOURCE,
 
@@ -350,8 +350,8 @@ export default function TorrefieCoffeePage() {
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {[
-                { quote: "The Ethiopian Yirgacheffe changed the way I think about coffee. I've tried every specialty roaster in " + (clientCity(sessionData) ?? "Paris") + " — Torréfié is in a class of its own.", name: "Hélène Duval", location: (clientCity(sessionData) ?? "Paris") + ", FR", origin: "Ethiopian Yirgacheffe" },
-                { quote: "Freshness is unreal. Roasted mardi on my desk Thursday. The Kenyan Nyeri AA is extraordinary — the blackcurrant notes are no marketing gimmick.", name: "James Whitfield", location: "London, UK", origin: "Kenyan Nyeri AA" },
+                { quote: "Le Yirgacheffe éthiopien a changé ma façon de voir le café. J'ai essayé tous les torréfacteurs de spécialité de " + (clientCity(sessionData) ?? "Paris") + " — celui-ci est d'un autre niveau.", name: "Hélène Duval", location: (clientCity(sessionData) ?? "Paris") + ", FR", origin: "Yirgacheffe éthiopien" },
+                { quote: "La fraîcheur est irréelle. Torréfié mardi, sur mon bureau jeudi. Le Nyeri AA du Kenya est extraordinaire — les notes de cassis n'ont rien d'un argument marketing.", name: "James Whitfield", location: "Londres, UK", origin: "Nyeri AA du Kenya" },
                 { quote: "Finally a subscription that actually rotates origins intelligently. My palate has evolved more in three months than in three years.", name: "Rafael Soto", location: "Barcelona, ES", origin: "Colombian Huila" },
               ].map((t, i) => (
                 <Reveal key={i} delay={i * 0.12}>
@@ -442,7 +442,7 @@ export default function TorrefieCoffeePage() {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <Coffee className="w-5 h-5 text-[#c48a5a]" />
-              <span className="text-xl tracking-tight" style={{ fontFamily: "Georgia, serif" }}>Torré<span className="font-bold text-[#c48a5a]">fié</span></span>
+              <span className="text-xl tracking-tight" style={{ fontFamily: "Georgia, serif" }}>{clientName(sessionData) ?? (<>Torré<span className="font-bold text-[#c48a5a]">fié</span></>)}</span>
             </div>
             <p className="text-sm text-[#f5f0ea]/30 leading-relaxed">Specialty coffee, roasted with precision, sourced with conscience.</p>
           </div>

@@ -2,8 +2,8 @@ import { chromium } from "playwright";
 const BASE = "http://localhost:3000";
 const r = await fetch(`${BASE}/api/sessions`, { method: "POST", headers: { "content-type": "application/json" },
   body: JSON.stringify({ formData: { businessName: "Ateliers Vidal & Fils", city: "Annecy", businessType: "plombier", tagline: "x", phone: "04 50 11 22 33", email: "contact@ateliers-vidal.fr", template: "impact-14" } }) });
-const { sessionId } = await r.json();
-await fetch(`${BASE}/api/sessions?id=${sessionId}`, { method: "PATCH", headers: { "content-type": "application/json" },
+const { sessionId, editToken } = await r.json();
+await fetch(`${BASE}/api/sessions?id=${sessionId}`, { method: "PATCH", headers: { "content-type": "application/json", "x-edit-token": editToken },
   body: JSON.stringify({ businessProfile: { geo: { address: "12 rue des Marquisats, 74000 Annecy" } } }) });
 const b = await chromium.launch();
 for (const route of ["contact", "experience", "fleet"]) {

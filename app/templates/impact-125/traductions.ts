@@ -70,7 +70,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "next-gen flight computers capable of sub-meter orbital docking with zero human intervention.": "Des calculateurs de vol de nouvelle génération, capables d'un amarrage orbital au centimètre sans intervention humaine.",
     "redundant plasma thrusters ensuring mission safety even in the most extreme cosmic conditions.": "Des propulseurs à plasma redondants, qui tiennent la mission même dans les conditions les plus extrêmes.",
     "laser-based communication array providing gigabit-speed connectivity across the solar system.": "Un réseau de communication laser qui porte le gigabit à l'échelle du système solaire.",
-    "book payload": "Livre de charge",
+    "book payload": "Réserver une charge utile",
     "download payload guide": "Télécharger le Guide de Charge Utile",
     "empowering the next century of space travel through sustainable, reliable, and frequent orbital access.": "Autonomiser le prochain siècle de voyages spatiaux grâce à un accès orbital durable, fiable et fréquent.",
     "launch schedule": "Calendrier de lancement",

@@ -15,6 +15,7 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  clientStats,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -327,7 +328,7 @@ export default function KuroOmakasePage() {
                        </p>
                     </div>
                     <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-px bg-white/5">
-                       {[{ v: "21yr", l: "Training" }, { v: "3★", l: "Michelin" }, { v: "12", l: "Seasons" }].map(s => (
+                       {(clientName(sessionData) ? (clientStats(sessionData)?.map((x: any) => ({ v: x.value, l: x.label })) ?? []) : [{ v: "21yr", l: "Training" }, { v: "3★", l: "Michelin" }, { v: "12", l: "Seasons" }]).map(s => (
                           <div key={s.l} className="bg-[#050505] p-8 text-center">
                              <div className="text-3xl font-black text-white italic">{s.v}</div>
                              <div className="text-[10px] font-bold uppercase tracking-widest text-white/25 mt-2">{s.l}</div>

@@ -12,6 +12,7 @@ import {
   clientAccrocheRestante,
   clientAddress,
   clientCertifications,
+  clientEyebrow,
   clientCity,
   clientTrade,
   clientPhone,
@@ -152,7 +153,7 @@ export default function VerreEtLumierePage() {
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? "Sur devis", n: s.desc || "" })),
     TARIFS_DEMO,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
@@ -305,7 +306,7 @@ export default function VerreEtLumierePage() {
         <TitreDeLaPage session={sessionData} />
 
         <div style={{ position: "relative", zIndex: 1, maxWidth: 1200, width: "100%", margin: "0 auto" }}>
-          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Miroiterie d'agencement · Colmar</span>
+          <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>{clientEyebrow(sessionData) ?? `Miroiterie d'agencement · ${clientCity(sessionData) ?? "Colmar"}`}</span>
 
           {/* Le titre monumental — LineScroll, lignes coupées par le thème. */}
           <div style={{ fontFamily: FONT, fontWeight: 700, fontSize: "clamp(40px, 7.8vw, 108px)", color: C.text, lineHeight: 1.02, letterSpacing: "-0.03em", margin: "20px 0 0" }}>
@@ -528,7 +529,7 @@ export default function VerreEtLumierePage() {
           <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 30 }}>
             <div>
               <div style={{ fontFamily: FONT, fontSize: 18, color: C.hi, marginBottom: 8 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Verre & Lumière")}</div>
-              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Miroiterie d'agencement · Colmar<br />Décennale — partenaire des architectes du Grand Est</p>
+              <p style={{ color: "rgba(255,255,255,0.38)", fontSize: 13, lineHeight: 1.7 }}>Miroiterie d'agencement · {clientCity(sessionData) ?? "Colmar"}<br />{clientName(sessionData) ? "Décennale — partenaire des architectes" : "Décennale — partenaire des architectes du Grand Est"}</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
               {[{ icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? clientCity(sessionData) ?? "Colmar, Haut-Rhin" }, { icon: <Phone size={13} />, t: phone }, { icon: <Mail size={13} />, t: mail }, { icon: <Clock size={13} />, t: "Lun–Ven 8h30–18h · showroom sur RDV" }].map((item, idx) => (
@@ -540,7 +541,7 @@ export default function VerreEtLumierePage() {
           </div>
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.09)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Verre & Lumière")} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity fallback="852 546 225" kind="siren" />
+              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Verre & Lumière")} — Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" />{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>

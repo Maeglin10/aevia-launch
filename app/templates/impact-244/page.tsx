@@ -220,11 +220,11 @@ function EDIT_ROWS_SOURCE_LIVE() {
     alt: 'Réception élégante en Île-de-France',
     title: (
       <>
-        Île-de-France{' '}
+        {clientCity(sessionData) ?? "Île-de-France"}{' '}
         <span style={{ fontStyle: 'italic' }}>et destination.</span>
       </>
     ),
-    body: "Ancrés à " + (clientCity(sessionData) ?? "Paris") + " 8e, nous intervenons dans toute l'Île-de-France — châteaux, hôtels particuliers, domaines — mais aussi en Loire, sur la Côte d'Azur et à l'international. La distance n'est jamais un obstacle à la perfection.",
+    body: clientCity(sessionData) ? "Ancrés à " + clientCity(sessionData) + ", nous intervenons dans toute la région — châteaux, hôtels particuliers, domaines — mais aussi à l'international. La distance n'est jamais un obstacle à la perfection." : "Ancrés à Paris 8e, nous intervenons dans toute l'Île-de-France — châteaux, hôtels particuliers, domaines — mais aussi en Loire, sur la Côte d'Azur et à l'international. La distance n'est jamais un obstacle à la perfection.",
     reverse: true,
     numeral: 'II',
   },
@@ -1888,7 +1888,7 @@ function Footer() {
     },
     {
       title: 'Destinations',
-      items: [(clientCity(sessionData) ?? "Paris") + " & \u00cele-de-France", "Loire", "C\u00f4te d'Azur", "International"],
+      items: clientCity(sessionData) ? [clientCity(sessionData)! + " & alentours", "International"] : ["Paris & \u00cele-de-France", "Loire", "C\u00f4te d'Azur", "International"],
     },
     {
       title: 'Informations',
@@ -2114,11 +2114,11 @@ export default function Page() {
     EDIT_ROWS_SOURCE,
   );
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

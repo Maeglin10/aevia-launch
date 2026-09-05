@@ -254,7 +254,7 @@ export default function AetherWellnessPage() {
   HERO_SLIDES_DEMO = HERO_SLIDES_DEMO_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   HERO_SLIDES = HERO_SLIDES_DEMO.map((row, i) => ({
@@ -266,12 +266,12 @@ export default function AetherWellnessPage() {
   const RETREATS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? RETREATS_DEMO[i % RETREATS_DEMO.length].name,
-      duration: RETREATS_DEMO[i % RETREATS_DEMO.length].duration,
-      guests: RETREATS_DEMO[i % RETREATS_DEMO.length].guests,
-      price: s.price ?? RETREATS_DEMO[i % RETREATS_DEMO.length].price,
+      duration: "",
+      guests: "",
+      price: s.price ?? "",
       icon: RETREATS_DEMO[i % RETREATS_DEMO.length].icon,
-      desc: s.description ?? RETREATS_DEMO[i % RETREATS_DEMO.length].desc,
-      includes: RETREATS_DEMO[i % RETREATS_DEMO.length].includes,
+      desc: s.description ?? "",
+      includes: [],
     })),
     RETREATS_DEMO
   )
@@ -504,7 +504,7 @@ export default function AetherWellnessPage() {
                 <div className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center">
                   <Wind className="w-5 h-5 text-[#3d3d3d]/60" />
                 </div>
-                <span className="text-xl font-light tracking-[0.3em] uppercase text-black">Aether Wellness</span>
+                <span className="text-xl font-light tracking-[0.3em] uppercase text-black">{clientName(sessionData) ?? "Aether Wellness"}</span>
               </Link>
               <p className="text-black/20 max-w-sm leading-relaxed mb-12 text-sm font-light italic" style={{ fontFamily: "serif" }}>
                  "Presence is the ultimate luxury. We provide the architecture to achieve it."
@@ -534,7 +534,7 @@ export default function AetherWellnessPage() {
            ))}
         </div>
         <div className="max-w-[1400px] mx-auto flex flex-col md:row justify-between items-center gap-8 border-t border-black/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-black/10 italic">
-           <span>© 2026 {clientName(sessionData) ?? "AETHER WELLNESS GROUP. BREATHE"} IN.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+           <span>© 2026 {clientName(sessionData) ?? "AETHER WELLNESS GROUP"}.{clientName(sessionData) ? "" : " BREATHE IN."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
            <div className="flex gap-12">
               <Link href="#contact" className="hover:text-black transition-all">SWITZERLAND</Link>
               <Link href="#contact" className="hover:text-black transition-all">ICELAND</Link>

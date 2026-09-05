@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientCity,
   clientName,
 } from "@/lib/templates/clientContent";
 
@@ -301,7 +302,7 @@ export default function SereneRetreatLayout({ children }: { children: React.Reac
             letterSpacing: "0.05em",
           }}
         >
-          © 2026 {clientName(__layoutSession) ?? "Aevia WS"} — SIREN <LegalIdentity />. Tous droits réservés. Chartreuse Massif, France.
+          © 2026 {clientName(__layoutSession) ?? "Aevia WS"} — SIREN <LegalIdentity />. Tous droits réservés. {clientCity(__layoutSession) ?? "Chartreuse Massif"}, France.
         </div>
         {/* legal links ran off the right edge on a phone without wrapping */}
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center", gap: 24 }}>

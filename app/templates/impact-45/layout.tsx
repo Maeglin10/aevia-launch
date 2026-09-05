@@ -165,14 +165,14 @@ export default function TattooStudioLayout({ children }: { children: React.React
             <div>
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 20 }}>
                 <div style={{ width: 32, height: 32, background: C.accent, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <span style={{ color: C.white, fontSize: 16, fontFamily: "'Cinzel', serif", fontWeight: 700 }}>N</span>
+                  <span style={{ color: C.white, fontSize: 16, fontFamily: "'Cinzel', serif", fontWeight: 700 }}>{(clientName(__layoutSession) ?? "N")[0].toUpperCase()}</span>
                 </div>
-                <span style={{ fontFamily: "'Cinzel', serif", fontSize: 18, fontWeight: 700, color: C.white, letterSpacing: "0.12em" }}>NOIR INK</span>
+                <span style={{ fontFamily: "'Cinzel', serif", fontSize: 18, fontWeight: 700, color: C.white, letterSpacing: "0.12em" }}>{clientName(__layoutSession) ?? "NOIR INK"}</span>
               </div>
               <p style={{ fontFamily: "'Barlow', system-ui", fontSize: 15, color: C.textMuted, lineHeight: 1.7, maxWidth: 280, marginBottom: 24 }}>Fine line and blackwork tattoo studio. {clientCity(__layoutSession) ?? "Paris"}, France. By appointment only.</p>
               <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
                 <MessageSquare size={18} color={C.textDim} />
-                <span style={{ fontFamily: "'Barlow', system-ui", fontSize: 13, color: C.textDim }}>@noir.ink.paris</span>
+                {clientName(__layoutSession) ? null : <span style={{ fontFamily: "'Barlow', system-ui", fontSize: 13, color: C.textDim }}>@noir.ink.paris</span>}
               </div>
             </div>
 
@@ -206,7 +206,7 @@ export default function TattooStudioLayout({ children }: { children: React.React
               <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: 13, color: C.white, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", marginBottom: 20 }}>Contact</h4>
               <ul style={{ listStyle: "none", padding: 0, margin: 0, fontFamily: "'Barlow', system-ui", fontSize: 14, color: C.textMuted }}>
                 <li style={{ marginBottom: 12, display: "flex", alignItems: "center", gap: 8 }}>
-                  <MapPin size={14} color={C.accent} /> {clientAddress(__layoutSession) ?? `18 Rue Oberkampf, ${clientCity(__layoutSession) ?? "Paris"}`}
+                  <MapPin size={14} color={C.accent} /> {clientAddress(__layoutSession) ?? clientCity(__layoutSession) ?? "18 Rue Oberkampf, Paris"}
                 </li>
                 {/*
                   Le numéro venait d'être écrit en dur : « +33 1 42 00 00 00 »

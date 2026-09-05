@@ -93,8 +93,11 @@ export default function Home() {
     clientWorks(sessionData)?.map((w: any, i: number) => ({
       ...CASE_STUDIES[i % CASE_STUDIES.length],
       company: w.title || w.name,
-      challenge: w.desc || w.description || CASE_STUDIES[i % CASE_STUDIES.length].challenge,
-      outcome: w.detail || CASE_STUDIES[i % CASE_STUDIES.length].outcome,
+      challenge: w.desc || w.description || "",
+      outcome: w.detail || "",
+      sector: "",
+      metric: "",
+      metricLabel: "",
     })),
     CASE_STUDIES,
   );

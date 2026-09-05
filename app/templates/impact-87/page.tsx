@@ -819,7 +819,7 @@ export default function IronClubPage() {
               </div>
               <p style={{ fontFamily: FONT_BODY, fontSize: 14, lineHeight: 1.65 }}>
                 Salle de sport & CrossFit certifiée.<br />
-                {clientCity(sessionData) ?? "Lyon"} 7e · Depuis 2019.
+                {clientCity(sessionData) ?? "Lyon 7e · Depuis 2019"}.
               </p>
             </div>
             <div>
@@ -827,8 +827,8 @@ export default function IronClubPage() {
                 Contact
               </p>
               <p style={{ fontFamily: FONT_BODY, fontSize: 14, lineHeight: 2 }}>{c?.aboutText ?? <>
-                {clientAddress({ businessProfile: bp }) ?? "12 rue de la Guillotière"}<br />
-                69007 {clientCity(sessionData) ?? "Lyon"}<br />
+                {clientAddress({ businessProfile: bp }) ?? (clientCity(sessionData) ? "" : "12 rue de la Guillotière")}{clientAddress({ businessProfile: bp }) || !clientCity(sessionData) ? <br /> : null}
+                {clientCity(sessionData) ?? "69007 Lyon"}<br />
                 {clientPhone(sessionData) ?? "04 78 34 49 49"}<br />{fd?.email ?? "contact@ironclub-lyon.fr"}</>}</p>
             </div>
             <div>

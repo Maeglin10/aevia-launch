@@ -40,7 +40,7 @@ let brand: any = null;
    ========================================================================== */
 
 function RELEASES_DEMO_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ artist: "", duration: "",  title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}) })), [
   {
     id: "r-01",
     title: "Neon Genesis",
@@ -739,7 +739,7 @@ export default function SonicPlayerPage() {
                 className="text-2xl font-black tracking-tighter uppercase mb-6 flex items-center gap-2"
               >
                 <Disc3 className="w-6 h-6 text-[var(--brand,#a855f7)]" />
-                SONIC<span className="font-light text-slate-400">WAVE</span>
+                {clientName(sessionData) ?? (<>SONIC<span className="font-light text-slate-400">WAVE</span></>)}
               </Link>
               <p className="text-slate-400 text-sm leading-relaxed mb-8">
                 Independent record label and artist collective exploring the
@@ -840,7 +840,7 @@ export default function SonicPlayerPage() {
 
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-white/10 text-[10px] uppercase tracking-widest font-bold text-slate-600">
             <span>
-              &copy; {new Date().getFullYear()} SonicWave Records. All rights
+              &copy; {new Date().getFullYear()} {clientName(sessionData) ?? "SonicWave Records"}. All rights
               reserved.
             </span>
             <div className="flex gap-6">

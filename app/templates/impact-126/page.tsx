@@ -11,6 +11,8 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientPhone,
+  clientAddress,
 } from "@/lib/templates/clientContent";
 // @ts-nocheck
 
@@ -539,7 +541,7 @@ export default function ImpactRestaurantPage() {
   );
 
   WINES = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...WINES_SOURCE[i % WINES_SOURCE.length], name: s.title, price: s.price ?? WINES_SOURCE[i % WINES_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...WINES_SOURCE[i % WINES_SOURCE.length], name: s.title, price: s.price ?? "", region: "", grape: "", desc: s.desc || "" })),
     WINES_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -763,7 +765,7 @@ return (
                 color: encreDeBarre,
               }}
             >
-              +33 4 78 12 34 56
+              {clientPhone(sessionData) ?? fd?.phone ?? "+33 4 78 12 34 56"}
             </span>
             <MagneticButton
               onClick={() => setReservationOpen(true)}
@@ -806,7 +808,7 @@ return (
                 color: encreDeBarre,
               }}
             >
-              +33 4 78 12 34 56
+              {clientPhone(sessionData) ?? fd?.phone ?? "+33 4 78 12 34 56"}
             </span>
             <MagneticButton
               onClick={() => setReservationOpen(true)}
@@ -1814,7 +1816,7 @@ return (
                   borderRadius: 2,
                 }}
               >
-                +33 4 78 12 34 56
+                {clientPhone(sessionData) ?? fd?.phone ?? "+33 4 78 12 34 56"}
               </MagneticButton>
             </div>
           </FadeUp>
@@ -1865,7 +1867,7 @@ return (
                   color: C.terracotta,
                 }}
               >
-                Via della Lungaretta, 82
+                {clientAddress(sessionData) ?? clientCity(sessionData)?.toUpperCase() ?? "Via della Lungaretta, 82"}
               </span>
               <span
                 style={{
@@ -1938,9 +1940,9 @@ return (
             </span>
             <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
               {[
-                { label: "Telefono", value: "+33 4 78 12 34 56" },
+                { label: "Telefono", value: clientPhone(sessionData) ?? fd?.phone ?? "+33 4 78 12 34 56" },
                 { label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "info@aureliano.roma") },
-                { label: "Indirizzo", value: "Via della Lungaretta, 82\n00153 Roma" },
+                { label: "Indirizzo", value: clientAddress(sessionData) ?? clientCity(sessionData) ?? "Via della Lungaretta, 82\n00153 Roma" },
               ].map((c) => (
                 <div key={c.label}>
                   <div
@@ -2005,7 +2007,7 @@ return (
                   marginBottom: 8,
                 }}
               >
-                Aureliano
+                {clientName(sessionData) ?? "Aureliano"}
               </div>
               <div
                 style={{

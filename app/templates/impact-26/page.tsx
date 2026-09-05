@@ -263,7 +263,7 @@ export default function Impact26() {
 
 
   testimonials = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...testimonials_SOURCE[i % testimonials_SOURCE.length], text: r.text, name: r.author })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...testimonials_SOURCE[i % testimonials_SOURCE.length], text: r.text, name: r.author, location: "", })),
     testimonials_SOURCE,
   );
 
@@ -682,8 +682,8 @@ export default function Impact26() {
                   />
                 </div>
                 <div className="absolute bottom-6 left-6 bg-[#1A0F1E]/90 backdrop-blur-sm border border-[var(--brand,#c9956a)]/20 p-6">
-                  <div className="text-3xl text-[var(--brand,#c9956a)]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>1987</div>
-                  <div className="text-[#F5EDE8]/50 text-xs tracking-widest uppercase mt-1">Fondé à {clientCity(sessionData) ?? "Paris"}</div>
+                  <div className="text-3xl text-[var(--brand,#c9956a)]" style={{ fontFamily: "'Cormorant Garamond', serif" }}>{clientCity(sessionData) ? (clientName(sessionData) ?? "1987") : "1987"}</div>
+                  <div className="text-[#F5EDE8]/50 text-xs tracking-widest uppercase mt-1">{clientCity(sessionData) ? `À ${clientCity(sessionData)}` : "Fondé à Paris"}</div>
                 </div>
               </div>
             </Reveal>
@@ -1412,7 +1412,7 @@ function MaisonPage() {
           "Le parfum est la forme la plus intense du souvenir. C'est l'art de l'invisible."
         </p>
         <p>
-          Fondée en 1987 à {clientCity(sessionData) ?? "Paris"} par la nez Hélène Varenne, la Maison Éther est née d'un désir de liberté créative absolue. Éloignée des diktats de la parfumerie industrielle, elle explore des contrées olfactives singulières où les émotions brutes guident le nez.
+          {clientCity(sessionData) ? `Établie à ${clientCity(sessionData)}, notre maison` : "Fondée en 1987 à Paris par la nez Hélène Varenne, la Maison Éther"} est née d'un désir de liberté créative absolue. Éloignée des diktats de la parfumerie industrielle, elle explore des contrées olfactives singulières où les émotions brutes guident le nez.
         </p>
         <p>
           Notre atelier historique, situé au cœur du Marais parisien, abrite nos formules et nos secrets de macération. C'est là que chaque flacon prend vie, fruit d'un minutieux assemblage de molécules naturelles et synthétiques soigneusement sélectionnées.
@@ -1604,7 +1604,7 @@ function ContactPage() {
               L'Atelier Le Marais
             </h2>
             <p style={{ color: "#F5EDE8", opacity: 0.6, fontSize: 14, lineHeight: 1.7 }}>
-              Rue des Francs-Bourgeois, 75004 {clientCity(sessionData) ?? "Paris"}<br />
+              Rue des Francs-Bourgeois, {clientCity(sessionData) ?? "75004 Paris"}<br />
               Du lundi au vendredi, de 10h à 18h.<br />
               E-mail : {clientEmail(sessionData) ?? fd?.email ?? "contact@ether-parfums.com"}<br />
               Téléphone : {clientPhone(sessionData) ?? "+33 1 44 55 66 77"}

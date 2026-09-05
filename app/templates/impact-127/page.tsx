@@ -73,7 +73,7 @@ function EqBars({ active = false }: { active?: boolean }) {
 }
 
 function EVENTS_DEMO_SOURCE_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, city: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ artist: "", date: "", price: "",  title: o.title, city: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { title: "NEON PULSE", artist: "Nova Collective", date: "24 mai 2026", time: "21:00", venue: "Warehouse IX", city: "Berlin", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?auto=format&fit=crop&q=80&w=1200"), price: "€45", status: "On Sale", genre: "Electronic" },
   { title: "MIDNIGHT CRESCENDO", artist: "The Archivists", date: "Jun 7, 2026", time: "20:00", venue: "Hall Meridian", city: "London", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?auto=format&fit=crop&q=80&w=1200"), price: "£65", status: "Selling Fast", genre: "Orchestral" },
   { title: "BASS COMMUNION", artist: "Drift Engine", date: "Jun 21, 2026", time: "23:00", venue: "Sublevel", city: "London", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&q=80&w=1200"), price: "£35", status: "On Sale", genre: "Techno" },
@@ -188,7 +188,7 @@ export default function PulseEventsPage() {
 
 
   EVENTS_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...EVENTS_DEMO_SOURCE[i % EVENTS_DEMO_SOURCE.length], title: s.title, price: s.price ?? EVENTS_DEMO_SOURCE[i % EVENTS_DEMO_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...EVENTS_DEMO_SOURCE[i % EVENTS_DEMO_SOURCE.length], title: s.title, price: s.price ?? "" })),
     EVENTS_DEMO_SOURCE,
   );
   EVENTS = EVENTS_DEMO.map((row, i) => ({
@@ -562,7 +562,7 @@ export default function PulseEventsPage() {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <div className="w-8 h-8 rounded-full bg-[var(--brand,#ec4899)] flex items-center justify-center"><Music className="w-4 h-4 text-white" /></div>
-              <span className="font-black tracking-tight">PULSE</span>
+              <span className="font-black tracking-tight">{clientName(sessionData) ?? "PULSE"}</span>
             </div>
             <p className="text-sm text-white/30 leading-relaxed">Curated live music experiences in iconic venues worldwide.</p>
           </div>

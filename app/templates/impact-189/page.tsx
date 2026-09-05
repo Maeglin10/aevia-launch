@@ -9,6 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
   clientAddress,
+  clientStats,
   clientCity,
   clientCodePostalVille,
   clientEmail,
@@ -314,11 +315,11 @@ export default function AtelierLeoniePage() {
 
   PRESTATIONS_DEMO = resolveList(clientServices(sessionData)?.map((s: any, i: number) => ({ ...PRESTATIONS_SOURCE[i % PRESTATIONS_SOURCE.length], title: s.title , ...(s.price ? { price: s.price } : {})})), PRESTATIONS_SOURCE);
   PRESTATIONS = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...PRESTATIONS_DEMO[i % PRESTATIONS_DEMO.length], title: s.title })),
+    clientServices(sessionData)?.map((s, i) => ({ ...PRESTATIONS_DEMO[i % PRESTATIONS_DEMO.length], title: s.title, desc: s.desc || "" })),
     PRESTATIONS_DEMO,
   );
   EQUIPE = resolveList(
-    clientTeam(sessionData)?.map((m, i) => ({ ...EQUIPE_DEMO[i % EQUIPE_DEMO.length], n: m.name, r: m.role })),
+    clientTeam(sessionData)?.map((m, i) => ({ ...EQUIPE_DEMO[i % EQUIPE_DEMO.length], n: m.name, r: m.role, d: "" })),
     EQUIPE_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -442,12 +443,12 @@ export default function AtelierLeoniePage() {
       {/* ── STATS ── */}
       <section className="py-12 bg-[#f3ede6]">
         <div className="max-w-[1100px] mx-auto px-6 md:px-12 grid grid-cols-2 md:grid-cols-4 gap-6">
-          {[
+          {(clientStats(sessionData)?.map((cs: any) => ({ v: cs.value, l: cs.label })) ?? [
             { v: "11 ans", l: "D'excellence capillaire" },
             { v: "2 800+", l: "Clientes fidèles" },
             { v: "4.9★", l: "Avis Google" },
             { v: "8", l: "Stylistes certifiées" },
-          ].map((s, i) => (
+          ]).map((s, i) => (
             <Reveal key={i} delay={i * 0.07}>
               <div className="text-center p-5 bg-white shadow-sm">
                 <div className="text-2xl font-bold text-[var(--brand,#c97b7b)] mb-1" style={{ fontFamily: "'Bodoni Moda', serif" }}>{s.v}</div>

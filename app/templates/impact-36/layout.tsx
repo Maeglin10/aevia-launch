@@ -313,7 +313,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 >
                   <Award size={20} color={C.white} />
                 </div>
-                <span style={{ fontWeight: 800, fontSize: 20, color: C.white }}>Apex Talent</span>
+                <span style={{ fontWeight: 800, fontSize: 20, color: C.white }}>{clientName(__layoutSession) ?? "Apex Talent"}</span>
               </div>
               <p
                 style={{

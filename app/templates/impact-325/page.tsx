@@ -96,13 +96,15 @@ function SEMINARS_LIVE() {
   const ville = clientCity(sessionData);
   const base = SEMINARS_SOURCE.map((s) => ({
     ...s,
-    venue: ville ? s.venue.replace("Paris", ville) : s.venue,
+    venue: ville ?? s.venue,
   }));
   return /* RÉALISATIONS */ resolveList(
     clientWorks(sessionData)?.map((o: any, i: number) => ({
       ...base[i % base.length],
       title: o.title ?? base[i % base.length].title,
       category: o.detail || base[i % base.length].category,
+      speaker: "",
+      price: 0,
       ...(o.imageUrl ? { img: o.imageUrl } : {}),
     })),
     base,
@@ -123,9 +125,9 @@ function TARIFS_LIVE() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
       k: s.title ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].k,
-      std: s.price ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].std,
-      eb: s.price ? "− 20 %" : TARIFS_SOURCE[i % TARIFS_SOURCE.length].eb,
-      ex: s.price ? "+ 50 %" : TARIFS_SOURCE[i % TARIFS_SOURCE.length].ex,
+      std: s.price ?? "Sur devis",
+      eb: s.price ? "− 20 %" : "—",
+      ex: s.price ? "+ 50 %" : "—",
       n: s.description ?? s.desc ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
     })),
     TARIFS_SOURCE,
@@ -809,9 +811,9 @@ function SeminarFeature({ s, idx }: { s: any; idx: number }) {
             <span style={{ fontFamily: SANS, fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: C.textFaint }}>{s.level}</span>
           </div>
           <h3 style={{ fontFamily: SERIF, fontSize: "clamp(22px,2.8vw,36px)", fontWeight: 500, lineHeight: 1.14, letterSpacing: "-0.01em", color: hov ? C.accent : C.ink, margin: "0 0 12px", transition: "color 0.5s cubic-bezier(.16,1,.3,1)" }}>{s.title}</h3>
-          <p style={{ fontFamily: SANS, fontSize: 14.5, color: C.textMuted, lineHeight: 1.7, margin: "0 0 16px" }}>
+          {s.speaker ? <p style={{ fontFamily: SANS, fontSize: 14.5, color: C.textMuted, lineHeight: 1.7, margin: "0 0 16px" }}>
             Led by <span style={{ color: C.ink, fontWeight: 500 }}>{s.speaker}</span>
-          </p>
+          </p> : null}
           <div style={{ display: "flex", flexWrap: "wrap", gap: "clamp(12px,1.8vw,26px)", marginBottom: 20 }}>
             <span style={{ display: "inline-flex", alignItems: "center", gap: 8, fontFamily: SANS, fontSize: 13, color: C.textMuted }}>
               <Calendar size={14} color={C.accent} /> {s.dateLabel}
@@ -831,7 +833,7 @@ function SeminarFeature({ s, idx }: { s: any; idx: number }) {
               See the fees
               <ArrowRight size={14} style={{ transform: hov ? "translateX(5px)" : "none", transition: "transform 0.5s cubic-bezier(.16,1,.3,1)" }} />
             </a>
-            <span style={{ fontFamily: SERIF, fontSize: "clamp(17px,1.8vw,22px)", fontWeight: 500, color: C.ink }}>${s.price}</span>
+            {s.price ? <span style={{ fontFamily: SERIF, fontSize: "clamp(17px,1.8vw,22px)", fontWeight: 500, color: C.ink }}>${s.price}</span> : null}
           </div>
         </div>
       </article>

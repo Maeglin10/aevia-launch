@@ -140,7 +140,7 @@ const METHODE = [
 ];
 
 const ENGAGEMENT_SOURCE = [
-  "Aquanettoyage exclusivement : zéro perchloroéthylène (interdit en boutique depuis 2022 — chez nous depuis 2020)",
+  "Aquanettoyage exclusivement : zéro perchloroéthylène",
   "Détergents biodégradables, eau recyclée à 40 %, cintres repris et réutilisés",
   "Toute pièce abîmée par notre fait est indemnisée selon le barème IFTH, sans discussion",
   "Prix affichés en boutique et en ligne — le comptoir n'invente rien",
@@ -454,7 +454,7 @@ export default function BlancNetPage() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
       a: s.title,
-      p: s.price || TARIFS_SOURCE[i % TARIFS_SOURCE.length].p,
+      p: s.price || "Sur devis",
       n: s.description || s.desc || TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
     })),
     TARIFS_SOURCE,
@@ -1123,7 +1123,7 @@ export default function BlancNetPage() {
               <p style={{ fontFamily: BODY, fontSize: 13, fontWeight: 300, lineHeight: 1.75, color: "rgba(255,255,255,0.45)", margin: 0 }}>
                 {metier} & blanchisserie · {clientCodePostalVille(sessionData, "75015", "Paris")}
                 <br />
-                Aquanettoyage — zéro perchloroéthylène depuis 2020
+                Aquanettoyage — zéro perchloroéthylène
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>

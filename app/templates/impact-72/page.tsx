@@ -20,6 +20,7 @@ import {
   clientText,
   fusionnerEtapes,
   memoriserSession,
+  clientHeroLine,
 } from "@/lib/templates/clientContent";
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 let sessionData: any = null;
@@ -173,9 +174,9 @@ return (
           <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "4rem", alignItems: "center" }}>
             <div>
               <div style={{ fontFamily: "'Archivo', sans-serif", fontSize: "clamp(3.5rem, 9vw, 8rem)", fontWeight: 900, lineHeight: 1.15, letterSpacing: "-0.04em", color: C.text, paddingBottom: "0.15em" }}>
-                <TextReveal delay={0.3} style={{ paddingBottom: "0.15em" }}>L'ART</TextReveal>
-                <TextReveal delay={0.45} style={{ color: C.amber, paddingBottom: "0.15em" }}>DU FILM</TextReveal>
-                <TextReveal delay={0.6} style={{ fontStyle: "italic", fontWeight: 300, paddingBottom: "0.15em" }}>EXIGEANT</TextReveal>
+                <TextReveal delay={0.3} style={{ paddingBottom: "0.15em" }}>{clientHeroLine(sessionData, 0, 3, 10) ?? "L'ART"}</TextReveal>
+                <TextReveal delay={0.45} style={{ color: C.amber, paddingBottom: "0.15em" }}>{clientHeroLine(sessionData, 1, 3, 10) ?? "DU FILM"}</TextReveal>
+                <TextReveal delay={0.6} style={{ fontStyle: "italic", fontWeight: 300, paddingBottom: "0.15em" }}>{clientHeroLine(sessionData, 2, 3, 10) ?? "EXIGEANT"}</TextReveal>
               </div>
 
               <motion.p
@@ -183,7 +184,7 @@ return (
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 1 }}
                 style={{ fontSize: "0.95rem", color: C.textMuted, lineHeight: 1.8, maxWidth: "45ch", marginTop: "2.5rem", marginBottom: "2.5rem" }}
-              >{c?.aboutText ?? <>
+              >{c?.aboutText ?? clientTagline(sessionData) ?? <>
                 Stack Unit produit des films qui résistent au temps. Long-métrages, documentaires, courts et films publicitaires — toujours avec la même exigence artistique absolue.
               </>}</motion.p>
 
@@ -337,7 +338,7 @@ return (
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
           <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.65rem", letterSpacing: "0.3em", color: C.amber, marginBottom: "4rem" }}>ILS PARLENT DE NOUS</div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: "3rem" }}>
-            {PRESS.map((p, i) => {
+            {(clientName(sessionData) ? [] : PRESS).map((p, i) => {
               const quoteRef = useRef<HTMLDivElement>(null);
               const quoteInView = useInView(quoteRef, { once: true, margin: "-40px" });
               return (

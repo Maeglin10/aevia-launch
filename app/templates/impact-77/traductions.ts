@@ -10,6 +10,8 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "exhibitions.": "Expositions.",
+    "recognition.": "Distinctions.",
     "what is your global service protocol?": "Comment fonctionne votre service après-vente mondial ?",
     "do you offer bespoke dial commissions?": "Réalisez-vous des cadrans sur mesure ?",
     "what is the lead time for a new reservation?": "Quel est le délai pour une nouvelle réservation ?",
@@ -99,6 +101,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "working with luca on the wallpaper* architecture series was a revelation. he sees in geometry where others see in light.": "Travailler avec Luca sur la série d'architecture Wallpaper* a été une révélation. Il voit dans la géométrie là où d'autres voient dans la lumière.",
   },
   es: {
+    "exhibitions.": "Exposiciones.",
+    "recognition.": "Reconocimientos.",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -205,6 +209,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "working with luca on the wallpaper* architecture series was a revelation. he sees in geometry where others see in light.": "Trabajar con Luca en la serie de arquitectura Wallpaper* fue una revelación. Él ve en la geometría donde otros ven en la luz.",
   },
   de: {
+    "exhibitions.": "Ausstellungen.",
+    "recognition.": "Auszeichnungen.",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -311,6 +317,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "working with luca on the wallpaper* architecture series was a revelation. he sees in geometry where others see in light.": "Die Zusammenarbeit mit Luca an der Wallpaper*-Architektureihe war eine Offenbarung. Er sieht in der Geometrie, wo andere im Licht sehen.",
   },
   pt: {
+    "exhibitions.": "Exposições.",
+    "recognition.": "Reconhecimentos.",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

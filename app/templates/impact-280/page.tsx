@@ -40,6 +40,7 @@ import {
   clientSiret,
   clientTagline,
   clientText,
+  clientStats,
   clientWorks,
 } from "@/lib/templates/clientContent";
 
@@ -339,7 +340,7 @@ function Nav() {
       </div>
       <div className="r280-navcta">
         <a href="#contact" style={{ textDecoration: 'none' }}>
-          <RoseButton filled>{clientName(sessionData) ?? "Consultation gratuite"}</RoseButton>
+          <RoseButton filled>Consultation gratuite</RoseButton>
         </a>
       </div>
     
@@ -574,7 +575,7 @@ function HeroSection() {
           style={{ marginTop: 46, display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}
         >
           <a href="#contact" style={{ textDecoration: 'none' }}>
-            <RoseButton filled>{clientName(sessionData) ?? "Consultation gratuite"}</RoseButton>
+            <RoseButton filled>Consultation gratuite</RoseButton>
           </a>
           <a href="#services" style={{ textDecoration: 'none' }}>
             <RoseButton>Nos formules</RoseButton>
@@ -594,11 +595,11 @@ function HeroSection() {
             justifyContent: 'center',
           }}
         >
-          {[
+          {(clientStats(sessionData)?.map((cs: any) => ({ val: cs.value, lab: cs.label })) ?? [
             { val: '120+', lab: 'Mariages organisés' },
             { val: '8 ans', lab: "D'expérience" },
             { val: '98%', lab: 'Mariés satisfaits' },
-          ].map((b) => (
+          ]).map((b) => (
             <div
               key={b.val}
               style={{ textAlign: 'center' }}
@@ -965,7 +966,7 @@ function ServicesSection() {
       ...services_DEMO[i % services_DEMO.length],
       title: s.title ?? services_DEMO[i % services_DEMO.length].title,
       desc: s.description ?? services_DEMO[i % services_DEMO.length].desc,
-      price: s.price ?? services_DEMO[i % services_DEMO.length].price,
+      price: s.price ?? "",
     })),
     services_DEMO
   );
@@ -2126,7 +2127,7 @@ function ContactFormSection() {
    7 · RÉALISATIONS SECTION — 3 mariages
    ════════════════════════════════════════════════════════════════════════════ */
 function RealizationsSection() {
-  const realisations_DEMO = /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, lieu: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
+  const realisations_DEMO = /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ annee: "", tag: "", nbInvites: "", title: o.title, lieu: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
     {
       img: PHOTO.chateau,
       tag: 'Mariage de château',
@@ -3039,7 +3040,7 @@ function FooterSection() {
         { label: 'Organisation complète', href: '#services' },
         { label: 'Coordination Jour J', href: '#services' },
         { label: 'Décoration & Fleurs', href: '#services' },
-        { label: `${clientName(sessionData) ?? "Consultation gratuite"}`, href: '#contact' },
+        { label: 'Consultation gratuite', href: '#contact' },
       ],
     },
     {
@@ -3056,7 +3057,7 @@ function FooterSection() {
       links: [
         { label: (clientPhone(sessionData) ?? '+33 3 88 00 00 00'), href: `tel:${(clientPhone(sessionData) ?? '+33388000000').replace(/[^+0-9]/g, "")}` },
         { label: (clientEmail(sessionData) ?? 'contact@epousailles-alsace.fr'), href: `mailto:${clientEmail(sessionData) ?? 'contact@epousailles-alsace.fr'}` },
-        { label: (clientAddress(sessionData) ?? `12 rue du Mariage, ${clientCity(sessionData) ?? "Strasbourg"}`), href: "/templates/impact-280" },
+        { label: (clientAddress(sessionData) ?? clientCity(sessionData) ?? "12 rue du Mariage, Strasbourg"), href: "/templates/impact-280" },
         { label: 'Du lundi au vendredi 9h–18h', href: "/templates/impact-280" },
       ],
     },
@@ -3101,7 +3102,7 @@ function FooterSection() {
                   fontWeight: 400,
                 }}
               >
-                Les Épousailles<br />d&apos;Alsace
+                {clientName(sessionData) ?? <>Les Épousailles<br />d&apos;Alsace</>}
               </span>
             </div>
             <p
@@ -3116,7 +3117,7 @@ function FooterSection() {
             >
               Wedding planner & événementiel basé à {clientCity(sessionData) ?? "Strasbourg"}. Nous créons
               des mariages sur mesure en Alsace et dans les régions voisines
-              depuis 2016.
+              {clientName(sessionData) ? "— à vos côtés." : "depuis 2016."}
             </p>
             {/* Réseaux sociaux */}
             <div style={{ display: 'flex', gap: 12 }}>
@@ -3255,8 +3256,8 @@ function FooterSection() {
               lineHeight: 1.6,
             }}
           >
-            © {new Date().getFullYear()} {clientName(sessionData) ?? "Les Épousailles"} d&apos;Alsace{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 852 346 710 00014"} ·
-            APE 8230Z · Auto-entrepreneur{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © {new Date().getFullYear()} {clientName(sessionData) ?? "Les Épousailles d'Alsace"}{clientName(sessionData) ? null : null}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 852 346 710 00014"} ·
+            {clientName(sessionData) ? "" : "APE 8230Z · Auto-entrepreneur"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </div>
           <div style={{ display: 'flex', gap: 22 }}>
             {[

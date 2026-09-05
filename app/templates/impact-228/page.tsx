@@ -66,7 +66,7 @@ const NAV = [
 ];
 function URGENCE_LIVE() {
   return [
-  { t: "Fuite d'eau", d: "Arrivée en moins d'une heure sur " + (clientCity(sessionData) ?? "Lille") + " et la métropole. On coupe, on sèche, on répare — dans cet ordre." },
+  { t: "Fuite d'eau", d: "Arrivée en moins d'une heure sur " + (clientCity(sessionData) ?? "Lille") + (clientCity(sessionData) ? " et ses alentours" : " et la métropole") + ". On coupe, on sèche, on répare — dans cet ordre." },
   { t: "Panne de chaudière", d: "Gaz ou fioul, toutes marques. Pièces courantes dans le camion : circulateur, vase, sonde, carte d'allumage." },
   { t: "Plus d'eau chaude", d: "Diagnostic en trente minutes : résistance, thermostat, anode ou groupe de sécurité. Le devis est donné avant de démonter." },
   { t: "Canalisation bouchée", d: "Furet, hydrocureur et caméra si nécessaire. On vous montre l'image avant de proposer un remplacement." },
@@ -87,7 +87,7 @@ function SERVICES_SOURCE_LIVE() {
   return [
   { titre: "Plomberie générale", desc: "Fuite, canalisation bouchée, remplacement de chauffe-eau, robinetterie, WC. Devis gratuit et transparence sur les tarifs avant intervention.", tag: "Plomberie" },
   { titre: "Installation chauffage", desc: "Chaudière gaz, pompe à chaleur, plancher chauffant, radiateurs. Marques Bosch, Viessmann, Atlantic — SAV assuré.", tag: "Chauffage" },
-  { titre: "Dépannage urgence", desc: "Fuite d'eau active, chauffe-eau en panne, chauffage hors service en hiver. Intervention en moins d'1h sur " + (clientCity(sessionData) ?? "Lille") + " et métropole.", tag: "Urgence" },
+  { titre: "Dépannage urgence", desc: "Fuite d'eau active, chauffe-eau en panne, chauffage hors service en hiver. Intervention en moins d'1h sur " + (clientCity(sessionData) ?? "Lille") + (clientCity(sessionData) ? " et alentours." : " et métropole.") + "", tag: "Urgence" },
   { titre: "Pompe à chaleur & clim", desc: "Installation et entretien de PAC air/air et air/eau. Bilan thermique offert, éligibilité MaPrimeRénov vérifiée.", tag: "PAC & Clim" },
   { titre: "Entretien chaudière", desc: "Contrat annuel ou intervention ponctuelle. Nettoyage, réglage, vérification de sécurité et attestation d'entretien réglementaire.", tag: "Entretien" },
   { titre: "Isolation & rénovation", desc: "Remplacement de tuyauteries vétustes, isolation des conduites, mise aux normes gaz. Accompagnement pour les aides à la rénovation.", tag: "Rénovation" },
@@ -180,11 +180,11 @@ export default function AquaThermPage() {
     ENTRETIEN_SOURCE,
   );
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title, desc: s.desc || "", tag: "" })),
     SERVICES_SOURCE,
   );
   AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
@@ -198,7 +198,7 @@ export default function AquaThermPage() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       titre: s.title ?? s.name,
       desc: s.description ?? s.desc,
-      tag: SERVICES_DEMO[i % SERVICES_DEMO.length].tag,
+      tag: "",
     })),
     SERVICES_DEMO
   );
@@ -206,7 +206,7 @@ export default function AquaThermPage() {
     clientReviews(sessionData)?.map((r: any, i: number) => ({
       texte: r.text ?? r.quote,
       auteur: r.name ?? r.author,
-      detail: r.location ?? r.detail ?? AVIS_DEMO[i % AVIS_DEMO.length].detail,
+      detail: r.location ?? r.detail ?? "",
     })),
     AVIS_DEMO
   );
@@ -457,7 +457,7 @@ export default function AquaThermPage() {
             <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>{clientTrade(sessionData) ?? "Plombier"} chauffagiste RGE · {clientCity(sessionData) ?? "Lille"}<br />Urgences 24h/24 · 7j/7</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Lille") + ", Nord" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "03 20 00 00 00") }, { icon: <Clock size={13} />, t: "Urgences 24h/24" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Lille, Nord") }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "03 20 00 00 00") }, { icon: <Clock size={13} />, t: "Urgences 24h/24" }].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.38)", fontSize: 13 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>

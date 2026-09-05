@@ -124,7 +124,7 @@ const EVENT_TYPES_DEMO = [
 ];
 
 function PAST_EVENTS_DEMO_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ year: "",  title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { title: "Gala Fondation Lumière", location: (clientCity(sessionData) ?? "Paris") + ", France", year: "2024", img: "photo-1530103862676-de8c9debad1d", guests: "420" },
   { title: "Mariage Château Margaux", location: "Bordeaux, France", year: "2024", img: "photo-1540575467063-178a50c2df87", guests: "180" },
   { title: "Conférence TechEurope", location: "Monaco", year: "2024", img: "photo-1492684223066-81342ee5ff30", guests: "1200" },
@@ -180,7 +180,7 @@ const TESTIMONIALS_SOURCE = [
     rating: 5,
   },
   {
-    text: `Notre mariage au château était le rêve absolu. L'équipe ${clientName(sessionData) ?? "Confluence"} a su anticiper chaque besoin sans que nous ayons à y penser une seule seconde.`,
+    text: "Notre mariage au château était le rêve absolu. L'équipe Confluence a su anticiper chaque besoin sans que nous ayons à y penser une seule seconde.",
     author: "Camille & Thomas R.",
     role: "Mariés en Juin 2024",
     rating: 5,
@@ -577,12 +577,16 @@ export default function Impact175Page() {
   );
 
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
+  const TESTIMONIALS_BASE = TESTIMONIALS_SOURCE.map((t) => ({
+    ...t,
+    text: t.text.replace(/Confluence/g, clientName(sessionData) ?? "Confluence"),
+  }));
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, text: r.text })),
-    TESTIMONIALS_SOURCE,
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_BASE[i % TESTIMONIALS_BASE.length], author: r.author, text: r.text, role: "", })),
+    TESTIMONIALS_BASE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
@@ -616,8 +620,8 @@ export default function Impact175Page() {
   const PAST_EVENTS = resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({
       title: b.caption ?? PAST_EVENTS_DEMO[i % PAST_EVENTS_DEMO.length].title,
-      location: PAST_EVENTS_DEMO[i % PAST_EVENTS_DEMO.length].location,
-      year: PAST_EVENTS_DEMO[i % PAST_EVENTS_DEMO.length].year,
+      location: "",
+      year: "",
       img: PAST_EVENTS_DEMO[i % PAST_EVENTS_DEMO.length].img,
       guests: PAST_EVENTS_DEMO[i % PAST_EVENTS_DEMO.length].guests,
     })),

@@ -10,6 +10,7 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "say.": "disent.",
     "mastery in": "LA MAÎTRISE DU",
     "motion.": "MOUVEMENT.",
     "mastery in": "La maîtrise du",
@@ -94,6 +95,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what teams": "Ce que les équipes",
   },
   es: {
+    "say.": "dicen.",
     "mastery in": "EL DOMINIO DEL",
     "motion.": "MOVIMIENTO.",
     "mastery in": "El dominio del",
@@ -195,6 +197,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what teams": "Lo que los equipos",
   },
   de: {
+    "say.": "sagen.",
     "mastery in": "MEISTERSCHAFT IN",
     "motion.": "BEWEGUNG.",
     "mastery in": "Meisterschaft in",
@@ -296,6 +299,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what teams": "Was Teams",
   },
   pt: {
+    "say.": "dizem.",
     "mastery in": "O DOMÍNIO DO",
     "motion.": "MOVIMENTO.",
     "mastery in": "O domínio do",

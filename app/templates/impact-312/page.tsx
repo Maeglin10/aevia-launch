@@ -594,7 +594,7 @@ export default function GarageMinimalistTemplate() {
                     {[1,2,3,4,5].map(i => <Star key={i} size={20} fill="currentColor" />)}
                   </div>
                   <div style={{ fontFamily: SANS, fontWeight: 600, fontSize: "0.9rem" }}>
-                    4.9/5 <span style={{ color: C.textMuted, fontWeight: 400 }}>(200+ avis)</span>
+                    {clientName(sessionData) ? <>Avis clients <span style={{ color: C.textMuted, fontWeight: 400 }}>vérifiés</span></> : <>4.9/5 <span style={{ color: C.textMuted, fontWeight: 400 }}>(200+ avis)</span></>}
                   </div>
                 </div>
                 <div style={{ width: "1px", height: "30px", backgroundColor: "#e5e7eb" }}></div>

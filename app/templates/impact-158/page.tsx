@@ -539,7 +539,7 @@ export default function AtlasPage() {
                 S&apos;abonner
               </button>
             </form>
-            <p className="text-xs text-[#8A7560] mt-4">Rejoignez 48 000 lecteurs. Désabonnement en un clic.</p>
+            <p className="text-xs text-[#8A7560] mt-4">{clientName(sessionData) ? "" : "Rejoignez 48 000 lecteurs. "}Désabonnement en un clic.</p>
           </Reveal>
         </div>
       </section>

@@ -217,7 +217,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
         <span style={{ fontStyle: 'italic' }}>accessible.</span>
       </>
     ),
-    body: "Le cabinet est situé à deux pas des stations Oberkampf et République. Accessible aux personnes à mobilité réduite, le lieu est conçu pour la sérénité. La prise de rendez-vous en ligne est disponible 24h/24 — les premières disponibilités s'affichent en temps réel.",
+    body: clientName(sessionData) ? "Accessible aux personnes à mobilité réduite, le lieu est conçu pour la sérénité. La prise de rendez-vous en ligne est disponible 24h/24 — les premières disponibilités s'affichent en temps réel." : "Le cabinet est situé à deux pas des stations Oberkampf et République. Accessible aux personnes à mobilité réduite, le lieu est conçu pour la sérénité. La prise de rendez-vous en ligne est disponible 24h/24 — les premières disponibilités s'affichent en temps réel.",
     imgId: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/5473182/pexels-photo-5473182.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     alt: 'Cabinet ostéopathie Paris 11e, espace de soin lumineux',
     reverse: true,
@@ -2062,7 +2062,7 @@ function Footer() {
               maxWidth: 300,
             }}
           >
-            Cabinet d'ostéopathie D.O. · {clientCity(sessionData) ?? "Paris"} 11e.
+            Cabinet d'ostéopathie D.O. · {clientCity(sessionData) ?? "Paris 11e"}.
             <br />
             Adultes, sportifs, nourrissons, femmes enceintes.
           </p>
@@ -2080,7 +2080,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-            {clientCity(sessionData) ?? "Paris"} · Oberkampf / République
+            {clientCity(sessionData) ?? "Paris · Oberkampf / République"}
           </div>
         </div>
 
@@ -2156,7 +2156,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2024–2026 {clientName(sessionData) ?? "Ostéo République"} · {clientCity(sessionData) ?? "Paris"} 11e. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2024–2026 {clientName(sessionData) ?? "Ostéo République"} · {clientCity(sessionData) ?? "Paris 11e"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2241,7 +2241,7 @@ export default function Page() {
     EDIT_ROWS_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, context: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

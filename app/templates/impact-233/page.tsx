@@ -6,6 +6,8 @@ import { motion, AnimatePresence, useScroll, useTransform, useInView } from "fra
 import { Phone, Mail, MapPin, Clock, Star, CheckCircle, ArrowRight, Zap } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientAddress,
+  clientTagline,
   clientCity,
   clientEmail,
   clientHeroLine,
@@ -205,7 +207,7 @@ export default function CabinetOsteopathiePage() {
   bp = session?.businessProfile;
   sessionData = session;
   AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
@@ -279,7 +281,7 @@ export default function CabinetOsteopathiePage() {
           ) : (
             <>
               <Zap size={18} color={scrolled ? C.accent : "#fff"} />
-              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: FONT, fontSize: 21, color: scrolled ? C.text : "#fff" }}>{clientName(sessionData) ?? "Cabinet"}<em>Équilibre</em></span>
+              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: FONT, fontSize: 21, color: scrolled ? C.text : "#fff" }}>{clientName(sessionData) ?? "Cabinet"}{clientName(sessionData) ? null : <em>Équilibre</em>}</span>
             </>
           )}
         </div>
@@ -327,7 +329,7 @@ export default function CabinetOsteopathiePage() {
           </>}</>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
-            Lucas Martin, ostéopathe D.O. à {clientCity(sessionData) ?? "Lyon"}. Prise en charge des douleurs du dos, articulations, migraines, nourrissons et sportifs. RDV disponible sous 48h.
+            {clientName(sessionData) ? <>Prise en charge des douleurs du dos, articulations, migraines, nourrissons et sportifs{clientCity(sessionData) ? <> à {clientCity(sessionData)}</> : null}. RDV disponible sous 48h.</> : <>Lucas Martin, ostéopathe D.O. à Lyon. Prise en charge des douleurs du dos, articulations, migraines, nourrissons et sportifs. RDV disponible sous 48h.</>}
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
             <motion.a href="#contact" style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}44`, cursor: "pointer" }} whileHover={{ scale: 1.03 }}>
@@ -524,11 +526,11 @@ export default function CabinetOsteopathiePage() {
       <footer style={{ background: C.bgDark, padding: "44px 80px 22px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 32 }}>
           <div>
-            <div style={{fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: brand ?? 'var(--brand,#7ec8e0)', marginBottom: 8 }}>{clientName(sessionData) ?? "Cabinet"} Équilibre</div>
-            <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Lucas Martin · Ostéopathe D.O.<br />Diplômé IFSO · ADELI N°xxxxxxx</p>
+            <div style={{fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: brand ?? 'var(--brand,#7ec8e0)', marginBottom: 8 }}>{clientName(sessionData) ?? "Cabinet Équilibre"}</div>
+            <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>{clientName(sessionData) ? (clientTagline(sessionData) ?? "Consultations sur rendez-vous") : <>Lucas Martin · Ostéopathe D.O.<br />Diplômé IFSO · ADELI N°xxxxxxx</>}</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Lyon") + " — Rue de la République" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "04 78 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 8h30–19h30" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? clientCity(sessionData) ?? "Lyon — Rue de la République" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "04 78 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 8h30–19h30" }].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.38)", fontSize: 13 }}>
                 <span style={{color: brand ?? 'var(--brand,#7ec8e0)' }}>{item.icon}</span>{item.t}
               </div>
@@ -536,7 +538,7 @@ export default function CabinetOsteopathiePage() {
           </div>
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)", paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
-          <span style={{ color: "rgba(255,255,255,0.18)", fontSize: 12 }}>© 2026 {clientName(sessionData) ?? "Cabinet"} Équilibre · Lucas Martin — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.18)", fontSize: 12 }}>© 2026 {clientName(sessionData) ?? "Cabinet Équilibre · Lucas Martin"} — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="#contact" style={{ color: "rgba(255,255,255,0.18)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

@@ -23,6 +23,7 @@ import {
   clientReviews,
   clientServices,
   clientStats,
+  clientTagline,
   clientText,
   clientWorks,
 } from "@/lib/templates/clientContent";
@@ -52,7 +53,7 @@ let brand: any = null;
    ========================================================================= */
 
 function PRODUCTS_SOURCE_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ price: "",  name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   { 
     id: 1, 
     name: "Neural Link V2", 
@@ -213,9 +214,7 @@ export default function NeuralisPage() {
 
       ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
 
-      text: r.text, name: r.author,
-
-    })),
+      text: r.text, name: r.author, role: "", })),
 
     AVIS_INLINE_SOURCE,
 
@@ -223,7 +222,7 @@ export default function NeuralisPage() {
   PRODUCTS_DEMO = resolveList(clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title , ...(s.price ? { price: s.price } : {})})), PRODUCTS_SOURCE);
   STATS = resolveList(clientStats(session), STATS_DEMO);
   INNOVATIONS = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...INNOVATIONS_DEMO[i % INNOVATIONS_DEMO.length], title: s.title })),
+    clientServices(session)?.map((s, i) => ({ ...INNOVATIONS_DEMO[i % INNOVATIONS_DEMO.length], title: s.title, desc: s.desc || "" })),
     INNOVATIONS_DEMO,
   );
   PRODUCTS = PRODUCTS_DEMO.map((row, i) => ({
@@ -779,7 +778,7 @@ export default function NeuralisPage() {
                     <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#00f2ff] -mt-1 ml-1">Augmentation Lab</span>
                  </div>
                  <p className="text-white/20 max-w-md mb-16 text-[11px] font-bold uppercase tracking-[0.2em] leading-loose italic">
-                    The absolute mastery of bio-synthetic integration. Engineered for the evolutionary elite in our Tokyo sanctuary.
+                    {clientTagline(sessionData) ?? "The absolute mastery of bio-synthetic integration. Engineered for the evolutionary elite in our Tokyo sanctuary."}
                  </p>
                  <div className="flex gap-6">
                     {[Globe, Globe, Mail].map((Icon, i) => (
@@ -824,7 +823,7 @@ export default function NeuralisPage() {
 
         <div className="max-w-[1600px] mx-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10">
            <div className="flex items-center gap-12">
-              <span>&copy; {new Date().getFullYear()} NEURALIS AUGMENTATION LAB.</span>
+              <span>&copy; {new Date().getFullYear()} {(clientName(sessionData) ?? "NEURALIS AUGMENTATION LAB").toUpperCase()}.</span>
               <div className="flex gap-8">
                 <span>FDA_AUG_CERTIFIED</span>
                 <span>BIO_SYNC_NOMINAL</span>

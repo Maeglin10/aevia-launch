@@ -15,6 +15,7 @@ import { Droplets, Bell } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
+  clientAreas,
   clientCity,
   clientEmail,
   clientFaq,
@@ -162,21 +163,24 @@ let PROCESS_STEPS = [
 ];
 
 function ZONES_LIVE() {
+  const zones = clientAreas(sessionData);
+  if (zones?.length) return zones;
+  if (clientCity(sessionData)) return [clientCity(sessionData) + " et alentours"];
   return [
-  (clientCity(sessionData) ?? "Paris") + " 1-20', 'Boulogne-Billancourt', 'Neuilly-sur-Seine",
-  "Levallois-Perret', 'Vincennes', 'Saint-Denis', 'Montreuil",
-  "Nanterre', 'Créteil', 'Versailles",
-];
+    "Paris 1-20", "Boulogne-Billancourt", "Neuilly-sur-Seine",
+    "Levallois-Perret", "Vincennes", "Saint-Denis", "Montreuil",
+    "Nanterre", "Créteil", "Versailles",
+  ];
 }
 let ZONES = ZONES_LIVE();;
 
 function PORTFOLIO_DEMO_LIVE() {
   return [
-  { style: 'Industriel Chic', surface: '8 m²', budget: '4 500 – 6 000 €', city: (clientCity(sessionData) ?? 'Paris'), before: '🏚️', after: '✨' },
+  { style: 'Industriel Chic', surface: '8 m²', budget: '4 500 – 6 000 €', city: 'Paris', before: '🏚️', after: '✨' },
   { style: 'Scandinave Épuré', surface: '12 m²', budget: '6 000 – 8 500 €', city: 'Boulogne-B.', before: '🏚️', after: '✨' },
   { style: 'Marbre & Laiton', surface: '10 m²', budget: '7 000 – 10 000 €', city: 'Neuilly', before: '🏚️', after: '✨' },
   { style: 'Zen Japonais', surface: '6 m²', budget: '3 800 – 5 500 €', city: 'Vincennes', before: '🏚️', after: '✨' },
-  { style: 'Rétro Carreaux', surface: '9 m²', budget: '5 200 – 7 200 €', city: (clientCity(sessionData) ?? 'Paris'), before: '🏚️', after: '✨' },
+  { style: 'Rétro Carreaux', surface: '9 m²', budget: '5 200 – 7 200 €', city: 'Paris', before: '🏚️', after: '✨' },
   { style: 'Contemporain Dark', surface: '14 m²', budget: '8 000 – 12 000 €', city: 'Levallois', before: '🏚️', after: '✨' },
 ];
 }
@@ -274,7 +278,7 @@ function FAQ_ITEMS_DEMO_LIVE() {
   },
   {
     q: "Quelle est votre zone d\'intervention ?",
-    a: 'Nous intervenons dans ' + (clientCity(sessionData) ?? 'Paris') + ' intramuros (1er au 20e) et dans les communes limitrophes : Boulogne-Billancourt, Neuilly, Levallois, Vincennes, Saint-Denis, Montreuil, Nanterre, Créteil et Versailles.',
+    a: clientCity(sessionData) ? `Nous intervenons à ${clientCity(sessionData)} et dans les communes alentours.` : 'Nous intervenons dans Paris intramuros (1er au 20e) et dans les communes limitrophes : Boulogne-Billancourt, Neuilly, Levallois, Vincennes, Saint-Denis, Montreuil, Nanterre, Créteil et Versailles.',
   },
   {
     q: 'Quelle garantie proposez-vous sur vos travaux ?',
@@ -1192,7 +1196,7 @@ export default function AquaPrestigePage() {
 
 
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
@@ -1249,9 +1253,9 @@ export default function AquaPrestigePage() {
   const PORTFOLIO = resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({
       style: b.caption ?? PORTFOLIO_DEMO[i % PORTFOLIO_DEMO.length].style,
-      surface: PORTFOLIO_DEMO[i % PORTFOLIO_DEMO.length].surface,
-      budget: PORTFOLIO_DEMO[i % PORTFOLIO_DEMO.length].budget,
-      city: PORTFOLIO_DEMO[i % PORTFOLIO_DEMO.length].city,
+      surface: "",
+      budget: "",
+      city: "",
       before: PORTFOLIO_DEMO[i % PORTFOLIO_DEMO.length].before,
       after: PORTFOLIO_DEMO[i % PORTFOLIO_DEMO.length].after,
     })),
@@ -2228,7 +2232,7 @@ export default function AquaPrestigePage() {
                 {[
                   { icon: '📞', label: 'Téléphone', value: (clientPhone(sessionData) ?? fd?.phone ?? '01 42 00 00 00'), sub: 'Urgences 24h/24' },
                   { icon: '📧', label: 'Email', value: (clientEmail(sessionData) ?? fd?.email ?? 'contact@aquaprestige.fr'), sub: 'Réponse sous 2h en journée' },
-                  { icon: '📍', label: 'Adresse', value: '15 Rue de la Pompe, ' + (clientCity(sessionData) ?? 'Paris'), sub: 'Bureau ouvert lun-sam 8h-19h' },
+                  { icon: '📍', label: 'Adresse', value: clientAddress(sessionData) ?? clientCity(sessionData) ?? '15 Rue de la Pompe, Paris', sub: 'Bureau ouvert lun-sam 8h-19h' },
                 ].map((info) => (
                   <div key={info.label} style={{ display: 'flex', gap: '1rem', alignItems: 'flex-start' }}>
                     <div
@@ -2532,7 +2536,7 @@ export default function AquaPrestigePage() {
                 </div>
               </div>
               <p style={{ color: C.textMuted, fontSize: '0.88rem', lineHeight: 1.75, marginBottom: '1.5rem', maxWidth: '280px' }}>
-                Artisans plombiers certifiés depuis 2010. Dépannage, installation et rénovation dans {clientCity(sessionData) ?? "Paris"} et Île-de-France.
+                {clientName(sessionData) ? <>Artisans plombiers certifiés. Dépannage, installation et rénovation{clientCity(sessionData) ? <> à {clientCity(sessionData)} et alentours</> : null}.</> : <>Artisans plombiers certifiés depuis 2010. Dépannage, installation et rénovation dans Paris et Île-de-France.</>}
               </p>
               <div style={{ display: 'flex', gap: '0.5rem' }}>
                 {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? ['Facebook', 'Instagram', 'LinkedIn']).map((social) => (
@@ -2700,7 +2704,7 @@ export default function AquaPrestigePage() {
             }}
           >
             <p style={{ color: C.textMuted, fontSize: '0.78rem' }}>
-              © {new Date().getFullYear()} {clientName(sessionData) ?? "Aqua Prestige"} — Tous droits réservés. SIRET : 512 345 678 00019{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © {new Date().getFullYear()} {clientName(sessionData) ?? "Aqua Prestige"} — Tous droits réservés.{clientName(sessionData) ? "" : " SIRET : 512 345 678 00019"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: 'flex', gap: '1.5rem' }}>
               {['Mentions légales', 'Politique de confidentialité', 'CGV'].map((item) => (

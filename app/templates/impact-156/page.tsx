@@ -197,11 +197,11 @@ export default function LumiereYogaPage() {
     APPROCHE_SOURCE,
   );
   TEMOIGNAGES_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     TEMOIGNAGES_SOURCE,
   );
   TARIFS = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? "Sur devis", n: s.desc || "" })),
     TARIFS_DEMO,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
@@ -371,7 +371,7 @@ export default function LumiereYogaPage() {
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
-            Lumière Yoga accueille tous les niveaux dans un espace chaleureux et bienveillant à {clientCity(sessionData) ?? "Bordeaux"}. Vinyasa, Yin, méditation — une pratique complète pour le corps et l'esprit.
+            {clientName(sessionData) ?? "Lumière Yoga"} accueille tous les niveaux dans un espace chaleureux et bienveillant à {clientCity(sessionData) ?? "Bordeaux"}. Vinyasa, Yin, méditation — une pratique complète pour le corps et l'esprit.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -585,11 +585,11 @@ export default function LumiereYogaPage() {
       <footer style={{ background: C.bgDark, padding: "52px 80px 26px", fontFamily: FONT }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 40 }}>
           <div>
-            <div style={{ fontFamily: FONT_SERIF, fontSize: 20, fontStyle: "italic", color: C.accentLight, marginBottom: 8 }}>Lumière Yoga</div>
+            <div style={{ fontFamily: FONT_SERIF, fontSize: 20, fontStyle: "italic", color: C.accentLight, marginBottom: 8 }}>{clientName(sessionData) ?? "Lumière Yoga"}</div>
             <p style={{ color: "rgba(255,255,255,0.40)", fontSize: 13, lineHeight: 1.6, maxWidth: 240 }}>Studio de yoga & méditation à {clientCity(sessionData) ?? "Bordeaux"}. Ouvert 7j/7.</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Bordeaux") + ", Gironde" }, { icon: <Mail size={13} />, t: (clientEmail(sessionData) ?? fd?.email ?? "contact@lumiereyoga.fr") }, { icon: <Clock size={13} />, t: "Lun–Dim 6h30–21h00" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: clientCity(sessionData) ?? "Bordeaux, Gironde" }, { icon: <Mail size={13} />, t: (clientEmail(sessionData) ?? fd?.email ?? "contact@lumiereyoga.fr") }, { icon: <Clock size={13} />, t: "Lun–Dim 6h30–21h00" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.48)", fontSize: 13 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>

@@ -1197,7 +1197,7 @@ function ProcessSection() {
                 letterSpacing: '0.12em',
               }}
             >
-              — Marc Dubois, Maître Boulanger MOF
+              {clientName(sessionData) ? null : "— Marc Dubois, Maître Boulanger MOF"}
             </div>
           </div>
         </div>
@@ -1411,9 +1411,9 @@ function TestimonialsSection() {
   const AVIS = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({
       quote: r.text,
-      prenom: r.name,
+      prenom: r.name ?? r.author,
       quartier: r.location ?? "",
-      produit: AVIS_DEMO[i % AVIS_DEMO.length].produit,
+      produit: "",
       note: r.stars ?? r.rating ?? 5,
     })),
     AVIS_DEMO
@@ -1446,12 +1446,17 @@ function TestimonialsSection() {
               color: C.ink,
               margin: '20px 0 0',
             }}
-          >{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>
+          >{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (clientName(sessionData) ? (<>
+            Clients fidèles du{' '}
+            <span style={{ fontStyle: 'italic', color: C.red }}>
+              quartier
+            </span>
+          </>) : (<>
             Clients fidèles du{' '}
             <span style={{ fontStyle: 'italic', color: C.red }}>
               Vieux-Bourg
             </span>
-          </>)}</h2>
+          </>))}</h2>
         </Reveal>
       </div>
       <div style={grid}>
@@ -1638,7 +1643,7 @@ function CommandeFormSection() {
                   letterSpacing: '0.08em',
                 }}
               >
-                Nous vous recontactons dans les 24h pour confirmer. Boulangerie du Beffroi — {clientPhone(sessionData) ?? "03 20 79 44 44"}
+                Nous vous recontactons dans les 24h pour confirmer. {clientName(sessionData) ?? "Boulangerie du Beffroi"} — {clientPhone(sessionData) ?? "03 20 79 44 44"}
               </p>
             </div>
           </Reveal>
@@ -2391,8 +2396,7 @@ function HorairesSection() {
                     margin: 0,
                   }}
                 >
-                  Livraison à domicile dans le Vieux-Bourg, Fives et
-                  Saint-Maurice. Commande avant 19h pour le lendemain matin
+                  Livraison à domicile dans {clientCity(sessionData) ? `${clientCity(sessionData)} et alentours` : "le Vieux-Bourg, Fives et Saint-Maurice"}. Commande avant 19h pour le lendemain matin
                   8h. Frais de livraison : 1,50 € — offerts dès 15 € d&apos;achat.
                 </p>
               </div>
@@ -2580,8 +2584,8 @@ function FooterSection() {
           >
             <Wheat size={26} color={C.wheat} strokeWidth={1.4} />
             <span>
-              Boulangerie<br />
-              <span style={{ color: C.wheatLight, letterSpacing: '0.14em' }}>du Beffroi</span>
+              {clientName(sessionData) ?? <>Boulangerie<br />
+              <span style={{ color: C.wheatLight, letterSpacing: '0.14em' }}>du Beffroi</span></>}
             </span>
           </div>
 
@@ -2599,8 +2603,8 @@ function FooterSection() {
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
               <MapPin size={14} color={C.wheat} strokeWidth={1.5} style={{ marginTop: 3, flexShrink: 0 }} />
               <span>
-                {clientAddress(sessionData) ?? "12 rue du Grand-Beffroi"}<br />
-                Vieux-Bourg · 59000 {clientCity(sessionData) ?? "Lille"}
+                {clientAddress(sessionData) ?? (clientCity(sessionData) ? "" : "12 rue du Grand-Beffroi")}{clientAddress(sessionData) || !clientCity(sessionData) ? <br /> : null}
+                {clientCity(sessionData) ?? "Vieux-Bourg · 59000 Lille"}
               </span>
             </div>
           </div>
@@ -2676,7 +2680,7 @@ function FooterSection() {
                   color: 'rgba(253,246,227,0.80)',
                 }}
               >
-                Marc Dubois · Promotion 2000
+                {clientName(sessionData) ? null : "Marc Dubois · Promotion 2000"}
               </div>
             </div>
           </div>
@@ -2754,7 +2758,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 1978–2026 Boulangerie du Beffroi · SARL Dubois &amp; Fils · Siret 000 000 000 00000{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © {clientName(sessionData) ? "2026" : "1978–2026"} {clientName(sessionData) ?? "Boulangerie du Beffroi"}{clientName(sessionData) ? null : <> · SARL Dubois &amp; Fils · Siret 000 000 000 00000</>}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#hero" style={{ color: 'inherit', textDecoration: 'none' }}>

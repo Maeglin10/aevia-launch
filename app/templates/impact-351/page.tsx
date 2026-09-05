@@ -293,7 +293,7 @@ export default function ToitsDeLoirePage() {
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? "Sur devis", n: s.desc || "" })),
     TARIFS_DEMO,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
@@ -784,7 +784,7 @@ export default function ToitsDeLoirePage() {
               </>)}</h2>
               <p style={{ fontFamily: FONT, fontWeight: 300, fontSize: 16, color: C.textMuted, maxWidth: 480, margin: "0 0 clamp(24px,3vw,34px)", lineHeight: 1.72 }}>
                 {/* TEXTE_SECTION */ clientText(sessionData, "contact.texte") ?? (
-                  <>Visite et diagnostic gratuits dans tout le Maine-et-Loire. Urgence bâchage : on répond aussi la nuit.</>
+                  <>Visite et diagnostic gratuits{clientCity(sessionData) ? <> à {clientCity(sessionData)} et alentours</> : <> dans tout le Maine-et-Loire</>}. Urgence bâchage : on répond aussi la nuit.</>
                 )}
               </p>
               <div style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -800,7 +800,7 @@ export default function ToitsDeLoirePage() {
               {[
                 { icon: <Phone size={15} strokeWidth={1.5} />, l: "Téléphone", v: phone },
                 { icon: <Mail size={15} strokeWidth={1.5} />, l: "Courriel", v: mail },
-                { icon: <MapPin size={15} strokeWidth={1.5} />, l: "Atelier", v: clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "49000", "Angers") + ", Maine-et-Loire" },
+                { icon: <MapPin size={15} strokeWidth={1.5} />, l: "Atelier", v: clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "49000", "Angers") + (clientCity(sessionData) ? "" : ", Maine-et-Loire") },
                 { icon: <Clock size={15} strokeWidth={1.5} />, l: "Horaires", v: "Lun–Ven 7h30–18h · Urgence bâchage 7j/7" },
               ].map((row, n) => (
                 <div key={row.l} style={{ display: "grid", gridTemplateColumns: "auto minmax(0,1fr)", gap: 14, alignItems: "start", padding: "15px 0", borderTop: n === 0 ? "none" : `1px solid ${C.border}` }}>
@@ -827,10 +827,10 @@ export default function ToitsDeLoirePage() {
           <div className="i351-footgrid" style={{ display: "grid", gridTemplateColumns: "minmax(0,1.3fr) minmax(0,1fr)", gap: "clamp(24px,4vw,56px)", marginBottom: 30 }}>
             <div>
               <div style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: 20, color: C.accentDark, marginBottom: 10 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Toits de Loire"))}</div>
-              <p style={{ fontFamily: FONT, fontWeight: 300, color: "rgba(242,240,234,0.42)", fontSize: 13, lineHeight: 1.75, margin: 0, maxWidth: 360 }}>Couverture · Zinguerie · {clientCity(sessionData) ?? "Angers"} et Maine-et-Loire<br />Garantie décennale, Qualibat 3212</p>
+              <p style={{ fontFamily: FONT, fontWeight: 300, color: "rgba(242,240,234,0.42)", fontSize: 13, lineHeight: 1.75, margin: 0, maxWidth: 360 }}>Couverture · Zinguerie · {clientCity(sessionData) ? <>{clientCity(sessionData)} et alentours</> : "Angers et Maine-et-Loire"}<br />{clientName(sessionData) ? "Garantie décennale" : "Garantie décennale, Qualibat 3212"}</p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-              {[{ icon: <MapPin size={13} />, t: (clientAddress(sessionData) ?? ((clientCity(sessionData) ?? "Angers") + ", Maine-et-Loire")) }, { icon: <Phone size={13} />, t: phone }, { icon: <Mail size={13} />, t: mail }, { icon: <Clock size={13} />, t: "Lun–Ven 7h30–18h · Urgence bâchage 7j/7" }].map((item, idx) => (
+              {[{ icon: <MapPin size={13} />, t: (clientAddress(sessionData) ?? ((clientCity(sessionData) ?? "Angers, Maine-et-Loire"))) }, { icon: <Phone size={13} />, t: phone }, { icon: <Mail size={13} />, t: mail }, { icon: <Clock size={13} />, t: "Lun–Ven 7h30–18h · Urgence bâchage 7j/7" }].map((item, idx) => (
                 <div key={idx} style={{ display: "flex", gap: 10, color: "rgba(242,240,234,0.46)", fontSize: 13, alignItems: "center" }}>
                   <span style={{ color: C.accentDark, display: "flex" }}>{item.icon}</span>{item.t}
                 </div>

@@ -223,11 +223,11 @@ function EDIT_ROWS_SOURCE_LIVE() {
     numeral: '02',
     title: (
       <>
-        Vieux-Lille{' '}
+        {clientCity(sessionData) ? "Un atelier" : "Vieux-Lille"}{' '}
         <span style={{ fontStyle: 'italic' }}>lumineux.</span>
       </>
     ),
-    body: "Notre atelier baigne dans la lumière naturelle d'un loft du Vieux-" + (clientCity(sessionData) ?? "Lille") + ", à deux pas de la Grand'Place. Sur rendez-vous uniquement, pour garantir la tranquillité et le temps nécessaire à chaque projet. Nous accueillons régulièrement des clients internationaux.",
+    body: clientCity(sessionData) ? "Notre atelier baigne dans la lumière naturelle, au cœur de " + clientCity(sessionData) + ". Sur rendez-vous uniquement, pour garantir la tranquillité et le temps nécessaire à chaque projet." : "Notre atelier baigne dans la lumière naturelle d'un loft du Vieux-Lille, à deux pas de la Grand'Place. Sur rendez-vous uniquement, pour garantir la tranquillité et le temps nécessaire à chaque projet. Nous accueillons régulièrement des clients internationaux.",
     reverse: true,
   },
 ];
@@ -1981,7 +1981,7 @@ function Footer() {
     },
     {
       title: 'Atelier',
-      items: ['Notre univers', 'Vieux-' + (clientCity(sessionData) ?? 'Lille'), 'Hygiène & sécurité', 'Réserver'],
+      items: ['Notre univers', clientCity(sessionData) ?? 'Vieux-Lille', 'Hygiène & sécurité', 'Réserver'],
     },
   ];
 
@@ -2033,7 +2033,7 @@ function Footer() {
             }}
           >
             Atelier de tatouage artistique &amp; d&apos;illustration. Sur
-            rendez-vous, Vieux-Lille.
+            rendez-vous{clientCity(sessionData) ? <>, {clientCity(sessionData)}</> : ", Vieux-Lille"}.
           </p>
           <div
             style={{
@@ -2048,7 +2048,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.6} />
-            Vieux-Lille, Nord · France
+            {clientCity(sessionData) ?? "Vieux-Lille, Nord"} · France
           </div>
         </div>
 
@@ -2206,7 +2206,7 @@ export default function Page() {
     EDIT_ROWS_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

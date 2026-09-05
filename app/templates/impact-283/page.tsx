@@ -554,7 +554,7 @@ function HeroSection() {
       >
         <Reveal y={16}>
           <Eyebrow color={C.turqLight} align="center">
-            Cabinet kiné & rééducation · {clientCity(sessionData) ?? "Montpellier"} Antigone
+            Cabinet kiné & rééducation · {clientCity(sessionData) ?? "Montpellier Antigone"}
           </Eyebrow>
         </Reveal>
 
@@ -1727,7 +1727,7 @@ function RdvFormSection() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               {[
                 { icon: Phone, text: (clientPhone(sessionData) ?? fd?.phone ?? '04 67 20 51 51') + ' — Lun-Ven 8h–19h' },
-                { icon: MapPin, text: `12 Avenue de Palavas, 34000 ${clientCity(sessionData) ?? "Montpellier"}` },
+                { icon: MapPin, text: clientAddress(sessionData) ?? clientCity(sessionData) ?? "12 Avenue de Palavas, 34000 Montpellier" },
                 { icon: FileText, text: 'Ordonnance médicale requise' },
                 { icon: CreditCard, text: clientPayments(sessionData)?.join(", ") ?? 'Secteur 1 & 2 — CB, chèque, espèces' },
               ].map((item) => {
@@ -2624,11 +2624,10 @@ function PracticalSection() {
                   marginBottom: 18,
                 }}
               >
-                {clientAddress(sessionData) ?? "12 Avenue de Palavas"}
+                {clientAddress(sessionData) ?? (clientCity(sessionData) ? "" : "12 Avenue de Palavas")}
+                {clientName(sessionData) ? null : <><br />Quartier Antigone</>}
                 <br />
-                Quartier Antigone
-                <br />
-                34000 {clientCity(sessionData) ?? "Montpellier"}
+                {clientCity(sessionData) ?? "34000 Montpellier"}
               </p>
               <div
                 style={{
@@ -2637,12 +2636,15 @@ function PracticalSection() {
                   gap: 10,
                 }}
               >
-                {/* LISTE_LIBELLES */ (clientList(sessionData, "pratique.liste1") ?? [
+                {/* LISTE_LIBELLES */ (clientList(sessionData, "pratique.liste1") ?? (clientName(sessionData) ? [
+                  'Accessible PMR — ascenseur + rampe',
+                  'Stationnement à proximité',
+                ] : [
                   'Tram ligne 1 — arrêt Antigone (2 min à pied)',
                   "Parking gratuit Place du Nombre d'Or",
                   'Accessible PMR — ascenseur + rampe',
                   'À 10 min du centre-ville à vélo',
-                ]).map((t) => (
+                ])).map((t) => (
                   <div
                     key={t}
                     style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}
@@ -2991,8 +2993,8 @@ function FooterSection() {
       liens: [
         { label: (clientPhone(sessionData) ?? '04 67 20 51 51'), href: `tel:${(clientPhone(sessionData) ?? '+33467000000').replace(/[^+0-9]/g, "")}` },
         { label: clientEmail(sessionData) ?? ('cabinet@kinetherapeute-' + (clientCity(sessionData) ?? 'Montpellier') + '.fr'), href: 'mailto:' + (clientEmail(sessionData) ?? ('cabinet@kinetherapeute-' + (clientCity(sessionData) ?? 'Montpellier') + '.fr')) },
-        { label: '12 Av. de Palavas, Antigone', href: '#pratique' },
-        { label: 'Urgences : Hôpital Lapeyronie', href: "/templates/impact-283" },
+        { label: clientAddress(sessionData) ?? (clientCity(sessionData) ? clientCity(sessionData)! : '12 Av. de Palavas, Antigone'), href: '#pratique' },
+        ...(clientName(sessionData) ? [] : [{ label: 'Urgences : Hôpital Lapeyronie', href: "/templates/impact-283" }]),
       ],
     },
   ];
@@ -3048,7 +3050,7 @@ function FooterSection() {
               }}
             >
               Cabinet de kinésithérapie et rééducation fonctionnelle au cœur
-              du quartier Antigone de {clientCity(sessionData) ?? "Montpellier"}. Soins remboursés Sécurité
+              de {clientCity(sessionData) ?? "Montpellier (quartier Antigone)"}. Soins remboursés Sécurité
               Sociale.
             </p>
 
@@ -3083,7 +3085,7 @@ function FooterSection() {
                   letterSpacing: '0.08em',
                 }}
               >
-                34 93 0000 0 · RPPS 10000000000
+                {clientName(sessionData) ? "Communiqué sur demande" : "34 93 0000 0 · RPPS 10000000000"}
               </div>
             </div>
 

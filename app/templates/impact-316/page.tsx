@@ -487,8 +487,7 @@ export default function Page() {
       ...AVIS_SOURCE[i % AVIS_SOURCE.length],
       name: r.name ?? r.author ?? AVIS_SOURCE[i % AVIS_SOURCE.length].name,
       text: r.text ?? r.quote ?? AVIS_SOURCE[i % AVIS_SOURCE.length].text,
-      role: r.location ?? r.role ?? AVIS_SOURCE[i % AVIS_SOURCE.length].role,
-    })),
+      role: r.location ?? r.role ?? AVIS_SOURCE[i % AVIS_SOURCE.length].role, detail: "", })),
     AVIS_SOURCE,
   );
   ENGAGEMENTS = resolveList(clientCertifications(sessionData), ENGAGEMENTS_SOURCE);
@@ -968,7 +967,7 @@ export default function Page() {
               <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(16,28,38,0.72) 0%, rgba(16,28,38,0.08) 42%, transparent 70%)" }} />
               <div style={{ position: "absolute", left: 24, bottom: 22 }}>
                 <div style={{ fontFamily: SANS, fontSize: 10.5, letterSpacing: "0.3em", textTransform: "uppercase", color: C.accentLight, fontWeight: 600 }}>
-                  Depuis 2008
+                  {clientName(sessionData) ? "Notre engagement" : "Depuis 2008"}
                 </div>
                 <div style={{ fontFamily: SERIF, fontStyle: "italic", fontSize: "clamp(1.05rem,1.6vw,1.3rem)", color: C.white, marginTop: 6 }}>
                   Hygiène, rigueur, durabilité.
@@ -997,11 +996,11 @@ export default function Page() {
             </Reveal>
             <Reveal delay={0.14}>
               <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(0.95rem,1.4vw,1.08rem)", lineHeight: 1.78, color: C.textMuted, maxWidth: 500, margin: "0 0 14px" }}>
-                {c?.aboutText ?? ((clientName(sessionData) ?? "Pro-Nettoyage") + " Services accompagne les entreprises, syndics et collectivités dans l'entretien de leurs espaces. Notre engagement : des locaux impeccables, des équipes stables et un interlocuteur unique.")}
+                {c?.aboutText ?? ((clientName(sessionData) ?? "Pro-Nettoyage Services") + " accompagne les entreprises, syndics et collectivités dans l'entretien de leurs espaces. Notre engagement : des locaux impeccables, des équipes stables et un interlocuteur unique.")}
               </p>
               <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: "clamp(0.95rem,1.4vw,1.08rem)", lineHeight: 1.78, color: C.textMuted, maxWidth: 500, margin: "0 0 30px" }}>
                 {/* TEXTE_SECTION */ clientText(sessionData, "engagements.texte") ?? (<>
-                Certifiés ISO 14001, nous utilisons des produits éco-responsables et des protocoles rigoureux pour garantir hygiène et durabilité.
+                {clientName(sessionData) ? "Nous utilisons des produits éco-responsables et des protocoles rigoureux pour garantir hygiène et durabilité." : "Certifiés ISO 14001, nous utilisons des produits éco-responsables et des protocoles rigoureux pour garantir hygiène et durabilité."}
                 </>)}
               </p>
             </Reveal>

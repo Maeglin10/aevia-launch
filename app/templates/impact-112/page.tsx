@@ -44,6 +44,7 @@ import {
   clientStats,
   clientText,
   fusionnerEtapes,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -816,7 +817,7 @@ function CartDrawer({
                     </div>
                     <div style={{ fontSize: "0.85rem", color: C.muted, marginBottom: 20, lineHeight: 1.6 }}>
                       Votre commande <strong style={{ color: C.terracotta }}>#{orderNumber}</strong> est enregistrée.
-                      Julie vous écrira à {form.email} sous 48h pour confirmer l'expédition.
+                      {clientName(sessionData) ? "Nous vous écrirons à " : "Julie vous écrira à "}{form.email} sous 48h pour confirmer l'expédition.
                     </div>
                     <button
                       onClick={handleClose}
@@ -2699,7 +2700,7 @@ return (
               }}
             >
               Commandes sur mesure, ensembles de table, cadeaux d'entreprise.
-              Julie vous répond personnellement sous 48h.
+              {clientName(sessionData) ? "Nous vous répondons personnellement sous 48h." : "Julie vous répond personnellement sous 48h."}
             </p>
 
             <div
@@ -2733,7 +2734,7 @@ return (
                 }}
               >
                 <Mail size={15} />
-                Écrire à Julie
+                {clientName(sessionData) ? "Nous écrire" : "Écrire à Julie"}
               </motion.a>
               <motion.button onClick={() => document.getElementById("boutique")?.scrollIntoView({behavior:"smooth"})}
                 whileHover={{ scale: 1.02 }}
@@ -2766,7 +2767,7 @@ return (
               }}
             >
               {[
-                { Icon: MapPin, t: "Atelier · Beaune, Bourgogne" },
+                { Icon: MapPin, t: clientCity(sessionData) ? `Atelier · ${clientCity(sessionData)}` : "Atelier · Beaune, Bourgogne" },
                 { Icon: Phone, t: (clientPhone(sessionData) ?? "+33 3 80 71 68 68") },
                 { Icon: Mail, t: (clientEmail(sessionData) ?? fd?.email ?? "julie@terreetgeste.fr") },
               ].map(({ Icon, t }) => (
@@ -2871,7 +2872,7 @@ return (
                   marginBottom: 24,
                 }}
               >
-                Atelier de céramique artisanale à Beaune. Tournée à la main, cuite au bois. Fondé en 2016 par Julie Garnier.
+                {clientName(sessionData) ? (clientTagline(sessionData) ?? `Atelier de céramique artisanale${clientCity(sessionData) ? " à " + clientCity(sessionData) : ""}.`) : "Atelier de céramique artisanale à Beaune. Tournée à la main, cuite au bois. Fondé en 2016 par Julie Garnier."}
               </p>
 
               <div style={{ display: "flex", gap: 10 }}>
@@ -2981,7 +2982,7 @@ return (
             }}
           >
             <div style={{ fontSize: "0.73rem", color: C.muted }}>
-              © 2026 {clientName(sessionData) ?? "Terre & Geste"} · Atelier de céramique · Beaune, Bourgogne · Micro-entreprise{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2026 {clientName(sessionData) ?? "Terre & Geste"} · Atelier de céramique · {clientCity(sessionData) ?? "Beaune, Bourgogne · Micro-entreprise"}
             </div>
             <div style={{ display: "flex", gap: 24 }}>
               {["Mentions légales", "Confidentialité", "CGV"].map((link) => (

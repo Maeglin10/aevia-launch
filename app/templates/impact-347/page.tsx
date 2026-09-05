@@ -464,7 +464,7 @@ export default function PrismeFormationPage() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
       a: s.title,
-      p: s.price || TARIFS_SOURCE[i % TARIFS_SOURCE.length].p,
+      p: s.price || "Sur devis",
       n: s.description || s.desc || TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
     })),
     TARIFS_SOURCE,
@@ -1211,7 +1211,7 @@ export default function PrismeFormationPage() {
               <p style={{ fontFamily: BODY, fontSize: 13, fontWeight: 300, lineHeight: 1.75, color: "rgba(255,255,255,0.42)", margin: 0 }}>
                 Organisme de formation certifié Qualiopi · {clientCodePostalVille(sessionData, "75011", "Paris")}
                 <br />
-                NDA 11 75 61234 75 — éligible CPF et OPCO
+                {clientName(sessionData) ? "NDA communiqué sur demande — éligible CPF et OPCO" : "NDA 11 75 61234 75 — éligible CPF et OPCO"}
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>

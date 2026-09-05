@@ -1,6 +1,7 @@
 'use client';
 import {
   clientCityOr,
+  clientNameOr,
   clientEmail,
   clientEmailOr,
   clientPhoneOr,
@@ -892,6 +893,7 @@ export function AtelierSection({ scene }: { scene: (typeof SCENES)[number] }) {
 export function PressSection({ scene }: { scene: (typeof SCENES)[number] }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
+  const clientPresent = clientNameOr("") !== "";
 
   const quotes = [
     {
@@ -900,13 +902,14 @@ export function PressSection({ scene }: { scene: (typeof SCENES)[number] }) {
     },
     {
       text: 'La coupe VM est la plus architecturale de sa génération.',
-      get source() { return 'Vogue ' + clientCityOr('Paris'); },
+      source: 'Vogue Paris',
     },
     {
       text: 'Un vestiaire pour l\'éternité, sculpté dans la perfection.',
       source: 'Harper\'s Bazaar',
     },
   ];
+  if (clientPresent) return null;
 
   return (
     <div
@@ -1065,7 +1068,7 @@ export function ContactSection({ scene }: { scene: (typeof SCENES)[number] }) {
           {[
             { label: 'Presse & Médias', value: clientEmailOr('presse@vm-maison.com') },
             { label: 'Boutiques & Commandes', value: clientPhoneOr('+33 1 44 72 90 00') },
-            { label: 'Atelier ' + clientCityOr('Paris'), value: '12 rue du Faubourg Saint-Honoré' },
+            { label: 'Atelier ' + clientCityOr('Paris'), value: clientNameOr('') ? 'Sur rendez-vous' : '12 rue du Faubourg Saint-Honoré' },
           ].map((item) => (
             <div
               key={item.label}

@@ -29,6 +29,8 @@ import {
   clientTeam,
   clientText,
   fusionnerEtapes,
+  clientReviews,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -477,18 +479,18 @@ export default function KineticStudio() {
         </Reveal>
         <Carousel className="w-full max-w-4xl mx-auto">
           <CarouselContent>
-            {[1, 2, 3].map((idx) => (
-              <CarouselItem key={idx}>
+            {(clientReviews(sessionData)?.map((r: any, idx: number) => ({ idx: idx + 1, text: r.text, name: r.author, role: "" })) ?? [1, 2, 3].map((idx) => ({ idx, text: null, name: `Client ${idx}`, role: "Brand Director" }))).map((t: any) => (
+              <CarouselItem key={t.idx}>
                 <Card className="bg-[#1a1a2e] border-[var(--brand,#ff5500)]/20">
                   <CardContent className="p-8">
-                    <p className="text-lg text-white mb-6 italic">{c?.aboutText ?? <>"KINETIC brought our brand vision to life with stunning motion design. Their creativity and professionalism are exceptional."</>}</p>
+                    <p className="text-lg text-white mb-6 italic">{t.text ?? c?.aboutText ?? <>"KINETIC brought our brand vision to life with stunning motion design. Their creativity and professionalism are exceptional."</>}</p>
                     <div className="flex items-center gap-4">
                       <Avatar className="w-12 h-12" style={{backgroundColor: brand ?? 'var(--brand,#ff5500)' }}>
-                        <AvatarFallback className="text-black">C{idx}</AvatarFallback>
+                        <AvatarFallback className="text-black">{(t.name ?? "C").slice(0, 1)}</AvatarFallback>
                       </Avatar>
                       <div>
-                        <p className="font-light text-white">Client {idx}</p>
-                        <p className="text-sm text-white/60">Brand Director</p>
+                        <p className="font-light text-white">{t.name}</p>
+                        {t.role ? <p className="text-sm text-white/60">{t.role}</p> : null}
                       </div>
                     </div>
                   </CardContent>
@@ -722,11 +724,11 @@ export default function KineticStudio() {
             </div>
             <div>
               <p className="font-light text-[var(--brand,#ff5500)] text-sm">Phone</p>
-              <p>+1 (212) 555-0300</p>
+              <p>{clientPhone(sessionData) ?? fd?.phone ?? "+1 (212) 555-0300"}</p>
             </div>
             <div>
               <p className="font-light text-[var(--brand,#ff5500)] text-sm">Location</p>
-              <p>Brooklyn, New York</p>
+              <p>{clientCity(sessionData) ?? "Brooklyn, New York"}</p>
             </div>
           </div>
         </div>

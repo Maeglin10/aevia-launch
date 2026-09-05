@@ -125,7 +125,7 @@ export default function ZenSpaceHome() {
 
       ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
 
-      val: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, ""),
+      val: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(s.value ?? "").replace(/[\d.]/g, "").replace(/\s+/g, " ").replace(/^ $/, ""),
 
       label: s.label,
 

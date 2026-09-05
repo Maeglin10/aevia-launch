@@ -68,11 +68,11 @@ for (const c of CLIENTS) {
     method: "POST", headers: { "content-type": "application/json" },
     body: JSON.stringify({ formData: { ...c.formData, template: c.theme } }),
   });
-  const { sessionId } = await r.json();
+  const { sessionId, editToken } = await r.json();
   if (!sessionId) throw new Error("session non créée (limiteur de débit ?)");
 
   const patch = await fetch(`${BASE}/api/sessions?id=${sessionId}`, {
-    method: "PATCH", headers: { "content-type": "application/json" },
+    method: "PATCH", headers: { "content-type": "application/json", "x-edit-token": editToken },
     body: JSON.stringify({ businessProfile: c.profil }),
   });
   if (!patch.ok) { console.log(`${c.archetype} : PATCH refusé (${patch.status})`); defauts++; continue; }

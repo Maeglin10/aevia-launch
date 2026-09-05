@@ -14,6 +14,7 @@ import { ArrowRight, ChevronDown, Shield, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientCity,
+  clientName,
   clientHeroLine,
   clientHeroSubtitle,
   clientPhotos,
@@ -180,10 +181,10 @@ function EDIT_ROWS_SOURCE_LIVE() {
     title: (
       <>
         {clientCity(sessionData) ?? "Toulouse"}{' '}
-        <span style={{ fontStyle: 'italic' }}>/ depuis 2008.</span>
+        <span style={{ fontStyle: 'italic' }}>{clientName(sessionData) ? "/ à vos côtés." : "/ depuis 2008."}</span>
       </>
     ),
-    body: 'Inscrite au Barreau de ' + (clientCity(sessionData) ?? 'Toulouse') + ', spécialisée devant le Tribunal de Commerce depuis 15 ans. Plus de 400 clients PME et ETI accompagnés. Une connaissance approfondie du tissu économique local et des juridictions toulousaines.',
+    body: clientName(sessionData) ? 'Une pratique spécialisée devant le Tribunal de Commerce, au service des PME et ETI. Une connaissance approfondie du tissu économique local et de ses juridictions.' : 'Inscrite au Barreau de Toulouse, spécialisée devant le Tribunal de Commerce depuis 15 ans. Plus de 400 clients PME et ETI accompagnés. Une connaissance approfondie du tissu économique local et des juridictions toulousaines.',
     reverse: true,
   },
 ];
@@ -665,7 +666,7 @@ function Hero() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.accentLight}>
-            Avocate au Barreau de {clientCity(sessionData) ?? "Toulouse"}
+            {clientName(sessionData) ? <>Avocate — Droit des affaires{clientCity(sessionData) ? <> · {clientCity(sessionData)}</> : null}</> : <>Avocate au Barreau de Toulouse</>}
           </Eyebrow>
         </Reveal>
 
@@ -1962,7 +1963,7 @@ function Footer() {
               margin: '0 0 24px',
             }}
           >
-            Avocate en Droit des Affaires & Contentieux Commercial. Barreau de {clientCity(sessionData) ?? "Toulouse"} depuis 2008.
+            Avocate en Droit des Affaires & Contentieux Commercial.{clientName(sessionData) ? "" : " Barreau de Toulouse depuis 2008."}
           </p>
           <div
             style={{
@@ -1972,7 +1973,7 @@ function Footer() {
               color: 'rgba(255,255,255,0.38)',
             }}
           >
-            {clientCity(sessionData) ?? "Toulouse"} · Place Wilson
+            {clientCity(sessionData) ?? "Toulouse · Place Wilson"}
           </div>
         </div>
 
@@ -2042,7 +2043,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2008–2026 Maître Géraldine Voss — Avocate au Barreau de {clientCity(sessionData) ?? "Toulouse"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © {clientName(sessionData) ? `2026 ${clientName(sessionData)}` : "2008–2026 Maître Géraldine Voss — Avocate au Barreau de Toulouse"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2127,11 +2128,11 @@ export default function Page() {
     EDIT_ROWS_SOURCE,
   );
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

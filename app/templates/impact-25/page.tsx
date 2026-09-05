@@ -195,7 +195,7 @@ export default function PixelRepublicPage() {
     SERVICES_SOURCE,
   );
   AVIS_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   STATS = resolveList(clientStats(session), STATS_DEMO);
@@ -208,7 +208,7 @@ export default function PixelRepublicPage() {
     SERVICES_DEMO,
   );
   AVIS = resolveList(
-    clientReviews(session)?.map((r, i) => ({ ...AVIS_DEMO[i % AVIS_DEMO.length], texte: r.text, auteur: r.author })),
+    clientReviews(session)?.map((r, i) => ({ ...AVIS_DEMO[i % AVIS_DEMO.length], texte: r.text, auteur: r.author, detail: "", })),
     AVIS_DEMO,
   );
 
@@ -539,11 +539,11 @@ export default function PixelRepublicPage() {
       <footer style={{ background: C.bgDark, padding: "48px 80px 24px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
-            <div style={{ fontFamily: FONT, fontSize: 20, fontWeight: 700, color: C.accent, marginBottom: 8 }}>PixelRepublic</div>
+            <div style={{ fontFamily: FONT, fontSize: 20, fontWeight: 700, color: C.accent, marginBottom: 8 }}>{clientName(sessionData) ?? "PixelRepublic"}</div>
             <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Agence digitale · {clientCity(sessionData) ?? "Paris"}<br />Lun–Ven 9h–18h30</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Paris") + ", Île-de-France" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "01 44 00 00 00") }, { icon: <Mail size={13} />, t: (clientEmail(sessionData) ?? fd?.email ?? "hello@pixelrepublic.fr") }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: clientCity(sessionData) ?? "Paris, Île-de-France" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "01 44 00 00 00") }, { icon: <Mail size={13} />, t: (clientEmail(sessionData) ?? fd?.email ?? "hello@pixelrepublic.fr") }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>

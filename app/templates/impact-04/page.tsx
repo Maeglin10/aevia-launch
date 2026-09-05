@@ -22,6 +22,7 @@ import { Separator } from "@/components/ui/separator"
 import { Menu, X, Clock, MapPin, Phone, Mail, Star, ChevronDown, ArrowRight, Leaf, Flame, Wine, Utensils, CalendarDays, Users, Camera, Award, Globe, CheckCircle2 } from "lucide-react"
 import { resolveList } from "@/lib/templates/resolveList"
 import {
+  clientAddress,
   clientCity,
   clientEmail,
   clientFaq,
@@ -87,7 +88,7 @@ function MENU_ITEMS_LIVE() {
     { name: "Châteauneuf-du-Pape Blanc", desc: "Château de Beaucastel · Rhône Valley · 2020 — White peach, honeysuckle, extraordinary weight", price: "145", tag: "Sommelier Pick", allergens: "Sulfites" },
     { name: "Barolo Riserva 'Monfortino'", desc: "Giacomo Conterno · Piedmont, Italy · 2016 — Tar, roses, great tannin structure", price: "220", allergens: "Sulfites" },
     { name: "Dom Pérignon Rosé", desc: "Vintage Champagne · Épernay, France · 2013 — Raspberry, toast, exceptional mousse", price: "390", tag: "Prestige", allergens: "Sulfites" },
-    { name: "Pétrus", desc: "Pomerol AOC · " + (clientCity(sessionData) ?? "Bordeaux") + ", France · 2015 — Truffles, dark plum, iron — the pinnacle", price: "980", allergens: "Sulfites" },
+    { name: "Pétrus", desc: "Pomerol AOC · Bordeaux, France · 2015 — Truffles, dark plum, iron — the pinnacle", price: "980", allergens: "Sulfites" },
   ],
 };
 }
@@ -301,11 +302,11 @@ export default function LEtoileRestaurant() {
     });
   });
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   PRICING = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...PRICING_DEMO[i % PRICING_DEMO.length], name: s.title, price: s.price ?? PRICING_DEMO[i % PRICING_DEMO.length].price, desc: s.desc || PRICING_DEMO[i % PRICING_DEMO.length].desc })),
+    clientServices(sessionData)?.map((s, i) => ({ ...PRICING_DEMO[i % PRICING_DEMO.length], name: s.title, price: s.price ?? "", desc: s.desc || PRICING_DEMO[i % PRICING_DEMO.length].desc, features: [], })),
     PRICING_DEMO,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
@@ -393,7 +394,7 @@ return (
             <SheetTrigger className="lg:hidden cursor-pointer"><Menu className="w-5 h-5" /></SheetTrigger>
             <SheetContent side="right" className="bg-[#0c0a08] border-white/10 text-[#f5efe6]">
               <div className="flex flex-col gap-8 mt-12">
-                <span className="text-xl mb-6"><span className="font-light">L'</span><span className="italic">Étoile</span></span>
+                <span className="text-xl mb-6">{clientName(sessionData) ?? (<><span className="font-light">L'</span><span className="italic">Étoile</span></>)}</span>
                 {['Home', 'Menu', 'Reservation', 'About', 'Contact'].map(item => {
                   const key = item.toLowerCase() as ActivePage;
                   return (
@@ -423,7 +424,7 @@ return (
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.8 }}>
             <div className="flex items-center justify-center gap-4 mb-8">
               <div className="h-px w-16 bg-amber-700/60" />
-              <span className="text-[10px] uppercase tracking-[0.5em] text-amber-500 font-sans font-semibold">Haute gastronomie · 8e Arrondissement · {clientCity(sessionData) ?? "Paris"}</span>
+              <span className="text-[10px] uppercase tracking-[0.5em] text-amber-500 font-sans font-semibold">Haute gastronomie · {clientCity(sessionData) ?? "8e Arrondissement · Paris"}</span>
               <div className="h-px w-16 bg-amber-700/60" />
             </div>
           </motion.div>
@@ -452,7 +453,7 @@ return (
             {[
               { icon: <Award className="w-4 h-4 text-amber-500" />, label: "Michelin ★★", sub: "2022 — Present" },
               { icon: <Clock className="w-4 h-4 text-amber-500" />, label: "Tue–Sun 19h–23h", sub: "Sunday Lunch 12h" },
-              { icon: <MapPin className="w-4 h-4 text-amber-500" />, label: "8e Arrondissement", sub: (clientCity(sessionData) ?? "Paris") + ", France" },
+              { icon: <MapPin className="w-4 h-4 text-amber-500" />, label: clientCity(sessionData) ?? "8e Arrondissement", sub: clientCity(sessionData) ? "France" : "Paris, France" },
             ].map((s, i) => (
               <motion.div key={i} animate={{ y: [0, -6, 0] }} transition={{ duration: 4, repeat: Infinity, delay: i * 1.2, ease: "easeInOut" }} className="flex items-center gap-3 bg-white/5 backdrop-blur-md border border-white/10 px-5 py-3 rounded-xl">
                 {s.icon}
@@ -792,7 +793,7 @@ return (
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mt-20 pt-16 border-t border-white/5">
               {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
-                { icon: <MapPin className="w-5 h-5" />, label: "Location", value: `42 Rue du Faubourg\nSaint-Honoré, 75008 ${clientCity(sessionData) ?? "Paris"}` },
+                { icon: <MapPin className="w-5 h-5" />, label: "Location", value: clientAddress(sessionData) ?? (clientCity(sessionData) ? `${clientCity(sessionData)}, France` : "42 Rue du Faubourg\nSaint-Honoré, 75008 Paris") },
                 { icon: <Clock className="w-5 h-5" />, label: "Horaires", value: "Mar–Sam : 19 h – 23 h\nDim : 12 h – 15 h" },
                 { icon: <Phone className="w-5 h-5" />, label: "Contact", value: (clientPhone(sessionData) ?? "+33 1 42 65 15 16") + "\n" + (clientEmail(sessionData) ?? /* La ville était collée en fin d'adresse : « reservation@letoile.Paris »
                      n'est pas une adresse. */
@@ -827,7 +828,7 @@ return (
       <footer id="contact" className="border-t border-white/5 bg-[#0a0806] py-16 px-6 md:px-12">
         <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
           <div className="col-span-2 md:col-span-1">
-            <span className="text-2xl mb-4 block"><span className="font-light">L'</span><span className="italic">Étoile</span></span>
+            <span className="text-2xl mb-4 block">{clientName(sessionData) ?? (<><span className="font-light">L'</span><span className="italic">Étoile</span></>)}</span>
             <p className="text-sm font-sans text-[#f5efe6]/30 leading-relaxed">Two Michelin star restaurant in the heart of {clientCity(sessionData) ?? "Paris"}. Cuisine driven by season, instinct, and provenance.</p>
           </div>
           {[
@@ -854,7 +855,7 @@ return (
         </div>
         <Separator className="bg-white/5 mb-10" />
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <span className="text-[10px] font-sans text-[#f5efe6]/15 uppercase tracking-wider">&copy; 2026 L'Étoile {clientCity(sessionData) ?? "Paris"} · All Rights Reserved</span>
+          <span className="text-[10px] font-sans text-[#f5efe6]/15 uppercase tracking-wider">&copy; 2026 {clientName(sessionData) ?? "L'Étoile"} {clientCity(sessionData) ?? "Paris"} · Tous droits réservés</span>
           <div className="flex gap-4">
             {[<Globe key="ig" className="w-4 h-4" />, <Globe key="fb" className="w-4 h-4" />, <Globe key="tw" className="w-4 h-4" />, <Mail key="mail" className="w-4 h-4" />].map((icon, i) => (
               <a key={i} href="#hero" className="w-9 h-9 rounded-full border border-white/10 flex items-center justify-center text-[#f5efe6]/30 hover:text-amber-500 hover:border-amber-600 transition-all duration-200 cursor-pointer">

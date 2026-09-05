@@ -212,13 +212,13 @@ function EDIT_ROWS_DEMO_LIVE() {
     imgAlt: `${clientName(sessionData) ?? "STUDIO ATHLETIC"} ` + (clientCity(sessionData) ?? 'Lyon') + ' — équipements professionnels',
     title: (
       <>
-        {clientCity(sessionData) ?? "LYON"} 6E,{' '}
+        {clientCity(sessionData) ?? "LYON 6E"},{' '}
         <em style={{ color: C.accent, fontStyle: 'italic' }}>
           ÉQUIPÉ POUR PERFORMER.
         </em>
       </>
     ),
-    body: "600 m² dédiés à la performance, équipements professionnels renouvelés chaque année, parking privé à 50 m. Un espace pensé pour que rien ne s'interpose entre vous et vos résultats. Climatisé en été, chauffé en hiver — vous n'avez aucune excuse.",
+    body: clientName(sessionData) ? "Un espace dédié à la performance, avec des équipements professionnels entretenus. Un lieu pensé pour que rien ne s'interpose entre vous et vos résultats." : "600 m² dédiés à la performance, équipements professionnels renouvelés chaque année, parking privé à 50 m. Un espace pensé pour que rien ne s'interpose entre vous et vos résultats. Climatisé en été, chauffé en hiver — vous n'avez aucune excuse.",
     reverse: true,
   },
 ];
@@ -708,8 +708,8 @@ function Hero() {
             marginBottom: 'clamp(28px,4vh,44px)',
           }}
         >
-          Coaching sportif premium à {clientCity(sessionData) ?? "Lyon"}. Résultats garantis ou remboursés.
-          Bilan offert pour toute première séance.
+          {clientName(sessionData) ? <>Coaching sportif premium{clientCity(sessionData) ? <> à {clientCity(sessionData)}</> : null}. Bilan offert pour toute première séance.</> : <>Coaching sportif premium à Lyon. Résultats garantis ou remboursés.
+          Bilan offert pour toute première séance.</>}
         </motion.p>
 
         <motion.div
@@ -774,7 +774,7 @@ function Strip() {
     'HIIT · CIRCUIT',
     'NUTRITION',
     'RÉSULTATS GARANTIS',
-    (clientCity(sessionData) ?? 'Lyon') + ' 6E',
+    clientCity(sessionData) ?? 'Lyon 6E',
   ];
 
   const text: React.CSSProperties = {
@@ -2051,8 +2051,7 @@ function Footer() {
               maxWidth: 320,
             }}
           >
-            {clientTrade(sessionData) ?? "Coach sportif"} personnel premium à {clientCity(sessionData) ?? "Lyon"}. Résultats garantis,
-            méthode prouvée, suivi 24/7.
+            {clientTrade(sessionData) ?? "Coach sportif"} personnel premium{clientCity(sessionData) ? <> à {clientCity(sessionData)}</> : <> à Lyon</>}. {clientName(sessionData) ? "Méthode éprouvée, suivi personnalisé." : "Résultats garantis, méthode prouvée, suivi 24/7."}
           </p>
           <div
             style={{
@@ -2064,7 +2063,7 @@ function Footer() {
               color: C.textFaint,
             }}
           >
-            📍 {clientCity(sessionData) ?? "Lyon"} · Rhône · France
+            📍 {clientCity(sessionData) ? `${clientCity(sessionData)} · France` : "Lyon · Rhône · France"}
           </div>
           <a
             href="#contact"

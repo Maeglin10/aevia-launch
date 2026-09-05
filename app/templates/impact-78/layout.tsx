@@ -184,7 +184,7 @@ export default function AetherRoastLayout({
                     Artisanal.
                   </span>
                   <span className="text-2xl font-black tracking-tighter uppercase text-white">
-                    AETHER<span className="text-orange-900">.ROAST</span>
+                    {clientName(__layoutSession) ?? (<>AETHER<span className="text-orange-900">.ROAST</span></>)}
                   </span>
                 </div>
                 <p className="text-white/20 max-w-sm mb-12 uppercase tracking-widest text-[10px] font-bold leading-relaxed italic">

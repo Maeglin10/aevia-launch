@@ -181,7 +181,7 @@ export default function StackUnitLayout({
         <div style={{ maxWidth: "1300px", margin: "0 auto", display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "3rem" }}>
           <div>
             <div style={{ fontFamily: "'Archivo', sans-serif", fontSize: "1rem", fontWeight: 900, color: C.text, letterSpacing: "0.1em", marginBottom: "0.5rem" }}>
-              STACK<span style={{ color: C.amber }}>_</span>UNIT
+              {clientName(__layoutSession) ?? (<>STACK<span style={{ color: C.amber }}>_</span>UNIT</>)}
             </div>
             <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.55rem", letterSpacing: "0.25em", color: C.textDim, marginBottom: "1.5rem" }}>
               MAISON DE PRODUCTION · {clientCity(__layoutSession) ?? "PARIS"} · EST. 2001
@@ -210,7 +210,7 @@ export default function StackUnitLayout({
           ))}
         </div>
         <div style={{ maxWidth: "1300px", margin: "2.5rem auto 0", paddingTop: "2rem", borderTop: `1px solid ${C.border}`, display: "flex", justifyContent: "space-between" }}>
-          <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.55rem", color: C.textDim }}>© {new Date().getFullYear()} {clientName(__layoutSession) ?? "STACK UNIT. TOUS DROITS"} RÉSERVÉS.</div>
+          <div style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.55rem", color: C.textDim }}>© {new Date().getFullYear()} {clientName(__layoutSession) ?? "STACK UNIT"}. TOUS DROITS RÉSERVÉS.</div>
           <div style={{ display: "flex", gap: "2rem" }}>
             <Link href="/templates/impact-72/legal" style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "0.55rem", color: C.textDim, textDecoration: "none" }}>
               Mentions légales

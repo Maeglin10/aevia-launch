@@ -32,7 +32,7 @@ import {
   REVIEWS,
   SANS,
   SERIF,
-  STATS,
+  STATS as STATS_DEMO_38,
   SectionReveal,
   rafraichirPartage,
 } from "./shared";
@@ -50,6 +50,7 @@ let bp: any = null;
 // La session complète, pour lib/templates/clientContent : même portée
 // que fd/c/bp, pour les sous-composants qui n'ont pas de props.
 let sessionData: any = null;
+let STATS_HERO = STATS_DEMO_38;
 
 
 // ─── Additional page-level constants ──────────────────────────────────────────
@@ -810,10 +811,11 @@ export default function OriginRoastPage() {
     SUBSCRIPTION_HIGHLIGHTS_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   IMPACT_STATS = resolveList(clientStats(sessionData), IMPACT_STATS_DEMO);
+  STATS_HERO = resolveList(clientStats(sessionData), STATS_DEMO_38);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   // Products ← bp.menu (real business products) else demo. Decorative fields
@@ -908,7 +910,7 @@ export default function OriginRoastPage() {
               </motion.div>
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
                 style={{ display: "flex", gap: 48, flexWrap: "wrap" }}>
-                {STATS.map((s) => (
+                {STATS_HERO.map((s) => (
                   <div key={s.label}>
                     <div style={{ fontFamily: SERIF, fontSize: 28, fontWeight: 700, color: C.caramel }}>{s.value}</div>
                     <div style={{ fontSize: 13, color: C.sand, marginTop: 4, fontWeight: 300 }}>{s.label}</div>

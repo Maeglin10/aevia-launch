@@ -76,10 +76,10 @@ for (const { theme, route } of choisies) {
         brandColor: "#c2410c", template: theme,
       } }),
     });
-    const { sessionId } = await r.json();
+    const { sessionId, editToken } = await r.json();
     if (!sessionId) throw new Error("session non créée (limiteur de débit ?)");
     await fetch(`${BASE}/api/sessions?id=${sessionId}`, {
-      method: "PATCH", headers: { "content-type": "application/json" },
+      method: "PATCH", headers: { "content-type": "application/json", "x-edit-token": editToken },
       body: JSON.stringify({ businessProfile: PROFIL }),
     });
 

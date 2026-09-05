@@ -528,7 +528,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.salmonLight} align="center">
-            {clientTrade(sessionData) ?? "Médecin généraliste"} · {clientCity(sessionData) ?? "Nantes"} Centre
+            {clientTrade(sessionData) ?? "Médecin généraliste"} · {clientCity(sessionData) ?? "Nantes Centre"}
           </Eyebrow>
         </Reveal>
 
@@ -1362,7 +1362,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     quote:
       "Nous avons choisi le Dr. Lecomte comme médecin traitant pour toute la famille. Il connaît nos antécédents, prend en charge les petits comme les adultes, et répond toujours présent. C'est exactement la médecine de famille dont on avait besoin.",
     name: 'Famille Garnier',
-    context: 'Médecin traitant famille · ' + (clientCity(sessionData) ?? 'Nantes') + ' Centre',
+    context: 'Médecin traitant famille · Nantes Centre',
     stars: 5,
   },
 ];
@@ -2639,7 +2639,7 @@ function FooterSection() {
             }}
           >
             <MapPin size={14} color={C.salmon} strokeWidth={1.6} />
-            {clientAddress(sessionData) ?? `12 Rue Crébillon, 44000 ${clientCity(sessionData) ?? "Nantes"}`}
+            {clientAddress(sessionData) ?? clientCity(sessionData) ?? "12 Rue Crébillon, 44000 Nantes"}
           </div>
           <div
             style={{
@@ -2763,8 +2763,8 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Dr. Marc Lecomte")} · RPPS 10&nbsp;987&nbsp;654&nbsp;321 ·
-          Conseil de l'Ordre des Médecins de Loire-Atlantique · {clientCity(sessionData) ?? "Nantes"} Centre
+          © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Dr. Marc Lecomte")}{clientName(sessionData) ? null : <> · RPPS 10&nbsp;987&nbsp;654&nbsp;321 ·
+          Conseil de l'Ordre des Médecins de Loire-Atlantique</>} · {clientCity(sessionData) ?? "Nantes Centre"}
         {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 20 }}>
           <a href="#hero" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2849,7 +2849,7 @@ function Impact285Page() {
 
 
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, context: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

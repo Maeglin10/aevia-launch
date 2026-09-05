@@ -10,6 +10,7 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "words.": "disent.",
     "rare": "BIENS",
     "holdings.": "RARES.",
     "silent": "L'ART",
@@ -74,7 +75,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "client voices": "Voix des clients",
     "exclusive first-access to off-market holdings before global public release.": "Accès prioritaire aux biens hors marché, avant toute mise en vente publique.",
     "explore collection": "Explorer la Collection",
-    "in their": "Selon eux",
+    "in their": "Ce qu'ils",
     "new york, ny": "New York",
     "non-disclosure agreements at the first point of contact. your privacy is our highest priority.": "Accord de confidentialité dès le premier échange. Votre discrétion passe avant tout.",
     "our advisors are ready to discuss your specific requirements. we don't find houses; we secure legacies.": "Nos conseillers sont prêts à discuter de vos besoins spécifiques. Nous ne trouvons pas des maisons ; nous sécurisons des héritages.",
@@ -87,6 +88,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view portfolio": "Voir le Portfolio",
   },
   es: {
+    "words.": "dicen.",
     "rare": "BIENES",
     "holdings.": "RAROS.",
     "silent": "EL ARTE",
@@ -181,6 +183,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view portfolio": "Ver Portafolio",
   },
   de: {
+    "words.": "sagen.",
     "rare": "SELTENE",
     "holdings.": "OBJEKTE.",
     "silent": "STILLE",
@@ -275,6 +278,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "view portfolio": "Portfolio Ansehen",
   },
   pt: {
+    "words.": "dizem.",
     "rare": "BENS",
     "holdings.": "RAROS.",
     "silent": "A ARTE",

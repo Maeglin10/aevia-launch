@@ -552,11 +552,11 @@ export default function Impact200Page() {
     });
   });
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   PACKAGES = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...PACKAGES_DEMO[i % PACKAGES_DEMO.length], name: s.title, price: s.price ?? PACKAGES_DEMO[i % PACKAGES_DEMO.length].price, desc: s.desc || PACKAGES_DEMO[i % PACKAGES_DEMO.length].desc })),
+    clientServices(sessionData)?.map((s, i) => ({ ...PACKAGES_DEMO[i % PACKAGES_DEMO.length], name: s.title, price: s.price ?? "", desc: s.desc || "", features: [], highlight: false, cta: PACKAGES_DEMO[i % PACKAGES_DEMO.length].cta })),
     PACKAGES_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -564,8 +564,8 @@ export default function Impact200Page() {
   const SERVICES = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({
       title: s.title ?? SERVICES_DEMO[i % SERVICES_DEMO.length].title,
-      subtitle: SERVICES_DEMO[i % SERVICES_DEMO.length].subtitle,
-      desc: s.description ?? SERVICES_DEMO[i % SERVICES_DEMO.length].desc,
+      subtitle: "",
+      desc: s.description ?? s.desc ?? "",
       icon: SERVICES_DEMO[i % SERVICES_DEMO.length].icon,
       image: SERVICES_DEMO[i % SERVICES_DEMO.length].image,
     })),
@@ -574,7 +574,7 @@ export default function Impact200Page() {
   const GALLERY_ITEMS = resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({
       src: b.afterUrl || b.beforeUrl || GALLERY_ITEMS_DEMO[i % GALLERY_ITEMS_DEMO.length].src,
-      year: GALLERY_ITEMS_DEMO[i % GALLERY_ITEMS_DEMO.length].year,
+      year: "",
       location: b.caption ?? GALLERY_ITEMS_DEMO[i % GALLERY_ITEMS_DEMO.length].location,
       size: GALLERY_ITEMS_DEMO[i % GALLERY_ITEMS_DEMO.length].size,
     })),
@@ -895,16 +895,18 @@ export default function Impact200Page() {
                       <Star className="w-5 h-5 text-[#CA8A04]" fill="currentColor" />
                     </div>
                     <div>
-                      <p className="text-[#831843] font-semibold text-sm">5.0 · Exceptionnel</p>
-                      <p className="text-[#831843]/40 text-xs">320+ avis vérifiés</p>
+                      <p className="text-[#831843] font-semibold text-sm">{clientName(sessionData) ? "Accompagnement dédié" : "5.0 · Exceptionnel"}</p>
+                      {clientName(sessionData) ? null : <p className="text-[#831843]/40 text-xs">320+ avis vérifiés</p>}
                     </div>
                   </div>
                 </div>
 
                 {/* Top badge */}
+                {clientName(sessionData) ? null : (
                 <div className="absolute -top-4 -right-4 bg-[#CA8A04] rounded-2xl px-4 py-2 shadow-lg">
                   <p className="text-white text-xs font-medium tracking-wide">Meilleur Wedding Planner 2024</p>
                 </div>
+                )}
               </div>
             </motion.div>
           </motion.div>
@@ -1427,7 +1429,7 @@ export default function Impact200Page() {
                   {
                     icon: <MapPin className="w-5 h-5" />,
                     label: "Notre Studio",
-                    value: `18 Avenue Montaigne, 75008 ${clientCity(sessionData) ?? "Paris"}`,
+                    value: clientAddress(sessionData) ?? clientCity(sessionData) ?? "18 Avenue Montaigne, 75008 Paris",
                     sub: "Métro Franklin D. Roosevelt",
                   },
                   {
@@ -1466,6 +1468,7 @@ export default function Impact200Page() {
               </div>
 
               {/* Award callout */}
+              {clientName(sessionData) ? null : (
               <div className="flex items-center gap-4 p-5 bg-[#CA8A04]/10 rounded-2xl border border-[#CA8A04]/20">
                 <Award className="w-8 h-8 text-[#CA8A04] flex-shrink-0" />
                 <div>
@@ -1478,6 +1481,7 @@ export default function Impact200Page() {
                   <p className="text-[#831843]/50 text-xs italic">Décerné par French Wedding Awards</p>
                 </div>
               </div>
+              )}
             </RevealLeft>
 
             {/* Right: Form */}
@@ -1701,7 +1705,7 @@ export default function Impact200Page() {
                 className="text-white/20 text-xs"
                 style={{ fontFamily: "'Cormorant Infant', serif" }}
               >
-                {clientAddress(sessionData) ?? "18 Avenue Montaigne, Paris 8ème"}
+                {clientAddress(sessionData) ?? clientCity(sessionData) ?? "18 Avenue Montaigne, Paris 8ème"}
               </p>
             </div>
           </div>

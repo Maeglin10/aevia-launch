@@ -86,7 +86,7 @@ let SERVICES_DEMO = SERVICES_SOURCE;
 
 const METHODE_SOURCE = [ { n: "01", r: "I", t: "Écoute et pièces", d: "Un premier échange pour cerner la situation, une liste de pièces claire — et une seule fois.", }, { n: "02", r: "II", t: "Projet d'acte commenté", d: "Le projet vous est envoyé avant le rendez-vous, annoté en langage courant. Vous arrivez en connaissant votre dossier.", }, { n: "03", r: "III", t: "Signature expliquée", d: "Chaque clause relue à voix haute, chaque question posée a sa réponse avant le stylo.", }, { n: "04", r: "IV", t: "Suites assurées", d: "Publicité foncière, enregistrement, attestations : l'étude suit le dossier jusqu'au dernier document.", }, ];
 
-const ENGAGEMENT_SOURCE = [ "Notaires nommés par le garde des Sceaux — nos actes ont force exécutoire", "Membres de la Chambre des notaires d'Ille-et-Vilaine, inspection annuelle", "Émoluments réglementés : pour un même acte, le même prix partout en France", "Secret professionnel absolu, y compris entre membres d'une même famille", ];
+const ENGAGEMENT_SOURCE = [ "Notaires nommés par le garde des Sceaux — nos actes ont force exécutoire", "Membres de la Chambre des notaires, inspection annuelle", "Émoluments réglementés : pour un même acte, le même prix partout en France", "Secret professionnel absolu, y compris entre membres d'une même famille", ];
 let ENGAGEMENT = ENGAGEMENT_SOURCE;
 
 const TARIFS_SOURCE = [ { a: "Acte de notoriété", p: "57,69 € HT", n: "Émolument fixe national, identique dans toute la France." }, { a: "Donation entre époux", p: "115,39 € HT", n: "Émolument fixe, hors droits d'enregistrement éventuels." }, { a: "Testament authentique", p: "113,19 € HT", n: "Reçu par deux notaires ou un notaire et deux témoins, inscrit au fichier central.", }, { a: "Vente immobilière", p: "barème proportionnel", n: "Émoluments dégressifs par tranches. Simulation chiffrée remise avant l'avant-contrat.", }, ];
@@ -396,7 +396,7 @@ export default function EtudeDuCanalPage() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
       a: s.title ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].a,
-      p: s.price ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].p,
+      p: s.price ?? "Sur devis",
       n: s.description ?? s.desc ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
     })),
     TARIFS_SOURCE,
@@ -1102,7 +1102,7 @@ export default function EtudeDuCanalPage() {
               <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 300, lineHeight: 1.8, color: C.textFaint, maxWidth: 340, margin: 0 }}>
                 Officiers publics et ministériels · {ville}
                 <br />
-                Chambre des notaires d'Ille-et-Vilaine
+                {clientName(sessionData) ? "Chambre des notaires" : "Chambre des notaires d'Ille-et-Vilaine"}
               </p>
             </div>
 

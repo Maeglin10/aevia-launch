@@ -10,6 +10,8 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "case": "Dossiers",
+    "files.": "d'archives.",
     "rare": "BIENS",
     "holdings.": "RARES.",
     "silent": "L'ART",
@@ -96,6 +98,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your vendors' breaches become yours. we monitor the ones that hold your data, and we tell you before their disclosure does.": "Les fuites de vos prestataires deviennent les vôtres. Nous surveillons ceux qui détiennent vos données, et nous vous prévenons avant leur communiqué.",
   },
   es: {
+    "case": "Expedientes",
+    "files.": "de archivo.",
     "rare": "BIENES",
     "holdings.": "RAROS.",
     "silent": "EL ARTE",
@@ -199,6 +203,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your vendors' breaches become yours. we monitor the ones that hold your data, and we tell you before their disclosure does.": "Las filtraciones de sus proveedores se vuelven suyas. Vigilamos a los que guardan sus datos y le avisamos antes que su comunicado.",
   },
   de: {
+    "case": "Fall-",
+    "files.": "akten.",
     "rare": "SELTENE",
     "holdings.": "OBJEKTE.",
     "silent": "STILLE",
@@ -302,6 +308,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your vendors' breaches become yours. we monitor the ones that hold your data, and we tell you before their disclosure does.": "Die Lecks Ihrer Dienstleister werden zu Ihren. Wir überwachen jene, die Ihre Daten halten, und melden es Ihnen vor deren Mitteilung.",
   },
   pt: {
+    "case": "Dossiês",
+    "files.": "de arquivo.",
     "rare": "BENS",
     "holdings.": "RAROS.",
     "silent": "A ARTE",

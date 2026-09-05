@@ -158,7 +158,7 @@ export default function AtelierDuBoisPage() {
   bp = session?.businessProfile;
   sessionData = session;
   AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
@@ -400,7 +400,7 @@ export default function AtelierDuBoisPage() {
             <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>{clientTrade(sessionData) ?? "Menuisier"} · Ébéniste · {clientCity(sessionData) ?? "Bordeaux"}<br />Lun–Ven 8h–18h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Bordeaux") + ", Gironde" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "05 56 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Ven 8h–18h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Bordeaux, Gironde") }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "05 56 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Ven 8h–18h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.38)", fontSize: 13 }}>
                 <span style={{ color: C.sand }}>{item.icon}</span>{item.t}
               </div>

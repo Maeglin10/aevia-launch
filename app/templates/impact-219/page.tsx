@@ -454,12 +454,13 @@ function Hero() {
    ════════════════════════════════════════════════════════════════════════════ */
 
 function Logos() {
-  const logos = ['Stripe', 'Notion', 'Linear', 'Figma', 'Vercel', 'Supabase'];
+  const logos = clientName(sessionData) ? [] : ['Stripe', 'Notion', 'Linear', 'Figma', 'Vercel', 'Supabase'];
+  if (!logos.length && !clientText(sessionData, "realisations.texte")) return null;
   return (
     <section id="realisations" style={{ ...pad, paddingBlock: 48, borderBlock: `1px solid ${C.border}`, background: C.bgSoft }}>
       <div style={{ ...maxw, textAlign: 'center' }}>
         <p style={{ fontSize: 13, color: C.muted, fontWeight: 600, letterSpacing: '0.06em', marginBottom: 28 }}>{/* TEXTE_SECTION */ clientText(sessionData, "realisations.texte") ?? (<>
-          PLUS DE 4 000 ÉQUIPES NOUS FONT CONFIANCE
+          {clientName(sessionData) ? "ILS NOUS FONT CONFIANCE" : "PLUS DE 4 000 ÉQUIPES NOUS FONT CONFIANCE"}
         </>)}</p>
         <div
           style={{
@@ -678,7 +679,7 @@ interface Tier {
 }
 
 function TIERS_LIVE() {
-  return resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
+  return resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ name: s.title, price: s.price ?? "Sur devis", period: s.price ? "/mois" : "", desc: s.desc || "", features: [], cta: "Commencer", highlight: false })), [
   {
     name: 'Starter',
     price: '0€',

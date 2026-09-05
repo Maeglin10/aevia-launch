@@ -10,6 +10,7 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "awakening.": "éveil.",
     "treatments": "Les soins",
     "sanctuary": "Le sanctuaire",
     "member login": "Espace membres",
@@ -36,7 +37,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "begin your": "Commencez votre",
     "book initial consultation": "Réservez la consultation initiale",
     "book initial ritual": "Réservez le rituel initial",
-    "book ritual": "Rituel de Livre",
+    "book ritual": "Réserver un rituel",
     "each session is tailored to your biometric profile and emotional state of being.": "Chaque séance s'ajuste à votre profil et à votre état du moment.",
     "experience the profound power of true rest. book your first consultation and let our practitioners guide you home.": "Éprouvez la force du vrai repos. Réservez un premier rendez-vous et laissez nos praticiens vous ramener à vous.",
     "harnessing water and heat for biological restoration.": "Exploiter l'eau et la chaleur pour la restauration biologique.",
@@ -58,6 +59,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "voices of": "Voix de",
   },
   es: {
+    "awakening.": "despertar.",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -101,7 +103,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "begin your": "Empiece su",
     "book initial consultation": "Reserva la consulta inicial",
     "book initial ritual": "Reserva el ritual inicial",
-    "book ritual": "Ritual del Libro",
+    "book ritual": "Reservar un ritual",
     "each session is tailored to your biometric profile and emotional state of being.": "Cada sesión se ajusta a su perfil y a su estado del momento.",
     "experience the profound power of true rest. book your first consultation and let our practitioners guide you home.": "Experimente la fuerza del verdadero descanso. Reserve una primera cita y deje que nuestros terapeutas le devuelvan a sí mismo.",
     "harnessing water and heat for biological restoration.": "Aprovechando el agua y el calor para la restauración biológica.",
@@ -123,6 +125,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "voices of": "Voces de",
   },
   de: {
+    "awakening.": "Erwachen.",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -166,7 +169,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "begin your": "Beginnen Sie Ihre",
     "book initial consultation": "Buchen Sie die erste Beratung",
     "book initial ritual": "Buchen Sie das erste Ritual",
-    "book ritual": "Buchritual",
+    "book ritual": "Ritual buchen",
     "each session is tailored to your biometric profile and emotional state of being.": "Jede Sitzung richtet sich nach Ihrem Profil und Ihrer momentanen Verfassung.",
     "experience the profound power of true rest. book your first consultation and let our practitioners guide you home.": "Erfahren Sie die Kraft echter Ruhe. Buchen Sie einen ersten Termin und lassen Sie sich von unseren Therapeuten zurückführen.",
     "harnessing water and heat for biological restoration.": "Wasser und Wärme zur biologischen Wiederherstellung nutzen.",
@@ -188,6 +191,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "voices of": "Stimmen von",
   },
   pt: {
+    "awakening.": "despertar.",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",
@@ -231,7 +235,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "begin your": "Comece a sua",
     "book initial consultation": "Reserve a consulta inicial",
     "book initial ritual": "Reserve o ritual inicial",
-    "book ritual": "Ritual do Livro",
+    "book ritual": "Reservar um ritual",
     "each session is tailored to your biometric profile and emotional state of being.": "Cada sessão ajusta-se ao seu perfil e ao seu estado do momento.",
     "experience the profound power of true rest. book your first consultation and let our practitioners guide you home.": "Sinta a força do verdadeiro descanso. Marque uma primeira consulta e deixe os nossos terapeutas trazerem-no de volta a si.",
     "harnessing water and heat for biological restoration.": "Aproveitando a água e o calor para a restauração biológica.",

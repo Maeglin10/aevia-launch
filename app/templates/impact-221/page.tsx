@@ -421,7 +421,7 @@ function StatsBand() {
     { value: 45,  suffix: ' km/h', label: 'Vitesse de pointe',   icon: <Gauge size={28} /> },
     { value: 25,  suffix: ' h',    label: 'Charge rapide',       icon: <Zap size={28} /> },
     { value: 95,  suffix: ' %',    label: 'Clients satisfaits',  icon: <Star size={28} /> },
-  ]).length], value: s.value, label: s.label })),
+  ]).length], value: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(s.value ?? "").replace(/[\d.,\s]/g, "") ? " " + String(s.value ?? "").replace(/[\d.,\s]/g, "") : "", label: s.label })),
     [
     { value: 230, suffix: ' km',   label: 'Autonomie maximale',  icon: <Battery size={28} /> },
     { value: 45,  suffix: ' km/h', label: 'Vitesse de pointe',   icon: <Gauge size={28} /> },
@@ -1088,7 +1088,7 @@ function ReserveForm() {
         <div style={{ marginTop: '1.75rem', display: 'flex', justifyContent: 'center' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: C.blueDim, border: `1px solid rgba(0,212,255,0.28)`, borderRadius: '2px', padding: '8px 18px' }}>
             <span style={{ fontSize: '0.88rem' }}>🚀</span>
-            <span style={{ color: C.blue, fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.05em' }}>Livraison estimée : T3 2025 — 312 commandes en attente</span>
+            <span style={{ color: C.blue, fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.05em' }}>{clientName(sessionData) ? "Réponse sous 48h — réservation sans engagement" : "Livraison estimée : T3 2025 — 312 commandes en attente"}</span>
           </div>
         </div>
 
@@ -1253,11 +1253,11 @@ export default function LumyxPage() {
     SPEC_BULLETS_SOURCE,
   );
   MODELS = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...MODELS_SOURCE[i % MODELS_SOURCE.length], name: s.title, price: s.price ?? MODELS_SOURCE[i % MODELS_SOURCE.length].price })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...MODELS_SOURCE[i % MODELS_SOURCE.length], name: s.title, price: s.price ?? "" })),
     MODELS_SOURCE,
   );
   EDITORIAL = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDITORIAL_SOURCE[i % EDITORIAL_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDITORIAL_SOURCE[i % EDITORIAL_SOURCE.length], title: s.title, body: s.desc || "" || "", pills: [] })),
     EDITORIAL_SOURCE,
   );
 

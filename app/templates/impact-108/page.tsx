@@ -840,7 +840,7 @@ export default function LedgerPage() {
               </div>
               <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 1.8 }}>
                 Cabinet d&apos;expertise comptable<br />
-                {clientCity(sessionData) ?? "Bordeaux"} · Depuis 1999
+                {clientCity(sessionData) ?? "Bordeaux · Depuis 1999"}
               </p>
               <div
                 style={{
@@ -860,7 +860,7 @@ export default function LedgerPage() {
                   marginTop: 16,
                 }}
               >
-                Membre de l&apos;OEC Aquitaine
+                {clientName(sessionData) ? "Membre de l'Ordre des Experts-Comptables" : "Membre de l'OEC Aquitaine"}
               </div>
             </div>
             <div>
@@ -868,8 +868,8 @@ export default function LedgerPage() {
                 Adresse
               </p>
               <p style={{ fontFamily: FONT_BODY, fontWeight: 300, fontSize: 14, lineHeight: 2 }}>
-                {clientAddress({ businessProfile: bp }) ?? "14 allée de Tourny"}<br />
-                33000 {clientCity(sessionData) ?? "Bordeaux"}<br />
+                {clientAddress({ businessProfile: bp }) ?? (clientCity(sessionData) ? "" : "14 allée de Tourny")}{(clientAddress({ businessProfile: bp }) || !clientCity(sessionData)) ? <br /> : null}
+                {clientCity(sessionData) ?? "33000 Bordeaux"}<br />
                 <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33556000000").replace(/[^+0-9]/g, "")}`} style={{color: brand ?? 'var(--brand,#93c5fd)', textDecoration: "none" }}>{clientPhone(sessionData) ?? "05 56 76 23 23"}</a><br />
                 <a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@ledger-associes.fr"}`} style={{color: brand ?? 'var(--brand,#93c5fd)', textDecoration: "none" }}>{clientEmail(sessionData) ?? fd?.email ?? "contact@ledger-associes.fr"}</a>
               </p>

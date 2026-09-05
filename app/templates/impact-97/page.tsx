@@ -248,7 +248,7 @@ export default function HorizonYachtPage() {
   sessionData = session;
   FLEET_DEMO_SOURCE = FLEET_DEMO_SOURCE_LIVE();
   FLEET_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...FLEET_DEMO_SOURCE[i % FLEET_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? FLEET_DEMO_SOURCE[i % FLEET_DEMO_SOURCE.length].price })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...FLEET_DEMO_SOURCE[i % FLEET_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? "" })),
     FLEET_DEMO_SOURCE,
   );
 
@@ -686,11 +686,13 @@ export default function HorizonYachtPage() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-4xl font-black tracking-tighter uppercase leading-none italic">
-                    Horizon
+                    {clientName(sessionData) ?? "Horizon"}
                   </span>
+                  {clientName(sessionData) ? null : (
                   <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c5a059)] -mt-1 ml-1">
                     Maritime Group
                   </span>
+                  )}
                 </div>
               </div>
               <p className="text-white/20 max-w-md mb-16 text-[11px] font-bold uppercase tracking-[0.2em] leading-loose italic">
@@ -799,7 +801,7 @@ export default function HorizonYachtPage() {
         <div className="max-w-[1600px] mx-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10">
           <div className="flex items-center gap-12">
             <span>
-              &copy; {new Date().getFullYear()} HORIZON MARITIME GROUP MONACO.
+              &copy; {new Date().getFullYear()} {(clientName(sessionData) ?? "HORIZON MARITIME GROUP MONACO").toUpperCase()}.
             </span>
             <div className="flex gap-8">
               <span>SOLAS_CERT_COMPLIANT</span>

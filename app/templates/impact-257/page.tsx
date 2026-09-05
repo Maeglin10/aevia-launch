@@ -227,14 +227,14 @@ function EDIT_ROWS_SOURCE_LIVE() {
   {
     eyebrow: 'Le cabinet',
     img: P.wellnessMd,
-    imgAlt: 'Cabinet médical du Dr. Moulin à ' + (clientCity(sessionData) ?? 'Bordeaux') + ' Chartrons',
+    imgAlt: 'Cabinet médical',
     title: (
       <>
         {clientCity(sessionData) ?? "Bordeaux"} /{' '}
-        <span style={{ fontStyle: 'italic' }}>Chartrons.</span>
+        <span style={{ fontStyle: 'italic' }}>{clientCity(sessionData) ? "le cabinet." : "Chartrons."}</span>
       </>
     ),
-    body: 'Notre cabinet de quartier est accessible à pied depuis le tramway, avec stationnement à proximité. Pour celles et ceux qui ne peuvent pas se déplacer, la téléconsultation est disponible. La prise de rendez-vous en ligne permet souvent une consultation le jour même.',
+    body: (clientName(sessionData) ? 'Notre cabinet de quartier est facilement accessible, avec stationnement à proximité.' : 'Notre cabinet de quartier est accessible à pied depuis le tramway, avec stationnement à proximité.') + ' Pour celles et ceux qui ne peuvent pas se déplacer, la téléconsultation est disponible. La prise de rendez-vous en ligne permet souvent une consultation le jour même.',
     reverse: true,
     roman: 'II',
   },
@@ -1943,7 +1943,7 @@ function Footer() {
       items: [
         { label: 'Prendre RDV', href: '#rdv' },
         { label: 'Téléconsultation', href: '#rdv' },
-        { label: (clientCity(sessionData) ?? 'Bordeaux') + ' · Chartrons', href: '#rdv' },
+        { label: clientCity(sessionData) ?? 'Bordeaux · Chartrons', href: '#rdv' },
         { label: (clientEmail(sessionData) ?? fd?.email ?? 'dr.moulin@exemple.fr'), href: '#rdv' },
       ],
     },
@@ -1982,7 +1982,7 @@ function Footer() {
             }}
           >
             <Leaf size={20} color={C.accent} strokeWidth={1.5} />
-            Dr.&nbsp;Alexandre&nbsp;Moulin
+            {clientName(sessionData) ?? <>Dr.&nbsp;Alexandre&nbsp;Moulin</>}
           </div>
           <p
             style={{
@@ -2012,7 +2012,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-            {clientCity(sessionData) ?? "Bordeaux"} · Chartrons
+            {clientCity(sessionData) ?? "Bordeaux · Chartrons"}
           </div>
         </div>
 
@@ -2091,8 +2091,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 {clientName(sessionData) ?? "Dr. Alexandre Moulin. Médecin"} conventionné secteur 2 · RPPS
-          xxxxxxxxx.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "Dr. Alexandre Moulin"}{clientName(sessionData) ? "" : ". Médecin conventionné secteur 2 · RPPS xxxxxxxxx"}.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2179,7 +2178,7 @@ export default function Page() {
     EDIT_ROWS_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
 

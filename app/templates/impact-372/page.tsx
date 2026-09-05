@@ -464,15 +464,14 @@ export default function HorizonProtectionPage() {
     clientReviews(sessionData)?.map((r: any, i: number) => ({
       ...AVIS_SOURCE[i % AVIS_SOURCE.length],
       auteur: r.author,
-      texte: r.text,
-    })),
+      texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_DEMO[i % TARIFS_DEMO.length],
       a: s.title,
-      p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p,
+      p: s.price ?? "Sur devis",
       n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n,
     })),
     TARIFS_DEMO,
@@ -1381,12 +1380,12 @@ export default function HorizonProtectionPage() {
               <p style={{ color: "rgba(255,255,255,0.42)", fontSize: 13, lineHeight: 1.75, margin: 0, maxWidth: 380 }}>
                 {metier} · {clientCodePostalVille(sessionData, "", ville)}
                 <br />
-                Autorisation CNAPS AUT-031-2126-02-20-20260045678 — agents cartés
+                {clientName(sessionData) ? "Autorisation CNAPS affichée — agents cartés" : "Autorisation CNAPS AUT-031-2126-02-20-20260045678 — agents cartés"}
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {[
-                { icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? `${ville}, Haute-Garonne` },
+                { icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? (clientCity(sessionData) ? ville : `${ville}, Haute-Garonne`) },
                 { icon: <Phone size={13} />, t: phone },
                 { icon: <Mail size={13} />, t: mail },
                 { icon: <Clock size={13} />, t: "PC 24h/24 · bureaux Lun–Ven 9h–18h" },

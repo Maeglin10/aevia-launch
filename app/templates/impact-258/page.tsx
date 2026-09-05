@@ -185,11 +185,11 @@ function EDIT_ROWS_DEMO_SOURCE_LIVE() {
     img: (clientPhotos(sessionData)[6] || 'https://images.pexels.com/photos/9850074/pexels-photo-9850074.jpeg?auto=compress&cs=tinysrgb&w=1600') + '&w=800',
     title: (
       <>
-        Le Panier, /{' '}
+        {clientCity(sessionData) ? "L'atelier, /" : "Le Panier, /"}{' '}
         <span style={{ fontStyle: 'italic' }}>{clientCity(sessionData) ?? "Marseille"}.</span>
       </>
     ),
-    body: "Au cœur du quartier historique du Panier, l\'atelier est visible depuis la rue — vitrine ouverte sur le geste couture. Sur rendez-vous uniquement, nous y recevons depuis douze ans des femmes et des hommes qui ont choisi de ne plus faire de compromis avec leur apparence.",
+    body: clientName(sessionData) ? "L'atelier est visible depuis la rue — vitrine ouverte sur le geste couture. Sur rendez-vous uniquement, nous y recevons des femmes et des hommes qui ont choisi de ne plus faire de compromis avec leur apparence." : "Au cœur du quartier historique du Panier, l'atelier est visible depuis la rue — vitrine ouverte sur le geste couture. Sur rendez-vous uniquement, nous y recevons depuis douze ans des femmes et des hommes qui ont choisi de ne plus faire de compromis avec leur apparence.",
     reverse: true,
   },
 ];
@@ -1365,7 +1365,7 @@ function AtélierPanel() {
                 marginBottom: 8,
               }}
             >
-              L&apos;atelier · Le Panier
+              L&apos;atelier{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : " · Le Panier"}
             </div>
             <div
               style={{
@@ -1932,7 +1932,7 @@ function Footer() {
       title: 'Contact',
       items: [
         { label: 'Prendre rendez-vous', href: '#contact' },
-        { label: `Le Panier, ${clientCity(sessionData) ?? "Marseille"}`, href: '#contact' },
+        { label: clientCity(sessionData) ?? 'Le Panier, Marseille', href: '#contact' },
         { label: 'Tarifs & délais', href: '#contact' },
         { label: 'Entretien & retouche', href: '#contact' },
       ],
@@ -1980,7 +1980,7 @@ function Footer() {
               maxWidth: 320,
             }}
           >
-            Couture &amp; mode sur-mesure depuis 2012. Le Panier, {clientCity(sessionData) ?? "Marseille"}.
+            Couture &amp; mode sur-mesure{clientName(sessionData) ? "" : " depuis 2012"}. {clientCity(sessionData) ?? "Le Panier, Marseille"}.
           </p>
           <div
             style={{
@@ -1996,7 +1996,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-            Le Panier · 13002 {clientCity(sessionData) ?? "Marseille"}
+            {clientCity(sessionData) ?? "Le Panier · 13002 Marseille"}
           </div>
         </div>
 
@@ -2071,7 +2071,7 @@ function Footer() {
           color: 'rgba(232,220,200,0.42)',
         }}
       >
-        <span>© 2012–2026 {clientName(sessionData) ?? "Maison Solal"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© {clientName(sessionData) ? "2026" : "2012–2026"} {clientName(sessionData) ?? "Maison Solal"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2156,7 +2156,7 @@ export default function Page() {
     EDIT_ROWS_DEMO_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   EDIT_ROWS = EDIT_ROWS_DEMO.map((row, i) => ({

@@ -170,7 +170,7 @@ const METHODE_SOURCE = [
 let METHODE = METHODE_SOURCE;
 
 const ENGAGEMENT_SOURCE = [
-  "Immatriculés à l'ORIAS (n° 26 004 512), contrôlés par l'ACPR",
+  "Immatriculés à l'ORIAS, contrôlés par l'ACPR",
   "Devoir de conseil formalisé : nos recommandations sont écrites et motivées",
   "Rémunération transparente : commissions affichées, honoraires annoncés avant mission",
   "Aucun engagement d'exclusivité avec une compagnie — c'est votre intérêt qui arbitre",
@@ -635,7 +635,7 @@ export default function CapAssurancesPage() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
       a: s.title ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].a,
-      p: s.price ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].p,
+      p: s.price ?? "Sur devis",
       n: s.description ?? s.desc ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
     })),
     TARIFS_SOURCE,
@@ -1130,7 +1130,7 @@ export default function CapAssurancesPage() {
                 }}
               >
                 <div style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.28em", textTransform: "uppercase", color: C.police }}>Immatriculation</div>
-                <div style={{ fontFamily: SERIF, fontSize: 19, marginTop: 6, letterSpacing: "-0.01em" }}>ORIAS n° 26 004 512</div>
+                <div style={{ fontFamily: SERIF, fontSize: 19, marginTop: 6, letterSpacing: "-0.01em" }}>{clientName(sessionData) ? "Immatriculé ORIAS" : "ORIAS n° 26 004 512"}</div>
                 <div style={{ fontFamily: SANS, fontSize: 12, color: "rgba(255,255,255,0.55)", marginTop: 6, lineHeight: 1.5 }}>Sous le contrôle de l'ACPR</div>
               </div>
             </div>
@@ -1299,7 +1299,7 @@ export default function CapAssurancesPage() {
                 <p style={{ fontFamily: SANS, fontSize: 13.5, color: C.textMuted, lineHeight: 1.7, margin: 0 }}>
                   {ZONES.length >= 2
                     ? `Nous suivons nos assurés à ${ZONES.slice(0, 6).join(", ")}.`
-                    : `Nous recevons à ${ville} et suivons nos assurés dans tout le Finistère.`}
+                    : clientCity(sessionData) ? `Nous recevons à ${ville} et suivons nos assurés partout en région.` : `Nous recevons à ${ville} et suivons nos assurés dans tout le Finistère.`}
                 </p>
               </div>
             </div>
@@ -1316,12 +1316,12 @@ export default function CapAssurancesPage() {
               <p style={{ fontFamily: SANS, color: "rgba(255,255,255,0.40)", fontSize: 13, lineHeight: 1.75, margin: 0 }}>
                 {metier} · {ville}
                 <br />
-                ORIAS n° 26 004 512 — sous le contrôle de l'ACPR
+                {clientName(sessionData) ? "Immatriculé ORIAS — sous le contrôle de l'ACPR" : "ORIAS n° 26 004 512 — sous le contrôle de l'ACPR"}
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {[
-                { icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? `${ville}, Finistère` },
+                { icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? (clientCity(sessionData) ? ville : `${ville}, Finistère`) },
                 { icon: <Phone size={13} />, t: phone },
                 { icon: <Mail size={13} />, t: mail },
                 { icon: <Clock size={13} />, t: "Lun–Ven 9h–18h30 · Sam 9h–12h30" },

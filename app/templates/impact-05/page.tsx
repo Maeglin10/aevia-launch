@@ -331,11 +331,11 @@ export default function NovaPlatformSaaS() {
     FEATURE_TABS_DEMO_SOURCE,
   );
   PRICING = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_SOURCE[i % PRICING_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? PRICING_SOURCE[i % PRICING_SOURCE.length].price, annualPrice: s.price ?? PRICING_SOURCE[i % PRICING_SOURCE.length].annualPrice })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRICING_SOURCE[i % PRICING_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? "", annualPrice: s.price ?? PRICING_SOURCE[i % PRICING_SOURCE.length].annualPrice })),
     PRICING_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text, role: "", metric: "", badge: "" })),
     TESTIMONIALS_SOURCE,
   );
   STATS = resolveList(clientStats(session), STATS_DEMO);
@@ -348,7 +348,7 @@ export default function NovaPlatformSaaS() {
     img: clientPhotos(session)[3 + i] || row.img,
   }));
   TESTIMONIALS = resolveList(
-    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text, role: "", metric: "", badge: "" })),
     TESTIMONIALS_DEMO,
   );
   FAQS = resolveList(

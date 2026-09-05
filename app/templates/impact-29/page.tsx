@@ -135,7 +135,7 @@ return (
             className="space-y-2 mb-10 text-[#475569] text-base md:text-lg"
           >
             <div><span className="text-[#00F5D4]">const </span>role = <span className="text-emerald-400">"Staff Engineer & Open Source"</span></div>
-            <div><span className="text-[#00F5D4]">const </span>location = <span className="text-emerald-400">"Paris, France"</span></div>
+            <div><span className="text-[#00F5D4]">const </span>location = <span className="text-emerald-400">"{clientCity(sessionData) ?? "Paris"}, France"</span></div>
             <div><span className="text-[#00F5D4]">const </span>available = <span className="text-emerald-400">"Q3 2026 contracts"</span></div>
           </motion.div>
           <motion.div
@@ -487,7 +487,7 @@ return (
             </div>
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+            {/* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ category: "",  name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
               {
                 name: "vaultkey",
                 year: "2023",

@@ -181,7 +181,7 @@ export default function LuminaLawPage() {
 
       ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
 
-      quote: r.text, name: r.author,
+      quote: r.text, name: r.author, title: "",
 
     })),
 
@@ -203,7 +203,7 @@ export default function LuminaLawPage() {
 
   );
   EXPERTISE = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...EXPERTISE_DEMO[i % EXPERTISE_DEMO.length], title: s.title })),
+    clientServices(session)?.map((s, i) => ({ ...EXPERTISE_DEMO[i % EXPERTISE_DEMO.length], title: s.title, desc: s.desc || "" })),
     EXPERTISE_DEMO,
   );
   PARTNERS = PARTNERS_DEMO.map((row, i) => ({
@@ -572,7 +572,7 @@ export default function LuminaLawPage() {
               <div className="w-10 h-10 bg-[var(--brand,#1a365d)] flex items-center justify-center">
                 <Scale className="w-5 h-5 text-white" />
               </div>
-              <span className="text-2xl font-bold tracking-tighter text-[var(--brand,#1a365d)]">Lumina<span className="font-light">Law</span></span>
+              <span className="text-2xl font-bold tracking-tighter text-[var(--brand,#1a365d)]">{clientName(sessionData) ?? (<>Lumina<span className="font-light">Law</span></>)}</span>
             </Link>
             <p className="text-black/30 max-w-sm leading-relaxed mb-10 text-sm font-light italic" style={{ fontFamily: "serif" }}>
               "The law is a shield for the righteous and a sword for the strategic. We provide both."
@@ -601,7 +601,7 @@ export default function LuminaLawPage() {
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-black/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-black/10">
           <span>© 2026 {clientName(sessionData) ?? "LUMINA LAW GLOBAL PARTNERSHIP."} STRENGTH IN TRUTH.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-12">
-             <Link href="#contact" className="hover:text-black transition-colors flex items-center gap-2"><Globe className="w-3 h-3" /> LONDON · NEW YORK · SINGAPORE</Link>
+             <Link href="#contact" className="hover:text-black transition-colors flex items-center gap-2"><Globe className="w-3 h-3" /> {clientCity(sessionData)?.toUpperCase() ?? "LONDON · NEW YORK · SINGAPORE"}</Link>
              <Link href="#contact" className="hover:text-black transition-colors flex items-center gap-2"><FileText className="w-3 h-3" /> LEGAL TERMS</Link>
           </div>
         </div>

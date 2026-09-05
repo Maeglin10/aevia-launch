@@ -10,6 +10,9 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "parts manufactured in 2024": "pièces fabriquées en 2024",
+    "racing championships served": "championnats servis",
+    "space mission structural programs": "programmes structurels spatiaux",
     "materials": "Matériaux",
     "research": "Recherche",
     "engineer portal": "Espace ingénieurs",
@@ -60,6 +63,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what they": "CE QU'ILS",
   },
   es: {
+    "parts manufactured in 2024": "piezas fabricadas en 2024",
+    "racing championships served": "campeonatos servidos",
+    "space mission structural programs": "programas estructurales espaciales",
+    "partenaires industriels": "socios industriales",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -127,6 +134,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what they": "LO QUE",
   },
   de: {
+    "parts manufactured in 2024": "gefertigte Teile 2024",
+    "racing championships served": "betreute Meisterschaften",
+    "space mission structural programs": "strukturelle Raumfahrtprogramme",
+    "partenaires industriels": "Industriepartner",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -194,6 +205,10 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "what they": "WAS SIE",
   },
   pt: {
+    "parts manufactured in 2024": "peças fabricadas em 2024",
+    "racing championships served": "campeonatos atendidos",
+    "space mission structural programs": "programas estruturais espaciais",
+    "partenaires industriels": "parceiros industriais",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

@@ -68,7 +68,7 @@ const STATS_DEMO = [
 let STATS = STATS_DEMO;
 
 function BIENS_DEMO_SOURCE_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ titre: o.title, lieu: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ surface: "", tag: "",  titre: o.title, lieu: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { titre: "Appartement de standing", lieu: (clientCity(sessionData) ?? "Paris"), prix: "1 480 000 €", surface: "145 m²", pieces: 5, bains: 2, tag: "Exclusivité", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80") },
   { titre: "Maison familiale", lieu: "Neuilly-sur-Seine", prix: "2 250 000 €", surface: "280 m²", pieces: 7, bains: 3, tag: "Coup de cœur", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=800&q=80") },
   { titre: "Penthouse vue Eiffel", lieu: (clientCity(sessionData) ?? "Paris"), prix: "3 900 000 €", surface: "210 m²", pieces: 5, bains: 3, tag: "Prestige", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80") },
@@ -170,20 +170,20 @@ export default function PierreCoPage() {
 
 
   BIENS_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...BIENS_DEMO_SOURCE[i % BIENS_DEMO_SOURCE.length], titre: s.title, prix: s.price ?? BIENS_DEMO_SOURCE[i % BIENS_DEMO_SOURCE.length].prix })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...BIENS_DEMO_SOURCE[i % BIENS_DEMO_SOURCE.length], titre: s.title, prix: s.price ?? "", surface: "", pieces: "", bains: "", tag: "", lieu: "" })),
     BIENS_DEMO_SOURCE,
   );
   SERVICES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   TEMOIGNAGES_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     TEMOIGNAGES_SOURCE,
   );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   TEMOIGNAGES = resolveList(
-    clientReviews(session)?.map((r, i) => ({ ...TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length], texte: r.text, auteur: r.author })),
+    clientReviews(session)?.map((r, i) => ({ ...TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length], texte: r.text, auteur: r.author, detail: "", })),
     TEMOIGNAGES_DEMO,
   );
   BIENS = BIENS_DEMO.map((row, i) => ({
@@ -191,7 +191,7 @@ export default function PierreCoPage() {
     img: clientPhotos(session)[0 + i] || row.img,
   }));
   SERVICES = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], titre: s.title })),
+    clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], titre: s.title, desc: s.desc || "" })),
     SERVICES_DEMO,
   );
 
@@ -449,11 +449,11 @@ export default function PierreCoPage() {
       <footer style={{ background: C.navy, padding: "56px 80px 28px", fontFamily: FONT }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 40 }}>
           <div>
-            <div style={{ fontFamily: FONT_SERIF, fontSize: 22, color: "#fff", marginBottom: 12 }}>Pierre <span style={{ color: C.accent }}>&amp; Co</span></div>
+            <div style={{ fontFamily: FONT_SERIF, fontSize: 22, color: "#fff", marginBottom: 12 }}>{clientName(sessionData) ?? (<>Pierre <span style={{ color: C.accent }}>&amp; Co</span></>)}</div>
             <p style={{ color: "rgba(255,255,255,0.42)", fontSize: 14, lineHeight: 1.6, maxWidth: 260 }}>Immobilier de prestige à {clientCity(sessionData) ?? "Paris"} et Île-de-France depuis 2004.</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-            {[{ icon: <MapPin size={14} />, t: (clientCity(sessionData) ?? "Paris") + " & agences IDF" }, { icon: <Phone size={14} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "01 40 00 00 00") }, { icon: <Mail size={14} />, t: (clientEmail(sessionData) ?? fd?.email ?? "contact@pierreandco.fr") }].map((item, i) => (
+            {[{ icon: <MapPin size={14} />, t: (clientCity(sessionData) ?? "Paris & agences IDF") }, { icon: <Phone size={14} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "01 40 00 00 00") }, { icon: <Mail size={14} />, t: (clientEmail(sessionData) ?? fd?.email ?? "contact@pierreandco.fr") }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.5)", fontSize: 14 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>

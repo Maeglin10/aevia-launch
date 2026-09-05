@@ -28,6 +28,7 @@ import {
   clientName,
   clientPhone,
   clientPhotos,
+  clientWorks,
   clientServices,
   clientSiret,
   clientStats,
@@ -97,7 +98,7 @@ function PROJECTS_DEMO_LIVE() {
     id: 1,
     name: 'Tour Confluence',
     category: 'Immobilier d\'entreprise',
-    location: (clientCity(sessionData) ?? 'Lyon') + ', France',
+    location: 'Lyon, France',
     year: '2023',
     surface: '42 000 m²',
     floors: 28,
@@ -252,10 +253,15 @@ function BlueprintHero() {
   ];
 
   const projects = resolveList(
-    bp?.projects?.map((p: any, i: number) => ({
+    clientWorks(sessionData)?.map((p: any, i: number) => ({
       ...PROJECTS_DEMO[i % PROJECTS_DEMO.length],
-      name: p.name ?? p.title,
-      category: p.category ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].category,
+      name: p.title ?? p.name,
+      category: p.detail ?? "",
+      year: "",
+      surface: "",
+      floors: 0,
+      location: "",
+      ...(p.imageUrl ? { img: p.imageUrl } : {}),
     })),
     PROJECTS_DEMO
   );
@@ -268,7 +274,7 @@ function BlueprintHero() {
     { k: "Surface", v: p.surface },
     { k: p.floors > 0 ? "Niveaux" : "Portée", v: p.floors > 0 ? String(p.floors) : "—" },
     { k: "Site", v: p.location },
-  ];
+  ].filter((x) => x.v && x.v !== "—" || !clientName(sessionData));
 
   return (
     <section id="hero" style={heroSectionStyle(C.blueprint, { bottomRail: true })}>
@@ -303,7 +309,7 @@ function BlueprintHero() {
           <Rise beat="first" style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 22 }}>
             <span style={{ width: 40, height: 2, background: C.yellow, display: "block" }} />
             <span style={{ fontFamily: FONT_BODY, fontSize: 11, letterSpacing: "0.3em", textTransform: "uppercase", color: C.yellow, fontWeight: 700 }}>
-              {clientName(sessionData) ?? "Ferretti Construction"} · Depuis 1986
+              {clientName(sessionData) ?? "Ferretti Construction"}{clientName(sessionData) ? "" : " · Depuis 1986"}
             </span>
           </Rise>
 
@@ -1014,6 +1020,10 @@ function ProjectsSection() {
       ...PROJECTS_DEMO[i % PROJECTS_DEMO.length],
       id: i + 1,
       name: b.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].name,
+      category: b.detail ?? "",
+      year: "",
+      surface: "",
+      location: "",
     })),
     PROJECTS_DEMO
   );
@@ -1317,8 +1327,7 @@ function TeamSection() {
       ...TEAM_DEMO[i % TEAM_DEMO.length],
       name: t.name ?? TEAM_DEMO[i % TEAM_DEMO.length].name,
       role: t.role ?? TEAM_DEMO[i % TEAM_DEMO.length].role,
-      spec: t.specialty ?? t.bio ?? TEAM_DEMO[i % TEAM_DEMO.length].spec,
-    })),
+      spec: t.specialty ?? t.bio ?? TEAM_DEMO[i % TEAM_DEMO.length].spec, exp: "", })),
     TEAM_DEMO
   );
 
@@ -1831,7 +1840,7 @@ function Footer() {
             color: C.creamDim,
             letterSpacing: '0.08em',
           }}>
-            Entreprise générale de BTP — Fondée en 1986 — {clientCity(sessionData) ?? "Lyon"}, France
+            {clientName(sessionData) ? "Entreprise générale de BTP" : "Entreprise générale de BTP — Fondée en 1986"} — {clientCity(sessionData) ?? "Lyon"}, France
           </div>
         </div>
 
@@ -2040,10 +2049,10 @@ export default function Page() {
     MATERIALS_SOURCE,
   );
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
-  STATS = resolveList(clientStats(sessionData)?.map((s: any) => ({ ...s, value: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, decimals: /[.,]\d/.test(String(s.value ?? "")) ? 2 : 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, "") })), STATS_DEMO);
+  STATS = resolveList(clientStats(sessionData)?.map((s: any) => ({ ...s, value: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, decimals: /[.,]\d/.test(String(s.value ?? "")) ? 2 : 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, ""), formatted: "", prefix: "" })), STATS_DEMO);
   brand = fd?.brandColor ?? null; // null = keep template's original color
   if (brand) {
     C = { ...C, yellow: brand };

@@ -481,7 +481,7 @@ export default function Impact199Page() {
 
       ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
 
-      text: r.text, name: r.author,
+      text: r.text, name: r.author, style: "", tag: "",
 
     })),
 
@@ -533,9 +533,9 @@ export default function Impact199Page() {
   const FLASH_PIECES = resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({
       name: b.caption ?? FLASH_PIECES_DEMO[i % FLASH_PIECES_DEMO.length].name,
-      price: FLASH_PIECES_DEMO[i % FLASH_PIECES_DEMO.length].price,
+      price: "",
       size: FLASH_PIECES_DEMO[i % FLASH_PIECES_DEMO.length].size,
-      style: FLASH_PIECES_DEMO[i % FLASH_PIECES_DEMO.length].style,
+      style: "",
     })),
     FLASH_PIECES_DEMO,
   );

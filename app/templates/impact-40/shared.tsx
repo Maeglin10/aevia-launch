@@ -69,7 +69,7 @@ export const seasonData: Record<
     items: [
       { name: "Courges Butternut", desc: "Fondantes et sucrées, parfaites en velouté", emoji: "🎃" },
       { name: "Pommes reinette", desc: "Acidulées et croquantes, verger biologique", emoji: "🍎" },
-      { name: "Champignons cultivés", desc: "Shiitake, pleurotes et " + clientCityOr("Paris") + " rosé", emoji: "🍄" },
+      { name: "Champignons cultivés", desc: "Shiitake, pleurotes et rosé des prés", emoji: "🍄" },
       { name: "Poireaux", desc: "Doux et tendres, blancs sur 30 cm", emoji: "🧅" },
       { name: "Noix fraîches", desc: "Récoltées de nos noyers centenaires", emoji: "🪨" },
       { name: "Betteraves chioggia", desc: "Rayées rose et blanc, crues ou rôties", emoji: "🟣" },
@@ -80,7 +80,7 @@ export const seasonData: Record<
     icon: <Snowflake size={18} />,
     color: "#6ea8d0",
     items: [
-      { name: "Choux de " + clientCityOr("Bruxelles"), desc: "Tendres et légèrement sucrés après gelée", emoji: "🥦" },
+      { name: "Choux de Bruxelles", desc: "Tendres et légèrement sucrés après gelée", emoji: "🥦" },
       { name: "Carottes de sable", desc: "Extra-sucrées, élevées en pleine terre", emoji: "🥕" },
       { name: "Endives bressanes", desc: "Blanches et tendres, culture traditionnelle", emoji: "🌿" },
       { name: "Mâche", desc: "Douce et délicate, sans assaisonnement", emoji: "🥗" },

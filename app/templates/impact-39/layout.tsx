@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientAreas,
   clientCity,
   clientEmail,
   clientName,
@@ -244,7 +245,7 @@ export default function SwiftMoveLayout({ children }: { children: React.ReactNod
             <div>
               <h4 style={{ fontSize: 13, fontWeight: 700, color: C.white, marginBottom: 16, textTransform: "uppercase", letterSpacing: "0.08em" }}>Zone d'intervention</h4>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                {[(clientCity(__layoutSession) ?? "Paris") + " (75)", "Hauts-de-Seine (92)", "Val-de-Marne (94)", "Yvelines (78)", "France entière"].map((zone) => (
+                {(clientAreas(__layoutSession) ?? (clientCity(__layoutSession) ? [clientCity(__layoutSession), "France entière"] : ["Paris (75)", "Hauts-de-Seine (92)", "Val-de-Marne (94)", "Yvelines (78)", "France entière"])).map((zone) => (
                   <span key={zone} style={{ fontSize: 14, color: "#64748b" }}>{zone}</span>
                 ))}
               </div>

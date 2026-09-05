@@ -219,11 +219,11 @@ function EDIT_ROWS_SOURCE_LIVE() {
     reverse: true,
     title: (
       <>
-        Marais, /{' '}
+        {clientCity(sessionData) ? "Le studio, /" : "Marais, /"}{' '}
         <span style={{ fontStyle: 'italic' }}>{clientCity(sessionData) ?? "Paris"}.</span>
       </>
     ),
-    body: 'Studio lumineux en cœur de Marais, sur rendez-vous uniquement. Quatre artistes travaillent simultanément dans un espace ouvert. Collectionneurs internationaux, clients locaux — même exigence.',
+    body: (clientName(sessionData) ? 'Studio lumineux, sur rendez-vous uniquement.' : 'Studio lumineux en cœur de Marais, sur rendez-vous uniquement.') + ' Quatre artistes travaillent simultanément dans un espace ouvert. Collectionneurs internationaux, clients locaux — même exigence.',
   },
 ];
 }
@@ -668,7 +668,7 @@ function Hero() {
       >
         <Reveal y={16}>
           <Eyebrow color={C.accentLight} align="left">
-            Fine Art Tattoo · {clientCity(sessionData) ?? "Paris"} Marais
+            Fine Art Tattoo · {clientCity(sessionData) ?? "Paris Marais"}
           </Eyebrow>
         </Reveal>
 
@@ -2075,7 +2075,7 @@ function Footer() {
       {
         title: 'Contact',
         items: [
-          { label: (clientCity(sessionData) ?? 'Paris') + ' Marais', href: '#reservation' },
+          { label: clientCity(sessionData) ?? 'Paris Marais', href: '#reservation' },
           { label: 'Sur rendez-vous', href: '#reservation' },
           { label: (clientEmail(sessionData) ?? 'studio@noirAbsolu.fr'), href: `mailto:${clientEmail(sessionData) ?? 'studio@noirAbsolu.fr'}` },
           { label: 'Instagram', href: "/templates/impact-262" },
@@ -2124,7 +2124,7 @@ function Footer() {
               marginBottom: 22,
             }}
           >
-            Tatouage Fine Art & Illustration sur mesure. {clientCity(sessionData) ?? "Paris"} Marais, sur
+            Tatouage Fine Art & Illustration sur mesure. {clientCity(sessionData) ?? "Paris Marais"}, sur
             rendez-vous uniquement.
           </p>
           <div
@@ -2228,7 +2228,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2026 {clientName(sessionData) ?? "Studio Noir Absolu."} {clientCity(sessionData) ?? "Paris"} 3e Marais. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "Studio Noir Absolu."} {clientCity(sessionData) ?? "Paris 3e Marais"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a
@@ -2333,7 +2333,7 @@ export default function Page() {
     EDIT_ROWS_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

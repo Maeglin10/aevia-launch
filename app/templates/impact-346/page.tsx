@@ -176,7 +176,7 @@ let METHODE = METHODE_SOURCE;
 function METHODE_LIVE() {
   const ville = clientCity(sessionData);
   if (!ville) return METHODE_SOURCE;
-  return METHODE_SOURCE.map((m, i) => (i === 0 ? { ...m, d: `${m.d} Toutes livrent l'étal de ${ville}.` } : m));
+  return METHODE_SOURCE.map((m, i) => (i === 0 ? { ...m, d: `${m.d} Toutes livrent notre étal${clientCity(sessionData) ? ", à " + ville : " d'Annecy"}.` } : m));
 }
 
 const ENGAGEMENT_SOURCE = [
@@ -626,7 +626,7 @@ export default function HalleAuxFromagesPage() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
       a: s.title,
-      p: s.price || TARIFS_SOURCE[i % TARIFS_SOURCE.length].p,
+      p: s.price || "Sur devis",
       n: s.description || s.desc || TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
     })),
     TARIFS_SOURCE,

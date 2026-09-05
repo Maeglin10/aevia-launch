@@ -19,6 +19,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientTagline,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -52,7 +53,7 @@ let brand: any = null;
    ========================================================================= */
 
 function COLLECTIONS_SOURCE_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ price: "",  name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   { 
     id: 1, 
     name: "Aether One", 
@@ -221,9 +222,7 @@ export default function AetherSoundPage() {
 
       ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
 
-      text: r.text, name: r.author,
-
-    })),
+      text: r.text, name: r.author, role: "", })),
 
     AVIS_INLINE_SOURCE,
 
@@ -652,11 +651,11 @@ export default function AetherSoundPage() {
            <div className="lg:col-span-6">
               <Reveal>
                  <div className="flex flex-col mb-12">
-                    <span className="text-4xl font-black tracking-[0.1em] uppercase leading-none italic">Aether</span>
-                    <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)] -mt-1 ml-1">Sound Labs</span>
+                    <span className="text-4xl font-black tracking-[0.1em] uppercase leading-none italic">{clientName(sessionData) ?? "Aether"}</span>
+                    {clientName(sessionData) ? null : <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[var(--brand,#c9a84c)] -mt-1 ml-1">Sound Labs</span>}
                  </div>
                  <p className="text-white/20 max-w-md mb-16 text-[11px] font-bold uppercase tracking-[0.2em] leading-loose italic">
-                    The absolute mastery of acoustic engineering. Engineered for the evolutionary audiophile in our Berlin sanctuary.
+                    {clientTagline(sessionData) ?? "The absolute mastery of acoustic engineering. Engineered for the evolutionary audiophile in our Berlin sanctuary."}
                  </p>
                  <div className="flex gap-6">
                     {[Globe, Globe, Mail].map((Icon, i) => (
@@ -701,7 +700,7 @@ export default function AetherSoundPage() {
 
         <div className="max-w-[1600px] mx-auto pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10">
            <div className="flex items-center gap-12">
-              <span>&copy; {new Date().getFullYear()} AETHER SOUND LABS GROUP.</span>
+              <span>&copy; {new Date().getFullYear()} {(clientName(sessionData) ?? "AETHER SOUND LABS GROUP").toUpperCase()}.</span>
               <div className="flex gap-8">
                 <span>HI_RES_AUDIO_CERTIFIED</span>
                 <span>BERLIN_ENGINEERED</span>

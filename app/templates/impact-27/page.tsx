@@ -20,6 +20,7 @@ import {
   clientList,
   clientName,
   clientPhotos,
+  clientCertifications,
   clientReviews,
   clientServices,
   clientStats,
@@ -894,7 +895,7 @@ export default function Home() {
 
 
   testimonials = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...testimonials_SOURCE[i % testimonials_SOURCE.length], quote: r.text, author: r.author })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...testimonials_SOURCE[i % testimonials_SOURCE.length], quote: r.text, author: r.author, role: "", company: "" })),
     testimonials_SOURCE,
   );
   techStack = resolveList(
@@ -1029,7 +1030,7 @@ return (
           <Reveal className="text-center">
             <p className="text-[var(--brand,#9B5CF6)] text-xs tracking-widest uppercase mb-6" style={monoStyle}>Trusted by</p>
             <div className="flex flex-wrap justify-center gap-8 text-white/30 font-semibold text-lg">
-              {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ["Phantom Motors", "ArcSpace", "Luminary", "Valo Corp", "Studio Levi", "Forma", "Nexus Cloud", "Helio Medical"]).map(c => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? clientCertifications(sessionData) ?? (clientName(sessionData) ? [] : ["Phantom Motors", "ArcSpace", "Luminary", "Valo Corp", "Studio Levi", "Forma", "Nexus Cloud", "Helio Medical"])).map(c => (
                 <span key={c} className="hover:text-white/60 transition-colors cursor-default">{c}</span>
               ))}
             </div>

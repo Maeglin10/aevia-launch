@@ -205,7 +205,7 @@ export default function ToitPierrePiscinesPage() {
 
 
   SERVICES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   ZONES = resolveList(
@@ -305,7 +305,7 @@ export default function ToitPierrePiscinesPage() {
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-7">
               <div className="w-10 h-[2px] bg-[var(--brand,#b91c1c)]" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#fca5a5]">{clientTrade(sessionData) ?? "Pisciniste"} qualifié · Pays de la Loire</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.45em] text-[#fca5a5]">{clientTrade(sessionData) ?? "Pisciniste"} qualifié · {clientCity(sessionData) ?? "Pays de la Loire"}</span>
             </div>
           </motion.div>
 
@@ -502,12 +502,12 @@ export default function ToitPierrePiscinesPage() {
               <div className="w-7 h-7 bg-[#374151] flex items-center justify-center"><Home className="w-3.5 h-3.5 text-white" /></div>
               <span className="font-bold text-white text-sm">{fd?.businessName ?? "Toit & Pierre Piscines"}</span>
             </div>
-            <p className="text-white/25 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Pisciniste"} qualifié · Pays de la Loire. Construction, rénovation et entretien de piscines depuis 2004.</p>
+            <p className="text-white/25 text-sm leading-relaxed">{clientTrade(sessionData) ?? "Pisciniste"} qualifié · {clientCity(sessionData) ?? "Pays de la Loire"}.{clientName(sessionData) ? "" : " Construction, rénovation et entretien de piscines depuis 2004."}</p>
           </div>
           {[
             { t: "Prestations", ls: ["Construction sur-mesure", "Rénovation de bassin", "Sécurité & couverture", "Recherche de fuite", "Local technique", "Entretien & hivernage"] },
             { t: "Matériaux", ls: ["Béton projeté", "Coque polyester", "Bloc à bancher", "Liner armé", "Carrelage & mosaïque"] },
-            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "02 40 12 34 56"), (clientEmail(sessionData) ?? fd?.email ?? "devis@toitpierre.fr"), "Pays de la Loire", "Étude 3D offerte", "Devis gratuit sous 48h"] },
+            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "02 40 12 34 56"), (clientEmail(sessionData) ?? fd?.email ?? "devis@toitpierre.fr"), (clientCity(sessionData) ?? "Pays de la Loire"), "Étude 3D offerte", "Devis gratuit sous 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#b91c1c)] mb-5">{col.t}</h4>
@@ -519,7 +519,7 @@ export default function ToitPierrePiscinesPage() {
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
           <span>© 2026 {fd?.businessName ?? "Toit & Pierre Piscines"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 456 789 012 00067"} · Garantie Décennale · Assurance RC Pro{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
-          <span className="text-[var(--brand,#b91c1c)]/30">{clientTrade(sessionData) ?? "Pisciniste"} certifié · Pays de la Loire</span>
+          <span className="text-[var(--brand,#b91c1c)]/30">{clientTrade(sessionData) ?? "Pisciniste"} certifié · {clientCity(sessionData) ?? "Pays de la Loire"}</span>
         </div>
       </footer>
     </div>

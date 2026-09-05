@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientAddress,
   clientCity,
   clientInstagram,
   clientName,
@@ -145,7 +146,7 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
               </div>
               <div>
                 <div style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: 17, fontWeight: 700, color: C.accent, letterSpacing: "0.02em" }}>{clientName(__layoutSession) ?? "Pétales & Co"}</div>
-                <div style={{ fontFamily: "'Poppins', system-ui", fontSize: 10, color: C.sage, letterSpacing: "0.18em", textTransform: "uppercase" as const }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? "Artisan Florist"}</div>
+                {clientName(__layoutSession) ? null : <div style={{ fontFamily: "'Poppins', system-ui", fontSize: 10, color: C.sage, letterSpacing: "0.18em", textTransform: "uppercase" as const }}>Artisan Florist</div>}
               </div>
             </div></>
             )}
@@ -269,7 +270,7 @@ function FloristLayoutContent({ children }: { children: React.ReactNode }) {
           <div style={{ borderTop: `1px solid rgba(255,255,255,0.08)`, paddingTop: 32, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap" as const, gap: 16 }}>
             <div style={{ display: "flex", gap: 20, flexWrap: "wrap" as const }}>
               {[
-                { Icon: MapPin, text: "18 Rue du Marché, " + (clientCity(__layoutSession) ?? "Paris") + " 11e" },
+                { Icon: MapPin, text: clientAddress(__layoutSession) ?? clientCity(__layoutSession) ?? "18 Rue du Marché, Paris 11e" },
                 { Icon: Phone, text: clientPhone(__layoutSession) ?? "+33 1 43 00 00 00" },
                 { Icon: Clock, text: "Mar–Sam, 9h–19h" },
               ].map(({ Icon, text }) => (

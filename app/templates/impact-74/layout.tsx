@@ -73,7 +73,7 @@ export default function CyberSecurityLayout({
                   </span>
                 </div>
                 <p className="text-white/20 max-w-sm mb-12 uppercase tracking-widest text-[10px] font-bold leading-relaxed italic">
-                  Restaurant gastronomique, {clientCity(__layoutSession) ?? "Paris"} 8ème. Cuisine de saison,
+                  Restaurant gastronomique, {clientCity(__layoutSession) ?? "Paris 8ème"}. Cuisine de saison,
                   produits d'exception, service en salle irréprochable.
                 </p>
                 <form
@@ -180,7 +180,7 @@ export default function CyberSecurityLayout({
               </Link>
             </div>
             <div className="flex gap-10">
-              <span>{clientCity(__layoutSession) ?? "Paris"} 8ème</span>
+              <span>{clientCity(__layoutSession) ?? "Paris 8ème"}</span>
             </div>
           </div>
         </div>

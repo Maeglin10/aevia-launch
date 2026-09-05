@@ -208,9 +208,9 @@ function EDIT_ROWS_SOURCE_LIVE() {
     eyebrow: 'Le lieu',
     imgId: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/9120377/pexels-photo-9120377.jpeg?auto=compress&cs=tinysrgb&w=1600'),
     imgW: 800,
-    title: 'Chartrons, / ',
-    titleItalic: 'depuis 2007.',
-    body: "Au cœur du quartier des négociants en vin, dans une maison de ville du XVIIIe siècle. 45 couverts, lumière d'atelier, brunch du dimanche de 9h à 14h. Fermé lundi et mardi — pour mieux ouvrir le reste de la semaine.",
+    title: clientCity(sessionData) ? clientCity(sessionData) + ', / ' : 'Chartrons, / ',
+    titleItalic: clientName(sessionData) ? 'le lieu.' : 'depuis 2007.',
+    body: clientName(sessionData) ? "45 couverts, lumière d'atelier, brunch du dimanche de 9h à 14h. Fermé lundi et mardi — pour mieux ouvrir le reste de la semaine." : "Au cœur du quartier des négociants en vin, dans une maison de ville du XVIIIe siècle. 45 couverts, lumière d'atelier, brunch du dimanche de 9h à 14h. Fermé lundi et mardi — pour mieux ouvrir le reste de la semaine.",
     reverse: true,
     ghostNum: '02',
   },
@@ -680,7 +680,7 @@ function Hero() {
           transition={{ duration: 1.2, ease: EASE, delay: 0.1 }}
         >
           <Eyebrow color={C.accentLight}>
-            Boulangerie-Café · {clientCity(sessionData) ?? "Bordeaux"} Chartrons
+            Boulangerie-Café · {clientCity(sessionData) ?? "Bordeaux Chartrons"}
           </Eyebrow>
         </motion.div>
 
@@ -1384,7 +1384,7 @@ function CraftPanel() {
                 color: C.accent,
               }}
             >
-              Artisan boulanger depuis 2007
+              {clientName(sessionData) ? "Artisan boulanger" : "Artisan boulanger depuis 2007"}
             </span>
             <p
               style={{
@@ -2068,7 +2068,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-            {clientCity(sessionData) ?? "Bordeaux"} Chartrons · France
+            {clientCity(sessionData) ?? "Bordeaux Chartrons"} · France
           </div>
           <div
             style={{
@@ -2152,7 +2152,7 @@ function Footer() {
         }}
       >
         <span>
-          © 2007–2026 {clientName(sessionData) ?? "Boulangerie des Chartrons"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © {clientName(sessionData) ? "2026" : "2007–2026"} {clientName(sessionData) ?? "Boulangerie des Chartrons"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#commander" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2235,11 +2235,11 @@ export default function Page() {
   EDIT_ROWS_SOURCE = EDIT_ROWS_SOURCE_LIVE();
 
   EDIT_ROWS = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "" })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...EDIT_ROWS_SOURCE[i % EDIT_ROWS_SOURCE.length], title: s.title, body: s.desc || "" || "", titleItalic: "" })),
     EDIT_ROWS_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

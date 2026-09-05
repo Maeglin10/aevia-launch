@@ -329,11 +329,11 @@ export default function EncreNoirePage() {
   bp = session?.businessProfile;
   sessionData = session;
   AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? "Sur devis", n: s.desc || "" })),
     TARIFS_DEMO,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
@@ -394,7 +394,7 @@ return (
               style={{ height: 30, maxWidth: 160, objectFit: 'contain', display: 'block' }}
             />
           ) : (
-            <>{/* NOM_LOGO */ clientName(sessionData) ?? "Encre"} <span style={{ fontStyle: "italic" }}>Noire</span></>
+            <>{/* NOM_LOGO */ clientName(sessionData) ?? "Encre"}{clientName(sessionData) ? null : <> <span style={{ fontStyle: "italic" }}>Noire</span></>}</>
           )}
         </div>
         <div id="mb226-nav" style={{ display: "flex", gap: 32, alignItems: "center" }}>      {NAV.map(({ l, h }) => (
@@ -606,9 +606,9 @@ return (
             </motion.button>
             <motion.a href={`mailto:${clientEmail(sessionData) ?? fd?.email ?? "contact@encrenoire-paris.fr"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.border}`, borderRadius: 4, padding: "13px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, minHeight: 44 }} whileHover={{ borderColor: C.accent, color: C.accent }}>
               <Mail size={17} />{clientEmail(sessionData) ?? fd?.email ?? "contact@encrenoire-paris.fr"}</motion.a>
-            <motion.a href={`https://instagram.com/${fd?.instagram ?? "encrenoire.paris"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.border}`, borderRadius: 4, padding: "13px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, minHeight: 44 }} whileHover={{ borderColor: C.accent, color: C.accent }}>
-              <Camera size={17} /> @encrenoire.paris
-            </motion.a>
+            {(fd?.instagram || !clientName(sessionData)) && <motion.a href={`https://instagram.com/${fd?.instagram ?? "encrenoire.paris"}`} style={{ background: "transparent", color: C.text, border: `2px solid ${C.border}`, borderRadius: 4, padding: "13px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, minHeight: 44 }} whileHover={{ borderColor: C.accent, color: C.accent }}>
+              <Camera size={17} /> @{fd?.instagram ?? "encrenoire.paris"}
+            </motion.a>}
           </div>
         </Reveal>
       </section>
@@ -618,11 +618,11 @@ return (
       <footer style={{ background: "#050505", borderTop: `1px solid ${C.border}`, padding: "48px 80px 24px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
-            <div style={{ fontFamily: FONT, fontSize: 20, color: C.accent, marginBottom: 8 }}>{clientName(sessionData) ?? "Encre"} <em>Noire</em></div>
+            <div style={{ fontFamily: FONT, fontSize: 20, color: C.accent, marginBottom: 8 }}>{clientName(sessionData) ?? "Encre"}{clientName(sessionData) ? null : <> <em>Noire</em></>}</div>
             <p style={{ color: "rgba(245,240,232,0.30)", fontSize: 13, lineHeight: 1.6 }}>Studio de tatouage · {clientCity(sessionData) ?? "Paris"}<br />Mar–Sam 10h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Paris") + ", Île-de-France" }, { icon: <Mail size={13} />, t: (clientEmail(sessionData) ?? fd?.email ?? "contact@encrenoire-paris.fr") }, { icon: <Clock size={13} />, t: "Mar–Sam 10h–19h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Paris, Île-de-France") }, { icon: <Mail size={13} />, t: (clientEmail(sessionData) ?? fd?.email ?? "contact@encrenoire-paris.fr") }, { icon: <Clock size={13} />, t: "Mar–Sam 10h–19h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(245,240,232,0.35)", fontSize: 13 }}>
                 <span style={{ color: C.accent }}>{item.icon}</span>{item.t}
               </div>

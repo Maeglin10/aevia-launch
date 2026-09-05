@@ -513,11 +513,11 @@ export default function Impact173Page() {
 
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, company: "", role: "", })),
     TESTIMONIALS_SOURCE,
   );
   FORMULES = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...FORMULES_DEMO[i % FORMULES_DEMO.length], name: s.title, price: s.price ?? FORMULES_DEMO[i % FORMULES_DEMO.length].price })),
+    clientServices(sessionData)?.map((s, i) => ({ ...FORMULES_DEMO[i % FORMULES_DEMO.length], name: s.title, price: s.price ?? "", features: [], })),
     FORMULES_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -550,9 +550,9 @@ export default function Impact173Page() {
       ...TEAM_DEMO[i % TEAM_DEMO.length],
       name: t.name ?? TEAM_DEMO[i % TEAM_DEMO.length].name,
       role: t.role ?? TEAM_DEMO[i % TEAM_DEMO.length].role,
-      since: t.specialty ?? TEAM_DEMO[i % TEAM_DEMO.length].since,
-      desc: t.bio ?? TEAM_DEMO[i % TEAM_DEMO.length].desc,
-      certs: t.credentials ? [t.credentials] : TEAM_DEMO[i % TEAM_DEMO.length].certs,
+      since: t.specialty ?? "",
+      desc: t.bio ?? "",
+      certs: t.credentials ? [t.credentials] : [],
     })),
     TEAM_DEMO
   );
@@ -1428,7 +1428,7 @@ export default function Impact173Page() {
               {[
                 { icon: Phone, text: (clientPhone(sessionData) ?? "+33 4 76 78 37 37") },
                 { icon: Mail, text: (clientEmail(sessionData) ?? fd?.email ?? "contact@structure-batisseurs.fr") },
-                { icon: MapPin, text: (clientCity(sessionData) ?? "Grenoble") + " · Montpellier · Nantes" },
+                { icon: MapPin, text: clientCity(sessionData) ?? "Grenoble · Montpellier · Nantes" },
               ].map((c, i) => {
                 const Icon = c.icon;
                 return (
@@ -1551,7 +1551,7 @@ export default function Impact173Page() {
             {[
               { title: "Missions", links: ["Construction Neuve", "Réhabilitation", "Gros Œuvre", "Promotion & AMO"] },
               { title: "Projets", links: ["Résidentiel", "Tertiaire", "Équipements publics", "Génie civil"] },
-              { title: "Contact", links: [(clientCity(sessionData) ?? "Grenoble") + " (siège)", (clientCity(sessionData) ?? "Montpellier"), (clientCity(sessionData) ?? "Nantes"), (clientEmail(sessionData) ?? fd?.email ?? "contact@structure-batisseurs.fr")] },
+              { title: "Contact", links: clientCity(sessionData) ? [clientCity(sessionData) + " (siège)", (clientEmail(sessionData) ?? fd?.email ?? "")].filter(Boolean) : ["Grenoble (siège)", "Montpellier", "Nantes", "contact@structure-batisseurs.fr"] },
             ].map(col => (
               <div key={col.title}>
                 <div style={{ fontSize: 11, color: C.orange, letterSpacing: 3, textTransform: "uppercase", fontWeight: 600, marginBottom: 20 }}>{col.title}</div>

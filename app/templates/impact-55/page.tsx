@@ -74,7 +74,7 @@ const NAV = [
 ];
 function EQUIPE_DEMO_LIVE() {
   return [
-  { n: "Maître Hélène Renard", r: "Associée fondatrice · Droit social", d: "Barreau de " + (clientCity(sessionData) ?? "Paris") + " depuis 2001. Licenciements, ruptures conventionnelles, contentieux prud'homal. Plaide elle-même ses dossiers." },
+  { n: "Maître Hélène Renard", r: "Associée fondatrice · Droit social", d: (clientCity(sessionData) ? "Licenciements, ruptures conventionnelles, contentieux prud'homal." : "Barreau de Paris depuis 2001. Licenciements, ruptures conventionnelles, contentieux prud'homal.") + " Plaide elle-même ses dossiers." },
   { n: "Maître Antoine Vasseur", r: "Associé · Droit des affaires", d: "Cessions, pactes d'associés, litiges commerciaux. Ancien juriste d'un groupe coté, passé au barreau en 2009." },
   { n: "Maître Claire Boutin", r: "Collaboratrice · Droit de la famille", d: "Divorces, résidence des enfants, successions conflictuelles. Formée à la médiation familiale." },
   { n: "Maître Samir Haddad", r: "Collaborateur · Droit pénal des affaires", d: "Enquêtes préliminaires, abus de biens sociaux, garde à vue. Astreinte assurée le week-end." },
@@ -97,7 +97,7 @@ let DOMAINES = DOMAINES_SOURCE;
 
 function ENGAGEMENTS_DEMO_LIVE() {
   return [
-  "Membre du Barreau de " + (clientCity(sessionData) ?? "Paris") + " depuis 2002",
+  clientCity(sessionData) ? "Membre du Barreau" : "Membre du Barreau de Paris depuis 2002",
   "Devis honoraires transparents avant tout engagement",
   "Convention d'honoraires systématique et détaillée",
   "Aide juridictionnelle acceptée sous conditions",
@@ -187,17 +187,17 @@ export default function CabinetRenardPage() {
     DOMAINES_SOURCE,
   );
   AVIS_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   ENGAGEMENTS = resolveList(clientCertifications(session), ENGAGEMENTS_DEMO);
   AVIS = resolveList(
-    clientReviews(session)?.map((r, i) => ({ ...AVIS_DEMO[i % AVIS_DEMO.length], texte: r.text, auteur: r.author })),
+    clientReviews(session)?.map((r, i) => ({ ...AVIS_DEMO[i % AVIS_DEMO.length], texte: r.text, auteur: r.author, detail: "", })),
     AVIS_DEMO,
   );
   EQUIPE = resolveList(
-    clientTeam(session)?.map((m, i) => ({ ...EQUIPE_DEMO[i % EQUIPE_DEMO.length], n: m.name, r: m.role })),
+    clientTeam(session)?.map((m, i) => ({ ...EQUIPE_DEMO[i % EQUIPE_DEMO.length], n: m.name, r: m.role, d: "" })),
     EQUIPE_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -304,7 +304,7 @@ export default function CabinetRenardPage() {
 
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.72)", lineHeight: 1.75, marginBottom: 40, maxWidth: 520 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
-            Cabinet Renard & Associés — expertise en droit des affaires, droit du travail, droit de la famille et RGPD. 22 ans d'exercice au Barreau de {clientCity(sessionData) ?? "Paris"}.
+            {clientName(sessionData) ?? "Cabinet Renard & Associés"} — expertise en droit des affaires, droit du travail, droit de la famille et RGPD.{clientCity(sessionData) ? "" : " 22 ans d'exercice au Barreau de Paris."}
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
@@ -458,11 +458,11 @@ export default function CabinetRenardPage() {
       <footer style={{ background: C.accent, padding: "48px 80px 24px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
-            <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", fontWeight: 300, color: C.gold, marginBottom: 8 }}>Maître Renard & Associés</div>
-            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Cabinet d'avocats · {clientCity(sessionData) ?? "Paris"}<br />Barreau de {clientCity(sessionData) ?? "Paris"}</p>
+            <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", fontWeight: 300, color: C.gold, marginBottom: 8 }}>{clientName(sessionData) ?? "Maître Renard & Associés"}</div>
+            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>Cabinet d'avocats · {clientCity(sessionData) ?? "Paris"}<br />{clientCity(sessionData) ? "Inscrits au Barreau" : "Barreau de Paris"}</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Paris") + ", Île-de-France" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "01 44 00 00 01") }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–18h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: clientCity(sessionData) ?? "Paris, Île-de-France" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "01 44 00 00 01") }, { icon: <Clock size={13} />, t: "Lun–Ven 9h–18h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
                 <span style={{ color: C.gold }}>{item.icon}</span>{item.t}
               </div>
@@ -470,7 +470,7 @@ export default function CabinetRenardPage() {
           </div>
         </div>
         <div style={{ borderTop: `1px solid ${C.gold}20`, paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 10 }}>
-          <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 Cabinet Renard & Associés — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span style={{ color: "rgba(255,255,255,0.20)", fontSize: 12 }}>© 2026 {clientName(sessionData) ?? "Cabinet Renard & Associés"} — Site par Aevia WS{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <a href="/templates/impact-55/legal" style={{ color: "rgba(255,255,255,0.20)", fontSize: 12, textDecoration: "none" }}>{c?.ctaText ?? <>Mentions légales</>}</a>
         </div>
       </footer>

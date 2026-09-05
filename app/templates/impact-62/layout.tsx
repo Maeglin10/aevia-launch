@@ -2,6 +2,7 @@
 import {
   clientCity,
   clientName,
+  clientTagline,
 } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
@@ -118,12 +119,14 @@ export default function SatoriLayout({
           </div>
 
           <div className="flex items-center gap-8">
+            {clientName(__layoutSession) ? null : (
             <div className="hidden md:flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#b8860b]">
               {[1, 2, 3].map((i) => (
                 <Star key={i} className="w-3 h-3 fill-[#b8860b]" />
               ))}
               <span className="ml-2">Michelin 2026</span>
             </div>
+            )}
             <MagneticBtn
               onClick={() => setReserveOpen(true)}
               className="px-8 py-3 border border-[#b8860b]/30 text-[#b8860b] text-[10px] font-bold uppercase tracking-widest hover:bg-[#b8860b] hover:text-black transition-all rounded-sm shadow-2xl bg-transparent cursor-pointer"
@@ -180,12 +183,11 @@ export default function SatoriLayout({
                     Restaurant
                   </span>
                   <span className="text-2xl font-light tracking-[0.3em] uppercase">
-                    SATORI
+                    {clientName(__layoutSession) ?? "SATORI"}
                   </span>
                 </div>
                 <p className="text-[#f5efe0]/20 max-w-sm mb-12 uppercase tracking-widest text-[10px] font-bold leading-relaxed italic">
-                  The pinnacle of three-Michelin-star gastronomy. Where fire
-                  meets master precision.
+                  {clientTagline(__layoutSession) ?? (clientName(__layoutSession) ? "" : "The pinnacle of three-Michelin-star gastronomy. Where fire meets master precision.")}
                 </p>
               </Reveal>
             </div>

@@ -43,7 +43,7 @@ let brand: any = null;
    ========================================================================== */
 
 function PROJECTS_DEMO_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}), desc: o.desc || "" })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ category: "", client: "", duration: "", role: "",  title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}), desc: o.desc || "" })), [
   { id: 1, title: "Fluid Horizons", category: "Photography", year: "2026", image: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/7172650/pexels-photo-7172650.jpeg?auto=compress&cs=tinysrgb&w=1600"), color: "var(--brand,#6366f1)", desc: "Capturing the ephemeral dance between sky and sea along the Icelandic coastline. A study in vastness, silence, and the weight of light at dusk.", role: "Photographer & Art Director", client: "National Geographic", duration: "3 mois" },
   { id: 2, title: "Tokyo Neon", category: "Street", year: "2025", image: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?q=80&w=1200&auto=format&fit=crop"), color: "#f43f5e", desc: "A nocturnal exploration of Shinjuku's electric veins — where neon bleeds into rain-slicked asphalt and human stories unfold in 1/125th of a second.", role: "Street Photographer", client: "Personal Project", duration: "6 semaines" },
   { id: 3, title: "Concrete Poetry", category: "Architecture", year: "2025", image: (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/33422507/pexels-photo-33422507.jpeg?auto=compress&cs=tinysrgb&w=1600"), color: "#10b981", desc: "Brutalist structures reimagined as sculptural poems. Exploring the tension between mass and void in post-war European architecture.", role: "Architecture Photographer", client: "Wallpaper Magazine", duration: "4 mois" },
@@ -262,11 +262,11 @@ export default function CreativePortfolioSPA() {
 
 
   SERVICES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
 
@@ -719,7 +719,7 @@ export default function CreativePortfolioSPA() {
         <div className="max-w-[1400px] mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-24">
             <div className="lg:col-span-1">
-              <span className="text-3xl font-light tracking-[0.2em] uppercase block mb-6">Elena<span className="font-black">Korr</span></span>
+              <span className="text-3xl font-light tracking-[0.2em] uppercase block mb-6">{clientName(sessionData) ?? (<>Elena<span className="font-black">Korr</span></>)}</span>
               <p className="text-white/40 text-sm leading-relaxed mb-8">
                 Fine art and commercial photography studio operating globally. Crafting timeless visual narratives for visionaries.
               </p>
@@ -735,9 +735,9 @@ export default function CreativePortfolioSPA() {
             <div>
               <h4 className="text-white font-medium mb-6 uppercase tracking-wider text-xs">Studio</h4>
               <ul className="space-y-4 text-white/50 text-sm">
-                <li><a href="#contact" className="hover:text-amber-400 transition-colors">{clientAddress({ businessProfile: bp }) ?? `12 Rue de Paradis, ${clientCity(sessionData) ?? "Paris"}`}</a></li>
-                <li><a href="#contact" className="hover:text-amber-400 transition-colors">Aoyama, Minato City, Tokyo</a></li>
-                <li><a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33145678900").replace(/[^+0-9]/g, "")}`} className="hover:text-amber-400 transition-colors">+33 (0) 1 45 67 89 00</a></li>
+                <li><a href="#contact" className="hover:text-amber-400 transition-colors">{clientAddress({ businessProfile: bp }) ?? clientCity(sessionData) ?? "12 Rue de Paradis, Paris"}</a></li>
+                {clientCity(sessionData) ? null : <li><a href="#contact" className="hover:text-amber-400 transition-colors">Aoyama, Minato City, Tokyo</a></li>}
+                <li><a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33145678900").replace(/[^+0-9]/g, "")}`} className="hover:text-amber-400 transition-colors">{clientPhone(sessionData) ?? fd?.phone ?? "+33 (0) 1 45 67 89 00"}</a></li>
               </ul>
             </div>
 

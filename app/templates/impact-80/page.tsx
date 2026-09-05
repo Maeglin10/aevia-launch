@@ -49,7 +49,7 @@ let c: any = null;
 let brand: any = null;
 
 function PROJECTS_DEMO_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ area: "", loc: "", type: "",  name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   {
     name: "The Obsidian Villa",
     loc: "Malibu, CA",
@@ -268,7 +268,7 @@ export default function SymmetryStudioPage() {
     FAQS_DEMO,
   );
   TEAM = resolveList(
-    clientTeam(session)?.map((m, i) => ({ ...TEAM_DEMO[i % TEAM_DEMO.length], name: m.name, role: m.role })),
+    clientTeam(session)?.map((m, i) => ({ ...TEAM_DEMO[i % TEAM_DEMO.length], name: m.name, role: m.role, bio: "", })),
     TEAM_DEMO,
   );
 

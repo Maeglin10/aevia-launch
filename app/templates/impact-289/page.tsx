@@ -533,7 +533,7 @@ function HeroSection() {
       >
         <Reveal y={18}>
           <Eyebrow color="rgba(255,255,255,0.78)" align="center">
-            {clientTrade(sessionData) ?? "Expert-comptable"} & commissaires aux comptes · {clientCity(sessionData) ?? "Strasbourg"} Neudorf
+            {clientTrade(sessionData) ?? "Expert-comptable"} & commissaires aux comptes · {clientCity(sessionData) ?? "Strasbourg Neudorf"}
           </Eyebrow>
         </Reveal>
 
@@ -600,11 +600,11 @@ function HeroSection() {
             justifyContent: 'center',
           }}
         >
-          {[
+          {(clientStats(sessionData)?.map((cs: any) => ({ v: cs.value, l: cs.label })) ?? [
             { v: '28 ans', l: "d'expertise" },
             { v: '340+', l: 'clients accompagnés' },
             { v: '12', l: 'experts dédiés' },
-          ].map((s) => (
+          ]).map((s) => (
             <div key={s.v} style={{ textAlign: 'center' }}>
               <div
                 style={{
@@ -1393,7 +1393,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
     quote:
       "Notre holding familiale gère cinq SCI. Les équipes de Schreiber ont restructuré l'ensemble du schéma fiscal. La réactivité et la profondeur de leur analyse sont celles d'un grand cabinet parisien — avec la proximité alsacienne en plus.",
     name: 'Famille Obermeyer',
-    role: 'Holding familiale · 5 entités · ' + (clientCity(sessionData) ?? 'Strasbourg') + ' Neudorf',
+    role: 'Holding familiale · 5 entités · Strasbourg Neudorf',
     saving: "38 500 € d'optimisation annuelle",
     stars: 5,
   },
@@ -1843,7 +1843,7 @@ function STATS_DEMO_LIVE() {
   {
     value: '28 ans',
     label: "d'expertise",
-    sub: 'Fondé en 1997 à ' + (clientCity(sessionData) ?? 'Strasbourg') + ' Neudorf',
+    sub: clientName(sessionData) ? 'Une expertise ancrée localement' : 'Fondé en 1997 à Strasbourg Neudorf',
   },
   {
     value: '340+',
@@ -1947,7 +1947,7 @@ function SPECIFICITES_LIVE() {
   {
     num: '§ 1',
     title: 'Régime concordataire',
-    body: "L'Alsace-Moselle dispose d'un régime de faillite spécifique issu du Code de Commerce allemand de 1900. Le concordat judiciaire (renommé redressement judiciaire en 1985 dans le reste de la France mais maintenu localement dans certaines procédures) offre des modalités de négociation avec les créanciers distinctes du droit commun. Nos experts maîtrisent ces procédures et vous représentent devant le Tribunal de Commerce de " + (clientCity(sessionData) ?? "Strasbourg") + ".",
+    body: "L'Alsace-Moselle dispose d'un régime de faillite spécifique issu du Code de Commerce allemand de 1900. Le concordat judiciaire (renommé redressement judiciaire en 1985 dans le reste de la France mais maintenu localement dans certaines procédures) offre des modalités de négociation avec les créanciers distinctes du droit commun. Nos experts maîtrisent ces procédures et vous représentent devant le Tribunal de Commerce.",
     impact: 'Procédures de sauvegarde spécifiques',
   },
   {
@@ -2127,18 +2127,19 @@ type PartnerCategory = {
 };
 
 function PARTNER_CATEGORIES_LIVE() {
+  if (clientName(sessionData)) return [];
   return [
   {
     category: 'Notaires',
     partners: [
-      { name: 'Étude Schmitt & Kœnig', detail: (clientCity(sessionData) ?? 'Strasbourg') + ' — Patrimoine & transmission' },
+      { name: 'Étude Schmitt & Kœnig', detail: 'Strasbourg — Patrimoine & transmission' },
       { name: 'Maître Hoffmann', detail: 'Neudorf — Immobilier & SCI' },
     ],
   },
   {
     category: 'Avocats',
     partners: [
-      { name: 'Cabinet Reiss Droit des Affaires', detail: (clientCity(sessionData) ?? 'Strasbourg') + ' — M&A, cessions' },
+      { name: 'Cabinet Reiss Droit des Affaires', detail: 'Strasbourg — M&A, cessions' },
       { name: 'Me Burger & Associés', detail: 'Droit social & contentieux prud\'homal' },
     ],
   },
@@ -2146,7 +2147,7 @@ function PARTNER_CATEGORIES_LIVE() {
     category: 'Banques',
     partners: [
       { name: "Caisse d\'Épargne Grand Est Europe", detail: 'Crédit entreprise & financement' },
-      { name: 'BNP Paribas ' + (clientCity(sessionData) ?? 'Strasbourg') + ' Centre', detail: 'Trésorerie & placements dirigeants' },
+      { name: 'BNP Paribas Strasbourg Centre', detail: 'Trésorerie & placements dirigeants' },
     ],
   },
   {
@@ -2161,6 +2162,7 @@ function PARTNER_CATEGORIES_LIVE() {
 let PARTNER_CATEGORIES = PARTNER_CATEGORIES_LIVE();;
 
 function PartnersSection() {
+  if (!PARTNER_CATEGORIES.length) return null;
   const sec: React.CSSProperties = {
     background: C.white,
     padding: 'clamp(88px,12vw,168px) clamp(24px,6vw,96px)',
@@ -2350,7 +2352,7 @@ function FooterSection() {
         { label: 'Diagnostic gratuit', href: '#contact' },
         { label: (clientPhone(sessionData) ?? '03 88 26 13 13'), href: `tel:${(clientPhone(sessionData) ?? '+33388000000').replace(/[^+0-9]/g, "")}` },
         { label: (clientEmail(sessionData) ?? 'contact@schreiber-ec.fr'), href: `mailto:${clientEmail(sessionData) ?? 'contact@schreiber-ec.fr'}` },
-        { label: `14 rue de Neudorf, ${clientCity(sessionData) ?? "Strasbourg"}`, href: '#contact' },
+        { label: clientAddress(sessionData) ?? clientCity(sessionData) ?? '14 rue de Neudorf, Strasbourg', href: '#contact' },
       ],
     },
   ];
@@ -2409,7 +2411,7 @@ function FooterSection() {
               maxWidth: 320,
             }}
           >
-            Cabinet indépendant fondé en 1997. Spécialiste du droit local
+            Cabinet indépendant{clientName(sessionData) ? "" : " fondé en 1997"}. Spécialiste du droit local
             Alsace-Moselle. Membre de l&apos;Ordre des Experts-Comptables — Grand
             Est.
           </p>
@@ -2573,7 +2575,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 1997–2026 {clientName(sessionData) ?? "Schreiber & Associés"} — Cabinet d&apos;expertise comptable
+          © {clientName(sessionData) ? "2026" : "1997–2026"} {clientName(sessionData) ?? "Schreiber & Associés"} — Cabinet d&apos;expertise comptable
           agréé. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>
@@ -2687,7 +2689,7 @@ export default function Impact289Page() {
     });
   });
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);

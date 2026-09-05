@@ -1209,6 +1209,7 @@ function Hero() {
           style={{ background: `linear-gradient(to right, ${C.pink} 0%, transparent 40%)` }}
         />
         {/* Float badge */}
+        {clientName(sessionData) ? null : (
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -1226,6 +1227,7 @@ function Hero() {
           <p className="text-[15px] font-semibold mb-0.5" style={{ color: C.text, fontFamily: "'Playfair Display', serif" }}>4.9 / 5</p>
           <p className="text-[11px]" style={{ color: C.textMuted, fontFamily: "'Inter', sans-serif" }}>+1 200 avis clients</p>
         </motion.div>
+        )}
       </motion.div>
     </section>
   )
@@ -2384,14 +2386,14 @@ export default function Impact134Page() {
   c = session?.generatedContent;
 
   INGREDIENTS = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...INGREDIENTS_SOURCE[i % INGREDIENTS_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...INGREDIENTS_SOURCE[i % INGREDIENTS_SOURCE.length], name: s.title, desc: s.desc || "" || "", scientific: "", origin: "", benefit: "" })),
     INGREDIENTS_SOURCE,
   );
   SETS = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SETS_SOURCE[i % SETS_SOURCE.length], name: s.title, price: s.price ?? SETS_SOURCE[i % SETS_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...SETS_SOURCE[i % SETS_SOURCE.length], name: s.title, price: s.price ?? "", desc: s.desc || "" })),
     SETS_SOURCE,
   );
-  PRODUCTS = resolveList(clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title , ...(s.price ? { price: s.price } : {})})), PRODUCTS_SOURCE);
+  PRODUCTS = resolveList(clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title, price: s.price ?? "", desc: s.desc || "", tag: "" })), PRODUCTS_SOURCE);
   REVIEWS_DEMO = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({ ...REVIEWS_SOURCE[i % REVIEWS_SOURCE.length], author: r.author, text: r.text })),
     REVIEWS_SOURCE,

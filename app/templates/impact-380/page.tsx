@@ -459,15 +459,14 @@ export default function BrasserieHoublonPage() {
     clientReviews(sessionData)?.map((r: any, i: number) => ({
       ...AVIS_SOURCE[i % AVIS_SOURCE.length],
       auteur: r.author,
-      texte: r.text,
-    })),
+      texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_DEMO[i % TARIFS_DEMO.length],
       a: s.title,
-      p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p,
+      p: s.price ?? "Sur devis",
       n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n,
     })),
     TARIFS_DEMO,
@@ -1537,7 +1536,7 @@ export default function BrasserieHoublonPage() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {[
-                { icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? `${ville}, Nord` },
+                { icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? (clientCity(sessionData) ? ville : `${ville}, Nord`) },
                 { icon: <Phone size={13} />, t: phone },
                 { icon: <Mail size={13} />, t: mail },
                 { icon: <Clock size={13} />, t: "Taproom : Jeu–Sam 17h–00h · boutique Mer–Sam 14h–19h" },

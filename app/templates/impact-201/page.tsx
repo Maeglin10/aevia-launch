@@ -791,11 +791,11 @@ export default function Impact201Page() {
 
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   SAVOIR_FAIRE = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...SAVOIR_FAIRE_DEMO[i % SAVOIR_FAIRE_DEMO.length], title: s.title })),
+    clientServices(sessionData)?.map((s, i) => ({ ...SAVOIR_FAIRE_DEMO[i % SAVOIR_FAIRE_DEMO.length], title: s.title, desc: s.desc || "" })),
     SAVOIR_FAIRE_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -1245,11 +1245,14 @@ return (
                 maxWidth: 500,
                 fontWeight: 300,
               }}
-            >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
+            >{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? (clientName(sessionData) ? <>
+              Des menus d&apos;exception composés pour vous à domicile —
+              produits locaux, technique irréprochable, émotions garanties.
+            </> : <>
               Antoine Lefèvre, formé chez Alain Passard et Anne-Sophie Pic,
               compose pour vous des menus d&apos;exception à domicile —
               produits locaux, technique irréprochable, émotions garanties.
-            </>}</p>
+            </>)}</p>
           </TextReveal>
 
           <TextReveal immediate delay={0.5}>
@@ -1524,12 +1527,16 @@ return (
                 marginBottom: 20,
                 fontWeight: 300,
               }}
-            >{c?.aboutText ?? <>
+            >{c?.aboutText ?? (clientName(sessionData) ? <>
+              Après des années en brigade dans de grandes maisons, nous avons
+              choisi d&apos;apporter la gastronomie là où elle crée les plus
+              beaux souvenirs : chez vous.
+            </> : <>
               Après dix ans en brigade — chez Alain Passard à L&apos;Arpège
               puis Anne-Sophie Pic à Valence — Antoine a choisi d&apos;apporter
               la gastronomie là où elle crée les plus beaux souvenirs : chez
               vous.
-            </>}</p>
+            </>)}</p>
           </TextReveal>
           <TextReveal delay={0.35}>
             <p
@@ -1611,7 +1618,7 @@ return (
                 textTransform: "uppercase" as const,
               }}
             >
-              Prendre contact avec Antoine
+              {clientName(sessionData) ? "Prendre contact" : "Prendre contact avec Antoine"}
             </MagneticButton>
           </TextReveal>
         </div>
@@ -2214,10 +2221,13 @@ return (
                   color: C.cream,
                   lineHeight: 1.1,
                 }}
-              >{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (<>
+              >{/* TEXTE_SECTION */ clientText(sessionData, "avis.titre") ?? (clientName(sessionData) ? (<>
+                Ils ont dîné{" "}
+                <em style={{ color: C.gold }}>avec nous.</em>
+              </>) : (<>
                 Ils ont dîné{" "}
                 <em style={{ color: C.gold }}>avec Antoine.</em>
-              </>)}</h2>
+              </>))}</h2>
             </TextReveal>
           </div>
           <TextReveal delay={0.2}>
@@ -2245,7 +2255,7 @@ return (
                   fontFamily: C.fontSans,
                 }}
               >
-                4.9 · 140 avis Google
+                {clientName(sessionData) ? "Avis clients" : "4.9 · 140 avis Google"}
               </span>
             </div>
           </TextReveal>
@@ -2357,7 +2367,7 @@ return (
                   fontWeight: 300,
                 }}
               >
-                Devis gratuit sous 24h. Disponible 7j/7 en Île-de-France et
+                Devis gratuit sous 24h. Disponible 7j/7{clientCity(sessionData) ? ` à ${clientCity(sessionData)}` : " en Île-de-France"} et
                 sur destination. Réponse personnalisée garantie.
               </p>
             </TextReveal>
@@ -2713,8 +2723,9 @@ return (
                   fontWeight: 300,
                 }}
               >
-                Chef Antoine Lefèvre — Prestation culinaire à domicile. {clientCity(sessionData) ?? "Paris"}
-                & Île-de-France. Disponible sur destination.
+                {clientName(sessionData)
+                  ? `Prestation culinaire à domicile. ${clientCity(sessionData) ?? ""} Disponible sur destination.`
+                  : "Chef Antoine Lefèvre — Prestation culinaire à domicile. Paris & Île-de-France. Disponible sur destination."}
               </p>
               <div
                 style={{
@@ -2832,7 +2843,7 @@ return (
                 fontFamily: C.fontSans,
               }}
             >
-              © 2025 {clientName(sessionData) ?? "Maison Saveur"} — Chef Antoine Lefèvre{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2025 {clientName(sessionData) ?? "Maison Saveur"}{clientName(sessionData) ? "" : " — Chef Antoine Lefèvre"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </p>
             <div style={{ display: "flex", gap: 24 }}>
               {["Mentions légales", "Politique de confidentialité", "CGV"].map(

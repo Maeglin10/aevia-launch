@@ -221,7 +221,7 @@ function EDIT_ROWS_LIVE() {
     ghostNum: 'I',
     titleLine1: "Écouter d'abord,",
     titleLine2: "soigner ensuite.",
-    body: 'Dans un monde médical où le temps manque, le cabinet du Dr. Beaumont a choisi de résister. Chaque consultation dure 30 minutes minimum. Pas de chronomètre, pas de patient suivant qui attend derrière la porte. Seulement vous, votre histoire, et le soin que vous méritez.',
+    body: `Dans un monde médical où le temps manque, ${clientName(sessionData) ? "notre cabinet" : "le cabinet du Dr. Beaumont"} a choisi de résister. Chaque consultation dure 30 minutes minimum. Pas de chronomètre, pas de patient suivant qui attend derrière la porte. Seulement vous, votre histoire, et le soin que vous méritez.`,
     /* Un modèle anatomique de cerveau pour « médecine générale » : la photo
        montre maintenant une consultation. */
     imgId: 'https://images.pexels.com/photos/39192333/pexels-photo-39192333.jpeg?auto=compress&cs=tinysrgb&w=1600',
@@ -230,9 +230,9 @@ function EDIT_ROWS_LIVE() {
   {
     eyebrow: 'Le cabinet',
     ghostNum: 'II',
-    titleLine1: (clientCity(sessionData) ?? 'Strasbourg') + '-Centre,',
+    titleLine1: clientCity(sessionData) ? clientCity(sessionData) + ',' : 'Strasbourg-Centre,',
     titleLine2: 'accessible.',
-    body: "Situ\u00e9 en plein c\u0153ur de " + (clientCity(sessionData) ?? "Strasbourg") + ", le cabinet est accessible en tram et dispose d'un parking \u00e0 200 m. Entr\u00e9e de plain-pied, acc\u00e8s fauteuil roulant. Pour ceux qui ne peuvent pas se d\u00e9placer, la t\u00e9l\u00e9consultation est disponible sur rendez-vous \u2014 m\u00eame qualit\u00e9 d'\u00e9coute, depuis chez vous.",
+    body: clientName(sessionData) ? "Situé en plein cœur de " + (clientCity(sessionData) ?? "la ville") + ", le cabinet est facilement accessible. Pour ceux qui ne peuvent pas se déplacer, la téléconsultation est disponible sur rendez-vous — même qualité d'écoute, depuis chez vous." : "Situé en plein cœur de Strasbourg, le cabinet est accessible en tram et dispose d'un parking à 200 m. Entrée de plain-pied, accès fauteuil roulant. Pour ceux qui ne peuvent pas se déplacer, la téléconsultation est disponible sur rendez-vous — même qualité d'écoute, depuis chez vous.",
     imgId: '1571019613454-1cb2f99b2d8b',
     reverse: true,
   },
@@ -459,7 +459,7 @@ function Nav() {
         ) : (
           <>
             <Heart size={18} color={C.accent} strokeWidth={2} fill={C.accent} />
-            {fd?.businessName ?? "Dr. Beaumont"}
+            {fd?.businessName ?? (clientName(sessionData) ?? "Dr. Beaumont")}
           </>
         )}
       </a>
@@ -1846,7 +1846,7 @@ function AppointmentForm() {
               lineHeight: 1.06,
             }}
           >{/* TEXTE_SECTION */ clientText(sessionData, "rdv.titre") ?? (<>
-            Consulter le Dr.&nbsp;Beaumont
+            {clientName(sessionData) ? "Prendre rendez-vous" : <>Consulter le Dr.&nbsp;Beaumont</>}
           </>)}</h2>
         </Reveal>
         <Reveal delay={0.14}>
@@ -2099,7 +2099,7 @@ function Footer() {
             }}
           >
             <Heart size={18} color={C.accent} strokeWidth={2} fill={C.accent} />
-            Dr.&nbsp;Beaumont
+            {clientName(sessionData) ?? <>Dr.&nbsp;Beaumont</>}
           </div>
           <p
             style={{
@@ -2134,7 +2134,7 @@ function Footer() {
               }}
             >
               <MapPin size={13} color={C.accent} strokeWidth={1.6} />
-              {clientAddress(sessionData) ?? "12 rue du Dôme · 67000 Strasbourg"}
+              {clientAddress(sessionData) ?? clientCity(sessionData) ?? "12 rue du Dôme · 67000 Strasbourg"}
             </div>
             <div
               style={{

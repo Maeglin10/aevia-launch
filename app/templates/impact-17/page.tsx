@@ -91,10 +91,10 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 };
 
 function projects_DEMO_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, location: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, location: o.detail || undefined, type: "", area: "", year: "", ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
   { name: "La Maison du Vent", location: (clientCity(sessionData) ?? "Marseille"), type: "Résidentiel", area: "480 m²", year: "2025", src: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/6620992/pexels-photo-6620992.jpeg?auto=compress&cs=tinysrgb&w=1600") },
   { name: "Pavillon Zénith", location: (clientCity(sessionData) ?? "Lyon"), type: "Culturel", area: "2 200 m²", year: "2025", src: (clientPhotos(sessionData)[1] || "https://images.pexels.com/photos/6620992/pexels-photo-6620992.jpeg?auto=compress&cs=tinysrgb&w=1600") },
-  { name: `Ateliers ${clientName(sessionData) ?? "Kéops"}`, location: (clientCity(sessionData) ?? "Paris") + " XIe", type: "Bureau mixte", area: "1 400 m²", year: "2024", src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80") },
+  { name: clientName(sessionData) ? `Ateliers ${clientCity(sessionData) ?? ""}`.trim() : "Ateliers Kéops", location: (clientCity(sessionData) ?? "Paris") + " XIe", type: "Bureau mixte", area: "1 400 m²", year: "2024", src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80") },
   { name: "Villa Terracotta", location: (clientCity(sessionData) ?? "Nice"), type: "Résidentiel", area: "320 m²", year: "2024", src: (clientPhotos(sessionData)[3] || "https://images.pexels.com/photos/29581806/pexels-photo-29581806.jpeg?auto=compress&cs=tinysrgb&w=1600") },
   { name: "Cour des Arts", location: (clientCity(sessionData) ?? "Bordeaux"), type: "Mixte culturel", area: "3 800 m²", year: "2023", src: (clientPhotos(sessionData)[4] || "https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=600&q=80") },
   { name: "Bibliothèque Nomade", location: (clientCity(sessionData) ?? "Nantes"), type: "Public", area: "1 900 m²", year: "2023", src: (clientPhotos(sessionData)[5] || "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80") },
@@ -115,7 +115,7 @@ const services_DEMO = [
    démonstration restait affiché. */
 function team_DEMO_LIVE() {
   return [
-  { name: `Nadia ${clientName(sessionData) ?? "Kéops"}`, role: "Architecte Fondatrice", years: "22 ans", citation: "L'architecture n'est pas seulement esthétique, c'est l'art d'habiter le monde avec respect." },
+  { name: "Nadia Kéops", role: "Architecte Fondatrice", years: "22 ans", citation: "L'architecture n'est pas seulement esthétique, c'est l'art d'habiter le monde avec respect." },
   { name: "Luc Ferrand", role: "Associé — Construction", years: "16 ans", citation: "Chaque pierre posée doit avoir une fonction, chaque espace une raison d'être." },
   { name: "Amina Belkacem", role: "Architecte DPLG", years: "9 ans", citation: "Concevoir des lieux de rencontre fluides qui s'intègrent organiquement dans la ville." },
 ];
@@ -211,10 +211,10 @@ export default function KeopsPage() {
   const projects: any[] = resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({
       name: b.caption ?? projects_DEMO[i % projects_DEMO.length].name,
-      location: projects_DEMO[i % projects_DEMO.length].location,
-      type: projects_DEMO[i % projects_DEMO.length].type,
-      area: projects_DEMO[i % projects_DEMO.length].area,
-      year: projects_DEMO[i % projects_DEMO.length].year,
+      location: "",
+      type: "",
+      area: "",
+      year: "",
       src: b.afterUrl || b.beforeUrl || projects_DEMO[i % projects_DEMO.length].src,
     })),
     projects_DEMO
@@ -728,7 +728,7 @@ function ContactPage() {
             <div className="space-y-4">
               <div className="flex items-center gap-3 text-sm text-[#1A1510]/70">
                 <MapPin className="w-4 h-4 text-[var(--brand,#C46A3E)] shrink-0" />
-                <span>Showroom Privé, 11 Rue de la Paix, 75002 {clientCity(sessionData) ?? "Paris"}</span>
+                <span>Showroom Privé, 11 Rue de la Paix, {clientCity(sessionData) ?? "75002 Paris"}</span>
               </div>
               <div className="flex items-center gap-3 text-sm text-[#1A1510]/70">
                 <Mail className="w-4 h-4 text-[var(--brand,#C46A3E)] shrink-0" />

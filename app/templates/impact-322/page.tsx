@@ -324,7 +324,7 @@ export default function Impact322Page() {
   const businessName = clientName(sessionData) ?? "Agence Prestige";
   const phone = clientPhone(sessionData) ?? fd?.contactPhone ?? "+33 1 74 89 65 41";
   const mail = clientEmail(sessionData) ?? fd?.contactEmail ?? "contact@agence-prestige.com";
-  const adresse = clientAddress(sessionData) ?? fd?.location ?? "8 Avenue Montaigne, 75008 Paris";
+  const adresse = clientAddress(sessionData) ?? fd?.location ?? clientCity(sessionData) ?? "8 Avenue Montaigne, 75008 Paris";
 
   /* Le portail tourne sur trois scènes ; les légendes viennent des
      expertises (celles du client quand il y en a). Un seul index pilote

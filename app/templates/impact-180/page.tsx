@@ -74,7 +74,7 @@ function RÉALISATIONS_LIVE() {
   return [
   { t: `Copropriété · 84 lots, ${clientCity(sessionData) ?? "Villeurbanne"}`, n: "Chaufferie gaz condensation", d: "Remplacement de deux chaudières de 1998 par une cascade de trois modules. Coupure de trois jours, en juin, avec production d'eau chaude maintenue." },
   { t: "Maison 1962 · Sainte-Foy", n: "Pompe à chaleur air/eau", d: "Dépose d'une chaudière fioul, PAC 11 kW et remplacement de six radiateurs. Facture de chauffage divisée par 2,4 sur la première saison." },
-  { t: "Restaurant · " + (clientCity(sessionData) ?? "Lyon") + " 2e", n: "Production ECS renforcée", d: "Ballon 500 L et bouclage sanitaire pour un service en continu. Posé de nuit pour ne pas fermer la salle." },
+  { t: "Restaurant · " + (clientCity(sessionData) ?? "Lyon 2e"), n: "Production ECS renforcée", d: "Ballon 500 L et bouclage sanitaire pour un service en continu. Posé de nuit pour ne pas fermer la salle." },
   { t: "Atelier · Corbas", n: "Aérothermes gaz", d: "800 m² à chauffer sans reprendre le réseau existant. Quatre aérothermes suspendus, régulation par zone." },
 ];
 }
@@ -116,7 +116,7 @@ let SERVICES_DEMO = SERVICES_SOURCE;
 /* Recalculée après l'arrivée de la session : figée à l'import, elle gardait la démonstration. */
 function TEMOIGNAGES_DEMO_LIVE() {
   return [
-  { q: "Chaudière tombée en panne un dimanche soir de janvier. Technicien présent en 3h. Pièce remplacée, chaudière repartie. Service au top.", n: "Bernard L.", l: (clientCity(sessionData) ?? "Bordeaux") + " (33)" },
+  { q: "Chaudière tombée en panne un dimanche soir de janvier. Technicien présent en 3h. Pièce remplacée, chaudière repartie. Service au top.", n: "Bernard L.", l: (clientCity(sessionData) ?? "Bordeaux (33)") },
   { q: "Thermotek nous a installé une PAC air-eau et géré toutes les aides MaPrimeRénov'. Économie de 60% sur notre facture de gaz. Exceptionnel.", n: "Isabelle & Marc D.", l: "Mérignac (33)" },
   { q: "Entretien annuel ponctuel, technicien sérieux et pédagogue. Le rapport de combustion est clair. On continue avec Thermotek depuis 8 ans.", n: "Sylvain A.", l: "Pessac (33)" },
 ];
@@ -183,7 +183,7 @@ export default function ThermotekChauffagePage() {
 
 
   SERVICES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   ZONES = resolveList(

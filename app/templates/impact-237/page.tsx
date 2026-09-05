@@ -14,6 +14,7 @@ import { ArrowRight, ChevronDown, Quote, Star } from 'lucide-react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientBookingUrl,
+  clientAddress,
   clientCity,
   clientEmail,
   clientHeroLine,
@@ -226,7 +227,7 @@ const EDIT_ROWS: EditRow[] = [
         <span style={{ fontStyle: 'italic' }}>sans douleur.</span>
       </>
     ),
-    body: "Chez Sorrento, chaque geste est pensé pour votre confort. Anesthésie topique systématique, technique Wand d'injection sans aiguille visible, musique d'ambiance et protocole anti-anxiété — nous avons réinventé la consultation dentaire pour ceux qui redoutaient le fauteuil.",
+    body: `Chez ${clientName(sessionData) ?? "Sorrento"}, chaque geste est pensé pour votre confort. Anesthésie topique systématique, technique Wand d'injection sans aiguille visible, musique d'ambiance et protocole anti-anxiété — nous avons réinventé la consultation dentaire pour ceux qui redoutaient le fauteuil.`,
     reverse: false,
   },
   {
@@ -530,7 +531,7 @@ function Nav() {
         ) : (
           <>
             <span style={{ color: C.accent, fontSize: 22 }}>◉</span>
-            {fd?.businessName ?? "Sorrento"}
+            {fd?.businessName ?? (clientName(sessionData) ?? "Sorrento")}
           </>
         )}
       </a>
@@ -1476,7 +1477,7 @@ function TechPanel() {
                 marginBottom: 10,
               }}
             >
-              Cabinet Sorrento · {clientCity(sessionData) ?? "Nice"}
+              {clientName(sessionData) ?? "Cabinet Sorrento"}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : clientName(sessionData) ? "" : " · Nice"}
             </div>
             <div
               style={{
@@ -2064,7 +2065,7 @@ function Footer() {
             }}
           >
             <span style={{ color: C.accent, fontSize: 22 }}>◉</span>
-            Sorrento
+            {clientName(sessionData) ?? "Sorrento"}
           </div>
           <p
             style={{
@@ -2077,7 +2078,7 @@ function Footer() {
               marginBottom: 24,
             }}
           >
-            Cabinet dentaire Dr. Clara Sorrento &amp; Associés — 12 rue de la Liberté, 06000 {clientCity(sessionData) ?? "Nice"}.
+            {clientName(sessionData) ? <>{clientName(sessionData)}{clientAddress(sessionData) ? <> — {clientAddress(sessionData)}</> : clientCity(sessionData) ? <> — {clientCity(sessionData)}</> : null}.</> : <>Cabinet dentaire Dr. Clara Sorrento &amp; Associés — 12 rue de la Liberté, 06000 Nice.</>}
           </p>
           <div
             style={{
@@ -2179,7 +2180,7 @@ function Footer() {
           © 2026 {clientName(sessionData) ?? "Cabinet Dentaire Sorrento."} Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span>
-          Dr. Clara Sorrento · RPPS 00000000000 · Ordre des Chirurgiens-Dentistes
+          {clientName(sessionData) ? null : "Dr. Clara Sorrento · RPPS 00000000000 · Ordre des Chirurgiens-Dentistes"}
         </span>
       </div>
 
@@ -2282,7 +2283,7 @@ export default function Page() {
     TREATMENTS_SOURCE,
   );
   REVIEWS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...REVIEWS_SOURCE[i % REVIEWS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...REVIEWS_SOURCE[i % REVIEWS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     REVIEWS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

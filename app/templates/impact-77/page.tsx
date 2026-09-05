@@ -187,7 +187,7 @@ export default function HorologsLuxePage() {
     bpLocal?.beforeAfter?.map((b: any, i: number) => ({
       id: i + 1,
       src: b.afterUrl || b.beforeUrl || GRID_PHOTOS_DEMO[i % GRID_PHOTOS_DEMO.length].src,
-      category: GRID_PHOTOS_DEMO[i % GRID_PHOTOS_DEMO.length].category,
+      category: "",
       title: b.caption ?? GRID_PHOTOS_DEMO[i % GRID_PHOTOS_DEMO.length].title,
       aspect: GRID_PHOTOS_DEMO[i % GRID_PHOTOS_DEMO.length].aspect,
     })),
@@ -249,15 +249,13 @@ export default function HorologsLuxePage() {
 
       ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
 
-      quote: r.text, name: r.author,
-
-    })),
+      quote: r.text, name: r.author, role: "", })),
 
     AVIS_INLINE_SOURCE,
 
   );
   SERVICES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
 

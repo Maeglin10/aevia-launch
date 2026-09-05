@@ -118,7 +118,7 @@ export const COLLECTIONS = [
         stone: "Cadran squelette laqué",
         metal: "Or gris 18k",
         gem: "amethyst",
-        get desc() { return "Architecture squelette ouverte révélant le Calibre AH-14. Décor côtes de " + clientCityOr("Genève") + " poli à la main, 40h de réserve."; },
+        get desc() { return "Architecture squelette ouverte révélant le Calibre AH-14. Décor côtes de Genève poli à la main, 40h de réserve."; },
         limited: false,
       },
     ],
@@ -260,13 +260,13 @@ export const TEAM = [
   {
     name: "Viktor Brandt",
     role: "Maître Horloger",
-    get bio() { return "Ancien chef d'atelier chez Patek Philippe. Membre de l'Académie Horlogère de " + clientCityOr("Genève") + ". Spécialiste des complications grands feux."; },
+    get bio() { return "Ancien chef d'atelier chez Patek Philippe. Membre de l'Académie Horlogère de Genève. Spécialiste des complications grands feux."; },
     exp: "34 ans",
   },
   {
     name: "Amélie Rousseau",
     role: "Designer Joaillier",
-    get bio() { return "École Boulle, puis ESMA " + clientCityOr("Paris") + ". Primée au Grand Prix de la Création de la Ville de " + clientCityOr("Paris") + ". Auteure de 47 collections."; },
+    get bio() { return "École Boulle, puis ESMA Paris. Primée au Grand Prix de la Création de la Ville de Paris. Auteure de 47 collections."; },
     exp: "15 ans",
   },
 ];

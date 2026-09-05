@@ -135,7 +135,7 @@ function PROTOCOLS_LIVE() {
     index: 'I',
     label: 'BLESSURES SPORTIVES',
     title: 'Blessures sportives',
-    body: 'Entorses, déchirures musculaires, tendinites — protocoles de récupération validés par les staffs de ligue 1.',
+    body: clientName(sessionData) ? 'Entorses, déchirures musculaires, tendinites — protocoles de récupération éprouvés sur le terrain.' : 'Entorses, déchirures musculaires, tendinites — protocoles de récupération validés par les staffs de ligue 1.',
     imgId: (clientPhotos(sessionData)[0] || 'https://images.pexels.com/photos/20860607/pexels-photo-20860607.jpeg?auto=compress&cs=tinysrgb&w=1600'),
   },
   {
@@ -178,7 +178,7 @@ function EDIT_ROWS_LIVE() {
     titleLine1: 'Retour au jeu /',
     titleLine2: 'optimisé.',
     bodyLines: [
-      'Partenaire officiel de trois clubs sportifs parisiens, notre cabinet intègre des kinésithérapeutes du sport formés aux protocoles des staffs professionnels.',
+      clientName(sessionData) ? 'Notre cabinet intègre des kinésithérapeutes du sport formés aux protocoles des staffs professionnels.' : 'Partenaire officiel de trois clubs sportifs parisiens, notre cabinet intègre des kinésithérapeutes du sport formés aux protocoles des staffs professionnels.',
       'Chaque plan de rééducation est co-construit avec le sportif : objectifs de reprise, délais réalistes, critères de retour validés par nos praticiens.',
     ],
   },
@@ -2129,7 +2129,7 @@ function Footer() {
           color: 'rgba(196,220,204,0.46)',
         }}
       >
-        <span>© 2026 {clientName(sessionData) ?? "KinéSport Élite"} · {clientCity(sessionData) ?? "Paris"} 15e{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2026 {clientName(sessionData) ?? "KinéSport Élite"} · {clientCity(sessionData) ?? "Paris 15e"}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2232,7 +2232,7 @@ export default function Page() {
   EDIT_ROWS = EDIT_ROWS_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

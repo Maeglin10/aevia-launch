@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
+import { clientNameOr } from "@/lib/templates/clientContent";
 import { motion, AnimatePresence, useSpring, useMotionValue, useTransform, useInView } from "framer-motion";
 
 export const C = {
@@ -206,7 +207,7 @@ export function DistortedTitle() {
           userSelect: "none",
           paddingBottom: "0.15em"
         }}>
-          SKEW
+          {clientNameOr("").split(/\s+/).slice(0, Math.ceil(clientNameOr("SKEW").split(/\s+/).length / 2)).join(" ") || "SKEW"}
         </div>
         <div style={{
           fontFamily: "'Syne', sans-serif",
@@ -219,7 +220,7 @@ export function DistortedTitle() {
           userSelect: "none",
           paddingBottom: "0.15em"
         }}>
-          STUDIO
+          {clientNameOr("").split(/\s+/).slice(Math.ceil(clientNameOr("STUDIO").split(/\s+/).length / 2)).join(" ") || "STUDIO"}
         </div>
       </motion.div>
     </div>

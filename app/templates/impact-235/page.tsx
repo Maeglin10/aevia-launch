@@ -22,6 +22,7 @@ import {
   clientAddress,
   clientBookingUrl,
   clientCity,
+  clientName,
   clientEmail,
   clientHeroLine,
   clientHeroSubtitle,
@@ -215,7 +216,7 @@ function buildCollections() {
   return resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({
       num: COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].num,
-      season: COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].season,
+      season: "",
       caption: b.caption ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].caption,
       sub: COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].sub,
       img: b.afterUrl || b.beforeUrl || COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].img,
@@ -558,7 +559,7 @@ function Hero() {
           willChange: 'transform, opacity',
         }}
       >
-        <Eyebrow style={{ marginBottom: 28 }}>Couture sur mesure · Depuis 2008</Eyebrow>
+        <Eyebrow style={{ marginBottom: 28 }}>{clientName(sessionData) ? "Couture sur mesure" : "Couture sur mesure · Depuis 2008"}</Eyebrow>
 
         <h1
           style={{
@@ -711,7 +712,7 @@ function Manifesto() {
               color: C.textMuted,
             }}
           >
-            Marguerite Voss, fondatrice
+            {clientName(sessionData) ?? "Marguerite Voss, fondatrice"}
           </span>
           <div style={{ width: 40, height: 1, background: C.textFaint }} />
         </div>
@@ -1096,7 +1097,7 @@ function AtelierRows() {
         imgAlt="Sélection de tissus — Atelier Marguerite Voss"
         eyebrow="Le Tissu"
         heading="Des matières qui méritent votre peau"
-        body="Nous ne choisissons pas les tissus sur catalogue. Chaque saison, Marguerite Voss se rend à Lyon, Milan et Calais pour toucher, tendre, plier. Seuls les roulés qui résistent à cette exigence rejoignent l'atelier."
+        body={clientName(sessionData) ? "Nous ne choisissons pas les tissus sur catalogue. Chaque saison, l'atelier se rend à Lyon, Milan et Calais pour toucher, tendre, plier. Seuls les roulés qui résistent à cette exigence rejoignent l'atelier." : "Nous ne choisissons pas les tissus sur catalogue. Chaque saison, Marguerite Voss se rend à Lyon, Milan et Calais pour toucher, tendre, plier. Seuls les roulés qui résistent à cette exigence rejoignent l'atelier."}
         reverse={true}
       />
     </section>
@@ -1248,12 +1249,13 @@ function MaterialsPanel() {
 function Press() {
   const PRESS = resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({
-      outlet: r.name ?? r.author ?? PRESS_DEMO[i % PRESS_DEMO.length].outlet,
+      outlet: r.name ?? r.author ?? "",
       quote: r.text ?? r.quote,
-      issue: r.location ?? r.context ?? PRESS_DEMO[i % PRESS_DEMO.length].issue,
+      issue: r.location ?? r.context ?? "",
     })),
-    PRESS_DEMO
+    clientName(sessionData) ? [] : PRESS_DEMO
   );
+  if (!PRESS.length) return null;
   return (
     <section
       id="presse"
@@ -1634,7 +1636,7 @@ function Footer() {
     {
       heading: 'La Maison',
       href: '#maison',
-      links: ['Notre histoire', "L'atelier", 'Marguerite Voss', 'Nos engagements'],
+      links: clientName(sessionData) ? ['Notre histoire', "L'atelier", 'Nos engagements'] : ['Notre histoire', "L'atelier", 'Marguerite Voss', 'Nos engagements'],
     },
     {
       heading: 'Collections',
@@ -1696,7 +1698,7 @@ function Footer() {
               maxWidth: 240,
             }}
           >
-            Couture sur mesure au cœur de {clientCity(sessionData) ?? "Paris"}. Depuis 2008, chaque vêtement est une promesse tenue.
+            Couture sur mesure au cœur de {clientCity(sessionData) ?? "Paris"}. {clientName(sessionData) ? "Chaque vêtement est une promesse tenue." : "Depuis 2008, chaque vêtement est une promesse tenue."}
           </p>
           <div
             style={{
@@ -1797,7 +1799,7 @@ function Footer() {
             letterSpacing: '0.06em',
           }}
         >
-          © {year} Atelier Marguerite Voss. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © {year} {clientName(sessionData) ?? "Atelier Marguerite Voss"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <div style={{ display: 'flex', gap: 24 }}>
           {['Mentions légales', 'Politique de confidentialité', 'CGV'].map((l) => (

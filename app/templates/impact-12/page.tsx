@@ -17,6 +17,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientTagline,
   clientPhone,
   clientPhotos,
   clientServices,
@@ -423,7 +424,7 @@ export default function NoirCouturePage() {
                 {resolveList(
                   bp?.beforeAfter?.map((b: any, i: number) => ({
                     title: b.caption ?? editorials[i % editorials.length].title,
-                    category: editorials[i % editorials.length].category,
+                    category: "",
                     src: b.afterUrl || b.beforeUrl || editorials[i % editorials.length].src,
                   })),
                   editorials
@@ -456,7 +457,7 @@ export default function NoirCouturePage() {
                 {resolveList(
                   clientServices(sessionData)?.map((s: any, i: number) => ({
                     name: s.title ?? s.name,
-                    price: s.price ?? looks[i % looks.length].price,
+                    price: s.price ?? "",
                     src: looks[i % looks.length].src,
                   })),
                   looks
@@ -512,7 +513,7 @@ export default function NoirCouturePage() {
           <div className="grid md:grid-cols-4 gap-10 mb-12">
             <div>
               <p className="text-white text-xl mb-4 tracking-widest uppercase" style={{ fontFamily: "'Playfair Display', serif", fontSize: "0.9rem" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Noir Couture"))}</p>
-              <p className="text-white/30 text-sm leading-relaxed">Maison de couture parisienne. Fondée en 1998.</p>
+              <p className="text-white/30 text-sm leading-relaxed">{clientTagline(sessionData) ?? "Maison de couture parisienne. Fondée en 1998."}</p>
             </div>
             {[
               { title: "Univers", links: ["Collections", "Editorial", "Campagnes", "Archives"] },
@@ -722,7 +723,7 @@ function EditorialSubPage() {
   const editorialItems = resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({
       title: b.caption ?? editorialItems_DEMO[i % editorialItems_DEMO.length].title,
-      category: editorialItems_DEMO[i % editorialItems_DEMO.length].category,
+      category: "",
       src: b.afterUrl || b.beforeUrl || editorialItems_DEMO[i % editorialItems_DEMO.length].src,
       text: editorialItems_DEMO[i % editorialItems_DEMO.length].text,
     })),
@@ -1069,7 +1070,7 @@ function BoutiqueSubPage({ onAddToCart }: { onAddToCart: (item: { name: string; 
   const shopItems = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? s.name,
-      price: s.price ?? shopItems_DEMO[i % shopItems_DEMO.length].price,
+      price: s.price ?? "",
       category: shopItems_DEMO[i % shopItems_DEMO.length].category,
       src: shopItems_DEMO[i % shopItems_DEMO.length].src,
       desc: s.description ?? s.desc ?? shopItems_DEMO[i % shopItems_DEMO.length].desc,

@@ -246,7 +246,7 @@ export default function WanderlustPage() {
     });
   });
   REVIEWS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...REVIEWS_SOURCE[i % REVIEWS_SOURCE.length], author: r.author, text: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...REVIEWS_SOURCE[i % REVIEWS_SOURCE.length], author: r.author, text: r.text, role: "", })),
     REVIEWS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -255,9 +255,9 @@ export default function WanderlustPage() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       id: DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length].id,
       title: s.title ?? s.name,
-      country: DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length].country,
-      price: s.price ?? DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length].price,
-      days: DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length].days,
+      country: "",
+      price: s.price ?? "",
+      days: "",
       desc: s.description ?? s.desc ?? DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length].desc,
       image: DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length].image,
       color: DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length].color,
@@ -734,7 +734,7 @@ export default function WanderlustPage() {
                 href="#hero"
                 className="text-2xl font-bold tracking-tighter uppercase mb-6 block"
               >
-                Wander<span className="text-amber-500">Lust.</span>
+                {clientName(sessionData) ?? (<>Wander<span className="text-amber-500">Lust.</span></>)}
               </Link>
               <p className="text-stone-500 text-sm leading-relaxed mb-8">
                 Curators of extraordinary journeys to the most remote corners of
@@ -848,7 +848,7 @@ export default function WanderlustPage() {
 
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-stone-800 text-[10px] uppercase tracking-widest font-bold text-stone-600">
             <span>
-              &copy; {new Date().getFullYear()} Wanderlust Expeditions. All
+              &copy; {new Date().getFullYear()} {clientName(sessionData) ?? "Wanderlust Expeditions"}. All
               rights reserved.
             </span>
             <div className="flex gap-6">

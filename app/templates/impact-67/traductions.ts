@@ -10,6 +10,8 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "full-spectrum": "Capture totale,",
+    "capture.": "sans angle mort.",
     "enter property": "Entrer dans le bien",
     "portfolio_manifesto": "Notre_manifeste",
     "spatial protocol": "Protocole spatial",
@@ -37,6 +39,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "the obsidian atrium": "L'Atrium Obsidien",
   },
   es: {
+    "full-spectrum": "Captura total,",
+    "capture.": "sin ángulos muertos.",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -81,6 +85,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "the obsidian atrium": "El Atrio Obsidiana",
   },
   de: {
+    "full-spectrum": "Vollspektrum-",
+    "capture.": "Erfassung.",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -125,6 +131,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "the obsidian atrium": "Das Obsidian-Atrium",
   },
   pt: {
+    "full-spectrum": "Captura total,",
+    "capture.": "sem ângulo morto.",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

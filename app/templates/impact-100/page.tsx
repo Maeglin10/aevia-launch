@@ -53,7 +53,7 @@ let brand: any = null;
    ========================================================================= */
 
 function PROJECTS_DEMO_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, location: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ category: "",  name: o.title, location: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     id: 1,
     name: "The Obsidian Loft",
@@ -266,7 +266,7 @@ export default function NovaSpacesPage() {
     bp?.beforeAfter?.map((b: any, i: number) => ({
       id: i + 1,
       name: b.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].name,
-      category: PROJECTS_DEMO[i % PROJECTS_DEMO.length].category,
+      category: "",
       location: b.location ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].location,
       desc: b.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].desc,
       img: b.afterUrl || b.beforeUrl || PROJECTS_DEMO[i % PROJECTS_DEMO.length].img,
@@ -644,11 +644,13 @@ export default function NovaSpacesPage() {
             <Reveal>
               <div className="flex flex-col mb-12">
                 <span className="text-4xl font-light tracking-[0.3em] uppercase leading-none">
-                  Nova
+                  {clientName(sessionData) ?? "Nova"}
                 </span>
+                {clientName(sessionData) ? null : (
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-black/30 -mt-1 ml-1">
                   Spatial Design
                 </span>
+                )}
               </div>
               <p className="text-black/20 max-w-md mb-16 text-[11px] font-bold uppercase tracking-[0.2em] leading-loose italic">
                 A global spatial design atelier dedicated to the pursuit of
@@ -755,12 +757,14 @@ export default function NovaSpacesPage() {
         <div className="max-w-[1600px] mx-auto pt-12 border-t border-black/5 flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-bold uppercase tracking-[0.4em] text-black/10">
           <div className="flex items-center gap-12">
             <span>
-              &copy; {new Date().getFullYear()} NOVA SPATIAL DESIGN COLLECTIVE.
+              &copy; {new Date().getFullYear()} {(clientName(sessionData) ?? "NOVA SPATIAL DESIGN COLLECTIVE").toUpperCase()}.
             </span>
+            {clientName(sessionData) ? null : (
             <div className="flex gap-8">
               <span>RIBA_CHARTERED_PRACTICE</span>
               <span>AIA_VERIFIED_STUDIO</span>
             </div>
+            )}
           </div>
           <div className="flex gap-12 font-mono">
             <span>GRID_STATUS_LOCKED</span>

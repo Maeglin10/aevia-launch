@@ -501,20 +501,20 @@ export default function ImpactFrequencePage() {
 
 
   AUTHORS = resolveList(
-    clientTeam(session)?.map((m: any, i: number) => ({ ...AUTHORS_SOURCE[i % AUTHORS_SOURCE.length], name: m.name, role: m.role })),
+    clientTeam(session)?.map((m: any, i: number) => ({ ...AUTHORS_SOURCE[i % AUTHORS_SOURCE.length], name: m.name, role: m.role, bio: "", articles: "", count: "" })),
     AUTHORS_SOURCE,
   );
   PLANS = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, price: s.price ?? "", features: [], })),
     PLANS_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   STATS = resolveList(clientStats(session)?.map((r: any) => ({ val: r.value, label: r.label })), STATS_DEMO);
   TESTIMONIALS = resolveList(
-    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, name: r.author })),
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, name: r.author, role: "", })),
     TESTIMONIALS_DEMO,
   );
   FAQS = resolveList(
@@ -602,7 +602,7 @@ export default function ImpactFrequencePage() {
           INDÉPENDANT · FONDÉ EN 2019 · {clientCity(sessionData) ?? "PARIS"}
         </span>
         <span style={{ fontFamily: C.mono, fontSize: 10, color: "rgba(255,255,255,0.4)", letterSpacing: 2 }}>
-          № 047 · Lundi 5 mai 2025 · +15 200 abonnés
+          {clientName(sessionData) ? "№ 047" : "№ 047 · Lundi 5 mai 2025 · +15 200 abonnés"}
         </span>
       </div>
 
@@ -1391,7 +1391,7 @@ export default function ImpactFrequencePage() {
             Ce que nos lecteurs disent.
           </>)}</h2>
           <p style={{ fontFamily: C.sans, fontSize: 15, color: C.textMuted }}>
-            +15 200 abonnés actifs · 89% de taux d'ouverture
+            {clientName(sessionData) ? "Des abonnés fidèles chaque semaine" : "+15 200 abonnés actifs · 89% de taux d'ouverture"}
           </p>
         </div>
 
@@ -1882,7 +1882,7 @@ export default function ImpactFrequencePage() {
             Accès gratuit →
           </motion.button>
           <div style={{ fontFamily: C.mono, fontSize: 10, color: "rgba(255,255,255,0.3)", letterSpacing: 1 }}>
-            +15 200 abonnés · Aucun spam · Désabonnement en 1 clic
+            {clientName(sessionData) ? "Aucun spam · Désabonnement en 1 clic" : "+15 200 abonnés · Aucun spam · Désabonnement en 1 clic"}
           </div>
         </div>
       </section>

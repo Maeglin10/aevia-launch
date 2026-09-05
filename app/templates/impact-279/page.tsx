@@ -537,7 +537,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.terraLight} align="center">
-            {clientTrade(sessionData) ?? "Ostéopathe"} D.O. · {clientCity(sessionData) ?? "Lyon"} · Brotteaux
+            {clientTrade(sessionData) ?? "Ostéopathe"}{clientName(sessionData) ? "" : " D.O."} · {clientCity(sessionData) ?? "Lyon · Brotteaux"}
           </Eyebrow>
         </Reveal>
 
@@ -1195,7 +1195,7 @@ function TechniqueSection() {
                 fontWeight: 600,
               }}
             >
-              Dr Soler · Ostéopathe D.O.
+              {clientName(sessionData) ?? "Dr Soler · Ostéopathe D.O."}
             </div>
             <div
               style={{
@@ -1930,7 +1930,7 @@ function PractitionerSection() {
   };
 
   const formations = [
-    { year: '2010', label: 'Diplôme d\'Ostéopathie D.O. — IFSO ' + (clientCity(sessionData) ?? 'Lyon') },
+    { year: '2010', label: 'Diplôme d\'Ostéopathie D.O. — IFSO Lyon' },
     { year: '2012', label: 'Formation pédiatrique — Institut Méditerranéen' },
     { year: '2015', label: 'Spécialisation crânio-sacrée — Sutherland College' },
     { year: '2018', label: 'Ostéopathie du sportif — CDES Paris' },
@@ -1989,7 +1989,7 @@ function PractitionerSection() {
                 marginBottom: 28,
               }}
             >
-              {clientTrade(sessionData) ?? "Ostéopathe"} D.O. · 14 ans d&apos;expérience
+              {clientTrade(sessionData) ?? "Ostéopathe"}{clientName(sessionData) ? "" : " D.O. · 14 ans d'expérience"}
             </p>
           </Reveal>
           <Reveal delay={0.18}>
@@ -2003,8 +2003,8 @@ function PractitionerSection() {
                 marginBottom: 38,
               }}
             >
-              Diplômé de l&apos;Institut de Formation en Ostéopathie de {clientCity(sessionData) ?? "Lyon"} en 2010,
-              le Dr Antoine Soler exerce depuis 14 ans dans le quartier des Brotteaux.
+              {clientName(sessionData) ? <>Diplômé en ostéopathie,</> : <>Diplômé de l&apos;Institut de Formation en Ostéopathie de Lyon en 2010,</>}
+              {clientName(sessionData) ? "notre praticien vous reçoit au cabinet." : "le Dr Antoine Soler exerce depuis 14 ans dans le quartier des Brotteaux."}
               Sa pratique conjugue rigueur diagnostique et écoute profonde — chaque
               consultation dure 45 minutes, sans chronomètre.
             </p>
@@ -2138,9 +2138,9 @@ function PracticalSection() {
       icon: <MapPin size={26} color={C.terra} strokeWidth={1.4} />,
       title: 'Adresse',
       lines: [
-        '18 rue de la Barre',
+        ...(clientAddress(sessionData) ? [clientAddress(sessionData)!] : clientCity(sessionData) ? [] : ['18 rue de la Barre']),
         clientCodePostalVille(sessionData, "69006", "Lyon") + (clientCity(sessionData) ? '' : ' — Brotteaux'),
-        'Métro A — Foch ou Masséna',
+        ...(clientName(sessionData) ? [] : ['Métro A — Foch ou Masséna']),
         'Tram T1 — Saxe-Gambetta',
       ],
     },
@@ -2355,8 +2355,8 @@ function FooterSection() {
     {
       title: 'Accès',
       items: [
-        { label: (clientCity(sessionData) ?? 'Lyon') + ' — Brotteaux', href: '#cabinet' },
-        { label: 'Métro A — Foch', href: '#cabinet' },
+        { label: clientCity(sessionData) ?? 'Lyon — Brotteaux', href: '#cabinet' },
+        ...(clientName(sessionData) ? [] : [{ label: 'Métro A — Foch', href: '#cabinet' }]),
         { label: (clientPhone(sessionData) ?? '04 78 25 86 86'), href: `tel:${(clientPhone(sessionData) ?? '+33478000000').replace(/[^+0-9]/g, "")}` },
         { label: 'Email', href: `mailto:${clientEmail(sessionData) ?? 'cabinet.soler@gmail.com'}` },
       ],
@@ -2399,7 +2399,7 @@ function FooterSection() {
                 flexShrink: 0,
               }}
             />
-            {clientName(sessionData) ?? "Cabinet Soler"} · D.O.
+            {clientName(sessionData) ?? "Cabinet Soler · D.O."}
           </div>
           <p
             style={{
@@ -2412,7 +2412,7 @@ function FooterSection() {
               maxWidth: 320,
             }}
           >
-            Ostéopathie holistique · {clientCity(sessionData) ?? "Lyon"} Brotteaux · Depuis 2010.
+            Ostéopathie holistique · {clientCity(sessionData) ?? "Lyon Brotteaux"}{clientName(sessionData) ? "." : " · Depuis 2010."}
           </p>
           <div
             style={{
@@ -2523,8 +2523,8 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2026 {clientName(sessionData) ?? "Cabinet Soler"} · Ostéopathe D.O. · ADELI&nbsp;69XXXXXXX ·
-          Registre ARS Auvergne-Rhône-Alpes{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2026 {clientName(sessionData) ?? "Cabinet Soler"}{clientName(sessionData) ? null : <> · Ostéopathe D.O. · ADELI&nbsp;69XXXXXXX ·
+          Registre ARS Auvergne-Rhône-Alpes</>}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a

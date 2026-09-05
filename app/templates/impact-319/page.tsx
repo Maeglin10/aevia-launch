@@ -345,7 +345,7 @@ export default function EcoCleanHabitatPage() {
   const phone = clientPhone(sessionData) ?? "01 20 51 13 32";
   const telHref = `tel:${(clientPhone(sessionData) ?? "0120511332").replace(/[^+\d]/g, "")}`;
   const mail = clientEmail(sessionData) ?? "contact@eco-clean-habitat.fr";
-  const adresse = fd?.contactAddress ?? clientAddress(sessionData) ?? `123 Rue de la Nature, ${ville}`;
+  const adresse = fd?.contactAddress ?? clientAddress(sessionData) ?? (clientCity(sessionData) ? ville : `123 Rue de la Nature, ${ville}`);
 
   return (
     <div style={{ background: C.bg, color: C.ink, fontFamily: SANS, overflowX: "clip" }}>

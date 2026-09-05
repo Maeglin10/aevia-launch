@@ -68,7 +68,7 @@ const NAV = [
   { l: "Contact", h: "#contact" },
 ];
 function FORFAITS_LIVE() {
-  return /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ n: s.title, ...(s.price ? { p: s.price } : {}) })), [
+  return /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ n: s.title, p: s.price ?? "Sur demande", d: s.desc || "" })), [
   { n: "Échappée · 1 h 30", p: "95 €", d: "Un gommage au sel de Guérande, puis un modelage du dos aux huiles chaudes. Le format d'après-travail." },
   { n: "Parenthèse · 2 h 30", p: "165 €", d: "Soin du visage complet, modelage corps intégral, accès au hammam avant la séance. Thé et repos inclus." },
   { n: "Journée Éclat · 4 h", p: "265 €", d: "Hammam, gommage, enveloppement, modelage 90 minutes, soin du visage, déjeuner léger sur place." },
@@ -208,11 +208,11 @@ export default function EclatSpaPage() {
 
 
   SOINS_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SOINS_SOURCE[i % SOINS_SOURCE.length], titre: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...SOINS_SOURCE[i % SOINS_SOURCE.length], titre: s.title, desc: s.desc || "", tag: "" })),
     SOINS_SOURCE,
   );
   AVIS_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   STATS = resolveList(clientStats(session), STATS_DEMO);
@@ -558,7 +558,7 @@ export default function EclatSpaPage() {
             <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>Institut beauté & spa · {clientCity(sessionData) ?? "Nice"}<br />Mar–Sam 9h–19h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Nice") + ", Alpes-Maritimes" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "04 93 00 00 00") }, { icon: <Clock size={13} />, t: "Mar–Sam 9h–19h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Nice, Alpes-Maritimes") }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "04 93 00 00 00") }, { icon: <Clock size={13} />, t: "Mar–Sam 9h–19h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", gap: 10, color: "rgba(255,255,255,0.38)", fontSize: 13 }}>
                 <span style={{ color: C.rose }}>{item.icon}</span>{item.t}
               </div>

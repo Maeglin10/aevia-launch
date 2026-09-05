@@ -139,9 +139,7 @@ export default function OasisWellnessPage() {
 
       ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
 
-      quote: r.text, author: r.author,
-
-    })),
+      quote: r.text, author: r.author, plan: "", })),
 
     AVIS_INLINE_SOURCE,
 
@@ -482,7 +480,7 @@ export default function OasisWellnessPage() {
               <div className="w-10 h-10 rounded-full bg-[var(--brand,#2c3e2d)] flex items-center justify-center">
                 <Flower2 className="w-5 h-5 text-[#faf9f6]" />
               </div>
-              <span className="text-xl font-light tracking-[0.2em] uppercase">Oasis <span className="font-bold text-[var(--brand,#2c3e2d)]">Wellness</span></span>
+              <span className="text-xl font-light tracking-[0.2em] uppercase">{clientName(sessionData) ?? (<>Oasis <span className="font-bold text-[var(--brand,#2c3e2d)]">Wellness</span></>)}</span>
             </Link>
             <p className="text-[var(--brand,#2c3e2d)]/40 max-w-sm leading-relaxed mb-10 italic" style={{ fontFamily: "serif" }}>
               "Wellness is not a destination, but a state of being in harmony with the natural rhythms of life."

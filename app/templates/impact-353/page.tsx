@@ -158,7 +158,7 @@ const METHODE_DEMO = [
 let METHODE = METHODE_DEMO;
 
 const ENGAGEMENT_DEMO = [
-  "Agrément PMI de l'Isère — 12 places, locaux et taux d'encadrement contrôlés",
+  "Agrément PMI — locaux et taux d'encadrement contrôlés",
   "Équipe 100 % diplômée (EJE, auxiliaires de puériculture, CAP AEPE), stable depuis l'ouverture",
   "Analyse de pratiques mensuelle avec une psychologue extérieure",
   "Éligible CMG de la CAF : le vrai reste à charge est souvent proche d'une crèche municipale",
@@ -838,7 +838,7 @@ function Contact() {
             {[
               { icon: <Phone size={16} strokeWidth={1.6} />, l: "Téléphone", v: tel },
               { icon: <Mail size={16} strokeWidth={1.6} />, l: "Courriel", v: mail },
-              { icon: <MapPin size={16} strokeWidth={1.6} />, l: "La maison", v: clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "38000", "Grenoble") + ", Isère" },
+              { icon: <MapPin size={16} strokeWidth={1.6} />, l: "La maison", v: clientAddress(sessionData) ?? clientCodePostalVille(sessionData, "38000", "Grenoble") + (clientCity(sessionData) ? "" : ", Isère") },
               { icon: <Clock size={16} strokeWidth={1.6} />, l: "Ouverture", v: "Lun–Ven 7h30–18h30" },
             ].map((row, n) => (
               <div key={row.l} style={{ display: "grid", gridTemplateColumns: "auto minmax(0,1fr)", gap: 14, alignItems: "center", padding: "15px 0", borderTop: n === 0 ? "none" : `1px solid ${C.border}` }}>
@@ -872,12 +872,12 @@ function Footer() {
             <p style={{ fontFamily: SANS, fontWeight: 300, fontSize: 13.5, lineHeight: 1.8, margin: 0, maxWidth: 400 }}>
               {clientTrade(sessionData) ?? "Micro-crèche"} (12 places) · {clientCity(sessionData) ?? "Grenoble"}
               <br />
-              Agrément PMI Isère — équipe diplômée petite enfance
+              {clientName(sessionData) ? "Agrément PMI — équipe diplômée petite enfance" : "Agrément PMI Isère — équipe diplômée petite enfance"}
             </p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 11 }}>
             {[
-              { icon: <MapPin size={13} strokeWidth={1.6} />, t: clientCodePostalVille(sessionData, "38000", "Grenoble") + ", Isère" },
+              { icon: <MapPin size={13} strokeWidth={1.6} />, t: clientCodePostalVille(sessionData, "38000", "Grenoble") + (clientCity(sessionData) ? "" : ", Isère") },
               { icon: <Phone size={13} strokeWidth={1.6} />, t: tel },
               { icon: <Clock size={13} strokeWidth={1.6} />, t: "Lun–Ven 7h30–18h30" },
             ].map((row, n) => (
@@ -961,7 +961,7 @@ export default function PetitsCairnsPage() {
     SERVICES_DEMO,
   );
   AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, n: number) => ({ ...AVIS_SOURCE[n % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(sessionData)?.map((r: any, n: number) => ({ ...AVIS_SOURCE[n % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   AVIS = resolveList(

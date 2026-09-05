@@ -29,6 +29,7 @@ import {
   clientTeam,
   clientText,
   memoriserSession,
+  clientStats,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -110,7 +111,7 @@ export default function Impact83Page() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? s.name,
       cat: COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].cat,
-      price: s.price ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].price,
+      price: s.price ?? "",
       stone: s.description ?? COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].stone,
       img: COLLECTIONS_DEMO[i % COLLECTIONS_DEMO.length].img,
     })),
@@ -262,7 +263,7 @@ export default function Impact83Page() {
                 fontStyle: "italic",
               }}
             >{fd?.tagline ?? c?.heroSubline ?? <>
-              Depuis 1887, Aurelius Heritage perpétue l&apos;excellence de la joaillerie française et l&apos;art horloger suisse pour les collectionneurs du monde entier.
+              {clientName(sessionData) ? `${clientName(sessionData)} perpétue` : "Depuis 1887, Aurelius Heritage perpétue"} l&apos;excellence de la joaillerie française et l&apos;art horloger suisse pour les collectionneurs du monde entier.
             </>}</motion.p>
 
             <motion.div
@@ -385,7 +386,7 @@ export default function Impact83Page() {
                 Notre maison collabore avec les plus grandes manufactures horlogères suisses (Patek Philippe, A. Lange & Söhne) pour les complications horlogères de nos montres de collection.
               </p>
               <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2rem", borderTop: `1px solid ${C.border}`, paddingTop: "2rem" }}>
-                {[{ v: "1887", l: "Année de fondation" }, { v: "14", l: "Maîtres artisans" }, { v: "3 200+", l: "Pièces créées" }, { v: "28", l: "Pays de collectionneurs" }].map((s) => (
+                {resolveList(clientStats(sessionData)?.map((x: any) => ({ v: x.value, l: x.label })), [{ v: "1887", l: "Année de fondation" }, { v: "14", l: "Maîtres artisans" }, { v: "3 200+", l: "Pièces créées" }, { v: "28", l: "Pays de collectionneurs" }]).map((s) => (
                   <div key={s.l}>
                     <div style={{ fontFamily: FONT_HEADING, fontSize: "2rem", fontWeight: 300, color: C.accent }}>{s.v}</div>
                     <div style={{ fontFamily: FONT_LABEL, fontSize: 10, letterSpacing: "0.2em", textTransform: "uppercase", color: C.textMuted, marginTop: 4 }}>{s.l}</div>
@@ -409,7 +410,7 @@ export default function Impact83Page() {
       {/* ── STATS ───────────────────────────────────────────────────────── */}
       <section style={{ padding: "5rem 2rem", background: C.bgAlt, borderTop: `1px solid ${C.border}` }}>
         <div style={{ maxWidth: 1300, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: "1px", background: C.border }}>
-          {STATS.map((s, i) => (
+          {resolveList(clientStats(sessionData)?.map((x: any) => ({ value: x.value, label: x.label, suffix: "" })), STATS).map((s, i) => (
             <Reveal key={i} delay={i * 0.08}>
               <div style={{ background: C.bgAlt, padding: "3rem 2rem", textAlign: "center" }}>
                 <div style={{ fontFamily: FONT_HEADING, fontSize: "clamp(2rem,4vw,3.5rem)", fontWeight: 300, color: C.accent }}>

@@ -50,6 +50,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientSiret,
   clientPhone,
   clientPhotos,
   clientReviews,
@@ -340,7 +341,7 @@ export default function Page() {
       name: s.title ?? s.name,
       category: MENU_ITEMS_DEMO[i % MENU_ITEMS_DEMO.length].category,
       desc: s.description ?? s.desc,
-      price: s.price ?? MENU_ITEMS_DEMO[i % MENU_ITEMS_DEMO.length].price,
+      price: s.price ?? "",
     })),
     MENU_ITEMS_DEMO
   );
@@ -1119,7 +1120,7 @@ return (
                     </div>
                     <div>
                       <div style={{ fontSize: 11, letterSpacing: '0.05em', textTransform: 'uppercase', color: C.textMuted }}>Téléphone</div>
-                      <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33572755919").replace(/[^+0-9]/g, "")}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>+33 (0)5 00 00 00 00</a>
+                      <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33572755919").replace(/[^+0-9]/g, "")}`} style={{ fontSize: 15, color: C.text, fontWeight: 700, textDecoration: 'none' }}>{clientPhone(sessionData) ?? fd?.phone ?? "+33 (0)5 00 00 00 00"}</a>
                     </div>
                   </div>
 
@@ -1305,8 +1306,8 @@ return (
             <div>
               <h5 style={{ fontSize: 12, letterSpacing: '0.1em', textTransform: 'uppercase', color: C.primary, marginBottom: 16, fontWeight: 700 }}>Légal</h5>
               <p style={{ lineHeight: 1.6, fontSize: 12 }}>
-                SIRET: 894 302 596 00012<br />
-                TVA Intracommunautaire: FR 89 894302596<br />
+                {clientSiret(sessionData) ? <>SIRET: {clientSiret(sessionData)}<br /></> : clientName(sessionData) ? null : <>SIRET: 894 302 596 00012<br />
+                TVA Intracommunautaire: FR 89 894302596<br /></>}
                 Responsable de publication: {clientName(sessionData) ?? "Nexus Compta"}<br />
                 Hébergeur: Vercel Inc.
               </p>

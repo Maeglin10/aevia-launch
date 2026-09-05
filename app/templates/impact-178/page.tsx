@@ -64,10 +64,10 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 }
 
 function BIENS_DEMO_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, type: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
-  { type: "Appartement", title: "Haussmannien d'exception", loc: (clientCity(sessionData) ?? "Paris") + " 8ème", price: "2 450 000 €", surface: 185, pieces: 6, chambres: 4, sdb: 2, img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&q=80&w=1200"), badge: "Exclusivité" },
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ badge: "", loc: "", price: "", surface: "",  title: o.title, type: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  { type: "Appartement", title: "Haussmannien d'exception", loc: (clientCity(sessionData) ?? "Paris 8ème"), price: "2 450 000 €", surface: 185, pieces: 6, chambres: 4, sdb: 2, img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&q=80&w=1200"), badge: "Exclusivité" },
   { type: "Maison", title: "Villa contemporaine à toit-terrasse", loc: "Neuilly-sur-Seine", price: "3 200 000 €", surface: 260, pieces: 8, chambres: 5, sdb: 3, img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?auto=format&fit=crop&q=80&w=1200"), badge: "Nouveau" },
-  { type: "Penthouse", title: "Duplex vue panoramique", loc: (clientCity(sessionData) ?? "Paris") + " 16ème", price: "4 800 000 €", surface: 220, pieces: 7, chambres: 4, sdb: 3, img: (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/12278561/pexels-photo-12278561.jpeg?auto=compress&cs=tinysrgb&w=1600"), badge: "Coup de cœur" },
+  { type: "Penthouse", title: "Duplex vue panoramique", loc: (clientCity(sessionData) ?? "Paris 16ème"), price: "4 800 000 €", surface: 220, pieces: 7, chambres: 4, sdb: 3, img: (clientPhotos(sessionData)[2] || "https://images.pexels.com/photos/12278561/pexels-photo-12278561.jpeg?auto=compress&cs=tinysrgb&w=1600"), badge: "Coup de cœur" },
 ]);
 }
 let BIENS_DEMO = BIENS_DEMO_LIVE();
@@ -314,7 +314,7 @@ export default function AltaTransactionsPage() {
     });
   });
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -323,7 +323,7 @@ export default function AltaTransactionsPage() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...BIENS_DEMO[i % BIENS_DEMO.length],
       title: s.title ?? s.name,
-      price: s.price ?? BIENS_DEMO[i % BIENS_DEMO.length].price,
+      price: s.price ?? "",
     })),
     BIENS_DEMO
   );
@@ -549,7 +549,7 @@ export default function AltaTransactionsPage() {
           </Reveal>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {resolveList(clientReviews(sessionData)?.map((r: any) => ({ q: r.text ?? r.quote, a: r.name ?? r.author, p: r.location ?? r.detail ?? "" })), [
-              { q: "Vente de notre appartement en 11 jours au prix demandé. L'équipe Alta est d'une efficacité remarquable. Vrais professionnels, vrais résultats.", a: "Jean-Michel & Corinne T.", p: "Vendeurs · " + (clientCity(sessionData) ?? "Paris") + " 8ème" },
+              { q: "Vente de notre appartement en 11 jours au prix demandé. L'équipe Alta est d'une efficacité remarquable. Vrais professionnels, vrais résultats.", a: "Jean-Michel & Corinne T.", p: "Vendeurs · " + (clientCity(sessionData) ?? "Paris 8ème") },
               { q: "Après 6 mois de recherche infructueuse avec d'autres agences, Alta m'a trouvé mon appartement en 3 semaines. Un réseau et une réactivité hors norme.", a: "Sophie A.", p: "Acquéreur · Neuilly" },
               { q: "La gestion locative d'Alta est irréprochable. Zéro vacance depuis 4 ans sur mes 3 biens. Un vrai partenaire patrimonial.", a: "François D.", p: "Bailleur · Portfoli 3 biens" },
             ] as any[]).map((t: any, i: number) => (
@@ -621,7 +621,7 @@ export default function AltaTransactionsPage() {
           ))}
         </div>
         <div className="max-w-[1400px] mx-auto pt-8 border-t border-white/5 flex justify-between text-[10px] font-bold uppercase tracking-widest text-white/15">
-          <span>© 2026 {clientName(sessionData) ?? "Alta Transactions"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 456 789 123 00078"} · Carte professionnelle T/G/S n°C{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "Alta Transactions"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 456 789 123 00078"}{clientName(sessionData) ? "" : " · Carte professionnelle T/G/S n°C"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <span className="text-[var(--brand,#b8944a)]/30">Immobilier de prestige {clientCity(sessionData) ?? "Paris"}</span>
         </div>
       </footer>

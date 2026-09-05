@@ -29,6 +29,7 @@ import {
   clientServices,
   clientText,
   fusionnerEtapes,
+  clientAddress,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -256,7 +257,7 @@ export default function TextRevealPage() {
   WORKS_DEMO = WORKS_DEMO_LIVE();
 
   SERVICES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   WORKS = WORKS_DEMO.map((row, i) => ({
@@ -264,7 +265,7 @@ export default function TextRevealPage() {
     image: clientPhotos(session)[0 + i] || row.image,
   }));
   SERVICES = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
+    clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title, desc: s.desc || "" })),
     SERVICES_DEMO,
   );
 
@@ -721,6 +722,12 @@ export default function TextRevealPage() {
                 Offices
               </h4>
               <ul className="space-y-4 text-sm text-zinc-400">
+                {clientCity(sessionData) ? (
+                <li>
+                  <strong className="text-white block mb-1">{clientCity(sessionData)}</strong>{" "}
+                  {clientAddress(sessionData) ?? "Sur rendez-vous"}
+                </li>
+                ) : (<>
                 <li>
                   <strong className="text-white block mb-1">New York</strong>{" "}
                   100 Broadway, NY 10005
@@ -729,6 +736,7 @@ export default function TextRevealPage() {
                   <strong className="text-white block mb-1">London</strong> 12
                   Shoreditch High St.
                 </li>
+                </>)}
               </ul>
             </div>
 
@@ -786,8 +794,7 @@ export default function TextRevealPage() {
 
           <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-zinc-900 text-[10px] uppercase tracking-widest font-bold text-zinc-600">
             <span>
-              &copy; {new Date().getFullYear()} Reveal Studio. All rights
-              reserved.
+              &copy; {new Date().getFullYear()} {clientName(sessionData) ?? "Reveal Studio"}. Tous droits réservés.
             </span>
             <div className="flex gap-6">
               <Link href="#contact" className="hover:text-white transition-colors">

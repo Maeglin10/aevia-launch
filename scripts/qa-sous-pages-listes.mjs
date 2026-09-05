@@ -70,10 +70,10 @@ async function lire(theme, route) {
       tagline: "Votre plombier de confiance à Annecy", template: theme,
     } }),
   });
-  const { sessionId } = await r.json();
+  const { sessionId, editToken } = await r.json();
   if (!sessionId) throw new Error("session non créée");
   await fetch(`${BASE}/api/sessions?id=${sessionId}`, {
-    method: "PATCH", headers: { "content-type": "application/json" },
+    method: "PATCH", headers: { "content-type": "application/json", "x-edit-token": editToken },
     body: JSON.stringify({ businessProfile: PROFIL }),
   });
   const p = await ctx.newPage();

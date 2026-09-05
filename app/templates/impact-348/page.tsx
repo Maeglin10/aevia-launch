@@ -181,7 +181,7 @@ function METHODE_LIVE() {
 }
 
 const ENGAGEMENT_SOURCE = [
-  "Certification Qualiopi, NDA 75 33 12987 33 — audits publiés",
+  "Certification Qualiopi, NDA communiqué sur demande — audits publiés",
   "Titres professionnels RNCP reconnus par l'État (niveaux 3 à 5)",
   "Taux d'insertion à 6 mois publiés par parcours, réunions d'info mensuelles",
   "Promotion limitée à 12 : un formateur voit réellement chaque geste",
@@ -645,7 +645,7 @@ export default function AlmaCompetencesPage() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
       a: s.title,
-      p: s.price || TARIFS_SOURCE[i % TARIFS_SOURCE.length].p,
+      p: s.price || "Sur devis",
       n: s.description || s.desc || TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
     })),
     TARIFS_SOURCE,
@@ -1339,7 +1339,7 @@ export default function AlmaCompetencesPage() {
               <p style={{ fontFamily: BODY, fontSize: 13, lineHeight: 1.75, color: "rgba(243,233,218,0.42)", margin: 0 }}>
                 Organisme de formation certifié Qualiopi · {clientCodePostalVille(sessionData, "33000", "Bordeaux")}
                 <br />
-                NDA 75 33 12987 33 — titres professionnels RNCP
+                {clientName(sessionData) ? "NDA communiqué sur demande — titres professionnels RNCP" : "NDA 75 33 12987 33 — titres professionnels RNCP"}
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>

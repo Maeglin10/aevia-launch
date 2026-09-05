@@ -316,7 +316,7 @@ export default function Impact54Layout({
                   color: "#e8e8ff",
                 }}
               >
-                ARTGEN
+                {clientName(__layoutSession) ?? "ARTGEN"}
               </span>
             </div>
             <p style={{ fontSize: 13, color: "rgba(232,232,255,0.4)", lineHeight: 1.6, maxWidth: 300 }}>

@@ -276,7 +276,7 @@ export default function ChronicleEditorialPage() {
                 <h1 className="hero-ecran-court text-3xl md:text-5xl font-black uppercase tracking-tighter" style={{  fontFamily: "Georgia, serif" }}>{clientName(sessionData) ?? clientHeroLine(sessionData, 0, 1, 28) ?? c?.heroHeadline ?? <>
                   Chronicle.
                 </>}</h1>
-                {!scrolled && <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#1a1814]/50 mt-1">Est. 1924</span>}
+                {!scrolled && !clientName(sessionData) && <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-[#1a1814]/50 mt-1">Est. 1924</span>}
               </>
             )}
           </Link>
@@ -581,7 +581,7 @@ export default function ChronicleEditorialPage() {
         <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8 mb-24">
           <div className="lg:col-span-2">
             <h1 className="text-4xl font-black uppercase tracking-tighter text-[#fcfaf7] mb-6" style={{ fontFamily: "Georgia, serif" }}>
-              {c?.heroHeadline ?? "Chronicle."}
+              {c?.heroHeadline ?? clientName(sessionData) ?? "Chronicle."}
             </h1>
             <p className="max-w-sm text-sm font-serif italic leading-relaxed mb-8">
               A journal of politics, culture, and science. Truth without compromise. Clarity without condescension.

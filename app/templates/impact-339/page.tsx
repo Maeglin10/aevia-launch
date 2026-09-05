@@ -475,7 +475,7 @@ export default function MaisonAuditionPage() {
       ...AVIS_SOURCE[i % AVIS_SOURCE.length],
       texte: r.text ?? AVIS_SOURCE[i % AVIS_SOURCE.length].texte,
       auteur: r.author ?? r.name ?? AVIS_SOURCE[i % AVIS_SOURCE.length].auteur,
-      detail: r.source ?? r.location ?? r.role ?? AVIS_SOURCE[i % AVIS_SOURCE.length].detail,
+      detail: r.source ?? r.location ?? r.role ?? "",
     })),
     AVIS_SOURCE,
   );
@@ -485,8 +485,9 @@ export default function MaisonAuditionPage() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
       a: s.title ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].a,
-      p: s.price ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].p,
-      n: s.description ?? s.desc ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
+      p: s.price ?? "Sur devis",
+      n: s.description ?? s.desc ?? "",
+      phare: false,
     })),
     TARIFS_SOURCE,
   );
@@ -1172,7 +1173,7 @@ export default function MaisonAuditionPage() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {[
-                { icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? `${ville}, Indre-et-Loire` },
+                { icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? (clientCity(sessionData) ? ville : `${ville}, Indre-et-Loire`) },
                 { icon: <Phone size={13} />, t: phone },
                 { icon: <Mail size={13} />, t: mail },
                 { icon: <Clock size={13} />, t: "Lun–Ven 9h–18h30 · Sam 9h–13h" },

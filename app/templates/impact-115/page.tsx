@@ -31,6 +31,7 @@ import {
   clientTeam,
   clientText,
   clientWorks,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -76,7 +77,7 @@ let C: Record<string, string> = {
    ========================================================================== */
 
 function PROJECTS_DEMO_SOURCE_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}), desc: o.desc || "" })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ category: "", year: "",  title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     id: "p1",
     title: "Verdant Canopy",
@@ -630,7 +631,7 @@ export default function Impact115Page() {
     PROJECTS_DEMO_SOURCE,
   );
   SERVICES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   STATS = resolveList(clientStats(session), STATS_DEMO);
@@ -639,11 +640,11 @@ export default function Impact115Page() {
     image: clientPhotos(session)[0 + i] || row.image,
   }));
   SERVICES = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
+    clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title, desc: s.desc || "" })),
     SERVICES_DEMO,
   );
   TEAM = resolveList(
-    clientTeam(session)?.map((m, i) => ({ ...TEAM_DEMO[i % TEAM_DEMO.length], name: m.name, role: m.role })),
+    clientTeam(session)?.map((m, i) => ({ ...TEAM_DEMO[i % TEAM_DEMO.length], name: m.name, role: m.role, bio: "", })),
     TEAM_DEMO,
   );
 
@@ -1987,7 +1988,7 @@ export default function Impact115Page() {
                   />
                   <line x1="11" y1="24" x2="11" y2="9" stroke={C.bgDark} strokeWidth="1.2" />
                 </svg>
-                Rostova Studio
+                {clientName(sessionData) ?? "Rostova Studio"}
               </div>
               <p
                 style={{
@@ -2018,7 +2019,7 @@ export default function Impact115Page() {
               >
                 Studios
               </div>
-              {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? ["Oslo (HQ)", "Singapore", "Bali Studio"]).map((s) => (
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "contact.liste1") ?? (clientCity(sessionData) ? [clientCity(sessionData)] : ["Oslo (HQ)", "Singapore", "Bali Studio"])).map((s) => (
                 <div
                   key={s}
                   style={{
@@ -2105,7 +2106,7 @@ export default function Impact115Page() {
                   color: "rgba(255,255,255,0.4)",
                 }}
               >
-                +47 22 00 00 00
+                {clientPhone(sessionData) ?? fd?.phone ?? "+47 22 00 00 00"}
               </div>
             </div>
           </div>

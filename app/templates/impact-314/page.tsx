@@ -31,6 +31,7 @@ import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAccrocheRestante,
   clientAddress,
+  clientStats,
   clientCity,
   clientFaq,
   clientName,
@@ -430,7 +431,7 @@ export default function Page({ session: initialSession }) {
   }, [fd]);
   const phone = clientPhone(sessionData) || fd?.phone || "01 75 16 68 52";
   const email = fd?.email || "contact@plomberie-confort.fr";
-  const address = fd?.address || (clientAddress(sessionData) ?? "15 Rue de la Paix, 75002 Paris");
+  const address = fd?.address || (clientAddress(sessionData) ?? clientCity(sessionData) ?? "15 Rue de la Paix, 75002 Paris");
 
   const getIcon = (name) => {
     const icons = {
@@ -676,15 +677,18 @@ export default function Page({ session: initialSession }) {
 
               <Reveal delay={0.4}>
                 <div style={{ display: "flex", alignItems: "center", gap: "24px", marginTop: "48px" }}>
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <span style={{ color: C.white, fontFamily: SERIF, fontWeight: 700, fontSize: "32px" }}>15+</span>
-                    <span style={{ color: "rgba(255,255,255,0.6)", fontFamily: SANS, fontSize: "14px" }}>Années d'expérience</span>
-                  </div>
-                  <div style={{ width: "1px", height: "40px", backgroundColor: "rgba(255,255,255,0.2)" }} />
-                  <div style={{ display: "flex", flexDirection: "column" }}>
-                    <span style={{ color: C.white, fontFamily: SERIF, fontWeight: 700, fontSize: "32px" }}>500+</span>
-                    <span style={{ color: "rgba(255,255,255,0.6)", fontFamily: SANS, fontSize: "14px" }}>Chantiers réalisés</span>
-                  </div>
+                  {(clientStats(sessionData) ?? (clientName(sessionData) ? [] : [
+                    { value: "15+", label: "Années d'expérience" },
+                    { value: "500+", label: "Chantiers réalisés" },
+                  ])).map((st: any, i: number) => (
+                    <React.Fragment key={i}>
+                      {i > 0 && <div style={{ width: "1px", height: "40px", backgroundColor: "rgba(255,255,255,0.2)" }} />}
+                      <div style={{ display: "flex", flexDirection: "column" }}>
+                        <span style={{ color: C.white, fontFamily: SERIF, fontWeight: 700, fontSize: "32px" }}>{st.value}</span>
+                        <span style={{ color: "rgba(255,255,255,0.6)", fontFamily: SANS, fontSize: "14px" }}>{st.label}</span>
+                      </div>
+                    </React.Fragment>
+                  ))}
                 </div>
               </Reveal>
             </div>

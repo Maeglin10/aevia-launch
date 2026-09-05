@@ -187,7 +187,7 @@ const STATS_DEMO = [
 let STATS = STATS_DEMO;
 
 function ZONES_SOURCE_LIVE() {
-  return [clientCity(sessionData) ?? "La Rochelle", "Charente-Maritime", "30 km sans frais de livraison"];
+  return clientCity(sessionData) ? [clientCity(sessionData)!, "30 km sans frais de livraison"] : ["La Rochelle", "Charente-Maritime", "30 km sans frais de livraison"];
 }
 let ZONES_SOURCE = ZONES_SOURCE_LIVE();
 let ZONES = ZONES_SOURCE;
@@ -532,14 +532,14 @@ export default function AtlantiqueMaterielsPage() {
     SERVICES_SOURCE,
   );
   AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
     CLIENT_SERVICES?.map((s: any, i: number) => ({
       ...TARIFS_DEMO[i % TARIFS_DEMO.length],
       a: s.title,
-      p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p,
+      p: s.price ?? "Sur devis",
       n: s.description || s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n,
     })),
     TARIFS_DEMO,
@@ -1148,12 +1148,12 @@ export default function AtlantiqueMaterielsPage() {
               <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 300, color: "rgba(255,255,255,0.4)", lineHeight: 1.8, margin: 0 }}>
                 Location de matériel de réception · {ville}
                 <br />
-                Livraison, montage et reprise sur toute la Charente-Maritime
+                Livraison, montage et reprise {clientCity(sessionData) ? <>à {clientCity(sessionData)} et alentours</> : "sur toute la Charente-Maritime"}
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {[
-                { icon: <MapPin size={13} />, t: adresse ?? `${lieu}, Charente-Maritime` },
+                { icon: <MapPin size={13} />, t: adresse ?? (clientCity(sessionData) ? lieu : `${lieu}, Charente-Maritime`) },
                 { icon: <Phone size={13} />, t: phone },
                 { icon: <Mail size={13} />, t: mail },
                 { icon: <Clock size={13} />, t: "Lun–Ven 8h30–18h · Sam 9h–12h (retraits)" },

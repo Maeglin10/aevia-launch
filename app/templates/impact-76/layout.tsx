@@ -184,7 +184,7 @@ export default function StructuraArchLayout({
                     Modern.
                   </span>
                   <span className="text-2xl font-black tracking-tighter uppercase text-white">
-                    STRUCTURA<span className="text-stone-500">.ARCH</span>
+                    {clientName(__layoutSession) ?? (<>STRUCTURA<span className="text-stone-500">.ARCH</span></>)}
                   </span>
                 </div>
                 <p className="text-white/20 max-w-sm mb-12 uppercase tracking-widest text-[10px] font-bold leading-relaxed italic">

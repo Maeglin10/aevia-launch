@@ -60,7 +60,7 @@ let sessionData: any = null;
    ========================================================================= */
 
 function LISTINGS_DEMO_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ price: "",  title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   {
     id: 1,
     title: "The Obsidian Penthouse",
@@ -295,15 +295,15 @@ export default function SkylineConciergePage() {
   sessionData = session;
   LISTINGS_DEMO = LISTINGS_DEMO_LIVE();
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text, location: "", })),
     TESTIMONIALS_SOURCE,
   );
   SERVICES = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
+    clientServices(sessionData)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title, desc: s.desc || "" })),
     SERVICES_DEMO,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
@@ -349,9 +349,11 @@ export default function SkylineConciergePage() {
                         portait « Skyline » sur le site de n'importe quel client. */}
                     {clientName(sessionData) ?? "Skyline"}
                   </span>
+                  {clientName(sessionData) ? null : (
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a96e)] -mt-1">
                     Concierge Group
                   </span>
+                  )}
                 </div>
               </>
             )}
@@ -934,11 +936,13 @@ export default function SkylineConciergePage() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-xl font-black tracking-tighter uppercase leading-none">
-                    Skyline
+                    {clientName(sessionData) ?? "Skyline"}
                   </span>
+                  {clientName(sessionData) ? null : (
                   <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--brand,#c9a96e)] -mt-1">
                     Concierge Group
                   </span>
+                  )}
                 </div>
               </div>
               <p className="text-white/20 max-w-sm mb-12 text-[10px] font-bold uppercase tracking-[0.3em] leading-relaxed italic">
@@ -1082,8 +1086,7 @@ export default function SkylineConciergePage() {
         <div className="max-w-[1400px] mx-auto pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-bold uppercase tracking-widest text-white/10">
           <div className="flex items-center gap-10">
             <span>
-              &copy; {new Date().getFullYear()} SKYLINE CONCIERGE GROUP. ALL
-              RIGHTS RESERVED.
+              &copy; {new Date().getFullYear()} {(clientName(sessionData) ?? "SKYLINE CONCIERGE GROUP").toUpperCase()}. TOUS DROITS RÉSERVÉS.
             </span>
             <div className="flex gap-6">
               <span>SECURE_ENCRYPTION_V4.2</span>

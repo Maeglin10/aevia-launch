@@ -200,7 +200,7 @@ function EDIT_ROWS_DEMO_SOURCE_LIVE() {
         <span style={{ fontStyle: 'italic' }}>et sa région.</span>
       </>
     ),
-    body: "Depuis 15 ans, nous intervenons en Loire-Atlantique et en Vendée. Cette ancrage nous a permis de constituer une connaissance précise des sols, des micro-climats et des essences qui prospèrent ici. Argile de bocage, sable ligérien, vent d\'ouest atlantique — chaque chantier tient compte de ce qui existe déjà.",
+    body: clientName(sessionData) ? "Notre ancrage local nous a permis de constituer une connaissance précise des sols, des micro-climats et des essences qui prospèrent ici. Chaque chantier tient compte de ce qui existe déjà." : "Depuis 15 ans, nous intervenons en Loire-Atlantique et en Vendée. Cette ancrage nous a permis de constituer une connaissance précise des sols, des micro-climats et des essences qui prospèrent ici. Argile de bocage, sable ligérien, vent d'ouest atlantique — chaque chantier tient compte de ce qui existe déjà.",
     reverse: true,
     roman: 'II',
   },
@@ -636,7 +636,7 @@ function Hero() {
           {/* White, not accentLight (#c8dfc4): a pale green eyebrow on a green
               garden photo has almost no contrast. */}
           <Eyebrow color="#ffffff" light>
-            {clientTrade(sessionData) ?? "Paysagiste"} · {clientCity(sessionData) ?? "Nantes"} &amp; Loire-Atlantique
+            {clientTrade(sessionData) ?? "Paysagiste"} · {clientCity(sessionData) ? <>{clientCity(sessionData)} &amp; alentours</> : <>Nantes &amp; Loire-Atlantique</>}
           </Eyebrow>
         </Reveal>
 
@@ -1835,7 +1835,7 @@ function Footer() {
     {
       title: "Zone d'action",
       href: '#realisations',
-      items: [(clientCity(sessionData) ?? 'Nantes'), 'Saint-Herblain', 'Rezé', 'Ancenis', 'La Roche-sur-Yon'],
+      items: clientCity(sessionData) ? [clientCity(sessionData)! + ' et alentours'] : ['Nantes', 'Saint-Herblain', 'Rezé', 'Ancenis', 'La Roche-sur-Yon'],
     },
     {
       title: 'Approche & Contact',
@@ -1890,7 +1890,7 @@ function Footer() {
               maxWidth: 320,
             }}
           >
-            {clientTrade(sessionData) ?? "Paysagiste"} & aménagement extérieur à {clientCity(sessionData) ?? "Nantes"} depuis 2010. Jardins vivants, durables et sans chimie.
+            {clientTrade(sessionData) ?? "Paysagiste"} & aménagement extérieur à {clientCity(sessionData) ?? "Nantes"}{clientName(sessionData) ? "" : " depuis 2010"}. Jardins vivants, durables et sans chimie.
           </p>
           <div
             style={{
@@ -1907,7 +1907,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-            {clientCity(sessionData) ?? "Nantes"}, Loire-Atlantique
+            {clientCity(sessionData) ?? "Nantes, Loire-Atlantique"}
           </div>
         </div>
 
@@ -2079,11 +2079,11 @@ export default function Page() {
     });
   });
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   EDIT_ROWS = EDIT_ROWS_DEMO.map((row, i) => ({

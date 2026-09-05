@@ -58,6 +58,7 @@ import {
   clientHeroSubtitle,
   clientList,
   clientName,
+  clientTagline,
   clientPhone,
   clientPhotos,
   clientReviews,
@@ -2377,12 +2378,12 @@ export default function HorizonMaritimePage() {
                 </div>
                 <div>
                   <p style={{ fontFamily: "Cormorant Garamond, Georgia, serif", fontSize: "1.2rem", color: "#f0ece0", letterSpacing: 2, textTransform: "uppercase" }}>
-                    Horizon Maritime
+                    {clientName(sessionData) ?? "Horizon Maritime"}
                   </p>
                 </div>
               </div>
               <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 12, fontWeight: 300, color: "rgba(240,236,224,0.4)", lineHeight: 1.8, maxWidth: 280 }}>
-                Crafting extraordinary maritime experiences since 1997. Monaco — Geneva — Singapore.
+                {clientTagline(sessionData) ?? "Crafting extraordinary maritime experiences since 1997. Monaco — Geneva — Singapore."}
               </p>
               <div style={{ marginTop: "2rem", display: "flex", gap: "1rem" }}>
                 <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" style={{fontFamily: "Montserrat, sans-serif", fontSize: 10, color: brand ?? 'var(--brand,#c9a84c)', letterSpacing: 2, textDecoration: "none" }}>
@@ -2510,7 +2511,7 @@ export default function HorizonMaritimePage() {
             }}
           >
             <p style={{ fontFamily: "Montserrat, sans-serif", fontSize: 10, color: "rgba(240,236,224,0.25)", letterSpacing: 1 }}>
-              © 2026 {clientName(sessionData) ?? "Horizon Maritime Group S.A.M."} · Tous droits réservés · Monaco{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2026 {clientName(sessionData) ?? "Horizon Maritime Group S.A.M."} · Tous droits réservés · {clientCity(sessionData) ?? "Monaco"}
             </p>
             <div style={{ display: "flex", gap: "2rem" }}>
               {["Politique de confidentialité", "Conditions de la charte", "Politique cookies", "Mentions légales"].map((l) => (
@@ -2538,7 +2539,7 @@ export default function HorizonMaritimePage() {
 function FleetPage({ goTo }: { goTo: (p: ActivePage) => void }) {
   const [filter, setFilter] = useState<"all" | "motor" | "sailing" | "explorer">("all");
 
-  const fleetYachts = /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, type: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
+  const fleetYachts = /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ price: "",  name: o.title, type: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
     {
       name: "M/Y Lumière",
       type: "motor",
@@ -3141,7 +3142,7 @@ function ExperiencePage({ goTo }: { goTo: (p: ActivePage) => void }) {
 function ContactPage() {
   const offices = [
     { city: "Monaco", address: (clientAddress(sessionData) ?? "Port Hercules, 98000 Monaco"), phone: "+377 93 25 45 67", email: (clientEmail(sessionData) ?? fd?.email ?? "monaco@horizonmaritime.com") },
-    { city: "Geneva", address: "Rue du Rhône 42, 1204 " + (clientCity(sessionData) ?? "Genève") + ", Switzerland", phone: "+41 22 310 12 34", email: (clientEmail(sessionData) ?? fd?.email ?? "geneva@horizonmaritime.com") },
+    { city: "Geneva", address: "Rue du Rhône 42, 1204 Genève, Switzerland", phone: "+41 22 310 12 34", email: (clientEmail(sessionData) ?? fd?.email ?? "geneva@horizonmaritime.com") },
     { city: "Singapore", address: "Marina Bay Sands Office, 018956 Singapore", phone: "+65 6688 8888", email: (clientEmail(sessionData) ?? fd?.email ?? "singapore@horizonmaritime.com") },
   ];
 

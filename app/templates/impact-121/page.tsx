@@ -27,6 +27,8 @@ import {
   clientReviews,
   clientServices,
   clientText,
+  clientTagline,
+  clientAddress,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -492,7 +494,7 @@ export default function FolioStudioPage() {
               </Reveal>
             </div>
             <div className="space-y-6">
-              {MANIFEST.awards.map((award, i) => (
+              {(clientName(sessionData) ? [] : MANIFEST.awards).map((award, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <div className="flex items-center justify-between p-8 bg-zinc-50 rounded-2xl border border-zinc-100 hover:border-zinc-300 transition-colors group">
                     <div className="flex items-center gap-6">
@@ -665,10 +667,10 @@ export default function FolioStudioPage() {
               <div className="md:col-span-2">
                 <Link href="#hero" className="text-2xl font-bold tracking-tight flex items-center gap-2 mb-6">
                   <div className="w-6 h-6 bg-white rounded-sm" />
-                  FOLIO
+                  {clientName(sessionData) ?? "FOLIO"}
                 </Link>
                 <p className="text-zinc-400 max-w-sm text-lg">
-                  An independent creative studio based in Stockholm, serving global clients.
+                  {clientTagline(sessionData) ?? (clientCity(sessionData) ? `Un studio créatif indépendant basé à ${clientCity(sessionData)}.` : "An independent creative studio based in Stockholm, serving global clients.")}
                 </p>
               </div>
               
@@ -685,9 +687,8 @@ export default function FolioStudioPage() {
               <div>
                 <h4 className="font-bold mb-6 text-zinc-500 uppercase tracking-widest text-xs">Location</h4>
                 <address className="not-italic text-lg font-medium text-zinc-300">
-                  Kungsgatan 12<br />
-                  111 43 Stockholm<br />
-                  Sweden
+                  {clientAddress(sessionData) ?? (clientCity(sessionData) ?? "Kungsgatan 12, 111 43 Stockholm")}<br />
+                  {clientCity(sessionData) ? "France" : "Sweden"}
                 </address>
                 <div className="mt-6 text-lg font-medium">{clientEmail(sessionData) ?? fd?.email ?? "hello@foliostudio.com"}</div>
               </div>

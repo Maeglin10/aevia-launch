@@ -65,7 +65,7 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 }
 
 function PROJECTS_DEMO_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ year: "",  title: o.title, location: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { title: "Stone House", location: "Mallorca, ES", year: "2024", img: (clientPhotos(sessionData)[0] || "https://images.pexels.com/photos/326505/pexels-photo-326505.jpeg?auto=compress&cs=tinysrgb&w=1600") },
   { title: "Cedar Pavilion", location: "Vancouver, CA", year: "2023", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&q=80&w=1200") },
   { title: "Clay Studio", location: "Oaxaca, MX", year: "2024", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&q=80&w=1200") },
@@ -143,13 +143,13 @@ export default function TerraArchitecturePage() {
 
   EQUIPE_ANON = resolveList(
 
-    clientTeam({ formData: fd, businessProfile: bp, generatedContent: c })?.map((m: any, i: number) => ({ ...EQUIPE_ANON_SOURCE[i % EQUIPE_ANON_SOURCE.length], name: m.name, role: m.role })),
+    clientTeam({ formData: fd, businessProfile: bp, generatedContent: c })?.map((m: any, i: number) => ({ ...EQUIPE_ANON_SOURCE[i % EQUIPE_ANON_SOURCE.length], name: m.name, role: m.role, exp: "", })),
 
     EQUIPE_ANON_SOURCE,
 
   );
   PILLARS = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...PILLARS_DEMO[i % PILLARS_DEMO.length], title: s.title })),
+    clientServices(session)?.map((s, i) => ({ ...PILLARS_DEMO[i % PILLARS_DEMO.length], title: s.title, desc: s.desc || "" })),
     PILLARS_DEMO,
   );
   PROJECTS = PROJECTS_DEMO.map((row, i) => ({
@@ -418,7 +418,7 @@ export default function TerraArchitecturePage() {
               <div className="w-10 h-10 bg-[#3d3a35] flex items-center justify-center">
                 <Ruler className="w-5 h-5 text-[#f2f0eb]" />
               </div>
-              <span className="text-xl font-bold tracking-[0.1em] uppercase">Terra <span className="font-light italic text-[#3d3a35]/60">Studio</span></span>
+              <span className="text-xl font-bold tracking-[0.1em] uppercase">{clientName(sessionData) ?? (<>Terra <span className="font-light italic text-[#3d3a35]/60">Studio</span></>)}</span>
             </Link>
             <p className="text-[#3d3a35]/40 max-w-sm leading-relaxed mb-10 text-sm italic">
               "We believe in architecture that breathes with the world, using the elements of earth to build the dreams of man."
@@ -445,9 +445,9 @@ export default function TerraArchitecturePage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-[#3d3a35]/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-[#3d3a35]/30">
-          <span>© 2026 {clientName(sessionData) ?? "TERRA ARCHITECTURE STUDIO. BUILT"} WITH EARTH.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "TERRA ARCHITECTURE STUDIO"}.{clientName(sessionData) ? "" : " BUILT WITH EARTH."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-10">
-             <Link href="#contact" className="hover:text-[#3d3a35] transition-colors flex items-center gap-2"><Globe className="w-3 h-3" /> BASED IN COPENHAGEN</Link>
+             <Link href="#contact" className="hover:text-[#3d3a35] transition-colors flex items-center gap-2"><Globe className="w-3 h-3" /> {clientCity(sessionData) ? `BASÉ À ${clientCity(sessionData).toUpperCase()}` : "BASED IN COPENHAGEN"}</Link>
              <Link href="#contact" className="hover:text-[#3d3a35] transition-colors flex items-center gap-2"><MapPin className="w-3 h-3" /> PARIS · TOKYO</Link>
           </div>
         </div>

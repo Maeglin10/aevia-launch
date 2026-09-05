@@ -27,6 +27,7 @@ import {
   clientPhone,
   clientPhotos,
   clientReviews,
+  clientAddress,
   clientServices,
   clientText,
   fusionnerEtapes,
@@ -892,7 +893,7 @@ function ContactSection() {
             <div style={{ display: "flex", flexDirection: "column", gap: 16, fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.brown }}>
               <p>📞 <strong>Téléphone :</strong> {clientPhone(sessionData) ?? fd?.phone ?? "+33 4 78 28 00 00"}</p>
               <p>✉ <strong>Email :</strong>{clientEmail(sessionData) ?? fd?.email ?? "contact@maisonlaval.fr"}</p>
-              <p>📍 <strong>Adresse :</strong> 47 Grande Rue de la Croix-Rousse, 69004 {clientCity(sessionData) ?? "Lyon"}</p>
+              <p>📍 <strong>Adresse :</strong> {clientAddress(sessionData) ?? (clientCity(sessionData) ?? "47 Grande Rue de la Croix-Rousse, 69004 Lyon")}</p>
             </div>
           </div>
 
@@ -1047,11 +1048,11 @@ export default function Page() {
   HERO_BREADS_DEMO_SOURCE = HERO_BREADS_DEMO_SOURCE_LIVE();
 
   HERO_BREADS_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...HERO_BREADS_DEMO_SOURCE[i % HERO_BREADS_DEMO_SOURCE.length], name: s.title, price: s.price ?? HERO_BREADS_DEMO_SOURCE[i % HERO_BREADS_DEMO_SOURCE.length].price })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...HERO_BREADS_DEMO_SOURCE[i % HERO_BREADS_DEMO_SOURCE.length], name: s.title, d: s.desc || "", price: s.price ? String(s.price).replace(/\s*€\s*/g, "") : "" })),
     HERO_BREADS_DEMO_SOURCE,
   );
   WORKSHOPS = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...WORKSHOPS_SOURCE[i % WORKSHOPS_SOURCE.length], name: s.title, price: s.price ?? WORKSHOPS_SOURCE[i % WORKSHOPS_SOURCE.length].price })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...WORKSHOPS_SOURCE[i % WORKSHOPS_SOURCE.length], name: s.title, price: s.price ?? "" })),
     WORKSHOPS_SOURCE,
   );
   HERO_BREADS = HERO_BREADS_DEMO.map((row, i) => ({
@@ -1209,7 +1210,7 @@ export default function Page() {
             style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 12, marginBottom: 32 }}
           >
             <div style={{ height: 1, width: 48, background: C.amber }} />
-            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 12, letterSpacing: "0.3em", color: C.terracotta, fontStyle: "italic" }}>Depuis 1987 · {clientCity(sessionData) ?? "Lyon"}, Croix-Rousse</p>
+            <p style={{ fontFamily: "'Playfair Display', serif", fontSize: 12, letterSpacing: "0.3em", color: C.terracotta, fontStyle: "italic" }}>Depuis 1987 · {clientCity(sessionData) ?? "Lyon, Croix-Rousse"}</p>
             <div style={{ height: 1, width: 48, background: C.amber }} />
           </motion.div>
 
@@ -1386,7 +1387,7 @@ export default function Page() {
             </h2>
             <div style={{ background: C.bgCard, border: `1px solid ${C.border}`, borderRadius: 6, padding: "28px", marginBottom: 20 }}>
               <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 16, color: C.brown, fontWeight: 600, marginBottom: 6 }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Maison Laval"))}</p>
-              <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.muted, lineHeight: 1.6 }}>47 Grande Rue de la Croix-Rousse<br />69004 {clientCity(sessionData) ?? "Lyon"}, France</p>
+              <p style={{ fontFamily: "'Cabin', sans-serif", fontSize: 14, color: C.muted, lineHeight: 1.6 }}>{clientAddress(sessionData) ?? (clientCity(sessionData) ? `${clientCity(sessionData)}, France` : <>47 Grande Rue de la Croix-Rousse<br />69004 Lyon, France</>)}</p>
             </div>
             <div style={{ display: "flex", gap: 12 }}>
               <MagneticButton style={{ fontFamily: "'Cabin', sans-serif", fontSize: 12, color: C.bg, background: C.brown, padding: "12px 24px", borderRadius: 3, letterSpacing: "0.06em", textTransform: "uppercase", fontWeight: 600 }}>

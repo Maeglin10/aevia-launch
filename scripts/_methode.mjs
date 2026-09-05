@@ -11,8 +11,8 @@ const profil = { ...c.profil, methode: [
 const nav = await chromium.launch(); const ctx = await nav.newContext({ viewport: { width: 1440, height: 900 } });
 for (const theme of process.argv.slice(2)) {
   const r = await fetch(`${B}/api/sessions`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ formData: { ...c.form, locale: "fr", template: theme } }) });
-  const { sessionId } = await r.json();
-  await fetch(`${B}/api/sessions?id=${sessionId}`, { method: "PATCH", headers: { "content-type": "application/json" }, body: JSON.stringify({ businessProfile: profil }) });
+  const { sessionId, editToken } = await r.json();
+  await fetch(`${B}/api/sessions?id=${sessionId}`, { method: "PATCH", headers: { "content-type": "application/json", "x-edit-token": editToken }, body: JSON.stringify({ businessProfile: profil }) });
   const p = await ctx.newPage();
   await p.goto(`${B}/templates/${theme}?session=${sessionId}`, { waitUntil: "domcontentloaded" });
   await p.waitForTimeout(6000);

@@ -1934,7 +1934,7 @@ function Footer() {
             }}
           >
             <span style={{ color: C.accent }}>◎</span>
-            {clientCity(sessionData) ?? "Lyon"} · Rhône
+            {clientCity(sessionData) ?? "Lyon · Rhône"}
           </div>
         </div>
 
@@ -2002,7 +2002,7 @@ function Footer() {
           color: 'rgba(200,234,240,0.38)',
         }}
       >
-        <span>© 2025–2026 {clientName(sessionData) ?? "Smile & Co"} · Cabinet Dentaire · {clientCity(sessionData) ?? "Lyon"} 6e{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© 2025–2026 {clientName(sessionData) ?? "Smile & Co"} · Cabinet Dentaire · {clientCity(sessionData) ?? "Lyon 6e"}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#rdv" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2084,7 +2084,7 @@ export default function Page() {
   EDIT_ROWS = EDIT_ROWS_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

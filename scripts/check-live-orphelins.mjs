@@ -26,8 +26,8 @@ function* parcourir(d) {
 const orphelins = [];
 for (const p of parcourir("app/templates")) {
   const s = fs.readFileSync(p, "utf8");
-  const definis = new Set([...s.matchAll(/function\s+([A-Za-z_$][\w$]*_LIVE)\s*\(/g)].map((m) => m[1]));
-  for (const m of new Set([...s.matchAll(/\b([A-Za-z_$][\w$]*_LIVE)\s*\(/g)].map((x) => x[1]))) {
+  const definis = new Set([...s.matchAll(/function\s+([\p{L}_$][\p{L}\p{N}_$]*_LIVE)\s*\(/gu)].map((m) => m[1]));
+  for (const m of new Set([...s.matchAll(/(?<![\p{L}\p{N}_$])([\p{L}_$][\p{L}\p{N}_$]*_LIVE)\s*\(/gu)].map((x) => x[1]))) {
     if (!definis.has(m)) orphelins.push(`${p.slice("app/templates/".length)}  ${m}`);
   }
 }

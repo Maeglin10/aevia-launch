@@ -206,7 +206,7 @@ function EDIT_ROWS_DEMO_LIVE() {
     img: (clientPhotos(sessionData)[7] || 'https://images.unsplash.com/photo-1598371839696-5c5bb00bdc28?q=80&w=800&auto=format&fit=crop'),
     imgAlt: 'Intérieur lumineux du studio Dermis à ' + (clientCity(sessionData) ?? 'Montpellier'),
     titleLine1: (clientCity(sessionData) ?? 'Montpellier'),
-    titleLine2: 'Écusson.',
+    titleLine2: clientCity(sessionData) ? 'Le studio.' : 'Écusson.',
     body: 'Au cœur du centre historique, dans un studio lumineux aux volumes généreux. Sur rendez-vous uniquement — pas de walk-ins. Parce que votre tatouage mérite toute notre attention, du premier croquis à la cicatrisation.',
     reverse: true,
   },
@@ -1982,7 +1982,7 @@ function Footer() {
       items: [
         { label: 'Prendre RDV', href: '#reserver' },
         { label: 'Hygiène & Protocole', href: '#hygiene' },
-        { label: (clientCity(sessionData) ?? 'Montpellier') + ' Écusson', href: '#reserver' },
+        { label: clientCity(sessionData) ?? 'Montpellier Écusson', href: '#reserver' },
         { label: 'Consultation offerte', href: '#reserver' },
       ],
     },
@@ -2023,7 +2023,7 @@ function Footer() {
               margin: '0 0 24px',
             }}
           >
-            Tatouage &amp; Piercing sur mesure. {clientCity(sessionData) ?? "Montpellier"} Écusson.
+            Tatouage &amp; Piercing sur mesure. {clientCity(sessionData) ?? "Montpellier Écusson"}.
             Sur rendez-vous uniquement.
           </p>
           <div
@@ -2211,7 +2211,7 @@ export default function Page() {
     });
   });
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text, context: "", })),
     TESTIMONIALS_SOURCE,
   );
   EDIT_ROWS = EDIT_ROWS_DEMO.map((row, i) => ({

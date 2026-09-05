@@ -826,15 +826,17 @@ export default function Impact166Page() {
       ...SERVICES_DEMO[i % SERVICES_DEMO.length],
       name: s.title ?? s.name,
       desc: s.description ?? s.desc,
-      price: s.price ?? SERVICES_DEMO[i % SERVICES_DEMO.length].price,
+      price: s.price ?? "",
+      duration: "",
+      includes: [],
     })),
     SERVICES_DEMO
   );
   const TESTIMONIALS = resolveList(
     clientReviews(session)?.map((r: any, i: number) => ({
       quote: r.text ?? r.quote ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].quote,
-      name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
-      role: r.location ?? r.role ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].role,
+      name: r.author ?? r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
+      role: r.location ?? r.role ?? "",
     })),
     TESTIMONIALS_DEMO
   );
@@ -889,7 +891,7 @@ export default function Impact166Page() {
 
 
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   bp = bpLocal;
@@ -1841,8 +1843,8 @@ return (
               {[
                 { label: "Email", value: (clientEmail(sessionData) ?? fd?.email ?? "iris@iris-studio.fr") },
                 { label: "Téléphone", value: clientPhone(sessionData) ?? "+33 6 20 51 13 32" },
-                { label: "Studio", value: (clientCity(sessionData) ?? "Paris") + ", sur rendez-vous" },
-                { label: "Instagram", value: "@" + (clientInstagram(sessionData) ?? "iris.studio.") + (clientCity(sessionData) ?? "Paris") },
+                { label: "Studio", value: (clientCity(sessionData) ?? "Paris, sur rendez-vous") },
+                { label: "Instagram", value: clientInstagram(sessionData) ? "@" + clientInstagram(sessionData) : (clientName(sessionData) ? "" : "@iris.studio.paris") },
               ].map((item) => (
                 <div
                   key={item.label}

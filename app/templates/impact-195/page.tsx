@@ -151,7 +151,7 @@ export default function MaisonElisePage() {
     FORMULES_SOURCE,
   );
   EQUIPE = resolveList(
-    clientTeam(session)?.map((m, i) => ({ ...EQUIPE_DEMO[i % EQUIPE_DEMO.length], n: m.name, r: m.role })),
+    clientTeam(session)?.map((m, i) => ({ ...EQUIPE_DEMO[i % EQUIPE_DEMO.length], n: m.name, r: m.role, d: "" })),
     EQUIPE_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -185,7 +185,7 @@ export default function MaisonElisePage() {
             ) : (
               <>
                 <div className={`font-bold tracking-[0.2em] text-sm uppercase ${scrolled ? "text-[#1a1018]" : "text-white"}`} style={{ textShadow: "0 0 2px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.9), 0 0 20px rgba(255,255,255,0.7)",  fontFamily: "'Lora', Georgia, serif" }}>{clientName(sessionData) ?? "Maison Élise"}</div>
-                <div className={`text-[10px] font-bold uppercase tracking-[0.4em] ${scrolled ? "text-[var(--brand,#c4a06a)]/60" : "text-[var(--brand,#c4a06a)]"}`}>Wedding Planner · {clientCity(sessionData) ?? "Nice"} & Riviera</div>
+                <div className={`text-[10px] font-bold uppercase tracking-[0.4em] ${scrolled ? "text-[var(--brand,#c4a06a)]/60" : "text-[var(--brand,#c4a06a)]"}`}>Wedding Planner · {clientCity(sessionData) ?? "Nice & Riviera"}</div>
               </>
             )}
           </div>
@@ -228,7 +228,7 @@ export default function MaisonElisePage() {
         {/* Elegant vertical text */}
         <div className="absolute right-8 top-1/2 -translate-y-1/2 z-10 hidden xl:block">
           <div className="text-[10px] font-bold uppercase tracking-[0.6em] text-[var(--brand,#c4a06a)]/25 writing-vertical" style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}>
-            {clientCity(sessionData) ?? "Nice"} · Cannes · Monaco · Riviera
+            {clientCity(sessionData) ?? "Nice · Cannes · Monaco · Riviera"}
           </div>
         </div>
 
@@ -236,7 +236,7 @@ export default function MaisonElisePage() {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.3 }}>
             <div className="flex items-center gap-4 mb-10">
               <div className="w-12 h-[1px] bg-[var(--brand,#c4a06a)]/50" />
-              <span className="text-[10px] font-bold uppercase tracking-[0.55em] text-[var(--brand,#c4a06a)]/60">Wedding Planner & Events · Côte d'Azur</span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.55em] text-[var(--brand,#c4a06a)]/60">Wedding Planner & Events · {clientCity(sessionData) ?? "Côte d'Azur"}</span>
             </div>
           </motion.div>
 
@@ -251,7 +251,7 @@ export default function MaisonElisePage() {
 
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.9, delay: 0.78 }}
             className="max-w-sm text-sm text-[#fdfaf7]/28 leading-relaxed mb-12">{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
-            Wedding planner sur la Côte d'Azur. Coordination jour J, organisation clé en main, déco florale, corporate. Chaque événement mérite d'être extraordinaire.
+            {clientCity(sessionData) ? `Wedding planner à ${clientCity(sessionData)}. Coordination jour J` : "Wedding planner sur la Côte d'Azur. Coordination jour J"}, organisation clé en main, déco florale, corporate. Chaque événement mérite d'être extraordinaire.
           </>}</motion.p>
 
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7, delay: 1.0 }} className="flex flex-wrap gap-4">
@@ -416,7 +416,7 @@ export default function MaisonElisePage() {
             <h2 className="text-4xl md:text-5xl font-bold text-[#fdfaf7] mb-5" style={{ fontFamily: "'Lora', serif" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>
               Votre histoire<br /><span className="italic text-[var(--brand,#c4a06a)]">commence ici.</span>
             </>)}</h2>
-            <p className="text-[#fdfaf7]/28 mb-10 text-sm">Consultation gratuite · {clientCity(sessionData) ?? "Nice"} & Côte d'Azur · Déplacements France entière & étranger</p>
+            <p className="text-[#fdfaf7]/28 mb-10 text-sm">Consultation gratuite · {clientCity(sessionData) ?? "Nice & Côte d'Azur"} · Déplacements France entière & étranger</p>
             <div className="flex flex-wrap gap-4 justify-center">
               <button className="px-10 py-4 bg-[var(--brand,#c4a06a)] text-white font-bold text-[10px] uppercase tracking-[0.28em] hover:bg-[#a88550] transition-colors">
                 Consultation gratuite
@@ -435,12 +435,12 @@ export default function MaisonElisePage() {
           <div>
             <div className="font-bold text-[#fdfaf7] text-sm tracking-[0.18em] mb-1 uppercase" style={{ fontFamily: "'Lora', serif" }}>{clientName(sessionData) ?? "Maison Élise"}</div>
             <div className="text-[10px] font-bold uppercase tracking-[0.35em] text-[var(--brand,#c4a06a)]/40 mb-5">Wedding Planner · {clientCity(sessionData) ?? "Nice"}</div>
-            <p className="text-[#fdfaf7]/15 text-sm leading-relaxed">Organisation mariages et événements sur la Côte d'Azur. Coordination, clé en main, floral, corporate.</p>
+            <p className="text-[#fdfaf7]/15 text-sm leading-relaxed">{clientCity(sessionData) ? `Organisation mariages et événements à ${clientCity(sessionData)}. Coordination, clé en main, floral, corporate.` : "Organisation mariages et événements sur la Côte d'Azur. Coordination, clé en main, floral, corporate."}</p>
           </div>
           {[
             { t: "Formules", ls: ["Coordination jour J", "Clé en main", "Conception florale", "Mise en scène & styling", "Événements corporate"] },
             { t: "Infos", ls: ["L'équipe", "Notre philosophie", "Portfolio", "Blog mariages", "FAQ"] },
-            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "04 93 56 78 90"), (clientEmail(sessionData) ?? fd?.email ?? "hello@maison-elise.fr"), (clientCity(sessionData) ?? "Nice") + " & Riviera", "France entière & étranger", "Consultation gratuite"] },
+            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "04 93 56 78 90"), (clientEmail(sessionData) ?? fd?.email ?? "hello@maison-elise.fr"), clientCity(sessionData) ?? "Nice & Riviera", "France entière & étranger", "Consultation gratuite"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c4a06a)]/35 mb-5">{col.t}</h4>
@@ -452,7 +452,7 @@ export default function MaisonElisePage() {
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-3 text-[10px] font-bold uppercase tracking-widest text-[#fdfaf7]/8">
           <span>© 2026 {clientName(sessionData) ?? "Maison Élise"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 678 901 234 00055"} · {clientCity(sessionData) ?? "Nice"} (06){/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
-          <span className="text-[var(--brand,#c4a06a)]/18">Wedding Planner · Côte d'Azur</span>
+          <span className="text-[var(--brand,#c4a06a)]/18">Wedding Planner · {clientCity(sessionData) ?? "Côte d'Azur"}</span>
         </div>
       </footer>
     </div>

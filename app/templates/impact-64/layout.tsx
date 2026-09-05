@@ -3,6 +3,8 @@ import {
   clientCity,
   clientEmail,
   clientName,
+  clientTagline,
+  clientCertifications,
 } from "@/lib/templates/clientContent";
 
 import React, { useState, useEffect } from "react";
@@ -99,7 +101,7 @@ export default function NeuronSecLayout({
               />
             ) : (
               <><span style={{ fontFamily: mono, fontSize: "0.9rem", fontWeight: 700, color: C.green, letterSpacing: "0.05em" }}>{/* NOM_LOGO */ clientName(__layoutSession) ?? (<>
-              NEURON<span style={{ color: C.text }}>SEC</span>
+              {clientName(__layoutSession) ?? (<>NEURON<span style={{ color: C.text }}>SEC</span></>)}
             </>)}</span></>
             )}
           </Link>
@@ -209,7 +211,7 @@ export default function NeuronSecLayout({
           style={{ display: "flex", gap: "4rem", whiteSpace: "nowrap" }}
         >
           {[...Array(2)].map((_, rep) => (
-            ["3 847 incidents bloqués cette année", "● SOC ACTIF 24H/24", "ISO 27001:2022 certifié", "PRIS ANSSI — niveau Expert", "99.98% uptime SLA", "NIS2 compliant", "CVSSv3.1 scoring", "MITRE ATT&CK framework"].map((item, i) => (
+            (clientName(__layoutSession) ? (clientCertifications(__layoutSession) ?? ["● SOC ACTIF 24H/24", "CVSSv3.1 scoring", "MITRE ATT&CK framework"]) : ["3 847 incidents bloqués cette année", "● SOC ACTIF 24H/24", "ISO 27001:2022 certifié", "PRIS ANSSI — niveau Expert", "99.98% uptime SLA", "NIS2 compliant", "CVSSv3.1 scoring", "MITRE ATT&CK framework"]).map((item, i) => (
               <span key={`${rep}-${i}`} style={{ fontFamily: mono, fontSize: "0.72rem", color: item.startsWith("●") ? C.green : C.textMuted, letterSpacing: "0.1em" }}>
                 {item}
               </span>
@@ -229,10 +231,10 @@ export default function NeuronSecLayout({
           <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr", gap: "3rem", marginBottom: "3rem" }}>
             <div>
               <div style={{ fontFamily: mono, fontSize: "1rem", fontWeight: 700, color: C.green, marginBottom: "1rem", letterSpacing: "0.05em" }}>
-                NEURON<span style={{ color: C.text }}>SEC</span>
+                {clientName(__layoutSession) ?? (<>NEURON<span style={{ color: C.text }}>SEC</span></>)}
               </div>
               <p style={{ fontFamily: sans, fontSize: "0.82rem", color: C.textMuted, lineHeight: 1.7, maxWidth: "300px", marginBottom: "1.5rem" }}>
-                Centre opérationnel de cybersécurité. SOC 24/7, Red Team, ISO 27001. Qualifié PRIS ANSSI niveau Expert. {clientCity(__layoutSession) ?? "Paris"}, France.
+                {clientName(__layoutSession) ? (clientTagline(__layoutSession) ?? `Centre opérationnel de cybersécurité. ${clientCity(__layoutSession) ?? ""}, France.`) : "Centre opérationnel de cybersécurité. SOC 24/7, Red Team, ISO 27001. Qualifié PRIS ANSSI niveau Expert. Paris, France."}
               </p>
               <div style={{ display: "flex", gap: "0.75rem" }}>
                 {[{ icon: MessageSquare, label: "Contact" }, { icon: Link2, label: "LinkedIn" }, { icon: GitBranch, label: "GitHub" }].map((s, i) => {
@@ -267,7 +269,7 @@ export default function NeuronSecLayout({
                 { name: "CGU", href: "/templates/impact-64/legal/cgu" },
               ] },
               { title: "Contact", links: [
-                { name: (clientCity(__layoutSession) ?? "Paris") + " — 10ème arr.", href: "/templates/impact-64/contact" },
+                { name: clientCity(__layoutSession) ?? "Paris — 10ème arr.", href: "/templates/impact-64/contact" },
                 { name: (clientEmail(__layoutSession) ?? fd?.email ?? "soc@neuronsec.fr"), href: "/templates/impact-64/contact" },
                 { name: "Urgence cyber", href: "/templates/impact-64/contact" },
               ] },

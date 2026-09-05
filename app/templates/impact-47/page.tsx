@@ -368,7 +368,7 @@ function WorkshopSection() {
             <span style={{ fontFamily: "'Poppins', system-ui", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase" as const, color: C.sage }}>{tr(sessionData, "Our Story")}</span>
           </div>
           <h2 style={{ fontFamily: "'Libre Baskerville', Georgia, serif", fontSize: "clamp(32px, 4vw, 48px)", color: C.text, margin: "0 0 24px", fontWeight: 700 }}>{/* TEXTE_SECTION */ clientText(sessionData, "workshop.titre") ?? (<>Made by Hand,<br />With Intention.</>)}</h2>
-          <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 16, color: C.textMuted, lineHeight: 1.75, marginBottom: 24 }}>{fd?.businessName ?? (clientName(sessionData) ?? "Pétales & Co")} was born from a simple belief: flowers shouldn't be an afterthought. Founded in 2014 by florist Amélie Rousseau, our studio in the 11th arrondissement has become a gathering place for people who care about natural beauty.</p>
+          <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 16, color: C.textMuted, lineHeight: 1.75, marginBottom: 24 }}>{clientName(sessionData) ? `${clientName(sessionData)} est né d'une conviction simple : les fleurs ne devraient jamais être une pensée d'après-coup. Notre atelier est devenu un point de rendez-vous pour ceux qui tiennent à la beauté naturelle.` : "Pétales & Co was born from a simple belief: flowers shouldn't be an afterthought. Founded in 2014 by florist Amélie Rousseau, our studio in the 11th arrondissement has become a gathering place for people who care about natural beauty."}</p>
           <p style={{ fontFamily: "'Poppins', system-ui", fontSize: 16, color: C.textMuted, lineHeight: 1.75, marginBottom: 40 }}>We work with small French growers wherever possible, choose seasonal flowers over imported blooms, and make every arrangement by hand — from a single stem to a wedding arch.</p>
           <div className="imx-mobstack" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24, marginBottom: 40 }}>
             {[
@@ -647,7 +647,7 @@ export default function FloristHome() {
 
   );
   HERO_BOUQUETS_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...HERO_BOUQUETS_DEMO_SOURCE[i % HERO_BOUQUETS_DEMO_SOURCE.length], name: s.title, price: s.price ?? HERO_BOUQUETS_DEMO_SOURCE[i % HERO_BOUQUETS_DEMO_SOURCE.length].price })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...HERO_BOUQUETS_DEMO_SOURCE[i % HERO_BOUQUETS_DEMO_SOURCE.length], name: s.title, price: s.price ?? "" })),
     HERO_BOUQUETS_DEMO_SOURCE,
   );
   HERO_BOUQUETS = HERO_BOUQUETS_DEMO.map((row, i) => ({

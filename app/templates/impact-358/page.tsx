@@ -114,7 +114,7 @@ function HERO_SOURCE_LIVE() {
       l1: "Trois sites, une navette,",
       l2: "zéro analyse qui attend.",
       tiles: [
-        { icon: MapPin, t: "3 sites de la vallée", d: (clientCity(sessionData) ?? "Avignon") + ", Carpentras, Cavaillon — dès 7 h en semaine." },
+        { icon: MapPin, t: clientCity(sessionData) ? "Votre laboratoire" : "3 sites de la vallée", d: clientCity(sessionData) ? clientCity(sessionData) + " — dès 7 h en semaine." : "Avignon, Carpentras, Cavaillon — dès 7 h en semaine." },
         { icon: FlaskConical, t: "À jeun servi d'abord", d: "File dédiée le matin, moins d'un quart d'heure d'attente." },
         { icon: Truck, t: "Domicile en tournée", d: "Préleveurs du labo chaque matin dans les villages." },
       ],
@@ -238,7 +238,7 @@ const STATS_DEMO = [
 let STATS = STATS_DEMO;
 
 function ZONES_SOURCE_LIVE() {
-  return [clientCity(sessionData) ?? "Avignon", "Carpentras", "Cavaillon", "Pernes", "L'Isle-sur-la-Sorgue", "Monteux"];
+  return clientCity(sessionData) ? [clientCity(sessionData)!, "et alentours"] : ["Avignon", "Carpentras", "Cavaillon", "Pernes", "L'Isle-sur-la-Sorgue", "Monteux"];
 }
 let ZONES_SOURCE = ZONES_SOURCE_LIVE();
 let ZONES = ZONES_SOURCE;
@@ -615,14 +615,14 @@ export default function BioValleePage() {
     SERVICES_SOURCE,
   );
   AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
     CLIENT_SERVICES?.map((s: any, i: number) => ({
       ...TARIFS_DEMO[i % TARIFS_DEMO.length],
       a: s.title,
-      p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p,
+      p: s.price ?? "Sur devis",
       n: s.description || s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n,
     })),
     TARIFS_DEMO,
@@ -640,7 +640,7 @@ export default function BioValleePage() {
       ...SITES_SOURCE[i % SITES_SOURCE.length],
       ville: z,
     })),
-    SITES_SOURCE,
+    clientName(sessionData) ? [SITES_SOURCE[0]] : SITES_SOURCE,
   );
   HERO = HERO_SOURCE;
 
@@ -1239,7 +1239,7 @@ export default function BioValleePage() {
             <div style={{ maxWidth: 360 }}>
               <div style={{ fontFamily: SERIF, fontWeight: 300, fontSize: "clamp(20px,2vw,26px)", color: C.reactif, marginBottom: 12, letterSpacing: "-0.012em" }}>{marque}</div>
               <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 300, color: "rgba(255,255,255,0.4)", lineHeight: 1.8, margin: 0 }}>
-                Laboratoire de biologie médicale · {ville}, Carpentras, Cavaillon
+                Laboratoire de biologie médicale · {ville}{clientName(sessionData) ? "" : ", Carpentras, Cavaillon"}
                 <br />
                 Accréditation COFRAC ISO 15189
               </p>

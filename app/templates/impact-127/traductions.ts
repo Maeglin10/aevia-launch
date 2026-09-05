@@ -10,6 +10,9 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "a beat.": "un battement.",
+    "independent — no major label backing, no compromise": "Indépendants — aucune major derrière, aucun compromis",
+    "four rooms, four reasons": "Quatre salles, quatre raisons",
     "projects completed": "Projets livrés",
     "countries": "Pays",
     "carbon-negative projects": "Projets à bilan carbone négatif",
@@ -89,6 +92,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "you go": "de partir",
   },
   es: {
+    "a beat.": "un latido.",
+    "independent — no major label backing, no compromise": "Independientes — sin discográficas, sin concesiones",
+    "four rooms, four reasons": "Cuatro salas, cuatro razones",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -185,6 +191,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "you go": "de irse",
   },
   de: {
+    "a beat.": "einen Beat.",
+    "independent — no major label backing, no compromise": "Unabhängig — kein Major-Label, keine Kompromisse",
+    "four rooms, four reasons": "Vier Säle, vier Gründe",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -281,6 +290,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "you go": "Sie gehen",
   },
   pt: {
+    "a beat.": "uma batida.",
+    "independent — no major label backing, no compromise": "Independentes — sem grandes gravadoras, sem concessões",
+    "four rooms, four reasons": "Quatro salas, quatro razões",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

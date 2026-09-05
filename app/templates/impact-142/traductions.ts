@@ -10,6 +10,7 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "wait.": "attendre.",
     "manifesto": "Manifeste",
     "commission": "Nous confier un projet",
     "markets": "Marchés",
@@ -91,6 +92,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "where your money": "Où va votre argent",
   },
   es: {
+    "wait.": "esperar.",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -189,6 +191,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "where your money": "Adónde va su dinero",
   },
   de: {
+    "wait.": "warten.",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -287,6 +290,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "where your money": "Wohin Ihr Geld geht",
   },
   pt: {
+    "wait.": "esperar.",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

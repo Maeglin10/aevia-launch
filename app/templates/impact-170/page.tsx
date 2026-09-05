@@ -32,8 +32,8 @@ let sessionData: any = null;
 function STATS_INLINE_SOURCE_LIVE() {
   return [
   { label: "email", value: (clientEmail(sessionData) ?? fd?.email ?? "rafael@moreau.dev") },
-                { label: "linkedin", value: "/in/rafael-moreau" },
-                { label: "github", value: "@rafael-moreau" },
+                ...(clientName(sessionData) ? [] : [{ label: "linkedin", value: "/in/rafael-moreau" }]),
+                ...(clientName(sessionData) ? [] : [{ label: "github", value: "@rafael-moreau" }]),
                 { label: "location", value: (clientCity(sessionData) ?? "Paris") + ", France (remote OK)" }
 ];
 }
@@ -1006,7 +1006,7 @@ export default function Impact170Page() {
   );
 
   PROJECTS = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PROJECTS_SOURCE[i % PROJECTS_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...PROJECTS_SOURCE[i % PROJECTS_SOURCE.length], name: s.title, desc: s.desc || "" || "", metrics: [], tech: [] })),
     PROJECTS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

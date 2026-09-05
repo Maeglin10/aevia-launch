@@ -156,11 +156,11 @@ export default function SatoriHomePage() {
   );
 
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   TESTIMONIALS = resolveList(
-    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, author: r.author })),
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, author: r.author, role: "", })),
     TESTIMONIALS_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -242,7 +242,7 @@ return (
           className="flex gap-12 whitespace-nowrap"
         >
           {[...Array(2)].map((_, rep) =>
-            /* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ["ÉTOILÉ MICHELIN", "CHEF ANATOL VOSS", (clientCity(sessionData) ?? "Paris"), "SAISON 2024", "FEU", "MÉMOIRE", "SATORI", "RÉSERVATIONS OUVERTES"]).map((item, i) => (
+            /* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? (clientName(sessionData) ? [clientName(sessionData).toUpperCase(), (clientCity(sessionData) ?? "").toUpperCase(), "RÉSERVATIONS OUVERTES"].filter(Boolean) : ["ÉTOILÉ MICHELIN", "CHEF ANATOL VOSS", "Paris", "SAISON 2024", "FEU", "MÉMOIRE", "SATORI", "RÉSERVATIONS OUVERTES"])).map((item, i) => (
               <span
                 key={`${rep}-${i}`}
                 className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#f5efe0]/20"

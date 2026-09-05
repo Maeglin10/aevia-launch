@@ -15,6 +15,7 @@ import {
   clientEmail,
   clientHeroLine,
   clientName,
+  clientCertifications,
   clientPhotos,
   clientServices,
   clientText,
@@ -64,7 +65,7 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 const CATEGORIES = ["Tous", "Portrait", "Mode", "Reportage", "Architecture", "Nature"]
 
 function WORKS_DEMO_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ category: "",  title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
   { title: "La Lumière de Minuit", category: "Portrait", src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=600&q=80"), year: "2025" },
   { title: "Couture Invisible", category: "Mode", src: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&q=80"), year: "2025" },
   { title: "Mémoire des Rues", category: "Reportage", src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=600&q=80"), year: "2024" },
@@ -89,7 +90,13 @@ const AWARDS = [
   { name: "Prix Roger-Viollet", year: "2023", category: "Reportage" },
 ]
 
-const CLIENTS = ["Vogue France", "Le Monde", "LVMH", "Chanel", "Elle", "Air France"]
+const CLIENTS_DEMO = ["Vogue France", "Le Monde", "LVMH", "Chanel", "Elle", "Air France"];
+const CLIENTS_LIVE = () => {
+  const certs = clientCertifications(sessionData);
+  if (certs?.length) return certs;
+  return clientName(sessionData) ? [] : CLIENTS_DEMO;
+};
+let CLIENTS = CLIENTS_LIVE();
 
 type ActivePage = "home" | "portfolio" | "services" | "propos" | "legal"
 
@@ -121,9 +128,9 @@ export default function ObscuraPage() {
   const WORKS = resolveList(
     bpLocal?.beforeAfter?.map((b: any, i: number) => ({
       title: b.caption ?? WORKS_DEMO[i % WORKS_DEMO.length].title,
-      category: WORKS_DEMO[i % WORKS_DEMO.length].category,
+      category: "",
       src: b.afterUrl || b.beforeUrl || WORKS_DEMO[i % WORKS_DEMO.length].src,
-      year: WORKS_DEMO[i % WORKS_DEMO.length].year,
+      year: "",
     })),
     WORKS_DEMO
   );
@@ -160,6 +167,7 @@ export default function ObscuraPage() {
   c = session?.generatedContent;
   sessionData = session;
   WORKS_DEMO = WORKS_DEMO_LIVE();
+  CLIENTS = CLIENTS_LIVE();
 
 
   useEffect(() => {
@@ -181,7 +189,7 @@ export default function ObscuraPage() {
   });
   bp = bpLocal;
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -386,9 +394,9 @@ function PortfolioPage({ activeCategory, setActiveCategory }: { activeCategory: 
   const WORKS = resolveList(
     bp?.beforeAfter?.map((b: any, i: number) => ({
       title: b.caption ?? WORKS_DEMO[i % WORKS_DEMO.length].title,
-      category: WORKS_DEMO[i % WORKS_DEMO.length].category,
+      category: "",
       src: b.afterUrl || b.beforeUrl || WORKS_DEMO[i % WORKS_DEMO.length].src,
-      year: WORKS_DEMO[i % WORKS_DEMO.length].year,
+      year: "",
     })),
     WORKS_DEMO
   )

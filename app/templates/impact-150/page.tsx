@@ -28,6 +28,8 @@ import {
   clientTagline,
   clientTeam,
   clientText,
+  clientPhone,
+  clientName,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -270,11 +272,11 @@ function buildLandmarkCases() {
   return resolveList(
     clientReviews(sessionData)?.map((r: any, i: number) => ({
       id: `case-${i}`,
-      year: D[i % D.length].year,
+      year: "",
       title: r.name ?? r.author ?? D[i % D.length].title,
-      category: r.location ?? r.context ?? D[i % D.length].category,
+      category: r.location ?? r.context ?? "",
       description: r.text ?? r.quote ?? D[i % D.length].description,
-      outcome: D[i % D.length].outcome,
+      outcome: "",
     })),
     D
   );
@@ -478,7 +480,7 @@ function Navigation() {
             textTransform: "uppercase",
           }}
         >
-          LLP
+          {clientName(sessionData) ? "" : "LLP"}
         </span>
       </div>
       )}
@@ -1923,7 +1925,7 @@ function CtaSection() {
                 transition: "background-color 0.25s ease",
               }}
             >
-              +44 (0)20 7946 0000
+              {clientPhone(sessionData) ?? fd?.phone ?? "+44 (0)20 7946 0000"}
             </motion.button>
           </div>
         </Reveal>
@@ -2012,7 +2014,7 @@ function Footer() {
                 marginBottom: 28,
               }}
             >
-              LLP — Est. 1897
+              {clientName(sessionData) ? "" : "LLP — Est. 1897"}
             </div>
             <p
               style={{
@@ -2097,7 +2099,7 @@ function Footer() {
               letterSpacing: "0.06em",
             }}
           >
-            © 2026 {fd?.businessName ?? "Alderton & Sterling LLP"}. Regulated by the Solicitors Regulation Authority.
+            © 2026 {fd?.businessName ?? "Alderton & Sterling LLP"}.{fd?.businessName ? "" : " Regulated by the Solicitors Regulation Authority."}
             Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
           </p>
           <div

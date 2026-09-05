@@ -525,7 +525,7 @@ function ProductsShowcase() {
     { name: "Abonnement Pain Hebdo", desc: "Recevez votre pain de campagne ou baguette tradition 5j/7 directement en boutique. -10 % de remise.", price: "28 € / mois", badge: "Économique", emoji: "📅" },
     { name: "Plateau Pâtisseries Prestige", desc: "Sélection de 8 pâtisseries de saison pour vos événements ou cadeaux gourmands.", price: "38,00 €", badge: "Cadeau", emoji: "🎁" },
     { name: "Kit Boulangerie Maison", desc: "Levain vivant, farine Label Rouge et guide personnalisé pour faire votre premier pain.", price: "24,90 €", badge: "Atelier", emoji: "🫙" },
-  ]).length], name: s.title, desc: s.desc || "" })),
+  ]).length], name: s.title, desc: s.desc || "", price: s.price ?? "", badge: "" })),
     [
     { name: "Box Week-end Découverte", desc: "Baguette tradition + 4 viennoiseries + une pâtisserie du jour. Idéale pour un brunch en famille.", price: "18,90 €", badge: "Best-seller", emoji: "🧺" },
     { name: "Abonnement Pain Hebdo", desc: "Recevez votre pain de campagne ou baguette tradition 5j/7 directement en boutique. -10 % de remise.", price: "28 € / mois", badge: "Économique", emoji: "📅" },

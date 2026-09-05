@@ -56,6 +56,7 @@ import {
   clientText,
   clientWorks,
   fusionnerEtapes,
+  clientAddress,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -98,7 +99,7 @@ let C: Record<string, string> = {
 };
 
 function PROJECTS_DEMO_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}), desc: o.desc || "" })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ category: "",  title: o.title, year: o.detail || undefined, ...(o.imageUrl ? { image: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     id: "01",
     title: "Folio Maison",
@@ -678,11 +679,11 @@ export default function Impact130Page() {
 
 
   SERVICES = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" || "", price: s.price ?? SERVICES_SOURCE[i % SERVICES_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" || "", price: s.price ?? "" })),
     SERVICES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   STATS = resolveList(clientStats(session)?.map((s: any) => ({ ...s, value: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, "") })), STATS_DEMO);
@@ -691,7 +692,7 @@ export default function Impact130Page() {
     image: clientPhotos(session)[0 + i] || row.image,
   }));
   TESTIMONIALS = resolveList(
-    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text })),
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], name: r.author, text: r.text, role: "", })),
     TESTIMONIALS_DEMO,
   );
   FAQS = resolveList(
@@ -699,7 +700,7 @@ export default function Impact130Page() {
     FAQS_DEMO,
   );
   TEAM = resolveList(
-    clientTeam(session)?.map((m, i) => ({ ...TEAM_DEMO[i % TEAM_DEMO.length], name: m.name, role: m.role })),
+    clientTeam(session)?.map((m, i) => ({ ...TEAM_DEMO[i % TEAM_DEMO.length], name: m.name, role: m.role, bio: "", })),
     TEAM_DEMO,
   );
 
@@ -1306,11 +1307,11 @@ return (
                 whileTap={{ scale: 0.96 }}
                 style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "transparent", color: C.text, padding: "16px 32px", borderRadius: 4, fontFamily: "'DM Sans', system-ui, sans-serif", fontWeight: 600, fontSize: 16, textDecoration: "none", border: `1px solid ${C.borderLight}` }}
               >
-                <Phone size={18} /> +41 22 500 00 00
+                <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "+41 22 500 00 00"}
               </motion.a>
             </div>
             <div style={{ display: "flex", justifyContent: "center", gap: 32, marginTop: 48, paddingTop: 40, borderTop: `1px solid ${C.borderLight}` }}>
-              {[{ icon: <MapPin size={15} />, text: "Rue du Rhône 24, 1204 " + (clientCity(sessionData) ?? "Genève") }, { icon: <Clock size={15} />, text: "Lun–Ven 9h–18h" }].map((item, i) => (
+              {[{ icon: <MapPin size={15} />, text: clientAddress(sessionData) ?? clientCity(sessionData) ?? "Rue du Rhône 24, 1204 Genève" }, { icon: <Clock size={15} />, text: "Lun–Ven 9h–18h" }].map((item, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, color: C.textMuted, fontSize: 14 }}>
                   <span style={{ color: C.emeraldGlow }}>{item.icon}</span>
                   {item.text}
@@ -1330,14 +1331,14 @@ return (
                 <div style={{ width: 24, height: 24, background: C.emeraldGlow, borderRadius: 3, display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <div style={{ width: 10, height: 10, background: C.bg, borderRadius: 1 }} />
                 </div>
-                <span style={{ fontSize: 16, fontWeight: 700, color: C.text }}>Verso</span>
+                <span style={{ fontSize: 16, fontWeight: 700, color: C.text }}>{clientName(sessionData) ?? "Verso"}</span>
               </div>
               <p style={{ color: C.textMuted, fontSize: 14, lineHeight: 1.6, maxWidth: 220 }}>Studio de design basé à {clientCity(sessionData) ?? "Genève"}. Identités visuelles, digital, direction artistique.</p>
             </div>
             {[
               { title: "Studio", links: ["À propos", "L'équipe", "Méthode", "Clients"] },
               { title: "Services", links: ["Brand Identity", "Digital Experience", "Art Direction", "Packaging"] },
-              { title: "Contact", links: [(clientEmail(sessionData) ?? fd?.email ?? "hello@verso-studio.ch"), "+41 22 500 00 00", "Geneva, Suisse", "Disponibilités"] },
+              { title: "Contact", links: [(clientEmail(sessionData) ?? fd?.email ?? "hello@verso-studio.ch"), (clientPhone(sessionData) ?? fd?.phone ?? "+41 22 500 00 00"), (clientCity(sessionData) ? `${clientCity(sessionData)}, France` : "Geneva, Suisse"), "Disponibilités"] },
             ].map((col, i) => (
               <div key={i}>
                 <h4 style={{ color: C.textMuted, fontSize: 11, letterSpacing: "0.15em", textTransform: "uppercase", fontWeight: 600, marginBottom: 20 }}>{col.title}</h4>

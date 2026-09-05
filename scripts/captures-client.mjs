@@ -98,9 +98,9 @@ for (const id of ids) {
       method: "POST", headers: { "content-type": "application/json" },
       body: JSON.stringify({ formData: { ...formDataBase, template: id } }),
     });
-    const { sessionId } = await r.json();
+    const { sessionId, editToken } = await r.json();
     await fetch(`${BASE}/api/sessions?id=${sessionId}`, {
-      method: "PATCH", headers: { "content-type": "application/json" },
+      method: "PATCH", headers: { "content-type": "application/json", "x-edit-token": editToken },
       body: JSON.stringify({ businessProfile: profil }),
     });
 

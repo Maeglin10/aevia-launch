@@ -114,7 +114,7 @@ export const HERITAGE = [
   {
     year: "1891",
     get title() { return "Fondation à " + clientCityOr("Genève"); },
-    get desc() { return "Édouard Drouet, maître horloger formé à l'École d'Horlogerie de " + clientCityOr("Genève") + ", ouvre son premier atelier rue de Rive. Cinq compagnons, un établi, l'ambition de l'excellence."; },
+    get desc() { return "Édouard Drouet, maître horloger formé à l'École d'Horlogerie de Genève, ouvre son premier atelier rue de Rive. Cinq compagnons, un établi, l'ambition de l'excellence."; },
   },
   {
     year: "1923",

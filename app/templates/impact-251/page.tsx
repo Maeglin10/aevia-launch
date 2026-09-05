@@ -2075,7 +2075,7 @@ function Footer() {
               maxWidth: 300,
             }}
           >
-            Organisateur de mariage & événements. {clientCity(sessionData) ?? "Bordeaux"} & vignobles. Maximum 12 couples par an.
+            Organisateur de mariage & événements. {clientCity(sessionData) ?? "Bordeaux & vignobles"}.{clientName(sessionData) ? "" : " Maximum 12 couples par an."}
           </p>
           <div
             style={{
@@ -2274,11 +2274,11 @@ export default function Page() {
     });
   });
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

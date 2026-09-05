@@ -99,7 +99,7 @@ const NAV = [
 
 function SERVICES_SOURCE_LIVE() {
   return [
-    { titre: "Organisation d'obsèques", desc: "Inhumation ou crémation, à " + (clientCity(sessionData) ?? "Nice") + " et dans toutes les Alpes-Maritimes. Un interlocuteur unique du premier appel à l'après.", tag: "24h/24" },
+    { titre: "Organisation d'obsèques", desc: "Inhumation ou crémation, à " + (clientCity(sessionData) ?? "Nice") + (clientCity(sessionData) ? " et alentours." : " et dans toutes les Alpes-Maritimes.") + " Un interlocuteur unique du premier appel à l'après.", tag: "24h/24" },
     { titre: "Chambre funéraire", desc: "Trois salons privés en étage clair, accessibles à la famille 7j/7 de 8h à 20h, hors de toute contrainte hospitalière.", tag: "Recueillement" },
     { titre: "Cérémonies", desc: "Religieuses, laïques ou mixtes ; en chapelle, au crématorium ou en plein air. Maître de cérémonie, textes et musiques préparés avec vous.", tag: "Cérémonie" },
     { titre: "Démarches", desc: "État civil, caisses, banques, notaire : jusqu'à vingt courriers préparés et suivis par nos soins, pour vous en libérer.", tag: "Inclus" },
@@ -118,7 +118,7 @@ let METHODE = [
 ];
 
 const ENGAGEMENT_DEMO = [
-  "Habilitation préfectorale n° 26-06-0287 — Préfecture des Alpes-Maritimes",
+  "Habilitation préfectorale — numéro affiché en agence",
   "Devis-type conforme à l'arrêté du 23 août 2010, remis avant tout engagement",
   "Prix affichés en agence et consultables — aucune prestation imposée",
   "Toutes confessions et convictions respectées, cérémonies civiles incluses",
@@ -161,7 +161,7 @@ const SALONS_SOURCE = [
 let SALONS = SALONS_SOURCE;
 
 function ZONES_SOURCE_LIVE() {
-  return [clientCity(sessionData) ?? "Nice", "Alpes-Maritimes", "communes voisines"];
+  return clientCity(sessionData) ? [clientCity(sessionData)!, "communes voisines"] : ["Nice", "Alpes-Maritimes", "communes voisines"];
 }
 let ZONES_SOURCE = ZONES_SOURCE_LIVE();
 let ZONES = ZONES_SOURCE;
@@ -343,14 +343,14 @@ export default function RivesBlanchesPage() {
     SERVICES_SOURCE,
   );
   AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
     CLIENT_SERVICES?.map((s: any, i: number) => ({
       ...TARIFS_DEMO[i % TARIFS_DEMO.length],
       a: s.title,
-      p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p,
+      p: s.price ?? "Sur devis",
       n: s.description || s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n,
     })),
     TARIFS_DEMO,
@@ -919,12 +919,12 @@ export default function RivesBlanchesPage() {
               <p style={{ fontFamily: SANS, fontSize: 13, fontWeight: 300, color: "rgba(255,255,255,0.4)", lineHeight: 1.85, margin: 0 }}>
                 Pompes funèbres & prévoyance · {ville}
                 <br />
-                Habilitation préfectorale n° 26-06-0287
+                {clientName(sessionData) ? "Habilitation préfectorale — numéro affiché en agence" : "Habilitation préfectorale n° 26-06-0287"}
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {[
-                { icon: <MapPin size={13} />, t: adresse ?? `${lieu}, Alpes-Maritimes` },
+                { icon: <MapPin size={13} />, t: adresse ?? (clientCity(sessionData) ? lieu : `${lieu}, Alpes-Maritimes`) },
                 { icon: <Phone size={13} />, t: phone },
                 { icon: <Mail size={13} />, t: mail },
               ].map((item, idx) => (

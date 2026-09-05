@@ -180,7 +180,7 @@ export default function VoltProPage() {
     });
   });
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -196,7 +196,7 @@ export default function VoltProPage() {
   const REALIZATIONS = resolveList(
     bp?.beforeAfter?.map((r: any, i: number) => ({
       label: r.caption ?? REALIZATIONS_DEMO[i % REALIZATIONS_DEMO.length].label,
-      tag: REALIZATIONS_DEMO[i % REALIZATIONS_DEMO.length].tag,
+      tag: "",
       img: r.afterUrl || r.beforeUrl || REALIZATIONS_DEMO[i % REALIZATIONS_DEMO.length].img,
     })),
     REALIZATIONS_DEMO
@@ -314,8 +314,8 @@ export default function VoltProPage() {
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-1 h-12 bg-[#facc15]" />
                 <div>
-                  <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#facc15] mb-1" style={{ fontFamily: "'Space Mono', monospace" }}>{clientTrade(sessionData) ?? "Électricien"} certifié RGE · Île-de-France</div>
-                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/30" style={{ fontFamily: "'Space Mono', monospace" }}>Particuliers & professionnels · Depuis 2009</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#facc15] mb-1" style={{ fontFamily: "'Space Mono', monospace" }}>{clientTrade(sessionData) ?? "Électricien"} certifié RGE{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : " · Île-de-France"}</div>
+                  <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/30" style={{ fontFamily: "'Space Mono', monospace" }}>{clientName(sessionData) ? "Particuliers & professionnels" : "Particuliers & professionnels · Depuis 2009"}</div>
                 </div>
               </div>
             </Reveal>
@@ -490,7 +490,7 @@ export default function VoltProPage() {
               </p>
             </Reveal>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5">
-              {APROPOS.map((a, i) => (
+              {(clientName(sessionData) ? [] : APROPOS).map((a, i) => (
                 <Reveal key={a.k} delay={i * 0.07}>
                   <div className="bg-[#05070a] p-8 h-full">
                     <div className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#facc15] mb-4" style={{ fontFamily: "'Space Mono', monospace" }}>{a.k}</div>
@@ -572,10 +572,10 @@ export default function VoltProPage() {
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-[#facc15] block mb-4" style={{ fontFamily: "'Space Mono', monospace" }}>// Secteur géographique</span>
                 <h2 className="text-4xl md:text-5xl font-extrabold uppercase tracking-tighter mb-6">{c?.aboutTitle ?? fd?.businessName ?? <>Zone d'<span className="text-[#facc15]">intervention.</span></>}</h2>
                 <p className="text-white/40 leading-relaxed mb-8 text-sm">{c?.aboutText ?? <>
-                  VoltPro intervient sur {clientCity(sessionData) ?? "Paris"} et toute l'Île-de-France — notamment les départements 75, 77, 78, 91, 92, 93, 94 et 95. Délai d'intervention habituel : 24h à 48h (dépannage urgent : &lt; 2h).
+                  {clientName(sessionData) ?? "VoltPro"} intervient {clientCity(sessionData) ? <>sur {clientCity(sessionData)} et ses alentours</> : <>sur Paris et toute l'Île-de-France — notamment les départements 75, 77, 78, 91, 92, 93, 94 et 95</>}. Délai d'intervention habituel : 24h à 48h (dépannage urgent : &lt; 2h).
                 </>}</p>
                 <div className="flex flex-wrap gap-3">
-                  {[(clientCity(sessionData) ?? "Paris") + " (75)", "Val-de-Marne (94)", "Seine-et-Marne (77)", "Hauts-de-Seine (92)", "Seine-Saint-Denis (93)", "Essonne (91)", "Yvelines (78)", "Val-d'Oise (95)"].map(z => (
+                  {[(clientCity(sessionData) ?? "Paris (75)"), "Val-de-Marne (94)", "Seine-et-Marne (77)", "Hauts-de-Seine (92)", "Seine-Saint-Denis (93)", "Essonne (91)", "Yvelines (78)", "Val-d'Oise (95)"].map(z => (
                     <span key={z} className="px-4 py-2 border border-white/10 text-[10px] font-bold uppercase tracking-widest text-white/40 hover:border-[#facc15]/30 hover:text-[#facc15]/70 transition-colors cursor-default">
                       <MapPin className="w-2.5 h-2.5 inline mr-1.5" />{z}
                     </span>
@@ -637,7 +637,7 @@ export default function VoltProPage() {
               </div>
               <span className="font-extrabold tracking-[0.15em] uppercase">{clientName(sessionData) ?? "VoltPro Électricité"}</span>
             </div>
-            <p className="text-sm text-white/25 leading-relaxed mb-6">{clientTrade(sessionData) ?? "Électricien"} qualifié RGE · Île-de-France. Installation, conformité, domotique, dépannage urgent.</p>
+            <p className="text-sm text-white/25 leading-relaxed mb-6">{clientTrade(sessionData) ?? "Électricien"} qualifié RGE{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : " · Île-de-France"}. Installation, conformité, domotique, dépannage urgent.</p>
             <div className="flex items-center gap-2 text-[#facc15] text-sm font-bold">
               <Phone className="w-4 h-4" />
               <a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "0674896541").replace(/[^+0-9]/g, "")}`} className="hover:text-white transition-colors">{clientPhone(sessionData) ?? fd?.phone ?? "06 74 89 65 41"}</a>
@@ -658,7 +658,7 @@ export default function VoltProPage() {
         </div>
         <div className="max-w-[1400px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4">
           <span className="text-[10px] font-bold uppercase tracking-widest text-white/15" style={{ fontFamily: "'Space Mono', monospace" }}>© 2026 {clientName(sessionData) ?? "VoltPro Électricité"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 123 456 789 00010"} · RGE QualiPV · Qualifelec{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
-          <span className="text-[10px] font-bold uppercase tracking-widest text-[#facc15]/30" style={{ fontFamily: "'Space Mono', monospace" }}>Artisan électricien certifié · Île-de-France</span>
+          <span className="text-[10px] font-bold uppercase tracking-widest text-[#facc15]/30" style={{ fontFamily: "'Space Mono', monospace" }}>{clientName(sessionData) ? `Artisan certifié${clientCity(sessionData) ? " · " + clientCity(sessionData) : ""}` : "Artisan électricien certifié · Île-de-France"}</span>
         </div>
       </footer>
     </div>

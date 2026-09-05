@@ -174,10 +174,10 @@ function EDIT_ROWS_DEMO_LIVE() {
     titleNode: (
       <>
         {clientCity(sessionData) ?? "Nantes"}{' '}
-        <span style={{ fontStyle: 'italic' }}>/ Île de {clientCity(sessionData) ?? "Nantes"}.</span>
+        <span style={{ fontStyle: 'italic' }}>{clientCity(sessionData) ? "/ le cabinet." : "/ Île de Nantes."}</span>
       </>
     ),
-    body: "Installé au cœur de l'Île de " + (clientCity(sessionData) ?? "Nantes") + ", le cabinet est accessible en tramway (ligne 1) et dispose de places de stationnement à proximité. Des téléconsultations sont également disponibles pour le suivi à distance.",
+    body: clientCity(sessionData) ? "Installé au cœur de " + clientCity(sessionData) + ", le cabinet est facilement accessible et dispose de places de stationnement à proximité. Des téléconsultations sont également disponibles pour le suivi à distance." : "Installé au cœur de l'Île de Nantes, le cabinet est accessible en tramway (ligne 1) et dispose de places de stationnement à proximité. Des téléconsultations sont également disponibles pour le suivi à distance.",
     reverse: true,
   },
 ];
@@ -1870,8 +1870,7 @@ function Footer() {
     {
       title: 'Cabinet',
       items: [
-        'Île de ' + (clientCity(sessionData) ?? 'Nantes'),
-        'Tram ligne 1',
+        ...(clientCity(sessionData) ? [clientCity(sessionData)!] : ['Île de Nantes', 'Tram ligne 1']),
         'Téléconsultation',
         'Contact',
       ],
@@ -1936,7 +1935,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.6} />
-            Île de {clientCity(sessionData) ?? "Nantes"} · 44000
+            {clientCity(sessionData) ?? "Île de Nantes · 44000"}
           </div>
           <div
             style={{
@@ -2104,7 +2103,7 @@ export default function Page() {
 
 
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   DOMAINS = DOMAINS_DEMO.map((row, i) => ({

@@ -334,7 +334,7 @@ function Nav() {
           />
         ) : (
           <>
-            {fd?.businessName ?? (clientName(sessionData) ?? "Ostéopathie Alsace")}<span style={brandSub}>{clientCity(sessionData) ?? "Strasbourg"} Orangerie</span>
+            {fd?.businessName ?? (clientName(sessionData) ?? "Ostéopathie Alsace")}<span style={brandSub}>{clientCity(sessionData) ?? "Strasbourg Orangerie"}</span>
           </>
         )}
       </div>
@@ -530,7 +530,7 @@ function HeroSection() {
       >
         <Reveal y={16}>
           <Eyebrow color="rgba(248,244,237,0.80)" align="center">
-            {clientTrade(sessionData) ?? "Ostéopathe"} D.O. · {clientCity(sessionData) ?? "Strasbourg"} Orangerie
+            {clientTrade(sessionData) ?? "Ostéopathe"}{clientName(sessionData) ? "" : " D.O."} · {clientCity(sessionData) ?? "Strasbourg Orangerie"}
           </Eyebrow>
         </Reveal>
 
@@ -2109,12 +2109,15 @@ function INFO_BLOCKS_LIVE() {
     lines: [
       (clientAddress(sessionData) ?? '14 allée de la Robertsau'),
       (clientAddress(sessionData) ? '' : clientCodePostalVille(sessionData, "67000", "Strasbourg")),
-      'Quartier Orangerie',
+      ...(clientName(sessionData) ? [] : ['Quartier Orangerie']),
     ],
   },
   {
     label: 'Accès & Transports',
-    lines: [
+    lines: clientName(sessionData) ? [
+      'Stationnement à proximité',
+      'Accès transports en commun',
+    ] : [
       'Tram C — arrêt Observatoire (3 min à pied)',
       'Bus 30 — arrêt Palais de l\'Europe',
       'Parking Orangerie : 5 min',
@@ -2161,7 +2164,7 @@ function PracticalSection() {
     <section style={sec} id="cabinet">
       <div style={{ maxWidth: 1240, margin: '0 auto 56px' }}>
         <Reveal>
-          <Eyebrow>Cabinet Orangerie · Informations pratiques</Eyebrow>
+          <Eyebrow>{clientName(sessionData) ? "Le cabinet · Informations pratiques" : "Cabinet Orangerie · Informations pratiques"}</Eyebrow>
         </Reveal>
         <Reveal delay={0.08}>
           <h2
@@ -2176,7 +2179,7 @@ function PracticalSection() {
           >{/* TEXTE_SECTION */ clientText(sessionData, "cabinet.titre") ?? (<>
             Votre cabinet{' '}
             <span style={{ fontStyle: 'italic', fontWeight: 400, color: C.terra }}>
-              au cœur de l&apos;Orangerie
+              {clientCity(sessionData) ? <>au cœur de {clientCity(sessionData)}</> : <>au cœur de l&apos;Orangerie</>}
             </span>
           </>)}</h2>
         </Reveal>
@@ -2235,7 +2238,7 @@ function PracticalSection() {
                     fontStyle: 'italic',
                   }}
                 >
-                  À 8 min à pied du Parlement Européen. Parking gratuit Orangerie.
+                  {clientName(sessionData) ? "Stationnement facile à proximité du cabinet." : "À 8 min à pied du Parlement Européen. Parking gratuit Orangerie."}
                   Cabinet accessible PMR, ascenseur disponible.
                 </p>
               </div>
@@ -2422,7 +2425,7 @@ function FooterSection() {
               fontWeight: 500,
             }}
           >
-            {clientCity(sessionData) ?? "Strasbourg"} Orangerie · D.O. diplômé
+            {clientCity(sessionData) ?? "Strasbourg Orangerie"}{clientName(sessionData) ? "" : " · D.O. diplômé"}
           </div>
           <p
             style={{
@@ -2435,8 +2438,8 @@ function FooterSection() {
               marginBottom: 20,
             }}
           >
-            {clientTrade(sessionData) ?? "Ostéopathe"} diplômé d&apos;état, membre du Registre des Ostéopathes
-            de France. Consultation sur rendez-vous, {clientCity(sessionData) ?? "Strasbourg"}.
+            {clientName(sessionData) ? <>Consultation sur rendez-vous{clientCity(sessionData) ? <>, {clientCity(sessionData)}</> : null}.</> : <>Ostéopathe diplômé d&apos;état, membre du Registre des Ostéopathes
+            de France. Consultation sur rendez-vous, Strasbourg.</>}
           </p>
           <div
             style={{
@@ -2458,7 +2461,7 @@ function FooterSection() {
                 color: 'rgba(248,244,237,0.60)',
               }}
             >
-              ADELI N° 67 93 0000 0
+              {clientName(sessionData) ? "N° professionnel sur demande" : "ADELI N° 67 93 0000 0"}
             </span>
           </div>
           <div style={{ marginTop: 24 }}>
@@ -2654,7 +2657,7 @@ export default function Impact291Page() {
     });
   });
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

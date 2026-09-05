@@ -10,6 +10,7 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "a fragrance": "Un parfum",
     "projects completed": "Projets livrés",
     "countries": "Pays",
     "carbon-negative projects": "Projets à bilan carbone négatif",
@@ -96,6 +97,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your cart is empty.": "Votre panier est vide.",
   },
   es: {
+    "a fragrance": "Una fragancia",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -199,6 +201,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your cart is empty.": "Tu carrito está vacío.",
   },
   de: {
+    "a fragrance": "Ein Duft",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -302,6 +305,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "your cart is empty.": "Ihr Warenkorb ist leer.",
   },
   pt: {
+    "a fragrance": "Um perfume",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

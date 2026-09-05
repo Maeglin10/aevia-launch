@@ -182,7 +182,7 @@ export default function BatirSolidePage() {
     });
   });
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   ZONES = resolveList(
@@ -214,8 +214,8 @@ export default function BatirSolidePage() {
       l: r.location ?? "",
     })),
     [
-      { q: "Extension de 40 m² réalisée en 3 mois top chrono. Qualité béton irréprochable, finitions soignées, aucun dépassement budget. Chapeau.", n: "Jean-Pierre M.", l: (clientCity(sessionData) ?? "Marseille") + " 12ème" },
-      { q: `Suppression d'un mur porteur de 6m avec IPN. ${clientName(sessionData) ?? "Bâtir"} Solide a géré l'étude de structure et les travaux. Parfait, aucune fissure, résultat propre.`, n: "Nathalie & Frédéric D.", l: "Aix-en-Provence" },
+      { q: "Extension de 40 m² réalisée en 3 mois top chrono. Qualité béton irréprochable, finitions soignées, aucun dépassement budget. Chapeau.", n: "Jean-Pierre M.", l: (clientCity(sessionData) ?? "Marseille 12ème") },
+      { q: `Suppression d'un mur porteur de 6m avec IPN. ${clientName(sessionData) ?? "Bâtir Solide"} a géré l'étude de structure et les travaux. Parfait, aucune fissure, résultat propre.`, n: "Nathalie & Frédéric D.", l: "Aix-en-Provence" },
       { q: "Ravalement ITE de notre immeuble 6 logements. Dossier MaPrimeRénov' entièrement géré par l'équipe. Économies énergétiques bluffantes.", n: "Syndicat copropriété Les Pins", l: "Aubagne (13)" },
     ]
   );
@@ -482,13 +482,13 @@ export default function BatirSolidePage() {
       <footer id="contact" className="bg-[#0f0905] pt-20 pb-10 px-6 border-t border-white/5">
         <div className="max-w-[1300px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div>
-            <div className="flex items-center gap-2.5 mb-5"><HardHat className="w-5 h-5 text-[var(--brand,#d4a96a)]" /><span className="font-black text-white text-sm uppercase">{clientName(sessionData) ?? "Bâtir"} Solide</span></div>
-            <p className="text-white/25 text-sm leading-relaxed">Maçon & Gros Œuvre · Région PACA. Construction, extension, ravalement depuis 1999.</p>
+            <div className="flex items-center gap-2.5 mb-5"><HardHat className="w-5 h-5 text-[var(--brand,#d4a96a)]" /><span className="font-black text-white text-sm uppercase">{clientName(sessionData) ?? "Bâtir Solide"}</span></div>
+            <p className="text-white/25 text-sm leading-relaxed">Maçon & Gros Œuvre · {clientCity(sessionData) ?? "Région PACA"}.{clientName(sessionData) ? "" : " Construction, extension, ravalement depuis 1999."}</p>
           </div>
           {[
             { t: "Savoir-faire", ls: ["Gros œuvre", "Extensions", "Ravalement ITE", "Rénovation structurelle", "Dallage & terrassement"] },
             { t: "Certifications", ls: ["Qualibat 3311", "Garantie Décennale", "RGE ITE", "MaPrimeRénov' éligible", "Assurance civile"] },
-            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "04 91 23 45 67"), (clientEmail(sessionData) ?? fd?.email ?? "devis@batirsolide.fr"), (clientCity(sessionData) ?? "Marseille") + " & PACA", "Lundi-Vendredi 7h-18h", "Devis gratuit 48h"] },
+            { t: "Contact", ls: [(clientPhone(sessionData) ?? fd?.phone ?? "04 91 23 45 67"), (clientEmail(sessionData) ?? fd?.email ?? "devis@batirsolide.fr"), clientCity(sessionData) ?? "Marseille & PACA", "Lundi-Vendredi 7h-18h", "Devis gratuit 48h"] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#d4a96a)] mb-5">{col.t}</h4>
@@ -500,7 +500,7 @@ export default function BatirSolidePage() {
         </div>
         <div className="max-w-[1300px] mx-auto pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between gap-4 text-[10px] font-bold uppercase tracking-widest text-white/15">
           <span>© 2026 {clientName(sessionData) ?? "Bâtir Solide"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : clientName(sessionData) ? "" : " · SIRET 567 890 123 00045"} · Qualibat 3311 · Assurance Décennale SMABTP{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
-          <span className="text-[var(--brand,#d4a96a)]/30">Maçon certifié · Région PACA</span>
+          <span className="text-[var(--brand,#d4a96a)]/30">Maçon certifié · {clientCity(sessionData) ?? "Région PACA"}</span>
         </div>
       </footer>
     </div>

@@ -195,10 +195,10 @@ function EDIT_ROWS_SOURCE_LIVE() {
       <>
         {clientCity(sessionData) ?? "Bordeaux"}
         <br />
-        <span style={{ fontStyle: 'italic' }}>depuis 2015.</span>
+        <span style={{ fontStyle: 'italic' }}>{clientName(sessionData) ? "à vos côtés." : "depuis 2015."}</span>
       </>
     ),
-    body: `Installé dans le quartier des Chartrons, ${clientName(sessionData) ?? "Axiom Conseil"} réunit 8 collaborateurs experts. Nous accompagnons 180 clients — de la startup en amorçage à l'ETI à 20 M€ de CA. Membres de l'OEC ` + (clientCity(sessionData) ?? "Bordeaux") + ".",
+    body: clientName(sessionData) ? `${clientName(sessionData)} accompagne ses clients — de la startup en amorçage à l'ETI. Un interlocuteur dédié, des conseils concrets.` : "Installé dans le quartier des Chartrons, Axiom Conseil réunit 8 collaborateurs experts. Nous accompagnons 180 clients — de la startup en amorçage à l'ETI à 20 M€ de CA. Membres de l'OEC Bordeaux.",
   },
 ];
 }
@@ -1989,8 +1989,7 @@ function Footer() {
               margin: '0 0 24px',
             }}
           >
-            Expert-Comptable & Conseil en Gestion à {clientCity(sessionData) ?? "Bordeaux"}. Membre de
-            l&apos;Ordre des Experts-Comptables.
+            Expert-Comptable & Conseil en Gestion à {clientCity(sessionData) ?? "Bordeaux"}.{clientName(sessionData) ? "" : " Membre de l'Ordre des Experts-Comptables."}
           </p>
           <div
             style={{
@@ -2002,7 +2001,7 @@ function Footer() {
               opacity: 0.8,
             }}
           >
-            {clientCity(sessionData) ?? "Bordeaux"} · Chartrons
+            {clientCity(sessionData) ?? "Bordeaux · Chartrons"}
           </div>
           <div
             style={{
@@ -2088,7 +2087,7 @@ function Footer() {
           color: 'rgba(200,224,208,0.38)',
         }}
       >
-        <span>© 2015–2026 {clientName(sessionData) ?? "Axiom Conseil"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© {clientName(sessionData) ? "2026" : "2015–2026"} {clientName(sessionData) ?? "Axiom Conseil"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>
             Mentions légales
@@ -2175,7 +2174,7 @@ export default function Page() {
     SERVICES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

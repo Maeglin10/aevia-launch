@@ -128,7 +128,7 @@ const METHODE = [
 ];
 
 const ENGAGEMENT_DEMO = [
-  "Inscrits au registre des transporteurs — DREAL Pays de la Loire",
+  "Inscrits au registre des transporteurs (DREAL)",
   "Assurance ad valorem incluse jusqu'à 50 000 € de mobilier déclaré",
   "Devis ferme après visite : le prix signé est le prix facturé",
   "Lettre de voiture réglementaire remise au départ et à l'arrivée",
@@ -418,7 +418,7 @@ export default function CapDemenagementsPage() {
     SERVICES_SOURCE,
   );
   AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   /*
@@ -431,8 +431,8 @@ export default function CapDemenagementsPage() {
       ...HERO_FORMULES_SOURCE[i % HERO_FORMULES_SOURCE.length],
       k: s.title,
       big: String(s.title || "").toUpperCase(),
-      ...(s.price ? { p: s.price } : {}),
-      ...(s.desc ? { d: s.desc } : {}),
+      p: s.price ?? "Sur devis",
+      d: s.desc ?? "",
     })),
     HERO_FORMULES_SOURCE,
   );
@@ -590,7 +590,7 @@ export default function CapDemenagementsPage() {
         <div className="i329-haut" style={{ position: "relative", zIndex: 2, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 18, flexWrap: "wrap" }}>
           <span style={{ display: "inline-flex", alignItems: "center", gap: 9, fontSize: 12.5, letterSpacing: "0.02em", color: C.textMuted }}>
             <span aria-hidden style={{ width: 7, height: 7, borderRadius: "50%", background: C.accent, flexShrink: 0 }} />
-            {clientEyebrow(sessionData) ?? ((clientTrade(sessionData) ?? "Déménageur") + " professionnel · " + (clientCity(sessionData) ?? "Nantes") + " & toute la France")}
+            {clientEyebrow(sessionData) ?? ((clientTrade(sessionData) ?? "Déménageur") + " professionnel · " + (clientCity(sessionData) ?? "Nantes & toute la France"))}
           </span>
 
           {/*
@@ -845,7 +845,7 @@ export default function CapDemenagementsPage() {
             <div>
               <div style={{ fontFamily: DISPLAY, fontWeight: 800, fontSize: 17, marginBottom: 8, letterSpacing: "-0.01em" }}>{fd?.businessName ?? (clientName(sessionData) ?? "Cap Déménagements")}</div>
               <p style={{ color: C.textMuted, fontSize: 13, lineHeight: 1.7 }}>
-                {clientTrade(sessionData) ?? "Déménageur"} professionnel · {clientCity(sessionData) ?? "Nantes"}<br />Registre des transporteurs — DREAL Pays de la Loire
+                {clientTrade(sessionData) ?? "Déménageur"} professionnel · {clientCity(sessionData) ?? "Nantes"}<br />{clientName(sessionData) ? "Registre des transporteurs (DREAL)" : "Registre des transporteurs — DREAL Pays de la Loire"}
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -861,14 +861,14 @@ export default function CapDemenagementsPage() {
               ))}
               {clientAddress(sessionData) ? null : (
                 <div style={{ display: "flex", gap: 10, color: C.textFaint, fontSize: 12, alignItems: "center" }}>
-                  <span style={{ color: C.accent }}><Truck size={13} /></span>Départs de toute la Loire-Atlantique
+                  <span style={{ color: C.accent }}><Truck size={13} /></span>{clientCity(sessionData) ? `Départs de ${clientCity(sessionData)} et alentours` : "Départs de toute la Loire-Atlantique"}
                 </div>
               )}
             </div>
           </div>
           <div style={{ borderTop: `1px solid ${C.border}`, paddingTop: 14, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>
-              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Cap Déménagements")} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity fallback="852 546 225" kind="siren" />
+              © 2026 {fd?.businessName ?? (clientName(sessionData) ?? "Cap Déménagements")} — Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" />{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
             <span style={{ color: "rgba(255,255,255,0.25)", fontSize: 12 }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>

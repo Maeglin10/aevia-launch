@@ -346,7 +346,7 @@ return (
                   className="text-[#f8f5f0]/70 text-lg leading-relaxed mb-6"
                   style={{ fontFamily: "Lora, Georgia, serif" }}
                 >{c?.aboutText ?? <>
-                  Développée par le Dr. Clara {clientCity(sessionData) ?? "Metz"} après une décennie de recherche clinique sur le burnout, la Méthode Luminale intègre les dernières découvertes en neurosciences avec des pratiques contemplatives éprouvées.
+                  Développée par le Dr. Clara Meunier après une décennie de recherche clinique sur le burnout, la Méthode Luminale intègre les dernières découvertes en neurosciences avec des pratiques contemplatives éprouvées.
                 </>}</p>
                 <p
                   className="text-[#f8f5f0]/50 text-base leading-relaxed mb-12"

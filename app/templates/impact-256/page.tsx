@@ -238,7 +238,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
         <em>vraiment.</em>
       </>
     ),
-    body: "12 ans d'expérience terrain, BPJEPS + D.E. STAPS et certification coach nutrition. Je construis des programmes périodisés sur mesure — pas de plans génériques copiés d'internet. Chaque client est un cas unique.",
+    body: clientName(sessionData) ? "Je construis des programmes périodisés sur mesure — pas de plans génériques copiés d'internet. Chaque client est un cas unique." : "12 ans d'expérience terrain, BPJEPS + D.E. STAPS et certification coach nutrition. Je construis des programmes périodisés sur mesure — pas de plans génériques copiés d'internet. Chaque client est un cas unique.",
     ghostNumeral: '01',
   },
   {
@@ -251,7 +251,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
         <em>ou en salle.</em>
       </>
     ),
-    body: "Je me déplace chez vous ou dans votre salle sur " + (clientCity(sessionData) ?? "Marseille") + ", Aix-en-Provence et Aubagne. Le coaching en ligne est disponible pour toute la France et l'international — mêmes résultats, même exigence.",
+    body: clientCity(sessionData) ? "Je me déplace chez vous ou dans votre salle sur " + clientCity(sessionData) + " et alentours. Le coaching en ligne est disponible pour toute la France et l'international — mêmes résultats, même exigence." : "Je me déplace chez vous ou dans votre salle sur Marseille, Aix-en-Provence et Aubagne. Le coaching en ligne est disponible pour toute la France et l'international — mêmes résultats, même exigence.",
     ghostNumeral: '02',
     reverse: true,
   },
@@ -294,7 +294,7 @@ function TESTIMONIALS_SOURCE_LIVE() {
   {
     quote: "J'ai terminé mon premier triathlon après 6 mois de préparation coaching. Le programme de périodisation était chirurgical. Je n'aurais pas pu sans lui.",
     name: 'Thomas R.',
-    role: 'Cycliste amateur · ' + (clientCity(sessionData) ?? 'Aix-en-Provence'),
+    role: 'Cycliste amateur · Aix-en-Provence',
     result: 'Triathlon complété',
   },
 ];
@@ -1495,7 +1495,7 @@ function PillarPanel() {
                   marginBottom: 10,
                 }}
               >
-                Coach Certifié · BPJEPS + D.E. STAPS
+                {clientName(sessionData) ? "Coach Certifié" : "Coach Certifié · BPJEPS + D.E. STAPS"}
               </div>
               <div
                 style={{
@@ -2025,7 +2025,7 @@ function Footer() {
     },
     {
       title: 'Contact',
-      items: ['Séance offerte', 'Réserver', (clientCity(sessionData) ?? 'Marseille') + ' · Aix · Aubagne', (clientEmail(sessionData) ?? fd?.email ?? 'contact@forcebrute.fr')],
+      items: ['Séance offerte', 'Réserver', clientCity(sessionData) ? clientCity(sessionData)! + ' et alentours' : 'Marseille · Aix · Aubagne', (clientEmail(sessionData) ?? fd?.email ?? 'contact@forcebrute.fr')],
       hrefs: ['#contact', '#contact', '#contact', '#contact'],
     },
   ];
@@ -2095,7 +2095,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.8} />
-            {clientCity(sessionData) ?? "Marseille"} · Aix · Aubagne · Online
+            {clientCity(sessionData) ? `${clientCity(sessionData)} · Online` : "Marseille · Aix · Aubagne · Online"}
           </div>
         </div>
 
@@ -2175,7 +2175,7 @@ function Footer() {
         <span style={{ display: 'flex', gap: 24 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>Mentions légales</a>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>Confidentialité</a>
-          <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>BPJEPS + D.E. STAPS</a>
+          {clientName(sessionData) ? null : <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>BPJEPS + D.E. STAPS</a>}
         </span>
       </div>
 
@@ -2273,7 +2273,7 @@ export default function Page() {
     });
   });
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

@@ -97,7 +97,7 @@ const FONT_BODY = "'Inter', system-ui, sans-serif";
 // ─── DATA ─────────────────────────────────────────────────────────────────────
 
 function COLLECTIONS_SOURCE_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ tag: "",  name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     name: "Éternité",
     category: "Bagues",
@@ -287,7 +287,7 @@ function FAQS_DEMO_LIVE() {
   },
   {
     q: "Proposez-vous des consultations en boutique ?",
-    a: "Notre boutique est située au 24, rue de la Paix, " + (clientCity(sessionData) ?? "Paris") + " 75002, sur rendez-vous. Consultations disponibles du mardi au samedi de 10h à 19h. Pour les clients internationaux, nous proposons des consultations en visio avec présentation des pièces en direct. Prise de rendez-vous via notre site ou au " + (clientPhone(sessionData) ?? "+33 1 42 60 20 51") + ".",
+    a: "Notre boutique est située " + (clientAddress(sessionData) ? "au " + clientAddress(sessionData) : (clientCity(sessionData) ? "à " + clientCity(sessionData) : "au 24, rue de la Paix, Paris 75002")) + ", sur rendez-vous. Consultations disponibles du mardi au samedi de 10h à 19h. Pour les clients internationaux, nous proposons des consultations en visio avec présentation des pièces en direct. Prise de rendez-vous via notre site ou au " + (clientPhone(sessionData) ?? "+33 1 42 60 20 51") + ".",
   },
 ];
 }
@@ -465,7 +465,7 @@ export default function Impact157Page() {
     });
   });
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   COLLECTIONS_DEMO = resolveList(
@@ -473,11 +473,11 @@ export default function Impact157Page() {
     COLLECTIONS_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text, location: "", })),
     TESTIMONIALS_SOURCE,
   );
   SERVICES = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
+    clientServices(sessionData)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title, desc: s.desc || "" })),
     SERVICES_DEMO,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
@@ -485,6 +485,9 @@ export default function Impact157Page() {
     clientCertifications(sessionData)?.map((texte: string, i: number) => ({
       ...CERTIFICATIONS_DEMO[i % CERTIFICATIONS_DEMO.length],
       name: texte,
+      org: "",
+      detail: "",
+      desc: "",
     })),
     CERTIFICATIONS_DEMO,
   );
@@ -605,7 +608,7 @@ return (
                 fontWeight: 300,
               }}
             >{/* NOM_LOGO */ clientName(sessionData) ?? (<>
-              AURUM
+              {clientName(sessionData) ?? "AURUM"}
             </>)}</span>
           )}
         </div>
@@ -2008,7 +2011,7 @@ return (
               fontWeight: 300,
             }}
           >
-            Visitez-nous rue de la Paix ou consultez nos collections en ligne.
+            {clientCity(sessionData) ? `Visitez-nous à ${clientCity(sessionData)} ou consultez nos collections en ligne.` : "Visitez-nous rue de la Paix ou consultez nos collections en ligne."}
             Livraison assurée dans 67 pays, retours 30 jours.
           </p>
           <div
@@ -2088,7 +2091,7 @@ return (
                 marginBottom: 20,
               }}
             >
-              AURUM
+              {clientName(sessionData) ?? "AURUM"}
             </div>
             <p
               style={{
@@ -2194,7 +2197,7 @@ return (
           }}
         >
           <div style={{ fontSize: 12, color: C.textMuted, letterSpacing: 0.5 }}>
-            © 2026 {clientName(sessionData) ?? "Aurum Jewelry SAS"} · 24, rue de la Paix · 75002 {clientCity(sessionData) ?? "Paris"}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+            © 2026 {clientName(sessionData) ?? "Aurum Jewelry SAS"} · {clientAddress(sessionData) ?? (clientCity(sessionData) ?? "24, rue de la Paix · 75002 Paris")}
           </div>
           <div style={{ fontSize: 12, color: C.textMuted, letterSpacing: 0.5 }}>
             Garantie maison 10 ans · Livraison assurée 67 pays

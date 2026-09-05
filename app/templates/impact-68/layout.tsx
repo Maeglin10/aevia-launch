@@ -334,7 +334,7 @@ export default function OrbitLayout({
                   color: C.text,
                 }}
               >
-                Orbit<span style={{ color: C.accent }}>.</span>
+                {clientName(__layoutSession) ?? (<>Orbit<span style={{ color: C.accent }}>.</span></>)}
               </span>
             </div>
             <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: "13px", color: C.textMuted, lineHeight: 1.7, maxWidth: "240px" }}>

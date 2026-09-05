@@ -106,7 +106,7 @@ let HERO_PRODUCTS_DEMO = HERO_PRODUCTS_DEMO_SOURCE;
 let HERO_PRODUCTS = HERO_PRODUCTS_DEMO;
 
 function PRODUCTS_SOURCE_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ price: "",  name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   {
     id: 1,
     name: "Helix Noir",
@@ -714,11 +714,11 @@ export default function OrbitAIPage() {
   c = session?.generatedContent;
 
   HERO_PRODUCTS_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...HERO_PRODUCTS_DEMO_SOURCE[i % HERO_PRODUCTS_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? HERO_PRODUCTS_DEMO_SOURCE[i % HERO_PRODUCTS_DEMO_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...HERO_PRODUCTS_DEMO_SOURCE[i % HERO_PRODUCTS_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "", price: s.price ?? "" })),
     HERO_PRODUCTS_DEMO_SOURCE,
   );
   PRODUCTS = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title, price: s.price ?? PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_SOURCE[i % PRODUCTS_SOURCE.length], name: s.title, price: s.price ?? "" })),
     PRODUCTS_SOURCE,
   );
   MATERIALS_DEMO = resolveList(
@@ -1183,7 +1183,7 @@ return (
           </Reveal>
 
           <div className="flex flex-wrap justify-center gap-8 mb-16">
-            {PUBLICATIONS.map((pub, i) => (
+            {(clientName(sessionData) ? [] : PUBLICATIONS).map((pub, i) => (
               <Reveal key={pub} delay={i * 0.06}>
                 <div className="px-8 py-4 border border-white/10 rounded text-white/20 text-sm font-black uppercase tracking-widest hover:text-white/60 hover:border-white/30 transition-all duration-300 cursor-default">
                   {pub}
@@ -1195,7 +1195,7 @@ return (
           <Reveal>
             <div className="flex flex-col md:flex-row items-center justify-center gap-12 py-12 border-t border-white/5">
               <div className="text-center">
-                <div className="text-5xl font-black text-white tracking-tighter mb-2">4.9</div>
+                <div className="text-5xl font-black text-white tracking-tighter mb-2">{clientStats(sessionData)?.[0]?.value ?? (clientName(sessionData) ? "" : "4.9")}</div>
                 <div className="flex justify-center gap-1 mb-2">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
@@ -1207,14 +1207,14 @@ return (
               </div>
               <div className="w-px h-16 bg-white/10 hidden md:block" />
               <div className="text-center">
-                <div className="text-5xl font-black text-white tracking-tighter mb-2">1 240</div>
+                <div className="text-5xl font-black text-white tracking-tighter mb-2">{clientStats(sessionData)?.[1]?.value ?? (clientName(sessionData) ? "" : "1 240")}</div>
                 <div className="text-[10px] text-white/30 uppercase tracking-widest font-bold mt-2">
                   Avis vérifiés
                 </div>
               </div>
               <div className="w-px h-16 bg-white/10 hidden md:block" />
               <div className="text-center">
-                <div className="text-5xl font-black text-white tracking-tighter mb-2">98%</div>
+                <div className="text-5xl font-black text-white tracking-tighter mb-2">{clientStats(sessionData)?.[2]?.value ?? (clientName(sessionData) ? "" : "98%")}</div>
                 <div className="text-[10px] text-white/30 uppercase tracking-widest font-bold mt-2">
                   Clients satisfaits
                 </div>

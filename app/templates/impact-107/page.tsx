@@ -150,9 +150,7 @@ export default function MeridianJourneyPage() {
 
       ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
 
-      quote: r.text, name: r.author,
-
-    })),
+      quote: r.text, name: r.author, origin: "", })),
 
     AVIS_INLINE_SOURCE,
 
@@ -454,7 +452,7 @@ export default function MeridianJourneyPage() {
           <div>
             <div className="flex items-center gap-3 mb-6">
               <Compass className="w-5 h-5 text-[var(--brand,#2dd4bf)]" />
-              <span className="font-bold tracking-[0.2em] uppercase">Meridian</span>
+              <span className="font-bold tracking-[0.2em] uppercase">{clientName(sessionData) ?? "Meridian"}</span>
             </div>
             <p className="text-sm text-white/30 leading-relaxed">Expedition storytelling and guided wilderness journeys since 2017.</p>
           </div>

@@ -60,7 +60,7 @@ function HERO_CUVEES_LIVE() {
     left: `${clientName(sessionData) ?? "Château"}`,
     right: clientName(sessionData) ? "" : "DE VALROC",
     name: (clientName(sessionData) ?? "Cuvée Prestige"),
-    meta: "AOC " + (clientCity(sessionData) ?? "Bordeaux") + " Grand Cru · 2020",
+    meta: "AOC Bordeaux Grand Cru · 2020",
     bottle: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1545608508-78f351665a1c?auto=format&fit=crop&q=85&w=620&h=1240"),
   },
   {
@@ -69,7 +69,7 @@ function HERO_CUVEES_LIVE() {
     left: `${clientName(sessionData) ?? "Château"}`,
     right: clientName(sessionData) ? "" : "DE VALROC",
     name: "Cuvée Réserve",
-    meta: "AOC " + (clientCity(sessionData) ?? "Bordeaux") + " · 2021",
+    meta: "AOC Bordeaux · 2021",
     bottle: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1598866971869-22782ffd918e?auto=format&fit=crop&q=85&w=620&h=1240"),
   },
   {
@@ -138,7 +138,7 @@ function WINES_DEMO_LIVE() {
     id: "prestige",
     name: (clientName(sessionData) ?? "Cuvée Prestige"),
     vintage: "2020",
-    appellation: "AOC " + (clientCity(sessionData) ?? "Bordeaux") + " Grand Cru",
+    appellation: "AOC Bordeaux Grand Cru",
     price: "€240",
     desc: "Le pinacle de notre domaine. Une robe pourpre intense aux reflets violines, un nez de fruits noirs confits, de cèdre et de réglisse. En bouche, la structure tannique est d'une finesse absolue.",
     notes: ["Cassis", "Cèdre", "Truffe"],
@@ -149,7 +149,7 @@ function WINES_DEMO_LIVE() {
     id: "reserve",
     name: "Cuvée Réserve",
     vintage: "2021",
-    appellation: "AOC " + (clientCity(sessionData) ?? "Bordeaux"),
+    appellation: "AOC Bordeaux",
     price: "€95",
     desc: "L'expression la plus pure de notre terroir argilo-calcaire. Un vin de gastronomie, d'une élégance discrète et d'une persistance aromatique remarquable.",
     notes: ["Mûre", "Violette", "Épices"],
@@ -1145,9 +1145,10 @@ export default function WineryTemplate() {
         ...d,
         id: `wine-${i}`,
         name: m.name ?? d.name,
-        appellation: m.category ?? d.appellation,
-        price: m.price ?? d.price,
-        desc: m.description ?? d.desc,
+        appellation: m.category ?? "",
+        price: m.price ?? "",
+        desc: m.description ?? "",
+        vintage: d.vintage,
       };
     }),
     WINES_DEMO
@@ -1786,7 +1787,7 @@ export default function WineryTemplate() {
               {WINES.filter((w) => !vintageSelected || w.vintage === vintageSelected).map((wine, i) => (
                 <WineCard key={wine.id} wine={wine} index={i} onOrder={openOrderModal} />
               ))}
-              {WINES.filter((w) => vintageSelected && w.vintage === vintageSelected).length === 0 && (
+              {WINES.filter((w) => !vintageSelected || w.vintage === vintageSelected).length === 0 && (
                 <div
                   style={{
                     gridColumn: "1 / -1",

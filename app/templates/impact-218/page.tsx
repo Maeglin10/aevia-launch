@@ -26,6 +26,7 @@ import {
   clientHeroLine,
   clientHeroSubtitle,
   clientName,
+  clientStats,
   clientPhotos,
   clientReviews,
   clientServices,
@@ -493,7 +494,7 @@ function Hero() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.goldLight} align="center">
-            Domaine viticole · Depuis 1834
+            {clientName(sessionData) ? "Domaine viticole" : "Domaine viticole · Depuis 1834"}
           </Eyebrow>
         </Reveal>
 
@@ -608,13 +609,18 @@ function Manifesto() {
             color: C.ink,
           }}
         >{/* TEXTE_SECTION */ clientText(sessionData, "domaine.texte") ?? (<>
-          Au cœur d&apos;un coteau exposé plein sud, le {clientName(sessionData) ?? "Domaine Miroir"} cultive{' '}
+          {clientName(sessionData) ? <>Au cœur d&apos;un coteau exposé plein sud, le {clientName(sessionData)} cultive ses{' '}
+          <span style={{ fontStyle: 'italic', color: C.burgundy }}>
+            vieilles vignes
+          </span>. Ici, rien ne presse : la patience est notre
+          premier{' '}
+          <span style={{ fontStyle: 'italic', color: C.burgundy }}>cépage</span>.</> : <>Au cœur d&apos;un coteau exposé plein sud, le Domaine Miroir cultive{' '}
           <span style={{ fontStyle: 'italic', color: C.burgundy }}>
             douze hectares
           </span>{' '}
           de vieilles vignes. Ici, rien ne presse : la patience est notre
           premier{' '}
-          <span style={{ fontStyle: 'italic', color: C.burgundy }}>cépage</span>.
+          <span style={{ fontStyle: 'italic', color: C.burgundy }}>cépage</span>.</>}
         </>)}</p>
       </Reveal>
       <Reveal delay={0.2}>
@@ -1496,11 +1502,11 @@ function CellarExperience() {
     padding: 'clamp(80px,12vw,160px) clamp(24px,6vw,96px)',
   };
 
-  const stats: { k: string; v: string }[] = [
+  const stats: { k: string; v: string }[] = clientStats(sessionData)?.map((s: any) => ({ k: s.value, v: s.label })) ?? (clientName(sessionData) ? [] : [
     { k: '1834', v: 'Fondation du domaine' },
     { k: '12 ha', v: 'Vignes en culture' },
     { k: '24 mois', v: 'Élevage en fût' },
-  ];
+  ]);
 
   return (
     <section ref={ref} style={sec} id="chai">
@@ -2048,7 +2054,7 @@ function Footer() {
               maxWidth: 340,
             }}
           >
-            Vins de garde par allocation. Coteau du Miroir, France.
+            {clientName(sessionData) ? `Vins de garde par allocation.${clientCity(sessionData) ? " " + clientCity(sessionData) + ", France." : ""}` : "Vins de garde par allocation. Coteau du Miroir, France."}
           </p>
           <div
             style={{
@@ -2063,7 +2069,7 @@ function Footer() {
               color: 'rgba(244,236,224,0.6)',
             }}
           >
-            <MapPin size={14} color={C.gold} strokeWidth={1.5} /> Coteau du Miroir · France
+            <MapPin size={14} color={C.gold} strokeWidth={1.5} /> {clientCity(sessionData) ?? "Coteau du Miroir"} · France
           </div>
         </div>
         {cols.map((c) => (
@@ -2128,7 +2134,7 @@ function Footer() {
         }}
       >
         <span>
-          © 1834–2026 {clientName(sessionData) ?? "Domaine Miroir"}. L&apos;abus d&apos;alcool est dangereux pour
+          © {clientName(sessionData) ? "2026" : "1834–2026"} {clientName(sessionData) ?? "Domaine Miroir"}. L&apos;abus d&apos;alcool est dangereux pour
           la santé. À consommer avec modération.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span style={{ display: 'flex', gap: 24 }}>
@@ -2237,7 +2243,7 @@ export default function Page() {
     });
   });
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

@@ -518,7 +518,7 @@ export default function VanguardLegalPage() {
                 <div className="w-10 h-10 border border-[#00ff41]/30 flex items-center justify-center">
                   <Shield className="w-5 h-5 text-[#00ff41]" />
                 </div>
-                <span className="text-xl font-bold tracking-tighter uppercase text-white italic">Vanguard <span className="text-[#00ff41]">Legal</span></span>
+                <span className="text-xl font-bold tracking-tighter uppercase text-white italic">{clientName(sessionData) ?? (<>Vanguard <span className="text-[#00ff41]">Legal</span></>)}</span>
               </Link>
               <p className="text-white/20 max-w-sm leading-relaxed mb-12 text-[10px] font-bold uppercase italic">
                  "Conflict is inevitable. Neutralization is an choice. We are the choice of the prepared."
@@ -548,7 +548,7 @@ export default function VanguardLegalPage() {
            ))}
         </div>
         <div className="max-w-[1400px] mx-auto flex flex-col md:row justify-between items-center gap-8 border-t border-white/5 pt-12 text-[10px] font-bold uppercase tracking-[0.4em] text-white/10 italic">
-           <span>© 2026 {clientName(sessionData) ?? "VANGUARD STRATEGIC LEGAL DEFENSE."} CONNECTION ENCRYPTED.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+           <span>© 2026 {clientName(sessionData) ?? "VANGUARD STRATEGIC LEGAL DEFENSE."}{clientName(sessionData) ? "" : " CONNECTION ENCRYPTED."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
            <div className="flex gap-12">
               <span>SYSTEM_STATUS: NOMINAL</span>
               <Link href="/templates/impact-147/legal" className="hover:text-[#00ff41] transition-all">PRIVACY_PROTOCOL_ENABLED</Link>

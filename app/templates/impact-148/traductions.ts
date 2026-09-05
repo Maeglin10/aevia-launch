@@ -10,6 +10,7 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "roadmap.": "feuille de route.",
     "manifesto": "Manifeste",
     "commission": "Nous confier un projet",
     "markets": "Marchés",
@@ -74,6 +75,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "the void.": "LE VIDE.",
   },
   es: {
+    "roadmap.": "hoja de ruta.",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -155,6 +157,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "the void.": "EL VACÍO.",
   },
   de: {
+    "roadmap.": "Roadmap.",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -236,6 +239,7 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "the void.": "DIE LEERE.",
   },
   pt: {
+    "roadmap.": "roteiro.",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

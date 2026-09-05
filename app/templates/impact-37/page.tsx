@@ -21,6 +21,7 @@ import {
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientHeroLine,
+  clientMenu,
   clientCity,
   clientFaq,
   clientName,
@@ -132,11 +133,15 @@ function WineHero() {
   const reduce = useReducedMotion();
 
   const wines = resolveList(
-    bp?.wines?.map((w: any, i: number) => ({
+    clientMenu(sessionData)?.map((w: any, i: number) => ({
       ...WINES_DEMO[i % WINES_DEMO.length],
       name: w.name ?? WINES_DEMO[i % WINES_DEMO.length].name,
-      note: w.description ?? WINES_DEMO[i % WINES_DEMO.length].note,
-      glass: w.price ?? WINES_DEMO[i % WINES_DEMO.length].glass,
+      note: w.description ?? "",
+      glass: w.price ? String(w.price).replace(/\s*€\s*/g, "") : "",
+      bottle: "",
+      region: w.category ?? "",
+      grape: "",
+      vintage: "",
       img: w.imageUrl || WINES_DEMO[i % WINES_DEMO.length].img,
     })),
     WINES_DEMO
@@ -301,7 +306,7 @@ function WineHero() {
                 marginBottom: 26,
               }}
             >
-              {wine.grape} · {wine.vintage}
+              {[wine.grape, wine.vintage].filter(Boolean).join(" · ")}
             </motion.div>
 
             {/* 300ms — tasting note */}
@@ -332,7 +337,7 @@ function WineHero() {
               style={{ display: "flex", alignItems: "center", gap: 26, flexWrap: "wrap" }}
             >
               <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-                <span style={{ fontFamily: SERIF, fontSize: 34, color: C.cream }}>{wine.glass}€</span>
+                <span style={{ fontFamily: SERIF, fontSize: 34, color: C.cream }}>{(clientName(sessionData) && !clientMenu(sessionData)) ? "" : `${wine.glass}€`}</span>
                 <span
                   style={{
                     fontFamily: SANS,
@@ -342,7 +347,7 @@ function WineHero() {
                     color: "rgba(253,246,236,0.5)",
                   }}
                 >
-                  le verre · {wine.bottle}€ la bouteille
+                  {(clientName(sessionData) && !clientMenu(sessionData)) ? "" : (wine.bottle ? `le verre · ${wine.bottle}€ la bouteille` : (wine.glass ? "le verre" : ""))}
                 </span>
               </div>
 

@@ -127,7 +127,7 @@ export default function ArcaneRealtyPage() {
   PROPERTIES_DEMO_SOURCE = PROPERTIES_DEMO_SOURCE_LIVE();
 
   PROPERTIES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PROPERTIES_DEMO_SOURCE[i % PROPERTIES_DEMO_SOURCE.length], name: s.title, price: s.price ?? PROPERTIES_DEMO_SOURCE[i % PROPERTIES_DEMO_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...PROPERTIES_DEMO_SOURCE[i % PROPERTIES_DEMO_SOURCE.length], name: s.title, price: s.price ?? "" })),
     PROPERTIES_DEMO_SOURCE,
   );
 
@@ -137,9 +137,7 @@ export default function ArcaneRealtyPage() {
 
       ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
 
-      quote: r.text, name: r.author,
-
-    })),
+      quote: r.text, name: r.author, origin: "", })),
 
     AVIS_INLINE_SOURCE,
 
@@ -253,7 +251,7 @@ export default function ArcaneRealtyPage() {
           
           <div className="absolute bottom-12 left-12 right-12 flex justify-between items-end">
             <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20 flex items-center gap-3"><MapPin className="w-3 h-3" /> GLOBAL ASSETS: 242</div>
-            <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20">ESTABLISHED 1992</div>
+            {clientName(sessionData) ? null : <div className="text-[10px] font-bold uppercase tracking-[0.4em] text-white/20">ESTABLISHED 1992</div>}
           </div>
         </section>
 
@@ -430,7 +428,7 @@ export default function ArcaneRealtyPage() {
               <div className="w-10 h-10 border border-white/20 flex items-center justify-center">
                 <Building2 className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold tracking-[0.2em] uppercase text-white">Arcane <span className="font-light text-white/40">Realty</span></span>
+              <span className="text-xl font-bold tracking-[0.2em] uppercase text-white">{clientName(sessionData) ?? (<>Arcane <span className="font-light text-white/40">Realty</span></>)}</span>
             </Link>
             <p className="text-white/20 max-w-sm leading-relaxed mb-10 text-sm font-light italic">
               "We architecturalize wealth through the acquisition of the world's most rare holdings."
@@ -457,7 +455,7 @@ export default function ArcaneRealtyPage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 {clientName(sessionData) ?? "ARCANE REALTY GLOBAL HOLDINGS."} BUILT FOR THE INFINITE.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "ARCANE REALTY GLOBAL HOLDINGS."}{clientName(sessionData) ? "" : " BUILT FOR THE INFINITE."}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-12 italic">
              <Link href="#contact" className="hover:text-white transition-colors">Privacy Circle</Link>
              <Link href="#contact" className="hover:text-white transition-colors">Listing Verification</Link>

@@ -11,6 +11,7 @@ import { Menu, X, ArrowRight, ChevronRight, Clock, MapPin, Phone, Mail, Award, S
 import { resolveList } from "@/lib/templates/resolveList";
 import {
   clientAddress,
+  clientTagline,
   clientCity,
   clientEmail,
   clientHeroLine,
@@ -173,7 +174,7 @@ export default function AtelierMecaniquePage() {
       movement: s.description ?? models_DEMO[i % models_DEMO.length].movement,
       reserve: models_DEMO[i % models_DEMO.length].reserve,
       complications: models_DEMO[i % models_DEMO.length].complications,
-      price: s.price ?? models_DEMO[i % models_DEMO.length].price,
+      price: s.price ?? "",
       year: models_DEMO[i % models_DEMO.length].year,
       limited: models_DEMO[i % models_DEMO.length].limited,
     })),
@@ -443,7 +444,7 @@ return (
                   </>)}</h2>
                   <div className="grid md:grid-cols-3 gap-8">
                     {/* HORAIRES */ resolveList(clientHours(sessionData)?.map((h: any) => ({ label: h.day, value: h.hours })), [
-                      { icon: <MapPin className="w-4 h-4" />, label: "Showroom " + (clientCity(sessionData) ?? "Paris"), value: "18 Place Vendôme, 75001" },
+                      { icon: <MapPin className="w-4 h-4" />, label: "Showroom " + (clientCity(sessionData) ?? "Paris"), value: clientAddress(sessionData) ?? (clientCity(sessionData) ? "Sur rendez-vous" : "18 Place Vendôme, 75001") },
                       { icon: <Phone className="w-4 h-4" />, label: "Téléphone", value: clientPhone(sessionData) ?? "+33 1 42 60 00 00" },
                       { icon: <Clock className="w-4 h-4" />, label: "Horaires", value: "Lun–Sam 10h–19h" },
                     ]).map(c => (
@@ -476,7 +477,7 @@ return (
         <div className="max-w-6xl mx-auto grid md:grid-cols-4 gap-10">
           <div>
             <p className="text-[var(--brand,#B49A6A)] text-lg mb-4" style={{ fontFamily: "'Libre Baskerville', serif" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Atelier Mécanique"))}</p>
-            <p className="text-white/30 text-sm leading-relaxed">Manufacture horlogère. Place Vendôme, {clientCity(sessionData) ?? "Paris"} — Depuis 1887.</p>
+            <p className="text-white/30 text-sm leading-relaxed">{clientTagline(sessionData) ?? `Manufacture horlogère. ${clientCity(sessionData) ? clientCity(sessionData) + " —" : "Place Vendôme, Paris —"} Depuis 1887.`}</p>
           </div>
           {[
             { title: "Montres", links: ["Tourbillons", "Chronographes", "Calendriers", "Éditions limitées"] },
@@ -891,7 +892,7 @@ function ContactSubPage() {
               Prendre <em>Rendez-vous</em>
             </>)}</h1>
             <p className="text-white/50 text-sm max-w-xl mx-auto leading-relaxed">
-              Nous vous accueillons Place Vendôme à {clientCity(sessionData) ?? "Paris"} ou au cœur de notre manufacture pour vous présenter notre collection de garde-temps de prestige.
+              Nous vous accueillons {clientCity(sessionData) ? `à ${clientCity(sessionData)}` : "Place Vendôme à Paris"} ou au cœur de notre manufacture pour vous présenter notre collection de garde-temps de prestige.
             </p>
           </div>
         </Reveal>
@@ -900,7 +901,7 @@ function ContactSubPage() {
           <div className="md:col-span-5 space-y-8 text-sm text-white/60">
             <div className="space-y-2">
               <h3 className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase">Showroom Vendôme</h3>
-              <p>{clientAddress(sessionData) ?? `18 Place Vendôme, 75001 ${clientCity(sessionData) ?? "Paris"}`}</p>
+              <p>{clientAddress(sessionData) ?? (clientCity(sessionData) ? `${clientCity(sessionData)} — sur rendez-vous` : "18 Place Vendôme, 75001 Paris")}</p>
             </div>
             <div className="space-y-2">
               <h3 className="text-[var(--brand,#B49A6A)] text-xs tracking-widest uppercase">Manufacture Suisse</h3>
@@ -951,7 +952,7 @@ function ContactSubPage() {
                   <div>
                     <label className="block text-[10px] text-white/40 uppercase tracking-widest mb-2">Lieu souhaité</label>
                     <select className="w-full bg-[#0C0B09] border border-white/10 text-white p-3 text-xs outline-none focus:border-[var(--brand,#B49A6A)] transition-all rounded-lg">
-                      <option>Showroom {clientCity(sessionData) ?? "Paris"} Vendôme</option>
+                      <option>Showroom {clientCity(sessionData) ?? "Paris Vendôme"}</option>
                       <option>Manufacture Vallée de Joux</option>
                     </select>
                   </div>

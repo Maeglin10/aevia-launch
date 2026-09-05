@@ -10,6 +10,8 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "trusted by": "Adopté par les",
+    "builders.": "bâtisseurs.",
     "projects completed": "Projets livrés",
     "countries": "Pays",
     "carbon-negative projects": "Projets à bilan carbone négatif",
@@ -72,6 +74,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "wavefx is free, open-source, and backed by a community of 450+ contributors.": "WaveFX est gratuit, open-source, et soutenu par une communauté de plus de 450 contributeurs.",
   },
   es: {
+    "trusted by": "Adoptado por",
+    "builders.": "constructores.",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -151,6 +155,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "wavefx is free, open-source, and backed by a community of 450+ contributors.": "WaveFX es gratuito, de código abierto y respaldado por una comunidad de más de 450 colaboradores.",
   },
   de: {
+    "trusted by": "Vertraut von",
+    "builders.": "Machern.",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -230,6 +236,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "wavefx is free, open-source, and backed by a community of 450+ contributors.": "WaveFX ist kostenlos, Open Source und wird von einer Gemeinschaft von über 450 Mitwirkenden unterstützt.",
   },
   pt: {
+    "trusted by": "Adotado por",
+    "builders.": "construtores.",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

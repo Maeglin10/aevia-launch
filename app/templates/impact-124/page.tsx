@@ -553,7 +553,7 @@ export default function MorphStudioPage() {
           <div className="md:col-span-2">
             <Link href="#hero" className="flex items-center gap-3 mb-8">
               <Orbit className="w-6 h-6 text-[var(--brand,#22d3ee)]" />
-              <span className="text-xl font-bold tracking-widest text-white uppercase">MORPH</span>
+              <span className="text-xl font-bold tracking-widest text-white uppercase">{clientName(sessionData) ?? "MORPH"}</span>
             </Link>
             <p className="max-w-md text-sm text-zinc-500 leading-relaxed">
               Pioneering the spatial web. We combine aesthetic discipline with extreme technical capabilities to build the digital future.

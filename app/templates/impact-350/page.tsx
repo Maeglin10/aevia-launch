@@ -128,7 +128,7 @@ const METHODE_SOURCE = [
 ];
 
 const ENGAGEMENT_SOURCE = [
-  "Agrément préfectoral S 069 X 118, contrôleurs agréés en formation continue",
+  "Agrément préfectoral, contrôleurs agréés en formation continue",
   "Indépendance légale : aucune réparation vendue, aucun garage recommandé",
   "Prix affichés, identiques pour tous, week-end sans majoration",
   "Espace enfants, café offert, wifi — parce que 45 minutes, c'est long à 4 ans",
@@ -417,7 +417,7 @@ export default function CTLumierePage() {
     CLIENT_SERVICES?.map((s: any, i: number) => ({
       ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
       a: s.title ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].a,
-      p: s.price ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].p,
+      p: s.price ?? "Sur devis",
       n: s.description ?? s.desc ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
     })),
     TARIFS_SOURCE,
@@ -1027,7 +1027,7 @@ export default function CTLumierePage() {
               <p style={{ fontFamily: SANS, fontSize: 13.5, fontWeight: 400, lineHeight: 1.8, color: "rgba(255,255,255,0.45)", maxWidth: 340, margin: 0 }}>
                 Centre de contrôle technique agréé · {ville}
                 <br />
-                Agrément préfectoral S 069 X 118
+                {clientName(sessionData) ? "Agrément préfectoral — affiché au centre" : "Agrément préfectoral S 069 X 118"}
               </p>
             </div>
 

@@ -9,7 +9,7 @@ import Link from "next/link";
 import {
   C,
   SERVICES_DATA,
-  STATS,
+  STATS as STATS_DEMO_39,
   PRICING_CARDS,
   TESTIMONIALS,
   FAQS,
@@ -46,6 +46,7 @@ const STATS_INLINE_SOURCE = [
                   { val: "100 %", label: "Agréé & assuré" }
 ];
 let STATS_INLINE = STATS_INLINE_SOURCE;
+let STATS_BANDE = STATS_DEMO_39;
 
 let c: any = null;
 let brand: any = null;
@@ -115,6 +116,7 @@ export default function SwiftMovePage() {
     STATS_INLINE_SOURCE,
 
   );
+  STATS_BANDE = resolveList(clientStats(session), STATS_DEMO_39);
   brand = fd?.brandColor ?? null; // null = keep template's original color
 
   const heroRef = useRef(null);
@@ -312,7 +314,7 @@ return (
       {/* STATS */}
       <section style={{ padding: "80px 5%", background: C.navy }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(250px, 100%), 1fr))", gap: 40 }} className="grid sm:grid-cols-2">
-          {STATS.map((s, i) => <StatCard key={s.label} stat={s} delay={i * 0.1} />)}
+          {STATS_BANDE.map((s, i) => <StatCard key={s.label} stat={s} delay={i * 0.1} />)}
         </div>
       </section>
 
@@ -329,7 +331,7 @@ return (
             </div>
           </SectionReveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(360px, 100%), 1fr))", gap: 24 }} className="grid md:grid-cols-1">
-            {TESTIMONIALS.map((t, i) => (
+            {resolveList(clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS[i % TESTIMONIALS.length], text: r.text, name: r.author, role: "" })), TESTIMONIALS).map((t, i) => (
               <SectionReveal key={i} delay={i * 0.1}>
                 <div style={{ background: C.bgAlt, borderRadius: 16, padding: 32, border: `1px solid ${C.border}`, display: "flex", flexDirection: "column", gap: 18 }}>
                   <div style={{ display: "flex", gap: 4 }}>

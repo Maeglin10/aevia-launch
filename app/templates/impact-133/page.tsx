@@ -2179,7 +2179,7 @@ function ContactFooter() {
             textTransform: "uppercase",
           }}
         >
-          <span>&copy; {new Date().getFullYear()} Forma Studio. Tous droits réservés.</span>
+          <span>&copy; {new Date().getFullYear()} {fd?.businessName ?? "Forma Studio"}. Tous droits réservés.</span>
           <span style={{ color: C.violet }}>
             Parametric Design — Urban Planning — Speculative Architecture
           </span>

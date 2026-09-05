@@ -392,11 +392,13 @@ export default function VelocityJetsPage() {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-xl font-black tracking-tighter uppercase leading-none italic">
-                    Velocity
+                    {clientName(sessionData) ?? "Velocity"}
                   </span>
+                  {clientName(sessionData) ? null : (
                   <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[#00f2ff] -mt-1">
                     Jet Charter
                   </span>
+                  )}
                 </div>
               </>
             )}
@@ -1005,11 +1007,13 @@ export default function VelocityJetsPage() {
                 <Plane className="w-10 h-10 text-[#00f2ff]" />
                 <div className="flex flex-col">
                   <span className="text-2xl font-black tracking-tighter uppercase leading-none italic">
-                    Velocity
+                    {clientName(sessionData) ?? "Velocity"}
                   </span>
+                  {clientName(sessionData) ? null : (
                   <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-[#00f2ff] -mt-1">
                     Jet Charter
                   </span>
+                  )}
                 </div>
               </div>
               <p className="text-white/20 max-w-sm mb-12 text-[10px] font-bold uppercase tracking-[0.3em] leading-relaxed italic">
@@ -1153,7 +1157,7 @@ export default function VelocityJetsPage() {
         <div className="max-w-[1400px] mx-auto pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8 text-[10px] font-bold uppercase tracking-widest text-white/10">
           <div className="flex items-center gap-10">
             <span>
-              &copy; {new Date().getFullYear()} VELOCITY AVIATION GROUP.
+              &copy; {new Date().getFullYear()} {(clientName(sessionData) ?? "VELOCITY AVIATION GROUP").toUpperCase()}.
             </span>
             <div className="flex gap-6">
               <span>ICAO_REGULATORY_SYNC</span>

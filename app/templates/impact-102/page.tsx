@@ -154,7 +154,7 @@ let STATS = STATS_SOURCE;
 function TEAM_LIVE() {
   return resolveList(
 
-  clientTeam({ formData: fd, businessProfile: bp })?.map((m: any, i: number) => ({ ...TEAM_SOURCE[i % TEAM_SOURCE.length], name: m.name, role: m.role })),
+  clientTeam({ formData: fd, businessProfile: bp })?.map((m: any, i: number) => ({ ...TEAM_SOURCE[i % TEAM_SOURCE.length], name: m.name, title: m.role ?? "", affiliation: "", paper: "" })),
 
   TEAM_SOURCE,
 

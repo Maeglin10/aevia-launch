@@ -199,7 +199,7 @@ const STATS_DEMO = [
 let STATS = STATS_DEMO;
 
 function ZONES_SOURCE_LIVE() {
-  return [clientCity(sessionData) ?? "Nancy", "Meurthe-et-Moselle", "40 km autour du dépôt"];
+  return clientCity(sessionData) ? [clientCity(sessionData)!, "40 km autour du dépôt"] : ["Nancy", "Meurthe-et-Moselle", "40 km autour du dépôt"];
 }
 let ZONES_SOURCE = ZONES_SOURCE_LIVE();
 let ZONES = ZONES_SOURCE;
@@ -510,14 +510,14 @@ export default function LocamatPage() {
     SERVICES_SOURCE,
   );
   AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
     CLIENT_SERVICES?.map((s: any, i: number) => ({
       ...TARIFS_DEMO[i % TARIFS_DEMO.length],
       a: s.title,
-      p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p,
+      p: s.price ?? "Sur devis",
       n: s.description || s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n,
     })),
     TARIFS_DEMO,
@@ -1139,7 +1139,7 @@ export default function LocamatPage() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {[
-                { icon: <MapPin size={13} />, t: adresse ?? `${lieu}, Meurthe-et-Moselle` },
+                { icon: <MapPin size={13} />, t: adresse ?? (clientCity(sessionData) ? lieu : `${lieu}, Meurthe-et-Moselle`) },
                 { icon: <Phone size={13} />, t: phone },
                 { icon: <Mail size={13} />, t: mail },
                 { icon: <Clock size={13} />, t: "Lun–Ven 7h–18h30 · Sam 7h30–17h" },

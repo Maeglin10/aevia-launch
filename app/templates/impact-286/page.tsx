@@ -510,7 +510,7 @@ function HeroSection() {
       >
         <Reveal y={20}>
           <Eyebrow color={C.goldLight} align="center">
-            Maître Clara Vidal · Barreau de {clientCity(sessionData) ?? "Lyon"}
+            {clientName(sessionData) ?? "Maître Clara Vidal · Barreau de Lyon"}
           </Eyebrow>
         </Reveal>
 
@@ -1133,7 +1133,7 @@ function ProcessSection() {
                   fontWeight: 500,
                 }}
               >
-                Maître Clara Vidal
+                {clientName(sessionData) ?? "Maître Clara Vidal"}
               </div>
               <div
                 style={{
@@ -1374,8 +1374,8 @@ function TestimonialsSection() {
     clientReviews(sessionData)?.map((r: any, i: number) => ({
       quote: r.text ?? r.quote,
       prenom: r.name ?? r.author,
-      role: r.location ?? r.role ?? TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length].role,
-      domaine: TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length].domaine,
+      role: r.location ?? r.role ?? "",
+      domaine: "",
     })),
     TEMOIGNAGES_DEMO
   );
@@ -2180,7 +2180,7 @@ function PracticalSection() {
       lignes: [
         <span key="a1" style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
           <MapPin size={16} color={C.gold} strokeWidth={1.5} style={{ flexShrink: 0, marginTop: 2 }} />
-          <span>{clientName(sessionData) ?? "Cabinet Vidal"} — Droit Social<br />{clientAddress(sessionData) ?? "14, quai Perrache"}<br />69002 {clientCity(sessionData) ?? "Lyon"} Confluence</span>
+          <span>{clientName(sessionData) ?? "Cabinet Vidal"} — Droit Social<br />{clientAddress(sessionData) ?? (clientCity(sessionData) ? "" : "14, quai Perrache")}<br />{clientCity(sessionData) ?? "69002 Lyon Confluence"}</span>
         </span>,
         <span key="a2" style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 12 }}>
           <Phone size={16} color={C.gold} strokeWidth={1.5} style={{ flexShrink: 0 }} />
@@ -2218,7 +2218,7 @@ function PracticalSection() {
           Devis écrit systématique avant toute mission.
         </span>,
         <span key="h3" style={{ display: 'block', marginTop: 8 }}>
-          <strong style={{ color: C.goldLight }}>Règlement CARPA</strong> — fonds clients sécurisés via la Caisse des Règlements Pécuniaires des Avocats du Barreau de {clientCity(sessionData) ?? "Lyon"}.
+          <strong style={{ color: C.goldLight }}>Règlement CARPA</strong> — fonds clients sécurisés via la Caisse des Règlements Pécuniaires des Avocats{clientName(sessionData) ? "" : " du Barreau de Lyon"}.
         </span>,
       ],
     },
@@ -2389,8 +2389,9 @@ function FooterSection() {
               maxWidth: 320,
             }}
           >
-            Maître Clara Vidal — Avocate inscrite au Barreau de {clientCity(sessionData) ?? "Lyon"}. Spécialiste
-            en droit social et droit du travail depuis 2012.
+            {clientName(sessionData) ? <>{clientName(sessionData)} — Spécialiste
+            en droit social et droit du travail.</> : <>Maître Clara Vidal — Avocate inscrite au Barreau de Lyon. Spécialiste
+            en droit social et droit du travail depuis 2012.</>}
           </p>
           {/* Barreau de {clientCity(sessionData) ?? "Lyon"} */}
           <div
@@ -2423,7 +2424,7 @@ function FooterSection() {
                 letterSpacing: '0.10em',
               }}
             >
-              Barreau de {clientCity(sessionData) ?? "Lyon"}
+              {clientName(sessionData) ? "Avocat inscrit au Barreau" : "Barreau de Lyon"}
             </span>
           </div>
           <div
@@ -2440,7 +2441,7 @@ function FooterSection() {
             }}
           >
             <MapPin size={13} color={C.gold} strokeWidth={1.5} />
-            {clientAddress(sessionData) ?? "14, quai Perrache · Lyon 69002"}
+            {clientAddress(sessionData) ?? clientCity(sessionData) ?? "14, quai Perrache · Lyon 69002"}
           </div>
         </div>
 

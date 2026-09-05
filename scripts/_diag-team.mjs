@@ -21,10 +21,10 @@ for (const id of ids) {
       tagline: "Votre plombier de confiance à Annecy", template: id,
     } }),
   });
-  const { sessionId } = await r.json();
+  const { sessionId, editToken } = await r.json();
   if (!sessionId) throw new Error("session non créée");
   await fetch(`${BASE}/api/sessions?id=${sessionId}`, {
-    method: "PATCH", headers: { "content-type": "application/json" },
+    method: "PATCH", headers: { "content-type": "application/json", "x-edit-token": editToken },
     body: JSON.stringify({ businessProfile: {
       team: [{ name: "Éloi Vidal", role: "Maître plombier" }],
       reputation: { featuredReviews: [{ author: "Perrine Anselme", text: "Intervention nette, chantier laissé propre.", rating: 5 }] },

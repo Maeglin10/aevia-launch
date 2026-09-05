@@ -447,7 +447,7 @@ export default function EvasionDoree() {
   TESTIMONIALS_SOURCE = TESTIMONIALS_SOURCE_LIVE();
 
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text, origin: "", })),
     TESTIMONIALS_SOURCE,
   );
   STATS = resolveList(clientStats(sessionData)?.map((r: any) => ({ val: r.value, label: r.label })), STATS_DEMO);
@@ -482,8 +482,7 @@ export default function EvasionDoree() {
       ...DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length],
       name: s.title ?? s.name,
       desc: s.description ?? s.desc,
-      price: s.price ?? DESTINATIONS_DEMO[i % DESTINATIONS_DEMO.length].price,
-    })),
+      price: s.price ?? "", features: [], })),
     DESTINATIONS_DEMO
   );
   const SERVICES_DETAIL = resolveList(
@@ -499,8 +498,7 @@ export default function EvasionDoree() {
       ...PACKAGES_DEMO[i % PACKAGES_DEMO.length],
       name: s.title ?? s.name,
       subtitle: s.description ?? PACKAGES_DEMO[i % PACKAGES_DEMO.length].subtitle,
-      price: s.price ?? PACKAGES_DEMO[i % PACKAGES_DEMO.length].price,
-    })),
+      price: s.price ?? "", features: [], })),
     PACKAGES_DEMO
   );
   const TESTIMONIALS = resolveList(
@@ -509,8 +507,7 @@ export default function EvasionDoree() {
       name: r.name ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].name,
       text: r.text ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].text,
       rating: r.stars ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].rating,
-      trip: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].trip,
-    })),
+      trip: r.location ?? TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length].trip, origin: "", })),
     TESTIMONIALS_DEMO
   );
   const FAQS = resolveList(clientFaq(sessionData), FAQS_DEMO);
@@ -695,8 +692,8 @@ return (
             <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#4CAF50" }} />
             <span style={{ fontSize: 11, color: "rgba(255,255,255,0.6)", fontFamily: "system-ui", letterSpacing: "0.08em" }}>CONCIERGE EN LIGNE</span>
           </div>
-          <div style={{ fontSize: 28, fontWeight: 300, color: C.accent }}>1 200+</div>
-          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", fontFamily: "system-ui", marginTop: 4 }}>voyageurs accompagnés</div>
+          <div style={{ fontSize: 28, fontWeight: 300, color: C.accent }}>{clientStats(sessionData)?.[0]?.value ?? (clientName(sessionData) ? "★" : "1 200+")}</div>
+          <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", fontFamily: "system-ui", marginTop: 4 }}>{clientStats(sessionData)?.[0]?.label ?? (clientName(sessionData) ? "Concierge dédié" : "voyageurs accompagnés")}</div>
           <div style={{ marginTop: 20, display: "flex", gap: 4 }}>
             {[1,2,3,4,5].map(i => <Star key={i} size={12} fill={C.accent} color={C.accent} />)}
             <span style={{ fontSize: 11, color: "rgba(255,255,255,0.4)", fontFamily: "system-ui", marginLeft: 6 }}>4.97/5</span>
@@ -1152,7 +1149,7 @@ return (
                 <span style={{ fontSize: 20, fontWeight: 400, color: C.white, letterSpacing: "0.08em" }}>{fd?.businessName ?? (clientName(sessionData) ?? (clientName(sessionData) ?? "Évasion Dorée"))}</span>
               </div>
               <p style={{ fontSize: 13, color: "rgba(255,255,255,0.3)", fontFamily: "system-ui", lineHeight: 1.8, maxWidth: 280, marginBottom: 24 }}>
-                Agence de voyages de luxe sur mesure depuis 2006. {clientCity(sessionData) ?? "Paris"} · {clientCity(sessionData) ?? "Genève"} · Monaco. IATA 88-2-0456.
+                {clientName(sessionData) ? `Agence de voyages de luxe sur mesure. ${clientCity(sessionData) ?? ""}.` : "Agence de voyages de luxe sur mesure depuis 2006. Paris · Genève · Monaco. IATA 88-2-0456."}
               </p>
               <div style={{ display: "flex", gap: 12 }}>
                 {[Camera, MessageSquare, Users2].map((Icon, i) => (
@@ -1222,7 +1219,7 @@ return (
             <span style={{ fontSize: 12, color: "rgba(255,255,255,0.2)", fontFamily: "system-ui" }}>© 2024 {clientName(sessionData) ?? "Évasion Dorée"} — Tous droits réservés{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
             <div style={{ display: "flex", gap: 4, alignItems: "center" }}>
               {[1,2,3,4,5].map(i => <Star key={i} size={11} fill={C.accent} color={C.accent} />)}
-              <span style={{ fontSize: 12, color: "rgba(255,255,255,0.3)", fontFamily: "system-ui", marginLeft: 8 }}>4.97/5 — 1 200+ voyageurs</span>
+              {clientName(sessionData) ? null : <span style={{ fontSize: 12, color: "rgba(255,255,255,0.3)", fontFamily: "system-ui", marginLeft: 8 }}>4.97/5 — 1 200+ voyageurs</span>}
             </div>
           </div>
         </div>

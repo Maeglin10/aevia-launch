@@ -533,7 +533,7 @@ function HeroSection() {
       >
         <Reveal y={18}>
           <Eyebrow color={C.goldHero} align="center">
-            Cabinet dentaire · {clientCity(sessionData) ?? "Bordeaux"} Chartrons
+            Cabinet dentaire · {clientCity(sessionData) ?? "Bordeaux Chartrons"}
           </Eyebrow>
         </Reveal>
 
@@ -1171,7 +1171,7 @@ function SoinsSection() {
           >
             Implantologie avancée, orthodontie invisible et esthétique dentaire —
             nous réunissons les meilleures techniques sous un même toit, dans le
-            quartier des Chartrons à {clientCity(sessionData) ?? "Bordeaux"}.
+            {clientCity(sessionData) ? <>cœur de {clientCity(sessionData)}.</> : <>quartier des Chartrons à Bordeaux.</>}
           </p>
         </Reveal>
       </div>
@@ -1449,7 +1449,7 @@ function TEMOIGNAGES_DEMO_LIVE() {
     quote:
       "Le blanchiment Phillips Zoom suivi de 6 facettes en céramique : le résultat est spectaculaire mais complètement naturel. Dr Prévost a pris le temps de choisir la teinte avec moi, et le laboratoire a réalisé des facettes ultra-fines qui respectent ma morphologie dentaire. Je souris enfin librement.",
     prenom: 'Antoine M.',
-    role: 'Avocat, 44 ans · ' + (clientCity(sessionData) ?? 'Bordeaux') + ' Chartrons',
+    role: 'Avocat, 44 ans · Bordeaux Chartrons',
     resultat: 'Blanchiment + 6 facettes céramique',
     etoiles: 5,
   },
@@ -2291,7 +2291,7 @@ function EQUIPE_DEMO_LIVE() {
     prenom: 'Dr. Mathieu',
     nom: 'Prévost',
     titre: 'Chirurgien-dentiste · Directeur du cabinet',
-    bio: "Diplômé de l'Université de " + (clientCity(sessionData) ?? "Bordeaux") + " en 2009, le Dr Prévost a complété sa formation par un diplôme universitaire d'implantologie à Paris et un certificat Invisalign Diamond. Il exerce aux Chartrons depuis 2014 avec une passion pour les traitements complexes et la dentisterie esthétique. Chaque patient bénéficie d'un plan de traitement individualisé et d'une explication détaillée des options disponibles.",
+    bio: "Diplômé de l'Université de Bordeaux en 2009, le Dr Prévost a complété sa formation par un diplôme universitaire d'implantologie à Paris et un certificat Invisalign Diamond. Il exerce aux Chartrons depuis 2014 avec une passion pour les traitements complexes et la dentisterie esthétique. Chaque patient bénéficie d'un plan de traitement individualisé et d'une explication détaillée des options disponibles.",
     specialites: ['Implantologie avancée', 'Facettes céramique', 'Invisalign Diamond Provider', 'Chirurgie parodontale'],
   },
   {
@@ -2482,7 +2482,7 @@ function EquipeSection() {
         </Reveal>
       </div>
       <div style={grid}>
-        {resolveList<any>(clientTeam(sessionData)?.map((r: any) => ({ prenom: r.name, titre: r.role })), EQUIPE_DEMO).map((m: any, i: number) => (
+        {resolveList<any>(clientTeam(sessionData)?.map((r: any) => ({ prenom: r.name, nom: "", titre: r.role, bio: "", diplomes: [], specialites: [] })), EQUIPE_DEMO).map((m: any, i: number) => (
           <MembreCard key={m.nom ?? m.name ?? i} m={m} i={i} />
         ))}
       </div>
@@ -2582,8 +2582,8 @@ function FooterSection() {
               margin: '0 0 22px',
             }}
           >
-            Chirurgie dentaire, implantologie et esthétique dentaire au cœur des
-            Chartrons. Cabinet numérique, équipe bienveillante.
+            Chirurgie dentaire, implantologie et esthétique dentaire au cœur de
+            {' '}{clientCity(sessionData) ?? "Bordeaux (Chartrons)"}. Cabinet numérique, équipe bienveillante.
           </p>
           {/* Infos pratiques */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -2641,11 +2641,11 @@ function FooterSection() {
               lineHeight: 1.7,
             }}
           >
-            RPPS : 10 XXXXXXXX
+            {clientName(sessionData) ? "Informations professionnelles communiquées sur demande" : <>RPPS : 10 XXXXXXXX
             <br />
             N° ADELI : XX XXXXXXX
             <br />
-            Ordre national des chirurgiens-dentistes
+            Ordre national des chirurgiens-dentistes</>}
           </div>
         </div>
 
@@ -2777,7 +2777,7 @@ function FooterSection() {
         }}
       >
         <span>
-          © 2024 {clientName(sessionData) ?? "Cabinet Dent&apos;Or"} — Dr. Mathieu Prévost. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © 2024 {clientName(sessionData) ?? "Cabinet Dent&apos;Or"}{clientName(sessionData) ? "" : " — Dr. Mathieu Prévost"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
         </span>
         <span>
           Acte médical soumis au secret professionnel · Résultat non garanti · À titre

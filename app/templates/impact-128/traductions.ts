@@ -73,9 +73,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "the haven": "Le Havre",
     "the team navigated our singapore acquisition with extraordinary professionalism. we closed in under three weeks.": "L'équipe a géré notre acquisition à Singapour avec un professionnalisme extraordinaire. Nous avons conclu en moins de trois semaines.",
     "three continents, one advisor. haven managed our entire portfolio consolidation seamlessly and discreetly.": "Trois continents, un conseiller. Haven a géré la consolidation de notre portefeuille de manière fluide et discrète.",
-    "trusted by the": "La confiance des",
+    "trusted by the": "La confiance des clients les",
     "world's best.": "Meilleurs.",
-    "world's best.": "Le meilleur du monde.",
+    "world's best.": "plus exigeants.",
   },
   es: {
     "exceptionnel": "Residencias",

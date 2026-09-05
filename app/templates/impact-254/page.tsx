@@ -198,7 +198,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
         <span style={{ fontStyle: 'italic' }}>35 ans d'expertise.</span>
       </>
     ),
-    body: "Fondé en 1990, le cabinet compte aujourd'hui 12 associés et accompagne 280 clients, des TPE aux ETI. Membres de l'Ordre des Experts-Comptables, nous combinons la profondeur d'une structure établie et la réactivité d'une équipe à taille humaine.",
+    body: clientName(sessionData) ? "Le cabinet accompagne ses clients, des TPE aux ETI, en combinant la profondeur d'une structure établie et la réactivité d'une équipe à taille humaine." : "Fondé en 1990, le cabinet compte aujourd'hui 12 associés et accompagne 280 clients, des TPE aux ETI. Membres de l'Ordre des Experts-Comptables, nous combinons la profondeur d'une structure établie et la réactivité d'une équipe à taille humaine.",
     reverse: true,
   },
 ];
@@ -1892,7 +1892,7 @@ function Footer() {
     },
     {
       title: 'Contact',
-      items: ['Prendre rendez-vous', (clientAddress(sessionData) ?? ('9 rue de Monceau, ' + (clientCity(sessionData) ?? 'Paris'))), (clientEmail(sessionData) ?? fd?.email ?? 'cabinet@vaillant-assoc.fr'), (clientPhone(sessionData) ?? '+33 1 40 00 00 00')],
+      items: ['Prendre rendez-vous', (clientAddress(sessionData) ?? clientCity(sessionData) ?? '9 rue de Monceau, Paris'), (clientEmail(sessionData) ?? fd?.email ?? 'cabinet@vaillant-assoc.fr'), (clientPhone(sessionData) ?? '+33 1 40 00 00 00')],
     },
   ];
 
@@ -1939,7 +1939,7 @@ function Footer() {
               margin: '0 0 24px',
             }}
           >
-            Expert-Comptable &amp; Commissariat aux Comptes. {clientCity(sessionData) ?? "Paris"} depuis 1990. Membre de l&apos;OEC.
+            Expert-Comptable &amp; Commissariat aux Comptes. {clientCity(sessionData) ?? "Paris"}{clientName(sessionData) ? "." : " depuis 1990. Membre de l'OEC."}
           </p>
           <div
             style={{
@@ -2032,7 +2032,7 @@ function Footer() {
           color: 'rgba(255,255,255,0.36)',
         }}
       >
-        <span>© 1990–2026 {clientName(sessionData) ?? "Vaillant & Associés"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+        <span>© {clientName(sessionData) ? "2026" : "1990–2026"} {clientName(sessionData) ?? "Vaillant & Associés"}. Tous droits réservés.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>Mentions légales</a>
           <a href="#contact" style={{ color: 'inherit', textDecoration: 'none' }}>Politique de confidentialité</a>
@@ -2138,11 +2138,11 @@ export default function Page() {
     EDIT_ROWS_SOURCE,
   );
   SERVICES_DEMO = resolveList(
-    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

@@ -125,7 +125,7 @@ const SERVICES_SOURCE = [
 let SERVICES_DEMO = SERVICES_SOURCE;
 
 const ENGAGEMENT_DEMO = [
-  "Habilitation préfectorale n° 26-31-0142 — Préfecture de la Haute-Garonne",
+  "Habilitation préfectorale — numéro affiché en agence",
   "Devis-type réglementé, gratuit et sans engagement, conforme à l'arrêté du 23 août 2010",
   "Un seul interlocuteur, joignable 24h/24, du premier appel à l'après-obsèques",
   "Toutes confessions, cérémonies civiles et laïques respectées",
@@ -337,7 +337,7 @@ export default function MaisonEstevePage() {
     SERVICES_SOURCE,
   );
   AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   HERO_TEMPS = HERO_TEMPS_DEMO.map((row, i) => ({
@@ -345,7 +345,7 @@ export default function MaisonEstevePage() {
     img: clientPhotos(sessionData)[0 + i] || row.img,
   }));
   TARIFS = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? "Sur devis", n: s.desc || "" })),
     TARIFS_DEMO,
   );
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_DEMO);
@@ -686,7 +686,7 @@ export default function MaisonEstevePage() {
               <div style={{ fontFamily: SERIF, fontSize: 21, color: C.gold, marginBottom: 8 }}>{fd?.businessName ?? "Maison Estève"}</div>
               <p style={{ fontFamily: SANS, color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.7 }}>
                 {clientTrade(sessionData) ?? "Pompes funèbres"} & prévoyance · {clientCity(sessionData) ?? "Toulouse"}<br />
-                Habilitation préfectorale n° 26-31-0142
+                {clientName(sessionData) ? "Habilitation préfectorale — numéro affiché en agence" : "Habilitation préfectorale n° 26-31-0142"}
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -705,7 +705,7 @@ export default function MaisonEstevePage() {
           <div aria-hidden style={{ height: 1, background: "linear-gradient(90deg, transparent, rgba(168,148,104,0.28), transparent)" }} />
           <div style={{ paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ fontFamily: SANS, color: "rgba(255,255,255,0.22)", fontSize: 12, letterSpacing: "0.03em" }}>
-              © 2026 {fd?.businessName ?? "Maison Estève"} — Site réalisé par Aevia WS · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity fallback="852 546 225" kind="siren" />
+              © 2026 {fd?.businessName ?? "Maison Estève"} — Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" />{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
             <span style={{ fontFamily: SANS, color: "rgba(255,255,255,0.22)", fontSize: 12, letterSpacing: "0.03em" }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>

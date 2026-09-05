@@ -127,7 +127,7 @@ export default function OrbitHomePage() {
 
       ...PRESTATIONS_INLINE_SOURCE[i % PRESTATIONS_INLINE_SOURCE.length],
 
-      name: s.title, desc: s.desc || "",
+      name: s.title, desc: s.desc || "", cat: "", year: "",
 
     })),
 
@@ -291,7 +291,7 @@ return (
                   gap: "40px",
                 }}
               >
-                {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? ["94 projects", "12 countries", "Est. 2015"]).map((tag) => (
+                {/* LISTE_LIBELLES */ (clientList(sessionData, "bloc.liste1") ?? (clientName(sessionData) ? [clientCity(sessionData) ?? "", "Studio indépendant"].filter(Boolean) : ["94 projects", "12 countries", "Est. 2015"])).map((tag) => (
                   <div
                     key={tag}
                     style={{

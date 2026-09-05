@@ -1,5 +1,6 @@
 "use client";
 import {
+  clientStats,
   clientCity,
   clientEmail,
   clientHeroLine,
@@ -91,10 +92,10 @@ function ParallaxImg({ src, alt }: { src: string; alt: string }) {
 }
 
 function PROJECTS_DEMO_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ title: o.title, city: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
-  { title: "Piscine miroir Presqu'île", city: (clientCity(sessionData) ?? "Lyon") + " 2ème", surface: "10 × 4 m", style: "Béton sur-mesure", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=80&w=1200") },
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ style: "", surface: "",  title: o.title, city: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  { title: "Piscine miroir Presqu'île", city: (clientCity(sessionData) ?? "Lyon 2ème"), surface: "10 × 4 m", style: "Béton sur-mesure", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1572331165267-854da2b10ccc?auto=format&fit=crop&q=80&w=1200") },
   { title: "Villa Les Pins", city: "Tassin-la-Demi-Lune", surface: "12 × 5 m", style: "Bassin à débordement", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&q=80&w=1200") },
-  { title: "Couloir de nage Croix-Rousse", city: (clientCity(sessionData) ?? "Lyon") + " 4ème", surface: "12 × 2,5 m", style: "Contemporain", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200") },
+  { title: "Couloir de nage Croix-Rousse", city: (clientCity(sessionData) ?? "Lyon 4ème"), surface: "12 × 2,5 m", style: "Contemporain", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&q=80&w=1200") },
 ]);
 }
 let PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
@@ -144,7 +145,7 @@ export default function MaelleDumasPiscinesPage() {
     bpLocal?.beforeAfter?.map((b: any, i: number) => ({
       title: b.caption ?? PROJECTS_DEMO[i % PROJECTS_DEMO.length].title,
       city: PROJECTS_DEMO[i % PROJECTS_DEMO.length].city,
-      surface: PROJECTS_DEMO[i % PROJECTS_DEMO.length].surface,
+      surface: "",
       style: "Réalisation",
       img: b.afterUrl || b.beforeUrl || PROJECTS_DEMO[i % PROJECTS_DEMO.length].img,
     })),
@@ -157,8 +158,8 @@ export default function MaelleDumasPiscinesPage() {
       loc: r.location ?? r.context ?? "",
     })),
     [
-      { quote: "Maëlle a conçu notre piscine miroir avec un goût sûr : intégration paysagère parfaite, matériaux nobles. Un vrai talent au service de nos envies.", name: "Claire & Antoine R.", loc: (clientCity(sessionData) ?? "Lyon") + " 6ème" },
-      { quote: "Écoute parfaite, respect du budget, délais tenus. Notre couloir de nage est devenu le coeur de notre jardin. On en rêvait depuis des années.", name: "Thomas M.", loc: (clientCity(sessionData) ?? "Lyon") + " 4ème" },
+      { quote: "Maëlle a conçu notre piscine miroir avec un goût sûr : intégration paysagère parfaite, matériaux nobles. Un vrai talent au service de nos envies.", name: "Claire & Antoine R.", loc: (clientCity(sessionData) ?? "Lyon 6ème") },
+      { quote: "Écoute parfaite, respect du budget, délais tenus. Notre couloir de nage est devenu le coeur de notre jardin. On en rêvait depuis des années.", name: "Thomas M.", loc: (clientCity(sessionData) ?? "Lyon 4ème") },
       { quote: "La rénovation de notre bassin a tout changé : nouveau liner, plage et éclairage. L'espace inspire calme et élégance. Au-delà de nos espérances.", name: "Dr. Sophie L.", loc: "Tassin-la-Demi-Lune" },
     ]
   );
@@ -198,7 +199,7 @@ export default function MaelleDumasPiscinesPage() {
 
 
   SERVICES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title, desc: s.desc || "" })),
     SERVICES_SOURCE,
   );
 
@@ -344,12 +345,12 @@ return (
       {/* ── STATS ── */}
       <section style={{ padding: "4rem 0", borderBottom: `1px solid ${C.line}` }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 2.5rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(220px, 100%), 1fr))", gap: "2rem" }} className="grid grid-cols-2 md:grid-cols-4">
-          {[
+          {(clientStats(sessionData)?.map((cs: any) => ({ v: cs.value, l: cs.label })) ?? [
             { v: "12+", l: "Années d'exercice" },
             { v: "180+", l: "Projets livrés" },
             { v: "4.9★", l: "Avis Google" },
             { v: "3", l: "Prix de design" },
-          ].map((s, i) => (
+          ]).map((s, i) => (
             <Reveal key={i} delay={i * 0.08}>
               <div style={{ textAlign: "center", padding: "1.5rem" }}>
                 <div style={{ fontFamily: C.serif, fontSize: "2.5rem", fontWeight: 600, color: C.terra, lineHeight: 1, marginBottom: "0.5rem" }}>{s.v}</div>

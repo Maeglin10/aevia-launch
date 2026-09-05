@@ -260,7 +260,7 @@ export default function AureliusHeritageLayout({
         >
           <div>
             <h4 style={{ fontFamily: FONT_HEADING, fontSize: 20, color: C.accent, marginBottom: 20, fontWeight: 300 }}>
-              AURELIUS HERITAGE
+              {clientName(__layoutSession) ?? "AURELIUS HERITAGE"}
             </h4>
             <p style={{ fontSize: 15, color: C.textMuted, lineHeight: 1.6, marginBottom: 20 }}>
               Maison de haute joaillerie et d&apos;horlogerie de prestige fondée en 1887.
@@ -303,8 +303,8 @@ export default function AureliusHeritageLayout({
             fontFamily: FONT_LABEL,
           }}
         >
-          <span>© {new Date().getFullYear()} {clientName(__layoutSession) ?? "Aurelius Heritage. Tous"} droits réservés.</span>
-          <span>{clientCity(__layoutSession) ?? "Paris"} — {clientCity(__layoutSession) ?? "Genève"} — Tokyo</span>
+          <span>© {new Date().getFullYear()} {clientName(__layoutSession) ?? "Aurelius Heritage"}. Tous droits réservés.</span>
+          <span>{clientCity(__layoutSession) ?? "Paris — Genève — Tokyo"}</span>
         </div>
       </footer>
     </div>

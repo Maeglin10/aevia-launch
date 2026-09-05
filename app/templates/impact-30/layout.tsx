@@ -250,7 +250,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <div style={{ width: 38, height: 38, background: C.accent, borderRadius: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <Smile size={22} color={C.white} />
               </div>
-              <span style={{ fontWeight: 800, fontSize: 20 }}>SmileStudio</span>
+              <span style={{ fontWeight: 800, fontSize: 20 }}>{clientName(__layoutSession) ?? "SmileStudio"}</span>
             </div>
             <p style={{ color: "rgba(255,255,255,0.58)", fontSize: 15, lineHeight: 1.65, marginBottom: 24 }}>
               Cabinet dentaire d'excellence au cœur de {clientCity(__layoutSession) ?? "Bordeaux"}. Soins de pointe, équipe bienveillante et résultats qui transforment votre sourire.
@@ -261,7 +261,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 { icon: <Mail size={15} />, text: (clientEmail(__layoutSession) ?? fd?.email ?? "contact@smilestudio.fr") },
                 /* L'adresse était parisienne et la ville venait du client : « 42 Av. des
                    Champs-Élysées, 75008 Bordeaux ». On ne mélange plus les deux. */
-                { icon: <MapPin size={15} />, text: clientAddress(__layoutSession) ?? ("18 cours de l'Intendance, " + (clientCity(__layoutSession) ?? "Bordeaux")) },
+                { icon: <MapPin size={15} />, text: clientAddress(__layoutSession) ?? clientCity(__layoutSession) ?? "18 cours de l'Intendance, Bordeaux" },
               ].map((item, i) => (
                 <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.62)", fontSize: 14 }}>
                   <span style={{ color: C.accent }}>{item.icon}</span>

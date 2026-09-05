@@ -456,15 +456,14 @@ export default function AllureAppuiPage() {
     clientReviews(sessionData)?.map((r: any, i: number) => ({
       ...AVIS_SOURCE[i % AVIS_SOURCE.length],
       auteur: r.author ?? AVIS_SOURCE[i % AVIS_SOURCE.length].auteur,
-      texte: r.text ?? AVIS_SOURCE[i % AVIS_SOURCE.length].texte,
-    })),
+      texte: r.text ?? AVIS_SOURCE[i % AVIS_SOURCE.length].texte, detail: "", })),
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
       a: s.title ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].a,
-      p: s.price ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].p,
+      p: s.price ?? "Sur devis",
       n: s.desc || TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
     })),
     TARIFS_SOURCE,
@@ -553,7 +552,7 @@ export default function AllureAppuiPage() {
   const marque = fd?.businessName ?? clientName(sessionData) ?? "Allure & Appui";
   const ville = clientCity(sessionData) ?? "Pau";
   const metier = clientTrade(sessionData) ?? "Podologue";
-  const lieu = clientAddress(sessionData) ?? `${ville}, Pyrénées-Atlantiques`;
+  const lieu = clientAddress(sessionData) ?? (clientCity(sessionData) ? ville : `${ville}, Pyrénées-Atlantiques`);
 
   const avis = AVIS[Math.min(avisActif, AVIS.length - 1)] ?? AVIS[0];
 

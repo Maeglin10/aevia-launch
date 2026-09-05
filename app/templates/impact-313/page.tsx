@@ -509,7 +509,7 @@ export default function PlumberDarkUrgent() {
   const businessName = fd.businessName || "Urgence Plomberie 24/7";
   const businessPhone = clientPhone(sessionData) || "01 74 89 65 41";
   const businessEmail = clientEmail(sessionData) || "contact@urgence-plomberie.fr";
-  const businessCity = fd.businessCity || "Paris";
+  const businessCity = fd.businessCity || clientCity(sessionData) || "Paris";
   
   const heroTitle = clientTagline({ formData: fd, generatedContent: c }) || c?.heroTitle || "DÉPANNAGE PLOMBERIE D'URGENCE EN 30 MIN";
   const heroSubtitle = c?.heroSubtitle || "Fuite d'eau, débouchage, panne de chauffe-eau. Interventions 24h/24 et 7j/7 par des artisans qualifiés.";

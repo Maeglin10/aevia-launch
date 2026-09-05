@@ -158,7 +158,7 @@ function METHODE_LIVE() {
 let METHODE = METHODE_LIVE();
 
 const ENGAGEMENT_DEMO = [
-  "Agrément préfectoral E 26 031 0042 0 — moniteurs titulaires du Titre Pro ECSR",
+  "Agrément préfectoral affiché en agence — moniteurs titulaires du Titre Pro ECSR",
   "Label « qualité des formations au sein des écoles de conduite » : taux de réussite affichés",
   "Contrat écrit : volume estimé, prix des heures supplémentaires identique au forfait",
   "Éligible CPF et permis à 1 €/jour — dossiers montés par le secrétariat",
@@ -322,7 +322,7 @@ export default function ConduiteZeroStressPage() {
     SERVICES_SOURCE,
   );
   AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, n: number) => ({ ...AVIS_SOURCE[n % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(sessionData)?.map((r: any, n: number) => ({ ...AVIS_SOURCE[n % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
@@ -855,12 +855,12 @@ export default function ConduiteZeroStressPage() {
               <p style={{ color: "rgba(255,255,255,0.42)", fontSize: 13, lineHeight: 1.75, maxWidth: 430 }}>
                 {metier} agréée · {ville}
                 <br />
-                Agrément préfectoral E 26 031 0042 0 — Label qualité des formations
+                {clientName(sessionData) ? "Agrément préfectoral — Label qualité des formations" : "Agrément préfectoral E 26 031 0042 0 — Label qualité des formations"}
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {[
-                { icon: <MapPin size={13} />, t: adresse ?? `${ville}, Haute-Garonne` },
+                { icon: <MapPin size={13} />, t: adresse ?? (clientCity(sessionData) ? ville : `${ville}, Haute-Garonne`) },
                 { icon: <Phone size={13} />, t: phone },
                 { icon: <Clock size={13} />, t: "Lun–Ven 10h–19h · Sam 9h–17h" },
               ].map((item, n) => (

@@ -192,7 +192,7 @@ function EDIT_ROWS_DEMO_SOURCE_LIVE() {
     img: (clientPhotos(sessionData)[4] || 'https://images.pexels.com/photos/6508425/pexels-photo-6508425.jpeg?auto=compress&cs=tinysrgb&w=800'),
     title: (
       <>
-        Le Bas-Rhin /{' '}
+        {clientCity(sessionData) ? "Notre terrain /" : "Le Bas-Rhin /"}{' '}
         <span style={{ fontStyle: 'italic' }}>dans nos mains.</span>
       </>
     ),
@@ -208,7 +208,7 @@ function EDIT_ROWS_DEMO_SOURCE_LIVE() {
         <span style={{ fontStyle: 'italic' }}>génération en génération.</span>
       </>
     ),
-    body: "Fondée par Pierre Reinhardt et aujourd\'hui menée avec son fils Julien, notre entreprise familiale compte 35 collaborateurs. En vingt ans de présence dans le Bas-Rhin, nous avons créé plus de 600 jardins en Alsace-Moselle — chacun unique, chacun pensé pour durer. Notre ancrage local et notre passion de l\'horticulture alsacienne font notre réputation depuis la première taille.",
+    body: clientName(sessionData) ? "Une entreprise familiale, un ancrage local et une passion de l'horticulture qui font notre réputation — chaque jardin est unique, chacun pensé pour durer." : "Fondée par Pierre Reinhardt et aujourd'hui menée avec son fils Julien, notre entreprise familiale compte 35 collaborateurs. En vingt ans de présence dans le Bas-Rhin, nous avons créé plus de 600 jardins en Alsace-Moselle — chacun unique, chacun pensé pour durer. Notre ancrage local et notre passion de l'horticulture alsacienne font notre réputation depuis la première taille.",
     reverse: true,
   },
 ];
@@ -661,7 +661,7 @@ function Hero() {
           transition={{ duration: 1.1, ease: EASE, delay: 0.1 }}
         >
           <Eyebrow color={C.accentLight}>
-            {clientTrade(sessionData) ?? "Paysagiste"} · {clientCity(sessionData) ?? "Strasbourg"} &amp; Bas-Rhin
+            {clientTrade(sessionData) ?? "Paysagiste"} · {clientCity(sessionData) ? <>{clientCity(sessionData)} &amp; alentours</> : <>Strasbourg &amp; Bas-Rhin</>}
           </Eyebrow>
         </motion.div>
 
@@ -1969,7 +1969,7 @@ function Footer() {
         { label: 'Devis gratuit', href: '#devis' },
         { label: 'Notre histoire', href: '#histoire' },
         { label: 'Témoignages', href: '#temoignages' },
-        { label: (clientCity(sessionData) ?? 'Strasbourg') + ' & Bas-Rhin', href: '#devis' },
+        { label: clientCity(sessionData) ? clientCity(sessionData)! + ' & alentours' : 'Strasbourg & Bas-Rhin', href: '#devis' },
       ],
     },
   ];
@@ -2017,7 +2017,7 @@ function Footer() {
               maxWidth: 320,
             }}
           >
-            {clientTrade(sessionData) ?? "Paysagiste"} et horticulteur depuis 2003 dans le Bas-Rhin.
+            {clientName(sessionData) ? <>{clientTrade(sessionData) ?? "Paysagiste"} et horticulteur{clientCity(sessionData) ? <> à {clientCity(sessionData)}</> : null}.</> : <>Paysagiste et horticulteur depuis 2003 dans le Bas-Rhin.</>}
             600 jardins créés, 35 collaborateurs, passion alsacienne.
           </p>
           <div
@@ -2034,7 +2034,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.6} />
-            {clientCity(sessionData) ?? "Strasbourg"} · Bas-Rhin
+            {clientCity(sessionData) ?? "Strasbourg · Bas-Rhin"}
           </div>
         </div>
 
@@ -2111,8 +2111,8 @@ function Footer() {
         }}
       >
         <span>
-          © 2003–2026 {clientName(sessionData) ?? "Jardins d'Alsace"} · SARL Reinhardt Paysage ·
-          {clientCity(sessionData) ?? "Strasbourg"}, Bas-Rhin{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+          © {clientName(sessionData) ? "2026" : "2003–2026"} {clientName(sessionData) ?? "Jardins d'Alsace"}{clientName(sessionData) ? <> ·</> : <> · SARL Reinhardt Paysage ·</>}
+          {clientCity(sessionData) ?? "Strasbourg, Bas-Rhin"}
         </span>
         <span style={{ display: 'flex', gap: 22 }}>
           <a href="#devis" style={{ color: 'inherit', textDecoration: 'none' }}>
@@ -2204,7 +2204,7 @@ export default function Page() {
     SERVICES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   EDIT_ROWS = EDIT_ROWS_DEMO.map((row, i) => ({

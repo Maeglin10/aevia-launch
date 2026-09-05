@@ -70,7 +70,7 @@ let PRESTATIONS_DEMO = PRESTATIONS_SOURCE;
 function ENGAGEMENTS_DEMO_LIVE() {
   return [
   "Zéro pesticide, zéro herbicide de synthèse — méthodes alternatives uniquement",
-  "Plantes locales et adaptées au climat " + (clientCity(sessionData) ?? "Bordeaux") + "-Gironde",
+  "Plantes locales et adaptées au climat" + (clientCity(sessionData) ? " de " + clientCity(sessionData) : " Bordeaux-Gironde"),
   "Arrosage goutte-à-goutte pour économiser jusqu'à 60% d'eau",
   "Compostage intégré et amendement organique systématique",
 ];
@@ -157,7 +157,7 @@ export default function VertNaturePage() {
     PRESTATIONS_SOURCE,
   );
   AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
@@ -171,7 +171,7 @@ export default function VertNaturePage() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       titre: s.title ?? s.name,
       desc: s.description ?? s.desc,
-      tag: s.price ?? PRESTATIONS_DEMO[i % PRESTATIONS_DEMO.length].tag,
+      tag: s.price ?? "",
     })),
     PRESTATIONS_DEMO
   );
@@ -221,7 +221,7 @@ export default function VertNaturePage() {
           ) : (
             <>
               <Sprout size={18} color={scrolled ? C.accent : "#fff"} />
-              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: FONT, fontSize: 19, color: scrolled ? C.text : "#fff" }}>{clientName(sessionData) ?? "Vert"}<em>Nature</em></span>
+              <span style={{ textShadow: "0 0 2px rgba(0,0,0,0.9), 0 1px 6px rgba(0,0,0,0.8)",  fontFamily: FONT, fontSize: 19, color: scrolled ? C.text : "#fff" }}>{clientName(sessionData) ?? "Vert"}{clientName(sessionData) ? null : <em>Nature</em>}</span>
             </>
           )}
         </div>
@@ -269,7 +269,7 @@ export default function VertNaturePage() {
           </>}</>)}</motion.h1>
           <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.75 }}
             style={{ fontSize: 17, color: "rgba(255,255,255,0.70)", lineHeight: 1.75, marginBottom: 40, maxWidth: 510 }}>{c?.heroSubline ?? clientHeroSubtitle(sessionData) ?? <>
-            {clientName(sessionData) ?? "Vert"} Nature crée et entretient vos jardins en Gironde depuis 15 ans. Création, potagers, terrasses, entretien — 100% éco-responsable, 0 pesticide.
+            {clientName(sessionData) ? <>{clientName(sessionData)} crée et entretient vos jardins{clientCity(sessionData) ? <> à {clientCity(sessionData)} et alentours</> : null}. Création, potagers, terrasses, entretien — 100% éco-responsable, 0 pesticide.</> : <>Vert Nature crée et entretient vos jardins en Gironde depuis 15 ans. Création, potagers, terrasses, entretien — 100% éco-responsable, 0 pesticide.</>}
           </>}</motion.p>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.0 }} style={{ display: "flex", gap: 14, flexWrap: "wrap" }}>
             <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33556100000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 32px", fontWeight: 600, fontSize: 15, textDecoration: "none", display: "flex", alignItems: "center", gap: 8, boxShadow: `0 8px 32px ${C.accent}44` }} whileHover={{ scale: 1.03 }}>
@@ -361,7 +361,7 @@ export default function VertNaturePage() {
         <Reveal>
           <span style={{ fontSize: 12, fontWeight: 700, letterSpacing: 4, textTransform: "uppercase", color: C.accent }}>Devis gratuit</span>
           <h2 style={{ fontFamily: FONT, fontSize: "clamp(28px, 4vw, 52px)", color: C.text, margin: "14px 0 16px" }}>{/* TEXTE_SECTION */ clientText(sessionData, "contact.titre") ?? (<>Votre jardin<br /><em>mérite mieux.</em></>)}</h2>
-          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 420, margin: "0 auto 36px", lineHeight: 1.7 }}>Déplacement gratuit et sans engagement pour étude de votre projet — {clientCity(sessionData) ?? "Bordeaux"} et Gironde entière.</p>
+          <p style={{ fontSize: 16, color: C.textMuted, maxWidth: 420, margin: "0 auto 36px", lineHeight: 1.7 }}>Déplacement gratuit et sans engagement pour étude de votre projet — {clientCity(sessionData) ? `${clientCity(sessionData)} et alentours` : "Bordeaux et Gironde entière"}.</p>
           <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
             <motion.a href={`tel:${(clientPhone(sessionData) ?? fd?.phone ?? "+33556100000").replace(/[^+0-9]/g, "")}`} style={{ background: C.accent, color: C.white, borderRadius: 6, padding: "15px 36px", fontWeight: 600, fontSize: 16, textDecoration: "none", display: "flex", alignItems: "center", gap: 8 }} whileHover={{ scale: 1.03 }}>
               <Phone size={18} /> {clientPhone(sessionData) ?? fd?.phone ?? "05 56 10 00 00"}
@@ -376,8 +376,8 @@ export default function VertNaturePage() {
       <footer style={{ background: C.bgDark, padding: "44px 80px 22px" }}>
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 28, marginBottom: 32 }}>
           <div>
-            <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: C.sand, marginBottom: 8 }}>{clientName(sessionData) ?? "Vert"} Nature</div>
-            <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>{clientTrade(sessionData) ?? "Paysagiste"} · Jardinier · Gironde<br />Certifié agriculture biologique · SIRET</p>
+            <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", color: C.sand, marginBottom: 8 }}>{clientName(sessionData) ?? "Vert Nature"}</div>
+            <p style={{ color: "rgba(255,255,255,0.30)", fontSize: 13, lineHeight: 1.6 }}>{clientTrade(sessionData) ?? "Paysagiste"}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : " · Jardinier · Gironde"}{clientName(sessionData) ? null : <><br />Certifié agriculture biologique · SIRET</>}</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Bordeaux") }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "05 56 10 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 8h–18h" }].map((item, i) => (

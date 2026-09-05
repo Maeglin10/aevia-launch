@@ -63,8 +63,8 @@ async function sessionDe(theme) {
   if (sessions.has(theme)) return sessions.get(theme);
   const attente = (async () => {
     const r = await fetch(`${BASE}/api/sessions`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ formData: { ...FORM, template: theme } }) });
-    const { sessionId } = await r.json();
-    await fetch(`${BASE}/api/sessions?id=${sessionId}`, { method: "PATCH", headers: { "content-type": "application/json" }, body: JSON.stringify({ businessProfile: PROFIL }) });
+    const { sessionId, editToken } = await r.json();
+    await fetch(`${BASE}/api/sessions?id=${sessionId}`, { method: "PATCH", headers: { "content-type": "application/json", "x-edit-token": editToken }, body: JSON.stringify({ businessProfile: PROFIL }) });
     return sessionId;
   })();
   sessions.set(theme, attente);

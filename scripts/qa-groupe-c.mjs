@@ -28,9 +28,9 @@ let defauts = 0;
 for (const [theme, route, preuves] of PAGES) {
   const r = await fetch(`${BASE}/api/sessions`, { method: "POST", headers: { "content-type": "application/json" },
     body: JSON.stringify({ formData: { businessName: "Ateliers Vidal & Fils", city: "Annecy", businessType: "plombier", tagline: "x", template: theme } }) });
-  const { sessionId } = await r.json();
+  const { sessionId, editToken } = await r.json();
   if (!sessionId) throw new Error("session non créée");
-  await fetch(`${BASE}/api/sessions?id=${sessionId}`, { method: "PATCH", headers: { "content-type": "application/json" },
+  await fetch(`${BASE}/api/sessions?id=${sessionId}`, { method: "PATCH", headers: { "content-type": "application/json", "x-edit-token": editToken },
     body: JSON.stringify({ businessProfile: PROFIL }) });
   const p = await ctx.newPage();
   await p.goto(`${BASE}/templates/${theme}/${route}?session=${sessionId}`, { waitUntil: "domcontentloaded", timeout: 40000 });
@@ -46,7 +46,7 @@ for (const [theme, route, preuves] of PAGES) {
 {
   const r = await fetch(`${BASE}/api/sessions`, { method: "POST", headers: { "content-type": "application/json" },
     body: JSON.stringify({ formData: { businessName: "Témoin Sans Profil", city: "Annecy", businessType: "plombier", tagline: "x", template: "impact-11" } }) });
-  const { sessionId } = await r.json();
+  const { sessionId, editToken } = await r.json();
   const p = await ctx.newPage();
   await p.goto(`${BASE}/templates/impact-11/tarifs?session=${sessionId}`, { waitUntil: "domcontentloaded", timeout: 40000 });
   await p.waitForTimeout(2500);

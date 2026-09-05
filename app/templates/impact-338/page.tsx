@@ -164,7 +164,7 @@ const METHODE_SOURCE = [
 let METHODE = METHODE_SOURCE;
 
 const ENGAGEMENT_SOURCE = [
-  "ORIAS n° 26 007 833, sous le contrôle de l'ACPR, RC professionnelle de courtage",
+  "Immatriculés à l'ORIAS, sous le contrôle de l'ACPR, RC professionnelle de courtage",
   "Lettre de mission écrite : périmètre, rémunération et livrables annoncés",
   "Transparence totale des commissions et honoraires, compte par compte",
   "Aucun lien capitalistique avec un assureur : l'arbitre, c'est votre risque",
@@ -470,7 +470,7 @@ export default function BorealCourtagePage() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
       a: s.title ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].a,
-      p: s.price ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].p,
+      p: s.price ?? "Sur devis",
       n: s.description ?? s.desc ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
     })),
     TARIFS_SOURCE,
@@ -970,7 +970,7 @@ export default function BorealCourtagePage() {
                 }}
               >
                 <div style={{ fontFamily: SANS, fontSize: 9.5, letterSpacing: "0.26em", textTransform: "uppercase", color: C.accentDark }}>Immatriculation</div>
-                <div style={{ fontFamily: SERIF, fontSize: 19, color: C.ink, marginTop: 6, letterSpacing: "-0.012em" }}>ORIAS n° 26 007 833</div>
+                <div style={{ fontFamily: SERIF, fontSize: 19, color: C.ink, marginTop: 6, letterSpacing: "-0.012em" }}>{clientName(sessionData) ? "Immatriculé ORIAS" : "ORIAS n° 26 007 833"}</div>
                 <div style={{ fontFamily: SANS, fontSize: 12, color: C.textFaint, marginTop: 6, lineHeight: 1.5 }}>ACPR · RC professionnelle courtage</div>
               </div>
             </div>
@@ -1117,12 +1117,12 @@ export default function BorealCourtagePage() {
               <p style={{ fontFamily: SANS, color: C.textFaint, fontSize: 13, lineHeight: 1.75, margin: 0 }}>
                 Courtage d'assurances pour l'entreprise · {ville}
                 <br />
-                ORIAS n° 26 007 833 — ACPR · RC professionnelle courtage
+                {clientName(sessionData) ? "Immatriculé ORIAS — ACPR · RC professionnelle courtage" : "ORIAS n° 26 007 833 — ACPR · RC professionnelle courtage"}
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {[
-                { icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? `${ville}, Rhône` },
+                { icon: <MapPin size={13} />, t: clientAddress(sessionData) ?? (clientCity(sessionData) ? ville : `${ville}, Rhône`) },
                 { icon: <Phone size={13} />, t: phone },
                 { icon: <Mail size={13} />, t: mail },
                 { icon: <Clock size={13} />, t: "Lun–Ven 8h30–19h" },

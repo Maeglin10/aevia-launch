@@ -17,6 +17,7 @@ import {
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { resolveList } from "@/lib/templates/resolveList";
 import {
+  clientAddress,
   clientCity,
   clientEmail,
   clientHeroLine,
@@ -138,7 +139,9 @@ const SUSTAINABILITY_ITEMS = [
 
 function STORES_LIVE() {
   return [
-  { city: (clientCity(sessionData) ?? "Paris"), address: '12 Rue Saint-Honoré, 75001', hours: 'Lun–Sam 10 h – 19 h' },
+  clientCity(sessionData)
+    ? { city: clientCity(sessionData), address: clientAddress(sessionData) ?? "", hours: 'Lun–Sam 10 h – 19 h' }
+    : { city: "Paris", address: '12 Rue Saint-Honoré, 75001', hours: 'Lun–Sam 10 h – 19 h' },
   { city: 'London', address: '47 Sloane Street, SW1X 9LP', hours: 'Lun–Sam 10 h – 18 h' },
   { city: 'New York', address: '850 Madison Avenue, NY 10021', hours: 'Lun–Sam 10 h – 19 h' },
   { city: 'Tokyo', address: '5-4-1 Minami-Aoyama, Minato', hours: 'Tous les jours 11 h – 20 h' },
@@ -1097,8 +1100,8 @@ function buildCollection() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       id: i + 1,
       name: s.title ?? s.name,
-      category: COLLECTION_DEMO[i % COLLECTION_DEMO.length].category,
-      price: s.price ?? COLLECTION_DEMO[i % COLLECTION_DEMO.length].price,
+      category: (s as any).category ?? "Collection",
+      price: s.price != null ? String(s.price).replace(/\s*€\s*/g, "").trim() : COLLECTION_DEMO[i % COLLECTION_DEMO.length].price,
       badge: null,
       color: COLLECTION_DEMO[i % COLLECTION_DEMO.length].color,
       desc: s.description ?? s.desc ?? COLLECTION_DEMO[i % COLLECTION_DEMO.length].desc,
@@ -1392,6 +1395,10 @@ export default function FashionEditorialTemplate() {
             cursor: 'pointer',
             display: 'flex',
             alignItems: 'center',
+            maxWidth: 'min(36vw, 340px)',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
           }}
         >
           {fd?.logoBase64 ? (
@@ -2725,7 +2732,7 @@ export default function FashionEditorialTemplate() {
                   marginBottom: 20,
                 }}
               >
-                <em>Atelier</em> NOIR
+                {fd?.businessName ?? clientName(sessionData) ?? (<><em>Atelier</em> NOIR</>)}
               </div>
               <p
                 style={{

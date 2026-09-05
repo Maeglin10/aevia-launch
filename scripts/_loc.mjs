@@ -21,8 +21,8 @@ for (const arg of process.argv.slice(2)) {
   const [page_, marque] = arg.split("|");
   const theme = page_.split("/")[0];
   const r = await fetch(`${B}/api/sessions`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ formData: { ...FORM, template: theme } }) });
-  const { sessionId } = await r.json();
-  await fetch(`${B}/api/sessions?id=${sessionId}`, { method: "PATCH", headers: { "content-type": "application/json" }, body: JSON.stringify({ businessProfile: PROFIL }) });
+  const { sessionId, editToken } = await r.json();
+  await fetch(`${B}/api/sessions?id=${sessionId}`, { method: "PATCH", headers: { "content-type": "application/json", "x-edit-token": editToken }, body: JSON.stringify({ businessProfile: PROFIL }) });
   const p = await ctx.newPage();
   const att = p.waitForResponse((x) => x.url().includes("/api/sessions"), { timeout: 25000 }).catch(() => null);
   await p.goto(`${B}/templates/${page_}?session=${sessionId}`, { waitUntil: "domcontentloaded" });

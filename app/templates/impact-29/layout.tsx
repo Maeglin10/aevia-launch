@@ -133,7 +133,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
           <Link href="/templates/impact-29" className="flex items-center gap-2 text-sm cursor-pointer hover:opacity-80">
             <Terminal className="w-4 h-4 text-[#00F5D4]" />
-            <span className="text-[#00F5D4]">glitch</span><span className="text-[#475569]">.dev</span>
+            {clientName(__layoutSession) ? (
+              <span className="text-[#00F5D4]">{clientName(__layoutSession)}</span>
+            ) : (<><span className="text-[#00F5D4]">glitch</span><span className="text-[#475569]">.dev</span></>)}
           </Link>
           <div className="flex flex-wrap gap-6 text-xs text-[#475569]">
             <Link href="/templates/impact-29/work" className="hover:text-[#00F5D4] transition-colors cursor-pointer">Work</Link>

@@ -69,7 +69,7 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 };
 
 function projects_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ category: "", client: "",  name: o.title, year: o.detail || undefined, ...(o.imageUrl ? { src: o.imageUrl } : {}) })), [
   { name: "Capsule Pro", category: "Packaging", client: "L'Oréal", year: "2025", angle: "-3deg", color: "var(--brand, #F97316)", src: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=600&q=80") },
   { name: "Archeus Chair", category: "Mobilier", client: "Cassina", year: "2025", angle: "2deg", color: "#6366F1", src: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&q=80") },
   { name: "HaloKit", category: "Électronique grand public", client: "Sony Design", year: "2024", angle: "-2deg", color: "#0EA5E9", src: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&q=80") },
@@ -87,7 +87,9 @@ const disciplines_SOURCE = [
 ];
 let disciplines = disciplines_SOURCE;
 
-const clients = ["L'Oréal", "Sony", "Cassina", "Seletti", "Foscarini", "Hermès Design", "Renault", "Swatch Group"];
+const clients_DEMO = ["L'Oréal", "Sony", "Cassina", "Seletti", "Foscarini", "Hermès Design", "Renault", "Swatch Group"];
+const clients_LIVE = () => clientCertifications(sessionData) ?? (clientName(sessionData) ? [] : clients_DEMO);
+let clients = clients_LIVE();
 
 const process = [
   { n: "01", title: "Brief & Recherche", desc: "Immersion dans votre marché, analyse des usages, benchmark concurrentiel et identification des leviers d'innovation." },
@@ -265,6 +267,7 @@ export default function FormeStudioPage() {
 
 
   sessionData = session;
+  clients = clients_LIVE();
 
 
   bp = session?.businessProfile;
@@ -1056,7 +1059,7 @@ return (
                           <Globe className="w-5 h-5 text-[var(--brand,#F97316)]" />
                           <h4 className="text-gray-900 font-bold">Studio</h4>
                         </div>
-                        <p className="text-gray-500 text-sm">{clientAddress({ businessProfile: bp }) ?? "42 rue Oberkampf"}<br />75011 {clientCity(sessionData) ?? "Paris"}, France</p>
+                        <p className="text-gray-500 text-sm">{clientAddress({ businessProfile: bp }) ?? "42 rue Oberkampf"}<br />{clientCity(sessionData) ?? "75011 Paris"}, France</p>
                       </div>
                       <div className="bg-gray-50 rounded-2xl p-6 border border-gray-100">
                         <div className="flex items-center gap-3 mb-3">

@@ -75,7 +75,7 @@ const NAV = [
 ];
 function PROFESSEURS_LIVE() {
   return [
-  { n: "Marta Oliveira", r: "Piano · Direction pédagogique", d: "Prix du CNSMD de " + (clientCity(sessionData) ?? "Lyon") + ". Enseigne aux débutants comme aux candidats au concours d'entrée." },
+  { n: "Marta Oliveira", r: "Piano · Direction pédagogique", d: "Prix du CNSMD de Lyon. Enseigne aux débutants comme aux candidats au concours d'entrée." },
   { n: "Youssef Benhima", r: "Guitare classique & flamenco", d: "Formé à Séville. Cours en français, espagnol et arabe. Prépare aussi les examens de fin de cycle." },
   { n: "Élisabeth Fournel", r: "Violon · Formation musicale", d: "Trente ans d'orchestre. Méthode Suzuki pour les plus jeunes, lecture à vue à partir du deuxième cycle." },
   { n: "Damien Roux", r: "Batterie & percussions", d: "Studio et scène. Travaille au métronome dès la première séance, et personne n'en est jamais mort." },
@@ -187,16 +187,16 @@ export default function ConservatoireAccordPage() {
 
 
   TEMOIGNAGES_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TEMOIGNAGES_SOURCE[i % TEMOIGNAGES_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     TEMOIGNAGES_SOURCE,
   );
   TARIFS = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    clientServices(session)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? "Sur devis", n: s.desc || "" })),
     TARIFS_DEMO,
   );
   STATS = resolveList(clientStats(session), STATS_DEMO);
   TEMOIGNAGES = resolveList(
-    clientReviews(session)?.map((r, i) => ({ ...TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length], texte: r.text, auteur: r.author })),
+    clientReviews(session)?.map((r, i) => ({ ...TEMOIGNAGES_DEMO[i % TEMOIGNAGES_DEMO.length], texte: r.text, auteur: r.author, detail: "", })),
     TEMOIGNAGES_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -496,10 +496,10 @@ export default function ConservatoireAccordPage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 32, marginBottom: 36 }}>
           <div>
             <div style={{ fontFamily: FONT, fontSize: 18, fontStyle: "italic", fontWeight: 300, color: C.amber, marginBottom: 8 }}>{clientName(sessionData) ?? "Conservatoire Accord"}</div>
-            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>École de musique · {clientCity(sessionData) ?? "Lyon"} 6e<br />Lun–Sam 10h–20h</p>
+            <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.6 }}>École de musique · {clientCity(sessionData) ?? "Lyon 6e"}<br />Lun–Sam 10h–20h</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            {[{ icon: <MapPin size={13} />, t: (clientCity(sessionData) ?? "Lyon") + ", Rhône" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "04 78 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 10h–20h" }].map((item, i) => (
+            {[{ icon: <MapPin size={13} />, t: clientCity(sessionData) ?? "Lyon, Rhône" }, { icon: <Phone size={13} />, t: (clientPhone(sessionData) ?? fd?.phone ?? "04 78 00 00 00") }, { icon: <Clock size={13} />, t: "Lun–Sam 10h–20h" }].map((item, i) => (
               <div key={i} style={{ display: "flex", alignItems: "center", gap: 10, color: "rgba(255,255,255,0.40)", fontSize: 13 }}>
                 <span style={{ color: C.amber }}>{item.icon}</span>{item.t}
               </div>

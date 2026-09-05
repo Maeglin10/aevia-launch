@@ -293,11 +293,11 @@ export default function GentlemansCutPage() {
 
   SERVICES_DEMO = resolveList(clientServices(session)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], title: s.title , ...(s.price ? { price: s.price } : {})})), SERVICES_SOURCE);
   TARIFS = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    clientServices(session)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? "Sur devis", n: s.desc || "" })),
     TARIFS_DEMO,
   );
   SERVICES = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title })),
+    clientServices(session)?.map((s, i) => ({ ...SERVICES_DEMO[i % SERVICES_DEMO.length], title: s.title, desc: s.desc || "" })),
     SERVICES_DEMO,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color
@@ -552,7 +552,7 @@ export default function GentlemansCutPage() {
                 <div className="space-y-4">
                   {[
                     { icon: Clock, t: "Mar-Sam · 9h–19h" },
-                    { icon: MapPin, t: (clientAddress(sessionData) ?? `12 rue du Pas Saint-Georges, 33000 ${clientCity(sessionData) ?? "Bordeaux"}`) },
+                    { icon: MapPin, t: (clientAddress(sessionData) ?? clientCity(sessionData) ?? "12 rue du Pas Saint-Georges, 33000 Bordeaux") },
                     { icon: Calendar, t: "Résa en ligne ou " + (clientPhone(sessionData) ?? fd?.phone ?? "05 56 78 90 12") },
                   ].map((item, i) => (
                     <div key={i} className="flex items-center gap-4">
@@ -636,7 +636,7 @@ export default function GentlemansCutPage() {
           {[
             { t: "Services", ls: ["Coupe classique", "Rasage traditionnel", "Combo barbe + coupe", "Taille de barbe", "Coloration & gris"] },
             { t: "Infos", ls: ["Notre histoire", "L'équipe", "FAQ", "Avis clients", "Politique hygiène"] },
-            { t: "Adresse", ls: [(clientAddress(sessionData) ?? "12 rue du Pas Saint-Georges"), clientCodePostalVille(sessionData, "33000", "Bordeaux"), "Mar-Sam 9h–19h", (clientPhone(sessionData) ?? fd?.phone ?? "05 56 78 90 12"), (clientEmail(sessionData) ?? fd?.email ?? "contact@gentlemanscut.fr")] },
+            { t: "Adresse", ls: [(clientAddress(sessionData) ?? (clientCity(sessionData) ? "" : "12 rue du Pas Saint-Georges")), clientCodePostalVille(sessionData, "33000", "Bordeaux"), "Mar-Sam 9h–19h", (clientPhone(sessionData) ?? fd?.phone ?? "05 56 78 90 12"), (clientEmail(sessionData) ?? fd?.email ?? "contact@gentlemanscut.fr")] },
           ].map((col, i) => (
             <div key={i}>
               <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--brand,#c9a84c)]/50 mb-5" style={{ fontFamily: "'DM Mono', monospace" }}>{col.t}</h4>

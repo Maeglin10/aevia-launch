@@ -10,6 +10,8 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "technology stack": "Technologies employées",
+    "establish connection": "Établir la connexion",
     "projects completed": "Projets livrés",
     "countries": "Pays",
     "carbon-negative projects": "Projets à bilan carbone négatif",
@@ -71,6 +73,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "yes, our team includes technical artists who build, rig, and optimize assets specifically for real-time web rendering in blender and maya.": "Oui, notre équipe comprend des artistes techniques qui construisent, équipent et optimisent des actifs spécifiquement pour le rendu web en temps réel dans Blender et Maya.",
   },
   es: {
+    "technology stack": "Tecnologías empleadas",
+    "establish connection": "Establecer conexión",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -149,6 +153,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "yes, our team includes technical artists who build, rig, and optimize assets specifically for real-time web rendering in blender and maya.": "Sí, nuestro equipo incluye artistas técnicos que construyen, configuran y optimizan activos específicamente para el renderizado web en tiempo real en Blender y Maya.",
   },
   de: {
+    "technology stack": "Technologie-Stack",
+    "establish connection": "Verbindung herstellen",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -227,6 +233,8 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "yes, our team includes technical artists who build, rig, and optimize assets specifically for real-time web rendering in blender and maya.": "Ja, unser Team umfasst technische Künstler, die Assets speziell für das Echtzeit-Web-Rendering in Blender und Maya erstellen, riggen und optimieren.",
   },
   pt: {
+    "technology stack": "Tecnologias utilizadas",
+    "establish connection": "Estabelecer conexão",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

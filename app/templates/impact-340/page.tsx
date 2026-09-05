@@ -469,8 +469,7 @@ export default function OctaveAuditionPage() {
     clientReviews(sessionData)?.map((r: any, n: number) => ({
       ...AVIS_SOURCE[n % AVIS_SOURCE.length],
       auteur: r.author,
-      texte: r.text,
-    })),
+      texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
@@ -1310,7 +1309,7 @@ export default function OctaveAuditionPage() {
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {[
-                { icon: <MapPin size={13} />, t: adresse ?? `${ville}, Loire-Atlantique` },
+                { icon: <MapPin size={13} />, t: adresse ?? (clientCity(sessionData) ? ville : `${ville}, Loire-Atlantique`) },
                 { icon: <Phone size={13} />, t: phone },
                 { icon: <Mail size={13} />, t: mail },
               ].map((item, n) => (

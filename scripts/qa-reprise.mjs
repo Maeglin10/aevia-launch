@@ -119,11 +119,11 @@ async function creerSession(templateId) {
     body: JSON.stringify({ formData: { ...FORM, template: templateId } }),
   });
   if (!r.ok) throw new Error(`POST /api/sessions ${r.status}`);
-  const { sessionId } = await r.json();
+  const { sessionId, editToken } = await r.json();
   if (!sessionId) throw new Error("session non créée");
   const p = await fetch(`${BASE}/api/sessions?id=${sessionId}`, {
     method: "PATCH",
-    headers: { "content-type": "application/json" },
+    headers: { "content-type": "application/json", "x-edit-token": editToken },
     body: JSON.stringify({ businessProfile: PROFIL }),
   });
   if (!p.ok) throw new Error(`PATCH /api/sessions ${p.status}`);

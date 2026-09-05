@@ -187,7 +187,7 @@ export default function Impact52Layout({
                   letterSpacing: "0.08em",
                 }}
               >
-                PARTICLE // FIELD
+                {clientName(__layoutSession) ?? "PARTICLE // FIELD"}
               </span>
               <button
                 onClick={() => setMobileMenuOpen(false)}
@@ -266,7 +266,7 @@ export default function Impact52Layout({
                   letterSpacing: "0.18em",
                 }}
               >
-                PARTICLE // FIELD
+                {clientName(__layoutSession) ?? "PARTICLE // FIELD"}
               </span>
             </div>
             <p className="text-xs text-[#00f5ff]/60 leading-relaxed max-w-sm mb-6">

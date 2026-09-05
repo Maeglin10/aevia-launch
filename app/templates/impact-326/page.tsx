@@ -138,7 +138,7 @@ const DOMAINES_DEMO = [
 
 const ENGAGEMENT_DEMO = [
   "Officiers publics nommés par le garde des Sceaux — nos actes ont force exécutoire",
-  "Membres de la Chambre des notaires de la Gironde, contrôlés chaque année",
+  "Membres de la Chambre des notaires, contrôlés chaque année",
   "Secret professionnel absolu, sur chaque dossier et chaque échange",
   "Réponse écrite sous 48 h ouvrées à toute demande de rendez-vous",
 ];
@@ -419,7 +419,7 @@ export default function EtudeNotarialePage() {
   sessionData = session;
   HERO_DOMAINES_DEMO = HERO_DOMAINES_DEMO_LIVE();
   AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...AVIS_SOURCE[i % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   HERO_DOMAINES = HERO_DOMAINES_DEMO.map((row, i) => ({
@@ -427,7 +427,7 @@ export default function EtudeNotarialePage() {
     img: clientPhotos(sessionData)[0 + i] || row.img,
   }));
   TARIFS = resolveList(
-    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? TARIFS_DEMO[i % TARIFS_DEMO.length].p, n: s.desc || TARIFS_DEMO[i % TARIFS_DEMO.length].n })),
+    clientServices(sessionData)?.map((s, i) => ({ ...TARIFS_DEMO[i % TARIFS_DEMO.length], a: s.title, p: s.price ?? "Sur devis", n: s.desc || "" })),
     TARIFS_DEMO,
   );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
@@ -780,7 +780,7 @@ export default function EtudeNotarialePage() {
             <div>
               <div style={{ fontFamily: SERIF, fontSize: 19, fontWeight: 500, color: brand ? "var(--brand, #cfb37a)" : C.brass, marginBottom: 8, letterSpacing: "0.02em" }}>{fd?.businessName ?? "Vasseur & Delmas"} — {clientTrade(sessionData) ?? "Notaires associés"}</div>
               <p style={{ fontFamily: SANS, fontWeight: 300, color: "rgba(255,255,255,0.35)", fontSize: 13, lineHeight: 1.7 }}>
-                Officiers publics et ministériels · {clientCity(sessionData) ?? "Bordeaux"}<br />Membres de la Chambre des notaires de la Gironde
+                Officiers publics et ministériels · {clientCity(sessionData) ?? "Bordeaux"}<br />{clientName(sessionData) ? "Membres de la Chambre des notaires" : "Membres de la Chambre des notaires de la Gironde"}
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -799,7 +799,7 @@ export default function EtudeNotarialePage() {
           <div aria-hidden style={{ height: 1, background: "linear-gradient(90deg, transparent, rgba(207,179,122,0.30), transparent)" }} />
           <div style={{ paddingTop: 16, display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8 }}>
             <span style={{ fontFamily: SANS, fontWeight: 300, color: "rgba(255,255,255,0.24)", fontSize: 12, letterSpacing: "0.04em" }}>
-              © 2026 {fd?.businessName ?? "Vasseur & Delmas"} — Site réalisé par {clientName(sessionData) ?? "Aevia WS"} · SIREN {/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}<LegalIdentity fallback="852 546 225" kind="siren" />
+              © 2026 {fd?.businessName ?? "Vasseur & Delmas"} — Site réalisé par Aevia WS · SIREN <LegalIdentity fallback="852 546 225" kind="siren" />{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
             </span>
             <span style={{ fontFamily: SANS, fontWeight: 300, color: "rgba(255,255,255,0.24)", fontSize: 12, letterSpacing: "0.04em" }}>Mentions légales : éditeur {clientName(sessionData) ?? "Aevia WS"} · hébergement Vercel Inc.</span>
           </div>

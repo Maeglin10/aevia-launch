@@ -96,7 +96,7 @@ let brand: any = null;
    ========================================================================= */
 
 function PRODUCTS_SOURCE_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ price: "",  name: o.title, category: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}), desc: o.desc || "" })), [
   {
     id: 1,
     name: "THE_VOID_LOAF",
@@ -328,7 +328,7 @@ export default function BoulangerieNoirePage() {
 
       ...STATS_INLINE_SOURCE[i % STATS_INLINE_SOURCE.length],
 
-      val: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(s.value ?? "").replace(/[\d.\s]/g, ""),
+      val: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(s.value ?? "").replace(/[\d.]/g, "").replace(/\s+/g, " ").replace(/^ $/, ""),
 
       label: s.label,
 
@@ -407,12 +407,10 @@ export default function BoulangerieNoirePage() {
             ) : (
               <>
                 <span className="text-[10px] font-bold uppercase tracking-[0.6em] text-stone-600 mb-1">
-                  {/* Le nom du modèle était écrit ici en texte nu : la barre du haut
-                      portait « Artisanal. » sur le site de n'importe quel client. */}
-                  {clientName(sessionData) ?? "Artisanal."}
+                  {clientName(sessionData) ? "" : "Artisanal."}
                 </span>
                 <span className="text-xl md:text-2xl font-black tracking-tighter uppercase text-white">
-                  BOULANGERIE<span className="text-stone-800">.NOIRE</span>
+                  {clientName(sessionData) ?? (<>BOULANGERIE<span className="text-stone-800">.NOIRE</span></>)}
                 </span>
               </>
             )}
@@ -773,7 +771,7 @@ export default function BoulangerieNoirePage() {
                     Artisanal.
                   </span>
                   <span className="text-2xl font-black tracking-tighter uppercase text-white">
-                    BOULANGERIE<span className="text-stone-800">.NOIRE</span>
+                    {clientName(sessionData) ?? (<>BOULANGERIE<span className="text-stone-800">.NOIRE</span></>)}
                   </span>
                 </div>
                 <p className="text-white/20 max-w-sm mb-12 uppercase tracking-widest text-[10px] font-bold leading-relaxed italic">
@@ -891,7 +889,7 @@ export default function BoulangerieNoirePage() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-8 pt-10 border-t border-white/5 text-[10px] font-bold uppercase tracking-widest text-white/10">
             <div className="flex items-center gap-10">
               <span>
-                &copy; {new Date().getFullYear()} BOULANGERIE NOIRE Systems Ltd.
+                &copy; {new Date().getFullYear()} {clientName(sessionData) ?? "BOULANGERIE NOIRE Systems Ltd."}
               </span>
               <Link href="#subscription" className="hover:text-white transition-colors">
                 Regulatory_Terms

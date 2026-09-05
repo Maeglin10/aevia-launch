@@ -258,7 +258,7 @@ function EDIT_ROWS_SOURCE_LIVE() {
         <span style={{ fontStyle: 'italic' }}>et alentours.</span>
       </>
     ),
-    body: "Nous intervenons dans les 16 arrondissements de " + (clientCity(sessionData) ?? "Marseille") + ", ainsi qu'à Aix-en-Provence, Aubagne, Cassis, et Vitrolles. Une seule équipe, une seule facture, zéro sous-traitance.",
+    body: clientCity(sessionData) ? "Nous intervenons à " + clientCity(sessionData) + " et dans les communes alentours. Une seule équipe, une seule facture, zéro sous-traitance." : "Nous intervenons dans les 16 arrondissements de Marseille, ainsi qu'à Aix-en-Provence, Aubagne, Cassis, et Vitrolles. Une seule équipe, une seule facture, zéro sous-traitance.",
     reverse: true,
   },
 ];
@@ -2157,11 +2157,15 @@ function Footer() {
     {
       title: "Zone d'action",
       items: [
-        { label: (clientCity(sessionData) ?? 'Marseille') + ' (1er–16e)', href: '#zone' },
-        { label: (clientCity(sessionData) ?? 'Aix-en-Provence'), href: '#zone' },
-        { label: 'Aubagne', href: '#zone' },
-        { label: 'Cassis', href: '#zone' },
-        { label: 'Vitrolles', href: '#zone' },
+        ...(clientCity(sessionData)
+          ? [{ label: clientCity(sessionData)! + ' et alentours', href: '#zone' }]
+          : [
+            { label: 'Marseille (1er–16e)', href: '#zone' },
+            { label: 'Aix-en-Provence', href: '#zone' },
+            { label: 'Aubagne', href: '#zone' },
+            { label: 'Cassis', href: '#zone' },
+            { label: 'Vitrolles', href: '#zone' },
+          ]),
       ],
     },
     {
@@ -2239,7 +2243,7 @@ function Footer() {
             }}
           >
             <MapPin size={13} color={C.accent} strokeWidth={1.5} />
-            {clientCity(sessionData) ?? "Marseille"}, Bouches-du-Rhône
+            {clientCity(sessionData) ?? "Marseille, Bouches-du-Rhône"}
           </div>
 
           {/* Orange urgent CTA */}
@@ -2451,7 +2455,7 @@ export default function Page() {
     });
   });
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], author: r.author, quote: r.text, role: "", })),
     TESTIMONIALS_SOURCE,
   );
   brand = fd?.brandColor ?? null; // null = keep template's original color

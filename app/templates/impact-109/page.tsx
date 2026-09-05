@@ -81,7 +81,7 @@ function AudioBars({ active = false }: { active?: boolean }) {
 }
 
 function PRODUCTS_DEMO_SOURCE_LIVE() {
-  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ name: o.title, type: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
+  return /* RÉALISATIONS */ resolveList(clientWorks(sessionData)?.map((o: any) => ({ price: "",  name: o.title, type: o.detail || undefined, ...(o.imageUrl ? { img: o.imageUrl } : {}) })), [
   { name: "A1 Monitor", type: "Reference Studio Speakers", price: "$4,200", img: (clientPhotos(sessionData)[0] || "https://images.unsplash.com/photo-1545454675-3531b543be5d?auto=format&fit=crop&q=80&w=1200"), specs: "Carbon fiber dome, 120dB dynamic range." },
   { name: "Aether Tube", type: "Vacuum Tube Amplifier", price: "$8,900", img: (clientPhotos(sessionData)[1] || "https://images.unsplash.com/photo-1614149162883-504ce4d13909?auto=format&fit=crop&q=80&w=1200"), specs: "Hand-wired circuitry, pure Class A operation." },
   { name: "Void Pro", type: "Open-Back Headphones", price: "$1,850", img: (clientPhotos(sessionData)[2] || "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&q=80&w=1200"), specs: "Planar magnetic drivers, aircraft-grade aluminum." },
@@ -144,7 +144,7 @@ export default function AetherSoundPage() {
   PRODUCTS_DEMO_SOURCE = PRODUCTS_DEMO_SOURCE_LIVE();
 
   PRODUCTS_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_DEMO_SOURCE[i % PRODUCTS_DEMO_SOURCE.length], name: s.title, price: s.price ?? PRODUCTS_DEMO_SOURCE[i % PRODUCTS_DEMO_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...PRODUCTS_DEMO_SOURCE[i % PRODUCTS_DEMO_SOURCE.length], name: s.title, price: s.price ?? "" })),
     PRODUCTS_DEMO_SOURCE,
   );
 
@@ -154,9 +154,7 @@ export default function AetherSoundPage() {
 
       ...AVIS_INLINE_SOURCE[i % AVIS_INLINE_SOURCE.length],
 
-      quote: r.text, name: r.author,
-
-    })),
+      quote: r.text, name: r.author, origin: "", })),
 
     AVIS_INLINE_SOURCE,
 
@@ -466,7 +464,7 @@ export default function AetherSoundPage() {
               <div className="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center">
                 <Volume2 className="w-5 h-5 text-white" />
               </div>
-              <span className="text-xl font-bold tracking-[0.2em] uppercase text-white">Aether <span className="font-light text-white/40">Sound</span></span>
+              <span className="text-xl font-bold tracking-[0.2em] uppercase text-white">{clientName(sessionData) ?? (<>Aether <span className="font-light text-white/40">Sound</span></>)}</span>
             </Link>
             <p className="text-white/20 max-w-sm leading-relaxed mb-10 text-sm font-light">
               Founded on the belief that perfect audio is not measured in decibels, but in emotional resonance. Engineered for the infinite.
@@ -493,7 +491,7 @@ export default function AetherSoundPage() {
         </div>
         
         <div className="max-w-[1400px] mx-auto pt-12 border-t border-white/5 flex flex-col md:row justify-between items-center gap-6 text-[10px] font-bold uppercase tracking-widest text-white/10">
-          <span>© 2026 {clientName(sessionData) ?? "AETHER SOUND AG. ALL"} RIGHTS RESERVED.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
+          <span>© 2026 {clientName(sessionData) ?? "AETHER SOUND AG"}. TOUS DROITS RÉSERVÉS.{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}</span>
           <div className="flex gap-10">
              <Link href="#contact" className="hover:text-white transition-colors">Privacy Circle</Link>
              <Link href="#contact" className="hover:text-white transition-colors">Technical Terms</Link>

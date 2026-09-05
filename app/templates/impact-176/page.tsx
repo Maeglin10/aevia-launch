@@ -1172,7 +1172,7 @@ export default function Impact176Page() {
   FAQS_DEMO = FAQS_DEMO_LIVE();
 
   PLANS = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, price: s.price ?? PLANS_SOURCE[i % PLANS_SOURCE.length].price })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...PLANS_SOURCE[i % PLANS_SOURCE.length], name: s.title, price: s.price ?? "", features: [], })),
     PLANS_SOURCE,
   );
   LIVE_METRICS = resolveList(
@@ -1180,20 +1180,20 @@ export default function Impact176Page() {
     LIVE_METRICS_SOURCE,
   );
   FEATURES_DEMO = resolveList(
-    clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title })),
+    clientServices(session)?.map((s: any, i: number) => ({ ...FEATURES_SOURCE[i % FEATURES_SOURCE.length], title: s.title, desc: s.desc || "", features: [], })),
     FEATURES_SOURCE,
   );
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text })),
+    clientReviews(session)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, quote: r.text, company: "", metric: "", role: "", })),
     TESTIMONIALS_SOURCE,
   );
   STATS = resolveList(clientStats(session)?.map((r: any) => ({ val: r.value, label: r.label })), STATS_DEMO);
   FEATURES = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title })),
+    clientServices(session)?.map((s, i) => ({ ...FEATURES_DEMO[i % FEATURES_DEMO.length], title: s.title, desc: s.desc || "" })),
     FEATURES_DEMO,
   );
   TESTIMONIALS = resolveList(
-    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, name: r.author })),
+    clientReviews(session)?.map((r, i) => ({ ...TESTIMONIALS_DEMO[i % TESTIMONIALS_DEMO.length], quote: r.text, name: r.author, company: "", metric: "", role: "", })),
     TESTIMONIALS_DEMO,
   );
   FAQS = resolveList(
@@ -1569,7 +1569,7 @@ export default function Impact176Page() {
               flexWrap: "wrap",
             }}
           >
-            {/* LISTE_LIBELLES */ (clientList(sessionData, "hero.liste2") ?? ["SOC 2 Type II", "GDPR", "No credit card"]).map((t) => (
+            {/* LISTE_LIBELLES */ (clientList(sessionData, "hero.liste2") ?? (clientName(sessionData) ? ["Sans carte bancaire"] : ["SOC 2 Type II", "GDPR", "No credit card"])).map((t) => (
               <div
                 key={t}
                 style={{
@@ -1939,7 +1939,7 @@ export default function Impact176Page() {
                 marginBottom: 16,
               }}
             >{/* TEXTE_SECTION */ clientText(sessionData, "testimonials.titre") ?? (<>
-              Teams who chose Metric.
+              {clientName(sessionData) ? `Les équipes qui ont choisi ${clientName(sessionData)}.` : "Teams who chose Metric."}
             </>)}</h2>
           </TextReveal>
         </div>

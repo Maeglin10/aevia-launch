@@ -72,7 +72,7 @@ const Reveal = ({ children, className = "", delay = 0 }: { children: React.React
 };
 
 function courses_LIVE() {
-  return resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ title: s.title, ...(s.price ? { price: s.price } : {}) })), [
+  return resolveList(clientServices({ formData: fd, businessProfile: bp, generatedContent: c })?.map((s: any) => ({ title: s.title, price: s.price ?? "", duration: "", students: "", rating: "", tag: "" })), [
   { title: "Data Science & IA", level: "Intermédiaire", duration: "48h", students: "12 400", rating: 4.9, price: "199 €", tag: "Populaire", color: "var(--brand, #7C3AED)" },
   { title: "UX Design System", level: "Débutant", duration: "32h", students: "8 200", rating: 4.8, price: "149 €", tag: "Nouveau", color: "#0EA5E9" },
   { title: "Full-Stack React/Node", level: "Avancé", duration: "64h", students: "9 800", rating: 4.9, price: "249 €", tag: "Bestseller", color: "#10B981" },
@@ -98,7 +98,7 @@ const instructors = [
 ];
 
 function plans_LIVE() {
-  return /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp })?.map((s: any) => ({ name: s.title, ...(s.price ? { price: s.price } : {}) })), [
+  return /* TARIFS */ resolveList(clientServices({ formData: fd, businessProfile: bp })?.filter((s: any) => s.price).map((s: any) => ({ name: s.title, price: s.price })), [
   { name: "Starter", price: "29", period: "mois", features: ["50 cours inclus", "Projets pratiques", "Forum communauté", "Certificat de suivi"], cta: "Commencer", highlight: false },
   { name: "Pro", price: "79", period: "mois", features: ["Tous les cours", "Mentorat mensuel", "Projets guidés", "Certificats officiels", "Support prioritaire"], cta: "Essai 7 jours gratuit", highlight: true },
   { name: "Équipe", price: "199", period: "mois", features: ["10 sièges inclus", "Tableau de bord d'équipe", "Rapports de progression", "Prise en main accompagnée", "Formateur attitré"], cta: "Contacter l'équipe", highlight: false },

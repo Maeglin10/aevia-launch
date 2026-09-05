@@ -308,7 +308,7 @@ export default function DuoPeinturesPage() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
       a: s.title || TARIFS_SOURCE[i % TARIFS_SOURCE.length].a,
-      p: s.price || TARIFS_SOURCE[i % TARIFS_SOURCE.length].p,
+      p: s.price || "Sur devis",
       n: s.description || s.desc || TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
     })),
     TARIFS_SOURCE,
@@ -461,7 +461,7 @@ export default function DuoPeinturesPage() {
             <>
               <Paintbrush size={17} color="currentColor" style={{ flexShrink: 0 }} aria-hidden />
               <span style={{ fontFamily: DISPLAY, fontWeight: 700, fontSize: 19, letterSpacing: "-0.02em", color: "currentColor", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{nom}</span>
-              <span style={{ fontFamily: BODY, fontSize: 9.5, letterSpacing: "0.26em", textTransform: "uppercase", color: "currentColor", opacity: 0.6, marginLeft: 8, whiteSpace: "nowrap" }}>Père &amp; fille</span>
+              {clientName(sessionData) ? null : <span style={{ fontFamily: BODY, fontSize: 9.5, letterSpacing: "0.26em", textTransform: "uppercase", color: "currentColor", opacity: 0.6, marginLeft: 8, whiteSpace: "nowrap" }}>Père &amp; fille</span>}
             </>
           )}
         </div>
@@ -973,7 +973,7 @@ export default function DuoPeinturesPage() {
               <p style={{ fontFamily: BODY, fontWeight: 300, color: "rgba(255,255,255,0.40)", fontSize: 13, lineHeight: 1.75, margin: 0 }}>
                 Entreprise de peinture · {ville}
                 <br />
-                Décennale — deux compagnons, un carnet de chantier tenu
+                {clientName(sessionData) ? "Décennale — un carnet de chantier tenu" : "Décennale — deux compagnons, un carnet de chantier tenu"}
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 9 }}>

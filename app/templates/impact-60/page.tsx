@@ -98,7 +98,7 @@ export default function ZenithWatchPage() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       name: s.title ?? s.name,
       cat: s.category ?? MODELS[i % MODELS.length].cat,
-      price: s.price ?? MODELS[i % MODELS.length].price,
+      price: s.price ?? "",
       img: MODELS[i % MODELS.length].img,
     })),
     MODELS
@@ -108,7 +108,7 @@ export default function ZenithWatchPage() {
     clientReviews(sessionData)?.map((r: any) => ({
       quote: r.text ?? r.quote,
       name: r.name ?? r.author,
-      origin: r.location ?? r.context ?? "Collector",
+      origin: r.location ?? r.context ?? "",
     })),
     [
       { quote: "The Chronos 01 is the only watch I've worn every day for four years. It has aged the way all great things do — with more character, not less.", name: "K. Lindqvist", origin: "Stockholm · Collector" },

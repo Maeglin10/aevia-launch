@@ -170,7 +170,7 @@ let METHODE = [
 ];
 
 const ENGAGEMENT_DEMO = [
-  "Agrément préfectoral E 26 034 0118 0, moniteurs diplômés Titre Pro ECSR",
+  "Agrément préfectoral affiché en agence, moniteurs diplômés Titre Pro ECSR",
   "Taux de réussite affichés en vitrine et en ligne, mis à jour chaque trimestre",
   "Heure supplémentaire au prix du forfait, écrit au contrat",
   "Frais de transfert de dossier : 0 € — tu restes parce que ça marche, pas parce que c'est cher de partir",
@@ -359,7 +359,7 @@ export default function PermisCapSudPage() {
     SERVICES_SOURCE,
   );
   AVIS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, n: number) => ({ ...AVIS_SOURCE[n % AVIS_SOURCE.length], auteur: r.author, texte: r.text })),
+    clientReviews(sessionData)?.map((r: any, n: number) => ({ ...AVIS_SOURCE[n % AVIS_SOURCE.length], auteur: r.author, texte: r.text, detail: "", })),
     AVIS_SOURCE,
   );
   TARIFS = resolveList(
@@ -891,12 +891,12 @@ export default function PermisCapSudPage() {
               <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, lineHeight: 1.75, maxWidth: 420 }}>
                 {metier} agréée · {ville}
                 <br />
-                Agrément préfectoral E 26 034 0118 0
+                {clientName(sessionData) ? "Agrément préfectoral — affiché en agence" : "Agrément préfectoral E 26 034 0118 0"}
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
               {[
-                { icon: <MapPin size={13} />, t: adresse ?? `${ville}, Hérault` },
+                { icon: <MapPin size={13} />, t: adresse ?? (clientCity(sessionData) ? ville : `${ville}, Hérault`) },
                 { icon: <Phone size={13} />, t: phone },
                 { icon: <Clock size={13} />, t: "Lun–Sam 9h–19h non-stop" },
               ].map((item, n) => (

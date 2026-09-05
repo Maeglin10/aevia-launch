@@ -60,8 +60,8 @@ const sessions = new Map();
 async function sessionDe(theme) {
   if (sessions.has(theme)) return sessions.get(theme);
   const r = await fetch(`${BASE}/api/sessions`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ formData: { ...FORM, template: theme } }) });
-  const { sessionId } = await r.json();
-  await fetch(`${BASE}/api/sessions?id=${sessionId}`, { method: "PATCH", headers: { "content-type": "application/json" }, body: JSON.stringify({ businessProfile: PROFIL }) });
+  const { sessionId, editToken } = await r.json();
+  await fetch(`${BASE}/api/sessions?id=${sessionId}`, { method: "PATCH", headers: { "content-type": "application/json", "x-edit-token": editToken }, body: JSON.stringify({ businessProfile: PROFIL }) });
   sessions.set(theme, sessionId);
   return sessionId;
 }

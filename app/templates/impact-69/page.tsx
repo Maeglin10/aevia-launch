@@ -64,7 +64,7 @@ export default function LeaHomePage() {
     bpLocal?.beforeAfter?.length
       ? SERIES_DEMO.map((demo: any, i: number) => {
           const b = bpLocal.beforeAfter[i % bpLocal.beforeAfter.length];
-          return { ...demo, title: b?.caption ?? demo.title };
+          return { ...demo, title: b?.caption ?? demo.title, location: "", year: "", tag: "", prints: "" };
         })
       : undefined,
     SERIES_DEMO
@@ -375,6 +375,7 @@ return (
       </section>
 
       {/* ── Press ── */}
+      {clientName(sessionData) ? null : (
       <section style={{ padding: "80px 0", maxWidth: 900, margin: "0 auto", paddingInline: 32 }}>
         <p style={{ fontFamily: "'Space Grotesk', sans-serif", fontSize: 11, letterSpacing: "0.35em", color: C.moss, textTransform: "uppercase", marginBottom: 48, textAlign: "center" }}>Press</p>
 
@@ -410,6 +411,7 @@ return (
           ))}
         </div>
       </section>
+      )}
       {/* PIED_MINIMAL — ce thème n'affichait pas la ville du client */}
       <footer style={{ padding: "40px 24px", textAlign: "center", fontSize: 13, letterSpacing: "0.08em", opacity: 0.9, textShadow: "0 0 2px rgba(0,0,0,0.55), 0 0 10px rgba(255,255,255,0.35)" }}>
         {clientName(sessionData) ?? "Lea"}

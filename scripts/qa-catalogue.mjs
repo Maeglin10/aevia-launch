@@ -153,10 +153,10 @@ async function creerSession(theme) {
     body: JSON.stringify({ formData: { ...CLIENT.formData, template: theme } }),
   });
   if (!r.ok) throw new Error(`session ${r.status}`);
-  const { sessionId } = await r.json();
+  const { sessionId, editToken } = await r.json();
   if (Object.keys(CLIENT.businessProfile).length) {
     await fetch(`${BASE}/api/sessions?id=${sessionId}`, {
-      method: "PATCH", headers: { "content-type": "application/json" },
+      method: "PATCH", headers: { "content-type": "application/json", "x-edit-token": editToken },
       body: JSON.stringify({ businessProfile: CLIENT.businessProfile }),
     });
   }

@@ -10,6 +10,9 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "something": "quelque chose",
+    "impossible.": "d'impossible.",
+    "commission a project": "Confier un projet",
     "manifesto": "Manifeste",
     "commission": "Nous confier un projet",
     "markets": "Marchés",
@@ -83,6 +86,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "year": "Année",
   },
   es: {
+    "something": "algo",
+    "impossible.": "imposible.",
+    "commission a project": "Encargar un proyecto",
     "réserver une table": "Reservar una mesa",
     "réserver votre table": "Reservar su mesa",
     "réserver": "Reservar",
@@ -173,6 +179,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "year": "Año",
   },
   de: {
+    "something": "etwas",
+    "impossible.": "Unmögliches.",
+    "commission a project": "Projekt beauftragen",
     "réserver une table": "Einen Tisch reservieren",
     "réserver votre table": "Ihren Tisch reservieren",
     "réserver": "Reservieren",
@@ -263,6 +272,9 @@ export const TRADUCTIONS: Record<string, Record<string, string>> = {
     "year": "Jahr",
   },
   pt: {
+    "something": "algo",
+    "impossible.": "impossível.",
+    "commission a project": "Encomendar um projeto",
     "réserver une table": "Reservar uma mesa",
     "réserver votre table": "Reservar a sua mesa",
     "réserver": "Reservar",

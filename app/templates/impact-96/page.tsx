@@ -561,7 +561,7 @@ export default function UrbanPulsePage() {
     TESTIMONIALS_DEMO_SOURCE,
   );
   PRICING = resolveList(
-    clientServices(session)?.map((s, i) => ({ ...PRICING_DEMO[i % PRICING_DEMO.length], name: s.title, price: s.price ?? PRICING_DEMO[i % PRICING_DEMO.length].price, desc: s.desc || PRICING_DEMO[i % PRICING_DEMO.length].desc })),
+    clientServices(session)?.map((s, i) => ({ ...PRICING_DEMO[i % PRICING_DEMO.length], name: s.title, price: s.price ?? "", desc: s.desc || PRICING_DEMO[i % PRICING_DEMO.length].desc, features: [], })),
     PRICING_DEMO,
   );
   STATS = resolveList(clientStats(session)?.map((r: any) => ({ val: r.value, label: r.label })), STATS_DEMO);
@@ -1903,14 +1903,14 @@ return (
               >
                 Clients réguliers
               </div>
-              {/* LISTE_LIBELLES */ (clientList(sessionData, "clients.liste2") ?? [
+              {/* LISTE_LIBELLES */ (clientList(sessionData, "clients.liste2") ?? (clientName(sessionData) ? [] : [
                 "Arte France",
                 "Canal+",
                 "Netflix France",
                 "National Geographic",
                 "Hermès",
                 "Cartier",
-              ]).map((client) => (
+              ])).map((client) => (
                 <div
                   key={client}
                   style={{
@@ -2421,7 +2421,7 @@ return (
               }}
             >
               {[
-                { icon: MapPin, label: (clientAddress(sessionData) ?? `12 rue Oberkampf, 75011 ${clientCity(sessionData) ?? "Paris"}`) },
+                { icon: MapPin, label: (clientAddress(sessionData) ?? clientCity(sessionData) ?? "12 rue Oberkampf, 75011 Paris") },
                 { icon: Phone, label: (clientPhone(sessionData) ?? "+33 1 48 34 49 49") },
                 { icon: Mail, label: (clientEmail(sessionData) ?? fd?.email ?? "contact@urbanpulse.fr") },
               ].map(({ icon: Icon, label }) => (
@@ -2528,8 +2528,8 @@ return (
                   marginBottom: 24,
                 }}
               >
-                Maison de production cinéma, publicité et contenu de marque.
-                {clientCity(sessionData) ?? "Paris"}, depuis 2009.
+                Maison de production cinéma, publicité et contenu de marque.{" "}
+                {clientCity(sessionData) ?? "Paris, depuis 2009"}.
               </p>
 
               <div style={{ display: "flex", gap: 10 }}>
@@ -2657,7 +2657,7 @@ return (
             }}
           >
             <div style={{ fontSize: "0.73rem", color: C.muted }}>
-              © 2026 {clientName(sessionData) ?? "Urban Pulse SAS"} · 12 rue Oberkampf, 75011 {clientCity(sessionData) ?? "Paris"} · {clientSiret(sessionData) ? `SIRET ${clientSiret(sessionData)}` : ""}{/* VILLE_PIED */}{clientCity(sessionData) ? ` · ${clientCity(sessionData)}` : ""}
+              © 2026 {clientName(sessionData) ?? "Urban Pulse SAS"} · {clientAddress(sessionData) ?? clientCity(sessionData) ?? "12 rue Oberkampf, 75011 Paris"}{clientSiret(sessionData) ? ` · SIRET ${clientSiret(sessionData)}` : ""}
             </div>
             <div style={{ display: "flex", gap: 24 }}>
               {[

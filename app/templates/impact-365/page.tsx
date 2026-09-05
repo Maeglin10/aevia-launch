@@ -152,7 +152,7 @@ let SERVICES_DEMO = SERVICES_SOURCE;
 const METHODE_SOURCE = [
   { n: "01", t: "Un sol vivant", d: "Rotations longues, engrais verts, compost de la ferme : le sol est notre premier outil de travail." },
   { n: "02", t: "Cueilli à maturité", d: "La récolte se fait pour le lendemain, pas pour tenir une semaine de camion. Ça change le goût, vraiment." },
-  { n: "03", t: "Vendu en direct", d: "Boutique à la ferme, marché de Cahors le samedi, paniers réservés : aucun intermédiaire, prix décidés ici." },
+  { n: "03", t: "Vendu en direct", d: clientName(sessionData) ? "Boutique à la ferme, marché le samedi, paniers réservés : aucun intermédiaire, prix décidés ici." : "Boutique à la ferme, marché de Cahors le samedi, paniers réservés : aucun intermédiaire, prix décidés ici." },
   { n: "04", t: "Contrôlé chaque année", d: "Certification AB par organisme agréé, contrôles annuels — le logo se mérite, il ne se déclare pas." },
 ];
 const METHODE = METHODE_SOURCE;
@@ -492,7 +492,7 @@ export default function QuatreVentsPage() {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       ...TARIFS_SOURCE[i % TARIFS_SOURCE.length],
       a: s.title ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].a,
-      p: s.price ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].p,
+      p: s.price ?? "Sur devis",
       n: s.description ?? s.desc ?? TARIFS_SOURCE[i % TARIFS_SOURCE.length].n,
     })),
     TARIFS_SOURCE,
@@ -754,7 +754,7 @@ export default function QuatreVentsPage() {
             >
               {clientHeroSubtitle(sessionData) ??
                 c?.heroSubline ??
-                "Maraîchage bio, œufs de plein air, poulets fermiers : la ferme vend en direct ce qu'elle produit, au rythme des saisons. Paniers de la semaine, boutique à la ferme et marché de Cahors."}
+                clientName(sessionData) ? "Maraîchage bio, œufs de plein air, poulets fermiers : la ferme vend en direct ce qu'elle produit, au rythme des saisons. Paniers de la semaine, boutique à la ferme et marché." : "Maraîchage bio, œufs de plein air, poulets fermiers : la ferme vend en direct ce qu'elle produit, au rythme des saisons. Paniers de la semaine, boutique à la ferme et marché de Cahors."}
             </motion.p>
             {/* Une seule action pleine ; la production reste un lien. */}
             <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.62, duration: 0.85, ease: EASE }} style={{ display: "flex", gap: "clamp(16px,2vw,26px)", flexWrap: "wrap", alignItems: "center" }}>

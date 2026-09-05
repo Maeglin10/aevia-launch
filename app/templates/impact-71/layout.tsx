@@ -200,7 +200,7 @@ export default function ZenSpaceLayout({
                   Sanctuary.
                 </span>
                 <span className="text-2xl font-light tracking-[0.4em] uppercase text-white">
-                  ZEN<span className="text-[#c9a84c]">SPACE</span>
+                  {clientName(__layoutSession) ?? (<>ZEN<span className="text-[#c9a84c]">SPACE</span></>)}
                 </span>
               </div>
               <p className="text-white/20 max-w-sm mb-12 uppercase tracking-widest text-[10px] font-bold leading-relaxed italic">

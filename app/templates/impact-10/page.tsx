@@ -851,10 +851,10 @@ function RoomsSection({ goTo }: { goTo: (p: HotelPage) => void }) {
     clientServices(sessionData)?.map((s: any, i: number) => ({
       num: ROOMS_DEMO[i % ROOMS_DEMO.length].num,
       name: s.title ?? s.name,
-      size: ROOMS_DEMO[i % ROOMS_DEMO.length].size,
-      view: ROOMS_DEMO[i % ROOMS_DEMO.length].view,
-      price: s.price ?? ROOMS_DEMO[i % ROOMS_DEMO.length].price,
-      tag: ROOMS_DEMO[i % ROOMS_DEMO.length].tag,
+      size: "",
+      view: "",
+      price: s.price ?? "",
+      tag: "",
       desc: s.description ?? s.desc ?? ROOMS_DEMO[i % ROOMS_DEMO.length].desc,
       img: ROOMS_DEMO[i % ROOMS_DEMO.length].img,
     })),
@@ -1055,7 +1055,7 @@ function ExperienceSection() {
   const EXPERIENCES = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({
       label: s.title ?? s.name,
-      sub: EXPERIENCES_DEMO[i % EXPERIENCES_DEMO.length].sub,
+      sub: "",
       desc: s.description ?? s.desc ?? EXPERIENCES_DEMO[i % EXPERIENCES_DEMO.length].desc,
       img: EXPERIENCES_DEMO[i % EXPERIENCES_DEMO.length].img,
     })),
@@ -1753,7 +1753,7 @@ function Footer({ goTo }: { goTo: (p: HotelPage) => void }) {
               style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontFamily: SERIF, fontSize: '1.6rem', fontWeight: 300, color: GOLD, marginBottom: '1rem', letterSpacing: '0.05em', display: 'block' }}
             >{fd?.businessName ?? (clientName(sessionData) ?? "Grand Palais")}</button>
             <p style={{ fontFamily: SERIF, fontSize: '0.9rem', color: `${CREAM}50`, lineHeight: 1.7, fontStyle: 'italic', maxWidth: '20rem', marginBottom: '1.5rem' }}>
-              Un palace d'une distinction discrète, au cœur de {clientCity(sessionData) ?? "Paris"} depuis 1887.
+              Un palace d'une distinction discrète, au cœur {(() => { const v = clientCity(sessionData) ?? "Paris"; return /^[aeiouyéèêàâîïôûh]/i.test(v) ? `d'${v}` : `de ${v}`; })()} depuis 1887.
             </p>
             <div style={{ display: 'flex', gap: '1rem' }}>
               {socials.map((s) => (
@@ -2537,7 +2537,7 @@ export default function GrandPalaisPage() {
     });
   });
   TESTIMONIALS_DEMO = resolveList(
-    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text })),
+    clientReviews(sessionData)?.map((r: any, i: number) => ({ ...TESTIMONIALS_SOURCE[i % TESTIMONIALS_SOURCE.length], name: r.author, text: r.text, origin: "", })),
     TESTIMONIALS_SOURCE,
   );
   ROOMS_FULL = ROOMS_FULL_DEMO.map((row, i) => ({

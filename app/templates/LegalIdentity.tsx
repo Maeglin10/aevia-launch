@@ -44,8 +44,16 @@ export function LegalIdentity({
       .then((r) => r.json())
       .then((s) => {
         const siret: string | undefined = s?.businessProfile?.legal?.siret;
-        if (!siret) return;
-        setValue(kind === "siret" ? siret.trim() : sirenFrom(siret));
+        if (siret) {
+          setValue(kind === "siret" ? siret.trim() : sirenFrom(siret));
+          return;
+        }
+        /*
+          Session client sans identifiant : afficher le SIREN d'Aevia sous le
+          nom du client serait une mention légale fausse. Un libellé honnête
+          vaut mieux qu'un numéro qui n'est pas le sien.
+        */
+        if (s?.formData?.businessName) setValue("communiqué sur demande");
       })
       .catch(() => {});
   }, [kind]);
