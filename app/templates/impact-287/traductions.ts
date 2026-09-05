@@ -10,15 +10,19 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "outdoor": "En extérieur",
     "comme on vit": "comme on vit",
   },
   es: {
+    "outdoor": "Al aire libre",
     "comme on vit": "como se vive",
   },
   de: {
+    "outdoor": "Draußen",
     "comme on vit": "wie man lebt",
   },
   pt: {
+    "outdoor": "Ao ar livre",
     "comme on vit": "como se vive",
   },
 };

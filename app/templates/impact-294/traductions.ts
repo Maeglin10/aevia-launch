@@ -10,15 +10,31 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "click & collect": "Commande et retrait",
+    "daily": "Chaque jour",
+    "dry needling": "Puncture sèche",
+    "support coach": "Suivi du coach",
     "foire aux questions": "FAQ",
   },
   es: {
+    "click & collect": "Compra y recogida",
+    "daily": "Cada día",
+    "dry needling": "Punción seca",
+    "support coach": "Seguimiento del entrenador",
     "foire aux questions": "Preguntas frecuentes",
   },
   de: {
+    "click & collect": "Click & Collect",
+    "daily": "Täglich",
+    "dry needling": "Dry Needling",
+    "support coach": "Coach-Betreuung",
     "foire aux questions": "Häufig gestellte Fragen",
   },
   pt: {
+    "click & collect": "Compra e recolha",
+    "daily": "Todos os dias",
+    "dry needling": "Punção seca",
+    "support coach": "Acompanhamento do treinador",
     "foire aux questions": "Perguntas frequentes",
   },
 };
