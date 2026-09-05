@@ -23,6 +23,7 @@ import {
   clientAccrocheRestante,
   clientBookingUrl,
   clientCity,
+  clientName,
   clientHeroPrestations,
   clientHeroSubtitle,
   clientReviews,
