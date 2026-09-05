@@ -813,7 +813,7 @@ function StatsStrip() {
     { target: 22, suffix: ' ans', label: "D'expérience" },
     { target: 100, suffix: '%', label: 'Garantie décennale' },
     { target: 48, suffix: 'h', label: 'Délai devis offert' },
-  ]).length], target: s.value, label: s.label })),
+  ]).length], target: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(s.value ?? "").replace(/[\d.,\s]/g, "") ? " " + String(s.value ?? "").replace(/[\d.,\s]/g, "") : "", label: s.label })),
     [
     { target: 1840, suffix: '+', label: 'Chantiers réalisés' },
     { target: 22, suffix: ' ans', label: "D'expérience" },

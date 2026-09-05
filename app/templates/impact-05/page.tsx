@@ -773,7 +773,7 @@ return (
                       </span>
                       {plan.period && <span className="text-sm text-zinc-500 ml-1">{plan.period}</span>}
                     </div>
-                    {plan.price !== "0" && plan.price !== "Custom" && billingAnnual && (
+                    {plan.price !== "0" && plan.price !== "Custom" && billingAnnual && Number.isFinite(Number(plan.price)) && Number.isFinite(Number(plan.annualPrice)) && (
                       <p className="text-[10px] text-emerald-400 mt-1">Économie de {(Number(plan.price) - Number(plan.annualPrice)) * 12}&nbsp;€ par an</p>
                     )}
                   </div>

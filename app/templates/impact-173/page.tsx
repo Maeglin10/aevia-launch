@@ -629,7 +629,7 @@ export default function Impact173Page() {
     { target: 98, suffix: "%", label: "Délais tenus", sub: "contractuellement" },
     { target: 35, suffix: " ans", label: "D'expertise", sub: "fondé en 1989" },
     { target: 2400, suffix: "M€", label: "Volume construit", sub: "cumulé groupe" },
-  ]).length], target: s.value, label: s.label })),
+  ]).length], target: Number(String(s.value ?? "").replace(/[^\d.]/g, "")) || 0, suffix: String(s.value ?? "").replace(/[\d.,\s]/g, "") ? " " + String(s.value ?? "").replace(/[\d.,\s]/g, "") : "", sub: "", label: s.label })),
     [
     { target: 340, suffix: "+", label: "Projets livrés", sub: "depuis 1989" },
     { target: 98, suffix: "%", label: "Délais tenus", sub: "contractuellement" },
