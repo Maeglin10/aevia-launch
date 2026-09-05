@@ -126,6 +126,64 @@ const artisanCommun: TradeLexicon = {
 };
 
 export const TRADE_LEXICON: Record<string, TradeLexicon> = {
+  // ─── Tech & création ─────────────────────────────────────────────────────
+  saas: {
+    prestations: {
+      label: "Vos offres et leurs tarifs",
+      hint: "Vos formules d'abonnement ou licences : nom, prix mensuel, ce qu'elles incluent.",
+      ph: { name: "Formule Pro", price: "29 €/mois", desc: "Ce qu'elle inclut (optionnel)" },
+    },
+    chiffres: {
+      label: "Vos chiffres clés",
+      hint: "Utilisateurs actifs, temps de disponibilité, intégrations — ce qui rassure un acheteur SaaS.",
+      ph: { value: "99,9 %", labelPh: "de disponibilité" },
+    },
+    avis: { label: "Vos avis clients", hint: "Témoignages d'utilisateurs ou d'équipes clientes." },
+    faq: { label: "Questions fréquentes", hint: "Essai gratuit, résiliation, sécurité des données, support." },
+  },
+  agence_web: {
+    prestations: {
+      label: "Vos prestations et leurs tarifs",
+      hint: "Site vitrine, e-commerce, refonte, maintenance — avec un ordre de prix si vous l'affichez.",
+      ph: { name: "Site vitrine", price: "dès 2 500 €", desc: "Ce qui est compris (optionnel)" },
+    },
+    realisations: { label: "Vos réalisations", hint: "Vos sites ou projets livrés : nom du projet, une ligne de contexte." },
+    methode: { label: "Votre méthode", hint: "Cadrage, maquette, développement, mise en ligne — vos étapes réelles." },
+  },
+  studio_design: {
+    prestations: {
+      label: "Vos prestations et leurs tarifs",
+      hint: "Identité visuelle, UI/UX, direction artistique, édition.",
+      ph: { name: "Identité visuelle", price: "sur devis", desc: "Livrables (optionnel)" },
+    },
+    realisations: { label: "Vos projets", hint: "Les projets qui montrent votre patte : client ou secteur, une ligne d'intention." },
+  },
+  conseil_tech: {
+    prestations: {
+      label: "Vos missions types et leurs tarifs",
+      hint: "Audit, cadrage data, mise en place d'outils, accompagnement — au forfait ou au jour.",
+      ph: { name: "Audit data", price: "TJM 900 €", desc: "Périmètre (optionnel)" },
+    },
+    chiffres: { label: "Vos chiffres clés", hint: "Missions menées, années d'expérience, secteurs couverts." },
+  },
+  startup: {
+    prestations: {
+      label: "Votre offre et ses tarifs",
+      hint: "Votre produit ou service principal, avec les formules si vous en avez.",
+      ph: { name: "Offre découverte", price: "0 €", desc: "Ce qu'elle inclut (optionnel)" },
+    },
+    chiffres: { label: "Vos chiffres de traction", hint: "Utilisateurs, clients, croissance — ce que vous pouvez montrer." },
+  },
+  decorateur_interieur: {
+    prestations: {
+      label: "Vos prestations et leurs tarifs",
+      hint: "Visite conseil, projet complet, shopping-list, suivi de chantier déco.",
+      ph: { name: "Visite conseil 2 h", price: "240 €", desc: "Ce qui est remis (optionnel)" },
+    },
+    realisations: { label: "Vos projets décorés", hint: "Un intérieur livré : pièce ou appartement, une ligne d'ambiance." },
+    methode: { label: "Votre méthode", hint: "Découverte, planche d'ambiance, sélection, mise en place." },
+  },
+
   // ─── Santé ────────────────────────────────────────────────────────────────
   medecin: santeCommun,
   dentiste: {
