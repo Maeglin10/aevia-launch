@@ -10,15 +10,27 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "fineline": "Ligne fine",
+    "vegan": "Végane",
+    "upcycling": "Surcyclage",
     "foire aux questions": "Questions fréquentes",
   },
   es: {
+    "fineline": "Línea fina",
+    "vegan": "Vegano",
+    "upcycling": "Suprarreciclaje",
     "foire aux questions": "Preguntas frecuentes",
   },
   de: {
+    "fineline": "Fineline",
+    "vegan": "Vegan",
+    "upcycling": "Upcycling",
     "foire aux questions": "Häufig gestellte Fragen",
   },
   pt: {
+    "fineline": "Linha fina",
+    "vegan": "Vegano",
+    "upcycling": "Upcycling",
     "foire aux questions": "Perguntas frequentes",
   },
 };

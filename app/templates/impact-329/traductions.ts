@@ -10,15 +10,27 @@
 */
 export const TRADUCTIONS: Record<string, Record<string, string>> = {
   fr: {
+    "live tickets": "Billets en direct",
+    "dates": "Dates",
+    "standard": "Standard",
     "on chiffre votre volume": "Nous chiffrons votre volume",
   },
   es: {
+    "live tickets": "Entradas en directo",
+    "dates": "Fechas",
+    "standard": "Estándar",
     "on chiffre votre volume": "Calculamos su volumen",
   },
   de: {
+    "live tickets": "Live-Tickets",
+    "dates": "Termine",
+    "standard": "Standard",
     "on chiffre votre volume": "Wir berechnen Ihr Volumen",
   },
   pt: {
+    "live tickets": "Bilhetes ao vivo",
+    "dates": "Datas",
+    "standard": "Standard",
     "on chiffre votre volume": "Nós calculamos o seu volume",
   },
 };
