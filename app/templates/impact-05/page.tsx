@@ -893,8 +893,11 @@ return (
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <span className="text-xs text-zinc-600">&copy; 2026 NovaPlatform, Inc. Tous droits réservés.</span>
           <div className="flex gap-6">
-            {["Confidentialité", "Conditions", "Sécurité", "RGPD"].map(s => {
-              const href = `/templates/impact-05/${s.toLowerCase()}`;
+            {/* Le libellé ne peut pas fabriquer la route : « Confidentialité »
+                en minuscules donne « /confidentialité » avec accent — 404.
+                Libellé et route sont nommés séparément. */}
+            {[["Confidentialité", "privacy"], ["Conditions", "terms"], ["Sécurité", "security"], ["RGPD", "gdpr"]].map(([s, slug]) => {
+              const href = `/templates/impact-05/${slug}`;
               return (
                 <Link key={s} href={href} className="text-xs text-zinc-600 hover:text-white transition-all duration-200 cursor-pointer">{s}</Link>
               );

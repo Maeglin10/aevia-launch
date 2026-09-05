@@ -7,7 +7,7 @@
 import { chromium } from "playwright";
 const BASE = process.env.BASE_URL || "http://localhost:3000";
 const nav = await chromium.launch();
-const ctx = await nav.newContext({ locale: "fr-FR", viewport: { width: 1280, height: 900 } });
+const ctx = await nav.newContext({ locale: process.env.LOCALE || "fr-FR", viewport: { width: 1280, height: 900 } });
 await ctx.addInitScript(() => { try {
   localStorage.setItem("aevia-cookie-consent", JSON.stringify({ essential: true, analytics: false, ts: 1 }));
   localStorage.setItem("site-analytics-consent", "refused"); } catch {} });

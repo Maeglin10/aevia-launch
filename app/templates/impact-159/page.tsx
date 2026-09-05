@@ -900,7 +900,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
           color: "rgba(240,238,255,0.35)",
         }}
       >
-        {["Materials","Specs","Applications","Research","Contact"].map(l => (
+        {["Materials","Specs","Applications","Contact"].map(l => (
           <motion.a
             key={l}
             href={`#${l.toLowerCase()}`}
@@ -947,7 +947,7 @@ function Nav({ scrolled }: { scrolled: boolean }) {
 
     {menuOpen && (
       <div style={{ position: "fixed", top: 72, left: 0, right: 0, zIndex: 199, background: "rgba(3,3,7,0.97)", borderBottom: "1px solid rgba(240,238,255,0.06)", padding: "24px 48px", display: "flex", flexDirection: "column", gap: 20, backdropFilter: "blur(20px)" }}>
-        {["Materials","Specs","Applications","Research","Contact"].map(l => (
+        {["Materials","Specs","Applications","Contact"].map(l => (
           <a key={l} href={`#${l.toLowerCase()}`} onClick={() => setMenuOpen(false)} className="inter-semi" style={{ fontSize: 13, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(240,238,255,0.6)", textDecoration: "none" }}>
             {l}
           </a>

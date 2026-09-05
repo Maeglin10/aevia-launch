@@ -807,7 +807,10 @@ export default function LedgerPage() {
             Rencontrons-nous pour analyser votre situation et définir ensemble vos axes d&apos;optimisation.
           </>}</p>
           <a
-            href={clientBookingUrl(sessionData) ?? `${BASE} {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})}/contact`}
+            /* Un attribut JSX entier s'était retrouvé DANS le gabarit de chaîne :
+               le lien devenait « /templates/impact-108 {...} /contact » — 404. */
+            href={clientBookingUrl(sessionData) ?? `${BASE}/contact`}
+            {...(clientBookingUrl(sessionData) ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             style={{
               fontFamily: FONT,
               fontWeight: 700,

@@ -1546,7 +1546,7 @@ function TestimonialsSection() {
     margin: '0 auto',
   };
   return (
-    <section style={sec}>
+    <section id="avis" style={sec}>
       <div style={{ maxWidth: 1240, margin: '0 auto 60px', textAlign: 'center' }}>
         <Reveal>
           <Eyebrow color={C.brick} align="center">

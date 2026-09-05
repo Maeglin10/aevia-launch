@@ -2174,7 +2174,7 @@ function PartnersSection() {
   };
 
   return (
-    <section style={sec}>
+    <section id="partners" style={sec}>
       <div style={{ maxWidth: 1280, margin: '0 auto 60px' }}>
         <Reveal>
           <Eyebrow color={C.red}>Réseau de confiance</Eyebrow>
