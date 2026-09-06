@@ -94,12 +94,18 @@ export function ArchetypeStep({
   const champs = ([...config.catalogueFields, ...config.coreFields] as string[]).filter(garde);
 
   // Une liste d'objets : on ajoute, on retire, on saisit.
+  // `poser` transforme la liste en patch quand elle ne vit pas à la racine du
+  // profil (les avis vivent dans reputation.featuredReviews : écrire le
+  // tableau dans `reputation` même donnait une donnée qu'aucun thème ne lit).
   function listeObjets<T extends Record<string, any>>(
     cle: string,
     rows: T[],
     vide: T,
     colonnes: { champ: keyof T; placeholder: string; largeur?: string }[],
+    poser?: (rows: T[]) => Partial<BusinessProfile>,
   ) {
+    const patchDe = (suivant: T[]) =>
+      poser ? poser(suivant) : ({ [cle]: suivant } as Partial<BusinessProfile>);
     return (
       <div className="space-y-2">
         {rows.map((row, i) => (
@@ -114,7 +120,7 @@ export function ArchetypeStep({
                   const suivant = rows.map((r, k) =>
                     k === i ? { ...r, [col.champ]: e.target.value } : r,
                   );
-                  maj({ [cle]: suivant } as Partial<BusinessProfile>);
+                  maj(patchDe(suivant));
                 }}
               />
             ))}
@@ -122,7 +128,7 @@ export function ArchetypeStep({
               type="button"
               aria-label="Retirer"
               className="p-2 text-zinc-500 hover:text-red-400 transition-colors"
-              onClick={() => maj({ [cle]: rows.filter((_, k) => k !== i) } as Partial<BusinessProfile>)}
+              onClick={() => maj(patchDe(rows.filter((_, k) => k !== i)))}
             >
               <X size={16} />
             </button>
@@ -131,7 +137,7 @@ export function ArchetypeStep({
         <button
           type="button"
           className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-colors"
-          onClick={() => maj({ [cle]: [...rows, vide] } as Partial<BusinessProfile>)}
+          onClick={() => maj(patchDe([...rows, vide]))}
         >
           <Plus size={14} /> Ajouter
         </button>
@@ -216,6 +222,12 @@ export function ArchetypeStep({
             { champ: "author" as any, placeholder: "Prénom", largeur: "w-32" },
             { champ: "text" as any, placeholder: "Ce qu'il ou elle a écrit" },
           ],
+          (rows) => {
+            /* Un profil passé par l'ancien bug peut porter un tableau brut :
+               on repart d'un objet sain plutôt que d'étaler ses indices. */
+            const rep = bp.reputation && !Array.isArray(bp.reputation) ? bp.reputation : {};
+            return { reputation: { ...rep, featuredReviews: rows } };
+          },
         );
       case "openingHours": {
         type Heure = NonNullable<BusinessProfile["openingHours"]>[number];

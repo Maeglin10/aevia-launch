@@ -18,7 +18,7 @@ import {
   Archive, Hash, BarChart3, Fingerprint, Scan, 
   Briefcase, Wind, Timer, Lightbulb, Command, Grid, 
   Radar, Orbit, Atom, Search, Cpu, Wrench, Hammer, 
-  Cog, Hand, Accessibilité, Bot, Sparkles, Infinity , 
+  Cog, Hand, Accessibility, Bot, Sparkles, Infinity , 
   Code2, Cloud, HardDrive, Key, MousePointer2, 
   Globe, Layout, Smartphone, PenTool, Camera, 
   Music, Film, Palette, MessageSquare, Send,

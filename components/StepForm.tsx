@@ -1019,7 +1019,10 @@ export function StepForm() {
                 sector={form.sector}
                 profile={form.businessProfile}
                 onChange={(bp) => set("businessProfile", bp)}
-                sauf={["prestations", "tarifs", "equipe", "horaires", "avis"]}
+                /* pas « avis » : l'étape rendez-vous ne saisit que les LIENS
+                   d'avis (Planity, Google) — le texte des avis mis en avant
+                   vient du bloc commun, sinon le client garde les avis démo */
+                sauf={["prestations", "tarifs", "equipe", "horaires"]}
               />
             </>
           ) : step === 4 && NICHE_ARCHETYPE[form.sector] === "food" ? (
