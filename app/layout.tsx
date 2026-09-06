@@ -43,6 +43,21 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://launch.aevia.services"),
+  /*
+    Validation Bing Webmaster Tools.
+  
+    Bing traite chaque sous-domaine comme un site distinct — contrairement à
+    la propriété de domaine de Google, qui couvre les quatre d'un coup. La
+    balise doit donc être servie par chacun d'eux.
+  
+    À NE PAS RETIRER après validation : Bing la revérifie périodiquement et
+    dévalide le site si elle disparaît.
+  
+    Pourquoi Bing compte : son index alimente DuckDuckGo, Ecosia, Copilot et
+    la recherche de ChatGPT — le chemin le plus court pour qu'un modèle de
+    langue puisse lire et citer le site.
+  */
+  verification: { other: { "msvalidate.01": "681E06988B2667E24A211FA04F62AE24" } },
   title: {
     // 51 chars
     default: "Aevia Launch — Votre site web pro en 2 heures",
