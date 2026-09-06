@@ -297,7 +297,12 @@ async function testerTheme(browser, theme) {
   const res = { theme, secteur, blocs, ok: false, retrouves: [], manquants: [], erreur: null };
   if (!spec) { res.erreur = `secteur ${secteur} sans libellé wizard`; return res; }
 
-  const ctx = await browser.newContext({ locale: "fr-FR", viewport: { width: 1280, height: 900 } });
+  const mobile = process.env.VIEWPORT === "mobile";
+  const ctx = await browser.newContext({
+    locale: "fr-FR",
+    viewport: mobile ? { width: 390, height: 844 } : { width: 1280, height: 900 },
+    ...(mobile ? { userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1", hasTouch: true, isMobile: true } : {}),
+  });
   const page = await ctx.newPage();
   res.erreursPage = [];
   try {
@@ -340,8 +345,25 @@ async function testerTheme(browser, theme) {
     await page.screenshot({ path: `${SORTIE}/${theme}-etape4.jpg`, fullPage: true, type: "jpeg", quality: 55 }).catch(() => {});
     await clic(page, "Continuer", false);
 
+    /* Photos (PHOTOS=1) : téléverser l'image test sur chaque champ fichier
+       visible — le site du client doit ensuite la préférer aux images démo. */
+    if (process.env.PHOTOS === "1") {
+      const fichiers = await page.locator('input[type="file"]').all();
+      for (const f of fichiers.slice(0, 3)) {
+        await f.setInputFiles("photo-test-barral.png").catch(() => {});
+        await page.waitForTimeout(1200);
+      }
+    }
     // 5. Design — rien d'obligatoire
     await page.waitForTimeout(300);
+    if (process.env.PHOTOS === "1") {
+      const fichiers = await page.locator('input[type="file"]').all();
+      for (const f of fichiers.slice(0, 4)) {
+        await f.setInputFiles("photo-test-barral.png").catch(() => {});
+        await page.waitForTimeout(1200);
+      }
+      await page.waitForTimeout(1500);
+    }
     await clic(page, "Continuer", false);
 
     // 6. Contact — email requis, téléphone en bonus
@@ -451,7 +473,14 @@ async function testerTheme(browser, theme) {
       }, theme);
       for (const lien of liens) {
         await apercu.goto(`${BASE}${lien}?session=${sessionId}`, { waitUntil: "domcontentloaded" }).catch(() => {});
-        await apercu.waitForTimeout(3500);
+        /* attendre la personnalisation de la sous-page — un instantané pris
+           avant le chargement de session capte la démo et fausse le
+           détecteur de fuite */
+        for (let t = 0; t < 10; t++) {
+          await apercu.waitForTimeout(700);
+          const tx = await apercu.evaluate(() => document.body.innerText.toLowerCase()).catch(() => "");
+          if (tx.includes(D.nom.toLowerCase())) break;
+        }
         await derouler(apercu);
         texte += "\n" + (await apercu.evaluate(() => document.body.innerText).catch(() => ""));
         html += "\n" + (await apercu.evaluate(() => document.body.innerHTML).catch(() => ""));
@@ -473,7 +502,11 @@ async function testerTheme(browser, theme) {
             .filter((el) => (el.textContent ?? "").trim().length > 1 && (el.textContent ?? "").trim().length < 30);
           items[idx]?.click();
         }, i).catch(() => {});
-        await apercu.waitForTimeout(1800);
+        for (let t = 0; t < 8; t++) {
+          await apercu.waitForTimeout(700);
+          const tx = await apercu.evaluate(() => document.body.innerText.toLowerCase()).catch(() => "");
+          if (tx.includes(D.nom.toLowerCase())) break;
+        }
         if (!apercu.url().startsWith(`${BASE}/templates/${theme}`)) {
           await apercu.goto(urlAvant, { waitUntil: "domcontentloaded" }).catch(() => {});
           await apercu.waitForTimeout(2000);
@@ -502,6 +535,16 @@ async function testerTheme(browser, theme) {
       } else res.manquants.push(g.join(" | "));
     }
     if (!texteMin.includes(D.ville.toLowerCase()) && !htmlMin.includes(D.ville.toLowerCase())) res.avertissements.push("ville absente");
+    if (mobile) {
+      const deborde = await apercu.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+      if (deborde > 12) res.avertissements.push(`débordement horizontal: ${deborde}px`);
+    }
+    if (process.env.PHOTOS === "1") {
+      /* Une photo téléversée doit se voir : au moins une image du site rendu
+         doit venir du stockage d'upload (blob), pas des banques démo. */
+      const aPhotoClient = /blob\.vercel-storage\.com/.test(html);
+      if (!aPhotoClient) res.avertissements.push("photo téléversée invisible");
+    }
     /* Fuite : un numéro de téléphone AFFICHÉ qui n'est pas celui saisi — la
        démo reste à l'écran à côté (ou à la place) des coordonnées du client. */
     const telsAffiches = [...new Set((texte.match(/(?:\+33 ?[1-9]|0[1-9])(?:[ .]\d{2}){4}/g) ?? []))]
