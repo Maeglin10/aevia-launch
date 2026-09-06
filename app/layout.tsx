@@ -1,3 +1,4 @@
+import { LienEvitement } from "@/components/LienEvitement";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter, Space_Grotesk } from "next/font/google";
 import { LangProvider } from "@/lib/LangContext";
@@ -258,12 +259,7 @@ export default function RootLayout({
           remise à zéro des soixante thèmes. Posé en style en ligne, l'espacement
           s'appliquait aussi au repos et gonflait la boîte du lien masqué.
         */}
-        <a
-          href="#main-content"
-          className="lien-evitement sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-red-600 focus:text-white focus:rounded-lg focus:font-semibold"
-        >
-          Aller au contenu principal
-        </a>
+        <LienEvitement />
         <LangProvider>
           <ConsentAwareAnalytics />
           {children}

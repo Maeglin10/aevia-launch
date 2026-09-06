@@ -80,6 +80,8 @@ const IDP_URL =
     : "";
 
 function AeviaAccountButton() {
+  const { locale } = useLang();
+  const loginLabel = (HEADER_T[locale as keyof typeof HEADER_T] ?? HEADER_T.fr).login;
   const [user, setUser] = useState<{ email?: string } | null | "loading">("loading");
 
   useEffect(() => {
@@ -106,10 +108,10 @@ function AeviaAccountButton() {
       <button
         onClick={handleLogin}
         className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm text-zinc-400 hover:text-white hover:bg-zinc-800/60 transition-colors"
-        aria-label="Se connecter"
+        aria-label={loginLabel}
       >
         <User size={14} />
-        <span className="hidden md:inline">Connexion</span>
+        <span className="hidden md:inline">{loginLabel}</span>
       </button>
     );
   }
@@ -139,11 +141,11 @@ const allProducts = [
 ] as const;
 
 const HEADER_T = {
-  fr: { templates: "Templates",    pricing: "Tarifs", products: "Produits", cta: "Démarrer un projet", current: "Actuel", descSecurity: "Audit sécurité & performance en 60s", descLaunch: "Sites web en 2 heures · IA", descInbox: "CRM multi-canal · WhatsApp & IA" },
-  en: { templates: "Templates",    pricing: "Pricing", products: "Products", cta: "Start a project",    current: "Current", descSecurity: "Security & performance audit in 60s",    descLaunch: "Websites in 2 hours · AI",         descInbox: "Multi-channel CRM · WhatsApp & AI" },
-  es: { templates: "Templates",    pricing: "Precios", products: "Productos", cta: "Iniciar un proyecto", current: "Actual", descSecurity: "Auditoría de seguridad en 60s",            descLaunch: "Sitios web en 2 horas · IA",       descInbox: "CRM multicanal · WhatsApp e IA" },
-  de: { templates: "Templates",    pricing: "Preise",  products: "Produkte",  cta: "Projekt starten",    current: "Aktuell", descSecurity: "Sicherheits-Audit in 60s",                  descLaunch: "Websites in 2 Stunden · KI",       descInbox: "Multichannel-CRM · WhatsApp & KI" },
-  pt: { templates: "Templates",    pricing: "Preços",  products: "Produtos",  cta: "Iniciar um projeto", current: "Atual",   descSecurity: "Auditoria de segurança em 60s",              descLaunch: "Sites em 2 horas · IA",            descInbox: "CRM multicanal · WhatsApp e IA" },
+  fr: { templates: "Templates",    pricing: "Tarifs", products: "Produits", cta: "Démarrer un projet", current: "Actuel", login: "Connexion", descSecurity: "Audit sécurité & performance en 60s", descLaunch: "Sites web en 2 heures · IA", descInbox: "CRM multi-canal · WhatsApp & IA" },
+  en: { templates: "Templates",    pricing: "Pricing", products: "Products", cta: "Start a project",    current: "Current", login: "Sign in", descSecurity: "Security & performance audit in 60s",    descLaunch: "Websites in 2 hours · AI",         descInbox: "Multi-channel CRM · WhatsApp & AI" },
+  es: { templates: "Templates",    pricing: "Precios", products: "Productos", cta: "Iniciar un proyecto", current: "Actual", login: "Iniciar sesión", descSecurity: "Auditoría de seguridad en 60s",            descLaunch: "Sitios web en 2 horas · IA",       descInbox: "CRM multicanal · WhatsApp e IA" },
+  de: { templates: "Templates",    pricing: "Preise",  products: "Produkte",  cta: "Projekt starten",    current: "Aktuell", login: "Anmelden", descSecurity: "Sicherheits-Audit in 60s",                  descLaunch: "Websites in 2 Stunden · KI",       descInbox: "Multichannel-CRM · WhatsApp & KI" },
+  pt: { templates: "Templates",    pricing: "Preços",  products: "Produtos",  cta: "Iniciar um projeto", current: "Atual",   login: "Entrar",   descSecurity: "Auditoria de segurança em 60s",              descLaunch: "Sites em 2 horas · IA",            descInbox: "CRM multicanal · WhatsApp e IA" },
 };
 
 // ── Header ────────────────────────────────────────────────────────────────────
