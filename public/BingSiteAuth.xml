@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+  Vérification Bing par fichier, en complément de la balise <meta>.
+
+  Pourquoi les deux : Bing va chercher la racine du site, et sur le Hub comme
+  sur l'Inbox la racine répond 307 vers /fr. La balise n'est visible qu'après
+  avoir suivi la redirection. Ce fichier, lui, est servi tel quel depuis
+  public/ — aucune redirection à suivre, aucune supposition sur le
+  comportement du robot.
+
+  Ne pas supprimer après validation : Bing revérifie périodiquement et
+  dévalide le site si la preuve disparaît.
+-->
+<users>
+  <user>681E06988B2667E24A211FA04F62AE24</user>
+</users>
