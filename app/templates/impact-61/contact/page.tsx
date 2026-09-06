@@ -3,6 +3,7 @@ import {
   clientCity,
   clientEmail,
   memoriserSession,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
@@ -176,7 +177,7 @@ export default function ContactPage() {
             <p style={{ fontSize: "0.9rem", color: C.textMuted, lineHeight: 1.6 }}>
               42 Rue du Faubourg Saint-Antoine<br />
               75012 {clientCity(sessionData) ?? "Paris"}, France<br />
-              +33 1 45 78 92 10
+              {clientPhone(sessionData) ?? "+33 1 45 78 92 10"}
             </p>
           </div>
           <div>

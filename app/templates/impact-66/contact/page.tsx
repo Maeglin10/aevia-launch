@@ -3,6 +3,7 @@ import {
   clientCity,
   clientEmail,
   memoriserSession,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 import { useEffect, useState } from "react";
 
@@ -123,7 +124,7 @@ export default function ContactPage() {
                 <div>
                   <h4 className="text-xs font-black uppercase tracking-widest text-[#1a1814]/40 mb-2">Phone</h4>
                   <p className="text-lg font-light text-[#1a1814]">
-                    +33 1 44 62 87 00
+                    {clientPhone(sessionData) ?? "+33 1 44 62 87 00"}
                   </p>
                 </div>
               </div>

@@ -3,6 +3,7 @@ import {
   clientCity,
   clientEmail,
   memoriserSession,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
@@ -115,7 +116,7 @@ export default function ContactPage() {
                   <MapPin className="w-4 h-4 text-[#b8860b]" /> SATORI {clientCity(sessionData) ?? "PARIS"}
                 </h4>
                 <p>18 Rue Troyon, 75017 {clientCity(sessionData) ?? "Paris"}, France</p>
-                <p>{clientEmail(sessionData) ?? fd?.email ?? "paris@satori-gastronomy.com"} · +33 1 42 68 90 20</p>
+                <p>{clientEmail(sessionData) ?? fd?.email ?? "paris@satori-gastronomy.com"} · {clientPhone(sessionData) ?? "+33 1 42 68 90 20"}</p>
               </div>
 
               <div className="border-l-2 border-[#b8860b]/30 pl-6 space-y-2">

@@ -2,6 +2,7 @@
 import {
   clientEmail,
   memoriserSession,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 
 import React, { useEffect, useState } from "react";
@@ -275,7 +276,7 @@ export default function ReservationPage() {
                     color: "#c4a882",
                   }}
                 >
-                  <Phone size={16} color={C.gold} /> +33 1 42 60 80 20
+                  <Phone size={16} color={C.gold} /> {clientPhone(sessionData) ?? "+33 1 42 60 80 20"}
                 </div>
                 <div
                   style={{

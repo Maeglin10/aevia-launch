@@ -2,6 +2,7 @@
 import {
   clientEmail,
   memoriserSession,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 import { EditeurDuSite } from "@/app/templates/EditeurDuSite";
 
@@ -100,7 +101,7 @@ export default function ContactPage() {
               <div>
                 <h4 className="font-bold text-[#1E1B4B] mb-1">Téléphone</h4>
                 <p className="text-sm text-[#6B7280] font-medium mb-1">
-                  +33 4 74 12 34 56
+                  {clientPhone(sessionData) ?? "+33 4 74 12 34 56"}
                 </p>
                 <p className="text-xs text-[#9CA3AF]">
                   Du lundi au vendredi de 9h à 18h

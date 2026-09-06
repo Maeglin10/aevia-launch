@@ -3,6 +3,7 @@ import {
   clientCity,
   clientEmail,
   memoriserSession,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 
 import { useEffect, useState } from "react";
@@ -152,7 +153,7 @@ export default function ContactPage() {
                   We invite engineering teams to tour our carbon composite research facilities. Technical evaluations can be scheduled via request.
                 </p>
                 <div className="text-white text-sm font-bold tracking-widest uppercase italic">
-                  +33 1 44 62 87 00
+                  {clientPhone(sessionData) ?? "+33 1 44 62 87 00"}
                 </div>
               </div>
 

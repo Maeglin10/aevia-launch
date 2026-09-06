@@ -7,6 +7,7 @@ import {
   clientEmail,
   clientHours,
   memoriserSession,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link"
@@ -25,7 +26,7 @@ function offices_LIVE() {
     city: (clientCity(sessionData) ?? "Paris"),
     label: "Main Atelier",
     address: "14 Rue de la Roquette, 75011 " + (clientCity(sessionData) ?? "Paris"),
-    phone: "+33 1 42 78 91 00",
+    phone: clientPhone(sessionData) ?? "+33 1 42 78 91 00",
     email: (clientEmail(sessionData) ?? fd?.email ?? "paris@brutco-architecture.com"),
     hours: "Mon – Fri, 09:00 – 18:30",
     img: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800&h=500&fit=crop&crop=center",
@@ -215,7 +216,7 @@ export default function ContactPage() {
             { icon: Clock, label: "Response time", val: "48 hours" },
             { icon: MapPin, label: "Offices", val: (clientCity(sessionData) ?? "Paris") + " · Lyon · Marseille" },
             { icon: Mail, label: "General enquiries", val: (clientEmail(sessionData) ?? fd?.email ?? "contact@brutco-architecture.com") },
-            { icon: Phone, label: "Phone (" + (clientCity(sessionData) ?? "Paris") + ")", val: "+33 1 42 78 91 00" },
+            { icon: Phone, label: "Phone (" + (clientCity(sessionData) ?? "Paris") + ")", val: clientPhone(sessionData) ?? "+33 1 42 78 91 00" },
           ].map(({ icon: Icon, label, val }) => (
             <div key={label} className="py-6 px-6 first:pl-0 last:pr-0">
               <div className="flex items-center gap-2 text-gray-400 mb-1">
