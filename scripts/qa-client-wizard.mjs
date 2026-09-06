@@ -440,7 +440,7 @@ async function testerTheme(browser, theme) {
       const tMin = t.toLowerCase(), hMin = h.toLowerCase();
       return groupes.filter((g) => !g.some((v) => tMin.includes(v.toLowerCase()) || hMin.includes(v.toLowerCase())));
     };
-    if (resteApres(texte, html).length) {
+    {
       const liens = await apercu.evaluate((th) => {
         const vus = new Set();
         for (const a of document.querySelectorAll(`a[href^="/templates/${th}/"]`)) {
@@ -455,7 +455,6 @@ async function testerTheme(browser, theme) {
         await derouler(apercu);
         texte += "\n" + (await apercu.evaluate(() => document.body.innerText).catch(() => ""));
         html += "\n" + (await apercu.evaluate(() => document.body.innerHTML).catch(() => ""));
-        if (!resteApres(texte, html).length) break;
       }
     }
     /* Certains thèmes naviguent par état React (onglets), sans URL : on clique
@@ -503,6 +502,11 @@ async function testerTheme(browser, theme) {
       } else res.manquants.push(g.join(" | "));
     }
     if (!texteMin.includes(D.ville.toLowerCase()) && !htmlMin.includes(D.ville.toLowerCase())) res.avertissements.push("ville absente");
+    /* Fuite : un numéro de téléphone AFFICHÉ qui n'est pas celui saisi — la
+       démo reste à l'écran à côté (ou à la place) des coordonnées du client. */
+    const telsAffiches = [...new Set((texte.match(/(?:\+33 ?[1-9]|0[1-9])(?:[ .]\d{2}){4}/g) ?? []))]
+      .filter((t) => t.replace(/\D/g, "").slice(-9) !== D.tel.replace(/\D/g, "").slice(-9));
+    for (const t of telsAffiches.slice(0, 3)) res.avertissements.push(`tel étranger affiché: ${t}`);
     await apercu.screenshot({ path: `${SORTIE}/${theme}-apercu.jpg`, fullPage: true, type: "jpeg", quality: 55 }).catch(() => {});
     res.ok = res.manquants.length === 0;
     await apercu.close();

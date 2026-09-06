@@ -437,7 +437,7 @@ export default function WorkPage() {
         {/* ── Header ─────────────────────────────────────────────────── */}
         <Reveal className="mb-12">
           <Label>Portfolio</Label>
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">Our Work</h1>
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">Nos réalisations</h1>
           <p className="text-white/50 text-lg max-w-2xl leading-relaxed">
             Eight years of spatial computing. From product configurators to medical AR — every project ships at 60 FPS.
           </p>

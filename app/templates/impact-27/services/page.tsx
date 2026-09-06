@@ -87,7 +87,7 @@ export default function ServicesPage() {
       {/* Header */}
       <Reveal className="mb-16">
         <p className="text-[#9B5CF6] text-xs tracking-widest uppercase mb-4" style={{ fontFamily: "'Space Mono', monospace" }}>Expertise</p>
-        <h1 className="text-5xl md:text-7xl font-bold mb-6">Our Services</h1>
+        <h1 className="text-5xl md:text-7xl font-bold mb-6">Nos prestations</h1>
         <p className="text-white/50 text-lg max-w-2xl leading-relaxed">
           High-performance 3D components engineered for the modern web. We blend creative artistry with rigorous GPU-level optimization.
         </p>

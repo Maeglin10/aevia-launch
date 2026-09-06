@@ -354,7 +354,7 @@ export default function StudioPage() {
         {/* ── Header ─────────────────────────────────────────────────── */}
         <Reveal className="mb-16">
           <Label>Studio</Label>
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">About Us</h1>
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">À propos</h1>
           <p className="text-white/50 text-lg max-w-2xl leading-relaxed">
             We are a team of creative engineers, artists, and researchers crafting premium spatial interactions for the open web — no plugins, no apps, no friction.
           </p>

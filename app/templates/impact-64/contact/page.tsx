@@ -3,6 +3,7 @@ import {
   clientCity,
   clientEmail,
   memoriserSession,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 
 import { useEffect, useState } from "react";
@@ -84,7 +85,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <h4 style={{ fontFamily: mono, fontSize: "0.9rem", fontWeight: 700, color: C.text, marginBottom: "0.25rem" }}>ASTREINTE D'URGENCE 24/7</h4>
-                <p style={{ fontFamily: mono, fontSize: "1.1rem", color: C.green, fontWeight: 700 }}>+33 1 44 62 87 00</p>
+                <p style={{ fontFamily: mono, fontSize: "1.1rem", color: C.green, fontWeight: 700 }}>{clientPhone(sessionData) ?? "+33 1 44 62 87 00"}</p>
                 <p style={{ fontFamily: sans, fontSize: "0.8rem", color: C.textMuted, marginTop: "0.25rem" }}>Réservé aux clients Guardian et Fortress sous contrat SOC.</p>
               </div>
             </div>

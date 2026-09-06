@@ -3,6 +3,7 @@ import {
   clientCity,
   clientEmail,
   clientName,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 
 import { motion, AnimatePresence } from "framer-motion";
@@ -91,7 +92,7 @@ export default function ContactPage() {
               </div>
               <div className="flex items-center gap-3 text-sm text-[#1A1510]/70">
                 <Phone className="w-4 h-4 text-[#C46A3E] shrink-0" />
-                <span>+33 1 42 00 00 00</span>
+                <span>{clientPhone(sessionData) ?? "+33 1 42 00 00 00"}</span>
               </div>
             </div>
             <div className="border-t border-[#1A1510]/10 pt-4">

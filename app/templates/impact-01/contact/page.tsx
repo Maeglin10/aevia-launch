@@ -4,6 +4,7 @@ import {
   clientEmail,
   clientTagline,
   clientText,
+  clientPhone,
 } from "@/lib/templates/clientContent";
 import { EnteteAnnexe } from "@/lib/templates/EnteteAnnexe";
 import { useEffect, useState } from "react";
@@ -117,7 +118,7 @@ export default function ContactPage() {
                     <Mail size={20} />
                   </div>
                   <div>
-                    <div style={{ fontSize: "0.875rem", marginBottom: 4 }}>Email Us</div>
+                    <div style={{ fontSize: "0.875rem", marginBottom: 4 }}>Écrivez-nous</div>
                     <div style={{ color: T.text, fontWeight: 500 }}>{clientEmail(sessionData) ?? fd?.email ?? "hello@impact-agency.com"}</div>
                   </div>
                 </div>
@@ -126,8 +127,8 @@ export default function ContactPage() {
                     <Phone size={20} />
                   </div>
                   <div>
-                    <div style={{ fontSize: "0.875rem", marginBottom: 4 }}>Call Us</div>
-                    <div style={{ color: T.text, fontWeight: 500 }}>+33 1 23 45 67 89</div>
+                    <div style={{ fontSize: "0.875rem", marginBottom: 4 }}>Appelez-nous</div>
+                    <div style={{ color: T.text, fontWeight: 500 }}>{clientPhone(sessionData) ?? "+33 1 23 45 67 89"}</div>
                   </div>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 16, color: T.muted }}>
@@ -135,7 +136,7 @@ export default function ContactPage() {
                     <MapPin size={20} />
                   </div>
                   <div>
-                    <div style={{ fontSize: "0.875rem", marginBottom: 4 }}>Visit Us</div>
+                    <div style={{ fontSize: "0.875rem", marginBottom: 4 }}>Venez nous voir</div>
                     <div style={{ color: T.text, fontWeight: 500 }}>123 Creative Ave, {clientCity(sessionData) ?? "Paris"}, France</div>
                   </div>
                 </div>
