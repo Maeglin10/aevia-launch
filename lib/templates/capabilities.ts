@@ -98,7 +98,8 @@ export const THEME_BLOCKS: Record<string, ContentBlock[]> = {
   "impact-15": ["avis", "chiffres", "prestations", "tarifs"],
   "impact-16": ["prestations", "realisations", "tarifs"],
   "impact-17": ["chiffres", "equipe", "horaires", "methode", "prestations", "realisations"],
-  "impact-18": ["avis", "chiffres", "faq", "prestations", "tarifs"],
+  // pas « avis » : le thème ne rend aucun témoignage (testimonials jamais affiché)
+  "impact-18": ["chiffres", "faq", "prestations", "tarifs"],
   "impact-19": ["chiffres", "equipe", "prestations"],
   "impact-20": ["avis", "prestations", "produits", "realisations", "tarifs"],
   "impact-21": ["chiffres", "engagements", "methode", "prestations", "realisations", "tarifs"],

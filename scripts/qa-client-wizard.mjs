@@ -37,8 +37,8 @@ const INDUSTRIES = [];
   for (const b of blocs) {
     const id = b.slice(0, b.indexOf("'"));
     const label = (b.match(/label: '([^']+)'/) ?? [])[1];
-    const specs = [...b.matchAll(/\{ id: '([a-z_0-9]+)',\s*label: '([^']+)'/g)]
-      .map((m) => ({ id: m[1], label: m[2] }));
+    const specs = [...b.matchAll(/\{ id: '([a-z_0-9]+)',\s*label: (?:'([^']+)'|"([^"]+)")/g)]
+      .map((m) => ({ id: m[1], label: m[2] ?? m[3] }));
     if (label) INDUSTRIES.push({ id, label, specs });
   }
 }
@@ -140,6 +140,8 @@ async function remplirUnChamp(page, D) {
       "Questions fréquentes": [D.faq.q, D.faq.a],
       "Vos chiffres": [D.chiffre.valeur, D.chiffre.libelle],
       "Vos avis clients": [D.avis.auteur, D.avis.texte],
+      "Labels et certifications": [D.engagement],
+      "Questions fréquentes des patients": [D.faq.q, D.faq.a],
     },
     tableRegex: [
       ["catégorie", "Plats"],
@@ -265,6 +267,7 @@ async function testerTheme(browser, theme) {
 
   const ctx = await browser.newContext({ locale: "fr-FR", viewport: { width: 1280, height: 900 } });
   const page = await ctx.newPage();
+  res.erreursPage = [];
   try {
     // 1. Domaine + métier
     await page.goto(`${BASE}/configure`, { waitUntil: "domcontentloaded" });
@@ -357,27 +360,96 @@ async function testerTheme(browser, theme) {
       await new Promise((x) => setTimeout(x, 500));
     }
 
-    // 5. Aperçu — chaque valeur saisie doit se lire sur la page.
+    // 5. Aperçu — chaque valeur saisie doit se lire QUELQUE PART sur le site :
+    // la home d'abord, puis les sous-pages si des valeurs manquent encore
+    // (des thèmes servent prestations/équipe/avis sur leurs pages internes).
     const apercu = await ctx.newPage();
+    apercu.on("pageerror", (e) => { if (res.erreursPage.length < 4) res.erreursPage.push(String(e).slice(0, 120)); });
+    /* Scroll PROGRESSIF : les sections en useInView ne montent leur contenu
+       qu'en entrant à l'écran — un saut direct en bas les laisse vides. */
+    const derouler = async (pg) => {
+      await pg.evaluate(async () => {
+        const h = document.body.scrollHeight;
+        for (let y = 0; y <= h; y += Math.max(500, Math.floor(window.innerHeight * 0.8))) {
+          window.scrollTo(0, y);
+          await new Promise((r) => setTimeout(r, 300));
+        }
+      }).catch(() => {});
+      await pg.waitForTimeout(1000);
+    };
     await apercu.goto(`${BASE}/templates/${theme}?session=${sessionId}`, { waitUntil: "domcontentloaded" });
     let texte = "";
     for (let t = 0; t < 25; t++) {
       await apercu.waitForTimeout(1000);
       texte = await apercu.evaluate(() => document.body.innerText);
-      if (texte.includes(D.nom)) break;
+      if (texte.toLowerCase().includes(D.nom.toLowerCase())) break;
     }
-    /* Scroll PROGRESSIF : les sections en useInView ne montent leur contenu
-       qu'en entrant à l'écran — un saut direct en bas les laisse vides. */
-    await apercu.evaluate(async () => {
-      const h = document.body.scrollHeight;
-      for (let y = 0; y <= h; y += Math.max(500, Math.floor(window.innerHeight * 0.8))) {
-        window.scrollTo(0, y);
-        await new Promise((r) => setTimeout(r, 350));
+    /* Premier hit d'un serveur froid : la session peut rater ses 5 tentatives.
+       Un rechargement relance le fetch de zéro. */
+    if (!texte.toLowerCase().includes(D.nom.toLowerCase())) {
+      await apercu.reload({ waitUntil: "domcontentloaded" }).catch(() => {});
+      for (let t = 0; t < 15; t++) {
+        await apercu.waitForTimeout(1000);
+        texte = await apercu.evaluate(() => document.body.innerText);
+        if (texte.toLowerCase().includes(D.nom.toLowerCase())) break;
       }
-    });
-    await apercu.waitForTimeout(1200);
+    }
+    await derouler(apercu);
     texte = await apercu.evaluate(() => document.body.innerText);
-    const html = await apercu.evaluate(() => document.body.innerHTML);
+    let html = await apercu.evaluate(() => document.body.innerHTML);
+
+    const resteApres = (t, h) => {
+      const tMin = t.toLowerCase(), hMin = h.toLowerCase();
+      const cibles = new Set([D.nom]);
+      for (const b of blocs) for (const v of ATTENDU_PAR_BLOC[b] ?? []) cibles.add(v);
+      return [...cibles].filter((v) => !tMin.includes(v.toLowerCase()) && !hMin.includes(v.toLowerCase()));
+    };
+    if (resteApres(texte, html).length) {
+      const liens = await apercu.evaluate((th) => {
+        const vus = new Set();
+        for (const a of document.querySelectorAll(`a[href^="/templates/${th}/"]`)) {
+          const u = (a.getAttribute("href") ?? "").split("?")[0].split("#")[0];
+          if (u && u !== `/templates/${th}` && !/\/legal$/.test(u)) vus.add(u);
+        }
+        return [...vus].slice(0, 6);
+      }, theme);
+      for (const lien of liens) {
+        await apercu.goto(`${BASE}${lien}?session=${sessionId}`, { waitUntil: "domcontentloaded" }).catch(() => {});
+        await apercu.waitForTimeout(3500);
+        await derouler(apercu);
+        texte += "\n" + (await apercu.evaluate(() => document.body.innerText).catch(() => ""));
+        html += "\n" + (await apercu.evaluate(() => document.body.innerHTML).catch(() => ""));
+        if (!resteApres(texte, html).length) break;
+      }
+    }
+    /* Certains thèmes naviguent par état React (onglets), sans URL : on clique
+       les entrées de nav restantes et on agrège ce qu'elles révèlent. */
+    if (resteApres(texte, html).length) {
+      await apercu.goto(`${BASE}/templates/${theme}?session=${sessionId}`, { waitUntil: "domcontentloaded" }).catch(() => {});
+      await apercu.waitForTimeout(3000);
+      const nbNav = await apercu.evaluate(() =>
+        [...document.querySelectorAll("nav a, nav button, header a, header button")]
+          .filter((el) => (el.textContent ?? "").trim().length > 1 && (el.textContent ?? "").trim().length < 30).length,
+      );
+      for (let i = 0; i < Math.min(nbNav, 8); i++) {
+        const urlAvant = apercu.url();
+        await apercu.evaluate((idx) => {
+          const items = [...document.querySelectorAll("nav a, nav button, header a, header button")]
+            .filter((el) => (el.textContent ?? "").trim().length > 1 && (el.textContent ?? "").trim().length < 30);
+          items[idx]?.click();
+        }, i).catch(() => {});
+        await apercu.waitForTimeout(1800);
+        if (!apercu.url().startsWith(`${BASE}/templates/${theme}`)) {
+          await apercu.goto(urlAvant, { waitUntil: "domcontentloaded" }).catch(() => {});
+          await apercu.waitForTimeout(2000);
+          continue;
+        }
+        await derouler(apercu);
+        texte += "\n" + (await apercu.evaluate(() => document.body.innerText).catch(() => ""));
+        html += "\n" + (await apercu.evaluate(() => document.body.innerHTML).catch(() => ""));
+        if (!resteApres(texte, html).length) break;
+      }
+    }
 
     // insensible à la casse : innerText rend le texte TRANSFORMÉ par le CSS
     // (text-transform: uppercase) — « BARRAL & FILLES » doit compter

@@ -932,7 +932,10 @@ export default function ImpactAgencyTemplate() {
   const [currentStep, setCurrentStep] = useState(0);
   useEffect(() => {
     const unsubscribe = activeStep.on("change", (v) => {
-      setCurrentStep(Math.min(3, Math.floor(v)));
+      /* Borné à la liste réelle : le client peut n'avoir saisi qu'une ou deux
+         étapes — l'ancien « 3 » en dur lisait alors hors du tableau et
+         faisait tomber toute la page. */
+      setCurrentStep(Math.max(0, Math.min(PROCESS_STEPS.length - 1, Math.floor(v))));
     });
     return unsubscribe;
   }, [activeStep]);

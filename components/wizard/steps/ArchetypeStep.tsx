@@ -80,16 +80,24 @@ export function ArchetypeStep({
     On filtre donc les champs par la déclaration du thème. Les champs
     d'infrastructure (réservation, adresse, paiement) restent toujours.
   */
-  const CHAMP_BLOC: Record<string, string> = {
-    services: "prestations", menu: "menu", products: "produits",
-    team: "equipe", beforeAfter: "realisations", openingHours: "horaires",
-    reputation: "avis", certifications: "engagements", keyStats: "chiffres",
-    faq: "faq", methode: "methode", listings: "realisations",
+  /*
+    Un champ nourrit parfois PLUSIEURS blocs : les thèmes servent la carte ou
+    le catalogue dans leur section « prestations » quand il n'y a pas de
+    prestations (cascade clientServices), et les biens en « réalisations ».
+    Filtrer sur le seul bloc du champ privait une bijouterie, sur un thème à
+    prestations, de toute saisie de son offre.
+  */
+  const CHAMP_BLOC: Record<string, string[]> = {
+    services: ["prestations"], menu: ["menu", "prestations"],
+    products: ["produits", "prestations"],
+    team: ["equipe"], beforeAfter: ["realisations"], openingHours: ["horaires"],
+    reputation: ["avis"], certifications: ["engagements"], keyStats: ["chiffres"],
+    faq: ["faq"], methode: ["methode"], listings: ["realisations", "prestations"],
   };
   const blocsTheme = blocksForTheme(templateId);
   const garde = (champ: string) => {
-    const bloc = CHAMP_BLOC[champ];
-    return !bloc || !templateId || blocsTheme.includes(bloc as never);
+    const blocs = CHAMP_BLOC[champ];
+    return !blocs || !templateId || blocs.some((b) => blocsTheme.includes(b as never));
   };
   const champs = ([...config.catalogueFields, ...config.coreFields] as string[]).filter(garde);
 

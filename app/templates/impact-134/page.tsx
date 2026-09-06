@@ -1533,13 +1533,13 @@ function RituelsSection() {
                       className="text-[10px] tracking-[0.18em] uppercase mb-1"
                       style={{ fontFamily: "'Inter', sans-serif", color: C.primary, fontWeight: 500 }}
                     >
-                      Étape {RITUELS[activeStep].step}
+                      Étape {(RITUELS[activeStep] ?? RITUELS[0]).step}
                     </p>
                     <p
                       className="text-[18px]"
                       style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 600, color: C.text }}
                     >
-                      {RITUELS[activeStep].label}
+                      {(RITUELS[activeStep] ?? RITUELS[0]).label}
                     </p>
                   </motion.div>
                 </AnimatePresence>
