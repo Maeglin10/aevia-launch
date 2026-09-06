@@ -24,6 +24,8 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientMethode,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -663,7 +665,7 @@ export default function ToitsDeLoirePage() {
             </div>
           </Reveal>
           <div>
-            {METHODE.map((m, idx) => (
+            {resolveList(fusionnerEtapes(METHODE, clientMethode(sessionData)), METHODE).map((m, idx) => (
               <Reveal key={m.n} delay={idx * 0.08}>
                 <div className="i351-step" style={{ display: "grid", gridTemplateColumns: "96px minmax(0,0.9fr) minmax(0,1.5fr)", gap: "clamp(16px,3vw,44px)", alignItems: "start", padding: "clamp(22px,2.8vw,34px) clamp(8px,1.4vw,20px)", borderTop: `1px solid ${C.border}` }}>
                   <div style={{ fontFamily: FONT_TITRE, fontWeight: 800, fontSize: "clamp(24px,2.8vw,36px)", lineHeight: 1, color: C.accent }}>{m.n}</div>

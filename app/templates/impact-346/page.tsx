@@ -38,6 +38,8 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  clientMethode,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1112,7 +1114,7 @@ export default function HalleAuxFromagesPage() {
           {/* Le filet dégradé qui relie les quatre temps. */}
           <div aria-hidden style={{ height: 1, background: `linear-gradient(90deg, transparent 0%, ${C.croute} 18%, ${C.croute} 82%, transparent 100%)`, opacity: 0.5, marginBottom: -1 }} />
           <div className="i346-frise" style={{ display: "grid", gridTemplateColumns: `repeat(auto-fit, minmax(min(240px, 100%), 1fr))`, gap: 0 }}>
-            {METHODE.map((m: any, idx: number) => (
+            {resolveList(fusionnerEtapes(METHODE, clientMethode(sessionData)), METHODE).map((m: any, idx: number) => (
               <Reveal key={m.n} delay={idx * 0.055} y={20}>
                 <div
                   style={{

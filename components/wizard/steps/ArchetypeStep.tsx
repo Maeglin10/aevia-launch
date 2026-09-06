@@ -20,7 +20,7 @@ import { useState } from "react";
 import { blocksForTheme } from "@/lib/templates/capabilities";
 import { Plus, X } from "lucide-react";
 import type { BusinessProfile } from "@/lib/sessions";
-import { ARCHETYPES, type ArchetypeId } from "@/lib/wizard/archetypes";
+import { ARCHETYPES, CHAMP_BLOCS, type ArchetypeId } from "@/lib/wizard/archetypes";
 import { useAutoSaveStep } from "@/components/wizard/useAutoSaveStep";
 
 const DAYS = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
@@ -80,23 +80,14 @@ export function ArchetypeStep({
     On filtre donc les champs par la déclaration du thème. Les champs
     d'infrastructure (réservation, adresse, paiement) restent toujours.
   */
-  /*
-    Un champ nourrit parfois PLUSIEURS blocs : les thèmes servent la carte ou
-    le catalogue dans leur section « prestations » quand il n'y a pas de
-    prestations (cascade clientServices), et les biens en « réalisations ».
-    Filtrer sur le seul bloc du champ privait une bijouterie, sur un thème à
-    prestations, de toute saisie de son offre.
-  */
-  const CHAMP_BLOC: Record<string, string[]> = {
-    services: ["prestations"], menu: ["menu", "prestations"],
-    products: ["produits", "prestations"],
-    team: ["equipe"], beforeAfter: ["realisations"], openingHours: ["horaires"],
-    reputation: ["avis"], certifications: ["engagements"], keyStats: ["chiffres"],
-    faq: ["faq"], methode: ["methode"], listings: ["realisations", "prestations"],
-  };
   const blocsTheme = blocksForTheme(templateId);
+  /* geo, réservation, urgences, paiement : infrastructure toujours demandée ;
+     les champs de contenu ne le sont que si le thème affiche un de leurs blocs
+     (cascades comprises — table partagée CHAMP_BLOCS). */
+  const TOUJOURS = new Set(["geo", "bookingSystem", "emergency", "paymentMethods", "commerce"]);
   const garde = (champ: string) => {
-    const blocs = CHAMP_BLOC[champ];
+    if (TOUJOURS.has(champ)) return true;
+    const blocs = CHAMP_BLOCS[champ];
     return !blocs || !templateId || blocs.some((b) => blocsTheme.includes(b as never));
   };
   const champs = ([...config.catalogueFields, ...config.coreFields] as string[]).filter(garde);

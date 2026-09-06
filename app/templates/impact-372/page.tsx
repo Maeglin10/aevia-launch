@@ -28,6 +28,8 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  clientMethode,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 import { TitreDeLaPage } from "@/lib/templates/TitreDeLaPage";
 import { ActionMobile } from "@/lib/templates/ActionMobile";
@@ -1050,7 +1052,7 @@ export default function HorizonProtectionPage() {
           </Reveal>
 
           <Filet />
-          {METHODE.map((m, idx) => (
+          {resolveList(fusionnerEtapes(METHODE, clientMethode(sessionData)), METHODE).map((m, idx) => (
             <Reveal key={m.n} delay={idx * 0.055}>
               <ArticleConsigne m={m} />
             </Reveal>

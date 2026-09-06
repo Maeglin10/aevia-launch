@@ -26,6 +26,8 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  clientMethode,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -642,7 +644,7 @@ function Journee() {
             aria-hidden
             style={{ position: "absolute", left: "clamp(7px,1vw,13px)", top: 14, bottom: 26, width: 0, borderLeft: `2px dotted ${C.peau}` }}
           />
-          {METHODE.map((m, i) => (
+          {resolveList(fusionnerEtapes(METHODE, clientMethode(sessionData)), METHODE).map((m, i) => (
             <Reveal key={`${m.n}-${i}`} delay={i * 0.08}>
               <div className="i354-heure" style={{ position: "relative", display: "grid", gridTemplateColumns: "minmax(0,0.85fr) minmax(0,1.75fr)", gap: "clamp(14px,3vw,44px)", alignItems: "start", padding: "clamp(20px,2.4vw,30px) 0" }}>
                 <span

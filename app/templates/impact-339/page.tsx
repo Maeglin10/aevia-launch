@@ -1151,7 +1151,7 @@ export default function MaisonAuditionPage() {
               </div>
               <div style={{ borderTop: `1px solid ${C.border}`, marginTop: 22, paddingTop: 18 }}>
                 <p style={{ fontFamily: SANS, fontSize: 13.5, color: C.textMuted, lineHeight: 1.72, margin: 0 }}>
-                  {ZONES.length >= 2 ? `Patients reçus de ${ZONES.slice(0, 6).join(", ")}.` : `Centre agréé 100 % Santé, tiers payant — à ${ville}.`}
+                  {ZONES.length >= 1 ? `Patients reçus de ${ZONES.slice(0, 6).join(", ")}.` : `Centre agréé 100 % Santé, tiers payant — à ${ville}.`}
                 </p>
               </div>
             </div>

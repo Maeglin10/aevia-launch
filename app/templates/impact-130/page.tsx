@@ -601,6 +601,35 @@ function SplitRevealHero() {
   l'erreur #300 et la page entière ne s'affiche plus. Un composant par élément
   donne à chacun ses propres hooks, en nombre fixe.
 */
+function EtapeProcessus({ step, i }: { step: any; i: number }) {
+
+              const ref = useRef(null);
+              const inView = useInView(ref, { once: true, margin: "-80px" });
+              return (
+                <motion.div
+                  key={i}
+                  ref={ref}
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={inView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ duration: 0.6, delay: 0.1 }}
+                  style={{ display: "flex", gap: 48, marginBottom: i < PROCESS.length - 1 ? 64 : 0, position: "relative", paddingLeft: 0 }}
+                >
+                  {/* Node */}
+                  <div style={{ flexShrink: 0, width: 48, height: 48, border: `1px solid ${C.emeraldGlow}`, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", background: C.bg, zIndex: 2 }}>
+                    <span style={{ color: C.emeraldGlow, fontSize: 13, fontWeight: 700 }}>{step.num}</span>
+                  </div>
+
+                  <div style={{ paddingTop: 8, flex: 1 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
+                      <h3 style={{ fontSize: 24, fontWeight: 700, color: C.text, letterSpacing: "-0.02em" }}>{step.title}</h3>
+                      <span style={{ color: C.textDim, fontSize: 13, background: C.bgCard, padding: "4px 12px", borderRadius: 100, border: `1px solid ${C.border}` }}>{step.duration}</span>
+                    </div>
+                    <p style={{ color: C.textMuted, fontSize: 16, lineHeight: 1.6, maxWidth: 600 }}>{step.desc}</p>
+                  </div>
+                </motion.div>
+              )
+}
+
 function StatCard({ stat, i }: { stat: any; i: number }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true });
@@ -1089,33 +1118,9 @@ return (
             {/* Timeline line */}
             <div style={{ position: "absolute", left: 24, top: 40, bottom: 40, width: 1, background: C.border }} />
 
-            {resolveList(fusionnerEtapes(PROCESS, clientMethode(sessionData)), PROCESS).map((step, i) => {
-              const ref = useRef(null);
-              const inView = useInView(ref, { once: true, margin: "-80px" });
-              return (
-                <motion.div
-                  key={i}
-                  ref={ref}
-                  initial={{ opacity: 0, x: -30 }}
-                  animate={inView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.6, delay: 0.1 }}
-                  style={{ display: "flex", gap: 48, marginBottom: i < PROCESS.length - 1 ? 64 : 0, position: "relative", paddingLeft: 0 }}
-                >
-                  {/* Node */}
-                  <div style={{ flexShrink: 0, width: 48, height: 48, border: `1px solid ${C.emeraldGlow}`, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", background: C.bg, zIndex: 2 }}>
-                    <span style={{ color: C.emeraldGlow, fontSize: 13, fontWeight: 700 }}>{step.num}</span>
-                  </div>
-
-                  <div style={{ paddingTop: 8, flex: 1 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12 }}>
-                      <h3 style={{ fontSize: 24, fontWeight: 700, color: C.text, letterSpacing: "-0.02em" }}>{step.title}</h3>
-                      <span style={{ color: C.textDim, fontSize: 13, background: C.bgCard, padding: "4px 12px", borderRadius: 100, border: `1px solid ${C.border}` }}>{step.duration}</span>
-                    </div>
-                    <p style={{ color: C.textMuted, fontSize: 16, lineHeight: 1.6, maxWidth: 600 }}>{step.desc}</p>
-                  </div>
-                </motion.div>
-              );
-            })}
+            {resolveList(fusionnerEtapes(PROCESS, clientMethode(sessionData)), PROCESS).map((step, i) => (
+              <EtapeProcessus key={i} step={step} i={i} />
+            ))}
           </div>
         </div>
       </section>

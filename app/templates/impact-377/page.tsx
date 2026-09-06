@@ -27,6 +27,8 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  clientMethode,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 /* ════════════════════════════════════════════════════════════════════════════
@@ -622,7 +624,7 @@ export default function StudioGammePage() {
           </Reveal>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px, 100%), 1fr))", gap: "clamp(16px,2vw,26px)" }}>
-            {METHODE.map((m, idx) => (
+            {resolveList(fusionnerEtapes(METHODE, clientMethode(sessionData)), METHODE).map((m, idx) => (
               <Reveal key={m.n} delay={idx * 0.08}>
                 <div style={{ position: "relative", borderTop: `1px solid rgba(255,255,255,${0.14 + idx * 0.08})`, padding: "clamp(18px,2.2vw,28px) 2px 0", height: "100%" }}>
                   <div style={{ fontFamily: FONT_TITRE, fontWeight: 700, fontSize: "clamp(24px,2.4vw,32px)", color: C.neon, marginBottom: 12, letterSpacing: "-0.02em" }}>{m.n}</div>

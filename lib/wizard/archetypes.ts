@@ -19,6 +19,42 @@ export interface ArchetypeConfig {
   Ces sections restaient en démonstration, et le client ne savait pas qu'il
   aurait pu les remplir.
 */
+/*
+  Quels blocs de thème un champ d'archétype alimente-t-il ? Un champ en nourrit
+  parfois plusieurs : les thèmes servent la carte ou le catalogue dans leur
+  section « prestations » quand il n'y a pas de prestations (cascade
+  clientServices), et les biens en « réalisations ». Cette table est LA source
+  commune du filtrage (ArchetypeStep) et de la déduplication (StepForm) : un
+  bloc que l'archétype ne couvre pas doit être demandé par le bloc commun,
+  sinon le client ne peut jamais remplacer la démo de cette section.
+*/
+export const CHAMP_BLOCS: Record<string, string[]> = {
+  services: ["prestations"],
+  menu: ["menu", "prestations"],
+  products: ["produits", "prestations"],
+  listings: ["realisations", "prestations"],
+  team: ["equipe"],
+  beforeAfter: ["realisations"],
+  openingHours: ["horaires"],
+  reputation: ["avis"],
+  certifications: ["engagements"],
+  keyStats: ["chiffres"],
+  faq: ["faq"],
+  methode: ["methode"],
+  geo: ["zones"],
+};
+
+/** Blocs réellement couverts par l'étape d'un archétype (tarifs suit les prestations). */
+export function blocsCouverts(archetype: ArchetypeId): string[] {
+  const config = ARCHETYPES[archetype];
+  const blocs = new Set<string>();
+  for (const champ of [...config.catalogueFields, ...config.coreFields] as string[]) {
+    for (const b of CHAMP_BLOCS[champ] ?? []) blocs.add(b);
+  }
+  if (blocs.has("prestations")) blocs.add("tarifs");
+  return [...blocs];
+}
+
 export const ARCHETYPES: Record<ArchetypeId, ArchetypeConfig> = {
   service_rdv: {
     id: "service_rdv",

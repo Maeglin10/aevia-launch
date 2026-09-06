@@ -37,8 +37,8 @@ const INDUSTRIES = [];
   for (const b of blocs) {
     const id = b.slice(0, b.indexOf("'"));
     const label = (b.match(/label: '([^']+)'/) ?? [])[1];
-    const specs = [...b.matchAll(/\{ id: '([a-z_0-9]+)',\s*label: (?:'([^']+)'|"([^"]+)")/g)]
-      .map((m) => ({ id: m[1], label: m[2] ?? m[3] }));
+    const specs = [...b.matchAll(/\{ id: '([a-z_0-9]+)',\s*label: (?:'((?:[^'\\]|\\.)*)'|"((?:[^"\\]|\\.)*)")/g)]
+      .map((m) => ({ id: m[1], label: (m[2] ?? m[3]).replace(/\\(['"])/g, "$1") }));
     if (label) INDUSTRIES.push({ id, label, specs });
   }
 }
@@ -76,24 +76,33 @@ const D = {
   realisation: "Chantier Croix-Bayard rénové",
 };
 
-/* Ce qu'on doit retrouver sur la page rendue, par bloc déclaré. */
+/* Ce qu'on doit retrouver sur la page rendue, par bloc déclaré.
+   Chaque entrée est un groupe d'ALTERNATIVES : une seule doit apparaître.
+   (l'agent immobilier ne saisit pas de « prestation » — ses annonces
+   alimentent la section prestations par la cascade listings→services). */
 const ATTENDU_PAR_BLOC = {
-  prestations: [D.prestation.nom],
+  prestations: [[D.prestation.nom, D.realisation]],
   tarifs: [],
-  menu: [D.prestation.nom],
-  produits: [D.prestation.nom],
-  avis: [D.avis.auteur],
+  menu: [[D.prestation.nom]],
+  produits: [[D.prestation.nom]],
+  // certains designs signent par initiales : le texte de l'avis fait foi aussi
+  avis: [[D.avis.auteur, D.avis.texte]],
   // les compteurs animent la valeur (« 618 » n'existe qu'en fin d'animation) :
   // on cherche le libellé, stable dans le DOM
-  chiffres: [D.chiffre.libelle],
-  equipe: [D.equipier.nom],
-  engagements: [D.engagement],
-  faq: [D.faq.q],
-  methode: [D.etape.nom],
-  zones: [D.zone],
-  realisations: [D.realisation],
+  chiffres: [[D.chiffre.libelle, D.chiffre.valeur]],
+  equipe: [[D.equipier.nom]],
+  engagements: [[D.engagement]],
+  faq: [[D.faq.q]],
+  // certains designs d'étapes n'affichent que le paragraphe, pas le titre
+  methode: [[D.etape.nom, D.etape.desc]],
+  zones: [[D.zone]],
+  realisations: [[D.realisation]],
   horaires: [],
 };
+
+/* Galeries de réalisations en photos pures : aucun texte client dans le design,
+   les photos du client s'y câblent — invérifiable par texte, vérifié à la main. */
+const REALISATIONS_PHOTOS_SEULES = new Set(["impact-310"]);
 
 const clic = async (page, texte, exact = true) => {
   const loc = exact
@@ -131,6 +140,7 @@ async function remplirUnChamp(page, D) {
       "Ajouter une zone": [D.zone],
     },
     parTitre: {
+      "Adresse et zones": ["18 rue des Forges", D.zone],
       "Vos prestations": [D.prestation.nom, D.prestation.prix, D.prestation.desc],
       "Vos produits": [D.prestation.nom, D.prestation.prix, D.prestation.desc],
       "Votre équipe": [D.equipier.nom, D.equipier.role],
@@ -183,15 +193,21 @@ async function remplirUnChamp(page, D) {
         }
         n = parent;
       }
-      // 2. Section ArchetypeStep : titre fixe du <p> uppercase le plus proche
+      /* 2. Section ArchetypeStep : titre fixe porté par un label uppercase.
+         Remontée BORNÉE (4 niveaux) et label exigé : monter jusqu'au conteneur
+         de l'étape faisait attraper le titre de la PREMIÈRE section — l'adresse
+         d'un pisciniste recevait le nom de la prestation. */
       if (!valeurs) {
         n = el;
-        while (n && n !== document.body && !valeurs) {
-          const titreEl = n.querySelector?.(":scope > p, :scope > div");
-          const titre = titreEl?.childNodes?.[0]?.textContent?.trim();
-          if (titre && parTitre[titre]) {
-            valeurs = parTitre[titre];
-            rangee = el.closest("div.flex.gap-2") ?? el.parentElement;
+        for (let prof = 0; n && n !== document.body && prof < 4 && !valeurs; prof++) {
+          for (const enfant of n.children ?? []) {
+            if (!/uppercase/.test(enfant.className ?? "")) continue;
+            const titre = enfant.childNodes?.[0]?.textContent?.trim();
+            if (titre && parTitre[titre]) {
+              valeurs = parTitre[titre];
+              rangee = el.closest("div.flex.gap-2") ?? el.parentElement;
+              break;
+            }
           }
           n = n.parentElement;
         }
@@ -203,6 +219,22 @@ async function remplirUnChamp(page, D) {
         const pos = freres.indexOf(el);
         if (pos > -1 && pos < valeurs.length && valeurs[pos]) { set(el, valeurs[pos]); return true; }
         continue; // position au-delà du plan : champ laissé vide, marqué vu
+      }
+      /* 2ter. Section ThemeBlocks sans Repeater (zones : un textarea nu) —
+         le placeholder vient du lexique métier (« Lyon, Villeurbanne… ») :
+         c'est le TITRE du pli de la Section qui identifie le bloc. */
+      if (!valeurs) {
+        n = el;
+        for (let prof = 0; n && n !== document.body && prof < 5; prof++) {
+          const pli = [...(n.children ?? [])].find((c) => c.tagName === "BUTTON" && c.hasAttribute("aria-expanded"));
+          const t = (pli?.textContent ?? "").toLowerCase();
+          if (/zone|intervention|desservi|rayon|communes/.test(t)) {
+            set(el, D.zone);
+            return true;
+          }
+          if (t) break; // une Section trouvée mais pas zones : ne pas monter plus haut
+          n = n.parentElement;
+        }
       }
       // 3. Repli placeholder
       const hint = `${el.placeholder ?? ""} ${el.getAttribute("aria-label") ?? ""}`.trim();
@@ -305,6 +337,7 @@ async function testerTheme(browser, theme) {
     await page.waitForTimeout(600);
     await remplirEtape4(page, D);
     await page.waitForTimeout(400);
+    await page.screenshot({ path: `${SORTIE}/${theme}-etape4.jpg`, fullPage: true, type: "jpeg", quality: 55 }).catch(() => {});
     await clic(page, "Continuer", false);
 
     // 5. Design — rien d'obligatoire
@@ -398,11 +431,14 @@ async function testerTheme(browser, theme) {
     texte = await apercu.evaluate(() => document.body.innerText);
     let html = await apercu.evaluate(() => document.body.innerHTML);
 
+    const groupes = [[D.nom]];
+    for (const b of blocs) {
+      if (b === "realisations" && REALISATIONS_PHOTOS_SEULES.has(theme)) continue;
+      for (const g of ATTENDU_PAR_BLOC[b] ?? []) groupes.push(g);
+    }
     const resteApres = (t, h) => {
       const tMin = t.toLowerCase(), hMin = h.toLowerCase();
-      const cibles = new Set([D.nom]);
-      for (const b of blocs) for (const v of ATTENDU_PAR_BLOC[b] ?? []) cibles.add(v);
-      return [...cibles].filter((v) => !tMin.includes(v.toLowerCase()) && !hMin.includes(v.toLowerCase()));
+      return groupes.filter((g) => !g.some((v) => tMin.includes(v.toLowerCase()) || hMin.includes(v.toLowerCase())));
     };
     if (resteApres(texte, html).length) {
       const liens = await apercu.evaluate((th) => {
@@ -455,19 +491,19 @@ async function testerTheme(browser, theme) {
     // (text-transform: uppercase) — « BARRAL & FILLES » doit compter
     const texteMin = texte.toLowerCase();
     const htmlMin = html.toLowerCase();
-    const attendus = new Set([D.nom]);
-    for (const b of blocs) for (const v of ATTENDU_PAR_BLOC[b] ?? []) attendus.add(v);
     res.avertissements = [];
-    for (const v of attendus) {
-      const vMin = v.toLowerCase();
-      if (texteMin.includes(vMin)) res.retrouves.push(v);
-      else if (htmlMin.includes(vMin)) {
+    for (const g of groupes) {
+      const surEcran = g.find((v) => texteMin.includes(v.toLowerCase()));
+      const dansDom = g.find((v) => htmlMin.includes(v.toLowerCase()));
+      if (surEcran) res.retrouves.push(surEcran);
+      else if (dansDom) {
         // présent dans le DOM mais pas (encore) affiché — animation en cours
-        res.retrouves.push(v);
-        res.avertissements.push(`${v} (DOM seulement)`);
-      } else res.manquants.push(v);
+        res.retrouves.push(dansDom);
+        res.avertissements.push(`${dansDom} (DOM seulement)`);
+      } else res.manquants.push(g.join(" | "));
     }
     if (!texteMin.includes(D.ville.toLowerCase()) && !htmlMin.includes(D.ville.toLowerCase())) res.avertissements.push("ville absente");
+    await apercu.screenshot({ path: `${SORTIE}/${theme}-apercu.jpg`, fullPage: true, type: "jpeg", quality: 55 }).catch(() => {});
     res.ok = res.manquants.length === 0;
     await apercu.close();
   } catch (e) {

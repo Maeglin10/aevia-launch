@@ -865,6 +865,10 @@ export interface ClientEtape {
   t: string;
   label: string;
   heading: string;
+  /** impact-28 nomme le titre de l'étape « phase », impact-281 « titre ». */
+  phase: string;
+  titre: string;
+  corps: string;
   body: string;
   text: string;
   content: string;
@@ -892,9 +896,9 @@ export interface ClientEtape {
 export function clientMethode(s: SessionLike | null | undefined): ClientEtape[] | undefined {
   const etape = (name: string, desc: string): ClientEtape => ({
     name, desc,
-    title: name, t: name, label: name, heading: name, caption: name,
+    title: name, t: name, label: name, heading: name, caption: name, phase: name, titre: name,
     description: desc, body: desc, text: desc, content: desc, d: desc,
-    detail: desc, sub: desc, subtitle: desc, summary: desc,
+    detail: desc, sub: desc, subtitle: desc, summary: desc, corps: desc,
   });
 
   const duProfil = enTableau(s?.businessProfile?.methode);

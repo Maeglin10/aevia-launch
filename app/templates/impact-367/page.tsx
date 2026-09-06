@@ -1158,7 +1158,7 @@ export default function CabinetNaissancesPage() {
               </div>
               <div style={{ borderTop: `1px solid ${C.border}`, marginTop: 22, paddingTop: 18 }}>
                 <p style={{ fontFamily: SANS, fontSize: 13.5, color: C.textMuted, lineHeight: 1.72, margin: 0 }}>
-                  {ZONES.length >= 2 ? `Visites à domicile à ${ZONES.slice(0, 6).join(", ")}.` : `Visites à domicile à ${ville} et dans sa couronne, coordination PRADO avec la maternité.`}
+                  {ZONES.length >= 1 ? `Visites à domicile à ${ZONES.slice(0, 6).join(", ")}.` : `Visites à domicile à ${ville} et dans sa couronne, coordination PRADO avec la maternité.`}
                 </p>
               </div>
             </div>

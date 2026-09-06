@@ -42,6 +42,8 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  clientMethode,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -805,7 +807,7 @@ export default function AquaVertPressingPage() {
                   opacity: 0.55,
                 }}
               />
-              {METHODE.map((m: any, idx: number) => (
+              {resolveList(fusionnerEtapes(METHODE, clientMethode(sessionData)), METHODE).map((m: any, idx: number) => (
                 <Reveal key={m.n} delay={idx * 0.08} y={18}>
                   <div style={{ position: "relative", paddingBottom: idx === METHODE.length - 1 ? 0 : "clamp(26px, 3.4vw, 42px)" }}>
                     <span

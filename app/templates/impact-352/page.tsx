@@ -1319,13 +1319,6 @@ export default function ZincEtArdoisePage() {
     })),
     TARIFS_DEMO,
   );
-  METHODE = resolveList(
-    clientList(sessionData, "demarche.etapes")?.map((l: string, i: number) => ({
-      ...METHODE_DEMO[i % METHODE_DEMO.length],
-      t: l,
-    })),
-    METHODE_DEMO,
-  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(
     clientList(sessionData, "engagements.liste") ?? clientCertifications(sessionData),

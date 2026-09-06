@@ -530,6 +530,9 @@ export default function BorealCourtagePage() {
     catalogue, on garde la section et on la rappelle au client.
   */
   const STATS_BENTO = STATS.length >= 4 ? STATS : [...STATS, ...STATS_SOURCE].slice(0, 4);
+  /* Un seul chiffre est affiché sur la page, et il lisait l'index 1 : le client
+     qui ne saisit qu'un chiffre ne le voyait jamais — sa saisie prime. */
+  const STAT_VEDETTE = clientStats(sessionData)?.[0] ?? STATS_BENTO[1];
 
   /*
     La tuile de titre ne cascade PAS : elle est posée dans la grille, hors du
@@ -774,10 +777,10 @@ export default function BorealCourtagePage() {
                 className="i338-nombre"
                 style={{ fontFamily: SERIF, fontSize: "clamp(96px,16vw,240px)", fontWeight: 400, lineHeight: 0.82, letterSpacing: "-0.05em", color: C.accentDark, marginLeft: "-0.045em" }}
               >
-                {STATS_BENTO[1]?.value ?? "15"}
+                {STAT_VEDETTE?.value ?? "15"}
               </div>
               <div style={{ fontFamily: SANS, fontSize: "clamp(12px,1.15vw,14px)", letterSpacing: "0.2em", textTransform: "uppercase", color: C.textFaint, marginTop: "clamp(20px,2.4vw,30px)", lineHeight: 1.7, maxWidth: 300 }}>
-                {STATS_BENTO[1]?.label ?? "Assureurs en place de marché"}
+                {STAT_VEDETTE?.label ?? "Assureurs en place de marché"}
               </div>
             </motion.div>
 
@@ -1100,7 +1103,7 @@ export default function BorealCourtagePage() {
               </div>
               <div style={{ borderTop: `1px solid ${C.border}`, marginTop: 22, paddingTop: 18 }}>
                 <p style={{ fontFamily: SANS, fontSize: 13.5, color: C.textMuted, lineHeight: 1.7, margin: 0 }}>
-                  {ZONES.length >= 2 ? `Comptes suivis à ${ZONES.slice(0, 6).join(", ")}.` : `Comptes suivis depuis ${ville}, sur l'ensemble des sites de l'entreprise.`}
+                  {ZONES.length >= 1 ? `Comptes suivis à ${ZONES.slice(0, 6).join(", ")}.` : `Comptes suivis depuis ${ville}, sur l'ensemble des sites de l'entreprise.`}
                 </p>
               </div>
             </div>

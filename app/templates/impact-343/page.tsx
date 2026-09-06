@@ -41,6 +41,8 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  clientMethode,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -947,7 +949,7 @@ export default function BlancNetPage() {
             </h2>
           </Reveal>
           <div className="i343-frise" style={{ display: "grid", gridTemplateColumns: "repeat(4, minmax(0,1fr))", gap: 0 }}>
-            {METHODE.map((m, idx) => (
+            {resolveList(fusionnerEtapes(METHODE, clientMethode(sessionData)), METHODE).map((m, idx) => (
               <Reveal key={m.n} delay={idx * 0.08}>
                 <div style={{ padding: "clamp(20px, 2.4vw, 32px) clamp(16px, 2vw, 26px)", borderLeft: `1px solid rgba(255,255,255,0.12)`, minHeight: "100%", position: "relative" }}>
                   <span aria-hidden style={{ position: "absolute", left: -3, top: 0, width: 5, height: 5, borderRadius: "50%", background: C.accent }} />

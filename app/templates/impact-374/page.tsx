@@ -26,6 +26,8 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  clientMethode,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -860,7 +862,7 @@ export default function CapChauffeurPage() {
           <div style={{ position: "relative", paddingLeft: "clamp(30px,3.4vw,48px)" }}>
             {/* L'axe pointillé de la feuille de route. */}
             <span aria-hidden style={{ position: "absolute", left: 9, top: 12, bottom: 12, width: 2, background: `repeating-linear-gradient(180deg, ${C.border} 0 12px, transparent 12px 24px)` }} />
-            {METHODE.map((m, idx) => (
+            {resolveList(fusionnerEtapes(METHODE, clientMethode(sessionData)), METHODE).map((m, idx) => (
               <Reveal key={m.n} delay={idx * 0.08}>
                 <div style={{ position: "relative", padding: "clamp(18px,2.4vw,28px) 0", borderBottom: idx < METHODE.length - 1 ? `1px solid ${C.border}` : "none" }}>
                   <span aria-hidden style={{ position: "absolute", left: "calc(clamp(30px,3.4vw,48px) * -1 + 4px)", top: "clamp(24px,3vw,34px)", width: 12, height: 12, borderRadius: 999, border: `2.5px solid ${C.accent}`, background: C.bg }} />

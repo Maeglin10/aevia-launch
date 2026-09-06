@@ -27,6 +27,8 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  clientMethode,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1152,7 +1154,7 @@ export default function BrasserieHoublonPage() {
                 opacity: 0.4,
               }}
             />
-            {METHODE.map((m, idx) => (
+            {resolveList(fusionnerEtapes(METHODE, clientMethode(sessionData)), METHODE).map((m, idx) => (
               <Reveal key={m.n} delay={idx * 0.055}>
                 <div style={{ position: "relative", paddingBottom: idx === METHODE.length - 1 ? 0 : "clamp(28px,3.4vw,44px)" }}>
                   <span

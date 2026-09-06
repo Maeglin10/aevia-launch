@@ -26,6 +26,8 @@ import {
   clientServices,
   clientStats,
   clientText,
+  clientMethode,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -753,7 +755,7 @@ export default function CapDemenagementsPage() {
             </Reveal>
           </div>
           <div>
-            {METHODE.map((m, idx) => (
+            {resolveList(fusionnerEtapes(METHODE, clientMethode(sessionData)), METHODE).map((m, idx) => (
               <Reveal key={m.n} delay={idx * 0.08}>
                 <div style={{ display: "grid", gridTemplateColumns: "clamp(48px, 5vw, 68px) 1fr", gap: "clamp(16px, 2.4vw, 30px)", padding: "clamp(22px, 2.8vw, 34px) 0", borderTop: `1px solid ${C.border}`, alignItems: "start" }}>
                   <div style={{ fontFamily: DISPLAY, fontSize: "clamp(26px, 3vw, 40px)", fontWeight: 900, color: C.accent, lineHeight: 1, letterSpacing: "-0.02em" }}>{m.n}</div>

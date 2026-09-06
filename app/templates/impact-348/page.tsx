@@ -38,6 +38,8 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  clientMethode,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -1044,7 +1046,7 @@ export default function AlmaCompetencesPage() {
             </p>
           </Reveal>
           <div className="i348-escalier" style={{ display: "flex", flexDirection: "column", gap: "clamp(14px, 2vw, 22px)" }}>
-            {METHODE.map((m: any, idx: number) => (
+            {resolveList(fusionnerEtapes(METHODE, clientMethode(sessionData)), METHODE).map((m: any, idx: number) => (
               <Reveal key={m.n} delay={idx * 0.055} y={22}>
                 <Marche m={m} idx={idx} total={METHODE.length} />
               </Reveal>

@@ -26,6 +26,7 @@ import {
   clientPhotos,
   clientServices,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -412,7 +413,7 @@ export default function MorphStudioPage() {
             </Reveal>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16">
-              {PROJECTS.map((project, i) => (
+              {resolveList(clientWorks(sessionData)?.map((o: any, i: number) => ({ ...PROJECTS[i % PROJECTS.length], title: o.title, desc: o.desc || (PROJECTS[i % PROJECTS.length] as any).desc, ...(o.imageUrl ? { img: o.imageUrl, src: o.imageUrl, image: o.imageUrl } : {}) })), PROJECTS).map((project, i) => (
                 <Reveal key={i} delay={i * 0.1}>
                   <Link href="#realisations" className="group block">
                     <div className="relative aspect-video rounded-3xl overflow-hidden mb-8 border border-white/10 bg-[#111]">

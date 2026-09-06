@@ -725,10 +725,6 @@ export default function OrbitAIPage() {
     clientServices(session)?.map((s: any, i: number) => ({ ...MATERIALS_DEMO_SOURCE[i % MATERIALS_DEMO_SOURCE.length], name: s.title, desc: s.desc || "" || "" })),
     MATERIALS_DEMO_SOURCE,
   );
-  BESTSELLERS_DEMO = resolveList(
-    clientStats(session)?.map((s: any, i: number) => ({ ...BESTSELLERS_DEMO_SOURCE[i % BESTSELLERS_DEMO_SOURCE.length], val: s.value, label: s.label })),
-    BESTSELLERS_DEMO_SOURCE,
-  );
   GUARANTEES = resolveList(
     clientServices(session)?.map((s: any, i: number) => ({ ...GUARANTEES_SOURCE[i % GUARANTEES_SOURCE.length], title: s.title, desc: s.desc || "" || "" })),
     GUARANTEES_SOURCE,

@@ -1297,7 +1297,7 @@ export default function CapAssurancesPage() {
               </div>
               <div style={{ borderTop: `1px solid ${C.border}`, marginTop: 22, paddingTop: 18 }}>
                 <p style={{ fontFamily: SANS, fontSize: 13.5, color: C.textMuted, lineHeight: 1.7, margin: 0 }}>
-                  {ZONES.length >= 2
+                  {ZONES.length >= 1
                     ? `Nous suivons nos assurés à ${ZONES.slice(0, 6).join(", ")}.`
                     : clientCity(sessionData) ? `Nous recevons à ${ville} et suivons nos assurés partout en région.` : `Nous recevons à ${ville} et suivons nos assurés dans tout le Finistère.`}
                 </p>

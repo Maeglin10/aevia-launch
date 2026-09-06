@@ -44,6 +44,7 @@ import {
   clientStats,
   clientTeam,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -952,7 +953,7 @@ export default function Impact173Page() {
 
           <motion.div layout style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 2 }}>
             <AnimatePresence mode="popLayout">
-              {filteredProjects.map((p, i) => (
+              {resolveList(clientWorks(sessionData)?.map((o: any, i: number) => ({ ...filteredProjects[i % filteredProjects.length], name: o.title, desc: o.desc || (filteredProjects[i % filteredProjects.length] as any).desc, ...(o.imageUrl ? { img: o.imageUrl, src: o.imageUrl, image: o.imageUrl } : {}) })), filteredProjects).map((p, i) => (
                 <motion.div
                   key={p.id}
                   layout

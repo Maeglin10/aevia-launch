@@ -46,6 +46,7 @@ import {
   clientStats,
   clientTeam,
   clientText,
+  clientWorks,
 } from "@/lib/templates/clientContent";
 let sessionData: any = null;
 
@@ -551,15 +552,6 @@ export default function UrbanPulsePage() {
   PROJECTS_DEMO = PROJECTS_DEMO_LIVE();
   SERVICES_DEMO = SERVICES_DEMO_LIVE();
   STATS_DEMO = STATS_DEMO_LIVE();
-
-
-
-
-
-  TESTIMONIALS_DEMO = resolveList(
-    clientTeam(session)?.map((m: any, i: number) => ({ ...TESTIMONIALS_DEMO_SOURCE[i % TESTIMONIALS_DEMO_SOURCE.length], name: m.name, role: m.role })),
-    TESTIMONIALS_DEMO_SOURCE,
-  );
   PRICING = resolveList(
     clientServices(session)?.map((s, i) => ({ ...PRICING_DEMO[i % PRICING_DEMO.length], name: s.title, price: s.price ?? "", desc: s.desc || PRICING_DEMO[i % PRICING_DEMO.length].desc, features: [], })),
     PRICING_DEMO,
@@ -1160,7 +1152,7 @@ return (
             WebkitOverflowScrolling: "touch",
           }}
         >
-          {PROJECTS.map((p, i) => (
+          {resolveList(clientWorks(sessionData)?.map((o: any, i: number) => ({ ...PROJECTS[i % PROJECTS.length], title: o.title, ...(o.imageUrl ? { img: o.imageUrl, src: o.imageUrl, image: o.imageUrl } : {}) })), PROJECTS).map((p, i) => (
             <motion.div
               key={p.id}
               initial={{ opacity: 0, x: 40 }}

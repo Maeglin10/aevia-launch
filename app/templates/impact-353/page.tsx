@@ -982,10 +982,6 @@ export default function PetitsCairnsPage() {
     })),
     TARIFS_DEMO,
   );
-  METHODE = resolveList(
-    clientList(sessionData, "journee.etapes")?.map((l: string, n: number) => ({ ...METHODE_DEMO[n % METHODE_DEMO.length], t: l })),
-    METHODE_DEMO,
-  );
   STATS = resolveList(clientStats(sessionData), STATS_DEMO);
   ENGAGEMENT = resolveList(
     clientList(sessionData, "engagements.liste") ?? clientCertifications(sessionData),

@@ -48,6 +48,8 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  clientMethode,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -674,7 +676,7 @@ export default function DuoPeinturesPage() {
           </Reveal>
 
           <div style={{ borderTop: `1px solid ${C.border}` }}>
-            {METHODE_SOURCE.map((m, idx) => (
+            {resolveList(fusionnerEtapes(METHODE_SOURCE, clientMethode(sessionData)), METHODE_SOURCE).map((m, idx) => (
               <Reveal key={m.n} delay={Math.min(idx, 4) * 0.055}>
                 <div
                   className="i362-etape"

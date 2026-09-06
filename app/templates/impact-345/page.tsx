@@ -40,6 +40,8 @@ import {
   clientStats,
   clientText,
   clientTrade,
+  clientMethode,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -786,7 +788,7 @@ export default function MaisonBertinPage() {
             </h2>
           </Reveal>
           <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
-            {METHODE.map((m: any, idx: number) => (
+            {resolveList(fusionnerEtapes(METHODE, clientMethode(sessionData)), METHODE).map((m: any, idx: number) => (
               <Reveal key={m.n} delay={idx * 0.07} y={20}>
                 <div
                   className="i345-rangee"

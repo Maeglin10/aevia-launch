@@ -455,7 +455,6 @@ export default function PrismeFormationPage() {
   STATS = resolveList(clientStats(sessionData), STATS_SOURCE);
   ENGAGEMENT = resolveList(clientCertifications(sessionData), ENGAGEMENT_SOURCE);
   REPERES = resolveList(clientList(sessionData, "contact.reperes"), REPERES_SOURCE);
-  METHODE = resolveList(clientList(sessionData, "methode.etapes")?.map((x: string, i: number) => ({ ...METHODE_SOURCE[i % METHODE_SOURCE.length], t: x })), METHODE_SOURCE);
   SERVICES_DEMO = resolveList(
     clientServices(sessionData)?.map((s: any, i: number) => ({ ...SERVICES_SOURCE[i % SERVICES_SOURCE.length], titre: s.title })),
     SERVICES_SOURCE,

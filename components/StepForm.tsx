@@ -19,7 +19,8 @@ import {
 import { SECTOR_EXTRA_QUESTIONS } from "@/lib/templates/sector-questions";
 import { TEMPLATES_REGISTRY } from "@/lib/templates/registry";
 import { saveEditToken, editTokenHeader } from "@/lib/editToken";
-import { NICHE_ARCHETYPE, SANTE_NICHES } from "@/lib/wizard/archetypes";
+import { NICHE_ARCHETYPE, SANTE_NICHES, blocsCouverts } from "@/lib/wizard/archetypes";
+import type { ContentBlock } from "@/lib/templates/capabilities";
 import { ServicesCatalogue } from "@/components/wizard/ServicesCatalogue";
 import { ThemeBlocks } from "@/components/wizard/ThemeBlocks";
 import { PhotoSlotsField } from "@/components/wizard/PhotoSlotsField";
@@ -1078,7 +1079,11 @@ export function StepForm() {
                 sector={form.sector}
                 profile={form.businessProfile}
                 onChange={(bp) => set("businessProfile", bp)}
-                sauf={["prestations", "tarifs", "menu", "produits", "equipe", "horaires", "avis", "engagements", "chiffres", "faq", "realisations", "zones"]}
+                /* seuls les blocs que CET archétype couvre vraiment : une
+                   liste en dur privait l'hôtellerie (sans avant/après ni
+                   certifications) de réalisations et d'engagements — le
+                   client gardait la démo sans jamais avoir pu la remplacer */
+                sauf={blocsCouverts(NICHE_ARCHETYPE[form.sector]) as ContentBlock[]}
               />
             </>
           ) : step === 4 && (

@@ -473,14 +473,6 @@ export default function AllureAppuiPage() {
     clientList(sessionData, "engagements.liste") ?? clientCertifications(sessionData),
     ENGAGEMENT_DEMO,
   );
-  METHODE = resolveList(
-    clientList(sessionData, "methode.etapes")?.map((t: string, n: number) => ({
-      ...METHODE_SOURCE[n % METHODE_SOURCE.length],
-      n: String(n + 1).padStart(2, "0"),
-      t,
-    })),
-    METHODE_SOURCE,
-  );
 
   const SERVICES = resolveList(
     clientServices(sessionData)?.map((s: any, n: number) => ({

@@ -26,6 +26,8 @@ import {
   clientTagline,
   clientText,
   clientTrade,
+  clientMethode,
+  fusionnerEtapes,
 } from "@/lib/templates/clientContent";
 
 // Variables de module lues par les sections extraites en composants :
@@ -914,7 +916,7 @@ export default function QuatreVentsPage() {
             </div>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(240px,100%), 1fr))", gap: "clamp(10px,1.6vw,20px)" }}>
-            {METHODE.map((m, idx) => (
+            {resolveList(fusionnerEtapes(METHODE, clientMethode(sessionData)), METHODE).map((m, idx) => (
               <TempsFerme key={m.n} m={m} idx={idx} />
             ))}
           </div>

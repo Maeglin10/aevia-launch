@@ -222,6 +222,46 @@ function HeroWatch() {
 
 
 
+function CarteCollection({ col, i }: { col: any; i: number }) {
+
+              const ref = useRef<HTMLDivElement>(null);
+              const inView = useInView(ref, { once: true });
+              return (
+                <motion.div
+                  key={col.id}
+                  ref={ref}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.7, delay: i * 0.08 }}
+                  style={{ background: C.bgCard, position: "relative", overflow: "hidden", cursor: "pointer" }}
+                >
+                  <div style={{ aspectRatio: "4/3", overflow: "hidden", position: "relative" }}>
+                    <img
+                      src={col.image}
+                      alt={col.name}
+                      style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(0.3) brightness(0.85)", transition: "transform 0.8s, filter 0.8s" }}
+                      onMouseEnter={e => { (e.target as HTMLImageElement).style.transform = "scale(1.05)"; (e.target as HTMLImageElement).style.filter = "grayscale(0) brightness(1)"; }}
+                      onMouseLeave={e => { (e.target as HTMLImageElement).style.transform = "scale(1)"; (e.target as HTMLImageElement).style.filter = "grayscale(0.3) brightness(0.85)"; }}
+                    />
+                    <div style={{ position: "absolute", top: "1rem", right: "1rem", background: "rgba(14,12,10,0.85)", padding: "2px 8px" }}>
+                      <span style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.goldDim }}>{col.category.toUpperCase()}</span>
+                    </div>
+                  </div>
+                  <div style={{ padding: "1.75rem 2rem", borderTop: `1px solid ${C.borderGold}` }}>
+                    <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.3rem", fontWeight: 400, color: C.text, marginBottom: "0.3rem" }}>{col.name}</h3>
+                    <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.55rem", letterSpacing: "0.15em", color: C.textDim, marginBottom: "1rem" }}>{col.ref}</div>
+                    <p style={{ fontFamily: "'EB Garamond', serif", fontSize: "0.9rem", color: C.textMuted, lineHeight: 1.7, marginBottom: "1.25rem" }}>{col.desc}</p>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "1rem", borderTop: `1px solid ${C.border}` }}>
+                      <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", fontWeight: 300, color: C.gold }}>{col.price}</span>
+                      <Link href="/templates/impact-63/collections" style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.goldDim, textDecoration: "none" }}>
+                        CONSULTER →
+                      </Link>
+                    </div>
+                  </div>
+                </motion.div>
+              )
+}
+
 export default function MaisonDrouetHome() {
   const [session, setSession] = useState<{
     formData?: {
@@ -382,44 +422,9 @@ return (
             </>)}</h2>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(360px, 100%), 1fr))", gap: "2px", background: C.border }}>
-            {COLLECTIONS.map((col, i) => {
-              const ref = useRef<HTMLDivElement>(null);
-              const inView = useInView(ref, { once: true });
-              return (
-                <motion.div
-                  key={col.id}
-                  ref={ref}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={inView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.7, delay: i * 0.08 }}
-                  style={{ background: C.bgCard, position: "relative", overflow: "hidden", cursor: "pointer" }}
-                >
-                  <div style={{ aspectRatio: "4/3", overflow: "hidden", position: "relative" }}>
-                    <img
-                      src={col.image}
-                      alt={col.name}
-                      style={{ width: "100%", height: "100%", objectFit: "cover", filter: "grayscale(0.3) brightness(0.85)", transition: "transform 0.8s, filter 0.8s" }}
-                      onMouseEnter={e => { (e.target as HTMLImageElement).style.transform = "scale(1.05)"; (e.target as HTMLImageElement).style.filter = "grayscale(0) brightness(1)"; }}
-                      onMouseLeave={e => { (e.target as HTMLImageElement).style.transform = "scale(1)"; (e.target as HTMLImageElement).style.filter = "grayscale(0.3) brightness(0.85)"; }}
-                    />
-                    <div style={{ position: "absolute", top: "1rem", right: "1rem", background: "rgba(14,12,10,0.85)", padding: "2px 8px" }}>
-                      <span style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.goldDim }}>{col.category.toUpperCase()}</span>
-                    </div>
-                  </div>
-                  <div style={{ padding: "1.75rem 2rem", borderTop: `1px solid ${C.borderGold}` }}>
-                    <h3 style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.3rem", fontWeight: 400, color: C.text, marginBottom: "0.3rem" }}>{col.name}</h3>
-                    <div style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.55rem", letterSpacing: "0.15em", color: C.textDim, marginBottom: "1rem" }}>{col.ref}</div>
-                    <p style={{ fontFamily: "'EB Garamond', serif", fontSize: "0.9rem", color: C.textMuted, lineHeight: 1.7, marginBottom: "1.25rem" }}>{col.desc}</p>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: "1rem", borderTop: `1px solid ${C.border}` }}>
-                      <span style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.1rem", fontWeight: 300, color: C.gold }}>{col.price}</span>
-                      <Link href="/templates/impact-63/collections" style={{ fontFamily: "'Cormorant SC', serif", fontSize: "0.55rem", letterSpacing: "0.2em", color: C.goldDim, textDecoration: "none" }}>
-                        CONSULTER →
-                      </Link>
-                    </div>
-                  </div>
-                </motion.div>
-              );
-            })}
+            {COLLECTIONS.map((col, i) => (
+              <CarteCollection key={col.id ?? i} col={col} i={i} />
+            ))}
           </div>
           <div style={{ textAlign: "center", marginTop: "4rem" }}>
             <Link href="/templates/impact-63/collections" style={{ textDecoration: "none" }}>
