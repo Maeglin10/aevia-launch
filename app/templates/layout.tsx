@@ -1,4 +1,5 @@
 import { WebchatBridge } from "./WebchatBridge";
+import { BarreBoutique } from "./BarreBoutique";
 import { BarreActionMobile } from "./BarreActionMobile";
 import { BrandColorVar } from "./BrandColorVar";
 import { SiteSchema } from "./SiteSchema";
@@ -143,6 +144,10 @@ export default function TemplatesLayout({
           s'efface d'elle-même sur les thèmes qui ont déjà un appel à l'action
           épinglé. */}
       <BarreActionMobile />
+      {/* La vente en ligne du catalogue : panier + Stripe Connect quand le
+          marchand l'a activée, lien vers sa boutique existante sinon. Posée
+          ici, une fois, comme les autres correctifs catalogue. */}
+      <BarreBoutique />
       <WebchatBridge />
     </>
   );

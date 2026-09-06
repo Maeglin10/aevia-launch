@@ -74,7 +74,7 @@ export interface BusinessCore {
 
 export interface Catalogues {
   services?: { name: string; price?: string; duration?: string; description?: string }[];
-  products?: { name: string; price?: string; description?: string; photoUrl?: string }[];
+  products?: { name: string; price?: string; description?: string; photoUrl?: string; stock?: number }[];
   menu?: { category: string; name: string; price?: string; description?: string }[];
   listings?: { title: string; price?: string; surface?: string; rooms?: string; status?: string; photoUrl?: string; city?: string }[];
   team?: { name: string; role: string; photoUrl?: string; bio?: string; specialty?: string; credentials?: string }[];
@@ -86,7 +86,14 @@ export interface Catalogues {
     la lisait.
   */
   methode?: { name: string; desc?: string }[];
-  commerce?: { mode: "showcase" | "external" | "stripe"; storeUrl?: string };
+  commerce?: {
+    mode: "showcase" | "external" | "stripe";
+    storeUrl?: string;
+    /** Compte Stripe Connect du marchand — posé par /api/boutique/connecter. */
+    stripeAccountId?: string;
+    /** Frais de livraison fixes en centimes (V1) ; absent = pas de livraison facturée. */
+    fraisLivraisonCents?: number;
+  };
 }
 
 export interface LegalProfile {
