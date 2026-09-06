@@ -136,14 +136,17 @@ export function ThemeBlocks({
   sector,
   profile,
   onChange,
+  sauf = [],
 }: {
   templateId: string | undefined;
   /** Le métier choisi à l'étape 1 : il donne son vocabulaire à chaque bloc. */
   sector: string | undefined;
   profile: BusinessProfile;
   onChange: (next: BusinessProfile) => void;
+  /** Blocs déjà demandés par l'étape métier : on ne les redemande pas ici. */
+  sauf?: ContentBlock[];
 }) {
-  const blocks = blocksForTheme(templateId);
+  const blocks = blocksForTheme(templateId).filter((b) => !sauf.includes(b));
   const say = (b: ContentBlock) => copyFor(sector, b);
   const has = (b: ContentBlock) => blocks.includes(b);
   const patch = (p: Partial<BusinessProfile>) => onChange({ ...profile, ...p });
@@ -154,8 +157,8 @@ export function ThemeBlocks({
   const faq = profile.faq ?? [];
   const team = profile.team ?? [];
 
-  // Rien à demander : le thème n'affiche que le socle, déjà couvert ailleurs.
-  if (blocks.length <= 1) return null;
+  // Rien à demander : tout est déjà couvert par l'étape métier ou le socle.
+  if (blocks.length === 0) return null;
 
   return (
     <div className="space-y-3">

@@ -1,6 +1,7 @@
 "use client";
 
 import { Plus, X } from "lucide-react";
+import { blocksForTheme } from "@/lib/templates/capabilities";
 import type { BusinessProfile } from "@/lib/sessions";
 import { useAutoSaveStep } from "@/components/wizard/useAutoSaveStep";
 
@@ -17,11 +18,15 @@ export function FoodStep({
   value,
   onChange,
   sessionId,
+  templateId,
 }: {
   value: BusinessProfile | undefined;
   onChange: (bp: BusinessProfile) => void;
   sessionId: string | null;
+  templateId?: string;
 }) {
+  const blocsTheme = blocksForTheme(templateId);
+  const themeAffiche = (bloc: string) => !templateId || blocsTheme.includes(bloc as never);
   useAutoSaveStep(sessionId, "businessProfile", value);
 
   const menu = value?.menu ?? [];
@@ -136,6 +141,7 @@ export function FoodStep({
       </div>
 
       {/* Opening hours */}
+      {themeAffiche("horaires") && (
       <div className="space-y-2">
         <p className={label}>Horaires</p>
         <div className="flex flex-col gap-1.5">
@@ -171,6 +177,7 @@ export function FoodStep({
           ))}
         </div>
       </div>
+      )}
     </div>
   );
 }

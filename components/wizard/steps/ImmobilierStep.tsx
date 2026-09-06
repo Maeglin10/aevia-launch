@@ -1,6 +1,7 @@
 "use client";
 
 import { Plus, X } from "lucide-react";
+import { blocksForTheme } from "@/lib/templates/capabilities";
 import type { BusinessProfile } from "@/lib/sessions";
 import { useAutoSaveStep } from "@/components/wizard/useAutoSaveStep";
 
@@ -16,11 +17,15 @@ export function ImmobilierStep({
   value,
   onChange,
   sessionId,
+  templateId,
 }: {
   value: BusinessProfile | undefined;
   onChange: (bp: BusinessProfile) => void;
   sessionId: string | null;
+  templateId?: string;
 }) {
+  const blocsTheme = blocksForTheme(templateId);
+  const themeAffiche = (bloc: string) => !templateId || blocsTheme.includes(bloc as never);
   useAutoSaveStep(sessionId, "businessProfile", value);
 
   const listings = value?.listings ?? [];
@@ -119,6 +124,7 @@ export function ImmobilierStep({
       </div>
 
       {/* Team / agents */}
+      {themeAffiche("equipe") && (
       <div className="space-y-2">
         <p className={label}>Agents</p>
         <div className="flex flex-col gap-2">
@@ -146,8 +152,10 @@ export function ImmobilierStep({
           </button>
         </div>
       </div>
+      )}
 
       {/* Service areas */}
+      {themeAffiche("zones") && (
       <div className="space-y-2">
         <p className={label}>Zones d&apos;intervention</p>
         <div className="flex flex-wrap gap-2">
@@ -169,6 +177,7 @@ export function ImmobilierStep({
           </button>
         </div>
       </div>
+      )}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { blocksForTheme } from "@/lib/templates/capabilities";
 import { Plus, X } from "lucide-react";
 import type { BusinessProfile } from "@/lib/sessions";
 import { useAutoSaveStep } from "@/components/wizard/useAutoSaveStep";
@@ -34,6 +35,7 @@ export function ServiceRdvStep({
   onChange,
   sessionId,
   variant = "default",
+  templateId,
 }: {
   value: BusinessProfile | undefined;
   onChange: (bp: BusinessProfile) => void;
@@ -42,8 +44,12 @@ export function ServiceRdvStep({
   // and an emergency-contact section — reused as-is for médecin/dentiste/
   // kiné/ostéo (same service_rdv archetype, no separate step needed).
   variant?: "default" | "sante";
+  /** Le thème choisi : les sections qu'il n'affiche pas ne sont pas demandées. */
+  templateId?: string;
 }) {
   useAutoSaveStep(sessionId, "businessProfile", value);
+  const blocsTheme = blocksForTheme(templateId);
+  const themeAffiche = (bloc: string) => !templateId || blocsTheme.includes(bloc as never);
 
   /*
     Une première ligne déjà ouverte. « Prestations » ne montrait qu'un lien
@@ -177,6 +183,7 @@ export function ServiceRdvStep({
       </div>
 
       {/* Team */}
+      {themeAffiche("equipe") && (
       <div className="space-y-2">
         <p className={label}>Équipe</p>
         <div className="flex flex-col gap-3">
@@ -236,6 +243,7 @@ export function ServiceRdvStep({
           </button>
         </div>
       </div>
+      )}
 
       {/* Booking system */}
       <div className="space-y-2">
@@ -266,6 +274,7 @@ export function ServiceRdvStep({
       </div>
 
       {/* Opening hours */}
+      {themeAffiche("horaires") && (
       <div className="space-y-2">
         <p className={label}>Horaires</p>
         <div className="flex flex-col gap-1.5">
@@ -307,8 +316,10 @@ export function ServiceRdvStep({
           ))}
         </div>
       </div>
+      )}
 
       {/* Reputation sources */}
+      {themeAffiche("avis") && (
       <div className="space-y-2">
         <p className={label}>Avis clients</p>
         <p className="text-xs text-zinc-500">Si vous avez un lien Planity ou Google, ajoutez-le ; sinon, laissez vide.</p>
@@ -343,6 +354,7 @@ export function ServiceRdvStep({
           </button>
         </div>
       </div>
+      )}
 
       {/* Emergency contact (santé only) */}
       {variant === "sante" && (

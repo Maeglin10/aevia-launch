@@ -87,7 +87,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s1Title: "Votre activité", s1Sub: "Choisissez votre secteur — on vous montre les designs faits pour vous.",
     s1IndustryTitle: "Votre domaine", s1IndustrySub: "Quel est votre secteur d'activité ?",
     s1SpecialtyTitle: "Votre métier", s1SpecialtySub: "Précisez votre activité pour voir les designs qui vous correspondent.", s1ChangeIndustry: "← Changer de domaine",
-    s2Title: "Votre design", s2Sub: "Designs créés pour votre métier. Choisissez celui qui vous correspond.", s2Preview: "Voir le thème", s2ModelLabel: "Modèle", s2Chosen: "Votre design est choisi", s2ChosenSub: "Vous pourrez encore en changer avant de publier.", s2Change: "Changer", s2Other: "Autre activité ? Voir tous les thèmes →",
+    s2Title: "Votre design", s2Sub: "Designs créés pour votre métier. Choisissez celui qui vous correspond.", s2Preview: "Voir le thème", s2ModelLabel: "Modèle", s2Chosen: "Votre design est choisi", s2ChosenSub: "Vous pourrez encore en changer avant de publier — tout ce que vous avez déjà saisi sera conservé et réutilisé.", s2Change: "Changer", s2Other: "Autre activité ? Voir tous les thèmes →",
     s3Title: "Votre entreprise",
     s4Title: "Votre offre", s4SectorSub: "Ces questions permettent d'adapter le contenu à votre métier.",
     s5Title: "Vos visuels", s5Sub: "Ajoutez votre logo et des photos pour personnaliser votre site.",
@@ -120,7 +120,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s1Title: "Your business type", s1Sub: "Pick your sector — we'll show the designs built for you.",
     s1IndustryTitle: "Your industry", s1IndustrySub: "What is your field of activity?",
     s1SpecialtyTitle: "Your profession", s1SpecialtySub: "Specify your activity to see the designs made for you.", s1ChangeIndustry: "← Change industry",
-    s2Title: "Your design", s2Sub: "Designs built for your profession. Pick the one that fits.", s2Preview: "Preview theme", s2ModelLabel: "Design", s2Chosen: "Your design is selected", s2ChosenSub: "You can still change it before publishing.", s2Change: "Change", s2Other: "Different business? See all themes →",
+    s2Title: "Your design", s2Sub: "Designs built for your profession. Pick the one that fits.", s2Preview: "Preview theme", s2ModelLabel: "Design", s2Chosen: "Your design is selected", s2ChosenSub: "You can still change it before publishing — everything you have already filled in is kept and reused.", s2Change: "Change", s2Other: "Different business? See all themes →",
     s3Title: "Your business",
     s4Title: "Your offer", s4SectorSub: "These questions help tailor the content to your profession.",
     s5Title: "Your visuals", s5Sub: "Add your logo and photos to personalise your site.",
@@ -153,7 +153,7 @@ const STEPFORM_T: Record<string, StepFormStrings> = {
     s1Title: "Tu actividad", s1Sub: "Elige tu sector — te mostramos los diseños hechos para ti.",
     s1IndustryTitle: "Tu sector", s1IndustrySub: "¿Cuál es tu campo de actividad?",
     s1SpecialtyTitle: "Tu profesión", s1SpecialtySub: "Especifica tu actividad para ver los diseños hechos para ti.", s1ChangeIndustry: "← Cambiar sector",
-    s2Title: "Tu diseño", s2Sub: "Diseños creados para tu profesión. Elige el que más te gusta.", s2Preview: "Ver tema", s2ModelLabel: "Modelo", s2Chosen: "Tu diseño está elegido", s2ChosenSub: "Podrás cambiarlo antes de publicar.", s2Change: "Cambiar", s2Other: "¿Otra actividad? Ver todos los temas →",
+    s2Title: "Tu diseño", s2Sub: "Diseños creados para tu profesión. Elige el que más te gusta.", s2Preview: "Ver tema", s2ModelLabel: "Modelo", s2Chosen: "Tu diseño está elegido", s2ChosenSub: "Podrás cambiarlo antes de publicar — todo lo que ya has rellenado se conserva y se reutiliza.", s2Change: "Cambiar", s2Other: "¿Otra actividad? Ver todos los temas →",
     s3Title: "Tu negocio",
     s4Title: "Tu oferta", s4SectorSub: "Estas preguntas permiten adaptar el contenido a tu profesión.",
     s5Title: "Tus visuales", s5Sub: "Añade tu logo y fotos para personalizar tu sitio.",
@@ -1012,12 +1012,14 @@ export function StepForm() {
                 onChange={(bp) => set("businessProfile", bp)}
                 sessionId={sessionId}
                 variant={SANTE_NICHES.has(form.sector) ? "sante" : "default"}
+                templateId={form.template}
               />
               <ThemeBlocks
                 templateId={form.template}
                 sector={form.sector}
                 profile={form.businessProfile}
                 onChange={(bp) => set("businessProfile", bp)}
+                sauf={["prestations", "tarifs", "equipe", "horaires", "avis"]}
               />
             </>
           ) : step === 4 && NICHE_ARCHETYPE[form.sector] === "food" ? (
@@ -1026,12 +1028,14 @@ export function StepForm() {
                 value={form.businessProfile}
                 onChange={(bp) => set("businessProfile", bp)}
                 sessionId={sessionId}
+                templateId={form.template}
               />
               <ThemeBlocks
                 templateId={form.template}
                 sector={form.sector}
                 profile={form.businessProfile}
                 onChange={(bp) => set("businessProfile", bp)}
+                sauf={["menu", "prestations", "tarifs", "horaires"]}
               />
             </>
           ) : step === 4 && NICHE_ARCHETYPE[form.sector] === "immobilier" ? (
@@ -1040,12 +1044,14 @@ export function StepForm() {
                 value={form.businessProfile}
                 onChange={(bp) => set("businessProfile", bp)}
                 sessionId={sessionId}
+                templateId={form.template}
               />
               <ThemeBlocks
                 templateId={form.template}
                 sector={form.sector}
                 profile={form.businessProfile}
                 onChange={(bp) => set("businessProfile", bp)}
+                sauf={["realisations", "equipe", "zones", "prestations", "tarifs"]}
               />
             </>
           ) : step === 4 && NICHE_ARCHETYPE[form.sector] ? (
@@ -1062,12 +1068,14 @@ export function StepForm() {
                 value={form.businessProfile}
                 onChange={(bp) => set("businessProfile", bp)}
                 sessionId={sessionId}
+                templateId={form.template}
               />
               <ThemeBlocks
                 templateId={form.template}
                 sector={form.sector}
                 profile={form.businessProfile}
                 onChange={(bp) => set("businessProfile", bp)}
+                sauf={["prestations", "tarifs", "menu", "produits", "equipe", "horaires", "avis", "engagements", "chiffres", "faq", "realisations", "zones"]}
               />
             </>
           ) : step === 4 && (
@@ -1106,6 +1114,7 @@ export function StepForm() {
                 sector={form.sector}
                 profile={form.businessProfile}
                 onChange={(bp) => set("businessProfile", bp)}
+                sauf={["prestations", "tarifs"]}
               />
 
               {(SECTOR_EXTRA_QUESTIONS[form.sector] ?? []).length > 0 && (

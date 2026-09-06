@@ -17,6 +17,7 @@
 */
 
 import { useState } from "react";
+import { blocksForTheme } from "@/lib/templates/capabilities";
 import { Plus, X } from "lucide-react";
 import type { BusinessProfile } from "@/lib/sessions";
 import { ARCHETYPES, type ArchetypeId } from "@/lib/wizard/archetypes";
@@ -54,11 +55,14 @@ export function ArchetypeStep({
   value,
   onChange,
   sessionId,
+  templateId,
 }: {
   archetype: ArchetypeId;
   value: BusinessProfile | undefined;
   onChange: (bp: BusinessProfile) => void;
   sessionId?: string | null;
+  /** Le thème choisi : l'étape ne montre que les sections qu'il sait afficher. */
+  templateId?: string;
 }) {
   const [bp, setBp] = useState<BusinessProfile>(value ?? {});
   useAutoSaveStep(sessionId ?? null, "businessProfile", bp);
@@ -70,7 +74,24 @@ export function ArchetypeStep({
   }
 
   const config = ARCHETYPES[archetype];
-  const champs = [...config.catalogueFields, ...config.coreFields] as string[];
+  /*
+    Le thème choisi ne rend qu'une partie des blocs : demander le reste fait
+    perdre du temps au client pour des données que sa page n'affichera pas.
+    On filtre donc les champs par la déclaration du thème. Les champs
+    d'infrastructure (réservation, adresse, paiement) restent toujours.
+  */
+  const CHAMP_BLOC: Record<string, string> = {
+    services: "prestations", menu: "menu", products: "produits",
+    team: "equipe", beforeAfter: "realisations", openingHours: "horaires",
+    reputation: "avis", certifications: "engagements", keyStats: "chiffres",
+    faq: "faq", methode: "methode", listings: "realisations",
+  };
+  const blocsTheme = blocksForTheme(templateId);
+  const garde = (champ: string) => {
+    const bloc = CHAMP_BLOC[champ];
+    return !bloc || !templateId || blocsTheme.includes(bloc as never);
+  };
+  const champs = ([...config.catalogueFields, ...config.coreFields] as string[]).filter(garde);
 
   // Une liste d'objets : on ajoute, on retire, on saisit.
   function listeObjets<T extends Record<string, any>>(
