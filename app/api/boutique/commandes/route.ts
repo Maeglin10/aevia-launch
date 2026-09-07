@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getSessionFromBlob } from "@/lib/sessions";
+import { getSessionFromBlob, jetonEditionValide } from "@/lib/sessions";
 import { listerCommandes } from "@/lib/boutique/commandes";
 
 export const runtime = "nodejs";
@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
 
   const session = await getSessionFromBlob(sessionId);
   if (!session) return NextResponse.json({ error: "Session introuvable" }, { status: 404 });
-  if (!session.editToken || session.editToken !== token) {
+  if (!jetonEditionValide(session, token)) {
     return NextResponse.json({ error: "Jeton invalide" }, { status: 403 });
   }
 

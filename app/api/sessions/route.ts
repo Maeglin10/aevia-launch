@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { saveSession, saveSessionToBlob, getSessionFromBlob } from "@/lib/sessions";
+import { saveSession, saveSessionToBlob, getSessionFromBlob , hasherJeton, jetonEditionValide, aJetonEdition} from "@/lib/sessions";
 import type { GeneratedContent, FormData, SessionData, BusinessProfile } from "@/lib/sessions";
 
 export const runtime = "nodejs";
@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
 
   // Never expose the edit token — returning it would let any reader of a shared
   // preview link steal write access to the session.
-  const { editToken: _editToken, ...safe } = session;
+  const { editToken: _editToken, editTokenHash: _editTokenHash, ...safe } = session;
   return NextResponse.json(safe);
 }
 
@@ -76,7 +76,10 @@ export async function POST(req: NextRequest) {
   // localStorage). PATCH requires it — see below — so a leaked/shared session id
   // no longer lets a stranger overwrite the site.
   const editToken = crypto.randomUUID();
-  const data = { id, formData: body.formData, createdAt: new Date(), editToken };
+  /* Seul le hash est stocké : le blob de session est public à chemin
+     prévisible — un jeton en clair y serait lisible avec le seul lien
+     d'aperçu, et ouvrirait l'édition du site à n'importe qui. */
+  const data = { id, formData: body.formData, createdAt: new Date(), editTokenHash: hasherJeton(editToken) };
 
   // Persist to Blob so the session survives across serverless instances.
   // Without this, /api/generate (next call) lands on a different instance
@@ -127,8 +130,8 @@ export async function PATCH(req: NextRequest) {
   const presented = req.headers.get("x-edit-token");
   let adopte: string | null = null;
 
-  if (session.editToken) {
-    if (presented !== session.editToken) {
+  if (aJetonEdition(session)) {
+    if (!jetonEditionValide(session, presented)) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
   } else {
@@ -169,7 +172,7 @@ export async function PATCH(req: NextRequest) {
           .filter(([, v]) => typeof v === "string" && v.trim() !== ""),
       ),
     }),
-    ...(adopte ? { editToken: adopte } : {}),
+    ...(adopte ? { editTokenHash: hasherJeton(adopte) } : {}),
   } satisfies SessionData;
 
   try {

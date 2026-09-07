@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
-import { getSessionFromBlob, saveSessionToBlob } from "@/lib/sessions";
+import { getSessionFromBlob, saveSessionToBlob, jetonEditionValide } from "@/lib/sessions";
 
 export const runtime = "nodejs";
 
@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
     return versSite("&etat=echec");
   }
   const session = await getSessionFromBlob(sessionId);
-  if (!session || !session.editToken || session.editToken !== token) {
+  if (!session || !jetonEditionValide(session, token)) {
     return versSite("&etat=echec");
   }
 

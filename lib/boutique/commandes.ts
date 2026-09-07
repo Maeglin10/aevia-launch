@@ -30,28 +30,22 @@ export interface Commande {
   statut: "payee" | "remboursee";
 }
 
-function hote(): string | null {
-  const jeton = process.env.BLOB_READ_WRITE_TOKEN ?? "";
-  const depot = jeton.split("_")[3] ?? null;
-  return depot ? `https://${depot}.public.blob.vercel-storage.com` : null;
-}
-
 export async function enregistrerCommande(commande: Commande): Promise<void> {
+  /* Suffixe aléatoire : le blob est public — un chemin prévisible rendrait
+     noms et adresses d'acheteurs lisibles avec le seul lien d'aperçu. */
   await put(
     `orders/${commande.sessionId}/${commande.id}.json`,
     JSON.stringify(commande),
-    { access: "public", addRandomSuffix: false, allowOverwrite: true, contentType: "application/json" },
+    { access: "public", addRandomSuffix: true, contentType: "application/json" },
   );
 }
 
 export async function listerCommandes(sessionId: string): Promise<Commande[]> {
   const { blobs } = await list({ prefix: `orders/${sessionId}/` });
-  const base = hote();
   const resultats: Commande[] = [];
   for (const b of blobs) {
     try {
-      const url = base ? `${base}/${b.pathname}` : b.url;
-      const r = await fetch(url, { cache: "no-store" });
+      const r = await fetch(b.url, { cache: "no-store" });
       if (r.ok) resultats.push((await r.json()) as Commande);
     } catch {
       /* une commande illisible ne doit pas cacher les autres */

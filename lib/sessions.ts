@@ -155,7 +155,12 @@ export interface SessionData {
     session revient à voler le jeton. Les sessions anciennes sans jeton restent
     modifiables (compat) ; les nouvelles sont protégées.
   */
+  /** Legacy : jeton en clair — remplacé par editTokenHash à chaque écriture. */
   editToken?: string;
+  /** SHA-256 hex du jeton d'édition : seul le hash vit au repos (le blob de
+      session est public à chemin prévisible — un secret en clair y serait
+      lisible par quiconque possède le lien d'aperçu). */
+  editTokenHash?: string;
   /*
     Les retouches du client, section par section.
 
@@ -168,6 +173,29 @@ export interface SessionData {
     structurée — prestations, tarifs, horaires — et ceci couvre la prose.
   */
   sectionOverrides?: Record<string, string>;
+}
+
+import { createHash } from "node:crypto";
+
+/** SHA-256 hex — la seule forme sous laquelle un jeton d'édition est stocké. */
+export function hasherJeton(token: string): string {
+  return createHash("sha256").update(token).digest("hex");
+}
+
+/**
+ * Le jeton présenté ouvre-t-il cette session ?
+ * Compare au hash ; accepte le clair hérité des sessions d'avant la migration.
+ */
+export function jetonEditionValide(session: SessionData, presente: string | null | undefined): boolean {
+  if (!presente) return false;
+  if (session.editTokenHash) return hasherJeton(presente) === session.editTokenHash;
+  if (session.editToken) return presente === session.editToken;
+  return false;
+}
+
+/** La session possède-t-elle un jeton (clair hérité ou hash) ? */
+export function aJetonEdition(session: SessionData): boolean {
+  return Boolean(session.editTokenHash || session.editToken);
 }
 
 // In-memory cache (warm path)
@@ -192,6 +220,12 @@ export function updateSession(id: string, updates: Partial<SessionData>) {
 // Throws on failure — callers MUST handle the error and avoid sending the
 // client a preview link that points to a missing session.
 export async function saveSessionToBlob(id: string, data: SessionData): Promise<void> {
+  /* Le clair ne touche jamais le disque : converti en hash à chaque écriture
+     (migre aussi, au fil de l'eau, les sessions d'avant cette règle). */
+  if (data.editToken) {
+    data = { ...data, editTokenHash: data.editTokenHash ?? hasherJeton(data.editToken) };
+    delete (data as unknown as Record<string, unknown>).editToken;
+  }
   await put(`sessions/${id}.json`, JSON.stringify(data), {
     access: "public",
     addRandomSuffix: false,
