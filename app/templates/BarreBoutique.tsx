@@ -4,13 +4,16 @@
   La boutique du site client, posée une fois pour tout le catalogue — comme la
   barre d'appel mobile : aucun des 373 thèmes n'est modifié.
 
-  Trois états, selon la session :
-  1. commerce.stripeAccountId présent → vraie vente : bouton « Boutique »
-     flottant, tiroir catalogue (produits à prix ferme), panier, paiement
-     Stripe Checkout — l'argent va au compte du marchand.
-  2. commerce.storeUrl présent → bouton qui ouvre la boutique existante du
+  Quatre états, selon la session :
+  1. commerce.stripeAccountId présent → vraie vente : tiroir catalogue,
+     panier, paiement Stripe Checkout — l'argent va au compte du marchand,
+     avec les moyens de paiement QUE LUI a activés (CB, PayPal, Klarna…).
+  2. des produits portent un lien de paiement déjà possédé (PayPal.me,
+     SumUp, Stripe Payment Link…) → tiroir catalogue, bouton « Payer » par
+     produit qui ouvre ce lien — plug and play, aucun compte à relier.
+  3. commerce.storeUrl présent → bouton qui ouvre la boutique existante du
      marchand (Shopify, Etsy…) dans un nouvel onglet.
-  3. Ni l'un ni l'autre mais le NAVIGATEUR détient le jeton d'édition (c'est
+  4. Rien de tout ça mais le NAVIGATEUR détient le jeton d'édition (c'est
      le marchand qui regarde son propre site) et le thème vend des produits →
      le tiroir propose d'activer l'encaissement en ligne.
   Sinon : rien — les vitrines restent des vitrines.
@@ -24,6 +27,7 @@ interface Produit {
   description?: string;
   photoUrl?: string;
   stock?: number;
+  paymentLink?: string;
 }
 
 function prixEnCents(brut: string | undefined): number | null {
@@ -96,11 +100,16 @@ export function BarreBoutique() {
     () => produits.map((p, i) => ({ p, i, cents: prixEnCents(p.price) })).filter((x) => x.cents !== null),
     [produits],
   );
+  /* Le marchand a peut-être DÉJÀ ses liens de paiement (PayPal.me, SumUp,
+     Stripe Payment Link…) : un produit qui en porte un se vend sans rien
+     d'autre — plug and play, aucun compte à relier. */
+  const avecLien = useMemo(() => produits.map((p, i) => ({ p, i })).filter((x) => /^https?:\/\//.test(x.p.paymentLink ?? "")), [produits]);
 
   const modeVente = Boolean(commerce?.stripeAccountId) && vendables.length > 0;
-  const modeExterne = !modeVente && Boolean(commerce?.storeUrl);
-  const modeActivation = !modeVente && !modeExterne && Boolean(jetonEdition) && vendables.length > 0;
-  if (!modeVente && !modeExterne && !modeActivation && !merci) return null;
+  const modeLiens = !modeVente && avecLien.length > 0;
+  const modeExterne = !modeVente && !modeLiens && Boolean(commerce?.storeUrl);
+  const modeActivation = !modeVente && !modeLiens && !modeExterne && Boolean(jetonEdition) && vendables.length > 0;
+  if (!modeVente && !modeLiens && !modeExterne && !modeActivation && !merci) return null;
 
   const nbArticles = Object.values(panier).reduce((t, q) => t + q, 0);
   const totalCents = vendables.reduce((t, x) => t + (panier[x.i] ?? 0) * (x.cents as number), 0);
@@ -183,7 +192,33 @@ export function BarreBoutique() {
                 <button onClick={() => setOuvert(false)} aria-label="Fermer" style={{ background: "none", border: "none", fontSize: 16, cursor: "pointer" }}>✕</button>
               </div>
 
-              {modeActivation ? (
+              {modeLiens ? (
+                <>
+                  {avecLien.map(({ p, i }) => (
+                    <div key={i} style={{ display: "flex", gap: 10, alignItems: "center", padding: "10px 0", borderTop: "1px solid #f0f0f2" }}>
+                      {p.photoUrl && (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={p.photoUrl} alt={p.name} style={{ width: 44, height: 44, objectFit: "cover", borderRadius: 8, flexShrink: 0 }} />
+                      )}
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: 13.5, fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{p.name}</div>
+                        {p.price && <div style={{ fontSize: 12.5, color: "#71717a" }}>{p.price}</div>}
+                      </div>
+                      <a
+                        href={p.paymentLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ background: brand, color: "#fff", padding: "8px 14px", borderRadius: 10, fontSize: 12.5, fontWeight: 700, textDecoration: "none", flexShrink: 0 }}
+                      >
+                        Payer
+                      </a>
+                    </div>
+                  ))}
+                  <p style={{ margin: "10px 0 0", color: "#a1a1aa", fontSize: 11.5, textAlign: "center" }}>
+                    Paiement via le prestataire du commerçant.
+                  </p>
+                </>
+              ) : modeActivation ? (
                 <div style={{ fontSize: 13.5, lineHeight: 1.6 }}>
                   <p style={{ margin: "0 0 10px" }}>
                     Vous voyez ce panneau parce que vous êtes propriétaire de ce site. Activez

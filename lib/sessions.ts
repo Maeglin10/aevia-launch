@@ -74,7 +74,16 @@ export interface BusinessCore {
 
 export interface Catalogues {
   services?: { name: string; price?: string; duration?: string; description?: string }[];
-  products?: { name: string; price?: string; description?: string; photoUrl?: string; stock?: number }[];
+  products?: {
+    name: string;
+    price?: string;
+    description?: string;
+    photoUrl?: string;
+    stock?: number;
+    /** Lien de paiement DÉJÀ possédé par le marchand (PayPal.me, SumUp,
+        Stripe Payment Link…) — le bouton Acheter l'ouvre tel quel. */
+    paymentLink?: string;
+  }[];
   menu?: { category: string; name: string; price?: string; description?: string }[];
   listings?: { title: string; price?: string; surface?: string; rooms?: string; status?: string; photoUrl?: string; city?: string }[];
   team?: { name: string; role: string; photoUrl?: string; bio?: string; specialty?: string; credentials?: string }[];

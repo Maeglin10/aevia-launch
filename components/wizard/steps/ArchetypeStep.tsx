@@ -174,6 +174,7 @@ export function ArchetypeStep({
           { champ: "name", placeholder: "Produit" },
           { champ: "price", placeholder: "Prix", largeur: "w-28" },
           { champ: "description", placeholder: "En une phrase" },
+          { champ: "paymentLink", placeholder: "Lien de paiement déjà à vous (PayPal.me, SumUp…) — optionnel" },
         ]);
       case "team":
         return listeObjets("team", bp.team ?? [], { name: "", role: "" }, [
