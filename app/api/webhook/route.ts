@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { rattacherAuProjet } from "@/lib/domains/vercel";
+import { enregistrerDomaine } from "@/lib/domains/mapping";
 import Stripe from "stripe";
 import { Resend } from "resend";
 import { put } from "@vercel/blob";
@@ -390,7 +391,7 @@ const DESIRED_DOMAIN_RE =
  * Returns a human-readable status line for the admin email, or "" to skip.
  * Never throws — domain handling must never break order fulfilment.
  */
-async function handleDesiredDomain(rawDomain: string, siteName: string): Promise<string> {
+async function handleDesiredDomain(rawDomain: string, siteName: string, sessionId?: string): Promise<string> {
   const domain = (rawDomain ?? "").trim().toLowerCase();
   if (!domain) return "";
   if (!DESIRED_DOMAIN_RE.test(domain)) {
@@ -467,6 +468,11 @@ async function handleDesiredDomain(rawDomain: string, siteName: string): Promise
           commande — d'où le message, et non l'exception.
         */
         const rattachement = await rattacherAuProjet(domain);
+        /* La pièce qui manquait : sans ce lien, le domaine rattaché servait
+           la page d'accueil d'Aevia au lieu du site du client. */
+        if (sessionId) {
+          try { await enregistrerDomaine(domain, sessionId); } catch (e) { console.error("[webhook] mapping domaine", e); }
+        }
         const detailDns = rattachement.dns?.length
           ? ` DNS à poser : ${rattachement.dns.map((d) => `${d.type} ${d.nom} → ${d.valeur}`).join(" ; ")}.`
           : "";
@@ -574,7 +580,8 @@ export async function POST(req: NextRequest) {
       const desiredDomain = (meta.domain as string | undefined) ?? "";
       if (resend && desiredDomain.trim()) {
         try {
-          const domainNote = await handleDesiredDomain(desiredDomain, siteName);
+          const sessionPourDomaine = (meta.sessionId ?? meta.sessionApercu) as string | undefined;
+          const domainNote = await handleDesiredDomain(desiredDomain, siteName, sessionPourDomaine);
           if (domainNote) {
             await resend.emails.send({
               from: process.env.RESEND_FROM_EMAIL ?? "AeviaLaunch <noreply@aevia.io>",
