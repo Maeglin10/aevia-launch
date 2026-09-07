@@ -404,6 +404,7 @@ async function handleDesiredDomain(rawDomain: string, siteName: string): Promise
   // 1. Availability (free, read-only)
   let availLine = "dispo=?";
   let available = false;
+  let premium = false;
   try {
     const r = await fetch(
       `${AEVIA_BACKEND_URL}/api/v1/domains/netim/check?q=${encodeURIComponent(domain)}`,
@@ -421,6 +422,7 @@ async function handleDesiredDomain(rawDomain: string, siteName: string): Promise
       };
       const res = j.results?.[0];
       available = !!res?.available;
+      premium = !!res?.isPremium;
       if (res) {
         availLine =
           `dispo=${available ? "oui" : "non"}` +
@@ -436,6 +438,11 @@ async function handleDesiredDomain(rawDomain: string, siteName: string): Promise
 
   // 2. Opt-in auto-purchase (real money) — only if enabled AND available
   const autoRegister = process.env.SKYLAUNCH_DOMAIN_AUTO_REGISTER === "1";
+  /* Jamais d'achat automatique d'un domaine premium : certains se vendent
+     des centaines d'euros par an — l'admin arbitre, sur l'email. */
+  if (autoRegister && available && premium) {
+    return `📌 Domaine ${domain} PREMIUM (${availLine}) — achat auto refusé, à arbitrer manuellement.`;
+  }
   if (autoRegister && available) {
     try {
       const r = await fetch(`${AEVIA_BACKEND_URL}/api/v1/domains/netim/register`, {
