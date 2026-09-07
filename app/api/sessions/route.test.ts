@@ -4,13 +4,19 @@ import type { SessionData } from "@/lib/sessions";
 
 const mockSessions = new Map<string, SessionData>();
 
-vi.mock("@/lib/sessions", () => ({
-  saveSession: vi.fn((id: string, data: SessionData) => mockSessions.set(id, data)),
-  saveSessionToBlob: vi.fn(async (id: string, data: SessionData) => {
-    mockSessions.set(id, data);
-  }),
-  getSessionFromBlob: vi.fn(async (id: string) => mockSessions.get(id) ?? null),
-}));
+vi.mock("@/lib/sessions", async (importOriginal) => {
+  /* Le mock ne remplace que la persistance : les helpers de jeton
+     (hash, validation) sont la logique testée — on garde les vrais. */
+  const reel = await importOriginal<typeof import("@/lib/sessions")>();
+  return {
+    ...reel,
+    saveSession: vi.fn((id: string, data: SessionData) => mockSessions.set(id, data)),
+    saveSessionToBlob: vi.fn(async (id: string, data: SessionData) => {
+      mockSessions.set(id, data);
+    }),
+    getSessionFromBlob: vi.fn(async (id: string) => mockSessions.get(id) ?? null),
+  };
+});
 
 import { PATCH } from "./route";
 
