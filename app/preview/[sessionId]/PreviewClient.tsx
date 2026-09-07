@@ -19,7 +19,7 @@ type EditableData = {
 
 const T = {
   fr: {
-    notFound: "Session introuvable.", startOver: "Recommencer →", edit: "Modifier",
+    notFound: "Session introuvable.", pasGenere: "Votre site n'est pas encore généré — reprenez le parcours pour le créer.", reprendre: "Reprendre mon parcours →", startOver: "Recommencer →", edit: "Modifier",
     editContent: "Personnaliser",
     copied: "Copié !", shareLink: "Partager le lien", launch: "Je veux ce site",
     preview: "Aperçu", ready: "Votre site vous plaît ?",
@@ -36,7 +36,7 @@ const T = {
     googleError: "Une erreur est survenue pendant la connexion Google.",
   },
   en: {
-    notFound: "Session not found.", startOver: "Start over →", edit: "Edit",
+    notFound: "Session not found.", pasGenere: "Your site hasn't been generated yet — resume the flow to create it.", reprendre: "Resume my flow →", startOver: "Start over →", edit: "Edit",
     editContent: "Customize",
     copied: "Copied!", shareLink: "Share link", launch: "I want this site",
     preview: "Preview", ready: "Happy with your site?",
@@ -53,7 +53,7 @@ const T = {
     googleError: "Something went wrong connecting to Google.",
   },
   es: {
-    notFound: "Sesión no encontrada.", startOver: "Empezar de nuevo →", edit: "Editar",
+    notFound: "Sesión no encontrada.", pasGenere: "Tu sitio aún no está generado — retoma el proceso para crearlo.", reprendre: "Retomar mi proceso →", startOver: "Empezar de nuevo →", edit: "Editar",
     editContent: "Personalizar",
     copied: "¡Copiado!", shareLink: "Compartir enlace", launch: "Quiero este sitio",
     preview: "Vista previa", ready: "¿Te gusta tu sitio?",
@@ -70,7 +70,7 @@ const T = {
     googleError: "Ocurrió un error al conectar con Google.",
   },
   de: {
-    notFound: "Sitzung nicht gefunden.", startOver: "Neu starten →", edit: "Bearbeiten",
+    notFound: "Sitzung nicht gefunden.", pasGenere: "Ihre Website wurde noch nicht generiert — setzen Sie den Ablauf fort.", reprendre: "Ablauf fortsetzen →", startOver: "Neu starten →", edit: "Bearbeiten",
     editContent: "Anpassen",
     copied: "Kopiert!", shareLink: "Link teilen", launch: "Ich will diese Website",
     preview: "Vorschau", ready: "Gefällt Ihnen Ihre Website?",
@@ -87,7 +87,7 @@ const T = {
     googleError: "Beim Verbinden mit Google ist ein Fehler aufgetreten.",
   },
   pt: {
-    notFound: "Sessão não encontrada.", startOver: "Recomeçar →", edit: "Editar",
+    notFound: "Sessão não encontrada.", pasGenere: "O seu site ainda não foi gerado — retome o processo para o criar.", reprendre: "Retomar o processo →", startOver: "Recomeçar →", edit: "Editar",
     editContent: "Personalizar",
     copied: "Copiado!", shareLink: "Partilhar link", launch: "Quero este site",
     preview: "Pré-visualização", ready: "Gostou do seu site?",
@@ -263,6 +263,20 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
     );
   }
 
+  /* Deux situations distinctes, deux messages : une session absente n'est pas
+     une session existante dont la génération n'a pas (encore) eu lieu —
+     annoncer « introuvable » à un client dont le site attend la génération
+     l'envoyait recommencer de zéro. */
+  if (session && liveSession && !session.generatedContent) {
+    return (
+      <div className="min-h-screen bg-[#09090b] flex items-center justify-center text-white">
+        <div className="text-center max-w-md px-6">
+          <p className="text-zinc-400 mb-4">{t.pasGenere}</p>
+          <Link href={`/configure?session=${sessionId}`} className="text-red-400 hover:underline">{t.reprendre}</Link>
+        </div>
+      </div>
+    );
+  }
   if (!session || !liveSession || !session.generatedContent) {
     return (
       <div className="min-h-screen bg-[#09090b] flex items-center justify-center text-white">
