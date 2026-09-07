@@ -691,7 +691,7 @@ export function StepForm() {
       // Generate content
       const genRes = await fetch("/api/generate", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...(currentSessionId ? editTokenHeader(currentSessionId) : {}) },
         body: JSON.stringify({ sessionId: currentSessionId, formData }),
       });
 

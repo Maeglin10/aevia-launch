@@ -55,7 +55,26 @@ function parseItems(rawText: string): MenuItem[] | null {
   }
 }
 
+/* Premier rempart anti-abus : la route appelle Gemini vision — sans limite,
+   n'importe qui brûlait le crédit IA en boucle. Mémoire par instance, comme
+   /api/generate : suffisant contre les rafales naïves. */
+const rl = new Map<string, { n: number; razA: number }>();
+function tropDeRequetes(ip: string): boolean {
+  const maintenant = Date.now();
+  const e = rl.get(ip);
+  if (!e || maintenant > e.razA) {
+    rl.set(ip, { n: 1, razA: maintenant + 60_000 });
+    return false;
+  }
+  e.n++;
+  return e.n > 5;
+}
+
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "inconnue";
+  if (tropDeRequetes(ip)) {
+    return NextResponse.json({ error: "Trop de requêtes — réessayez dans une minute." }, { status: 429 });
+  }
   const key = process.env.GEMINI_API_KEY;
   if (!key) return NextResponse.json({ error: "no_key" }, { status: 503 });
 

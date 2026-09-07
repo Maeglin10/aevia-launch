@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { saveSession, saveSessionToBlob, getSession, getSessionFromBlob, type FormData, type GeneratedContent } from "@/lib/sessions";
+import { saveSession, saveSessionToBlob, getSession, getSessionFromBlob, type FormData, type GeneratedContent , aJetonEdition, jetonEditionValide} from "@/lib/sessions";
 import { contenuDepuisLeClient } from "@/lib/contenuDepuisLeClient";
 import { generateWithFreeProviders, extractMenuItems } from "@/lib/llmProviders";
 import { generateLegalPages } from "@/lib/legal/generateLegalPages";
@@ -51,6 +51,22 @@ export async function POST(req: NextRequest) {
 
     if (!formData || !sessionId) {
       return NextResponse.json({ error: "Missing formData or sessionId" }, { status: 400 });
+    }
+
+    /* Même règle que l'écriture de session : générer, c'est écrire le contenu
+       du site — sans jeton, n'importe qui possédant un lien d'aperçu pouvait
+       écraser le site d'autrui (et brûler du crédit IA au passage). */
+    const sessionExistante = getSession(sessionId) ?? (await getSessionFromBlob(sessionId));
+    if (sessionExistante && aJetonEdition(sessionExistante)) {
+      const jeton = req.headers.get("x-edit-token");
+      if (!jetonEditionValide(sessionExistante, jeton)) {
+        return NextResponse.json({ error: "Jeton d'édition requis" }, { status: 403 });
+      }
+    } else if (sessionExistante) {
+      const age = Date.now() - new Date(sessionExistante.createdAt ?? 0).getTime();
+      if (!Number.isFinite(age) || age > 24 * 60 * 60 * 1000) {
+        return NextResponse.json({ error: "Session expirée" }, { status: 403 });
+      }
     }
 
     // Basic input length guards to prevent prompt injection and runaway tokens
