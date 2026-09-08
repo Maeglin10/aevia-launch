@@ -255,6 +255,23 @@ export async function POST(req: NextRequest) {
       line_items: lineItems,
       success_url: successUrl,
       cancel_url: cancelUrl,
+      /*
+        Rétractation (L.221-28 1° c. conso) : un service numérique exécuté
+        avant la fin des 14 jours n'échappe au droit de rétractation QUE si le
+        consommateur a expressément demandé l'exécution immédiate ET reconnu
+        perdre ce droit — avant le paiement. Nos CGV l'affirmaient sans que
+        rien ne le recueille : la renonciation était inopposable, et un client
+        pouvait exiger le remboursement d'un site déjà livré.
+        Stripe collecte donc l'acceptation des conditions, et le texte de
+        renonciation est affiché au-dessus du bouton de paiement.
+      */
+      consent_collection: { terms_of_service: "required" },
+      custom_text: {
+        terms_of_service_acceptance: {
+          message:
+            "J'accepte les conditions générales et je demande expressément l'exécution immédiate de la prestation ; je reconnais perdre mon droit de rétractation de 14 jours une fois le site livré.",
+        },
+      },
       // Required by Stripe to show Apple Pay / Google Pay buttons.
       payment_method_options: {
         card: {
