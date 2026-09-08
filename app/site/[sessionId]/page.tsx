@@ -65,6 +65,8 @@ export default async function DeliveredSitePage({ params }: { params: Promise<{ 
           <Script id={`ga4-site-${sessionId}`} strategy="afterInteractive">{`
             window.dataLayer=window.dataLayer||[];
             function gtag(){dataLayer.push(arguments);}
+            gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied'});
+            try{if(localStorage.getItem('site-analytics-consent')==='granted'){gtag('consent','update',{analytics_storage:'granted'});}}catch(e){}
             gtag('js',new Date());
             gtag('config','${ga4Id}');
           `}</Script>

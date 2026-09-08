@@ -22,9 +22,11 @@ function escapeHtml(str: string): string {
     .replace(/'/g, "&#x27;");
 }
 
-function reminderEmailHtml({ name, previewUrl }: { name: string; previewUrl: string }): string {
+function reminderEmailHtml({ name, previewUrl, sessionId }: { name: string; previewUrl: string; sessionId: string }): string {
   const safeName = escapeHtml(name);
   const safeUrl = escapeHtml(previewUrl);
+  const base = process.env.NEXT_PUBLIC_BASE_URL ?? "https://aevia-launch.vercel.app";
+  const desinscription = `${base}/api/cron/preview-reminder/desinscription?session=${encodeURIComponent(sessionId)}`;
   return `<!DOCTYPE html>
 <html lang="fr"><head><meta charset="UTF-8"/><title>Votre aperçu vous attend — ${safeName}</title></head>
 <body style="margin:0;padding:0;background:#09090b;font-family:'Helvetica Neue',Arial,sans-serif;color:#f4f4f5;">
@@ -37,7 +39,7 @@ function reminderEmailHtml({ name, previewUrl }: { name: string; previewUrl: str
         </td></tr>
         <tr><td style="padding:28px 36px;">
           <p style="margin:0 0 20px;font-size:14px;color:#a1a1aa;line-height:1.7;">
-            Vous avez généré un aperçu personnalisé il y a 2 jours, mais il n'a pas encore été finalisé. Votre aperçu reste disponible — ne le laissez pas filer.
+            Vous avez généré un aperçu personnalisé récemment, et il n'a pas encore été finalisé. Votre aperçu reste disponible — ne le laissez pas filer.
           </p>
           <a href="${safeUrl}" style="display:inline-block;padding:14px 28px;background:#7c3aed;color:#fff;font-weight:700;font-size:14px;border-radius:10px;text-decoration:none;">
             Voir mon aperçu →
@@ -48,6 +50,10 @@ function reminderEmailHtml({ name, previewUrl }: { name: string; previewUrl: str
         </td></tr>
         <tr><td style="padding:16px 36px;border-top:1px solid #27272a;background:#0f0f12;">
           <p style="margin:0;font-size:11px;color:#52525b;text-align:center;">AeviaLaunch · Paiement traité par Stripe</p>
+          <p style="margin:8px 0 0;font-size:11px;color:#52525b;text-align:center;">
+            Vous recevez cet email car vous avez créé un aperçu sur AeviaLaunch.
+            <a href="${escapeHtml(desinscription)}" style="color:#71717a;">Ne plus recevoir de rappel</a>
+          </p>
         </td></tr>
       </table>
     </td></tr>
@@ -94,14 +100,18 @@ export async function GET(req: NextRequest) {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://launch.aevia.services";
   const fromAddress = process.env.RESEND_FROM_EMAIL ?? "AeviaLaunch <noreply@aevia.io>";
 
-  const [sessionPaths, paidPaths, remindedPaths] = await Promise.all([
+  const [sessionPaths, paidPaths, remindedPaths, desinscritsPaths] = await Promise.all([
     listAllPathnames("sessions/"),
     listAllPathnames("paid/"),
     listAllPathnames("reminders/"),
+    listAllPathnames("unsubscribed/"),
   ]);
 
   const paidIds = new Set(paidPaths.map((p) => idFromPathname("paid/", p)));
   const remindedIds = new Set(remindedPaths.map((p) => idFromPathname("reminders/", p)));
+  /* Le lien « Ne plus recevoir de rappel » écrit unsubscribed/<id> : on le
+     respecte avant tout envoi. */
+  const desinscrits = new Set(desinscritsPaths.map((p) => idFromPathname("unsubscribed/", p)));
 
   const now = Date.now();
   let sent = 0;
@@ -109,7 +119,7 @@ export async function GET(req: NextRequest) {
 
   for (const pathname of sessionPaths) {
     const id = idFromPathname("sessions/", pathname);
-    if (paidIds.has(id) || remindedIds.has(id)) {
+    if (paidIds.has(id) || remindedIds.has(id) || desinscrits.has(id)) {
       skipped++;
       continue;
     }
@@ -137,7 +147,7 @@ export async function GET(req: NextRequest) {
         from: fromAddress,
         to: [data.formData.email],
         subject: `Votre site ${data.formData.businessName ?? ""} vous attend ⏳`,
-        html: reminderEmailHtml({ name: data.formData.businessName ?? "votre site", previewUrl }),
+        html: reminderEmailHtml({ name: data.formData.businessName ?? "votre site", previewUrl, sessionId: id }),
       });
 
       await put(`reminders/${id}.json`, JSON.stringify({ sentAt: new Date().toISOString() }), {

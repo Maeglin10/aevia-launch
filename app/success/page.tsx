@@ -244,6 +244,18 @@ function SuccessContent() {
     ? `${typeof window !== "undefined" ? window.location.origin : "https://launch.aevia.services"}/preview/${sessionId}`
     : null;
 
+  /* Les badges ne s'affichent plus sur la seule foi de l'URL : n'importe qui
+     pouvait ouvrir /success?sessionId=x et lire « Paiement reçu ». On vérifie
+     le marqueur de paiement écrit par le webhook Stripe. */
+  const [paiementVerifie, setPaiementVerifie] = useState<boolean | null>(null);
+  useEffect(() => {
+    if (!sessionId) { setPaiementVerifie(false); return; }
+    fetch(`/api/paiement-confirme?session=${encodeURIComponent(sessionId)}`)
+      .then((r) => r.json())
+      .then((d) => setPaiementVerifie(Boolean(d?.paye)))
+      .catch(() => setPaiementVerifie(null));
+  }, [sessionId]);
+
   const [showConfetti, setShowConfetti] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -346,7 +358,7 @@ function SuccessContent() {
               transition={{ delay: 0.7, duration: 0.4 }}
               className="w-full mb-5 bg-zinc-950 border border-zinc-800 rounded-xl p-4 text-left"
             >
-              <p className="text-xs text-zinc-500 uppercase tracking-widest mb-2">Votre site est en ligne :</p>
+              <p className="text-xs text-zinc-500 uppercase tracking-widest mb-2">Votre aperçu personnalisé :</p>
               <p className="text-red-400 font-mono text-xs break-all mb-3">{previewUrl}</p>
               <div className="flex gap-2">
                 <a
@@ -375,11 +387,10 @@ function SuccessContent() {
             transition={{ delay: 0.85, duration: 0.5 }}
             className="flex flex-wrap justify-center gap-2 mb-7"
           >
-            {[
-              t.badgePaid,
-              t.badgeConfirm,
-              t.badgeDelivery,
-            ].map((badge) => (
+            {(paiementVerifie
+              ? [t.badgePaid, t.badgeConfirm, t.badgeDelivery]
+              : [t.badgeDelivery]
+            ).map((badge) => (
               <span
                 key={badge}
                 className="flex items-center gap-1.5 text-xs text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-full px-3 py-1 font-medium"
