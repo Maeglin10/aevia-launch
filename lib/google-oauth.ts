@@ -214,3 +214,68 @@ export async function fetchGscVerificationToken(accessToken: string, siteUrl: st
   const data = (await res.json()) as { token: string };
   return data.token;
 }
+
+/**
+ * Termine ce que le jeton commence : demande à Google de VÉRIFIER le site
+ * (la balise doit déjà être servie), puis inscrit la propriété dans la
+ * Search Console du client.
+ *
+ * Jusqu'ici on s'arrêtait au jeton : la balise était posée, mais rien
+ * n'était vérifié ni ajouté — le client ouvrait sa Search Console et n'y
+ * trouvait rien, alors que l'interface annonçait « configuré
+ * automatiquement ». Ces deux appels sont la promesse tenue.
+ *
+ * Ne lève jamais : un site pas encore en ligne ne PEUT pas être vérifié
+ * (Google ne voit pas la balise) — c'est un état normal, rendu à l'appelant.
+ */
+export async function verifierEtInscrireGsc(
+  accessToken: string,
+  siteUrl: string,
+): Promise<{ verifie: boolean; inscrit: boolean; detail?: string }> {
+  const headers = { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" };
+  let verifie = false;
+  let detail: string | undefined;
+
+  try {
+    const res = await fetch(`${SITE_VERIFICATION_BASE}/webResource?verificationMethod=META`, {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ site: { type: "SITE", identifier: siteUrl } }),
+    });
+    verifie = res.ok;
+    if (!res.ok) detail = `verify:${res.status}:${(await res.text()).slice(0, 140)}`;
+  } catch (e) {
+    detail = `verify:${e instanceof Error ? e.message : "erreur"}`;
+  }
+
+  /* L'inscription de la propriété est tentée même si la vérification a
+     échoué : une propriété déjà vérifiée par ailleurs (autre méthode, autre
+     compte) s'ajoute quand même, et Google répond 200 sur un doublon. */
+  let inscrit = false;
+  try {
+    const res = await fetch(
+      `https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(siteUrl)}`,
+      { method: "PUT", headers },
+    );
+    inscrit = res.ok;
+    if (!res.ok && !detail) detail = `add:${res.status}:${(await res.text()).slice(0, 140)}`;
+  } catch (e) {
+    if (!detail) detail = `add:${e instanceof Error ? e.message : "erreur"}`;
+  }
+
+  return { verifie, inscrit, detail };
+}
+
+/** Soumet le sitemap du site à la Search Console (indexation plus rapide). */
+export async function soumettreSitemap(accessToken: string, siteUrl: string): Promise<boolean> {
+  const sitemap = `${siteUrl.replace(/\/$/, "")}/sitemap.xml`;
+  try {
+    const res = await fetch(
+      `https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(siteUrl)}/sitemaps/${encodeURIComponent(sitemap)}`,
+      { method: "PUT", headers: { Authorization: `Bearer ${accessToken}` } },
+    );
+    return res.ok;
+  } catch {
+    return false;
+  }
+}

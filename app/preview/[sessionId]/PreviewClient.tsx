@@ -29,7 +29,8 @@ const T = {
     mailSubject: "Commande de site — AeviaLaunch",
     mailBody: "Bonjour,\n\nJe suis intéressé(e) par le site que vous avez généré pour moi.\nLien d'aperçu : {{link}}\n\nMerci de me recontacter.",
     connectGoogle: "Connecter Google", googleConnecting: "Connexion à Google…",
-    googleConnected: "Google Analytics et Search Console sont configurés automatiquement.",
+    googleConnected: "Google Analytics est créé et votre site est inscrit dans votre Search Console — le sitemap a été soumis pour l'indexation.",
+    gscSiteNonPublie: "Google Analytics est en place. La propriété Search Console ne peut être vérifiée qu'une fois votre site en ligne : nous la vérifions automatiquement à la publication.",
     googlePartial: "Partiellement connecté — un des deux services n'a pas pu être configuré automatiquement, réessayez ou remplissez le champ manuellement à l'étape 6 du configurateur.",
     googleFailed: "La connexion Google a échoué, réessayez.",
     googleNoGa4Account: "Aucun compte Google Analytics trouvé sur ce compte Google. Créez-en un sur analytics.google.com puis reconnectez-vous.",
@@ -46,7 +47,8 @@ const T = {
     mailSubject: "Site order — AeviaLaunch",
     mailBody: "Hello,\n\nI am interested in the site you generated for me.\nPreview link: {{link}}\n\nPlease get back to me.",
     connectGoogle: "Connect Google", googleConnecting: "Connecting to Google…",
-    googleConnected: "Google Analytics and Search Console are set up automatically.",
+    googleConnected: "Google Analytics is created and your site is registered in your Search Console — the sitemap was submitted for indexing.",
+    gscSiteNonPublie: "Google Analytics is set. The Search Console property can only be verified once your site is live: we verify it automatically at publication.",
     googlePartial: "Partially connected — one of the two services couldn't be set up automatically, try again or fill it in manually in step 6 of the wizard.",
     googleFailed: "Google connection failed, please try again.",
     googleNoGa4Account: "No Google Analytics account found on this Google account. Create one at analytics.google.com then reconnect.",
@@ -64,6 +66,7 @@ const T = {
     mailBody: "Hola,\n\nEstoy interesado/a en el sitio que generaron para mí.\nEnlace de vista previa: {{link}}\n\nPor favor contáctenme.",
     connectGoogle: "Conectar Google", googleConnecting: "Conectando con Google…",
     googleConnected: "Google Analytics y Search Console están configurados automáticamente.",
+    gscSiteNonPublie: "Google Analytics está creado. La propiedad de Search Console solo puede verificarse cuando su sitio esté en línea: la verificamos automáticamente al publicar.",
     googlePartial: "Parcialmente conectado — uno de los dos servicios no se pudo configurar automáticamente, inténtalo de nuevo o complétalo manualmente en el paso 6 del asistente.",
     googleFailed: "La conexión con Google falló, inténtalo de nuevo.",
     googleNoGa4Account: "No se encontró ninguna cuenta de Google Analytics en esta cuenta de Google. Crea una en analytics.google.com y vuelve a conectarte.",
@@ -81,6 +84,7 @@ const T = {
     mailBody: "Hallo,\n\nIch bin an der für mich generierten Website interessiert.\nVorschau-Link: {{link}}\n\nBitte melden Sie sich bei mir.",
     connectGoogle: "Google verbinden", googleConnecting: "Verbindung zu Google…",
     googleConnected: "Google Analytics und Search Console sind automatisch eingerichtet.",
+    gscSiteNonPublie: "Google Analytics ist eingerichtet. Die Search-Console-Property kann erst nach Veröffentlichung verifiziert werden — wir erledigen das automatisch.",
     googlePartial: "Teilweise verbunden — einer der beiden Dienste konnte nicht automatisch eingerichtet werden, versuchen Sie es erneut oder tragen Sie es manuell in Schritt 6 des Assistenten ein.",
     googleFailed: "Die Google-Verbindung ist fehlgeschlagen, bitte erneut versuchen.",
     googleNoGa4Account: "Kein Google-Analytics-Konto für dieses Google-Konto gefunden. Erstellen Sie eines auf analytics.google.com und verbinden Sie sich erneut.",
@@ -98,6 +102,7 @@ const T = {
     mailBody: "Olá,\n\nEstou interessado/a no site que geraram para mim.\nLink de pré-visualização: {{link}}\n\nPor favor contactem-me.",
     connectGoogle: "Ligar ao Google", googleConnecting: "A ligar ao Google…",
     googleConnected: "O Google Analytics e a Search Console estão configurados automaticamente.",
+    gscSiteNonPublie: "O Google Analytics está criado. A propriedade da Search Console só pode ser verificada quando o site estiver online: verificamos automaticamente na publicação.",
     googlePartial: "Ligação parcial — um dos dois serviços não pôde ser configurado automaticamente, tente novamente ou preencha manualmente no passo 6 do assistente.",
     googleFailed: "A ligação ao Google falhou, tente novamente.",
     googleNoGa4Account: "Nenhuma conta do Google Analytics encontrada nesta conta Google. Crie uma em analytics.google.com e ligue-se novamente.",
@@ -149,6 +154,7 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
   const [iframeKey, setIframeKey] = useState(0);
   const [googleStatus, setGoogleStatus] = useState<"connected" | "partial" | "failed" | "error" | null>(null);
   const [googleNoAccount, setGoogleNoAccount] = useState(false);
+  const [gscNonPublie, setGscNonPublie] = useState(false);
 
   useEffect(() => {
     /*
@@ -192,8 +198,11 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
     if (status === "connected" || status === "partial" || status === "failed" || status === "error") {
       setGoogleStatus(status);
       setGoogleNoAccount(params.get("ga4_reason") === "no_account");
+      setGscNonPublie(params.get("gsc_reason") === "site_non_publie");
       params.delete("google");
       params.delete("ga4_reason");
+      params.delete("gsc_reason");
+      params.delete("sitemap");
       const qs = params.toString();
       window.history.replaceState(null, "", qs ? `${window.location.pathname}?${qs}` : window.location.pathname);
     }
@@ -354,7 +363,12 @@ export default function PreviewClient({ sessionId }: { sessionId: string }) {
             <Sparkles className="w-4 h-4 shrink-0 mt-0.5" />
             <span className="flex-1">
               {googleStatus === "connected" && t.googleConnected}
-              {googleStatus === "partial" && (googleNoAccount ? t.googleNoGa4Account : t.googlePartial)}
+              {googleStatus === "partial" &&
+                (googleNoAccount
+                  ? t.googleNoGa4Account
+                  : gscNonPublie
+                    ? t.gscSiteNonPublie
+                    : t.googlePartial)}
               {googleStatus === "failed" && t.googleFailed}
               {googleStatus === "error" && t.googleError}
             </span>

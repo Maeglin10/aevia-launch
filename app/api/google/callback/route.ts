@@ -4,6 +4,8 @@ import {
   exchangeGoogleCode,
   autoProvisionGa4,
   fetchGscVerificationToken,
+  verifierEtInscrireGsc,
+  soumettreSitemap,
 } from "@/lib/google-oauth";
 import { getSessionFromBlob, saveSessionToBlob, saveSession } from "@/lib/sessions";
 import { avisDuClient, avisGoogleActif } from "@/lib/google-avis";
@@ -43,7 +45,7 @@ export async function GET(req: NextRequest) {
     const tokens = await exchangeGoogleCode(code);
     const businessName = session.formData.businessName || "Site web";
 
-    const results: { ga4?: string | null; gsc?: string; errors: string[] } = { errors: [] };
+    const results: { ga4?: string | null; gsc?: string; gscVerifie?: boolean; gscInscrit?: boolean; sitemapSoumis?: boolean; errors: string[] } = { errors: [] };
 
     try {
       results.ga4 = await autoProvisionGa4(tokens.access_token, businessName, previewUrl);
@@ -53,6 +55,17 @@ export async function GET(req: NextRequest) {
 
     try {
       results.gsc = await fetchGscVerificationToken(tokens.access_token, previewUrl);
+      /* La balise seule ne suffit pas : sans ces deux appels, le client
+         ouvrait sa Search Console et n'y trouvait AUCUNE propriété, alors
+         que l'écran annonçait « configuré automatiquement ». On vérifie et
+         on inscrit vraiment — puis on soumet le sitemap pour l'indexation.
+         Un site pas encore en ligne échoue normalement à la vérification :
+         l'état est remonté au client, sans mensonge. */
+      const gsc = await verifierEtInscrireGsc(tokens.access_token, previewUrl);
+      results.gscVerifie = gsc.verifie;
+      results.gscInscrit = gsc.inscrit;
+      if (gsc.inscrit) results.sitemapSoumis = await soumettreSitemap(tokens.access_token, previewUrl);
+      if (gsc.detail) results.errors.push(`gsc:${gsc.detail}`);
     } catch (err) {
       results.errors.push(`gsc:${err instanceof Error ? err.message : "unknown"}`);
     }
@@ -105,11 +118,17 @@ export async function GET(req: NextRequest) {
       }
     }
 
+    /* « connected » exige la propriété RÉELLEMENT inscrite en Search Console,
+       pas seulement une balise posée : c'est ce mensonge qui faisait ouvrir
+       une Search Console vide au client. */
+    const gscComplet = Boolean(results.gsc && results.gscInscrit);
     const status =
-      results.ga4 && results.gsc ? "connected" : results.ga4 || results.gsc ? "partial" : "failed";
+      results.ga4 && gscComplet ? "connected" : results.ga4 || results.gsc ? "partial" : "failed";
     const noGa4Account = results.errors.length === 0 && !results.ga4;
     const params = new URLSearchParams({ google: status });
     if (noGa4Account) params.set("ga4_reason", "no_account");
+    if (results.gsc && !gscComplet) params.set("gsc_reason", "site_non_publie");
+    if (results.sitemapSoumis) params.set("sitemap", "ok");
 
     return NextResponse.redirect(`${previewUrl}?${params.toString()}`);
   } catch (err) {
