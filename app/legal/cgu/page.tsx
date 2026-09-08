@@ -57,7 +57,7 @@ export default function CGUPage() {
             <li>Sélection d&apos;un modèle de design professionnel parmi plus de 370 modèles</li>
             <li>Développement et personnalisation du site</li>
             <li>Déploiement et mise en ligne sur Vercel</li>
-            <li>Délai de livraison : 7 jours ouvrés après paiement et données complètes</li>
+            <li>Délai de livraison : aperçu personnalisé immédiat, site publié sous 2 à 4 heures ouvrées après réception des informations complètes (48 h maximum en cas de forte affluence)</li>
           </ul>
           <p className="text-sm text-zinc-700 leading-relaxed bg-zinc-50 border border-zinc-200 rounded-lg p-4">
             <strong className="text-zinc-900">Nature de la prestation :</strong> AeviaLaunch constitue
@@ -96,11 +96,16 @@ export default function CGUPage() {
               <thead>
                 <tr className="border-b border-zinc-300">
                   <th className="text-left py-2 pr-4 text-zinc-900 font-semibold">Formule</th>
-                  <th className="text-left py-2 pr-4 text-zinc-900 font-semibold">Tarif HT</th>
+                  <th className="text-left py-2 pr-4 text-zinc-900 font-semibold">Tarif</th>
                   <th className="text-left py-2 text-zinc-900 font-semibold">Inclus</th>
                 </tr>
               </thead>
               <tbody className="text-zinc-700">
+                <tr className="border-b border-zinc-200">
+                  <td className="py-2 pr-4">Landing</td>
+                  <td className="py-2 pr-4">399 €</td>
+                  <td className="py-2">Page unique, déploiement, nom de domaine assisté</td>
+                </tr>
                 <tr className="border-b border-zinc-200">
                   <td className="py-2 pr-4">Essentiel</td>
                   <td className="py-2 pr-4">599 €</td>
@@ -112,7 +117,7 @@ export default function CGUPage() {
                   <td className="py-2">Site complet, blog, formulaires, SEO</td>
                 </tr>
                 <tr className="border-b border-zinc-200">
-                  <td className="py-2 pr-4">Business</td>
+                  <td className="py-2 pr-4">Premium</td>
                   <td className="py-2 pr-4">1 499 €</td>
                   <td className="py-2">E-commerce, intégrations, SEO avancé</td>
                 </tr>
@@ -133,7 +138,8 @@ export default function CGUPage() {
           </p>
           <ul className="list-disc list-inside text-sm text-zinc-700 space-y-1.5 mb-4 ml-2">
             <li>Paiement intégral requis avant le démarrage de la prestation</li>
-            <li>Tous les tarifs sont indiqués hors taxes (HT)</li>
+            <li>Options : maintenance et hébergement 20 €/mois (résiliable à tout moment), retrait de la mention Aevia 149 €, nom de domaine selon extension choisie.</li>
+            <li>Tous les tarifs sont indiqués en euros, nets de taxe : TVA non applicable, article 293 B du CGI (aucune TVA n'est facturée ni récupérable)</li>
             <li>La TVA applicable est celle en vigueur au moment de la facturation selon la réglementation française</li>
             <li>Une facture est émise après paiement et conservée 10 ans</li>
           </ul>
@@ -141,7 +147,7 @@ export default function CGUPage() {
           <h3 className="text-base font-semibold text-zinc-900 mb-2 mt-6">4.3 Option d&apos;hébergement et maintenance (abonnement)</h3>
           <p className="text-sm leading-relaxed text-zinc-700 mb-3">
             L&apos;option d&apos;hébergement et de maintenance est un abonnement facultatif de
-            <strong className="text-zinc-900"> 20 €/mois HT</strong>, prélevé mensuellement par Stripe.
+            <strong className="text-zinc-900"> 20 €/mois</strong>, prélevé mensuellement par Stripe.
           </p>
           <ul className="list-disc list-inside text-sm text-zinc-700 space-y-1.5 mb-4 ml-2">
             <li>L&apos;abonnement est à durée indéterminée et reconduit automatiquement chaque mois.</li>
@@ -208,9 +214,11 @@ export default function CGUPage() {
             Les coordonnées du médiateur de la consommation compétent sont communiquées sur demande.
           </p>
           <p className="text-sm leading-relaxed text-zinc-700">
-            Pour les litiges liés à un achat en ligne, la Commission européenne met à disposition une
-            plateforme de règlement en ligne des litiges accessible à l&apos;adresse{" "}
-            <a href="https://ec.europa.eu/consumers/odr" className="underline" target="_blank" rel="noopener noreferrer">ec.europa.eu/consumers/odr</a>.
+            {/* La plateforme européenne de règlement en ligne des litiges (ODR) a
+                été fermée en juillet 2025 : la mentionner renvoyait le client
+                vers une adresse morte. */}
+            À défaut d&apos;accord amiable, le litige peut être porté devant les juridictions
+            françaises compétentes.
           </p>
         </section>
 
