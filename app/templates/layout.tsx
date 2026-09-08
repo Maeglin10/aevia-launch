@@ -1,6 +1,7 @@
 import { WebchatBridge } from "./WebchatBridge";
 import { BarreBoutique } from "./BarreBoutique";
 import { GardeCertifications } from "./GardeCertifications";
+import { LienMentionsLegales } from "./LienMentionsLegales";
 import { BarreActionMobile } from "./BarreActionMobile";
 import { BrandColorVar } from "./BrandColorVar";
 import { SiteSchema } from "./SiteSchema";
@@ -144,6 +145,10 @@ export default function TemplatesLayout({
         }}
       />
       <div id="main-content">{children}</div>
+      {/* Accès aux mentions légales garanti (LCEN 6-III) : 103 thèmes n'en
+          avaient aucune, d'autres ne les liaient pas. Ne s'affiche que si le
+          thème n'a pas déjà son propre lien. */}
+      <LienMentionsLegales />
       {/* La barre d'appel du pouce. Mesuré en 390 × 844 sur les 317 thèmes
           antérieurs à la série 328-383 : 144 sans appel à l'action au premier
           écran, 298 sans appel à l'action une fois la page défilée — le bouton

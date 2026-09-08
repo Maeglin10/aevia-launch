@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { generateLegalPages } from "@/lib/legal/generateLegalPages";
 
 // Shared, dynamic legal page for delivered client sites. Renders the four
 // documents generated per client + sector (session.legalPages: mentions
@@ -45,7 +46,17 @@ export default function TemplateLegal({ only }: { only?: keyof LegalPages } = {}
     fetch(`/api/sessions?id=${id}`)
       .then((r) => r.json())
       .then((s) => {
-        setLegal(s?.legalPages ?? null);
+        /* Les pages légales sont normalement écrites à la génération. Quand
+           elles manquent (parcours interrompu, session antérieure au
+           correctif), on les compose ICI depuis le profil légal du client :
+           un site publié sans mentions expose son éditeur — le client. */
+        const pretes = s?.legalPages;
+        setLegal(
+          pretes ??
+            (s?.formData
+              ? generateLegalPages(s.formData, s?.businessProfile?.legal, s?.businessProfile?.niche)
+              : null),
+        );
         setName(s?.formData?.businessName ?? "");
       })
       .catch(() => {})
