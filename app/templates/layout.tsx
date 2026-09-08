@@ -2,6 +2,7 @@ import { WebchatBridge } from "./WebchatBridge";
 import { BarreBoutique } from "./BarreBoutique";
 import { GardeCertifications } from "./GardeCertifications";
 import { LienMentionsLegales } from "./LienMentionsLegales";
+import { MetaSiteClient } from "./MetaSiteClient";
 import { BarreActionMobile } from "./BarreActionMobile";
 import { BrandColorVar } from "./BrandColorVar";
 import { SiteSchema } from "./SiteSchema";
@@ -19,6 +20,11 @@ export default function TemplatesLayout({
   return (
     <>
       <BrandColorVar />
+      {/* Titre, description, canonical et OpenGraph du CLIENT : les pages de
+          thème sont des composants client et portaient encore les métadonnées
+          d'Aevia — canonical compris, ce qui empêchait l'indexation du site
+          vendu. */}
+      <MetaSiteClient />
       <SiteSchema />
       <SiteImages />
       <TemplateAnalytics />
