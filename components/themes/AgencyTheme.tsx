@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import type { SessionData } from "@/lib/sessions";
+import { clientReviews } from "@/lib/templates/clientContent";
 import { ThemeWrapper } from "./ThemeWrapper";
 import { Reveal, Stagger, StaggerItem, MagneticButton } from "./AnimationHelpers";
 import { ArrowUpRight, Monitor, Palette, Code2, Layers, Users, Zap, Mail, HelpCircle, Award, Shield } from "lucide-react";
@@ -23,6 +24,19 @@ const PROCESS = [
 
 export function AgencyTheme({ session }: { session: SessionData }) {
   const { formData, generatedContent: c } = session;
+  /*
+    Jamais de faux avis nominatifs. Le repli codé en dur (« Claire M., Food
+    Critic »…) s'affichait dès que la génération ne fournissait pas de
+    testimonials — ce qui est désormais TOUJOURS le cas, la clé ayant été
+    retirée du schéma LLM. On n'affiche que les avis réellement saisis par le
+    client ; sinon la section disparaît.
+  */
+  const avisAffichables = (clientReviews(session) ?? []).map((r) => ({
+    name: r.author ?? "",
+    role: r.source ?? "",
+    text: r.text ?? "",
+    rating: r.rating ?? 5,
+  }));
   const brand = formData.brandColor || "#7c3aed";
   
   const containerRef = useRef<HTMLDivElement>(null);
@@ -177,17 +191,14 @@ export function AgencyTheme({ session }: { session: SessionData }) {
         </section>
 
         {/* Testimonials */}
-        <section className="py-40 bg-black">
+        {avisAffichables.length > 0 && (
+      <section className="py-40 bg-black">
           <div className="max-w-7xl mx-auto px-6">
             <Reveal className="mb-24">
               <h2 className="text-5xl font-black uppercase tracking-tighter text-white">Client Voices<span style={{ color: brand }}>.</span></h2>
             </Reveal>
             <Stagger className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {(c?.testimonials || [
-                { name: "Alex M.", role: "CTO, NovaTech", text: "They didn't just build a website — they built an experience.", rating: 5 },
-                { name: "Sarah K.", role: "Founder, Pulse", text: "Best agency decision we've made. Our conversions tripled.", rating: 5 },
-                { name: "David L.", role: "CEO, Vertex", text: "Pure craftsmanship. Every pixel has purpose.", rating: 5 },
-              ]).map((t, i) => (
+              {(avisAffichables).map((t, i) => (
                 <StaggerItem key={i}>
                   <div className="p-10 border border-white/5 h-full flex flex-col">
                     <p className="text-xl italic text-white/50 leading-relaxed mb-8 flex-1">&ldquo;{t.text}&rdquo;</p>
@@ -201,6 +212,7 @@ export function AgencyTheme({ session }: { session: SessionData }) {
             </Stagger>
           </div>
         </section>
+      )}
 
         {/* Client Logos */}
         <section className="py-24 bg-black border-y border-white/5 overflow-hidden">

@@ -2,12 +2,26 @@
 
 import { motion } from "framer-motion";
 import type { SessionData } from "@/lib/sessions";
+import { clientReviews } from "@/lib/templates/clientContent";
 import { ThemeWrapper } from "./ThemeWrapper";
 import { Reveal, Stagger, StaggerItem, MagneticButton } from "./AnimationHelpers";
 import { Code2, Zap, Shield, BarChart2, Globe, Database, Award, ShieldCheck, HelpCircle, Activity } from "lucide-react";
 
 export function SaasTheme({ session }: { session: SessionData }) {
   const { formData, generatedContent: c } = session;
+  /*
+    Jamais de faux avis nominatifs. Le repli codé en dur (« Claire M., Food
+    Critic »…) s'affichait dès que la génération ne fournissait pas de
+    testimonials — ce qui est désormais TOUJOURS le cas, la clé ayant été
+    retirée du schéma LLM. On n'affiche que les avis réellement saisis par le
+    client ; sinon la section disparaît.
+  */
+  const avisAffichables = (clientReviews(session) ?? []).map((r) => ({
+    name: r.author ?? "",
+    role: r.source ?? "",
+    text: r.text ?? "",
+    rating: r.rating ?? 5,
+  }));
   const brand = formData.brandColor || "#7c3aed";
 
   return (
@@ -147,17 +161,14 @@ export function SaasTheme({ session }: { session: SessionData }) {
       </section>
 
       {/* Testimonials */}
+      {avisAffichables.length > 0 && (
       <section className="py-32 bg-[#0a0a0a] border-y border-white/5">
         <div className="max-w-7xl mx-auto px-6">
           <Reveal className="text-center mb-20">
             <h2 className="text-4xl font-black text-white uppercase tracking-tighter">Loved by Developers</h2>
           </Reveal>
           <Stagger className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {(c?.testimonials || [
-              { name: "Jake R.", role: "Lead Engineer", text: "Finally a platform that respects developer workflows. The CLI is incredible.", rating: 5 },
-              { name: "Nina S.", role: "VP Engineering", text: "We migrated our entire stack in a weekend. Zero downtime.", rating: 5 },
-              { name: "Omar K.", role: "Indie Hacker", text: "Shipped my SaaS 3x faster. The integrations just work.", rating: 5 },
-            ]).map((t, i) => (
+            {(avisAffichables).map((t, i) => (
               <StaggerItem key={i}>
                 <div className="p-8 rounded-2xl border border-white/5 bg-zinc-900/50 h-full flex flex-col">
                   <div className="flex gap-1 mb-4">{Array.from({ length: t.rating }).map((_, j) => <span key={j} className="text-amber-400 text-sm">★</span>)}</div>
@@ -170,6 +181,7 @@ export function SaasTheme({ session }: { session: SessionData }) {
           </Stagger>
         </div>
       </section>
+      )}
 
       {/* Pricing */}
       <section className="py-32 bg-[#0a0a0a]">

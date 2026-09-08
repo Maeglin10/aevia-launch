@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { SessionData } from "@/lib/sessions";
+import { clientReviews } from "@/lib/templates/clientContent";
 import { ThemeWrapper } from "./ThemeWrapper";
 import { Reveal, Stagger, StaggerItem, MagneticButton } from "./AnimationHelpers";
 import { CheckCircle2, ArrowRight, X, Maximize2, Shield, Users, Clock, Award, HelpCircle, Activity, TrendingUp, Quote, Search, Mail, Globe, Phone, Zap, Calendar } from "lucide-react";
@@ -18,6 +19,19 @@ const GALLERY = [
 
 export function VitrineTheme({ session }: { session: SessionData }) {
   const { formData, generatedContent: c } = session;
+  /*
+    Jamais de faux avis nominatifs. Le repli codé en dur (« Claire M., Food
+    Critic »…) s'affichait dès que la génération ne fournissait pas de
+    testimonials — ce qui est désormais TOUJOURS le cas, la clé ayant été
+    retirée du schéma LLM. On n'affiche que les avis réellement saisis par le
+    client ; sinon la section disparaît.
+  */
+  const avisAffichables = (clientReviews(session) ?? []).map((r) => ({
+    name: r.author ?? "",
+    role: r.source ?? "",
+    text: r.text ?? "",
+    rating: r.rating ?? 5,
+  }));
   const brand = formData.brandColor || "#7c3aed";
   
   const [selectedImg, setSelectedImg] = useState<string | null>(null);
@@ -188,6 +202,7 @@ export function VitrineTheme({ session }: { session: SessionData }) {
       </AnimatePresence>
 
       {/* Testimonials Section */}
+      {avisAffichables.length > 0 && (
       <section className="py-32 bg-gray-50">
         <div className="max-w-7xl mx-auto px-6">
           <Reveal className="text-center mb-20">
@@ -195,11 +210,7 @@ export function VitrineTheme({ session }: { session: SessionData }) {
             <div className="w-16 h-1 mx-auto" style={{ background: brand }} />
           </Reveal>
           <Stagger className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {(c?.testimonials || [
-              { name: "Marie D.", role: "Business Owner", text: "Outstanding professionalism. They delivered beyond our expectations.", rating: 5 },
-              { name: "Lucas P.", role: "Director", text: "The quality of work is exceptional. A true partner for growth.", rating: 5 },
-              { name: "Anna K.", role: "Entrepreneur", text: "Transformed our vision into reality with incredible attention to detail.", rating: 5 },
-            ]).map((t, i) => (
+            {(avisAffichables).map((t, i) => (
               <StaggerItem key={i}>
                 <div className="p-8 bg-white border rounded-3xl hover:shadow-xl transition-all h-full flex flex-col">
                   <p className="text-lg italic text-gray-600 leading-relaxed mb-8 flex-1">&ldquo;{t.text}&rdquo;</p>
@@ -216,6 +227,7 @@ export function VitrineTheme({ session }: { session: SessionData }) {
           </Stagger>
         </div>
       </section>
+      )}
 
       {/* ═══ SECTION 8: THE PROCESS ═══ */}
       <section className="py-32 bg-white border-y">

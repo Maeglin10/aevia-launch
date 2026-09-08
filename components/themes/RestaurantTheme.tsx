@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { SessionData } from "@/lib/sessions";
+import { clientReviews } from "@/lib/templates/clientContent";
 import { ThemeWrapper } from "./ThemeWrapper";
 import { Reveal, Stagger, StaggerItem, MagneticButton } from "./AnimationHelpers";
 import { Utensils, Clock, MapPin, X, Check, Users, Calendar, ChefHat, Star, Quote, Globe, Phone, Mail, ArrowRight, Wine, Sparkles, Award, HelpCircle, ShieldCheck } from "lucide-react";
@@ -27,6 +28,19 @@ const MENU_DATA = {
 
 export function RestaurantTheme({ session }: { session: SessionData }) {
   const { formData, generatedContent: c } = session;
+  /*
+    Jamais de faux avis nominatifs. Le repli codé en dur (« Claire M., Food
+    Critic »…) s'affichait dès que la génération ne fournissait pas de
+    testimonials — ce qui est désormais TOUJOURS le cas, la clé ayant été
+    retirée du schéma LLM. On n'affiche que les avis réellement saisis par le
+    client ; sinon la section disparaît.
+  */
+  const avisAffichables = (clientReviews(session) ?? []).map((r) => ({
+    name: r.author ?? "",
+    role: r.source ?? "",
+    text: r.text ?? "",
+    rating: r.rating ?? 5,
+  }));
   const brand = formData.brandColor || "#7c3aed";
 
   const [activeTab, setActiveTab] = useState<keyof typeof MENU_DATA>("Entrees");
@@ -206,6 +220,7 @@ export function RestaurantTheme({ session }: { session: SessionData }) {
       </section>
 
       {/* ═══ SECTION 6: TESTIMONIALS ═══ */}
+      {avisAffichables.length > 0 && (
       <section className="py-32">
         <div className="max-w-7xl mx-auto px-6">
           <Reveal className="text-center mb-20">
@@ -213,11 +228,7 @@ export function RestaurantTheme({ session }: { session: SessionData }) {
             <h2 className="text-5xl font-black uppercase tracking-tighter">Guest Voices</h2>
           </Reveal>
           <Stagger className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {(c?.testimonials || [
-              { name: "Claire M.", role: "Food Critic", text: "An extraordinary culinary journey. Every dish tells a story.", rating: 5 },
-              { name: "Thomas R.", role: "Regular Guest", text: "Our go-to for special occasions. Impeccable service and flavors.", rating: 5 },
-              { name: "Ana P.", role: "Travel Blogger", text: "A hidden gem. The tasting menu is an absolute masterpiece.", rating: 5 },
-            ]).map((t, i) => (
+            {(avisAffichables).map((t, i) => (
               <StaggerItem key={i}>
                 <div className="p-8 bg-zinc-50 rounded-3xl border hover:shadow-xl transition-all h-full flex flex-col">
                   <Quote className="w-6 h-6 mb-6 opacity-10" />
@@ -235,6 +246,7 @@ export function RestaurantTheme({ session }: { session: SessionData }) {
           </Stagger>
         </div>
       </section>
+      )}
 
       {/* ═══ SECTION 7: CHEF / TEAM ═══ */}
       <section className="py-32 bg-zinc-50">

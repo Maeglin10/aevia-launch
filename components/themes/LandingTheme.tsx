@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type { SessionData } from "@/lib/sessions";
+import { clientReviews } from "@/lib/templates/clientContent";
 import { ThemeWrapper } from "./ThemeWrapper";
 import { Reveal, Stagger, StaggerItem, MagneticButton } from "./AnimationHelpers";
 import { Check, ChevronDown, Rocket, Shield, Zap, Globe, Cpu, BarChart, Star, ArrowRight, Quote, MapPin, Mail, Phone } from "lucide-react";
@@ -16,6 +17,19 @@ import { Check, ChevronDown, Rocket, Shield, Zap, Globe, Cpu, BarChart, Star, Ar
 
 export function LandingTheme({ session }: { session: SessionData }) {
   const { formData, generatedContent: c } = session;
+  /*
+    Jamais de faux avis nominatifs. Le repli codé en dur (« Claire M., Food
+    Critic »…) s'affichait dès que la génération ne fournissait pas de
+    testimonials — ce qui est désormais TOUJOURS le cas, la clé ayant été
+    retirée du schéma LLM. On n'affiche que les avis réellement saisis par le
+    client ; sinon la section disparaît.
+  */
+  const avisAffichables = (clientReviews(session) ?? []).map((r) => ({
+    name: r.author ?? "",
+    role: r.source ?? "",
+    text: r.text ?? "",
+    rating: r.rating ?? 5,
+  }));
   const brand = formData.brandColor || "#7c3aed";
 
   const [openFaq, setOpenFaq] = useState<number | null>(0);
@@ -218,6 +232,7 @@ export function LandingTheme({ session }: { session: SessionData }) {
       {/* ═══════════════════════════════════════════════════════════════
           SECTION 5: TESTIMONIALS — Client reviews with ratings
           ═══════════════════════════════════════════════════════════════ */}
+      {avisAffichables.length > 0 && (
       <section className="py-32">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-24">
@@ -229,11 +244,7 @@ export function LandingTheme({ session }: { session: SessionData }) {
           </div>
 
           <Stagger className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {(c?.testimonials || [
-              { name: "Sarah L.", role: "CEO, TechStart", text: "Absolutely transformative. Our digital presence has never been stronger.", rating: 5 },
-              { name: "Marc D.", role: "Founder, Novus", text: "Professional, fast, and the quality exceeded all our expectations.", rating: 5 },
-              { name: "Emily R.", role: "Director, Pulse", text: "The attention to detail is remarkable. Highly recommend to anyone.", rating: 5 },
-            ]).map((t, i) => (
+            {(avisAffichables).map((t, i) => (
               <StaggerItem key={i}>
                 <div className="p-8 rounded-[28px] border bg-white hover:shadow-xl transition-all h-full flex flex-col">
                   <Quote className="w-8 h-8 mb-6 opacity-10" />
@@ -260,6 +271,7 @@ export function LandingTheme({ session }: { session: SessionData }) {
           </Stagger>
         </div>
       </section>
+      )}
 
       {/* ═══════════════════════════════════════════════════════════════
           SECTION 6: FAQ ACCORDION

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
 import type { SessionData } from "@/lib/sessions";
+import { clientReviews } from "@/lib/templates/clientContent";
 import { ThemeWrapper } from "./ThemeWrapper";
 import { Reveal, Stagger, StaggerItem } from "./AnimationHelpers";
 import { ShoppingBag, X, Plus, Minus, Star, ShieldCheck, Truck, RotateCcw, ArrowRight, ArrowLeft, Mail, MapPin, Phone, Clock, Globe, HelpCircle, Gift, Award, Zap, Calendar } from "lucide-react";
@@ -135,6 +136,19 @@ function TiltCard({ children }: { children: React.ReactNode }) {
 // ─────────────────────────────────────────────────────────────────────────────
 export function EcommerceTheme({ session }: { session: SessionData }) {
   const { formData, generatedContent: c } = session;
+  /*
+    Jamais de faux avis nominatifs. Le repli codé en dur (« Claire M., Food
+    Critic »…) s'affichait dès que la génération ne fournissait pas de
+    testimonials — ce qui est désormais TOUJOURS le cas, la clé ayant été
+    retirée du schéma LLM. On n'affiche que les avis réellement saisis par le
+    client ; sinon la section disparaît.
+  */
+  const avisAffichables = (clientReviews(session) ?? []).map((r) => ({
+    name: r.author ?? "",
+    role: r.source ?? "",
+    text: r.text ?? "",
+    rating: r.rating ?? 5,
+  }));
   const brand = formData.brandColor || "#7c3aed";
   const products = generateProducts(formData.businessType, brand);
 
@@ -267,7 +281,7 @@ export function EcommerceTheme({ session }: { session: SessionData }) {
           transition={{ duration: 0.35, ease: [0.25, 0.1, 0.25, 1] }}
         >
           {page === "home" && (
-            <HomePage formData={formData} c={c} brand={brand} products={products} filter={filter} setFilter={setFilter} addToCart={addToCart} goTo={goTo} />
+            <HomePage formData={formData} c={c} brand={brand} products={products} filter={filter} setFilter={setFilter} addToCart={addToCart} goTo={goTo} avisAffichables={avisAffichables} />
           )}
 
           {page === "shop" && !activeProduct && (
@@ -302,7 +316,7 @@ export function EcommerceTheme({ session }: { session: SessionData }) {
 // HOME PAGE (original one-pager content, unchanged in spirit)
 // ─────────────────────────────────────────────────────────────────────────────
 function HomePage({
-  formData, c, brand, products, filter, setFilter, addToCart, goTo,
+  formData, c, brand, products, filter, setFilter, addToCart, goTo, avisAffichables,
 }: {
   formData: SessionData["formData"];
   c: SessionData["generatedContent"];
@@ -312,6 +326,8 @@ function HomePage({
   setFilter: (s: string) => void;
   addToCart: (p: Product) => void;
   goTo: (p: Page) => void;
+  /** Avis RÉELLEMENT saisis par le client — jamais de repli inventé. */
+  avisAffichables: { name: string; role: string; text: string; rating: number }[];
 }) {
   const filteredProducts = filter === "All" ? products : products.filter(p => p.category === filter);
 
@@ -429,6 +445,7 @@ function HomePage({
       </section>
 
       {/* CUSTOMER REVIEWS */}
+      {avisAffichables.length > 0 && (
       <section className="py-32 bg-zinc-50">
         <div className="max-w-7xl mx-auto px-6">
           <Reveal className="text-center mb-20">
@@ -436,11 +453,7 @@ function HomePage({
             <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter">What Our Customers Say</h2>
           </Reveal>
           <Stagger className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {(c?.testimonials || [
-              { name: "Sophie L.", role: "Verified Buyer", text: "Incredible quality. The packaging was beautiful and delivery was lightning fast.", rating: 5 },
-              { name: "Marc T.", role: "Loyal Customer", text: "I've ordered multiple times — consistency is flawless. My go-to store.", rating: 5 },
-              { name: "Emma R.", role: "First Purchase", text: "Exceeded expectations! The product quality is outstanding for the price.", rating: 5 },
-            ]).map((t, i) => (
+            {(avisAffichables).map((t, i) => (
               <StaggerItem key={i}>
                 <div className="p-8 bg-white border hover:shadow-xl transition-all h-full flex flex-col">
                   <div className="flex gap-1 mb-4">
@@ -462,6 +475,7 @@ function HomePage({
           </Stagger>
         </div>
       </section>
+      )}
 
       {/* FEATURED CATEGORIES */}
       <section className="py-32">
