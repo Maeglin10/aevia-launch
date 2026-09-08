@@ -677,7 +677,8 @@ function CartDrawer() {
               }}
             >
               <div style={{ fontFamily: "'Playfair Display', serif", fontStyle: "italic", fontWeight: 600, fontSize: 22, color: C.text }}>
-                {step === "success" ? "Commande confirmée" : step === "checkout" ? "Livraison" : "Votre panier"}
+                {step === "success" ? "Commande transmise" : step === "checkout" ? "Livraison" : "Votre panier"}
+{/* Vérité : la commande est transmise au commerçant, elle n'est pas payée en ligne ici. */}
               </div>
               <button
                 onClick={handleClose}

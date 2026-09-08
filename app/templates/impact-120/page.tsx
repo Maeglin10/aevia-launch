@@ -990,7 +990,8 @@ export default function EclatLuxuryPage() {
           <div className="flex flex-col h-full">
             <div className="flex items-center justify-between px-8 py-6 border-b border-white/10">
               <div className="text-lg font-light uppercase tracking-[0.2em] text-white" style={{ fontFamily: "Georgia, serif" }}>
-                {checkoutStep === "success" ? "Order Confirmed" : checkoutStep === "checkout" ? "Shipping" : "Your Cart"}
+                {checkoutStep === "success" ? "Order received" : checkoutStep === "checkout" ? "Shipping" : "Your Cart"}
+{/* Vérité : la commande est transmise au commerçant, elle n'est pas payée en ligne ici. */}
               </div>
             </div>
 

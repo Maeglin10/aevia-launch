@@ -22,6 +22,7 @@
 */
 
 import { useEffect } from "react";
+import { sessionPartagee } from "@/lib/templates/sessionPartagee";
 
 /* Marques dont l'usage est réglementé ou vérifiable — jamais le mot
    « certifié » seul, qui purgerait des phrases légitimes du client. */
@@ -91,9 +92,7 @@ export function GardeCertifications() {
         if (arret) return;
         if (attente) await new Promise((r) => setTimeout(r, attente));
         try {
-          const r = await fetch(`/api/sessions?id=${id}`);
-          if (!r.ok) continue;
-          const session = await r.json();
+          const session = await sessionPartagee(id);
           if (!session?.formData?.businessName) return; // pas un site client
           certifications = (session.businessProfile?.certifications ?? []).filter(
             (c: unknown): c is string => typeof c === "string" && c.trim().length > 0,

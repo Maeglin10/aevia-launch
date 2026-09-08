@@ -43,7 +43,31 @@ export default function TemplatesLayout({
           once, rather than editing 315 files: the text does not move, only
           the box around it grows, and it is scoped to narrow viewports so
           desktop layouts are untouched. */}
+      {/* Sans JavaScript, framer-motion ne s'exécute jamais : les éléments
+          rendus avec initial={{opacity:0}} restent invisibles POUR TOUJOURS —
+          titre principal et bouton d'appel compris (mesuré sur 4 thèmes sur 8).
+          Cette règle ne s'applique qu'en l'absence de JS, donc elle n'entre
+          jamais en conflit avec les animations. */}
+      <noscript>
+        <style>{`
+          [style*="opacity:0"], [style*="opacity: 0"] {
+            opacity: 1 !important;
+            transform: none !important;
+          }
+        `}</style>
+      </noscript>
       <style>{`
+        /* Le contour de focus est supprimé par 193 thèmes sans rien mettre à
+           la place : au clavier, on ne voit jamais où l'on est. On le rétablit
+           pour tout le catalogue, uniquement pour la navigation clavier
+           (:focus-visible), donc sans halo au clic à la souris. */
+        #main-content :focus-visible,
+        nav :focus-visible,
+        footer :focus-visible {
+          outline: 3px solid currentColor !important;
+          outline-offset: 2px !important;
+          border-radius: 2px;
+        }
         @media (max-width: 900px) {
           /* Grow the hit area with padding only. Forcing display:inline-flex
              collapsed column-stacked footer lists onto one line. */

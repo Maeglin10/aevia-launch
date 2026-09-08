@@ -10,12 +10,18 @@ import "./globals.css";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  /* Les 373 thèmes clients n'utilisent aucune police Aevia : les
+     précharger volait de la bande passante au premier rendu de LEUR site. */
+  preload: false,
   display: "swap",
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  /* Les 373 thèmes clients n'utilisent aucune police Aevia : les
+     précharger volait de la bande passante au premier rendu de LEUR site. */
+  preload: false,
   display: "swap",
 });
 
@@ -33,12 +39,18 @@ const geistMono = Geist_Mono({
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  /* Les 373 thèmes clients n'utilisent aucune police Aevia : les
+     précharger volait de la bande passante au premier rendu de LEUR site. */
+  preload: false,
   display: "swap",
 });
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
+  /* Les 373 thèmes clients n'utilisent aucune police Aevia : les
+     précharger volait de la bande passante au premier rendu de LEUR site. */
+  preload: false,
   display: "swap",
 });
 

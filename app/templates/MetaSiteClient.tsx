@@ -20,6 +20,7 @@
 */
 
 import { useEffect } from "react";
+import { sessionPartagee } from "@/lib/templates/sessionPartagee";
 
 function poser(selecteur: string, creer: () => HTMLElement, appliquer: (el: HTMLElement) => void) {
   let el = document.head.querySelector<HTMLElement>(selecteur);
@@ -46,9 +47,7 @@ export function MetaSiteClient() {
         if (arret) return;
         if (attente) await new Promise((r) => setTimeout(r, attente));
         try {
-          const r = await fetch(`/api/sessions?id=${id}`);
-          if (!r.ok) continue;
-          const s = await r.json();
+          const s = await sessionPartagee(id);
           const fd = s?.formData;
           const gc = s?.generatedContent;
           const nom: string | undefined = fd?.businessName?.trim();

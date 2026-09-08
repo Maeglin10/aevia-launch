@@ -2358,7 +2358,8 @@ function SneakerCartDrawer({
               position: 'sticky', top: 0, background: C.bg, zIndex: 2,
             }}>
               <h2 style={{ fontWeight: 900, fontSize: '1.1rem', textTransform: 'uppercase', letterSpacing: '-0.02em' }}>
-                {step === 'form' ? 'Checkout' : step === 'done' ? 'Order confirmed' : `Cart (${items.reduce((s, i) => s + i.qty, 0)})`}
+                {step === 'form' ? 'Checkout' : step === 'done' ? 'Order received' : `Cart (${items.reduce((s, i) => s + i.qty, 0)})`}
+{/* Vérité : la commande est transmise au commerçant, elle n'est pas payée en ligne ici. */}
               </h2>
               <button
                 onClick={onClose}
@@ -2493,7 +2494,7 @@ function SneakerCartDrawer({
                   <Check size={26} color={C.accent} strokeWidth={2.5} />
                 </div>
                 <h3 style={{ fontSize: '1.3rem', fontWeight: 900, marginBottom: '0.75rem', textTransform: 'uppercase' }}>
-                  Order confirmed
+                  Order received
                 </h3>
                 <p style={{ color: C.textMuted, fontSize: '0.9rem', lineHeight: 1.7 }}>
                   Thanks {name}. Your order of €{total} will ship to {address}. A confirmation email is on its way to {email}.

@@ -15,6 +15,7 @@
  * sien qui s'affiche.
  */
 
+import { sessionPartagee } from "@/lib/templates/sessionPartagee";
 import { useEffect, useState } from "react";
 import { clientCity, clientLegalForm, clientName } from "@/lib/templates/clientContent";
 
@@ -42,15 +43,8 @@ export function EditeurDuSite({
          création, elle peut n'être pas encore lisible. Cinq tentatives, jusqu'à
          onze secondes : trois ne suffisaient pas, et une page qui rate la
          dernière garde le repli de la démonstration pour toujours. */
-      for (const attente of [0, 500, 1500, 3000, 6000]) {
-        if (attente) await new Promise((r) => setTimeout(r, attente));
-        try {
-          const reponse = await fetch(`/api/sessions?id=${id}`);
-          if (!reponse.ok) continue;
-          const donnees = await reponse.json();
-          if (donnees) { setSession(donnees); return; }
-        } catch {}
-      }
+      const donnees = await sessionPartagee(id);
+      if (donnees) { setSession(donnees); return; }
     })();
   }, []);
 

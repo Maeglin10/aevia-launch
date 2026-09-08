@@ -19,6 +19,7 @@
   Sinon : rien — les vitrines restent des vitrines.
 */
 
+import { sessionPartagee } from "@/lib/templates/sessionPartagee";
 import { useEffect, useMemo, useState } from "react";
 
 interface Produit {
@@ -62,18 +63,11 @@ export function BarreBoutique() {
     } catch {}
     if (new URLSearchParams(window.location.search).get("achat") === "merci") setMerci(true);
     (async () => {
-      for (const attente of [0, 800, 2500, 6000]) {
-        if (attente) await new Promise((r) => setTimeout(r, attente));
-        try {
-          const reponse = await fetch(`/api/sessions?id=${id}`);
-          if (!reponse.ok) continue;
-          const donnees = await reponse.json();
-          if (donnees) {
+      const donnees = await sessionPartagee(id);
+      if (donnees) {
             setSession(donnees);
             return;
           }
-        } catch {}
-      }
     })();
   }, []);
 

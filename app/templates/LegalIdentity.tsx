@@ -18,6 +18,7 @@
  */
 
 import { useEffect, useState } from "react";
+import { sessionPartagee } from "@/lib/templates/sessionPartagee";
 
 function sirenFrom(siret?: string): string | null {
   if (!siret) return null;
@@ -40,8 +41,8 @@ export function LegalIdentity({
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get("session");
     if (!id) return;
-    fetch(`/api/sessions?id=${id}`)
-      .then((r) => r.json())
+    sessionPartagee(id)
+      .then((s) => s)
       .then((s) => {
         const siret: string | undefined = s?.businessProfile?.legal?.siret;
         if (siret) {
