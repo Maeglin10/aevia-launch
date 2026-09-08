@@ -3,6 +3,7 @@ import { BarreBoutique } from "./BarreBoutique";
 import { GardeCertifications } from "./GardeCertifications";
 import { LienMentionsLegales } from "./LienMentionsLegales";
 import { MetaSiteClient } from "./MetaSiteClient";
+import { FormulairesVivants } from "./FormulairesVivants";
 import { BarreActionMobile } from "./BarreActionMobile";
 import { BrandColorVar } from "./BrandColorVar";
 import { SiteSchema } from "./SiteSchema";
@@ -25,6 +26,10 @@ export default function TemplatesLayout({
           d'Aevia — canonical compris, ce qui empêchait l'indexation du site
           vendu. */}
       <MetaSiteClient />
+      {/* Les demandes envoyées depuis le site du client lui parviennent
+          vraiment : au moins 113 thèmes se contentaient d'afficher « Message
+          envoyé » sans rien transmettre. */}
+      <FormulairesVivants />
       <SiteSchema />
       <SiteImages />
       <TemplateAnalytics />

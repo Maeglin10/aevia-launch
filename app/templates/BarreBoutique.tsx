@@ -92,18 +92,28 @@ export function BarreBoutique() {
   }, [panier, sessionId]);
 
   const commerce = session?.businessProfile?.commerce;
-  const produits: Produit[] = useMemo(
-    () => (session?.businessProfile?.products ?? []).filter((p: Produit) => p?.name),
+  /*
+    L'index transmis au serveur doit être celui de la liste BRUTE : le
+    checkout relit `businessProfile.products[index]` pour retrouver le prix.
+    Filtrer avant d'indexer décalait tout dès qu'un produit sans nom traînait
+    dans le catalogue — l'acheteur payait alors un autre article, à un autre
+    prix, sans que rien ne le signale.
+  */
+  const produits = useMemo(
+    () =>
+      ((session?.businessProfile?.products ?? []) as Produit[])
+        .map((p, i) => ({ p, i }))
+        .filter(({ p }) => p?.name),
     [session],
   );
   const vendables = useMemo(
-    () => produits.map((p, i) => ({ p, i, cents: prixEnCents(p.price) })).filter((x) => x.cents !== null),
+    () => produits.map(({ p, i }) => ({ p, i, cents: prixEnCents(p.price) })).filter((x) => x.cents !== null),
     [produits],
   );
   /* Le marchand a peut-être DÉJÀ ses liens de paiement (PayPal.me, SumUp,
      Stripe Payment Link…) : un produit qui en porte un se vend sans rien
      d'autre — plug and play, aucun compte à relier. */
-  const avecLien = useMemo(() => produits.map((p, i) => ({ p, i })).filter((x) => /^https?:\/\//.test(x.p.paymentLink ?? "")), [produits]);
+  const avecLien = useMemo(() => produits.filter(({ p }) => /^https?:\/\//.test(p.paymentLink ?? "")), [produits]);
 
   const modeVente = Boolean(commerce?.stripeAccountId) && vendables.length > 0;
   const modeLiens = !modeVente && avecLien.length > 0;
