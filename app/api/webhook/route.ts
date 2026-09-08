@@ -971,6 +971,33 @@ Retourne uniquement du JSON valide, sans markdown.`;
     // (which would resend the email). For critical failures, use a dead-letter queue.
     Sentry.captureException(err, { tags: { route: "webhook", stage: "event-processing", eventType: event.type } });
     console.error("[webhook] Error processing event:", event.type, err);
+
+    /*
+      Un paiement encaissé dont le traitement échoue est le pire silence
+      possible : le client a payé, personne n'est prévenu, et le journal
+      n'est lu par personne. Sentry n'a même pas de DSN en production —
+      l'alerte part donc par email, avec de quoi rejouer la commande à la
+      main. Best-effort : ne remplace jamais le 200 rendu à Stripe.
+    */
+    try {
+      if (resend) {
+        await resend.emails.send({
+          from: process.env.RESEND_FROM_EMAIL ?? "AeviaLaunch <noreply@aevia.io>",
+          to: [process.env.ADMIN_EMAIL ?? "v.milliand@gmail.com"],
+          subject: `[URGENT] Paiement encaissé, traitement ÉCHOUÉ — ${event.type}`,
+          html:
+            `<p style="font-family:system-ui,sans-serif;font-size:15px;line-height:1.6">` +
+            `<strong>Un paiement a été encaissé mais son traitement a échoué.</strong><br/>` +
+            `Événement : ${escapeHtml(event.type)}<br/>` +
+            `Identifiant Stripe : ${escapeHtml(event.id)}<br/>` +
+            `Erreur : ${escapeHtml(err instanceof Error ? err.message : String(err))}<br/><br/>` +
+            `À traiter à la main : vérifier la session d'aperçu, envoyer le lien au client, ` +
+            `et rejouer l'événement depuis le tableau de bord Stripe si nécessaire.</p>`,
+        });
+      }
+    } catch (alerteErr) {
+      console.error("[webhook] alerte d'échec non envoyée", alerteErr);
+    }
   }
 
   return NextResponse.json({ received: true });
