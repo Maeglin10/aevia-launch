@@ -1,5 +1,6 @@
 import { WebchatBridge } from "./WebchatBridge";
 import { BarreBoutique } from "./BarreBoutique";
+import { GardeCertifications } from "./GardeCertifications";
 import { BarreActionMobile } from "./BarreActionMobile";
 import { BrandColorVar } from "./BrandColorVar";
 import { SiteSchema } from "./SiteSchema";
@@ -134,6 +135,14 @@ export default function TemplatesLayout({
           #main-content. That id exists on Aevia's own pages but on none of the
           315 templates, so the skip link — the first stop for a keyboard or
           screen-reader user — went nowhere on every client site. */}
+      {/* Domaine client : la session arrive par cookie (le rewrite du
+          middleware garde l'URL nue). On l'amorce dans sessionStorage avant
+          l'hydratation — l'endroit que chaque thème sait déjà lire. */}
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `(function(){try{var m=document.cookie.match(/(?:^|; )aevia-session=([^;]+)/);var t=document.cookie.match(/(?:^|; )aevia-template=([^;]+)/);if(!m)return;var sid=decodeURIComponent(m[1]);var cles=["apercu-session:"+String(location.pathname.split("/")[2])];if(t)cles.push("apercu-session:"+decodeURIComponent(t[1]));for(var i=0;i<cles.length;i++){if(!sessionStorage.getItem(cles[i]))sessionStorage.setItem(cles[i],sid);}}catch(e){}})();`,
+        }}
+      />
       <div id="main-content">{children}</div>
       {/* La barre d'appel du pouce. Mesuré en 390 × 844 sur les 317 thèmes
           antérieurs à la série 328-383 : 144 sans appel à l'action au premier
@@ -148,6 +157,9 @@ export default function TemplatesLayout({
           marchand l'a activée, lien vers sa boutique existante sinon. Posée
           ici, une fois, comme les autres correctifs catalogue. */}
       <BarreBoutique />
+      {/* Jamais de certification héritée de la démo sous le nom d'un client
+          (RGE, Qualibat… — usage réglementé). Correctif catalogue. */}
+      <GardeCertifications />
       <WebchatBridge />
     </>
   );
