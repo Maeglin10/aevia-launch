@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { rattacherAuProjet } from "@/lib/domains/vercel";
 import { enregistrerDomaine } from "@/lib/domains/mapping";
+import { generateLegalPages } from "@/lib/legal/generateLegalPages";
 import Stripe from "stripe";
 import { Resend } from "resend";
 import { put } from "@vercel/blob";
@@ -471,7 +472,10 @@ async function handleDesiredDomain(rawDomain: string, siteName: string, sessionI
         /* La pièce qui manquait : sans ce lien, le domaine rattaché servait
            la page d'accueil d'Aevia au lieu du site du client. */
         if (sessionId) {
-          try { await enregistrerDomaine(domain, sessionId); } catch (e) { console.error("[webhook] mapping domaine", e); }
+          try {
+            const sess = await getSessionFromBlob(sessionId);
+            await enregistrerDomaine(domain, sessionId, sess?.formData?.template);
+          } catch (e) { console.error("[webhook] mapping domaine", e); }
         }
         const detailDns = rattachement.dns?.length
           ? ` DNS à poser : ${rattachement.dns.map((d) => `${d.type} ${d.nom} → ${d.valeur}`).join(" ; ")}.`
@@ -876,6 +880,14 @@ Retourne uniquement du JSON valide, sans markdown.`;
           id: previewSessionId,
           formData,
           generatedContent,
+          /* Les pages légales du site livré : /api/generate les produit pour
+             le parcours wizard, mais ce chemin-ci (commande directe) les
+             sautait — le site payé affichait « document pas encore généré ». */
+          legalPages: generateLegalPages(
+            formData,
+            briefAddress ? { companyAddress: briefAddress } : undefined,
+            undefined,
+          ),
           /*
             `clientAddress` lit le profil, jamais le formulaire : sans ce bloc,
             l'adresse du client n'apparaissait sur aucun thème — ni dans le pied

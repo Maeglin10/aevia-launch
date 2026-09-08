@@ -122,7 +122,7 @@ export interface GeneratedContent {
   aboutTitle: string;
   aboutText: string;
   services: { title: string; description: string }[];
-  testimonials: { name: string; role: string; text: string; rating: number }[];
+  testimonials: { name: string; role: string; text: string; rating?: number }[];
   ctaText: string;
   metaTitle: string;
   metaDescription: string;

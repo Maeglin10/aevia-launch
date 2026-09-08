@@ -89,14 +89,24 @@ export function buildLocalBusinessSchema(session: SessionData): Record<string, u
     }
   }
 
-  if (generatedContent?.testimonials?.length) {
-    schema.review = generatedContent.testimonials.map((t) => ({
+  /*
+    Jamais d'avis machine-lisibles qui ne viennent pas de vraies personnes :
+    les testimonials générés ou de repli (« Avis à venir », note 5 fabriquée)
+    publiaient un AggregateRating 5.0 inventé dans les données structurées —
+    un faux avis envoyé à Google au nom du client. Seuls les avis SAISIS par
+    le client (reputation.featuredReviews) sont éligibles.
+  */
+  const avisClient = (bp?.reputation?.featuredReviews ?? []).filter(
+    (t: { author?: string; text?: string }) => t?.author?.trim() && t?.text?.trim(),
+  );
+  if (avisClient.length) {
+    schema.review = avisClient.map((t: { author?: string; text?: string; rating?: number }) => ({
       '@type': 'Review',
-      author: { '@type': 'Person', name: t.name },
+      author: { '@type': 'Person', name: t.author },
       reviewBody: t.text,
       reviewRating: {
         '@type': 'Rating',
-        ratingValue: t.rating,
+        ratingValue: t.rating ?? 5,
         bestRating: 5,
       },
     }))
@@ -154,10 +164,13 @@ export function buildLocalBusinessSchema(session: SessionData): Record<string, u
       bestRating: 5,
     }
   } else {
-    const ratings = [
-      ...(bp?.reputation?.featuredReviews ?? []).map((r) => r.rating),
-      ...(generatedContent?.testimonials ?? []).map((t) => t.rating),
-    ].filter((n): n is number => typeof n === 'number' && n > 0)
+    /* même règle que schema.review : seules les notes d'avis RÉELLEMENT
+       saisis par le client comptent — jamais celles des placeholders ni du
+       contenu généré */
+    const ratings = (bp?.reputation?.featuredReviews ?? [])
+      .filter((r) => r?.author?.trim() && r?.text?.trim())
+      .map((r) => r.rating)
+      .filter((n): n is number => typeof n === 'number' && n > 0)
     if (ratings.length >= 2) {
       const avg = ratings.reduce((a, b) => a + b, 0) / ratings.length
       schema.aggregateRating = {

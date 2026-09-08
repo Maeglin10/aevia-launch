@@ -314,7 +314,13 @@ function buildPrompt(formData: FormData): string {
 - Tarifs: ${formData.priceRange ?? "sur devis"}
 ${sectorLines ? `- Infos secteur:\n${sectorLines}` : ""}
 
-IMPORTANT: Tout le contenu doit être 100% spécifique à ce business. Aucun contenu générique. Les services doivent refléter exactement le métier "${formData.businessType}". Les témoignages doivent être crédibles pour ce secteur.
+IMPORTANT: Tout le contenu doit être spécifique à ce business, mais SANS RIEN INVENTER de vérifiable.
+INTERDICTIONS ABSOLUES — n'écris JAMAIS :
+- de certification, label, agrément ou diplôme (RGE, Qualibat, Qualiopi, certifié, agréé…) non fournis ci-dessus ;
+- d'ancienneté ou d'expérience chiffrée (« depuis 15 ans », « 20 ans de métier ») non fournie ;
+- de chiffres de clients, d'avis, de notes ou de résultats (« 500 clients », « 4,9/5 ») ;
+- de témoignage ou avis client, sous aucune forme.
+Si une information manque, écris autour d'elle : parle du métier, de l'approche, de la ville — jamais de faits inventés. Les services doivent refléter exactement le métier "${formData.businessType}".
 ${rawMenu ? `
 Le client a fourni son VRAI menu ci-dessous. Extrais-en une liste structurée de plats — nom et prix EXACTEMENT comme fournis, ne modifie JAMAIS un prix, n'invente AUCUN plat qui n'y figure pas. Description courte optionnelle si le nom seul est ambigu, sinon laisse vide. Menu fourni :
 """
@@ -330,7 +336,7 @@ Réponds UNIQUEMENT avec un objet JSON valide (pas de \`\`\`json wrapper, pas d'
   "services": [{"title":"...","description":"35-50 mots"},{"title":"...","description":"35-50 mots"},{"title":"...","description":"35-50 mots"}],
   "ctaText": "appel à action 4-7 mots",
   "metaTitle": "titre SEO 50-60 chars axé sur le SEO local avec la ville",
-  "metaDescription": "méta description SEO 140-160 chars axée sur la qualité des prestations, le SEO local et la connexion Google Search Console & Analytics native"${rawMenu ? `,
+  "metaDescription": "méta description SEO 140-160 chars : ce que fait l'entreprise, pour qui, où — donne envie de cliquer, sans superlatifs invérifiables"${rawMenu ? `,
   "menuItems": [{"name":"nom exact du plat","price":"prix exact tel que fourni","description":"courte description ou vide","category":"catégorie si déductible sinon vide"}]` : ""}
 }`;
 }

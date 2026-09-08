@@ -251,7 +251,9 @@ export function contenuDepuisLeClient(formData: FormData): GeneratedContent {
     aboutTitle: cadre.aProposTitre,
     aboutText: cadre.aPropos(d),
     services: cadre.prestationTitres.map((titre) => ({ title: titre, description: cadre.prestation(titre, d) })),
-    testimonials: cadre.avis.map((a) => ({ ...a, rating: 5 })),
+    // pas de note fabriquée : un placeholder « Avis à venir » noté 5 devenait
+    // un AggregateRating 5.0 machine-lisible dans le JSON-LD
+    testimonials: cadre.avis.map((a) => ({ ...a })),
     ctaText: cadre.appel,
     metaTitle: `${d.nom}${d.accroche ? ` — ${d.accroche}` : d.service ? ` — ${d.service}` : ""}`.slice(0, 60),
     metaDescription: cadre.meta(d).slice(0, 160),

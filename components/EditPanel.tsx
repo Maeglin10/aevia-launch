@@ -56,15 +56,15 @@ function SectionHeader({
   setOpenSection,
 }: {
   id: Section;
-  openSection: Section;
-  setOpenSection: (s: Section) => void;
+  openSection: Section | null;
+  setOpenSection: (s: Section | null) => void;
 }) {
   const Icon = SECTION_ICONS[id];
   const isOpen = openSection === id;
   return (
     <button
       type="button"
-      onClick={() => setOpenSection(isOpen ? id : id)}
+      onClick={() => setOpenSection(isOpen ? null : id)}
       className="w-full flex items-center justify-between py-2.5 text-left group"
       aria-expanded={isOpen}
     >
@@ -115,7 +115,7 @@ export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps
   );
 
   const [saveState, setSaveState] = useState<"idle" | "saving" | "saved">("idle");
-  const [openSection, setOpenSection] = useState<Section>("hero");
+  const [openSection, setOpenSection] = useState<Section | null>("hero");
   const [imgError, setImgError] = useState(false);
   const colorInputRef = useRef<HTMLInputElement>(null);
 
@@ -354,6 +354,11 @@ export function EditPanel({ session, onClose, onChange, onSave }: EditPanelProps
         {/* ── BRAND ── */}
         <div className="pb-1 mb-1">
           <SectionHeader id="brand" openSection={openSection} setOpenSection={setOpenSection} />
+          {/* Le panneau des 2 500+ retouches de sections existait, complet…
+              sans bouton pour l'ouvrir : openSection ne pouvait jamais valoir
+              "sections". Le client ne pouvait donc corriger AUCUN texte hors
+              des cinq blocs de base — y compris un texte démo faux. */}
+          <SectionHeader id="sections" openSection={openSection} setOpenSection={setOpenSection} />
           {openSection === "brand" && (
             <div className="pb-4">
               <label className="block text-[11px] font-semibold text-zinc-400 uppercase tracking-wider mb-2">
