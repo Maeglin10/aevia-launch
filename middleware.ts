@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
+/* Source unique, partagée avec robots.txt et sitemap.xml. */
+import { HOTES_PLATEFORME } from "@/lib/hotePlateforme";
 
 /*
   Les domaines des clients arrivent sur CE déploiement (rattachés au projet
@@ -9,11 +11,6 @@ import { NextRequest, NextResponse } from "next/server";
   (domains/<hôte>.json) : une requête CDN, mise en cache, par navigation.
 */
 
-const HOTES_PLATEFORME = new Set([
-  "aevia-launch.vercel.app",
-  "launch.aevia.services",
-  "localhost",
-]);
 
 function hoteBlob(): string | null {
   const jeton = process.env.BLOB_READ_WRITE_TOKEN ?? "";

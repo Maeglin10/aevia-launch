@@ -1,5 +1,7 @@
 import type { MetadataRoute } from 'next'
+import { headers } from 'next/headers'
 import { MODELES_INDEXABLES } from '@/lib/templates/modeleSeo'
+import { estHotePlateforme, origineDeLaRequete } from '@/lib/hotePlateforme'
 
 const BASE = 'https://launch.aevia.services'
 
@@ -10,8 +12,25 @@ const SITE_THEME_IDS = [
   'startup', 'luxury', 'brutalist', 'magazine', 'aurora', '3d-tech', 'minimal-pro',
 ]
 
-export default function sitemap(): MetadataRoute.Sitemap {
+/*
+  Servi sur le domaine d'un client, ce plan de site listait les 25 pages
+  d'Aevia et les 373 fiches de modèles — et pas une seule page du site payé.
+  Un plan de site est ce qu'un moteur lit pour savoir QUOI indexer : le client
+  n'y soumettait donc rien, pendant qu'on lui vend du référencement.
+
+  Sur un domaine client, on ne déclare que son site.
+*/
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date()
+
+  const hote = (await headers()).get('host')
+  if (!estHotePlateforme(hote)) {
+    const origine = origineDeLaRequete(hote)
+    /* Le middleware ne réécrit que la racine sur un domaine client : c'est la
+       seule page qui existe pour un moteur. Déclarer davantage produirait des
+       404 dans la Search Console du client — pire que rien. */
+    return [{ url: origine, lastModified, changeFrequency: 'weekly', priority: 1.0 }]
+  }
 
   const themePages: MetadataRoute.Sitemap = SITE_THEME_IDS.map((id) => ({
     url: `${BASE}/themes/${id}`,
