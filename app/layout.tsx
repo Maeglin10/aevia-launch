@@ -1,4 +1,6 @@
 import { LienEvitement } from "@/components/LienEvitement";
+import { headers } from 'next/headers';
+import { estHotePlateforme } from '@/lib/hotePlateforme';
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter, Space_Grotesk } from "next/font/google";
 import { LangProvider } from "@/lib/LangContext";
@@ -241,11 +243,29 @@ const organizationSchema = {
   ],
 };
 
-export default function RootLayout({
+/*
+  Ces deux balisages structurés décrivent AEVIA : nom légal, SIREN 852546225,
+  adresse, et une liste `sameAs` qui relie explicitement le site à notre fiche
+  d'entreprise. Ils vivent dans le layout RACINE, donc ils étaient servis sur
+  toutes les pages — y compris celles rendues sur le domaine d'un client.
+
+  Le site qu'il paie déclarait donc à Google, en données structurées, que son
+  éditeur est Aevia, avec notre SIREN. Pour lui c'est une mention d'éditeur
+  fausse au sens de la LCEN ; pour nous, c'est notre identité d'entreprise
+  attachée à des dizaines de sites tiers dont nous ne sommes pas l'éditeur — ce
+  qui abîme précisément le travail de désambiguïsation avec la société Aevia du
+  groupe Eiffage que ce balisage sert à faire.
+
+  Sur un domaine client, on ne publie donc aucun des deux : son identité à lui
+  est posée par le catalogue (LegalIdentity), qui lit sa session.
+*/
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const surDomaineClient = !estHotePlateforme((await headers()).get('host'));
+
   return (
     <html
       lang="fr"
@@ -255,14 +275,18 @@ export default function RootLayout({
         {process.env.NEXT_PUBLIC_GSC_VERIFICATION && (
           <meta name="google-site-verification" content={process.env.NEXT_PUBLIC_GSC_VERIFICATION} />
         )}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
-        />
+        {!surDomaineClient && (
+          <>
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareAppSchema) }}
+            />
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+            />
+          </>
+        )}
       </head>
       <body className="min-h-full flex flex-col">
         {/*
