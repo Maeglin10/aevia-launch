@@ -134,14 +134,27 @@ export async function POST(req: NextRequest) {
       existing?.businessProfile?.legal,
       existing?.businessProfile?.niche,
     );
+    /* FUSION, jamais reconstruction.
+
+       Cette route rebâtissait l'objet session champ par champ. Chaque champ
+       oublié disparaissait donc du blob, qui est écrit en écrasement complet.
+       `businessProfile` en avait déjà fait les frais — d'où la note ci-dessous.
+
+       Mais `editTokenHash` disparaissait de la même façon, et celui-là n'est
+       pas un détail d'affichage : c'est LE contrôle d'écriture de la session.
+       Après génération, `aJetonEdition()` valait false, et PATCH cessait
+       d'exiger quoi que ce soit. Quiconque avait le lien d'aperçu — transféré
+       par e-mail, montré au comptoir, relayé dans une conversation — pouvait
+       réécrire le site du client pendant toute la durée de vie de la session.
+       `sectionOverrides` était perdu au passage, effaçant les retouches déjà
+       faites.
+
+       En partant de l'existant, tout champ non listé survit mécaniquement :
+       c'est la seule forme qui ne se dégrade pas à chaque ajout au modèle. */
     const sessionData = {
+      ...(existing ?? {}),
       id: sessionId,
       formData,
-      // Preserve businessProfile — this route used to rebuild sessionData
-      // from scratch here, silently dropping the businessProfile the wizard
-      // PATCHed in right before calling /api/generate (services, team,
-      // legal…), so every resolveList() in the templates would always fall
-      // back to demo content on the actual generated site.
       businessProfile: existing?.businessProfile,
       generatedContent,
       legalPages,
