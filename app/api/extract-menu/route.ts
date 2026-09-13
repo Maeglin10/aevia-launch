@@ -24,8 +24,11 @@ Extrais TOUS les articles visibles en JSON. Règles STRICTES :
 Réponds UNIQUEMENT avec un objet JSON: {"items":[{"name":"...","price":"...","category":"...","description":""}]}`;
 
 async function fetchImageAsInlineData(url: string): Promise<{ mimeType: string; data: string }> {
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`image fetch failed: ${res.status}`);
+  /* redirect:'error' — sans lui, un hôte autorisé pouvait répondre 302 vers
+     169.254.169.254 et `fetch` suivait la redirection SANS re-valider l'hôte
+     (contournement SSRF trouvé au red-team le 13/09). */
+  const res = await fetch(url, { redirect: 'error' });
+  if (!res.ok) throw new Error('image_fetch_failed');
   const mimeType = res.headers.get("content-type") ?? "image/jpeg";
   const buf = Buffer.from(await res.arrayBuffer());
   if (buf.length > 8 * 1024 * 1024) throw new Error("image too large (max 8MB)");
@@ -86,9 +89,20 @@ export async function POST(req: NextRequest) {
   }
   if (!body.imageUrl) return NextResponse.json({ error: "missing_imageUrl" }, { status: 400 });
 
-  // Only accept images we host on our own Blob store — never fetch arbitrary
-  // external URLs on the caller's behalf (SSRF guard).
-  if (!/^https:\/\/[^/]*\.public\.blob\.vercel-storage\.com\//.test(body.imageUrl)) {
+  /*
+    2026-09-13, red-team : la regex `^https://[^/]*\.public\.blob\.…` n'était
+    pas ancrée sur le HOST. `[^/]*` avalait « 169.254.169.254?x » et matchait
+    « .public.blob.vercel-storage.com/ » DANS la query : l'URL passait le
+    filtre alors que son host réel était une IP interne (metadata cloud, réseau
+    privé). SSRF non authentifiée. On valide désormais le host de l'URL PARSÉE,
+    jamais la chaîne brute. */
+  let cible: URL;
+  try {
+    cible = new URL(body.imageUrl);
+  } catch {
+    return NextResponse.json({ error: "url_not_allowed" }, { status: 400 });
+  }
+  if (cible.protocol !== "https:" || !cible.hostname.endsWith(".public.blob.vercel-storage.com")) {
     return NextResponse.json({ error: "url_not_allowed" }, { status: 400 });
   }
 
@@ -96,10 +110,9 @@ export async function POST(req: NextRequest) {
   try {
     inline = await fetchImageAsInlineData(body.imageUrl);
   } catch (err) {
-    return NextResponse.json(
-      { error: err instanceof Error ? err.message : "image_error" },
-      { status: 400 },
-    );
+    /* Message générique : ne pas renvoyer le statut/type upstream, qui servait
+       d'oracle de reachability réseau. */
+    return NextResponse.json({ error: "image_error" }, { status: 400 });
   }
 
   const url =

@@ -34,8 +34,8 @@ function isRateLimited(ip: string): boolean {
 export async function GET(req: NextRequest) {
   // Rate limiting — prevent session enumeration or brute force
   const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
     req.headers.get("x-real-ip") ??
+    req.headers.get("x-forwarded-for")?.split(",").pop()?.trim() ??
     "unknown";
   if (isRateLimited(ip)) {
     return NextResponse.json(
@@ -60,8 +60,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   // Rate limiting — prevent session spam
   const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
     req.headers.get("x-real-ip") ??
+    req.headers.get("x-forwarded-for")?.split(",").pop()?.trim() ??
     "unknown";
   if (isRateLimited(ip)) {
     return NextResponse.json(
@@ -98,8 +98,8 @@ export async function POST(req: NextRequest) {
 // Used by the inline editor when the client saves their customizations.
 export async function PATCH(req: NextRequest) {
   const ip =
-    req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
     req.headers.get("x-real-ip") ??
+    req.headers.get("x-forwarded-for")?.split(",").pop()?.trim() ??
     "unknown";
   if (isRateLimited(ip)) {
     return NextResponse.json({ error: "Too many requests." }, { status: 429 });

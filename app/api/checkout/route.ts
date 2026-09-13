@@ -41,8 +41,8 @@ export async function POST(req: NextRequest) {
 
     // Rate limiting — protect Stripe from checkout spam
     const ip =
-      req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
       req.headers.get("x-real-ip") ??
+      req.headers.get("x-forwarded-for")?.split(",").pop()?.trim() ??
       "unknown";
     if (isRateLimited(ip)) {
       return NextResponse.json(

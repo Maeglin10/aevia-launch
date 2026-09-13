@@ -35,7 +35,13 @@ const esc = (v: string) =>
   v.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0].trim() ?? "inconnue";
+  /* x-real-ip (posé par Vercel = IP reelle du pair) plutot que le PREMIER
+     x-forwarded-for, controle par le client et donc trivial a faire tourner
+     pour reinitialiser le limiteur (red-team 13/09). */
+  const ip =
+    req.headers.get("x-real-ip") ??
+    req.headers.get("x-forwarded-for")?.split(",").pop()?.trim() ??
+    "inconnue";
   if (tropDeRequetes(ip)) {
     return NextResponse.json({ error: "Trop de demandes — réessayez dans une minute." }, { status: 429 });
   }
