@@ -96,13 +96,14 @@ export async function POST(req: NextRequest) {
 
   let envoye = false;
   const cle = process.env.RESEND_API_KEY;
+  const from = process.env.RESEND_FROM_EMAIL ?? "Aevia Launch <onboarding@resend.dev>";
   if (cle && destinataire) {
     try {
       const r = await fetch("https://api.resend.com/emails", {
         method: "POST",
         headers: { Authorization: `Bearer ${cle}`, "Content-Type": "application/json" },
         body: JSON.stringify({
-          from: process.env.RESEND_FROM_EMAIL ?? "Aevia Launch <onboarding@resend.dev>",
+          from,
           to: destinataire,
           ...(email ? { reply_to: email } : {}),
           subject: `Nouvelle demande depuis ${nomSite}${sujet ? ` — ${sujet}` : ""}`,
@@ -121,6 +122,38 @@ export async function POST(req: NextRequest) {
       envoye = r.ok;
     } catch {
       envoye = false;
+    }
+  }
+
+  /*
+    2026-09-13 — « archivé » comptait comme « remis ». Si l'email au client
+    échouait (clé absente, adresse absente, Resend en panne), la demande
+    finissait dans un blob que RIEN ne relisait : le visiteur croyait avoir
+    écrit, le client concluait que son site ne générait aucun contact, et
+    personne ne savait qu'un prospect était perdu. Une remise ratée alerte
+    désormais l'administrateur, avec de quoi rejouer la remise à la main —
+    même mécanisme que les alertes du webhook de paiement.
+  */
+  if (!envoye && cle) {
+    try {
+      await fetch("https://api.resend.com/emails", {
+        method: "POST",
+        headers: { Authorization: `Bearer ${cle}`, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          from,
+          to: process.env.ADMIN_EMAIL ?? "v.milliand@gmail.com",
+          subject: `[Launch] Demande NON remise — ${nomSite} (${corps.sessionId})`,
+          html:
+            `<p>Une demande de prospect n'a pas pu être remise au client.</p>` +
+            `<p><strong>Site :</strong> ${esc(nomSite)} · session ${esc(corps.sessionId)}</p>` +
+            `<p><strong>Destinataire prévu :</strong> ${esc(destinataire ?? "ABSENT de la session")}</p>` +
+            `<p><strong>Archivée :</strong> ${archivee ? "oui (demandes/" + esc(corps.sessionId) + "/)" : "NON — contenu ci-dessous"}</p>` +
+            (archivee ? "" : `<pre>${esc(JSON.stringify(recu, null, 2))}</pre>`) +
+            `<p>Rejouer la remise à la main, puis répondre au prospect.</p>`,
+        }),
+      });
+    } catch {
+      /* l'alerte est un filet, pas une condition */
     }
   }
 

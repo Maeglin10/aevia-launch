@@ -31,12 +31,26 @@ export function WebchatBridge() {
           `/api/idp/aevia-bridge/webchat-widget/${encodeURIComponent(session.accountId)}`,
         );
         if (!widgetRes.ok || cancelled) return; // 404 = no active widget, nothing to embed
-        const { widgetId } = (await widgetRes.json()) as { widgetId: string };
+        const { widgetId, apiUrl } = (await widgetRes.json()) as {
+          widgetId: string;
+          apiUrl?: string;
+        };
         if (!widgetId || cancelled) return;
 
+        /*
+          2026-09-13 — le script était injecté SANS `data-api-url`. widget.js
+          se rabat alors sur « origine du script + /api », c'est-à-dire le
+          FRONT Inbox, qui n'a pas ces routes : 404 sur la configuration,
+          bulle de chat morte sur chaque site livré. L'URL vient du backend
+          (l'autorité) ; le repli est l'URL de production connue.
+        */
         const script = document.createElement("script");
         script.src = `${INBOX_ORIGIN}/webchat/widget.js`;
         script.setAttribute("data-widget-id", widgetId);
+        script.setAttribute(
+          "data-api-url",
+          apiUrl || "https://skybot-inbox-production.up.railway.app/api/v1",
+        );
         script.setAttribute("data-aevia-webchat", "true");
         script.async = true;
         document.body.appendChild(script);

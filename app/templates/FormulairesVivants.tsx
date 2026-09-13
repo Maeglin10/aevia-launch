@@ -98,25 +98,66 @@ export function FormulairesVivants() {
 
       const charge = JSON.stringify({ sessionId, ...champs });
       const url = "/api/site/demande";
-      try {
-        /* sendBeacon survit à une navigation immédiate (certains thèmes
-           redirigent après soumission). */
-        if (navigator.sendBeacon) {
-          navigator.sendBeacon(url, new Blob([charge], { type: "application/json" }));
-        } else {
-          void fetch(url, {
+      /*
+        2026-09-13 — l'envoi était pur sendBeacon : aucun moyen de savoir si
+        la demande était arrivée. Un 404, un 429, une panne : le thème
+        affichait quand même « message envoyé » et le prospect était perdu en
+        silence. `fetch` avec `keepalive` survit aussi à une navigation
+        immédiate ET rend le statut lisible ; en échec, la demande est gardée
+        dans localStorage et re-postée au prochain chargement — sendBeacon ne
+        reste que le filet du tout dernier instant.
+      */
+      const CLE_ATTENTE = "aevia-demandes-en-attente";
+      const garder = () => {
+        try {
+          const brut = localStorage.getItem(CLE_ATTENTE);
+          const liste = brut ? (JSON.parse(brut) as string[]) : [];
+          liste.push(charge);
+          localStorage.setItem(CLE_ATTENTE, JSON.stringify(liste.slice(-10)));
+        } catch {
+          /* stockage indisponible : sendBeacon reste le dernier recours */
+          try {
+            navigator.sendBeacon?.(url, new Blob([charge], { type: "application/json" }));
+          } catch {
+            /* rien de plus à faire sans casser l'écran du thème */
+          }
+        }
+      };
+      void fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: charge,
+        keepalive: true,
+      })
+        .then((res) => {
+          if (!res.ok) garder();
+        })
+        .catch(garder);
+    };
+
+    document.addEventListener("submit", surSoumission, true);
+
+    /* Rejeu des demandes gardées lors d'un précédent échec. */
+    try {
+      const brut = localStorage.getItem("aevia-demandes-en-attente");
+      if (brut) {
+        const liste = JSON.parse(brut) as string[];
+        localStorage.removeItem("aevia-demandes-en-attente");
+        for (const charge of liste) {
+          void fetch("/api/site/demande", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: charge,
             keepalive: true,
+          }).catch(() => {
+            /* un rejeu raté sera regardé au prochain chargement via garder() */
           });
         }
-      } catch {
-        /* jamais d'erreur visible : le thème gère son propre affichage */
       }
-    };
+    } catch {
+      /* localStorage indisponible : rien à rejouer */
+    }
 
-    document.addEventListener("submit", surSoumission, true);
     return () => document.removeEventListener("submit", surSoumission, true);
   }, []);
 

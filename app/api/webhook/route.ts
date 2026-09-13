@@ -119,7 +119,7 @@ function clientEmailHtml({ name, previewUrl }: { name: string; previewUrl: strin
             Merci pour votre commande ! Nous avons généré un aperçu personnalisé de <strong style="color:#fff;">${safeName}</strong> basé sur vos informations.
           </p>
           <p style="margin:0 0 28px;font-size:14px;color:#a1a1aa;line-height:1.7;">
-            Notre équipe finalise votre site et vous contacte sous <strong style="color:#fff;">2 heures</strong>. En attendant, découvrez votre aperçu :
+            Notre équipe finalise votre site et revient vers vous sous <strong style="color:#fff;">un jour ouvré</strong> — le même délai que la mise en service de votre nom de domaine. En attendant, découvrez votre aperçu :
           </p>
           <a href="${safeUrl}" style="display:inline-block;padding:14px 28px;background:#7c3aed;color:#fff;font-weight:700;font-size:14px;border-radius:10px;text-decoration:none;">
             Voir mon aperçu →
@@ -666,7 +666,12 @@ export async function POST(req: NextRequest) {
             resend.emails.send({
               from: process.env.RESEND_FROM_EMAIL ?? "AeviaLaunch <noreply@aevia.io>",
               to: [clientEmail],
-              subject: `Votre site ${siteName} est prêt ! 🚀`,
+              /*
+                2026-09-13 — l'objet disait « prêt ! » quand le corps disait
+                « en préparation » : le client ouvrait, cherchait son site
+                final, et ne trouvait qu'un aperçu. L'objet dit ce qui est.
+              */
+              subject: `Commande confirmée — votre site ${siteName} est en préparation`,
               html: clientEmailHtml({ name: siteName, previewUrl }),
             }).catch((e: unknown) => console.error("[webhook] client email failed", e))
           );
