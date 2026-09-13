@@ -228,6 +228,15 @@ export async function POST(req: NextRequest) {
     // (Stripe metadata is capped to ~500 chars per key and 50 keys total, so we
     // store the brief separately and resolve it from the webhook handler.)
     const briefId = crypto.randomUUID();
+    /* `briefId` n'entre dans les métadonnées que si un brief a RÉELLEMENT été
+       écrit. Il y était posé inconditionnellement, y compris pour une commande
+       passée depuis un aperçu déjà validé — et le webhook teste
+       `if (meta.sessionId && !meta.briefId)` pour livrer cet aperçu. La
+       condition était donc toujours fausse : le chemin « livrer l'aperçu que le
+       client a vu et approuvé » n'a JAMAIS été emprunté. Toute commande
+       repartait sur une génération neuve, et le client recevait un site qu'il
+       n'avait jamais vu. */
+    let briefEcrit = false;
     if (brief && Object.keys(brief).length > 0) {
       try {
         await put(`briefs/${briefId}.json`, JSON.stringify(brief), {
@@ -235,6 +244,7 @@ export async function POST(req: NextRequest) {
           addRandomSuffix: false,
           contentType: "application/json",
         });
+        briefEcrit = true;
       } catch (err) {
         console.error("[checkout] brief upload failed", err);
         Sentry.captureException(err, { tags: { route: "checkout", stage: "brief-upload" } });
@@ -288,7 +298,10 @@ export async function POST(req: NextRequest) {
         maintenance: withMaintenance ? "1" : "0",
         branding: withBranding ? "1" : "0",
         currency: ccy,
-        briefId,
+        /* Voir ci-dessus : un briefId annoncé sans brief écrit condamnait le
+           chemin « aperçu validé ». Et un briefId qui pointe vers un objet
+           absent ne sert à rien au webhook. */
+        ...(briefEcrit ? { briefId } : {}),
         /*
           Le domaine choisi ET payé prime sur celui simplement mentionné dans le
           brief : c'est lui que le webhook enregistrera. Un domaine cité sans

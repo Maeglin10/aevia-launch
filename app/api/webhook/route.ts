@@ -501,6 +501,18 @@ async function handleDesiredDomain(rawDomain: string, siteName: string, sessionI
  * was already processed (duplicate webhook delivery), true otherwise. Fails open
  * if the Blob store is unreachable so valid events are never silently dropped.
  */
+/** Libère une réservation posée pour un traitement qui a échoué. */
+async function libererEvent(eventId: string): Promise<void> {
+  try {
+    const { del } = await import("@vercel/blob");
+    const { list } = await import("@vercel/blob");
+    const { blobs } = await list({ prefix: `events/${eventId}.json`, limit: 1 });
+    if (blobs.length > 0) await del(blobs[0].url);
+  } catch (err) {
+    console.error("[webhook] libération de la réservation impossible", err);
+  }
+}
+
 async function tryReserveEvent(eventId: string): Promise<boolean> {
   const key = `events/${eventId}.json`;
   try {
@@ -603,7 +615,14 @@ export async function POST(req: NextRequest) {
       /* La commande porte « sessionApercu » depuis le formulaire, et
          « sessionId » quand elle vient du raccourci d'aperçu. */
       if (!meta.sessionId && meta.sessionApercu) meta.sessionId = meta.sessionApercu;
-      if (meta.sessionId && !meta.briefId) {
+
+      /* L'aperçu que le client a VU et approuvé prime sur toute génération
+         neuve. Il pouvait arriver qu'une commande porte à la fois un aperçu
+         validé et un brief : le chemin brief l'emportait alors, créait une
+         SECONDE session et livrait un site que le client n'avait jamais vu.
+         Un aperçu approuvé est un accord ; on ne le remplace pas. */
+      const apercuApprouve = Boolean(meta.sessionApercu || meta.sessionId);
+      if (apercuApprouve) {
         const previewUrl = meta.previewUrl ?? `${process.env.NEXT_PUBLIC_BASE_URL ?? "https://launch.aevia.services"}/preview/${meta.sessionId}`;
         const clientEmail = session.customer_details?.email ?? session.customer_email ?? undefined;
         const successUrl = `${process.env.NEXT_PUBLIC_BASE_URL ?? "https://launch.aevia.services"}/success?sessionId=${meta.sessionId}&siteName=${encodeURIComponent(siteName)}`;
@@ -967,6 +986,14 @@ Retourne uniquement du JSON valide, sans markdown.`;
     // Add handlers for other event types here:
     // payment_intent.payment_failed, charge.dispute.created, etc.
   } catch (err) {
+    /* La réservation était posée AVANT le traitement et n'était jamais
+       libérée : un échec passager — Blob momentanément indisponible, Resend en
+       vrac — condamnait donc la commande DEUX fois. Le traitement n'aboutissait
+       pas, et le rejeu de Stripe ressortait en « duplicate » sans rien faire.
+       Le client avait payé, et plus aucun chemin automatique ne pouvait le
+       servir. On libère, pour que le rejeu ait une chance. */
+    await libererEvent(event.id);
+
     // Log processing errors but still return 200 to avoid Stripe retries
     // (which would resend the email). For critical failures, use a dead-letter queue.
     Sentry.captureException(err, { tags: { route: "webhook", stage: "event-processing", eventType: event.type } });
