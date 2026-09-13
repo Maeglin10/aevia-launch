@@ -27,6 +27,56 @@ type Reponse = {
   erreur?: string;
 };
 
+/*
+  Déclarée au module, pas dans le rendu.
+
+  Définie à l'intérieur de `ChoixDomaine`, cette fonction était une NOUVELLE
+  référence de composant à chaque frappe : React démontait puis remontait
+  chaque ligne au lieu de la mettre à jour — perte de focus et d'état pour
+  tout ce qu'on y ajouterait plus tard. Le lint le signalait déjà en erreur.
+*/
+function Ligne({
+  v,
+  retenu,
+  onChoisir,
+}: {
+  v: Verdict;
+  retenu: boolean;
+  onChoisir: (v: Verdict) => void;
+}) {
+  const pris = v.libre === false;
+  return (
+    <button
+      type="button"
+      onClick={() => onChoisir(v)}
+      disabled={pris}
+      aria-disabled={pris}
+      className={`flex w-full items-center justify-between gap-3 rounded-xl border px-4 py-3 text-left transition-colors ${
+        pris
+          ? "cursor-not-allowed border-white/5 bg-white/[0.02] opacity-50"
+          : retenu
+            ? "border-white/40 bg-white/10"
+            : "border-white/10 bg-white/5 hover:border-white/25"
+      }`}
+    >
+      <span className="min-w-0">
+        <span className={`block truncate text-sm ${pris ? "text-white/50 line-through" : "text-white"}`}>
+          {v.domaine}
+        </span>
+        {v.note && !pris && <span className="block truncate text-xs text-white/40">{v.note}</span>}
+        {pris && (
+          <span className="block truncate text-xs text-white/40">
+            Indisponible — choisissez une autre piste ci-dessous
+          </span>
+        )}
+      </span>
+      <span className={`shrink-0 text-sm ${pris ? "text-white/40" : "text-white/80"}`}>
+        {pris ? "déjà pris" : `${v.prix} €`}
+      </span>
+    </button>
+  );
+}
+
 export function ChoixDomaine({
   valeur,
   onChange,
@@ -61,32 +111,35 @@ export function ChoixDomaine({
     return () => { annule = true; clearTimeout(t); };
   }, [saisie]);
 
+  /*
+    Un nom déjà pris ne peut pas être acheté.
+
+    La ligne affichait « déjà pris » à droite et restait un bouton actif : un
+    clic le posait dans le panier, et le client payait 29 € pour un domaine que
+    personne ne pourrait jamais lui enregistrer. Le remboursement aurait été
+    manuel, après réclamation — s'il réclamait.
+
+    Deux verrous, parce qu'un seul ne suffit pas : on refuse le clic, et on
+    retire un choix devenu invalide. Le second cas arrive vraiment — le client
+    retient « boulangerie-vidal.fr », continue à taper, la vérification revient
+    et dit « pris » : sans ce retrait, le choix resterait dans le panier alors
+    que l'écran affiche désormais l'inverse.
+  */
+  const selectionnable = (v: Verdict) => v.prix !== null && v.libre !== false;
+
+  useEffect(() => {
+    if (!valeur || !reponse) return;
+    const lignes = [reponse.demande, ...reponse.alternatives];
+    const correspondante = lignes.find((v) => v.domaine === valeur.nom);
+    if (correspondante && !selectionnable(correspondante)) onChange(null);
+  }, [reponse, valeur, onChange]);
+
   const choisir = (v: Verdict) => {
-    if (v.prix === null) return;
-    onChange({ nom: v.domaine, prix: v.prix });
+    if (!selectionnable(v)) return;
+    onChange({ nom: v.domaine, prix: v.prix as number });
     setSaisie(v.domaine);
   };
 
-  const Ligne = ({ v }: { v: Verdict }) => {
-    const retenu = valeur?.nom === v.domaine;
-    return (
-      <button
-        type="button"
-        onClick={() => choisir(v)}
-        className={`flex w-full items-center justify-between gap-3 rounded-xl border px-4 py-3 text-left transition-colors ${
-          retenu ? "border-white/40 bg-white/10" : "border-white/10 bg-white/5 hover:border-white/25"
-        }`}
-      >
-        <span className="min-w-0">
-          <span className="block truncate text-sm text-white">{v.domaine}</span>
-          {v.note && <span className="block truncate text-xs text-white/40">{v.note}</span>}
-        </span>
-        <span className="shrink-0 text-sm text-white/80">
-          {v.libre === false ? "déjà pris" : `${v.prix} €`}
-        </span>
-      </button>
-    );
-  };
 
   return (
     <div className="space-y-3">
@@ -105,7 +158,7 @@ export function ChoixDomaine({
 
       {reponse && !reponse.erreur && (
         <div className="space-y-2">
-          {reponse.demande.prix !== null && <Ligne v={reponse.demande} />}
+          {reponse.demande.prix !== null && <Ligne v={reponse.demande} retenu={valeur?.nom === reponse.demande.domaine} onChoisir={choisir} />}
           {reponse.demande.prix === null && (
             <p className="text-xs text-amber-300/80">
               Nous ne savons pas encore rattacher cette extension automatiquement.
@@ -116,7 +169,7 @@ export function ChoixDomaine({
           {reponse.alternatives.length > 0 && (
             <>
               <p className="pt-1 text-xs uppercase tracking-wider text-white/30">Autres pistes</p>
-              {reponse.alternatives.map((a) => <Ligne key={a.domaine} v={a} />)}
+              {reponse.alternatives.map((a) => <Ligne key={a.domaine} v={a} retenu={valeur?.nom === a.domaine} onChoisir={choisir} />)}
             </>
           )}
 

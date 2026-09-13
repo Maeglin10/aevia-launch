@@ -76,8 +76,13 @@ export async function GET(req: Request) {
 
   return NextResponse.json({
     demande: verdict(demande),
-    /* Seulement ce qu'on sait enregistrer ET rattacher automatiquement. */
-    alternatives: propositions.map(verdict).filter((v) => v.prix !== null),
+    /*
+      Seulement ce qu'on sait enregistrer ET rattacher automatiquement, et
+      seulement ce qui est encore libre : une « autre piste » déjà prise n'est
+      pas une piste. On garde celles dont la disponibilité est inconnue —
+      l'écran le dit, et on la confirme avant tout enregistrement.
+    */
+    alternatives: propositions.map(verdict).filter((v) => v.prix !== null && v.libre !== false),
     /*
       Le client peut toujours refuser : son site vit alors sur une adresse en
       .vercel.app, offerte, et il pourra brancher un domaine plus tard.

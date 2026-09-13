@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 import { list, put } from "@vercel/blob";
 import type { SessionData } from "@/lib/sessions";
+import { clientsPayants, empreinteEmail } from "@/lib/paiement-marqueurs";
 
 export const runtime = "nodejs";
 export const maxDuration = 60;
@@ -100,11 +101,13 @@ export async function GET(req: NextRequest) {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "https://launch.aevia.services";
   const fromAddress = process.env.RESEND_FROM_EMAIL ?? "AeviaLaunch <noreply@aevia.io>";
 
-  const [sessionPaths, paidPaths, remindedPaths, desinscritsPaths] = await Promise.all([
+  const [sessionPaths, paidPaths, remindedPaths, desinscritsPaths, acheteurs] = await Promise.all([
     listAllPathnames("sessions/"),
     listAllPathnames("paid/"),
     listAllPathnames("reminders/"),
     listAllPathnames("unsubscribed/"),
+    /* Empreintes des clients ayant déjà payé — voir lib/paiement-marqueurs. */
+    clientsPayants(),
   ]);
 
   const paidIds = new Set(paidPaths.map((p) => idFromPathname("paid/", p)));
@@ -132,6 +135,19 @@ export async function GET(req: NextRequest) {
       const data = (await res.json()) as SessionData;
 
       if (!data.generatedContent || !data.formData?.email) {
+        skipped++;
+        continue;
+      }
+
+      /*
+        Ne jamais dire « pas encore finalisé » à quelqu'un qui a payé.
+
+        L'assistant crée une session neuve à chaque passage : le même acheteur
+        laisse plusieurs sessions complètes derrière lui et n'en paie qu'une.
+        Écarter sur le seul identifiant de commande relançait les autres — vers
+        un client débité la veille.
+      */
+      if (acheteurs.has(empreinteEmail(data.formData.email))) {
         skipped++;
         continue;
       }

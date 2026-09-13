@@ -13,6 +13,7 @@ import {
   type GeneratedContent,
 } from "@/lib/sessions";
 import { contenuDepuisLeClient } from "@/lib/contenuDepuisLeClient";
+import { marquerPaye } from "@/lib/paiement-marqueurs";
 
 // IMPORTANT: configure RESEND_FROM_EMAIL with a verified domain (e.g., noreply@aevia.io)
 export const runtime = "nodejs";
@@ -637,6 +638,26 @@ export async function POST(req: NextRequest) {
           );
         }
 
+        /*
+          Marquer le paiement AVANT d'envoyer quoi que ce soit.
+
+          Le marqueur est ce qui empêche la relance « pas encore finalisé »
+          de partir vers quelqu'un qui vient de payer. Il était écrit en
+          dernier, après les emails : une erreur d'envoi Resend faisait sortir
+          du bloc avant lui, et la relance partait 48 h plus tard.
+
+          On marque aussi le CLIENT, pas seulement la commande — l'assistant
+          tire un identifiant de session neuf à chaque passage, et les
+          sessions abandonnées du même acheteur relanceraient sinon.
+        */
+        const marqueurs = await marquerPaye({ sessionId: meta.sessionId, email: clientEmail });
+        if (!marqueurs.commande || (clientEmail && !marqueurs.client)) {
+          console.error(
+            `[webhook] marqueur de paiement incomplet pour ${meta.sessionId} — relance possible à tort`,
+            marqueurs,
+          );
+        }
+
         const emailPromises = [];
 
         // Email client
@@ -668,17 +689,6 @@ export async function POST(req: NextRequest) {
         }
 
         await Promise.allSettled(emailPromises);
-
-        // Mark this preview as paid so the 48h reminder cron skips it.
-        try {
-          await put(`paid/${meta.sessionId}.json`, JSON.stringify({ paidAt: new Date().toISOString() }), {
-            access: "public",
-            addRandomSuffix: false,
-            contentType: "application/json",
-          });
-        } catch (err) {
-          console.error("[webhook] failed to write paid marker", err);
-        }
 
         console.log(`[webhook] preview-checkout: emails sent for session ${meta.sessionId}`);
         return NextResponse.json({ received: true });
