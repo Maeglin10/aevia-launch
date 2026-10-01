@@ -53,7 +53,7 @@ const nextConfig: NextConfig = {
       : "script-src 'self' 'unsafe-inline' https://js.stripe.com https://inbox.aevia.services https://www.googletagmanager.com";
 
     const connectSrc = isDev
-      ? "connect-src 'self' ws: wss: https://api.anthropic.com https://js.stripe.com https://*.public.blob.vercel-storage.com https://skybot-inbox-production.up.railway.app https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net"
+      ? "connect-src 'self' ws: wss: https://api.anthropic.com https://js.stripe.com https://*.public.blob.vercel-storage.com https://skybot-inbox-production.up.railway.app https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net"
       : "connect-src 'self' https://api.anthropic.com https://js.stripe.com https://*.public.blob.vercel-storage.com https://skybot-inbox-production.up.railway.app https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net";
 
     return [
