@@ -69,3 +69,9 @@ next-env.d.ts
 # Local audit/report artifacts
 audit-results/
 captures/
+
+# Captures de la QA visuelle des thèmes — générées, jamais versionnées.
+# 215 Mo au 6 octobre : sans cette ligne, le CLI Vercel les envoie (il retombe
+# sur .gitignore faute de .vercelignore) et le déploiement meurt sur
+# « Request body too large. Limit: 10mb ».
+fiches*/
