@@ -52,9 +52,34 @@ const nextConfig: NextConfig = {
       ? "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://inbox.aevia.services https://www.googletagmanager.com"
       : "script-src 'self' 'unsafe-inline' https://js.stripe.com https://inbox.aevia.services https://www.googletagmanager.com";
 
+    /*
+      Les jokers sur les hôtes Google Analytics sont indispensables EN
+      PRODUCTION, et c'est le seul endroit où ils manquaient.
+
+      GA4 en Europe n'envoie pas la mesure à `www.google-analytics.com` mais à
+      un hôte régional : `region1.google-analytics.com`. Mesuré sur le Hub, où
+      l'appel de collecte part exactement vers cet hôte. Sans le joker, la
+      requête est refusée par la politique de sécurité, et **aucune erreur
+      n'apparaît côté serveur** — la page fonctionne, le trafic n'est
+      simplement jamais compté.
+
+      Le correctif du 1er octobre n'avait touché que la branche `isDev`, donc
+      précisément celle où la mesure n'a aucun intérêt. La production a continué
+      de perdre ses visites pendant cinq jours de plus, et le relevé affichait
+      « corrigé ». La leçon tient en une ligne : dans un ternaire dev/prod, le
+      correctif utile est presque toujours du côté qu'on ne regarde pas en
+      développant.
+    */
+    const hotesAnalytics =
+      'https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net';
+    const connectCommun = `'self' https://api.anthropic.com https://js.stripe.com https://*.public.blob.vercel-storage.com https://skybot-inbox-production.up.railway.app ${hotesAnalytics}`;
+
+    /* Une seule source pour les deux branches : le développement n'ajoute que
+       les sockets du rechargement à chaud. Deux listes recopiées à la main sont
+       ce qui a produit la divergence. */
     const connectSrc = isDev
-      ? "connect-src 'self' ws: wss: https://api.anthropic.com https://js.stripe.com https://*.public.blob.vercel-storage.com https://skybot-inbox-production.up.railway.app https://*.google-analytics.com https://*.analytics.google.com https://stats.g.doubleclick.net"
-      : "connect-src 'self' https://api.anthropic.com https://js.stripe.com https://*.public.blob.vercel-storage.com https://skybot-inbox-production.up.railway.app https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net";
+      ? `connect-src ${connectCommun} ws: wss:`
+      : `connect-src ${connectCommun}`;
 
     return [
       {
