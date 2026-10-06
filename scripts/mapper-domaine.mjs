@@ -4,9 +4,9 @@
   Usage : BLOB_READ_WRITE_TOKEN=... node scripts/mapper-domaine.mjs monatelier.fr <sessionId>
 */
 import { put } from "@vercel/blob";
-const [domaine, sessionId] = process.argv.slice(2);
-if (!domaine || !sessionId) { console.error("usage: mapper-domaine.mjs <domaine> <sessionId>"); process.exit(1); }
-await put(`domains/${domaine.toLowerCase()}.json`, JSON.stringify({ sessionId }), {
+const [domaine, sessionId, template] = process.argv.slice(2);
+if (!domaine || !sessionId) { console.error("usage: mapper-domaine.mjs <domaine> <sessionId> [impact-N]"); process.exit(1); }
+await put(`domains/${domaine.toLowerCase()}.json`, JSON.stringify({ sessionId, ...(template ? { template } : {}) }), {
   access: "public", addRandomSuffix: false, allowOverwrite: true, contentType: "application/json",
 });
 console.log(`✅ ${domaine} → ${sessionId}`);

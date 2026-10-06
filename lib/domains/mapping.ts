@@ -11,8 +11,8 @@
 */
 import { put } from "@vercel/blob";
 
-export async function enregistrerDomaine(domaine: string, sessionId: string): Promise<void> {
-  await put(`domains/${domaine.toLowerCase()}.json`, JSON.stringify({ sessionId }), {
+export async function enregistrerDomaine(domaine: string, sessionId: string, template?: string): Promise<void> {
+  await put(`domains/${domaine.toLowerCase()}.json`, JSON.stringify({ sessionId, ...(template ? { template } : {}) }), {
     access: "public",
     addRandomSuffix: false,
     allowOverwrite: true,
