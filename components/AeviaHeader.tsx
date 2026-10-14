@@ -141,11 +141,11 @@ const allProducts = [
 ] as const;
 
 const HEADER_T = {
-  fr: { templates: "Templates",    pricing: "Tarifs", products: "Produits", cta: "Démarrer un projet", current: "Actuel", login: "Connexion", descSecurity: "Audit sécurité & performance en 60s", descLaunch: "Sites web en 2 heures · IA", descInbox: "CRM multi-canal · WhatsApp & IA" },
-  en: { templates: "Templates",    pricing: "Pricing", products: "Products", cta: "Start a project",    current: "Current", login: "Sign in", descSecurity: "Security & performance audit in 60s",    descLaunch: "Websites in 2 hours · AI",         descInbox: "Multi-channel CRM · WhatsApp & AI" },
-  es: { templates: "Templates",    pricing: "Precios", products: "Productos", cta: "Iniciar un proyecto", current: "Actual", login: "Iniciar sesión", descSecurity: "Auditoría de seguridad en 60s",            descLaunch: "Sitios web en 2 horas · IA",       descInbox: "CRM multicanal · WhatsApp e IA" },
-  de: { templates: "Templates",    pricing: "Preise",  products: "Produkte",  cta: "Projekt starten",    current: "Aktuell", login: "Anmelden", descSecurity: "Sicherheits-Audit in 60s",                  descLaunch: "Websites in 2 Stunden · KI",       descInbox: "Multichannel-CRM · WhatsApp & KI" },
-  pt: { templates: "Templates",    pricing: "Preços",  products: "Produtos",  cta: "Iniciar um projeto", current: "Atual",   login: "Entrar",   descSecurity: "Auditoria de segurança em 60s",              descLaunch: "Sites em 2 horas · IA",            descInbox: "CRM multicanal · WhatsApp e IA" },
+  fr: { templates: "Templates",    pricing: "Tarifs", products: "Produits", cta: "Démarrer un projet", current: "Actuel", login: "Connexion", descSecurity: "Audit sécurité & performance en 60s", descLaunch: "Sites web en ligne sous 48 heures", descInbox: "CRM multi-canal · WhatsApp & IA" },
+  en: { templates: "Templates",    pricing: "Pricing", products: "Products", cta: "Start a project",    current: "Current", login: "Sign in", descSecurity: "Security & performance audit in 60s",    descLaunch: "Websites online within 48 hours",         descInbox: "Multi-channel CRM · WhatsApp & AI" },
+  es: { templates: "Templates",    pricing: "Precios", products: "Productos", cta: "Iniciar un proyecto", current: "Actual", login: "Iniciar sesión", descSecurity: "Auditoría de seguridad en 60s",            descLaunch: "Sitios web en menos de 48 horas",       descInbox: "CRM multicanal · WhatsApp e IA" },
+  de: { templates: "Templates",    pricing: "Preise",  products: "Produkte",  cta: "Projekt starten",    current: "Aktuell", login: "Anmelden", descSecurity: "Sicherheits-Audit in 60s",                  descLaunch: "Websites in 48 Stunden online",       descInbox: "Multichannel-CRM · WhatsApp & KI" },
+  pt: { templates: "Templates",    pricing: "Preços",  products: "Produtos",  cta: "Iniciar um projeto", current: "Atual",   login: "Entrar",   descSecurity: "Auditoria de segurança em 60s",              descLaunch: "Sites no ar em até 48 horas",            descInbox: "CRM multicanal · WhatsApp e IA" },
 };
 
 // ── Header ────────────────────────────────────────────────────────────────────
