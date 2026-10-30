@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { getSessionFromBlob } from "@/lib/sessions";
+import { prixEnCents } from "@/lib/boutique/prix";
 
 export const runtime = "nodejs";
 
@@ -16,13 +17,12 @@ export const runtime = "nodejs";
   compte plateforme : Aevia n'encaisse rien pour le compte d'autrui.
 */
 
-/** « 89 », « 89,90 € », « 1 250.00 » → centimes ; null si pas un prix ferme. */
-export function prixEnCents(brut: string | undefined): number | null {
-  if (!brut) return null;
-  const nettoye = brut.replace(/[€$\s]/g, "").replace(",", ".");
-  if (!/^\d+(\.\d{1,2})?$/.test(nettoye)) return null;
-  return Math.round(parseFloat(nettoye) * 100);
-}
+/*
+  `prixEnCents` vit désormais dans `lib/boutique/prix.ts` : le panier côté
+  navigateur en a besoin pour savoir ce qu'il peut proposer. Réexporté ici pour
+  ne casser aucun import existant.
+*/
+export { prixEnCents } from "@/lib/boutique/prix";
 
 export async function POST(req: NextRequest) {
   if (!process.env.STRIPE_SECRET_KEY) {
