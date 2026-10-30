@@ -2,6 +2,9 @@
 
 import dynamic from "next/dynamic";
 import type { SessionData } from "@/lib/sessions";
+import { PanierProvider } from "./boutique/PanierProvider";
+import { TiroirPanier } from "./boutique/TiroirPanier";
+import { paiementEnLigneActif } from "@/lib/boutique/catalogue";
 
 // Standard Themes
 const EcommerceTheme = dynamic(() => import("./themes/EcommerceTheme").then(m => m.EcommerceTheme));
@@ -87,9 +90,35 @@ export default function GeneratedSite({ session }: { session: SessionData }) {
     }
   };
 
-  return (
+  /*
+    Le panier est monté ICI, au-dessus de tous les thèmes.
+
+    C'est une contrainte de React, pas un choix d'architecture : `usePanier()`
+    cherche un fournisseur AU-DESSUS de lui. Monté dans un thème, le thème
+    lui-même ne le verrait pas — seuls ses enfants le verraient. Ici, n'importe
+    quel thème peut appeler `usePanier()`.
+
+    Le fournisseur n'apparaît que si le marchand a relié son compte Stripe. Sans
+    compte, aucun panier et aucun tiroir : la boutique est une vitrine, et c'est
+    exactement ce qu'il faut — un panier sans paiement est le « checkout
+    théâtral » qu'on supprime.
+  */
+  const produits = session.businessProfile?.products ?? [];
+  const compteStripe = session.businessProfile?.commerce?.stripeAccountId;
+  const avecPaiement = paiementEnLigneActif(compteStripe) && produits.length > 0;
+
+  const contenu = (
     <div className="min-h-screen bg-white overflow-x-hidden">
       {renderTheme()}
     </div>
+  );
+
+  if (!avecPaiement) return contenu;
+
+  return (
+    <PanierProvider sessionId={session.id} produits={produits}>
+      {contenu}
+      <TiroirPanier />
+    </PanierProvider>
   );
 }

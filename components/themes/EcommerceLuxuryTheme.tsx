@@ -7,6 +7,7 @@ import { ThemeWrapper } from "./ThemeWrapper";
 import { Reveal, Stagger, StaggerItem, MagneticButton } from "./AnimationHelpers";
 import { ShoppingBag, X, Plus, Minus, Star, ShieldCheck, Truck, RotateCcw, ArrowRight, Mail, MapPin, Phone, Award, HelpCircle, Zap, Clock, Shield, Globe, Quote, PlayCircle } from "lucide-react";
 import { catalogueDuMarchand, demoVersAffichage } from "@/lib/boutique/catalogue";
+import { usePanier } from "@/components/boutique/PanierProvider";
 
 // --- Mock Data Generator ---
 const generateProducts = (businessType: string) => {
@@ -34,7 +35,20 @@ export function EcommerceLuxuryTheme({ session }: { session: SessionData }) {
   const [cart, setCart] = useState<{id: number, name: string, price: number, qty: number}[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
 
+  const panier = usePanier();
   const addToCart = (p: any) => {
+    /*
+      Panier RÉEL dès que le marchand a relié son compte Stripe : `p.id` est
+      l'index du produit dans `businessProfile.products`, c'est-à-dire
+      exactement le `produitIndex` que le paiement attend. Le panier local qui
+      suit n'est conservé que pour l'aperçu et la démo, où aucun paiement
+      n'existe — sans ce garde, le visiteur remplissait un panier qui ne menait
+      nulle part.
+    */
+    if (panier) {
+      panier.ajouter(p.id);
+      return;
+    }
     setCart(prev => {
       const existing = prev.find(item => item.id === p.id);
       if (existing) return prev.map(item => item.id === p.id ? { ...item, qty: item.qty + 1 } : item);
