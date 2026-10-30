@@ -50,3 +50,53 @@ describe("prix d'une boutique", () => {
     expect(formaterCents(8990).replace(/ | /g, " ")).toBe("89,90 €");
   });
 });
+
+import { catalogueDuMarchand, paiementEnLigneActif } from "../boutique/catalogue";
+
+describe("catalogue réel du marchand", () => {
+  it("null quand le marchand n'a rien saisi — les thèmes gardent leur démo", () => {
+    // Un catalogue vide affiché tel quel donnerait une boutique vide à un
+    // prospect venu voir à quoi ressemble le produit.
+    expect(catalogueDuMarchand(undefined)).toBeNull();
+    expect(catalogueDuMarchand([])).toBeNull();
+    expect(catalogueDuMarchand([{ name: "   " }])).toBeNull();
+  });
+
+  it("l'`id` EST l'index du paiement — c'est ce qui rend l'envoi juste par construction", () => {
+    const c = catalogueDuMarchand([
+      { name: "Bougie", price: "19,90" },
+      { name: "Savon", price: "8" },
+      { name: "Coffret", price: "sur devis" },
+    ])!;
+    expect(c.map((p) => p.id)).toEqual([0, 1, 2]);
+    expect(c.map((p) => p.name)).toEqual(["Bougie", "Savon", "Coffret"]);
+  });
+
+  it("prix converti en unités ; un produit sans prix ferme vaut 0 et n'est pas achetable", () => {
+    const c = catalogueDuMarchand([{ name: "Bougie", price: "19,90" }, { name: "Coffret", price: "sur devis" }])!;
+    expect(c[0]).toMatchObject({ price: 19.9, achetable: true });
+    expect(c[1]).toMatchObject({ price: 0, achetable: false });
+  });
+
+  it("épuisé et lien de paiement externe ne sont pas achetables chez nous", () => {
+    const c = catalogueDuMarchand([
+      { name: "Rupture", price: "10", stock: 0 },
+      { name: "Externe", price: "10", paymentLink: "https://paypal.me/x" },
+      { name: "Sans inventaire", price: "10" },
+    ])!;
+    expect(c.map((p) => p.achetable)).toEqual([false, false, true]);
+  });
+
+  it("aucune note inventée, aucune fausse catégorie", () => {
+    const c = catalogueDuMarchand([{ name: "Bougie", price: "10" }])!;
+    expect(c[0].rating).toBe(0);
+    expect(c[0].category).toBe("Boutique");
+    expect(c[0].image).toContain("data:image/svg+xml");
+  });
+
+  it("le paiement en ligne n'est actif qu'avec un compte Stripe du marchand", () => {
+    expect(paiementEnLigneActif(undefined)).toBe(false);
+    expect(paiementEnLigneActif("  ")).toBe(false);
+    expect(paiementEnLigneActif("acct_123")).toBe(true);
+  });
+});

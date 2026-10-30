@@ -6,6 +6,7 @@ import type { SessionData } from "@/lib/sessions";
 import { ThemeWrapper } from "./ThemeWrapper";
 import { Reveal, Stagger, StaggerItem, MagneticButton } from "./AnimationHelpers";
 import { ShoppingBag, X, Plus, Minus, Star, ShieldCheck, Truck, RotateCcw, ArrowRight, Mail, MapPin, Phone, Award, HelpCircle, Zap, Clock, Shield, Globe, Quote, PlayCircle } from "lucide-react";
+import { catalogueDuMarchand, demoVersAffichage } from "@/lib/boutique/catalogue";
 
 // --- Mock Data Generator ---
 const generateProducts = (businessType: string) => {
@@ -26,7 +27,9 @@ const generateProducts = (businessType: string) => {
 export function EcommerceLuxuryTheme({ session }: { session: SessionData }) {
   const { formData, generatedContent: c } = session;
   const brand = formData.brandColor || "#c9a84c"; // Gold fallback
-  const products = generateProducts(formData.businessType);
+  // Catalogue réel du marchand, sinon la démo. Voir lib/boutique/catalogue.ts.
+  const products = catalogueDuMarchand(session.businessProfile?.products) ??
+    demoVersAffichage(generateProducts(formData.businessType));
   
   const [cart, setCart] = useState<{id: number, name: string, price: number, qty: number}[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);

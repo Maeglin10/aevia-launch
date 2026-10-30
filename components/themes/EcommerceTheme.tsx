@@ -7,6 +7,7 @@ import { clientReviews } from "@/lib/templates/clientContent";
 import { ThemeWrapper } from "./ThemeWrapper";
 import { Reveal, Stagger, StaggerItem } from "./AnimationHelpers";
 import { ShoppingBag, X, Plus, Minus, Star, ShieldCheck, Truck, RotateCcw, ArrowRight, ArrowLeft, Mail, MapPin, Phone, Clock, Globe, HelpCircle, Gift, Award, Zap, Calendar } from "lucide-react";
+import { catalogueDuMarchand, demoVersAffichage } from "@/lib/boutique/catalogue";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Page model — client-side page switching (no Next routes)
@@ -150,7 +151,13 @@ export function EcommerceTheme({ session }: { session: SessionData }) {
     rating: r.rating ?? 5,
   }));
   const brand = formData.brandColor || "#7c3aed";
-  const products = generateProducts(formData.businessType, brand);
+  /*
+    Le catalogue du MARCHAND quand il en a saisi un ; les produits de
+    démonstration seulement sinon (page d'aperçu, prospect qui découvre).
+    `catalogueDuMarchand` fait de l'`id` l'index attendu par le paiement.
+  */
+  const products = catalogueDuMarchand(session.businessProfile?.products) ??
+    demoVersAffichage(generateProducts(formData.businessType, brand));
 
   // Page + cart state (cart persists across page switches because it lives here)
   const [page, setPage] = useState<Page>("home");
