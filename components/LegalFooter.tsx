@@ -69,7 +69,7 @@ export function LegalFooter({ variant = "dark" }: LegalFooterProps) {
         </div>
 
         <p className="text-[10px] mt-6 leading-relaxed">
-          Paiement sécurisé par Stripe. Livraison de l&apos;aperçu sous 2 heures.
+          Paiement sécurisé par Stripe. Mise en ligne du site sous 48 heures.
           Site web livré en 2 à 4 heures après validation du brief.
           Maintenance optionnelle facturée mensuellement, résiliable à tout moment.
         </p>

@@ -5,7 +5,7 @@
 // it here AND in the DB seed.
 //
 // Model: the client picks a template (site type) built on one of our themes →
-// delivered in 2h. Optional add-ons (branding, maintenance). Multi-currency
+// online within 48 hours. Optional add-ons (branding, maintenance). Multi-currency
 // with pretty per-market prices (not raw FX).
 
 export type Currency = "EUR" | "CHF" | "USD" | "GBP";

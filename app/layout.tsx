@@ -75,14 +75,14 @@ export const metadata: Metadata = {
   verification: { other: { "msvalidate.01": "681E06988B2667E24A211FA04F62AE24" } },
   title: {
     // 51 chars
-    default: "Aevia Launch — Votre site web pro en 2 heures",
+    default: "Aevia Launch — Votre site web pro en ligne sous 48 heures",
     template: "%s | Aevia Launch",
   },
   description:
     // 156 chars
-    "Aevia Launch déploie votre site web professionnel responsive, sécurisé et optimisé pour le SEO avec connexion Google Search Console et Analytics native en 2h.",
+    "Aevia Launch déploie votre site web professionnel responsive, sécurisé et optimisé pour le SEO avec connexion Google Search Console et Analytics native, en ligne sous 48 heures.",
   keywords: [
-    "site web 2 heures",
+    "site web 48 heures",
     "création site web responsive",
     "AI website generator",
     "création site Google Search Console",
@@ -118,9 +118,9 @@ export const metadata: Metadata = {
     alternateLocale: ["en_US", "es_ES", "de_DE", "pt_PT"],
     url: "https://launch.aevia.services",
     siteName: "Aevia Launch",
-    title: "Aevia Launch — Votre site web pro en 2 heures, responsive et sécurisé",
+    title: "Aevia Launch — Votre site web pro en ligne sous 48 heures, responsive et sécurisé",
     description:
-      "Déployez votre site web professionnel responsive et sécurisé en 2h. Intégration Google Search Console & Analytics native.",
+      "Déployez votre site web professionnel responsive et sécurisé, en ligne sous 48 heures. Intégration Google Search Console & Analytics native.",
     images: [
       {
         url: "/api/og",
@@ -134,9 +134,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@aevia_io",
     creator: "@aevia_io",
-    title: "Aevia Launch — Votre site web pro en 2 heures",
+    title: "Aevia Launch — Votre site web pro en ligne sous 48 heures",
     description:
-      "Déployez votre site web professionnel responsive et sécurisé en 2h. Intégration Google Search Console & Analytics native.",
+      "Déployez votre site web professionnel responsive et sécurisé, en ligne sous 48 heures. Intégration Google Search Console & Analytics native.",
     images: ["/api/og"],
   },
   robots: {
@@ -163,7 +163,7 @@ const softwareAppSchema = {
   operatingSystem: 'All',
   inLanguage: ['fr-FR', 'en-US', 'es-ES', 'de-DE', 'pt-PT'],
   description:
-    'Création de site web professionnel. Remplissez un formulaire en 5 étapes, le site est livré responsive, sécurisé, optimisé SEO et déployé sur Vercel en 2h.',
+    'Création de site web professionnel. Remplissez un formulaire en 5 étapes, le site est livré responsive, sécurisé, optimisé SEO et mis en ligne sous 48 heures.',
   offers: [
     {
       '@type': 'Offer',

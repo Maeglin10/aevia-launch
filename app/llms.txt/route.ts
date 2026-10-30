@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
 
-const CONTENT = `# AeviaLaunch — Sites web professionnels livrés en 2h à 7 jours
+const CONTENT = `# AeviaLaunch — Sites web professionnels en ligne sous 48 heures
 
-> Créez un site web professionnel, optimisé SEO et mobile-first, livré en 2h à 7 jours selon le plan, sans écrire une ligne de code. Plus de 100 thèmes par secteur d'activité.
+> Créez un site web professionnel, optimisé SEO et mobile-first, en ligne sous 48 heures, sans écrire une ligne de code. Plus de 100 thèmes par secteur d'activité.
 
 ## À propos
 AeviaLaunch est un service de création de sites web pour entrepreneurs, commerçants et TPE/PME. On choisit un thème adapté à son secteur, on renseigne ses informations via un assistant guidé, et le site est livré prêt à l'emploi : hébergement inclus, référencement optimisé dès la mise en ligne, adapté au mobile. Pour les restaurants, la prise de commande en ligne est intégrée via HubRise (compatible caisses comme Popina). AeviaLaunch fait partie de la plateforme Aevia, aux côtés d'AeviaInbox (service client IA) et d'AeviaSecurity (audit de sécurité).
@@ -17,10 +17,10 @@ Restaurants et food-trucks, coachs, artisans, e-commerce, consultants, portfolio
 - Premium : 1 499 € — site sur-mesure, multi-pages, intégrations spécifiques.
 
 ## Délai de livraison
-Entre 2h et 7 jours selon le plan choisi.
+Sous 48 heures, quel que soit le site.
 
 ## Questions fréquentes
-- Combien de temps pour avoir mon site ? De 2 heures à 7 jours selon la formule.
+- Combien de temps pour avoir mon site ? Sous 48 heures.
 - Dois-je savoir coder ? Non, tout se fait via un assistant guidé.
 - L'hébergement est-il compris ? Oui, inclus dans le prix.
 - Le site est-il optimisé pour Google ? Oui : SEO technique, données structurées et mobile-first dès la livraison.
